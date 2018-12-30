@@ -5,36 +5,36 @@ import AWSSDKSwiftCore
 /// Error enum for KMS
 public enum KMSErrorType: AWSErrorType {
     case notFoundException(message: String?)
+    case disabledException(message: String?)
     case dependencyTimeoutException(message: String?)
-    case invalidMarkerException(message: String?)
     case invalidArnException(message: String?)
     case kMSInternalException(message: String?)
+    case invalidGrantTokenException(message: String?)
+    case limitExceededException(message: String?)
     case kMSInvalidStateException(message: String?)
-    case unsupportedOperationException(message: String?)
+    case invalidMarkerException(message: String?)
     case invalidCiphertextException(message: String?)
+    case keyUnavailableException(message: String?)
+    case invalidKeyUsageException(message: String?)
+    case unsupportedOperationException(message: String?)
+    case tagException(message: String?)
+    case customKeyStoreNotFoundException(message: String?)
+    case customKeyStoreInvalidStateException(message: String?)
+    case cloudHsmClusterInUseException(message: String?)
+    case customKeyStoreNameInUseException(message: String?)
+    case cloudHsmClusterNotFoundException(message: String?)
+    case cloudHsmClusterNotActiveException(message: String?)
+    case incorrectTrustAnchorException(message: String?)
+    case cloudHsmClusterInvalidConfigurationException(message: String?)
     case incorrectKeyMaterialException(message: String?)
     case expiredImportTokenException(message: String?)
     case invalidImportTokenException(message: String?)
-    case cloudHsmClusterNotActiveException(message: String?)
-    case customKeyStoreInvalidStateException(message: String?)
-    case customKeyStoreNotFoundException(message: String?)
-    case cloudHsmClusterInvalidConfigurationException(message: String?)
-    case disabledException(message: String?)
-    case keyUnavailableException(message: String?)
-    case invalidKeyUsageException(message: String?)
-    case invalidGrantTokenException(message: String?)
-    case limitExceededException(message: String?)
-    case invalidGrantIdException(message: String?)
+    case malformedPolicyDocumentException(message: String?)
     case alreadyExistsException(message: String?)
     case invalidAliasNameException(message: String?)
-    case malformedPolicyDocumentException(message: String?)
-    case tagException(message: String?)
-    case customKeyStoreHasCMKsException(message: String?)
-    case cloudHsmClusterNotFoundException(message: String?)
+    case invalidGrantIdException(message: String?)
     case cloudHsmClusterNotRelatedException(message: String?)
-    case cloudHsmClusterInUseException(message: String?)
-    case customKeyStoreNameInUseException(message: String?)
-    case incorrectTrustAnchorException(message: String?)
+    case customKeyStoreHasCMKsException(message: String?)
 }
 
 extension KMSErrorType {
@@ -46,66 +46,66 @@ extension KMSErrorType {
         switch errorCode {
         case "NotFoundException":
             self = .notFoundException(message: message)
+        case "DisabledException":
+            self = .disabledException(message: message)
         case "DependencyTimeoutException":
             self = .dependencyTimeoutException(message: message)
-        case "InvalidMarkerException":
-            self = .invalidMarkerException(message: message)
         case "InvalidArnException":
             self = .invalidArnException(message: message)
         case "KMSInternalException":
             self = .kMSInternalException(message: message)
+        case "InvalidGrantTokenException":
+            self = .invalidGrantTokenException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
         case "KMSInvalidStateException":
             self = .kMSInvalidStateException(message: message)
-        case "UnsupportedOperationException":
-            self = .unsupportedOperationException(message: message)
+        case "InvalidMarkerException":
+            self = .invalidMarkerException(message: message)
         case "InvalidCiphertextException":
             self = .invalidCiphertextException(message: message)
+        case "KeyUnavailableException":
+            self = .keyUnavailableException(message: message)
+        case "InvalidKeyUsageException":
+            self = .invalidKeyUsageException(message: message)
+        case "UnsupportedOperationException":
+            self = .unsupportedOperationException(message: message)
+        case "TagException":
+            self = .tagException(message: message)
+        case "CustomKeyStoreNotFoundException":
+            self = .customKeyStoreNotFoundException(message: message)
+        case "CustomKeyStoreInvalidStateException":
+            self = .customKeyStoreInvalidStateException(message: message)
+        case "CloudHsmClusterInUseException":
+            self = .cloudHsmClusterInUseException(message: message)
+        case "CustomKeyStoreNameInUseException":
+            self = .customKeyStoreNameInUseException(message: message)
+        case "CloudHsmClusterNotFoundException":
+            self = .cloudHsmClusterNotFoundException(message: message)
+        case "CloudHsmClusterNotActiveException":
+            self = .cloudHsmClusterNotActiveException(message: message)
+        case "IncorrectTrustAnchorException":
+            self = .incorrectTrustAnchorException(message: message)
+        case "CloudHsmClusterInvalidConfigurationException":
+            self = .cloudHsmClusterInvalidConfigurationException(message: message)
         case "IncorrectKeyMaterialException":
             self = .incorrectKeyMaterialException(message: message)
         case "ExpiredImportTokenException":
             self = .expiredImportTokenException(message: message)
         case "InvalidImportTokenException":
             self = .invalidImportTokenException(message: message)
-        case "CloudHsmClusterNotActiveException":
-            self = .cloudHsmClusterNotActiveException(message: message)
-        case "CustomKeyStoreInvalidStateException":
-            self = .customKeyStoreInvalidStateException(message: message)
-        case "CustomKeyStoreNotFoundException":
-            self = .customKeyStoreNotFoundException(message: message)
-        case "CloudHsmClusterInvalidConfigurationException":
-            self = .cloudHsmClusterInvalidConfigurationException(message: message)
-        case "DisabledException":
-            self = .disabledException(message: message)
-        case "KeyUnavailableException":
-            self = .keyUnavailableException(message: message)
-        case "InvalidKeyUsageException":
-            self = .invalidKeyUsageException(message: message)
-        case "InvalidGrantTokenException":
-            self = .invalidGrantTokenException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "InvalidGrantIdException":
-            self = .invalidGrantIdException(message: message)
+        case "MalformedPolicyDocumentException":
+            self = .malformedPolicyDocumentException(message: message)
         case "AlreadyExistsException":
             self = .alreadyExistsException(message: message)
         case "InvalidAliasNameException":
             self = .invalidAliasNameException(message: message)
-        case "MalformedPolicyDocumentException":
-            self = .malformedPolicyDocumentException(message: message)
-        case "TagException":
-            self = .tagException(message: message)
-        case "CustomKeyStoreHasCMKsException":
-            self = .customKeyStoreHasCMKsException(message: message)
-        case "CloudHsmClusterNotFoundException":
-            self = .cloudHsmClusterNotFoundException(message: message)
+        case "InvalidGrantIdException":
+            self = .invalidGrantIdException(message: message)
         case "CloudHsmClusterNotRelatedException":
             self = .cloudHsmClusterNotRelatedException(message: message)
-        case "CloudHsmClusterInUseException":
-            self = .cloudHsmClusterInUseException(message: message)
-        case "CustomKeyStoreNameInUseException":
-            self = .customKeyStoreNameInUseException(message: message)
-        case "IncorrectTrustAnchorException":
-            self = .incorrectTrustAnchorException(message: message)
+        case "CustomKeyStoreHasCMKsException":
+            self = .customKeyStoreHasCMKsException(message: message)
         default:
             return nil
         }

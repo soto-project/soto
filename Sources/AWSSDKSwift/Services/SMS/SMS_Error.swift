@@ -9,12 +9,12 @@ public enum SMSErrorType: AWSErrorType {
     case missingRequiredParameterException(message: String?)
     case internalError(message: String?)
     case operationNotPermittedException(message: String?)
-    case replicationRunLimitExceededException(message: String?)
     case replicationJobNotFoundException(message: String?)
-    case serverCannotBeReplicatedException(message: String?)
-    case temporarilyUnavailableException(message: String?)
     case noConnectorsAvailableException(message: String?)
+    case replicationRunLimitExceededException(message: String?)
+    case serverCannotBeReplicatedException(message: String?)
     case replicationJobAlreadyExistsException(message: String?)
+    case temporarilyUnavailableException(message: String?)
 }
 
 extension SMSErrorType {
@@ -34,18 +34,18 @@ extension SMSErrorType {
             self = .internalError(message: message)
         case "OperationNotPermittedException":
             self = .operationNotPermittedException(message: message)
-        case "ReplicationRunLimitExceededException":
-            self = .replicationRunLimitExceededException(message: message)
         case "ReplicationJobNotFoundException":
             self = .replicationJobNotFoundException(message: message)
-        case "ServerCannotBeReplicatedException":
-            self = .serverCannotBeReplicatedException(message: message)
-        case "TemporarilyUnavailableException":
-            self = .temporarilyUnavailableException(message: message)
         case "NoConnectorsAvailableException":
             self = .noConnectorsAvailableException(message: message)
+        case "ReplicationRunLimitExceededException":
+            self = .replicationRunLimitExceededException(message: message)
+        case "ServerCannotBeReplicatedException":
+            self = .serverCannotBeReplicatedException(message: message)
         case "ReplicationJobAlreadyExistsException":
             self = .replicationJobAlreadyExistsException(message: message)
+        case "TemporarilyUnavailableException":
+            self = .temporarilyUnavailableException(message: message)
         default:
             return nil
         }

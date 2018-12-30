@@ -6,12 +6,11 @@ import AWSSDKSwiftCore
 public enum EFSErrorType: AWSErrorType {
     case badRequest(message: String?)
     case internalServerError(message: String?)
-    case fileSystemAlreadyExists(message: String?)
-    case fileSystemLimitExceeded(message: String?)
-    case insufficientThroughputCapacity(message: String?)
-    case throughputLimitExceeded(message: String?)
     case fileSystemNotFound(message: String?)
     case incorrectFileSystemLifeCycleState(message: String?)
+    case insufficientThroughputCapacity(message: String?)
+    case throughputLimitExceeded(message: String?)
+    case tooManyRequests(message: String?)
     case mountTargetConflict(message: String?)
     case subnetNotFound(message: String?)
     case noFreeAddressesInSubnet(message: String?)
@@ -20,11 +19,12 @@ public enum EFSErrorType: AWSErrorType {
     case securityGroupLimitExceeded(message: String?)
     case securityGroupNotFound(message: String?)
     case unsupportedAvailabilityZone(message: String?)
-    case dependencyTimeout(message: String?)
     case mountTargetNotFound(message: String?)
-    case fileSystemInUse(message: String?)
-    case tooManyRequests(message: String?)
     case incorrectMountTargetState(message: String?)
+    case fileSystemAlreadyExists(message: String?)
+    case fileSystemLimitExceeded(message: String?)
+    case dependencyTimeout(message: String?)
+    case fileSystemInUse(message: String?)
 }
 
 extension EFSErrorType {
@@ -38,18 +38,16 @@ extension EFSErrorType {
             self = .badRequest(message: message)
         case "InternalServerError":
             self = .internalServerError(message: message)
-        case "FileSystemAlreadyExists":
-            self = .fileSystemAlreadyExists(message: message)
-        case "FileSystemLimitExceeded":
-            self = .fileSystemLimitExceeded(message: message)
-        case "InsufficientThroughputCapacity":
-            self = .insufficientThroughputCapacity(message: message)
-        case "ThroughputLimitExceeded":
-            self = .throughputLimitExceeded(message: message)
         case "FileSystemNotFound":
             self = .fileSystemNotFound(message: message)
         case "IncorrectFileSystemLifeCycleState":
             self = .incorrectFileSystemLifeCycleState(message: message)
+        case "InsufficientThroughputCapacity":
+            self = .insufficientThroughputCapacity(message: message)
+        case "ThroughputLimitExceeded":
+            self = .throughputLimitExceeded(message: message)
+        case "TooManyRequests":
+            self = .tooManyRequests(message: message)
         case "MountTargetConflict":
             self = .mountTargetConflict(message: message)
         case "SubnetNotFound":
@@ -66,16 +64,18 @@ extension EFSErrorType {
             self = .securityGroupNotFound(message: message)
         case "UnsupportedAvailabilityZone":
             self = .unsupportedAvailabilityZone(message: message)
-        case "DependencyTimeout":
-            self = .dependencyTimeout(message: message)
         case "MountTargetNotFound":
             self = .mountTargetNotFound(message: message)
-        case "FileSystemInUse":
-            self = .fileSystemInUse(message: message)
-        case "TooManyRequests":
-            self = .tooManyRequests(message: message)
         case "IncorrectMountTargetState":
             self = .incorrectMountTargetState(message: message)
+        case "FileSystemAlreadyExists":
+            self = .fileSystemAlreadyExists(message: message)
+        case "FileSystemLimitExceeded":
+            self = .fileSystemLimitExceeded(message: message)
+        case "DependencyTimeout":
+            self = .dependencyTimeout(message: message)
+        case "FileSystemInUse":
+            self = .fileSystemInUse(message: message)
         default:
             return nil
         }

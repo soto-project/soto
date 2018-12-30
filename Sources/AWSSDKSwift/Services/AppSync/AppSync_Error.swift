@@ -9,11 +9,11 @@ public enum AppSyncErrorType: AWSErrorType {
     case notFoundException(message: String?)
     case unauthorizedException(message: String?)
     case internalFailureException(message: String?)
-    case graphQLSchemaException(message: String?)
     case limitExceededException(message: String?)
     case apiKeyLimitExceededException(message: String?)
     case apiKeyValidityOutOfBoundsException(message: String?)
     case apiLimitExceededException(message: String?)
+    case graphQLSchemaException(message: String?)
 }
 
 extension AppSyncErrorType {
@@ -33,8 +33,6 @@ extension AppSyncErrorType {
             self = .unauthorizedException(message: message)
         case "InternalFailureException":
             self = .internalFailureException(message: message)
-        case "GraphQLSchemaException":
-            self = .graphQLSchemaException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
         case "ApiKeyLimitExceededException":
@@ -43,6 +41,8 @@ extension AppSyncErrorType {
             self = .apiKeyValidityOutOfBoundsException(message: message)
         case "ApiLimitExceededException":
             self = .apiLimitExceededException(message: message)
+        case "GraphQLSchemaException":
+            self = .graphQLSchemaException(message: message)
         default:
             return nil
         }

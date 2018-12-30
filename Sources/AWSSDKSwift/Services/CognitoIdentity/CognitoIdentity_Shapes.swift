@@ -5,133 +5,118 @@ import AWSSDKSwiftCore
 
 extension CognitoIdentity {
 
-    public struct MergeDeveloperIdentitiesInput: AWSShape {
+    public struct GetCredentialsForIdentityResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceUserIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "IdentityPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "DestinationUserIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "DeveloperProviderName", required: true, type: .string)
+            AWSShapeMember(label: "IdentityId", required: false, type: .string), 
+            AWSShapeMember(label: "Credentials", required: false, type: .structure)
         ]
-        /// User identifier for the source user. The value should be a DeveloperUserIdentifier.
-        public let sourceUserIdentifier: String
-        /// An identity pool ID in the format REGION:GUID.
-        public let identityPoolId: String
-        /// User identifier for the destination user. The value should be a DeveloperUserIdentifier.
-        public let destinationUserIdentifier: String
-        /// The "domain" by which Cognito will refer to your users. This is a (pseudo) domain name that you provide while creating an identity pool. This name acts as a placeholder that allows your backend and the Cognito service to communicate about the developer provider. For the DeveloperProviderName, you can use letters as well as period (.), underscore (_), and dash (-).
-        public let developerProviderName: String
-
-        public init(sourceUserIdentifier: String, identityPoolId: String, destinationUserIdentifier: String, developerProviderName: String) {
-            self.sourceUserIdentifier = sourceUserIdentifier
-            self.identityPoolId = identityPoolId
-            self.destinationUserIdentifier = destinationUserIdentifier
-            self.developerProviderName = developerProviderName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sourceUserIdentifier = "SourceUserIdentifier"
-            case identityPoolId = "IdentityPoolId"
-            case destinationUserIdentifier = "DestinationUserIdentifier"
-            case developerProviderName = "DeveloperProviderName"
-        }
-    }
-
-    public struct ListIdentityPoolsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: true, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The maximum number of identities to return.
-        public let maxResults: Int32
-        /// A pagination token.
-        public let nextToken: String?
-
-        public init(maxResults: Int32, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct GetCredentialsForIdentityInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "Logins", required: false, type: .map), 
-            AWSShapeMember(label: "IdentityId", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the role to be assumed when multiple roles were received in the token from the identity provider. For example, a SAML-based identity provider. This parameter is optional for identity providers that do not support role customization.
-        public let customRoleArn: String?
-        /// A set of optional name-value pairs that map provider names to provider tokens.
-        public let logins: [String: String]?
-        /// A unique identifier in the format REGION:GUID.
-        public let identityId: String
-
-        public init(customRoleArn: String? = nil, logins: [String: String]? = nil, identityId: String) {
-            self.customRoleArn = customRoleArn
-            self.logins = logins
-            self.identityId = identityId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case customRoleArn = "CustomRoleArn"
-            case logins = "Logins"
-            case identityId = "IdentityId"
-        }
-    }
-
-    public struct UnlinkDeveloperIdentityInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeveloperUserIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "IdentityPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "DeveloperProviderName", required: true, type: .string), 
-            AWSShapeMember(label: "IdentityId", required: true, type: .string)
-        ]
-        /// A unique ID used by your backend authentication process to identify a user.
-        public let developerUserIdentifier: String
-        /// An identity pool ID in the format REGION:GUID.
-        public let identityPoolId: String
-        /// The "domain" by which Cognito will refer to your users.
-        public let developerProviderName: String
-        /// A unique identifier in the format REGION:GUID.
-        public let identityId: String
-
-        public init(developerUserIdentifier: String, identityPoolId: String, developerProviderName: String, identityId: String) {
-            self.developerUserIdentifier = developerUserIdentifier
-            self.identityPoolId = identityPoolId
-            self.developerProviderName = developerProviderName
-            self.identityId = identityId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case developerUserIdentifier = "DeveloperUserIdentifier"
-            case identityPoolId = "IdentityPoolId"
-            case developerProviderName = "DeveloperProviderName"
-            case identityId = "IdentityId"
-        }
-    }
-
-    public struct GetOpenIdTokenForDeveloperIdentityResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Token", required: false, type: .string), 
-            AWSShapeMember(label: "IdentityId", required: false, type: .string)
-        ]
-        /// An OpenID token.
-        public let token: String?
         /// A unique identifier in the format REGION:GUID.
         public let identityId: String?
+        /// Credentials for the provided identity ID.
+        public let credentials: Credentials?
 
-        public init(token: String? = nil, identityId: String? = nil) {
-            self.token = token
+        public init(identityId: String? = nil, credentials: Credentials? = nil) {
             self.identityId = identityId
+            self.credentials = credentials
         }
 
         private enum CodingKeys: String, CodingKey {
-            case token = "Token"
             case identityId = "IdentityId"
+            case credentials = "Credentials"
+        }
+    }
+
+    public struct GetIdInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdentityPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "Logins", required: false, type: .map), 
+            AWSShapeMember(label: "AccountId", required: false, type: .string)
+        ]
+        /// An identity pool ID in the format REGION:GUID.
+        public let identityPoolId: String
+        /// A set of optional name-value pairs that map provider names to provider tokens. The available provider names for Logins are as follows:   Facebook: graph.facebook.com    Amazon Cognito Identity Provider: cognito-idp.us-east-1.amazonaws.com/us-east-1_123456789    Google: accounts.google.com    Amazon: www.amazon.com    Twitter: api.twitter.com    Digits: www.digits.com   
+        public let logins: [String: String]?
+        /// A standard AWS account ID (9+ digits).
+        public let accountId: String?
+
+        public init(identityPoolId: String, logins: [String: String]? = nil, accountId: String? = nil) {
+            self.identityPoolId = identityPoolId
+            self.logins = logins
+            self.accountId = accountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityPoolId = "IdentityPoolId"
+            case logins = "Logins"
+            case accountId = "AccountId"
+        }
+    }
+
+    public struct DeleteIdentitiesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UnprocessedIdentityIds", required: false, type: .list)
+        ]
+        /// An array of UnprocessedIdentityId objects, each of which contains an ErrorCode and IdentityId.
+        public let unprocessedIdentityIds: [UnprocessedIdentityId]?
+
+        public init(unprocessedIdentityIds: [UnprocessedIdentityId]? = nil) {
+            self.unprocessedIdentityIds = unprocessedIdentityIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case unprocessedIdentityIds = "UnprocessedIdentityIds"
+        }
+    }
+
+    public enum AmbiguousRoleResolutionType: String, CustomStringConvertible, Codable {
+        case authenticatedrole = "AuthenticatedRole"
+        case deny = "Deny"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CreateIdentityPoolInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeveloperProviderName", required: false, type: .string), 
+            AWSShapeMember(label: "AllowUnauthenticatedIdentities", required: true, type: .boolean), 
+            AWSShapeMember(label: "IdentityPoolName", required: true, type: .string), 
+            AWSShapeMember(label: "CognitoIdentityProviders", required: false, type: .list), 
+            AWSShapeMember(label: "SupportedLoginProviders", required: false, type: .map), 
+            AWSShapeMember(label: "SamlProviderARNs", required: false, type: .list), 
+            AWSShapeMember(label: "OpenIdConnectProviderARNs", required: false, type: .list)
+        ]
+        /// The "domain" by which Cognito will refer to your users. This name acts as a placeholder that allows your backend and the Cognito service to communicate about the developer provider. For the DeveloperProviderName, you can use letters as well as period (.), underscore (_), and dash (-). Once you have set a developer provider name, you cannot change it. Please take care in setting this parameter.
+        public let developerProviderName: String?
+        /// TRUE if the identity pool supports unauthenticated logins.
+        public let allowUnauthenticatedIdentities: Bool
+        /// A string that you provide.
+        public let identityPoolName: String
+        /// An array of Amazon Cognito Identity user pools and their client IDs.
+        public let cognitoIdentityProviders: [CognitoIdentityProvider]?
+        /// Optional key:value pairs mapping provider names to provider app IDs.
+        public let supportedLoginProviders: [String: String]?
+        /// An array of Amazon Resource Names (ARNs) of the SAML provider for your identity pool.
+        public let samlProviderARNs: [String]?
+        /// A list of OpendID Connect provider ARNs.
+        public let openIdConnectProviderARNs: [String]?
+
+        public init(developerProviderName: String? = nil, allowUnauthenticatedIdentities: Bool, identityPoolName: String, cognitoIdentityProviders: [CognitoIdentityProvider]? = nil, supportedLoginProviders: [String: String]? = nil, samlProviderARNs: [String]? = nil, openIdConnectProviderARNs: [String]? = nil) {
+            self.developerProviderName = developerProviderName
+            self.allowUnauthenticatedIdentities = allowUnauthenticatedIdentities
+            self.identityPoolName = identityPoolName
+            self.cognitoIdentityProviders = cognitoIdentityProviders
+            self.supportedLoginProviders = supportedLoginProviders
+            self.samlProviderARNs = samlProviderARNs
+            self.openIdConnectProviderARNs = openIdConnectProviderARNs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case developerProviderName = "DeveloperProviderName"
+            case allowUnauthenticatedIdentities = "AllowUnauthenticatedIdentities"
+            case identityPoolName = "IdentityPoolName"
+            case cognitoIdentityProviders = "CognitoIdentityProviders"
+            case supportedLoginProviders = "SupportedLoginProviders"
+            case samlProviderARNs = "SamlProviderARNs"
+            case openIdConnectProviderARNs = "OpenIdConnectProviderARNs"
         }
     }
 
@@ -156,20 +141,10 @@ extension CognitoIdentity {
         }
     }
 
-    public struct DescribeIdentityInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdentityId", required: true, type: .string)
-        ]
-        /// A unique identifier in the format REGION:GUID.
-        public let identityId: String
-
-        public init(identityId: String) {
-            self.identityId = identityId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case identityId = "IdentityId"
-        }
+    public enum ErrorCode: String, CustomStringConvertible, Codable {
+        case accessdenied = "AccessDenied"
+        case internalservererror = "InternalServerError"
+        public var description: String { return self.rawValue }
     }
 
     public struct GetIdResponse: AWSShape {
@@ -185,371 +160,6 @@ extension CognitoIdentity {
 
         private enum CodingKeys: String, CodingKey {
             case identityId = "IdentityId"
-        }
-    }
-
-    public struct ListIdentityPoolsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdentityPools", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The identity pools returned by the ListIdentityPools action.
-        public let identityPools: [IdentityPoolShortDescription]?
-        /// A pagination token.
-        public let nextToken: String?
-
-        public init(identityPools: [IdentityPoolShortDescription]? = nil, nextToken: String? = nil) {
-            self.identityPools = identityPools
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case identityPools = "IdentityPools"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct GetIdInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdentityPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "AccountId", required: false, type: .string), 
-            AWSShapeMember(label: "Logins", required: false, type: .map)
-        ]
-        /// An identity pool ID in the format REGION:GUID.
-        public let identityPoolId: String
-        /// A standard AWS account ID (9+ digits).
-        public let accountId: String?
-        /// A set of optional name-value pairs that map provider names to provider tokens. The available provider names for Logins are as follows:   Facebook: graph.facebook.com    Amazon Cognito Identity Provider: cognito-idp.us-east-1.amazonaws.com/us-east-1_123456789    Google: accounts.google.com    Amazon: www.amazon.com    Twitter: api.twitter.com    Digits: www.digits.com   
-        public let logins: [String: String]?
-
-        public init(identityPoolId: String, accountId: String? = nil, logins: [String: String]? = nil) {
-            self.identityPoolId = identityPoolId
-            self.accountId = accountId
-            self.logins = logins
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case identityPoolId = "IdentityPoolId"
-            case accountId = "AccountId"
-            case logins = "Logins"
-        }
-    }
-
-    public struct GetIdentityPoolRolesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdentityPoolId", required: true, type: .string)
-        ]
-        /// An identity pool ID in the format REGION:GUID.
-        public let identityPoolId: String
-
-        public init(identityPoolId: String) {
-            self.identityPoolId = identityPoolId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case identityPoolId = "IdentityPoolId"
-        }
-    }
-
-    public struct MappingRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Claim", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .string), 
-            AWSShapeMember(label: "MatchType", required: true, type: .enum), 
-            AWSShapeMember(label: "RoleARN", required: true, type: .string)
-        ]
-        /// The claim name that must be present in the token, for example, "isAdmin" or "paid".
-        public let claim: String
-        /// A brief string that the claim must match, for example, "paid" or "yes".
-        public let value: String
-        /// The match condition that specifies how closely the claim value in the IdP token must match Value.
-        public let matchType: MappingRuleMatchType
-        /// The role ARN.
-        public let roleARN: String
-
-        public init(claim: String, value: String, matchType: MappingRuleMatchType, roleARN: String) {
-            self.claim = claim
-            self.value = value
-            self.matchType = matchType
-            self.roleARN = roleARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case claim = "Claim"
-            case value = "Value"
-            case matchType = "MatchType"
-            case roleARN = "RoleARN"
-        }
-    }
-
-    public struct ListIdentitiesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdentityPoolId", required: false, type: .string), 
-            AWSShapeMember(label: "Identities", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// An identity pool ID in the format REGION:GUID.
-        public let identityPoolId: String?
-        /// An object containing a set of identities and associated mappings.
-        public let identities: [IdentityDescription]?
-        /// A pagination token.
-        public let nextToken: String?
-
-        public init(identityPoolId: String? = nil, identities: [IdentityDescription]? = nil, nextToken: String? = nil) {
-            self.identityPoolId = identityPoolId
-            self.identities = identities
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case identityPoolId = "IdentityPoolId"
-            case identities = "Identities"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct CreateIdentityPoolInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SamlProviderARNs", required: false, type: .list), 
-            AWSShapeMember(label: "IdentityPoolName", required: true, type: .string), 
-            AWSShapeMember(label: "OpenIdConnectProviderARNs", required: false, type: .list), 
-            AWSShapeMember(label: "SupportedLoginProviders", required: false, type: .map), 
-            AWSShapeMember(label: "AllowUnauthenticatedIdentities", required: true, type: .boolean), 
-            AWSShapeMember(label: "CognitoIdentityProviders", required: false, type: .list), 
-            AWSShapeMember(label: "DeveloperProviderName", required: false, type: .string)
-        ]
-        /// An array of Amazon Resource Names (ARNs) of the SAML provider for your identity pool.
-        public let samlProviderARNs: [String]?
-        /// A string that you provide.
-        public let identityPoolName: String
-        /// A list of OpendID Connect provider ARNs.
-        public let openIdConnectProviderARNs: [String]?
-        /// Optional key:value pairs mapping provider names to provider app IDs.
-        public let supportedLoginProviders: [String: String]?
-        /// TRUE if the identity pool supports unauthenticated logins.
-        public let allowUnauthenticatedIdentities: Bool
-        /// An array of Amazon Cognito Identity user pools and their client IDs.
-        public let cognitoIdentityProviders: [CognitoIdentityProvider]?
-        /// The "domain" by which Cognito will refer to your users. This name acts as a placeholder that allows your backend and the Cognito service to communicate about the developer provider. For the DeveloperProviderName, you can use letters as well as period (.), underscore (_), and dash (-). Once you have set a developer provider name, you cannot change it. Please take care in setting this parameter.
-        public let developerProviderName: String?
-
-        public init(samlProviderARNs: [String]? = nil, identityPoolName: String, openIdConnectProviderARNs: [String]? = nil, supportedLoginProviders: [String: String]? = nil, allowUnauthenticatedIdentities: Bool, cognitoIdentityProviders: [CognitoIdentityProvider]? = nil, developerProviderName: String? = nil) {
-            self.samlProviderARNs = samlProviderARNs
-            self.identityPoolName = identityPoolName
-            self.openIdConnectProviderARNs = openIdConnectProviderARNs
-            self.supportedLoginProviders = supportedLoginProviders
-            self.allowUnauthenticatedIdentities = allowUnauthenticatedIdentities
-            self.cognitoIdentityProviders = cognitoIdentityProviders
-            self.developerProviderName = developerProviderName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case samlProviderARNs = "SamlProviderARNs"
-            case identityPoolName = "IdentityPoolName"
-            case openIdConnectProviderARNs = "OpenIdConnectProviderARNs"
-            case supportedLoginProviders = "SupportedLoginProviders"
-            case allowUnauthenticatedIdentities = "AllowUnauthenticatedIdentities"
-            case cognitoIdentityProviders = "CognitoIdentityProviders"
-            case developerProviderName = "DeveloperProviderName"
-        }
-    }
-
-    public struct DeleteIdentityPoolInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdentityPoolId", required: true, type: .string)
-        ]
-        /// An identity pool ID in the format REGION:GUID.
-        public let identityPoolId: String
-
-        public init(identityPoolId: String) {
-            self.identityPoolId = identityPoolId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case identityPoolId = "IdentityPoolId"
-        }
-    }
-
-    public struct LookupDeveloperIdentityInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeveloperUserIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "IdentityPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "IdentityId", required: false, type: .string)
-        ]
-        /// A unique ID used by your backend authentication process to identify a user. Typically, a developer identity provider would issue many developer user identifiers, in keeping with the number of users.
-        public let developerUserIdentifier: String?
-        /// The maximum number of identities to return.
-        public let maxResults: Int32?
-        /// A pagination token. The first call you make will have NextToken set to null. After that the service will return NextToken values as needed. For example, let's say you make a request with MaxResults set to 10, and there are 20 matches in the database. The service will return a pagination token as a part of the response. This token can be used to call the API again and get results starting from the 11th match.
-        public let nextToken: String?
-        /// An identity pool ID in the format REGION:GUID.
-        public let identityPoolId: String
-        /// A unique identifier in the format REGION:GUID.
-        public let identityId: String?
-
-        public init(developerUserIdentifier: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, identityPoolId: String, identityId: String? = nil) {
-            self.developerUserIdentifier = developerUserIdentifier
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-            self.identityPoolId = identityPoolId
-            self.identityId = identityId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case developerUserIdentifier = "DeveloperUserIdentifier"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-            case identityPoolId = "IdentityPoolId"
-            case identityId = "IdentityId"
-        }
-    }
-
-    public struct RulesConfigurationType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Rules", required: true, type: .list)
-        ]
-        /// An array of rules. You can specify up to 25 rules per identity provider. Rules are evaluated in order. The first one to match specifies the role.
-        public let rules: [MappingRule]
-
-        public init(rules: [MappingRule]) {
-            self.rules = rules
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case rules = "Rules"
-        }
-    }
-
-    public struct SetIdentityPoolRolesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdentityPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "Roles", required: true, type: .map), 
-            AWSShapeMember(label: "RoleMappings", required: false, type: .map)
-        ]
-        /// An identity pool ID in the format REGION:GUID.
-        public let identityPoolId: String
-        /// The map of roles associated with this pool. For a given role, the key will be either "authenticated" or "unauthenticated" and the value will be the Role ARN.
-        public let roles: [String: String]
-        /// How users for a specific identity provider are to mapped to roles. This is a string to RoleMapping object map. The string identifies the identity provider, for example, "graph.facebook.com" or "cognito-idp-east-1.amazonaws.com/us-east-1_abcdefghi:app_client_id". Up to 25 rules can be specified per identity provider.
-        public let roleMappings: [String: RoleMapping]?
-
-        public init(identityPoolId: String, roles: [String: String], roleMappings: [String: RoleMapping]? = nil) {
-            self.identityPoolId = identityPoolId
-            self.roles = roles
-            self.roleMappings = roleMappings
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case identityPoolId = "IdentityPoolId"
-            case roles = "Roles"
-            case roleMappings = "RoleMappings"
-        }
-    }
-
-    public struct DeleteIdentitiesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UnprocessedIdentityIds", required: false, type: .list)
-        ]
-        /// An array of UnprocessedIdentityId objects, each of which contains an ErrorCode and IdentityId.
-        public let unprocessedIdentityIds: [UnprocessedIdentityId]?
-
-        public init(unprocessedIdentityIds: [UnprocessedIdentityId]? = nil) {
-            self.unprocessedIdentityIds = unprocessedIdentityIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case unprocessedIdentityIds = "UnprocessedIdentityIds"
-        }
-    }
-
-    public struct DeleteIdentitiesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdentityIdsToDelete", required: true, type: .list)
-        ]
-        /// A list of 1-60 identities that you want to delete.
-        public let identityIdsToDelete: [String]
-
-        public init(identityIdsToDelete: [String]) {
-            self.identityIdsToDelete = identityIdsToDelete
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case identityIdsToDelete = "IdentityIdsToDelete"
-        }
-    }
-
-    public struct UnlinkIdentityInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoginsToRemove", required: true, type: .list), 
-            AWSShapeMember(label: "Logins", required: true, type: .map), 
-            AWSShapeMember(label: "IdentityId", required: true, type: .string)
-        ]
-        /// Provider names to unlink from this identity.
-        public let loginsToRemove: [String]
-        /// A set of optional name-value pairs that map provider names to provider tokens.
-        public let logins: [String: String]
-        /// A unique identifier in the format REGION:GUID.
-        public let identityId: String
-
-        public init(loginsToRemove: [String], logins: [String: String], identityId: String) {
-            self.loginsToRemove = loginsToRemove
-            self.logins = logins
-            self.identityId = identityId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case loginsToRemove = "LoginsToRemove"
-            case logins = "Logins"
-            case identityId = "IdentityId"
-        }
-    }
-
-    public struct GetOpenIdTokenInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Logins", required: false, type: .map), 
-            AWSShapeMember(label: "IdentityId", required: true, type: .string)
-        ]
-        /// A set of optional name-value pairs that map provider names to provider tokens. When using graph.facebook.com and www.amazon.com, supply the access_token returned from the provider's authflow. For accounts.google.com, an Amazon Cognito Identity Provider, or any other OpenId Connect provider, always include the id_token.
-        public let logins: [String: String]?
-        /// A unique identifier in the format REGION:GUID.
-        public let identityId: String
-
-        public init(logins: [String: String]? = nil, identityId: String) {
-            self.logins = logins
-            self.identityId = identityId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case logins = "Logins"
-            case identityId = "IdentityId"
-        }
-    }
-
-    public struct RoleMapping: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", required: true, type: .enum), 
-            AWSShapeMember(label: "AmbiguousRoleResolution", required: false, type: .enum), 
-            AWSShapeMember(label: "RulesConfiguration", required: false, type: .structure)
-        ]
-        /// The role mapping type. Token will use cognito:roles and cognito:preferred_role claims from the Cognito identity provider token to map groups to roles. Rules will attempt to match claims from the token to map to a role.
-        public let `type`: RoleMappingType
-        /// If you specify Token or Rules as the Type, AmbiguousRoleResolution is required. Specifies the action to be taken if either no rules match the claim value for the Rules type, or there is no cognito:preferred_role claim and there are multiple cognito:roles matches for the Token type.
-        public let ambiguousRoleResolution: AmbiguousRoleResolutionType?
-        /// The rules to be used for mapping users to roles. If you specify Rules as the role mapping type, RulesConfiguration is required.
-        public let rulesConfiguration: RulesConfigurationType?
-
-        public init(type: RoleMappingType, ambiguousRoleResolution: AmbiguousRoleResolutionType? = nil, rulesConfiguration: RulesConfigurationType? = nil) {
-            self.`type` = `type`
-            self.ambiguousRoleResolution = ambiguousRoleResolution
-            self.rulesConfiguration = rulesConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
-            case ambiguousRoleResolution = "AmbiguousRoleResolution"
-            case rulesConfiguration = "RulesConfiguration"
         }
     }
 
@@ -579,49 +189,525 @@ extension CognitoIdentity {
         }
     }
 
-    public struct GetIdentityPoolRolesResponse: AWSShape {
+    public struct UnlinkIdentityInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdentityPoolId", required: false, type: .string), 
-            AWSShapeMember(label: "Roles", required: false, type: .map), 
-            AWSShapeMember(label: "RoleMappings", required: false, type: .map)
+            AWSShapeMember(label: "IdentityId", required: true, type: .string), 
+            AWSShapeMember(label: "Logins", required: true, type: .map), 
+            AWSShapeMember(label: "LoginsToRemove", required: true, type: .list)
+        ]
+        /// A unique identifier in the format REGION:GUID.
+        public let identityId: String
+        /// A set of optional name-value pairs that map provider names to provider tokens.
+        public let logins: [String: String]
+        /// Provider names to unlink from this identity.
+        public let loginsToRemove: [String]
+
+        public init(identityId: String, logins: [String: String], loginsToRemove: [String]) {
+            self.identityId = identityId
+            self.logins = logins
+            self.loginsToRemove = loginsToRemove
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityId = "IdentityId"
+            case logins = "Logins"
+            case loginsToRemove = "LoginsToRemove"
+        }
+    }
+
+    public struct ListIdentityPoolsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "IdentityPools", required: false, type: .list)
+        ]
+        /// A pagination token.
+        public let nextToken: String?
+        /// The identity pools returned by the ListIdentityPools action.
+        public let identityPools: [IdentityPoolShortDescription]?
+
+        public init(nextToken: String? = nil, identityPools: [IdentityPoolShortDescription]? = nil) {
+            self.nextToken = nextToken
+            self.identityPools = identityPools
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case identityPools = "IdentityPools"
+        }
+    }
+
+    public struct SetIdentityPoolRolesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdentityPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "RoleMappings", required: false, type: .map), 
+            AWSShapeMember(label: "Roles", required: true, type: .map)
         ]
         /// An identity pool ID in the format REGION:GUID.
-        public let identityPoolId: String?
-        /// The map of roles associated with this pool. Currently only authenticated and unauthenticated roles are supported.
-        public let roles: [String: String]?
-        /// How users for a specific identity provider are to mapped to roles. This is a String-to-RoleMapping object map. The string identifies the identity provider, for example, "graph.facebook.com" or "cognito-idp-east-1.amazonaws.com/us-east-1_abcdefghi:app_client_id".
+        public let identityPoolId: String
+        /// How users for a specific identity provider are to mapped to roles. This is a string to RoleMapping object map. The string identifies the identity provider, for example, "graph.facebook.com" or "cognito-idp-east-1.amazonaws.com/us-east-1_abcdefghi:app_client_id". Up to 25 rules can be specified per identity provider.
         public let roleMappings: [String: RoleMapping]?
+        /// The map of roles associated with this pool. For a given role, the key will be either "authenticated" or "unauthenticated" and the value will be the Role ARN.
+        public let roles: [String: String]
 
-        public init(identityPoolId: String? = nil, roles: [String: String]? = nil, roleMappings: [String: RoleMapping]? = nil) {
+        public init(identityPoolId: String, roleMappings: [String: RoleMapping]? = nil, roles: [String: String]) {
             self.identityPoolId = identityPoolId
-            self.roles = roles
             self.roleMappings = roleMappings
+            self.roles = roles
         }
 
         private enum CodingKeys: String, CodingKey {
             case identityPoolId = "IdentityPoolId"
-            case roles = "Roles"
             case roleMappings = "RoleMappings"
+            case roles = "Roles"
+        }
+    }
+
+    public struct IdentityPool: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeveloperProviderName", required: false, type: .string), 
+            AWSShapeMember(label: "AllowUnauthenticatedIdentities", required: true, type: .boolean), 
+            AWSShapeMember(label: "IdentityPoolName", required: true, type: .string), 
+            AWSShapeMember(label: "CognitoIdentityProviders", required: false, type: .list), 
+            AWSShapeMember(label: "SupportedLoginProviders", required: false, type: .map), 
+            AWSShapeMember(label: "IdentityPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "SamlProviderARNs", required: false, type: .list), 
+            AWSShapeMember(label: "OpenIdConnectProviderARNs", required: false, type: .list)
+        ]
+        /// The "domain" by which Cognito will refer to your users.
+        public let developerProviderName: String?
+        /// TRUE if the identity pool supports unauthenticated logins.
+        public let allowUnauthenticatedIdentities: Bool
+        /// A string that you provide.
+        public let identityPoolName: String
+        /// A list representing an Amazon Cognito Identity User Pool and its client ID.
+        public let cognitoIdentityProviders: [CognitoIdentityProvider]?
+        /// Optional key:value pairs mapping provider names to provider app IDs.
+        public let supportedLoginProviders: [String: String]?
+        /// An identity pool ID in the format REGION:GUID.
+        public let identityPoolId: String
+        /// An array of Amazon Resource Names (ARNs) of the SAML provider for your identity pool.
+        public let samlProviderARNs: [String]?
+        /// A list of OpendID Connect provider ARNs.
+        public let openIdConnectProviderARNs: [String]?
+
+        public init(developerProviderName: String? = nil, allowUnauthenticatedIdentities: Bool, identityPoolName: String, cognitoIdentityProviders: [CognitoIdentityProvider]? = nil, supportedLoginProviders: [String: String]? = nil, identityPoolId: String, samlProviderARNs: [String]? = nil, openIdConnectProviderARNs: [String]? = nil) {
+            self.developerProviderName = developerProviderName
+            self.allowUnauthenticatedIdentities = allowUnauthenticatedIdentities
+            self.identityPoolName = identityPoolName
+            self.cognitoIdentityProviders = cognitoIdentityProviders
+            self.supportedLoginProviders = supportedLoginProviders
+            self.identityPoolId = identityPoolId
+            self.samlProviderARNs = samlProviderARNs
+            self.openIdConnectProviderARNs = openIdConnectProviderARNs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case developerProviderName = "DeveloperProviderName"
+            case allowUnauthenticatedIdentities = "AllowUnauthenticatedIdentities"
+            case identityPoolName = "IdentityPoolName"
+            case cognitoIdentityProviders = "CognitoIdentityProviders"
+            case supportedLoginProviders = "SupportedLoginProviders"
+            case identityPoolId = "IdentityPoolId"
+            case samlProviderARNs = "SamlProviderARNs"
+            case openIdConnectProviderARNs = "OpenIdConnectProviderARNs"
+        }
+    }
+
+    public struct GetIdentityPoolRolesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdentityPoolId", required: false, type: .string), 
+            AWSShapeMember(label: "RoleMappings", required: false, type: .map), 
+            AWSShapeMember(label: "Roles", required: false, type: .map)
+        ]
+        /// An identity pool ID in the format REGION:GUID.
+        public let identityPoolId: String?
+        /// How users for a specific identity provider are to mapped to roles. This is a String-to-RoleMapping object map. The string identifies the identity provider, for example, "graph.facebook.com" or "cognito-idp-east-1.amazonaws.com/us-east-1_abcdefghi:app_client_id".
+        public let roleMappings: [String: RoleMapping]?
+        /// The map of roles associated with this pool. Currently only authenticated and unauthenticated roles are supported.
+        public let roles: [String: String]?
+
+        public init(identityPoolId: String? = nil, roleMappings: [String: RoleMapping]? = nil, roles: [String: String]? = nil) {
+            self.identityPoolId = identityPoolId
+            self.roleMappings = roleMappings
+            self.roles = roles
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityPoolId = "IdentityPoolId"
+            case roleMappings = "RoleMappings"
+            case roles = "Roles"
+        }
+    }
+
+    public struct ListIdentitiesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: true, type: .integer), 
+            AWSShapeMember(label: "IdentityPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "HideDisabled", required: false, type: .boolean)
+        ]
+        /// A pagination token.
+        public let nextToken: String?
+        /// The maximum number of identities to return.
+        public let maxResults: Int32
+        /// An identity pool ID in the format REGION:GUID.
+        public let identityPoolId: String
+        /// An optional boolean parameter that allows you to hide disabled identities. If omitted, the ListIdentities API will include disabled identities in the response.
+        public let hideDisabled: Bool?
+
+        public init(nextToken: String? = nil, maxResults: Int32, identityPoolId: String, hideDisabled: Bool? = nil) {
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+            self.identityPoolId = identityPoolId
+            self.hideDisabled = hideDisabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
+            case identityPoolId = "IdentityPoolId"
+            case hideDisabled = "HideDisabled"
+        }
+    }
+
+    public struct MappingRule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Claim", required: true, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: true, type: .string), 
+            AWSShapeMember(label: "MatchType", required: true, type: .enum)
+        ]
+        /// The claim name that must be present in the token, for example, "isAdmin" or "paid".
+        public let claim: String
+        /// The role ARN.
+        public let roleARN: String
+        /// A brief string that the claim must match, for example, "paid" or "yes".
+        public let value: String
+        /// The match condition that specifies how closely the claim value in the IdP token must match Value.
+        public let matchType: MappingRuleMatchType
+
+        public init(claim: String, roleARN: String, value: String, matchType: MappingRuleMatchType) {
+            self.claim = claim
+            self.roleARN = roleARN
+            self.value = value
+            self.matchType = matchType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case claim = "Claim"
+            case roleARN = "RoleARN"
+            case value = "Value"
+            case matchType = "MatchType"
+        }
+    }
+
+    public struct UnprocessedIdentityId: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdentityId", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorCode", required: false, type: .enum)
+        ]
+        /// A unique identifier in the format REGION:GUID.
+        public let identityId: String?
+        /// The error code indicating the type of error that occurred.
+        public let errorCode: ErrorCode?
+
+        public init(identityId: String? = nil, errorCode: ErrorCode? = nil) {
+            self.identityId = identityId
+            self.errorCode = errorCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityId = "IdentityId"
+            case errorCode = "ErrorCode"
+        }
+    }
+
+    public struct DeleteIdentitiesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdentityIdsToDelete", required: true, type: .list)
+        ]
+        /// A list of 1-60 identities that you want to delete.
+        public let identityIdsToDelete: [String]
+
+        public init(identityIdsToDelete: [String]) {
+            self.identityIdsToDelete = identityIdsToDelete
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityIdsToDelete = "IdentityIdsToDelete"
+        }
+    }
+
+    public struct MergeDeveloperIdentitiesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdentityId", required: false, type: .string)
+        ]
+        /// A unique identifier in the format REGION:GUID.
+        public let identityId: String?
+
+        public init(identityId: String? = nil) {
+            self.identityId = identityId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityId = "IdentityId"
         }
     }
 
     public struct GetOpenIdTokenResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Token", required: false, type: .string), 
-            AWSShapeMember(label: "IdentityId", required: false, type: .string)
+            AWSShapeMember(label: "IdentityId", required: false, type: .string), 
+            AWSShapeMember(label: "Token", required: false, type: .string)
         ]
-        /// An OpenID token, valid for 15 minutes.
-        public let token: String?
         /// A unique identifier in the format REGION:GUID. Note that the IdentityId returned may not match the one passed on input.
         public let identityId: String?
+        /// An OpenID token, valid for 15 minutes.
+        public let token: String?
 
-        public init(token: String? = nil, identityId: String? = nil) {
+        public init(identityId: String? = nil, token: String? = nil) {
+            self.identityId = identityId
             self.token = token
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityId = "IdentityId"
+            case token = "Token"
+        }
+    }
+
+    public struct LookupDeveloperIdentityResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdentityId", required: false, type: .string), 
+            AWSShapeMember(label: "DeveloperUserIdentifierList", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// A unique identifier in the format REGION:GUID.
+        public let identityId: String?
+        /// This is the list of developer user identifiers associated with an identity ID. Cognito supports the association of multiple developer user identifiers with an identity ID.
+        public let developerUserIdentifierList: [String]?
+        /// A pagination token. The first call you make will have NextToken set to null. After that the service will return NextToken values as needed. For example, let's say you make a request with MaxResults set to 10, and there are 20 matches in the database. The service will return a pagination token as a part of the response. This token can be used to call the API again and get results starting from the 11th match.
+        public let nextToken: String?
+
+        public init(identityId: String? = nil, developerUserIdentifierList: [String]? = nil, nextToken: String? = nil) {
+            self.identityId = identityId
+            self.developerUserIdentifierList = developerUserIdentifierList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityId = "IdentityId"
+            case developerUserIdentifierList = "DeveloperUserIdentifierList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetOpenIdTokenForDeveloperIdentityInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TokenDuration", required: false, type: .long), 
+            AWSShapeMember(label: "Logins", required: true, type: .map), 
+            AWSShapeMember(label: "IdentityId", required: false, type: .string), 
+            AWSShapeMember(label: "IdentityPoolId", required: true, type: .string)
+        ]
+        /// The expiration time of the token, in seconds. You can specify a custom expiration time for the token so that you can cache it. If you don't provide an expiration time, the token is valid for 15 minutes. You can exchange the token with Amazon STS for temporary AWS credentials, which are valid for a maximum of one hour. The maximum token duration you can set is 24 hours. You should take care in setting the expiration time for a token, as there are significant security implications: an attacker could use a leaked token to access your AWS resources for the token's duration.
+        public let tokenDuration: Int64?
+        /// A set of optional name-value pairs that map provider names to provider tokens. Each name-value pair represents a user from a public provider or developer provider. If the user is from a developer provider, the name-value pair will follow the syntax "developer_provider_name": "developer_user_identifier". The developer provider is the "domain" by which Cognito will refer to your users; you provided this domain while creating/updating the identity pool. The developer user identifier is an identifier from your backend that uniquely identifies a user. When you create an identity pool, you can specify the supported logins.
+        public let logins: [String: String]
+        /// A unique identifier in the format REGION:GUID.
+        public let identityId: String?
+        /// An identity pool ID in the format REGION:GUID.
+        public let identityPoolId: String
+
+        public init(tokenDuration: Int64? = nil, logins: [String: String], identityId: String? = nil, identityPoolId: String) {
+            self.tokenDuration = tokenDuration
+            self.logins = logins
+            self.identityId = identityId
+            self.identityPoolId = identityPoolId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tokenDuration = "TokenDuration"
+            case logins = "Logins"
+            case identityId = "IdentityId"
+            case identityPoolId = "IdentityPoolId"
+        }
+    }
+
+    public struct GetOpenIdTokenInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdentityId", required: true, type: .string), 
+            AWSShapeMember(label: "Logins", required: false, type: .map)
+        ]
+        /// A unique identifier in the format REGION:GUID.
+        public let identityId: String
+        /// A set of optional name-value pairs that map provider names to provider tokens. When using graph.facebook.com and www.amazon.com, supply the access_token returned from the provider's authflow. For accounts.google.com, an Amazon Cognito Identity Provider, or any other OpenId Connect provider, always include the id_token.
+        public let logins: [String: String]?
+
+        public init(identityId: String, logins: [String: String]? = nil) {
+            self.identityId = identityId
+            self.logins = logins
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityId = "IdentityId"
+            case logins = "Logins"
+        }
+    }
+
+    public struct RoleMapping: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: true, type: .enum), 
+            AWSShapeMember(label: "AmbiguousRoleResolution", required: false, type: .enum), 
+            AWSShapeMember(label: "RulesConfiguration", required: false, type: .structure)
+        ]
+        /// The role mapping type. Token will use cognito:roles and cognito:preferred_role claims from the Cognito identity provider token to map groups to roles. Rules will attempt to match claims from the token to map to a role.
+        public let `type`: RoleMappingType
+        /// If you specify Token or Rules as the Type, AmbiguousRoleResolution is required. Specifies the action to be taken if either no rules match the claim value for the Rules type, or there is no cognito:preferred_role claim and there are multiple cognito:roles matches for the Token type.
+        public let ambiguousRoleResolution: AmbiguousRoleResolutionType?
+        /// The rules to be used for mapping users to roles. If you specify Rules as the role mapping type, RulesConfiguration is required.
+        public let rulesConfiguration: RulesConfigurationType?
+
+        public init(type: RoleMappingType, ambiguousRoleResolution: AmbiguousRoleResolutionType? = nil, rulesConfiguration: RulesConfigurationType? = nil) {
+            self.`type` = `type`
+            self.ambiguousRoleResolution = ambiguousRoleResolution
+            self.rulesConfiguration = rulesConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case ambiguousRoleResolution = "AmbiguousRoleResolution"
+            case rulesConfiguration = "RulesConfiguration"
+        }
+    }
+
+    public struct ListIdentitiesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdentityPoolId", required: false, type: .string), 
+            AWSShapeMember(label: "Identities", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// An identity pool ID in the format REGION:GUID.
+        public let identityPoolId: String?
+        /// An object containing a set of identities and associated mappings.
+        public let identities: [IdentityDescription]?
+        /// A pagination token.
+        public let nextToken: String?
+
+        public init(identityPoolId: String? = nil, identities: [IdentityDescription]? = nil, nextToken: String? = nil) {
+            self.identityPoolId = identityPoolId
+            self.identities = identities
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityPoolId = "IdentityPoolId"
+            case identities = "Identities"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetIdentityPoolRolesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdentityPoolId", required: true, type: .string)
+        ]
+        /// An identity pool ID in the format REGION:GUID.
+        public let identityPoolId: String
+
+        public init(identityPoolId: String) {
+            self.identityPoolId = identityPoolId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityPoolId = "IdentityPoolId"
+        }
+    }
+
+    public struct LookupDeveloperIdentityInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "DeveloperUserIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "IdentityId", required: false, type: .string), 
+            AWSShapeMember(label: "IdentityPoolId", required: true, type: .string)
+        ]
+        /// A pagination token. The first call you make will have NextToken set to null. After that the service will return NextToken values as needed. For example, let's say you make a request with MaxResults set to 10, and there are 20 matches in the database. The service will return a pagination token as a part of the response. This token can be used to call the API again and get results starting from the 11th match.
+        public let nextToken: String?
+        /// The maximum number of identities to return.
+        public let maxResults: Int32?
+        /// A unique ID used by your backend authentication process to identify a user. Typically, a developer identity provider would issue many developer user identifiers, in keeping with the number of users.
+        public let developerUserIdentifier: String?
+        /// A unique identifier in the format REGION:GUID.
+        public let identityId: String?
+        /// An identity pool ID in the format REGION:GUID.
+        public let identityPoolId: String
+
+        public init(nextToken: String? = nil, maxResults: Int32? = nil, developerUserIdentifier: String? = nil, identityId: String? = nil, identityPoolId: String) {
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+            self.developerUserIdentifier = developerUserIdentifier
+            self.identityId = identityId
+            self.identityPoolId = identityPoolId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
+            case developerUserIdentifier = "DeveloperUserIdentifier"
+            case identityId = "IdentityId"
+            case identityPoolId = "IdentityPoolId"
+        }
+    }
+
+    public struct MergeDeveloperIdentitiesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeveloperProviderName", required: true, type: .string), 
+            AWSShapeMember(label: "DestinationUserIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "SourceUserIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "IdentityPoolId", required: true, type: .string)
+        ]
+        /// The "domain" by which Cognito will refer to your users. This is a (pseudo) domain name that you provide while creating an identity pool. This name acts as a placeholder that allows your backend and the Cognito service to communicate about the developer provider. For the DeveloperProviderName, you can use letters as well as period (.), underscore (_), and dash (-).
+        public let developerProviderName: String
+        /// User identifier for the destination user. The value should be a DeveloperUserIdentifier.
+        public let destinationUserIdentifier: String
+        /// User identifier for the source user. The value should be a DeveloperUserIdentifier.
+        public let sourceUserIdentifier: String
+        /// An identity pool ID in the format REGION:GUID.
+        public let identityPoolId: String
+
+        public init(developerProviderName: String, destinationUserIdentifier: String, sourceUserIdentifier: String, identityPoolId: String) {
+            self.developerProviderName = developerProviderName
+            self.destinationUserIdentifier = destinationUserIdentifier
+            self.sourceUserIdentifier = sourceUserIdentifier
+            self.identityPoolId = identityPoolId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case developerProviderName = "DeveloperProviderName"
+            case destinationUserIdentifier = "DestinationUserIdentifier"
+            case sourceUserIdentifier = "SourceUserIdentifier"
+            case identityPoolId = "IdentityPoolId"
+        }
+    }
+
+    public enum MappingRuleMatchType: String, CustomStringConvertible, Codable {
+        case equals = "Equals"
+        case contains = "Contains"
+        case startswith = "StartsWith"
+        case notequal = "NotEqual"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DescribeIdentityInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdentityId", required: true, type: .string)
+        ]
+        /// A unique identifier in the format REGION:GUID.
+        public let identityId: String
+
+        public init(identityId: String) {
             self.identityId = identityId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case token = "Token"
             case identityId = "IdentityId"
         }
     }
@@ -642,102 +728,65 @@ extension CognitoIdentity {
         }
     }
 
-    public struct Credentials: AWSShape {
+    public struct IdentityDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Expiration", required: false, type: .timestamp), 
-            AWSShapeMember(label: "AccessKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "SessionToken", required: false, type: .string), 
-            AWSShapeMember(label: "SecretKey", required: false, type: .string)
-        ]
-        /// The date at which these credentials will expire.
-        public let expiration: TimeStamp?
-        /// The Access Key portion of the credentials.
-        public let accessKeyId: String?
-        /// The Session Token portion of the credentials
-        public let sessionToken: String?
-        /// The Secret Access Key portion of the credentials
-        public let secretKey: String?
-
-        public init(expiration: TimeStamp? = nil, accessKeyId: String? = nil, sessionToken: String? = nil, secretKey: String? = nil) {
-            self.expiration = expiration
-            self.accessKeyId = accessKeyId
-            self.sessionToken = sessionToken
-            self.secretKey = secretKey
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case expiration = "Expiration"
-            case accessKeyId = "AccessKeyId"
-            case sessionToken = "SessionToken"
-            case secretKey = "SecretKey"
-        }
-    }
-
-    public struct ListIdentitiesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: true, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "HideDisabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "IdentityPoolId", required: true, type: .string)
-        ]
-        /// The maximum number of identities to return.
-        public let maxResults: Int32
-        /// A pagination token.
-        public let nextToken: String?
-        /// An optional boolean parameter that allows you to hide disabled identities. If omitted, the ListIdentities API will include disabled identities in the response.
-        public let hideDisabled: Bool?
-        /// An identity pool ID in the format REGION:GUID.
-        public let identityPoolId: String
-
-        public init(maxResults: Int32, nextToken: String? = nil, hideDisabled: Bool? = nil, identityPoolId: String) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-            self.hideDisabled = hideDisabled
-            self.identityPoolId = identityPoolId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-            case hideDisabled = "HideDisabled"
-            case identityPoolId = "IdentityPoolId"
-        }
-    }
-
-    public enum ErrorCode: String, CustomStringConvertible, Codable {
-        case accessdenied = "AccessDenied"
-        case internalservererror = "InternalServerError"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetOpenIdTokenForDeveloperIdentityInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Logins", required: true, type: .map), 
-            AWSShapeMember(label: "IdentityPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "TokenDuration", required: false, type: .long), 
+            AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Logins", required: false, type: .list), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "IdentityId", required: false, type: .string)
         ]
-        /// A set of optional name-value pairs that map provider names to provider tokens. Each name-value pair represents a user from a public provider or developer provider. If the user is from a developer provider, the name-value pair will follow the syntax "developer_provider_name": "developer_user_identifier". The developer provider is the "domain" by which Cognito will refer to your users; you provided this domain while creating/updating the identity pool. The developer user identifier is an identifier from your backend that uniquely identifies a user. When you create an identity pool, you can specify the supported logins.
-        public let logins: [String: String]
-        /// An identity pool ID in the format REGION:GUID.
-        public let identityPoolId: String
-        /// The expiration time of the token, in seconds. You can specify a custom expiration time for the token so that you can cache it. If you don't provide an expiration time, the token is valid for 15 minutes. You can exchange the token with Amazon STS for temporary AWS credentials, which are valid for a maximum of one hour. The maximum token duration you can set is 24 hours. You should take care in setting the expiration time for a token, as there are significant security implications: an attacker could use a leaked token to access your AWS resources for the token's duration.
-        public let tokenDuration: Int64?
+        /// Date on which the identity was last modified.
+        public let lastModifiedDate: TimeStamp?
+        /// A set of optional name-value pairs that map provider names to provider tokens.
+        public let logins: [String]?
+        /// Date on which the identity was created.
+        public let creationDate: TimeStamp?
         /// A unique identifier in the format REGION:GUID.
         public let identityId: String?
 
-        public init(logins: [String: String], identityPoolId: String, tokenDuration: Int64? = nil, identityId: String? = nil) {
+        public init(lastModifiedDate: TimeStamp? = nil, logins: [String]? = nil, creationDate: TimeStamp? = nil, identityId: String? = nil) {
+            self.lastModifiedDate = lastModifiedDate
             self.logins = logins
-            self.identityPoolId = identityPoolId
-            self.tokenDuration = tokenDuration
+            self.creationDate = creationDate
             self.identityId = identityId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case lastModifiedDate = "LastModifiedDate"
             case logins = "Logins"
-            case identityPoolId = "IdentityPoolId"
-            case tokenDuration = "TokenDuration"
+            case creationDate = "CreationDate"
             case identityId = "IdentityId"
+        }
+    }
+
+    public struct Credentials: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SessionToken", required: false, type: .string), 
+            AWSShapeMember(label: "Expiration", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SecretKey", required: false, type: .string), 
+            AWSShapeMember(label: "AccessKeyId", required: false, type: .string)
+        ]
+        /// The Session Token portion of the credentials
+        public let sessionToken: String?
+        /// The date at which these credentials will expire.
+        public let expiration: TimeStamp?
+        /// The Secret Access Key portion of the credentials
+        public let secretKey: String?
+        /// The Access Key portion of the credentials.
+        public let accessKeyId: String?
+
+        public init(sessionToken: String? = nil, expiration: TimeStamp? = nil, secretKey: String? = nil, accessKeyId: String? = nil) {
+            self.sessionToken = sessionToken
+            self.expiration = expiration
+            self.secretKey = secretKey
+            self.accessKeyId = accessKeyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sessionToken = "SessionToken"
+            case expiration = "Expiration"
+            case secretKey = "SecretKey"
+            case accessKeyId = "AccessKeyId"
         }
     }
 
@@ -747,184 +796,135 @@ extension CognitoIdentity {
         public var description: String { return self.rawValue }
     }
 
-    public enum MappingRuleMatchType: String, CustomStringConvertible, Codable {
-        case equals = "Equals"
-        case contains = "Contains"
-        case startswith = "StartsWith"
-        case notequal = "NotEqual"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct MergeDeveloperIdentitiesResponse: AWSShape {
+    public struct UnlinkDeveloperIdentityInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdentityId", required: false, type: .string)
-        ]
-        /// A unique identifier in the format REGION:GUID.
-        public let identityId: String?
-
-        public init(identityId: String? = nil) {
-            self.identityId = identityId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case identityId = "IdentityId"
-        }
-    }
-
-    public struct UnprocessedIdentityId: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorCode", required: false, type: .enum), 
-            AWSShapeMember(label: "IdentityId", required: false, type: .string)
-        ]
-        /// The error code indicating the type of error that occurred.
-        public let errorCode: ErrorCode?
-        /// A unique identifier in the format REGION:GUID.
-        public let identityId: String?
-
-        public init(errorCode: ErrorCode? = nil, identityId: String? = nil) {
-            self.errorCode = errorCode
-            self.identityId = identityId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case identityId = "IdentityId"
-        }
-    }
-
-    public struct LookupDeveloperIdentityResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "DeveloperUserIdentifierList", required: false, type: .list), 
-            AWSShapeMember(label: "IdentityId", required: false, type: .string)
-        ]
-        /// A pagination token. The first call you make will have NextToken set to null. After that the service will return NextToken values as needed. For example, let's say you make a request with MaxResults set to 10, and there are 20 matches in the database. The service will return a pagination token as a part of the response. This token can be used to call the API again and get results starting from the 11th match.
-        public let nextToken: String?
-        /// This is the list of developer user identifiers associated with an identity ID. Cognito supports the association of multiple developer user identifiers with an identity ID.
-        public let developerUserIdentifierList: [String]?
-        /// A unique identifier in the format REGION:GUID.
-        public let identityId: String?
-
-        public init(nextToken: String? = nil, developerUserIdentifierList: [String]? = nil, identityId: String? = nil) {
-            self.nextToken = nextToken
-            self.developerUserIdentifierList = developerUserIdentifierList
-            self.identityId = identityId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case developerUserIdentifierList = "DeveloperUserIdentifierList"
-            case identityId = "IdentityId"
-        }
-    }
-
-    public struct IdentityDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Logins", required: false, type: .list), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "IdentityId", required: false, type: .string)
-        ]
-        /// A set of optional name-value pairs that map provider names to provider tokens.
-        public let logins: [String]?
-        /// Date on which the identity was created.
-        public let creationDate: TimeStamp?
-        /// Date on which the identity was last modified.
-        public let lastModifiedDate: TimeStamp?
-        /// A unique identifier in the format REGION:GUID.
-        public let identityId: String?
-
-        public init(logins: [String]? = nil, creationDate: TimeStamp? = nil, lastModifiedDate: TimeStamp? = nil, identityId: String? = nil) {
-            self.logins = logins
-            self.creationDate = creationDate
-            self.lastModifiedDate = lastModifiedDate
-            self.identityId = identityId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case logins = "Logins"
-            case creationDate = "CreationDate"
-            case lastModifiedDate = "LastModifiedDate"
-            case identityId = "IdentityId"
-        }
-    }
-
-    public struct GetCredentialsForIdentityResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Credentials", required: false, type: .structure), 
-            AWSShapeMember(label: "IdentityId", required: false, type: .string)
-        ]
-        /// Credentials for the provided identity ID.
-        public let credentials: Credentials?
-        /// A unique identifier in the format REGION:GUID.
-        public let identityId: String?
-
-        public init(credentials: Credentials? = nil, identityId: String? = nil) {
-            self.credentials = credentials
-            self.identityId = identityId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case credentials = "Credentials"
-            case identityId = "IdentityId"
-        }
-    }
-
-    public struct IdentityPool: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SamlProviderARNs", required: false, type: .list), 
-            AWSShapeMember(label: "IdentityPoolName", required: true, type: .string), 
-            AWSShapeMember(label: "OpenIdConnectProviderARNs", required: false, type: .list), 
-            AWSShapeMember(label: "SupportedLoginProviders", required: false, type: .map), 
-            AWSShapeMember(label: "AllowUnauthenticatedIdentities", required: true, type: .boolean), 
+            AWSShapeMember(label: "DeveloperProviderName", required: true, type: .string), 
+            AWSShapeMember(label: "IdentityId", required: true, type: .string), 
             AWSShapeMember(label: "IdentityPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "CognitoIdentityProviders", required: false, type: .list), 
-            AWSShapeMember(label: "DeveloperProviderName", required: false, type: .string)
+            AWSShapeMember(label: "DeveloperUserIdentifier", required: true, type: .string)
         ]
-        /// An array of Amazon Resource Names (ARNs) of the SAML provider for your identity pool.
-        public let samlProviderARNs: [String]?
-        /// A string that you provide.
-        public let identityPoolName: String
-        /// A list of OpendID Connect provider ARNs.
-        public let openIdConnectProviderARNs: [String]?
-        /// Optional key:value pairs mapping provider names to provider app IDs.
-        public let supportedLoginProviders: [String: String]?
-        /// TRUE if the identity pool supports unauthenticated logins.
-        public let allowUnauthenticatedIdentities: Bool
+        /// The "domain" by which Cognito will refer to your users.
+        public let developerProviderName: String
+        /// A unique identifier in the format REGION:GUID.
+        public let identityId: String
         /// An identity pool ID in the format REGION:GUID.
         public let identityPoolId: String
-        /// A list representing an Amazon Cognito Identity User Pool and its client ID.
-        public let cognitoIdentityProviders: [CognitoIdentityProvider]?
-        /// The "domain" by which Cognito will refer to your users.
-        public let developerProviderName: String?
+        /// A unique ID used by your backend authentication process to identify a user.
+        public let developerUserIdentifier: String
 
-        public init(samlProviderARNs: [String]? = nil, identityPoolName: String, openIdConnectProviderARNs: [String]? = nil, supportedLoginProviders: [String: String]? = nil, allowUnauthenticatedIdentities: Bool, identityPoolId: String, cognitoIdentityProviders: [CognitoIdentityProvider]? = nil, developerProviderName: String? = nil) {
-            self.samlProviderARNs = samlProviderARNs
-            self.identityPoolName = identityPoolName
-            self.openIdConnectProviderARNs = openIdConnectProviderARNs
-            self.supportedLoginProviders = supportedLoginProviders
-            self.allowUnauthenticatedIdentities = allowUnauthenticatedIdentities
-            self.identityPoolId = identityPoolId
-            self.cognitoIdentityProviders = cognitoIdentityProviders
+        public init(developerProviderName: String, identityId: String, identityPoolId: String, developerUserIdentifier: String) {
             self.developerProviderName = developerProviderName
+            self.identityId = identityId
+            self.identityPoolId = identityPoolId
+            self.developerUserIdentifier = developerUserIdentifier
         }
 
         private enum CodingKeys: String, CodingKey {
-            case samlProviderARNs = "SamlProviderARNs"
-            case identityPoolName = "IdentityPoolName"
-            case openIdConnectProviderARNs = "OpenIdConnectProviderARNs"
-            case supportedLoginProviders = "SupportedLoginProviders"
-            case allowUnauthenticatedIdentities = "AllowUnauthenticatedIdentities"
-            case identityPoolId = "IdentityPoolId"
-            case cognitoIdentityProviders = "CognitoIdentityProviders"
             case developerProviderName = "DeveloperProviderName"
+            case identityId = "IdentityId"
+            case identityPoolId = "IdentityPoolId"
+            case developerUserIdentifier = "DeveloperUserIdentifier"
         }
     }
 
-    public enum AmbiguousRoleResolutionType: String, CustomStringConvertible, Codable {
-        case authenticatedrole = "AuthenticatedRole"
-        case deny = "Deny"
-        public var description: String { return self.rawValue }
+    public struct GetCredentialsForIdentityInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdentityId", required: true, type: .string), 
+            AWSShapeMember(label: "Logins", required: false, type: .map), 
+            AWSShapeMember(label: "CustomRoleArn", required: false, type: .string)
+        ]
+        /// A unique identifier in the format REGION:GUID.
+        public let identityId: String
+        /// A set of optional name-value pairs that map provider names to provider tokens.
+        public let logins: [String: String]?
+        /// The Amazon Resource Name (ARN) of the role to be assumed when multiple roles were received in the token from the identity provider. For example, a SAML-based identity provider. This parameter is optional for identity providers that do not support role customization.
+        public let customRoleArn: String?
+
+        public init(identityId: String, logins: [String: String]? = nil, customRoleArn: String? = nil) {
+            self.identityId = identityId
+            self.logins = logins
+            self.customRoleArn = customRoleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityId = "IdentityId"
+            case logins = "Logins"
+            case customRoleArn = "CustomRoleArn"
+        }
+    }
+
+    public struct DeleteIdentityPoolInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdentityPoolId", required: true, type: .string)
+        ]
+        /// An identity pool ID in the format REGION:GUID.
+        public let identityPoolId: String
+
+        public init(identityPoolId: String) {
+            self.identityPoolId = identityPoolId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityPoolId = "IdentityPoolId"
+        }
+    }
+
+    public struct RulesConfigurationType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Rules", required: true, type: .list)
+        ]
+        /// An array of rules. You can specify up to 25 rules per identity provider. Rules are evaluated in order. The first one to match specifies the role.
+        public let rules: [MappingRule]
+
+        public init(rules: [MappingRule]) {
+            self.rules = rules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rules = "Rules"
+        }
+    }
+
+    public struct GetOpenIdTokenForDeveloperIdentityResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdentityId", required: false, type: .string), 
+            AWSShapeMember(label: "Token", required: false, type: .string)
+        ]
+        /// A unique identifier in the format REGION:GUID.
+        public let identityId: String?
+        /// An OpenID token.
+        public let token: String?
+
+        public init(identityId: String? = nil, token: String? = nil) {
+            self.identityId = identityId
+            self.token = token
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityId = "IdentityId"
+            case token = "Token"
+        }
+    }
+
+    public struct ListIdentityPoolsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: true, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The maximum number of identities to return.
+        public let maxResults: Int32
+        /// A pagination token.
+        public let nextToken: String?
+
+        public init(maxResults: Int32, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
     }
 
 }

@@ -4,85 +4,63 @@ import AWSSDKSwiftCore
 
 /// Error enum for Redshift
 public enum RedshiftErrorType: AWSErrorType {
-    case accessToSnapshotDeniedFault(message: String?)
-    case authorizationNotFoundFault(message: String?)
-    case clusterSnapshotNotFoundFault(message: String?)
-    case hsmClientCertificateNotFoundFault(message: String?)
+    case snapshotCopyGrantAlreadyExistsFault(message: String?)
+    case snapshotCopyGrantQuotaExceededFault(message: String?)
+    case limitExceededFault(message: String?)
+    case tagLimitExceededFault(message: String?)
     case invalidTagFault(message: String?)
-    case hsmConfigurationNotFoundFault(message: String?)
+    case dependentServiceRequestThrottlingFault(message: String?)
     case invalidClusterTrackFault(message: String?)
     case unauthorizedOperation(message: String?)
+    case clusterSecurityGroupNotFoundFault(message: String?)
+    case authorizationNotFoundFault(message: String?)
+    case invalidClusterSecurityGroupStateFault(message: String?)
+    case clusterSnapshotNotFoundFault(message: String?)
+    case authorizationAlreadyExistsFault(message: String?)
+    case authorizationQuotaExceededFault(message: String?)
+    case invalidClusterSnapshotStateFault(message: String?)
     case reservedNodeNotFoundFault(message: String?)
     case invalidReservedNodeStateFault(message: String?)
     case reservedNodeAlreadyMigratedFault(message: String?)
     case reservedNodeOfferingNotFoundFault(message: String?)
     case unsupportedOperationFault(message: String?)
     case dependentServiceUnavailableFault(message: String?)
-    case reservedNodeAlreadyExistsFault(message: String?)
-    case subscriptionNotFoundFault(message: String?)
-    case invalidSubscriptionStateFault(message: String?)
-    case clusterSnapshotAlreadyExistsFault(message: String?)
     case invalidClusterStateFault(message: String?)
     case clusterNotFoundFault(message: String?)
-    case clusterSnapshotQuotaExceededFault(message: String?)
-    case tagLimitExceededFault(message: String?)
-    case invalidRetentionPeriodFault(message: String?)
-    case incompatibleOrderableOptions(message: String?)
-    case copyToRegionDisabledFault(message: String?)
-    case snapshotCopyAlreadyEnabledFault(message: String?)
-    case unknownSnapshotCopyRegionFault(message: String?)
-    case snapshotCopyGrantNotFoundFault(message: String?)
-    case limitExceededFault(message: String?)
-    case dependentServiceRequestThrottlingFault(message: String?)
-    case clusterSubnetGroupNotFoundFault(message: String?)
-    case resizeNotFoundFault(message: String?)
-    case hsmClientCertificateAlreadyExistsFault(message: String?)
-    case hsmClientCertificateQuotaExceededFault(message: String?)
-    case hsmConfigurationAlreadyExistsFault(message: String?)
-    case hsmConfigurationQuotaExceededFault(message: String?)
-    case invalidClusterSecurityGroupStateFault(message: String?)
-    case clusterSecurityGroupNotFoundFault(message: String?)
-    case invalidClusterSubnetGroupStateFault(message: String?)
-    case invalidClusterSubnetStateFault(message: String?)
-    case clusterSecurityGroupAlreadyExistsFault(message: String?)
-    case clusterSecurityGroupQuotaExceededFault(message: String?)
-    case resourceNotFoundFault(message: String?)
-    case clusterAlreadyExistsFault(message: String?)
-    case clusterQuotaExceededFault(message: String?)
-    case insufficientClusterCapacityFault(message: String?)
-    case invalidClusterSnapshotStateFault(message: String?)
-    case invalidRestoreFault(message: String?)
-    case numberOfNodesQuotaExceededFault(message: String?)
-    case numberOfNodesPerClusterLimitExceededFault(message: String?)
-    case invalidVPCNetworkStateFault(message: String?)
-    case invalidSubnet(message: String?)
-    case invalidElasticIpFault(message: String?)
-    case clusterParameterGroupNotFoundFault(message: String?)
-    case snapshotScheduleNotFoundFault(message: String?)
-    case clusterSubnetGroupAlreadyExistsFault(message: String?)
-    case clusterSubnetGroupQuotaExceededFault(message: String?)
-    case clusterSubnetQuotaExceededFault(message: String?)
-    case unsupportedOptionFault(message: String?)
-    case tableLimitExceededFault(message: String?)
-    case invalidClusterSnapshotScheduleStateFault(message: String?)
-    case authorizationAlreadyExistsFault(message: String?)
-    case authorizationQuotaExceededFault(message: String?)
-    case invalidHsmClientCertificateStateFault(message: String?)
-    case snapshotCopyAlreadyDisabledFault(message: String?)
-    case clusterOnLatestRevisionFault(message: String?)
-    case invalidSnapshotCopyGrantStateFault(message: String?)
-    case tableRestoreNotFoundFault(message: String?)
-    case batchDeleteRequestSizeExceededFault(message: String?)
-    case invalidClusterParameterGroupStateFault(message: String?)
-    case reservedNodeQuotaExceededFault(message: String?)
     case clusterParameterGroupQuotaExceededFault(message: String?)
     case clusterParameterGroupAlreadyExistsFault(message: String?)
-    case snapshotScheduleAlreadyExistsFault(message: String?)
+    case clusterParameterGroupNotFoundFault(message: String?)
+    case snapshotCopyGrantNotFoundFault(message: String?)
     case invalidScheduleFault(message: String?)
-    case snapshotScheduleQuotaExceededFault(message: String?)
-    case scheduleDefinitionTypeUnsupportedFault(message: String?)
-    case eventSubscriptionQuotaExceededFault(message: String?)
-    case subscriptionAlreadyExistFault(message: String?)
+    case snapshotScheduleNotFoundFault(message: String?)
+    case snapshotScheduleUpdateInProgressFault(message: String?)
+    case invalidClusterParameterGroupStateFault(message: String?)
+    case invalidRetentionPeriodFault(message: String?)
+    case batchDeleteRequestSizeExceededFault(message: String?)
+    case numberOfNodesQuotaExceededFault(message: String?)
+    case numberOfNodesPerClusterLimitExceededFault(message: String?)
+    case insufficientClusterCapacityFault(message: String?)
+    case unsupportedOptionFault(message: String?)
+    case hsmClientCertificateNotFoundFault(message: String?)
+    case hsmConfigurationNotFoundFault(message: String?)
+    case clusterAlreadyExistsFault(message: String?)
+    case invalidElasticIpFault(message: String?)
+    case tableLimitExceededFault(message: String?)
+    case clusterSecurityGroupAlreadyExistsFault(message: String?)
+    case clusterSecurityGroupQuotaExceededFault(message: String?)
+    case invalidHsmClientCertificateStateFault(message: String?)
+    case reservedNodeAlreadyExistsFault(message: String?)
+    case reservedNodeQuotaExceededFault(message: String?)
+    case subscriptionNotFoundFault(message: String?)
+    case clusterSubnetGroupNotFoundFault(message: String?)
+    case clusterQuotaExceededFault(message: String?)
+    case invalidVPCNetworkStateFault(message: String?)
+    case invalidClusterSubnetGroupStateFault(message: String?)
+    case invalidSubnet(message: String?)
+    case batchModifyClusterSnapshotsLimitExceededFault(message: String?)
+    case resourceNotFoundFault(message: String?)
+    case clusterSubnetQuotaExceededFault(message: String?)
+    case subnetAlreadyInUse(message: String?)
     case sNSInvalidTopicFault(message: String?)
     case sNSNoAuthorizationFault(message: String?)
     case sNSTopicArnNotFoundFault(message: String?)
@@ -90,19 +68,41 @@ public enum RedshiftErrorType: AWSErrorType {
     case subscriptionCategoryNotFoundFault(message: String?)
     case subscriptionSeverityNotFoundFault(message: String?)
     case sourceNotFoundFault(message: String?)
-    case batchModifyClusterSnapshotsLimitExceededFault(message: String?)
-    case snapshotScheduleUpdateInProgressFault(message: String?)
-    case snapshotCopyDisabledFault(message: String?)
-    case inProgressTableRestoreQuotaExceededFault(message: String?)
-    case invalidTableRestoreArgumentFault(message: String?)
-    case subnetAlreadyInUse(message: String?)
+    case invalidSubscriptionStateFault(message: String?)
+    case resizeNotFoundFault(message: String?)
+    case clusterSnapshotAlreadyExistsFault(message: String?)
+    case clusterSnapshotQuotaExceededFault(message: String?)
+    case invalidClusterSnapshotScheduleStateFault(message: String?)
     case bucketNotFoundFault(message: String?)
     case insufficientS3BucketPolicyFault(message: String?)
     case invalidS3KeyPrefixFault(message: String?)
     case invalidS3BucketNameFault(message: String?)
-    case snapshotCopyGrantAlreadyExistsFault(message: String?)
-    case snapshotCopyGrantQuotaExceededFault(message: String?)
+    case inProgressTableRestoreQuotaExceededFault(message: String?)
+    case invalidTableRestoreArgumentFault(message: String?)
+    case accessToSnapshotDeniedFault(message: String?)
+    case invalidRestoreFault(message: String?)
     case invalidHsmConfigurationStateFault(message: String?)
+    case clusterSubnetGroupAlreadyExistsFault(message: String?)
+    case clusterSubnetGroupQuotaExceededFault(message: String?)
+    case hsmClientCertificateAlreadyExistsFault(message: String?)
+    case hsmClientCertificateQuotaExceededFault(message: String?)
+    case hsmConfigurationAlreadyExistsFault(message: String?)
+    case hsmConfigurationQuotaExceededFault(message: String?)
+    case invalidClusterSubnetStateFault(message: String?)
+    case clusterOnLatestRevisionFault(message: String?)
+    case tableRestoreNotFoundFault(message: String?)
+    case invalidSnapshotCopyGrantStateFault(message: String?)
+    case snapshotCopyDisabledFault(message: String?)
+    case snapshotCopyAlreadyDisabledFault(message: String?)
+    case incompatibleOrderableOptions(message: String?)
+    case copyToRegionDisabledFault(message: String?)
+    case snapshotCopyAlreadyEnabledFault(message: String?)
+    case unknownSnapshotCopyRegionFault(message: String?)
+    case snapshotScheduleAlreadyExistsFault(message: String?)
+    case snapshotScheduleQuotaExceededFault(message: String?)
+    case scheduleDefinitionTypeUnsupportedFault(message: String?)
+    case eventSubscriptionQuotaExceededFault(message: String?)
+    case subscriptionAlreadyExistFault(message: String?)
 }
 
 extension RedshiftErrorType {
@@ -112,22 +112,36 @@ extension RedshiftErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "AccessToSnapshotDeniedFault":
-            self = .accessToSnapshotDeniedFault(message: message)
-        case "AuthorizationNotFoundFault":
-            self = .authorizationNotFoundFault(message: message)
-        case "ClusterSnapshotNotFoundFault":
-            self = .clusterSnapshotNotFoundFault(message: message)
-        case "HsmClientCertificateNotFoundFault":
-            self = .hsmClientCertificateNotFoundFault(message: message)
+        case "SnapshotCopyGrantAlreadyExistsFault":
+            self = .snapshotCopyGrantAlreadyExistsFault(message: message)
+        case "SnapshotCopyGrantQuotaExceededFault":
+            self = .snapshotCopyGrantQuotaExceededFault(message: message)
+        case "LimitExceededFault":
+            self = .limitExceededFault(message: message)
+        case "TagLimitExceededFault":
+            self = .tagLimitExceededFault(message: message)
         case "InvalidTagFault":
             self = .invalidTagFault(message: message)
-        case "HsmConfigurationNotFoundFault":
-            self = .hsmConfigurationNotFoundFault(message: message)
+        case "DependentServiceRequestThrottlingFault":
+            self = .dependentServiceRequestThrottlingFault(message: message)
         case "InvalidClusterTrackFault":
             self = .invalidClusterTrackFault(message: message)
         case "UnauthorizedOperation":
             self = .unauthorizedOperation(message: message)
+        case "ClusterSecurityGroupNotFoundFault":
+            self = .clusterSecurityGroupNotFoundFault(message: message)
+        case "AuthorizationNotFoundFault":
+            self = .authorizationNotFoundFault(message: message)
+        case "InvalidClusterSecurityGroupStateFault":
+            self = .invalidClusterSecurityGroupStateFault(message: message)
+        case "ClusterSnapshotNotFoundFault":
+            self = .clusterSnapshotNotFoundFault(message: message)
+        case "AuthorizationAlreadyExistsFault":
+            self = .authorizationAlreadyExistsFault(message: message)
+        case "AuthorizationQuotaExceededFault":
+            self = .authorizationQuotaExceededFault(message: message)
+        case "InvalidClusterSnapshotStateFault":
+            self = .invalidClusterSnapshotStateFault(message: message)
         case "ReservedNodeNotFoundFault":
             self = .reservedNodeNotFoundFault(message: message)
         case "InvalidReservedNodeStateFault":
@@ -140,136 +154,78 @@ extension RedshiftErrorType {
             self = .unsupportedOperationFault(message: message)
         case "DependentServiceUnavailableFault":
             self = .dependentServiceUnavailableFault(message: message)
-        case "ReservedNodeAlreadyExistsFault":
-            self = .reservedNodeAlreadyExistsFault(message: message)
-        case "SubscriptionNotFoundFault":
-            self = .subscriptionNotFoundFault(message: message)
-        case "InvalidSubscriptionStateFault":
-            self = .invalidSubscriptionStateFault(message: message)
-        case "ClusterSnapshotAlreadyExistsFault":
-            self = .clusterSnapshotAlreadyExistsFault(message: message)
         case "InvalidClusterStateFault":
             self = .invalidClusterStateFault(message: message)
         case "ClusterNotFoundFault":
             self = .clusterNotFoundFault(message: message)
-        case "ClusterSnapshotQuotaExceededFault":
-            self = .clusterSnapshotQuotaExceededFault(message: message)
-        case "TagLimitExceededFault":
-            self = .tagLimitExceededFault(message: message)
-        case "InvalidRetentionPeriodFault":
-            self = .invalidRetentionPeriodFault(message: message)
-        case "IncompatibleOrderableOptions":
-            self = .incompatibleOrderableOptions(message: message)
-        case "CopyToRegionDisabledFault":
-            self = .copyToRegionDisabledFault(message: message)
-        case "SnapshotCopyAlreadyEnabledFault":
-            self = .snapshotCopyAlreadyEnabledFault(message: message)
-        case "UnknownSnapshotCopyRegionFault":
-            self = .unknownSnapshotCopyRegionFault(message: message)
-        case "SnapshotCopyGrantNotFoundFault":
-            self = .snapshotCopyGrantNotFoundFault(message: message)
-        case "LimitExceededFault":
-            self = .limitExceededFault(message: message)
-        case "DependentServiceRequestThrottlingFault":
-            self = .dependentServiceRequestThrottlingFault(message: message)
-        case "ClusterSubnetGroupNotFoundFault":
-            self = .clusterSubnetGroupNotFoundFault(message: message)
-        case "ResizeNotFoundFault":
-            self = .resizeNotFoundFault(message: message)
-        case "HsmClientCertificateAlreadyExistsFault":
-            self = .hsmClientCertificateAlreadyExistsFault(message: message)
-        case "HsmClientCertificateQuotaExceededFault":
-            self = .hsmClientCertificateQuotaExceededFault(message: message)
-        case "HsmConfigurationAlreadyExistsFault":
-            self = .hsmConfigurationAlreadyExistsFault(message: message)
-        case "HsmConfigurationQuotaExceededFault":
-            self = .hsmConfigurationQuotaExceededFault(message: message)
-        case "InvalidClusterSecurityGroupStateFault":
-            self = .invalidClusterSecurityGroupStateFault(message: message)
-        case "ClusterSecurityGroupNotFoundFault":
-            self = .clusterSecurityGroupNotFoundFault(message: message)
-        case "InvalidClusterSubnetGroupStateFault":
-            self = .invalidClusterSubnetGroupStateFault(message: message)
-        case "InvalidClusterSubnetStateFault":
-            self = .invalidClusterSubnetStateFault(message: message)
-        case "ClusterSecurityGroupAlreadyExistsFault":
-            self = .clusterSecurityGroupAlreadyExistsFault(message: message)
-        case "ClusterSecurityGroupQuotaExceededFault":
-            self = .clusterSecurityGroupQuotaExceededFault(message: message)
-        case "ResourceNotFoundFault":
-            self = .resourceNotFoundFault(message: message)
-        case "ClusterAlreadyExistsFault":
-            self = .clusterAlreadyExistsFault(message: message)
-        case "ClusterQuotaExceededFault":
-            self = .clusterQuotaExceededFault(message: message)
-        case "InsufficientClusterCapacityFault":
-            self = .insufficientClusterCapacityFault(message: message)
-        case "InvalidClusterSnapshotStateFault":
-            self = .invalidClusterSnapshotStateFault(message: message)
-        case "InvalidRestoreFault":
-            self = .invalidRestoreFault(message: message)
-        case "NumberOfNodesQuotaExceededFault":
-            self = .numberOfNodesQuotaExceededFault(message: message)
-        case "NumberOfNodesPerClusterLimitExceededFault":
-            self = .numberOfNodesPerClusterLimitExceededFault(message: message)
-        case "InvalidVPCNetworkStateFault":
-            self = .invalidVPCNetworkStateFault(message: message)
-        case "InvalidSubnet":
-            self = .invalidSubnet(message: message)
-        case "InvalidElasticIpFault":
-            self = .invalidElasticIpFault(message: message)
-        case "ClusterParameterGroupNotFoundFault":
-            self = .clusterParameterGroupNotFoundFault(message: message)
-        case "SnapshotScheduleNotFoundFault":
-            self = .snapshotScheduleNotFoundFault(message: message)
-        case "ClusterSubnetGroupAlreadyExistsFault":
-            self = .clusterSubnetGroupAlreadyExistsFault(message: message)
-        case "ClusterSubnetGroupQuotaExceededFault":
-            self = .clusterSubnetGroupQuotaExceededFault(message: message)
-        case "ClusterSubnetQuotaExceededFault":
-            self = .clusterSubnetQuotaExceededFault(message: message)
-        case "UnsupportedOptionFault":
-            self = .unsupportedOptionFault(message: message)
-        case "TableLimitExceededFault":
-            self = .tableLimitExceededFault(message: message)
-        case "InvalidClusterSnapshotScheduleStateFault":
-            self = .invalidClusterSnapshotScheduleStateFault(message: message)
-        case "AuthorizationAlreadyExistsFault":
-            self = .authorizationAlreadyExistsFault(message: message)
-        case "AuthorizationQuotaExceededFault":
-            self = .authorizationQuotaExceededFault(message: message)
-        case "InvalidHsmClientCertificateStateFault":
-            self = .invalidHsmClientCertificateStateFault(message: message)
-        case "SnapshotCopyAlreadyDisabledFault":
-            self = .snapshotCopyAlreadyDisabledFault(message: message)
-        case "ClusterOnLatestRevisionFault":
-            self = .clusterOnLatestRevisionFault(message: message)
-        case "InvalidSnapshotCopyGrantStateFault":
-            self = .invalidSnapshotCopyGrantStateFault(message: message)
-        case "TableRestoreNotFoundFault":
-            self = .tableRestoreNotFoundFault(message: message)
-        case "BatchDeleteRequestSizeExceededFault":
-            self = .batchDeleteRequestSizeExceededFault(message: message)
-        case "InvalidClusterParameterGroupStateFault":
-            self = .invalidClusterParameterGroupStateFault(message: message)
-        case "ReservedNodeQuotaExceededFault":
-            self = .reservedNodeQuotaExceededFault(message: message)
         case "ClusterParameterGroupQuotaExceededFault":
             self = .clusterParameterGroupQuotaExceededFault(message: message)
         case "ClusterParameterGroupAlreadyExistsFault":
             self = .clusterParameterGroupAlreadyExistsFault(message: message)
-        case "SnapshotScheduleAlreadyExistsFault":
-            self = .snapshotScheduleAlreadyExistsFault(message: message)
+        case "ClusterParameterGroupNotFoundFault":
+            self = .clusterParameterGroupNotFoundFault(message: message)
+        case "SnapshotCopyGrantNotFoundFault":
+            self = .snapshotCopyGrantNotFoundFault(message: message)
         case "InvalidScheduleFault":
             self = .invalidScheduleFault(message: message)
-        case "SnapshotScheduleQuotaExceededFault":
-            self = .snapshotScheduleQuotaExceededFault(message: message)
-        case "ScheduleDefinitionTypeUnsupportedFault":
-            self = .scheduleDefinitionTypeUnsupportedFault(message: message)
-        case "EventSubscriptionQuotaExceededFault":
-            self = .eventSubscriptionQuotaExceededFault(message: message)
-        case "SubscriptionAlreadyExistFault":
-            self = .subscriptionAlreadyExistFault(message: message)
+        case "SnapshotScheduleNotFoundFault":
+            self = .snapshotScheduleNotFoundFault(message: message)
+        case "SnapshotScheduleUpdateInProgressFault":
+            self = .snapshotScheduleUpdateInProgressFault(message: message)
+        case "InvalidClusterParameterGroupStateFault":
+            self = .invalidClusterParameterGroupStateFault(message: message)
+        case "InvalidRetentionPeriodFault":
+            self = .invalidRetentionPeriodFault(message: message)
+        case "BatchDeleteRequestSizeExceededFault":
+            self = .batchDeleteRequestSizeExceededFault(message: message)
+        case "NumberOfNodesQuotaExceededFault":
+            self = .numberOfNodesQuotaExceededFault(message: message)
+        case "NumberOfNodesPerClusterLimitExceededFault":
+            self = .numberOfNodesPerClusterLimitExceededFault(message: message)
+        case "InsufficientClusterCapacityFault":
+            self = .insufficientClusterCapacityFault(message: message)
+        case "UnsupportedOptionFault":
+            self = .unsupportedOptionFault(message: message)
+        case "HsmClientCertificateNotFoundFault":
+            self = .hsmClientCertificateNotFoundFault(message: message)
+        case "HsmConfigurationNotFoundFault":
+            self = .hsmConfigurationNotFoundFault(message: message)
+        case "ClusterAlreadyExistsFault":
+            self = .clusterAlreadyExistsFault(message: message)
+        case "InvalidElasticIpFault":
+            self = .invalidElasticIpFault(message: message)
+        case "TableLimitExceededFault":
+            self = .tableLimitExceededFault(message: message)
+        case "ClusterSecurityGroupAlreadyExistsFault":
+            self = .clusterSecurityGroupAlreadyExistsFault(message: message)
+        case "ClusterSecurityGroupQuotaExceededFault":
+            self = .clusterSecurityGroupQuotaExceededFault(message: message)
+        case "InvalidHsmClientCertificateStateFault":
+            self = .invalidHsmClientCertificateStateFault(message: message)
+        case "ReservedNodeAlreadyExistsFault":
+            self = .reservedNodeAlreadyExistsFault(message: message)
+        case "ReservedNodeQuotaExceededFault":
+            self = .reservedNodeQuotaExceededFault(message: message)
+        case "SubscriptionNotFoundFault":
+            self = .subscriptionNotFoundFault(message: message)
+        case "ClusterSubnetGroupNotFoundFault":
+            self = .clusterSubnetGroupNotFoundFault(message: message)
+        case "ClusterQuotaExceededFault":
+            self = .clusterQuotaExceededFault(message: message)
+        case "InvalidVPCNetworkStateFault":
+            self = .invalidVPCNetworkStateFault(message: message)
+        case "InvalidClusterSubnetGroupStateFault":
+            self = .invalidClusterSubnetGroupStateFault(message: message)
+        case "InvalidSubnet":
+            self = .invalidSubnet(message: message)
+        case "BatchModifyClusterSnapshotsLimitExceededFault":
+            self = .batchModifyClusterSnapshotsLimitExceededFault(message: message)
+        case "ResourceNotFoundFault":
+            self = .resourceNotFoundFault(message: message)
+        case "ClusterSubnetQuotaExceededFault":
+            self = .clusterSubnetQuotaExceededFault(message: message)
+        case "SubnetAlreadyInUse":
+            self = .subnetAlreadyInUse(message: message)
         case "SNSInvalidTopicFault":
             self = .sNSInvalidTopicFault(message: message)
         case "SNSNoAuthorizationFault":
@@ -284,18 +240,16 @@ extension RedshiftErrorType {
             self = .subscriptionSeverityNotFoundFault(message: message)
         case "SourceNotFoundFault":
             self = .sourceNotFoundFault(message: message)
-        case "BatchModifyClusterSnapshotsLimitExceededFault":
-            self = .batchModifyClusterSnapshotsLimitExceededFault(message: message)
-        case "SnapshotScheduleUpdateInProgressFault":
-            self = .snapshotScheduleUpdateInProgressFault(message: message)
-        case "SnapshotCopyDisabledFault":
-            self = .snapshotCopyDisabledFault(message: message)
-        case "InProgressTableRestoreQuotaExceededFault":
-            self = .inProgressTableRestoreQuotaExceededFault(message: message)
-        case "InvalidTableRestoreArgumentFault":
-            self = .invalidTableRestoreArgumentFault(message: message)
-        case "SubnetAlreadyInUse":
-            self = .subnetAlreadyInUse(message: message)
+        case "InvalidSubscriptionStateFault":
+            self = .invalidSubscriptionStateFault(message: message)
+        case "ResizeNotFoundFault":
+            self = .resizeNotFoundFault(message: message)
+        case "ClusterSnapshotAlreadyExistsFault":
+            self = .clusterSnapshotAlreadyExistsFault(message: message)
+        case "ClusterSnapshotQuotaExceededFault":
+            self = .clusterSnapshotQuotaExceededFault(message: message)
+        case "InvalidClusterSnapshotScheduleStateFault":
+            self = .invalidClusterSnapshotScheduleStateFault(message: message)
         case "BucketNotFoundFault":
             self = .bucketNotFoundFault(message: message)
         case "InsufficientS3BucketPolicyFault":
@@ -304,12 +258,58 @@ extension RedshiftErrorType {
             self = .invalidS3KeyPrefixFault(message: message)
         case "InvalidS3BucketNameFault":
             self = .invalidS3BucketNameFault(message: message)
-        case "SnapshotCopyGrantAlreadyExistsFault":
-            self = .snapshotCopyGrantAlreadyExistsFault(message: message)
-        case "SnapshotCopyGrantQuotaExceededFault":
-            self = .snapshotCopyGrantQuotaExceededFault(message: message)
+        case "InProgressTableRestoreQuotaExceededFault":
+            self = .inProgressTableRestoreQuotaExceededFault(message: message)
+        case "InvalidTableRestoreArgumentFault":
+            self = .invalidTableRestoreArgumentFault(message: message)
+        case "AccessToSnapshotDeniedFault":
+            self = .accessToSnapshotDeniedFault(message: message)
+        case "InvalidRestoreFault":
+            self = .invalidRestoreFault(message: message)
         case "InvalidHsmConfigurationStateFault":
             self = .invalidHsmConfigurationStateFault(message: message)
+        case "ClusterSubnetGroupAlreadyExistsFault":
+            self = .clusterSubnetGroupAlreadyExistsFault(message: message)
+        case "ClusterSubnetGroupQuotaExceededFault":
+            self = .clusterSubnetGroupQuotaExceededFault(message: message)
+        case "HsmClientCertificateAlreadyExistsFault":
+            self = .hsmClientCertificateAlreadyExistsFault(message: message)
+        case "HsmClientCertificateQuotaExceededFault":
+            self = .hsmClientCertificateQuotaExceededFault(message: message)
+        case "HsmConfigurationAlreadyExistsFault":
+            self = .hsmConfigurationAlreadyExistsFault(message: message)
+        case "HsmConfigurationQuotaExceededFault":
+            self = .hsmConfigurationQuotaExceededFault(message: message)
+        case "InvalidClusterSubnetStateFault":
+            self = .invalidClusterSubnetStateFault(message: message)
+        case "ClusterOnLatestRevisionFault":
+            self = .clusterOnLatestRevisionFault(message: message)
+        case "TableRestoreNotFoundFault":
+            self = .tableRestoreNotFoundFault(message: message)
+        case "InvalidSnapshotCopyGrantStateFault":
+            self = .invalidSnapshotCopyGrantStateFault(message: message)
+        case "SnapshotCopyDisabledFault":
+            self = .snapshotCopyDisabledFault(message: message)
+        case "SnapshotCopyAlreadyDisabledFault":
+            self = .snapshotCopyAlreadyDisabledFault(message: message)
+        case "IncompatibleOrderableOptions":
+            self = .incompatibleOrderableOptions(message: message)
+        case "CopyToRegionDisabledFault":
+            self = .copyToRegionDisabledFault(message: message)
+        case "SnapshotCopyAlreadyEnabledFault":
+            self = .snapshotCopyAlreadyEnabledFault(message: message)
+        case "UnknownSnapshotCopyRegionFault":
+            self = .unknownSnapshotCopyRegionFault(message: message)
+        case "SnapshotScheduleAlreadyExistsFault":
+            self = .snapshotScheduleAlreadyExistsFault(message: message)
+        case "SnapshotScheduleQuotaExceededFault":
+            self = .snapshotScheduleQuotaExceededFault(message: message)
+        case "ScheduleDefinitionTypeUnsupportedFault":
+            self = .scheduleDefinitionTypeUnsupportedFault(message: message)
+        case "EventSubscriptionQuotaExceededFault":
+            self = .eventSubscriptionQuotaExceededFault(message: message)
+        case "SubscriptionAlreadyExistFault":
+            self = .subscriptionAlreadyExistFault(message: message)
         default:
             return nil
         }

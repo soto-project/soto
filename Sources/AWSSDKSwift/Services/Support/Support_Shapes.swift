@@ -5,80 +5,6 @@ import AWSSDKSwiftCore
 
 extension Support {
 
-    public struct DescribeCasesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cases", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// The details for the cases that match the request.
-        public let cases: [CaseDetails]?
-        /// A resumption point for pagination.
-        public let nextToken: String?
-
-        public init(cases: [CaseDetails]? = nil, nextToken: String? = nil) {
-            self.cases = cases
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cases = "cases"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct DescribeTrustedAdvisorCheckSummariesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "summaries", required: true, type: .list)
-        ]
-        /// The summary information for the requested Trusted Advisor checks.
-        public let summaries: [TrustedAdvisorCheckSummary]
-
-        public init(summaries: [TrustedAdvisorCheckSummary]) {
-            self.summaries = summaries
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case summaries = "summaries"
-        }
-    }
-
-    public struct AddAttachmentsToSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attachmentSetId", required: false, type: .string), 
-            AWSShapeMember(label: "attachments", required: true, type: .list)
-        ]
-        /// The ID of the attachment set. If an attachmentSetId is not specified, a new attachment set is created, and the ID of the set is returned in the response. If an attachmentSetId is specified, the attachments are added to the specified set, if it exists.
-        public let attachmentSetId: String?
-        /// One or more attachments to add to the set. The limit is 3 attachments per set, and the size limit is 5 MB per attachment.
-        public let attachments: [Attachment]
-
-        public init(attachmentSetId: String? = nil, attachments: [Attachment]) {
-            self.attachmentSetId = attachmentSetId
-            self.attachments = attachments
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attachmentSetId = "attachmentSetId"
-            case attachments = "attachments"
-        }
-    }
-
-    public struct DescribeTrustedAdvisorCheckRefreshStatusesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "statuses", required: true, type: .list)
-        ]
-        /// The refresh status of the specified Trusted Advisor checks.
-        public let statuses: [TrustedAdvisorCheckRefreshStatus]
-
-        public init(statuses: [TrustedAdvisorCheckRefreshStatus]) {
-            self.statuses = statuses
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case statuses = "statuses"
-        }
-    }
-
     public struct AddAttachmentsToSetResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "attachmentSetId", required: false, type: .string), 
@@ -100,50 +26,123 @@ extension Support {
         }
     }
 
-    public struct TrustedAdvisorCostOptimizingSummary: AWSShape {
+    public struct DescribeCommunicationsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "estimatedPercentMonthlySavings", required: true, type: .double), 
-            AWSShapeMember(label: "estimatedMonthlySavings", required: true, type: .double)
+            AWSShapeMember(label: "caseId", required: true, type: .string), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "afterTime", required: false, type: .string), 
+            AWSShapeMember(label: "beforeTime", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer)
         ]
-        /// The estimated percentage of savings that might be realized if the recommended actions are taken.
-        public let estimatedPercentMonthlySavings: Double
-        /// The estimated monthly savings that might be realized if the recommended actions are taken.
-        public let estimatedMonthlySavings: Double
+        /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
+        public let caseId: String
+        /// A resumption point for pagination.
+        public let nextToken: String?
+        /// The start date for a filtered date search on support case communications. Case communications are available for 12 months after creation.
+        public let afterTime: String?
+        /// The end date for a filtered date search on support case communications. Case communications are available for 12 months after creation.
+        public let beforeTime: String?
+        /// The maximum number of results to return before paginating.
+        public let maxResults: Int32?
 
-        public init(estimatedPercentMonthlySavings: Double, estimatedMonthlySavings: Double) {
-            self.estimatedPercentMonthlySavings = estimatedPercentMonthlySavings
-            self.estimatedMonthlySavings = estimatedMonthlySavings
+        public init(caseId: String, nextToken: String? = nil, afterTime: String? = nil, beforeTime: String? = nil, maxResults: Int32? = nil) {
+            self.caseId = caseId
+            self.nextToken = nextToken
+            self.afterTime = afterTime
+            self.beforeTime = beforeTime
+            self.maxResults = maxResults
         }
 
         private enum CodingKeys: String, CodingKey {
-            case estimatedPercentMonthlySavings = "estimatedPercentMonthlySavings"
-            case estimatedMonthlySavings = "estimatedMonthlySavings"
+            case caseId = "caseId"
+            case nextToken = "nextToken"
+            case afterTime = "afterTime"
+            case beforeTime = "beforeTime"
+            case maxResults = "maxResults"
         }
     }
 
-    public struct TrustedAdvisorCheckRefreshStatus: AWSShape {
+    public struct TrustedAdvisorResourceDetail: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "status", required: true, type: .string), 
-            AWSShapeMember(label: "checkId", required: true, type: .string), 
-            AWSShapeMember(label: "millisUntilNextRefreshable", required: true, type: .long)
+            AWSShapeMember(label: "region", required: false, type: .string), 
+            AWSShapeMember(label: "resourceId", required: true, type: .string), 
+            AWSShapeMember(label: "metadata", required: true, type: .list), 
+            AWSShapeMember(label: "isSuppressed", required: false, type: .boolean)
         ]
-        /// The status of the Trusted Advisor check for which a refresh has been requested: "none", "enqueued", "processing", "success", or "abandoned".
+        /// The status code for the resource identified in the Trusted Advisor check.
         public let status: String
-        /// The unique identifier for the Trusted Advisor check.
-        public let checkId: String
-        /// The amount of time, in milliseconds, until the Trusted Advisor check is eligible for refresh.
-        public let millisUntilNextRefreshable: Int64
+        /// The AWS region in which the identified resource is located.
+        public let region: String?
+        /// The unique identifier for the identified resource.
+        public let resourceId: String
+        /// Additional information about the identified resource. The exact metadata and its order can be obtained by inspecting the TrustedAdvisorCheckDescription object returned by the call to DescribeTrustedAdvisorChecks. Metadata contains all the data that is shown in the Excel download, even in those cases where the UI shows just summary data. 
+        public let metadata: [String]
+        /// Specifies whether the AWS resource was ignored by Trusted Advisor because it was marked as suppressed by the user.
+        public let isSuppressed: Bool?
 
-        public init(status: String, checkId: String, millisUntilNextRefreshable: Int64) {
+        public init(status: String, region: String? = nil, resourceId: String, metadata: [String], isSuppressed: Bool? = nil) {
             self.status = status
-            self.checkId = checkId
-            self.millisUntilNextRefreshable = millisUntilNextRefreshable
+            self.region = region
+            self.resourceId = resourceId
+            self.metadata = metadata
+            self.isSuppressed = isSuppressed
         }
 
         private enum CodingKeys: String, CodingKey {
             case status = "status"
-            case checkId = "checkId"
-            case millisUntilNextRefreshable = "millisUntilNextRefreshable"
+            case region = "region"
+            case resourceId = "resourceId"
+            case metadata = "metadata"
+            case isSuppressed = "isSuppressed"
+        }
+    }
+
+    public struct CreateCaseResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "caseId", required: false, type: .string)
+        ]
+        /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
+        public let caseId: String?
+
+        public init(caseId: String? = nil) {
+            self.caseId = caseId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case caseId = "caseId"
+        }
+    }
+
+    public struct DescribeSeverityLevelsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "language", required: false, type: .string)
+        ]
+        /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
+        public let language: String?
+
+        public init(language: String? = nil) {
+            self.language = language
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case language = "language"
+        }
+    }
+
+    public struct DescribeTrustedAdvisorCheckRefreshStatusesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "statuses", required: true, type: .list)
+        ]
+        /// The refresh status of the specified Trusted Advisor checks.
+        public let statuses: [TrustedAdvisorCheckRefreshStatus]
+
+        public init(statuses: [TrustedAdvisorCheckRefreshStatus]) {
+            self.statuses = statuses
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statuses = "statuses"
         }
     }
 
@@ -168,114 +167,43 @@ extension Support {
         }
     }
 
-    public struct CaseDetails: AWSShape {
+    public struct TrustedAdvisorCheckSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "caseId", required: false, type: .string), 
-            AWSShapeMember(label: "submittedBy", required: false, type: .string), 
-            AWSShapeMember(label: "severityCode", required: false, type: .string), 
-            AWSShapeMember(label: "language", required: false, type: .string), 
-            AWSShapeMember(label: "categoryCode", required: false, type: .string), 
-            AWSShapeMember(label: "ccEmailAddresses", required: false, type: .list), 
-            AWSShapeMember(label: "subject", required: false, type: .string), 
-            AWSShapeMember(label: "displayId", required: false, type: .string), 
-            AWSShapeMember(label: "recentCommunications", required: false, type: .structure), 
-            AWSShapeMember(label: "timeCreated", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .string), 
-            AWSShapeMember(label: "serviceCode", required: false, type: .string)
-        ]
-        /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
-        public let caseId: String?
-        /// The email address of the account that submitted the case.
-        public let submittedBy: String?
-        /// The code for the severity level returned by the call to DescribeSeverityLevels.
-        public let severityCode: String?
-        /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
-        public let language: String?
-        /// The category of problem for the AWS Support case.
-        public let categoryCode: String?
-        /// The email addresses that receive copies of communication about the case.
-        public let ccEmailAddresses: [String]?
-        /// The subject line for the case in the AWS Support Center.
-        public let subject: String?
-        /// The ID displayed for the case in the AWS Support Center. This is a numeric string.
-        public let displayId: String?
-        /// The five most recent communications between you and AWS Support Center, including the IDs of any attachments to the communications. Also includes a nextToken that you can use to retrieve earlier communications.
-        public let recentCommunications: RecentCaseCommunications?
-        /// The time that the case was case created in the AWS Support Center.
-        public let timeCreated: String?
-        /// The status of the case.
-        public let status: String?
-        /// The code for the AWS service returned by the call to DescribeServices.
-        public let serviceCode: String?
-
-        public init(caseId: String? = nil, submittedBy: String? = nil, severityCode: String? = nil, language: String? = nil, categoryCode: String? = nil, ccEmailAddresses: [String]? = nil, subject: String? = nil, displayId: String? = nil, recentCommunications: RecentCaseCommunications? = nil, timeCreated: String? = nil, status: String? = nil, serviceCode: String? = nil) {
-            self.caseId = caseId
-            self.submittedBy = submittedBy
-            self.severityCode = severityCode
-            self.language = language
-            self.categoryCode = categoryCode
-            self.ccEmailAddresses = ccEmailAddresses
-            self.subject = subject
-            self.displayId = displayId
-            self.recentCommunications = recentCommunications
-            self.timeCreated = timeCreated
-            self.status = status
-            self.serviceCode = serviceCode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case caseId = "caseId"
-            case submittedBy = "submittedBy"
-            case severityCode = "severityCode"
-            case language = "language"
-            case categoryCode = "categoryCode"
-            case ccEmailAddresses = "ccEmailAddresses"
-            case subject = "subject"
-            case displayId = "displayId"
-            case recentCommunications = "recentCommunications"
-            case timeCreated = "timeCreated"
-            case status = "status"
-            case serviceCode = "serviceCode"
-        }
-    }
-
-    public struct TrustedAdvisorCheckResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "timestamp", required: true, type: .string), 
-            AWSShapeMember(label: "status", required: true, type: .string), 
-            AWSShapeMember(label: "flaggedResources", required: true, type: .list), 
-            AWSShapeMember(label: "categorySpecificSummary", required: true, type: .structure), 
+            AWSShapeMember(label: "hasFlaggedResources", required: false, type: .boolean), 
             AWSShapeMember(label: "checkId", required: true, type: .string), 
-            AWSShapeMember(label: "resourcesSummary", required: true, type: .structure)
+            AWSShapeMember(label: "resourcesSummary", required: true, type: .structure), 
+            AWSShapeMember(label: "categorySpecificSummary", required: true, type: .structure), 
+            AWSShapeMember(label: "status", required: true, type: .string), 
+            AWSShapeMember(label: "timestamp", required: true, type: .string)
         ]
-        /// The time of the last refresh of the check.
-        public let timestamp: String
-        /// The alert status of the check: "ok" (green), "warning" (yellow), "error" (red), or "not_available".
-        public let status: String
-        /// The details about each resource listed in the check result.
-        public let flaggedResources: [TrustedAdvisorResourceDetail]
-        /// Summary information that relates to the category of the check. Cost Optimizing is the only category that is currently supported.
-        public let categorySpecificSummary: TrustedAdvisorCategorySpecificSummary
+        /// Specifies whether the Trusted Advisor check has flagged resources.
+        public let hasFlaggedResources: Bool?
         /// The unique identifier for the Trusted Advisor check.
         public let checkId: String
         public let resourcesSummary: TrustedAdvisorResourcesSummary
+        /// Summary information that relates to the category of the check. Cost Optimizing is the only category that is currently supported.
+        public let categorySpecificSummary: TrustedAdvisorCategorySpecificSummary
+        /// The alert status of the check: "ok" (green), "warning" (yellow), "error" (red), or "not_available".
+        public let status: String
+        /// The time of the last refresh of the check.
+        public let timestamp: String
 
-        public init(timestamp: String, status: String, flaggedResources: [TrustedAdvisorResourceDetail], categorySpecificSummary: TrustedAdvisorCategorySpecificSummary, checkId: String, resourcesSummary: TrustedAdvisorResourcesSummary) {
-            self.timestamp = timestamp
-            self.status = status
-            self.flaggedResources = flaggedResources
-            self.categorySpecificSummary = categorySpecificSummary
+        public init(hasFlaggedResources: Bool? = nil, checkId: String, resourcesSummary: TrustedAdvisorResourcesSummary, categorySpecificSummary: TrustedAdvisorCategorySpecificSummary, status: String, timestamp: String) {
+            self.hasFlaggedResources = hasFlaggedResources
             self.checkId = checkId
             self.resourcesSummary = resourcesSummary
+            self.categorySpecificSummary = categorySpecificSummary
+            self.status = status
+            self.timestamp = timestamp
         }
 
         private enum CodingKeys: String, CodingKey {
-            case timestamp = "timestamp"
-            case status = "status"
-            case flaggedResources = "flaggedResources"
-            case categorySpecificSummary = "categorySpecificSummary"
+            case hasFlaggedResources = "hasFlaggedResources"
             case checkId = "checkId"
             case resourcesSummary = "resourcesSummary"
+            case categorySpecificSummary = "categorySpecificSummary"
+            case status = "status"
+            case timestamp = "timestamp"
         }
     }
 
@@ -292,650 +220,6 @@ extension Support {
 
         private enum CodingKeys: String, CodingKey {
             case attachment = "attachment"
-        }
-    }
-
-    public struct AddCommunicationToCaseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "caseId", required: false, type: .string), 
-            AWSShapeMember(label: "communicationBody", required: true, type: .string), 
-            AWSShapeMember(label: "ccEmailAddresses", required: false, type: .list), 
-            AWSShapeMember(label: "attachmentSetId", required: false, type: .string)
-        ]
-        /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
-        public let caseId: String?
-        /// The body of an email communication to add to the support case.
-        public let communicationBody: String
-        /// The email addresses in the CC line of an email to be added to the support case.
-        public let ccEmailAddresses: [String]?
-        /// The ID of a set of one or more attachments for the communication to add to the case. Create the set by calling AddAttachmentsToSet 
-        public let attachmentSetId: String?
-
-        public init(caseId: String? = nil, communicationBody: String, ccEmailAddresses: [String]? = nil, attachmentSetId: String? = nil) {
-            self.caseId = caseId
-            self.communicationBody = communicationBody
-            self.ccEmailAddresses = ccEmailAddresses
-            self.attachmentSetId = attachmentSetId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case caseId = "caseId"
-            case communicationBody = "communicationBody"
-            case ccEmailAddresses = "ccEmailAddresses"
-            case attachmentSetId = "attachmentSetId"
-        }
-    }
-
-    public struct CreateCaseResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "caseId", required: false, type: .string)
-        ]
-        /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
-        public let caseId: String?
-
-        public init(caseId: String? = nil) {
-            self.caseId = caseId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case caseId = "caseId"
-        }
-    }
-
-    public struct CreateCaseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "severityCode", required: false, type: .string), 
-            AWSShapeMember(label: "language", required: false, type: .string), 
-            AWSShapeMember(label: "communicationBody", required: true, type: .string), 
-            AWSShapeMember(label: "categoryCode", required: false, type: .string), 
-            AWSShapeMember(label: "subject", required: true, type: .string), 
-            AWSShapeMember(label: "ccEmailAddresses", required: false, type: .list), 
-            AWSShapeMember(label: "serviceCode", required: false, type: .string), 
-            AWSShapeMember(label: "attachmentSetId", required: false, type: .string), 
-            AWSShapeMember(label: "issueType", required: false, type: .string)
-        ]
-        /// The code for the severity level returned by the call to DescribeSeverityLevels.  The availability of severity levels depends on each customer's support subscription. In other words, your subscription may not necessarily require the urgent level of response time. 
-        public let severityCode: String?
-        /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
-        public let language: String?
-        /// The communication body text when you create an AWS Support case by calling CreateCase.
-        public let communicationBody: String
-        /// The category of problem for the AWS Support case.
-        public let categoryCode: String?
-        /// The title of the AWS Support case.
-        public let subject: String
-        /// A list of email addresses that AWS Support copies on case correspondence.
-        public let ccEmailAddresses: [String]?
-        /// The code for the AWS service returned by the call to DescribeServices.
-        public let serviceCode: String?
-        /// The ID of a set of one or more attachments for the case. Create the set by using AddAttachmentsToSet.
-        public let attachmentSetId: String?
-        /// The type of issue for the case. You can specify either "customer-service" or "technical." If you do not indicate a value, the default is "technical."
-        public let issueType: String?
-
-        public init(severityCode: String? = nil, language: String? = nil, communicationBody: String, categoryCode: String? = nil, subject: String, ccEmailAddresses: [String]? = nil, serviceCode: String? = nil, attachmentSetId: String? = nil, issueType: String? = nil) {
-            self.severityCode = severityCode
-            self.language = language
-            self.communicationBody = communicationBody
-            self.categoryCode = categoryCode
-            self.subject = subject
-            self.ccEmailAddresses = ccEmailAddresses
-            self.serviceCode = serviceCode
-            self.attachmentSetId = attachmentSetId
-            self.issueType = issueType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case severityCode = "severityCode"
-            case language = "language"
-            case communicationBody = "communicationBody"
-            case categoryCode = "categoryCode"
-            case subject = "subject"
-            case ccEmailAddresses = "ccEmailAddresses"
-            case serviceCode = "serviceCode"
-            case attachmentSetId = "attachmentSetId"
-            case issueType = "issueType"
-        }
-    }
-
-    public struct AddCommunicationToCaseResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "result", required: false, type: .boolean)
-        ]
-        /// True if AddCommunicationToCase succeeds. Otherwise, returns an error.
-        public let result: Bool?
-
-        public init(result: Bool? = nil) {
-            self.result = result
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case result = "result"
-        }
-    }
-
-    public struct Communication: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "caseId", required: false, type: .string), 
-            AWSShapeMember(label: "submittedBy", required: false, type: .string), 
-            AWSShapeMember(label: "body", required: false, type: .string), 
-            AWSShapeMember(label: "attachmentSet", required: false, type: .list), 
-            AWSShapeMember(label: "timeCreated", required: false, type: .string)
-        ]
-        /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
-        public let caseId: String?
-        /// The email address of the account that submitted the AWS Support case.
-        public let submittedBy: String?
-        /// The text of the communication between the customer and AWS Support.
-        public let body: String?
-        /// Information about the attachments to the case communication.
-        public let attachmentSet: [AttachmentDetails]?
-        /// The time the communication was created.
-        public let timeCreated: String?
-
-        public init(caseId: String? = nil, submittedBy: String? = nil, body: String? = nil, attachmentSet: [AttachmentDetails]? = nil, timeCreated: String? = nil) {
-            self.caseId = caseId
-            self.submittedBy = submittedBy
-            self.body = body
-            self.attachmentSet = attachmentSet
-            self.timeCreated = timeCreated
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case caseId = "caseId"
-            case submittedBy = "submittedBy"
-            case body = "body"
-            case attachmentSet = "attachmentSet"
-            case timeCreated = "timeCreated"
-        }
-    }
-
-    public struct TrustedAdvisorCheckDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: true, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "metadata", required: true, type: .list), 
-            AWSShapeMember(label: "category", required: true, type: .string), 
-            AWSShapeMember(label: "id", required: true, type: .string)
-        ]
-        /// The description of the Trusted Advisor check, which includes the alert criteria and recommended actions (contains HTML markup).
-        public let description: String
-        /// The display name for the Trusted Advisor check.
-        public let name: String
-        /// The column headings for the data returned by the Trusted Advisor check. The order of the headings corresponds to the order of the data in the Metadata element of the TrustedAdvisorResourceDetail for the check. Metadata contains all the data that is shown in the Excel download, even in those cases where the UI shows just summary data. 
-        public let metadata: [String]
-        /// The category of the Trusted Advisor check.
-        public let category: String
-        /// The unique identifier for the Trusted Advisor check.
-        public let id: String
-
-        public init(description: String, name: String, metadata: [String], category: String, id: String) {
-            self.description = description
-            self.name = name
-            self.metadata = metadata
-            self.category = category
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case description = "description"
-            case name = "name"
-            case metadata = "metadata"
-            case category = "category"
-            case id = "id"
-        }
-    }
-
-    public struct TrustedAdvisorCheckSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "timestamp", required: true, type: .string), 
-            AWSShapeMember(label: "hasFlaggedResources", required: false, type: .boolean), 
-            AWSShapeMember(label: "status", required: true, type: .string), 
-            AWSShapeMember(label: "categorySpecificSummary", required: true, type: .structure), 
-            AWSShapeMember(label: "checkId", required: true, type: .string), 
-            AWSShapeMember(label: "resourcesSummary", required: true, type: .structure)
-        ]
-        /// The time of the last refresh of the check.
-        public let timestamp: String
-        /// Specifies whether the Trusted Advisor check has flagged resources.
-        public let hasFlaggedResources: Bool?
-        /// The alert status of the check: "ok" (green), "warning" (yellow), "error" (red), or "not_available".
-        public let status: String
-        /// Summary information that relates to the category of the check. Cost Optimizing is the only category that is currently supported.
-        public let categorySpecificSummary: TrustedAdvisorCategorySpecificSummary
-        /// The unique identifier for the Trusted Advisor check.
-        public let checkId: String
-        public let resourcesSummary: TrustedAdvisorResourcesSummary
-
-        public init(timestamp: String, hasFlaggedResources: Bool? = nil, status: String, categorySpecificSummary: TrustedAdvisorCategorySpecificSummary, checkId: String, resourcesSummary: TrustedAdvisorResourcesSummary) {
-            self.timestamp = timestamp
-            self.hasFlaggedResources = hasFlaggedResources
-            self.status = status
-            self.categorySpecificSummary = categorySpecificSummary
-            self.checkId = checkId
-            self.resourcesSummary = resourcesSummary
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case timestamp = "timestamp"
-            case hasFlaggedResources = "hasFlaggedResources"
-            case status = "status"
-            case categorySpecificSummary = "categorySpecificSummary"
-            case checkId = "checkId"
-            case resourcesSummary = "resourcesSummary"
-        }
-    }
-
-    public struct DescribeTrustedAdvisorCheckResultResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "result", required: false, type: .structure)
-        ]
-        /// The detailed results of the Trusted Advisor check.
-        public let result: TrustedAdvisorCheckResult?
-
-        public init(result: TrustedAdvisorCheckResult? = nil) {
-            self.result = result
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case result = "result"
-        }
-    }
-
-    public struct DescribeTrustedAdvisorCheckResultRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "language", required: false, type: .string), 
-            AWSShapeMember(label: "checkId", required: true, type: .string)
-        ]
-        /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
-        public let language: String?
-        /// The unique identifier for the Trusted Advisor check.
-        public let checkId: String
-
-        public init(language: String? = nil, checkId: String) {
-            self.language = language
-            self.checkId = checkId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case language = "language"
-            case checkId = "checkId"
-        }
-    }
-
-    public struct TrustedAdvisorCategorySpecificSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "costOptimizing", required: false, type: .structure)
-        ]
-        /// The summary information about cost savings for a Trusted Advisor check that is in the Cost Optimizing category.
-        public let costOptimizing: TrustedAdvisorCostOptimizingSummary?
-
-        public init(costOptimizing: TrustedAdvisorCostOptimizingSummary? = nil) {
-            self.costOptimizing = costOptimizing
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case costOptimizing = "costOptimizing"
-        }
-    }
-
-    public struct DescribeTrustedAdvisorCheckRefreshStatusesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "checkIds", required: true, type: .list)
-        ]
-        /// The IDs of the Trusted Advisor checks to get the status of. Note: Specifying the check ID of a check that is automatically refreshed causes an InvalidParameterValue error.
-        public let checkIds: [String]
-
-        public init(checkIds: [String]) {
-            self.checkIds = checkIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case checkIds = "checkIds"
-        }
-    }
-
-    public struct RefreshTrustedAdvisorCheckResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "status", required: true, type: .structure)
-        ]
-        /// The current refresh status for a check, including the amount of time until the check is eligible for refresh.
-        public let status: TrustedAdvisorCheckRefreshStatus
-
-        public init(status: TrustedAdvisorCheckRefreshStatus) {
-            self.status = status
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "status"
-        }
-    }
-
-    public struct AttachmentDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attachmentId", required: false, type: .string), 
-            AWSShapeMember(label: "fileName", required: false, type: .string)
-        ]
-        /// The ID of the attachment.
-        public let attachmentId: String?
-        /// The file name of the attachment.
-        public let fileName: String?
-
-        public init(attachmentId: String? = nil, fileName: String? = nil) {
-            self.attachmentId = attachmentId
-            self.fileName = fileName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attachmentId = "attachmentId"
-            case fileName = "fileName"
-        }
-    }
-
-    public struct DescribeTrustedAdvisorChecksResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "checks", required: true, type: .list)
-        ]
-        /// Information about all available Trusted Advisor checks.
-        public let checks: [TrustedAdvisorCheckDescription]
-
-        public init(checks: [TrustedAdvisorCheckDescription]) {
-            self.checks = checks
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case checks = "checks"
-        }
-    }
-
-    public struct DescribeSeverityLevelsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "severityLevels", required: false, type: .list)
-        ]
-        /// The available severity levels for the support case. Available severity levels are defined by your service level agreement with AWS.
-        public let severityLevels: [SeverityLevel]?
-
-        public init(severityLevels: [SeverityLevel]? = nil) {
-            self.severityLevels = severityLevels
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case severityLevels = "severityLevels"
-        }
-    }
-
-    public struct DescribeCasesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "includeCommunications", required: false, type: .boolean), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "afterTime", required: false, type: .string), 
-            AWSShapeMember(label: "language", required: false, type: .string), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "displayId", required: false, type: .string), 
-            AWSShapeMember(label: "caseIdList", required: false, type: .list), 
-            AWSShapeMember(label: "beforeTime", required: false, type: .string), 
-            AWSShapeMember(label: "includeResolvedCases", required: false, type: .boolean)
-        ]
-        /// Specifies whether communications should be included in the DescribeCases results. The default is true.
-        public let includeCommunications: Bool?
-        /// The maximum number of results to return before paginating.
-        public let maxResults: Int32?
-        /// The start date for a filtered date search on support case communications. Case communications are available for 12 months after creation.
-        public let afterTime: String?
-        /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
-        public let language: String?
-        /// A resumption point for pagination.
-        public let nextToken: String?
-        /// The ID displayed for a case in the AWS Support Center user interface.
-        public let displayId: String?
-        /// A list of ID numbers of the support cases you want returned. The maximum number of cases is 100.
-        public let caseIdList: [String]?
-        /// The end date for a filtered date search on support case communications. Case communications are available for 12 months after creation.
-        public let beforeTime: String?
-        /// Specifies whether resolved support cases should be included in the DescribeCases results. The default is false.
-        public let includeResolvedCases: Bool?
-
-        public init(includeCommunications: Bool? = nil, maxResults: Int32? = nil, afterTime: String? = nil, language: String? = nil, nextToken: String? = nil, displayId: String? = nil, caseIdList: [String]? = nil, beforeTime: String? = nil, includeResolvedCases: Bool? = nil) {
-            self.includeCommunications = includeCommunications
-            self.maxResults = maxResults
-            self.afterTime = afterTime
-            self.language = language
-            self.nextToken = nextToken
-            self.displayId = displayId
-            self.caseIdList = caseIdList
-            self.beforeTime = beforeTime
-            self.includeResolvedCases = includeResolvedCases
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case includeCommunications = "includeCommunications"
-            case maxResults = "maxResults"
-            case afterTime = "afterTime"
-            case language = "language"
-            case nextToken = "nextToken"
-            case displayId = "displayId"
-            case caseIdList = "caseIdList"
-            case beforeTime = "beforeTime"
-            case includeResolvedCases = "includeResolvedCases"
-        }
-    }
-
-    public struct DescribeCommunicationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "caseId", required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "afterTime", required: false, type: .string), 
-            AWSShapeMember(label: "beforeTime", required: false, type: .string), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
-        public let caseId: String
-        /// The maximum number of results to return before paginating.
-        public let maxResults: Int32?
-        /// The start date for a filtered date search on support case communications. Case communications are available for 12 months after creation.
-        public let afterTime: String?
-        /// The end date for a filtered date search on support case communications. Case communications are available for 12 months after creation.
-        public let beforeTime: String?
-        /// A resumption point for pagination.
-        public let nextToken: String?
-
-        public init(caseId: String, maxResults: Int32? = nil, afterTime: String? = nil, beforeTime: String? = nil, nextToken: String? = nil) {
-            self.caseId = caseId
-            self.maxResults = maxResults
-            self.afterTime = afterTime
-            self.beforeTime = beforeTime
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case caseId = "caseId"
-            case maxResults = "maxResults"
-            case afterTime = "afterTime"
-            case beforeTime = "beforeTime"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct ResolveCaseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "caseId", required: false, type: .string)
-        ]
-        /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
-        public let caseId: String?
-
-        public init(caseId: String? = nil) {
-            self.caseId = caseId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case caseId = "caseId"
-        }
-    }
-
-    public struct ResolveCaseResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "finalCaseStatus", required: false, type: .string), 
-            AWSShapeMember(label: "initialCaseStatus", required: false, type: .string)
-        ]
-        /// The status of the case after the ResolveCase request was processed.
-        public let finalCaseStatus: String?
-        /// The status of the case when the ResolveCase request was sent.
-        public let initialCaseStatus: String?
-
-        public init(finalCaseStatus: String? = nil, initialCaseStatus: String? = nil) {
-            self.finalCaseStatus = finalCaseStatus
-            self.initialCaseStatus = initialCaseStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case finalCaseStatus = "finalCaseStatus"
-            case initialCaseStatus = "initialCaseStatus"
-        }
-    }
-
-    public struct TrustedAdvisorResourcesSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourcesSuppressed", required: true, type: .long), 
-            AWSShapeMember(label: "resourcesIgnored", required: true, type: .long), 
-            AWSShapeMember(label: "resourcesFlagged", required: true, type: .long), 
-            AWSShapeMember(label: "resourcesProcessed", required: true, type: .long)
-        ]
-        /// The number of AWS resources ignored by Trusted Advisor because they were marked as suppressed by the user.
-        public let resourcesSuppressed: Int64
-        /// The number of AWS resources ignored by Trusted Advisor because information was unavailable.
-        public let resourcesIgnored: Int64
-        /// The number of AWS resources that were flagged (listed) by the Trusted Advisor check.
-        public let resourcesFlagged: Int64
-        /// The number of AWS resources that were analyzed by the Trusted Advisor check.
-        public let resourcesProcessed: Int64
-
-        public init(resourcesSuppressed: Int64, resourcesIgnored: Int64, resourcesFlagged: Int64, resourcesProcessed: Int64) {
-            self.resourcesSuppressed = resourcesSuppressed
-            self.resourcesIgnored = resourcesIgnored
-            self.resourcesFlagged = resourcesFlagged
-            self.resourcesProcessed = resourcesProcessed
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourcesSuppressed = "resourcesSuppressed"
-            case resourcesIgnored = "resourcesIgnored"
-            case resourcesFlagged = "resourcesFlagged"
-            case resourcesProcessed = "resourcesProcessed"
-        }
-    }
-
-    public struct Service: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "code", required: false, type: .string), 
-            AWSShapeMember(label: "categories", required: false, type: .list), 
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
-        /// The code for an AWS service returned by the DescribeServices response. The name element contains the corresponding friendly name.
-        public let code: String?
-        /// A list of categories that describe the type of support issue a case describes. Categories consist of a category name and a category code. Category names and codes are passed to AWS Support when you call CreateCase.
-        public let categories: [Category]?
-        /// The friendly name for an AWS service. The code element contains the corresponding code.
-        public let name: String?
-
-        public init(code: String? = nil, categories: [Category]? = nil, name: String? = nil) {
-            self.code = code
-            self.categories = categories
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case code = "code"
-            case categories = "categories"
-            case name = "name"
-        }
-    }
-
-    public struct TrustedAdvisorResourceDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "region", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: true, type: .string), 
-            AWSShapeMember(label: "metadata", required: true, type: .list), 
-            AWSShapeMember(label: "resourceId", required: true, type: .string), 
-            AWSShapeMember(label: "isSuppressed", required: false, type: .boolean)
-        ]
-        /// The AWS region in which the identified resource is located.
-        public let region: String?
-        /// The status code for the resource identified in the Trusted Advisor check.
-        public let status: String
-        /// Additional information about the identified resource. The exact metadata and its order can be obtained by inspecting the TrustedAdvisorCheckDescription object returned by the call to DescribeTrustedAdvisorChecks. Metadata contains all the data that is shown in the Excel download, even in those cases where the UI shows just summary data. 
-        public let metadata: [String]
-        /// The unique identifier for the identified resource.
-        public let resourceId: String
-        /// Specifies whether the AWS resource was ignored by Trusted Advisor because it was marked as suppressed by the user.
-        public let isSuppressed: Bool?
-
-        public init(region: String? = nil, status: String, metadata: [String], resourceId: String, isSuppressed: Bool? = nil) {
-            self.region = region
-            self.status = status
-            self.metadata = metadata
-            self.resourceId = resourceId
-            self.isSuppressed = isSuppressed
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case region = "region"
-            case status = "status"
-            case metadata = "metadata"
-            case resourceId = "resourceId"
-            case isSuppressed = "isSuppressed"
-        }
-    }
-
-    public struct Attachment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "data", required: false, type: .blob), 
-            AWSShapeMember(label: "fileName", required: false, type: .string)
-        ]
-        /// The content of the attachment file.
-        public let data: Data?
-        /// The name of the attachment file.
-        public let fileName: String?
-
-        public init(data: Data? = nil, fileName: String? = nil) {
-            self.data = data
-            self.fileName = fileName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case data = "data"
-            case fileName = "fileName"
-        }
-    }
-
-    public struct DescribeSeverityLevelsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "language", required: false, type: .string)
-        ]
-        /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
-        public let language: String?
-
-        public init(language: String? = nil) {
-            self.language = language
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case language = "language"
-        }
-    }
-
-    public struct RefreshTrustedAdvisorCheckRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "checkId", required: true, type: .string)
-        ]
-        /// The unique identifier for the Trusted Advisor check to refresh. Note: Specifying the check ID of a check that is automatically refreshed causes an InvalidParameterValue error.
-        public let checkId: String
-
-        public init(checkId: String) {
-            self.checkId = checkId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case checkId = "checkId"
         }
     }
 
@@ -960,6 +244,32 @@ extension Support {
         }
     }
 
+    public struct TrustedAdvisorCheckRefreshStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "checkId", required: true, type: .string), 
+            AWSShapeMember(label: "status", required: true, type: .string), 
+            AWSShapeMember(label: "millisUntilNextRefreshable", required: true, type: .long)
+        ]
+        /// The unique identifier for the Trusted Advisor check.
+        public let checkId: String
+        /// The status of the Trusted Advisor check for which a refresh has been requested: "none", "enqueued", "processing", "success", or "abandoned".
+        public let status: String
+        /// The amount of time, in milliseconds, until the Trusted Advisor check is eligible for refresh.
+        public let millisUntilNextRefreshable: Int64
+
+        public init(checkId: String, status: String, millisUntilNextRefreshable: Int64) {
+            self.checkId = checkId
+            self.status = status
+            self.millisUntilNextRefreshable = millisUntilNextRefreshable
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case checkId = "checkId"
+            case status = "status"
+            case millisUntilNextRefreshable = "millisUntilNextRefreshable"
+        }
+    }
+
     public struct DescribeTrustedAdvisorChecksRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "language", required: true, type: .string)
@@ -976,61 +286,111 @@ extension Support {
         }
     }
 
-    public struct DescribeTrustedAdvisorCheckSummariesRequest: AWSShape {
+    public struct CreateCaseRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "checkIds", required: true, type: .list)
-        ]
-        /// The IDs of the Trusted Advisor checks.
-        public let checkIds: [String]
-
-        public init(checkIds: [String]) {
-            self.checkIds = checkIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case checkIds = "checkIds"
-        }
-    }
-
-    public struct RecentCaseCommunications: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "communications", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// The five most recent communications associated with the case.
-        public let communications: [Communication]?
-        /// A resumption point for pagination.
-        public let nextToken: String?
-
-        public init(communications: [Communication]? = nil, nextToken: String? = nil) {
-            self.communications = communications
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case communications = "communications"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct DescribeServicesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "severityCode", required: false, type: .string), 
+            AWSShapeMember(label: "categoryCode", required: false, type: .string), 
+            AWSShapeMember(label: "attachmentSetId", required: false, type: .string), 
+            AWSShapeMember(label: "ccEmailAddresses", required: false, type: .list), 
+            AWSShapeMember(label: "serviceCode", required: false, type: .string), 
+            AWSShapeMember(label: "subject", required: true, type: .string), 
+            AWSShapeMember(label: "communicationBody", required: true, type: .string), 
             AWSShapeMember(label: "language", required: false, type: .string), 
-            AWSShapeMember(label: "serviceCodeList", required: false, type: .list)
+            AWSShapeMember(label: "issueType", required: false, type: .string)
         ]
+        /// The code for the severity level returned by the call to DescribeSeverityLevels.  The availability of severity levels depends on each customer's support subscription. In other words, your subscription may not necessarily require the urgent level of response time. 
+        public let severityCode: String?
+        /// The category of problem for the AWS Support case.
+        public let categoryCode: String?
+        /// The ID of a set of one or more attachments for the case. Create the set by using AddAttachmentsToSet.
+        public let attachmentSetId: String?
+        /// A list of email addresses that AWS Support copies on case correspondence.
+        public let ccEmailAddresses: [String]?
+        /// The code for the AWS service returned by the call to DescribeServices.
+        public let serviceCode: String?
+        /// The title of the AWS Support case.
+        public let subject: String
+        /// The communication body text when you create an AWS Support case by calling CreateCase.
+        public let communicationBody: String
         /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
         public let language: String?
-        /// A JSON-formatted list of service codes available for AWS services.
-        public let serviceCodeList: [String]?
+        /// The type of issue for the case. You can specify either "customer-service" or "technical." If you do not indicate a value, the default is "technical."
+        public let issueType: String?
 
-        public init(language: String? = nil, serviceCodeList: [String]? = nil) {
+        public init(severityCode: String? = nil, categoryCode: String? = nil, attachmentSetId: String? = nil, ccEmailAddresses: [String]? = nil, serviceCode: String? = nil, subject: String, communicationBody: String, language: String? = nil, issueType: String? = nil) {
+            self.severityCode = severityCode
+            self.categoryCode = categoryCode
+            self.attachmentSetId = attachmentSetId
+            self.ccEmailAddresses = ccEmailAddresses
+            self.serviceCode = serviceCode
+            self.subject = subject
+            self.communicationBody = communicationBody
             self.language = language
-            self.serviceCodeList = serviceCodeList
+            self.issueType = issueType
         }
 
         private enum CodingKeys: String, CodingKey {
+            case severityCode = "severityCode"
+            case categoryCode = "categoryCode"
+            case attachmentSetId = "attachmentSetId"
+            case ccEmailAddresses = "ccEmailAddresses"
+            case serviceCode = "serviceCode"
+            case subject = "subject"
+            case communicationBody = "communicationBody"
             case language = "language"
-            case serviceCodeList = "serviceCodeList"
+            case issueType = "issueType"
+        }
+    }
+
+    public struct TrustedAdvisorCheckDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "id", required: true, type: .string), 
+            AWSShapeMember(label: "category", required: true, type: .string), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "description", required: true, type: .string), 
+            AWSShapeMember(label: "metadata", required: true, type: .list)
+        ]
+        /// The unique identifier for the Trusted Advisor check.
+        public let id: String
+        /// The category of the Trusted Advisor check.
+        public let category: String
+        /// The display name for the Trusted Advisor check.
+        public let name: String
+        /// The description of the Trusted Advisor check, which includes the alert criteria and recommended actions (contains HTML markup).
+        public let description: String
+        /// The column headings for the data returned by the Trusted Advisor check. The order of the headings corresponds to the order of the data in the Metadata element of the TrustedAdvisorResourceDetail for the check. Metadata contains all the data that is shown in the Excel download, even in those cases where the UI shows just summary data. 
+        public let metadata: [String]
+
+        public init(id: String, category: String, name: String, description: String, metadata: [String]) {
+            self.id = id
+            self.category = category
+            self.name = name
+            self.description = description
+            self.metadata = metadata
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case category = "category"
+            case name = "name"
+            case description = "description"
+            case metadata = "metadata"
+        }
+    }
+
+    public struct ResolveCaseRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "caseId", required: false, type: .string)
+        ]
+        /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
+        public let caseId: String?
+
+        public init(caseId: String? = nil) {
+            self.caseId = caseId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case caseId = "caseId"
         }
     }
 
@@ -1050,6 +410,42 @@ extension Support {
         }
     }
 
+    public struct Communication: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "caseId", required: false, type: .string), 
+            AWSShapeMember(label: "timeCreated", required: false, type: .string), 
+            AWSShapeMember(label: "body", required: false, type: .string), 
+            AWSShapeMember(label: "attachmentSet", required: false, type: .list), 
+            AWSShapeMember(label: "submittedBy", required: false, type: .string)
+        ]
+        /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
+        public let caseId: String?
+        /// The time the communication was created.
+        public let timeCreated: String?
+        /// The text of the communication between the customer and AWS Support.
+        public let body: String?
+        /// Information about the attachments to the case communication.
+        public let attachmentSet: [AttachmentDetails]?
+        /// The email address of the account that submitted the AWS Support case.
+        public let submittedBy: String?
+
+        public init(caseId: String? = nil, timeCreated: String? = nil, body: String? = nil, attachmentSet: [AttachmentDetails]? = nil, submittedBy: String? = nil) {
+            self.caseId = caseId
+            self.timeCreated = timeCreated
+            self.body = body
+            self.attachmentSet = attachmentSet
+            self.submittedBy = submittedBy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case caseId = "caseId"
+            case timeCreated = "timeCreated"
+            case body = "body"
+            case attachmentSet = "attachmentSet"
+            case submittedBy = "submittedBy"
+        }
+    }
+
     public struct DescribeServicesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "services", required: false, type: .list)
@@ -1066,24 +462,628 @@ extension Support {
         }
     }
 
+    public struct RefreshTrustedAdvisorCheckRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "checkId", required: true, type: .string)
+        ]
+        /// The unique identifier for the Trusted Advisor check to refresh. Note: Specifying the check ID of a check that is automatically refreshed causes an InvalidParameterValue error.
+        public let checkId: String
+
+        public init(checkId: String) {
+            self.checkId = checkId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case checkId = "checkId"
+        }
+    }
+
+    public struct DescribeCasesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "afterTime", required: false, type: .string), 
+            AWSShapeMember(label: "includeResolvedCases", required: false, type: .boolean), 
+            AWSShapeMember(label: "displayId", required: false, type: .string), 
+            AWSShapeMember(label: "beforeTime", required: false, type: .string), 
+            AWSShapeMember(label: "includeCommunications", required: false, type: .boolean), 
+            AWSShapeMember(label: "language", required: false, type: .string), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "caseIdList", required: false, type: .list), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer)
+        ]
+        /// The start date for a filtered date search on support case communications. Case communications are available for 12 months after creation.
+        public let afterTime: String?
+        /// Specifies whether resolved support cases should be included in the DescribeCases results. The default is false.
+        public let includeResolvedCases: Bool?
+        /// The ID displayed for a case in the AWS Support Center user interface.
+        public let displayId: String?
+        /// The end date for a filtered date search on support case communications. Case communications are available for 12 months after creation.
+        public let beforeTime: String?
+        /// Specifies whether communications should be included in the DescribeCases results. The default is true.
+        public let includeCommunications: Bool?
+        /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
+        public let language: String?
+        /// A resumption point for pagination.
+        public let nextToken: String?
+        /// A list of ID numbers of the support cases you want returned. The maximum number of cases is 100.
+        public let caseIdList: [String]?
+        /// The maximum number of results to return before paginating.
+        public let maxResults: Int32?
+
+        public init(afterTime: String? = nil, includeResolvedCases: Bool? = nil, displayId: String? = nil, beforeTime: String? = nil, includeCommunications: Bool? = nil, language: String? = nil, nextToken: String? = nil, caseIdList: [String]? = nil, maxResults: Int32? = nil) {
+            self.afterTime = afterTime
+            self.includeResolvedCases = includeResolvedCases
+            self.displayId = displayId
+            self.beforeTime = beforeTime
+            self.includeCommunications = includeCommunications
+            self.language = language
+            self.nextToken = nextToken
+            self.caseIdList = caseIdList
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case afterTime = "afterTime"
+            case includeResolvedCases = "includeResolvedCases"
+            case displayId = "displayId"
+            case beforeTime = "beforeTime"
+            case includeCommunications = "includeCommunications"
+            case language = "language"
+            case nextToken = "nextToken"
+            case caseIdList = "caseIdList"
+            case maxResults = "maxResults"
+        }
+    }
+
+    public struct AttachmentDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "fileName", required: false, type: .string), 
+            AWSShapeMember(label: "attachmentId", required: false, type: .string)
+        ]
+        /// The file name of the attachment.
+        public let fileName: String?
+        /// The ID of the attachment.
+        public let attachmentId: String?
+
+        public init(fileName: String? = nil, attachmentId: String? = nil) {
+            self.fileName = fileName
+            self.attachmentId = attachmentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileName = "fileName"
+            case attachmentId = "attachmentId"
+        }
+    }
+
+    public struct CaseDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "severityCode", required: false, type: .string), 
+            AWSShapeMember(label: "categoryCode", required: false, type: .string), 
+            AWSShapeMember(label: "submittedBy", required: false, type: .string), 
+            AWSShapeMember(label: "displayId", required: false, type: .string), 
+            AWSShapeMember(label: "timeCreated", required: false, type: .string), 
+            AWSShapeMember(label: "caseId", required: false, type: .string), 
+            AWSShapeMember(label: "subject", required: false, type: .string), 
+            AWSShapeMember(label: "ccEmailAddresses", required: false, type: .list), 
+            AWSShapeMember(label: "recentCommunications", required: false, type: .structure), 
+            AWSShapeMember(label: "language", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .string), 
+            AWSShapeMember(label: "serviceCode", required: false, type: .string)
+        ]
+        /// The code for the severity level returned by the call to DescribeSeverityLevels.
+        public let severityCode: String?
+        /// The category of problem for the AWS Support case.
+        public let categoryCode: String?
+        /// The email address of the account that submitted the case.
+        public let submittedBy: String?
+        /// The ID displayed for the case in the AWS Support Center. This is a numeric string.
+        public let displayId: String?
+        /// The time that the case was case created in the AWS Support Center.
+        public let timeCreated: String?
+        /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
+        public let caseId: String?
+        /// The subject line for the case in the AWS Support Center.
+        public let subject: String?
+        /// The email addresses that receive copies of communication about the case.
+        public let ccEmailAddresses: [String]?
+        /// The five most recent communications between you and AWS Support Center, including the IDs of any attachments to the communications. Also includes a nextToken that you can use to retrieve earlier communications.
+        public let recentCommunications: RecentCaseCommunications?
+        /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
+        public let language: String?
+        /// The status of the case.
+        public let status: String?
+        /// The code for the AWS service returned by the call to DescribeServices.
+        public let serviceCode: String?
+
+        public init(severityCode: String? = nil, categoryCode: String? = nil, submittedBy: String? = nil, displayId: String? = nil, timeCreated: String? = nil, caseId: String? = nil, subject: String? = nil, ccEmailAddresses: [String]? = nil, recentCommunications: RecentCaseCommunications? = nil, language: String? = nil, status: String? = nil, serviceCode: String? = nil) {
+            self.severityCode = severityCode
+            self.categoryCode = categoryCode
+            self.submittedBy = submittedBy
+            self.displayId = displayId
+            self.timeCreated = timeCreated
+            self.caseId = caseId
+            self.subject = subject
+            self.ccEmailAddresses = ccEmailAddresses
+            self.recentCommunications = recentCommunications
+            self.language = language
+            self.status = status
+            self.serviceCode = serviceCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case severityCode = "severityCode"
+            case categoryCode = "categoryCode"
+            case submittedBy = "submittedBy"
+            case displayId = "displayId"
+            case timeCreated = "timeCreated"
+            case caseId = "caseId"
+            case subject = "subject"
+            case ccEmailAddresses = "ccEmailAddresses"
+            case recentCommunications = "recentCommunications"
+            case language = "language"
+            case status = "status"
+            case serviceCode = "serviceCode"
+        }
+    }
+
     public struct DescribeCommunicationsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "communications", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "communications", required: false, type: .list)
         ]
+        /// A resumption point for pagination.
+        public let nextToken: String?
         /// The communications for the case.
         public let communications: [Communication]?
+
+        public init(nextToken: String? = nil, communications: [Communication]? = nil) {
+            self.nextToken = nextToken
+            self.communications = communications
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case communications = "communications"
+        }
+    }
+
+    public struct RefreshTrustedAdvisorCheckResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: true, type: .structure)
+        ]
+        /// The current refresh status for a check, including the amount of time until the check is eligible for refresh.
+        public let status: TrustedAdvisorCheckRefreshStatus
+
+        public init(status: TrustedAdvisorCheckRefreshStatus) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+        }
+    }
+
+    public struct DescribeTrustedAdvisorCheckSummariesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "checkIds", required: true, type: .list)
+        ]
+        /// The IDs of the Trusted Advisor checks.
+        public let checkIds: [String]
+
+        public init(checkIds: [String]) {
+            self.checkIds = checkIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case checkIds = "checkIds"
+        }
+    }
+
+    public struct AddCommunicationToCaseRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "communicationBody", required: true, type: .string), 
+            AWSShapeMember(label: "caseId", required: false, type: .string), 
+            AWSShapeMember(label: "ccEmailAddresses", required: false, type: .list), 
+            AWSShapeMember(label: "attachmentSetId", required: false, type: .string)
+        ]
+        /// The body of an email communication to add to the support case.
+        public let communicationBody: String
+        /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
+        public let caseId: String?
+        /// The email addresses in the CC line of an email to be added to the support case.
+        public let ccEmailAddresses: [String]?
+        /// The ID of a set of one or more attachments for the communication to add to the case. Create the set by calling AddAttachmentsToSet 
+        public let attachmentSetId: String?
+
+        public init(communicationBody: String, caseId: String? = nil, ccEmailAddresses: [String]? = nil, attachmentSetId: String? = nil) {
+            self.communicationBody = communicationBody
+            self.caseId = caseId
+            self.ccEmailAddresses = ccEmailAddresses
+            self.attachmentSetId = attachmentSetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case communicationBody = "communicationBody"
+            case caseId = "caseId"
+            case ccEmailAddresses = "ccEmailAddresses"
+            case attachmentSetId = "attachmentSetId"
+        }
+    }
+
+    public struct DescribeSeverityLevelsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "severityLevels", required: false, type: .list)
+        ]
+        /// The available severity levels for the support case. Available severity levels are defined by your service level agreement with AWS.
+        public let severityLevels: [SeverityLevel]?
+
+        public init(severityLevels: [SeverityLevel]? = nil) {
+            self.severityLevels = severityLevels
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case severityLevels = "severityLevels"
+        }
+    }
+
+    public struct AddAttachmentsToSetRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "attachmentSetId", required: false, type: .string), 
+            AWSShapeMember(label: "attachments", required: true, type: .list)
+        ]
+        /// The ID of the attachment set. If an attachmentSetId is not specified, a new attachment set is created, and the ID of the set is returned in the response. If an attachmentSetId is specified, the attachments are added to the specified set, if it exists.
+        public let attachmentSetId: String?
+        /// One or more attachments to add to the set. The limit is 3 attachments per set, and the size limit is 5 MB per attachment.
+        public let attachments: [Attachment]
+
+        public init(attachmentSetId: String? = nil, attachments: [Attachment]) {
+            self.attachmentSetId = attachmentSetId
+            self.attachments = attachments
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentSetId = "attachmentSetId"
+            case attachments = "attachments"
+        }
+    }
+
+    public struct TrustedAdvisorCostOptimizingSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "estimatedMonthlySavings", required: true, type: .double), 
+            AWSShapeMember(label: "estimatedPercentMonthlySavings", required: true, type: .double)
+        ]
+        /// The estimated monthly savings that might be realized if the recommended actions are taken.
+        public let estimatedMonthlySavings: Double
+        /// The estimated percentage of savings that might be realized if the recommended actions are taken.
+        public let estimatedPercentMonthlySavings: Double
+
+        public init(estimatedMonthlySavings: Double, estimatedPercentMonthlySavings: Double) {
+            self.estimatedMonthlySavings = estimatedMonthlySavings
+            self.estimatedPercentMonthlySavings = estimatedPercentMonthlySavings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case estimatedMonthlySavings = "estimatedMonthlySavings"
+            case estimatedPercentMonthlySavings = "estimatedPercentMonthlySavings"
+        }
+    }
+
+    public struct TrustedAdvisorResourcesSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourcesIgnored", required: true, type: .long), 
+            AWSShapeMember(label: "resourcesSuppressed", required: true, type: .long), 
+            AWSShapeMember(label: "resourcesProcessed", required: true, type: .long), 
+            AWSShapeMember(label: "resourcesFlagged", required: true, type: .long)
+        ]
+        /// The number of AWS resources ignored by Trusted Advisor because information was unavailable.
+        public let resourcesIgnored: Int64
+        /// The number of AWS resources ignored by Trusted Advisor because they were marked as suppressed by the user.
+        public let resourcesSuppressed: Int64
+        /// The number of AWS resources that were analyzed by the Trusted Advisor check.
+        public let resourcesProcessed: Int64
+        /// The number of AWS resources that were flagged (listed) by the Trusted Advisor check.
+        public let resourcesFlagged: Int64
+
+        public init(resourcesIgnored: Int64, resourcesSuppressed: Int64, resourcesProcessed: Int64, resourcesFlagged: Int64) {
+            self.resourcesIgnored = resourcesIgnored
+            self.resourcesSuppressed = resourcesSuppressed
+            self.resourcesProcessed = resourcesProcessed
+            self.resourcesFlagged = resourcesFlagged
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourcesIgnored = "resourcesIgnored"
+            case resourcesSuppressed = "resourcesSuppressed"
+            case resourcesProcessed = "resourcesProcessed"
+            case resourcesFlagged = "resourcesFlagged"
+        }
+    }
+
+    public struct DescribeServicesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "serviceCodeList", required: false, type: .list), 
+            AWSShapeMember(label: "language", required: false, type: .string)
+        ]
+        /// A JSON-formatted list of service codes available for AWS services.
+        public let serviceCodeList: [String]?
+        /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
+        public let language: String?
+
+        public init(serviceCodeList: [String]? = nil, language: String? = nil) {
+            self.serviceCodeList = serviceCodeList
+            self.language = language
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceCodeList = "serviceCodeList"
+            case language = "language"
+        }
+    }
+
+    public struct Attachment: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "fileName", required: false, type: .string), 
+            AWSShapeMember(label: "data", required: false, type: .blob)
+        ]
+        /// The name of the attachment file.
+        public let fileName: String?
+        /// The content of the attachment file.
+        public let data: Data?
+
+        public init(fileName: String? = nil, data: Data? = nil) {
+            self.fileName = fileName
+            self.data = data
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileName = "fileName"
+            case data = "data"
+        }
+    }
+
+    public struct DescribeCasesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "cases", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// The details for the cases that match the request.
+        public let cases: [CaseDetails]?
         /// A resumption point for pagination.
         public let nextToken: String?
 
-        public init(communications: [Communication]? = nil, nextToken: String? = nil) {
-            self.communications = communications
+        public init(cases: [CaseDetails]? = nil, nextToken: String? = nil) {
+            self.cases = cases
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case communications = "communications"
+            case cases = "cases"
             case nextToken = "nextToken"
+        }
+    }
+
+    public struct Service: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "code", required: false, type: .string), 
+            AWSShapeMember(label: "categories", required: false, type: .list)
+        ]
+        /// The friendly name for an AWS service. The code element contains the corresponding code.
+        public let name: String?
+        /// The code for an AWS service returned by the DescribeServices response. The name element contains the corresponding friendly name.
+        public let code: String?
+        /// A list of categories that describe the type of support issue a case describes. Categories consist of a category name and a category code. Category names and codes are passed to AWS Support when you call CreateCase.
+        public let categories: [Category]?
+
+        public init(name: String? = nil, code: String? = nil, categories: [Category]? = nil) {
+            self.name = name
+            self.code = code
+            self.categories = categories
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case code = "code"
+            case categories = "categories"
+        }
+    }
+
+    public struct DescribeTrustedAdvisorCheckResultRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "checkId", required: true, type: .string), 
+            AWSShapeMember(label: "language", required: false, type: .string)
+        ]
+        /// The unique identifier for the Trusted Advisor check.
+        public let checkId: String
+        /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
+        public let language: String?
+
+        public init(checkId: String, language: String? = nil) {
+            self.checkId = checkId
+            self.language = language
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case checkId = "checkId"
+            case language = "language"
+        }
+    }
+
+    public struct TrustedAdvisorCheckResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: true, type: .string), 
+            AWSShapeMember(label: "checkId", required: true, type: .string), 
+            AWSShapeMember(label: "resourcesSummary", required: true, type: .structure), 
+            AWSShapeMember(label: "categorySpecificSummary", required: true, type: .structure), 
+            AWSShapeMember(label: "flaggedResources", required: true, type: .list), 
+            AWSShapeMember(label: "timestamp", required: true, type: .string)
+        ]
+        /// The alert status of the check: "ok" (green), "warning" (yellow), "error" (red), or "not_available".
+        public let status: String
+        /// The unique identifier for the Trusted Advisor check.
+        public let checkId: String
+        public let resourcesSummary: TrustedAdvisorResourcesSummary
+        /// Summary information that relates to the category of the check. Cost Optimizing is the only category that is currently supported.
+        public let categorySpecificSummary: TrustedAdvisorCategorySpecificSummary
+        /// The details about each resource listed in the check result.
+        public let flaggedResources: [TrustedAdvisorResourceDetail]
+        /// The time of the last refresh of the check.
+        public let timestamp: String
+
+        public init(status: String, checkId: String, resourcesSummary: TrustedAdvisorResourcesSummary, categorySpecificSummary: TrustedAdvisorCategorySpecificSummary, flaggedResources: [TrustedAdvisorResourceDetail], timestamp: String) {
+            self.status = status
+            self.checkId = checkId
+            self.resourcesSummary = resourcesSummary
+            self.categorySpecificSummary = categorySpecificSummary
+            self.flaggedResources = flaggedResources
+            self.timestamp = timestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case checkId = "checkId"
+            case resourcesSummary = "resourcesSummary"
+            case categorySpecificSummary = "categorySpecificSummary"
+            case flaggedResources = "flaggedResources"
+            case timestamp = "timestamp"
+        }
+    }
+
+    public struct DescribeTrustedAdvisorCheckResultResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "result", required: false, type: .structure)
+        ]
+        /// The detailed results of the Trusted Advisor check.
+        public let result: TrustedAdvisorCheckResult?
+
+        public init(result: TrustedAdvisorCheckResult? = nil) {
+            self.result = result
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case result = "result"
+        }
+    }
+
+    public struct DescribeTrustedAdvisorChecksResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "checks", required: true, type: .list)
+        ]
+        /// Information about all available Trusted Advisor checks.
+        public let checks: [TrustedAdvisorCheckDescription]
+
+        public init(checks: [TrustedAdvisorCheckDescription]) {
+            self.checks = checks
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case checks = "checks"
+        }
+    }
+
+    public struct AddCommunicationToCaseResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "result", required: false, type: .boolean)
+        ]
+        /// True if AddCommunicationToCase succeeds. Otherwise, returns an error.
+        public let result: Bool?
+
+        public init(result: Bool? = nil) {
+            self.result = result
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case result = "result"
+        }
+    }
+
+    public struct RecentCaseCommunications: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "communications", required: false, type: .list)
+        ]
+        /// A resumption point for pagination.
+        public let nextToken: String?
+        /// The five most recent communications associated with the case.
+        public let communications: [Communication]?
+
+        public init(nextToken: String? = nil, communications: [Communication]? = nil) {
+            self.nextToken = nextToken
+            self.communications = communications
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case communications = "communications"
+        }
+    }
+
+    public struct TrustedAdvisorCategorySpecificSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "costOptimizing", required: false, type: .structure)
+        ]
+        /// The summary information about cost savings for a Trusted Advisor check that is in the Cost Optimizing category.
+        public let costOptimizing: TrustedAdvisorCostOptimizingSummary?
+
+        public init(costOptimizing: TrustedAdvisorCostOptimizingSummary? = nil) {
+            self.costOptimizing = costOptimizing
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case costOptimizing = "costOptimizing"
+        }
+    }
+
+    public struct ResolveCaseResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "finalCaseStatus", required: false, type: .string), 
+            AWSShapeMember(label: "initialCaseStatus", required: false, type: .string)
+        ]
+        /// The status of the case after the ResolveCase request was processed.
+        public let finalCaseStatus: String?
+        /// The status of the case when the ResolveCase request was sent.
+        public let initialCaseStatus: String?
+
+        public init(finalCaseStatus: String? = nil, initialCaseStatus: String? = nil) {
+            self.finalCaseStatus = finalCaseStatus
+            self.initialCaseStatus = initialCaseStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case finalCaseStatus = "finalCaseStatus"
+            case initialCaseStatus = "initialCaseStatus"
+        }
+    }
+
+    public struct DescribeTrustedAdvisorCheckSummariesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "summaries", required: true, type: .list)
+        ]
+        /// The summary information for the requested Trusted Advisor checks.
+        public let summaries: [TrustedAdvisorCheckSummary]
+
+        public init(summaries: [TrustedAdvisorCheckSummary]) {
+            self.summaries = summaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case summaries = "summaries"
+        }
+    }
+
+    public struct DescribeTrustedAdvisorCheckRefreshStatusesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "checkIds", required: true, type: .list)
+        ]
+        /// The IDs of the Trusted Advisor checks to get the status of. Note: Specifying the check ID of a check that is automatically refreshed causes an InvalidParameterValue error.
+        public let checkIds: [String]
+
+        public init(checkIds: [String]) {
+            self.checkIds = checkIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case checkIds = "checkIds"
         }
     }
 

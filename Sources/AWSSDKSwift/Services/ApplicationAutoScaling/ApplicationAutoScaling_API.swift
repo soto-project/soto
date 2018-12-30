@@ -26,54 +26,54 @@ public struct ApplicationAutoScaling {
         )
     }
 
+    ///  Gets information about the scalable targets in the specified namespace. You can filter the results using the ResourceIds and ScalableDimension parameters. To create a scalable target or update an existing one, see RegisterScalableTarget. If you are no longer using a scalable target, you can deregister it using DeregisterScalableTarget.
+    public func describeScalableTargets(_ input: DescribeScalableTargetsRequest) throws -> Future<DescribeScalableTargetsResponse> {
+        return try client.send(operation: "DescribeScalableTargets", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Deletes the specified Application Auto Scaling scheduled action.
-    public func deleteScheduledAction(_ input: DeleteScheduledActionRequest) throws -> EventLoopFuture<DeleteScheduledActionResponse> {
+    public func deleteScheduledAction(_ input: DeleteScheduledActionRequest) throws -> Future<DeleteScheduledActionResponse> {
         return try client.send(operation: "DeleteScheduledAction", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Registers or updates a scalable target. A scalable target is a resource that Application Auto Scaling can scale out or scale in. After you have registered a scalable target, you can use this operation to update the minimum and maximum values for its scalable dimension. After you register a scalable target, you can create and apply scaling policies using PutScalingPolicy. You can view the scaling policies for a service namespace using DescribeScalableTargets. If you no longer need a scalable target, you can deregister it using DeregisterScalableTarget.
-    public func registerScalableTarget(_ input: RegisterScalableTargetRequest) throws -> EventLoopFuture<RegisterScalableTargetResponse> {
-        return try client.send(operation: "RegisterScalableTarget", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Creates or updates a policy for an Application Auto Scaling scalable target. Each scalable target is identified by a service namespace, resource ID, and scalable dimension. A scaling policy applies to the scalable target identified by those three attributes. You cannot create a scaling policy until you register the scalable target using RegisterScalableTarget. To update a policy, specify its policy name and the parameters that you want to change. Any parameters that you don't specify are not changed by this update request. You can view the scaling policies for a service namespace using DescribeScalingPolicies. If you are no longer using a scaling policy, you can delete it using DeleteScalingPolicy.
-    public func putScalingPolicy(_ input: PutScalingPolicyRequest) throws -> EventLoopFuture<PutScalingPolicyResponse> {
+    public func putScalingPolicy(_ input: PutScalingPolicyRequest) throws -> Future<PutScalingPolicyResponse> {
         return try client.send(operation: "PutScalingPolicy", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Deletes the specified Application Auto Scaling scaling policy. Deleting a policy deletes the underlying alarm action, but does not delete the CloudWatch alarm associated with the scaling policy, even if it no longer has an associated action. To create a scaling policy or update an existing one, see PutScalingPolicy.
+    public func deleteScalingPolicy(_ input: DeleteScalingPolicyRequest) throws -> Future<DeleteScalingPolicyResponse> {
+        return try client.send(operation: "DeleteScalingPolicy", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Provides descriptive information about the scaling activities in the specified namespace from the previous six weeks. You can filter the results using the ResourceId and ScalableDimension parameters. Scaling activities are triggered by CloudWatch alarms that are associated with scaling policies. To view the scaling policies for a service namespace, see DescribeScalingPolicies. To create a scaling policy or update an existing one, see PutScalingPolicy.
+    public func describeScalingActivities(_ input: DescribeScalingActivitiesRequest) throws -> Future<DescribeScalingActivitiesResponse> {
+        return try client.send(operation: "DescribeScalingActivities", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Describes the scaling policies for the specified service namespace. You can filter the results using the ResourceId, ScalableDimension, and PolicyNames parameters. To create a scaling policy or update an existing one, see PutScalingPolicy. If you are no longer using a scaling policy, you can delete it using DeleteScalingPolicy.
-    public func describeScalingPolicies(_ input: DescribeScalingPoliciesRequest) throws -> EventLoopFuture<DescribeScalingPoliciesResponse> {
+    public func describeScalingPolicies(_ input: DescribeScalingPoliciesRequest) throws -> Future<DescribeScalingPoliciesResponse> {
         return try client.send(operation: "DescribeScalingPolicies", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates or updates a scheduled action for an Application Auto Scaling scalable target. Each scalable target is identified by a service namespace, resource ID, and scalable dimension. A scheduled action applies to the scalable target identified by those three attributes. You cannot create a scheduled action until you register the scalable target using RegisterScalableTarget. To update an action, specify its name and the parameters that you want to change. If you don't specify start and end times, the old values are deleted. Any other parameters that you don't specify are not changed by this update request. You can view the scheduled actions using DescribeScheduledActions. If you are no longer using a scheduled action, you can delete it using DeleteScheduledAction.
-    public func putScheduledAction(_ input: PutScheduledActionRequest) throws -> EventLoopFuture<PutScheduledActionResponse> {
+    public func putScheduledAction(_ input: PutScheduledActionRequest) throws -> Future<PutScheduledActionResponse> {
         return try client.send(operation: "PutScheduledAction", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the scheduled actions for the specified service namespace. You can filter the results using the ResourceId, ScalableDimension, and ScheduledActionNames parameters. To create a scheduled action or update an existing one, see PutScheduledAction. If you are no longer using a scheduled action, you can delete it using DeleteScheduledAction.
-    public func describeScheduledActions(_ input: DescribeScheduledActionsRequest) throws -> EventLoopFuture<DescribeScheduledActionsResponse> {
-        return try client.send(operation: "DescribeScheduledActions", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes the specified Application Auto Scaling scaling policy. Deleting a policy deletes the underlying alarm action, but does not delete the CloudWatch alarm associated with the scaling policy, even if it no longer has an associated action. To create a scaling policy or update an existing one, see PutScalingPolicy.
-    public func deleteScalingPolicy(_ input: DeleteScalingPolicyRequest) throws -> EventLoopFuture<DeleteScalingPolicyResponse> {
-        return try client.send(operation: "DeleteScalingPolicy", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Deregisters a scalable target. Deregistering a scalable target deletes the scaling policies that are associated with it. To create a scalable target or update an existing one, see RegisterScalableTarget.
-    public func deregisterScalableTarget(_ input: DeregisterScalableTargetRequest) throws -> EventLoopFuture<DeregisterScalableTargetResponse> {
+    public func deregisterScalableTarget(_ input: DeregisterScalableTargetRequest) throws -> Future<DeregisterScalableTargetResponse> {
         return try client.send(operation: "DeregisterScalableTarget", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Gets information about the scalable targets in the specified namespace. You can filter the results using the ResourceIds and ScalableDimension parameters. To create a scalable target or update an existing one, see RegisterScalableTarget. If you are no longer using a scalable target, you can deregister it using DeregisterScalableTarget.
-    public func describeScalableTargets(_ input: DescribeScalableTargetsRequest) throws -> EventLoopFuture<DescribeScalableTargetsResponse> {
-        return try client.send(operation: "DescribeScalableTargets", path: "/", httpMethod: "POST", input: input)
+    ///  Describes the scheduled actions for the specified service namespace. You can filter the results using the ResourceId, ScalableDimension, and ScheduledActionNames parameters. To create a scheduled action or update an existing one, see PutScheduledAction. If you are no longer using a scheduled action, you can delete it using DeleteScheduledAction.
+    public func describeScheduledActions(_ input: DescribeScheduledActionsRequest) throws -> Future<DescribeScheduledActionsResponse> {
+        return try client.send(operation: "DescribeScheduledActions", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Provides descriptive information about the scaling activities in the specified namespace from the previous six weeks. You can filter the results using the ResourceId and ScalableDimension parameters. Scaling activities are triggered by CloudWatch alarms that are associated with scaling policies. To view the scaling policies for a service namespace, see DescribeScalingPolicies. To create a scaling policy or update an existing one, see PutScalingPolicy.
-    public func describeScalingActivities(_ input: DescribeScalingActivitiesRequest) throws -> EventLoopFuture<DescribeScalingActivitiesResponse> {
-        return try client.send(operation: "DescribeScalingActivities", path: "/", httpMethod: "POST", input: input)
+    ///  Registers or updates a scalable target. A scalable target is a resource that Application Auto Scaling can scale out or scale in. After you have registered a scalable target, you can use this operation to update the minimum and maximum values for its scalable dimension. After you register a scalable target, you can create and apply scaling policies using PutScalingPolicy. You can view the scaling policies for a service namespace using DescribeScalableTargets. If you no longer need a scalable target, you can deregister it using DeregisterScalableTarget.
+    public func registerScalableTarget(_ input: RegisterScalableTargetRequest) throws -> Future<RegisterScalableTargetResponse> {
+        return try client.send(operation: "RegisterScalableTarget", path: "/", httpMethod: "POST", input: input)
     }
 
 

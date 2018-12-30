@@ -6,19 +6,19 @@ import AWSSDKSwiftCore
 public enum DatabaseMigrationServiceErrorType: AWSErrorType {
     case resourceNotFoundFault(message: String?)
     case invalidResourceStateFault(message: String?)
-    case accessDeniedFault(message: String?)
-    case resourceAlreadyExistsFault(message: String?)
-    case insufficientResourceCapacityFault(message: String?)
-    case resourceQuotaExceededFault(message: String?)
-    case storageQuotaExceededFault(message: String?)
-    case replicationSubnetGroupDoesNotCoverEnoughAZs(message: String?)
-    case invalidSubnet(message: String?)
     case kMSKeyNotAccessibleFault(message: String?)
-    case invalidCertificateFault(message: String?)
+    case resourceQuotaExceededFault(message: String?)
+    case resourceAlreadyExistsFault(message: String?)
+    case accessDeniedFault(message: String?)
     case sNSInvalidTopicFault(message: String?)
     case sNSNoAuthorizationFault(message: String?)
-    case upgradeDependencyFailureFault(message: String?)
+    case replicationSubnetGroupDoesNotCoverEnoughAZs(message: String?)
+    case invalidSubnet(message: String?)
+    case insufficientResourceCapacityFault(message: String?)
+    case storageQuotaExceededFault(message: String?)
     case subnetAlreadyInUse(message: String?)
+    case upgradeDependencyFailureFault(message: String?)
+    case invalidCertificateFault(message: String?)
 }
 
 extension DatabaseMigrationServiceErrorType {
@@ -32,32 +32,32 @@ extension DatabaseMigrationServiceErrorType {
             self = .resourceNotFoundFault(message: message)
         case "InvalidResourceStateFault":
             self = .invalidResourceStateFault(message: message)
-        case "AccessDeniedFault":
-            self = .accessDeniedFault(message: message)
-        case "ResourceAlreadyExistsFault":
-            self = .resourceAlreadyExistsFault(message: message)
-        case "InsufficientResourceCapacityFault":
-            self = .insufficientResourceCapacityFault(message: message)
-        case "ResourceQuotaExceededFault":
-            self = .resourceQuotaExceededFault(message: message)
-        case "StorageQuotaExceededFault":
-            self = .storageQuotaExceededFault(message: message)
-        case "ReplicationSubnetGroupDoesNotCoverEnoughAZs":
-            self = .replicationSubnetGroupDoesNotCoverEnoughAZs(message: message)
-        case "InvalidSubnet":
-            self = .invalidSubnet(message: message)
         case "KMSKeyNotAccessibleFault":
             self = .kMSKeyNotAccessibleFault(message: message)
-        case "InvalidCertificateFault":
-            self = .invalidCertificateFault(message: message)
+        case "ResourceQuotaExceededFault":
+            self = .resourceQuotaExceededFault(message: message)
+        case "ResourceAlreadyExistsFault":
+            self = .resourceAlreadyExistsFault(message: message)
+        case "AccessDeniedFault":
+            self = .accessDeniedFault(message: message)
         case "SNSInvalidTopicFault":
             self = .sNSInvalidTopicFault(message: message)
         case "SNSNoAuthorizationFault":
             self = .sNSNoAuthorizationFault(message: message)
-        case "UpgradeDependencyFailureFault":
-            self = .upgradeDependencyFailureFault(message: message)
+        case "ReplicationSubnetGroupDoesNotCoverEnoughAZs":
+            self = .replicationSubnetGroupDoesNotCoverEnoughAZs(message: message)
+        case "InvalidSubnet":
+            self = .invalidSubnet(message: message)
+        case "InsufficientResourceCapacityFault":
+            self = .insufficientResourceCapacityFault(message: message)
+        case "StorageQuotaExceededFault":
+            self = .storageQuotaExceededFault(message: message)
         case "SubnetAlreadyInUse":
             self = .subnetAlreadyInUse(message: message)
+        case "UpgradeDependencyFailureFault":
+            self = .upgradeDependencyFailureFault(message: message)
+        case "InvalidCertificateFault":
+            self = .invalidCertificateFault(message: message)
         default:
             return nil
         }

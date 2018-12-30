@@ -5,67 +5,6 @@ import AWSSDKSwiftCore
 
 extension Glacier {
 
-    public enum StatusCode: String, CustomStringConvertible, Codable {
-        case inprogress = "InProgress"
-        case succeeded = "Succeeded"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct InitiateVaultLockInput: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "policy"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "vaultName", location: .uri(locationName: "vaultName"), required: true, type: .string), 
-            AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
-            AWSShapeMember(label: "policy", required: false, type: .structure)
-        ]
-        /// The name of the vault.
-        public let vaultName: String
-        /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.
-        public let accountId: String
-        /// The vault lock policy as a JSON string, which uses "\" as an escape character.
-        public let policy: VaultLockPolicy?
-
-        public init(vaultName: String, accountId: String, policy: VaultLockPolicy? = nil) {
-            self.vaultName = vaultName
-            self.accountId = accountId
-            self.policy = policy
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case vaultName = "vaultName"
-            case accountId = "accountId"
-            case policy = "policy"
-        }
-    }
-
-    public struct AbortMultipartUploadInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "uploadId", location: .uri(locationName: "uploadId"), required: true, type: .string), 
-            AWSShapeMember(label: "vaultName", location: .uri(locationName: "vaultName"), required: true, type: .string), 
-            AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string)
-        ]
-        /// The upload ID of the multipart upload to delete.
-        public let uploadId: String
-        /// The name of the vault.
-        public let vaultName: String
-        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
-        public let accountId: String
-
-        public init(uploadId: String, vaultName: String, accountId: String) {
-            self.uploadId = uploadId
-            self.vaultName = vaultName
-            self.accountId = accountId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case uploadId = "uploadId"
-            case vaultName = "vaultName"
-            case accountId = "accountId"
-        }
-    }
-
     public struct VaultLockPolicy: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Policy", required: false, type: .string)
@@ -82,175 +21,14 @@ extension Glacier {
         }
     }
 
-    public struct CompleteMultipartUploadInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "uploadId", location: .uri(locationName: "uploadId"), required: true, type: .string), 
-            AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
-            AWSShapeMember(label: "archiveSize", location: .header(locationName: "x-amz-archive-size"), required: false, type: .string), 
-            AWSShapeMember(label: "checksum", location: .header(locationName: "x-amz-sha256-tree-hash"), required: false, type: .string), 
-            AWSShapeMember(label: "vaultName", location: .uri(locationName: "vaultName"), required: true, type: .string)
-        ]
-        /// The upload ID of the multipart upload.
-        public let uploadId: String
-        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
-        public let accountId: String
-        /// The total size, in bytes, of the entire archive. This value should be the sum of all the sizes of the individual parts that you uploaded.
-        public let archiveSize: String?
-        /// The SHA256 tree hash of the entire archive. It is the tree hash of SHA256 tree hash of the individual parts. If the value you specify in the request does not match the SHA256 tree hash of the final assembled archive as computed by Amazon Glacier, Amazon Glacier returns an error and the request fails.
-        public let checksum: String?
-        /// The name of the vault.
-        public let vaultName: String
-
-        public init(uploadId: String, accountId: String, archiveSize: String? = nil, checksum: String? = nil, vaultName: String) {
-            self.uploadId = uploadId
-            self.accountId = accountId
-            self.archiveSize = archiveSize
-            self.checksum = checksum
-            self.vaultName = vaultName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case uploadId = "uploadId"
-            case accountId = "accountId"
-            case archiveSize = "x-amz-archive-size"
-            case checksum = "x-amz-sha256-tree-hash"
-            case vaultName = "vaultName"
-        }
-    }
-
-    public struct DataRetrievalRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BytesPerHour", required: false, type: .long), 
-            AWSShapeMember(label: "Strategy", required: false, type: .string)
-        ]
-        /// The maximum number of bytes that can be retrieved in an hour. This field is required only if the value of the Strategy field is BytesPerHour. Your PUT operation will be rejected if the Strategy field is not set to BytesPerHour and you set this field.
-        public let bytesPerHour: Int64?
-        /// The type of data retrieval policy to set. Valid values: BytesPerHour|FreeTier|None
-        public let strategy: String?
-
-        public init(bytesPerHour: Int64? = nil, strategy: String? = nil) {
-            self.bytesPerHour = bytesPerHour
-            self.strategy = strategy
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bytesPerHour = "BytesPerHour"
-            case strategy = "Strategy"
-        }
-    }
-
-    public struct SetDataRetrievalPolicyInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
-            AWSShapeMember(label: "Policy", required: false, type: .structure)
-        ]
-        /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.
-        public let accountId: String
-        /// The data retrieval policy in JSON format.
-        public let policy: DataRetrievalPolicy?
-
-        public init(accountId: String, policy: DataRetrievalPolicy? = nil) {
-            self.accountId = accountId
-            self.policy = policy
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case policy = "Policy"
-        }
-    }
-
-    public struct InventoryRetrievalJobInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndDate", required: false, type: .string), 
-            AWSShapeMember(label: "StartDate", required: false, type: .string), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .string)
-        ]
-        /// The end of the date range in UTC for vault inventory retrieval that includes archives created before this date. This value should be a string in the ISO 8601 date format, for example 2013-03-20T17:03:43Z.
-        public let endDate: String?
-        /// The start of the date range in UTC for vault inventory retrieval that includes archives created on or after this date. This value should be a string in the ISO 8601 date format, for example 2013-03-20T17:03:43Z.
-        public let startDate: String?
-        /// An opaque string that represents where to continue pagination of the vault inventory retrieval results. You use the marker in a new InitiateJob request to obtain additional inventory items. If there are no more inventory items, this value is null.
-        public let marker: String?
-        /// Specifies the maximum number of inventory items returned per vault inventory retrieval request. Valid values are greater than or equal to 1.
-        public let limit: String?
-
-        public init(endDate: String? = nil, startDate: String? = nil, marker: String? = nil, limit: String? = nil) {
-            self.endDate = endDate
-            self.startDate = startDate
-            self.marker = marker
-            self.limit = limit
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case endDate = "EndDate"
-            case startDate = "StartDate"
-            case marker = "Marker"
-            case limit = "Limit"
-        }
-    }
-
-    public struct GetJobOutputInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string), 
-            AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
-            AWSShapeMember(label: "range", location: .header(locationName: "Range"), required: false, type: .string), 
-            AWSShapeMember(label: "vaultName", location: .uri(locationName: "vaultName"), required: true, type: .string)
-        ]
-        /// The job ID whose data is downloaded.
-        public let jobId: String
-        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
-        public let accountId: String
-        /// The range of bytes to retrieve from the output. For example, if you want to download the first 1,048,576 bytes, specify the range as bytes=0-1048575. By default, this operation downloads the entire output. If the job output is large, then you can use a range to retrieve a portion of the output. This allows you to download the entire output in smaller chunks of bytes. For example, suppose you have 1 GB of job output you want to download and you decide to download 128 MB chunks of data at a time, which is a total of eight Get Job Output requests. You use the following process to download the job output:   Download a 128 MB chunk of output by specifying the appropriate byte range. Verify that all 128 MB of data was received.   Along with the data, the response includes a SHA256 tree hash of the payload. You compute the checksum of the payload on the client and compare it with the checksum you received in the response to ensure you received all the expected data.   Repeat steps 1 and 2 for all the eight 128 MB chunks of output data, each time specifying the appropriate byte range.   After downloading all the parts of the job output, you have a list of eight checksum values. Compute the tree hash of these values to find the checksum of the entire output. Using the DescribeJob API, obtain job information of the job that provided you the output. The response includes the checksum of the entire archive stored in Amazon Glacier. You compare this value with the checksum you computed to ensure you have downloaded the entire archive content with no errors.   
-        public let range: String?
-        /// The name of the vault.
-        public let vaultName: String
-
-        public init(jobId: String, accountId: String, range: String? = nil, vaultName: String) {
-            self.jobId = jobId
-            self.accountId = accountId
-            self.range = range
-            self.vaultName = vaultName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobId = "jobId"
-            case accountId = "accountId"
-            case range = "Range"
-            case vaultName = "vaultName"
-        }
-    }
-
-    public struct Grant: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Grantee", required: false, type: .structure), 
-            AWSShapeMember(label: "Permission", required: false, type: .enum)
-        ]
-        /// The grantee.
-        public let grantee: Grantee?
-        /// Specifies the permission given to the grantee. 
-        public let permission: Permission?
-
-        public init(grantee: Grantee? = nil, permission: Permission? = nil) {
-            self.grantee = grantee
-            self.permission = permission
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case grantee = "Grantee"
-            case permission = "Permission"
-        }
-    }
-
-    public struct DescribeVaultInput: AWSShape {
+    public struct DeleteVaultInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "vaultName", location: .uri(locationName: "vaultName"), required: true, type: .string), 
             AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string)
         ]
         /// The name of the vault.
         public let vaultName: String
-        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID. 
+        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
         public let accountId: String
 
         public init(vaultName: String, accountId: String) {
@@ -264,108 +42,201 @@ extension Glacier {
         }
     }
 
-    public struct VaultNotificationConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SNSTopic", required: false, type: .string), 
-            AWSShapeMember(label: "Events", required: false, type: .list)
-        ]
-        /// The Amazon Simple Notification Service (Amazon SNS) topic Amazon Resource Name (ARN).
-        public let sNSTopic: String?
-        /// A list of one or more events for which Amazon Glacier will send a notification to the specified Amazon SNS topic.
-        public let events: [String]?
-
-        public init(sNSTopic: String? = nil, events: [String]? = nil) {
-            self.sNSTopic = sNSTopic
-            self.events = events
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sNSTopic = "SNSTopic"
-            case events = "Events"
-        }
+    public enum StorageClass: String, CustomStringConvertible, Codable {
+        case standard = "STANDARD"
+        case reducedRedundancy = "REDUCED_REDUNDANCY"
+        case standardIa = "STANDARD_IA"
+        public var description: String { return self.rawValue }
     }
 
-    public struct ListTagsForVaultOutput: AWSShape {
+    public struct UploadMultipartPartInput: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "body"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .map)
-        ]
-        /// The tags attached to the vault. Each tag is composed of a key and a value.
-        public let tags: [String: String]?
-
-        public init(tags: [String: String]? = nil) {
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-        }
-    }
-
-    public struct InitiateMultipartUploadInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "archiveDescription", location: .header(locationName: "x-amz-archive-description"), required: false, type: .string), 
+            AWSShapeMember(label: "uploadId", location: .uri(locationName: "uploadId"), required: true, type: .string), 
+            AWSShapeMember(label: "body", required: false, type: .blob), 
             AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
-            AWSShapeMember(label: "partSize", location: .header(locationName: "x-amz-part-size"), required: false, type: .string), 
-            AWSShapeMember(label: "vaultName", location: .uri(locationName: "vaultName"), required: true, type: .string)
+            AWSShapeMember(label: "checksum", location: .header(locationName: "x-amz-sha256-tree-hash"), required: false, type: .string), 
+            AWSShapeMember(label: "vaultName", location: .uri(locationName: "vaultName"), required: true, type: .string), 
+            AWSShapeMember(label: "range", location: .header(locationName: "Content-Range"), required: false, type: .string)
         ]
-        /// The archive description that you are uploading in parts. The part size must be a megabyte (1024 KB) multiplied by a power of 2, for example 1048576 (1 MB), 2097152 (2 MB), 4194304 (4 MB), 8388608 (8 MB), and so on. The minimum allowable part size is 1 MB, and the maximum is 4 GB (4096 MB).
-        public let archiveDescription: String?
+        /// The upload ID of the multipart upload.
+        public let uploadId: String
+        /// The data to upload.
+        public let body: Data?
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID. 
         public let accountId: String
-        /// The size of each part except the last, in bytes. The last part can be smaller than this part size.
-        public let partSize: String?
+        /// The SHA256 tree hash of the data being uploaded.
+        public let checksum: String?
         /// The name of the vault.
         public let vaultName: String
+        /// Identifies the range of bytes in the assembled archive that will be uploaded in this part. Amazon Glacier uses this information to assemble the archive in the proper sequence. The format of this header follows RFC 2616. An example header is Content-Range:bytes 0-4194303/*.
+        public let range: String?
 
-        public init(archiveDescription: String? = nil, accountId: String, partSize: String? = nil, vaultName: String) {
-            self.archiveDescription = archiveDescription
+        public init(uploadId: String, body: Data? = nil, accountId: String, checksum: String? = nil, vaultName: String, range: String? = nil) {
+            self.uploadId = uploadId
+            self.body = body
             self.accountId = accountId
-            self.partSize = partSize
+            self.checksum = checksum
             self.vaultName = vaultName
+            self.range = range
         }
 
         private enum CodingKeys: String, CodingKey {
-            case archiveDescription = "x-amz-archive-description"
+            case uploadId = "uploadId"
+            case body = "body"
             case accountId = "accountId"
-            case partSize = "x-amz-part-size"
+            case checksum = "x-amz-sha256-tree-hash"
             case vaultName = "vaultName"
+            case range = "Content-Range"
         }
     }
 
-    public struct ListProvisionedCapacityOutput: AWSShape {
+    public struct ProvisionedCapacityDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProvisionedCapacityList", required: false, type: .list)
+            AWSShapeMember(label: "StartDate", required: false, type: .string), 
+            AWSShapeMember(label: "CapacityId", required: false, type: .string), 
+            AWSShapeMember(label: "ExpirationDate", required: false, type: .string)
         ]
-        /// The response body contains the following JSON fields.
-        public let provisionedCapacityList: [ProvisionedCapacityDescription]?
+        /// The date that the provisioned capacity unit was purchased, in Universal Coordinated Time (UTC).
+        public let startDate: String?
+        /// The ID that identifies the provisioned capacity unit.
+        public let capacityId: String?
+        /// The date that the provisioned capacity unit expires, in Universal Coordinated Time (UTC).
+        public let expirationDate: String?
 
-        public init(provisionedCapacityList: [ProvisionedCapacityDescription]? = nil) {
-            self.provisionedCapacityList = provisionedCapacityList
+        public init(startDate: String? = nil, capacityId: String? = nil, expirationDate: String? = nil) {
+            self.startDate = startDate
+            self.capacityId = capacityId
+            self.expirationDate = expirationDate
         }
 
         private enum CodingKeys: String, CodingKey {
-            case provisionedCapacityList = "ProvisionedCapacityList"
+            case startDate = "StartDate"
+            case capacityId = "CapacityId"
+            case expirationDate = "ExpirationDate"
         }
     }
 
-    public struct ListMultipartUploadsOutput: AWSShape {
+    public struct SetVaultAccessPolicyInput: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "policy"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "UploadsList", required: false, type: .list)
+            AWSShapeMember(label: "vaultName", location: .uri(locationName: "vaultName"), required: true, type: .string), 
+            AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
+            AWSShapeMember(label: "policy", required: false, type: .structure)
         ]
-        /// An opaque string that represents where to continue pagination of the results. You use the marker in a new List Multipart Uploads request to obtain more uploads in the list. If there are no more uploads, this value is null.
-        public let marker: String?
-        /// A list of in-progress multipart uploads.
-        public let uploadsList: [UploadListElement]?
+        /// The name of the vault.
+        public let vaultName: String
+        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+        public let accountId: String
+        /// The vault access policy as a JSON string.
+        public let policy: VaultAccessPolicy?
 
-        public init(marker: String? = nil, uploadsList: [UploadListElement]? = nil) {
-            self.marker = marker
-            self.uploadsList = uploadsList
+        public init(vaultName: String, accountId: String, policy: VaultAccessPolicy? = nil) {
+            self.vaultName = vaultName
+            self.accountId = accountId
+            self.policy = policy
         }
 
         private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case uploadsList = "UploadsList"
+            case vaultName = "vaultName"
+            case accountId = "accountId"
+            case policy = "policy"
+        }
+    }
+
+    public enum ExpressionType: String, CustomStringConvertible, Codable {
+        case sql = "SQL"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetJobOutputOutput: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "body"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "acceptRanges", location: .header(locationName: "Accept-Ranges"), required: false, type: .string), 
+            AWSShapeMember(label: "checksum", location: .header(locationName: "x-amz-sha256-tree-hash"), required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .integer), 
+            AWSShapeMember(label: "archiveDescription", location: .header(locationName: "x-amz-archive-description"), required: false, type: .string), 
+            AWSShapeMember(label: "contentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
+            AWSShapeMember(label: "body", required: false, type: .blob), 
+            AWSShapeMember(label: "contentRange", location: .header(locationName: "Content-Range"), required: false, type: .string)
+        ]
+        /// Indicates the range units accepted. For more information, see RFC2616. 
+        public let acceptRanges: String?
+        /// The checksum of the data in the response. This header is returned only when retrieving the output for an archive retrieval job. Furthermore, this header appears only under the following conditions:   You get the entire range of the archive.   You request a range to return of the archive that starts and ends on a multiple of 1 MB. For example, if you have an 3.1 MB archive and you specify a range to return that starts at 1 MB and ends at 2 MB, then the x-amz-sha256-tree-hash is returned as a response header.   You request a range of the archive to return that starts on a multiple of 1 MB and goes to the end of the archive. For example, if you have a 3.1 MB archive and you specify a range that starts at 2 MB and ends at 3.1 MB (the end of the archive), then the x-amz-sha256-tree-hash is returned as a response header.  
+        public let checksum: String?
+        /// The HTTP response code for a job output request. The value depends on whether a range was specified in the request.
+        public let status: Int32?
+        /// The description of an archive.
+        public let archiveDescription: String?
+        /// The Content-Type depends on whether the job output is an archive or a vault inventory. For archive data, the Content-Type is application/octet-stream. For vault inventory, if you requested CSV format when you initiated the job, the Content-Type is text/csv. Otherwise, by default, vault inventory is returned as JSON, and the Content-Type is application/json.
+        public let contentType: String?
+        /// The job data, either archive data or inventory data.
+        public let body: Data?
+        /// The range of bytes returned by Amazon Glacier. If only partial output is downloaded, the response provides the range of bytes Amazon Glacier returned. For example, bytes 0-1048575/8388608 returns the first 1 MB from 8 MB.
+        public let contentRange: String?
+
+        public init(acceptRanges: String? = nil, checksum: String? = nil, status: Int32? = nil, archiveDescription: String? = nil, contentType: String? = nil, body: Data? = nil, contentRange: String? = nil) {
+            self.acceptRanges = acceptRanges
+            self.checksum = checksum
+            self.status = status
+            self.archiveDescription = archiveDescription
+            self.contentType = contentType
+            self.body = body
+            self.contentRange = contentRange
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptRanges = "Accept-Ranges"
+            case checksum = "x-amz-sha256-tree-hash"
+            case status = "status"
+            case archiveDescription = "x-amz-archive-description"
+            case contentType = "Content-Type"
+            case body = "body"
+            case contentRange = "Content-Range"
+        }
+    }
+
+    public struct CSVInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileHeaderInfo", required: false, type: .enum), 
+            AWSShapeMember(label: "RecordDelimiter", required: false, type: .string), 
+            AWSShapeMember(label: "QuoteCharacter", required: false, type: .string), 
+            AWSShapeMember(label: "Comments", required: false, type: .string), 
+            AWSShapeMember(label: "FieldDelimiter", required: false, type: .string), 
+            AWSShapeMember(label: "QuoteEscapeCharacter", required: false, type: .string)
+        ]
+        /// Describes the first line of input. Valid values are None, Ignore, and Use.
+        public let fileHeaderInfo: FileHeaderInfo?
+        /// A value used to separate individual records from each other.
+        public let recordDelimiter: String?
+        /// A value used as an escape character where the field delimiter is part of the value.
+        public let quoteCharacter: String?
+        /// A single character used to indicate that a row should be ignored when the character is present at the start of that row.
+        public let comments: String?
+        /// A value used to separate individual fields from each other within a record.
+        public let fieldDelimiter: String?
+        /// A single character used for escaping the quotation-mark character inside an already escaped value.
+        public let quoteEscapeCharacter: String?
+
+        public init(fileHeaderInfo: FileHeaderInfo? = nil, recordDelimiter: String? = nil, quoteCharacter: String? = nil, comments: String? = nil, fieldDelimiter: String? = nil, quoteEscapeCharacter: String? = nil) {
+            self.fileHeaderInfo = fileHeaderInfo
+            self.recordDelimiter = recordDelimiter
+            self.quoteCharacter = quoteCharacter
+            self.comments = comments
+            self.fieldDelimiter = fieldDelimiter
+            self.quoteEscapeCharacter = quoteEscapeCharacter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileHeaderInfo = "FileHeaderInfo"
+            case recordDelimiter = "RecordDelimiter"
+            case quoteCharacter = "QuoteCharacter"
+            case comments = "Comments"
+            case fieldDelimiter = "FieldDelimiter"
+            case quoteEscapeCharacter = "QuoteEscapeCharacter"
         }
     }
 
@@ -400,416 +271,437 @@ extension Glacier {
         }
     }
 
-    public struct ListJobsInput: AWSShape {
+    public struct AbortMultipartUploadInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "vaultName", location: .uri(locationName: "vaultName"), required: true, type: .string), 
+            AWSShapeMember(label: "uploadId", location: .uri(locationName: "uploadId"), required: true, type: .string), 
+            AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string)
+        ]
+        /// The name of the vault.
+        public let vaultName: String
+        /// The upload ID of the multipart upload to delete.
+        public let uploadId: String
+        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+        public let accountId: String
+
+        public init(vaultName: String, uploadId: String, accountId: String) {
+            self.vaultName = vaultName
+            self.uploadId = uploadId
+            self.accountId = accountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vaultName = "vaultName"
+            case uploadId = "uploadId"
+            case accountId = "accountId"
+        }
+    }
+
+    public struct ListProvisionedCapacityInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string)
+        ]
+        /// The AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, don't include any hyphens ('-') in the ID. 
+        public let accountId: String
+
+        public init(accountId: String) {
+            self.accountId = accountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+        }
+    }
+
+    public struct ListJobsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobList", required: false, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// A list of job objects. Each job object contains metadata describing the job.
+        public let jobList: [GlacierJobDescription]?
+        ///  An opaque string used for pagination that specifies the job at which the listing of jobs should begin. You get the marker value from a previous List Jobs response. You only need to include the marker if you are continuing the pagination of the results started in a previous List Jobs request. 
+        public let marker: String?
+
+        public init(jobList: [GlacierJobDescription]? = nil, marker: String? = nil) {
+            self.jobList = jobList
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobList = "JobList"
+            case marker = "Marker"
+        }
+    }
+
+    public struct JobParameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SNSTopic", required: false, type: .string), 
+            AWSShapeMember(label: "Tier", required: false, type: .string), 
+            AWSShapeMember(label: "RetrievalByteRange", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .string), 
+            AWSShapeMember(label: "SelectParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "Format", required: false, type: .string), 
+            AWSShapeMember(label: "OutputLocation", required: false, type: .structure), 
+            AWSShapeMember(label: "InventoryRetrievalParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "ArchiveId", required: false, type: .string)
+        ]
+        /// The Amazon SNS topic ARN to which Amazon Glacier sends a notification when the job is completed and the output is ready for you to download. The specified topic publishes the notification to its subscribers. The SNS topic must exist.
+        public let sNSTopic: String?
+        /// The tier to use for a select or an archive retrieval job. Valid values are Expedited, Standard, or Bulk. Standard is the default.
+        public let tier: String?
+        /// The byte range to retrieve for an archive retrieval. in the form "StartByteValue-EndByteValue" If not specified, the whole archive is retrieved. If specified, the byte range must be megabyte (1024*1024) aligned which means that StartByteValue must be divisible by 1 MB and EndByteValue plus 1 must be divisible by 1 MB or be the end of the archive specified as the archive byte size value minus 1. If RetrievalByteRange is not megabyte aligned, this operation returns a 400 response.  An error occurs if you specify this field for an inventory retrieval job request.
+        public let retrievalByteRange: String?
+        /// The job type. You can initiate a job to perform a select query on an archive, retrieve an archive, or get an inventory of a vault. Valid values are "select", "archive-retrieval" and "inventory-retrieval".
+        public let `type`: String?
+        /// Contains the parameters that define a job.
+        public let selectParameters: SelectParameters?
+        /// When initiating a job to retrieve a vault inventory, you can optionally add this parameter to your request to specify the output format. If you are initiating an inventory job and do not specify a Format field, JSON is the default format. Valid values are "CSV" and "JSON".
+        public let format: String?
+        /// Contains information about the location where the select job results are stored.
+        public let outputLocation: OutputLocation?
+        /// Input parameters used for range inventory retrieval.
+        public let inventoryRetrievalParameters: InventoryRetrievalJobInput?
+        /// The optional description for the job. The description must be less than or equal to 1,024 bytes. The allowable characters are 7-bit ASCII without control codes-specifically, ASCII values 32-126 decimal or 0x20-0x7E hexadecimal.
+        public let description: String?
+        /// The ID of the archive that you want to retrieve. This field is required only if Type is set to select or archive-retrievalcode&gt;. An error occurs if you specify this request parameter for an inventory retrieval job request. 
+        public let archiveId: String?
+
+        public init(sNSTopic: String? = nil, tier: String? = nil, retrievalByteRange: String? = nil, type: String? = nil, selectParameters: SelectParameters? = nil, format: String? = nil, outputLocation: OutputLocation? = nil, inventoryRetrievalParameters: InventoryRetrievalJobInput? = nil, description: String? = nil, archiveId: String? = nil) {
+            self.sNSTopic = sNSTopic
+            self.tier = tier
+            self.retrievalByteRange = retrievalByteRange
+            self.`type` = `type`
+            self.selectParameters = selectParameters
+            self.format = format
+            self.outputLocation = outputLocation
+            self.inventoryRetrievalParameters = inventoryRetrievalParameters
+            self.description = description
+            self.archiveId = archiveId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sNSTopic = "SNSTopic"
+            case tier = "Tier"
+            case retrievalByteRange = "RetrievalByteRange"
+            case `type` = "Type"
+            case selectParameters = "SelectParameters"
+            case format = "Format"
+            case outputLocation = "OutputLocation"
+            case inventoryRetrievalParameters = "InventoryRetrievalParameters"
+            case description = "Description"
+            case archiveId = "ArchiveId"
+        }
+    }
+
+    public struct PurchaseProvisionedCapacityOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "capacityId", location: .header(locationName: "x-amz-capacity-id"), required: false, type: .string)
+        ]
+        /// The ID that identifies the provisioned capacity unit.
+        public let capacityId: String?
+
+        public init(capacityId: String? = nil) {
+            self.capacityId = capacityId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityId = "x-amz-capacity-id"
+        }
+    }
+
+    public struct InventoryRetrievalJobInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndDate", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "StartDate", required: false, type: .string)
+        ]
+        /// The end of the date range in UTC for vault inventory retrieval that includes archives created before this date. This value should be a string in the ISO 8601 date format, for example 2013-03-20T17:03:43Z.
+        public let endDate: String?
+        /// Specifies the maximum number of inventory items returned per vault inventory retrieval request. Valid values are greater than or equal to 1.
+        public let limit: String?
+        /// An opaque string that represents where to continue pagination of the vault inventory retrieval results. You use the marker in a new InitiateJob request to obtain additional inventory items. If there are no more inventory items, this value is null.
+        public let marker: String?
+        /// The start of the date range in UTC for vault inventory retrieval that includes archives created on or after this date. This value should be a string in the ISO 8601 date format, for example 2013-03-20T17:03:43Z.
+        public let startDate: String?
+
+        public init(endDate: String? = nil, limit: String? = nil, marker: String? = nil, startDate: String? = nil) {
+            self.endDate = endDate
+            self.limit = limit
+            self.marker = marker
+            self.startDate = startDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endDate = "EndDate"
+            case limit = "Limit"
+            case marker = "Marker"
+            case startDate = "StartDate"
+        }
+    }
+
+    public struct DescribeJobInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "vaultName", location: .uri(locationName: "vaultName"), required: true, type: .string), 
+            AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
+            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string)
+        ]
+        /// The name of the vault.
+        public let vaultName: String
+        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID. 
+        public let accountId: String
+        /// The ID of the job to describe.
+        public let jobId: String
+
+        public init(vaultName: String, accountId: String, jobId: String) {
+            self.vaultName = vaultName
+            self.accountId = accountId
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vaultName = "vaultName"
+            case accountId = "accountId"
+            case jobId = "jobId"
+        }
+    }
+
+    public struct GetDataRetrievalPolicyOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Policy", required: false, type: .structure)
+        ]
+        /// Contains the returned data retrieval policy in JSON format.
+        public let policy: DataRetrievalPolicy?
+
+        public init(policy: DataRetrievalPolicy? = nil) {
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+        }
+    }
+
+    public struct DataRetrievalRule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Strategy", required: false, type: .string), 
+            AWSShapeMember(label: "BytesPerHour", required: false, type: .long)
+        ]
+        /// The type of data retrieval policy to set. Valid values: BytesPerHour|FreeTier|None
+        public let strategy: String?
+        /// The maximum number of bytes that can be retrieved in an hour. This field is required only if the value of the Strategy field is BytesPerHour. Your PUT operation will be rejected if the Strategy field is not set to BytesPerHour and you set this field.
+        public let bytesPerHour: Int64?
+
+        public init(strategy: String? = nil, bytesPerHour: Int64? = nil) {
+            self.strategy = strategy
+            self.bytesPerHour = bytesPerHour
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case strategy = "Strategy"
+            case bytesPerHour = "BytesPerHour"
+        }
+    }
+
+    public struct VaultNotificationConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Events", required: false, type: .list), 
+            AWSShapeMember(label: "SNSTopic", required: false, type: .string)
+        ]
+        /// A list of one or more events for which Amazon Glacier will send a notification to the specified Amazon SNS topic.
+        public let events: [String]?
+        /// The Amazon Simple Notification Service (Amazon SNS) topic Amazon Resource Name (ARN).
+        public let sNSTopic: String?
+
+        public init(events: [String]? = nil, sNSTopic: String? = nil) {
+            self.events = events
+            self.sNSTopic = sNSTopic
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case events = "Events"
+            case sNSTopic = "SNSTopic"
+        }
+    }
+
+    public struct Grant: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Permission", required: false, type: .enum), 
+            AWSShapeMember(label: "Grantee", required: false, type: .structure)
+        ]
+        /// Specifies the permission given to the grantee. 
+        public let permission: Permission?
+        /// The grantee.
+        public let grantee: Grantee?
+
+        public init(permission: Permission? = nil, grantee: Grantee? = nil) {
+            self.permission = permission
+            self.grantee = grantee
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case permission = "Permission"
+            case grantee = "Grantee"
+        }
+    }
+
+    public struct GetVaultLockOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationDate", required: false, type: .string), 
+            AWSShapeMember(label: "ExpirationDate", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .string), 
+            AWSShapeMember(label: "Policy", required: false, type: .string)
+        ]
+        /// The UTC date and time at which the vault lock was put into the InProgress state.
+        public let creationDate: String?
+        /// The UTC date and time at which the lock ID expires. This value can be null if the vault lock is in a Locked state.
+        public let expirationDate: String?
+        /// The state of the vault lock. InProgress or Locked.
+        public let state: String?
+        /// The vault lock policy as a JSON string, which uses "\" as an escape character.
+        public let policy: String?
+
+        public init(creationDate: String? = nil, expirationDate: String? = nil, state: String? = nil, policy: String? = nil) {
+            self.creationDate = creationDate
+            self.expirationDate = expirationDate
+            self.state = state
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDate = "CreationDate"
+            case expirationDate = "ExpirationDate"
+            case state = "State"
+            case policy = "Policy"
+        }
+    }
+
+    public struct OutputSerialization: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "csv", required: false, type: .structure)
+        ]
+        /// Describes the serialization of CSV-encoded query results.
+        public let csv: CSVOutput?
+
+        public init(csv: CSVOutput? = nil) {
+            self.csv = csv
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case csv = "csv"
+        }
+    }
+
+    public struct ListVaultsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
             AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
-            AWSShapeMember(label: "statuscode", location: .querystring(locationName: "statuscode"), required: false, type: .string), 
-            AWSShapeMember(label: "completed", location: .querystring(locationName: "completed"), required: false, type: .string), 
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .string), 
-            AWSShapeMember(label: "vaultName", location: .uri(locationName: "vaultName"), required: true, type: .string)
+            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .string)
         ]
-        /// An opaque string used for pagination. This value specifies the job at which the listing of jobs should begin. Get the marker value from a previous List Jobs response. You only need to include the marker if you are continuing the pagination of results started in a previous List Jobs request.
+        /// A string used for pagination. The marker specifies the vault ARN after which the listing of vaults should begin.
         public let marker: String?
-        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID. 
+        /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.
         public let accountId: String
-        /// The type of job status to return. You can specify the following values: InProgress, Succeeded, or Failed.
-        public let statuscode: String?
-        /// The state of the jobs to return. You can specify true or false.
-        public let completed: String?
-        /// The maximum number of jobs to be returned. The default limit is 50. The number of jobs returned might be fewer than the specified limit, but the number of returned jobs never exceeds the limit.
+        /// The maximum number of vaults to be returned. The default limit is 10. The number of vaults returned might be fewer than the specified limit, but the number of returned vaults never exceeds the limit.
         public let limit: String?
-        /// The name of the vault.
-        public let vaultName: String
 
-        public init(marker: String? = nil, accountId: String, statuscode: String? = nil, completed: String? = nil, limit: String? = nil, vaultName: String) {
+        public init(marker: String? = nil, accountId: String, limit: String? = nil) {
             self.marker = marker
             self.accountId = accountId
-            self.statuscode = statuscode
-            self.completed = completed
             self.limit = limit
-            self.vaultName = vaultName
         }
 
         private enum CodingKeys: String, CodingKey {
             case marker = "marker"
             case accountId = "accountId"
-            case statuscode = "statuscode"
-            case completed = "completed"
+            case limit = "limit"
+        }
+    }
+
+    public struct InitiateMultipartUploadInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "archiveDescription", location: .header(locationName: "x-amz-archive-description"), required: false, type: .string), 
+            AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
+            AWSShapeMember(label: "vaultName", location: .uri(locationName: "vaultName"), required: true, type: .string), 
+            AWSShapeMember(label: "partSize", location: .header(locationName: "x-amz-part-size"), required: false, type: .string)
+        ]
+        /// The archive description that you are uploading in parts. The part size must be a megabyte (1024 KB) multiplied by a power of 2, for example 1048576 (1 MB), 2097152 (2 MB), 4194304 (4 MB), 8388608 (8 MB), and so on. The minimum allowable part size is 1 MB, and the maximum is 4 GB (4096 MB).
+        public let archiveDescription: String?
+        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID. 
+        public let accountId: String
+        /// The name of the vault.
+        public let vaultName: String
+        /// The size of each part except the last, in bytes. The last part can be smaller than this part size.
+        public let partSize: String?
+
+        public init(archiveDescription: String? = nil, accountId: String, vaultName: String, partSize: String? = nil) {
+            self.archiveDescription = archiveDescription
+            self.accountId = accountId
+            self.vaultName = vaultName
+            self.partSize = partSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case archiveDescription = "x-amz-archive-description"
+            case accountId = "accountId"
+            case vaultName = "vaultName"
+            case partSize = "x-amz-part-size"
+        }
+    }
+
+    public struct ListPartsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "uploadId", location: .uri(locationName: "uploadId"), required: true, type: .string), 
+            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
+            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .string), 
+            AWSShapeMember(label: "vaultName", location: .uri(locationName: "vaultName"), required: true, type: .string)
+        ]
+        /// The upload ID of the multipart upload.
+        public let uploadId: String
+        /// An opaque string used for pagination. This value specifies the part at which the listing of parts should begin. Get the marker value from the response of a previous List Parts response. You need only include the marker if you are continuing the pagination of results started in a previous List Parts request.
+        public let marker: String?
+        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID. 
+        public let accountId: String
+        /// The maximum number of parts to be returned. The default limit is 50. The number of parts returned might be fewer than the specified limit, but the number of returned parts never exceeds the limit.
+        public let limit: String?
+        /// The name of the vault.
+        public let vaultName: String
+
+        public init(uploadId: String, marker: String? = nil, accountId: String, limit: String? = nil, vaultName: String) {
+            self.uploadId = uploadId
+            self.marker = marker
+            self.accountId = accountId
+            self.limit = limit
+            self.vaultName = vaultName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case uploadId = "uploadId"
+            case marker = "marker"
+            case accountId = "accountId"
             case limit = "limit"
             case vaultName = "vaultName"
         }
     }
 
-    public struct ProvisionedCapacityDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StartDate", required: false, type: .string), 
-            AWSShapeMember(label: "ExpirationDate", required: false, type: .string), 
-            AWSShapeMember(label: "CapacityId", required: false, type: .string)
-        ]
-        /// The date that the provisioned capacity unit was purchased, in Universal Coordinated Time (UTC).
-        public let startDate: String?
-        /// The date that the provisioned capacity unit expires, in Universal Coordinated Time (UTC).
-        public let expirationDate: String?
-        /// The ID that identifies the provisioned capacity unit.
-        public let capacityId: String?
-
-        public init(startDate: String? = nil, expirationDate: String? = nil, capacityId: String? = nil) {
-            self.startDate = startDate
-            self.expirationDate = expirationDate
-            self.capacityId = capacityId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case startDate = "StartDate"
-            case expirationDate = "ExpirationDate"
-            case capacityId = "CapacityId"
-        }
+    public enum `Type`: String, CustomStringConvertible, Codable {
+        case amazoncustomerbyemail = "AmazonCustomerByEmail"
+        case canonicaluser = "CanonicalUser"
+        case group = "Group"
+        public var description: String { return self.rawValue }
     }
 
-    public struct RemoveTagsFromVaultInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "vaultName", location: .uri(locationName: "vaultName"), required: true, type: .string), 
-            AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", required: false, type: .list)
-        ]
-        /// The name of the vault.
-        public let vaultName: String
-        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
-        public let accountId: String
-        /// A list of tag keys. Each corresponding tag is removed from the vault.
-        public let tagKeys: [String]?
-
-        public init(vaultName: String, accountId: String, tagKeys: [String]? = nil) {
-            self.vaultName = vaultName
-            self.accountId = accountId
-            self.tagKeys = tagKeys
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case vaultName = "vaultName"
-            case accountId = "accountId"
-            case tagKeys = "TagKeys"
-        }
-    }
-
-    public struct Grantee: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", required: true, type: .enum), 
-            AWSShapeMember(label: "URI", required: false, type: .string), 
-            AWSShapeMember(label: "ID", required: false, type: .string), 
-            AWSShapeMember(label: "EmailAddress", required: false, type: .string), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string)
-        ]
-        /// Type of grantee
-        public let `type`: `Type`
-        /// URI of the grantee group.
-        public let uri: String?
-        /// The canonical user ID of the grantee.
-        public let id: String?
-        /// Email address of the grantee.
-        public let emailAddress: String?
-        /// Screen name of the grantee.
-        public let displayName: String?
-
-        public init(type: `Type`, uri: String? = nil, id: String? = nil, emailAddress: String? = nil, displayName: String? = nil) {
-            self.`type` = `type`
-            self.uri = uri
-            self.id = id
-            self.emailAddress = emailAddress
-            self.displayName = displayName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
-            case uri = "URI"
-            case id = "ID"
-            case emailAddress = "EmailAddress"
-            case displayName = "DisplayName"
-        }
-    }
-
-    public struct GetJobOutputOutput: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "body"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "body", required: false, type: .blob), 
-            AWSShapeMember(label: "contentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
-            AWSShapeMember(label: "checksum", location: .header(locationName: "x-amz-sha256-tree-hash"), required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .integer), 
-            AWSShapeMember(label: "archiveDescription", location: .header(locationName: "x-amz-archive-description"), required: false, type: .string), 
-            AWSShapeMember(label: "contentRange", location: .header(locationName: "Content-Range"), required: false, type: .string), 
-            AWSShapeMember(label: "acceptRanges", location: .header(locationName: "Accept-Ranges"), required: false, type: .string)
-        ]
-        /// The job data, either archive data or inventory data.
-        public let body: Data?
-        /// The Content-Type depends on whether the job output is an archive or a vault inventory. For archive data, the Content-Type is application/octet-stream. For vault inventory, if you requested CSV format when you initiated the job, the Content-Type is text/csv. Otherwise, by default, vault inventory is returned as JSON, and the Content-Type is application/json.
-        public let contentType: String?
-        /// The checksum of the data in the response. This header is returned only when retrieving the output for an archive retrieval job. Furthermore, this header appears only under the following conditions:   You get the entire range of the archive.   You request a range to return of the archive that starts and ends on a multiple of 1 MB. For example, if you have an 3.1 MB archive and you specify a range to return that starts at 1 MB and ends at 2 MB, then the x-amz-sha256-tree-hash is returned as a response header.   You request a range of the archive to return that starts on a multiple of 1 MB and goes to the end of the archive. For example, if you have a 3.1 MB archive and you specify a range that starts at 2 MB and ends at 3.1 MB (the end of the archive), then the x-amz-sha256-tree-hash is returned as a response header.  
-        public let checksum: String?
-        /// The HTTP response code for a job output request. The value depends on whether a range was specified in the request.
-        public let status: Int32?
-        /// The description of an archive.
-        public let archiveDescription: String?
-        /// The range of bytes returned by Amazon Glacier. If only partial output is downloaded, the response provides the range of bytes Amazon Glacier returned. For example, bytes 0-1048575/8388608 returns the first 1 MB from 8 MB.
-        public let contentRange: String?
-        /// Indicates the range units accepted. For more information, see RFC2616. 
-        public let acceptRanges: String?
-
-        public init(body: Data? = nil, contentType: String? = nil, checksum: String? = nil, status: Int32? = nil, archiveDescription: String? = nil, contentRange: String? = nil, acceptRanges: String? = nil) {
-            self.body = body
-            self.contentType = contentType
-            self.checksum = checksum
-            self.status = status
-            self.archiveDescription = archiveDescription
-            self.contentRange = contentRange
-            self.acceptRanges = acceptRanges
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case body = "body"
-            case contentType = "Content-Type"
-            case checksum = "x-amz-sha256-tree-hash"
-            case status = "status"
-            case archiveDescription = "x-amz-archive-description"
-            case contentRange = "Content-Range"
-            case acceptRanges = "Accept-Ranges"
-        }
-    }
-
-    public struct DataRetrievalPolicy: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Rules", required: false, type: .list)
-        ]
-        /// The policy rule. Although this is a list type, currently there must be only one rule, which contains a Strategy field and optionally a BytesPerHour field.
-        public let rules: [DataRetrievalRule]?
-
-        public init(rules: [DataRetrievalRule]? = nil) {
-            self.rules = rules
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case rules = "Rules"
-        }
-    }
-
-    public struct ArchiveCreationOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "archiveId", location: .header(locationName: "x-amz-archive-id"), required: false, type: .string), 
-            AWSShapeMember(label: "location", location: .header(locationName: "Location"), required: false, type: .string), 
-            AWSShapeMember(label: "checksum", location: .header(locationName: "x-amz-sha256-tree-hash"), required: false, type: .string)
-        ]
-        /// The ID of the archive. This value is also included as part of the location.
-        public let archiveId: String?
-        /// The relative URI path of the newly added archive resource.
-        public let location: String?
-        /// The checksum of the archive computed by Amazon Glacier.
-        public let checksum: String?
-
-        public init(archiveId: String? = nil, location: String? = nil, checksum: String? = nil) {
-            self.archiveId = archiveId
-            self.location = location
-            self.checksum = checksum
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case archiveId = "x-amz-archive-id"
-            case location = "Location"
-            case checksum = "x-amz-sha256-tree-hash"
-        }
-    }
-
-    public struct S3Location: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Encryption", required: false, type: .structure), 
-            AWSShapeMember(label: "Prefix", required: false, type: .string), 
-            AWSShapeMember(label: "Tagging", required: false, type: .map), 
-            AWSShapeMember(label: "AccessControlList", required: false, type: .list), 
-            AWSShapeMember(label: "UserMetadata", required: false, type: .map), 
-            AWSShapeMember(label: "CannedACL", required: false, type: .enum), 
-            AWSShapeMember(label: "BucketName", required: false, type: .string), 
-            AWSShapeMember(label: "StorageClass", required: false, type: .enum)
-        ]
-        /// Contains information about the encryption used to store the job results in Amazon S3.
-        public let encryption: Encryption?
-        /// The prefix that is prepended to the results for this request.
-        public let prefix: String?
-        /// The tag-set that is applied to the job results.
-        public let tagging: [String: String]?
-        /// A list of grants that control access to the staged results.
-        public let accessControlList: [Grant]?
-        /// A map of metadata to store with the job results in Amazon S3.
-        public let userMetadata: [String: String]?
-        /// The canned access control list (ACL) to apply to the job results.
-        public let cannedACL: CannedACL?
-        /// The name of the Amazon S3 bucket where the job results are stored.
-        public let bucketName: String?
-        /// The storage class used to store the job results.
-        public let storageClass: StorageClass?
-
-        public init(encryption: Encryption? = nil, prefix: String? = nil, tagging: [String: String]? = nil, accessControlList: [Grant]? = nil, userMetadata: [String: String]? = nil, cannedACL: CannedACL? = nil, bucketName: String? = nil, storageClass: StorageClass? = nil) {
-            self.encryption = encryption
-            self.prefix = prefix
-            self.tagging = tagging
-            self.accessControlList = accessControlList
-            self.userMetadata = userMetadata
-            self.cannedACL = cannedACL
-            self.bucketName = bucketName
-            self.storageClass = storageClass
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case encryption = "Encryption"
-            case prefix = "Prefix"
-            case tagging = "Tagging"
-            case accessControlList = "AccessControlList"
-            case userMetadata = "UserMetadata"
-            case cannedACL = "CannedACL"
-            case bucketName = "BucketName"
-            case storageClass = "StorageClass"
-        }
-    }
-
-    public struct GlacierJobDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SNSTopic", required: false, type: .string), 
-            AWSShapeMember(label: "StatusCode", required: false, type: .enum), 
-            AWSShapeMember(label: "Tier", required: false, type: .string), 
-            AWSShapeMember(label: "InventorySizeInBytes", required: false, type: .long), 
-            AWSShapeMember(label: "RetrievalByteRange", required: false, type: .string), 
-            AWSShapeMember(label: "JobDescription", required: false, type: .string), 
-            AWSShapeMember(label: "ArchiveSizeInBytes", required: false, type: .long), 
-            AWSShapeMember(label: "Action", required: false, type: .enum), 
-            AWSShapeMember(label: "ArchiveId", required: false, type: .string), 
-            AWSShapeMember(label: "OutputLocation", required: false, type: .structure), 
-            AWSShapeMember(label: "ArchiveSHA256TreeHash", required: false, type: .string), 
-            AWSShapeMember(label: "CompletionDate", required: false, type: .string), 
-            AWSShapeMember(label: "JobOutputPath", required: false, type: .string), 
-            AWSShapeMember(label: "SelectParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "SHA256TreeHash", required: false, type: .string), 
-            AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
-            AWSShapeMember(label: "VaultARN", required: false, type: .string), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .string), 
-            AWSShapeMember(label: "InventoryRetrievalParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "JobId", required: false, type: .string), 
-            AWSShapeMember(label: "Completed", required: false, type: .boolean)
-        ]
-        /// An Amazon SNS topic that receives notification.
-        public let sNSTopic: String?
-        /// The status code can be InProgress, Succeeded, or Failed, and indicates the status of the job.
-        public let statusCode: StatusCode?
-        /// The tier to use for a select or an archive retrieval. Valid values are Expedited, Standard, or Bulk. Standard is the default.
-        public let tier: String?
-        /// For an inventory retrieval job, this value is the size in bytes of the inventory requested for download. For an archive retrieval or select job, this value is null.
-        public let inventorySizeInBytes: Int64?
-        /// The retrieved byte range for archive retrieval jobs in the form StartByteValue-EndByteValue. If no range was specified in the archive retrieval, then the whole archive is retrieved. In this case, StartByteValue equals 0 and EndByteValue equals the size of the archive minus 1. For inventory retrieval or select jobs, this field is null. 
-        public let retrievalByteRange: String?
-        /// The job description provided when initiating the job.
-        public let jobDescription: String?
-        /// For an archive retrieval job, this value is the size in bytes of the archive being requested for download. For an inventory retrieval or select job, this value is null.
-        public let archiveSizeInBytes: Int64?
-        /// The job type. This value is either ArchiveRetrieval, InventoryRetrieval, or Select. 
-        public let action: ActionCode?
-        /// The archive ID requested for a select job or archive retrieval. Otherwise, this field is null.
-        public let archiveId: String?
-        /// Contains the location where the data from the select job is stored.
-        public let outputLocation: OutputLocation?
-        /// The SHA256 tree hash of the entire archive for an archive retrieval. For inventory retrieval or select jobs, this field is null.
-        public let archiveSHA256TreeHash: String?
-        /// The UTC time that the job request completed. While the job is in progress, the value is null.
-        public let completionDate: String?
-        /// Contains the job output location.
-        public let jobOutputPath: String?
-        /// Contains the parameters used for a select.
-        public let selectParameters: SelectParameters?
-        /// For an archive retrieval job, this value is the checksum of the archive. Otherwise, this value is null. The SHA256 tree hash value for the requested range of an archive. If the InitiateJob request for an archive specified a tree-hash aligned range, then this field returns a value. If the whole archive is retrieved, this value is the same as the ArchiveSHA256TreeHash value. This field is null for the following:   Archive retrieval jobs that specify a range that is not tree-hash aligned     Archival jobs that specify a range that is equal to the whole archive, when the job status is InProgress      Inventory jobs   Select jobs  
-        public let sHA256TreeHash: String?
-        /// A friendly message that describes the job status.
-        public let statusMessage: String?
-        /// The Amazon Resource Name (ARN) of the vault from which an archive retrieval was requested.
-        public let vaultARN: String?
-        /// The UTC date when the job was created. This value is a string representation of ISO 8601 date format, for example "2012-03-20T17:03:43.221Z".
-        public let creationDate: String?
-        /// Parameters used for range inventory retrieval.
-        public let inventoryRetrievalParameters: InventoryRetrievalJobDescription?
-        /// An opaque string that identifies an Amazon Glacier job.
-        public let jobId: String?
-        /// The job status. When a job is completed, you get the job's output using Get Job Output (GET output).
-        public let completed: Bool?
-
-        public init(sNSTopic: String? = nil, statusCode: StatusCode? = nil, tier: String? = nil, inventorySizeInBytes: Int64? = nil, retrievalByteRange: String? = nil, jobDescription: String? = nil, archiveSizeInBytes: Int64? = nil, action: ActionCode? = nil, archiveId: String? = nil, outputLocation: OutputLocation? = nil, archiveSHA256TreeHash: String? = nil, completionDate: String? = nil, jobOutputPath: String? = nil, selectParameters: SelectParameters? = nil, sHA256TreeHash: String? = nil, statusMessage: String? = nil, vaultARN: String? = nil, creationDate: String? = nil, inventoryRetrievalParameters: InventoryRetrievalJobDescription? = nil, jobId: String? = nil, completed: Bool? = nil) {
-            self.sNSTopic = sNSTopic
-            self.statusCode = statusCode
-            self.tier = tier
-            self.inventorySizeInBytes = inventorySizeInBytes
-            self.retrievalByteRange = retrievalByteRange
-            self.jobDescription = jobDescription
-            self.archiveSizeInBytes = archiveSizeInBytes
-            self.action = action
-            self.archiveId = archiveId
-            self.outputLocation = outputLocation
-            self.archiveSHA256TreeHash = archiveSHA256TreeHash
-            self.completionDate = completionDate
-            self.jobOutputPath = jobOutputPath
-            self.selectParameters = selectParameters
-            self.sHA256TreeHash = sHA256TreeHash
-            self.statusMessage = statusMessage
-            self.vaultARN = vaultARN
-            self.creationDate = creationDate
-            self.inventoryRetrievalParameters = inventoryRetrievalParameters
-            self.jobId = jobId
-            self.completed = completed
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sNSTopic = "SNSTopic"
-            case statusCode = "StatusCode"
-            case tier = "Tier"
-            case inventorySizeInBytes = "InventorySizeInBytes"
-            case retrievalByteRange = "RetrievalByteRange"
-            case jobDescription = "JobDescription"
-            case archiveSizeInBytes = "ArchiveSizeInBytes"
-            case action = "Action"
-            case archiveId = "ArchiveId"
-            case outputLocation = "OutputLocation"
-            case archiveSHA256TreeHash = "ArchiveSHA256TreeHash"
-            case completionDate = "CompletionDate"
-            case jobOutputPath = "JobOutputPath"
-            case selectParameters = "SelectParameters"
-            case sHA256TreeHash = "SHA256TreeHash"
-            case statusMessage = "StatusMessage"
-            case vaultARN = "VaultARN"
-            case creationDate = "CreationDate"
-            case inventoryRetrievalParameters = "InventoryRetrievalParameters"
-            case jobId = "JobId"
-            case completed = "Completed"
-        }
-    }
-
-    public struct OutputLocation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3", required: false, type: .structure)
-        ]
-        /// Describes an S3 location that will receive the results of the job request.
-        public let s3: S3Location?
-
-        public init(s3: S3Location? = nil) {
-            self.s3 = s3
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case s3 = "S3"
-        }
-    }
-
-    public struct GetVaultAccessPolicyInput: AWSShape {
+    public struct CreateVaultInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "vaultName", location: .uri(locationName: "vaultName"), required: true, type: .string), 
             AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string)
         ]
         /// The name of the vault.
         public let vaultName: String
-        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+        /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.
         public let accountId: String
 
         public init(vaultName: String, accountId: String) {
@@ -823,106 +715,215 @@ extension Glacier {
         }
     }
 
-    public enum EncryptionType: String, CustomStringConvertible, Codable {
-        case awsKms = "aws:kms"
-        case aes256 = "AES256"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct PartListElement: AWSShape {
+    public struct InitiateMultipartUploadOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RangeInBytes", required: false, type: .string), 
-            AWSShapeMember(label: "SHA256TreeHash", required: false, type: .string)
+            AWSShapeMember(label: "location", location: .header(locationName: "Location"), required: false, type: .string), 
+            AWSShapeMember(label: "uploadId", location: .header(locationName: "x-amz-multipart-upload-id"), required: false, type: .string)
         ]
-        /// The byte range of a part, inclusive of the upper value of the range.
-        public let rangeInBytes: String?
-        /// The SHA256 tree hash value that Amazon Glacier calculated for the part. This field is never null.
-        public let sHA256TreeHash: String?
+        /// The relative URI path of the multipart upload ID Amazon Glacier created.
+        public let location: String?
+        /// The ID of the multipart upload. This value is also included as part of the location.
+        public let uploadId: String?
 
-        public init(rangeInBytes: String? = nil, sHA256TreeHash: String? = nil) {
-            self.rangeInBytes = rangeInBytes
-            self.sHA256TreeHash = sHA256TreeHash
+        public init(location: String? = nil, uploadId: String? = nil) {
+            self.location = location
+            self.uploadId = uploadId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case rangeInBytes = "RangeInBytes"
-            case sHA256TreeHash = "SHA256TreeHash"
+            case location = "Location"
+            case uploadId = "x-amz-multipart-upload-id"
         }
     }
 
-    public struct GetVaultLockOutput: AWSShape {
+    public struct SelectParameters: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExpirationDate", required: false, type: .string), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .string), 
-            AWSShapeMember(label: "Policy", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .string)
+            AWSShapeMember(label: "ExpressionType", required: false, type: .enum), 
+            AWSShapeMember(label: "InputSerialization", required: false, type: .structure), 
+            AWSShapeMember(label: "Expression", required: false, type: .string), 
+            AWSShapeMember(label: "OutputSerialization", required: false, type: .structure)
         ]
-        /// The UTC date and time at which the lock ID expires. This value can be null if the vault lock is in a Locked state.
-        public let expirationDate: String?
-        /// The UTC date and time at which the vault lock was put into the InProgress state.
-        public let creationDate: String?
-        /// The vault lock policy as a JSON string, which uses "\" as an escape character.
-        public let policy: String?
-        /// The state of the vault lock. InProgress or Locked.
-        public let state: String?
+        /// The type of the provided expression, for example SQL.
+        public let expressionType: ExpressionType?
+        /// Describes the serialization format of the object.
+        public let inputSerialization: InputSerialization?
+        /// The expression that is used to select the object.
+        public let expression: String?
+        /// Describes how the results of the select job are serialized.
+        public let outputSerialization: OutputSerialization?
 
-        public init(expirationDate: String? = nil, creationDate: String? = nil, policy: String? = nil, state: String? = nil) {
-            self.expirationDate = expirationDate
-            self.creationDate = creationDate
-            self.policy = policy
-            self.state = state
+        public init(expressionType: ExpressionType? = nil, inputSerialization: InputSerialization? = nil, expression: String? = nil, outputSerialization: OutputSerialization? = nil) {
+            self.expressionType = expressionType
+            self.inputSerialization = inputSerialization
+            self.expression = expression
+            self.outputSerialization = outputSerialization
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expirationDate = "ExpirationDate"
-            case creationDate = "CreationDate"
-            case policy = "Policy"
-            case state = "State"
+            case expressionType = "ExpressionType"
+            case inputSerialization = "InputSerialization"
+            case expression = "Expression"
+            case outputSerialization = "OutputSerialization"
         }
     }
 
-    public enum ActionCode: String, CustomStringConvertible, Codable {
-        case archiveretrieval = "ArchiveRetrieval"
-        case inventoryretrieval = "InventoryRetrieval"
-        case select = "Select"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ExpressionType: String, CustomStringConvertible, Codable {
-        case sql = "SQL"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum `Type`: String, CustomStringConvertible, Codable {
-        case amazoncustomerbyemail = "AmazonCustomerByEmail"
-        case canonicaluser = "CanonicalUser"
-        case group = "Group"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeJobInput: AWSShape {
+    public struct CompleteMultipartUploadInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string), 
+            AWSShapeMember(label: "uploadId", location: .uri(locationName: "uploadId"), required: true, type: .string), 
+            AWSShapeMember(label: "archiveSize", location: .header(locationName: "x-amz-archive-size"), required: false, type: .string), 
+            AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
+            AWSShapeMember(label: "checksum", location: .header(locationName: "x-amz-sha256-tree-hash"), required: false, type: .string), 
+            AWSShapeMember(label: "vaultName", location: .uri(locationName: "vaultName"), required: true, type: .string)
+        ]
+        /// The upload ID of the multipart upload.
+        public let uploadId: String
+        /// The total size, in bytes, of the entire archive. This value should be the sum of all the sizes of the individual parts that you uploaded.
+        public let archiveSize: String?
+        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+        public let accountId: String
+        /// The SHA256 tree hash of the entire archive. It is the tree hash of SHA256 tree hash of the individual parts. If the value you specify in the request does not match the SHA256 tree hash of the final assembled archive as computed by Amazon Glacier, Amazon Glacier returns an error and the request fails.
+        public let checksum: String?
+        /// The name of the vault.
+        public let vaultName: String
+
+        public init(uploadId: String, archiveSize: String? = nil, accountId: String, checksum: String? = nil, vaultName: String) {
+            self.uploadId = uploadId
+            self.archiveSize = archiveSize
+            self.accountId = accountId
+            self.checksum = checksum
+            self.vaultName = vaultName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case uploadId = "uploadId"
+            case archiveSize = "x-amz-archive-size"
+            case accountId = "accountId"
+            case checksum = "x-amz-sha256-tree-hash"
+            case vaultName = "vaultName"
+        }
+    }
+
+    public struct ListJobsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "completed", location: .querystring(locationName: "completed"), required: false, type: .string), 
+            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
+            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .string), 
+            AWSShapeMember(label: "statuscode", location: .querystring(locationName: "statuscode"), required: false, type: .string), 
+            AWSShapeMember(label: "vaultName", location: .uri(locationName: "vaultName"), required: true, type: .string)
+        ]
+        /// The state of the jobs to return. You can specify true or false.
+        public let completed: String?
+        /// An opaque string used for pagination. This value specifies the job at which the listing of jobs should begin. Get the marker value from a previous List Jobs response. You only need to include the marker if you are continuing the pagination of results started in a previous List Jobs request.
+        public let marker: String?
+        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID. 
+        public let accountId: String
+        /// The maximum number of jobs to be returned. The default limit is 50. The number of jobs returned might be fewer than the specified limit, but the number of returned jobs never exceeds the limit.
+        public let limit: String?
+        /// The type of job status to return. You can specify the following values: InProgress, Succeeded, or Failed.
+        public let statuscode: String?
+        /// The name of the vault.
+        public let vaultName: String
+
+        public init(completed: String? = nil, marker: String? = nil, accountId: String, limit: String? = nil, statuscode: String? = nil, vaultName: String) {
+            self.completed = completed
+            self.marker = marker
+            self.accountId = accountId
+            self.limit = limit
+            self.statuscode = statuscode
+            self.vaultName = vaultName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completed = "completed"
+            case marker = "marker"
+            case accountId = "accountId"
+            case limit = "limit"
+            case statuscode = "statuscode"
+            case vaultName = "vaultName"
+        }
+    }
+
+    public struct DeleteVaultNotificationsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "vaultName", location: .uri(locationName: "vaultName"), required: true, type: .string), 
             AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string)
         ]
-        /// The ID of the job to describe.
-        public let jobId: String
         /// The name of the vault.
         public let vaultName: String
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID. 
         public let accountId: String
 
-        public init(jobId: String, vaultName: String, accountId: String) {
-            self.jobId = jobId
+        public init(vaultName: String, accountId: String) {
             self.vaultName = vaultName
             self.accountId = accountId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId = "jobId"
             case vaultName = "vaultName"
             case accountId = "accountId"
+        }
+    }
+
+    public struct InputSerialization: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "csv", required: false, type: .structure)
+        ]
+        /// Describes the serialization of a CSV-encoded object.
+        public let csv: CSVInput?
+
+        public init(csv: CSVInput? = nil) {
+            self.csv = csv
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case csv = "csv"
+        }
+    }
+
+    public struct ListPartsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ArchiveDescription", required: false, type: .string), 
+            AWSShapeMember(label: "VaultARN", required: false, type: .string), 
+            AWSShapeMember(label: "MultipartUploadId", required: false, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .string), 
+            AWSShapeMember(label: "Parts", required: false, type: .list), 
+            AWSShapeMember(label: "PartSizeInBytes", required: false, type: .long)
+        ]
+        /// The description of the archive that was specified in the Initiate Multipart Upload request.
+        public let archiveDescription: String?
+        /// The Amazon Resource Name (ARN) of the vault to which the multipart upload was initiated.
+        public let vaultARN: String?
+        /// The ID of the upload to which the parts are associated.
+        public let multipartUploadId: String?
+        /// An opaque string that represents where to continue pagination of the results. You use the marker in a new List Parts request to obtain more jobs in the list. If there are no more parts, this value is null.
+        public let marker: String?
+        /// The UTC time at which the multipart upload was initiated.
+        public let creationDate: String?
+        /// A list of the part sizes of the multipart upload. Each object in the array contains a RangeBytes and sha256-tree-hash name/value pair.
+        public let parts: [PartListElement]?
+        /// The part size in bytes. This is the same value that you specified in the Initiate Multipart Upload request.
+        public let partSizeInBytes: Int64?
+
+        public init(archiveDescription: String? = nil, vaultARN: String? = nil, multipartUploadId: String? = nil, marker: String? = nil, creationDate: String? = nil, parts: [PartListElement]? = nil, partSizeInBytes: Int64? = nil) {
+            self.archiveDescription = archiveDescription
+            self.vaultARN = vaultARN
+            self.multipartUploadId = multipartUploadId
+            self.marker = marker
+            self.creationDate = creationDate
+            self.parts = parts
+            self.partSizeInBytes = partSizeInBytes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case archiveDescription = "ArchiveDescription"
+            case vaultARN = "VaultARN"
+            case multipartUploadId = "MultipartUploadId"
+            case marker = "Marker"
+            case creationDate = "CreationDate"
+            case parts = "Parts"
+            case partSizeInBytes = "PartSizeInBytes"
         }
     }
 
@@ -937,19 +938,161 @@ extension Glacier {
         public var description: String { return self.rawValue }
     }
 
-    public struct UploadMultipartPartOutput: AWSShape {
+    public struct PurchaseProvisionedCapacityInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "checksum", location: .header(locationName: "x-amz-sha256-tree-hash"), required: false, type: .string)
+            AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string)
         ]
-        /// The SHA256 tree hash that Amazon Glacier computed for the uploaded part.
-        public let checksum: String?
+        /// The AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, don't include any hyphens ('-') in the ID. 
+        public let accountId: String
 
-        public init(checksum: String? = nil) {
-            self.checksum = checksum
+        public init(accountId: String) {
+            self.accountId = accountId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+        }
+    }
+
+    public struct DeleteArchiveInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "archiveId", location: .uri(locationName: "archiveId"), required: true, type: .string), 
+            AWSShapeMember(label: "vaultName", location: .uri(locationName: "vaultName"), required: true, type: .string), 
+            AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string)
+        ]
+        /// The ID of the archive to delete.
+        public let archiveId: String
+        /// The name of the vault.
+        public let vaultName: String
+        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+        public let accountId: String
+
+        public init(archiveId: String, vaultName: String, accountId: String) {
+            self.archiveId = archiveId
+            self.vaultName = vaultName
+            self.accountId = accountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case archiveId = "archiveId"
+            case vaultName = "vaultName"
+            case accountId = "accountId"
+        }
+    }
+
+    public struct CreateVaultOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "location", location: .header(locationName: "Location"), required: false, type: .string)
+        ]
+        /// The URI of the vault that was created.
+        public let location: String?
+
+        public init(location: String? = nil) {
+            self.location = location
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case location = "Location"
+        }
+    }
+
+    public struct CompleteVaultLockInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "vaultName", location: .uri(locationName: "vaultName"), required: true, type: .string), 
+            AWSShapeMember(label: "lockId", location: .uri(locationName: "lockId"), required: true, type: .string), 
+            AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string)
+        ]
+        /// The name of the vault.
+        public let vaultName: String
+        /// The lockId value is the lock ID obtained from a InitiateVaultLock request.
+        public let lockId: String
+        /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.
+        public let accountId: String
+
+        public init(vaultName: String, lockId: String, accountId: String) {
+            self.vaultName = vaultName
+            self.lockId = lockId
+            self.accountId = accountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vaultName = "vaultName"
+            case lockId = "lockId"
+            case accountId = "accountId"
+        }
+    }
+
+    public struct UploadListElement: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ArchiveDescription", required: false, type: .string), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .string), 
+            AWSShapeMember(label: "MultipartUploadId", required: false, type: .string), 
+            AWSShapeMember(label: "VaultARN", required: false, type: .string), 
+            AWSShapeMember(label: "PartSizeInBytes", required: false, type: .long)
+        ]
+        /// The description of the archive that was specified in the Initiate Multipart Upload request.
+        public let archiveDescription: String?
+        /// The UTC time at which the multipart upload was initiated.
+        public let creationDate: String?
+        /// The ID of a multipart upload.
+        public let multipartUploadId: String?
+        /// The Amazon Resource Name (ARN) of the vault that contains the archive.
+        public let vaultARN: String?
+        /// The part size, in bytes, specified in the Initiate Multipart Upload request. This is the size of all the parts in the upload except the last part, which may be smaller than this size.
+        public let partSizeInBytes: Int64?
+
+        public init(archiveDescription: String? = nil, creationDate: String? = nil, multipartUploadId: String? = nil, vaultARN: String? = nil, partSizeInBytes: Int64? = nil) {
+            self.archiveDescription = archiveDescription
+            self.creationDate = creationDate
+            self.multipartUploadId = multipartUploadId
+            self.vaultARN = vaultARN
+            self.partSizeInBytes = partSizeInBytes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case archiveDescription = "ArchiveDescription"
+            case creationDate = "CreationDate"
+            case multipartUploadId = "MultipartUploadId"
+            case vaultARN = "VaultARN"
+            case partSizeInBytes = "PartSizeInBytes"
+        }
+    }
+
+    public struct UploadArchiveInput: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "body"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "archiveDescription", location: .header(locationName: "x-amz-archive-description"), required: false, type: .string), 
+            AWSShapeMember(label: "body", required: false, type: .blob), 
+            AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
+            AWSShapeMember(label: "checksum", location: .header(locationName: "x-amz-sha256-tree-hash"), required: false, type: .string), 
+            AWSShapeMember(label: "vaultName", location: .uri(locationName: "vaultName"), required: true, type: .string)
+        ]
+        /// The optional description of the archive you are uploading.
+        public let archiveDescription: String?
+        /// The data to upload.
+        public let body: Data?
+        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID. 
+        public let accountId: String
+        /// The SHA256 tree hash of the data being uploaded.
+        public let checksum: String?
+        /// The name of the vault.
+        public let vaultName: String
+
+        public init(archiveDescription: String? = nil, body: Data? = nil, accountId: String, checksum: String? = nil, vaultName: String) {
+            self.archiveDescription = archiveDescription
+            self.body = body
+            self.accountId = accountId
+            self.checksum = checksum
+            self.vaultName = vaultName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case archiveDescription = "x-amz-archive-description"
+            case body = "body"
+            case accountId = "accountId"
             case checksum = "x-amz-sha256-tree-hash"
+            case vaultName = "vaultName"
         }
     }
 
@@ -979,147 +1122,34 @@ extension Glacier {
         }
     }
 
-    public struct UploadListElement: AWSShape {
+    public struct DataRetrievalPolicy: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ArchiveDescription", required: false, type: .string), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .string), 
-            AWSShapeMember(label: "PartSizeInBytes", required: false, type: .long), 
-            AWSShapeMember(label: "VaultARN", required: false, type: .string), 
-            AWSShapeMember(label: "MultipartUploadId", required: false, type: .string)
+            AWSShapeMember(label: "Rules", required: false, type: .list)
         ]
-        /// The description of the archive that was specified in the Initiate Multipart Upload request.
-        public let archiveDescription: String?
-        /// The UTC time at which the multipart upload was initiated.
-        public let creationDate: String?
-        /// The part size, in bytes, specified in the Initiate Multipart Upload request. This is the size of all the parts in the upload except the last part, which may be smaller than this size.
-        public let partSizeInBytes: Int64?
-        /// The Amazon Resource Name (ARN) of the vault that contains the archive.
-        public let vaultARN: String?
-        /// The ID of a multipart upload.
-        public let multipartUploadId: String?
+        /// The policy rule. Although this is a list type, currently there must be only one rule, which contains a Strategy field and optionally a BytesPerHour field.
+        public let rules: [DataRetrievalRule]?
 
-        public init(archiveDescription: String? = nil, creationDate: String? = nil, partSizeInBytes: Int64? = nil, vaultARN: String? = nil, multipartUploadId: String? = nil) {
-            self.archiveDescription = archiveDescription
-            self.creationDate = creationDate
-            self.partSizeInBytes = partSizeInBytes
-            self.vaultARN = vaultARN
-            self.multipartUploadId = multipartUploadId
+        public init(rules: [DataRetrievalRule]? = nil) {
+            self.rules = rules
         }
 
         private enum CodingKeys: String, CodingKey {
-            case archiveDescription = "ArchiveDescription"
-            case creationDate = "CreationDate"
-            case partSizeInBytes = "PartSizeInBytes"
-            case vaultARN = "VaultARN"
-            case multipartUploadId = "MultipartUploadId"
+            case rules = "Rules"
         }
     }
 
-    public struct ListPartsOutput: AWSShape {
+    public struct GetDataRetrievalPolicyInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationDate", required: false, type: .string), 
-            AWSShapeMember(label: "PartSizeInBytes", required: false, type: .long), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Parts", required: false, type: .list), 
-            AWSShapeMember(label: "ArchiveDescription", required: false, type: .string), 
-            AWSShapeMember(label: "MultipartUploadId", required: false, type: .string), 
-            AWSShapeMember(label: "VaultARN", required: false, type: .string)
-        ]
-        /// The UTC time at which the multipart upload was initiated.
-        public let creationDate: String?
-        /// The part size in bytes. This is the same value that you specified in the Initiate Multipart Upload request.
-        public let partSizeInBytes: Int64?
-        /// An opaque string that represents where to continue pagination of the results. You use the marker in a new List Parts request to obtain more jobs in the list. If there are no more parts, this value is null.
-        public let marker: String?
-        /// A list of the part sizes of the multipart upload. Each object in the array contains a RangeBytes and sha256-tree-hash name/value pair.
-        public let parts: [PartListElement]?
-        /// The description of the archive that was specified in the Initiate Multipart Upload request.
-        public let archiveDescription: String?
-        /// The ID of the upload to which the parts are associated.
-        public let multipartUploadId: String?
-        /// The Amazon Resource Name (ARN) of the vault to which the multipart upload was initiated.
-        public let vaultARN: String?
-
-        public init(creationDate: String? = nil, partSizeInBytes: Int64? = nil, marker: String? = nil, parts: [PartListElement]? = nil, archiveDescription: String? = nil, multipartUploadId: String? = nil, vaultARN: String? = nil) {
-            self.creationDate = creationDate
-            self.partSizeInBytes = partSizeInBytes
-            self.marker = marker
-            self.parts = parts
-            self.archiveDescription = archiveDescription
-            self.multipartUploadId = multipartUploadId
-            self.vaultARN = vaultARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case creationDate = "CreationDate"
-            case partSizeInBytes = "PartSizeInBytes"
-            case marker = "Marker"
-            case parts = "Parts"
-            case archiveDescription = "ArchiveDescription"
-            case multipartUploadId = "MultipartUploadId"
-            case vaultARN = "VaultARN"
-        }
-    }
-
-    public struct InitiateVaultLockOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lockId", location: .header(locationName: "x-amz-lock-id"), required: false, type: .string)
-        ]
-        /// The lock ID, which is used to complete the vault locking process.
-        public let lockId: String?
-
-        public init(lockId: String? = nil) {
-            self.lockId = lockId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lockId = "x-amz-lock-id"
-        }
-    }
-
-    public struct ListVaultsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VaultList", required: false, type: .list), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
-        ]
-        /// List of vaults.
-        public let vaultList: [DescribeVaultOutput]?
-        /// The vault ARN at which to continue pagination of the results. You use the marker in another List Vaults request to obtain more vaults in the list.
-        public let marker: String?
-
-        public init(vaultList: [DescribeVaultOutput]? = nil, marker: String? = nil) {
-            self.vaultList = vaultList
-            self.marker = marker
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case vaultList = "VaultList"
-            case marker = "Marker"
-        }
-    }
-
-    public struct CompleteVaultLockInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lockId", location: .uri(locationName: "lockId"), required: true, type: .string), 
-            AWSShapeMember(label: "vaultName", location: .uri(locationName: "vaultName"), required: true, type: .string), 
             AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string)
         ]
-        /// The lockId value is the lock ID obtained from a InitiateVaultLock request.
-        public let lockId: String
-        /// The name of the vault.
-        public let vaultName: String
-        /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.
+        /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID. 
         public let accountId: String
 
-        public init(lockId: String, vaultName: String, accountId: String) {
-            self.lockId = lockId
-            self.vaultName = vaultName
+        public init(accountId: String) {
             self.accountId = accountId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lockId = "lockId"
-            case vaultName = "vaultName"
             case accountId = "accountId"
         }
     }
@@ -1145,345 +1175,70 @@ extension Glacier {
         }
     }
 
-    public struct CSVOutput: AWSShape {
+    public struct Grantee: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RecordDelimiter", required: false, type: .string), 
-            AWSShapeMember(label: "QuoteFields", required: false, type: .enum), 
-            AWSShapeMember(label: "FieldDelimiter", required: false, type: .string), 
-            AWSShapeMember(label: "QuoteCharacter", required: false, type: .string), 
-            AWSShapeMember(label: "QuoteEscapeCharacter", required: false, type: .string)
+            AWSShapeMember(label: "URI", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: true, type: .enum), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "EmailAddress", required: false, type: .string), 
+            AWSShapeMember(label: "ID", required: false, type: .string)
         ]
-        /// A value used to separate individual records from each other.
-        public let recordDelimiter: String?
-        /// A value that indicates whether all output fields should be contained within quotation marks.
-        public let quoteFields: QuoteFields?
-        /// A value used to separate individual fields from each other within a record.
-        public let fieldDelimiter: String?
-        /// A value used as an escape character where the field delimiter is part of the value.
-        public let quoteCharacter: String?
-        /// A single character used for escaping the quotation-mark character inside an already escaped value.
-        public let quoteEscapeCharacter: String?
+        /// URI of the grantee group.
+        public let uri: String?
+        /// Type of grantee
+        public let `type`: `Type`
+        /// Screen name of the grantee.
+        public let displayName: String?
+        /// Email address of the grantee.
+        public let emailAddress: String?
+        /// The canonical user ID of the grantee.
+        public let id: String?
 
-        public init(recordDelimiter: String? = nil, quoteFields: QuoteFields? = nil, fieldDelimiter: String? = nil, quoteCharacter: String? = nil, quoteEscapeCharacter: String? = nil) {
-            self.recordDelimiter = recordDelimiter
-            self.quoteFields = quoteFields
-            self.fieldDelimiter = fieldDelimiter
-            self.quoteCharacter = quoteCharacter
-            self.quoteEscapeCharacter = quoteEscapeCharacter
+        public init(uri: String? = nil, type: `Type`, displayName: String? = nil, emailAddress: String? = nil, id: String? = nil) {
+            self.uri = uri
+            self.`type` = `type`
+            self.displayName = displayName
+            self.emailAddress = emailAddress
+            self.id = id
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recordDelimiter = "RecordDelimiter"
-            case quoteFields = "QuoteFields"
-            case fieldDelimiter = "FieldDelimiter"
-            case quoteCharacter = "QuoteCharacter"
-            case quoteEscapeCharacter = "QuoteEscapeCharacter"
+            case uri = "URI"
+            case `type` = "Type"
+            case displayName = "DisplayName"
+            case emailAddress = "EmailAddress"
+            case id = "ID"
         }
     }
 
-    public struct DescribeVaultOutput: AWSShape {
+    public struct GetJobOutputInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NumberOfArchives", required: false, type: .long), 
-            AWSShapeMember(label: "VaultARN", required: false, type: .string), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .string), 
-            AWSShapeMember(label: "VaultName", required: false, type: .string), 
-            AWSShapeMember(label: "LastInventoryDate", required: false, type: .string), 
-            AWSShapeMember(label: "SizeInBytes", required: false, type: .long)
-        ]
-        /// The number of archives in the vault as of the last inventory date. This field will return null if an inventory has not yet run on the vault, for example if you just created the vault.
-        public let numberOfArchives: Int64?
-        /// The Amazon Resource Name (ARN) of the vault.
-        public let vaultARN: String?
-        /// The Universal Coordinated Time (UTC) date when the vault was created. This value should be a string in the ISO 8601 date format, for example 2012-03-20T17:03:43.221Z.
-        public let creationDate: String?
-        /// The name of the vault.
-        public let vaultName: String?
-        /// The Universal Coordinated Time (UTC) date when Amazon Glacier completed the last vault inventory. This value should be a string in the ISO 8601 date format, for example 2012-03-20T17:03:43.221Z.
-        public let lastInventoryDate: String?
-        /// Total size, in bytes, of the archives in the vault as of the last inventory date. This field will return null if an inventory has not yet run on the vault, for example if you just created the vault.
-        public let sizeInBytes: Int64?
-
-        public init(numberOfArchives: Int64? = nil, vaultARN: String? = nil, creationDate: String? = nil, vaultName: String? = nil, lastInventoryDate: String? = nil, sizeInBytes: Int64? = nil) {
-            self.numberOfArchives = numberOfArchives
-            self.vaultARN = vaultARN
-            self.creationDate = creationDate
-            self.vaultName = vaultName
-            self.lastInventoryDate = lastInventoryDate
-            self.sizeInBytes = sizeInBytes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case numberOfArchives = "NumberOfArchives"
-            case vaultARN = "VaultARN"
-            case creationDate = "CreationDate"
-            case vaultName = "VaultName"
-            case lastInventoryDate = "LastInventoryDate"
-            case sizeInBytes = "SizeInBytes"
-        }
-    }
-
-    public enum QuoteFields: String, CustomStringConvertible, Codable {
-        case always = "ALWAYS"
-        case asneeded = "ASNEEDED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct InitiateMultipartUploadOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "uploadId", location: .header(locationName: "x-amz-multipart-upload-id"), required: false, type: .string), 
-            AWSShapeMember(label: "location", location: .header(locationName: "Location"), required: false, type: .string)
-        ]
-        /// The ID of the multipart upload. This value is also included as part of the location.
-        public let uploadId: String?
-        /// The relative URI path of the multipart upload ID Amazon Glacier created.
-        public let location: String?
-
-        public init(uploadId: String? = nil, location: String? = nil) {
-            self.uploadId = uploadId
-            self.location = location
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case uploadId = "x-amz-multipart-upload-id"
-            case location = "Location"
-        }
-    }
-
-    public struct GetVaultAccessPolicyOutput: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "policy"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policy", required: false, type: .structure)
-        ]
-        /// Contains the returned vault access policy as a JSON string.
-        public let policy: VaultAccessPolicy?
-
-        public init(policy: VaultAccessPolicy? = nil) {
-            self.policy = policy
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policy = "policy"
-        }
-    }
-
-    public struct VaultAccessPolicy: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Policy", required: false, type: .string)
-        ]
-        /// The vault access policy.
-        public let policy: String?
-
-        public init(policy: String? = nil) {
-            self.policy = policy
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policy = "Policy"
-        }
-    }
-
-    public struct GetDataRetrievalPolicyOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Policy", required: false, type: .structure)
-        ]
-        /// Contains the returned data retrieval policy in JSON format.
-        public let policy: DataRetrievalPolicy?
-
-        public init(policy: DataRetrievalPolicy? = nil) {
-            self.policy = policy
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policy = "Policy"
-        }
-    }
-
-    public struct DeleteArchiveInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "vaultName", location: .uri(locationName: "vaultName"), required: true, type: .string), 
+            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string), 
             AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
-            AWSShapeMember(label: "archiveId", location: .uri(locationName: "archiveId"), required: true, type: .string)
+            AWSShapeMember(label: "vaultName", location: .uri(locationName: "vaultName"), required: true, type: .string), 
+            AWSShapeMember(label: "range", location: .header(locationName: "Range"), required: false, type: .string)
         ]
-        /// The name of the vault.
-        public let vaultName: String
+        /// The job ID whose data is downloaded.
+        public let jobId: String
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
         public let accountId: String
-        /// The ID of the archive to delete.
-        public let archiveId: String
-
-        public init(vaultName: String, accountId: String, archiveId: String) {
-            self.vaultName = vaultName
-            self.accountId = accountId
-            self.archiveId = archiveId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case vaultName = "vaultName"
-            case accountId = "accountId"
-            case archiveId = "archiveId"
-        }
-    }
-
-    public struct ListVaultsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .string), 
-            AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string)
-        ]
-        /// A string used for pagination. The marker specifies the vault ARN after which the listing of vaults should begin.
-        public let marker: String?
-        /// The maximum number of vaults to be returned. The default limit is 10. The number of vaults returned might be fewer than the specified limit, but the number of returned vaults never exceeds the limit.
-        public let limit: String?
-        /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.
-        public let accountId: String
-
-        public init(marker: String? = nil, limit: String? = nil, accountId: String) {
-            self.marker = marker
-            self.limit = limit
-            self.accountId = accountId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "marker"
-            case limit = "limit"
-            case accountId = "accountId"
-        }
-    }
-
-    public struct UploadArchiveInput: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "body"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "archiveDescription", location: .header(locationName: "x-amz-archive-description"), required: false, type: .string), 
-            AWSShapeMember(label: "checksum", location: .header(locationName: "x-amz-sha256-tree-hash"), required: false, type: .string), 
-            AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
-            AWSShapeMember(label: "body", required: false, type: .blob), 
-            AWSShapeMember(label: "vaultName", location: .uri(locationName: "vaultName"), required: true, type: .string)
-        ]
-        /// The optional description of the archive you are uploading.
-        public let archiveDescription: String?
-        /// The SHA256 tree hash of the data being uploaded.
-        public let checksum: String?
-        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID. 
-        public let accountId: String
-        /// The data to upload.
-        public let body: Data?
         /// The name of the vault.
         public let vaultName: String
+        /// The range of bytes to retrieve from the output. For example, if you want to download the first 1,048,576 bytes, specify the range as bytes=0-1048575. By default, this operation downloads the entire output. If the job output is large, then you can use a range to retrieve a portion of the output. This allows you to download the entire output in smaller chunks of bytes. For example, suppose you have 1 GB of job output you want to download and you decide to download 128 MB chunks of data at a time, which is a total of eight Get Job Output requests. You use the following process to download the job output:   Download a 128 MB chunk of output by specifying the appropriate byte range. Verify that all 128 MB of data was received.   Along with the data, the response includes a SHA256 tree hash of the payload. You compute the checksum of the payload on the client and compare it with the checksum you received in the response to ensure you received all the expected data.   Repeat steps 1 and 2 for all the eight 128 MB chunks of output data, each time specifying the appropriate byte range.   After downloading all the parts of the job output, you have a list of eight checksum values. Compute the tree hash of these values to find the checksum of the entire output. Using the DescribeJob API, obtain job information of the job that provided you the output. The response includes the checksum of the entire archive stored in Amazon Glacier. You compare this value with the checksum you computed to ensure you have downloaded the entire archive content with no errors.   
+        public let range: String?
 
-        public init(archiveDescription: String? = nil, checksum: String? = nil, accountId: String, body: Data? = nil, vaultName: String) {
-            self.archiveDescription = archiveDescription
-            self.checksum = checksum
+        public init(jobId: String, accountId: String, vaultName: String, range: String? = nil) {
+            self.jobId = jobId
             self.accountId = accountId
-            self.body = body
             self.vaultName = vaultName
+            self.range = range
         }
 
         private enum CodingKeys: String, CodingKey {
-            case archiveDescription = "x-amz-archive-description"
-            case checksum = "x-amz-sha256-tree-hash"
+            case jobId = "jobId"
             case accountId = "accountId"
-            case body = "body"
             case vaultName = "vaultName"
-        }
-    }
-
-    public struct Encryption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EncryptionType", required: false, type: .enum), 
-            AWSShapeMember(label: "KMSKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "KMSContext", required: false, type: .string)
-        ]
-        /// The server-side encryption algorithm used when storing job results in Amazon S3, for example AES256 or aws:kms.
-        public let encryptionType: EncryptionType?
-        /// The AWS KMS key ID to use for object encryption. All GET and PUT requests for an object protected by AWS KMS fail if not made by using Secure Sockets Layer (SSL) or Signature Version 4. 
-        public let kMSKeyId: String?
-        /// Optional. If the encryption type is aws:kms, you can use this value to specify the encryption context for the job results.
-        public let kMSContext: String?
-
-        public init(encryptionType: EncryptionType? = nil, kMSKeyId: String? = nil, kMSContext: String? = nil) {
-            self.encryptionType = encryptionType
-            self.kMSKeyId = kMSKeyId
-            self.kMSContext = kMSContext
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case encryptionType = "EncryptionType"
-            case kMSKeyId = "KMSKeyId"
-            case kMSContext = "KMSContext"
-        }
-    }
-
-    public struct InputSerialization: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "csv", required: false, type: .structure)
-        ]
-        /// Describes the serialization of a CSV-encoded object.
-        public let csv: CSVInput?
-
-        public init(csv: CSVInput? = nil) {
-            self.csv = csv
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case csv = "csv"
-        }
-    }
-
-    public enum FileHeaderInfo: String, CustomStringConvertible, Codable {
-        case use = "USE"
-        case ignore = "IGNORE"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteVaultNotificationsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "vaultName", location: .uri(locationName: "vaultName"), required: true, type: .string), 
-            AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string)
-        ]
-        /// The name of the vault.
-        public let vaultName: String
-        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID. 
-        public let accountId: String
-
-        public init(vaultName: String, accountId: String) {
-            self.vaultName = vaultName
-            self.accountId = accountId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case vaultName = "vaultName"
-            case accountId = "accountId"
-        }
-    }
-
-    public struct InitiateJobInput: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "jobParameters"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "vaultName", location: .uri(locationName: "vaultName"), required: true, type: .string), 
-            AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string)
-        ]
-        /// Provides options for specifying job information.
-        public let jobParameters: JobParameters?
-        /// The name of the vault.
-        public let vaultName: String
-        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
-        public let accountId: String
-
-        public init(jobParameters: JobParameters? = nil, vaultName: String, accountId: String) {
-            self.jobParameters = jobParameters
-            self.vaultName = vaultName
-            self.accountId = accountId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobParameters = "jobParameters"
-            case vaultName = "vaultName"
-            case accountId = "accountId"
+            case range = "Range"
         }
     }
 
@@ -1496,85 +1251,11 @@ extension Glacier {
         public var description: String { return self.rawValue }
     }
 
-    public struct ListJobsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobList", required: false, type: .list), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
-        ]
-        /// A list of job objects. Each job object contains metadata describing the job.
-        public let jobList: [GlacierJobDescription]?
-        ///  An opaque string used for pagination that specifies the job at which the listing of jobs should begin. You get the marker value from a previous List Jobs response. You only need to include the marker if you are continuing the pagination of the results started in a previous List Jobs request. 
-        public let marker: String?
-
-        public init(jobList: [GlacierJobDescription]? = nil, marker: String? = nil) {
-            self.jobList = jobList
-            self.marker = marker
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobList = "JobList"
-            case marker = "Marker"
-        }
-    }
-
-    public struct GetVaultNotificationsOutput: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "vaultNotificationConfig"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "vaultNotificationConfig", required: false, type: .structure)
-        ]
-        /// Returns the notification configuration set on the vault.
-        public let vaultNotificationConfig: VaultNotificationConfig?
-
-        public init(vaultNotificationConfig: VaultNotificationConfig? = nil) {
-            self.vaultNotificationConfig = vaultNotificationConfig
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case vaultNotificationConfig = "vaultNotificationConfig"
-        }
-    }
-
-    public struct InitiateJobOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobId", location: .header(locationName: "x-amz-job-id"), required: false, type: .string), 
-            AWSShapeMember(label: "location", location: .header(locationName: "Location"), required: false, type: .string), 
-            AWSShapeMember(label: "jobOutputPath", location: .header(locationName: "x-amz-job-output-path"), required: false, type: .string)
-        ]
-        /// The ID of the job.
-        public let jobId: String?
-        /// The relative URI path of the job.
-        public let location: String?
-        /// The path to the location of where the select results are stored.
-        public let jobOutputPath: String?
-
-        public init(jobId: String? = nil, location: String? = nil, jobOutputPath: String? = nil) {
-            self.jobId = jobId
-            self.location = location
-            self.jobOutputPath = jobOutputPath
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobId = "x-amz-job-id"
-            case location = "Location"
-            case jobOutputPath = "x-amz-job-output-path"
-        }
-    }
-
-    public struct GetDataRetrievalPolicyInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string)
-        ]
-        /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID. 
-        public let accountId: String
-
-        public init(accountId: String) {
-            self.accountId = accountId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-        }
+    public enum StatusCode: String, CustomStringConvertible, Codable {
+        case inprogress = "InProgress"
+        case succeeded = "Succeeded"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
     }
 
     public struct AbortVaultLockInput: AWSShape {
@@ -1598,7 +1279,7 @@ extension Glacier {
         }
     }
 
-    public struct GetVaultNotificationsInput: AWSShape {
+    public struct GetVaultAccessPolicyInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "vaultName", location: .uri(locationName: "vaultName"), required: true, type: .string), 
             AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string)
@@ -1619,233 +1300,410 @@ extension Glacier {
         }
     }
 
-    public struct DeleteVaultInput: AWSShape {
+    public struct DeleteVaultAccessPolicyInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "vaultName", location: .uri(locationName: "vaultName"), required: true, type: .string), 
             AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string)
         ]
         /// The name of the vault.
         public let vaultName: String
-        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
-        public let accountId: String
-
-        public init(vaultName: String, accountId: String) {
-            self.vaultName = vaultName
-            self.accountId = accountId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case vaultName = "vaultName"
-            case accountId = "accountId"
-        }
-    }
-
-    public struct ListPartsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "uploadId", location: .uri(locationName: "uploadId"), required: true, type: .string), 
-            AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
-            AWSShapeMember(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .string), 
-            AWSShapeMember(label: "vaultName", location: .uri(locationName: "vaultName"), required: true, type: .string)
-        ]
-        /// An opaque string used for pagination. This value specifies the part at which the listing of parts should begin. Get the marker value from the response of a previous List Parts response. You need only include the marker if you are continuing the pagination of results started in a previous List Parts request.
-        public let marker: String?
-        /// The upload ID of the multipart upload.
-        public let uploadId: String
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID. 
         public let accountId: String
-        /// The maximum number of parts to be returned. The default limit is 50. The number of parts returned might be fewer than the specified limit, but the number of returned parts never exceeds the limit.
-        public let limit: String?
-        /// The name of the vault.
-        public let vaultName: String
 
-        public init(marker: String? = nil, uploadId: String, accountId: String, limit: String? = nil, vaultName: String) {
-            self.marker = marker
-            self.uploadId = uploadId
-            self.accountId = accountId
-            self.limit = limit
-            self.vaultName = vaultName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "marker"
-            case uploadId = "uploadId"
-            case accountId = "accountId"
-            case limit = "limit"
-            case vaultName = "vaultName"
-        }
-    }
-
-    public struct JobParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RetrievalByteRange", required: false, type: .string), 
-            AWSShapeMember(label: "SelectParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "InventoryRetrievalParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "Type", required: false, type: .string), 
-            AWSShapeMember(label: "SNSTopic", required: false, type: .string), 
-            AWSShapeMember(label: "Format", required: false, type: .string), 
-            AWSShapeMember(label: "Tier", required: false, type: .string), 
-            AWSShapeMember(label: "ArchiveId", required: false, type: .string), 
-            AWSShapeMember(label: "OutputLocation", required: false, type: .structure), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
-        ]
-        /// The byte range to retrieve for an archive retrieval. in the form "StartByteValue-EndByteValue" If not specified, the whole archive is retrieved. If specified, the byte range must be megabyte (1024*1024) aligned which means that StartByteValue must be divisible by 1 MB and EndByteValue plus 1 must be divisible by 1 MB or be the end of the archive specified as the archive byte size value minus 1. If RetrievalByteRange is not megabyte aligned, this operation returns a 400 response.  An error occurs if you specify this field for an inventory retrieval job request.
-        public let retrievalByteRange: String?
-        /// Contains the parameters that define a job.
-        public let selectParameters: SelectParameters?
-        /// Input parameters used for range inventory retrieval.
-        public let inventoryRetrievalParameters: InventoryRetrievalJobInput?
-        /// The job type. You can initiate a job to perform a select query on an archive, retrieve an archive, or get an inventory of a vault. Valid values are "select", "archive-retrieval" and "inventory-retrieval".
-        public let `type`: String?
-        /// The Amazon SNS topic ARN to which Amazon Glacier sends a notification when the job is completed and the output is ready for you to download. The specified topic publishes the notification to its subscribers. The SNS topic must exist.
-        public let sNSTopic: String?
-        /// When initiating a job to retrieve a vault inventory, you can optionally add this parameter to your request to specify the output format. If you are initiating an inventory job and do not specify a Format field, JSON is the default format. Valid values are "CSV" and "JSON".
-        public let format: String?
-        /// The tier to use for a select or an archive retrieval job. Valid values are Expedited, Standard, or Bulk. Standard is the default.
-        public let tier: String?
-        /// The ID of the archive that you want to retrieve. This field is required only if Type is set to select or archive-retrievalcode&gt;. An error occurs if you specify this request parameter for an inventory retrieval job request. 
-        public let archiveId: String?
-        /// Contains information about the location where the select job results are stored.
-        public let outputLocation: OutputLocation?
-        /// The optional description for the job. The description must be less than or equal to 1,024 bytes. The allowable characters are 7-bit ASCII without control codes-specifically, ASCII values 32-126 decimal or 0x20-0x7E hexadecimal.
-        public let description: String?
-
-        public init(retrievalByteRange: String? = nil, selectParameters: SelectParameters? = nil, inventoryRetrievalParameters: InventoryRetrievalJobInput? = nil, type: String? = nil, sNSTopic: String? = nil, format: String? = nil, tier: String? = nil, archiveId: String? = nil, outputLocation: OutputLocation? = nil, description: String? = nil) {
-            self.retrievalByteRange = retrievalByteRange
-            self.selectParameters = selectParameters
-            self.inventoryRetrievalParameters = inventoryRetrievalParameters
-            self.`type` = `type`
-            self.sNSTopic = sNSTopic
-            self.format = format
-            self.tier = tier
-            self.archiveId = archiveId
-            self.outputLocation = outputLocation
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case retrievalByteRange = "RetrievalByteRange"
-            case selectParameters = "SelectParameters"
-            case inventoryRetrievalParameters = "InventoryRetrievalParameters"
-            case `type` = "Type"
-            case sNSTopic = "SNSTopic"
-            case format = "Format"
-            case tier = "Tier"
-            case archiveId = "ArchiveId"
-            case outputLocation = "OutputLocation"
-            case description = "Description"
-        }
-    }
-
-    public struct PurchaseProvisionedCapacityOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "capacityId", location: .header(locationName: "x-amz-capacity-id"), required: false, type: .string)
-        ]
-        /// The ID that identifies the provisioned capacity unit.
-        public let capacityId: String?
-
-        public init(capacityId: String? = nil) {
-            self.capacityId = capacityId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case capacityId = "x-amz-capacity-id"
-        }
-    }
-
-    public struct SetVaultNotificationsInput: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "vaultNotificationConfig"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "vaultNotificationConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "vaultName", location: .uri(locationName: "vaultName"), required: true, type: .string), 
-            AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string)
-        ]
-        /// Provides options for specifying notification configuration.
-        public let vaultNotificationConfig: VaultNotificationConfig?
-        /// The name of the vault.
-        public let vaultName: String
-        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
-        public let accountId: String
-
-        public init(vaultNotificationConfig: VaultNotificationConfig? = nil, vaultName: String, accountId: String) {
-            self.vaultNotificationConfig = vaultNotificationConfig
+        public init(vaultName: String, accountId: String) {
             self.vaultName = vaultName
             self.accountId = accountId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case vaultNotificationConfig = "vaultNotificationConfig"
             case vaultName = "vaultName"
             case accountId = "accountId"
         }
     }
 
-    public struct CreateVaultOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "location", location: .header(locationName: "Location"), required: false, type: .string)
-        ]
-        /// The URI of the vault that was created.
-        public let location: String?
-
-        public init(location: String? = nil) {
-            self.location = location
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case location = "Location"
-        }
+    public enum FileHeaderInfo: String, CustomStringConvertible, Codable {
+        case use = "USE"
+        case ignore = "IGNORE"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
     }
 
     public struct InventoryRetrievalJobDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EndDate", required: false, type: .string), 
-            AWSShapeMember(label: "Format", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .string), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "StartDate", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .string)
+            AWSShapeMember(label: "Format", required: false, type: .string), 
+            AWSShapeMember(label: "StartDate", required: false, type: .string)
         ]
         /// The end of the date range in UTC for vault inventory retrieval that includes archives created before this date. This value should be a string in the ISO 8601 date format, for example 2013-03-20T17:03:43Z.
         public let endDate: String?
-        /// The output format for the vault inventory list, which is set by the InitiateJob request when initiating a job to retrieve a vault inventory. Valid values are CSV and JSON.
-        public let format: String?
-        /// An opaque string that represents where to continue pagination of the vault inventory retrieval results. You use the marker in a new InitiateJob request to obtain additional inventory items. If there are no more inventory items, this value is null. For more information, see  Range Inventory Retrieval.
-        public let marker: String?
-        /// The start of the date range in Universal Coordinated Time (UTC) for vault inventory retrieval that includes archives created on or after this date. This value should be a string in the ISO 8601 date format, for example 2013-03-20T17:03:43Z.
-        public let startDate: String?
         /// The maximum number of inventory items returned per vault inventory retrieval request. This limit is set when initiating the job with the a InitiateJob request. 
         public let limit: String?
+        /// An opaque string that represents where to continue pagination of the vault inventory retrieval results. You use the marker in a new InitiateJob request to obtain additional inventory items. If there are no more inventory items, this value is null. For more information, see  Range Inventory Retrieval.
+        public let marker: String?
+        /// The output format for the vault inventory list, which is set by the InitiateJob request when initiating a job to retrieve a vault inventory. Valid values are CSV and JSON.
+        public let format: String?
+        /// The start of the date range in Universal Coordinated Time (UTC) for vault inventory retrieval that includes archives created on or after this date. This value should be a string in the ISO 8601 date format, for example 2013-03-20T17:03:43Z.
+        public let startDate: String?
 
-        public init(endDate: String? = nil, format: String? = nil, marker: String? = nil, startDate: String? = nil, limit: String? = nil) {
+        public init(endDate: String? = nil, limit: String? = nil, marker: String? = nil, format: String? = nil, startDate: String? = nil) {
             self.endDate = endDate
-            self.format = format
-            self.marker = marker
-            self.startDate = startDate
             self.limit = limit
+            self.marker = marker
+            self.format = format
+            self.startDate = startDate
         }
 
         private enum CodingKeys: String, CodingKey {
             case endDate = "EndDate"
-            case format = "Format"
-            case marker = "Marker"
-            case startDate = "StartDate"
             case limit = "Limit"
+            case marker = "Marker"
+            case format = "Format"
+            case startDate = "StartDate"
         }
     }
 
-    public struct PurchaseProvisionedCapacityInput: AWSShape {
+    public enum ActionCode: String, CustomStringConvertible, Codable {
+        case archiveretrieval = "ArchiveRetrieval"
+        case inventoryretrieval = "InventoryRetrieval"
+        case select = "Select"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ArchiveCreationOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "archiveId", location: .header(locationName: "x-amz-archive-id"), required: false, type: .string), 
+            AWSShapeMember(label: "location", location: .header(locationName: "Location"), required: false, type: .string), 
+            AWSShapeMember(label: "checksum", location: .header(locationName: "x-amz-sha256-tree-hash"), required: false, type: .string)
+        ]
+        /// The ID of the archive. This value is also included as part of the location.
+        public let archiveId: String?
+        /// The relative URI path of the newly added archive resource.
+        public let location: String?
+        /// The checksum of the archive computed by Amazon Glacier.
+        public let checksum: String?
+
+        public init(archiveId: String? = nil, location: String? = nil, checksum: String? = nil) {
+            self.archiveId = archiveId
+            self.location = location
+            self.checksum = checksum
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case archiveId = "x-amz-archive-id"
+            case location = "Location"
+            case checksum = "x-amz-sha256-tree-hash"
+        }
+    }
+
+    public struct Encryption: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KMSKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "EncryptionType", required: false, type: .enum), 
+            AWSShapeMember(label: "KMSContext", required: false, type: .string)
+        ]
+        /// The AWS KMS key ID to use for object encryption. All GET and PUT requests for an object protected by AWS KMS fail if not made by using Secure Sockets Layer (SSL) or Signature Version 4. 
+        public let kMSKeyId: String?
+        /// The server-side encryption algorithm used when storing job results in Amazon S3, for example AES256 or aws:kms.
+        public let encryptionType: EncryptionType?
+        /// Optional. If the encryption type is aws:kms, you can use this value to specify the encryption context for the job results.
+        public let kMSContext: String?
+
+        public init(kMSKeyId: String? = nil, encryptionType: EncryptionType? = nil, kMSContext: String? = nil) {
+            self.kMSKeyId = kMSKeyId
+            self.encryptionType = encryptionType
+            self.kMSContext = kMSContext
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kMSKeyId = "KMSKeyId"
+            case encryptionType = "EncryptionType"
+            case kMSContext = "KMSContext"
+        }
+    }
+
+    public struct SetDataRetrievalPolicyInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Policy", required: false, type: .structure), 
             AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string)
         ]
-        /// The AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, don't include any hyphens ('-') in the ID. 
+        /// The data retrieval policy in JSON format.
+        public let policy: DataRetrievalPolicy?
+        /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.
         public let accountId: String
 
-        public init(accountId: String) {
+        public init(policy: DataRetrievalPolicy? = nil, accountId: String) {
+            self.policy = policy
             self.accountId = accountId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
             case accountId = "accountId"
+        }
+    }
+
+    public struct ListProvisionedCapacityOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProvisionedCapacityList", required: false, type: .list)
+        ]
+        /// The response body contains the following JSON fields.
+        public let provisionedCapacityList: [ProvisionedCapacityDescription]?
+
+        public init(provisionedCapacityList: [ProvisionedCapacityDescription]? = nil) {
+            self.provisionedCapacityList = provisionedCapacityList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case provisionedCapacityList = "ProvisionedCapacityList"
+        }
+    }
+
+    public enum EncryptionType: String, CustomStringConvertible, Codable {
+        case awsKms = "aws:kms"
+        case aes256 = "AES256"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GlacierJobDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobOutputPath", required: false, type: .string), 
+            AWSShapeMember(label: "SHA256TreeHash", required: false, type: .string), 
+            AWSShapeMember(label: "SNSTopic", required: false, type: .string), 
+            AWSShapeMember(label: "SelectParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "Completed", required: false, type: .boolean), 
+            AWSShapeMember(label: "Action", required: false, type: .enum), 
+            AWSShapeMember(label: "JobId", required: false, type: .string), 
+            AWSShapeMember(label: "StatusCode", required: false, type: .enum), 
+            AWSShapeMember(label: "ArchiveSizeInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "InventorySizeInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "ArchiveSHA256TreeHash", required: false, type: .string), 
+            AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
+            AWSShapeMember(label: "CompletionDate", required: false, type: .string), 
+            AWSShapeMember(label: "OutputLocation", required: false, type: .structure), 
+            AWSShapeMember(label: "JobDescription", required: false, type: .string), 
+            AWSShapeMember(label: "Tier", required: false, type: .string), 
+            AWSShapeMember(label: "VaultARN", required: false, type: .string), 
+            AWSShapeMember(label: "ArchiveId", required: false, type: .string), 
+            AWSShapeMember(label: "RetrievalByteRange", required: false, type: .string), 
+            AWSShapeMember(label: "InventoryRetrievalParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .string)
+        ]
+        /// Contains the job output location.
+        public let jobOutputPath: String?
+        /// For an archive retrieval job, this value is the checksum of the archive. Otherwise, this value is null. The SHA256 tree hash value for the requested range of an archive. If the InitiateJob request for an archive specified a tree-hash aligned range, then this field returns a value. If the whole archive is retrieved, this value is the same as the ArchiveSHA256TreeHash value. This field is null for the following:   Archive retrieval jobs that specify a range that is not tree-hash aligned     Archival jobs that specify a range that is equal to the whole archive, when the job status is InProgress      Inventory jobs   Select jobs  
+        public let sHA256TreeHash: String?
+        /// An Amazon SNS topic that receives notification.
+        public let sNSTopic: String?
+        /// Contains the parameters used for a select.
+        public let selectParameters: SelectParameters?
+        /// The job status. When a job is completed, you get the job's output using Get Job Output (GET output).
+        public let completed: Bool?
+        /// The job type. This value is either ArchiveRetrieval, InventoryRetrieval, or Select. 
+        public let action: ActionCode?
+        /// An opaque string that identifies an Amazon Glacier job.
+        public let jobId: String?
+        /// The status code can be InProgress, Succeeded, or Failed, and indicates the status of the job.
+        public let statusCode: StatusCode?
+        /// For an archive retrieval job, this value is the size in bytes of the archive being requested for download. For an inventory retrieval or select job, this value is null.
+        public let archiveSizeInBytes: Int64?
+        /// For an inventory retrieval job, this value is the size in bytes of the inventory requested for download. For an archive retrieval or select job, this value is null.
+        public let inventorySizeInBytes: Int64?
+        /// The SHA256 tree hash of the entire archive for an archive retrieval. For inventory retrieval or select jobs, this field is null.
+        public let archiveSHA256TreeHash: String?
+        /// A friendly message that describes the job status.
+        public let statusMessage: String?
+        /// The UTC time that the job request completed. While the job is in progress, the value is null.
+        public let completionDate: String?
+        /// Contains the location where the data from the select job is stored.
+        public let outputLocation: OutputLocation?
+        /// The job description provided when initiating the job.
+        public let jobDescription: String?
+        /// The tier to use for a select or an archive retrieval. Valid values are Expedited, Standard, or Bulk. Standard is the default.
+        public let tier: String?
+        /// The Amazon Resource Name (ARN) of the vault from which an archive retrieval was requested.
+        public let vaultARN: String?
+        /// The archive ID requested for a select job or archive retrieval. Otherwise, this field is null.
+        public let archiveId: String?
+        /// The retrieved byte range for archive retrieval jobs in the form StartByteValue-EndByteValue. If no range was specified in the archive retrieval, then the whole archive is retrieved. In this case, StartByteValue equals 0 and EndByteValue equals the size of the archive minus 1. For inventory retrieval or select jobs, this field is null. 
+        public let retrievalByteRange: String?
+        /// Parameters used for range inventory retrieval.
+        public let inventoryRetrievalParameters: InventoryRetrievalJobDescription?
+        /// The UTC date when the job was created. This value is a string representation of ISO 8601 date format, for example "2012-03-20T17:03:43.221Z".
+        public let creationDate: String?
+
+        public init(jobOutputPath: String? = nil, sHA256TreeHash: String? = nil, sNSTopic: String? = nil, selectParameters: SelectParameters? = nil, completed: Bool? = nil, action: ActionCode? = nil, jobId: String? = nil, statusCode: StatusCode? = nil, archiveSizeInBytes: Int64? = nil, inventorySizeInBytes: Int64? = nil, archiveSHA256TreeHash: String? = nil, statusMessage: String? = nil, completionDate: String? = nil, outputLocation: OutputLocation? = nil, jobDescription: String? = nil, tier: String? = nil, vaultARN: String? = nil, archiveId: String? = nil, retrievalByteRange: String? = nil, inventoryRetrievalParameters: InventoryRetrievalJobDescription? = nil, creationDate: String? = nil) {
+            self.jobOutputPath = jobOutputPath
+            self.sHA256TreeHash = sHA256TreeHash
+            self.sNSTopic = sNSTopic
+            self.selectParameters = selectParameters
+            self.completed = completed
+            self.action = action
+            self.jobId = jobId
+            self.statusCode = statusCode
+            self.archiveSizeInBytes = archiveSizeInBytes
+            self.inventorySizeInBytes = inventorySizeInBytes
+            self.archiveSHA256TreeHash = archiveSHA256TreeHash
+            self.statusMessage = statusMessage
+            self.completionDate = completionDate
+            self.outputLocation = outputLocation
+            self.jobDescription = jobDescription
+            self.tier = tier
+            self.vaultARN = vaultARN
+            self.archiveId = archiveId
+            self.retrievalByteRange = retrievalByteRange
+            self.inventoryRetrievalParameters = inventoryRetrievalParameters
+            self.creationDate = creationDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobOutputPath = "JobOutputPath"
+            case sHA256TreeHash = "SHA256TreeHash"
+            case sNSTopic = "SNSTopic"
+            case selectParameters = "SelectParameters"
+            case completed = "Completed"
+            case action = "Action"
+            case jobId = "JobId"
+            case statusCode = "StatusCode"
+            case archiveSizeInBytes = "ArchiveSizeInBytes"
+            case inventorySizeInBytes = "InventorySizeInBytes"
+            case archiveSHA256TreeHash = "ArchiveSHA256TreeHash"
+            case statusMessage = "StatusMessage"
+            case completionDate = "CompletionDate"
+            case outputLocation = "OutputLocation"
+            case jobDescription = "JobDescription"
+            case tier = "Tier"
+            case vaultARN = "VaultARN"
+            case archiveId = "ArchiveId"
+            case retrievalByteRange = "RetrievalByteRange"
+            case inventoryRetrievalParameters = "InventoryRetrievalParameters"
+            case creationDate = "CreationDate"
+        }
+    }
+
+    public struct ListMultipartUploadsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "UploadsList", required: false, type: .list)
+        ]
+        /// An opaque string that represents where to continue pagination of the results. You use the marker in a new List Multipart Uploads request to obtain more uploads in the list. If there are no more uploads, this value is null.
+        public let marker: String?
+        /// A list of in-progress multipart uploads.
+        public let uploadsList: [UploadListElement]?
+
+        public init(marker: String? = nil, uploadsList: [UploadListElement]? = nil) {
+            self.marker = marker
+            self.uploadsList = uploadsList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case uploadsList = "UploadsList"
+        }
+    }
+
+    public struct ListVaultsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "VaultList", required: false, type: .list)
+        ]
+        /// The vault ARN at which to continue pagination of the results. You use the marker in another List Vaults request to obtain more vaults in the list.
+        public let marker: String?
+        /// List of vaults.
+        public let vaultList: [DescribeVaultOutput]?
+
+        public init(marker: String? = nil, vaultList: [DescribeVaultOutput]? = nil) {
+            self.marker = marker
+            self.vaultList = vaultList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case vaultList = "VaultList"
+        }
+    }
+
+    public struct DescribeVaultInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "vaultName", location: .uri(locationName: "vaultName"), required: true, type: .string), 
+            AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string)
+        ]
+        /// The name of the vault.
+        public let vaultName: String
+        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID. 
+        public let accountId: String
+
+        public init(vaultName: String, accountId: String) {
+            self.vaultName = vaultName
+            self.accountId = accountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vaultName = "vaultName"
+            case accountId = "accountId"
+        }
+    }
+
+    public struct GetVaultAccessPolicyOutput: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "policy"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policy", required: false, type: .structure)
+        ]
+        /// Contains the returned vault access policy as a JSON string.
+        public let policy: VaultAccessPolicy?
+
+        public init(policy: VaultAccessPolicy? = nil) {
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "policy"
+        }
+    }
+
+    public struct GetVaultNotificationsOutput: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "vaultNotificationConfig"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "vaultNotificationConfig", required: false, type: .structure)
+        ]
+        /// Returns the notification configuration set on the vault.
+        public let vaultNotificationConfig: VaultNotificationConfig?
+
+        public init(vaultNotificationConfig: VaultNotificationConfig? = nil) {
+            self.vaultNotificationConfig = vaultNotificationConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vaultNotificationConfig = "vaultNotificationConfig"
+        }
+    }
+
+    public struct InitiateJobOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "location", location: .header(locationName: "Location"), required: false, type: .string), 
+            AWSShapeMember(label: "jobOutputPath", location: .header(locationName: "x-amz-job-output-path"), required: false, type: .string), 
+            AWSShapeMember(label: "jobId", location: .header(locationName: "x-amz-job-id"), required: false, type: .string)
+        ]
+        /// The relative URI path of the job.
+        public let location: String?
+        /// The path to the location of where the select results are stored.
+        public let jobOutputPath: String?
+        /// The ID of the job.
+        public let jobId: String?
+
+        public init(location: String? = nil, jobOutputPath: String? = nil, jobId: String? = nil) {
+            self.location = location
+            self.jobOutputPath = jobOutputPath
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case location = "Location"
+            case jobOutputPath = "x-amz-job-output-path"
+            case jobId = "x-amz-job-id"
         }
     }
 
@@ -1870,187 +1728,74 @@ extension Glacier {
         }
     }
 
-    public struct OutputSerialization: AWSShape {
+    public struct S3Location: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "csv", required: false, type: .structure)
+            AWSShapeMember(label: "BucketName", required: false, type: .string), 
+            AWSShapeMember(label: "StorageClass", required: false, type: .enum), 
+            AWSShapeMember(label: "CannedACL", required: false, type: .enum), 
+            AWSShapeMember(label: "UserMetadata", required: false, type: .map), 
+            AWSShapeMember(label: "Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "Encryption", required: false, type: .structure), 
+            AWSShapeMember(label: "Tagging", required: false, type: .map), 
+            AWSShapeMember(label: "AccessControlList", required: false, type: .list)
         ]
-        /// Describes the serialization of CSV-encoded query results.
-        public let csv: CSVOutput?
+        /// The name of the Amazon S3 bucket where the job results are stored.
+        public let bucketName: String?
+        /// The storage class used to store the job results.
+        public let storageClass: StorageClass?
+        /// The canned access control list (ACL) to apply to the job results.
+        public let cannedACL: CannedACL?
+        /// A map of metadata to store with the job results in Amazon S3.
+        public let userMetadata: [String: String]?
+        /// The prefix that is prepended to the results for this request.
+        public let prefix: String?
+        /// Contains information about the encryption used to store the job results in Amazon S3.
+        public let encryption: Encryption?
+        /// The tag-set that is applied to the job results.
+        public let tagging: [String: String]?
+        /// A list of grants that control access to the staged results.
+        public let accessControlList: [Grant]?
 
-        public init(csv: CSVOutput? = nil) {
-            self.csv = csv
+        public init(bucketName: String? = nil, storageClass: StorageClass? = nil, cannedACL: CannedACL? = nil, userMetadata: [String: String]? = nil, prefix: String? = nil, encryption: Encryption? = nil, tagging: [String: String]? = nil, accessControlList: [Grant]? = nil) {
+            self.bucketName = bucketName
+            self.storageClass = storageClass
+            self.cannedACL = cannedACL
+            self.userMetadata = userMetadata
+            self.prefix = prefix
+            self.encryption = encryption
+            self.tagging = tagging
+            self.accessControlList = accessControlList
         }
 
         private enum CodingKeys: String, CodingKey {
-            case csv = "csv"
+            case bucketName = "BucketName"
+            case storageClass = "StorageClass"
+            case cannedACL = "CannedACL"
+            case userMetadata = "UserMetadata"
+            case prefix = "Prefix"
+            case encryption = "Encryption"
+            case tagging = "Tagging"
+            case accessControlList = "AccessControlList"
         }
     }
 
-    public struct SelectParameters: AWSShape {
+    public struct OutputLocation: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExpressionType", required: false, type: .enum), 
-            AWSShapeMember(label: "Expression", required: false, type: .string), 
-            AWSShapeMember(label: "InputSerialization", required: false, type: .structure), 
-            AWSShapeMember(label: "OutputSerialization", required: false, type: .structure)
+            AWSShapeMember(label: "S3", required: false, type: .structure)
         ]
-        /// The type of the provided expression, for example SQL.
-        public let expressionType: ExpressionType?
-        /// The expression that is used to select the object.
-        public let expression: String?
-        /// Describes the serialization format of the object.
-        public let inputSerialization: InputSerialization?
-        /// Describes how the results of the select job are serialized.
-        public let outputSerialization: OutputSerialization?
+        /// Describes an S3 location that will receive the results of the job request.
+        public let s3: S3Location?
 
-        public init(expressionType: ExpressionType? = nil, expression: String? = nil, inputSerialization: InputSerialization? = nil, outputSerialization: OutputSerialization? = nil) {
-            self.expressionType = expressionType
-            self.expression = expression
-            self.inputSerialization = inputSerialization
-            self.outputSerialization = outputSerialization
+        public init(s3: S3Location? = nil) {
+            self.s3 = s3
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expressionType = "ExpressionType"
-            case expression = "Expression"
-            case inputSerialization = "InputSerialization"
-            case outputSerialization = "OutputSerialization"
+            case s3 = "S3"
         }
     }
 
-    public struct UploadMultipartPartInput: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "body"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "uploadId", location: .uri(locationName: "uploadId"), required: true, type: .string), 
-            AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
-            AWSShapeMember(label: "checksum", location: .header(locationName: "x-amz-sha256-tree-hash"), required: false, type: .string), 
-            AWSShapeMember(label: "body", required: false, type: .blob), 
-            AWSShapeMember(label: "range", location: .header(locationName: "Content-Range"), required: false, type: .string), 
-            AWSShapeMember(label: "vaultName", location: .uri(locationName: "vaultName"), required: true, type: .string)
-        ]
-        /// The upload ID of the multipart upload.
-        public let uploadId: String
-        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID. 
-        public let accountId: String
-        /// The SHA256 tree hash of the data being uploaded.
-        public let checksum: String?
-        /// The data to upload.
-        public let body: Data?
-        /// Identifies the range of bytes in the assembled archive that will be uploaded in this part. Amazon Glacier uses this information to assemble the archive in the proper sequence. The format of this header follows RFC 2616. An example header is Content-Range:bytes 0-4194303/*.
-        public let range: String?
-        /// The name of the vault.
-        public let vaultName: String
-
-        public init(uploadId: String, accountId: String, checksum: String? = nil, body: Data? = nil, range: String? = nil, vaultName: String) {
-            self.uploadId = uploadId
-            self.accountId = accountId
-            self.checksum = checksum
-            self.body = body
-            self.range = range
-            self.vaultName = vaultName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case uploadId = "uploadId"
-            case accountId = "accountId"
-            case checksum = "x-amz-sha256-tree-hash"
-            case body = "body"
-            case range = "Content-Range"
-            case vaultName = "vaultName"
-        }
-    }
-
-    public struct CreateVaultInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "vaultName", location: .uri(locationName: "vaultName"), required: true, type: .string), 
-            AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string)
-        ]
-        /// The name of the vault.
-        public let vaultName: String
-        /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.
-        public let accountId: String
-
-        public init(vaultName: String, accountId: String) {
-            self.vaultName = vaultName
-            self.accountId = accountId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case vaultName = "vaultName"
-            case accountId = "accountId"
-        }
-    }
-
-    public struct CSVInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "QuoteCharacter", required: false, type: .string), 
-            AWSShapeMember(label: "FileHeaderInfo", required: false, type: .enum), 
-            AWSShapeMember(label: "FieldDelimiter", required: false, type: .string), 
-            AWSShapeMember(label: "Comments", required: false, type: .string), 
-            AWSShapeMember(label: "RecordDelimiter", required: false, type: .string), 
-            AWSShapeMember(label: "QuoteEscapeCharacter", required: false, type: .string)
-        ]
-        /// A value used as an escape character where the field delimiter is part of the value.
-        public let quoteCharacter: String?
-        /// Describes the first line of input. Valid values are None, Ignore, and Use.
-        public let fileHeaderInfo: FileHeaderInfo?
-        /// A value used to separate individual fields from each other within a record.
-        public let fieldDelimiter: String?
-        /// A single character used to indicate that a row should be ignored when the character is present at the start of that row.
-        public let comments: String?
-        /// A value used to separate individual records from each other.
-        public let recordDelimiter: String?
-        /// A single character used for escaping the quotation-mark character inside an already escaped value.
-        public let quoteEscapeCharacter: String?
-
-        public init(quoteCharacter: String? = nil, fileHeaderInfo: FileHeaderInfo? = nil, fieldDelimiter: String? = nil, comments: String? = nil, recordDelimiter: String? = nil, quoteEscapeCharacter: String? = nil) {
-            self.quoteCharacter = quoteCharacter
-            self.fileHeaderInfo = fileHeaderInfo
-            self.fieldDelimiter = fieldDelimiter
-            self.comments = comments
-            self.recordDelimiter = recordDelimiter
-            self.quoteEscapeCharacter = quoteEscapeCharacter
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case quoteCharacter = "QuoteCharacter"
-            case fileHeaderInfo = "FileHeaderInfo"
-            case fieldDelimiter = "FieldDelimiter"
-            case comments = "Comments"
-            case recordDelimiter = "RecordDelimiter"
-            case quoteEscapeCharacter = "QuoteEscapeCharacter"
-        }
-    }
-
-    public enum StorageClass: String, CustomStringConvertible, Codable {
-        case standard = "STANDARD"
-        case reducedRedundancy = "REDUCED_REDUNDANCY"
-        case standardIa = "STANDARD_IA"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteVaultAccessPolicyInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "vaultName", location: .uri(locationName: "vaultName"), required: true, type: .string), 
-            AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string)
-        ]
-        /// The name of the vault.
-        public let vaultName: String
-        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID. 
-        public let accountId: String
-
-        public init(vaultName: String, accountId: String) {
-            self.vaultName = vaultName
-            self.accountId = accountId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case vaultName = "vaultName"
-            case accountId = "accountId"
-        }
-    }
-
-    public struct SetVaultAccessPolicyInput: AWSShape {
+    public struct InitiateVaultLockInput: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "policy"
         public static var _members: [AWSShapeMember] = [
@@ -2060,12 +1805,12 @@ extension Glacier {
         ]
         /// The name of the vault.
         public let vaultName: String
-        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+        /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.
         public let accountId: String
-        /// The vault access policy as a JSON string.
-        public let policy: VaultAccessPolicy?
+        /// The vault lock policy as a JSON string, which uses "\" as an escape character.
+        public let policy: VaultLockPolicy?
 
-        public init(vaultName: String, accountId: String, policy: VaultAccessPolicy? = nil) {
+        public init(vaultName: String, accountId: String, policy: VaultLockPolicy? = nil) {
             self.vaultName = vaultName
             self.accountId = accountId
             self.policy = policy
@@ -2078,19 +1823,274 @@ extension Glacier {
         }
     }
 
-    public struct ListProvisionedCapacityInput: AWSShape {
+    public struct GetVaultNotificationsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "vaultName", location: .uri(locationName: "vaultName"), required: true, type: .string), 
             AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string)
         ]
-        /// The AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, don't include any hyphens ('-') in the ID. 
+        /// The name of the vault.
+        public let vaultName: String
+        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
         public let accountId: String
 
-        public init(accountId: String) {
+        public init(vaultName: String, accountId: String) {
+            self.vaultName = vaultName
             self.accountId = accountId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case vaultName = "vaultName"
             case accountId = "accountId"
+        }
+    }
+
+    public struct InitiateJobInput: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "jobParameters"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "vaultName", location: .uri(locationName: "vaultName"), required: true, type: .string), 
+            AWSShapeMember(label: "jobParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string)
+        ]
+        /// The name of the vault.
+        public let vaultName: String
+        /// Provides options for specifying job information.
+        public let jobParameters: JobParameters?
+        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+        public let accountId: String
+
+        public init(vaultName: String, jobParameters: JobParameters? = nil, accountId: String) {
+            self.vaultName = vaultName
+            self.jobParameters = jobParameters
+            self.accountId = accountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vaultName = "vaultName"
+            case jobParameters = "jobParameters"
+            case accountId = "accountId"
+        }
+    }
+
+    public struct PartListElement: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SHA256TreeHash", required: false, type: .string), 
+            AWSShapeMember(label: "RangeInBytes", required: false, type: .string)
+        ]
+        /// The SHA256 tree hash value that Amazon Glacier calculated for the part. This field is never null.
+        public let sHA256TreeHash: String?
+        /// The byte range of a part, inclusive of the upper value of the range.
+        public let rangeInBytes: String?
+
+        public init(sHA256TreeHash: String? = nil, rangeInBytes: String? = nil) {
+            self.sHA256TreeHash = sHA256TreeHash
+            self.rangeInBytes = rangeInBytes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sHA256TreeHash = "SHA256TreeHash"
+            case rangeInBytes = "RangeInBytes"
+        }
+    }
+
+    public struct SetVaultNotificationsInput: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "vaultNotificationConfig"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "vaultName", location: .uri(locationName: "vaultName"), required: true, type: .string), 
+            AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
+            AWSShapeMember(label: "vaultNotificationConfig", required: false, type: .structure)
+        ]
+        /// The name of the vault.
+        public let vaultName: String
+        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+        public let accountId: String
+        /// Provides options for specifying notification configuration.
+        public let vaultNotificationConfig: VaultNotificationConfig?
+
+        public init(vaultName: String, accountId: String, vaultNotificationConfig: VaultNotificationConfig? = nil) {
+            self.vaultName = vaultName
+            self.accountId = accountId
+            self.vaultNotificationConfig = vaultNotificationConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vaultName = "vaultName"
+            case accountId = "accountId"
+            case vaultNotificationConfig = "vaultNotificationConfig"
+        }
+    }
+
+    public struct ListTagsForVaultOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: false, type: .map)
+        ]
+        /// The tags attached to the vault. Each tag is composed of a key and a value.
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
+    public struct VaultAccessPolicy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Policy", required: false, type: .string)
+        ]
+        /// The vault access policy.
+        public let policy: String?
+
+        public init(policy: String? = nil) {
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+        }
+    }
+
+    public struct RemoveTagsFromVaultInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagKeys", required: false, type: .list), 
+            AWSShapeMember(label: "vaultName", location: .uri(locationName: "vaultName"), required: true, type: .string), 
+            AWSShapeMember(label: "accountId", location: .uri(locationName: "accountId"), required: true, type: .string)
+        ]
+        /// A list of tag keys. Each corresponding tag is removed from the vault.
+        public let tagKeys: [String]?
+        /// The name of the vault.
+        public let vaultName: String
+        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+        public let accountId: String
+
+        public init(tagKeys: [String]? = nil, vaultName: String, accountId: String) {
+            self.tagKeys = tagKeys
+            self.vaultName = vaultName
+            self.accountId = accountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagKeys = "TagKeys"
+            case vaultName = "vaultName"
+            case accountId = "accountId"
+        }
+    }
+
+    public struct DescribeVaultOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VaultName", required: false, type: .string), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .string), 
+            AWSShapeMember(label: "NumberOfArchives", required: false, type: .long), 
+            AWSShapeMember(label: "LastInventoryDate", required: false, type: .string), 
+            AWSShapeMember(label: "SizeInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "VaultARN", required: false, type: .string)
+        ]
+        /// The name of the vault.
+        public let vaultName: String?
+        /// The Universal Coordinated Time (UTC) date when the vault was created. This value should be a string in the ISO 8601 date format, for example 2012-03-20T17:03:43.221Z.
+        public let creationDate: String?
+        /// The number of archives in the vault as of the last inventory date. This field will return null if an inventory has not yet run on the vault, for example if you just created the vault.
+        public let numberOfArchives: Int64?
+        /// The Universal Coordinated Time (UTC) date when Amazon Glacier completed the last vault inventory. This value should be a string in the ISO 8601 date format, for example 2012-03-20T17:03:43.221Z.
+        public let lastInventoryDate: String?
+        /// Total size, in bytes, of the archives in the vault as of the last inventory date. This field will return null if an inventory has not yet run on the vault, for example if you just created the vault.
+        public let sizeInBytes: Int64?
+        /// The Amazon Resource Name (ARN) of the vault.
+        public let vaultARN: String?
+
+        public init(vaultName: String? = nil, creationDate: String? = nil, numberOfArchives: Int64? = nil, lastInventoryDate: String? = nil, sizeInBytes: Int64? = nil, vaultARN: String? = nil) {
+            self.vaultName = vaultName
+            self.creationDate = creationDate
+            self.numberOfArchives = numberOfArchives
+            self.lastInventoryDate = lastInventoryDate
+            self.sizeInBytes = sizeInBytes
+            self.vaultARN = vaultARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vaultName = "VaultName"
+            case creationDate = "CreationDate"
+            case numberOfArchives = "NumberOfArchives"
+            case lastInventoryDate = "LastInventoryDate"
+            case sizeInBytes = "SizeInBytes"
+            case vaultARN = "VaultARN"
+        }
+    }
+
+    public struct InitiateVaultLockOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "lockId", location: .header(locationName: "x-amz-lock-id"), required: false, type: .string)
+        ]
+        /// The lock ID, which is used to complete the vault locking process.
+        public let lockId: String?
+
+        public init(lockId: String? = nil) {
+            self.lockId = lockId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lockId = "x-amz-lock-id"
+        }
+    }
+
+    public enum QuoteFields: String, CustomStringConvertible, Codable {
+        case always = "ALWAYS"
+        case asneeded = "ASNEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UploadMultipartPartOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "checksum", location: .header(locationName: "x-amz-sha256-tree-hash"), required: false, type: .string)
+        ]
+        /// The SHA256 tree hash that Amazon Glacier computed for the uploaded part.
+        public let checksum: String?
+
+        public init(checksum: String? = nil) {
+            self.checksum = checksum
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case checksum = "x-amz-sha256-tree-hash"
+        }
+    }
+
+    public struct CSVOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecordDelimiter", required: false, type: .string), 
+            AWSShapeMember(label: "QuoteCharacter", required: false, type: .string), 
+            AWSShapeMember(label: "QuoteFields", required: false, type: .enum), 
+            AWSShapeMember(label: "FieldDelimiter", required: false, type: .string), 
+            AWSShapeMember(label: "QuoteEscapeCharacter", required: false, type: .string)
+        ]
+        /// A value used to separate individual records from each other.
+        public let recordDelimiter: String?
+        /// A value used as an escape character where the field delimiter is part of the value.
+        public let quoteCharacter: String?
+        /// A value that indicates whether all output fields should be contained within quotation marks.
+        public let quoteFields: QuoteFields?
+        /// A value used to separate individual fields from each other within a record.
+        public let fieldDelimiter: String?
+        /// A single character used for escaping the quotation-mark character inside an already escaped value.
+        public let quoteEscapeCharacter: String?
+
+        public init(recordDelimiter: String? = nil, quoteCharacter: String? = nil, quoteFields: QuoteFields? = nil, fieldDelimiter: String? = nil, quoteEscapeCharacter: String? = nil) {
+            self.recordDelimiter = recordDelimiter
+            self.quoteCharacter = quoteCharacter
+            self.quoteFields = quoteFields
+            self.fieldDelimiter = fieldDelimiter
+            self.quoteEscapeCharacter = quoteEscapeCharacter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recordDelimiter = "RecordDelimiter"
+            case quoteCharacter = "QuoteCharacter"
+            case quoteFields = "QuoteFields"
+            case fieldDelimiter = "FieldDelimiter"
+            case quoteEscapeCharacter = "QuoteEscapeCharacter"
         }
     }
 

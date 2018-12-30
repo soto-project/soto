@@ -5,9 +5,9 @@ import AWSSDKSwiftCore
 /// Error enum for IoT1ClickDevicesService
 public enum IoT1ClickDevicesServiceErrorType: AWSErrorType {
     case resourceNotFoundException(message: String?)
+    case rangeNotSatisfiableException(message: String?)
     case invalidRequestException(message: String?)
     case internalFailureException(message: String?)
-    case rangeNotSatisfiableException(message: String?)
     case resourceConflictException(message: String?)
     case preconditionFailedException(message: String?)
     case forbiddenException(message: String?)
@@ -22,12 +22,12 @@ extension IoT1ClickDevicesServiceErrorType {
         switch errorCode {
         case "ResourceNotFoundException":
             self = .resourceNotFoundException(message: message)
+        case "RangeNotSatisfiableException":
+            self = .rangeNotSatisfiableException(message: message)
         case "InvalidRequestException":
             self = .invalidRequestException(message: message)
         case "InternalFailureException":
             self = .internalFailureException(message: message)
-        case "RangeNotSatisfiableException":
-            self = .rangeNotSatisfiableException(message: message)
         case "ResourceConflictException":
             self = .resourceConflictException(message: message)
         case "PreconditionFailedException":

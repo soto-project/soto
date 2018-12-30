@@ -4,19 +4,19 @@ import AWSSDKSwiftCore
 
 /// Error enum for CognitoSync
 public enum CognitoSyncErrorType: AWSErrorType {
+    case notAuthorizedException(message: String?)
     case invalidParameterException(message: String?)
     case resourceNotFoundException(message: String?)
-    case notAuthorizedException(message: String?)
     case internalErrorException(message: String?)
-    case tooManyRequestsException(message: String?)
-    case resourceConflictException(message: String?)
-    case invalidConfigurationException(message: String?)
-    case duplicateRequestException(message: String?)
-    case alreadyStreamedException(message: String?)
     case limitExceededException(message: String?)
+    case resourceConflictException(message: String?)
     case invalidLambdaFunctionOutputException(message: String?)
     case lambdaThrottledException(message: String?)
+    case tooManyRequestsException(message: String?)
+    case invalidConfigurationException(message: String?)
     case concurrentModificationException(message: String?)
+    case duplicateRequestException(message: String?)
+    case alreadyStreamedException(message: String?)
 }
 
 extension CognitoSyncErrorType {
@@ -26,32 +26,32 @@ extension CognitoSyncErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "NotAuthorizedException":
+            self = .notAuthorizedException(message: message)
         case "InvalidParameterException":
             self = .invalidParameterException(message: message)
         case "ResourceNotFoundException":
             self = .resourceNotFoundException(message: message)
-        case "NotAuthorizedException":
-            self = .notAuthorizedException(message: message)
         case "InternalErrorException":
             self = .internalErrorException(message: message)
-        case "TooManyRequestsException":
-            self = .tooManyRequestsException(message: message)
-        case "ResourceConflictException":
-            self = .resourceConflictException(message: message)
-        case "InvalidConfigurationException":
-            self = .invalidConfigurationException(message: message)
-        case "DuplicateRequestException":
-            self = .duplicateRequestException(message: message)
-        case "AlreadyStreamedException":
-            self = .alreadyStreamedException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
+        case "ResourceConflictException":
+            self = .resourceConflictException(message: message)
         case "InvalidLambdaFunctionOutputException":
             self = .invalidLambdaFunctionOutputException(message: message)
         case "LambdaThrottledException":
             self = .lambdaThrottledException(message: message)
+        case "TooManyRequestsException":
+            self = .tooManyRequestsException(message: message)
+        case "InvalidConfigurationException":
+            self = .invalidConfigurationException(message: message)
         case "ConcurrentModificationException":
             self = .concurrentModificationException(message: message)
+        case "DuplicateRequestException":
+            self = .duplicateRequestException(message: message)
+        case "AlreadyStreamedException":
+            self = .alreadyStreamedException(message: message)
         default:
             return nil
         }

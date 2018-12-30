@@ -25,29 +25,29 @@ public struct DLM {
         )
     }
 
+    ///  Deletes the specified lifecycle policy and halts the automated operations that the policy specified.
+    public func deleteLifecyclePolicy(_ input: DeleteLifecyclePolicyRequest) throws -> Future<DeleteLifecyclePolicyResponse> {
+        return try client.send(operation: "DeleteLifecyclePolicy", path: "/policies/{policyId}/", httpMethod: "DELETE", input: input)
+    }
+
     ///  Gets detailed information about the specified lifecycle policy.
-    public func getLifecyclePolicy(_ input: GetLifecyclePolicyRequest) throws -> EventLoopFuture<GetLifecyclePolicyResponse> {
+    public func getLifecyclePolicy(_ input: GetLifecyclePolicyRequest) throws -> Future<GetLifecyclePolicyResponse> {
         return try client.send(operation: "GetLifecyclePolicy", path: "/policies/{policyId}/", httpMethod: "GET", input: input)
     }
 
-    ///  Creates a policy to manage the lifecycle of the specified AWS resources. You can create up to 100 lifecycle policies.
-    public func createLifecyclePolicy(_ input: CreateLifecyclePolicyRequest) throws -> EventLoopFuture<CreateLifecyclePolicyResponse> {
-        return try client.send(operation: "CreateLifecyclePolicy", path: "/policies", httpMethod: "POST", input: input)
-    }
-
     ///  Updates the specified lifecycle policy.
-    public func updateLifecyclePolicy(_ input: UpdateLifecyclePolicyRequest) throws -> EventLoopFuture<UpdateLifecyclePolicyResponse> {
+    public func updateLifecyclePolicy(_ input: UpdateLifecyclePolicyRequest) throws -> Future<UpdateLifecyclePolicyResponse> {
         return try client.send(operation: "UpdateLifecyclePolicy", path: "/policies/{policyId}", httpMethod: "PATCH", input: input)
     }
 
     ///  Gets summary information about all or the specified data lifecycle policies. To get complete information about a policy, use GetLifecyclePolicy.
-    public func getLifecyclePolicies(_ input: GetLifecyclePoliciesRequest) throws -> EventLoopFuture<GetLifecyclePoliciesResponse> {
+    public func getLifecyclePolicies(_ input: GetLifecyclePoliciesRequest) throws -> Future<GetLifecyclePoliciesResponse> {
         return try client.send(operation: "GetLifecyclePolicies", path: "/policies", httpMethod: "GET", input: input)
     }
 
-    ///  Deletes the specified lifecycle policy and halts the automated operations that the policy specified.
-    public func deleteLifecyclePolicy(_ input: DeleteLifecyclePolicyRequest) throws -> EventLoopFuture<DeleteLifecyclePolicyResponse> {
-        return try client.send(operation: "DeleteLifecyclePolicy", path: "/policies/{policyId}/", httpMethod: "DELETE", input: input)
+    ///  Creates a policy to manage the lifecycle of the specified AWS resources. You can create up to 100 lifecycle policies.
+    public func createLifecyclePolicy(_ input: CreateLifecyclePolicyRequest) throws -> Future<CreateLifecyclePolicyResponse> {
+        return try client.send(operation: "CreateLifecyclePolicy", path: "/policies", httpMethod: "POST", input: input)
     }
 
 

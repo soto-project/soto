@@ -6,9 +6,9 @@ import AWSSDKSwiftCore
 public enum CloudHSMV2ErrorType: AWSErrorType {
     case cloudHsmInternalFailureException(message: String?)
     case cloudHsmServiceException(message: String?)
-    case cloudHsmResourceNotFoundException(message: String?)
     case cloudHsmInvalidRequestException(message: String?)
     case cloudHsmAccessDeniedException(message: String?)
+    case cloudHsmResourceNotFoundException(message: String?)
 }
 
 extension CloudHSMV2ErrorType {
@@ -22,12 +22,12 @@ extension CloudHSMV2ErrorType {
             self = .cloudHsmInternalFailureException(message: message)
         case "CloudHsmServiceException":
             self = .cloudHsmServiceException(message: message)
-        case "CloudHsmResourceNotFoundException":
-            self = .cloudHsmResourceNotFoundException(message: message)
         case "CloudHsmInvalidRequestException":
             self = .cloudHsmInvalidRequestException(message: message)
         case "CloudHsmAccessDeniedException":
             self = .cloudHsmAccessDeniedException(message: message)
+        case "CloudHsmResourceNotFoundException":
+            self = .cloudHsmResourceNotFoundException(message: message)
         default:
             return nil
         }

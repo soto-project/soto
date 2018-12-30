@@ -8,12 +8,12 @@ public enum QuickSightErrorType: AWSErrorType {
     case invalidParameterValueException(message: String?)
     case resourceNotFoundException(message: String?)
     case throttlingException(message: String?)
-    case limitExceededException(message: String?)
-    case resourceExistsException(message: String?)
+    case invalidNextTokenException(message: String?)
     case preconditionNotMetException(message: String?)
     case internalFailureException(message: String?)
     case resourceUnavailableException(message: String?)
-    case invalidNextTokenException(message: String?)
+    case limitExceededException(message: String?)
+    case resourceExistsException(message: String?)
     case domainNotWhitelistedException(message: String?)
     case quickSightUserNotFoundException(message: String?)
     case identityTypeNotSupportedException(message: String?)
@@ -36,18 +36,18 @@ extension QuickSightErrorType {
             self = .resourceNotFoundException(message: message)
         case "ThrottlingException":
             self = .throttlingException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "ResourceExistsException":
-            self = .resourceExistsException(message: message)
+        case "InvalidNextTokenException":
+            self = .invalidNextTokenException(message: message)
         case "PreconditionNotMetException":
             self = .preconditionNotMetException(message: message)
         case "InternalFailureException":
             self = .internalFailureException(message: message)
         case "ResourceUnavailableException":
             self = .resourceUnavailableException(message: message)
-        case "InvalidNextTokenException":
-            self = .invalidNextTokenException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
+        case "ResourceExistsException":
+            self = .resourceExistsException(message: message)
         case "DomainNotWhitelistedException":
             self = .domainNotWhitelistedException(message: message)
         case "QuickSightUserNotFoundException":

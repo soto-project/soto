@@ -4,19 +4,19 @@ import AWSSDKSwiftCore
 
 /// Error enum for CodeStar
 public enum CodeStarErrorType: AWSErrorType {
-    case projectNotFoundException(message: String?)
-    case invalidNextTokenException(message: String?)
-    case validationException(message: String?)
     case projectAlreadyExistsException(message: String?)
     case limitExceededException(message: String?)
+    case validationException(message: String?)
     case projectCreationFailedException(message: String?)
     case invalidServiceRoleException(message: String?)
     case projectConfigurationException(message: String?)
     case concurrentModificationException(message: String?)
+    case projectNotFoundException(message: String?)
+    case invalidNextTokenException(message: String?)
     case teamMemberAlreadyAssociatedException(message: String?)
     case userProfileNotFoundException(message: String?)
-    case teamMemberNotFoundException(message: String?)
     case userProfileAlreadyExistsException(message: String?)
+    case teamMemberNotFoundException(message: String?)
 }
 
 extension CodeStarErrorType {
@@ -26,16 +26,12 @@ extension CodeStarErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "ProjectNotFoundException":
-            self = .projectNotFoundException(message: message)
-        case "InvalidNextTokenException":
-            self = .invalidNextTokenException(message: message)
-        case "ValidationException":
-            self = .validationException(message: message)
         case "ProjectAlreadyExistsException":
             self = .projectAlreadyExistsException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
+        case "ValidationException":
+            self = .validationException(message: message)
         case "ProjectCreationFailedException":
             self = .projectCreationFailedException(message: message)
         case "InvalidServiceRoleException":
@@ -44,14 +40,18 @@ extension CodeStarErrorType {
             self = .projectConfigurationException(message: message)
         case "ConcurrentModificationException":
             self = .concurrentModificationException(message: message)
+        case "ProjectNotFoundException":
+            self = .projectNotFoundException(message: message)
+        case "InvalidNextTokenException":
+            self = .invalidNextTokenException(message: message)
         case "TeamMemberAlreadyAssociatedException":
             self = .teamMemberAlreadyAssociatedException(message: message)
         case "UserProfileNotFoundException":
             self = .userProfileNotFoundException(message: message)
-        case "TeamMemberNotFoundException":
-            self = .teamMemberNotFoundException(message: message)
         case "UserProfileAlreadyExistsException":
             self = .userProfileAlreadyExistsException(message: message)
+        case "TeamMemberNotFoundException":
+            self = .teamMemberNotFoundException(message: message)
         default:
             return nil
         }

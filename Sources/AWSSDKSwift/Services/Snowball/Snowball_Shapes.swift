@@ -5,11 +5,43 @@ import AWSSDKSwiftCore
 
 extension Snowball {
 
-    public struct CancelJobRequest: AWSShape {
+    public struct CreateAddressRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Address", required: true, type: .structure)
+        ]
+        /// The address that you want the Snowball shipped to.
+        public let address: Address
+
+        public init(address: Address) {
+            self.address = address
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case address = "Address"
+        }
+    }
+
+    public struct CreateAddressResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AddressId", required: false, type: .string)
+        ]
+        /// The automatically generated ID for a specific address. You'll use this ID when you create a job to specify which address you want the Snowball for that job shipped to.
+        public let addressId: String?
+
+        public init(addressId: String? = nil) {
+            self.addressId = addressId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addressId = "AddressId"
+        }
+    }
+
+    public struct GetJobManifestRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobId", required: true, type: .string)
         ]
-        /// The 39-character job ID for the job that you want to cancel, for example JID123e4567-e89b-12d3-a456-426655440000.
+        /// The ID for a job that you want to get the manifest file for, for example JID123e4567-e89b-12d3-a456-426655440000.
         public let jobId: String
 
         public init(jobId: String) {
@@ -19,6 +51,464 @@ extension Snowball {
         private enum CodingKeys: String, CodingKey {
             case jobId = "JobId"
         }
+    }
+
+    public enum SnowballType: String, CustomStringConvertible, Codable {
+        case standard = "STANDARD"
+        case edge = "EDGE"
+        case edgeC = "EDGE_C"
+        case edgeCg = "EDGE_CG"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ShippingOption: String, CustomStringConvertible, Codable {
+        case secondDay = "SECOND_DAY"
+        case nextDay = "NEXT_DAY"
+        case express = "EXPRESS"
+        case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Address: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PhoneNumber", required: false, type: .string), 
+            AWSShapeMember(label: "StateOrProvince", required: false, type: .string), 
+            AWSShapeMember(label: "PostalCode", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "City", required: false, type: .string), 
+            AWSShapeMember(label: "AddressId", required: false, type: .string), 
+            AWSShapeMember(label: "Landmark", required: false, type: .string), 
+            AWSShapeMember(label: "Country", required: false, type: .string), 
+            AWSShapeMember(label: "PrefectureOrDistrict", required: false, type: .string), 
+            AWSShapeMember(label: "Company", required: false, type: .string), 
+            AWSShapeMember(label: "Street1", required: false, type: .string), 
+            AWSShapeMember(label: "Street3", required: false, type: .string), 
+            AWSShapeMember(label: "IsRestricted", required: false, type: .boolean), 
+            AWSShapeMember(label: "Street2", required: false, type: .string)
+        ]
+        /// The phone number associated with an address that a Snowball is to be delivered to.
+        public let phoneNumber: String?
+        /// The state or province in an address that a Snowball is to be delivered to.
+        public let stateOrProvince: String?
+        /// The postal code in an address that a Snowball is to be delivered to.
+        public let postalCode: String?
+        /// The name of a person to receive a Snowball at an address.
+        public let name: String?
+        /// The city in an address that a Snowball is to be delivered to.
+        public let city: String?
+        /// The unique ID for an address.
+        public let addressId: String?
+        /// This field is no longer used and the value is ignored.
+        public let landmark: String?
+        /// The country in an address that a Snowball is to be delivered to.
+        public let country: String?
+        /// This field is no longer used and the value is ignored.
+        public let prefectureOrDistrict: String?
+        /// The name of the company to receive a Snowball at an address.
+        public let company: String?
+        /// The first line in a street address that a Snowball is to be delivered to.
+        public let street1: String?
+        /// The third line in a street address that a Snowball is to be delivered to.
+        public let street3: String?
+        /// If the address you are creating is a primary address, then set this option to true. This field is not supported in most regions.
+        public let isRestricted: Bool?
+        /// The second line in a street address that a Snowball is to be delivered to.
+        public let street2: String?
+
+        public init(phoneNumber: String? = nil, stateOrProvince: String? = nil, postalCode: String? = nil, name: String? = nil, city: String? = nil, addressId: String? = nil, landmark: String? = nil, country: String? = nil, prefectureOrDistrict: String? = nil, company: String? = nil, street1: String? = nil, street3: String? = nil, isRestricted: Bool? = nil, street2: String? = nil) {
+            self.phoneNumber = phoneNumber
+            self.stateOrProvince = stateOrProvince
+            self.postalCode = postalCode
+            self.name = name
+            self.city = city
+            self.addressId = addressId
+            self.landmark = landmark
+            self.country = country
+            self.prefectureOrDistrict = prefectureOrDistrict
+            self.company = company
+            self.street1 = street1
+            self.street3 = street3
+            self.isRestricted = isRestricted
+            self.street2 = street2
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case phoneNumber = "PhoneNumber"
+            case stateOrProvince = "StateOrProvince"
+            case postalCode = "PostalCode"
+            case name = "Name"
+            case city = "City"
+            case addressId = "AddressId"
+            case landmark = "Landmark"
+            case country = "Country"
+            case prefectureOrDistrict = "PrefectureOrDistrict"
+            case company = "Company"
+            case street1 = "Street1"
+            case street3 = "Street3"
+            case isRestricted = "IsRestricted"
+            case street2 = "Street2"
+        }
+    }
+
+    public enum JobType: String, CustomStringConvertible, Codable {
+        case `import` = "IMPORT"
+        case export = "EXPORT"
+        case localUse = "LOCAL_USE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListCompatibleImagesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The maximum number of results for the list of compatible images. Currently, each supported device can store 10 AMIs.
+        public let maxResults: Int32?
+        /// HTTP requests are stateless. To identify what object comes "next" in the list of compatible images, you can specify a value for NextToken as the starting point for your list of returned images.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetJobManifestResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ManifestURI", required: false, type: .string)
+        ]
+        /// The Amazon S3 presigned URL for the manifest file associated with the specified JobId value.
+        public let manifestURI: String?
+
+        public init(manifestURI: String? = nil) {
+            self.manifestURI = manifestURI
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case manifestURI = "ManifestURI"
+        }
+    }
+
+    public struct CancelClusterRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterId", required: true, type: .string)
+        ]
+        /// The 39-character ID for the cluster that you want to cancel, for example CID123e4567-e89b-12d3-a456-426655440000.
+        public let clusterId: String
+
+        public init(clusterId: String) {
+            self.clusterId = clusterId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterId = "ClusterId"
+        }
+    }
+
+    public struct JobLogs: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobFailureLogURI", required: false, type: .string), 
+            AWSShapeMember(label: "JobCompletionReportURI", required: false, type: .string), 
+            AWSShapeMember(label: "JobSuccessLogURI", required: false, type: .string)
+        ]
+        /// A link to an Amazon S3 presigned URL where the job failure log is located.
+        public let jobFailureLogURI: String?
+        /// A link to an Amazon S3 presigned URL where the job completion report is located.
+        public let jobCompletionReportURI: String?
+        /// A link to an Amazon S3 presigned URL where the job success log is located.
+        public let jobSuccessLogURI: String?
+
+        public init(jobFailureLogURI: String? = nil, jobCompletionReportURI: String? = nil, jobSuccessLogURI: String? = nil) {
+            self.jobFailureLogURI = jobFailureLogURI
+            self.jobCompletionReportURI = jobCompletionReportURI
+            self.jobSuccessLogURI = jobSuccessLogURI
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobFailureLogURI = "JobFailureLogURI"
+            case jobCompletionReportURI = "JobCompletionReportURI"
+            case jobSuccessLogURI = "JobSuccessLogURI"
+        }
+    }
+
+    public struct UpdateJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Notification", required: false, type: .structure), 
+            AWSShapeMember(label: "SnowballCapacityPreference", required: false, type: .enum), 
+            AWSShapeMember(label: "Resources", required: false, type: .structure), 
+            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
+            AWSShapeMember(label: "JobId", required: true, type: .string), 
+            AWSShapeMember(label: "ForwardingAddressId", required: false, type: .string), 
+            AWSShapeMember(label: "ShippingOption", required: false, type: .enum), 
+            AWSShapeMember(label: "AddressId", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
+        ]
+        /// The new or updated Notification object.
+        public let notification: Notification?
+        /// The updated SnowballCapacityPreference of this job's JobMetadata object. The 50 TB Snowballs are only available in the US regions.
+        public let snowballCapacityPreference: SnowballCapacity?
+        /// The updated JobResource object, or the updated JobResource object. 
+        public let resources: JobResource?
+        /// The new role Amazon Resource Name (ARN) that you want to associate with this job. To create a role ARN, use the CreateRoleAWS Identity and Access Management (IAM) API action.
+        public let roleARN: String?
+        /// The job ID of the job that you want to update, for example JID123e4567-e89b-12d3-a456-426655440000.
+        public let jobId: String
+        /// The updated ID for the forwarding address for a job. This field is not supported in most regions.
+        public let forwardingAddressId: String?
+        /// The updated shipping option value of this job's ShippingDetails object.
+        public let shippingOption: ShippingOption?
+        /// The ID of the updated Address object.
+        public let addressId: String?
+        /// The updated description of this job's JobMetadata object.
+        public let description: String?
+
+        public init(notification: Notification? = nil, snowballCapacityPreference: SnowballCapacity? = nil, resources: JobResource? = nil, roleARN: String? = nil, jobId: String, forwardingAddressId: String? = nil, shippingOption: ShippingOption? = nil, addressId: String? = nil, description: String? = nil) {
+            self.notification = notification
+            self.snowballCapacityPreference = snowballCapacityPreference
+            self.resources = resources
+            self.roleARN = roleARN
+            self.jobId = jobId
+            self.forwardingAddressId = forwardingAddressId
+            self.shippingOption = shippingOption
+            self.addressId = addressId
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notification = "Notification"
+            case snowballCapacityPreference = "SnowballCapacityPreference"
+            case resources = "Resources"
+            case roleARN = "RoleARN"
+            case jobId = "JobId"
+            case forwardingAddressId = "ForwardingAddressId"
+            case shippingOption = "ShippingOption"
+            case addressId = "AddressId"
+            case description = "Description"
+        }
+    }
+
+    public struct CreateClusterRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Notification", required: false, type: .structure), 
+            AWSShapeMember(label: "KmsKeyARN", required: false, type: .string), 
+            AWSShapeMember(label: "Resources", required: true, type: .structure), 
+            AWSShapeMember(label: "JobType", required: true, type: .enum), 
+            AWSShapeMember(label: "RoleARN", required: true, type: .string), 
+            AWSShapeMember(label: "SnowballType", required: false, type: .enum), 
+            AWSShapeMember(label: "ForwardingAddressId", required: false, type: .string), 
+            AWSShapeMember(label: "ShippingOption", required: true, type: .enum), 
+            AWSShapeMember(label: "AddressId", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
+        ]
+        /// The Amazon Simple Notification Service (Amazon SNS) notification settings for this cluster.
+        public let notification: Notification?
+        /// The KmsKeyARN value that you want to associate with this cluster. KmsKeyARN values are created by using the CreateKey API action in AWS Key Management Service (AWS KMS). 
+        public let kmsKeyARN: String?
+        /// The resources associated with the cluster job. These resources include Amazon S3 buckets and optional AWS Lambda functions written in the Python language. 
+        public let resources: JobResource
+        /// The type of job for this cluster. Currently, the only job type supported for clusters is LOCAL_USE.
+        public let jobType: JobType
+        /// The RoleARN that you want to associate with this cluster. RoleArn values are created by using the CreateRole API action in AWS Identity and Access Management (IAM).
+        public let roleARN: String
+        /// The type of AWS Snowball device to use for this cluster. The only supported device types for cluster jobs are EDGE, EDGE_C, and EDGE_CG.
+        public let snowballType: SnowballType?
+        /// The forwarding address ID for a cluster. This field is not supported in most regions.
+        public let forwardingAddressId: String?
+        /// The shipping speed for each node in this cluster. This speed doesn't dictate how soon you'll get each Snowball Edge device, rather it represents how quickly each device moves to its destination while in transit. Regional shipping speeds are as follows:   In Australia, you have access to express shipping. Typically, devices shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snowball Edges shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, devices are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.  
+        public let shippingOption: ShippingOption
+        /// The ID for the address that you want the cluster shipped to.
+        public let addressId: String
+        /// An optional description of this specific cluster, for example Environmental Data Cluster-01.
+        public let description: String?
+
+        public init(notification: Notification? = nil, kmsKeyARN: String? = nil, resources: JobResource, jobType: JobType, roleARN: String, snowballType: SnowballType? = nil, forwardingAddressId: String? = nil, shippingOption: ShippingOption, addressId: String, description: String? = nil) {
+            self.notification = notification
+            self.kmsKeyARN = kmsKeyARN
+            self.resources = resources
+            self.jobType = jobType
+            self.roleARN = roleARN
+            self.snowballType = snowballType
+            self.forwardingAddressId = forwardingAddressId
+            self.shippingOption = shippingOption
+            self.addressId = addressId
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notification = "Notification"
+            case kmsKeyARN = "KmsKeyARN"
+            case resources = "Resources"
+            case jobType = "JobType"
+            case roleARN = "RoleARN"
+            case snowballType = "SnowballType"
+            case forwardingAddressId = "ForwardingAddressId"
+            case shippingOption = "ShippingOption"
+            case addressId = "AddressId"
+            case description = "Description"
+        }
+    }
+
+    public enum SnowballCapacity: String, CustomStringConvertible, Codable {
+        case t50 = "T50"
+        case t80 = "T80"
+        case t100 = "T100"
+        case t42 = "T42"
+        case nopreference = "NoPreference"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ClusterState: String, CustomStringConvertible, Codable {
+        case awaitingquorum = "AwaitingQuorum"
+        case pending = "Pending"
+        case inuse = "InUse"
+        case complete = "Complete"
+        case cancelled = "Cancelled"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListClustersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The number of ClusterListEntry objects to return.
+        public let maxResults: Int32?
+        /// HTTP requests are stateless. To identify what object comes "next" in the list of ClusterListEntry objects, you have the option of specifying NextToken as the starting point for your returned list.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct Notification: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnsTopicARN", required: false, type: .string), 
+            AWSShapeMember(label: "JobStatesToNotify", required: false, type: .list), 
+            AWSShapeMember(label: "NotifyAll", required: false, type: .boolean)
+        ]
+        /// The new SNS TopicArn that you want to associate with this job. You can create Amazon Resource Names (ARNs) for topics by using the CreateTopic Amazon SNS API action. You can subscribe email addresses to an Amazon SNS topic through the AWS Management Console, or by using the Subscribe AWS Simple Notification Service (SNS) API action.
+        public let snsTopicARN: String?
+        /// The list of job states that will trigger a notification for this job.
+        public let jobStatesToNotify: [JobState]?
+        /// Any change in job state will trigger a notification for this job.
+        public let notifyAll: Bool?
+
+        public init(snsTopicARN: String? = nil, jobStatesToNotify: [JobState]? = nil, notifyAll: Bool? = nil) {
+            self.snsTopicARN = snsTopicARN
+            self.jobStatesToNotify = jobStatesToNotify
+            self.notifyAll = notifyAll
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snsTopicARN = "SnsTopicARN"
+            case jobStatesToNotify = "JobStatesToNotify"
+            case notifyAll = "NotifyAll"
+        }
+    }
+
+    public struct CompatibleImage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AmiId", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// The unique identifier for an individual Snowball Edge AMI.
+        public let amiId: String?
+        /// The optional name of a compatible image.
+        public let name: String?
+
+        public init(amiId: String? = nil, name: String? = nil) {
+            self.amiId = amiId
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amiId = "AmiId"
+            case name = "Name"
+        }
+    }
+
+    public struct JobResource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Ec2AmiResources", required: false, type: .list), 
+            AWSShapeMember(label: "LambdaResources", required: false, type: .list), 
+            AWSShapeMember(label: "S3Resources", required: false, type: .list)
+        ]
+        /// The Amazon Machine Images (AMIs) associated with this job.
+        public let ec2AmiResources: [Ec2AmiResource]?
+        /// The Python-language Lambda functions for this job.
+        public let lambdaResources: [LambdaResource]?
+        /// An array of S3Resource objects.
+        public let s3Resources: [S3Resource]?
+
+        public init(ec2AmiResources: [Ec2AmiResource]? = nil, lambdaResources: [LambdaResource]? = nil, s3Resources: [S3Resource]? = nil) {
+            self.ec2AmiResources = ec2AmiResources
+            self.lambdaResources = lambdaResources
+            self.s3Resources = s3Resources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ec2AmiResources = "Ec2AmiResources"
+            case lambdaResources = "LambdaResources"
+            case s3Resources = "S3Resources"
+        }
+    }
+
+    public struct ListJobsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The number of JobListEntry objects to return.
+        public let maxResults: Int32?
+        /// HTTP requests are stateless. To identify what object comes "next" in the list of JobListEntry objects, you have the option of specifying NextToken as the starting point for your returned list.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct KeyRange: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BeginMarker", required: false, type: .string), 
+            AWSShapeMember(label: "EndMarker", required: false, type: .string)
+        ]
+        /// The key that starts an optional key range for an export job. Ranges are inclusive and UTF-8 binary sorted.
+        public let beginMarker: String?
+        /// The key that ends an optional key range for an export job. Ranges are inclusive and UTF-8 binary sorted.
+        public let endMarker: String?
+
+        public init(beginMarker: String? = nil, endMarker: String? = nil) {
+            self.beginMarker = beginMarker
+            self.endMarker = endMarker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case beginMarker = "BeginMarker"
+            case endMarker = "EndMarker"
+        }
+    }
+
+    public struct CancelJobResult: AWSShape {
+
     }
 
     public enum JobState: String, CustomStringConvertible, Codable {
@@ -38,7 +528,245 @@ extension Snowball {
         public var description: String { return self.rawValue }
     }
 
-    public struct UpdateJobResult: AWSShape {
+    public struct JobMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ForwardingAddressId", required: false, type: .string), 
+            AWSShapeMember(label: "KmsKeyARN", required: false, type: .string), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ShippingDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "SnowballType", required: false, type: .enum), 
+            AWSShapeMember(label: "JobLogInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "DataTransferProgress", required: false, type: .structure), 
+            AWSShapeMember(label: "JobId", required: false, type: .string), 
+            AWSShapeMember(label: "JobState", required: false, type: .enum), 
+            AWSShapeMember(label: "ClusterId", required: false, type: .string), 
+            AWSShapeMember(label: "SnowballCapacityPreference", required: false, type: .enum), 
+            AWSShapeMember(label: "AddressId", required: false, type: .string), 
+            AWSShapeMember(label: "Resources", required: false, type: .structure), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "JobType", required: false, type: .enum), 
+            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
+            AWSShapeMember(label: "Notification", required: false, type: .structure)
+        ]
+        /// The ID of the address that you want a job shipped to, after it will be shipped to its primary address. This field is not supported in most regions.
+        public let forwardingAddressId: String?
+        /// The Amazon Resource Name (ARN) for the AWS Key Management Service (AWS KMS) key associated with this job. This ARN was created using the CreateKey API action in AWS KMS.
+        public let kmsKeyARN: String?
+        /// The creation date for this job.
+        public let creationDate: TimeStamp?
+        /// A job's shipping information, including inbound and outbound tracking numbers and shipping speed options.
+        public let shippingDetails: ShippingDetails?
+        /// The type of device used with this job.
+        public let snowballType: SnowballType?
+        /// Links to Amazon S3 presigned URLs for the job report and logs. For import jobs, the PDF job report becomes available at the end of the import process. For export jobs, your job report typically becomes available while the Snowball for your job part is being delivered to you.
+        public let jobLogInfo: JobLogs?
+        /// A value that defines the real-time status of a Snowball's data transfer while the device is at AWS. This data is only available while a job has a JobState value of InProgress, for both import and export jobs.
+        public let dataTransferProgress: DataTransfer?
+        /// The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000.
+        public let jobId: String?
+        /// The current status of the jobs.
+        public let jobState: JobState?
+        /// The 39-character ID for the cluster, for example CID123e4567-e89b-12d3-a456-426655440000.
+        public let clusterId: String?
+        /// The Snowball capacity preference for this job, specified at job creation. In US regions, you can choose between 50 TB and 80 TB Snowballs. All other regions use 80 TB capacity Snowballs.
+        public let snowballCapacityPreference: SnowballCapacity?
+        /// The ID for the address that you want the Snowball shipped to.
+        public let addressId: String?
+        /// An array of S3Resource objects. Each S3Resource object represents an Amazon S3 bucket that your transferred data will be exported from or imported into.
+        public let resources: JobResource?
+        /// The description of the job, provided at job creation.
+        public let description: String?
+        /// The type of job.
+        public let jobType: JobType?
+        /// The role ARN associated with this job. This ARN was created using the CreateRole API action in AWS Identity and Access Management (IAM).
+        public let roleARN: String?
+        /// The Amazon Simple Notification Service (Amazon SNS) notification settings associated with a specific job. The Notification object is returned as a part of the response syntax of the DescribeJob action in the JobMetadata data type.
+        public let notification: Notification?
+
+        public init(forwardingAddressId: String? = nil, kmsKeyARN: String? = nil, creationDate: TimeStamp? = nil, shippingDetails: ShippingDetails? = nil, snowballType: SnowballType? = nil, jobLogInfo: JobLogs? = nil, dataTransferProgress: DataTransfer? = nil, jobId: String? = nil, jobState: JobState? = nil, clusterId: String? = nil, snowballCapacityPreference: SnowballCapacity? = nil, addressId: String? = nil, resources: JobResource? = nil, description: String? = nil, jobType: JobType? = nil, roleARN: String? = nil, notification: Notification? = nil) {
+            self.forwardingAddressId = forwardingAddressId
+            self.kmsKeyARN = kmsKeyARN
+            self.creationDate = creationDate
+            self.shippingDetails = shippingDetails
+            self.snowballType = snowballType
+            self.jobLogInfo = jobLogInfo
+            self.dataTransferProgress = dataTransferProgress
+            self.jobId = jobId
+            self.jobState = jobState
+            self.clusterId = clusterId
+            self.snowballCapacityPreference = snowballCapacityPreference
+            self.addressId = addressId
+            self.resources = resources
+            self.description = description
+            self.jobType = jobType
+            self.roleARN = roleARN
+            self.notification = notification
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case forwardingAddressId = "ForwardingAddressId"
+            case kmsKeyARN = "KmsKeyARN"
+            case creationDate = "CreationDate"
+            case shippingDetails = "ShippingDetails"
+            case snowballType = "SnowballType"
+            case jobLogInfo = "JobLogInfo"
+            case dataTransferProgress = "DataTransferProgress"
+            case jobId = "JobId"
+            case jobState = "JobState"
+            case clusterId = "ClusterId"
+            case snowballCapacityPreference = "SnowballCapacityPreference"
+            case addressId = "AddressId"
+            case resources = "Resources"
+            case description = "Description"
+            case jobType = "JobType"
+            case roleARN = "RoleARN"
+            case notification = "Notification"
+        }
+    }
+
+    public struct CreateJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Notification", required: false, type: .structure), 
+            AWSShapeMember(label: "SnowballCapacityPreference", required: false, type: .enum), 
+            AWSShapeMember(label: "KmsKeyARN", required: false, type: .string), 
+            AWSShapeMember(label: "SnowballType", required: false, type: .enum), 
+            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
+            AWSShapeMember(label: "JobType", required: false, type: .enum), 
+            AWSShapeMember(label: "ForwardingAddressId", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterId", required: false, type: .string), 
+            AWSShapeMember(label: "Resources", required: false, type: .structure), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "AddressId", required: false, type: .string), 
+            AWSShapeMember(label: "ShippingOption", required: false, type: .enum)
+        ]
+        /// Defines the Amazon Simple Notification Service (Amazon SNS) notification settings for this job.
+        public let notification: Notification?
+        /// If your job is being created in one of the US regions, you have the option of specifying what size Snowball you'd like for this job. In all other regions, Snowballs come with 80 TB in storage capacity.
+        public let snowballCapacityPreference: SnowballCapacity?
+        /// The KmsKeyARN that you want to associate with this job. KmsKeyARNs are created using the CreateKey AWS Key Management Service (KMS) API action.
+        public let kmsKeyARN: String?
+        /// The type of AWS Snowball device to use for this job. The only supported device types for cluster jobs are EDGE, EDGE_C, and EDGE_CG.
+        public let snowballType: SnowballType?
+        /// The RoleARN that you want to associate with this job. RoleArns are created using the CreateRole AWS Identity and Access Management (IAM) API action.
+        public let roleARN: String?
+        /// Defines the type of job that you're creating. 
+        public let jobType: JobType?
+        /// The forwarding address ID for a job. This field is not supported in most regions.
+        public let forwardingAddressId: String?
+        /// The ID of a cluster. If you're creating a job for a node in a cluster, you need to provide only this clusterId value. The other job attributes are inherited from the cluster.
+        public let clusterId: String?
+        /// Defines the Amazon S3 buckets associated with this job. With IMPORT jobs, you specify the bucket or buckets that your transferred data will be imported into. With EXPORT jobs, you specify the bucket or buckets that your transferred data will be exported from. Optionally, you can also specify a KeyRange value. If you choose to export a range, you define the length of the range by providing either an inclusive BeginMarker value, an inclusive EndMarker value, or both. Ranges are UTF-8 binary sorted.
+        public let resources: JobResource?
+        /// Defines an optional description of this specific job, for example Important Photos 2016-08-11.
+        public let description: String?
+        /// The ID for the address that you want the Snowball shipped to.
+        public let addressId: String?
+        /// The shipping speed for this job. This speed doesn't dictate how soon you'll get the Snowball, rather it represents how quickly the Snowball moves to its destination while in transit. Regional shipping speeds are as follows:   In Australia, you have access to express shipping. Typically, Snowballs shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snowballs shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snowballs are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.  
+        public let shippingOption: ShippingOption?
+
+        public init(notification: Notification? = nil, snowballCapacityPreference: SnowballCapacity? = nil, kmsKeyARN: String? = nil, snowballType: SnowballType? = nil, roleARN: String? = nil, jobType: JobType? = nil, forwardingAddressId: String? = nil, clusterId: String? = nil, resources: JobResource? = nil, description: String? = nil, addressId: String? = nil, shippingOption: ShippingOption? = nil) {
+            self.notification = notification
+            self.snowballCapacityPreference = snowballCapacityPreference
+            self.kmsKeyARN = kmsKeyARN
+            self.snowballType = snowballType
+            self.roleARN = roleARN
+            self.jobType = jobType
+            self.forwardingAddressId = forwardingAddressId
+            self.clusterId = clusterId
+            self.resources = resources
+            self.description = description
+            self.addressId = addressId
+            self.shippingOption = shippingOption
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notification = "Notification"
+            case snowballCapacityPreference = "SnowballCapacityPreference"
+            case kmsKeyARN = "KmsKeyARN"
+            case snowballType = "SnowballType"
+            case roleARN = "RoleARN"
+            case jobType = "JobType"
+            case forwardingAddressId = "ForwardingAddressId"
+            case clusterId = "ClusterId"
+            case resources = "Resources"
+            case description = "Description"
+            case addressId = "AddressId"
+            case shippingOption = "ShippingOption"
+        }
+    }
+
+    public struct DescribeAddressesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The number of ADDRESS objects to return.
+        public let maxResults: Int32?
+        /// HTTP requests are stateless. To identify what object comes "next" in the list of ADDRESS objects, you have the option of specifying a value for NextToken as the starting point for your list of returned addresses.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCompatibleImagesResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CompatibleImages", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// A JSON-formatted object that describes a compatible AMI.
+        public let compatibleImages: [CompatibleImage]?
+        /// Because HTTP requests are stateless, this is the starting point for your next list of returned images.
+        public let nextToken: String?
+
+        public init(compatibleImages: [CompatibleImage]? = nil, nextToken: String? = nil) {
+            self.compatibleImages = compatibleImages
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case compatibleImages = "CompatibleImages"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListClusterJobsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "JobListEntries", required: false, type: .list)
+        ]
+        /// HTTP requests are stateless. If you use the automatically generated NextToken value in your next ListClusterJobsResult call, your list of returned jobs will start from this point in the array.
+        public let nextToken: String?
+        /// Each JobListEntry object contains a job's state, a job's ID, and a value that indicates whether the job is a job part, in the case of export jobs. 
+        public let jobListEntries: [JobListEntry]?
+
+        public init(nextToken: String? = nil, jobListEntries: [JobListEntry]? = nil) {
+            self.nextToken = nextToken
+            self.jobListEntries = jobListEntries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case jobListEntries = "JobListEntries"
+        }
+    }
+
+    public struct CancelClusterResult: AWSShape {
+
+    }
+
+    public struct GetSnowballUsageRequest: AWSShape {
+
+    }
+
+    public struct UpdateClusterResult: AWSShape {
 
     }
 
@@ -63,11 +791,108 @@ extension Snowball {
         }
     }
 
-    public struct CancelClusterRequest: AWSShape {
+    public struct S3Resource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeyRange", required: false, type: .structure), 
+            AWSShapeMember(label: "BucketArn", required: false, type: .string)
+        ]
+        /// For export jobs, you can provide an optional KeyRange within a specific Amazon S3 bucket. The length of the range is defined at job creation, and has either an inclusive BeginMarker, an inclusive EndMarker, or both. Ranges are UTF-8 binary sorted.
+        public let keyRange: KeyRange?
+        /// The Amazon Resource Name (ARN) of an Amazon S3 bucket.
+        public let bucketArn: String?
+
+        public init(keyRange: KeyRange? = nil, bucketArn: String? = nil) {
+            self.keyRange = keyRange
+            self.bucketArn = bucketArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyRange = "KeyRange"
+            case bucketArn = "BucketArn"
+        }
+    }
+
+    public struct ClusterMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ForwardingAddressId", required: false, type: .string), 
+            AWSShapeMember(label: "KmsKeyARN", required: false, type: .string), 
+            AWSShapeMember(label: "ShippingOption", required: false, type: .enum), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SnowballType", required: false, type: .enum), 
+            AWSShapeMember(label: "Resources", required: false, type: .structure), 
+            AWSShapeMember(label: "ClusterId", required: false, type: .string), 
+            AWSShapeMember(label: "AddressId", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "JobType", required: false, type: .enum), 
+            AWSShapeMember(label: "ClusterState", required: false, type: .enum), 
+            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
+            AWSShapeMember(label: "Notification", required: false, type: .structure)
+        ]
+        /// The ID of the address that you want a cluster shipped to, after it will be shipped to its primary address. This field is not supported in most regions.
+        public let forwardingAddressId: String?
+        /// The KmsKeyARN Amazon Resource Name (ARN) associated with this cluster. This ARN was created using the CreateKey API action in AWS Key Management Service (AWS KMS).
+        public let kmsKeyARN: String?
+        /// The shipping speed for each node in this cluster. This speed doesn't dictate how soon you'll get each device, rather it represents how quickly each device moves to its destination while in transit. Regional shipping speeds are as follows:   In Australia, you have access to express shipping. Typically, devices shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, devices shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, devices are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.  
+        public let shippingOption: ShippingOption?
+        /// The creation date for this cluster.
+        public let creationDate: TimeStamp?
+        /// The type of AWS Snowball device to use for this cluster. The only supported device types for cluster jobs are EDGE, EDGE_C, and EDGE_CG.
+        public let snowballType: SnowballType?
+        /// The arrays of JobResource objects that can include updated S3Resource objects or LambdaResource objects.
+        public let resources: JobResource?
+        /// The automatically generated ID for a cluster.
+        public let clusterId: String?
+        /// The automatically generated ID for a specific address.
+        public let addressId: String?
+        /// The optional description of the cluster.
+        public let description: String?
+        /// The type of job for this cluster. Currently, the only job type supported for clusters is LOCAL_USE.
+        public let jobType: JobType?
+        /// The current status of the cluster.
+        public let clusterState: ClusterState?
+        /// The role ARN associated with this cluster. This ARN was created using the CreateRole API action in AWS Identity and Access Management (IAM).
+        public let roleARN: String?
+        /// The Amazon Simple Notification Service (Amazon SNS) notification settings for this cluster.
+        public let notification: Notification?
+
+        public init(forwardingAddressId: String? = nil, kmsKeyARN: String? = nil, shippingOption: ShippingOption? = nil, creationDate: TimeStamp? = nil, snowballType: SnowballType? = nil, resources: JobResource? = nil, clusterId: String? = nil, addressId: String? = nil, description: String? = nil, jobType: JobType? = nil, clusterState: ClusterState? = nil, roleARN: String? = nil, notification: Notification? = nil) {
+            self.forwardingAddressId = forwardingAddressId
+            self.kmsKeyARN = kmsKeyARN
+            self.shippingOption = shippingOption
+            self.creationDate = creationDate
+            self.snowballType = snowballType
+            self.resources = resources
+            self.clusterId = clusterId
+            self.addressId = addressId
+            self.description = description
+            self.jobType = jobType
+            self.clusterState = clusterState
+            self.roleARN = roleARN
+            self.notification = notification
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case forwardingAddressId = "ForwardingAddressId"
+            case kmsKeyARN = "KmsKeyARN"
+            case shippingOption = "ShippingOption"
+            case creationDate = "CreationDate"
+            case snowballType = "SnowballType"
+            case resources = "Resources"
+            case clusterId = "ClusterId"
+            case addressId = "AddressId"
+            case description = "Description"
+            case jobType = "JobType"
+            case clusterState = "ClusterState"
+            case roleARN = "RoleARN"
+            case notification = "Notification"
+        }
+    }
+
+    public struct DescribeClusterRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterId", required: true, type: .string)
         ]
-        /// The 39-character ID for the cluster that you want to cancel, for example CID123e4567-e89b-12d3-a456-426655440000.
+        /// The automatically generated ID for a cluster.
         public let clusterId: String
 
         public init(clusterId: String) {
@@ -79,447 +904,75 @@ extension Snowball {
         }
     }
 
-    public struct UpdateJobRequest: AWSShape {
+    public struct LambdaResource: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobId", required: true, type: .string), 
-            AWSShapeMember(label: "ForwardingAddressId", required: false, type: .string), 
-            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
-            AWSShapeMember(label: "SnowballCapacityPreference", required: false, type: .enum), 
+            AWSShapeMember(label: "EventTriggers", required: false, type: .list), 
+            AWSShapeMember(label: "LambdaArn", required: false, type: .string)
+        ]
+        /// The array of ARNs for S3Resource objects to trigger the LambdaResource objects associated with this job.
+        public let eventTriggers: [EventTriggerDefinition]?
+        /// An Amazon Resource Name (ARN) that represents an AWS Lambda function to be triggered by PUT object actions on the associated local Amazon S3 resource.
+        public let lambdaArn: String?
+
+        public init(eventTriggers: [EventTriggerDefinition]? = nil, lambdaArn: String? = nil) {
+            self.eventTriggers = eventTriggers
+            self.lambdaArn = lambdaArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventTriggers = "EventTriggers"
+            case lambdaArn = "LambdaArn"
+        }
+    }
+
+    public struct UpdateClusterRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Notification", required: false, type: .structure), 
             AWSShapeMember(label: "Resources", required: false, type: .structure), 
-            AWSShapeMember(label: "AddressId", required: false, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
+            AWSShapeMember(label: "ForwardingAddressId", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterId", required: true, type: .string), 
             AWSShapeMember(label: "ShippingOption", required: false, type: .enum), 
+            AWSShapeMember(label: "AddressId", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string)
         ]
-        /// The job ID of the job that you want to update, for example JID123e4567-e89b-12d3-a456-426655440000.
-        public let jobId: String
-        /// The updated ID for the forwarding address for a job. This field is not supported in most regions.
-        public let forwardingAddressId: String?
-        /// The new role Amazon Resource Name (ARN) that you want to associate with this job. To create a role ARN, use the CreateRoleAWS Identity and Access Management (IAM) API action.
-        public let roleARN: String?
-        /// The updated SnowballCapacityPreference of this job's JobMetadata object. The 50 TB Snowballs are only available in the US regions.
-        public let snowballCapacityPreference: SnowballCapacity?
         /// The new or updated Notification object.
         public let notification: Notification?
-        /// The updated JobResource object, or the updated JobResource object. 
+        /// The updated arrays of JobResource objects that can include updated S3Resource objects or LambdaResource objects.
         public let resources: JobResource?
+        /// The new role Amazon Resource Name (ARN) that you want to associate with this cluster. To create a role ARN, use the CreateRole API action in AWS Identity and Access Management (IAM).
+        public let roleARN: String?
+        /// The updated ID for the forwarding address for a cluster. This field is not supported in most regions.
+        public let forwardingAddressId: String?
+        /// The cluster ID of the cluster that you want to update, for example CID123e4567-e89b-12d3-a456-426655440000.
+        public let clusterId: String
+        /// The updated shipping option value of this cluster's ShippingDetails object.
+        public let shippingOption: ShippingOption?
         /// The ID of the updated Address object.
         public let addressId: String?
-        /// The updated shipping option value of this job's ShippingDetails object.
-        public let shippingOption: ShippingOption?
-        /// The updated description of this job's JobMetadata object.
+        /// The updated description of this cluster.
         public let description: String?
 
-        public init(jobId: String, forwardingAddressId: String? = nil, roleARN: String? = nil, snowballCapacityPreference: SnowballCapacity? = nil, notification: Notification? = nil, resources: JobResource? = nil, addressId: String? = nil, shippingOption: ShippingOption? = nil, description: String? = nil) {
-            self.jobId = jobId
-            self.forwardingAddressId = forwardingAddressId
-            self.roleARN = roleARN
-            self.snowballCapacityPreference = snowballCapacityPreference
+        public init(notification: Notification? = nil, resources: JobResource? = nil, roleARN: String? = nil, forwardingAddressId: String? = nil, clusterId: String, shippingOption: ShippingOption? = nil, addressId: String? = nil, description: String? = nil) {
             self.notification = notification
             self.resources = resources
-            self.addressId = addressId
-            self.shippingOption = shippingOption
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobId = "JobId"
-            case forwardingAddressId = "ForwardingAddressId"
-            case roleARN = "RoleARN"
-            case snowballCapacityPreference = "SnowballCapacityPreference"
-            case notification = "Notification"
-            case resources = "Resources"
-            case addressId = "AddressId"
-            case shippingOption = "ShippingOption"
-            case description = "Description"
-        }
-    }
-
-    public struct ClusterMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobType", required: false, type: .enum), 
-            AWSShapeMember(label: "Notification", required: false, type: .structure), 
-            AWSShapeMember(label: "AddressId", required: false, type: .string), 
-            AWSShapeMember(label: "ShippingOption", required: false, type: .enum), 
-            AWSShapeMember(label: "ForwardingAddressId", required: false, type: .string), 
-            AWSShapeMember(label: "ClusterState", required: false, type: .enum), 
-            AWSShapeMember(label: "Resources", required: false, type: .structure), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "KmsKeyARN", required: false, type: .string), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "SnowballType", required: false, type: .enum), 
-            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
-            AWSShapeMember(label: "ClusterId", required: false, type: .string)
-        ]
-        /// The type of job for this cluster. Currently, the only job type supported for clusters is LOCAL_USE.
-        public let jobType: JobType?
-        /// The Amazon Simple Notification Service (Amazon SNS) notification settings for this cluster.
-        public let notification: Notification?
-        /// The automatically generated ID for a specific address.
-        public let addressId: String?
-        /// The shipping speed for each node in this cluster. This speed doesn't dictate how soon you'll get each device, rather it represents how quickly each device moves to its destination while in transit. Regional shipping speeds are as follows:   In Australia, you have access to express shipping. Typically, devices shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, devices shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, devices are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.  
-        public let shippingOption: ShippingOption?
-        /// The ID of the address that you want a cluster shipped to, after it will be shipped to its primary address. This field is not supported in most regions.
-        public let forwardingAddressId: String?
-        /// The current status of the cluster.
-        public let clusterState: ClusterState?
-        /// The arrays of JobResource objects that can include updated S3Resource objects or LambdaResource objects.
-        public let resources: JobResource?
-        /// The optional description of the cluster.
-        public let description: String?
-        /// The KmsKeyARN Amazon Resource Name (ARN) associated with this cluster. This ARN was created using the CreateKey API action in AWS Key Management Service (AWS KMS).
-        public let kmsKeyARN: String?
-        /// The creation date for this cluster.
-        public let creationDate: TimeStamp?
-        /// The type of AWS Snowball device to use for this cluster. The only supported device types for cluster jobs are EDGE, EDGE_C, and EDGE_CG.
-        public let snowballType: SnowballType?
-        /// The role ARN associated with this cluster. This ARN was created using the CreateRole API action in AWS Identity and Access Management (IAM).
-        public let roleARN: String?
-        /// The automatically generated ID for a cluster.
-        public let clusterId: String?
-
-        public init(jobType: JobType? = nil, notification: Notification? = nil, addressId: String? = nil, shippingOption: ShippingOption? = nil, forwardingAddressId: String? = nil, clusterState: ClusterState? = nil, resources: JobResource? = nil, description: String? = nil, kmsKeyARN: String? = nil, creationDate: TimeStamp? = nil, snowballType: SnowballType? = nil, roleARN: String? = nil, clusterId: String? = nil) {
-            self.jobType = jobType
-            self.notification = notification
-            self.addressId = addressId
-            self.shippingOption = shippingOption
-            self.forwardingAddressId = forwardingAddressId
-            self.clusterState = clusterState
-            self.resources = resources
-            self.description = description
-            self.kmsKeyARN = kmsKeyARN
-            self.creationDate = creationDate
-            self.snowballType = snowballType
             self.roleARN = roleARN
+            self.forwardingAddressId = forwardingAddressId
             self.clusterId = clusterId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobType = "JobType"
-            case notification = "Notification"
-            case addressId = "AddressId"
-            case shippingOption = "ShippingOption"
-            case forwardingAddressId = "ForwardingAddressId"
-            case clusterState = "ClusterState"
-            case resources = "Resources"
-            case description = "Description"
-            case kmsKeyARN = "KmsKeyARN"
-            case creationDate = "CreationDate"
-            case snowballType = "SnowballType"
-            case roleARN = "RoleARN"
-            case clusterId = "ClusterId"
-        }
-    }
-
-    public struct CreateJobResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobId", required: false, type: .string)
-        ]
-        /// The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000.
-        public let jobId: String?
-
-        public init(jobId: String? = nil) {
-            self.jobId = jobId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobId = "JobId"
-        }
-    }
-
-    public struct CancelJobResult: AWSShape {
-
-    }
-
-    public struct CreateAddressResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AddressId", required: false, type: .string)
-        ]
-        /// The automatically generated ID for a specific address. You'll use this ID when you create a job to specify which address you want the Snowball for that job shipped to.
-        public let addressId: String?
-
-        public init(addressId: String? = nil) {
-            self.addressId = addressId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case addressId = "AddressId"
-        }
-    }
-
-    public struct DataTransfer: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TotalObjects", required: false, type: .long), 
-            AWSShapeMember(label: "BytesTransferred", required: false, type: .long), 
-            AWSShapeMember(label: "TotalBytes", required: false, type: .long), 
-            AWSShapeMember(label: "ObjectsTransferred", required: false, type: .long)
-        ]
-        /// The total number of objects for a transfer between a Snowball and Amazon S3. This value is set to 0 (zero) until all the keys that will be transferred have been listed.
-        public let totalObjects: Int64?
-        /// The number of bytes transferred between a Snowball and Amazon S3.
-        public let bytesTransferred: Int64?
-        /// The total bytes of data for a transfer between a Snowball and Amazon S3. This value is set to 0 (zero) until all the keys that will be transferred have been listed.
-        public let totalBytes: Int64?
-        /// The number of objects transferred between a Snowball and Amazon S3.
-        public let objectsTransferred: Int64?
-
-        public init(totalObjects: Int64? = nil, bytesTransferred: Int64? = nil, totalBytes: Int64? = nil, objectsTransferred: Int64? = nil) {
-            self.totalObjects = totalObjects
-            self.bytesTransferred = bytesTransferred
-            self.totalBytes = totalBytes
-            self.objectsTransferred = objectsTransferred
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case totalObjects = "TotalObjects"
-            case bytesTransferred = "BytesTransferred"
-            case totalBytes = "TotalBytes"
-            case objectsTransferred = "ObjectsTransferred"
-        }
-    }
-
-    public struct GetSnowballUsageRequest: AWSShape {
-
-    }
-
-    public struct S3Resource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BucketArn", required: false, type: .string), 
-            AWSShapeMember(label: "KeyRange", required: false, type: .structure)
-        ]
-        /// The Amazon Resource Name (ARN) of an Amazon S3 bucket.
-        public let bucketArn: String?
-        /// For export jobs, you can provide an optional KeyRange within a specific Amazon S3 bucket. The length of the range is defined at job creation, and has either an inclusive BeginMarker, an inclusive EndMarker, or both. Ranges are UTF-8 binary sorted.
-        public let keyRange: KeyRange?
-
-        public init(bucketArn: String? = nil, keyRange: KeyRange? = nil) {
-            self.bucketArn = bucketArn
-            self.keyRange = keyRange
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bucketArn = "BucketArn"
-            case keyRange = "KeyRange"
-        }
-    }
-
-    public struct CreateJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ForwardingAddressId", required: false, type: .string), 
-            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
-            AWSShapeMember(label: "KmsKeyARN", required: false, type: .string), 
-            AWSShapeMember(label: "SnowballCapacityPreference", required: false, type: .enum), 
-            AWSShapeMember(label: "Notification", required: false, type: .structure), 
-            AWSShapeMember(label: "AddressId", required: false, type: .string), 
-            AWSShapeMember(label: "Resources", required: false, type: .structure), 
-            AWSShapeMember(label: "ClusterId", required: false, type: .string), 
-            AWSShapeMember(label: "JobType", required: false, type: .enum), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "SnowballType", required: false, type: .enum), 
-            AWSShapeMember(label: "ShippingOption", required: false, type: .enum)
-        ]
-        /// The forwarding address ID for a job. This field is not supported in most regions.
-        public let forwardingAddressId: String?
-        /// The RoleARN that you want to associate with this job. RoleArns are created using the CreateRole AWS Identity and Access Management (IAM) API action.
-        public let roleARN: String?
-        /// The KmsKeyARN that you want to associate with this job. KmsKeyARNs are created using the CreateKey AWS Key Management Service (KMS) API action.
-        public let kmsKeyARN: String?
-        /// If your job is being created in one of the US regions, you have the option of specifying what size Snowball you'd like for this job. In all other regions, Snowballs come with 80 TB in storage capacity.
-        public let snowballCapacityPreference: SnowballCapacity?
-        /// Defines the Amazon Simple Notification Service (Amazon SNS) notification settings for this job.
-        public let notification: Notification?
-        /// The ID for the address that you want the Snowball shipped to.
-        public let addressId: String?
-        /// Defines the Amazon S3 buckets associated with this job. With IMPORT jobs, you specify the bucket or buckets that your transferred data will be imported into. With EXPORT jobs, you specify the bucket or buckets that your transferred data will be exported from. Optionally, you can also specify a KeyRange value. If you choose to export a range, you define the length of the range by providing either an inclusive BeginMarker value, an inclusive EndMarker value, or both. Ranges are UTF-8 binary sorted.
-        public let resources: JobResource?
-        /// The ID of a cluster. If you're creating a job for a node in a cluster, you need to provide only this clusterId value. The other job attributes are inherited from the cluster.
-        public let clusterId: String?
-        /// Defines the type of job that you're creating. 
-        public let jobType: JobType?
-        /// Defines an optional description of this specific job, for example Important Photos 2016-08-11.
-        public let description: String?
-        /// The type of AWS Snowball device to use for this job. The only supported device types for cluster jobs are EDGE, EDGE_C, and EDGE_CG.
-        public let snowballType: SnowballType?
-        /// The shipping speed for this job. This speed doesn't dictate how soon you'll get the Snowball, rather it represents how quickly the Snowball moves to its destination while in transit. Regional shipping speeds are as follows:   In Australia, you have access to express shipping. Typically, Snowballs shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snowballs shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snowballs are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.  
-        public let shippingOption: ShippingOption?
-
-        public init(forwardingAddressId: String? = nil, roleARN: String? = nil, kmsKeyARN: String? = nil, snowballCapacityPreference: SnowballCapacity? = nil, notification: Notification? = nil, addressId: String? = nil, resources: JobResource? = nil, clusterId: String? = nil, jobType: JobType? = nil, description: String? = nil, snowballType: SnowballType? = nil, shippingOption: ShippingOption? = nil) {
-            self.forwardingAddressId = forwardingAddressId
-            self.roleARN = roleARN
-            self.kmsKeyARN = kmsKeyARN
-            self.snowballCapacityPreference = snowballCapacityPreference
-            self.notification = notification
-            self.addressId = addressId
-            self.resources = resources
-            self.clusterId = clusterId
-            self.jobType = jobType
-            self.description = description
-            self.snowballType = snowballType
             self.shippingOption = shippingOption
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case forwardingAddressId = "ForwardingAddressId"
-            case roleARN = "RoleARN"
-            case kmsKeyARN = "KmsKeyARN"
-            case snowballCapacityPreference = "SnowballCapacityPreference"
-            case notification = "Notification"
-            case addressId = "AddressId"
-            case resources = "Resources"
-            case clusterId = "ClusterId"
-            case jobType = "JobType"
-            case description = "Description"
-            case snowballType = "SnowballType"
-            case shippingOption = "ShippingOption"
-        }
-    }
-
-    public struct JobMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobType", required: false, type: .enum), 
-            AWSShapeMember(label: "Notification", required: false, type: .structure), 
-            AWSShapeMember(label: "AddressId", required: false, type: .string), 
-            AWSShapeMember(label: "DataTransferProgress", required: false, type: .structure), 
-            AWSShapeMember(label: "ForwardingAddressId", required: false, type: .string), 
-            AWSShapeMember(label: "ShippingDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "Resources", required: false, type: .structure), 
-            AWSShapeMember(label: "SnowballCapacityPreference", required: false, type: .enum), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "KmsKeyARN", required: false, type: .string), 
-            AWSShapeMember(label: "JobId", required: false, type: .string), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "SnowballType", required: false, type: .enum), 
-            AWSShapeMember(label: "JobLogInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
-            AWSShapeMember(label: "JobState", required: false, type: .enum), 
-            AWSShapeMember(label: "ClusterId", required: false, type: .string)
-        ]
-        /// The type of job.
-        public let jobType: JobType?
-        /// The Amazon Simple Notification Service (Amazon SNS) notification settings associated with a specific job. The Notification object is returned as a part of the response syntax of the DescribeJob action in the JobMetadata data type.
-        public let notification: Notification?
-        /// The ID for the address that you want the Snowball shipped to.
-        public let addressId: String?
-        /// A value that defines the real-time status of a Snowball's data transfer while the device is at AWS. This data is only available while a job has a JobState value of InProgress, for both import and export jobs.
-        public let dataTransferProgress: DataTransfer?
-        /// The ID of the address that you want a job shipped to, after it will be shipped to its primary address. This field is not supported in most regions.
-        public let forwardingAddressId: String?
-        /// A job's shipping information, including inbound and outbound tracking numbers and shipping speed options.
-        public let shippingDetails: ShippingDetails?
-        /// An array of S3Resource objects. Each S3Resource object represents an Amazon S3 bucket that your transferred data will be exported from or imported into.
-        public let resources: JobResource?
-        /// The Snowball capacity preference for this job, specified at job creation. In US regions, you can choose between 50 TB and 80 TB Snowballs. All other regions use 80 TB capacity Snowballs.
-        public let snowballCapacityPreference: SnowballCapacity?
-        /// The description of the job, provided at job creation.
-        public let description: String?
-        /// The Amazon Resource Name (ARN) for the AWS Key Management Service (AWS KMS) key associated with this job. This ARN was created using the CreateKey API action in AWS KMS.
-        public let kmsKeyARN: String?
-        /// The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000.
-        public let jobId: String?
-        /// The creation date for this job.
-        public let creationDate: TimeStamp?
-        /// The type of device used with this job.
-        public let snowballType: SnowballType?
-        /// Links to Amazon S3 presigned URLs for the job report and logs. For import jobs, the PDF job report becomes available at the end of the import process. For export jobs, your job report typically becomes available while the Snowball for your job part is being delivered to you.
-        public let jobLogInfo: JobLogs?
-        /// The role ARN associated with this job. This ARN was created using the CreateRole API action in AWS Identity and Access Management (IAM).
-        public let roleARN: String?
-        /// The current status of the jobs.
-        public let jobState: JobState?
-        /// The 39-character ID for the cluster, for example CID123e4567-e89b-12d3-a456-426655440000.
-        public let clusterId: String?
-
-        public init(jobType: JobType? = nil, notification: Notification? = nil, addressId: String? = nil, dataTransferProgress: DataTransfer? = nil, forwardingAddressId: String? = nil, shippingDetails: ShippingDetails? = nil, resources: JobResource? = nil, snowballCapacityPreference: SnowballCapacity? = nil, description: String? = nil, kmsKeyARN: String? = nil, jobId: String? = nil, creationDate: TimeStamp? = nil, snowballType: SnowballType? = nil, jobLogInfo: JobLogs? = nil, roleARN: String? = nil, jobState: JobState? = nil, clusterId: String? = nil) {
-            self.jobType = jobType
-            self.notification = notification
             self.addressId = addressId
-            self.dataTransferProgress = dataTransferProgress
-            self.forwardingAddressId = forwardingAddressId
-            self.shippingDetails = shippingDetails
-            self.resources = resources
-            self.snowballCapacityPreference = snowballCapacityPreference
             self.description = description
-            self.kmsKeyARN = kmsKeyARN
-            self.jobId = jobId
-            self.creationDate = creationDate
-            self.snowballType = snowballType
-            self.jobLogInfo = jobLogInfo
-            self.roleARN = roleARN
-            self.jobState = jobState
-            self.clusterId = clusterId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobType = "JobType"
             case notification = "Notification"
-            case addressId = "AddressId"
-            case dataTransferProgress = "DataTransferProgress"
-            case forwardingAddressId = "ForwardingAddressId"
-            case shippingDetails = "ShippingDetails"
             case resources = "Resources"
-            case snowballCapacityPreference = "SnowballCapacityPreference"
-            case description = "Description"
-            case kmsKeyARN = "KmsKeyARN"
-            case jobId = "JobId"
-            case creationDate = "CreationDate"
-            case snowballType = "SnowballType"
-            case jobLogInfo = "JobLogInfo"
             case roleARN = "RoleARN"
-            case jobState = "JobState"
+            case forwardingAddressId = "ForwardingAddressId"
             case clusterId = "ClusterId"
-        }
-    }
-
-    public struct EventTriggerDefinition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventResourceARN", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) for any local Amazon S3 resource that is an AWS Lambda function's event trigger associated with this job.
-        public let eventResourceARN: String?
-
-        public init(eventResourceARN: String? = nil) {
-            self.eventResourceARN = eventResourceARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eventResourceARN = "EventResourceARN"
-        }
-    }
-
-    public struct Shipment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "TrackingNumber", required: false, type: .string)
-        ]
-        /// Status information for a shipment.
-        public let status: String?
-        /// The tracking number for this job. Using this tracking number with your region's carrier's website, you can track a Snowball as the carrier transports it. For India, the carrier is Amazon Logistics. For all other regions, UPS is the carrier.
-        public let trackingNumber: String?
-
-        public init(status: String? = nil, trackingNumber: String? = nil) {
-            self.status = status
-            self.trackingNumber = trackingNumber
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "Status"
-            case trackingNumber = "TrackingNumber"
-        }
-    }
-
-    public struct DescribeAddressResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Address", required: false, type: .structure)
-        ]
-        /// The address that you want the Snowball or Snowballs associated with a specific job to be shipped to.
-        public let address: Address?
-
-        public init(address: Address? = nil) {
-            self.address = address
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case address = "Address"
+            case shippingOption = "ShippingOption"
+            case addressId = "AddressId"
+            case description = "Description"
         }
     }
 
@@ -549,90 +1002,238 @@ extension Snowball {
         }
     }
 
-    public enum SnowballCapacity: String, CustomStringConvertible, Codable {
-        case t50 = "T50"
-        case t80 = "T80"
-        case t100 = "T100"
-        case t42 = "T42"
-        case nopreference = "NoPreference"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct UpdateClusterResult: AWSShape {
-
-    }
-
-    public struct GetJobManifestResult: AWSShape {
+    public struct DescribeAddressRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ManifestURI", required: false, type: .string)
+            AWSShapeMember(label: "AddressId", required: true, type: .string)
         ]
-        /// The Amazon S3 presigned URL for the manifest file associated with the specified JobId value.
-        public let manifestURI: String?
+        /// The automatically generated ID for a specific address.
+        public let addressId: String
 
-        public init(manifestURI: String? = nil) {
-            self.manifestURI = manifestURI
+        public init(addressId: String) {
+            self.addressId = addressId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case manifestURI = "ManifestURI"
+            case addressId = "AddressId"
         }
     }
 
-    public enum JobType: String, CustomStringConvertible, Codable {
-        case `import` = "IMPORT"
-        case export = "EXPORT"
-        case localUse = "LOCAL_USE"
-        public var description: String { return self.rawValue }
+    public struct JobListEntry: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnowballType", required: false, type: .enum), 
+            AWSShapeMember(label: "JobType", required: false, type: .enum), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "JobId", required: false, type: .string), 
+            AWSShapeMember(label: "IsMaster", required: false, type: .boolean), 
+            AWSShapeMember(label: "JobState", required: false, type: .enum), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
+        ]
+        /// The type of device used with this job.
+        public let snowballType: SnowballType?
+        /// The type of job.
+        public let jobType: JobType?
+        /// The creation date for this job.
+        public let creationDate: TimeStamp?
+        /// The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000.
+        public let jobId: String?
+        /// A value that indicates that this job is a master job. A master job represents a successful request to create an export job. Master jobs aren't associated with any Snowballs. Instead, each master job will have at least one job part, and each job part is associated with a Snowball. It might take some time before the job parts associated with a particular master job are listed, because they are created after the master job is created.
+        public let isMaster: Bool?
+        /// The current state of this job.
+        public let jobState: JobState?
+        /// The optional description of this specific job, for example Important Photos 2016-08-11.
+        public let description: String?
+
+        public init(snowballType: SnowballType? = nil, jobType: JobType? = nil, creationDate: TimeStamp? = nil, jobId: String? = nil, isMaster: Bool? = nil, jobState: JobState? = nil, description: String? = nil) {
+            self.snowballType = snowballType
+            self.jobType = jobType
+            self.creationDate = creationDate
+            self.jobId = jobId
+            self.isMaster = isMaster
+            self.jobState = jobState
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snowballType = "SnowballType"
+            case jobType = "JobType"
+            case creationDate = "CreationDate"
+            case jobId = "JobId"
+            case isMaster = "IsMaster"
+            case jobState = "JobState"
+            case description = "Description"
+        }
     }
 
-    public struct ListCompatibleImagesResult: AWSShape {
+    public struct ClusterListEntry: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CompatibleImages", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "ClusterState", required: false, type: .enum), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterId", required: false, type: .string)
         ]
-        /// A JSON-formatted object that describes a compatible AMI.
-        public let compatibleImages: [CompatibleImage]?
-        /// Because HTTP requests are stateless, this is the starting point for your next list of returned images.
+        /// The current state of this cluster. For information about the state of a specific node, see JobListEntry$JobState.
+        public let clusterState: ClusterState?
+        /// The creation date for this cluster.
+        public let creationDate: TimeStamp?
+        /// Defines an optional description of the cluster, for example Environmental Data Cluster-01.
+        public let description: String?
+        /// The 39-character ID for the cluster that you want to list, for example CID123e4567-e89b-12d3-a456-426655440000.
+        public let clusterId: String?
+
+        public init(clusterState: ClusterState? = nil, creationDate: TimeStamp? = nil, description: String? = nil, clusterId: String? = nil) {
+            self.clusterState = clusterState
+            self.creationDate = creationDate
+            self.description = description
+            self.clusterId = clusterId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterState = "ClusterState"
+            case creationDate = "CreationDate"
+            case description = "Description"
+            case clusterId = "ClusterId"
+        }
+    }
+
+    public struct ListJobsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "JobListEntries", required: false, type: .list)
+        ]
+        /// HTTP requests are stateless. If you use this automatically generated NextToken value in your next ListJobs call, your returned JobListEntry objects will start from this point in the array.
         public let nextToken: String?
+        /// Each JobListEntry object contains a job's state, a job's ID, and a value that indicates whether the job is a job part, in the case of export jobs. 
+        public let jobListEntries: [JobListEntry]?
 
-        public init(compatibleImages: [CompatibleImage]? = nil, nextToken: String? = nil) {
-            self.compatibleImages = compatibleImages
+        public init(nextToken: String? = nil, jobListEntries: [JobListEntry]? = nil) {
             self.nextToken = nextToken
+            self.jobListEntries = jobListEntries
         }
 
         private enum CodingKeys: String, CodingKey {
-            case compatibleImages = "CompatibleImages"
             case nextToken = "NextToken"
+            case jobListEntries = "JobListEntries"
         }
     }
 
-    public struct ListJobsRequest: AWSShape {
+    public struct DescribeAddressResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "Address", required: false, type: .structure)
         ]
-        /// The number of JobListEntry objects to return.
-        public let maxResults: Int32?
-        /// HTTP requests are stateless. To identify what object comes "next" in the list of JobListEntry objects, you have the option of specifying NextToken as the starting point for your returned list.
-        public let nextToken: String?
+        /// The address that you want the Snowball or Snowballs associated with a specific job to be shipped to.
+        public let address: Address?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
+        public init(address: Address? = nil) {
+            self.address = address
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
+            case address = "Address"
         }
     }
 
-    public enum ShippingOption: String, CustomStringConvertible, Codable {
-        case secondDay = "SECOND_DAY"
-        case nextDay = "NEXT_DAY"
-        case express = "EXPRESS"
-        case standard = "STANDARD"
-        public var description: String { return self.rawValue }
+    public struct CreateJobResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: false, type: .string)
+        ]
+        /// The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000.
+        public let jobId: String?
+
+        public init(jobId: String? = nil) {
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct DataTransfer: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectsTransferred", required: false, type: .long), 
+            AWSShapeMember(label: "TotalBytes", required: false, type: .long), 
+            AWSShapeMember(label: "TotalObjects", required: false, type: .long), 
+            AWSShapeMember(label: "BytesTransferred", required: false, type: .long)
+        ]
+        /// The number of objects transferred between a Snowball and Amazon S3.
+        public let objectsTransferred: Int64?
+        /// The total bytes of data for a transfer between a Snowball and Amazon S3. This value is set to 0 (zero) until all the keys that will be transferred have been listed.
+        public let totalBytes: Int64?
+        /// The total number of objects for a transfer between a Snowball and Amazon S3. This value is set to 0 (zero) until all the keys that will be transferred have been listed.
+        public let totalObjects: Int64?
+        /// The number of bytes transferred between a Snowball and Amazon S3.
+        public let bytesTransferred: Int64?
+
+        public init(objectsTransferred: Int64? = nil, totalBytes: Int64? = nil, totalObjects: Int64? = nil, bytesTransferred: Int64? = nil) {
+            self.objectsTransferred = objectsTransferred
+            self.totalBytes = totalBytes
+            self.totalObjects = totalObjects
+            self.bytesTransferred = bytesTransferred
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectsTransferred = "ObjectsTransferred"
+            case totalBytes = "TotalBytes"
+            case totalObjects = "TotalObjects"
+            case bytesTransferred = "BytesTransferred"
+        }
+    }
+
+    public struct GetJobUnlockCodeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: true, type: .string)
+        ]
+        /// The ID for the job that you want to get the UnlockCode value for, for example JID123e4567-e89b-12d3-a456-426655440000.
+        public let jobId: String
+
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct EventTriggerDefinition: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventResourceARN", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) for any local Amazon S3 resource that is an AWS Lambda function's event trigger associated with this job.
+        public let eventResourceARN: String?
+
+        public init(eventResourceARN: String? = nil) {
+            self.eventResourceARN = eventResourceARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventResourceARN = "EventResourceARN"
+        }
+    }
+
+    public struct UpdateJobResult: AWSShape {
+
+    }
+
+    public struct DescribeJobResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubJobMetadata", required: false, type: .list), 
+            AWSShapeMember(label: "JobMetadata", required: false, type: .structure)
+        ]
+        /// Information about a specific job part (in the case of an export job), including shipping information, job status, and other important metadata.
+        public let subJobMetadata: [JobMetadata]?
+        /// Information about a specific job, including shipping information, job status, and other important metadata.
+        public let jobMetadata: JobMetadata?
+
+        public init(subJobMetadata: [JobMetadata]? = nil, jobMetadata: JobMetadata? = nil) {
+            self.subJobMetadata = subJobMetadata
+            self.jobMetadata = jobMetadata
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subJobMetadata = "SubJobMetadata"
+            case jobMetadata = "JobMetadata"
+        }
     }
 
     public struct GetJobUnlockCodeResult: AWSShape {
@@ -648,182 +1249,6 @@ extension Snowball {
 
         private enum CodingKeys: String, CodingKey {
             case unlockCode = "UnlockCode"
-        }
-    }
-
-    public struct DescribeAddressesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The number of ADDRESS objects to return.
-        public let maxResults: Int32?
-        /// HTTP requests are stateless. To identify what object comes "next" in the list of ADDRESS objects, you have the option of specifying a value for NextToken as the starting point for your list of returned addresses.
-        public let nextToken: String?
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct UpdateClusterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ForwardingAddressId", required: false, type: .string), 
-            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
-            AWSShapeMember(label: "Notification", required: false, type: .structure), 
-            AWSShapeMember(label: "Resources", required: false, type: .structure), 
-            AWSShapeMember(label: "AddressId", required: false, type: .string), 
-            AWSShapeMember(label: "ClusterId", required: true, type: .string), 
-            AWSShapeMember(label: "ShippingOption", required: false, type: .enum), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
-        ]
-        /// The updated ID for the forwarding address for a cluster. This field is not supported in most regions.
-        public let forwardingAddressId: String?
-        /// The new role Amazon Resource Name (ARN) that you want to associate with this cluster. To create a role ARN, use the CreateRole API action in AWS Identity and Access Management (IAM).
-        public let roleARN: String?
-        /// The new or updated Notification object.
-        public let notification: Notification?
-        /// The updated arrays of JobResource objects that can include updated S3Resource objects or LambdaResource objects.
-        public let resources: JobResource?
-        /// The ID of the updated Address object.
-        public let addressId: String?
-        /// The cluster ID of the cluster that you want to update, for example CID123e4567-e89b-12d3-a456-426655440000.
-        public let clusterId: String
-        /// The updated shipping option value of this cluster's ShippingDetails object.
-        public let shippingOption: ShippingOption?
-        /// The updated description of this cluster.
-        public let description: String?
-
-        public init(forwardingAddressId: String? = nil, roleARN: String? = nil, notification: Notification? = nil, resources: JobResource? = nil, addressId: String? = nil, clusterId: String, shippingOption: ShippingOption? = nil, description: String? = nil) {
-            self.forwardingAddressId = forwardingAddressId
-            self.roleARN = roleARN
-            self.notification = notification
-            self.resources = resources
-            self.addressId = addressId
-            self.clusterId = clusterId
-            self.shippingOption = shippingOption
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case forwardingAddressId = "ForwardingAddressId"
-            case roleARN = "RoleARN"
-            case notification = "Notification"
-            case resources = "Resources"
-            case addressId = "AddressId"
-            case clusterId = "ClusterId"
-            case shippingOption = "ShippingOption"
-            case description = "Description"
-        }
-    }
-
-    public struct DescribeJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobId", required: true, type: .string)
-        ]
-        /// The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000.
-        public let jobId: String
-
-        public init(jobId: String) {
-            self.jobId = jobId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobId = "JobId"
-        }
-    }
-
-    public struct DescribeClusterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterId", required: true, type: .string)
-        ]
-        /// The automatically generated ID for a cluster.
-        public let clusterId: String
-
-        public init(clusterId: String) {
-            self.clusterId = clusterId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case clusterId = "ClusterId"
-        }
-    }
-
-    public struct ListCompatibleImagesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The maximum number of results for the list of compatible images. Currently, each supported device can store 10 AMIs.
-        public let maxResults: Int32?
-        /// HTTP requests are stateless. To identify what object comes "next" in the list of compatible images, you can specify a value for NextToken as the starting point for your list of returned images.
-        public let nextToken: String?
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct CreateClusterResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterId", required: false, type: .string)
-        ]
-        /// The automatically generated ID for a cluster.
-        public let clusterId: String?
-
-        public init(clusterId: String? = nil) {
-            self.clusterId = clusterId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case clusterId = "ClusterId"
-        }
-    }
-
-    public enum ClusterState: String, CustomStringConvertible, Codable {
-        case awaitingquorum = "AwaitingQuorum"
-        case pending = "Pending"
-        case inuse = "InUse"
-        case complete = "Complete"
-        case cancelled = "Cancelled"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct JobResource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3Resources", required: false, type: .list), 
-            AWSShapeMember(label: "LambdaResources", required: false, type: .list), 
-            AWSShapeMember(label: "Ec2AmiResources", required: false, type: .list)
-        ]
-        /// An array of S3Resource objects.
-        public let s3Resources: [S3Resource]?
-        /// The Python-language Lambda functions for this job.
-        public let lambdaResources: [LambdaResource]?
-        /// The Amazon Machine Images (AMIs) associated with this job.
-        public let ec2AmiResources: [Ec2AmiResource]?
-
-        public init(s3Resources: [S3Resource]? = nil, lambdaResources: [LambdaResource]? = nil, ec2AmiResources: [Ec2AmiResource]? = nil) {
-            self.s3Resources = s3Resources
-            self.lambdaResources = lambdaResources
-            self.ec2AmiResources = ec2AmiResources
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case s3Resources = "S3Resources"
-            case lambdaResources = "LambdaResources"
-            case ec2AmiResources = "Ec2AmiResources"
         }
     }
 
@@ -848,312 +1273,113 @@ extension Snowball {
         }
     }
 
-    public struct LambdaResource: AWSShape {
+    public struct CreateClusterResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LambdaArn", required: false, type: .string), 
-            AWSShapeMember(label: "EventTriggers", required: false, type: .list)
+            AWSShapeMember(label: "ClusterId", required: false, type: .string)
         ]
-        /// An Amazon Resource Name (ARN) that represents an AWS Lambda function to be triggered by PUT object actions on the associated local Amazon S3 resource.
-        public let lambdaArn: String?
-        /// The array of ARNs for S3Resource objects to trigger the LambdaResource objects associated with this job.
-        public let eventTriggers: [EventTriggerDefinition]?
-
-        public init(lambdaArn: String? = nil, eventTriggers: [EventTriggerDefinition]? = nil) {
-            self.lambdaArn = lambdaArn
-            self.eventTriggers = eventTriggers
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lambdaArn = "LambdaArn"
-            case eventTriggers = "EventTriggers"
-        }
-    }
-
-    public struct GetJobUnlockCodeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobId", required: true, type: .string)
-        ]
-        /// The ID for the job that you want to get the UnlockCode value for, for example JID123e4567-e89b-12d3-a456-426655440000.
-        public let jobId: String
-
-        public init(jobId: String) {
-            self.jobId = jobId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobId = "JobId"
-        }
-    }
-
-    public struct JobLogs: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobCompletionReportURI", required: false, type: .string), 
-            AWSShapeMember(label: "JobFailureLogURI", required: false, type: .string), 
-            AWSShapeMember(label: "JobSuccessLogURI", required: false, type: .string)
-        ]
-        /// A link to an Amazon S3 presigned URL where the job completion report is located.
-        public let jobCompletionReportURI: String?
-        /// A link to an Amazon S3 presigned URL where the job failure log is located.
-        public let jobFailureLogURI: String?
-        /// A link to an Amazon S3 presigned URL where the job success log is located.
-        public let jobSuccessLogURI: String?
-
-        public init(jobCompletionReportURI: String? = nil, jobFailureLogURI: String? = nil, jobSuccessLogURI: String? = nil) {
-            self.jobCompletionReportURI = jobCompletionReportURI
-            self.jobFailureLogURI = jobFailureLogURI
-            self.jobSuccessLogURI = jobSuccessLogURI
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobCompletionReportURI = "JobCompletionReportURI"
-            case jobFailureLogURI = "JobFailureLogURI"
-            case jobSuccessLogURI = "JobSuccessLogURI"
-        }
-    }
-
-    public struct CreateClusterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ForwardingAddressId", required: false, type: .string), 
-            AWSShapeMember(label: "RoleARN", required: true, type: .string), 
-            AWSShapeMember(label: "KmsKeyARN", required: false, type: .string), 
-            AWSShapeMember(label: "Notification", required: false, type: .structure), 
-            AWSShapeMember(label: "Resources", required: true, type: .structure), 
-            AWSShapeMember(label: "AddressId", required: true, type: .string), 
-            AWSShapeMember(label: "JobType", required: true, type: .enum), 
-            AWSShapeMember(label: "ShippingOption", required: true, type: .enum), 
-            AWSShapeMember(label: "SnowballType", required: false, type: .enum), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
-        ]
-        /// The forwarding address ID for a cluster. This field is not supported in most regions.
-        public let forwardingAddressId: String?
-        /// The RoleARN that you want to associate with this cluster. RoleArn values are created by using the CreateRole API action in AWS Identity and Access Management (IAM).
-        public let roleARN: String
-        /// The KmsKeyARN value that you want to associate with this cluster. KmsKeyARN values are created by using the CreateKey API action in AWS Key Management Service (AWS KMS). 
-        public let kmsKeyARN: String?
-        /// The Amazon Simple Notification Service (Amazon SNS) notification settings for this cluster.
-        public let notification: Notification?
-        /// The resources associated with the cluster job. These resources include Amazon S3 buckets and optional AWS Lambda functions written in the Python language. 
-        public let resources: JobResource
-        /// The ID for the address that you want the cluster shipped to.
-        public let addressId: String
-        /// The type of job for this cluster. Currently, the only job type supported for clusters is LOCAL_USE.
-        public let jobType: JobType
-        /// The shipping speed for each node in this cluster. This speed doesn't dictate how soon you'll get each Snowball Edge device, rather it represents how quickly each device moves to its destination while in transit. Regional shipping speeds are as follows:   In Australia, you have access to express shipping. Typically, devices shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snowball Edges shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, devices are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.  
-        public let shippingOption: ShippingOption
-        /// The type of AWS Snowball device to use for this cluster. The only supported device types for cluster jobs are EDGE, EDGE_C, and EDGE_CG.
-        public let snowballType: SnowballType?
-        /// An optional description of this specific cluster, for example Environmental Data Cluster-01.
-        public let description: String?
-
-        public init(forwardingAddressId: String? = nil, roleARN: String, kmsKeyARN: String? = nil, notification: Notification? = nil, resources: JobResource, addressId: String, jobType: JobType, shippingOption: ShippingOption, snowballType: SnowballType? = nil, description: String? = nil) {
-            self.forwardingAddressId = forwardingAddressId
-            self.roleARN = roleARN
-            self.kmsKeyARN = kmsKeyARN
-            self.notification = notification
-            self.resources = resources
-            self.addressId = addressId
-            self.jobType = jobType
-            self.shippingOption = shippingOption
-            self.snowballType = snowballType
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case forwardingAddressId = "ForwardingAddressId"
-            case roleARN = "RoleARN"
-            case kmsKeyARN = "KmsKeyARN"
-            case notification = "Notification"
-            case resources = "Resources"
-            case addressId = "AddressId"
-            case jobType = "JobType"
-            case shippingOption = "ShippingOption"
-            case snowballType = "SnowballType"
-            case description = "Description"
-        }
-    }
-
-    public struct CreateAddressRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Address", required: true, type: .structure)
-        ]
-        /// The address that you want the Snowball shipped to.
-        public let address: Address
-
-        public init(address: Address) {
-            self.address = address
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case address = "Address"
-        }
-    }
-
-    public struct Address: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AddressId", required: false, type: .string), 
-            AWSShapeMember(label: "IsRestricted", required: false, type: .boolean), 
-            AWSShapeMember(label: "Company", required: false, type: .string), 
-            AWSShapeMember(label: "Country", required: false, type: .string), 
-            AWSShapeMember(label: "Street3", required: false, type: .string), 
-            AWSShapeMember(label: "Street2", required: false, type: .string), 
-            AWSShapeMember(label: "Landmark", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "City", required: false, type: .string), 
-            AWSShapeMember(label: "Street1", required: false, type: .string), 
-            AWSShapeMember(label: "PostalCode", required: false, type: .string), 
-            AWSShapeMember(label: "PhoneNumber", required: false, type: .string), 
-            AWSShapeMember(label: "StateOrProvince", required: false, type: .string), 
-            AWSShapeMember(label: "PrefectureOrDistrict", required: false, type: .string)
-        ]
-        /// The unique ID for an address.
-        public let addressId: String?
-        /// If the address you are creating is a primary address, then set this option to true. This field is not supported in most regions.
-        public let isRestricted: Bool?
-        /// The name of the company to receive a Snowball at an address.
-        public let company: String?
-        /// The country in an address that a Snowball is to be delivered to.
-        public let country: String?
-        /// The third line in a street address that a Snowball is to be delivered to.
-        public let street3: String?
-        /// The second line in a street address that a Snowball is to be delivered to.
-        public let street2: String?
-        /// This field is no longer used and the value is ignored.
-        public let landmark: String?
-        /// The name of a person to receive a Snowball at an address.
-        public let name: String?
-        /// The city in an address that a Snowball is to be delivered to.
-        public let city: String?
-        /// The first line in a street address that a Snowball is to be delivered to.
-        public let street1: String?
-        /// The postal code in an address that a Snowball is to be delivered to.
-        public let postalCode: String?
-        /// The phone number associated with an address that a Snowball is to be delivered to.
-        public let phoneNumber: String?
-        /// The state or province in an address that a Snowball is to be delivered to.
-        public let stateOrProvince: String?
-        /// This field is no longer used and the value is ignored.
-        public let prefectureOrDistrict: String?
-
-        public init(addressId: String? = nil, isRestricted: Bool? = nil, company: String? = nil, country: String? = nil, street3: String? = nil, street2: String? = nil, landmark: String? = nil, name: String? = nil, city: String? = nil, street1: String? = nil, postalCode: String? = nil, phoneNumber: String? = nil, stateOrProvince: String? = nil, prefectureOrDistrict: String? = nil) {
-            self.addressId = addressId
-            self.isRestricted = isRestricted
-            self.company = company
-            self.country = country
-            self.street3 = street3
-            self.street2 = street2
-            self.landmark = landmark
-            self.name = name
-            self.city = city
-            self.street1 = street1
-            self.postalCode = postalCode
-            self.phoneNumber = phoneNumber
-            self.stateOrProvince = stateOrProvince
-            self.prefectureOrDistrict = prefectureOrDistrict
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case addressId = "AddressId"
-            case isRestricted = "IsRestricted"
-            case company = "Company"
-            case country = "Country"
-            case street3 = "Street3"
-            case street2 = "Street2"
-            case landmark = "Landmark"
-            case name = "Name"
-            case city = "City"
-            case street1 = "Street1"
-            case postalCode = "PostalCode"
-            case phoneNumber = "PhoneNumber"
-            case stateOrProvince = "StateOrProvince"
-            case prefectureOrDistrict = "PrefectureOrDistrict"
-        }
-    }
-
-    public struct ClusterListEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterState", required: false, type: .enum), 
-            AWSShapeMember(label: "ClusterId", required: false, type: .string), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
-        ]
-        /// The current state of this cluster. For information about the state of a specific node, see JobListEntry$JobState.
-        public let clusterState: ClusterState?
-        /// The 39-character ID for the cluster that you want to list, for example CID123e4567-e89b-12d3-a456-426655440000.
+        /// The automatically generated ID for a cluster.
         public let clusterId: String?
-        /// The creation date for this cluster.
-        public let creationDate: TimeStamp?
-        /// Defines an optional description of the cluster, for example Environmental Data Cluster-01.
-        public let description: String?
 
-        public init(clusterState: ClusterState? = nil, clusterId: String? = nil, creationDate: TimeStamp? = nil, description: String? = nil) {
-            self.clusterState = clusterState
+        public init(clusterId: String? = nil) {
             self.clusterId = clusterId
-            self.creationDate = creationDate
-            self.description = description
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterState = "ClusterState"
             case clusterId = "ClusterId"
-            case creationDate = "CreationDate"
-            case description = "Description"
         }
     }
 
-    public struct KeyRange: AWSShape {
+    public struct DescribeClusterResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BeginMarker", required: false, type: .string), 
-            AWSShapeMember(label: "EndMarker", required: false, type: .string)
+            AWSShapeMember(label: "ClusterMetadata", required: false, type: .structure)
         ]
-        /// The key that starts an optional key range for an export job. Ranges are inclusive and UTF-8 binary sorted.
-        public let beginMarker: String?
-        /// The key that ends an optional key range for an export job. Ranges are inclusive and UTF-8 binary sorted.
-        public let endMarker: String?
+        /// Information about a specific cluster, including shipping information, cluster status, and other important metadata.
+        public let clusterMetadata: ClusterMetadata?
 
-        public init(beginMarker: String? = nil, endMarker: String? = nil) {
-            self.beginMarker = beginMarker
-            self.endMarker = endMarker
+        public init(clusterMetadata: ClusterMetadata? = nil) {
+            self.clusterMetadata = clusterMetadata
         }
 
         private enum CodingKeys: String, CodingKey {
-            case beginMarker = "BeginMarker"
-            case endMarker = "EndMarker"
+            case clusterMetadata = "ClusterMetadata"
         }
     }
 
-    public struct GetJobManifestRequest: AWSShape {
+    public struct ListClusterJobsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobId", required: true, type: .string)
-        ]
-        /// The ID for a job that you want to get the manifest file for, for example JID123e4567-e89b-12d3-a456-426655440000.
-        public let jobId: String
-
-        public init(jobId: String) {
-            self.jobId = jobId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobId = "JobId"
-        }
-    }
-
-    public struct ListJobsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobListEntries", required: false, type: .list), 
+            AWSShapeMember(label: "ClusterId", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// Each JobListEntry object contains a job's state, a job's ID, and a value that indicates whether the job is a job part, in the case of export jobs. 
-        public let jobListEntries: [JobListEntry]?
-        /// HTTP requests are stateless. If you use this automatically generated NextToken value in your next ListJobs call, your returned JobListEntry objects will start from this point in the array.
+        /// The 39-character ID for the cluster that you want to list, for example CID123e4567-e89b-12d3-a456-426655440000.
+        public let clusterId: String
+        /// The number of JobListEntry objects to return.
+        public let maxResults: Int32?
+        /// HTTP requests are stateless. To identify what object comes "next" in the list of JobListEntry objects, you have the option of specifying NextToken as the starting point for your returned list.
         public let nextToken: String?
 
-        public init(jobListEntries: [JobListEntry]? = nil, nextToken: String? = nil) {
-            self.jobListEntries = jobListEntries
+        public init(clusterId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.clusterId = clusterId
+            self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobListEntries = "JobListEntries"
+            case clusterId = "ClusterId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: true, type: .string)
+        ]
+        /// The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000.
+        public let jobId: String
+
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct CancelJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: true, type: .string)
+        ]
+        /// The 39-character job ID for the job that you want to cancel, for example JID123e4567-e89b-12d3-a456-426655440000.
+        public let jobId: String
+
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct DescribeAddressesResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Addresses", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The Snowball shipping addresses that were created for this account.
+        public let addresses: [Address]?
+        /// HTTP requests are stateless. If you use the automatically generated NextToken value in your next DescribeAddresses call, your list of returned addresses will start from this point in the array.
+        public let nextToken: String?
+
+        public init(addresses: [Address]? = nil, nextToken: String? = nil) {
+            self.addresses = addresses
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addresses = "Addresses"
             case nextToken = "NextToken"
         }
     }
@@ -1179,251 +1405,25 @@ extension Snowball {
         }
     }
 
-    public struct ListClusterJobsResult: AWSShape {
+    public struct Shipment: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobListEntries", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "TrackingNumber", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .string)
         ]
-        /// Each JobListEntry object contains a job's state, a job's ID, and a value that indicates whether the job is a job part, in the case of export jobs. 
-        public let jobListEntries: [JobListEntry]?
-        /// HTTP requests are stateless. If you use the automatically generated NextToken value in your next ListClusterJobsResult call, your list of returned jobs will start from this point in the array.
-        public let nextToken: String?
+        /// The tracking number for this job. Using this tracking number with your region's carrier's website, you can track a Snowball as the carrier transports it. For India, the carrier is Amazon Logistics. For all other regions, UPS is the carrier.
+        public let trackingNumber: String?
+        /// Status information for a shipment.
+        public let status: String?
 
-        public init(jobListEntries: [JobListEntry]? = nil, nextToken: String? = nil) {
-            self.jobListEntries = jobListEntries
-            self.nextToken = nextToken
+        public init(trackingNumber: String? = nil, status: String? = nil) {
+            self.trackingNumber = trackingNumber
+            self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobListEntries = "JobListEntries"
-            case nextToken = "NextToken"
+            case trackingNumber = "TrackingNumber"
+            case status = "Status"
         }
-    }
-
-    public struct DescribeClusterResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterMetadata", required: false, type: .structure)
-        ]
-        /// Information about a specific cluster, including shipping information, cluster status, and other important metadata.
-        public let clusterMetadata: ClusterMetadata?
-
-        public init(clusterMetadata: ClusterMetadata? = nil) {
-            self.clusterMetadata = clusterMetadata
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case clusterMetadata = "ClusterMetadata"
-        }
-    }
-
-    public struct DescribeAddressesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Addresses", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The Snowball shipping addresses that were created for this account.
-        public let addresses: [Address]?
-        /// HTTP requests are stateless. If you use the automatically generated NextToken value in your next DescribeAddresses call, your list of returned addresses will start from this point in the array.
-        public let nextToken: String?
-
-        public init(addresses: [Address]? = nil, nextToken: String? = nil) {
-            self.addresses = addresses
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case addresses = "Addresses"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct ListClustersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The number of ClusterListEntry objects to return.
-        public let maxResults: Int32?
-        /// HTTP requests are stateless. To identify what object comes "next" in the list of ClusterListEntry objects, you have the option of specifying NextToken as the starting point for your returned list.
-        public let nextToken: String?
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct JobListEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobId", required: false, type: .string), 
-            AWSShapeMember(label: "IsMaster", required: false, type: .boolean), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "JobState", required: false, type: .enum), 
-            AWSShapeMember(label: "JobType", required: false, type: .enum), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "SnowballType", required: false, type: .enum)
-        ]
-        /// The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000.
-        public let jobId: String?
-        /// A value that indicates that this job is a master job. A master job represents a successful request to create an export job. Master jobs aren't associated with any Snowballs. Instead, each master job will have at least one job part, and each job part is associated with a Snowball. It might take some time before the job parts associated with a particular master job are listed, because they are created after the master job is created.
-        public let isMaster: Bool?
-        /// The creation date for this job.
-        public let creationDate: TimeStamp?
-        /// The current state of this job.
-        public let jobState: JobState?
-        /// The type of job.
-        public let jobType: JobType?
-        /// The optional description of this specific job, for example Important Photos 2016-08-11.
-        public let description: String?
-        /// The type of device used with this job.
-        public let snowballType: SnowballType?
-
-        public init(jobId: String? = nil, isMaster: Bool? = nil, creationDate: TimeStamp? = nil, jobState: JobState? = nil, jobType: JobType? = nil, description: String? = nil, snowballType: SnowballType? = nil) {
-            self.jobId = jobId
-            self.isMaster = isMaster
-            self.creationDate = creationDate
-            self.jobState = jobState
-            self.jobType = jobType
-            self.description = description
-            self.snowballType = snowballType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobId = "JobId"
-            case isMaster = "IsMaster"
-            case creationDate = "CreationDate"
-            case jobState = "JobState"
-            case jobType = "JobType"
-            case description = "Description"
-            case snowballType = "SnowballType"
-        }
-    }
-
-    public struct ListClusterJobsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterId", required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
-        ]
-        /// The 39-character ID for the cluster that you want to list, for example CID123e4567-e89b-12d3-a456-426655440000.
-        public let clusterId: String
-        /// HTTP requests are stateless. To identify what object comes "next" in the list of JobListEntry objects, you have the option of specifying NextToken as the starting point for your returned list.
-        public let nextToken: String?
-        /// The number of JobListEntry objects to return.
-        public let maxResults: Int32?
-
-        public init(clusterId: String, nextToken: String? = nil, maxResults: Int32? = nil) {
-            self.clusterId = clusterId
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case clusterId = "ClusterId"
-            case nextToken = "NextToken"
-            case maxResults = "MaxResults"
-        }
-    }
-
-    public struct DescribeJobResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubJobMetadata", required: false, type: .list), 
-            AWSShapeMember(label: "JobMetadata", required: false, type: .structure)
-        ]
-        /// Information about a specific job part (in the case of an export job), including shipping information, job status, and other important metadata.
-        public let subJobMetadata: [JobMetadata]?
-        /// Information about a specific job, including shipping information, job status, and other important metadata.
-        public let jobMetadata: JobMetadata?
-
-        public init(subJobMetadata: [JobMetadata]? = nil, jobMetadata: JobMetadata? = nil) {
-            self.subJobMetadata = subJobMetadata
-            self.jobMetadata = jobMetadata
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case subJobMetadata = "SubJobMetadata"
-            case jobMetadata = "JobMetadata"
-        }
-    }
-
-    public struct DescribeAddressRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AddressId", required: true, type: .string)
-        ]
-        /// The automatically generated ID for a specific address.
-        public let addressId: String
-
-        public init(addressId: String) {
-            self.addressId = addressId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case addressId = "AddressId"
-        }
-    }
-
-    public struct CancelClusterResult: AWSShape {
-
-    }
-
-    public struct CompatibleImage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AmiId", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// The unique identifier for an individual Snowball Edge AMI.
-        public let amiId: String?
-        /// The optional name of a compatible image.
-        public let name: String?
-
-        public init(amiId: String? = nil, name: String? = nil) {
-            self.amiId = amiId
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case amiId = "AmiId"
-            case name = "Name"
-        }
-    }
-
-    public struct Notification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobStatesToNotify", required: false, type: .list), 
-            AWSShapeMember(label: "SnsTopicARN", required: false, type: .string), 
-            AWSShapeMember(label: "NotifyAll", required: false, type: .boolean)
-        ]
-        /// The list of job states that will trigger a notification for this job.
-        public let jobStatesToNotify: [JobState]?
-        /// The new SNS TopicArn that you want to associate with this job. You can create Amazon Resource Names (ARNs) for topics by using the CreateTopic Amazon SNS API action. You can subscribe email addresses to an Amazon SNS topic through the AWS Management Console, or by using the Subscribe AWS Simple Notification Service (SNS) API action.
-        public let snsTopicARN: String?
-        /// Any change in job state will trigger a notification for this job.
-        public let notifyAll: Bool?
-
-        public init(jobStatesToNotify: [JobState]? = nil, snsTopicARN: String? = nil, notifyAll: Bool? = nil) {
-            self.jobStatesToNotify = jobStatesToNotify
-            self.snsTopicARN = snsTopicARN
-            self.notifyAll = notifyAll
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobStatesToNotify = "JobStatesToNotify"
-            case snsTopicARN = "SnsTopicARN"
-            case notifyAll = "NotifyAll"
-        }
-    }
-
-    public enum SnowballType: String, CustomStringConvertible, Codable {
-        case standard = "STANDARD"
-        case edge = "EDGE"
-        case edgeC = "EDGE_C"
-        case edgeCg = "EDGE_CG"
-        public var description: String { return self.rawValue }
     }
 
 }

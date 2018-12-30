@@ -25,24 +25,24 @@ public struct IoTJobsDataPlane {
         )
     }
 
-    ///  Gets and starts the next pending (status IN_PROGRESS or QUEUED) job execution for a thing.
-    public func startNextPendingJobExecution(_ input: StartNextPendingJobExecutionRequest) throws -> EventLoopFuture<StartNextPendingJobExecutionResponse> {
-        return try client.send(operation: "StartNextPendingJobExecution", path: "/things/{thingName}/jobs/$next", httpMethod: "PUT", input: input)
-    }
-
-    ///  Gets the list of all jobs for a thing that are not in a terminal status.
-    public func getPendingJobExecutions(_ input: GetPendingJobExecutionsRequest) throws -> EventLoopFuture<GetPendingJobExecutionsResponse> {
-        return try client.send(operation: "GetPendingJobExecutions", path: "/things/{thingName}/jobs", httpMethod: "GET", input: input)
-    }
-
     ///  Gets details of a job execution.
-    public func describeJobExecution(_ input: DescribeJobExecutionRequest) throws -> EventLoopFuture<DescribeJobExecutionResponse> {
+    public func describeJobExecution(_ input: DescribeJobExecutionRequest) throws -> Future<DescribeJobExecutionResponse> {
         return try client.send(operation: "DescribeJobExecution", path: "/things/{thingName}/jobs/{jobId}", httpMethod: "GET", input: input)
     }
 
+    ///  Gets the list of all jobs for a thing that are not in a terminal status.
+    public func getPendingJobExecutions(_ input: GetPendingJobExecutionsRequest) throws -> Future<GetPendingJobExecutionsResponse> {
+        return try client.send(operation: "GetPendingJobExecutions", path: "/things/{thingName}/jobs", httpMethod: "GET", input: input)
+    }
+
     ///  Updates the status of a job execution.
-    public func updateJobExecution(_ input: UpdateJobExecutionRequest) throws -> EventLoopFuture<UpdateJobExecutionResponse> {
+    public func updateJobExecution(_ input: UpdateJobExecutionRequest) throws -> Future<UpdateJobExecutionResponse> {
         return try client.send(operation: "UpdateJobExecution", path: "/things/{thingName}/jobs/{jobId}", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets and starts the next pending (status IN_PROGRESS or QUEUED) job execution for a thing.
+    public func startNextPendingJobExecution(_ input: StartNextPendingJobExecutionRequest) throws -> Future<StartNextPendingJobExecutionResponse> {
+        return try client.send(operation: "StartNextPendingJobExecution", path: "/things/{thingName}/jobs/$next", httpMethod: "PUT", input: input)
     }
 
 

@@ -7,8 +7,8 @@ public enum PinpointEmailErrorType: AWSErrorType {
     case notFoundException(message: String?)
     case tooManyRequestsException(message: String?)
     case badRequestException(message: String?)
-    case limitExceededException(message: String?)
     case alreadyExistsException(message: String?)
+    case limitExceededException(message: String?)
     case accountSuspendedException(message: String?)
     case sendingPausedException(message: String?)
     case messageRejected(message: String?)
@@ -28,10 +28,10 @@ extension PinpointEmailErrorType {
             self = .tooManyRequestsException(message: message)
         case "BadRequestException":
             self = .badRequestException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
         case "AlreadyExistsException":
             self = .alreadyExistsException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
         case "AccountSuspendedException":
             self = .accountSuspendedException(message: message)
         case "SendingPausedException":

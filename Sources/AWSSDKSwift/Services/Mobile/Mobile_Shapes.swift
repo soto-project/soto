@@ -5,6 +5,17 @@ import AWSSDKSwiftCore
 
 extension Mobile {
 
+    public enum Platform: String, CustomStringConvertible, Codable {
+        case osx = "OSX"
+        case windows = "WINDOWS"
+        case linux = "LINUX"
+        case objc = "OBJC"
+        case swift = "SWIFT"
+        case android = "ANDROID"
+        case javascript = "JAVASCRIPT"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DescribeBundleResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "details", required: false, type: .structure)
@@ -21,129 +32,34 @@ extension Mobile {
         }
     }
 
-    public struct ListBundlesResult: AWSShape {
+    public struct Resource: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bundleList", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
+            AWSShapeMember(label: "feature", required: false, type: .string), 
+            AWSShapeMember(label: "type", required: false, type: .string), 
+            AWSShapeMember(label: "attributes", required: false, type: .map), 
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string)
         ]
-        ///  A list of bundles. 
-        public let bundleList: [BundleDetails]?
-        ///  Pagination token. If non-null pagination token is returned in a result, then pass its value in another request to fetch more entries. 
-        public let nextToken: String?
+        public let feature: String?
+        public let `type`: String?
+        public let attributes: [String: String]?
+        public let arn: String?
+        public let name: String?
 
-        public init(bundleList: [BundleDetails]? = nil, nextToken: String? = nil) {
-            self.bundleList = bundleList
-            self.nextToken = nextToken
+        public init(feature: String? = nil, type: String? = nil, attributes: [String: String]? = nil, arn: String? = nil, name: String? = nil) {
+            self.feature = feature
+            self.`type` = `type`
+            self.attributes = attributes
+            self.arn = arn
+            self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bundleList = "bundleList"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct UpdateProjectResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "details", required: false, type: .structure)
-        ]
-        ///  Detailed information about the updated AWS Mobile Hub project. 
-        public let details: ProjectDetails?
-
-        public init(details: ProjectDetails? = nil) {
-            self.details = details
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case details = "details"
-        }
-    }
-
-    public struct DescribeProjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "syncFromResources", location: .querystring(locationName: "syncFromResources"), required: false, type: .boolean), 
-            AWSShapeMember(label: "projectId", location: .querystring(locationName: "projectId"), required: true, type: .string)
-        ]
-        ///  If set to true, causes AWS Mobile Hub to synchronize information from other services, e.g., update state of AWS CloudFormation stacks in the AWS Mobile Hub project. 
-        public let syncFromResources: Bool?
-        ///  Unique project identifier. 
-        public let projectId: String
-
-        public init(syncFromResources: Bool? = nil, projectId: String) {
-            self.syncFromResources = syncFromResources
-            self.projectId = projectId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case syncFromResources = "syncFromResources"
-            case projectId = "projectId"
-        }
-    }
-
-    public struct ExportBundleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "platform", location: .querystring(locationName: "platform"), required: false, type: .enum), 
-            AWSShapeMember(label: "projectId", location: .querystring(locationName: "projectId"), required: false, type: .string), 
-            AWSShapeMember(label: "bundleId", location: .uri(locationName: "bundleId"), required: true, type: .string)
-        ]
-        ///  Developer desktop or target application platform. 
-        public let platform: Platform?
-        ///  Unique project identifier. 
-        public let projectId: String?
-        ///  Unique bundle identifier. 
-        public let bundleId: String
-
-        public init(platform: Platform? = nil, projectId: String? = nil, bundleId: String) {
-            self.platform = platform
-            self.projectId = projectId
-            self.bundleId = bundleId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case platform = "platform"
-            case projectId = "projectId"
-            case bundleId = "bundleId"
-        }
-    }
-
-    public enum ProjectState: String, CustomStringConvertible, Codable {
-        case normal = "NORMAL"
-        case syncing = "SYNCING"
-        case importing = "IMPORTING"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct BundleDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "iconUrl", required: false, type: .string), 
-            AWSShapeMember(label: "title", required: false, type: .string), 
-            AWSShapeMember(label: "availablePlatforms", required: false, type: .list), 
-            AWSShapeMember(label: "bundleId", required: false, type: .string), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
-        public let description: String?
-        public let iconUrl: String?
-        public let title: String?
-        public let availablePlatforms: [Platform]?
-        public let bundleId: String?
-        public let version: String?
-
-        public init(description: String? = nil, iconUrl: String? = nil, title: String? = nil, availablePlatforms: [Platform]? = nil, bundleId: String? = nil, version: String? = nil) {
-            self.description = description
-            self.iconUrl = iconUrl
-            self.title = title
-            self.availablePlatforms = availablePlatforms
-            self.bundleId = bundleId
-            self.version = version
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case description = "description"
-            case iconUrl = "iconUrl"
-            case title = "title"
-            case availablePlatforms = "availablePlatforms"
-            case bundleId = "bundleId"
-            case version = "version"
+            case feature = "feature"
+            case `type` = "type"
+            case attributes = "attributes"
+            case arn = "arn"
+            case name = "name"
         }
     }
 
@@ -170,36 +86,62 @@ extension Mobile {
         }
     }
 
-    public struct ExportProjectResult: AWSShape {
+    public struct DeleteProjectRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "snapshotId", required: false, type: .string), 
-            AWSShapeMember(label: "shareUrl", required: false, type: .string), 
-            AWSShapeMember(label: "downloadUrl", required: false, type: .string)
+            AWSShapeMember(label: "projectId", location: .uri(locationName: "projectId"), required: true, type: .string)
         ]
-        ///  Unique identifier for the exported snapshot of the project configuration. This snapshot identifier is included in the share URL. 
-        public let snapshotId: String?
-        ///  URL which can be shared to allow other AWS users to create their own project in AWS Mobile Hub with the same configuration as the specified project. This URL pertains to a snapshot in time of the project configuration that is created when this API is called. If you want to share additional changes to your project configuration, then you will need to create and share a new snapshot by calling this method again. 
-        public let shareUrl: String?
-        ///  URL which can be used to download the exported project configuation file(s). 
-        public let downloadUrl: String?
+        ///  Unique project identifier. 
+        public let projectId: String
 
-        public init(snapshotId: String? = nil, shareUrl: String? = nil, downloadUrl: String? = nil) {
-            self.snapshotId = snapshotId
-            self.shareUrl = shareUrl
-            self.downloadUrl = downloadUrl
+        public init(projectId: String) {
+            self.projectId = projectId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case snapshotId = "snapshotId"
-            case shareUrl = "shareUrl"
-            case downloadUrl = "downloadUrl"
+            case projectId = "projectId"
         }
     }
 
-    public struct DescribeProjectResult: AWSShape {
+    public struct DescribeBundleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "bundleId", location: .uri(locationName: "bundleId"), required: true, type: .string)
+        ]
+        ///  Unique bundle identifier. 
+        public let bundleId: String
+
+        public init(bundleId: String) {
+            self.bundleId = bundleId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bundleId = "bundleId"
+        }
+    }
+
+    public struct ListProjectsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "projects", required: false, type: .list)
+        ]
+        public let nextToken: String?
+        public let projects: [ProjectSummary]?
+
+        public init(nextToken: String? = nil, projects: [ProjectSummary]? = nil) {
+            self.nextToken = nextToken
+            self.projects = projects
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case projects = "projects"
+        }
+    }
+
+    public struct CreateProjectResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "details", required: false, type: .structure)
         ]
+        ///  Detailed information about the created AWS Mobile Hub project. 
         public let details: ProjectDetails?
 
         public init(details: ProjectDetails? = nil) {
@@ -232,19 +174,217 @@ extension Mobile {
         }
     }
 
-    public struct CreateProjectResult: AWSShape {
+    public struct BundleDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "details", required: false, type: .structure)
+            AWSShapeMember(label: "iconUrl", required: false, type: .string), 
+            AWSShapeMember(label: "bundleId", required: false, type: .string), 
+            AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "title", required: false, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "availablePlatforms", required: false, type: .list)
         ]
-        ///  Detailed information about the created AWS Mobile Hub project. 
-        public let details: ProjectDetails?
+        public let iconUrl: String?
+        public let bundleId: String?
+        public let version: String?
+        public let title: String?
+        public let description: String?
+        public let availablePlatforms: [Platform]?
 
-        public init(details: ProjectDetails? = nil) {
-            self.details = details
+        public init(iconUrl: String? = nil, bundleId: String? = nil, version: String? = nil, title: String? = nil, description: String? = nil, availablePlatforms: [Platform]? = nil) {
+            self.iconUrl = iconUrl
+            self.bundleId = bundleId
+            self.version = version
+            self.title = title
+            self.description = description
+            self.availablePlatforms = availablePlatforms
         }
 
         private enum CodingKeys: String, CodingKey {
-            case details = "details"
+            case iconUrl = "iconUrl"
+            case bundleId = "bundleId"
+            case version = "version"
+            case title = "title"
+            case description = "description"
+            case availablePlatforms = "availablePlatforms"
+        }
+    }
+
+    public struct ExportProjectResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "snapshotId", required: false, type: .string), 
+            AWSShapeMember(label: "downloadUrl", required: false, type: .string), 
+            AWSShapeMember(label: "shareUrl", required: false, type: .string)
+        ]
+        ///  Unique identifier for the exported snapshot of the project configuration. This snapshot identifier is included in the share URL. 
+        public let snapshotId: String?
+        ///  URL which can be used to download the exported project configuation file(s). 
+        public let downloadUrl: String?
+        ///  URL which can be shared to allow other AWS users to create their own project in AWS Mobile Hub with the same configuration as the specified project. This URL pertains to a snapshot in time of the project configuration that is created when this API is called. If you want to share additional changes to your project configuration, then you will need to create and share a new snapshot by calling this method again. 
+        public let shareUrl: String?
+
+        public init(snapshotId: String? = nil, downloadUrl: String? = nil, shareUrl: String? = nil) {
+            self.snapshotId = snapshotId
+            self.downloadUrl = downloadUrl
+            self.shareUrl = shareUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snapshotId = "snapshotId"
+            case downloadUrl = "downloadUrl"
+            case shareUrl = "shareUrl"
+        }
+    }
+
+    public struct ExportBundleResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "downloadUrl", required: false, type: .string)
+        ]
+        ///  URL which contains the custom-generated SDK and tool packages used to integrate the client mobile app or web app with the AWS resources created by the AWS Mobile Hub project. 
+        public let downloadUrl: String?
+
+        public init(downloadUrl: String? = nil) {
+            self.downloadUrl = downloadUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case downloadUrl = "downloadUrl"
+        }
+    }
+
+    public struct DeleteProjectResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "orphanedResources", required: false, type: .list), 
+            AWSShapeMember(label: "deletedResources", required: false, type: .list)
+        ]
+        ///  Resources which were not deleted, due to a risk of losing potentially important data or files. 
+        public let orphanedResources: [Resource]?
+        ///  Resources which were deleted. 
+        public let deletedResources: [Resource]?
+
+        public init(orphanedResources: [Resource]? = nil, deletedResources: [Resource]? = nil) {
+            self.orphanedResources = orphanedResources
+            self.deletedResources = deletedResources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case orphanedResources = "orphanedResources"
+            case deletedResources = "deletedResources"
+        }
+    }
+
+    public struct ExportBundleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "projectId", location: .querystring(locationName: "projectId"), required: false, type: .string), 
+            AWSShapeMember(label: "platform", location: .querystring(locationName: "platform"), required: false, type: .enum), 
+            AWSShapeMember(label: "bundleId", location: .uri(locationName: "bundleId"), required: true, type: .string)
+        ]
+        ///  Unique project identifier. 
+        public let projectId: String?
+        ///  Developer desktop or target application platform. 
+        public let platform: Platform?
+        ///  Unique bundle identifier. 
+        public let bundleId: String
+
+        public init(projectId: String? = nil, platform: Platform? = nil, bundleId: String) {
+            self.projectId = projectId
+            self.platform = platform
+            self.bundleId = bundleId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case projectId = "projectId"
+            case platform = "platform"
+            case bundleId = "bundleId"
+        }
+    }
+
+    public struct ProjectDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "region", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "consoleUrl", required: false, type: .string), 
+            AWSShapeMember(label: "state", required: false, type: .enum), 
+            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "projectId", required: false, type: .string), 
+            AWSShapeMember(label: "resources", required: false, type: .list)
+        ]
+        public let region: String?
+        ///  Date of the last modification of the project. 
+        public let lastUpdatedDate: TimeStamp?
+        public let name: String?
+        ///  Website URL for this project in the AWS Mobile Hub console. 
+        public let consoleUrl: String?
+        public let state: ProjectState?
+        ///  Date the project was created. 
+        public let createdDate: TimeStamp?
+        public let projectId: String?
+        public let resources: [Resource]?
+
+        public init(region: String? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil, consoleUrl: String? = nil, state: ProjectState? = nil, createdDate: TimeStamp? = nil, projectId: String? = nil, resources: [Resource]? = nil) {
+            self.region = region
+            self.lastUpdatedDate = lastUpdatedDate
+            self.name = name
+            self.consoleUrl = consoleUrl
+            self.state = state
+            self.createdDate = createdDate
+            self.projectId = projectId
+            self.resources = resources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case region = "region"
+            case lastUpdatedDate = "lastUpdatedDate"
+            case name = "name"
+            case consoleUrl = "consoleUrl"
+            case state = "state"
+            case createdDate = "createdDate"
+            case projectId = "projectId"
+            case resources = "resources"
+        }
+    }
+
+    public enum ProjectState: String, CustomStringConvertible, Codable {
+        case normal = "NORMAL"
+        case syncing = "SYNCING"
+        case importing = "IMPORTING"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ExportProjectRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "projectId", location: .uri(locationName: "projectId"), required: true, type: .string)
+        ]
+        ///  Unique project identifier. 
+        public let projectId: String
+
+        public init(projectId: String) {
+            self.projectId = projectId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case projectId = "projectId"
+        }
+    }
+
+    public struct DescribeProjectRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "syncFromResources", location: .querystring(locationName: "syncFromResources"), required: false, type: .boolean), 
+            AWSShapeMember(label: "projectId", location: .querystring(locationName: "projectId"), required: true, type: .string)
+        ]
+        ///  If set to true, causes AWS Mobile Hub to synchronize information from other services, e.g., update state of AWS CloudFormation stacks in the AWS Mobile Hub project. 
+        public let syncFromResources: Bool?
+        ///  Unique project identifier. 
+        public let projectId: String
+
+        public init(syncFromResources: Bool? = nil, projectId: String) {
+            self.syncFromResources = syncFromResources
+            self.projectId = projectId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case syncFromResources = "syncFromResources"
+            case projectId = "projectId"
         }
     }
 
@@ -269,40 +409,88 @@ extension Mobile {
         }
     }
 
-    public struct DeleteProjectResult: AWSShape {
+    public struct UpdateProjectResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deletedResources", required: false, type: .list), 
-            AWSShapeMember(label: "orphanedResources", required: false, type: .list)
+            AWSShapeMember(label: "details", required: false, type: .structure)
         ]
-        ///  Resources which were deleted. 
-        public let deletedResources: [Resource]?
-        ///  Resources which were not deleted, due to a risk of losing potentially important data or files. 
-        public let orphanedResources: [Resource]?
+        ///  Detailed information about the updated AWS Mobile Hub project. 
+        public let details: ProjectDetails?
 
-        public init(deletedResources: [Resource]? = nil, orphanedResources: [Resource]? = nil) {
-            self.deletedResources = deletedResources
-            self.orphanedResources = orphanedResources
+        public init(details: ProjectDetails? = nil) {
+            self.details = details
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deletedResources = "deletedResources"
-            case orphanedResources = "orphanedResources"
+            case details = "details"
         }
     }
 
-    public struct ExportProjectRequest: AWSShape {
+    public struct CreateProjectRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "contents"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "projectId", location: .uri(locationName: "projectId"), required: true, type: .string)
+            AWSShapeMember(label: "snapshotId", location: .querystring(locationName: "snapshotId"), required: false, type: .string), 
+            AWSShapeMember(label: "region", location: .querystring(locationName: "region"), required: false, type: .string), 
+            AWSShapeMember(label: "name", location: .querystring(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "contents", required: false, type: .blob)
         ]
-        ///  Unique project identifier. 
-        public let projectId: String
+        ///  Unique identifier for an exported snapshot of project configuration. This snapshot identifier is included in the share URL when a project is exported. 
+        public let snapshotId: String?
+        ///  Default region where project resources should be created. 
+        public let region: String?
+        ///  Name of the project. 
+        public let name: String?
+        ///  ZIP or YAML file which contains configuration settings to be used when creating the project. This may be the contents of the file downloaded from the URL provided in an export project operation. 
+        public let contents: Data?
 
-        public init(projectId: String) {
-            self.projectId = projectId
+        public init(snapshotId: String? = nil, region: String? = nil, name: String? = nil, contents: Data? = nil) {
+            self.snapshotId = snapshotId
+            self.region = region
+            self.name = name
+            self.contents = contents
         }
 
         private enum CodingKeys: String, CodingKey {
-            case projectId = "projectId"
+            case snapshotId = "snapshotId"
+            case region = "region"
+            case name = "name"
+            case contents = "contents"
+        }
+    }
+
+    public struct DescribeProjectResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "details", required: false, type: .structure)
+        ]
+        public let details: ProjectDetails?
+
+        public init(details: ProjectDetails? = nil) {
+            self.details = details
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case details = "details"
+        }
+    }
+
+    public struct ListBundlesResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "bundleList", required: false, type: .list)
+        ]
+        ///  Pagination token. If non-null pagination token is returned in a result, then pass its value in another request to fetch more entries. 
+        public let nextToken: String?
+        ///  A list of bundles. 
+        public let bundleList: [BundleDetails]?
+
+        public init(nextToken: String? = nil, bundleList: [BundleDetails]? = nil) {
+            self.nextToken = nextToken
+            self.bundleList = bundleList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case bundleList = "bundleList"
         }
     }
 
@@ -324,194 +512,6 @@ extension Mobile {
         private enum CodingKeys: String, CodingKey {
             case maxResults = "maxResults"
             case nextToken = "nextToken"
-        }
-    }
-
-    public struct DescribeBundleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bundleId", location: .uri(locationName: "bundleId"), required: true, type: .string)
-        ]
-        ///  Unique bundle identifier. 
-        public let bundleId: String
-
-        public init(bundleId: String) {
-            self.bundleId = bundleId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bundleId = "bundleId"
-        }
-    }
-
-    public struct ListProjectsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "projects", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        public let projects: [ProjectSummary]?
-        public let nextToken: String?
-
-        public init(projects: [ProjectSummary]? = nil, nextToken: String? = nil) {
-            self.projects = projects
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case projects = "projects"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct ExportBundleResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "downloadUrl", required: false, type: .string)
-        ]
-        ///  URL which contains the custom-generated SDK and tool packages used to integrate the client mobile app or web app with the AWS resources created by the AWS Mobile Hub project. 
-        public let downloadUrl: String?
-
-        public init(downloadUrl: String? = nil) {
-            self.downloadUrl = downloadUrl
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case downloadUrl = "downloadUrl"
-        }
-    }
-
-    public struct Resource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "feature", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "attributes", required: false, type: .map), 
-            AWSShapeMember(label: "arn", required: false, type: .string)
-        ]
-        public let feature: String?
-        public let `type`: String?
-        public let name: String?
-        public let attributes: [String: String]?
-        public let arn: String?
-
-        public init(feature: String? = nil, type: String? = nil, name: String? = nil, attributes: [String: String]? = nil, arn: String? = nil) {
-            self.feature = feature
-            self.`type` = `type`
-            self.name = name
-            self.attributes = attributes
-            self.arn = arn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case feature = "feature"
-            case `type` = "type"
-            case name = "name"
-            case attributes = "attributes"
-            case arn = "arn"
-        }
-    }
-
-    public struct ProjectDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "state", required: false, type: .enum), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "consoleUrl", required: false, type: .string), 
-            AWSShapeMember(label: "resources", required: false, type: .list), 
-            AWSShapeMember(label: "projectId", required: false, type: .string), 
-            AWSShapeMember(label: "region", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp)
-        ]
-        public let state: ProjectState?
-        public let name: String?
-        ///  Website URL for this project in the AWS Mobile Hub console. 
-        public let consoleUrl: String?
-        public let resources: [Resource]?
-        public let projectId: String?
-        public let region: String?
-        ///  Date of the last modification of the project. 
-        public let lastUpdatedDate: TimeStamp?
-        ///  Date the project was created. 
-        public let createdDate: TimeStamp?
-
-        public init(state: ProjectState? = nil, name: String? = nil, consoleUrl: String? = nil, resources: [Resource]? = nil, projectId: String? = nil, region: String? = nil, lastUpdatedDate: TimeStamp? = nil, createdDate: TimeStamp? = nil) {
-            self.state = state
-            self.name = name
-            self.consoleUrl = consoleUrl
-            self.resources = resources
-            self.projectId = projectId
-            self.region = region
-            self.lastUpdatedDate = lastUpdatedDate
-            self.createdDate = createdDate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case state = "state"
-            case name = "name"
-            case consoleUrl = "consoleUrl"
-            case resources = "resources"
-            case projectId = "projectId"
-            case region = "region"
-            case lastUpdatedDate = "lastUpdatedDate"
-            case createdDate = "createdDate"
-        }
-    }
-
-    public struct CreateProjectRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "contents"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "region", location: .querystring(locationName: "region"), required: false, type: .string), 
-            AWSShapeMember(label: "name", location: .querystring(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "snapshotId", location: .querystring(locationName: "snapshotId"), required: false, type: .string), 
-            AWSShapeMember(label: "contents", required: false, type: .blob)
-        ]
-        ///  Default region where project resources should be created. 
-        public let region: String?
-        ///  Name of the project. 
-        public let name: String?
-        ///  Unique identifier for an exported snapshot of project configuration. This snapshot identifier is included in the share URL when a project is exported. 
-        public let snapshotId: String?
-        ///  ZIP or YAML file which contains configuration settings to be used when creating the project. This may be the contents of the file downloaded from the URL provided in an export project operation. 
-        public let contents: Data?
-
-        public init(region: String? = nil, name: String? = nil, snapshotId: String? = nil, contents: Data? = nil) {
-            self.region = region
-            self.name = name
-            self.snapshotId = snapshotId
-            self.contents = contents
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case region = "region"
-            case name = "name"
-            case snapshotId = "snapshotId"
-            case contents = "contents"
-        }
-    }
-
-    public enum Platform: String, CustomStringConvertible, Codable {
-        case osx = "OSX"
-        case windows = "WINDOWS"
-        case linux = "LINUX"
-        case objc = "OBJC"
-        case swift = "SWIFT"
-        case android = "ANDROID"
-        case javascript = "JAVASCRIPT"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteProjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "projectId", location: .uri(locationName: "projectId"), required: true, type: .string)
-        ]
-        ///  Unique project identifier. 
-        public let projectId: String
-
-        public init(projectId: String) {
-            self.projectId = projectId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case projectId = "projectId"
         }
     }
 

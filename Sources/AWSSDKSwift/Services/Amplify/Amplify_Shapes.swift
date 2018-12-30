@@ -5,525 +5,29 @@ import AWSSDKSwiftCore
 
 extension Amplify {
 
-    public struct StopJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string), 
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
-            AWSShapeMember(label: "branchName", location: .uri(locationName: "branchName"), required: true, type: .string)
-        ]
-        ///  Unique Id for the Job. 
-        public let jobId: String
-        ///  Unique Id for an Amplify App. 
-        public let appId: String
-        ///  Name for the branch, for the Job. 
-        public let branchName: String
-
-        public init(jobId: String, appId: String, branchName: String) {
-            self.jobId = jobId
-            self.appId = appId
-            self.branchName = branchName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobId = "jobId"
-            case appId = "appId"
-            case branchName = "branchName"
-        }
-    }
-
-    public struct DeleteDomainAssociationResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domainAssociation", required: true, type: .structure)
-        ]
-        public let domainAssociation: DomainAssociation
-
-        public init(domainAssociation: DomainAssociation) {
-            self.domainAssociation = domainAssociation
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case domainAssociation = "domainAssociation"
-        }
-    }
-
-    public struct DeleteJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string), 
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
-            AWSShapeMember(label: "branchName", location: .uri(locationName: "branchName"), required: true, type: .string)
-        ]
-        ///  Unique Id for the Job. 
-        public let jobId: String
-        ///  Unique Id for an Amplify App. 
-        public let appId: String
-        ///  Name for the branch, for the Job. 
-        public let branchName: String
-
-        public init(jobId: String, appId: String, branchName: String) {
-            self.jobId = jobId
-            self.appId = appId
-            self.branchName = branchName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobId = "jobId"
-            case appId = "appId"
-            case branchName = "branchName"
-        }
-    }
-
-    public struct DeleteBranchRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
-            AWSShapeMember(label: "branchName", location: .uri(locationName: "branchName"), required: true, type: .string)
-        ]
-        ///  Unique Id for an Amplify App. 
-        public let appId: String
-        ///  Name for the branch. 
-        public let branchName: String
-
-        public init(appId: String, branchName: String) {
-            self.appId = appId
-            self.branchName = branchName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case appId = "appId"
-            case branchName = "branchName"
-        }
-    }
-
-    public struct StopJobResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobSummary", required: true, type: .structure)
-        ]
-        ///  Summary for the Job. 
-        public let jobSummary: JobSummary
-
-        public init(jobSummary: JobSummary) {
-            self.jobSummary = jobSummary
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobSummary = "jobSummary"
-        }
-    }
-
-    public struct DeleteJobResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobSummary", required: true, type: .structure)
-        ]
-        public let jobSummary: JobSummary
-
-        public init(jobSummary: JobSummary) {
-            self.jobSummary = jobSummary
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobSummary = "jobSummary"
-        }
-    }
-
-    public struct Job: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "steps", required: true, type: .list), 
-            AWSShapeMember(label: "summary", required: true, type: .structure)
-        ]
-        ///  Execution steps for an execution job, for an Amplify App. 
-        public let steps: [Step]
-        ///  Summary for an execution job for an Amplify App. 
-        public let summary: JobSummary
-
-        public init(steps: [Step], summary: JobSummary) {
-            self.steps = steps
-            self.summary = summary
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case steps = "steps"
-            case summary = "summary"
-        }
-    }
-
-    public struct ProductionBranch: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thumbnailUrl", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .string), 
-            AWSShapeMember(label: "lastDeployTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "branchName", required: false, type: .string)
-        ]
-        ///  Thumbnail Url for Production Branch. 
-        public let thumbnailUrl: String?
-        ///  Status of Production Branch. 
-        public let status: String?
-        ///  Last Deploy Time of Production Branch. 
-        public let lastDeployTime: TimeStamp?
-        ///  Branch Name for Production Branch. 
-        public let branchName: String?
-
-        public init(thumbnailUrl: String? = nil, status: String? = nil, lastDeployTime: TimeStamp? = nil, branchName: String? = nil) {
-            self.thumbnailUrl = thumbnailUrl
-            self.status = status
-            self.lastDeployTime = lastDeployTime
-            self.branchName = branchName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case thumbnailUrl = "thumbnailUrl"
-            case status = "status"
-            case lastDeployTime = "lastDeployTime"
-            case branchName = "branchName"
-        }
-    }
-
-    public enum Stage: String, CustomStringConvertible, Codable {
-        case production = "PRODUCTION"
-        case beta = "BETA"
-        case development = "DEVELOPMENT"
-        case experimental = "EXPERIMENTAL"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetAppRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string)
-        ]
-        ///  Unique Id for an Amplify App. 
-        public let appId: String
-
-        public init(appId: String) {
-            self.appId = appId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case appId = "appId"
-        }
-    }
-
-    public enum DomainStatus: String, CustomStringConvertible, Codable {
-        case pendingVerification = "PENDING_VERIFICATION"
-        case inProgress = "IN_PROGRESS"
-        case available = "AVAILABLE"
-        case pendingDeployment = "PENDING_DEPLOYMENT"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetBranchRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
-            AWSShapeMember(label: "branchName", location: .uri(locationName: "branchName"), required: true, type: .string)
-        ]
-        ///  Unique Id for an Amplify App. 
-        public let appId: String
-        ///  Name for the branch. 
-        public let branchName: String
-
-        public init(appId: String, branchName: String) {
-            self.appId = appId
-            self.branchName = branchName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case appId = "appId"
-            case branchName = "branchName"
-        }
-    }
-
-    public struct GetAppResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "app", required: true, type: .structure)
-        ]
-        public let app: App
-
-        public init(app: App) {
-            self.app = app
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case app = "app"
-        }
-    }
-
-    public struct CreateDomainAssociationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "enableAutoSubDomain", required: false, type: .boolean), 
-            AWSShapeMember(label: "domainName", required: true, type: .string), 
-            AWSShapeMember(label: "subDomainSettings", required: true, type: .list), 
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string)
-        ]
-        ///  Enables automated creation of Subdomains for branches. 
-        public let enableAutoSubDomain: Bool?
-        ///  Domain name for the Domain Association. 
-        public let domainName: String
-        ///  Setting structure for the Subdomain. 
-        public let subDomainSettings: [SubDomainSetting]
-        ///  Unique Id for an Amplify App. 
-        public let appId: String
-
-        public init(enableAutoSubDomain: Bool? = nil, domainName: String, subDomainSettings: [SubDomainSetting], appId: String) {
-            self.enableAutoSubDomain = enableAutoSubDomain
-            self.domainName = domainName
-            self.subDomainSettings = subDomainSettings
-            self.appId = appId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case enableAutoSubDomain = "enableAutoSubDomain"
-            case domainName = "domainName"
-            case subDomainSettings = "subDomainSettings"
-            case appId = "appId"
-        }
-    }
-
-    public enum JobType: String, CustomStringConvertible, Codable {
-        case release = "RELEASE"
-        case retry = "RETRY"
-        case webHook = "WEB_HOOK"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct UpdateBranchResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "branch", required: true, type: .structure)
-        ]
-        ///  Branch structure for an Amplify App. 
-        public let branch: Branch
-
-        public init(branch: Branch) {
-            self.branch = branch
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case branch = "branch"
-        }
-    }
-
-    public struct GetDomainAssociationResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domainAssociation", required: true, type: .structure)
-        ]
-        ///  Domain Association structure. 
-        public let domainAssociation: DomainAssociation
-
-        public init(domainAssociation: DomainAssociation) {
-            self.domainAssociation = domainAssociation
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case domainAssociation = "domainAssociation"
-        }
-    }
-
-    public struct DeleteBranchResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "branch", required: true, type: .structure)
-        ]
-        ///  Branch structure for an Amplify App. 
-        public let branch: Branch
-
-        public init(branch: Branch) {
-            self.branch = branch
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case branch = "branch"
-        }
-    }
-
-    public struct GetDomainAssociationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domainName", location: .uri(locationName: "domainName"), required: true, type: .string), 
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string)
-        ]
-        ///  Name of the domain. 
-        public let domainName: String
-        ///  Unique Id for an Amplify App. 
-        public let appId: String
-
-        public init(domainName: String, appId: String) {
-            self.domainName = domainName
-            self.appId = appId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "domainName"
-            case appId = "appId"
-        }
-    }
-
-    public struct ListJobsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
-            AWSShapeMember(label: "branchName", location: .uri(locationName: "branchName"), required: true, type: .string)
-        ]
-        ///  Maximum number of records to list in a single response. 
-        public let maxResults: Int32?
-        ///  Pagination token. Set to null to start listing steps from start. If a non-null pagination token is returned in a result, then pass its value in here to list more steps. 
-        public let nextToken: String?
-        ///  Unique Id for an Amplify App. 
-        public let appId: String
-        ///  Name for a branch. 
-        public let branchName: String
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, appId: String, branchName: String) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-            self.appId = appId
-            self.branchName = branchName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case appId = "appId"
-            case branchName = "branchName"
-        }
-    }
-
-    public struct CreateDomainAssociationResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domainAssociation", required: true, type: .structure)
-        ]
-        ///  Domain Association structure. 
-        public let domainAssociation: DomainAssociation
-
-        public init(domainAssociation: DomainAssociation) {
-            self.domainAssociation = domainAssociation
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case domainAssociation = "domainAssociation"
-        }
-    }
-
-    public struct UpdateAppRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "platform", required: false, type: .enum), 
-            AWSShapeMember(label: "iamServiceRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "basicAuthCredentials", required: false, type: .string), 
-            AWSShapeMember(label: "buildSpec", required: false, type: .string), 
-            AWSShapeMember(label: "enableBranchAutoBuild", required: false, type: .boolean), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
-            AWSShapeMember(label: "customRules", required: false, type: .list), 
-            AWSShapeMember(label: "enableBasicAuth", required: false, type: .boolean), 
-            AWSShapeMember(label: "environmentVariables", required: false, type: .map)
-        ]
-        ///  Platform for an Amplify App. 
-        public let platform: Platform?
-        ///  IAM service role for an Amplify App. 
-        public let iamServiceRoleArn: String?
-        ///  Name for an Amplify App. 
-        public let name: String?
-        ///  Basic Authorization credentials for an Amplify App. 
-        public let basicAuthCredentials: String?
-        ///  BuildSpec for an Amplify App. 
-        public let buildSpec: String?
-        ///  Enables branch auto-building for an Amplify App. 
-        public let enableBranchAutoBuild: Bool?
-        ///  Description for an Amplify App. 
-        public let description: String?
-        ///  Unique Id for an Amplify App. 
-        public let appId: String
-        ///  Custom redirect / rewrite rules for an Amplify App. 
-        public let customRules: [CustomRule]?
-        ///  Enables Basic Authorization for an Amplify App. 
-        public let enableBasicAuth: Bool?
-        ///  Environment Variables for an Amplify App. 
-        public let environmentVariables: [String: String]?
-
-        public init(platform: Platform? = nil, iamServiceRoleArn: String? = nil, name: String? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, enableBranchAutoBuild: Bool? = nil, description: String? = nil, appId: String, customRules: [CustomRule]? = nil, enableBasicAuth: Bool? = nil, environmentVariables: [String: String]? = nil) {
-            self.platform = platform
-            self.iamServiceRoleArn = iamServiceRoleArn
-            self.name = name
-            self.basicAuthCredentials = basicAuthCredentials
-            self.buildSpec = buildSpec
-            self.enableBranchAutoBuild = enableBranchAutoBuild
-            self.description = description
-            self.appId = appId
-            self.customRules = customRules
-            self.enableBasicAuth = enableBasicAuth
-            self.environmentVariables = environmentVariables
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case platform = "platform"
-            case iamServiceRoleArn = "iamServiceRoleArn"
-            case name = "name"
-            case basicAuthCredentials = "basicAuthCredentials"
-            case buildSpec = "buildSpec"
-            case enableBranchAutoBuild = "enableBranchAutoBuild"
-            case description = "description"
-            case appId = "appId"
-            case customRules = "customRules"
-            case enableBasicAuth = "enableBasicAuth"
-            case environmentVariables = "environmentVariables"
-        }
-    }
-
-    public struct ListAppsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
-        ]
-        ///  Maximum number of records to list in a single response. 
-        public let maxResults: Int32?
-        ///  Pagination token. If non-null pagination token is returned in a result, then pass its value in another request to fetch more entries. 
-        public let nextToken: String?
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct CreateAppResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "app", required: true, type: .structure)
-        ]
-        public let app: App
-
-        public init(app: App) {
-            self.app = app
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case app = "app"
-        }
-    }
-
     public struct SubDomain: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "subDomainSetting", required: true, type: .structure), 
+            AWSShapeMember(label: "verified", required: true, type: .boolean), 
             AWSShapeMember(label: "dnsRecord", required: true, type: .string), 
-            AWSShapeMember(label: "verified", required: true, type: .boolean)
+            AWSShapeMember(label: "subDomainSetting", required: true, type: .structure)
         ]
-        ///  Setting structure for the Subdomain. 
-        public let subDomainSetting: SubDomainSetting
-        ///  DNS record for the Subdomain. 
-        public let dnsRecord: String
         ///  Verified status of the Subdomain 
         public let verified: Bool
+        ///  DNS record for the Subdomain. 
+        public let dnsRecord: String
+        ///  Setting structure for the Subdomain. 
+        public let subDomainSetting: SubDomainSetting
 
-        public init(subDomainSetting: SubDomainSetting, dnsRecord: String, verified: Bool) {
-            self.subDomainSetting = subDomainSetting
-            self.dnsRecord = dnsRecord
+        public init(verified: Bool, dnsRecord: String, subDomainSetting: SubDomainSetting) {
             self.verified = verified
+            self.dnsRecord = dnsRecord
+            self.subDomainSetting = subDomainSetting
         }
 
         private enum CodingKeys: String, CodingKey {
-            case subDomainSetting = "subDomainSetting"
-            case dnsRecord = "dnsRecord"
             case verified = "verified"
+            case dnsRecord = "dnsRecord"
+            case subDomainSetting = "subDomainSetting"
         }
     }
 
@@ -548,103 +52,107 @@ extension Amplify {
         }
     }
 
-    public struct StartJobRequest: AWSShape {
+    public struct ListBranchesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "commitMessage", required: false, type: .string), 
-            AWSShapeMember(label: "jobReason", required: false, type: .string), 
-            AWSShapeMember(label: "jobId", required: false, type: .string), 
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
-            AWSShapeMember(label: "commitId", required: false, type: .string), 
-            AWSShapeMember(label: "jobType", required: true, type: .enum), 
-            AWSShapeMember(label: "commitTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "branchName", location: .uri(locationName: "branchName"), required: true, type: .string)
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "branches", required: true, type: .list)
         ]
-        ///  Commit message from 3rd party repository provider for the Job. 
-        public let commitMessage: String?
-        ///  Reason for the Job. 
-        public let jobReason: String?
-        ///  Unique Id for the Job. 
-        public let jobId: String?
-        ///  Unique Id for an Amplify App. 
-        public let appId: String
-        ///  Commit Id from 3rd party repository provider for the Job. 
-        public let commitId: String?
-        ///  Type for the Job. 
-        public let jobType: JobType
-        ///  Commit date / time for the Job. 
-        public let commitTime: TimeStamp?
-        ///  Name for the branch, for the Job. 
-        public let branchName: String
-
-        public init(commitMessage: String? = nil, jobReason: String? = nil, jobId: String? = nil, appId: String, commitId: String? = nil, jobType: JobType, commitTime: TimeStamp? = nil, branchName: String) {
-            self.commitMessage = commitMessage
-            self.jobReason = jobReason
-            self.jobId = jobId
-            self.appId = appId
-            self.commitId = commitId
-            self.jobType = jobType
-            self.commitTime = commitTime
-            self.branchName = branchName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case commitMessage = "commitMessage"
-            case jobReason = "jobReason"
-            case jobId = "jobId"
-            case appId = "appId"
-            case commitId = "commitId"
-            case jobType = "jobType"
-            case commitTime = "commitTime"
-            case branchName = "branchName"
-        }
-    }
-
-    public struct DeleteAppResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "app", required: true, type: .structure)
-        ]
-        public let app: App
-
-        public init(app: App) {
-            self.app = app
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case app = "app"
-        }
-    }
-
-    public struct ListBranchesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
-        ]
-        ///  Unique Id for an Amplify App. 
-        public let appId: String
-        ///  Maximum number of records to list in a single response. 
-        public let maxResults: Int32?
-        ///  Pagination token. Set to null to start listing branches from start. If a non-null pagination token is returned in a result, then pass its value in here to list more branches. 
+        ///  Pagination token. If non-null pagination token is returned in a result, then pass its value in another request to fetch more entries. 
         public let nextToken: String?
+        ///  List of branches for an Amplify App. 
+        public let branches: [Branch]
 
-        public init(appId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.appId = appId
-            self.maxResults = maxResults
+        public init(nextToken: String? = nil, branches: [Branch]) {
             self.nextToken = nextToken
+            self.branches = branches
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId = "appId"
-            case maxResults = "maxResults"
             case nextToken = "nextToken"
+            case branches = "branches"
         }
     }
 
-    public struct CreateBranchResult: AWSShape {
+    public struct CreateBranchRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "enableNotification", required: false, type: .boolean), 
+            AWSShapeMember(label: "branchName", required: true, type: .string), 
+            AWSShapeMember(label: "enableBasicAuth", required: false, type: .boolean), 
+            AWSShapeMember(label: "environmentVariables", required: false, type: .map), 
+            AWSShapeMember(label: "buildSpec", required: false, type: .string), 
+            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
+            AWSShapeMember(label: "stage", required: false, type: .enum), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "enableAutoBuild", required: false, type: .boolean), 
+            AWSShapeMember(label: "basicAuthCredentials", required: false, type: .string), 
+            AWSShapeMember(label: "ttl", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
+            AWSShapeMember(label: "framework", required: false, type: .string)
+        ]
+        ///  Enables notifications for the branch. 
+        public let enableNotification: Bool?
+        ///  Name for the branch. 
+        public let branchName: String
+        ///  Enables Basic Auth for the branch. 
+        public let enableBasicAuth: Bool?
+        ///  Environment Variables for the branch. 
+        public let environmentVariables: [String: String]?
+        ///  BuildSpec for the branch. 
+        public let buildSpec: String?
+        ///  Unique Id for an Amplify App. 
+        public let appId: String
+        ///  Stage for the branch. 
+        public let stage: Stage?
+        ///  Description for the branch. 
+        public let description: String?
+        ///  Enables auto building for the branch. 
+        public let enableAutoBuild: Bool?
+        ///  Basic Authorization credentials for the branch. 
+        public let basicAuthCredentials: String?
+        ///  The content TTL for the website in seconds. 
+        public let ttl: String?
+        ///  Tag for the branch. 
+        public let tags: [String: String]?
+        ///  Framework for the branch. 
+        public let framework: String?
+
+        public init(enableNotification: Bool? = nil, branchName: String, enableBasicAuth: Bool? = nil, environmentVariables: [String: String]? = nil, buildSpec: String? = nil, appId: String, stage: Stage? = nil, description: String? = nil, enableAutoBuild: Bool? = nil, basicAuthCredentials: String? = nil, ttl: String? = nil, tags: [String: String]? = nil, framework: String? = nil) {
+            self.enableNotification = enableNotification
+            self.branchName = branchName
+            self.enableBasicAuth = enableBasicAuth
+            self.environmentVariables = environmentVariables
+            self.buildSpec = buildSpec
+            self.appId = appId
+            self.stage = stage
+            self.description = description
+            self.enableAutoBuild = enableAutoBuild
+            self.basicAuthCredentials = basicAuthCredentials
+            self.ttl = ttl
+            self.tags = tags
+            self.framework = framework
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enableNotification = "enableNotification"
+            case branchName = "branchName"
+            case enableBasicAuth = "enableBasicAuth"
+            case environmentVariables = "environmentVariables"
+            case buildSpec = "buildSpec"
+            case appId = "appId"
+            case stage = "stage"
+            case description = "description"
+            case enableAutoBuild = "enableAutoBuild"
+            case basicAuthCredentials = "basicAuthCredentials"
+            case ttl = "ttl"
+            case tags = "tags"
+            case framework = "framework"
+        }
+    }
+
+    public struct GetBranchResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "branch", required: true, type: .structure)
         ]
-        ///  Branch structure for an Amplify App. 
         public let branch: Branch
 
         public init(branch: Branch) {
@@ -656,64 +164,19 @@ extension Amplify {
         }
     }
 
-    public struct GetJobResult: AWSShape {
+    public struct CreateDomainAssociationResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "job", required: true, type: .structure)
+            AWSShapeMember(label: "domainAssociation", required: true, type: .structure)
         ]
-        public let job: Job
+        ///  Domain Association structure. 
+        public let domainAssociation: DomainAssociation
 
-        public init(job: Job) {
-            self.job = job
+        public init(domainAssociation: DomainAssociation) {
+            self.domainAssociation = domainAssociation
         }
 
         private enum CodingKeys: String, CodingKey {
-            case job = "job"
-        }
-    }
-
-    public struct Step: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "stepName", required: true, type: .string), 
-            AWSShapeMember(label: "status", required: true, type: .enum), 
-            AWSShapeMember(label: "endTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "screenshots", required: false, type: .map), 
-            AWSShapeMember(label: "artifactsUrl", required: false, type: .string), 
-            AWSShapeMember(label: "logUrl", required: false, type: .string), 
-            AWSShapeMember(label: "startTime", required: true, type: .timestamp)
-        ]
-        ///  Name of the execution step. 
-        public let stepName: String
-        ///  Status of the execution step. 
-        public let status: JobStatus
-        ///  End date/ time of the execution step. 
-        public let endTime: TimeStamp
-        ///  List of screenshot Urls for the execution step, if relevant. 
-        public let screenshots: [String: String]?
-        ///  Url to teh artifact for the execution step. 
-        public let artifactsUrl: String?
-        ///  Url to the logs for the execution step. 
-        public let logUrl: String?
-        ///  Start date/ time of the execution step. 
-        public let startTime: TimeStamp
-
-        public init(stepName: String, status: JobStatus, endTime: TimeStamp, screenshots: [String: String]? = nil, artifactsUrl: String? = nil, logUrl: String? = nil, startTime: TimeStamp) {
-            self.stepName = stepName
-            self.status = status
-            self.endTime = endTime
-            self.screenshots = screenshots
-            self.artifactsUrl = artifactsUrl
-            self.logUrl = logUrl
-            self.startTime = startTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case stepName = "stepName"
-            case status = "status"
-            case endTime = "endTime"
-            case screenshots = "screenshots"
-            case artifactsUrl = "artifactsUrl"
-            case logUrl = "logUrl"
-            case startTime = "startTime"
+            case domainAssociation = "domainAssociation"
         }
     }
 
@@ -733,605 +196,385 @@ extension Amplify {
         }
     }
 
-    public struct ListBranchesResult: AWSShape {
+    public struct ProductionBranch: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "branches", required: true, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        ///  List of branches for an Amplify App. 
-        public let branches: [Branch]
-        ///  Pagination token. If non-null pagination token is returned in a result, then pass its value in another request to fetch more entries. 
-        public let nextToken: String?
-
-        public init(branches: [Branch], nextToken: String? = nil) {
-            self.branches = branches
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case branches = "branches"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct ListDomainAssociationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
-        ]
-        ///  Unique Id for an Amplify App. 
-        public let appId: String
-        ///  Maximum number of records to list in a single response. 
-        public let maxResults: Int32?
-        ///  Pagination token. Set to null to start listing Apps from start. If non-null pagination token is returned in a result, then pass its value in here to list more projects. 
-        public let nextToken: String?
-
-        public init(appId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.appId = appId
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case appId = "appId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct Branch: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "updateTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "tags", required: false, type: .map), 
-            AWSShapeMember(label: "basicAuthCredentials", required: false, type: .string), 
-            AWSShapeMember(label: "environmentVariables", required: true, type: .map), 
-            AWSShapeMember(label: "framework", required: true, type: .string), 
-            AWSShapeMember(label: "description", required: true, type: .string), 
-            AWSShapeMember(label: "customDomains", required: true, type: .list), 
-            AWSShapeMember(label: "buildSpec", required: false, type: .string), 
-            AWSShapeMember(label: "branchArn", required: true, type: .string), 
+            AWSShapeMember(label: "lastDeployTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "branchName", required: false, type: .string), 
             AWSShapeMember(label: "thumbnailUrl", required: false, type: .string), 
-            AWSShapeMember(label: "enableBasicAuth", required: true, type: .boolean), 
-            AWSShapeMember(label: "displayName", required: false, type: .string), 
-            AWSShapeMember(label: "stage", required: true, type: .enum), 
-            AWSShapeMember(label: "ttl", required: true, type: .string), 
-            AWSShapeMember(label: "activeJobId", required: true, type: .string), 
-            AWSShapeMember(label: "enableAutoBuild", required: true, type: .boolean), 
-            AWSShapeMember(label: "totalNumberOfJobs", required: true, type: .string), 
-            AWSShapeMember(label: "createTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "enableNotification", required: true, type: .boolean), 
-            AWSShapeMember(label: "branchName", required: true, type: .string)
+            AWSShapeMember(label: "status", required: false, type: .string)
         ]
-        ///  Last updated date and time for a branch, part of an Amplify App. 
-        public let updateTime: TimeStamp
-        ///  Tag for branch for Amplify App. 
-        public let tags: [String: String]?
-        ///  Basic Authorization credentials for a branch, part of an Amplify App. 
-        public let basicAuthCredentials: String?
-        ///  Environment Variables specific to a branch, part of an Amplify App. 
-        public let environmentVariables: [String: String]
-        ///  Framework for a branch, part of an Amplify App. 
-        public let framework: String
-        ///  Description for a branch, part of an Amplify App. 
-        public let description: String
-        ///  Custom domains for a branch, part of an Amplify App. 
-        public let customDomains: [String]
-        ///  BuildSpec content for branch for Amplify App. 
-        public let buildSpec: String?
-        ///  ARN for a branch, part of an Amplify App. 
-        public let branchArn: String
-        ///  Thumbnail Url for the branch. 
+        ///  Last Deploy Time of Production Branch. 
+        public let lastDeployTime: TimeStamp?
+        ///  Branch Name for Production Branch. 
+        public let branchName: String?
+        ///  Thumbnail Url for Production Branch. 
         public let thumbnailUrl: String?
-        ///  Enables Basic Authorization for a branch, part of an Amplify App. 
-        public let enableBasicAuth: Bool
-        ///  Display name for a branch, part of an Amplify App. 
-        public let displayName: String?
-        ///  Stage for a branch, part of an Amplify App. 
-        public let stage: Stage
-        ///  The content TTL for the website in seconds. 
-        public let ttl: String
-        ///  Id of the active job for a branch, part of an Amplify App. 
-        public let activeJobId: String
-        ///  Enables auto-building on push for a branch, part of an Amplify App. 
-        public let enableAutoBuild: Bool
-        ///  Total number of Jobs part of an Amplify App. 
-        public let totalNumberOfJobs: String
-        ///  Creation date and time for a branch, part of an Amplify App. 
-        public let createTime: TimeStamp
-        ///  Enables notifications for a branch, part of an Amplify App. 
-        public let enableNotification: Bool
-        ///  Name for a branch, part of an Amplify App. 
-        public let branchName: String
-
-        public init(updateTime: TimeStamp, tags: [String: String]? = nil, basicAuthCredentials: String? = nil, environmentVariables: [String: String], framework: String, description: String, customDomains: [String], buildSpec: String? = nil, branchArn: String, thumbnailUrl: String? = nil, enableBasicAuth: Bool, displayName: String? = nil, stage: Stage, ttl: String, activeJobId: String, enableAutoBuild: Bool, totalNumberOfJobs: String, createTime: TimeStamp, enableNotification: Bool, branchName: String) {
-            self.updateTime = updateTime
-            self.tags = tags
-            self.basicAuthCredentials = basicAuthCredentials
-            self.environmentVariables = environmentVariables
-            self.framework = framework
-            self.description = description
-            self.customDomains = customDomains
-            self.buildSpec = buildSpec
-            self.branchArn = branchArn
-            self.thumbnailUrl = thumbnailUrl
-            self.enableBasicAuth = enableBasicAuth
-            self.displayName = displayName
-            self.stage = stage
-            self.ttl = ttl
-            self.activeJobId = activeJobId
-            self.enableAutoBuild = enableAutoBuild
-            self.totalNumberOfJobs = totalNumberOfJobs
-            self.createTime = createTime
-            self.enableNotification = enableNotification
-            self.branchName = branchName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case updateTime = "updateTime"
-            case tags = "tags"
-            case basicAuthCredentials = "basicAuthCredentials"
-            case environmentVariables = "environmentVariables"
-            case framework = "framework"
-            case description = "description"
-            case customDomains = "customDomains"
-            case buildSpec = "buildSpec"
-            case branchArn = "branchArn"
-            case thumbnailUrl = "thumbnailUrl"
-            case enableBasicAuth = "enableBasicAuth"
-            case displayName = "displayName"
-            case stage = "stage"
-            case ttl = "ttl"
-            case activeJobId = "activeJobId"
-            case enableAutoBuild = "enableAutoBuild"
-            case totalNumberOfJobs = "totalNumberOfJobs"
-            case createTime = "createTime"
-            case enableNotification = "enableNotification"
-            case branchName = "branchName"
-        }
-    }
-
-    public struct CreateBranchRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: false, type: .map), 
-            AWSShapeMember(label: "basicAuthCredentials", required: false, type: .string), 
-            AWSShapeMember(label: "environmentVariables", required: false, type: .map), 
-            AWSShapeMember(label: "framework", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
-            AWSShapeMember(label: "buildSpec", required: false, type: .string), 
-            AWSShapeMember(label: "stage", required: false, type: .enum), 
-            AWSShapeMember(label: "enableBasicAuth", required: false, type: .boolean), 
-            AWSShapeMember(label: "ttl", required: false, type: .string), 
-            AWSShapeMember(label: "enableAutoBuild", required: false, type: .boolean), 
-            AWSShapeMember(label: "branchName", required: true, type: .string), 
-            AWSShapeMember(label: "enableNotification", required: false, type: .boolean)
-        ]
-        ///  Tag for the branch. 
-        public let tags: [String: String]?
-        ///  Basic Authorization credentials for the branch. 
-        public let basicAuthCredentials: String?
-        ///  Environment Variables for the branch. 
-        public let environmentVariables: [String: String]?
-        ///  Framework for the branch. 
-        public let framework: String?
-        ///  Description for the branch. 
-        public let description: String?
-        ///  Unique Id for an Amplify App. 
-        public let appId: String
-        ///  BuildSpec for the branch. 
-        public let buildSpec: String?
-        ///  Stage for the branch. 
-        public let stage: Stage?
-        ///  Enables Basic Auth for the branch. 
-        public let enableBasicAuth: Bool?
-        ///  The content TTL for the website in seconds. 
-        public let ttl: String?
-        ///  Enables auto building for the branch. 
-        public let enableAutoBuild: Bool?
-        ///  Name for the branch. 
-        public let branchName: String
-        ///  Enables notifications for the branch. 
-        public let enableNotification: Bool?
-
-        public init(tags: [String: String]? = nil, basicAuthCredentials: String? = nil, environmentVariables: [String: String]? = nil, framework: String? = nil, description: String? = nil, appId: String, buildSpec: String? = nil, stage: Stage? = nil, enableBasicAuth: Bool? = nil, ttl: String? = nil, enableAutoBuild: Bool? = nil, branchName: String, enableNotification: Bool? = nil) {
-            self.tags = tags
-            self.basicAuthCredentials = basicAuthCredentials
-            self.environmentVariables = environmentVariables
-            self.framework = framework
-            self.description = description
-            self.appId = appId
-            self.buildSpec = buildSpec
-            self.stage = stage
-            self.enableBasicAuth = enableBasicAuth
-            self.ttl = ttl
-            self.enableAutoBuild = enableAutoBuild
-            self.branchName = branchName
-            self.enableNotification = enableNotification
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "tags"
-            case basicAuthCredentials = "basicAuthCredentials"
-            case environmentVariables = "environmentVariables"
-            case framework = "framework"
-            case description = "description"
-            case appId = "appId"
-            case buildSpec = "buildSpec"
-            case stage = "stage"
-            case enableBasicAuth = "enableBasicAuth"
-            case ttl = "ttl"
-            case enableAutoBuild = "enableAutoBuild"
-            case branchName = "branchName"
-            case enableNotification = "enableNotification"
-        }
-    }
-
-    public struct CustomRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "target", required: true, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .string), 
-            AWSShapeMember(label: "condition", required: false, type: .string), 
-            AWSShapeMember(label: "source", required: true, type: .string)
-        ]
-        ///  The target pattern for a URL rewrite or redirect rule. 
-        public let target: String
-        ///  The status code for a URL rewrite or redirect rule. 
+        ///  Status of Production Branch. 
         public let status: String?
-        ///  The condition for a URL rewrite or redirect rule, e.g. country code. 
-        public let condition: String?
-        ///  The source pattern for a URL rewrite or redirect rule. 
-        public let source: String
 
-        public init(target: String, status: String? = nil, condition: String? = nil, source: String) {
-            self.target = target
-            self.status = status
-            self.condition = condition
-            self.source = source
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case target = "target"
-            case status = "status"
-            case condition = "condition"
-            case source = "source"
-        }
-    }
-
-    public struct GetJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string), 
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
-            AWSShapeMember(label: "branchName", location: .uri(locationName: "branchName"), required: true, type: .string)
-        ]
-        ///  Unique Id for the Job. 
-        public let jobId: String
-        ///  Unique Id for an Amplify App. 
-        public let appId: String
-        ///  Name for the branch, for the Job. 
-        public let branchName: String
-
-        public init(jobId: String, appId: String, branchName: String) {
-            self.jobId = jobId
-            self.appId = appId
+        public init(lastDeployTime: TimeStamp? = nil, branchName: String? = nil, thumbnailUrl: String? = nil, status: String? = nil) {
+            self.lastDeployTime = lastDeployTime
             self.branchName = branchName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobId = "jobId"
-            case appId = "appId"
-            case branchName = "branchName"
-        }
-    }
-
-    public struct App: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "updateTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "tags", required: false, type: .map), 
-            AWSShapeMember(label: "basicAuthCredentials", required: false, type: .string), 
-            AWSShapeMember(label: "environmentVariables", required: true, type: .map), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "defaultDomain", required: true, type: .string), 
-            AWSShapeMember(label: "appId", required: true, type: .string), 
-            AWSShapeMember(label: "appArn", required: true, type: .string), 
-            AWSShapeMember(label: "description", required: true, type: .string), 
-            AWSShapeMember(label: "buildSpec", required: false, type: .string), 
-            AWSShapeMember(label: "iamServiceRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "platform", required: true, type: .enum), 
-            AWSShapeMember(label: "enableBasicAuth", required: true, type: .boolean), 
-            AWSShapeMember(label: "customRules", required: false, type: .list), 
-            AWSShapeMember(label: "productionBranch", required: false, type: .structure), 
-            AWSShapeMember(label: "createTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "repository", required: true, type: .string), 
-            AWSShapeMember(label: "enableBranchAutoBuild", required: true, type: .boolean)
-        ]
-        ///  Update date / time for the Amplify App. 
-        public let updateTime: TimeStamp
-        ///  Tag for Amplify App. 
-        public let tags: [String: String]?
-        ///  Basic Authorization credentials for branches for the Amplify App. 
-        public let basicAuthCredentials: String?
-        ///  Environment Variables for the Amplify App. 
-        public let environmentVariables: [String: String]
-        ///  Name for the Amplify App. 
-        public let name: String
-        ///  Default domain for the Amplify App. 
-        public let defaultDomain: String
-        ///  Unique Id for the Amplify App. 
-        public let appId: String
-        ///  ARN for the Amplify App. 
-        public let appArn: String
-        ///  Description for the Amplify App. 
-        public let description: String
-        ///  BuildSpec content for Amplify App. 
-        public let buildSpec: String?
-        ///  IAM service role ARN for the Amplify App. 
-        public let iamServiceRoleArn: String?
-        ///  Platform for the Amplify App. 
-        public let platform: Platform
-        ///  Enables Basic Authorization for branches for the Amplify App. 
-        public let enableBasicAuth: Bool
-        ///  Custom redirect / rewrite rules for the Amplify App. 
-        public let customRules: [CustomRule]?
-        ///  Structure with Production Branch information. 
-        public let productionBranch: ProductionBranch?
-        ///  Create date / time for the Amplify App. 
-        public let createTime: TimeStamp
-        ///  Repository for the Amplify App. 
-        public let repository: String
-        ///  Enables auto-building of branches for the Amplify App. 
-        public let enableBranchAutoBuild: Bool
-
-        public init(updateTime: TimeStamp, tags: [String: String]? = nil, basicAuthCredentials: String? = nil, environmentVariables: [String: String], name: String, defaultDomain: String, appId: String, appArn: String, description: String, buildSpec: String? = nil, iamServiceRoleArn: String? = nil, platform: Platform, enableBasicAuth: Bool, customRules: [CustomRule]? = nil, productionBranch: ProductionBranch? = nil, createTime: TimeStamp, repository: String, enableBranchAutoBuild: Bool) {
-            self.updateTime = updateTime
-            self.tags = tags
-            self.basicAuthCredentials = basicAuthCredentials
-            self.environmentVariables = environmentVariables
-            self.name = name
-            self.defaultDomain = defaultDomain
-            self.appId = appId
-            self.appArn = appArn
-            self.description = description
-            self.buildSpec = buildSpec
-            self.iamServiceRoleArn = iamServiceRoleArn
-            self.platform = platform
-            self.enableBasicAuth = enableBasicAuth
-            self.customRules = customRules
-            self.productionBranch = productionBranch
-            self.createTime = createTime
-            self.repository = repository
-            self.enableBranchAutoBuild = enableBranchAutoBuild
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case updateTime = "updateTime"
-            case tags = "tags"
-            case basicAuthCredentials = "basicAuthCredentials"
-            case environmentVariables = "environmentVariables"
-            case name = "name"
-            case defaultDomain = "defaultDomain"
-            case appId = "appId"
-            case appArn = "appArn"
-            case description = "description"
-            case buildSpec = "buildSpec"
-            case iamServiceRoleArn = "iamServiceRoleArn"
-            case platform = "platform"
-            case enableBasicAuth = "enableBasicAuth"
-            case customRules = "customRules"
-            case productionBranch = "productionBranch"
-            case createTime = "createTime"
-            case repository = "repository"
-            case enableBranchAutoBuild = "enableBranchAutoBuild"
-        }
-    }
-
-    public struct CreateAppRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: false, type: .map), 
-            AWSShapeMember(label: "oauthToken", required: true, type: .string), 
-            AWSShapeMember(label: "basicAuthCredentials", required: false, type: .string), 
-            AWSShapeMember(label: "environmentVariables", required: false, type: .map), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "buildSpec", required: false, type: .string), 
-            AWSShapeMember(label: "enableBasicAuth", required: false, type: .boolean), 
-            AWSShapeMember(label: "platform", required: true, type: .enum), 
-            AWSShapeMember(label: "iamServiceRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "customRules", required: false, type: .list), 
-            AWSShapeMember(label: "repository", required: true, type: .string), 
-            AWSShapeMember(label: "enableBranchAutoBuild", required: false, type: .boolean)
-        ]
-        ///  Tag for an Amplify App 
-        public let tags: [String: String]?
-        ///  OAuth token for 3rd party source control system for an Amplify App, used to create webhook and read-only deploy key. OAuth token is not stored. 
-        public let oauthToken: String
-        ///  Credentials for Basic Authorization for an Amplify App. 
-        public let basicAuthCredentials: String?
-        ///  Environment variables map for an Amplify App. 
-        public let environmentVariables: [String: String]?
-        ///  Name for the Amplify App 
-        public let name: String
-        ///  Description for an Amplify App 
-        public let description: String?
-        ///  BuildSpec for an Amplify App 
-        public let buildSpec: String?
-        ///  Enable Basic Authorization for an Amplify App, this will apply to all branches part of this App. 
-        public let enableBasicAuth: Bool?
-        ///  Platform / framework for an Amplify App 
-        public let platform: Platform
-        ///  AWS IAM service role for an Amplify App 
-        public let iamServiceRoleArn: String?
-        ///  Custom rewrite / redirect rules for an Amplify App. 
-        public let customRules: [CustomRule]?
-        ///  Repository for an Amplify App 
-        public let repository: String
-        ///  Enable the auto building of branches for an Amplify App. 
-        public let enableBranchAutoBuild: Bool?
-
-        public init(tags: [String: String]? = nil, oauthToken: String, basicAuthCredentials: String? = nil, environmentVariables: [String: String]? = nil, name: String, description: String? = nil, buildSpec: String? = nil, enableBasicAuth: Bool? = nil, platform: Platform, iamServiceRoleArn: String? = nil, customRules: [CustomRule]? = nil, repository: String, enableBranchAutoBuild: Bool? = nil) {
-            self.tags = tags
-            self.oauthToken = oauthToken
-            self.basicAuthCredentials = basicAuthCredentials
-            self.environmentVariables = environmentVariables
-            self.name = name
-            self.description = description
-            self.buildSpec = buildSpec
-            self.enableBasicAuth = enableBasicAuth
-            self.platform = platform
-            self.iamServiceRoleArn = iamServiceRoleArn
-            self.customRules = customRules
-            self.repository = repository
-            self.enableBranchAutoBuild = enableBranchAutoBuild
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "tags"
-            case oauthToken = "oauthToken"
-            case basicAuthCredentials = "basicAuthCredentials"
-            case environmentVariables = "environmentVariables"
-            case name = "name"
-            case description = "description"
-            case buildSpec = "buildSpec"
-            case enableBasicAuth = "enableBasicAuth"
-            case platform = "platform"
-            case iamServiceRoleArn = "iamServiceRoleArn"
-            case customRules = "customRules"
-            case repository = "repository"
-            case enableBranchAutoBuild = "enableBranchAutoBuild"
-        }
-    }
-
-    public struct JobSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "commitMessage", required: true, type: .string), 
-            AWSShapeMember(label: "status", required: true, type: .enum), 
-            AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "jobId", required: true, type: .string), 
-            AWSShapeMember(label: "startTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "commitId", required: true, type: .string), 
-            AWSShapeMember(label: "jobType", required: true, type: .enum), 
-            AWSShapeMember(label: "jobArn", required: true, type: .string), 
-            AWSShapeMember(label: "commitTime", required: true, type: .timestamp)
-        ]
-        ///  Commit message from 3rd party repository provider for the Job. 
-        public let commitMessage: String
-        ///  Status for the Job. 
-        public let status: JobStatus
-        ///  End date / time for the Job. 
-        public let endTime: TimeStamp?
-        ///  Unique Id for the Job. 
-        public let jobId: String
-        ///  Start date / time for the Job. 
-        public let startTime: TimeStamp
-        ///  Commit Id from 3rd party repository provider for the Job. 
-        public let commitId: String
-        ///  Type for the Job. 
-        public let jobType: JobType
-        ///  Arn for the Job. 
-        public let jobArn: String
-        ///  Commit date / time for the Job. 
-        public let commitTime: TimeStamp
-
-        public init(commitMessage: String, status: JobStatus, endTime: TimeStamp? = nil, jobId: String, startTime: TimeStamp, commitId: String, jobType: JobType, jobArn: String, commitTime: TimeStamp) {
-            self.commitMessage = commitMessage
+            self.thumbnailUrl = thumbnailUrl
             self.status = status
-            self.endTime = endTime
-            self.jobId = jobId
-            self.startTime = startTime
-            self.commitId = commitId
-            self.jobType = jobType
-            self.jobArn = jobArn
-            self.commitTime = commitTime
         }
 
         private enum CodingKeys: String, CodingKey {
-            case commitMessage = "commitMessage"
+            case lastDeployTime = "lastDeployTime"
+            case branchName = "branchName"
+            case thumbnailUrl = "thumbnailUrl"
             case status = "status"
-            case endTime = "endTime"
-            case jobId = "jobId"
-            case startTime = "startTime"
-            case commitId = "commitId"
-            case jobType = "jobType"
-            case jobArn = "jobArn"
-            case commitTime = "commitTime"
         }
     }
 
     public struct UpdateBranchRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ttl", required: false, type: .string), 
-            AWSShapeMember(label: "branchName", location: .uri(locationName: "branchName"), required: true, type: .string), 
-            AWSShapeMember(label: "enableBasicAuth", required: false, type: .boolean), 
-            AWSShapeMember(label: "enableAutoBuild", required: false, type: .boolean), 
+            AWSShapeMember(label: "enableNotification", required: false, type: .boolean), 
             AWSShapeMember(label: "basicAuthCredentials", required: false, type: .string), 
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
-            AWSShapeMember(label: "buildSpec", required: false, type: .string), 
-            AWSShapeMember(label: "environmentVariables", required: false, type: .map), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "stage", required: false, type: .enum), 
-            AWSShapeMember(label: "framework", required: false, type: .string), 
-            AWSShapeMember(label: "enableNotification", required: false, type: .boolean)
+            AWSShapeMember(label: "environmentVariables", required: false, type: .map), 
+            AWSShapeMember(label: "enableAutoBuild", required: false, type: .boolean), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "branchName", location: .uri(locationName: "branchName"), required: true, type: .string), 
+            AWSShapeMember(label: "buildSpec", required: false, type: .string), 
+            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
+            AWSShapeMember(label: "enableBasicAuth", required: false, type: .boolean), 
+            AWSShapeMember(label: "ttl", required: false, type: .string), 
+            AWSShapeMember(label: "framework", required: false, type: .string)
         ]
-        ///  The content TTL for the website in seconds. 
-        public let ttl: String?
-        ///  Name for the branch. 
-        public let branchName: String
-        ///  Enables Basic Auth for the branch. 
-        public let enableBasicAuth: Bool?
-        ///  Enables auto building for the branch. 
-        public let enableAutoBuild: Bool?
-        ///  Basic Authorization credentials for the branch. 
-        public let basicAuthCredentials: String?
-        ///  Unique Id for an Amplify App. 
-        public let appId: String
-        ///  BuildSpec for the branch. 
-        public let buildSpec: String?
-        ///  Environment Variables for the branch. 
-        public let environmentVariables: [String: String]?
-        ///  Description for the branch. 
-        public let description: String?
-        ///  Stage for the branch. 
-        public let stage: Stage?
-        ///  Framework for the branch. 
-        public let framework: String?
         ///  Enables notifications for the branch. 
         public let enableNotification: Bool?
+        ///  Basic Authorization credentials for the branch. 
+        public let basicAuthCredentials: String?
+        ///  Stage for the branch. 
+        public let stage: Stage?
+        ///  Environment Variables for the branch. 
+        public let environmentVariables: [String: String]?
+        ///  Enables auto building for the branch. 
+        public let enableAutoBuild: Bool?
+        ///  Description for the branch. 
+        public let description: String?
+        ///  Name for the branch. 
+        public let branchName: String
+        ///  BuildSpec for the branch. 
+        public let buildSpec: String?
+        ///  Unique Id for an Amplify App. 
+        public let appId: String
+        ///  Enables Basic Auth for the branch. 
+        public let enableBasicAuth: Bool?
+        ///  The content TTL for the website in seconds. 
+        public let ttl: String?
+        ///  Framework for the branch. 
+        public let framework: String?
 
-        public init(ttl: String? = nil, branchName: String, enableBasicAuth: Bool? = nil, enableAutoBuild: Bool? = nil, basicAuthCredentials: String? = nil, appId: String, buildSpec: String? = nil, environmentVariables: [String: String]? = nil, description: String? = nil, stage: Stage? = nil, framework: String? = nil, enableNotification: Bool? = nil) {
-            self.ttl = ttl
-            self.branchName = branchName
-            self.enableBasicAuth = enableBasicAuth
-            self.enableAutoBuild = enableAutoBuild
-            self.basicAuthCredentials = basicAuthCredentials
-            self.appId = appId
-            self.buildSpec = buildSpec
-            self.environmentVariables = environmentVariables
-            self.description = description
-            self.stage = stage
-            self.framework = framework
+        public init(enableNotification: Bool? = nil, basicAuthCredentials: String? = nil, stage: Stage? = nil, environmentVariables: [String: String]? = nil, enableAutoBuild: Bool? = nil, description: String? = nil, branchName: String, buildSpec: String? = nil, appId: String, enableBasicAuth: Bool? = nil, ttl: String? = nil, framework: String? = nil) {
             self.enableNotification = enableNotification
+            self.basicAuthCredentials = basicAuthCredentials
+            self.stage = stage
+            self.environmentVariables = environmentVariables
+            self.enableAutoBuild = enableAutoBuild
+            self.description = description
+            self.branchName = branchName
+            self.buildSpec = buildSpec
+            self.appId = appId
+            self.enableBasicAuth = enableBasicAuth
+            self.ttl = ttl
+            self.framework = framework
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ttl = "ttl"
-            case branchName = "branchName"
-            case enableBasicAuth = "enableBasicAuth"
-            case enableAutoBuild = "enableAutoBuild"
-            case basicAuthCredentials = "basicAuthCredentials"
-            case appId = "appId"
-            case buildSpec = "buildSpec"
-            case environmentVariables = "environmentVariables"
-            case description = "description"
-            case stage = "stage"
-            case framework = "framework"
             case enableNotification = "enableNotification"
+            case basicAuthCredentials = "basicAuthCredentials"
+            case stage = "stage"
+            case environmentVariables = "environmentVariables"
+            case enableAutoBuild = "enableAutoBuild"
+            case description = "description"
+            case branchName = "branchName"
+            case buildSpec = "buildSpec"
+            case appId = "appId"
+            case enableBasicAuth = "enableBasicAuth"
+            case ttl = "ttl"
+            case framework = "framework"
         }
     }
 
-    public struct GetBranchResult: AWSShape {
+    public struct GetJobResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "job", required: true, type: .structure)
+        ]
+        public let job: Job
+
+        public init(job: Job) {
+            self.job = job
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case job = "job"
+        }
+    }
+
+    public struct App: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "createTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "productionBranch", required: false, type: .structure), 
+            AWSShapeMember(label: "enableBranchAutoBuild", required: true, type: .boolean), 
+            AWSShapeMember(label: "appArn", required: true, type: .string), 
+            AWSShapeMember(label: "enableBasicAuth", required: true, type: .boolean), 
+            AWSShapeMember(label: "environmentVariables", required: true, type: .map), 
+            AWSShapeMember(label: "buildSpec", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "appId", required: true, type: .string), 
+            AWSShapeMember(label: "description", required: true, type: .string), 
+            AWSShapeMember(label: "repository", required: true, type: .string), 
+            AWSShapeMember(label: "iamServiceRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "defaultDomain", required: true, type: .string), 
+            AWSShapeMember(label: "basicAuthCredentials", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
+            AWSShapeMember(label: "customRules", required: false, type: .list), 
+            AWSShapeMember(label: "platform", required: true, type: .enum), 
+            AWSShapeMember(label: "updateTime", required: true, type: .timestamp)
+        ]
+        ///  Create date / time for the Amplify App. 
+        public let createTime: TimeStamp
+        ///  Structure with Production Branch information. 
+        public let productionBranch: ProductionBranch?
+        ///  Enables auto-building of branches for the Amplify App. 
+        public let enableBranchAutoBuild: Bool
+        ///  ARN for the Amplify App. 
+        public let appArn: String
+        ///  Enables Basic Authorization for branches for the Amplify App. 
+        public let enableBasicAuth: Bool
+        ///  Environment Variables for the Amplify App. 
+        public let environmentVariables: [String: String]
+        ///  BuildSpec content for Amplify App. 
+        public let buildSpec: String?
+        ///  Name for the Amplify App. 
+        public let name: String
+        ///  Unique Id for the Amplify App. 
+        public let appId: String
+        ///  Description for the Amplify App. 
+        public let description: String
+        ///  Repository for the Amplify App. 
+        public let repository: String
+        ///  IAM service role ARN for the Amplify App. 
+        public let iamServiceRoleArn: String?
+        ///  Default domain for the Amplify App. 
+        public let defaultDomain: String
+        ///  Basic Authorization credentials for branches for the Amplify App. 
+        public let basicAuthCredentials: String?
+        ///  Tag for Amplify App. 
+        public let tags: [String: String]?
+        ///  Custom redirect / rewrite rules for the Amplify App. 
+        public let customRules: [CustomRule]?
+        ///  Platform for the Amplify App. 
+        public let platform: Platform
+        ///  Update date / time for the Amplify App. 
+        public let updateTime: TimeStamp
+
+        public init(createTime: TimeStamp, productionBranch: ProductionBranch? = nil, enableBranchAutoBuild: Bool, appArn: String, enableBasicAuth: Bool, environmentVariables: [String: String], buildSpec: String? = nil, name: String, appId: String, description: String, repository: String, iamServiceRoleArn: String? = nil, defaultDomain: String, basicAuthCredentials: String? = nil, tags: [String: String]? = nil, customRules: [CustomRule]? = nil, platform: Platform, updateTime: TimeStamp) {
+            self.createTime = createTime
+            self.productionBranch = productionBranch
+            self.enableBranchAutoBuild = enableBranchAutoBuild
+            self.appArn = appArn
+            self.enableBasicAuth = enableBasicAuth
+            self.environmentVariables = environmentVariables
+            self.buildSpec = buildSpec
+            self.name = name
+            self.appId = appId
+            self.description = description
+            self.repository = repository
+            self.iamServiceRoleArn = iamServiceRoleArn
+            self.defaultDomain = defaultDomain
+            self.basicAuthCredentials = basicAuthCredentials
+            self.tags = tags
+            self.customRules = customRules
+            self.platform = platform
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createTime = "createTime"
+            case productionBranch = "productionBranch"
+            case enableBranchAutoBuild = "enableBranchAutoBuild"
+            case appArn = "appArn"
+            case enableBasicAuth = "enableBasicAuth"
+            case environmentVariables = "environmentVariables"
+            case buildSpec = "buildSpec"
+            case name = "name"
+            case appId = "appId"
+            case description = "description"
+            case repository = "repository"
+            case iamServiceRoleArn = "iamServiceRoleArn"
+            case defaultDomain = "defaultDomain"
+            case basicAuthCredentials = "basicAuthCredentials"
+            case tags = "tags"
+            case customRules = "customRules"
+            case platform = "platform"
+            case updateTime = "updateTime"
+        }
+    }
+
+    public struct DeleteJobResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobSummary", required: true, type: .structure)
+        ]
+        public let jobSummary: JobSummary
+
+        public init(jobSummary: JobSummary) {
+            self.jobSummary = jobSummary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobSummary = "jobSummary"
+        }
+    }
+
+    public struct Job: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "summary", required: true, type: .structure), 
+            AWSShapeMember(label: "steps", required: true, type: .list)
+        ]
+        ///  Summary for an execution job for an Amplify App. 
+        public let summary: JobSummary
+        ///  Execution steps for an execution job, for an Amplify App. 
+        public let steps: [Step]
+
+        public init(summary: JobSummary, steps: [Step]) {
+            self.summary = summary
+            self.steps = steps
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case summary = "summary"
+            case steps = "steps"
+        }
+    }
+
+    public struct GetDomainAssociationResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "domainAssociation", required: true, type: .structure)
+        ]
+        ///  Domain Association structure. 
+        public let domainAssociation: DomainAssociation
+
+        public init(domainAssociation: DomainAssociation) {
+            self.domainAssociation = domainAssociation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainAssociation = "domainAssociation"
+        }
+    }
+
+    public struct UpdateDomainAssociationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
+            AWSShapeMember(label: "enableAutoSubDomain", required: false, type: .boolean), 
+            AWSShapeMember(label: "subDomainSettings", required: true, type: .list), 
+            AWSShapeMember(label: "domainName", location: .uri(locationName: "domainName"), required: true, type: .string)
+        ]
+        ///  Unique Id for an Amplify App. 
+        public let appId: String
+        ///  Enables automated creation of Subdomains for branches. 
+        public let enableAutoSubDomain: Bool?
+        ///  Setting structure for the Subdomain. 
+        public let subDomainSettings: [SubDomainSetting]
+        ///  Name of the domain. 
+        public let domainName: String
+
+        public init(appId: String, enableAutoSubDomain: Bool? = nil, subDomainSettings: [SubDomainSetting], domainName: String) {
+            self.appId = appId
+            self.enableAutoSubDomain = enableAutoSubDomain
+            self.subDomainSettings = subDomainSettings
+            self.domainName = domainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId = "appId"
+            case enableAutoSubDomain = "enableAutoSubDomain"
+            case subDomainSettings = "subDomainSettings"
+            case domainName = "domainName"
+        }
+    }
+
+    public enum JobStatus: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case provisioning = "PROVISIONING"
+        case running = "RUNNING"
+        case failed = "FAILED"
+        case succeed = "SUCCEED"
+        case cancelling = "CANCELLING"
+        case cancelled = "CANCELLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UpdateDomainAssociationResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "domainAssociation", required: true, type: .structure)
+        ]
+        ///  Domain Association structure. 
+        public let domainAssociation: DomainAssociation
+
+        public init(domainAssociation: DomainAssociation) {
+            self.domainAssociation = domainAssociation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainAssociation = "domainAssociation"
+        }
+    }
+
+    public struct StopJobResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobSummary", required: true, type: .structure)
+        ]
+        ///  Summary for the Job. 
+        public let jobSummary: JobSummary
+
+        public init(jobSummary: JobSummary) {
+            self.jobSummary = jobSummary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobSummary = "jobSummary"
+        }
+    }
+
+    public struct CreateAppResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "app", required: true, type: .structure)
+        ]
+        public let app: App
+
+        public init(app: App) {
+            self.app = app
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case app = "app"
+        }
+    }
+
+    public struct DeleteDomainAssociationResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "domainAssociation", required: true, type: .structure)
+        ]
+        public let domainAssociation: DomainAssociation
+
+        public init(domainAssociation: DomainAssociation) {
+            self.domainAssociation = domainAssociation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainAssociation = "domainAssociation"
+        }
+    }
+
+    public struct UpdateBranchResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "branch", required: true, type: .structure)
         ]
+        ///  Branch structure for an Amplify App. 
         public let branch: Branch
 
         public init(branch: Branch) {
@@ -1343,46 +586,741 @@ extension Amplify {
         }
     }
 
-    public struct SubDomainSetting: AWSShape {
+    public struct Step: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "prefix", required: true, type: .string), 
-            AWSShapeMember(label: "branchName", required: true, type: .string)
+            AWSShapeMember(label: "screenshots", required: false, type: .map), 
+            AWSShapeMember(label: "endTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "startTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "status", required: true, type: .enum), 
+            AWSShapeMember(label: "stepName", required: true, type: .string), 
+            AWSShapeMember(label: "artifactsUrl", required: false, type: .string), 
+            AWSShapeMember(label: "logUrl", required: false, type: .string)
         ]
-        ///  Prefix setting for the Subdomain. 
-        public let prefix: String
-        ///  Branch name setting for the Subdomain. 
-        public let branchName: String
+        ///  List of screenshot Urls for the execution step, if relevant. 
+        public let screenshots: [String: String]?
+        ///  End date/ time of the execution step. 
+        public let endTime: TimeStamp
+        ///  Start date/ time of the execution step. 
+        public let startTime: TimeStamp
+        ///  Status of the execution step. 
+        public let status: JobStatus
+        ///  Name of the execution step. 
+        public let stepName: String
+        ///  Url to teh artifact for the execution step. 
+        public let artifactsUrl: String?
+        ///  Url to the logs for the execution step. 
+        public let logUrl: String?
 
-        public init(prefix: String, branchName: String) {
-            self.prefix = prefix
-            self.branchName = branchName
+        public init(screenshots: [String: String]? = nil, endTime: TimeStamp, startTime: TimeStamp, status: JobStatus, stepName: String, artifactsUrl: String? = nil, logUrl: String? = nil) {
+            self.screenshots = screenshots
+            self.endTime = endTime
+            self.startTime = startTime
+            self.status = status
+            self.stepName = stepName
+            self.artifactsUrl = artifactsUrl
+            self.logUrl = logUrl
         }
 
         private enum CodingKeys: String, CodingKey {
-            case prefix = "prefix"
-            case branchName = "branchName"
+            case screenshots = "screenshots"
+            case endTime = "endTime"
+            case startTime = "startTime"
+            case status = "status"
+            case stepName = "stepName"
+            case artifactsUrl = "artifactsUrl"
+            case logUrl = "logUrl"
         }
+    }
+
+    public struct CreateDomainAssociationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
+            AWSShapeMember(label: "enableAutoSubDomain", required: false, type: .boolean), 
+            AWSShapeMember(label: "subDomainSettings", required: true, type: .list), 
+            AWSShapeMember(label: "domainName", required: true, type: .string)
+        ]
+        ///  Unique Id for an Amplify App. 
+        public let appId: String
+        ///  Enables automated creation of Subdomains for branches. 
+        public let enableAutoSubDomain: Bool?
+        ///  Setting structure for the Subdomain. 
+        public let subDomainSettings: [SubDomainSetting]
+        ///  Domain name for the Domain Association. 
+        public let domainName: String
+
+        public init(appId: String, enableAutoSubDomain: Bool? = nil, subDomainSettings: [SubDomainSetting], domainName: String) {
+            self.appId = appId
+            self.enableAutoSubDomain = enableAutoSubDomain
+            self.subDomainSettings = subDomainSettings
+            self.domainName = domainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId = "appId"
+            case enableAutoSubDomain = "enableAutoSubDomain"
+            case subDomainSettings = "subDomainSettings"
+            case domainName = "domainName"
+        }
+    }
+
+    public enum JobType: String, CustomStringConvertible, Codable {
+        case release = "RELEASE"
+        case retry = "RETRY"
+        case webHook = "WEB_HOOK"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetAppResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "app", required: true, type: .structure)
+        ]
+        public let app: App
+
+        public init(app: App) {
+            self.app = app
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case app = "app"
+        }
+    }
+
+    public struct ListBranchesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string)
+        ]
+        ///  Pagination token. Set to null to start listing branches from start. If a non-null pagination token is returned in a result, then pass its value in here to list more branches. 
+        public let nextToken: String?
+        ///  Maximum number of records to list in a single response. 
+        public let maxResults: Int32?
+        ///  Unique Id for an Amplify App. 
+        public let appId: String
+
+        public init(nextToken: String? = nil, maxResults: Int32? = nil, appId: String) {
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+            self.appId = appId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+            case appId = "appId"
+        }
+    }
+
+    public struct DeleteBranchResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "branch", required: true, type: .structure)
+        ]
+        ///  Branch structure for an Amplify App. 
+        public let branch: Branch
+
+        public init(branch: Branch) {
+            self.branch = branch
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case branch = "branch"
+        }
+    }
+
+    public struct ListDomainAssociationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string)
+        ]
+        ///  Pagination token. Set to null to start listing Apps from start. If non-null pagination token is returned in a result, then pass its value in here to list more projects. 
+        public let nextToken: String?
+        ///  Maximum number of records to list in a single response. 
+        public let maxResults: Int32?
+        ///  Unique Id for an Amplify App. 
+        public let appId: String
+
+        public init(nextToken: String? = nil, maxResults: Int32? = nil, appId: String) {
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+            self.appId = appId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+            case appId = "appId"
+        }
+    }
+
+    public struct GetAppRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string)
+        ]
+        ///  Unique Id for an Amplify App. 
+        public let appId: String
+
+        public init(appId: String) {
+            self.appId = appId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId = "appId"
+        }
+    }
+
+    public struct DomainAssociation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "domainName", required: true, type: .string), 
+            AWSShapeMember(label: "certificateVerificationDNSRecord", required: true, type: .string), 
+            AWSShapeMember(label: "subDomains", required: true, type: .list), 
+            AWSShapeMember(label: "domainStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "domainAssociationArn", required: true, type: .string), 
+            AWSShapeMember(label: "enableAutoSubDomain", required: true, type: .boolean), 
+            AWSShapeMember(label: "statusReason", required: true, type: .string)
+        ]
+        ///  Name of the domain. 
+        public let domainName: String
+        ///  DNS Record for certificate verification. 
+        public let certificateVerificationDNSRecord: String
+        ///  Subdomains for the Domain Association. 
+        public let subDomains: [SubDomain]
+        ///  Status fo the Domain Association. 
+        public let domainStatus: DomainStatus
+        ///  ARN for the Domain Association. 
+        public let domainAssociationArn: String
+        ///  Enables automated creation of Subdomains for branches. 
+        public let enableAutoSubDomain: Bool
+        ///  Reason for the current status of the Domain Association. 
+        public let statusReason: String
+
+        public init(domainName: String, certificateVerificationDNSRecord: String, subDomains: [SubDomain], domainStatus: DomainStatus, domainAssociationArn: String, enableAutoSubDomain: Bool, statusReason: String) {
+            self.domainName = domainName
+            self.certificateVerificationDNSRecord = certificateVerificationDNSRecord
+            self.subDomains = subDomains
+            self.domainStatus = domainStatus
+            self.domainAssociationArn = domainAssociationArn
+            self.enableAutoSubDomain = enableAutoSubDomain
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "domainName"
+            case certificateVerificationDNSRecord = "certificateVerificationDNSRecord"
+            case subDomains = "subDomains"
+            case domainStatus = "domainStatus"
+            case domainAssociationArn = "domainAssociationArn"
+            case enableAutoSubDomain = "enableAutoSubDomain"
+            case statusReason = "statusReason"
+        }
+    }
+
+    public enum DomainStatus: String, CustomStringConvertible, Codable {
+        case pendingVerification = "PENDING_VERIFICATION"
+        case inProgress = "IN_PROGRESS"
+        case available = "AVAILABLE"
+        case pendingDeployment = "PENDING_DEPLOYMENT"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
     }
 
     public struct ListAppsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apps", required: true, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "apps", required: true, type: .list)
         ]
-        ///  List of Amplify Apps. 
-        public let apps: [App]
         ///  Pagination token. Set to null to start listing Apps from start. If non-null pagination token is returned in a result, then pass its value in here to list more projects. 
         public let nextToken: String?
+        ///  List of Amplify Apps. 
+        public let apps: [App]
 
-        public init(apps: [App], nextToken: String? = nil) {
-            self.apps = apps
+        public init(nextToken: String? = nil, apps: [App]) {
             self.nextToken = nextToken
+            self.apps = apps
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apps = "apps"
             case nextToken = "nextToken"
+            case apps = "apps"
         }
+    }
+
+    public struct CustomRule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: false, type: .string), 
+            AWSShapeMember(label: "condition", required: false, type: .string), 
+            AWSShapeMember(label: "source", required: true, type: .string), 
+            AWSShapeMember(label: "target", required: true, type: .string)
+        ]
+        ///  The status code for a URL rewrite or redirect rule. 
+        public let status: String?
+        ///  The condition for a URL rewrite or redirect rule, e.g. country code. 
+        public let condition: String?
+        ///  The source pattern for a URL rewrite or redirect rule. 
+        public let source: String
+        ///  The target pattern for a URL rewrite or redirect rule. 
+        public let target: String
+
+        public init(status: String? = nil, condition: String? = nil, source: String, target: String) {
+            self.status = status
+            self.condition = condition
+            self.source = source
+            self.target = target
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case condition = "condition"
+            case source = "source"
+            case target = "target"
+        }
+    }
+
+    public struct CreateAppRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "enableBranchAutoBuild", required: false, type: .boolean), 
+            AWSShapeMember(label: "enableBasicAuth", required: false, type: .boolean), 
+            AWSShapeMember(label: "environmentVariables", required: false, type: .map), 
+            AWSShapeMember(label: "buildSpec", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "repository", required: true, type: .string), 
+            AWSShapeMember(label: "iamServiceRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "basicAuthCredentials", required: false, type: .string), 
+            AWSShapeMember(label: "oauthToken", required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
+            AWSShapeMember(label: "customRules", required: false, type: .list), 
+            AWSShapeMember(label: "platform", required: true, type: .enum)
+        ]
+        ///  Enable the auto building of branches for an Amplify App. 
+        public let enableBranchAutoBuild: Bool?
+        ///  Enable Basic Authorization for an Amplify App, this will apply to all branches part of this App. 
+        public let enableBasicAuth: Bool?
+        ///  Environment variables map for an Amplify App. 
+        public let environmentVariables: [String: String]?
+        ///  BuildSpec for an Amplify App 
+        public let buildSpec: String?
+        ///  Name for the Amplify App 
+        public let name: String
+        ///  Description for an Amplify App 
+        public let description: String?
+        ///  Repository for an Amplify App 
+        public let repository: String
+        ///  AWS IAM service role for an Amplify App 
+        public let iamServiceRoleArn: String?
+        ///  Credentials for Basic Authorization for an Amplify App. 
+        public let basicAuthCredentials: String?
+        ///  OAuth token for 3rd party source control system for an Amplify App, used to create webhook and read-only deploy key. OAuth token is not stored. 
+        public let oauthToken: String
+        ///  Tag for an Amplify App 
+        public let tags: [String: String]?
+        ///  Custom rewrite / redirect rules for an Amplify App. 
+        public let customRules: [CustomRule]?
+        ///  Platform / framework for an Amplify App 
+        public let platform: Platform
+
+        public init(enableBranchAutoBuild: Bool? = nil, enableBasicAuth: Bool? = nil, environmentVariables: [String: String]? = nil, buildSpec: String? = nil, name: String, description: String? = nil, repository: String, iamServiceRoleArn: String? = nil, basicAuthCredentials: String? = nil, oauthToken: String, tags: [String: String]? = nil, customRules: [CustomRule]? = nil, platform: Platform) {
+            self.enableBranchAutoBuild = enableBranchAutoBuild
+            self.enableBasicAuth = enableBasicAuth
+            self.environmentVariables = environmentVariables
+            self.buildSpec = buildSpec
+            self.name = name
+            self.description = description
+            self.repository = repository
+            self.iamServiceRoleArn = iamServiceRoleArn
+            self.basicAuthCredentials = basicAuthCredentials
+            self.oauthToken = oauthToken
+            self.tags = tags
+            self.customRules = customRules
+            self.platform = platform
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enableBranchAutoBuild = "enableBranchAutoBuild"
+            case enableBasicAuth = "enableBasicAuth"
+            case environmentVariables = "environmentVariables"
+            case buildSpec = "buildSpec"
+            case name = "name"
+            case description = "description"
+            case repository = "repository"
+            case iamServiceRoleArn = "iamServiceRoleArn"
+            case basicAuthCredentials = "basicAuthCredentials"
+            case oauthToken = "oauthToken"
+            case tags = "tags"
+            case customRules = "customRules"
+            case platform = "platform"
+        }
+    }
+
+    public struct StopJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "branchName", location: .uri(locationName: "branchName"), required: true, type: .string), 
+            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string), 
+            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string)
+        ]
+        ///  Name for the branch, for the Job. 
+        public let branchName: String
+        ///  Unique Id for the Job. 
+        public let jobId: String
+        ///  Unique Id for an Amplify App. 
+        public let appId: String
+
+        public init(branchName: String, jobId: String, appId: String) {
+            self.branchName = branchName
+            self.jobId = jobId
+            self.appId = appId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case branchName = "branchName"
+            case jobId = "jobId"
+            case appId = "appId"
+        }
+    }
+
+    public struct DeleteAppResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "app", required: true, type: .structure)
+        ]
+        public let app: App
+
+        public init(app: App) {
+            self.app = app
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case app = "app"
+        }
+    }
+
+    public struct GetBranchRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "branchName", location: .uri(locationName: "branchName"), required: true, type: .string), 
+            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string)
+        ]
+        ///  Name for the branch. 
+        public let branchName: String
+        ///  Unique Id for an Amplify App. 
+        public let appId: String
+
+        public init(branchName: String, appId: String) {
+            self.branchName = branchName
+            self.appId = appId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case branchName = "branchName"
+            case appId = "appId"
+        }
+    }
+
+    public struct ListJobsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "branchName", location: .uri(locationName: "branchName"), required: true, type: .string), 
+            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
+        ]
+        ///  Name for a branch. 
+        public let branchName: String
+        ///  Unique Id for an Amplify App. 
+        public let appId: String
+        ///  Pagination token. Set to null to start listing steps from start. If a non-null pagination token is returned in a result, then pass its value in here to list more steps. 
+        public let nextToken: String?
+        ///  Maximum number of records to list in a single response. 
+        public let maxResults: Int32?
+
+        public init(branchName: String, appId: String, nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.branchName = branchName
+            self.appId = appId
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case branchName = "branchName"
+            case appId = "appId"
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+        }
+    }
+
+    public struct CreateBranchResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "branch", required: true, type: .structure)
+        ]
+        ///  Branch structure for an Amplify App. 
+        public let branch: Branch
+
+        public init(branch: Branch) {
+            self.branch = branch
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case branch = "branch"
+        }
+    }
+
+    public struct Branch: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "createTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "enableNotification", required: true, type: .boolean), 
+            AWSShapeMember(label: "branchName", required: true, type: .string), 
+            AWSShapeMember(label: "enableBasicAuth", required: true, type: .boolean), 
+            AWSShapeMember(label: "environmentVariables", required: true, type: .map), 
+            AWSShapeMember(label: "branchArn", required: true, type: .string), 
+            AWSShapeMember(label: "buildSpec", required: false, type: .string), 
+            AWSShapeMember(label: "activeJobId", required: true, type: .string), 
+            AWSShapeMember(label: "displayName", required: false, type: .string), 
+            AWSShapeMember(label: "stage", required: true, type: .enum), 
+            AWSShapeMember(label: "description", required: true, type: .string), 
+            AWSShapeMember(label: "framework", required: true, type: .string), 
+            AWSShapeMember(label: "customDomains", required: true, type: .list), 
+            AWSShapeMember(label: "ttl", required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
+            AWSShapeMember(label: "basicAuthCredentials", required: false, type: .string), 
+            AWSShapeMember(label: "thumbnailUrl", required: false, type: .string), 
+            AWSShapeMember(label: "enableAutoBuild", required: true, type: .boolean), 
+            AWSShapeMember(label: "updateTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "totalNumberOfJobs", required: true, type: .string)
+        ]
+        ///  Creation date and time for a branch, part of an Amplify App. 
+        public let createTime: TimeStamp
+        ///  Enables notifications for a branch, part of an Amplify App. 
+        public let enableNotification: Bool
+        ///  Name for a branch, part of an Amplify App. 
+        public let branchName: String
+        ///  Enables Basic Authorization for a branch, part of an Amplify App. 
+        public let enableBasicAuth: Bool
+        ///  Environment Variables specific to a branch, part of an Amplify App. 
+        public let environmentVariables: [String: String]
+        ///  ARN for a branch, part of an Amplify App. 
+        public let branchArn: String
+        ///  BuildSpec content for branch for Amplify App. 
+        public let buildSpec: String?
+        ///  Id of the active job for a branch, part of an Amplify App. 
+        public let activeJobId: String
+        ///  Display name for a branch, part of an Amplify App. 
+        public let displayName: String?
+        ///  Stage for a branch, part of an Amplify App. 
+        public let stage: Stage
+        ///  Description for a branch, part of an Amplify App. 
+        public let description: String
+        ///  Framework for a branch, part of an Amplify App. 
+        public let framework: String
+        ///  Custom domains for a branch, part of an Amplify App. 
+        public let customDomains: [String]
+        ///  The content TTL for the website in seconds. 
+        public let ttl: String
+        ///  Tag for branch for Amplify App. 
+        public let tags: [String: String]?
+        ///  Basic Authorization credentials for a branch, part of an Amplify App. 
+        public let basicAuthCredentials: String?
+        ///  Thumbnail Url for the branch. 
+        public let thumbnailUrl: String?
+        ///  Enables auto-building on push for a branch, part of an Amplify App. 
+        public let enableAutoBuild: Bool
+        ///  Last updated date and time for a branch, part of an Amplify App. 
+        public let updateTime: TimeStamp
+        ///  Total number of Jobs part of an Amplify App. 
+        public let totalNumberOfJobs: String
+
+        public init(createTime: TimeStamp, enableNotification: Bool, branchName: String, enableBasicAuth: Bool, environmentVariables: [String: String], branchArn: String, buildSpec: String? = nil, activeJobId: String, displayName: String? = nil, stage: Stage, description: String, framework: String, customDomains: [String], ttl: String, tags: [String: String]? = nil, basicAuthCredentials: String? = nil, thumbnailUrl: String? = nil, enableAutoBuild: Bool, updateTime: TimeStamp, totalNumberOfJobs: String) {
+            self.createTime = createTime
+            self.enableNotification = enableNotification
+            self.branchName = branchName
+            self.enableBasicAuth = enableBasicAuth
+            self.environmentVariables = environmentVariables
+            self.branchArn = branchArn
+            self.buildSpec = buildSpec
+            self.activeJobId = activeJobId
+            self.displayName = displayName
+            self.stage = stage
+            self.description = description
+            self.framework = framework
+            self.customDomains = customDomains
+            self.ttl = ttl
+            self.tags = tags
+            self.basicAuthCredentials = basicAuthCredentials
+            self.thumbnailUrl = thumbnailUrl
+            self.enableAutoBuild = enableAutoBuild
+            self.updateTime = updateTime
+            self.totalNumberOfJobs = totalNumberOfJobs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createTime = "createTime"
+            case enableNotification = "enableNotification"
+            case branchName = "branchName"
+            case enableBasicAuth = "enableBasicAuth"
+            case environmentVariables = "environmentVariables"
+            case branchArn = "branchArn"
+            case buildSpec = "buildSpec"
+            case activeJobId = "activeJobId"
+            case displayName = "displayName"
+            case stage = "stage"
+            case description = "description"
+            case framework = "framework"
+            case customDomains = "customDomains"
+            case ttl = "ttl"
+            case tags = "tags"
+            case basicAuthCredentials = "basicAuthCredentials"
+            case thumbnailUrl = "thumbnailUrl"
+            case enableAutoBuild = "enableAutoBuild"
+            case updateTime = "updateTime"
+            case totalNumberOfJobs = "totalNumberOfJobs"
+        }
+    }
+
+    public enum Stage: String, CustomStringConvertible, Codable {
+        case production = "PRODUCTION"
+        case beta = "BETA"
+        case development = "DEVELOPMENT"
+        case experimental = "EXPERIMENTAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListAppsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
+        ]
+        ///  Pagination token. If non-null pagination token is returned in a result, then pass its value in another request to fetch more entries. 
+        public let nextToken: String?
+        ///  Maximum number of records to list in a single response. 
+        public let maxResults: Int32?
+
+        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+        }
+    }
+
+    public struct SubDomainSetting: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "branchName", required: true, type: .string), 
+            AWSShapeMember(label: "prefix", required: true, type: .string)
+        ]
+        ///  Branch name setting for the Subdomain. 
+        public let branchName: String
+        ///  Prefix setting for the Subdomain. 
+        public let prefix: String
+
+        public init(branchName: String, prefix: String) {
+            self.branchName = branchName
+            self.prefix = prefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case branchName = "branchName"
+            case prefix = "prefix"
+        }
+    }
+
+    public struct StartJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "commitMessage", required: false, type: .string), 
+            AWSShapeMember(label: "commitId", required: false, type: .string), 
+            AWSShapeMember(label: "jobId", required: false, type: .string), 
+            AWSShapeMember(label: "branchName", location: .uri(locationName: "branchName"), required: true, type: .string), 
+            AWSShapeMember(label: "jobReason", required: false, type: .string), 
+            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
+            AWSShapeMember(label: "commitTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "jobType", required: true, type: .enum)
+        ]
+        ///  Commit message from 3rd party repository provider for the Job. 
+        public let commitMessage: String?
+        ///  Commit Id from 3rd party repository provider for the Job. 
+        public let commitId: String?
+        ///  Unique Id for the Job. 
+        public let jobId: String?
+        ///  Name for the branch, for the Job. 
+        public let branchName: String
+        ///  Reason for the Job. 
+        public let jobReason: String?
+        ///  Unique Id for an Amplify App. 
+        public let appId: String
+        ///  Commit date / time for the Job. 
+        public let commitTime: TimeStamp?
+        ///  Type for the Job. 
+        public let jobType: JobType
+
+        public init(commitMessage: String? = nil, commitId: String? = nil, jobId: String? = nil, branchName: String, jobReason: String? = nil, appId: String, commitTime: TimeStamp? = nil, jobType: JobType) {
+            self.commitMessage = commitMessage
+            self.commitId = commitId
+            self.jobId = jobId
+            self.branchName = branchName
+            self.jobReason = jobReason
+            self.appId = appId
+            self.commitTime = commitTime
+            self.jobType = jobType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commitMessage = "commitMessage"
+            case commitId = "commitId"
+            case jobId = "jobId"
+            case branchName = "branchName"
+            case jobReason = "jobReason"
+            case appId = "appId"
+            case commitTime = "commitTime"
+            case jobType = "jobType"
+        }
+    }
+
+    public struct DeleteJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "branchName", location: .uri(locationName: "branchName"), required: true, type: .string), 
+            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string), 
+            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string)
+        ]
+        ///  Name for the branch, for the Job. 
+        public let branchName: String
+        ///  Unique Id for the Job. 
+        public let jobId: String
+        ///  Unique Id for an Amplify App. 
+        public let appId: String
+
+        public init(branchName: String, jobId: String, appId: String) {
+            self.branchName = branchName
+            self.jobId = jobId
+            self.appId = appId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case branchName = "branchName"
+            case jobId = "jobId"
+            case appId = "appId"
+        }
+    }
+
+    public struct DeleteAppRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string)
+        ]
+        ///  Unique Id for an Amplify App. 
+        public let appId: String
+
+        public init(appId: String) {
+            self.appId = appId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId = "appId"
+        }
+    }
+
+    public enum Platform: String, CustomStringConvertible, Codable {
+        case ios = "IOS"
+        case android = "ANDROID"
+        case web = "WEB"
+        case reactNative = "REACT_NATIVE"
+        public var description: String { return self.rawValue }
     }
 
     public struct StartJobResult: AWSShape {
@@ -1401,19 +1339,24 @@ extension Amplify {
         }
     }
 
-    public struct UpdateDomainAssociationResult: AWSShape {
+    public struct GetDomainAssociationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domainAssociation", required: true, type: .structure)
+            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
+            AWSShapeMember(label: "domainName", location: .uri(locationName: "domainName"), required: true, type: .string)
         ]
-        ///  Domain Association structure. 
-        public let domainAssociation: DomainAssociation
+        ///  Unique Id for an Amplify App. 
+        public let appId: String
+        ///  Name of the domain. 
+        public let domainName: String
 
-        public init(domainAssociation: DomainAssociation) {
-            self.domainAssociation = domainAssociation
+        public init(appId: String, domainName: String) {
+            self.appId = appId
+            self.domainName = domainName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainAssociation = "domainAssociation"
+            case appId = "appId"
+            case domainName = "domainName"
         }
     }
 
@@ -1438,137 +1381,194 @@ extension Amplify {
         }
     }
 
-    public struct DomainAssociation: AWSShape {
+    public struct JobSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "enableAutoSubDomain", required: true, type: .boolean), 
-            AWSShapeMember(label: "subDomains", required: true, type: .list), 
-            AWSShapeMember(label: "domainStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "domainAssociationArn", required: true, type: .string), 
-            AWSShapeMember(label: "domainName", required: true, type: .string), 
-            AWSShapeMember(label: "statusReason", required: true, type: .string), 
-            AWSShapeMember(label: "certificateVerificationDNSRecord", required: true, type: .string)
+            AWSShapeMember(label: "jobArn", required: true, type: .string), 
+            AWSShapeMember(label: "commitMessage", required: true, type: .string), 
+            AWSShapeMember(label: "commitId", required: true, type: .string), 
+            AWSShapeMember(label: "jobId", required: true, type: .string), 
+            AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "startTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "status", required: true, type: .enum), 
+            AWSShapeMember(label: "commitTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "jobType", required: true, type: .enum)
         ]
-        ///  Enables automated creation of Subdomains for branches. 
-        public let enableAutoSubDomain: Bool
-        ///  Subdomains for the Domain Association. 
-        public let subDomains: [SubDomain]
-        ///  Status fo the Domain Association. 
-        public let domainStatus: DomainStatus
-        ///  ARN for the Domain Association. 
-        public let domainAssociationArn: String
-        ///  Name of the domain. 
-        public let domainName: String
-        ///  Reason for the current status of the Domain Association. 
-        public let statusReason: String
-        ///  DNS Record for certificate verification. 
-        public let certificateVerificationDNSRecord: String
+        ///  Arn for the Job. 
+        public let jobArn: String
+        ///  Commit message from 3rd party repository provider for the Job. 
+        public let commitMessage: String
+        ///  Commit Id from 3rd party repository provider for the Job. 
+        public let commitId: String
+        ///  Unique Id for the Job. 
+        public let jobId: String
+        ///  End date / time for the Job. 
+        public let endTime: TimeStamp?
+        ///  Start date / time for the Job. 
+        public let startTime: TimeStamp
+        ///  Status for the Job. 
+        public let status: JobStatus
+        ///  Commit date / time for the Job. 
+        public let commitTime: TimeStamp
+        ///  Type for the Job. 
+        public let jobType: JobType
 
-        public init(enableAutoSubDomain: Bool, subDomains: [SubDomain], domainStatus: DomainStatus, domainAssociationArn: String, domainName: String, statusReason: String, certificateVerificationDNSRecord: String) {
-            self.enableAutoSubDomain = enableAutoSubDomain
-            self.subDomains = subDomains
-            self.domainStatus = domainStatus
-            self.domainAssociationArn = domainAssociationArn
-            self.domainName = domainName
-            self.statusReason = statusReason
-            self.certificateVerificationDNSRecord = certificateVerificationDNSRecord
+        public init(jobArn: String, commitMessage: String, commitId: String, jobId: String, endTime: TimeStamp? = nil, startTime: TimeStamp, status: JobStatus, commitTime: TimeStamp, jobType: JobType) {
+            self.jobArn = jobArn
+            self.commitMessage = commitMessage
+            self.commitId = commitId
+            self.jobId = jobId
+            self.endTime = endTime
+            self.startTime = startTime
+            self.status = status
+            self.commitTime = commitTime
+            self.jobType = jobType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enableAutoSubDomain = "enableAutoSubDomain"
-            case subDomains = "subDomains"
-            case domainStatus = "domainStatus"
-            case domainAssociationArn = "domainAssociationArn"
-            case domainName = "domainName"
-            case statusReason = "statusReason"
-            case certificateVerificationDNSRecord = "certificateVerificationDNSRecord"
+            case jobArn = "jobArn"
+            case commitMessage = "commitMessage"
+            case commitId = "commitId"
+            case jobId = "jobId"
+            case endTime = "endTime"
+            case startTime = "startTime"
+            case status = "status"
+            case commitTime = "commitTime"
+            case jobType = "jobType"
         }
     }
 
-    public struct UpdateDomainAssociationRequest: AWSShape {
+    public struct DeleteBranchRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "enableAutoSubDomain", required: false, type: .boolean), 
-            AWSShapeMember(label: "domainName", location: .uri(locationName: "domainName"), required: true, type: .string), 
-            AWSShapeMember(label: "subDomainSettings", required: true, type: .list), 
+            AWSShapeMember(label: "branchName", location: .uri(locationName: "branchName"), required: true, type: .string), 
             AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string)
         ]
-        ///  Enables automated creation of Subdomains for branches. 
-        public let enableAutoSubDomain: Bool?
-        ///  Name of the domain. 
-        public let domainName: String
-        ///  Setting structure for the Subdomain. 
-        public let subDomainSettings: [SubDomainSetting]
+        ///  Name for the branch. 
+        public let branchName: String
         ///  Unique Id for an Amplify App. 
         public let appId: String
 
-        public init(enableAutoSubDomain: Bool? = nil, domainName: String, subDomainSettings: [SubDomainSetting], appId: String) {
-            self.enableAutoSubDomain = enableAutoSubDomain
-            self.domainName = domainName
-            self.subDomainSettings = subDomainSettings
+        public init(branchName: String, appId: String) {
+            self.branchName = branchName
             self.appId = appId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enableAutoSubDomain = "enableAutoSubDomain"
-            case domainName = "domainName"
-            case subDomainSettings = "subDomainSettings"
-            case appId = "appId"
-        }
-    }
-
-    public struct DeleteAppRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string)
-        ]
-        ///  Unique Id for an Amplify App. 
-        public let appId: String
-
-        public init(appId: String) {
-            self.appId = appId
-        }
-
-        private enum CodingKeys: String, CodingKey {
+            case branchName = "branchName"
             case appId = "appId"
         }
     }
 
     public struct DeleteDomainAssociationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domainName", location: .uri(locationName: "domainName"), required: true, type: .string), 
-            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string)
+            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
+            AWSShapeMember(label: "domainName", location: .uri(locationName: "domainName"), required: true, type: .string)
         ]
+        ///  Unique Id for an Amplify App. 
+        public let appId: String
         ///  Name of the domain. 
         public let domainName: String
+
+        public init(appId: String, domainName: String) {
+            self.appId = appId
+            self.domainName = domainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId = "appId"
+            case domainName = "domainName"
+        }
+    }
+
+    public struct GetJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "branchName", location: .uri(locationName: "branchName"), required: true, type: .string), 
+            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string), 
+            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string)
+        ]
+        ///  Name for the branch, for the Job. 
+        public let branchName: String
+        ///  Unique Id for the Job. 
+        public let jobId: String
         ///  Unique Id for an Amplify App. 
         public let appId: String
 
-        public init(domainName: String, appId: String) {
-            self.domainName = domainName
+        public init(branchName: String, jobId: String, appId: String) {
+            self.branchName = branchName
+            self.jobId = jobId
             self.appId = appId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainName = "domainName"
+            case branchName = "branchName"
+            case jobId = "jobId"
             case appId = "appId"
         }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case provisioning = "PROVISIONING"
-        case running = "RUNNING"
-        case failed = "FAILED"
-        case succeed = "SUCCEED"
-        case cancelling = "CANCELLING"
-        case cancelled = "CANCELLED"
-        public var description: String { return self.rawValue }
-    }
+    public struct UpdateAppRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "basicAuthCredentials", required: false, type: .string), 
+            AWSShapeMember(label: "enableBranchAutoBuild", required: false, type: .boolean), 
+            AWSShapeMember(label: "environmentVariables", required: false, type: .map), 
+            AWSShapeMember(label: "enableBasicAuth", required: false, type: .boolean), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "buildSpec", required: false, type: .string), 
+            AWSShapeMember(label: "customRules", required: false, type: .list), 
+            AWSShapeMember(label: "platform", required: false, type: .enum), 
+            AWSShapeMember(label: "iamServiceRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string)
+        ]
+        ///  Basic Authorization credentials for an Amplify App. 
+        public let basicAuthCredentials: String?
+        ///  Enables branch auto-building for an Amplify App. 
+        public let enableBranchAutoBuild: Bool?
+        ///  Environment Variables for an Amplify App. 
+        public let environmentVariables: [String: String]?
+        ///  Enables Basic Authorization for an Amplify App. 
+        public let enableBasicAuth: Bool?
+        ///  Name for an Amplify App. 
+        public let name: String?
+        ///  Description for an Amplify App. 
+        public let description: String?
+        ///  BuildSpec for an Amplify App. 
+        public let buildSpec: String?
+        ///  Custom redirect / rewrite rules for an Amplify App. 
+        public let customRules: [CustomRule]?
+        ///  Platform for an Amplify App. 
+        public let platform: Platform?
+        ///  IAM service role for an Amplify App. 
+        public let iamServiceRoleArn: String?
+        ///  Unique Id for an Amplify App. 
+        public let appId: String
 
-    public enum Platform: String, CustomStringConvertible, Codable {
-        case ios = "IOS"
-        case android = "ANDROID"
-        case web = "WEB"
-        case reactNative = "REACT_NATIVE"
-        public var description: String { return self.rawValue }
+        public init(basicAuthCredentials: String? = nil, enableBranchAutoBuild: Bool? = nil, environmentVariables: [String: String]? = nil, enableBasicAuth: Bool? = nil, name: String? = nil, description: String? = nil, buildSpec: String? = nil, customRules: [CustomRule]? = nil, platform: Platform? = nil, iamServiceRoleArn: String? = nil, appId: String) {
+            self.basicAuthCredentials = basicAuthCredentials
+            self.enableBranchAutoBuild = enableBranchAutoBuild
+            self.environmentVariables = environmentVariables
+            self.enableBasicAuth = enableBasicAuth
+            self.name = name
+            self.description = description
+            self.buildSpec = buildSpec
+            self.customRules = customRules
+            self.platform = platform
+            self.iamServiceRoleArn = iamServiceRoleArn
+            self.appId = appId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case basicAuthCredentials = "basicAuthCredentials"
+            case enableBranchAutoBuild = "enableBranchAutoBuild"
+            case environmentVariables = "environmentVariables"
+            case enableBasicAuth = "enableBasicAuth"
+            case name = "name"
+            case description = "description"
+            case buildSpec = "buildSpec"
+            case customRules = "customRules"
+            case platform = "platform"
+            case iamServiceRoleArn = "iamServiceRoleArn"
+            case appId = "appId"
+        }
     }
 
 }

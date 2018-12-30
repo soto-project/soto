@@ -26,14 +26,19 @@ public struct Macie {
         )
     }
 
+    ///  Updates the classification types for the specified S3 resources. If memberAccountId isn't specified, the action updates the classification types of the S3 resources associated with Amazon Macie for the current master account. If memberAccountId is specified, the action updates the classification types of the S3 resources associated with Amazon Macie for the specified member account. 
+    public func updateS3Resources(_ input: UpdateS3ResourcesRequest) throws -> Future<UpdateS3ResourcesResult> {
+        return try client.send(operation: "UpdateS3Resources", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Associates specified S3 resources with Amazon Macie for monitoring and data classification. If memberAccountId isn't specified, the action associates specified S3 resources with Macie for the current master account. If memberAccountId is specified, the action associates specified S3 resources with Macie for the specified member account. 
-    public func associateS3Resources(_ input: AssociateS3ResourcesRequest) throws -> EventLoopFuture<AssociateS3ResourcesResult> {
+    public func associateS3Resources(_ input: AssociateS3ResourcesRequest) throws -> Future<AssociateS3ResourcesResult> {
         return try client.send(operation: "AssociateS3Resources", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists all Amazon Macie member accounts for the current Amazon Macie master account.
-    public func listMemberAccounts(_ input: ListMemberAccountsRequest) throws -> EventLoopFuture<ListMemberAccountsResult> {
-        return try client.send(operation: "ListMemberAccounts", path: "/", httpMethod: "POST", input: input)
+    ///  Removes the specified member account from Amazon Macie.
+    public func disassociateMemberAccount(_ input: DisassociateMemberAccountRequest) throws {
+        _ = try client.send(operation: "DisassociateMemberAccount", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Associates a specified AWS account with Amazon Macie as a member account.
@@ -41,24 +46,19 @@ public struct Macie {
         _ = try client.send(operation: "AssociateMemberAccount", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the classification types for the specified S3 resources. If memberAccountId isn't specified, the action updates the classification types of the S3 resources associated with Amazon Macie for the current master account. If memberAccountId is specified, the action updates the classification types of the S3 resources associated with Amazon Macie for the specified member account. 
-    public func updateS3Resources(_ input: UpdateS3ResourcesRequest) throws -> EventLoopFuture<UpdateS3ResourcesResult> {
-        return try client.send(operation: "UpdateS3Resources", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Lists all the S3 resources associated with Amazon Macie. If memberAccountId isn't specified, the action lists the S3 resources associated with Amazon Macie for the current master account. If memberAccountId is specified, the action lists the S3 resources associated with Amazon Macie for the specified member account. 
-    public func listS3Resources(_ input: ListS3ResourcesRequest) throws -> EventLoopFuture<ListS3ResourcesResult> {
+    public func listS3Resources(_ input: ListS3ResourcesRequest) throws -> Future<ListS3ResourcesResult> {
         return try client.send(operation: "ListS3Resources", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes specified S3 resources from being monitored by Amazon Macie. If memberAccountId isn't specified, the action removes specified S3 resources from Macie for the current master account. If memberAccountId is specified, the action removes specified S3 resources from Macie for the specified member account.
-    public func disassociateS3Resources(_ input: DisassociateS3ResourcesRequest) throws -> EventLoopFuture<DisassociateS3ResourcesResult> {
+    public func disassociateS3Resources(_ input: DisassociateS3ResourcesRequest) throws -> Future<DisassociateS3ResourcesResult> {
         return try client.send(operation: "DisassociateS3Resources", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Removes the specified member account from Amazon Macie.
-    public func disassociateMemberAccount(_ input: DisassociateMemberAccountRequest) throws {
-        _ = try client.send(operation: "DisassociateMemberAccount", path: "/", httpMethod: "POST", input: input)
+    ///  Lists all Amazon Macie member accounts for the current Amazon Macie master account.
+    public func listMemberAccounts(_ input: ListMemberAccountsRequest) throws -> Future<ListMemberAccountsResult> {
+        return try client.send(operation: "ListMemberAccounts", path: "/", httpMethod: "POST", input: input)
     }
 
 

@@ -5,765 +5,628 @@ import AWSSDKSwiftCore
 
 extension CloudDirectory {
 
-    public struct BatchListObjectParentPathsResponse: AWSShape {
+    public struct ListPublishedSchemaArnsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PathToObjectIdentifiersList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SchemaArns", required: false, type: .list)
         ]
-        /// Returns the path to the ObjectIdentifiers that are associated with the directory.
-        public let pathToObjectIdentifiersList: [PathToObjectIdentifiers]?
         /// The pagination token.
         public let nextToken: String?
+        /// The ARNs of published schemas.
+        public let schemaArns: [String]?
 
-        public init(pathToObjectIdentifiersList: [PathToObjectIdentifiers]? = nil, nextToken: String? = nil) {
-            self.pathToObjectIdentifiersList = pathToObjectIdentifiersList
+        public init(nextToken: String? = nil, schemaArns: [String]? = nil) {
             self.nextToken = nextToken
+            self.schemaArns = schemaArns
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pathToObjectIdentifiersList = "PathToObjectIdentifiersList"
             case nextToken = "NextToken"
+            case schemaArns = "SchemaArns"
         }
     }
 
-    public struct FacetAttributeDefinition: AWSShape {
+    public struct LinkAttributeUpdate: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", required: true, type: .enum), 
-            AWSShapeMember(label: "IsImmutable", required: false, type: .boolean), 
-            AWSShapeMember(label: "Rules", required: false, type: .map), 
-            AWSShapeMember(label: "DefaultValue", required: false, type: .structure)
+            AWSShapeMember(label: "AttributeAction", required: false, type: .structure), 
+            AWSShapeMember(label: "AttributeKey", required: false, type: .structure)
         ]
-        /// The type of the attribute.
-        public let `type`: FacetAttributeType
-        /// Whether the attribute is mutable or not.
-        public let isImmutable: Bool?
-        /// Validation rules attached to the attribute definition.
-        public let rules: [String: Rule]?
-        /// The default value of the attribute (if configured).
-        public let defaultValue: TypedAttributeValue?
+        /// The action to perform as part of the attribute update.
+        public let attributeAction: LinkAttributeAction?
+        /// The key of the attribute being updated.
+        public let attributeKey: AttributeKey?
 
-        public init(type: FacetAttributeType, isImmutable: Bool? = nil, rules: [String: Rule]? = nil, defaultValue: TypedAttributeValue? = nil) {
-            self.`type` = `type`
-            self.isImmutable = isImmutable
-            self.rules = rules
-            self.defaultValue = defaultValue
+        public init(attributeAction: LinkAttributeAction? = nil, attributeKey: AttributeKey? = nil) {
+            self.attributeAction = attributeAction
+            self.attributeKey = attributeKey
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
-            case isImmutable = "IsImmutable"
-            case rules = "Rules"
-            case defaultValue = "DefaultValue"
+            case attributeAction = "AttributeAction"
+            case attributeKey = "AttributeKey"
         }
     }
 
-    public struct BatchDeleteObjectResponse: AWSShape {
+    public struct GetTypedLinkFacetInformationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdentityAttributeOrder", required: false, type: .list)
+        ]
+        /// The order of identity attributes for the facet, from most significant to least significant. The ability to filter typed links considers the order that the attributes are defined on the typed link facet. When providing ranges to typed link selection, any inexact ranges must be specified at the end. Any attributes that do not have a range specified are presumed to match the entire range. Filters are interpreted in the order of the attributes on the typed link facet, not the order in which they are supplied to any API calls. For more information about identity attributes, see Typed Links.
+        public let identityAttributeOrder: [String]?
 
+        public init(identityAttributeOrder: [String]? = nil) {
+            self.identityAttributeOrder = identityAttributeOrder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityAttributeOrder = "IdentityAttributeOrder"
+        }
     }
 
-    public enum FacetStyle: String, CustomStringConvertible, Codable {
-        case `static` = "STATIC"
-        case dynamic = "DYNAMIC"
+    public struct TypedAttributeValueRange: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartValue", required: false, type: .structure), 
+            AWSShapeMember(label: "EndValue", required: false, type: .structure), 
+            AWSShapeMember(label: "StartMode", required: true, type: .enum), 
+            AWSShapeMember(label: "EndMode", required: true, type: .enum)
+        ]
+        /// The value to start the range at.
+        public let startValue: TypedAttributeValue?
+        /// The attribute value to terminate the range at.
+        public let endValue: TypedAttributeValue?
+        /// The inclusive or exclusive range start.
+        public let startMode: RangeMode
+        /// The inclusive or exclusive range end.
+        public let endMode: RangeMode
+
+        public init(startValue: TypedAttributeValue? = nil, endValue: TypedAttributeValue? = nil, startMode: RangeMode, endMode: RangeMode) {
+            self.startValue = startValue
+            self.endValue = endValue
+            self.startMode = startMode
+            self.endMode = endMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case startValue = "StartValue"
+            case endValue = "EndValue"
+            case startMode = "StartMode"
+            case endMode = "EndMode"
+        }
+    }
+
+    public enum ConsistencyLevel: String, CustomStringConvertible, Codable {
+        case serializable = "SERIALIZABLE"
+        case eventual = "EVENTUAL"
         public var description: String { return self.rawValue }
     }
 
-    public struct ListDirectoriesRequest: AWSShape {
+    public struct BatchDetachObjectResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "detachedObjectIdentifier", required: false, type: .string)
+        ]
+        /// The ObjectIdentifier of the detached object.
+        public let detachedObjectIdentifier: String?
+
+        public init(detachedObjectIdentifier: String? = nil) {
+            self.detachedObjectIdentifier = detachedObjectIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detachedObjectIdentifier = "detachedObjectIdentifier"
+        }
+    }
+
+    public struct ListPublishedSchemaArnsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaArn", required: false, type: .string), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "state", required: false, type: .enum), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+        /// The response for ListPublishedSchemaArns when this parameter is used will list all minor version ARNs for a major version.
+        public let schemaArn: String?
         /// The maximum number of results to retrieve.
         public let maxResults: Int32?
-        /// The state of the directories in the list. Can be either Enabled, Disabled, or Deleted.
-        public let state: DirectoryState?
         /// The pagination token.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, state: DirectoryState? = nil, nextToken: String? = nil) {
+        public init(schemaArn: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.schemaArn = schemaArn
             self.maxResults = maxResults
-            self.state = state
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
+            case schemaArn = "SchemaArn"
             case maxResults = "MaxResults"
-            case state = "state"
             case nextToken = "NextToken"
         }
     }
 
-    public struct BatchListIndexResponse: AWSShape {
+    public struct ListTypedLinkFacetNamesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexAttachments", required: false, type: .list), 
+            AWSShapeMember(label: "FacetNames", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The objects and indexed values attached to the index.
-        public let indexAttachments: [IndexAttachment]?
+        /// The names of typed link facets that exist within the schema.
+        public let facetNames: [String]?
         /// The pagination token.
         public let nextToken: String?
 
-        public init(indexAttachments: [IndexAttachment]? = nil, nextToken: String? = nil) {
-            self.indexAttachments = indexAttachments
+        public init(facetNames: [String]? = nil, nextToken: String? = nil) {
+            self.facetNames = facetNames
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case indexAttachments = "IndexAttachments"
+            case facetNames = "FacetNames"
             case nextToken = "NextToken"
         }
     }
 
-    public struct BatchRemoveFacetFromObjectResponse: AWSShape {
-
-    }
-
-    public struct UpdateObjectAttributesResponse: AWSShape {
+    public struct ObjectAttributeRange: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string)
+            AWSShapeMember(label: "Range", required: false, type: .structure), 
+            AWSShapeMember(label: "AttributeKey", required: false, type: .structure)
         ]
-        /// The ObjectIdentifier of the updated object.
-        public let objectIdentifier: String?
+        /// The range of attribute values being selected.
+        public let range: TypedAttributeValueRange?
+        /// The key of the attribute that the attribute range covers.
+        public let attributeKey: AttributeKey?
 
-        public init(objectIdentifier: String? = nil) {
-            self.objectIdentifier = objectIdentifier
+        public init(range: TypedAttributeValueRange? = nil, attributeKey: AttributeKey? = nil) {
+            self.range = range
+            self.attributeKey = attributeKey
         }
 
         private enum CodingKeys: String, CodingKey {
-            case objectIdentifier = "ObjectIdentifier"
+            case range = "Range"
+            case attributeKey = "AttributeKey"
         }
     }
 
-    public struct BatchWriteOperation: AWSShape {
+    public struct FacetAttribute: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttachPolicy", required: false, type: .structure), 
-            AWSShapeMember(label: "CreateObject", required: false, type: .structure), 
-            AWSShapeMember(label: "AddFacetToObject", required: false, type: .structure), 
-            AWSShapeMember(label: "CreateIndex", required: false, type: .structure), 
-            AWSShapeMember(label: "DeleteObject", required: false, type: .structure), 
-            AWSShapeMember(label: "RemoveFacetFromObject", required: false, type: .structure), 
-            AWSShapeMember(label: "AttachObject", required: false, type: .structure), 
-            AWSShapeMember(label: "DetachTypedLink", required: false, type: .structure), 
-            AWSShapeMember(label: "DetachObject", required: false, type: .structure), 
-            AWSShapeMember(label: "UpdateLinkAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "AttachToIndex", required: false, type: .structure), 
-            AWSShapeMember(label: "DetachPolicy", required: false, type: .structure), 
-            AWSShapeMember(label: "DetachFromIndex", required: false, type: .structure), 
-            AWSShapeMember(label: "AttachTypedLink", required: false, type: .structure), 
-            AWSShapeMember(label: "UpdateObjectAttributes", required: false, type: .structure)
+            AWSShapeMember(label: "RequiredBehavior", required: false, type: .enum), 
+            AWSShapeMember(label: "AttributeReference", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "AttributeDefinition", required: false, type: .structure)
         ]
-        /// Attaches a policy object to a regular object. An object can have a limited number of attached policies.
-        public let attachPolicy: BatchAttachPolicy?
-        /// Creates an object.
-        public let createObject: BatchCreateObject?
-        /// A batch operation that adds a facet to an object.
-        public let addFacetToObject: BatchAddFacetToObject?
-        /// Creates an index object. See Indexing and search for more information.
-        public let createIndex: BatchCreateIndex?
-        /// Deletes an object in a Directory.
-        public let deleteObject: BatchDeleteObject?
-        /// A batch operation that removes a facet from an object.
-        public let removeFacetFromObject: BatchRemoveFacetFromObject?
-        /// Attaches an object to a Directory.
-        public let attachObject: BatchAttachObject?
-        /// Detaches a typed link from a specified source and target object. For more information, see Typed Links.
-        public let detachTypedLink: BatchDetachTypedLink?
-        /// Detaches an object from a Directory.
-        public let detachObject: BatchDetachObject?
-        /// Updates a given object's attributes.
-        public let updateLinkAttributes: BatchUpdateLinkAttributes?
-        /// Attaches the specified object to the specified index.
-        public let attachToIndex: BatchAttachToIndex?
-        /// Detaches a policy from a Directory.
-        public let detachPolicy: BatchDetachPolicy?
-        /// Detaches the specified object from the specified index.
-        public let detachFromIndex: BatchDetachFromIndex?
-        /// Attaches a typed link to a specified source and target object. For more information, see Typed Links.
-        public let attachTypedLink: BatchAttachTypedLink?
-        /// Updates a given object's attributes.
-        public let updateObjectAttributes: BatchUpdateObjectAttributes?
+        /// The required behavior of the FacetAttribute.
+        public let requiredBehavior: RequiredAttributeBehavior?
+        /// An attribute reference that is associated with the attribute. See Attribute References for more information.
+        public let attributeReference: FacetAttributeReference?
+        /// The name of the facet attribute.
+        public let name: String
+        /// A facet attribute consists of either a definition or a reference. This structure contains the attribute definition. See Attribute References for more information.
+        public let attributeDefinition: FacetAttributeDefinition?
 
-        public init(attachPolicy: BatchAttachPolicy? = nil, createObject: BatchCreateObject? = nil, addFacetToObject: BatchAddFacetToObject? = nil, createIndex: BatchCreateIndex? = nil, deleteObject: BatchDeleteObject? = nil, removeFacetFromObject: BatchRemoveFacetFromObject? = nil, attachObject: BatchAttachObject? = nil, detachTypedLink: BatchDetachTypedLink? = nil, detachObject: BatchDetachObject? = nil, updateLinkAttributes: BatchUpdateLinkAttributes? = nil, attachToIndex: BatchAttachToIndex? = nil, detachPolicy: BatchDetachPolicy? = nil, detachFromIndex: BatchDetachFromIndex? = nil, attachTypedLink: BatchAttachTypedLink? = nil, updateObjectAttributes: BatchUpdateObjectAttributes? = nil) {
-            self.attachPolicy = attachPolicy
-            self.createObject = createObject
-            self.addFacetToObject = addFacetToObject
-            self.createIndex = createIndex
-            self.deleteObject = deleteObject
-            self.removeFacetFromObject = removeFacetFromObject
-            self.attachObject = attachObject
-            self.detachTypedLink = detachTypedLink
-            self.detachObject = detachObject
-            self.updateLinkAttributes = updateLinkAttributes
-            self.attachToIndex = attachToIndex
-            self.detachPolicy = detachPolicy
-            self.detachFromIndex = detachFromIndex
-            self.attachTypedLink = attachTypedLink
-            self.updateObjectAttributes = updateObjectAttributes
+        public init(requiredBehavior: RequiredAttributeBehavior? = nil, attributeReference: FacetAttributeReference? = nil, name: String, attributeDefinition: FacetAttributeDefinition? = nil) {
+            self.requiredBehavior = requiredBehavior
+            self.attributeReference = attributeReference
+            self.name = name
+            self.attributeDefinition = attributeDefinition
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attachPolicy = "AttachPolicy"
-            case createObject = "CreateObject"
-            case addFacetToObject = "AddFacetToObject"
-            case createIndex = "CreateIndex"
-            case deleteObject = "DeleteObject"
-            case removeFacetFromObject = "RemoveFacetFromObject"
-            case attachObject = "AttachObject"
-            case detachTypedLink = "DetachTypedLink"
-            case detachObject = "DetachObject"
-            case updateLinkAttributes = "UpdateLinkAttributes"
-            case attachToIndex = "AttachToIndex"
-            case detachPolicy = "DetachPolicy"
-            case detachFromIndex = "DetachFromIndex"
-            case attachTypedLink = "AttachTypedLink"
-            case updateObjectAttributes = "UpdateObjectAttributes"
+            case requiredBehavior = "RequiredBehavior"
+            case attributeReference = "AttributeReference"
+            case name = "Name"
+            case attributeDefinition = "AttributeDefinition"
         }
     }
 
-    public struct LinkAttributeAction: AWSShape {
+    public struct DeleteSchemaRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeUpdateValue", required: false, type: .structure), 
-            AWSShapeMember(label: "AttributeActionType", required: false, type: .enum)
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
-        /// The value that you want to update to.
-        public let attributeUpdateValue: TypedAttributeValue?
-        /// A type that can be either UPDATE_OR_CREATE or DELETE.
-        public let attributeActionType: UpdateActionType?
+        /// The Amazon Resource Name (ARN) of the development schema. For more information, see arns.
+        public let schemaArn: String
 
-        public init(attributeUpdateValue: TypedAttributeValue? = nil, attributeActionType: UpdateActionType? = nil) {
-            self.attributeUpdateValue = attributeUpdateValue
-            self.attributeActionType = attributeActionType
+        public init(schemaArn: String) {
+            self.schemaArn = schemaArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributeUpdateValue = "AttributeUpdateValue"
-            case attributeActionType = "AttributeActionType"
+            case schemaArn = "x-amz-data-partition"
         }
     }
 
-    public struct BatchCreateObject: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BatchReferenceName", required: false, type: .string), 
-            AWSShapeMember(label: "SchemaFacet", required: true, type: .list), 
-            AWSShapeMember(label: "ParentReference", required: false, type: .structure), 
-            AWSShapeMember(label: "LinkName", required: false, type: .string), 
-            AWSShapeMember(label: "ObjectAttributeList", required: true, type: .list)
-        ]
-        /// The batch reference name. See Transaction Support for more information.
-        public let batchReferenceName: String?
-        /// A list of FacetArns that will be associated with the object. For more information, see arns.
-        public let schemaFacet: [SchemaFacet]
-        /// If specified, the parent reference to which this object will be attached.
-        public let parentReference: ObjectReference?
-        /// The name of the link.
-        public let linkName: String?
-        /// An attribute map, which contains an attribute ARN as the key and attribute value as the map value.
-        public let objectAttributeList: [AttributeKeyAndValue]
+    public struct BatchAttachPolicyResponse: AWSShape {
 
-        public init(batchReferenceName: String? = nil, schemaFacet: [SchemaFacet], parentReference: ObjectReference? = nil, linkName: String? = nil, objectAttributeList: [AttributeKeyAndValue]) {
-            self.batchReferenceName = batchReferenceName
-            self.schemaFacet = schemaFacet
-            self.parentReference = parentReference
-            self.linkName = linkName
-            self.objectAttributeList = objectAttributeList
+    }
+
+    public struct DetachObjectResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DetachedObjectIdentifier", required: false, type: .string)
+        ]
+        /// The ObjectIdentifier that was detached from the object.
+        public let detachedObjectIdentifier: String?
+
+        public init(detachedObjectIdentifier: String? = nil) {
+            self.detachedObjectIdentifier = detachedObjectIdentifier
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batchReferenceName = "BatchReferenceName"
-            case schemaFacet = "SchemaFacet"
-            case parentReference = "ParentReference"
-            case linkName = "LinkName"
-            case objectAttributeList = "ObjectAttributeList"
+            case detachedObjectIdentifier = "DetachedObjectIdentifier"
+        }
+    }
+
+    public struct UpdateTypedLinkFacetResponse: AWSShape {
+
+    }
+
+    public struct ListTypedLinkFacetNamesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
+        public let schemaArn: String
+        /// The maximum number of results to retrieve.
+        public let maxResults: Int32?
+        /// The pagination token.
+        public let nextToken: String?
+
+        public init(schemaArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.schemaArn = schemaArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schemaArn = "x-amz-data-partition"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct BatchDetachFromIndexResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DetachedObjectIdentifier", required: false, type: .string)
+        ]
+        /// The ObjectIdentifier of the object that was detached from the index.
+        public let detachedObjectIdentifier: String?
+
+        public init(detachedObjectIdentifier: String? = nil) {
+            self.detachedObjectIdentifier = detachedObjectIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detachedObjectIdentifier = "DetachedObjectIdentifier"
+        }
+    }
+
+    public struct ListFacetNamesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) to retrieve facet names from.
+        public let schemaArn: String
+        /// The maximum number of results to retrieve.
+        public let maxResults: Int32?
+        /// The pagination token.
+        public let nextToken: String?
+
+        public init(schemaArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.schemaArn = schemaArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schemaArn = "x-amz-data-partition"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DeleteTypedLinkFacetResponse: AWSShape {
+
+    }
+
+    public struct BatchLookupPolicyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyToPathList", required: false, type: .list)
+        ]
+        /// The pagination token.
+        public let nextToken: String?
+        /// Provides list of path to policies. Policies contain PolicyId, ObjectIdentifier, and PolicyType. For more information, see Policies.
+        public let policyToPathList: [PolicyToPath]?
+
+        public init(nextToken: String? = nil, policyToPathList: [PolicyToPath]? = nil) {
+            self.nextToken = nextToken
+            self.policyToPathList = policyToPathList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case policyToPathList = "PolicyToPathList"
+        }
+    }
+
+    public struct BatchReadRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "Operations", required: true, type: .list), 
+            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum)
+        ]
+        /// The Amazon Resource Name (ARN) that is associated with the Directory. For more information, see arns.
+        public let directoryArn: String
+        /// A list of operations that are part of the batch.
+        public let operations: [BatchReadOperation]
+        /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
+        public let consistencyLevel: ConsistencyLevel?
+
+        public init(directoryArn: String, operations: [BatchReadOperation], consistencyLevel: ConsistencyLevel? = nil) {
+            self.directoryArn = directoryArn
+            self.operations = operations
+            self.consistencyLevel = consistencyLevel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryArn = "x-amz-data-partition"
+            case operations = "Operations"
+            case consistencyLevel = "x-amz-consistency-level"
+        }
+    }
+
+    public struct UpgradePublishedSchemaResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UpgradedSchemaArn", required: false, type: .string)
+        ]
+        /// The ARN of the upgraded schema that is returned as part of the response.
+        public let upgradedSchemaArn: String?
+
+        public init(upgradedSchemaArn: String? = nil) {
+            self.upgradedSchemaArn = upgradedSchemaArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case upgradedSchemaArn = "UpgradedSchemaArn"
+        }
+    }
+
+    public struct BatchListIncomingTypedLinks: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FilterAttributeRanges", required: false, type: .list), 
+            AWSShapeMember(label: "FilterTypedLink", required: false, type: .structure), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Provides range filters for multiple attributes. When providing ranges to typed link selection, any inexact ranges must be specified at the end. Any attributes that do not have a range specified are presumed to match the entire range.
+        public let filterAttributeRanges: [TypedLinkAttributeRange]?
+        /// Filters are interpreted in the order of the attributes on the typed link facet, not the order in which they are supplied to any API calls.
+        public let filterTypedLink: TypedLinkSchemaAndFacetName?
+        /// The maximum number of results to retrieve.
+        public let maxResults: Int32?
+        /// The reference that identifies the object whose attributes will be listed.
+        public let objectReference: ObjectReference
+        /// The pagination token.
+        public let nextToken: String?
+
+        public init(filterAttributeRanges: [TypedLinkAttributeRange]? = nil, filterTypedLink: TypedLinkSchemaAndFacetName? = nil, maxResults: Int32? = nil, objectReference: ObjectReference, nextToken: String? = nil) {
+            self.filterAttributeRanges = filterAttributeRanges
+            self.filterTypedLink = filterTypedLink
+            self.maxResults = maxResults
+            self.objectReference = objectReference
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filterAttributeRanges = "FilterAttributeRanges"
+            case filterTypedLink = "FilterTypedLink"
+            case maxResults = "MaxResults"
+            case objectReference = "ObjectReference"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListIndexRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "RangesOnIndexedValues", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
+            AWSShapeMember(label: "IndexReference", required: true, type: .structure)
+        ]
+        /// The pagination token.
+        public let nextToken: String?
+        /// The ARN of the directory that the index exists in.
+        public let directoryArn: String
+        /// Specifies the ranges of indexed values that you want to query.
+        public let rangesOnIndexedValues: [ObjectAttributeRange]?
+        /// The maximum number of objects in a single page to retrieve from the index during a request. For more information, see Amazon Cloud Directory Limits.
+        public let maxResults: Int32?
+        /// The consistency level to execute the request at.
+        public let consistencyLevel: ConsistencyLevel?
+        /// The reference to the index to list.
+        public let indexReference: ObjectReference
+
+        public init(nextToken: String? = nil, directoryArn: String, rangesOnIndexedValues: [ObjectAttributeRange]? = nil, maxResults: Int32? = nil, consistencyLevel: ConsistencyLevel? = nil, indexReference: ObjectReference) {
+            self.nextToken = nextToken
+            self.directoryArn = directoryArn
+            self.rangesOnIndexedValues = rangesOnIndexedValues
+            self.maxResults = maxResults
+            self.consistencyLevel = consistencyLevel
+            self.indexReference = indexReference
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case directoryArn = "x-amz-data-partition"
+            case rangesOnIndexedValues = "RangesOnIndexedValues"
+            case maxResults = "MaxResults"
+            case consistencyLevel = "x-amz-consistency-level"
+            case indexReference = "IndexReference"
+        }
+    }
+
+    public struct BatchGetLinkAttributesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attributes", required: false, type: .list)
+        ]
+        /// The attributes that are associated with the typed link.
+        public let attributes: [AttributeKeyAndValue]?
+
+        public init(attributes: [AttributeKeyAndValue]? = nil) {
+            self.attributes = attributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+        }
+    }
+
+    public struct ListPolicyAttachmentsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "PolicyReference", required: true, type: .structure), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) that is associated with the Directory where objects reside. For more information, see arns.
+        public let directoryArn: String
+        /// The reference that identifies the policy object.
+        public let policyReference: ObjectReference
+        /// The maximum number of items to be retrieved in a single call. This is an approximate number.
+        public let maxResults: Int32?
+        /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
+        public let consistencyLevel: ConsistencyLevel?
+        /// The pagination token.
+        public let nextToken: String?
+
+        public init(directoryArn: String, policyReference: ObjectReference, maxResults: Int32? = nil, consistencyLevel: ConsistencyLevel? = nil, nextToken: String? = nil) {
+            self.directoryArn = directoryArn
+            self.policyReference = policyReference
+            self.maxResults = maxResults
+            self.consistencyLevel = consistencyLevel
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryArn = "x-amz-data-partition"
+            case policyReference = "PolicyReference"
+            case maxResults = "MaxResults"
+            case consistencyLevel = "x-amz-consistency-level"
+            case nextToken = "NextToken"
         }
     }
 
     public struct ListOutgoingTypedLinksRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConsistencyLevel", required: false, type: .enum), 
-            AWSShapeMember(label: "FilterAttributeRanges", required: false, type: .list), 
             AWSShapeMember(label: "FilterTypedLink", required: false, type: .structure), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "FilterAttributeRanges", required: false, type: .list), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The consistency level to execute the request at.
         public let consistencyLevel: ConsistencyLevel?
-        /// Provides range filters for multiple attributes. When providing ranges to typed link selection, any inexact ranges must be specified at the end. Any attributes that do not have a range specified are presumed to match the entire range.
-        public let filterAttributeRanges: [TypedLinkAttributeRange]?
         /// Filters are interpreted in the order of the attributes defined on the typed link facet, not the order they are supplied to any API calls.
         public let filterTypedLink: TypedLinkSchemaAndFacetName?
-        /// The pagination token.
-        public let nextToken: String?
-        /// A reference that identifies the object whose attributes will be listed.
-        public let objectReference: ObjectReference
+        /// Provides range filters for multiple attributes. When providing ranges to typed link selection, any inexact ranges must be specified at the end. Any attributes that do not have a range specified are presumed to match the entire range.
+        public let filterAttributeRanges: [TypedLinkAttributeRange]?
         /// The maximum number of results to retrieve.
         public let maxResults: Int32?
         /// The Amazon Resource Name (ARN) of the directory where you want to list the typed links.
         public let directoryArn: String
+        /// A reference that identifies the object whose attributes will be listed.
+        public let objectReference: ObjectReference
+        /// The pagination token.
+        public let nextToken: String?
 
-        public init(consistencyLevel: ConsistencyLevel? = nil, filterAttributeRanges: [TypedLinkAttributeRange]? = nil, filterTypedLink: TypedLinkSchemaAndFacetName? = nil, nextToken: String? = nil, objectReference: ObjectReference, maxResults: Int32? = nil, directoryArn: String) {
+        public init(consistencyLevel: ConsistencyLevel? = nil, filterTypedLink: TypedLinkSchemaAndFacetName? = nil, filterAttributeRanges: [TypedLinkAttributeRange]? = nil, maxResults: Int32? = nil, directoryArn: String, objectReference: ObjectReference, nextToken: String? = nil) {
             self.consistencyLevel = consistencyLevel
-            self.filterAttributeRanges = filterAttributeRanges
             self.filterTypedLink = filterTypedLink
-            self.nextToken = nextToken
-            self.objectReference = objectReference
+            self.filterAttributeRanges = filterAttributeRanges
             self.maxResults = maxResults
             self.directoryArn = directoryArn
+            self.objectReference = objectReference
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case consistencyLevel = "ConsistencyLevel"
-            case filterAttributeRanges = "FilterAttributeRanges"
             case filterTypedLink = "FilterTypedLink"
-            case nextToken = "NextToken"
-            case objectReference = "ObjectReference"
+            case filterAttributeRanges = "FilterAttributeRanges"
             case maxResults = "MaxResults"
             case directoryArn = "x-amz-data-partition"
-        }
-    }
-
-    public struct CreateFacetResponse: AWSShape {
-
-    }
-
-    public struct ListAppliedSchemaArnsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArns", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The ARNs of schemas that are applied to the directory.
-        public let schemaArns: [String]?
-        /// The pagination token.
-        public let nextToken: String?
-
-        public init(schemaArns: [String]? = nil, nextToken: String? = nil) {
-            self.schemaArns = schemaArns
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case schemaArns = "SchemaArns"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct BatchDetachTypedLink: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TypedLinkSpecifier", required: true, type: .structure)
-        ]
-        /// Used to accept a typed link specifier as input.
-        public let typedLinkSpecifier: TypedLinkSpecifier
-
-        public init(typedLinkSpecifier: TypedLinkSpecifier) {
-            self.typedLinkSpecifier = typedLinkSpecifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case typedLinkSpecifier = "TypedLinkSpecifier"
-        }
-    }
-
-    public struct DisableDirectoryResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", required: true, type: .string)
-        ]
-        /// The ARN of the directory that has been disabled.
-        public let directoryArn: String
-
-        public init(directoryArn: String) {
-            self.directoryArn = directoryArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directoryArn = "DirectoryArn"
-        }
-    }
-
-    public struct AttachTypedLinkRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: true, type: .list), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "TypedLinkFacet", required: true, type: .structure), 
-            AWSShapeMember(label: "TargetObjectReference", required: true, type: .structure), 
-            AWSShapeMember(label: "SourceObjectReference", required: true, type: .structure)
-        ]
-        /// A set of attributes that are associated with the typed link.
-        public let attributes: [AttributeNameAndValue]
-        /// The Amazon Resource Name (ARN) of the directory where you want to attach the typed link.
-        public let directoryArn: String
-        /// Identifies the typed link facet that is associated with the typed link.
-        public let typedLinkFacet: TypedLinkSchemaAndFacetName
-        /// Identifies the target object that the typed link will attach to.
-        public let targetObjectReference: ObjectReference
-        /// Identifies the source object that the typed link will attach to.
-        public let sourceObjectReference: ObjectReference
-
-        public init(attributes: [AttributeNameAndValue], directoryArn: String, typedLinkFacet: TypedLinkSchemaAndFacetName, targetObjectReference: ObjectReference, sourceObjectReference: ObjectReference) {
-            self.attributes = attributes
-            self.directoryArn = directoryArn
-            self.typedLinkFacet = typedLinkFacet
-            self.targetObjectReference = targetObjectReference
-            self.sourceObjectReference = sourceObjectReference
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attributes = "Attributes"
-            case directoryArn = "x-amz-data-partition"
-            case typedLinkFacet = "TypedLinkFacet"
-            case targetObjectReference = "TargetObjectReference"
-            case sourceObjectReference = "SourceObjectReference"
-        }
-    }
-
-    public struct UpdateSchemaRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the development schema. For more information, see arns.
-        public let schemaArn: String
-        /// The name of the schema.
-        public let name: String
-
-        public init(schemaArn: String, name: String) {
-            self.schemaArn = schemaArn
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case schemaArn = "x-amz-data-partition"
-            case name = "Name"
-        }
-    }
-
-    public struct BatchRemoveFacetFromObject: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaFacet", required: true, type: .structure), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
-        ]
-        /// The facet to remove from the object.
-        public let schemaFacet: SchemaFacet
-        /// A reference to the object whose facet will be removed.
-        public let objectReference: ObjectReference
-
-        public init(schemaFacet: SchemaFacet, objectReference: ObjectReference) {
-            self.schemaFacet = schemaFacet
-            self.objectReference = objectReference
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case schemaFacet = "SchemaFacet"
             case objectReference = "ObjectReference"
-        }
-    }
-
-    public struct ListPolicyAttachmentsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ObjectIdentifiers", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// A list of ObjectIdentifiers to which the policy is attached.
-        public let objectIdentifiers: [String]?
-        /// The pagination token.
-        public let nextToken: String?
-
-        public init(objectIdentifiers: [String]? = nil, nextToken: String? = nil) {
-            self.objectIdentifiers = objectIdentifiers
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case objectIdentifiers = "ObjectIdentifiers"
             case nextToken = "NextToken"
         }
     }
 
-    public struct AddFacetToObjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaFacet", required: true, type: .structure), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
-            AWSShapeMember(label: "ObjectAttributeList", required: false, type: .list)
-        ]
-        /// Identifiers for the facet that you are adding to the object. See SchemaFacet for details.
-        public let schemaFacet: SchemaFacet
-        /// The Amazon Resource Name (ARN) that is associated with the Directory where the object resides. For more information, see arns.
-        public let directoryArn: String
-        /// A reference to the object you are adding the specified facet to.
-        public let objectReference: ObjectReference
-        /// Attributes on the facet that you are adding to the object.
-        public let objectAttributeList: [AttributeKeyAndValue]?
-
-        public init(schemaFacet: SchemaFacet, directoryArn: String, objectReference: ObjectReference, objectAttributeList: [AttributeKeyAndValue]? = nil) {
-            self.schemaFacet = schemaFacet
-            self.directoryArn = directoryArn
-            self.objectReference = objectReference
-            self.objectAttributeList = objectAttributeList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case schemaFacet = "SchemaFacet"
-            case directoryArn = "x-amz-data-partition"
-            case objectReference = "ObjectReference"
-            case objectAttributeList = "ObjectAttributeList"
-        }
-    }
-
-    public struct AddFacetToObjectResponse: AWSShape {
-
-    }
-
-    public struct DetachTypedLinkRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "TypedLinkSpecifier", required: true, type: .structure)
-        ]
-        /// The Amazon Resource Name (ARN) of the directory where you want to detach the typed link.
-        public let directoryArn: String
-        /// Used to accept a typed link specifier as input.
-        public let typedLinkSpecifier: TypedLinkSpecifier
-
-        public init(directoryArn: String, typedLinkSpecifier: TypedLinkSpecifier) {
-            self.directoryArn = directoryArn
-            self.typedLinkSpecifier = typedLinkSpecifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directoryArn = "x-amz-data-partition"
-            case typedLinkSpecifier = "TypedLinkSpecifier"
-        }
-    }
-
-    public struct ListObjectAttributesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Attributes map that is associated with the object. AttributeArn is the key, and attribute value is the value.
-        public let attributes: [AttributeKeyAndValue]?
-        /// The pagination token.
-        public let nextToken: String?
-
-        public init(attributes: [AttributeKeyAndValue]? = nil, nextToken: String? = nil) {
-            self.attributes = attributes
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attributes = "Attributes"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct UpdateLinkAttributesResponse: AWSShape {
-
-    }
-
-    public struct DeleteFacetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) that is associated with the Facet. For more information, see arns.
-        public let schemaArn: String
-        /// The name of the facet to delete.
-        public let name: String
-
-        public init(schemaArn: String, name: String) {
-            self.schemaArn = schemaArn
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case schemaArn = "x-amz-data-partition"
-            case name = "Name"
-        }
-    }
-
-    public struct BatchAttachTypedLinkResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TypedLinkSpecifier", required: false, type: .structure)
-        ]
-        /// Returns a typed link specifier as output.
-        public let typedLinkSpecifier: TypedLinkSpecifier?
-
-        public init(typedLinkSpecifier: TypedLinkSpecifier? = nil) {
-            self.typedLinkSpecifier = typedLinkSpecifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case typedLinkSpecifier = "TypedLinkSpecifier"
-        }
-    }
-
-    public struct UpgradePublishedSchemaRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MinorVersion", required: true, type: .string), 
-            AWSShapeMember(label: "DevelopmentSchemaArn", required: true, type: .string), 
-            AWSShapeMember(label: "PublishedSchemaArn", required: true, type: .string), 
-            AWSShapeMember(label: "DryRun", required: false, type: .boolean)
-        ]
-        /// Identifies the minor version of the published schema that will be created. This parameter is NOT optional.
-        public let minorVersion: String
-        /// The ARN of the development schema with the changes used for the upgrade.
-        public let developmentSchemaArn: String
-        /// The ARN of the published schema to be upgraded.
-        public let publishedSchemaArn: String
-        /// Used for testing whether the Development schema provided is backwards compatible, or not, with the publish schema provided by the user to be upgraded. If schema compatibility fails, an exception would be thrown else the call would succeed. This parameter is optional and defaults to false.
-        public let dryRun: Bool?
-
-        public init(minorVersion: String, developmentSchemaArn: String, publishedSchemaArn: String, dryRun: Bool? = nil) {
-            self.minorVersion = minorVersion
-            self.developmentSchemaArn = developmentSchemaArn
-            self.publishedSchemaArn = publishedSchemaArn
-            self.dryRun = dryRun
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case minorVersion = "MinorVersion"
-            case developmentSchemaArn = "DevelopmentSchemaArn"
-            case publishedSchemaArn = "PublishedSchemaArn"
-            case dryRun = "DryRun"
-        }
-    }
-
-    public struct ListObjectPoliciesRequest: AWSShape {
+    public struct BatchListObjectParentPaths: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The maximum number of items to be retrieved in a single call. This is an approximate number.
+        /// The maximum number of results to retrieve.
         public let maxResults: Int32?
+        /// The reference that identifies the object whose attributes will be listed.
+        public let objectReference: ObjectReference
         /// The pagination token.
         public let nextToken: String?
-        /// The Amazon Resource Name (ARN) that is associated with the Directory where objects reside. For more information, see arns.
-        public let directoryArn: String
-        /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
-        public let consistencyLevel: ConsistencyLevel?
-        /// Reference that identifies the object for which policies will be listed.
-        public let objectReference: ObjectReference
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, directoryArn: String, consistencyLevel: ConsistencyLevel? = nil, objectReference: ObjectReference) {
+        public init(maxResults: Int32? = nil, objectReference: ObjectReference, nextToken: String? = nil) {
             self.maxResults = maxResults
-            self.nextToken = nextToken
-            self.directoryArn = directoryArn
-            self.consistencyLevel = consistencyLevel
             self.objectReference = objectReference
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-            case directoryArn = "x-amz-data-partition"
-            case consistencyLevel = "x-amz-consistency-level"
             case objectReference = "ObjectReference"
-        }
-    }
-
-    public struct ListManagedSchemaArnsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArns", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The ARNs for all AWS managed schemas.
-        public let schemaArns: [String]?
-        /// The pagination token.
-        public let nextToken: String?
-
-        public init(schemaArns: [String]? = nil, nextToken: String? = nil) {
-            self.schemaArns = schemaArns
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case schemaArns = "SchemaArns"
             case nextToken = "NextToken"
         }
     }
 
-    public struct DetachFromIndexRequest: AWSShape {
+    public enum ObjectType: String, CustomStringConvertible, Codable {
+        case node = "NODE"
+        case leafNode = "LEAF_NODE"
+        case policy = "POLICY"
+        case index = "INDEX"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct AttachObjectRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "TargetReference", required: true, type: .structure), 
-            AWSShapeMember(label: "IndexReference", required: true, type: .structure)
+            AWSShapeMember(label: "ParentReference", required: true, type: .structure), 
+            AWSShapeMember(label: "LinkName", required: true, type: .string), 
+            AWSShapeMember(label: "ChildReference", required: true, type: .structure), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
-        /// The Amazon Resource Name (ARN) of the directory the index and object exist in.
+        /// The parent object reference.
+        public let parentReference: ObjectReference
+        /// The link name with which the child object is attached to the parent.
+        public let linkName: String
+        /// The child object reference to be attached to the object.
+        public let childReference: ObjectReference
+        /// Amazon Resource Name (ARN) that is associated with the Directory where both objects reside. For more information, see arns.
         public let directoryArn: String
-        /// A reference to the object being detached from the index.
-        public let targetReference: ObjectReference
-        /// A reference to the index object.
-        public let indexReference: ObjectReference
 
-        public init(directoryArn: String, targetReference: ObjectReference, indexReference: ObjectReference) {
+        public init(parentReference: ObjectReference, linkName: String, childReference: ObjectReference, directoryArn: String) {
+            self.parentReference = parentReference
+            self.linkName = linkName
+            self.childReference = childReference
             self.directoryArn = directoryArn
-            self.targetReference = targetReference
-            self.indexReference = indexReference
         }
 
         private enum CodingKeys: String, CodingKey {
+            case parentReference = "ParentReference"
+            case linkName = "LinkName"
+            case childReference = "ChildReference"
             case directoryArn = "x-amz-data-partition"
-            case targetReference = "TargetReference"
-            case indexReference = "IndexReference"
-        }
-    }
-
-    public struct GetLinkAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TypedLinkSpecifier", required: true, type: .structure), 
-            AWSShapeMember(label: "AttributeNames", required: true, type: .list), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "ConsistencyLevel", required: false, type: .enum)
-        ]
-        /// Allows a typed link specifier to be accepted as input.
-        public let typedLinkSpecifier: TypedLinkSpecifier
-        /// A list of attribute names whose values will be retrieved.
-        public let attributeNames: [String]
-        /// The Amazon Resource Name (ARN) that is associated with the Directory where the typed link resides. For more information, see arns or Typed Links.
-        public let directoryArn: String
-        /// The consistency level at which to retrieve the attributes on a typed link.
-        public let consistencyLevel: ConsistencyLevel?
-
-        public init(typedLinkSpecifier: TypedLinkSpecifier, attributeNames: [String], directoryArn: String, consistencyLevel: ConsistencyLevel? = nil) {
-            self.typedLinkSpecifier = typedLinkSpecifier
-            self.attributeNames = attributeNames
-            self.directoryArn = directoryArn
-            self.consistencyLevel = consistencyLevel
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case typedLinkSpecifier = "TypedLinkSpecifier"
-            case attributeNames = "AttributeNames"
-            case directoryArn = "x-amz-data-partition"
-            case consistencyLevel = "ConsistencyLevel"
-        }
-    }
-
-    public struct BatchDetachTypedLinkResponse: AWSShape {
-
-    }
-
-    public struct BatchReadOperationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExceptionResponse", required: false, type: .structure), 
-            AWSShapeMember(label: "SuccessfulResponse", required: false, type: .structure)
-        ]
-        /// Identifies which operation in a batch has failed.
-        public let exceptionResponse: BatchReadException?
-        /// Identifies which operation in a batch has succeeded.
-        public let successfulResponse: BatchReadSuccessfulResponse?
-
-        public init(exceptionResponse: BatchReadException? = nil, successfulResponse: BatchReadSuccessfulResponse? = nil) {
-            self.exceptionResponse = exceptionResponse
-            self.successfulResponse = successfulResponse
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case exceptionResponse = "ExceptionResponse"
-            case successfulResponse = "SuccessfulResponse"
         }
     }
 
@@ -788,1196 +651,160 @@ extension CloudDirectory {
         }
     }
 
-    public struct BatchGetObjectInformation: AWSShape {
+    public struct UntagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
+            AWSShapeMember(label: "TagKeys", required: true, type: .list), 
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
         ]
-        /// A reference to the object.
-        public let objectReference: ObjectReference
+        /// Keys of the tag that need to be removed from the resource.
+        public let tagKeys: [String]
+        /// The Amazon Resource Name (ARN) of the resource. Tagging is only supported for directories.
+        public let resourceArn: String
 
-        public init(objectReference: ObjectReference) {
-            self.objectReference = objectReference
+        public init(tagKeys: [String], resourceArn: String) {
+            self.tagKeys = tagKeys
+            self.resourceArn = resourceArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case objectReference = "ObjectReference"
+            case tagKeys = "TagKeys"
+            case resourceArn = "ResourceArn"
         }
     }
 
-    public struct DeleteFacetResponse: AWSShape {
-
-    }
-
-    public struct GetObjectAttributesRequest: AWSShape {
+    public struct BatchGetLinkAttributes: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AttributeNames", required: true, type: .list), 
-            AWSShapeMember(label: "SchemaFacet", required: true, type: .structure), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
+            AWSShapeMember(label: "TypedLinkSpecifier", required: true, type: .structure)
         ]
-        /// List of attribute names whose values will be retrieved.
+        /// A list of attribute names whose values will be retrieved.
         public let attributeNames: [String]
-        /// Identifier for the facet whose attributes will be retrieved. See SchemaFacet for details.
-        public let schemaFacet: SchemaFacet
-        /// The Amazon Resource Name (ARN) that is associated with the Directory where the object resides.
-        public let directoryArn: String
-        /// The consistency level at which to retrieve the attributes on an object.
-        public let consistencyLevel: ConsistencyLevel?
-        /// Reference that identifies the object whose attributes will be retrieved.
-        public let objectReference: ObjectReference
+        /// Allows a typed link specifier to be accepted as input.
+        public let typedLinkSpecifier: TypedLinkSpecifier
 
-        public init(attributeNames: [String], schemaFacet: SchemaFacet, directoryArn: String, consistencyLevel: ConsistencyLevel? = nil, objectReference: ObjectReference) {
+        public init(attributeNames: [String], typedLinkSpecifier: TypedLinkSpecifier) {
             self.attributeNames = attributeNames
-            self.schemaFacet = schemaFacet
-            self.directoryArn = directoryArn
-            self.consistencyLevel = consistencyLevel
-            self.objectReference = objectReference
+            self.typedLinkSpecifier = typedLinkSpecifier
         }
 
         private enum CodingKeys: String, CodingKey {
             case attributeNames = "AttributeNames"
-            case schemaFacet = "SchemaFacet"
-            case directoryArn = "x-amz-data-partition"
-            case consistencyLevel = "x-amz-consistency-level"
-            case objectReference = "ObjectReference"
+            case typedLinkSpecifier = "TypedLinkSpecifier"
         }
     }
 
-    public struct BatchListPolicyAttachmentsResponse: AWSShape {
+    public struct CreateSchemaRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ObjectIdentifiers", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// The name that is associated with the schema. This is unique to each account and in each region.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct BatchListIndexResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IndexAttachments", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// A list of ObjectIdentifiers to which the policy is attached.
-        public let objectIdentifiers: [String]?
+        /// The objects and indexed values attached to the index.
+        public let indexAttachments: [IndexAttachment]?
         /// The pagination token.
         public let nextToken: String?
 
-        public init(objectIdentifiers: [String]? = nil, nextToken: String? = nil) {
-            self.objectIdentifiers = objectIdentifiers
+        public init(indexAttachments: [IndexAttachment]? = nil, nextToken: String? = nil) {
+            self.indexAttachments = indexAttachments
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case objectIdentifiers = "ObjectIdentifiers"
+            case indexAttachments = "IndexAttachments"
             case nextToken = "NextToken"
-        }
-    }
-
-    public struct BatchAttachObjectResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attachedObjectIdentifier", required: false, type: .string)
-        ]
-        /// The ObjectIdentifier of the object that has been attached.
-        public let attachedObjectIdentifier: String?
-
-        public init(attachedObjectIdentifier: String? = nil) {
-            self.attachedObjectIdentifier = attachedObjectIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attachedObjectIdentifier = "attachedObjectIdentifier"
-        }
-    }
-
-    public struct ApplySchemaRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "PublishedSchemaArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) that is associated with the Directory into which the schema is copied. For more information, see arns.
-        public let directoryArn: String
-        /// Published schema Amazon Resource Name (ARN) that needs to be copied. For more information, see arns.
-        public let publishedSchemaArn: String
-
-        public init(directoryArn: String, publishedSchemaArn: String) {
-            self.directoryArn = directoryArn
-            self.publishedSchemaArn = publishedSchemaArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directoryArn = "x-amz-data-partition"
-            case publishedSchemaArn = "PublishedSchemaArn"
-        }
-    }
-
-    public enum DirectoryState: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        case deleted = "DELETED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetObjectAttributesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .list)
-        ]
-        /// The attributes that are associated with the object.
-        public let attributes: [AttributeKeyAndValue]?
-
-        public init(attributes: [AttributeKeyAndValue]? = nil) {
-            self.attributes = attributes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attributes = "Attributes"
-        }
-    }
-
-    public struct ListDevelopmentSchemaArnsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
-        ]
-        /// The pagination token.
-        public let nextToken: String?
-        /// The maximum number of results to retrieve.
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case maxResults = "MaxResults"
-        }
-    }
-
-    public struct BatchAttachPolicyResponse: AWSShape {
-
-    }
-
-    public struct BatchDetachFromIndex: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetReference", required: true, type: .structure), 
-            AWSShapeMember(label: "IndexReference", required: true, type: .structure)
-        ]
-        /// A reference to the object being detached from the index.
-        public let targetReference: ObjectReference
-        /// A reference to the index object.
-        public let indexReference: ObjectReference
-
-        public init(targetReference: ObjectReference, indexReference: ObjectReference) {
-            self.targetReference = targetReference
-            self.indexReference = indexReference
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case targetReference = "TargetReference"
-            case indexReference = "IndexReference"
-        }
-    }
-
-    public struct BatchWriteResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Responses", required: false, type: .list)
-        ]
-        /// A list of all the responses for each batch write.
-        public let responses: [BatchWriteOperationResponse]?
-
-        public init(responses: [BatchWriteOperationResponse]? = nil) {
-            self.responses = responses
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case responses = "Responses"
-        }
-    }
-
-    public struct GetSchemaAsJsonResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Document", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// The JSON representation of the schema document.
-        public let document: String?
-        /// The name of the retrieved schema.
-        public let name: String?
-
-        public init(document: String? = nil, name: String? = nil) {
-            self.document = document
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case document = "Document"
-            case name = "Name"
-        }
-    }
-
-    public enum RequiredAttributeBehavior: String, CustomStringConvertible, Codable {
-        case requiredAlways = "REQUIRED_ALWAYS"
-        case notRequired = "NOT_REQUIRED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ObjectAttributeAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ObjectAttributeActionType", required: false, type: .enum), 
-            AWSShapeMember(label: "ObjectAttributeUpdateValue", required: false, type: .structure)
-        ]
-        /// A type that can be either Update or Delete.
-        public let objectAttributeActionType: UpdateActionType?
-        /// The value that you want to update to.
-        public let objectAttributeUpdateValue: TypedAttributeValue?
-
-        public init(objectAttributeActionType: UpdateActionType? = nil, objectAttributeUpdateValue: TypedAttributeValue? = nil) {
-            self.objectAttributeActionType = objectAttributeActionType
-            self.objectAttributeUpdateValue = objectAttributeUpdateValue
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case objectAttributeActionType = "ObjectAttributeActionType"
-            case objectAttributeUpdateValue = "ObjectAttributeUpdateValue"
-        }
-    }
-
-    public struct ListPublishedSchemaArnsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SchemaArn", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
-        ]
-        /// The pagination token.
-        public let nextToken: String?
-        /// The response for ListPublishedSchemaArns when this parameter is used will list all minor version ARNs for a major version.
-        public let schemaArn: String?
-        /// The maximum number of results to retrieve.
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, schemaArn: String? = nil, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.schemaArn = schemaArn
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case schemaArn = "SchemaArn"
-            case maxResults = "MaxResults"
-        }
-    }
-
-    public struct ApplySchemaResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AppliedSchemaArn", required: false, type: .string), 
-            AWSShapeMember(label: "DirectoryArn", required: false, type: .string)
-        ]
-        /// The applied schema ARN that is associated with the copied schema in the Directory. You can use this ARN to describe the schema information applied on this directory. For more information, see arns.
-        public let appliedSchemaArn: String?
-        /// The ARN that is associated with the Directory. For more information, see arns.
-        public let directoryArn: String?
-
-        public init(appliedSchemaArn: String? = nil, directoryArn: String? = nil) {
-            self.appliedSchemaArn = appliedSchemaArn
-            self.directoryArn = directoryArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case appliedSchemaArn = "AppliedSchemaArn"
-            case directoryArn = "DirectoryArn"
-        }
-    }
-
-    public struct AttributeNameAndValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeName", required: true, type: .string), 
-            AWSShapeMember(label: "Value", required: true, type: .structure)
-        ]
-        /// The attribute name of the typed link.
-        public let attributeName: String
-        /// The value for the typed link.
-        public let value: TypedAttributeValue
-
-        public init(attributeName: String, value: TypedAttributeValue) {
-            self.attributeName = attributeName
-            self.value = value
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attributeName = "AttributeName"
-            case value = "Value"
-        }
-    }
-
-    public struct ListIndexRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RangesOnIndexedValues", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "IndexReference", required: true, type: .structure), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum)
-        ]
-        /// Specifies the ranges of indexed values that you want to query.
-        public let rangesOnIndexedValues: [ObjectAttributeRange]?
-        /// The pagination token.
-        public let nextToken: String?
-        /// The reference to the index to list.
-        public let indexReference: ObjectReference
-        /// The maximum number of objects in a single page to retrieve from the index during a request. For more information, see Amazon Cloud Directory Limits.
-        public let maxResults: Int32?
-        /// The ARN of the directory that the index exists in.
-        public let directoryArn: String
-        /// The consistency level to execute the request at.
-        public let consistencyLevel: ConsistencyLevel?
-
-        public init(rangesOnIndexedValues: [ObjectAttributeRange]? = nil, nextToken: String? = nil, indexReference: ObjectReference, maxResults: Int32? = nil, directoryArn: String, consistencyLevel: ConsistencyLevel? = nil) {
-            self.rangesOnIndexedValues = rangesOnIndexedValues
-            self.nextToken = nextToken
-            self.indexReference = indexReference
-            self.maxResults = maxResults
-            self.directoryArn = directoryArn
-            self.consistencyLevel = consistencyLevel
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case rangesOnIndexedValues = "RangesOnIndexedValues"
-            case nextToken = "NextToken"
-            case indexReference = "IndexReference"
-            case maxResults = "MaxResults"
-            case directoryArn = "x-amz-data-partition"
-            case consistencyLevel = "x-amz-consistency-level"
-        }
-    }
-
-    public struct GetDirectoryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
-        ]
-        /// The ARN of the directory.
-        public let directoryArn: String
-
-        public init(directoryArn: String) {
-            self.directoryArn = directoryArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directoryArn = "x-amz-data-partition"
-        }
-    }
-
-    public struct DeleteDirectoryResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", required: true, type: .string)
-        ]
-        /// The ARN of the deleted directory.
-        public let directoryArn: String
-
-        public init(directoryArn: String) {
-            self.directoryArn = directoryArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directoryArn = "DirectoryArn"
-        }
-    }
-
-    public struct BatchReadSuccessfulResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GetObjectAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "ListPolicyAttachments", required: false, type: .structure), 
-            AWSShapeMember(label: "GetLinkAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "ListOutgoingTypedLinks", required: false, type: .structure), 
-            AWSShapeMember(label: "ListIndex", required: false, type: .structure), 
-            AWSShapeMember(label: "ListObjectPolicies", required: false, type: .structure), 
-            AWSShapeMember(label: "ListObjectParents", required: false, type: .structure), 
-            AWSShapeMember(label: "ListObjectAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "LookupPolicy", required: false, type: .structure), 
-            AWSShapeMember(label: "ListObjectParentPaths", required: false, type: .structure), 
-            AWSShapeMember(label: "ListAttachedIndices", required: false, type: .structure), 
-            AWSShapeMember(label: "GetObjectInformation", required: false, type: .structure), 
-            AWSShapeMember(label: "ListIncomingTypedLinks", required: false, type: .structure), 
-            AWSShapeMember(label: "ListObjectChildren", required: false, type: .structure)
-        ]
-        /// Retrieves attributes within a facet that are associated with an object.
-        public let getObjectAttributes: BatchGetObjectAttributesResponse?
-        /// Returns all of the ObjectIdentifiers to which a given policy is attached.
-        public let listPolicyAttachments: BatchListPolicyAttachmentsResponse?
-        /// The list of attributes to retrieve from the typed link.
-        public let getLinkAttributes: BatchGetLinkAttributesResponse?
-        /// Returns a paginated list of all the outgoing TypedLinkSpecifier information for an object. It also supports filtering by typed link facet and identity attributes. For more information, see Typed Links.
-        public let listOutgoingTypedLinks: BatchListOutgoingTypedLinksResponse?
-        /// Lists objects attached to the specified index.
-        public let listIndex: BatchListIndexResponse?
-        /// Returns policies attached to an object in pagination fashion.
-        public let listObjectPolicies: BatchListObjectPoliciesResponse?
-        public let listObjectParents: BatchListObjectParentsResponse?
-        /// Lists all attributes that are associated with an object.
-        public let listObjectAttributes: BatchListObjectAttributesResponse?
-        /// Lists all policies from the root of the Directory to the object specified. If there are no policies present, an empty list is returned. If policies are present, and if some objects don't have the policies attached, it returns the ObjectIdentifier for such objects. If policies are present, it returns ObjectIdentifier, policyId, and policyType. Paths that don't lead to the root from the target object are ignored. For more information, see Policies.
-        public let lookupPolicy: BatchLookupPolicyResponse?
-        /// Retrieves all available parent paths for any object type such as node, leaf node, policy node, and index node objects. For more information about objects, see Directory Structure.
-        public let listObjectParentPaths: BatchListObjectParentPathsResponse?
-        /// Lists indices attached to an object.
-        public let listAttachedIndices: BatchListAttachedIndicesResponse?
-        /// Retrieves metadata about an object.
-        public let getObjectInformation: BatchGetObjectInformationResponse?
-        /// Returns a paginated list of all the incoming TypedLinkSpecifier information for an object. It also supports filtering by typed link facet and identity attributes. For more information, see Typed Links.
-        public let listIncomingTypedLinks: BatchListIncomingTypedLinksResponse?
-        /// Returns a paginated list of child objects that are associated with a given object.
-        public let listObjectChildren: BatchListObjectChildrenResponse?
-
-        public init(getObjectAttributes: BatchGetObjectAttributesResponse? = nil, listPolicyAttachments: BatchListPolicyAttachmentsResponse? = nil, getLinkAttributes: BatchGetLinkAttributesResponse? = nil, listOutgoingTypedLinks: BatchListOutgoingTypedLinksResponse? = nil, listIndex: BatchListIndexResponse? = nil, listObjectPolicies: BatchListObjectPoliciesResponse? = nil, listObjectParents: BatchListObjectParentsResponse? = nil, listObjectAttributes: BatchListObjectAttributesResponse? = nil, lookupPolicy: BatchLookupPolicyResponse? = nil, listObjectParentPaths: BatchListObjectParentPathsResponse? = nil, listAttachedIndices: BatchListAttachedIndicesResponse? = nil, getObjectInformation: BatchGetObjectInformationResponse? = nil, listIncomingTypedLinks: BatchListIncomingTypedLinksResponse? = nil, listObjectChildren: BatchListObjectChildrenResponse? = nil) {
-            self.getObjectAttributes = getObjectAttributes
-            self.listPolicyAttachments = listPolicyAttachments
-            self.getLinkAttributes = getLinkAttributes
-            self.listOutgoingTypedLinks = listOutgoingTypedLinks
-            self.listIndex = listIndex
-            self.listObjectPolicies = listObjectPolicies
-            self.listObjectParents = listObjectParents
-            self.listObjectAttributes = listObjectAttributes
-            self.lookupPolicy = lookupPolicy
-            self.listObjectParentPaths = listObjectParentPaths
-            self.listAttachedIndices = listAttachedIndices
-            self.getObjectInformation = getObjectInformation
-            self.listIncomingTypedLinks = listIncomingTypedLinks
-            self.listObjectChildren = listObjectChildren
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case getObjectAttributes = "GetObjectAttributes"
-            case listPolicyAttachments = "ListPolicyAttachments"
-            case getLinkAttributes = "GetLinkAttributes"
-            case listOutgoingTypedLinks = "ListOutgoingTypedLinks"
-            case listIndex = "ListIndex"
-            case listObjectPolicies = "ListObjectPolicies"
-            case listObjectParents = "ListObjectParents"
-            case listObjectAttributes = "ListObjectAttributes"
-            case lookupPolicy = "LookupPolicy"
-            case listObjectParentPaths = "ListObjectParentPaths"
-            case listAttachedIndices = "ListAttachedIndices"
-            case getObjectInformation = "GetObjectInformation"
-            case listIncomingTypedLinks = "ListIncomingTypedLinks"
-            case listObjectChildren = "ListObjectChildren"
-        }
-    }
-
-    public struct UpgradeAppliedSchemaResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", required: false, type: .string), 
-            AWSShapeMember(label: "UpgradedSchemaArn", required: false, type: .string)
-        ]
-        /// The ARN of the directory that is returned as part of the response.
-        public let directoryArn: String?
-        /// The ARN of the upgraded schema that is returned as part of the response.
-        public let upgradedSchemaArn: String?
-
-        public init(directoryArn: String? = nil, upgradedSchemaArn: String? = nil) {
-            self.directoryArn = directoryArn
-            self.upgradedSchemaArn = upgradedSchemaArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directoryArn = "DirectoryArn"
-            case upgradedSchemaArn = "UpgradedSchemaArn"
-        }
-    }
-
-    public struct AttachPolicyResponse: AWSShape {
-
-    }
-
-    public enum ConsistencyLevel: String, CustomStringConvertible, Codable {
-        case serializable = "SERIALIZABLE"
-        case eventual = "EVENTUAL"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateObjectResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string)
-        ]
-        /// The identifier that is associated with the object.
-        public let objectIdentifier: String?
-
-        public init(objectIdentifier: String? = nil) {
-            self.objectIdentifier = objectIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case objectIdentifier = "ObjectIdentifier"
-        }
-    }
-
-    public struct BatchWriteRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "Operations", required: true, type: .list)
-        ]
-        /// The Amazon Resource Name (ARN) that is associated with the Directory. For more information, see arns.
-        public let directoryArn: String
-        /// A list of operations that are part of the batch.
-        public let operations: [BatchWriteOperation]
-
-        public init(directoryArn: String, operations: [BatchWriteOperation]) {
-            self.directoryArn = directoryArn
-            self.operations = operations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directoryArn = "x-amz-data-partition"
-            case operations = "Operations"
-        }
-    }
-
-    public struct FacetAttributeUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Action", required: false, type: .enum), 
-            AWSShapeMember(label: "Attribute", required: false, type: .structure)
-        ]
-        /// The action to perform when updating the attribute.
-        public let action: UpdateActionType?
-        /// The attribute to update.
-        public let attribute: FacetAttribute?
-
-        public init(action: UpdateActionType? = nil, attribute: FacetAttribute? = nil) {
-            self.action = action
-            self.attribute = attribute
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case action = "Action"
-            case attribute = "Attribute"
-        }
-    }
-
-    public struct Directory: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DirectoryArn", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .enum)
-        ]
-        /// The name of the directory.
-        public let name: String?
-        /// The date and time when the directory was created.
-        public let creationDateTime: TimeStamp?
-        /// The Amazon Resource Name (ARN) that is associated with the directory. For more information, see arns.
-        public let directoryArn: String?
-        /// The state of the directory. Can be either Enabled, Disabled, or Deleted.
-        public let state: DirectoryState?
-
-        public init(name: String? = nil, creationDateTime: TimeStamp? = nil, directoryArn: String? = nil, state: DirectoryState? = nil) {
-            self.name = name
-            self.creationDateTime = creationDateTime
-            self.directoryArn = directoryArn
-            self.state = state
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case creationDateTime = "CreationDateTime"
-            case directoryArn = "DirectoryArn"
-            case state = "State"
-        }
-    }
-
-    public struct GetTypedLinkFacetInformationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdentityAttributeOrder", required: false, type: .list)
-        ]
-        /// The order of identity attributes for the facet, from most significant to least significant. The ability to filter typed links considers the order that the attributes are defined on the typed link facet. When providing ranges to typed link selection, any inexact ranges must be specified at the end. Any attributes that do not have a range specified are presumed to match the entire range. Filters are interpreted in the order of the attributes on the typed link facet, not the order in which they are supplied to any API calls. For more information about identity attributes, see Typed Links.
-        public let identityAttributeOrder: [String]?
-
-        public init(identityAttributeOrder: [String]? = nil) {
-            self.identityAttributeOrder = identityAttributeOrder
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case identityAttributeOrder = "IdentityAttributeOrder"
-        }
-    }
-
-    public struct BatchAttachObject: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChildReference", required: true, type: .structure), 
-            AWSShapeMember(label: "ParentReference", required: true, type: .structure), 
-            AWSShapeMember(label: "LinkName", required: true, type: .string)
-        ]
-        /// The child object reference that is to be attached to the object.
-        public let childReference: ObjectReference
-        /// The parent object reference.
-        public let parentReference: ObjectReference
-        /// The name of the link.
-        public let linkName: String
-
-        public init(childReference: ObjectReference, parentReference: ObjectReference, linkName: String) {
-            self.childReference = childReference
-            self.parentReference = parentReference
-            self.linkName = linkName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case childReference = "ChildReference"
-            case parentReference = "ParentReference"
-            case linkName = "LinkName"
-        }
-    }
-
-    public struct ListObjectChildrenRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
-        ]
-        /// The maximum number of items to be retrieved in a single call. This is an approximate number.
-        public let maxResults: Int32?
-        /// The pagination token.
-        public let nextToken: String?
-        /// The Amazon Resource Name (ARN) that is associated with the Directory where the object resides. For more information, see arns.
-        public let directoryArn: String
-        /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
-        public let consistencyLevel: ConsistencyLevel?
-        /// The reference that identifies the object for which child objects are being listed.
-        public let objectReference: ObjectReference
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, directoryArn: String, consistencyLevel: ConsistencyLevel? = nil, objectReference: ObjectReference) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-            self.directoryArn = directoryArn
-            self.consistencyLevel = consistencyLevel
-            self.objectReference = objectReference
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-            case directoryArn = "x-amz-data-partition"
-            case consistencyLevel = "x-amz-consistency-level"
-            case objectReference = "ObjectReference"
-        }
-    }
-
-    public struct DetachObjectResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetachedObjectIdentifier", required: false, type: .string)
-        ]
-        /// The ObjectIdentifier that was detached from the object.
-        public let detachedObjectIdentifier: String?
-
-        public init(detachedObjectIdentifier: String? = nil) {
-            self.detachedObjectIdentifier = detachedObjectIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case detachedObjectIdentifier = "DetachedObjectIdentifier"
         }
     }
 
     public struct LookupPolicyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The maximum number of items to be retrieved in a single call. This is an approximate number.
-        public let maxResults: Int32?
-        /// The token to request the next page of results.
-        public let nextToken: String?
         /// The Amazon Resource Name (ARN) that is associated with the Directory. For more information, see arns.
         public let directoryArn: String
-        /// Reference that identifies the object whose policies will be looked up.
-        public let objectReference: ObjectReference
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, directoryArn: String, objectReference: ObjectReference) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-            self.directoryArn = directoryArn
-            self.objectReference = objectReference
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-            case directoryArn = "x-amz-data-partition"
-            case objectReference = "ObjectReference"
-        }
-    }
-
-    public struct PolicyToPath: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Policies", required: false, type: .list), 
-            AWSShapeMember(label: "Path", required: false, type: .string)
-        ]
-        /// List of policy objects.
-        public let policies: [PolicyAttachment]?
-        /// The path that is referenced from the root.
-        public let path: String?
-
-        public init(policies: [PolicyAttachment]? = nil, path: String? = nil) {
-            self.policies = policies
-            self.path = path
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policies = "Policies"
-            case path = "Path"
-        }
-    }
-
-    public struct TypedAttributeValueRange: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndMode", required: true, type: .enum), 
-            AWSShapeMember(label: "StartValue", required: false, type: .structure), 
-            AWSShapeMember(label: "StartMode", required: true, type: .enum), 
-            AWSShapeMember(label: "EndValue", required: false, type: .structure)
-        ]
-        /// The inclusive or exclusive range end.
-        public let endMode: RangeMode
-        /// The value to start the range at.
-        public let startValue: TypedAttributeValue?
-        /// The inclusive or exclusive range start.
-        public let startMode: RangeMode
-        /// The attribute value to terminate the range at.
-        public let endValue: TypedAttributeValue?
-
-        public init(endMode: RangeMode, startValue: TypedAttributeValue? = nil, startMode: RangeMode, endValue: TypedAttributeValue? = nil) {
-            self.endMode = endMode
-            self.startValue = startValue
-            self.startMode = startMode
-            self.endValue = endValue
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case endMode = "EndMode"
-            case startValue = "StartValue"
-            case startMode = "StartMode"
-            case endValue = "EndValue"
-        }
-    }
-
-    public struct DisableDirectoryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
-        ]
-        /// The ARN of the directory to disable.
-        public let directoryArn: String
-
-        public init(directoryArn: String) {
-            self.directoryArn = directoryArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directoryArn = "x-amz-data-partition"
-        }
-    }
-
-    public struct CreateDirectoryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the published schema that will be copied into the data Directory. For more information, see arns.
-        public let schemaArn: String
-        /// The name of the Directory. Should be unique per account, per region.
-        public let name: String
-
-        public init(schemaArn: String, name: String) {
-            self.schemaArn = schemaArn
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case schemaArn = "x-amz-data-partition"
-            case name = "Name"
-        }
-    }
-
-    public struct BatchAttachToIndex: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetReference", required: true, type: .structure), 
-            AWSShapeMember(label: "IndexReference", required: true, type: .structure)
-        ]
-        /// A reference to the object that you are attaching to the index.
-        public let targetReference: ObjectReference
-        /// A reference to the index that you are attaching the object to.
-        public let indexReference: ObjectReference
-
-        public init(targetReference: ObjectReference, indexReference: ObjectReference) {
-            self.targetReference = targetReference
-            self.indexReference = indexReference
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case targetReference = "TargetReference"
-            case indexReference = "IndexReference"
-        }
-    }
-
-    public struct ListOutgoingTypedLinksResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TypedLinkSpecifiers", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Returns a typed link specifier as output.
-        public let typedLinkSpecifiers: [TypedLinkSpecifier]?
-        /// The pagination token.
-        public let nextToken: String?
-
-        public init(typedLinkSpecifiers: [TypedLinkSpecifier]? = nil, nextToken: String? = nil) {
-            self.typedLinkSpecifiers = typedLinkSpecifiers
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case typedLinkSpecifiers = "TypedLinkSpecifiers"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public enum ObjectType: String, CustomStringConvertible, Codable {
-        case node = "NODE"
-        case leafNode = "LEAF_NODE"
-        case policy = "POLICY"
-        case index = "INDEX"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct AttachPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
-            AWSShapeMember(label: "PolicyReference", required: true, type: .structure)
-        ]
-        /// The Amazon Resource Name (ARN) that is associated with the Directory where both objects reside. For more information, see arns.
-        public let directoryArn: String
-        /// The reference that identifies the object to which the policy will be attached.
-        public let objectReference: ObjectReference
-        /// The reference that is associated with the policy object.
-        public let policyReference: ObjectReference
-
-        public init(directoryArn: String, objectReference: ObjectReference, policyReference: ObjectReference) {
-            self.directoryArn = directoryArn
-            self.objectReference = objectReference
-            self.policyReference = policyReference
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directoryArn = "x-amz-data-partition"
-            case objectReference = "ObjectReference"
-            case policyReference = "PolicyReference"
-        }
-    }
-
-    public struct BatchListObjectAttributesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The attributes map that is associated with the object. AttributeArn is the key; attribute value is the value.
-        public let attributes: [AttributeKeyAndValue]?
-        /// The pagination token.
-        public let nextToken: String?
-
-        public init(attributes: [AttributeKeyAndValue]? = nil, nextToken: String? = nil) {
-            self.attributes = attributes
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attributes = "Attributes"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct RemoveFacetFromObjectResponse: AWSShape {
-
-    }
-
-    public struct BatchListObjectAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "FacetFilter", required: false, type: .structure), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
-        ]
         /// The maximum number of items to be retrieved in a single call. This is an approximate number.
         public let maxResults: Int32?
-        /// Used to filter the list of object attributes that are associated with a certain facet.
-        public let facetFilter: SchemaFacet?
-        /// The pagination token.
-        public let nextToken: String?
-        /// Reference of the object whose attributes need to be listed.
+        /// Reference that identifies the object whose policies will be looked up.
         public let objectReference: ObjectReference
+        /// The token to request the next page of results.
+        public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, facetFilter: SchemaFacet? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
+        public init(directoryArn: String, maxResults: Int32? = nil, objectReference: ObjectReference, nextToken: String? = nil) {
+            self.directoryArn = directoryArn
             self.maxResults = maxResults
-            self.facetFilter = facetFilter
-            self.nextToken = nextToken
             self.objectReference = objectReference
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
+            case directoryArn = "x-amz-data-partition"
             case maxResults = "MaxResults"
-            case facetFilter = "FacetFilter"
-            case nextToken = "NextToken"
             case objectReference = "ObjectReference"
-        }
-    }
-
-    public struct BatchListPolicyAttachments: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyReference", required: true, type: .structure), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The reference that identifies the policy object.
-        public let policyReference: ObjectReference
-        /// The maximum number of results to retrieve.
-        public let maxResults: Int32?
-        /// The pagination token.
-        public let nextToken: String?
-
-        public init(policyReference: ObjectReference, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.policyReference = policyReference
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyReference = "PolicyReference"
-            case maxResults = "MaxResults"
             case nextToken = "NextToken"
         }
     }
 
-    public struct BatchListObjectChildren: AWSShape {
+    public struct UpgradeAppliedSchemaRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+            AWSShapeMember(label: "DirectoryArn", required: true, type: .string), 
+            AWSShapeMember(label: "DryRun", required: false, type: .boolean), 
+            AWSShapeMember(label: "PublishedSchemaArn", required: true, type: .string)
         ]
-        /// The pagination token.
-        public let nextToken: String?
-        /// Reference of the object for which child objects are being listed.
-        public let objectReference: ObjectReference
-        /// Maximum number of items to be retrieved in a single call. This is an approximate number.
-        public let maxResults: Int32?
+        /// The ARN for the directory to which the upgraded schema will be applied.
+        public let directoryArn: String
+        /// Used for testing whether the major version schemas are backward compatible or not. If schema compatibility fails, an exception would be thrown else the call would succeed but no changes will be saved. This parameter is optional.
+        public let dryRun: Bool?
+        /// The revision of the published schema to upgrade the directory to.
+        public let publishedSchemaArn: String
 
-        public init(nextToken: String? = nil, objectReference: ObjectReference, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.objectReference = objectReference
-            self.maxResults = maxResults
+        public init(directoryArn: String, dryRun: Bool? = nil, publishedSchemaArn: String) {
+            self.directoryArn = directoryArn
+            self.dryRun = dryRun
+            self.publishedSchemaArn = publishedSchemaArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case objectReference = "ObjectReference"
-            case maxResults = "MaxResults"
+            case directoryArn = "DirectoryArn"
+            case dryRun = "DryRun"
+            case publishedSchemaArn = "PublishedSchemaArn"
         }
     }
 
-    public struct BatchDeleteObject: AWSShape {
+    public struct ObjectAttributeUpdate: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
+            AWSShapeMember(label: "ObjectAttributeKey", required: false, type: .structure), 
+            AWSShapeMember(label: "ObjectAttributeAction", required: false, type: .structure)
         ]
-        /// The reference that identifies the object.
-        public let objectReference: ObjectReference
+        /// The key of the attribute being updated.
+        public let objectAttributeKey: AttributeKey?
+        /// The action to perform as part of the attribute update.
+        public let objectAttributeAction: ObjectAttributeAction?
 
-        public init(objectReference: ObjectReference) {
-            self.objectReference = objectReference
+        public init(objectAttributeKey: AttributeKey? = nil, objectAttributeAction: ObjectAttributeAction? = nil) {
+            self.objectAttributeKey = objectAttributeKey
+            self.objectAttributeAction = objectAttributeAction
         }
 
         private enum CodingKeys: String, CodingKey {
-            case objectReference = "ObjectReference"
-        }
-    }
-
-    public struct ListObjectChildrenResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Children", required: false, type: .map), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Children structure, which is a map with key as the LinkName and ObjectIdentifier as the value.
-        public let children: [String: String]?
-        /// The pagination token.
-        public let nextToken: String?
-
-        public init(children: [String: String]? = nil, nextToken: String? = nil) {
-            self.children = children
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case children = "Children"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct BatchReadException: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "Message", required: false, type: .string)
-        ]
-        /// A type of exception, such as InvalidArnException.
-        public let `type`: BatchReadExceptionType?
-        /// An exception message that is associated with the failure.
-        public let message: String?
-
-        public init(type: BatchReadExceptionType? = nil, message: String? = nil) {
-            self.`type` = `type`
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
-            case message = "Message"
-        }
-    }
-
-    public struct BatchGetObjectAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaFacet", required: true, type: .structure), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
-            AWSShapeMember(label: "AttributeNames", required: true, type: .list)
-        ]
-        /// Identifier for the facet whose attributes will be retrieved. See SchemaFacet for details.
-        public let schemaFacet: SchemaFacet
-        /// Reference that identifies the object whose attributes will be retrieved.
-        public let objectReference: ObjectReference
-        /// List of attribute names whose values will be retrieved.
-        public let attributeNames: [String]
-
-        public init(schemaFacet: SchemaFacet, objectReference: ObjectReference, attributeNames: [String]) {
-            self.schemaFacet = schemaFacet
-            self.objectReference = objectReference
-            self.attributeNames = attributeNames
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case schemaFacet = "SchemaFacet"
-            case objectReference = "ObjectReference"
-            case attributeNames = "AttributeNames"
-        }
-    }
-
-    public enum FacetAttributeType: String, CustomStringConvertible, Codable {
-        case string = "STRING"
-        case binary = "BINARY"
-        case boolean = "BOOLEAN"
-        case number = "NUMBER"
-        case datetime = "DATETIME"
-        case variant = "VARIANT"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct PublishSchemaRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "MinorVersion", required: false, type: .string), 
-            AWSShapeMember(label: "DevelopmentSchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "Version", required: true, type: .string)
-        ]
-        /// The new name under which the schema will be published. If this is not provided, the development schema is considered.
-        public let name: String?
-        /// The minor version under which the schema will be published. This parameter is recommended. Schemas have both a major and minor version associated with them.
-        public let minorVersion: String?
-        /// The Amazon Resource Name (ARN) that is associated with the development schema. For more information, see arns.
-        public let developmentSchemaArn: String
-        /// The major version under which the schema will be published. Schemas have both a major and minor version associated with them.
-        public let version: String
-
-        public init(name: String? = nil, minorVersion: String? = nil, developmentSchemaArn: String, version: String) {
-            self.name = name
-            self.minorVersion = minorVersion
-            self.developmentSchemaArn = developmentSchemaArn
-            self.version = version
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case minorVersion = "MinorVersion"
-            case developmentSchemaArn = "x-amz-data-partition"
-            case version = "Version"
-        }
-    }
-
-    public struct BatchAddFacetToObjectResponse: AWSShape {
-
-    }
-
-    public struct BatchReadResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Responses", required: false, type: .list)
-        ]
-        /// A list of all the responses for each batch read.
-        public let responses: [BatchReadOperationResponse]?
-
-        public init(responses: [BatchReadOperationResponse]? = nil) {
-            self.responses = responses
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case responses = "Responses"
-        }
-    }
-
-    public struct UpdateFacetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "ObjectType", required: false, type: .enum), 
-            AWSShapeMember(label: "AttributeUpdates", required: false, type: .list)
-        ]
-        /// The Amazon Resource Name (ARN) that is associated with the Facet. For more information, see arns.
-        public let schemaArn: String
-        /// The name of the facet.
-        public let name: String
-        /// The object type that is associated with the facet. See CreateFacetRequest$ObjectType for more details.
-        public let objectType: ObjectType?
-        /// List of attributes that need to be updated in a given schema Facet. Each attribute is followed by AttributeAction, which specifies the type of update operation to perform. 
-        public let attributeUpdates: [FacetAttributeUpdate]?
-
-        public init(schemaArn: String, name: String, objectType: ObjectType? = nil, attributeUpdates: [FacetAttributeUpdate]? = nil) {
-            self.schemaArn = schemaArn
-            self.name = name
-            self.objectType = objectType
-            self.attributeUpdates = attributeUpdates
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case schemaArn = "x-amz-data-partition"
-            case name = "Name"
-            case objectType = "ObjectType"
-            case attributeUpdates = "AttributeUpdates"
-        }
-    }
-
-    public struct BatchAttachTypedLink: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: true, type: .list), 
-            AWSShapeMember(label: "TargetObjectReference", required: true, type: .structure), 
-            AWSShapeMember(label: "TypedLinkFacet", required: true, type: .structure), 
-            AWSShapeMember(label: "SourceObjectReference", required: true, type: .structure)
-        ]
-        /// A set of attributes that are associated with the typed link.
-        public let attributes: [AttributeNameAndValue]
-        /// Identifies the target object that the typed link will attach to.
-        public let targetObjectReference: ObjectReference
-        /// Identifies the typed link facet that is associated with the typed link.
-        public let typedLinkFacet: TypedLinkSchemaAndFacetName
-        /// Identifies the source object that the typed link will attach to.
-        public let sourceObjectReference: ObjectReference
-
-        public init(attributes: [AttributeNameAndValue], targetObjectReference: ObjectReference, typedLinkFacet: TypedLinkSchemaAndFacetName, sourceObjectReference: ObjectReference) {
-            self.attributes = attributes
-            self.targetObjectReference = targetObjectReference
-            self.typedLinkFacet = typedLinkFacet
-            self.sourceObjectReference = sourceObjectReference
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attributes = "Attributes"
-            case targetObjectReference = "TargetObjectReference"
-            case typedLinkFacet = "TypedLinkFacet"
-            case sourceObjectReference = "SourceObjectReference"
+            case objectAttributeKey = "ObjectAttributeKey"
+            case objectAttributeAction = "ObjectAttributeAction"
         }
     }
 
@@ -2002,490 +829,6 @@ extension CloudDirectory {
         }
     }
 
-    public struct AttachObjectResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttachedObjectIdentifier", required: false, type: .string)
-        ]
-        /// The attached ObjectIdentifier, which is the child ObjectIdentifier.
-        public let attachedObjectIdentifier: String?
-
-        public init(attachedObjectIdentifier: String? = nil) {
-            self.attachedObjectIdentifier = attachedObjectIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attachedObjectIdentifier = "AttachedObjectIdentifier"
-        }
-    }
-
-    public struct DeleteSchemaResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", required: false, type: .string)
-        ]
-        /// The input ARN that is returned as part of the response. For more information, see arns.
-        public let schemaArn: String?
-
-        public init(schemaArn: String? = nil) {
-            self.schemaArn = schemaArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case schemaArn = "SchemaArn"
-        }
-    }
-
-    public struct RemoveFacetFromObjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
-            AWSShapeMember(label: "SchemaFacet", required: true, type: .structure)
-        ]
-        /// The ARN of the directory in which the object resides.
-        public let directoryArn: String
-        /// A reference to the object to remove the facet from.
-        public let objectReference: ObjectReference
-        /// The facet to remove. See SchemaFacet for details.
-        public let schemaFacet: SchemaFacet
-
-        public init(directoryArn: String, objectReference: ObjectReference, schemaFacet: SchemaFacet) {
-            self.directoryArn = directoryArn
-            self.objectReference = objectReference
-            self.schemaFacet = schemaFacet
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directoryArn = "x-amz-data-partition"
-            case objectReference = "ObjectReference"
-            case schemaFacet = "SchemaFacet"
-        }
-    }
-
-    public struct AttributeKeyAndValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .structure), 
-            AWSShapeMember(label: "Value", required: true, type: .structure)
-        ]
-        /// The key of the attribute.
-        public let key: AttributeKey
-        /// The value of the attribute.
-        public let value: TypedAttributeValue
-
-        public init(key: AttributeKey, value: TypedAttributeValue) {
-            self.key = key
-            self.value = value
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "Key"
-            case value = "Value"
-        }
-    }
-
-    public enum RuleType: String, CustomStringConvertible, Codable {
-        case binaryLength = "BINARY_LENGTH"
-        case numberComparison = "NUMBER_COMPARISON"
-        case stringFromSet = "STRING_FROM_SET"
-        case stringLength = "STRING_LENGTH"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct IndexAttachment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexedAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string)
-        ]
-        /// The indexed attribute values.
-        public let indexedAttributes: [AttributeKeyAndValue]?
-        /// In response to ListIndex, the ObjectIdentifier of the object attached to the index. In response to ListAttachedIndices, the ObjectIdentifier of the index attached to the object. This field will always contain the ObjectIdentifier of the object on the opposite side of the attachment specified in the query.
-        public let objectIdentifier: String?
-
-        public init(indexedAttributes: [AttributeKeyAndValue]? = nil, objectIdentifier: String? = nil) {
-            self.indexedAttributes = indexedAttributes
-            self.objectIdentifier = objectIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case indexedAttributes = "IndexedAttributes"
-            case objectIdentifier = "ObjectIdentifier"
-        }
-    }
-
-    public struct TypedLinkSchemaAndFacetName: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", required: true, type: .string), 
-            AWSShapeMember(label: "TypedLinkName", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
-        public let schemaArn: String
-        /// The unique name of the typed link facet.
-        public let typedLinkName: String
-
-        public init(schemaArn: String, typedLinkName: String) {
-            self.schemaArn = schemaArn
-            self.typedLinkName = typedLinkName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case schemaArn = "SchemaArn"
-            case typedLinkName = "TypedLinkName"
-        }
-    }
-
-    public struct ListIncomingTypedLinksRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConsistencyLevel", required: false, type: .enum), 
-            AWSShapeMember(label: "FilterAttributeRanges", required: false, type: .list), 
-            AWSShapeMember(label: "FilterTypedLink", required: false, type: .structure), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
-        ]
-        /// The consistency level to execute the request at.
-        public let consistencyLevel: ConsistencyLevel?
-        /// Provides range filters for multiple attributes. When providing ranges to typed link selection, any inexact ranges must be specified at the end. Any attributes that do not have a range specified are presumed to match the entire range.
-        public let filterAttributeRanges: [TypedLinkAttributeRange]?
-        /// Filters are interpreted in the order of the attributes on the typed link facet, not the order in which they are supplied to any API calls.
-        public let filterTypedLink: TypedLinkSchemaAndFacetName?
-        /// The pagination token.
-        public let nextToken: String?
-        /// Reference that identifies the object whose attributes will be listed.
-        public let objectReference: ObjectReference
-        /// The maximum number of results to retrieve.
-        public let maxResults: Int32?
-        /// The Amazon Resource Name (ARN) of the directory where you want to list the typed links.
-        public let directoryArn: String
-
-        public init(consistencyLevel: ConsistencyLevel? = nil, filterAttributeRanges: [TypedLinkAttributeRange]? = nil, filterTypedLink: TypedLinkSchemaAndFacetName? = nil, nextToken: String? = nil, objectReference: ObjectReference, maxResults: Int32? = nil, directoryArn: String) {
-            self.consistencyLevel = consistencyLevel
-            self.filterAttributeRanges = filterAttributeRanges
-            self.filterTypedLink = filterTypedLink
-            self.nextToken = nextToken
-            self.objectReference = objectReference
-            self.maxResults = maxResults
-            self.directoryArn = directoryArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case consistencyLevel = "ConsistencyLevel"
-            case filterAttributeRanges = "FilterAttributeRanges"
-            case filterTypedLink = "FilterTypedLink"
-            case nextToken = "NextToken"
-            case objectReference = "ObjectReference"
-            case maxResults = "MaxResults"
-            case directoryArn = "x-amz-data-partition"
-        }
-    }
-
-    public struct DeleteTypedLinkFacetResponse: AWSShape {
-
-    }
-
-    public struct BatchListObjectChildrenResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Children", required: false, type: .map), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The children structure, which is a map with the key as the LinkName and ObjectIdentifier as the value.
-        public let children: [String: String]?
-        /// The pagination token.
-        public let nextToken: String?
-
-        public init(children: [String: String]? = nil, nextToken: String? = nil) {
-            self.children = children
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case children = "Children"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct UpdateLinkAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "TypedLinkSpecifier", required: true, type: .structure), 
-            AWSShapeMember(label: "AttributeUpdates", required: true, type: .list)
-        ]
-        /// The Amazon Resource Name (ARN) that is associated with the Directory where the updated typed link resides. For more information, see arns or Typed Links.
-        public let directoryArn: String
-        /// Allows a typed link specifier to be accepted as input.
-        public let typedLinkSpecifier: TypedLinkSpecifier
-        /// The attributes update structure.
-        public let attributeUpdates: [LinkAttributeUpdate]
-
-        public init(directoryArn: String, typedLinkSpecifier: TypedLinkSpecifier, attributeUpdates: [LinkAttributeUpdate]) {
-            self.directoryArn = directoryArn
-            self.typedLinkSpecifier = typedLinkSpecifier
-            self.attributeUpdates = attributeUpdates
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directoryArn = "x-amz-data-partition"
-            case typedLinkSpecifier = "TypedLinkSpecifier"
-            case attributeUpdates = "AttributeUpdates"
-        }
-    }
-
-    public struct GetAppliedSchemaVersionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AppliedSchemaArn", required: false, type: .string)
-        ]
-        /// Current applied schema ARN, including the minor version in use if one was provided.
-        public let appliedSchemaArn: String?
-
-        public init(appliedSchemaArn: String? = nil) {
-            self.appliedSchemaArn = appliedSchemaArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case appliedSchemaArn = "AppliedSchemaArn"
-        }
-    }
-
-    public struct BatchGetLinkAttributesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .list)
-        ]
-        /// The attributes that are associated with the typed link.
-        public let attributes: [AttributeKeyAndValue]?
-
-        public init(attributes: [AttributeKeyAndValue]? = nil) {
-            self.attributes = attributes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attributes = "Attributes"
-        }
-    }
-
-    public struct UpgradeAppliedSchemaRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", required: true, type: .string), 
-            AWSShapeMember(label: "PublishedSchemaArn", required: true, type: .string), 
-            AWSShapeMember(label: "DryRun", required: false, type: .boolean)
-        ]
-        /// The ARN for the directory to which the upgraded schema will be applied.
-        public let directoryArn: String
-        /// The revision of the published schema to upgrade the directory to.
-        public let publishedSchemaArn: String
-        /// Used for testing whether the major version schemas are backward compatible or not. If schema compatibility fails, an exception would be thrown else the call would succeed but no changes will be saved. This parameter is optional.
-        public let dryRun: Bool?
-
-        public init(directoryArn: String, publishedSchemaArn: String, dryRun: Bool? = nil) {
-            self.directoryArn = directoryArn
-            self.publishedSchemaArn = publishedSchemaArn
-            self.dryRun = dryRun
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directoryArn = "DirectoryArn"
-            case publishedSchemaArn = "PublishedSchemaArn"
-            case dryRun = "DryRun"
-        }
-    }
-
-    public struct ListAttachedIndicesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TargetReference", required: true, type: .structure), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum)
-        ]
-        /// The maximum number of results to retrieve.
-        public let maxResults: Int32?
-        /// The pagination token.
-        public let nextToken: String?
-        /// A reference to the object that has indices attached.
-        public let targetReference: ObjectReference
-        /// The ARN of the directory.
-        public let directoryArn: String
-        /// The consistency level to use for this operation.
-        public let consistencyLevel: ConsistencyLevel?
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, targetReference: ObjectReference, directoryArn: String, consistencyLevel: ConsistencyLevel? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-            self.targetReference = targetReference
-            self.directoryArn = directoryArn
-            self.consistencyLevel = consistencyLevel
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-            case targetReference = "TargetReference"
-            case directoryArn = "x-amz-data-partition"
-            case consistencyLevel = "x-amz-consistency-level"
-        }
-    }
-
-    public struct BatchGetObjectInformationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaFacets", required: false, type: .list), 
-            AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string)
-        ]
-        /// The facets attached to the specified object.
-        public let schemaFacets: [SchemaFacet]?
-        /// The ObjectIdentifier of the specified object.
-        public let objectIdentifier: String?
-
-        public init(schemaFacets: [SchemaFacet]? = nil, objectIdentifier: String? = nil) {
-            self.schemaFacets = schemaFacets
-            self.objectIdentifier = objectIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case schemaFacets = "SchemaFacets"
-            case objectIdentifier = "ObjectIdentifier"
-        }
-    }
-
-    public struct LookupPolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyToPathList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Provides list of path to policies. Policies contain PolicyId, ObjectIdentifier, and PolicyType. For more information, see Policies.
-        public let policyToPathList: [PolicyToPath]?
-        /// The pagination token.
-        public let nextToken: String?
-
-        public init(policyToPathList: [PolicyToPath]? = nil, nextToken: String? = nil) {
-            self.policyToPathList = policyToPathList
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyToPathList = "PolicyToPathList"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct BatchAttachPolicy: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyReference", required: true, type: .structure), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
-        ]
-        /// The reference that is associated with the policy object.
-        public let policyReference: ObjectReference
-        /// The reference that identifies the object to which the policy will be attached.
-        public let objectReference: ObjectReference
-
-        public init(policyReference: ObjectReference, objectReference: ObjectReference) {
-            self.policyReference = policyReference
-            self.objectReference = objectReference
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyReference = "PolicyReference"
-            case objectReference = "ObjectReference"
-        }
-    }
-
-    public struct Facet: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FacetStyle", required: false, type: .enum), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "ObjectType", required: false, type: .enum)
-        ]
-        /// There are two different styles that you can define on any given facet, Static and Dynamic. For static facets, all attributes must be defined in the schema. For dynamic facets, attributes can be defined during data plane operations.
-        public let facetStyle: FacetStyle?
-        /// The name of the Facet.
-        public let name: String?
-        /// The object type that is associated with the facet. See CreateFacetRequest$ObjectType for more details.
-        public let objectType: ObjectType?
-
-        public init(facetStyle: FacetStyle? = nil, name: String? = nil, objectType: ObjectType? = nil) {
-            self.facetStyle = facetStyle
-            self.name = name
-            self.objectType = objectType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case facetStyle = "FacetStyle"
-            case name = "Name"
-            case objectType = "ObjectType"
-        }
-    }
-
-    public enum BatchWriteExceptionType: String, CustomStringConvertible, Codable {
-        case internalserviceexception = "InternalServiceException"
-        case validationexception = "ValidationException"
-        case invalidarnexception = "InvalidArnException"
-        case linknamealreadyinuseexception = "LinkNameAlreadyInUseException"
-        case stillcontainslinksexception = "StillContainsLinksException"
-        case facetvalidationexception = "FacetValidationException"
-        case objectnotdetachedexception = "ObjectNotDetachedException"
-        case resourcenotfoundexception = "ResourceNotFoundException"
-        case accessdeniedexception = "AccessDeniedException"
-        case invalidattachmentexception = "InvalidAttachmentException"
-        case notindexexception = "NotIndexException"
-        case notnodeexception = "NotNodeException"
-        case indexedattributemissingexception = "IndexedAttributeMissingException"
-        case objectalreadydetachedexception = "ObjectAlreadyDetachedException"
-        case notpolicyexception = "NotPolicyException"
-        case directorynotenabledexception = "DirectoryNotEnabledException"
-        case limitexceededexception = "LimitExceededException"
-        case unsupportedindextypeexception = "UnsupportedIndexTypeException"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum UpdateActionType: String, CustomStringConvertible, Codable {
-        case createOrUpdate = "CREATE_OR_UPDATE"
-        case delete = "DELETE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListObjectParentPathsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
-        ]
-        /// The maximum number of items to be retrieved in a single call. This is an approximate number.
-        public let maxResults: Int32?
-        /// The pagination token.
-        public let nextToken: String?
-        /// The ARN of the directory to which the parent path applies.
-        public let directoryArn: String
-        /// The reference that identifies the object whose parent paths are listed.
-        public let objectReference: ObjectReference
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, directoryArn: String, objectReference: ObjectReference) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-            self.directoryArn = directoryArn
-            self.objectReference = objectReference
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-            case directoryArn = "x-amz-data-partition"
-            case objectReference = "ObjectReference"
-        }
-    }
-
-    public struct PutSchemaFromJsonResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string)
-        ]
-        /// The ARN of the schema to update.
-        public let arn: String?
-
-        public init(arn: String? = nil) {
-            self.arn = arn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
-        }
-    }
-
     public struct ListTagsForResourceResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", required: false, type: .list), 
@@ -2507,117 +850,172 @@ extension CloudDirectory {
         }
     }
 
-    public struct ListPolicyAttachmentsRequest: AWSShape {
+    public struct UpdateSchemaRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "PolicyReference", required: true, type: .structure), 
-            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum)
-        ]
-        /// The maximum number of items to be retrieved in a single call. This is an approximate number.
-        public let maxResults: Int32?
-        /// The pagination token.
-        public let nextToken: String?
-        /// The Amazon Resource Name (ARN) that is associated with the Directory where objects reside. For more information, see arns.
-        public let directoryArn: String
-        /// The reference that identifies the policy object.
-        public let policyReference: ObjectReference
-        /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
-        public let consistencyLevel: ConsistencyLevel?
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, directoryArn: String, policyReference: ObjectReference, consistencyLevel: ConsistencyLevel? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-            self.directoryArn = directoryArn
-            self.policyReference = policyReference
-            self.consistencyLevel = consistencyLevel
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-            case directoryArn = "x-amz-data-partition"
-            case policyReference = "PolicyReference"
-            case consistencyLevel = "x-amz-consistency-level"
-        }
-    }
-
-    public struct CreateObjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ParentReference", required: false, type: .structure), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "LinkName", required: false, type: .string), 
-            AWSShapeMember(label: "ObjectAttributeList", required: false, type: .list), 
-            AWSShapeMember(label: "SchemaFacets", required: true, type: .list)
-        ]
-        /// If specified, the parent reference to which this object will be attached.
-        public let parentReference: ObjectReference?
-        /// The Amazon Resource Name (ARN) that is associated with the Directory in which the object will be created. For more information, see arns.
-        public let directoryArn: String
-        /// The name of link that is used to attach this object to a parent.
-        public let linkName: String?
-        /// The attribute map whose attribute ARN contains the key and attribute value as the map value.
-        public let objectAttributeList: [AttributeKeyAndValue]?
-        /// A list of schema facets to be associated with the object. Do not provide minor version components. See SchemaFacet for details.
-        public let schemaFacets: [SchemaFacet]
-
-        public init(parentReference: ObjectReference? = nil, directoryArn: String, linkName: String? = nil, objectAttributeList: [AttributeKeyAndValue]? = nil, schemaFacets: [SchemaFacet]) {
-            self.parentReference = parentReference
-            self.directoryArn = directoryArn
-            self.linkName = linkName
-            self.objectAttributeList = objectAttributeList
-            self.schemaFacets = schemaFacets
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case parentReference = "ParentReference"
-            case directoryArn = "x-amz-data-partition"
-            case linkName = "LinkName"
-            case objectAttributeList = "ObjectAttributeList"
-            case schemaFacets = "SchemaFacets"
-        }
-    }
-
-    public struct CreateSchemaRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
-        /// The name that is associated with the schema. This is unique to each account and in each region.
+        /// The Amazon Resource Name (ARN) of the development schema. For more information, see arns.
+        public let schemaArn: String
+        /// The name of the schema.
         public let name: String
 
-        public init(name: String) {
+        public init(schemaArn: String, name: String) {
+            self.schemaArn = schemaArn
             self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
+            case schemaArn = "x-amz-data-partition"
             case name = "Name"
         }
     }
 
-    public struct ListObjectParentsResponse: AWSShape {
+    public struct BatchReadSuccessfulResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Parents", required: false, type: .map), 
-            AWSShapeMember(label: "ParentLinks", required: false, type: .list), 
+            AWSShapeMember(label: "GetObjectInformation", required: false, type: .structure), 
+            AWSShapeMember(label: "ListObjectChildren", required: false, type: .structure), 
+            AWSShapeMember(label: "ListObjectPolicies", required: false, type: .structure), 
+            AWSShapeMember(label: "ListObjectParents", required: false, type: .structure), 
+            AWSShapeMember(label: "LookupPolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "ListObjectParentPaths", required: false, type: .structure), 
+            AWSShapeMember(label: "ListIncomingTypedLinks", required: false, type: .structure), 
+            AWSShapeMember(label: "GetLinkAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "ListIndex", required: false, type: .structure), 
+            AWSShapeMember(label: "ListObjectAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "ListAttachedIndices", required: false, type: .structure), 
+            AWSShapeMember(label: "ListPolicyAttachments", required: false, type: .structure), 
+            AWSShapeMember(label: "ListOutgoingTypedLinks", required: false, type: .structure), 
+            AWSShapeMember(label: "GetObjectAttributes", required: false, type: .structure)
+        ]
+        /// Retrieves metadata about an object.
+        public let getObjectInformation: BatchGetObjectInformationResponse?
+        /// Returns a paginated list of child objects that are associated with a given object.
+        public let listObjectChildren: BatchListObjectChildrenResponse?
+        /// Returns policies attached to an object in pagination fashion.
+        public let listObjectPolicies: BatchListObjectPoliciesResponse?
+        public let listObjectParents: BatchListObjectParentsResponse?
+        /// Lists all policies from the root of the Directory to the object specified. If there are no policies present, an empty list is returned. If policies are present, and if some objects don't have the policies attached, it returns the ObjectIdentifier for such objects. If policies are present, it returns ObjectIdentifier, policyId, and policyType. Paths that don't lead to the root from the target object are ignored. For more information, see Policies.
+        public let lookupPolicy: BatchLookupPolicyResponse?
+        /// Retrieves all available parent paths for any object type such as node, leaf node, policy node, and index node objects. For more information about objects, see Directory Structure.
+        public let listObjectParentPaths: BatchListObjectParentPathsResponse?
+        /// Returns a paginated list of all the incoming TypedLinkSpecifier information for an object. It also supports filtering by typed link facet and identity attributes. For more information, see Typed Links.
+        public let listIncomingTypedLinks: BatchListIncomingTypedLinksResponse?
+        /// The list of attributes to retrieve from the typed link.
+        public let getLinkAttributes: BatchGetLinkAttributesResponse?
+        /// Lists objects attached to the specified index.
+        public let listIndex: BatchListIndexResponse?
+        /// Lists all attributes that are associated with an object.
+        public let listObjectAttributes: BatchListObjectAttributesResponse?
+        /// Lists indices attached to an object.
+        public let listAttachedIndices: BatchListAttachedIndicesResponse?
+        /// Returns all of the ObjectIdentifiers to which a given policy is attached.
+        public let listPolicyAttachments: BatchListPolicyAttachmentsResponse?
+        /// Returns a paginated list of all the outgoing TypedLinkSpecifier information for an object. It also supports filtering by typed link facet and identity attributes. For more information, see Typed Links.
+        public let listOutgoingTypedLinks: BatchListOutgoingTypedLinksResponse?
+        /// Retrieves attributes within a facet that are associated with an object.
+        public let getObjectAttributes: BatchGetObjectAttributesResponse?
+
+        public init(getObjectInformation: BatchGetObjectInformationResponse? = nil, listObjectChildren: BatchListObjectChildrenResponse? = nil, listObjectPolicies: BatchListObjectPoliciesResponse? = nil, listObjectParents: BatchListObjectParentsResponse? = nil, lookupPolicy: BatchLookupPolicyResponse? = nil, listObjectParentPaths: BatchListObjectParentPathsResponse? = nil, listIncomingTypedLinks: BatchListIncomingTypedLinksResponse? = nil, getLinkAttributes: BatchGetLinkAttributesResponse? = nil, listIndex: BatchListIndexResponse? = nil, listObjectAttributes: BatchListObjectAttributesResponse? = nil, listAttachedIndices: BatchListAttachedIndicesResponse? = nil, listPolicyAttachments: BatchListPolicyAttachmentsResponse? = nil, listOutgoingTypedLinks: BatchListOutgoingTypedLinksResponse? = nil, getObjectAttributes: BatchGetObjectAttributesResponse? = nil) {
+            self.getObjectInformation = getObjectInformation
+            self.listObjectChildren = listObjectChildren
+            self.listObjectPolicies = listObjectPolicies
+            self.listObjectParents = listObjectParents
+            self.lookupPolicy = lookupPolicy
+            self.listObjectParentPaths = listObjectParentPaths
+            self.listIncomingTypedLinks = listIncomingTypedLinks
+            self.getLinkAttributes = getLinkAttributes
+            self.listIndex = listIndex
+            self.listObjectAttributes = listObjectAttributes
+            self.listAttachedIndices = listAttachedIndices
+            self.listPolicyAttachments = listPolicyAttachments
+            self.listOutgoingTypedLinks = listOutgoingTypedLinks
+            self.getObjectAttributes = getObjectAttributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case getObjectInformation = "GetObjectInformation"
+            case listObjectChildren = "ListObjectChildren"
+            case listObjectPolicies = "ListObjectPolicies"
+            case listObjectParents = "ListObjectParents"
+            case lookupPolicy = "LookupPolicy"
+            case listObjectParentPaths = "ListObjectParentPaths"
+            case listIncomingTypedLinks = "ListIncomingTypedLinks"
+            case getLinkAttributes = "GetLinkAttributes"
+            case listIndex = "ListIndex"
+            case listObjectAttributes = "ListObjectAttributes"
+            case listAttachedIndices = "ListAttachedIndices"
+            case listPolicyAttachments = "ListPolicyAttachments"
+            case listOutgoingTypedLinks = "ListOutgoingTypedLinks"
+            case getObjectAttributes = "GetObjectAttributes"
+        }
+    }
+
+    public struct ListAttachedIndicesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "TargetReference", required: true, type: .structure), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The parent structure, which is a map with key as the ObjectIdentifier and LinkName as the value.
-        public let parents: [String: String]?
-        /// Returns a list of parent reference and LinkName Tuples.
-        public let parentLinks: [ObjectIdentifierAndLinkNameTuple]?
+        /// The ARN of the directory.
+        public let directoryArn: String
+        /// A reference to the object that has indices attached.
+        public let targetReference: ObjectReference
+        /// The maximum number of results to retrieve.
+        public let maxResults: Int32?
+        /// The consistency level to use for this operation.
+        public let consistencyLevel: ConsistencyLevel?
         /// The pagination token.
         public let nextToken: String?
 
-        public init(parents: [String: String]? = nil, parentLinks: [ObjectIdentifierAndLinkNameTuple]? = nil, nextToken: String? = nil) {
-            self.parents = parents
-            self.parentLinks = parentLinks
+        public init(directoryArn: String, targetReference: ObjectReference, maxResults: Int32? = nil, consistencyLevel: ConsistencyLevel? = nil, nextToken: String? = nil) {
+            self.directoryArn = directoryArn
+            self.targetReference = targetReference
+            self.maxResults = maxResults
+            self.consistencyLevel = consistencyLevel
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case parents = "Parents"
-            case parentLinks = "ParentLinks"
+            case directoryArn = "x-amz-data-partition"
+            case targetReference = "TargetReference"
+            case maxResults = "MaxResults"
+            case consistencyLevel = "x-amz-consistency-level"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct BatchWriteResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Responses", required: false, type: .list)
+        ]
+        /// A list of all the responses for each batch write.
+        public let responses: [BatchWriteOperationResponse]?
+
+        public init(responses: [BatchWriteOperationResponse]? = nil) {
+            self.responses = responses
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case responses = "Responses"
+        }
+    }
+
+    public struct BatchAttachToIndexResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttachedObjectIdentifier", required: false, type: .string)
+        ]
+        /// The ObjectIdentifier of the object that was attached to the index.
+        public let attachedObjectIdentifier: String?
+
+        public init(attachedObjectIdentifier: String? = nil) {
+            self.attachedObjectIdentifier = attachedObjectIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachedObjectIdentifier = "AttachedObjectIdentifier"
         }
     }
 
@@ -2647,723 +1045,65 @@ extension CloudDirectory {
         }
     }
 
-    public struct EnableDirectoryRequest: AWSShape {
+    public struct ListAppliedSchemaArnsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
-        ]
-        /// The ARN of the directory to enable.
-        public let directoryArn: String
-
-        public init(directoryArn: String) {
-            self.directoryArn = directoryArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directoryArn = "x-amz-data-partition"
-        }
-    }
-
-    public struct ListTypedLinkFacetNamesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FacetNames", required: false, type: .list), 
+            AWSShapeMember(label: "SchemaArn", required: false, type: .string), 
+            AWSShapeMember(label: "DirectoryArn", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The names of typed link facets that exist within the schema.
-        public let facetNames: [String]?
+        /// The response for ListAppliedSchemaArns when this parameter is used will list all minor version ARNs for a major version.
+        public let schemaArn: String?
+        /// The ARN of the directory you are listing.
+        public let directoryArn: String
+        /// The maximum number of results to retrieve.
+        public let maxResults: Int32?
         /// The pagination token.
         public let nextToken: String?
 
-        public init(facetNames: [String]? = nil, nextToken: String? = nil) {
-            self.facetNames = facetNames
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case facetNames = "FacetNames"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct ListDevelopmentSchemaArnsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArns", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The ARNs of retrieved development schemas.
-        public let schemaArns: [String]?
-        /// The pagination token.
-        public let nextToken: String?
-
-        public init(schemaArns: [String]? = nil, nextToken: String? = nil) {
-            self.schemaArns = schemaArns
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case schemaArns = "SchemaArns"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct AttachToIndexRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "TargetReference", required: true, type: .structure), 
-            AWSShapeMember(label: "IndexReference", required: true, type: .structure)
-        ]
-        /// The Amazon Resource Name (ARN) of the directory where the object and index exist.
-        public let directoryArn: String
-        /// A reference to the object that you are attaching to the index.
-        public let targetReference: ObjectReference
-        /// A reference to the index that you are attaching the object to.
-        public let indexReference: ObjectReference
-
-        public init(directoryArn: String, targetReference: ObjectReference, indexReference: ObjectReference) {
-            self.directoryArn = directoryArn
-            self.targetReference = targetReference
-            self.indexReference = indexReference
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directoryArn = "x-amz-data-partition"
-            case targetReference = "TargetReference"
-            case indexReference = "IndexReference"
-        }
-    }
-
-    public struct GetFacetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) that is associated with the Facet. For more information, see arns.
-        public let schemaArn: String
-        /// The name of the facet to retrieve.
-        public let name: String
-
-        public init(schemaArn: String, name: String) {
+        public init(schemaArn: String? = nil, directoryArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.schemaArn = schemaArn
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case schemaArn = "x-amz-data-partition"
-            case name = "Name"
-        }
-    }
-
-    public enum BatchReadExceptionType: String, CustomStringConvertible, Codable {
-        case validationexception = "ValidationException"
-        case invalidarnexception = "InvalidArnException"
-        case resourcenotfoundexception = "ResourceNotFoundException"
-        case invalidnexttokenexception = "InvalidNextTokenException"
-        case accessdeniedexception = "AccessDeniedException"
-        case notnodeexception = "NotNodeException"
-        case facetvalidationexception = "FacetValidationException"
-        case cannotlistparentofrootexception = "CannotListParentOfRootException"
-        case notindexexception = "NotIndexException"
-        case notpolicyexception = "NotPolicyException"
-        case directorynotenabledexception = "DirectoryNotEnabledException"
-        case limitexceededexception = "LimitExceededException"
-        case internalserviceexception = "InternalServiceException"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListFacetNamesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FacetNames", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The names of facets that exist within the schema.
-        public let facetNames: [String]?
-        /// The pagination token.
-        public let nextToken: String?
-
-        public init(facetNames: [String]? = nil, nextToken: String? = nil) {
-            self.facetNames = facetNames
+            self.directoryArn = directoryArn
+            self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case facetNames = "FacetNames"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct EnableDirectoryResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", required: true, type: .string)
-        ]
-        /// The ARN of the enabled directory.
-        public let directoryArn: String
-
-        public init(directoryArn: String) {
-            self.directoryArn = directoryArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
+            case schemaArn = "SchemaArn"
             case directoryArn = "DirectoryArn"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
         }
     }
 
-    public enum RangeMode: String, CustomStringConvertible, Codable {
-        case first = "FIRST"
-        case last = "LAST"
-        case lastBeforeMissingValues = "LAST_BEFORE_MISSING_VALUES"
-        case inclusive = "INCLUSIVE"
-        case exclusive = "EXCLUSIVE"
+    public enum FacetAttributeType: String, CustomStringConvertible, Codable {
+        case string = "STRING"
+        case binary = "BINARY"
+        case boolean = "BOOLEAN"
+        case number = "NUMBER"
+        case datetime = "DATETIME"
+        case variant = "VARIANT"
         public var description: String { return self.rawValue }
-    }
-
-    public struct BatchLookupPolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyToPathList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Provides list of path to policies. Policies contain PolicyId, ObjectIdentifier, and PolicyType. For more information, see Policies.
-        public let policyToPathList: [PolicyToPath]?
-        /// The pagination token.
-        public let nextToken: String?
-
-        public init(policyToPathList: [PolicyToPath]? = nil, nextToken: String? = nil) {
-            self.policyToPathList = policyToPathList
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyToPathList = "PolicyToPathList"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct ListFacetNamesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
-        ]
-        /// The pagination token.
-        public let nextToken: String?
-        /// The Amazon Resource Name (ARN) to retrieve facet names from.
-        public let schemaArn: String
-        /// The maximum number of results to retrieve.
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, schemaArn: String, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.schemaArn = schemaArn
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case schemaArn = "x-amz-data-partition"
-            case maxResults = "MaxResults"
-        }
-    }
-
-    public struct Rule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "Parameters", required: false, type: .map)
-        ]
-        /// The type of attribute validation rule.
-        public let `type`: RuleType?
-        /// The minimum and maximum parameters that are associated with the rule.
-        public let parameters: [String: String]?
-
-        public init(type: RuleType? = nil, parameters: [String: String]? = nil) {
-            self.`type` = `type`
-            self.parameters = parameters
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
-            case parameters = "Parameters"
-        }
-    }
-
-    public struct BatchListObjectParents: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
-        ]
-        public let nextToken: String?
-        public let objectReference: ObjectReference
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, objectReference: ObjectReference, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.objectReference = objectReference
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case objectReference = "ObjectReference"
-            case maxResults = "MaxResults"
-        }
-    }
-
-    public struct TypedLinkSpecifier: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetObjectReference", required: true, type: .structure), 
-            AWSShapeMember(label: "TypedLinkFacet", required: true, type: .structure), 
-            AWSShapeMember(label: "SourceObjectReference", required: true, type: .structure), 
-            AWSShapeMember(label: "IdentityAttributeValues", required: true, type: .list)
-        ]
-        /// Identifies the target object that the typed link will attach to.
-        public let targetObjectReference: ObjectReference
-        /// Identifies the typed link facet that is associated with the typed link.
-        public let typedLinkFacet: TypedLinkSchemaAndFacetName
-        /// Identifies the source object that the typed link will attach to.
-        public let sourceObjectReference: ObjectReference
-        /// Identifies the attribute value to update.
-        public let identityAttributeValues: [AttributeNameAndValue]
-
-        public init(targetObjectReference: ObjectReference, typedLinkFacet: TypedLinkSchemaAndFacetName, sourceObjectReference: ObjectReference, identityAttributeValues: [AttributeNameAndValue]) {
-            self.targetObjectReference = targetObjectReference
-            self.typedLinkFacet = typedLinkFacet
-            self.sourceObjectReference = sourceObjectReference
-            self.identityAttributeValues = identityAttributeValues
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case targetObjectReference = "TargetObjectReference"
-            case typedLinkFacet = "TypedLinkFacet"
-            case sourceObjectReference = "SourceObjectReference"
-            case identityAttributeValues = "IdentityAttributeValues"
-        }
-    }
-
-    public struct BatchAttachToIndexResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttachedObjectIdentifier", required: false, type: .string)
-        ]
-        /// The ObjectIdentifier of the object that was attached to the index.
-        public let attachedObjectIdentifier: String?
-
-        public init(attachedObjectIdentifier: String? = nil) {
-            self.attachedObjectIdentifier = attachedObjectIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attachedObjectIdentifier = "AttachedObjectIdentifier"
-        }
-    }
-
-    public struct GetSchemaAsJsonRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
-        ]
-        /// The ARN of the schema to retrieve.
-        public let schemaArn: String
-
-        public init(schemaArn: String) {
-            self.schemaArn = schemaArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case schemaArn = "x-amz-data-partition"
-        }
-    }
-
-    public struct ListObjectParentPathsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PathToObjectIdentifiersList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Returns the path to the ObjectIdentifiers that are associated with the directory.
-        public let pathToObjectIdentifiersList: [PathToObjectIdentifiers]?
-        /// The pagination token.
-        public let nextToken: String?
-
-        public init(pathToObjectIdentifiersList: [PathToObjectIdentifiers]? = nil, nextToken: String? = nil) {
-            self.pathToObjectIdentifiersList = pathToObjectIdentifiersList
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pathToObjectIdentifiersList = "PathToObjectIdentifiersList"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct TypedLinkFacetAttributeUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Action", required: true, type: .enum), 
-            AWSShapeMember(label: "Attribute", required: true, type: .structure)
-        ]
-        /// The action to perform when updating the attribute.
-        public let action: UpdateActionType
-        /// The attribute to update.
-        public let attribute: TypedLinkAttributeDefinition
-
-        public init(action: UpdateActionType, attribute: TypedLinkAttributeDefinition) {
-            self.action = action
-            self.attribute = attribute
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case action = "Action"
-            case attribute = "Attribute"
-        }
-    }
-
-    public struct ListTypedLinkFacetAttributesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// An ordered set of attributes associate with the typed link.
-        public let attributes: [TypedLinkAttributeDefinition]?
-        /// The pagination token.
-        public let nextToken: String?
-
-        public init(attributes: [TypedLinkAttributeDefinition]? = nil, nextToken: String? = nil) {
-            self.attributes = attributes
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attributes = "Attributes"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct BatchListIndex: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RangesOnIndexedValues", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "IndexReference", required: true, type: .structure), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
-        ]
-        /// Specifies the ranges of indexed values that you want to query.
-        public let rangesOnIndexedValues: [ObjectAttributeRange]?
-        /// The pagination token.
-        public let nextToken: String?
-        /// The reference to the index to list.
-        public let indexReference: ObjectReference
-        /// The maximum number of results to retrieve.
-        public let maxResults: Int32?
-
-        public init(rangesOnIndexedValues: [ObjectAttributeRange]? = nil, nextToken: String? = nil, indexReference: ObjectReference, maxResults: Int32? = nil) {
-            self.rangesOnIndexedValues = rangesOnIndexedValues
-            self.nextToken = nextToken
-            self.indexReference = indexReference
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case rangesOnIndexedValues = "RangesOnIndexedValues"
-            case nextToken = "NextToken"
-            case indexReference = "IndexReference"
-            case maxResults = "MaxResults"
-        }
     }
 
     public struct GetObjectInformationResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaFacets", required: false, type: .list), 
-            AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string)
+            AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "SchemaFacets", required: false, type: .list)
         ]
-        /// The facets attached to the specified object. Although the response does not include minor version information, the most recently applied minor version of each Facet is in effect. See GetAppliedSchemaVersion for details.
-        public let schemaFacets: [SchemaFacet]?
         /// The ObjectIdentifier of the specified object.
         public let objectIdentifier: String?
+        /// The facets attached to the specified object. Although the response does not include minor version information, the most recently applied minor version of each Facet is in effect. See GetAppliedSchemaVersion for details.
+        public let schemaFacets: [SchemaFacet]?
 
-        public init(schemaFacets: [SchemaFacet]? = nil, objectIdentifier: String? = nil) {
+        public init(objectIdentifier: String? = nil, schemaFacets: [SchemaFacet]? = nil) {
+            self.objectIdentifier = objectIdentifier
             self.schemaFacets = schemaFacets
-            self.objectIdentifier = objectIdentifier
         }
 
         private enum CodingKeys: String, CodingKey {
+            case objectIdentifier = "ObjectIdentifier"
             case schemaFacets = "SchemaFacets"
-            case objectIdentifier = "ObjectIdentifier"
-        }
-    }
-
-    public struct BatchReadOperation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GetObjectAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "ListPolicyAttachments", required: false, type: .structure), 
-            AWSShapeMember(label: "GetLinkAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "ListOutgoingTypedLinks", required: false, type: .structure), 
-            AWSShapeMember(label: "ListIndex", required: false, type: .structure), 
-            AWSShapeMember(label: "ListObjectPolicies", required: false, type: .structure), 
-            AWSShapeMember(label: "ListObjectParents", required: false, type: .structure), 
-            AWSShapeMember(label: "ListObjectAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "LookupPolicy", required: false, type: .structure), 
-            AWSShapeMember(label: "ListObjectParentPaths", required: false, type: .structure), 
-            AWSShapeMember(label: "ListAttachedIndices", required: false, type: .structure), 
-            AWSShapeMember(label: "GetObjectInformation", required: false, type: .structure), 
-            AWSShapeMember(label: "ListIncomingTypedLinks", required: false, type: .structure), 
-            AWSShapeMember(label: "ListObjectChildren", required: false, type: .structure)
-        ]
-        /// Retrieves attributes within a facet that are associated with an object.
-        public let getObjectAttributes: BatchGetObjectAttributes?
-        /// Returns all of the ObjectIdentifiers to which a given policy is attached.
-        public let listPolicyAttachments: BatchListPolicyAttachments?
-        /// Retrieves attributes that are associated with a typed link.
-        public let getLinkAttributes: BatchGetLinkAttributes?
-        /// Returns a paginated list of all the outgoing TypedLinkSpecifier information for an object. It also supports filtering by typed link facet and identity attributes. For more information, see Typed Links.
-        public let listOutgoingTypedLinks: BatchListOutgoingTypedLinks?
-        /// Lists objects attached to the specified index.
-        public let listIndex: BatchListIndex?
-        /// Returns policies attached to an object in pagination fashion.
-        public let listObjectPolicies: BatchListObjectPolicies?
-        public let listObjectParents: BatchListObjectParents?
-        /// Lists all attributes that are associated with an object.
-        public let listObjectAttributes: BatchListObjectAttributes?
-        /// Lists all policies from the root of the Directory to the object specified. If there are no policies present, an empty list is returned. If policies are present, and if some objects don't have the policies attached, it returns the ObjectIdentifier for such objects. If policies are present, it returns ObjectIdentifier, policyId, and policyType. Paths that don't lead to the root from the target object are ignored. For more information, see Policies.
-        public let lookupPolicy: BatchLookupPolicy?
-        /// Retrieves all available parent paths for any object type such as node, leaf node, policy node, and index node objects. For more information about objects, see Directory Structure.
-        public let listObjectParentPaths: BatchListObjectParentPaths?
-        /// Lists indices attached to an object.
-        public let listAttachedIndices: BatchListAttachedIndices?
-        /// Retrieves metadata about an object.
-        public let getObjectInformation: BatchGetObjectInformation?
-        /// Returns a paginated list of all the incoming TypedLinkSpecifier information for an object. It also supports filtering by typed link facet and identity attributes. For more information, see Typed Links.
-        public let listIncomingTypedLinks: BatchListIncomingTypedLinks?
-        /// Returns a paginated list of child objects that are associated with a given object.
-        public let listObjectChildren: BatchListObjectChildren?
-
-        public init(getObjectAttributes: BatchGetObjectAttributes? = nil, listPolicyAttachments: BatchListPolicyAttachments? = nil, getLinkAttributes: BatchGetLinkAttributes? = nil, listOutgoingTypedLinks: BatchListOutgoingTypedLinks? = nil, listIndex: BatchListIndex? = nil, listObjectPolicies: BatchListObjectPolicies? = nil, listObjectParents: BatchListObjectParents? = nil, listObjectAttributes: BatchListObjectAttributes? = nil, lookupPolicy: BatchLookupPolicy? = nil, listObjectParentPaths: BatchListObjectParentPaths? = nil, listAttachedIndices: BatchListAttachedIndices? = nil, getObjectInformation: BatchGetObjectInformation? = nil, listIncomingTypedLinks: BatchListIncomingTypedLinks? = nil, listObjectChildren: BatchListObjectChildren? = nil) {
-            self.getObjectAttributes = getObjectAttributes
-            self.listPolicyAttachments = listPolicyAttachments
-            self.getLinkAttributes = getLinkAttributes
-            self.listOutgoingTypedLinks = listOutgoingTypedLinks
-            self.listIndex = listIndex
-            self.listObjectPolicies = listObjectPolicies
-            self.listObjectParents = listObjectParents
-            self.listObjectAttributes = listObjectAttributes
-            self.lookupPolicy = lookupPolicy
-            self.listObjectParentPaths = listObjectParentPaths
-            self.listAttachedIndices = listAttachedIndices
-            self.getObjectInformation = getObjectInformation
-            self.listIncomingTypedLinks = listIncomingTypedLinks
-            self.listObjectChildren = listObjectChildren
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case getObjectAttributes = "GetObjectAttributes"
-            case listPolicyAttachments = "ListPolicyAttachments"
-            case getLinkAttributes = "GetLinkAttributes"
-            case listOutgoingTypedLinks = "ListOutgoingTypedLinks"
-            case listIndex = "ListIndex"
-            case listObjectPolicies = "ListObjectPolicies"
-            case listObjectParents = "ListObjectParents"
-            case listObjectAttributes = "ListObjectAttributes"
-            case lookupPolicy = "LookupPolicy"
-            case listObjectParentPaths = "ListObjectParentPaths"
-            case listAttachedIndices = "ListAttachedIndices"
-            case getObjectInformation = "GetObjectInformation"
-            case listIncomingTypedLinks = "ListIncomingTypedLinks"
-            case listObjectChildren = "ListObjectChildren"
-        }
-    }
-
-    public struct GetFacetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Facet", required: false, type: .structure)
-        ]
-        /// The Facet structure that is associated with the facet.
-        public let facet: Facet?
-
-        public init(facet: Facet? = nil) {
-            self.facet = facet
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case facet = "Facet"
-        }
-    }
-
-    public struct BatchListObjectPolicies: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
-        ]
-        /// The pagination token.
-        public let nextToken: String?
-        /// The reference that identifies the object whose attributes will be listed.
-        public let objectReference: ObjectReference
-        /// The maximum number of results to retrieve.
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, objectReference: ObjectReference, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.objectReference = objectReference
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case objectReference = "ObjectReference"
-            case maxResults = "MaxResults"
-        }
-    }
-
-    public struct BatchListOutgoingTypedLinks: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "FilterTypedLink", required: false, type: .structure), 
-            AWSShapeMember(label: "FilterAttributeRanges", required: false, type: .list), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
-        ]
-        /// The pagination token.
-        public let nextToken: String?
-        /// The maximum number of results to retrieve.
-        public let maxResults: Int32?
-        /// Filters are interpreted in the order of the attributes defined on the typed link facet, not the order they are supplied to any API calls.
-        public let filterTypedLink: TypedLinkSchemaAndFacetName?
-        /// Provides range filters for multiple attributes. When providing ranges to typed link selection, any inexact ranges must be specified at the end. Any attributes that do not have a range specified are presumed to match the entire range.
-        public let filterAttributeRanges: [TypedLinkAttributeRange]?
-        /// The reference that identifies the object whose attributes will be listed.
-        public let objectReference: ObjectReference
-
-        public init(nextToken: String? = nil, maxResults: Int32? = nil, filterTypedLink: TypedLinkSchemaAndFacetName? = nil, filterAttributeRanges: [TypedLinkAttributeRange]? = nil, objectReference: ObjectReference) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.filterTypedLink = filterTypedLink
-            self.filterAttributeRanges = filterAttributeRanges
-            self.objectReference = objectReference
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case maxResults = "MaxResults"
-            case filterTypedLink = "FilterTypedLink"
-            case filterAttributeRanges = "FilterAttributeRanges"
-            case objectReference = "ObjectReference"
-        }
-    }
-
-    public struct TagResourceResponse: AWSShape {
-
-    }
-
-    public struct DetachFromIndexResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetachedObjectIdentifier", required: false, type: .string)
-        ]
-        /// The ObjectIdentifier of the object that was detached from the index.
-        public let detachedObjectIdentifier: String?
-
-        public init(detachedObjectIdentifier: String? = nil) {
-            self.detachedObjectIdentifier = detachedObjectIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case detachedObjectIdentifier = "DetachedObjectIdentifier"
-        }
-    }
-
-    public struct DeleteDirectoryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
-        ]
-        /// The ARN of the directory to delete.
-        public let directoryArn: String
-
-        public init(directoryArn: String) {
-            self.directoryArn = directoryArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directoryArn = "x-amz-data-partition"
-        }
-    }
-
-    public struct BatchCreateIndexResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string)
-        ]
-        /// The ObjectIdentifier of the index created by this operation.
-        public let objectIdentifier: String?
-
-        public init(objectIdentifier: String? = nil) {
-            self.objectIdentifier = objectIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case objectIdentifier = "ObjectIdentifier"
-        }
-    }
-
-    public struct DeleteObjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
-        ]
-        /// The Amazon Resource Name (ARN) that is associated with the Directory where the object resides. For more information, see arns.
-        public let directoryArn: String
-        /// A reference that identifies the object.
-        public let objectReference: ObjectReference
-
-        public init(directoryArn: String, objectReference: ObjectReference) {
-            self.directoryArn = directoryArn
-            self.objectReference = objectReference
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directoryArn = "x-amz-data-partition"
-            case objectReference = "ObjectReference"
-        }
-    }
-
-    public struct ListAppliedSchemaArnsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "SchemaArn", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "DirectoryArn", required: true, type: .string)
-        ]
-        /// The maximum number of results to retrieve.
-        public let maxResults: Int32?
-        /// The response for ListAppliedSchemaArns when this parameter is used will list all minor version ARNs for a major version.
-        public let schemaArn: String?
-        /// The pagination token.
-        public let nextToken: String?
-        /// The ARN of the directory you are listing.
-        public let directoryArn: String
-
-        public init(maxResults: Int32? = nil, schemaArn: String? = nil, nextToken: String? = nil, directoryArn: String) {
-            self.maxResults = maxResults
-            self.schemaArn = schemaArn
-            self.nextToken = nextToken
-            self.directoryArn = directoryArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case schemaArn = "SchemaArn"
-            case nextToken = "NextToken"
-            case directoryArn = "DirectoryArn"
-        }
-    }
-
-    public struct TypedLinkAttributeRange: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Range", required: true, type: .structure), 
-            AWSShapeMember(label: "AttributeName", required: false, type: .string)
-        ]
-        /// The range of attribute values that are being selected.
-        public let range: TypedAttributeValueRange
-        /// The unique name of the typed link attribute.
-        public let attributeName: String?
-
-        public init(range: TypedAttributeValueRange, attributeName: String? = nil) {
-            self.range = range
-            self.attributeName = attributeName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case range = "Range"
-            case attributeName = "AttributeName"
         }
     }
 
@@ -3388,149 +1128,154 @@ extension CloudDirectory {
         }
     }
 
-    public struct CreateIndexRequest: AWSShape {
+    public struct AttachToIndexResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ParentReference", required: false, type: .structure), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "OrderedIndexedAttributeList", required: true, type: .list), 
-            AWSShapeMember(label: "IsUnique", required: true, type: .boolean), 
-            AWSShapeMember(label: "LinkName", required: false, type: .string)
+            AWSShapeMember(label: "AttachedObjectIdentifier", required: false, type: .string)
         ]
-        /// A reference to the parent object that contains the index object.
-        public let parentReference: ObjectReference?
-        /// The ARN of the directory where the index should be created.
-        public let directoryArn: String
-        /// Specifies the attributes that should be indexed on. Currently only a single attribute is supported.
-        public let orderedIndexedAttributeList: [AttributeKey]
-        /// Indicates whether the attribute that is being indexed has unique values or not.
-        public let isUnique: Bool
-        /// The name of the link between the parent object and the index object.
-        public let linkName: String?
+        /// The ObjectIdentifier of the object that was attached to the index.
+        public let attachedObjectIdentifier: String?
 
-        public init(parentReference: ObjectReference? = nil, directoryArn: String, orderedIndexedAttributeList: [AttributeKey], isUnique: Bool, linkName: String? = nil) {
-            self.parentReference = parentReference
-            self.directoryArn = directoryArn
-            self.orderedIndexedAttributeList = orderedIndexedAttributeList
-            self.isUnique = isUnique
-            self.linkName = linkName
+        public init(attachedObjectIdentifier: String? = nil) {
+            self.attachedObjectIdentifier = attachedObjectIdentifier
         }
 
         private enum CodingKeys: String, CodingKey {
-            case parentReference = "ParentReference"
-            case directoryArn = "x-amz-data-partition"
-            case orderedIndexedAttributeList = "OrderedIndexedAttributeList"
-            case isUnique = "IsUnique"
-            case linkName = "LinkName"
+            case attachedObjectIdentifier = "AttachedObjectIdentifier"
         }
     }
 
-    public struct GetAppliedSchemaVersionRequest: AWSShape {
+    public struct Facet: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", required: true, type: .string)
+            AWSShapeMember(label: "FacetStyle", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "ObjectType", required: false, type: .enum)
         ]
-        /// The ARN of the applied schema.
-        public let schemaArn: String
+        /// There are two different styles that you can define on any given facet, Static and Dynamic. For static facets, all attributes must be defined in the schema. For dynamic facets, attributes can be defined during data plane operations.
+        public let facetStyle: FacetStyle?
+        /// The name of the Facet.
+        public let name: String?
+        /// The object type that is associated with the facet. See CreateFacetRequest$ObjectType for more details.
+        public let objectType: ObjectType?
 
-        public init(schemaArn: String) {
-            self.schemaArn = schemaArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case schemaArn = "SchemaArn"
-        }
-    }
-
-    public struct UntagResourceResponse: AWSShape {
-
-    }
-
-    public struct ListObjectPoliciesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttachedPolicyIds", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// A list of policy ObjectIdentifiers, that are attached to the object.
-        public let attachedPolicyIds: [String]?
-        /// The pagination token.
-        public let nextToken: String?
-
-        public init(attachedPolicyIds: [String]? = nil, nextToken: String? = nil) {
-            self.attachedPolicyIds = attachedPolicyIds
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attachedPolicyIds = "AttachedPolicyIds"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct ListTypedLinkFacetAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
-        ]
-        /// The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
-        public let schemaArn: String
-        /// The unique name of the typed link facet.
-        public let name: String
-        /// The pagination token.
-        public let nextToken: String?
-        /// The maximum number of results to retrieve.
-        public let maxResults: Int32?
-
-        public init(schemaArn: String, name: String, nextToken: String? = nil, maxResults: Int32? = nil) {
-            self.schemaArn = schemaArn
+        public init(facetStyle: FacetStyle? = nil, name: String? = nil, objectType: ObjectType? = nil) {
+            self.facetStyle = facetStyle
             self.name = name
-            self.nextToken = nextToken
-            self.maxResults = maxResults
+            self.objectType = objectType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case schemaArn = "x-amz-data-partition"
+            case facetStyle = "FacetStyle"
             case name = "Name"
-            case nextToken = "NextToken"
-            case maxResults = "MaxResults"
+            case objectType = "ObjectType"
         }
     }
 
-    public struct UpdateTypedLinkFacetResponse: AWSShape {
-
-    }
-
-    public struct ListTagsForResourceRequest: AWSShape {
+    public struct DeleteObjectRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
         ]
-        /// The pagination token. This is for future use. Currently pagination is not supported for tagging.
-        public let nextToken: String?
-        /// The MaxResults parameter sets the maximum number of results returned in a single page. This is for future use and is not supported currently.
-        public let maxResults: Int32?
-        /// The Amazon Resource Name (ARN) of the resource. Tagging is only supported for directories.
-        public let resourceArn: String
+        /// The Amazon Resource Name (ARN) that is associated with the Directory where the object resides. For more information, see arns.
+        public let directoryArn: String
+        /// A reference that identifies the object.
+        public let objectReference: ObjectReference
 
-        public init(nextToken: String? = nil, maxResults: Int32? = nil, resourceArn: String) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.resourceArn = resourceArn
+        public init(directoryArn: String, objectReference: ObjectReference) {
+            self.directoryArn = directoryArn
+            self.objectReference = objectReference
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case maxResults = "MaxResults"
-            case resourceArn = "ResourceArn"
+            case directoryArn = "x-amz-data-partition"
+            case objectReference = "ObjectReference"
         }
     }
 
-    public struct BatchUpdateObjectAttributesResponse: AWSShape {
+    public struct BatchReadOperation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GetObjectInformation", required: false, type: .structure), 
+            AWSShapeMember(label: "ListObjectChildren", required: false, type: .structure), 
+            AWSShapeMember(label: "ListObjectPolicies", required: false, type: .structure), 
+            AWSShapeMember(label: "ListObjectParents", required: false, type: .structure), 
+            AWSShapeMember(label: "LookupPolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "ListObjectParentPaths", required: false, type: .structure), 
+            AWSShapeMember(label: "ListIncomingTypedLinks", required: false, type: .structure), 
+            AWSShapeMember(label: "GetLinkAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "ListIndex", required: false, type: .structure), 
+            AWSShapeMember(label: "ListObjectAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "ListAttachedIndices", required: false, type: .structure), 
+            AWSShapeMember(label: "ListPolicyAttachments", required: false, type: .structure), 
+            AWSShapeMember(label: "ListOutgoingTypedLinks", required: false, type: .structure), 
+            AWSShapeMember(label: "GetObjectAttributes", required: false, type: .structure)
+        ]
+        /// Retrieves metadata about an object.
+        public let getObjectInformation: BatchGetObjectInformation?
+        /// Returns a paginated list of child objects that are associated with a given object.
+        public let listObjectChildren: BatchListObjectChildren?
+        /// Returns policies attached to an object in pagination fashion.
+        public let listObjectPolicies: BatchListObjectPolicies?
+        public let listObjectParents: BatchListObjectParents?
+        /// Lists all policies from the root of the Directory to the object specified. If there are no policies present, an empty list is returned. If policies are present, and if some objects don't have the policies attached, it returns the ObjectIdentifier for such objects. If policies are present, it returns ObjectIdentifier, policyId, and policyType. Paths that don't lead to the root from the target object are ignored. For more information, see Policies.
+        public let lookupPolicy: BatchLookupPolicy?
+        /// Retrieves all available parent paths for any object type such as node, leaf node, policy node, and index node objects. For more information about objects, see Directory Structure.
+        public let listObjectParentPaths: BatchListObjectParentPaths?
+        /// Returns a paginated list of all the incoming TypedLinkSpecifier information for an object. It also supports filtering by typed link facet and identity attributes. For more information, see Typed Links.
+        public let listIncomingTypedLinks: BatchListIncomingTypedLinks?
+        /// Retrieves attributes that are associated with a typed link.
+        public let getLinkAttributes: BatchGetLinkAttributes?
+        /// Lists objects attached to the specified index.
+        public let listIndex: BatchListIndex?
+        /// Lists all attributes that are associated with an object.
+        public let listObjectAttributes: BatchListObjectAttributes?
+        /// Lists indices attached to an object.
+        public let listAttachedIndices: BatchListAttachedIndices?
+        /// Returns all of the ObjectIdentifiers to which a given policy is attached.
+        public let listPolicyAttachments: BatchListPolicyAttachments?
+        /// Returns a paginated list of all the outgoing TypedLinkSpecifier information for an object. It also supports filtering by typed link facet and identity attributes. For more information, see Typed Links.
+        public let listOutgoingTypedLinks: BatchListOutgoingTypedLinks?
+        /// Retrieves attributes within a facet that are associated with an object.
+        public let getObjectAttributes: BatchGetObjectAttributes?
+
+        public init(getObjectInformation: BatchGetObjectInformation? = nil, listObjectChildren: BatchListObjectChildren? = nil, listObjectPolicies: BatchListObjectPolicies? = nil, listObjectParents: BatchListObjectParents? = nil, lookupPolicy: BatchLookupPolicy? = nil, listObjectParentPaths: BatchListObjectParentPaths? = nil, listIncomingTypedLinks: BatchListIncomingTypedLinks? = nil, getLinkAttributes: BatchGetLinkAttributes? = nil, listIndex: BatchListIndex? = nil, listObjectAttributes: BatchListObjectAttributes? = nil, listAttachedIndices: BatchListAttachedIndices? = nil, listPolicyAttachments: BatchListPolicyAttachments? = nil, listOutgoingTypedLinks: BatchListOutgoingTypedLinks? = nil, getObjectAttributes: BatchGetObjectAttributes? = nil) {
+            self.getObjectInformation = getObjectInformation
+            self.listObjectChildren = listObjectChildren
+            self.listObjectPolicies = listObjectPolicies
+            self.listObjectParents = listObjectParents
+            self.lookupPolicy = lookupPolicy
+            self.listObjectParentPaths = listObjectParentPaths
+            self.listIncomingTypedLinks = listIncomingTypedLinks
+            self.getLinkAttributes = getLinkAttributes
+            self.listIndex = listIndex
+            self.listObjectAttributes = listObjectAttributes
+            self.listAttachedIndices = listAttachedIndices
+            self.listPolicyAttachments = listPolicyAttachments
+            self.listOutgoingTypedLinks = listOutgoingTypedLinks
+            self.getObjectAttributes = getObjectAttributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case getObjectInformation = "GetObjectInformation"
+            case listObjectChildren = "ListObjectChildren"
+            case listObjectPolicies = "ListObjectPolicies"
+            case listObjectParents = "ListObjectParents"
+            case lookupPolicy = "LookupPolicy"
+            case listObjectParentPaths = "ListObjectParentPaths"
+            case listIncomingTypedLinks = "ListIncomingTypedLinks"
+            case getLinkAttributes = "GetLinkAttributes"
+            case listIndex = "ListIndex"
+            case listObjectAttributes = "ListObjectAttributes"
+            case listAttachedIndices = "ListAttachedIndices"
+            case listPolicyAttachments = "ListPolicyAttachments"
+            case listOutgoingTypedLinks = "ListOutgoingTypedLinks"
+            case getObjectAttributes = "GetObjectAttributes"
+        }
+    }
+
+    public struct BatchCreateObjectResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string)
         ]
-        /// ID that is associated with the object.
+        /// The ID that is associated with the object.
         public let objectIdentifier: String?
 
         public init(objectIdentifier: String? = nil) {
@@ -3542,136 +1287,64 @@ extension CloudDirectory {
         }
     }
 
-    public struct PolicyAttachment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyId", required: false, type: .string), 
-            AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyType", required: false, type: .string)
-        ]
-        /// The ID of PolicyAttachment.
-        public let policyId: String?
-        /// The ObjectIdentifier that is associated with PolicyAttachment.
-        public let objectIdentifier: String?
-        /// The type of policy that can be associated with PolicyAttachment.
-        public let policyType: String?
+    public struct RemoveFacetFromObjectResponse: AWSShape {
 
-        public init(policyId: String? = nil, objectIdentifier: String? = nil, policyType: String? = nil) {
-            self.policyId = policyId
-            self.objectIdentifier = objectIdentifier
-            self.policyType = policyType
+    }
+
+    public struct FacetAttributeDefinition: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IsImmutable", required: false, type: .boolean), 
+            AWSShapeMember(label: "Type", required: true, type: .enum), 
+            AWSShapeMember(label: "DefaultValue", required: false, type: .structure), 
+            AWSShapeMember(label: "Rules", required: false, type: .map)
+        ]
+        /// Whether the attribute is mutable or not.
+        public let isImmutable: Bool?
+        /// The type of the attribute.
+        public let `type`: FacetAttributeType
+        /// The default value of the attribute (if configured).
+        public let defaultValue: TypedAttributeValue?
+        /// Validation rules attached to the attribute definition.
+        public let rules: [String: Rule]?
+
+        public init(isImmutable: Bool? = nil, type: FacetAttributeType, defaultValue: TypedAttributeValue? = nil, rules: [String: Rule]? = nil) {
+            self.isImmutable = isImmutable
+            self.`type` = `type`
+            self.defaultValue = defaultValue
+            self.rules = rules
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policyId = "PolicyId"
-            case objectIdentifier = "ObjectIdentifier"
-            case policyType = "PolicyType"
+            case isImmutable = "IsImmutable"
+            case `type` = "Type"
+            case defaultValue = "DefaultValue"
+            case rules = "Rules"
         }
     }
 
-    public struct CreateDirectoryResponse: AWSShape {
+    public struct BatchLookupPolicy: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "ObjectIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "DirectoryArn", required: true, type: .string), 
-            AWSShapeMember(label: "AppliedSchemaArn", required: true, type: .string)
-        ]
-        /// The name of the Directory.
-        public let name: String
-        /// The root object node of the created directory.
-        public let objectIdentifier: String
-        /// The ARN that is associated with the Directory. For more information, see arns.
-        public let directoryArn: String
-        /// The ARN of the published schema in the Directory. Once a published schema is copied into the directory, it has its own ARN, which is referred to applied schema ARN. For more information, see arns.
-        public let appliedSchemaArn: String
-
-        public init(name: String, objectIdentifier: String, directoryArn: String, appliedSchemaArn: String) {
-            self.name = name
-            self.objectIdentifier = objectIdentifier
-            self.directoryArn = directoryArn
-            self.appliedSchemaArn = appliedSchemaArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case objectIdentifier = "ObjectIdentifier"
-            case directoryArn = "DirectoryArn"
-            case appliedSchemaArn = "AppliedSchemaArn"
-        }
-    }
-
-    public struct DetachObjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "ParentReference", required: true, type: .structure), 
-            AWSShapeMember(label: "LinkName", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) that is associated with the Directory where objects reside. For more information, see arns.
-        public let directoryArn: String
-        /// The parent reference from which the object with the specified link name is detached.
-        public let parentReference: ObjectReference
-        /// The link name associated with the object that needs to be detached.
-        public let linkName: String
-
-        public init(directoryArn: String, parentReference: ObjectReference, linkName: String) {
-            self.directoryArn = directoryArn
-            self.parentReference = parentReference
-            self.linkName = linkName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directoryArn = "x-amz-data-partition"
-            case parentReference = "ParentReference"
-            case linkName = "LinkName"
-        }
-    }
-
-    public struct DetachPolicyResponse: AWSShape {
-
-    }
-
-    public struct UpdateFacetResponse: AWSShape {
-
-    }
-
-    public struct ListPublishedSchemaArnsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArns", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The ARNs of published schemas.
-        public let schemaArns: [String]?
+        /// The maximum number of results to retrieve.
+        public let maxResults: Int32?
+        /// Reference that identifies the object whose policies will be looked up.
+        public let objectReference: ObjectReference
         /// The pagination token.
         public let nextToken: String?
 
-        public init(schemaArns: [String]? = nil, nextToken: String? = nil) {
-            self.schemaArns = schemaArns
+        public init(maxResults: Int32? = nil, objectReference: ObjectReference, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.objectReference = objectReference
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case schemaArns = "SchemaArns"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct BatchDetachPolicy: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyReference", required: true, type: .structure), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
-        ]
-        /// Reference that identifies the policy object.
-        public let policyReference: ObjectReference
-        /// Reference that identifies the object whose policy object will be detached.
-        public let objectReference: ObjectReference
-
-        public init(policyReference: ObjectReference, objectReference: ObjectReference) {
-            self.policyReference = policyReference
-            self.objectReference = objectReference
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyReference = "PolicyReference"
+            case maxResults = "MaxResults"
             case objectReference = "ObjectReference"
+            case nextToken = "NextToken"
         }
     }
 
@@ -3696,516 +1369,6 @@ extension CloudDirectory {
         }
     }
 
-    public struct ObjectIdentifierAndLinkNameTuple: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "LinkName", required: false, type: .string)
-        ]
-        /// The ID that is associated with the object.
-        public let objectIdentifier: String?
-        /// The name of the link between the parent and the child object.
-        public let linkName: String?
-
-        public init(objectIdentifier: String? = nil, linkName: String? = nil) {
-            self.objectIdentifier = objectIdentifier
-            self.linkName = linkName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case objectIdentifier = "ObjectIdentifier"
-            case linkName = "LinkName"
-        }
-    }
-
-    public struct DetachPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
-            AWSShapeMember(label: "PolicyReference", required: true, type: .structure)
-        ]
-        /// The Amazon Resource Name (ARN) that is associated with the Directory where both objects reside. For more information, see arns.
-        public let directoryArn: String
-        /// Reference that identifies the object whose policy object will be detached.
-        public let objectReference: ObjectReference
-        /// Reference that identifies the policy object.
-        public let policyReference: ObjectReference
-
-        public init(directoryArn: String, objectReference: ObjectReference, policyReference: ObjectReference) {
-            self.directoryArn = directoryArn
-            self.objectReference = objectReference
-            self.policyReference = policyReference
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directoryArn = "x-amz-data-partition"
-            case objectReference = "ObjectReference"
-            case policyReference = "PolicyReference"
-        }
-    }
-
-    public struct ObjectReference: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Selector", required: false, type: .string)
-        ]
-        /// A path selector supports easy selection of an object by the parent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are separated by slashes. For more information about paths, see Access Objects. You can identify an object in one of the following ways:    $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created object. An object’s identifier is immutable and no two objects will ever share the same object identifier    /some/path - Identifies the object based on path    #SomeBatchReference - Identifies the object in a batch call  
-        public let selector: String?
-
-        public init(selector: String? = nil) {
-            self.selector = selector
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case selector = "Selector"
-        }
-    }
-
-    public struct LinkAttributeUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeAction", required: false, type: .structure), 
-            AWSShapeMember(label: "AttributeKey", required: false, type: .structure)
-        ]
-        /// The action to perform as part of the attribute update.
-        public let attributeAction: LinkAttributeAction?
-        /// The key of the attribute being updated.
-        public let attributeKey: AttributeKey?
-
-        public init(attributeAction: LinkAttributeAction? = nil, attributeKey: AttributeKey? = nil) {
-            self.attributeAction = attributeAction
-            self.attributeKey = attributeKey
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attributeAction = "AttributeAction"
-            case attributeKey = "AttributeKey"
-        }
-    }
-
-    public struct BatchCreateObjectResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string)
-        ]
-        /// The ID that is associated with the object.
-        public let objectIdentifier: String?
-
-        public init(objectIdentifier: String? = nil) {
-            self.objectIdentifier = objectIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case objectIdentifier = "ObjectIdentifier"
-        }
-    }
-
-    public struct ListFacetAttributesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The attributes attached to the facet.
-        public let attributes: [FacetAttribute]?
-        /// The pagination token.
-        public let nextToken: String?
-
-        public init(attributes: [FacetAttribute]? = nil, nextToken: String? = nil) {
-            self.attributes = attributes
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attributes = "Attributes"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct BatchLookupPolicy: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
-        ]
-        /// The pagination token.
-        public let nextToken: String?
-        /// Reference that identifies the object whose policies will be looked up.
-        public let objectReference: ObjectReference
-        /// The maximum number of results to retrieve.
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, objectReference: ObjectReference, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.objectReference = objectReference
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case objectReference = "ObjectReference"
-            case maxResults = "MaxResults"
-        }
-    }
-
-    public struct BatchDetachObject: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BatchReferenceName", required: false, type: .string), 
-            AWSShapeMember(label: "ParentReference", required: true, type: .structure), 
-            AWSShapeMember(label: "LinkName", required: true, type: .string)
-        ]
-        /// The batch reference name. See Transaction Support for more information.
-        public let batchReferenceName: String?
-        /// Parent reference from which the object with the specified link name is detached.
-        public let parentReference: ObjectReference
-        /// The name of the link.
-        public let linkName: String
-
-        public init(batchReferenceName: String? = nil, parentReference: ObjectReference, linkName: String) {
-            self.batchReferenceName = batchReferenceName
-            self.parentReference = parentReference
-            self.linkName = linkName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case batchReferenceName = "BatchReferenceName"
-            case parentReference = "ParentReference"
-            case linkName = "LinkName"
-        }
-    }
-
-    public struct ListFacetAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
-        ]
-        /// The ARN of the schema where the facet resides.
-        public let schemaArn: String
-        /// The name of the facet whose attributes will be retrieved.
-        public let name: String
-        /// The pagination token.
-        public let nextToken: String?
-        /// The maximum number of results to retrieve.
-        public let maxResults: Int32?
-
-        public init(schemaArn: String, name: String, nextToken: String? = nil, maxResults: Int32? = nil) {
-            self.schemaArn = schemaArn
-            self.name = name
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case schemaArn = "x-amz-data-partition"
-            case name = "Name"
-            case nextToken = "NextToken"
-            case maxResults = "MaxResults"
-        }
-    }
-
-    public struct GetLinkAttributesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .list)
-        ]
-        /// The attributes that are associated with the typed link.
-        public let attributes: [AttributeKeyAndValue]?
-
-        public init(attributes: [AttributeKeyAndValue]? = nil) {
-            self.attributes = attributes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attributes = "Attributes"
-        }
-    }
-
-    public struct CreateIndexResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string)
-        ]
-        /// The ObjectIdentifier of the index created by this operation.
-        public let objectIdentifier: String?
-
-        public init(objectIdentifier: String? = nil) {
-            self.objectIdentifier = objectIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case objectIdentifier = "ObjectIdentifier"
-        }
-    }
-
-    public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: true, type: .list), 
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
-        ]
-        /// A list of tag key-value pairs.
-        public let tags: [Tag]
-        /// The Amazon Resource Name (ARN) of the resource. Tagging is only supported for directories.
-        public let resourceArn: String
-
-        public init(tags: [Tag], resourceArn: String) {
-            self.tags = tags
-            self.resourceArn = resourceArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-            case resourceArn = "ResourceArn"
-        }
-    }
-
-    public struct BatchListAttachedIndicesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexAttachments", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The indices attached to the specified object.
-        public let indexAttachments: [IndexAttachment]?
-        /// The pagination token.
-        public let nextToken: String?
-
-        public init(indexAttachments: [IndexAttachment]? = nil, nextToken: String? = nil) {
-            self.indexAttachments = indexAttachments
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case indexAttachments = "IndexAttachments"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct BatchWriteOperationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttachPolicy", required: false, type: .structure), 
-            AWSShapeMember(label: "CreateObject", required: false, type: .structure), 
-            AWSShapeMember(label: "AddFacetToObject", required: false, type: .structure), 
-            AWSShapeMember(label: "CreateIndex", required: false, type: .structure), 
-            AWSShapeMember(label: "DeleteObject", required: false, type: .structure), 
-            AWSShapeMember(label: "RemoveFacetFromObject", required: false, type: .structure), 
-            AWSShapeMember(label: "AttachObject", required: false, type: .structure), 
-            AWSShapeMember(label: "DetachTypedLink", required: false, type: .structure), 
-            AWSShapeMember(label: "DetachObject", required: false, type: .structure), 
-            AWSShapeMember(label: "UpdateLinkAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "AttachToIndex", required: false, type: .structure), 
-            AWSShapeMember(label: "DetachPolicy", required: false, type: .structure), 
-            AWSShapeMember(label: "DetachFromIndex", required: false, type: .structure), 
-            AWSShapeMember(label: "AttachTypedLink", required: false, type: .structure), 
-            AWSShapeMember(label: "UpdateObjectAttributes", required: false, type: .structure)
-        ]
-        /// Attaches a policy object to a regular object. An object can have a limited number of attached policies.
-        public let attachPolicy: BatchAttachPolicyResponse?
-        /// Creates an object in a Directory.
-        public let createObject: BatchCreateObjectResponse?
-        /// The result of an add facet to object batch operation.
-        public let addFacetToObject: BatchAddFacetToObjectResponse?
-        /// Creates an index object. See Indexing and search for more information.
-        public let createIndex: BatchCreateIndexResponse?
-        /// Deletes an object in a Directory.
-        public let deleteObject: BatchDeleteObjectResponse?
-        /// The result of a batch remove facet from object operation.
-        public let removeFacetFromObject: BatchRemoveFacetFromObjectResponse?
-        /// Attaches an object to a Directory.
-        public let attachObject: BatchAttachObjectResponse?
-        /// Detaches a typed link from a specified source and target object. For more information, see Typed Links.
-        public let detachTypedLink: BatchDetachTypedLinkResponse?
-        /// Detaches an object from a Directory.
-        public let detachObject: BatchDetachObjectResponse?
-        /// Represents the output of a BatchWrite response operation.
-        public let updateLinkAttributes: BatchUpdateLinkAttributesResponse?
-        /// Attaches the specified object to the specified index.
-        public let attachToIndex: BatchAttachToIndexResponse?
-        /// Detaches a policy from a Directory.
-        public let detachPolicy: BatchDetachPolicyResponse?
-        /// Detaches the specified object from the specified index.
-        public let detachFromIndex: BatchDetachFromIndexResponse?
-        /// Attaches a typed link to a specified source and target object. For more information, see Typed Links.
-        public let attachTypedLink: BatchAttachTypedLinkResponse?
-        /// Updates a given object’s attributes.
-        public let updateObjectAttributes: BatchUpdateObjectAttributesResponse?
-
-        public init(attachPolicy: BatchAttachPolicyResponse? = nil, createObject: BatchCreateObjectResponse? = nil, addFacetToObject: BatchAddFacetToObjectResponse? = nil, createIndex: BatchCreateIndexResponse? = nil, deleteObject: BatchDeleteObjectResponse? = nil, removeFacetFromObject: BatchRemoveFacetFromObjectResponse? = nil, attachObject: BatchAttachObjectResponse? = nil, detachTypedLink: BatchDetachTypedLinkResponse? = nil, detachObject: BatchDetachObjectResponse? = nil, updateLinkAttributes: BatchUpdateLinkAttributesResponse? = nil, attachToIndex: BatchAttachToIndexResponse? = nil, detachPolicy: BatchDetachPolicyResponse? = nil, detachFromIndex: BatchDetachFromIndexResponse? = nil, attachTypedLink: BatchAttachTypedLinkResponse? = nil, updateObjectAttributes: BatchUpdateObjectAttributesResponse? = nil) {
-            self.attachPolicy = attachPolicy
-            self.createObject = createObject
-            self.addFacetToObject = addFacetToObject
-            self.createIndex = createIndex
-            self.deleteObject = deleteObject
-            self.removeFacetFromObject = removeFacetFromObject
-            self.attachObject = attachObject
-            self.detachTypedLink = detachTypedLink
-            self.detachObject = detachObject
-            self.updateLinkAttributes = updateLinkAttributes
-            self.attachToIndex = attachToIndex
-            self.detachPolicy = detachPolicy
-            self.detachFromIndex = detachFromIndex
-            self.attachTypedLink = attachTypedLink
-            self.updateObjectAttributes = updateObjectAttributes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attachPolicy = "AttachPolicy"
-            case createObject = "CreateObject"
-            case addFacetToObject = "AddFacetToObject"
-            case createIndex = "CreateIndex"
-            case deleteObject = "DeleteObject"
-            case removeFacetFromObject = "RemoveFacetFromObject"
-            case attachObject = "AttachObject"
-            case detachTypedLink = "DetachTypedLink"
-            case detachObject = "DetachObject"
-            case updateLinkAttributes = "UpdateLinkAttributes"
-            case attachToIndex = "AttachToIndex"
-            case detachPolicy = "DetachPolicy"
-            case detachFromIndex = "DetachFromIndex"
-            case attachTypedLink = "AttachTypedLink"
-            case updateObjectAttributes = "UpdateObjectAttributes"
-        }
-    }
-
-    public struct BatchDetachFromIndexResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetachedObjectIdentifier", required: false, type: .string)
-        ]
-        /// The ObjectIdentifier of the object that was detached from the index.
-        public let detachedObjectIdentifier: String?
-
-        public init(detachedObjectIdentifier: String? = nil) {
-            self.detachedObjectIdentifier = detachedObjectIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case detachedObjectIdentifier = "DetachedObjectIdentifier"
-        }
-    }
-
-    public struct TypedLinkAttributeDefinition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequiredBehavior", required: true, type: .enum), 
-            AWSShapeMember(label: "Type", required: true, type: .enum), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "IsImmutable", required: false, type: .boolean), 
-            AWSShapeMember(label: "Rules", required: false, type: .map), 
-            AWSShapeMember(label: "DefaultValue", required: false, type: .structure)
-        ]
-        /// The required behavior of the TypedLinkAttributeDefinition.
-        public let requiredBehavior: RequiredAttributeBehavior
-        /// The type of the attribute.
-        public let `type`: FacetAttributeType
-        /// The unique name of the typed link attribute.
-        public let name: String
-        /// Whether the attribute is mutable or not.
-        public let isImmutable: Bool?
-        /// Validation rules that are attached to the attribute definition.
-        public let rules: [String: Rule]?
-        /// The default value of the attribute (if configured).
-        public let defaultValue: TypedAttributeValue?
-
-        public init(requiredBehavior: RequiredAttributeBehavior, type: FacetAttributeType, name: String, isImmutable: Bool? = nil, rules: [String: Rule]? = nil, defaultValue: TypedAttributeValue? = nil) {
-            self.requiredBehavior = requiredBehavior
-            self.`type` = `type`
-            self.name = name
-            self.isImmutable = isImmutable
-            self.rules = rules
-            self.defaultValue = defaultValue
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case requiredBehavior = "RequiredBehavior"
-            case `type` = "Type"
-            case name = "Name"
-            case isImmutable = "IsImmutable"
-            case rules = "Rules"
-            case defaultValue = "DefaultValue"
-        }
-    }
-
-    public struct BatchGetLinkAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TypedLinkSpecifier", required: true, type: .structure), 
-            AWSShapeMember(label: "AttributeNames", required: true, type: .list)
-        ]
-        /// Allows a typed link specifier to be accepted as input.
-        public let typedLinkSpecifier: TypedLinkSpecifier
-        /// A list of attribute names whose values will be retrieved.
-        public let attributeNames: [String]
-
-        public init(typedLinkSpecifier: TypedLinkSpecifier, attributeNames: [String]) {
-            self.typedLinkSpecifier = typedLinkSpecifier
-            self.attributeNames = attributeNames
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case typedLinkSpecifier = "TypedLinkSpecifier"
-            case attributeNames = "AttributeNames"
-        }
-    }
-
-    public struct BatchListObjectParentPaths: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
-        ]
-        /// The pagination token.
-        public let nextToken: String?
-        /// The reference that identifies the object whose attributes will be listed.
-        public let objectReference: ObjectReference
-        /// The maximum number of results to retrieve.
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, objectReference: ObjectReference, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.objectReference = objectReference
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case objectReference = "ObjectReference"
-            case maxResults = "MaxResults"
-        }
-    }
-
-    public struct BatchDetachObjectResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "detachedObjectIdentifier", required: false, type: .string)
-        ]
-        /// The ObjectIdentifier of the detached object.
-        public let detachedObjectIdentifier: String?
-
-        public init(detachedObjectIdentifier: String? = nil) {
-            self.detachedObjectIdentifier = detachedObjectIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case detachedObjectIdentifier = "detachedObjectIdentifier"
-        }
-    }
-
-    public struct BatchListAttachedIndices: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "TargetReference", required: true, type: .structure), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
-        ]
-        /// The pagination token.
-        public let nextToken: String?
-        /// A reference to the object that has indices attached.
-        public let targetReference: ObjectReference
-        /// The maximum number of results to retrieve.
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, targetReference: ObjectReference, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.targetReference = targetReference
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case targetReference = "TargetReference"
-            case maxResults = "MaxResults"
-        }
-    }
-
     public struct ListIndexResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IndexAttachments", required: false, type: .list), 
@@ -4227,70 +1390,200 @@ extension CloudDirectory {
         }
     }
 
-    public struct CreateTypedLinkFacetResponse: AWSShape {
+    public struct BatchDeleteObjectResponse: AWSShape {
 
     }
 
-    public struct BatchUpdateObjectAttributes: AWSShape {
+    public struct AttachToIndexRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
-            AWSShapeMember(label: "AttributeUpdates", required: true, type: .list)
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "IndexReference", required: true, type: .structure), 
+            AWSShapeMember(label: "TargetReference", required: true, type: .structure)
         ]
-        /// Reference that identifies the object.
-        public let objectReference: ObjectReference
-        /// Attributes update structure.
-        public let attributeUpdates: [ObjectAttributeUpdate]
+        /// The Amazon Resource Name (ARN) of the directory where the object and index exist.
+        public let directoryArn: String
+        /// A reference to the index that you are attaching the object to.
+        public let indexReference: ObjectReference
+        /// A reference to the object that you are attaching to the index.
+        public let targetReference: ObjectReference
 
-        public init(objectReference: ObjectReference, attributeUpdates: [ObjectAttributeUpdate]) {
+        public init(directoryArn: String, indexReference: ObjectReference, targetReference: ObjectReference) {
+            self.directoryArn = directoryArn
+            self.indexReference = indexReference
+            self.targetReference = targetReference
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryArn = "x-amz-data-partition"
+            case indexReference = "IndexReference"
+            case targetReference = "TargetReference"
+        }
+    }
+
+    public struct ListTagsForResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The MaxResults parameter sets the maximum number of results returned in a single page. This is for future use and is not supported currently.
+        public let maxResults: Int32?
+        /// The Amazon Resource Name (ARN) of the resource. Tagging is only supported for directories.
+        public let resourceArn: String
+        /// The pagination token. This is for future use. Currently pagination is not supported for tagging.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, resourceArn: String, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.resourceArn = resourceArn
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case resourceArn = "ResourceArn"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct PutSchemaFromJsonRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "Document", required: true, type: .string)
+        ]
+        /// The ARN of the schema to update.
+        public let schemaArn: String
+        /// The replacement JSON schema.
+        public let document: String
+
+        public init(schemaArn: String, document: String) {
+            self.schemaArn = schemaArn
+            self.document = document
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schemaArn = "x-amz-data-partition"
+            case document = "Document"
+        }
+    }
+
+    public struct BatchDeleteObject: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
+        ]
+        /// The reference that identifies the object.
+        public let objectReference: ObjectReference
+
+        public init(objectReference: ObjectReference) {
             self.objectReference = objectReference
-            self.attributeUpdates = attributeUpdates
         }
 
         private enum CodingKeys: String, CodingKey {
             case objectReference = "ObjectReference"
-            case attributeUpdates = "AttributeUpdates"
         }
     }
 
-    public struct GetDirectoryResponse: AWSShape {
+    public struct BatchWriteRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Directory", required: true, type: .structure)
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "Operations", required: true, type: .list)
         ]
-        /// Metadata about the directory.
-        public let directory: Directory
+        /// The Amazon Resource Name (ARN) that is associated with the Directory. For more information, see arns.
+        public let directoryArn: String
+        /// A list of operations that are part of the batch.
+        public let operations: [BatchWriteOperation]
 
-        public init(directory: Directory) {
-            self.directory = directory
+        public init(directoryArn: String, operations: [BatchWriteOperation]) {
+            self.directoryArn = directoryArn
+            self.operations = operations
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directory = "Directory"
+            case directoryArn = "x-amz-data-partition"
+            case operations = "Operations"
         }
     }
 
-    public struct TypedLinkFacet: AWSShape {
+    public struct BatchUpdateLinkAttributesResponse: AWSShape {
+
+    }
+
+    public struct AttachTypedLinkResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdentityAttributeOrder", required: true, type: .list), 
-            AWSShapeMember(label: "Attributes", required: true, type: .list), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
+            AWSShapeMember(label: "TypedLinkSpecifier", required: false, type: .structure)
         ]
-        /// The set of attributes that distinguish links made from this facet from each other, in the order of significance. Listing typed links can filter on the values of these attributes. See ListOutgoingTypedLinks and ListIncomingTypedLinks for details.
-        public let identityAttributeOrder: [String]
-        /// A set of key-value pairs associated with the typed link. Typed link attributes are used when you have data values that are related to the link itself, and not to one of the two objects being linked. Identity attributes also serve to distinguish the link from others of the same type between the same objects.
-        public let attributes: [TypedLinkAttributeDefinition]
+        /// Returns a typed link specifier as output.
+        public let typedLinkSpecifier: TypedLinkSpecifier?
+
+        public init(typedLinkSpecifier: TypedLinkSpecifier? = nil) {
+            self.typedLinkSpecifier = typedLinkSpecifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case typedLinkSpecifier = "TypedLinkSpecifier"
+        }
+    }
+
+    public struct TypedLinkSchemaAndFacetName: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaArn", required: true, type: .string), 
+            AWSShapeMember(label: "TypedLinkName", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
+        public let schemaArn: String
         /// The unique name of the typed link facet.
-        public let name: String
+        public let typedLinkName: String
 
-        public init(identityAttributeOrder: [String], attributes: [TypedLinkAttributeDefinition], name: String) {
-            self.identityAttributeOrder = identityAttributeOrder
-            self.attributes = attributes
-            self.name = name
+        public init(schemaArn: String, typedLinkName: String) {
+            self.schemaArn = schemaArn
+            self.typedLinkName = typedLinkName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case identityAttributeOrder = "IdentityAttributeOrder"
-            case attributes = "Attributes"
-            case name = "Name"
+            case schemaArn = "SchemaArn"
+            case typedLinkName = "TypedLinkName"
+        }
+    }
+
+    public struct TypedLinkFacetAttributeUpdate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attribute", required: true, type: .structure), 
+            AWSShapeMember(label: "Action", required: true, type: .enum)
+        ]
+        /// The attribute to update.
+        public let attribute: TypedLinkAttributeDefinition
+        /// The action to perform when updating the attribute.
+        public let action: UpdateActionType
+
+        public init(attribute: TypedLinkAttributeDefinition, action: UpdateActionType) {
+            self.attribute = attribute
+            self.action = action
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attribute = "Attribute"
+            case action = "Action"
+        }
+    }
+
+    public struct ListDevelopmentSchemaArnsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The maximum number of results to retrieve.
+        public let maxResults: Int32?
+        /// The pagination token.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
         }
     }
 
@@ -4310,66 +1603,202 @@ extension CloudDirectory {
         }
     }
 
-    public struct CreateSchemaResponse: AWSShape {
+    public struct BatchListOutgoingTypedLinks: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", required: false, type: .string)
+            AWSShapeMember(label: "FilterAttributeRanges", required: false, type: .list), 
+            AWSShapeMember(label: "FilterTypedLink", required: false, type: .structure), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
-        public let schemaArn: String?
-
-        public init(schemaArn: String? = nil) {
-            self.schemaArn = schemaArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case schemaArn = "SchemaArn"
-        }
-    }
-
-    public struct ObjectAttributeRange: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Range", required: false, type: .structure), 
-            AWSShapeMember(label: "AttributeKey", required: false, type: .structure)
-        ]
-        /// The range of attribute values being selected.
-        public let range: TypedAttributeValueRange?
-        /// The key of the attribute that the attribute range covers.
-        public let attributeKey: AttributeKey?
-
-        public init(range: TypedAttributeValueRange? = nil, attributeKey: AttributeKey? = nil) {
-            self.range = range
-            self.attributeKey = attributeKey
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case range = "Range"
-            case attributeKey = "AttributeKey"
-        }
-    }
-
-    public struct ListManagedSchemaArnsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SchemaArn", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
-        ]
-        /// The pagination token.
-        public let nextToken: String?
-        /// The response for ListManagedSchemaArns. When this parameter is used, all minor version ARNs for a major version are listed.
-        public let schemaArn: String?
+        /// Provides range filters for multiple attributes. When providing ranges to typed link selection, any inexact ranges must be specified at the end. Any attributes that do not have a range specified are presumed to match the entire range.
+        public let filterAttributeRanges: [TypedLinkAttributeRange]?
+        /// Filters are interpreted in the order of the attributes defined on the typed link facet, not the order they are supplied to any API calls.
+        public let filterTypedLink: TypedLinkSchemaAndFacetName?
         /// The maximum number of results to retrieve.
         public let maxResults: Int32?
+        /// The reference that identifies the object whose attributes will be listed.
+        public let objectReference: ObjectReference
+        /// The pagination token.
+        public let nextToken: String?
 
-        public init(nextToken: String? = nil, schemaArn: String? = nil, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.schemaArn = schemaArn
+        public init(filterAttributeRanges: [TypedLinkAttributeRange]? = nil, filterTypedLink: TypedLinkSchemaAndFacetName? = nil, maxResults: Int32? = nil, objectReference: ObjectReference, nextToken: String? = nil) {
+            self.filterAttributeRanges = filterAttributeRanges
+            self.filterTypedLink = filterTypedLink
             self.maxResults = maxResults
+            self.objectReference = objectReference
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case schemaArn = "SchemaArn"
+            case filterAttributeRanges = "FilterAttributeRanges"
+            case filterTypedLink = "FilterTypedLink"
             case maxResults = "MaxResults"
+            case objectReference = "ObjectReference"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DisableDirectoryRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+        ]
+        /// The ARN of the directory to disable.
+        public let directoryArn: String
+
+        public init(directoryArn: String) {
+            self.directoryArn = directoryArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryArn = "x-amz-data-partition"
+        }
+    }
+
+    public struct ObjectAttributeAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectAttributeUpdateValue", required: false, type: .structure), 
+            AWSShapeMember(label: "ObjectAttributeActionType", required: false, type: .enum)
+        ]
+        /// The value that you want to update to.
+        public let objectAttributeUpdateValue: TypedAttributeValue?
+        /// A type that can be either Update or Delete.
+        public let objectAttributeActionType: UpdateActionType?
+
+        public init(objectAttributeUpdateValue: TypedAttributeValue? = nil, objectAttributeActionType: UpdateActionType? = nil) {
+            self.objectAttributeUpdateValue = objectAttributeUpdateValue
+            self.objectAttributeActionType = objectAttributeActionType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectAttributeUpdateValue = "ObjectAttributeUpdateValue"
+            case objectAttributeActionType = "ObjectAttributeActionType"
+        }
+    }
+
+    public struct UpdateLinkAttributesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "AttributeUpdates", required: true, type: .list), 
+            AWSShapeMember(label: "TypedLinkSpecifier", required: true, type: .structure)
+        ]
+        /// The Amazon Resource Name (ARN) that is associated with the Directory where the updated typed link resides. For more information, see arns or Typed Links.
+        public let directoryArn: String
+        /// The attributes update structure.
+        public let attributeUpdates: [LinkAttributeUpdate]
+        /// Allows a typed link specifier to be accepted as input.
+        public let typedLinkSpecifier: TypedLinkSpecifier
+
+        public init(directoryArn: String, attributeUpdates: [LinkAttributeUpdate], typedLinkSpecifier: TypedLinkSpecifier) {
+            self.directoryArn = directoryArn
+            self.attributeUpdates = attributeUpdates
+            self.typedLinkSpecifier = typedLinkSpecifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryArn = "x-amz-data-partition"
+            case attributeUpdates = "AttributeUpdates"
+            case typedLinkSpecifier = "TypedLinkSpecifier"
+        }
+    }
+
+    public struct BatchAttachToIndex: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IndexReference", required: true, type: .structure), 
+            AWSShapeMember(label: "TargetReference", required: true, type: .structure)
+        ]
+        /// A reference to the index that you are attaching the object to.
+        public let indexReference: ObjectReference
+        /// A reference to the object that you are attaching to the index.
+        public let targetReference: ObjectReference
+
+        public init(indexReference: ObjectReference, targetReference: ObjectReference) {
+            self.indexReference = indexReference
+            self.targetReference = targetReference
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexReference = "IndexReference"
+            case targetReference = "TargetReference"
+        }
+    }
+
+    public struct ListObjectParentPathsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PathToObjectIdentifiersList", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Returns the path to the ObjectIdentifiers that are associated with the directory.
+        public let pathToObjectIdentifiersList: [PathToObjectIdentifiers]?
+        /// The pagination token.
+        public let nextToken: String?
+
+        public init(pathToObjectIdentifiersList: [PathToObjectIdentifiers]? = nil, nextToken: String? = nil) {
+            self.pathToObjectIdentifiersList = pathToObjectIdentifiersList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pathToObjectIdentifiersList = "PathToObjectIdentifiersList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct BatchListObjectChildrenResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Children", required: false, type: .map), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The children structure, which is a map with the key as the LinkName and ObjectIdentifier as the value.
+        public let children: [String: String]?
+        /// The pagination token.
+        public let nextToken: String?
+
+        public init(children: [String: String]? = nil, nextToken: String? = nil) {
+            self.children = children
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case children = "Children"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct SchemaFacet: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaArn", required: false, type: .string), 
+            AWSShapeMember(label: "FacetName", required: false, type: .string)
+        ]
+        /// The ARN of the schema that contains the facet with no minor component. See arns and In-Place Schema Upgrade for a description of when to provide minor versions.
+        public let schemaArn: String?
+        /// The name of the facet.
+        public let facetName: String?
+
+        public init(schemaArn: String? = nil, facetName: String? = nil) {
+            self.schemaArn = schemaArn
+            self.facetName = facetName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schemaArn = "SchemaArn"
+            case facetName = "FacetName"
+        }
+    }
+
+    public struct BatchGetObjectInformation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
+        ]
+        /// A reference to the object.
+        public let objectReference: ObjectReference
+
+        public init(objectReference: ObjectReference) {
+            self.objectReference = objectReference
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectReference = "ObjectReference"
         }
     }
 
@@ -4394,122 +1823,129 @@ extension CloudDirectory {
         }
     }
 
-    public struct FacetAttribute: AWSShape {
+    public struct BatchAttachObjectResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequiredBehavior", required: false, type: .enum), 
-            AWSShapeMember(label: "AttributeDefinition", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "AttributeReference", required: false, type: .structure)
+            AWSShapeMember(label: "attachedObjectIdentifier", required: false, type: .string)
         ]
-        /// The required behavior of the FacetAttribute.
-        public let requiredBehavior: RequiredAttributeBehavior?
-        /// A facet attribute consists of either a definition or a reference. This structure contains the attribute definition. See Attribute References for more information.
-        public let attributeDefinition: FacetAttributeDefinition?
-        /// The name of the facet attribute.
-        public let name: String
-        /// An attribute reference that is associated with the attribute. See Attribute References for more information.
-        public let attributeReference: FacetAttributeReference?
+        /// The ObjectIdentifier of the object that has been attached.
+        public let attachedObjectIdentifier: String?
 
-        public init(requiredBehavior: RequiredAttributeBehavior? = nil, attributeDefinition: FacetAttributeDefinition? = nil, name: String, attributeReference: FacetAttributeReference? = nil) {
-            self.requiredBehavior = requiredBehavior
-            self.attributeDefinition = attributeDefinition
-            self.name = name
-            self.attributeReference = attributeReference
+        public init(attachedObjectIdentifier: String? = nil) {
+            self.attachedObjectIdentifier = attachedObjectIdentifier
         }
 
         private enum CodingKeys: String, CodingKey {
-            case requiredBehavior = "RequiredBehavior"
-            case attributeDefinition = "AttributeDefinition"
-            case name = "Name"
-            case attributeReference = "AttributeReference"
+            case attachedObjectIdentifier = "attachedObjectIdentifier"
         }
     }
 
-    public struct CreateTypedLinkFacetRequest: AWSShape {
+    public struct ListOutgoingTypedLinksResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "Facet", required: true, type: .structure)
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "TypedLinkSpecifiers", required: false, type: .list)
         ]
-        /// The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
-        public let schemaArn: String
-        ///  Facet structure that is associated with the typed link facet.
-        public let facet: TypedLinkFacet
-
-        public init(schemaArn: String, facet: TypedLinkFacet) {
-            self.schemaArn = schemaArn
-            self.facet = facet
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case schemaArn = "x-amz-data-partition"
-            case facet = "Facet"
-        }
-    }
-
-    public struct BatchListObjectParentsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ParentLinks", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        public let parentLinks: [ObjectIdentifierAndLinkNameTuple]?
+        /// The pagination token.
         public let nextToken: String?
+        /// Returns a typed link specifier as output.
+        public let typedLinkSpecifiers: [TypedLinkSpecifier]?
 
-        public init(parentLinks: [ObjectIdentifierAndLinkNameTuple]? = nil, nextToken: String? = nil) {
-            self.parentLinks = parentLinks
+        public init(nextToken: String? = nil, typedLinkSpecifiers: [TypedLinkSpecifier]? = nil) {
             self.nextToken = nextToken
+            self.typedLinkSpecifiers = typedLinkSpecifiers
         }
 
         private enum CodingKeys: String, CodingKey {
-            case parentLinks = "ParentLinks"
             case nextToken = "NextToken"
+            case typedLinkSpecifiers = "TypedLinkSpecifiers"
         }
     }
 
-    public struct FacetAttributeReference: AWSShape {
+    public struct ApplySchemaRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetFacetName", required: true, type: .string), 
-            AWSShapeMember(label: "TargetAttributeName", required: true, type: .string)
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "PublishedSchemaArn", required: true, type: .string)
         ]
-        /// The target facet name that is associated with the facet reference. See Attribute References for more information.
-        public let targetFacetName: String
-        /// The target attribute name that is associated with the facet reference. See Attribute References for more information.
-        public let targetAttributeName: String
+        /// The Amazon Resource Name (ARN) that is associated with the Directory into which the schema is copied. For more information, see arns.
+        public let directoryArn: String
+        /// Published schema Amazon Resource Name (ARN) that needs to be copied. For more information, see arns.
+        public let publishedSchemaArn: String
 
-        public init(targetFacetName: String, targetAttributeName: String) {
-            self.targetFacetName = targetFacetName
-            self.targetAttributeName = targetAttributeName
+        public init(directoryArn: String, publishedSchemaArn: String) {
+            self.directoryArn = directoryArn
+            self.publishedSchemaArn = publishedSchemaArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case targetFacetName = "TargetFacetName"
-            case targetAttributeName = "TargetAttributeName"
+            case directoryArn = "x-amz-data-partition"
+            case publishedSchemaArn = "PublishedSchemaArn"
         }
     }
 
-    public struct UpgradePublishedSchemaResponse: AWSShape {
+    public struct TypedAttributeValue: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UpgradedSchemaArn", required: false, type: .string)
+            AWSShapeMember(label: "DatetimeValue", required: false, type: .timestamp), 
+            AWSShapeMember(label: "StringValue", required: false, type: .string), 
+            AWSShapeMember(label: "NumberValue", required: false, type: .string), 
+            AWSShapeMember(label: "BinaryValue", required: false, type: .blob), 
+            AWSShapeMember(label: "BooleanValue", required: false, type: .boolean)
         ]
-        /// The ARN of the upgraded schema that is returned as part of the response.
-        public let upgradedSchemaArn: String?
+        /// A date and time value.
+        public let datetimeValue: TimeStamp?
+        /// A string data value.
+        public let stringValue: String?
+        /// A number data value.
+        public let numberValue: String?
+        /// A binary data value.
+        public let binaryValue: Data?
+        /// A Boolean data value.
+        public let booleanValue: Bool?
 
-        public init(upgradedSchemaArn: String? = nil) {
-            self.upgradedSchemaArn = upgradedSchemaArn
+        public init(datetimeValue: TimeStamp? = nil, stringValue: String? = nil, numberValue: String? = nil, binaryValue: Data? = nil, booleanValue: Bool? = nil) {
+            self.datetimeValue = datetimeValue
+            self.stringValue = stringValue
+            self.numberValue = numberValue
+            self.binaryValue = binaryValue
+            self.booleanValue = booleanValue
         }
 
         private enum CodingKeys: String, CodingKey {
-            case upgradedSchemaArn = "UpgradedSchemaArn"
+            case datetimeValue = "DatetimeValue"
+            case stringValue = "StringValue"
+            case numberValue = "NumberValue"
+            case binaryValue = "BinaryValue"
+            case booleanValue = "BooleanValue"
         }
     }
 
-    public struct DeleteTypedLinkFacetRequest: AWSShape {
+    public struct IndexAttachment: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IndexedAttributes", required: false, type: .list), 
+            AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string)
+        ]
+        /// The indexed attribute values.
+        public let indexedAttributes: [AttributeKeyAndValue]?
+        /// In response to ListIndex, the ObjectIdentifier of the object attached to the index. In response to ListAttachedIndices, the ObjectIdentifier of the index attached to the object. This field will always contain the ObjectIdentifier of the object on the opposite side of the attachment specified in the query.
+        public let objectIdentifier: String?
+
+        public init(indexedAttributes: [AttributeKeyAndValue]? = nil, objectIdentifier: String? = nil) {
+            self.indexedAttributes = indexedAttributes
+            self.objectIdentifier = objectIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexedAttributes = "IndexedAttributes"
+            case objectIdentifier = "ObjectIdentifier"
+        }
+    }
+
+    public struct CreateDirectoryRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
-        /// The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
+        /// The Amazon Resource Name (ARN) of the published schema that will be copied into the data Directory. For more information, see arns.
         public let schemaArn: String
-        /// The unique name of the typed link facet.
+        /// The name of the Directory. Should be unique per account, per region.
         public let name: String
 
         public init(schemaArn: String, name: String) {
@@ -4523,45 +1959,55 @@ extension CloudDirectory {
         }
     }
 
-    public struct UpdateSchemaResponse: AWSShape {
+    public struct ListFacetAttributesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", required: false, type: .string)
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Attributes", required: false, type: .list)
         ]
-        /// The ARN that is associated with the updated schema. For more information, see arns.
-        public let schemaArn: String?
+        /// The pagination token.
+        public let nextToken: String?
+        /// The attributes attached to the facet.
+        public let attributes: [FacetAttribute]?
 
-        public init(schemaArn: String? = nil) {
-            self.schemaArn = schemaArn
+        public init(nextToken: String? = nil, attributes: [FacetAttribute]? = nil) {
+            self.nextToken = nextToken
+            self.attributes = attributes
         }
 
         private enum CodingKeys: String, CodingKey {
-            case schemaArn = "SchemaArn"
+            case nextToken = "NextToken"
+            case attributes = "Attributes"
         }
     }
 
-    public struct AttributeKey: AWSShape {
+    public struct ListObjectParentPathsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", required: true, type: .string), 
-            AWSShapeMember(label: "FacetName", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The Amazon Resource Name (ARN) of the schema that contains the facet and attribute.
-        public let schemaArn: String
-        /// The name of the facet that the attribute exists within.
-        public let facetName: String
-        /// The name of the attribute.
-        public let name: String
+        /// The ARN of the directory to which the parent path applies.
+        public let directoryArn: String
+        /// The maximum number of items to be retrieved in a single call. This is an approximate number.
+        public let maxResults: Int32?
+        /// The reference that identifies the object whose parent paths are listed.
+        public let objectReference: ObjectReference
+        /// The pagination token.
+        public let nextToken: String?
 
-        public init(schemaArn: String, facetName: String, name: String) {
-            self.schemaArn = schemaArn
-            self.facetName = facetName
-            self.name = name
+        public init(directoryArn: String, maxResults: Int32? = nil, objectReference: ObjectReference, nextToken: String? = nil) {
+            self.directoryArn = directoryArn
+            self.maxResults = maxResults
+            self.objectReference = objectReference
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case schemaArn = "SchemaArn"
-            case facetName = "FacetName"
-            case name = "Name"
+            case directoryArn = "x-amz-data-partition"
+            case maxResults = "MaxResults"
+            case objectReference = "ObjectReference"
+            case nextToken = "NextToken"
         }
     }
 
@@ -4591,65 +2037,2320 @@ extension CloudDirectory {
         }
     }
 
-    public struct ListObjectAttributesRequest: AWSShape {
+    public struct CreateTypedLinkFacetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "FacetFilter", required: false, type: .structure), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "Facet", required: true, type: .structure)
+        ]
+        /// The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
+        public let schemaArn: String
+        ///  Facet structure that is associated with the typed link facet.
+        public let facet: TypedLinkFacet
+
+        public init(schemaArn: String, facet: TypedLinkFacet) {
+            self.schemaArn = schemaArn
+            self.facet = facet
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schemaArn = "x-amz-data-partition"
+            case facet = "Facet"
+        }
+    }
+
+    public struct BatchRemoveFacetFromObject: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaFacet", required: true, type: .structure), 
             AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
         ]
-        /// The maximum number of items to be retrieved in a single call. This is an approximate number.
-        public let maxResults: Int32?
-        /// Used to filter the list of object attributes that are associated with a certain facet.
-        public let facetFilter: SchemaFacet?
-        /// The pagination token.
-        public let nextToken: String?
-        /// The Amazon Resource Name (ARN) that is associated with the Directory where the object resides. For more information, see arns.
-        public let directoryArn: String
-        /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
-        public let consistencyLevel: ConsistencyLevel?
-        /// The reference that identifies the object whose attributes will be listed.
+        /// The facet to remove from the object.
+        public let schemaFacet: SchemaFacet
+        /// A reference to the object whose facet will be removed.
         public let objectReference: ObjectReference
 
-        public init(maxResults: Int32? = nil, facetFilter: SchemaFacet? = nil, nextToken: String? = nil, directoryArn: String, consistencyLevel: ConsistencyLevel? = nil, objectReference: ObjectReference) {
-            self.maxResults = maxResults
-            self.facetFilter = facetFilter
-            self.nextToken = nextToken
-            self.directoryArn = directoryArn
-            self.consistencyLevel = consistencyLevel
+        public init(schemaFacet: SchemaFacet, objectReference: ObjectReference) {
+            self.schemaFacet = schemaFacet
             self.objectReference = objectReference
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case facetFilter = "FacetFilter"
-            case nextToken = "NextToken"
-            case directoryArn = "x-amz-data-partition"
-            case consistencyLevel = "x-amz-consistency-level"
+            case schemaFacet = "SchemaFacet"
             case objectReference = "ObjectReference"
         }
     }
 
-    public struct ListDirectoriesResponse: AWSShape {
+    public struct BatchListObjectAttributes: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Directories", required: true, type: .list), 
+            AWSShapeMember(label: "FacetFilter", required: false, type: .structure), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// Lists all directories that are associated with your account in pagination fashion.
-        public let directories: [Directory]
+        /// Used to filter the list of object attributes that are associated with a certain facet.
+        public let facetFilter: SchemaFacet?
+        /// The maximum number of items to be retrieved in a single call. This is an approximate number.
+        public let maxResults: Int32?
+        /// Reference of the object whose attributes need to be listed.
+        public let objectReference: ObjectReference
         /// The pagination token.
         public let nextToken: String?
 
-        public init(directories: [Directory], nextToken: String? = nil) {
-            self.directories = directories
+        public init(facetFilter: SchemaFacet? = nil, maxResults: Int32? = nil, objectReference: ObjectReference, nextToken: String? = nil) {
+            self.facetFilter = facetFilter
+            self.maxResults = maxResults
+            self.objectReference = objectReference
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directories = "Directories"
+            case facetFilter = "FacetFilter"
+            case maxResults = "MaxResults"
+            case objectReference = "ObjectReference"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+        /// The key that is associated with the tag.
+        public let key: String?
+        /// The value that is associated with the tag.
+        public let value: String?
+
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct BatchGetObjectInformationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "SchemaFacets", required: false, type: .list)
+        ]
+        /// The ObjectIdentifier of the specified object.
+        public let objectIdentifier: String?
+        /// The facets attached to the specified object.
+        public let schemaFacets: [SchemaFacet]?
+
+        public init(objectIdentifier: String? = nil, schemaFacets: [SchemaFacet]? = nil) {
+            self.objectIdentifier = objectIdentifier
+            self.schemaFacets = schemaFacets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectIdentifier = "ObjectIdentifier"
+            case schemaFacets = "SchemaFacets"
+        }
+    }
+
+    public struct GetFacetRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) that is associated with the Facet. For more information, see arns.
+        public let schemaArn: String
+        /// The name of the facet to retrieve.
+        public let name: String
+
+        public init(schemaArn: String, name: String) {
+            self.schemaArn = schemaArn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schemaArn = "x-amz-data-partition"
+            case name = "Name"
+        }
+    }
+
+    public struct CreateFacetResponse: AWSShape {
+
+    }
+
+    public struct BatchReadException: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
+        ]
+        /// An exception message that is associated with the failure.
+        public let message: String?
+        /// A type of exception, such as InvalidArnException.
+        public let `type`: BatchReadExceptionType?
+
+        public init(message: String? = nil, type: BatchReadExceptionType? = nil) {
+            self.message = message
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case `type` = "Type"
+        }
+    }
+
+    public struct UpdateObjectAttributesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string)
+        ]
+        /// The ObjectIdentifier of the updated object.
+        public let objectIdentifier: String?
+
+        public init(objectIdentifier: String? = nil) {
+            self.objectIdentifier = objectIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectIdentifier = "ObjectIdentifier"
+        }
+    }
+
+    public struct LookupPolicyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyToPathList", required: false, type: .list)
+        ]
+        /// The pagination token.
+        public let nextToken: String?
+        /// Provides list of path to policies. Policies contain PolicyId, ObjectIdentifier, and PolicyType. For more information, see Policies.
+        public let policyToPathList: [PolicyToPath]?
+
+        public init(nextToken: String? = nil, policyToPathList: [PolicyToPath]? = nil) {
+            self.nextToken = nextToken
+            self.policyToPathList = policyToPathList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case policyToPathList = "PolicyToPathList"
+        }
+    }
+
+    public struct BatchWriteOperationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RemoveFacetFromObject", required: false, type: .structure), 
+            AWSShapeMember(label: "AttachToIndex", required: false, type: .structure), 
+            AWSShapeMember(label: "CreateObject", required: false, type: .structure), 
+            AWSShapeMember(label: "DetachObject", required: false, type: .structure), 
+            AWSShapeMember(label: "UpdateObjectAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "DetachFromIndex", required: false, type: .structure), 
+            AWSShapeMember(label: "DetachPolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "DeleteObject", required: false, type: .structure), 
+            AWSShapeMember(label: "AddFacetToObject", required: false, type: .structure), 
+            AWSShapeMember(label: "AttachObject", required: false, type: .structure), 
+            AWSShapeMember(label: "CreateIndex", required: false, type: .structure), 
+            AWSShapeMember(label: "AttachTypedLink", required: false, type: .structure), 
+            AWSShapeMember(label: "AttachPolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "UpdateLinkAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "DetachTypedLink", required: false, type: .structure)
+        ]
+        /// The result of a batch remove facet from object operation.
+        public let removeFacetFromObject: BatchRemoveFacetFromObjectResponse?
+        /// Attaches the specified object to the specified index.
+        public let attachToIndex: BatchAttachToIndexResponse?
+        /// Creates an object in a Directory.
+        public let createObject: BatchCreateObjectResponse?
+        /// Detaches an object from a Directory.
+        public let detachObject: BatchDetachObjectResponse?
+        /// Updates a given object’s attributes.
+        public let updateObjectAttributes: BatchUpdateObjectAttributesResponse?
+        /// Detaches the specified object from the specified index.
+        public let detachFromIndex: BatchDetachFromIndexResponse?
+        /// Detaches a policy from a Directory.
+        public let detachPolicy: BatchDetachPolicyResponse?
+        /// Deletes an object in a Directory.
+        public let deleteObject: BatchDeleteObjectResponse?
+        /// The result of an add facet to object batch operation.
+        public let addFacetToObject: BatchAddFacetToObjectResponse?
+        /// Attaches an object to a Directory.
+        public let attachObject: BatchAttachObjectResponse?
+        /// Creates an index object. See Indexing and search for more information.
+        public let createIndex: BatchCreateIndexResponse?
+        /// Attaches a typed link to a specified source and target object. For more information, see Typed Links.
+        public let attachTypedLink: BatchAttachTypedLinkResponse?
+        /// Attaches a policy object to a regular object. An object can have a limited number of attached policies.
+        public let attachPolicy: BatchAttachPolicyResponse?
+        /// Represents the output of a BatchWrite response operation.
+        public let updateLinkAttributes: BatchUpdateLinkAttributesResponse?
+        /// Detaches a typed link from a specified source and target object. For more information, see Typed Links.
+        public let detachTypedLink: BatchDetachTypedLinkResponse?
+
+        public init(removeFacetFromObject: BatchRemoveFacetFromObjectResponse? = nil, attachToIndex: BatchAttachToIndexResponse? = nil, createObject: BatchCreateObjectResponse? = nil, detachObject: BatchDetachObjectResponse? = nil, updateObjectAttributes: BatchUpdateObjectAttributesResponse? = nil, detachFromIndex: BatchDetachFromIndexResponse? = nil, detachPolicy: BatchDetachPolicyResponse? = nil, deleteObject: BatchDeleteObjectResponse? = nil, addFacetToObject: BatchAddFacetToObjectResponse? = nil, attachObject: BatchAttachObjectResponse? = nil, createIndex: BatchCreateIndexResponse? = nil, attachTypedLink: BatchAttachTypedLinkResponse? = nil, attachPolicy: BatchAttachPolicyResponse? = nil, updateLinkAttributes: BatchUpdateLinkAttributesResponse? = nil, detachTypedLink: BatchDetachTypedLinkResponse? = nil) {
+            self.removeFacetFromObject = removeFacetFromObject
+            self.attachToIndex = attachToIndex
+            self.createObject = createObject
+            self.detachObject = detachObject
+            self.updateObjectAttributes = updateObjectAttributes
+            self.detachFromIndex = detachFromIndex
+            self.detachPolicy = detachPolicy
+            self.deleteObject = deleteObject
+            self.addFacetToObject = addFacetToObject
+            self.attachObject = attachObject
+            self.createIndex = createIndex
+            self.attachTypedLink = attachTypedLink
+            self.attachPolicy = attachPolicy
+            self.updateLinkAttributes = updateLinkAttributes
+            self.detachTypedLink = detachTypedLink
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case removeFacetFromObject = "RemoveFacetFromObject"
+            case attachToIndex = "AttachToIndex"
+            case createObject = "CreateObject"
+            case detachObject = "DetachObject"
+            case updateObjectAttributes = "UpdateObjectAttributes"
+            case detachFromIndex = "DetachFromIndex"
+            case detachPolicy = "DetachPolicy"
+            case deleteObject = "DeleteObject"
+            case addFacetToObject = "AddFacetToObject"
+            case attachObject = "AttachObject"
+            case createIndex = "CreateIndex"
+            case attachTypedLink = "AttachTypedLink"
+            case attachPolicy = "AttachPolicy"
+            case updateLinkAttributes = "UpdateLinkAttributes"
+            case detachTypedLink = "DetachTypedLink"
+        }
+    }
+
+    public struct GetAppliedSchemaVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaArn", required: true, type: .string)
+        ]
+        /// The ARN of the applied schema.
+        public let schemaArn: String
+
+        public init(schemaArn: String) {
+            self.schemaArn = schemaArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schemaArn = "SchemaArn"
+        }
+    }
+
+    public struct AttributeKeyAndValue: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .structure), 
+            AWSShapeMember(label: "Value", required: true, type: .structure)
+        ]
+        /// The key of the attribute.
+        public let key: AttributeKey
+        /// The value of the attribute.
+        public let value: TypedAttributeValue
+
+        public init(key: AttributeKey, value: TypedAttributeValue) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct CreateSchemaResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaArn", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
+        public let schemaArn: String?
+
+        public init(schemaArn: String? = nil) {
+            self.schemaArn = schemaArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schemaArn = "SchemaArn"
+        }
+    }
+
+    public struct GetLinkAttributesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeNames", required: true, type: .list), 
+            AWSShapeMember(label: "TypedLinkSpecifier", required: true, type: .structure), 
+            AWSShapeMember(label: "ConsistencyLevel", required: false, type: .enum), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+        ]
+        /// A list of attribute names whose values will be retrieved.
+        public let attributeNames: [String]
+        /// Allows a typed link specifier to be accepted as input.
+        public let typedLinkSpecifier: TypedLinkSpecifier
+        /// The consistency level at which to retrieve the attributes on a typed link.
+        public let consistencyLevel: ConsistencyLevel?
+        /// The Amazon Resource Name (ARN) that is associated with the Directory where the typed link resides. For more information, see arns or Typed Links.
+        public let directoryArn: String
+
+        public init(attributeNames: [String], typedLinkSpecifier: TypedLinkSpecifier, consistencyLevel: ConsistencyLevel? = nil, directoryArn: String) {
+            self.attributeNames = attributeNames
+            self.typedLinkSpecifier = typedLinkSpecifier
+            self.consistencyLevel = consistencyLevel
+            self.directoryArn = directoryArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeNames = "AttributeNames"
+            case typedLinkSpecifier = "TypedLinkSpecifier"
+            case consistencyLevel = "ConsistencyLevel"
+            case directoryArn = "x-amz-data-partition"
+        }
+    }
+
+    public struct AttachObjectResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttachedObjectIdentifier", required: false, type: .string)
+        ]
+        /// The attached ObjectIdentifier, which is the child ObjectIdentifier.
+        public let attachedObjectIdentifier: String?
+
+        public init(attachedObjectIdentifier: String? = nil) {
+            self.attachedObjectIdentifier = attachedObjectIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachedObjectIdentifier = "AttachedObjectIdentifier"
+        }
+    }
+
+    public struct Directory: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "DirectoryArn", required: false, type: .string)
+        ]
+        /// The date and time when the directory was created.
+        public let creationDateTime: TimeStamp?
+        /// The name of the directory.
+        public let name: String?
+        /// The state of the directory. Can be either Enabled, Disabled, or Deleted.
+        public let state: DirectoryState?
+        /// The Amazon Resource Name (ARN) that is associated with the directory. For more information, see arns.
+        public let directoryArn: String?
+
+        public init(creationDateTime: TimeStamp? = nil, name: String? = nil, state: DirectoryState? = nil, directoryArn: String? = nil) {
+            self.creationDateTime = creationDateTime
+            self.name = name
+            self.state = state
+            self.directoryArn = directoryArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDateTime = "CreationDateTime"
+            case name = "Name"
+            case state = "State"
+            case directoryArn = "DirectoryArn"
+        }
+    }
+
+    public struct DetachFromIndexRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "IndexReference", required: true, type: .structure), 
+            AWSShapeMember(label: "TargetReference", required: true, type: .structure)
+        ]
+        /// The Amazon Resource Name (ARN) of the directory the index and object exist in.
+        public let directoryArn: String
+        /// A reference to the index object.
+        public let indexReference: ObjectReference
+        /// A reference to the object being detached from the index.
+        public let targetReference: ObjectReference
+
+        public init(directoryArn: String, indexReference: ObjectReference, targetReference: ObjectReference) {
+            self.directoryArn = directoryArn
+            self.indexReference = indexReference
+            self.targetReference = targetReference
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryArn = "x-amz-data-partition"
+            case indexReference = "IndexReference"
+            case targetReference = "TargetReference"
+        }
+    }
+
+    public struct EnableDirectoryRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+        ]
+        /// The ARN of the directory to enable.
+        public let directoryArn: String
+
+        public init(directoryArn: String) {
+            self.directoryArn = directoryArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryArn = "x-amz-data-partition"
+        }
+    }
+
+    public struct BatchDetachTypedLinkResponse: AWSShape {
+
+    }
+
+    public struct DeleteFacetResponse: AWSShape {
+
+    }
+
+    public struct CreateTypedLinkFacetResponse: AWSShape {
+
+    }
+
+    public struct PolicyAttachment: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyId", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyType", required: false, type: .string)
+        ]
+        /// The ObjectIdentifier that is associated with PolicyAttachment.
+        public let objectIdentifier: String?
+        /// The ID of PolicyAttachment.
+        public let policyId: String?
+        /// The type of policy that can be associated with PolicyAttachment.
+        public let policyType: String?
+
+        public init(objectIdentifier: String? = nil, policyId: String? = nil, policyType: String? = nil) {
+            self.objectIdentifier = objectIdentifier
+            self.policyId = policyId
+            self.policyType = policyType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectIdentifier = "ObjectIdentifier"
+            case policyId = "PolicyId"
+            case policyType = "PolicyType"
+        }
+    }
+
+    public struct DeleteSchemaResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaArn", required: false, type: .string)
+        ]
+        /// The input ARN that is returned as part of the response. For more information, see arns.
+        public let schemaArn: String?
+
+        public init(schemaArn: String? = nil) {
+            self.schemaArn = schemaArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schemaArn = "SchemaArn"
+        }
+    }
+
+    public struct AttachTypedLinkRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attributes", required: true, type: .list), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "TargetObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "SourceObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "TypedLinkFacet", required: true, type: .structure)
+        ]
+        /// A set of attributes that are associated with the typed link.
+        public let attributes: [AttributeNameAndValue]
+        /// The Amazon Resource Name (ARN) of the directory where you want to attach the typed link.
+        public let directoryArn: String
+        /// Identifies the target object that the typed link will attach to.
+        public let targetObjectReference: ObjectReference
+        /// Identifies the source object that the typed link will attach to.
+        public let sourceObjectReference: ObjectReference
+        /// Identifies the typed link facet that is associated with the typed link.
+        public let typedLinkFacet: TypedLinkSchemaAndFacetName
+
+        public init(attributes: [AttributeNameAndValue], directoryArn: String, targetObjectReference: ObjectReference, sourceObjectReference: ObjectReference, typedLinkFacet: TypedLinkSchemaAndFacetName) {
+            self.attributes = attributes
+            self.directoryArn = directoryArn
+            self.targetObjectReference = targetObjectReference
+            self.sourceObjectReference = sourceObjectReference
+            self.typedLinkFacet = typedLinkFacet
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+            case directoryArn = "x-amz-data-partition"
+            case targetObjectReference = "TargetObjectReference"
+            case sourceObjectReference = "SourceObjectReference"
+            case typedLinkFacet = "TypedLinkFacet"
+        }
+    }
+
+    public struct FacetAttributeUpdate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attribute", required: false, type: .structure), 
+            AWSShapeMember(label: "Action", required: false, type: .enum)
+        ]
+        /// The attribute to update.
+        public let attribute: FacetAttribute?
+        /// The action to perform when updating the attribute.
+        public let action: UpdateActionType?
+
+        public init(attribute: FacetAttribute? = nil, action: UpdateActionType? = nil) {
+            self.attribute = attribute
+            self.action = action
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attribute = "Attribute"
+            case action = "Action"
+        }
+    }
+
+    public struct PolicyToPath: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Path", required: false, type: .string), 
+            AWSShapeMember(label: "Policies", required: false, type: .list)
+        ]
+        /// The path that is referenced from the root.
+        public let path: String?
+        /// List of policy objects.
+        public let policies: [PolicyAttachment]?
+
+        public init(path: String? = nil, policies: [PolicyAttachment]? = nil) {
+            self.path = path
+            self.policies = policies
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case path = "Path"
+            case policies = "Policies"
+        }
+    }
+
+    public struct BatchListPolicyAttachments: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "PolicyReference", required: true, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The maximum number of results to retrieve.
+        public let maxResults: Int32?
+        /// The reference that identifies the policy object.
+        public let policyReference: ObjectReference
+        /// The pagination token.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, policyReference: ObjectReference, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.policyReference = policyReference
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case policyReference = "PolicyReference"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct TypedLinkAttributeRange: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeName", required: false, type: .string), 
+            AWSShapeMember(label: "Range", required: true, type: .structure)
+        ]
+        /// The unique name of the typed link attribute.
+        public let attributeName: String?
+        /// The range of attribute values that are being selected.
+        public let range: TypedAttributeValueRange
+
+        public init(attributeName: String? = nil, range: TypedAttributeValueRange) {
+            self.attributeName = attributeName
+            self.range = range
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case range = "Range"
+        }
+    }
+
+    public struct ObjectReference: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Selector", required: false, type: .string)
+        ]
+        /// A path selector supports easy selection of an object by the parent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are separated by slashes. For more information about paths, see Access Objects. You can identify an object in one of the following ways:    $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created object. An object’s identifier is immutable and no two objects will ever share the same object identifier    /some/path - Identifies the object based on path    #SomeBatchReference - Identifies the object in a batch call  
+        public let selector: String?
+
+        public init(selector: String? = nil) {
+            self.selector = selector
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case selector = "Selector"
+        }
+    }
+
+    public struct UpdateFacetResponse: AWSShape {
+
+    }
+
+    public struct AttachPolicyResponse: AWSShape {
+
+    }
+
+    public struct BatchAddFacetToObjectResponse: AWSShape {
+
+    }
+
+    public struct ListFacetAttributesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The ARN of the schema where the facet resides.
+        public let schemaArn: String
+        /// The name of the facet whose attributes will be retrieved.
+        public let name: String
+        /// The maximum number of results to retrieve.
+        public let maxResults: Int32?
+        /// The pagination token.
+        public let nextToken: String?
+
+        public init(schemaArn: String, name: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.schemaArn = schemaArn
+            self.name = name
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schemaArn = "x-amz-data-partition"
+            case name = "Name"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetLinkAttributesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attributes", required: false, type: .list)
+        ]
+        /// The attributes that are associated with the typed link.
+        public let attributes: [AttributeKeyAndValue]?
+
+        public init(attributes: [AttributeKeyAndValue]? = nil) {
+            self.attributes = attributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+        }
+    }
+
+    public struct UpgradePublishedSchemaRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DevelopmentSchemaArn", required: true, type: .string), 
+            AWSShapeMember(label: "MinorVersion", required: true, type: .string), 
+            AWSShapeMember(label: "PublishedSchemaArn", required: true, type: .string), 
+            AWSShapeMember(label: "DryRun", required: false, type: .boolean)
+        ]
+        /// The ARN of the development schema with the changes used for the upgrade.
+        public let developmentSchemaArn: String
+        /// Identifies the minor version of the published schema that will be created. This parameter is NOT optional.
+        public let minorVersion: String
+        /// The ARN of the published schema to be upgraded.
+        public let publishedSchemaArn: String
+        /// Used for testing whether the Development schema provided is backwards compatible, or not, with the publish schema provided by the user to be upgraded. If schema compatibility fails, an exception would be thrown else the call would succeed. This parameter is optional and defaults to false.
+        public let dryRun: Bool?
+
+        public init(developmentSchemaArn: String, minorVersion: String, publishedSchemaArn: String, dryRun: Bool? = nil) {
+            self.developmentSchemaArn = developmentSchemaArn
+            self.minorVersion = minorVersion
+            self.publishedSchemaArn = publishedSchemaArn
+            self.dryRun = dryRun
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case developmentSchemaArn = "DevelopmentSchemaArn"
+            case minorVersion = "MinorVersion"
+            case publishedSchemaArn = "PublishedSchemaArn"
+            case dryRun = "DryRun"
+        }
+    }
+
+    public struct BatchWriteOperation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RemoveFacetFromObject", required: false, type: .structure), 
+            AWSShapeMember(label: "AttachToIndex", required: false, type: .structure), 
+            AWSShapeMember(label: "CreateObject", required: false, type: .structure), 
+            AWSShapeMember(label: "DetachObject", required: false, type: .structure), 
+            AWSShapeMember(label: "UpdateObjectAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "DetachFromIndex", required: false, type: .structure), 
+            AWSShapeMember(label: "DetachPolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "DeleteObject", required: false, type: .structure), 
+            AWSShapeMember(label: "AddFacetToObject", required: false, type: .structure), 
+            AWSShapeMember(label: "AttachObject", required: false, type: .structure), 
+            AWSShapeMember(label: "CreateIndex", required: false, type: .structure), 
+            AWSShapeMember(label: "AttachTypedLink", required: false, type: .structure), 
+            AWSShapeMember(label: "AttachPolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "UpdateLinkAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "DetachTypedLink", required: false, type: .structure)
+        ]
+        /// A batch operation that removes a facet from an object.
+        public let removeFacetFromObject: BatchRemoveFacetFromObject?
+        /// Attaches the specified object to the specified index.
+        public let attachToIndex: BatchAttachToIndex?
+        /// Creates an object.
+        public let createObject: BatchCreateObject?
+        /// Detaches an object from a Directory.
+        public let detachObject: BatchDetachObject?
+        /// Updates a given object's attributes.
+        public let updateObjectAttributes: BatchUpdateObjectAttributes?
+        /// Detaches the specified object from the specified index.
+        public let detachFromIndex: BatchDetachFromIndex?
+        /// Detaches a policy from a Directory.
+        public let detachPolicy: BatchDetachPolicy?
+        /// Deletes an object in a Directory.
+        public let deleteObject: BatchDeleteObject?
+        /// A batch operation that adds a facet to an object.
+        public let addFacetToObject: BatchAddFacetToObject?
+        /// Attaches an object to a Directory.
+        public let attachObject: BatchAttachObject?
+        /// Creates an index object. See Indexing and search for more information.
+        public let createIndex: BatchCreateIndex?
+        /// Attaches a typed link to a specified source and target object. For more information, see Typed Links.
+        public let attachTypedLink: BatchAttachTypedLink?
+        /// Attaches a policy object to a regular object. An object can have a limited number of attached policies.
+        public let attachPolicy: BatchAttachPolicy?
+        /// Updates a given object's attributes.
+        public let updateLinkAttributes: BatchUpdateLinkAttributes?
+        /// Detaches a typed link from a specified source and target object. For more information, see Typed Links.
+        public let detachTypedLink: BatchDetachTypedLink?
+
+        public init(removeFacetFromObject: BatchRemoveFacetFromObject? = nil, attachToIndex: BatchAttachToIndex? = nil, createObject: BatchCreateObject? = nil, detachObject: BatchDetachObject? = nil, updateObjectAttributes: BatchUpdateObjectAttributes? = nil, detachFromIndex: BatchDetachFromIndex? = nil, detachPolicy: BatchDetachPolicy? = nil, deleteObject: BatchDeleteObject? = nil, addFacetToObject: BatchAddFacetToObject? = nil, attachObject: BatchAttachObject? = nil, createIndex: BatchCreateIndex? = nil, attachTypedLink: BatchAttachTypedLink? = nil, attachPolicy: BatchAttachPolicy? = nil, updateLinkAttributes: BatchUpdateLinkAttributes? = nil, detachTypedLink: BatchDetachTypedLink? = nil) {
+            self.removeFacetFromObject = removeFacetFromObject
+            self.attachToIndex = attachToIndex
+            self.createObject = createObject
+            self.detachObject = detachObject
+            self.updateObjectAttributes = updateObjectAttributes
+            self.detachFromIndex = detachFromIndex
+            self.detachPolicy = detachPolicy
+            self.deleteObject = deleteObject
+            self.addFacetToObject = addFacetToObject
+            self.attachObject = attachObject
+            self.createIndex = createIndex
+            self.attachTypedLink = attachTypedLink
+            self.attachPolicy = attachPolicy
+            self.updateLinkAttributes = updateLinkAttributes
+            self.detachTypedLink = detachTypedLink
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case removeFacetFromObject = "RemoveFacetFromObject"
+            case attachToIndex = "AttachToIndex"
+            case createObject = "CreateObject"
+            case detachObject = "DetachObject"
+            case updateObjectAttributes = "UpdateObjectAttributes"
+            case detachFromIndex = "DetachFromIndex"
+            case detachPolicy = "DetachPolicy"
+            case deleteObject = "DeleteObject"
+            case addFacetToObject = "AddFacetToObject"
+            case attachObject = "AttachObject"
+            case createIndex = "CreateIndex"
+            case attachTypedLink = "AttachTypedLink"
+            case attachPolicy = "AttachPolicy"
+            case updateLinkAttributes = "UpdateLinkAttributes"
+            case detachTypedLink = "DetachTypedLink"
+        }
+    }
+
+    public struct GetFacetResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Facet", required: false, type: .structure)
+        ]
+        /// The Facet structure that is associated with the facet.
+        public let facet: Facet?
+
+        public init(facet: Facet? = nil) {
+            self.facet = facet
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case facet = "Facet"
+        }
+    }
+
+    public struct RemoveFacetFromObjectRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "SchemaFacet", required: true, type: .structure)
+        ]
+        /// The ARN of the directory in which the object resides.
+        public let directoryArn: String
+        /// A reference to the object to remove the facet from.
+        public let objectReference: ObjectReference
+        /// The facet to remove. See SchemaFacet for details.
+        public let schemaFacet: SchemaFacet
+
+        public init(directoryArn: String, objectReference: ObjectReference, schemaFacet: SchemaFacet) {
+            self.directoryArn = directoryArn
+            self.objectReference = objectReference
+            self.schemaFacet = schemaFacet
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryArn = "x-amz-data-partition"
+            case objectReference = "ObjectReference"
+            case schemaFacet = "SchemaFacet"
+        }
+    }
+
+    public struct ListDirectoriesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "state", required: false, type: .enum), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The state of the directories in the list. Can be either Enabled, Disabled, or Deleted.
+        public let state: DirectoryState?
+        /// The maximum number of results to retrieve.
+        public let maxResults: Int32?
+        /// The pagination token.
+        public let nextToken: String?
+
+        public init(state: DirectoryState? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.state = state
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListObjectPoliciesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) that is associated with the Directory where objects reside. For more information, see arns.
+        public let directoryArn: String
+        /// The maximum number of items to be retrieved in a single call. This is an approximate number.
+        public let maxResults: Int32?
+        /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
+        public let consistencyLevel: ConsistencyLevel?
+        /// Reference that identifies the object for which policies will be listed.
+        public let objectReference: ObjectReference
+        /// The pagination token.
+        public let nextToken: String?
+
+        public init(directoryArn: String, maxResults: Int32? = nil, consistencyLevel: ConsistencyLevel? = nil, objectReference: ObjectReference, nextToken: String? = nil) {
+            self.directoryArn = directoryArn
+            self.maxResults = maxResults
+            self.consistencyLevel = consistencyLevel
+            self.objectReference = objectReference
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryArn = "x-amz-data-partition"
+            case maxResults = "MaxResults"
+            case consistencyLevel = "x-amz-consistency-level"
+            case objectReference = "ObjectReference"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct BatchAttachObject: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LinkName", required: true, type: .string), 
+            AWSShapeMember(label: "ChildReference", required: true, type: .structure), 
+            AWSShapeMember(label: "ParentReference", required: true, type: .structure)
+        ]
+        /// The name of the link.
+        public let linkName: String
+        /// The child object reference that is to be attached to the object.
+        public let childReference: ObjectReference
+        /// The parent object reference.
+        public let parentReference: ObjectReference
+
+        public init(linkName: String, childReference: ObjectReference, parentReference: ObjectReference) {
+            self.linkName = linkName
+            self.childReference = childReference
+            self.parentReference = parentReference
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case linkName = "LinkName"
+            case childReference = "ChildReference"
+            case parentReference = "ParentReference"
+        }
+    }
+
+    public struct BatchDetachPolicyResponse: AWSShape {
+
+    }
+
+    public struct BatchUpdateObjectAttributes: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "AttributeUpdates", required: true, type: .list)
+        ]
+        /// Reference that identifies the object.
+        public let objectReference: ObjectReference
+        /// Attributes update structure.
+        public let attributeUpdates: [ObjectAttributeUpdate]
+
+        public init(objectReference: ObjectReference, attributeUpdates: [ObjectAttributeUpdate]) {
+            self.objectReference = objectReference
+            self.attributeUpdates = attributeUpdates
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectReference = "ObjectReference"
+            case attributeUpdates = "AttributeUpdates"
+        }
+    }
+
+    public enum FacetStyle: String, CustomStringConvertible, Codable {
+        case `static` = "STATIC"
+        case dynamic = "DYNAMIC"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CreateIndexRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IsUnique", required: true, type: .boolean), 
+            AWSShapeMember(label: "OrderedIndexedAttributeList", required: true, type: .list), 
+            AWSShapeMember(label: "ParentReference", required: false, type: .structure), 
+            AWSShapeMember(label: "LinkName", required: false, type: .string), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+        ]
+        /// Indicates whether the attribute that is being indexed has unique values or not.
+        public let isUnique: Bool
+        /// Specifies the attributes that should be indexed on. Currently only a single attribute is supported.
+        public let orderedIndexedAttributeList: [AttributeKey]
+        /// A reference to the parent object that contains the index object.
+        public let parentReference: ObjectReference?
+        /// The name of the link between the parent object and the index object.
+        public let linkName: String?
+        /// The ARN of the directory where the index should be created.
+        public let directoryArn: String
+
+        public init(isUnique: Bool, orderedIndexedAttributeList: [AttributeKey], parentReference: ObjectReference? = nil, linkName: String? = nil, directoryArn: String) {
+            self.isUnique = isUnique
+            self.orderedIndexedAttributeList = orderedIndexedAttributeList
+            self.parentReference = parentReference
+            self.linkName = linkName
+            self.directoryArn = directoryArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isUnique = "IsUnique"
+            case orderedIndexedAttributeList = "OrderedIndexedAttributeList"
+            case parentReference = "ParentReference"
+            case linkName = "LinkName"
+            case directoryArn = "x-amz-data-partition"
+        }
+    }
+
+    public struct BatchAttachPolicy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "PolicyReference", required: true, type: .structure)
+        ]
+        /// The reference that identifies the object to which the policy will be attached.
+        public let objectReference: ObjectReference
+        /// The reference that is associated with the policy object.
+        public let policyReference: ObjectReference
+
+        public init(objectReference: ObjectReference, policyReference: ObjectReference) {
+            self.objectReference = objectReference
+            self.policyReference = policyReference
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectReference = "ObjectReference"
+            case policyReference = "PolicyReference"
+        }
+    }
+
+    public struct BatchAttachTypedLink: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TypedLinkFacet", required: true, type: .structure), 
+            AWSShapeMember(label: "TargetObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "Attributes", required: true, type: .list), 
+            AWSShapeMember(label: "SourceObjectReference", required: true, type: .structure)
+        ]
+        /// Identifies the typed link facet that is associated with the typed link.
+        public let typedLinkFacet: TypedLinkSchemaAndFacetName
+        /// Identifies the target object that the typed link will attach to.
+        public let targetObjectReference: ObjectReference
+        /// A set of attributes that are associated with the typed link.
+        public let attributes: [AttributeNameAndValue]
+        /// Identifies the source object that the typed link will attach to.
+        public let sourceObjectReference: ObjectReference
+
+        public init(typedLinkFacet: TypedLinkSchemaAndFacetName, targetObjectReference: ObjectReference, attributes: [AttributeNameAndValue], sourceObjectReference: ObjectReference) {
+            self.typedLinkFacet = typedLinkFacet
+            self.targetObjectReference = targetObjectReference
+            self.attributes = attributes
+            self.sourceObjectReference = sourceObjectReference
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case typedLinkFacet = "TypedLinkFacet"
+            case targetObjectReference = "TargetObjectReference"
+            case attributes = "Attributes"
+            case sourceObjectReference = "SourceObjectReference"
+        }
+    }
+
+    public struct ListDevelopmentSchemaArnsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SchemaArns", required: false, type: .list)
+        ]
+        /// The pagination token.
+        public let nextToken: String?
+        /// The ARNs of retrieved development schemas.
+        public let schemaArns: [String]?
+
+        public init(nextToken: String? = nil, schemaArns: [String]? = nil) {
+            self.nextToken = nextToken
+            self.schemaArns = schemaArns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case schemaArns = "SchemaArns"
+        }
+    }
+
+    public struct AddFacetToObjectResponse: AWSShape {
+
+    }
+
+    public struct DetachTypedLinkRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "TypedLinkSpecifier", required: true, type: .structure)
+        ]
+        /// The Amazon Resource Name (ARN) of the directory where you want to detach the typed link.
+        public let directoryArn: String
+        /// Used to accept a typed link specifier as input.
+        public let typedLinkSpecifier: TypedLinkSpecifier
+
+        public init(directoryArn: String, typedLinkSpecifier: TypedLinkSpecifier) {
+            self.directoryArn = directoryArn
+            self.typedLinkSpecifier = typedLinkSpecifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryArn = "x-amz-data-partition"
+            case typedLinkSpecifier = "TypedLinkSpecifier"
+        }
+    }
+
+    public struct ObjectIdentifierAndLinkNameTuple: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "LinkName", required: false, type: .string)
+        ]
+        /// The ID that is associated with the object.
+        public let objectIdentifier: String?
+        /// The name of the link between the parent and the child object.
+        public let linkName: String?
+
+        public init(objectIdentifier: String? = nil, linkName: String? = nil) {
+            self.objectIdentifier = objectIdentifier
+            self.linkName = linkName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectIdentifier = "ObjectIdentifier"
+            case linkName = "LinkName"
+        }
+    }
+
+    public struct AttributeKey: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaArn", required: true, type: .string), 
+            AWSShapeMember(label: "FacetName", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the schema that contains the facet and attribute.
+        public let schemaArn: String
+        /// The name of the facet that the attribute exists within.
+        public let facetName: String
+        /// The name of the attribute.
+        public let name: String
+
+        public init(schemaArn: String, facetName: String, name: String) {
+            self.schemaArn = schemaArn
+            self.facetName = facetName
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schemaArn = "SchemaArn"
+            case facetName = "FacetName"
+            case name = "Name"
+        }
+    }
+
+    public struct ListObjectParentsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParentLinks", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Parents", required: false, type: .map)
+        ]
+        /// Returns a list of parent reference and LinkName Tuples.
+        public let parentLinks: [ObjectIdentifierAndLinkNameTuple]?
+        /// The pagination token.
+        public let nextToken: String?
+        /// The parent structure, which is a map with key as the ObjectIdentifier and LinkName as the value.
+        public let parents: [String: String]?
+
+        public init(parentLinks: [ObjectIdentifierAndLinkNameTuple]? = nil, nextToken: String? = nil, parents: [String: String]? = nil) {
+            self.parentLinks = parentLinks
+            self.nextToken = nextToken
+            self.parents = parents
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parentLinks = "ParentLinks"
+            case nextToken = "NextToken"
+            case parents = "Parents"
+        }
+    }
+
+    public struct CreateDirectoryResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "AppliedSchemaArn", required: true, type: .string), 
+            AWSShapeMember(label: "DirectoryArn", required: true, type: .string)
+        ]
+        /// The root object node of the created directory.
+        public let objectIdentifier: String
+        /// The name of the Directory.
+        public let name: String
+        /// The ARN of the published schema in the Directory. Once a published schema is copied into the directory, it has its own ARN, which is referred to applied schema ARN. For more information, see arns.
+        public let appliedSchemaArn: String
+        /// The ARN that is associated with the Directory. For more information, see arns.
+        public let directoryArn: String
+
+        public init(objectIdentifier: String, name: String, appliedSchemaArn: String, directoryArn: String) {
+            self.objectIdentifier = objectIdentifier
+            self.name = name
+            self.appliedSchemaArn = appliedSchemaArn
+            self.directoryArn = directoryArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectIdentifier = "ObjectIdentifier"
+            case name = "Name"
+            case appliedSchemaArn = "AppliedSchemaArn"
+            case directoryArn = "DirectoryArn"
+        }
+    }
+
+    public struct BatchCreateObject: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaFacet", required: true, type: .list), 
+            AWSShapeMember(label: "BatchReferenceName", required: false, type: .string), 
+            AWSShapeMember(label: "LinkName", required: false, type: .string), 
+            AWSShapeMember(label: "ParentReference", required: false, type: .structure), 
+            AWSShapeMember(label: "ObjectAttributeList", required: true, type: .list)
+        ]
+        /// A list of FacetArns that will be associated with the object. For more information, see arns.
+        public let schemaFacet: [SchemaFacet]
+        /// The batch reference name. See Transaction Support for more information.
+        public let batchReferenceName: String?
+        /// The name of the link.
+        public let linkName: String?
+        /// If specified, the parent reference to which this object will be attached.
+        public let parentReference: ObjectReference?
+        /// An attribute map, which contains an attribute ARN as the key and attribute value as the map value.
+        public let objectAttributeList: [AttributeKeyAndValue]
+
+        public init(schemaFacet: [SchemaFacet], batchReferenceName: String? = nil, linkName: String? = nil, parentReference: ObjectReference? = nil, objectAttributeList: [AttributeKeyAndValue]) {
+            self.schemaFacet = schemaFacet
+            self.batchReferenceName = batchReferenceName
+            self.linkName = linkName
+            self.parentReference = parentReference
+            self.objectAttributeList = objectAttributeList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schemaFacet = "SchemaFacet"
+            case batchReferenceName = "BatchReferenceName"
+            case linkName = "LinkName"
+            case parentReference = "ParentReference"
+            case objectAttributeList = "ObjectAttributeList"
+        }
+    }
+
+    public struct ListManagedSchemaArnsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SchemaArns", required: false, type: .list)
+        ]
+        /// The pagination token.
+        public let nextToken: String?
+        /// The ARNs for all AWS managed schemas.
+        public let schemaArns: [String]?
+
+        public init(nextToken: String? = nil, schemaArns: [String]? = nil) {
+            self.nextToken = nextToken
+            self.schemaArns = schemaArns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case schemaArns = "SchemaArns"
+        }
+    }
+
+    public struct BatchAttachTypedLinkResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TypedLinkSpecifier", required: false, type: .structure)
+        ]
+        /// Returns a typed link specifier as output.
+        public let typedLinkSpecifier: TypedLinkSpecifier?
+
+        public init(typedLinkSpecifier: TypedLinkSpecifier? = nil) {
+            self.typedLinkSpecifier = typedLinkSpecifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case typedLinkSpecifier = "TypedLinkSpecifier"
+        }
+    }
+
+    public struct ListPolicyAttachmentsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectIdentifiers", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// A list of ObjectIdentifiers to which the policy is attached.
+        public let objectIdentifiers: [String]?
+        /// The pagination token.
+        public let nextToken: String?
+
+        public init(objectIdentifiers: [String]? = nil, nextToken: String? = nil) {
+            self.objectIdentifiers = objectIdentifiers
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectIdentifiers = "ObjectIdentifiers"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct TypedLinkFacet: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attributes", required: true, type: .list), 
+            AWSShapeMember(label: "IdentityAttributeOrder", required: true, type: .list), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// A set of key-value pairs associated with the typed link. Typed link attributes are used when you have data values that are related to the link itself, and not to one of the two objects being linked. Identity attributes also serve to distinguish the link from others of the same type between the same objects.
+        public let attributes: [TypedLinkAttributeDefinition]
+        /// The set of attributes that distinguish links made from this facet from each other, in the order of significance. Listing typed links can filter on the values of these attributes. See ListOutgoingTypedLinks and ListIncomingTypedLinks for details.
+        public let identityAttributeOrder: [String]
+        /// The unique name of the typed link facet.
+        public let name: String
+
+        public init(attributes: [TypedLinkAttributeDefinition], identityAttributeOrder: [String], name: String) {
+            self.attributes = attributes
+            self.identityAttributeOrder = identityAttributeOrder
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+            case identityAttributeOrder = "IdentityAttributeOrder"
+            case name = "Name"
+        }
+    }
+
+    public struct CreateObjectRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaFacets", required: true, type: .list), 
+            AWSShapeMember(label: "ParentReference", required: false, type: .structure), 
+            AWSShapeMember(label: "LinkName", required: false, type: .string), 
+            AWSShapeMember(label: "ObjectAttributeList", required: false, type: .list), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+        ]
+        /// A list of schema facets to be associated with the object. Do not provide minor version components. See SchemaFacet for details.
+        public let schemaFacets: [SchemaFacet]
+        /// If specified, the parent reference to which this object will be attached.
+        public let parentReference: ObjectReference?
+        /// The name of link that is used to attach this object to a parent.
+        public let linkName: String?
+        /// The attribute map whose attribute ARN contains the key and attribute value as the map value.
+        public let objectAttributeList: [AttributeKeyAndValue]?
+        /// The Amazon Resource Name (ARN) that is associated with the Directory in which the object will be created. For more information, see arns.
+        public let directoryArn: String
+
+        public init(schemaFacets: [SchemaFacet], parentReference: ObjectReference? = nil, linkName: String? = nil, objectAttributeList: [AttributeKeyAndValue]? = nil, directoryArn: String) {
+            self.schemaFacets = schemaFacets
+            self.parentReference = parentReference
+            self.linkName = linkName
+            self.objectAttributeList = objectAttributeList
+            self.directoryArn = directoryArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schemaFacets = "SchemaFacets"
+            case parentReference = "ParentReference"
+            case linkName = "LinkName"
+            case objectAttributeList = "ObjectAttributeList"
+            case directoryArn = "x-amz-data-partition"
+        }
+    }
+
+    public struct BatchListPolicyAttachmentsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectIdentifiers", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// A list of ObjectIdentifiers to which the policy is attached.
+        public let objectIdentifiers: [String]?
+        /// The pagination token.
+        public let nextToken: String?
+
+        public init(objectIdentifiers: [String]? = nil, nextToken: String? = nil) {
+            self.objectIdentifiers = objectIdentifiers
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectIdentifiers = "ObjectIdentifiers"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct AddFacetToObjectRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaFacet", required: true, type: .structure), 
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "ObjectAttributeList", required: false, type: .list), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+        ]
+        /// Identifiers for the facet that you are adding to the object. See SchemaFacet for details.
+        public let schemaFacet: SchemaFacet
+        /// A reference to the object you are adding the specified facet to.
+        public let objectReference: ObjectReference
+        /// Attributes on the facet that you are adding to the object.
+        public let objectAttributeList: [AttributeKeyAndValue]?
+        /// The Amazon Resource Name (ARN) that is associated with the Directory where the object resides. For more information, see arns.
+        public let directoryArn: String
+
+        public init(schemaFacet: SchemaFacet, objectReference: ObjectReference, objectAttributeList: [AttributeKeyAndValue]? = nil, directoryArn: String) {
+            self.schemaFacet = schemaFacet
+            self.objectReference = objectReference
+            self.objectAttributeList = objectAttributeList
+            self.directoryArn = directoryArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schemaFacet = "SchemaFacet"
+            case objectReference = "ObjectReference"
+            case objectAttributeList = "ObjectAttributeList"
+            case directoryArn = "x-amz-data-partition"
+        }
+    }
+
+    public struct BatchCreateIndex: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IsUnique", required: true, type: .boolean), 
+            AWSShapeMember(label: "OrderedIndexedAttributeList", required: true, type: .list), 
+            AWSShapeMember(label: "BatchReferenceName", required: false, type: .string), 
+            AWSShapeMember(label: "LinkName", required: false, type: .string), 
+            AWSShapeMember(label: "ParentReference", required: false, type: .structure)
+        ]
+        /// Indicates whether the attribute that is being indexed has unique values or not.
+        public let isUnique: Bool
+        /// Specifies the attributes that should be indexed on. Currently only a single attribute is supported.
+        public let orderedIndexedAttributeList: [AttributeKey]
+        /// The batch reference name. See Transaction Support for more information.
+        public let batchReferenceName: String?
+        /// The name of the link between the parent object and the index object.
+        public let linkName: String?
+        /// A reference to the parent object that contains the index object.
+        public let parentReference: ObjectReference?
+
+        public init(isUnique: Bool, orderedIndexedAttributeList: [AttributeKey], batchReferenceName: String? = nil, linkName: String? = nil, parentReference: ObjectReference? = nil) {
+            self.isUnique = isUnique
+            self.orderedIndexedAttributeList = orderedIndexedAttributeList
+            self.batchReferenceName = batchReferenceName
+            self.linkName = linkName
+            self.parentReference = parentReference
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isUnique = "IsUnique"
+            case orderedIndexedAttributeList = "OrderedIndexedAttributeList"
+            case batchReferenceName = "BatchReferenceName"
+            case linkName = "LinkName"
+            case parentReference = "ParentReference"
+        }
+    }
+
+    public struct ListManagedSchemaArnsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaArn", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The response for ListManagedSchemaArns. When this parameter is used, all minor version ARNs for a major version are listed.
+        public let schemaArn: String?
+        /// The maximum number of results to retrieve.
+        public let maxResults: Int32?
+        /// The pagination token.
+        public let nextToken: String?
+
+        public init(schemaArn: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.schemaArn = schemaArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schemaArn = "SchemaArn"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListObjectPoliciesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttachedPolicyIds", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// A list of policy ObjectIdentifiers, that are attached to the object.
+        public let attachedPolicyIds: [String]?
+        /// The pagination token.
+        public let nextToken: String?
+
+        public init(attachedPolicyIds: [String]? = nil, nextToken: String? = nil) {
+            self.attachedPolicyIds = attachedPolicyIds
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachedPolicyIds = "AttachedPolicyIds"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct TagResourceResponse: AWSShape {
+
+    }
+
+    public struct ListIncomingTypedLinksRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConsistencyLevel", required: false, type: .enum), 
+            AWSShapeMember(label: "FilterTypedLink", required: false, type: .structure), 
+            AWSShapeMember(label: "FilterAttributeRanges", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The consistency level to execute the request at.
+        public let consistencyLevel: ConsistencyLevel?
+        /// Filters are interpreted in the order of the attributes on the typed link facet, not the order in which they are supplied to any API calls.
+        public let filterTypedLink: TypedLinkSchemaAndFacetName?
+        /// Provides range filters for multiple attributes. When providing ranges to typed link selection, any inexact ranges must be specified at the end. Any attributes that do not have a range specified are presumed to match the entire range.
+        public let filterAttributeRanges: [TypedLinkAttributeRange]?
+        /// The maximum number of results to retrieve.
+        public let maxResults: Int32?
+        /// The Amazon Resource Name (ARN) of the directory where you want to list the typed links.
+        public let directoryArn: String
+        /// Reference that identifies the object whose attributes will be listed.
+        public let objectReference: ObjectReference
+        /// The pagination token.
+        public let nextToken: String?
+
+        public init(consistencyLevel: ConsistencyLevel? = nil, filterTypedLink: TypedLinkSchemaAndFacetName? = nil, filterAttributeRanges: [TypedLinkAttributeRange]? = nil, maxResults: Int32? = nil, directoryArn: String, objectReference: ObjectReference, nextToken: String? = nil) {
+            self.consistencyLevel = consistencyLevel
+            self.filterTypedLink = filterTypedLink
+            self.filterAttributeRanges = filterAttributeRanges
+            self.maxResults = maxResults
+            self.directoryArn = directoryArn
+            self.objectReference = objectReference
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case consistencyLevel = "ConsistencyLevel"
+            case filterTypedLink = "FilterTypedLink"
+            case filterAttributeRanges = "FilterAttributeRanges"
+            case maxResults = "MaxResults"
+            case directoryArn = "x-amz-data-partition"
+            case objectReference = "ObjectReference"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListAttachedIndicesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IndexAttachments", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The indices attached to the specified object.
+        public let indexAttachments: [IndexAttachment]?
+        /// The pagination token.
+        public let nextToken: String?
+
+        public init(indexAttachments: [IndexAttachment]? = nil, nextToken: String? = nil) {
+            self.indexAttachments = indexAttachments
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexAttachments = "IndexAttachments"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DetachFromIndexResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DetachedObjectIdentifier", required: false, type: .string)
+        ]
+        /// The ObjectIdentifier of the object that was detached from the index.
+        public let detachedObjectIdentifier: String?
+
+        public init(detachedObjectIdentifier: String? = nil) {
+            self.detachedObjectIdentifier = detachedObjectIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detachedObjectIdentifier = "DetachedObjectIdentifier"
+        }
+    }
+
+    public enum RequiredAttributeBehavior: String, CustomStringConvertible, Codable {
+        case requiredAlways = "REQUIRED_ALWAYS"
+        case notRequired = "NOT_REQUIRED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListTypedLinkFacetAttributesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
+        public let schemaArn: String
+        /// The unique name of the typed link facet.
+        public let name: String
+        /// The maximum number of results to retrieve.
+        public let maxResults: Int32?
+        /// The pagination token.
+        public let nextToken: String?
+
+        public init(schemaArn: String, name: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.schemaArn = schemaArn
+            self.name = name
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schemaArn = "x-amz-data-partition"
+            case name = "Name"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DeleteObjectResponse: AWSShape {
+
+    }
+
+    public struct PublishSchemaRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DevelopmentSchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "MinorVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) that is associated with the development schema. For more information, see arns.
+        public let developmentSchemaArn: String
+        /// The minor version under which the schema will be published. This parameter is recommended. Schemas have both a major and minor version associated with them.
+        public let minorVersion: String?
+        /// The new name under which the schema will be published. If this is not provided, the development schema is considered.
+        public let name: String?
+        /// The major version under which the schema will be published. Schemas have both a major and minor version associated with them.
+        public let version: String
+
+        public init(developmentSchemaArn: String, minorVersion: String? = nil, name: String? = nil, version: String) {
+            self.developmentSchemaArn = developmentSchemaArn
+            self.minorVersion = minorVersion
+            self.name = name
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case developmentSchemaArn = "x-amz-data-partition"
+            case minorVersion = "MinorVersion"
+            case name = "Name"
+            case version = "Version"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSShape {
+
+    }
+
+    public struct BatchListObjectPolicies: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The maximum number of results to retrieve.
+        public let maxResults: Int32?
+        /// The reference that identifies the object whose attributes will be listed.
+        public let objectReference: ObjectReference
+        /// The pagination token.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, objectReference: ObjectReference, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.objectReference = objectReference
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case objectReference = "ObjectReference"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct BatchListObjectAttributesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Attributes", required: false, type: .list)
+        ]
+        /// The pagination token.
+        public let nextToken: String?
+        /// The attributes map that is associated with the object. AttributeArn is the key; attribute value is the value.
+        public let attributes: [AttributeKeyAndValue]?
+
+        public init(nextToken: String? = nil, attributes: [AttributeKeyAndValue]? = nil) {
+            self.nextToken = nextToken
+            self.attributes = attributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case attributes = "Attributes"
+        }
+    }
+
+    public struct Rule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Parameters", required: false, type: .map), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
+        ]
+        /// The minimum and maximum parameters that are associated with the rule.
+        public let parameters: [String: String]?
+        /// The type of attribute validation rule.
+        public let `type`: RuleType?
+
+        public init(parameters: [String: String]? = nil, type: RuleType? = nil) {
+            self.parameters = parameters
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parameters = "Parameters"
+            case `type` = "Type"
+        }
+    }
+
+    public struct ListFacetNamesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FacetNames", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The names of facets that exist within the schema.
+        public let facetNames: [String]?
+        /// The pagination token.
+        public let nextToken: String?
+
+        public init(facetNames: [String]? = nil, nextToken: String? = nil) {
+            self.facetNames = facetNames
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case facetNames = "FacetNames"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .list)
+        ]
+        /// The Amazon Resource Name (ARN) of the resource. Tagging is only supported for directories.
+        public let resourceArn: String
+        /// A list of tag key-value pairs.
+        public let tags: [Tag]
+
+        public init(resourceArn: String, tags: [Tag]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tags = "Tags"
+        }
+    }
+
+    public enum RuleType: String, CustomStringConvertible, Codable {
+        case binaryLength = "BINARY_LENGTH"
+        case numberComparison = "NUMBER_COMPARISON"
+        case stringFromSet = "STRING_FROM_SET"
+        case stringLength = "STRING_LENGTH"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UpdateFacetRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "AttributeUpdates", required: false, type: .list), 
+            AWSShapeMember(label: "ObjectType", required: false, type: .enum)
+        ]
+        /// The Amazon Resource Name (ARN) that is associated with the Facet. For more information, see arns.
+        public let schemaArn: String
+        /// The name of the facet.
+        public let name: String
+        /// List of attributes that need to be updated in a given schema Facet. Each attribute is followed by AttributeAction, which specifies the type of update operation to perform. 
+        public let attributeUpdates: [FacetAttributeUpdate]?
+        /// The object type that is associated with the facet. See CreateFacetRequest$ObjectType for more details.
+        public let objectType: ObjectType?
+
+        public init(schemaArn: String, name: String, attributeUpdates: [FacetAttributeUpdate]? = nil, objectType: ObjectType? = nil) {
+            self.schemaArn = schemaArn
+            self.name = name
+            self.attributeUpdates = attributeUpdates
+            self.objectType = objectType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schemaArn = "x-amz-data-partition"
+            case name = "Name"
+            case attributeUpdates = "AttributeUpdates"
+            case objectType = "ObjectType"
+        }
+    }
+
+    public struct TypedLinkAttributeDefinition: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RequiredBehavior", required: true, type: .enum), 
+            AWSShapeMember(label: "IsImmutable", required: false, type: .boolean), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Type", required: true, type: .enum), 
+            AWSShapeMember(label: "DefaultValue", required: false, type: .structure), 
+            AWSShapeMember(label: "Rules", required: false, type: .map)
+        ]
+        /// The required behavior of the TypedLinkAttributeDefinition.
+        public let requiredBehavior: RequiredAttributeBehavior
+        /// Whether the attribute is mutable or not.
+        public let isImmutable: Bool?
+        /// The unique name of the typed link attribute.
+        public let name: String
+        /// The type of the attribute.
+        public let `type`: FacetAttributeType
+        /// The default value of the attribute (if configured).
+        public let defaultValue: TypedAttributeValue?
+        /// Validation rules that are attached to the attribute definition.
+        public let rules: [String: Rule]?
+
+        public init(requiredBehavior: RequiredAttributeBehavior, isImmutable: Bool? = nil, name: String, type: FacetAttributeType, defaultValue: TypedAttributeValue? = nil, rules: [String: Rule]? = nil) {
+            self.requiredBehavior = requiredBehavior
+            self.isImmutable = isImmutable
+            self.name = name
+            self.`type` = `type`
+            self.defaultValue = defaultValue
+            self.rules = rules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requiredBehavior = "RequiredBehavior"
+            case isImmutable = "IsImmutable"
+            case name = "Name"
+            case `type` = "Type"
+            case defaultValue = "DefaultValue"
+            case rules = "Rules"
+        }
+    }
+
+    public struct BatchDetachTypedLink: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TypedLinkSpecifier", required: true, type: .structure)
+        ]
+        /// Used to accept a typed link specifier as input.
+        public let typedLinkSpecifier: TypedLinkSpecifier
+
+        public init(typedLinkSpecifier: TypedLinkSpecifier) {
+            self.typedLinkSpecifier = typedLinkSpecifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case typedLinkSpecifier = "TypedLinkSpecifier"
+        }
+    }
+
+    public struct BatchReadOperationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExceptionResponse", required: false, type: .structure), 
+            AWSShapeMember(label: "SuccessfulResponse", required: false, type: .structure)
+        ]
+        /// Identifies which operation in a batch has failed.
+        public let exceptionResponse: BatchReadException?
+        /// Identifies which operation in a batch has succeeded.
+        public let successfulResponse: BatchReadSuccessfulResponse?
+
+        public init(exceptionResponse: BatchReadException? = nil, successfulResponse: BatchReadSuccessfulResponse? = nil) {
+            self.exceptionResponse = exceptionResponse
+            self.successfulResponse = successfulResponse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exceptionResponse = "ExceptionResponse"
+            case successfulResponse = "SuccessfulResponse"
+        }
+    }
+
+    public struct UpdateSchemaResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaArn", required: false, type: .string)
+        ]
+        /// The ARN that is associated with the updated schema. For more information, see arns.
+        public let schemaArn: String?
+
+        public init(schemaArn: String? = nil) {
+            self.schemaArn = schemaArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schemaArn = "SchemaArn"
+        }
+    }
+
+    public struct DeleteDirectoryRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+        ]
+        /// The ARN of the directory to delete.
+        public let directoryArn: String
+
+        public init(directoryArn: String) {
+            self.directoryArn = directoryArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryArn = "x-amz-data-partition"
+        }
+    }
+
+    public struct GetObjectAttributesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaFacet", required: true, type: .structure), 
+            AWSShapeMember(label: "AttributeNames", required: true, type: .list), 
+            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+        ]
+        /// Identifier for the facet whose attributes will be retrieved. See SchemaFacet for details.
+        public let schemaFacet: SchemaFacet
+        /// List of attribute names whose values will be retrieved.
+        public let attributeNames: [String]
+        /// The consistency level at which to retrieve the attributes on an object.
+        public let consistencyLevel: ConsistencyLevel?
+        /// Reference that identifies the object whose attributes will be retrieved.
+        public let objectReference: ObjectReference
+        /// The Amazon Resource Name (ARN) that is associated with the Directory where the object resides.
+        public let directoryArn: String
+
+        public init(schemaFacet: SchemaFacet, attributeNames: [String], consistencyLevel: ConsistencyLevel? = nil, objectReference: ObjectReference, directoryArn: String) {
+            self.schemaFacet = schemaFacet
+            self.attributeNames = attributeNames
+            self.consistencyLevel = consistencyLevel
+            self.objectReference = objectReference
+            self.directoryArn = directoryArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schemaFacet = "SchemaFacet"
+            case attributeNames = "AttributeNames"
+            case consistencyLevel = "x-amz-consistency-level"
+            case objectReference = "ObjectReference"
+            case directoryArn = "x-amz-data-partition"
+        }
+    }
+
+    public struct DeleteTypedLinkFacetRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
+        public let schemaArn: String
+        /// The unique name of the typed link facet.
+        public let name: String
+
+        public init(schemaArn: String, name: String) {
+            self.schemaArn = schemaArn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schemaArn = "x-amz-data-partition"
+            case name = "Name"
+        }
+    }
+
+    public struct BatchUpdateObjectAttributesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string)
+        ]
+        /// ID that is associated with the object.
+        public let objectIdentifier: String?
+
+        public init(objectIdentifier: String? = nil) {
+            self.objectIdentifier = objectIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectIdentifier = "ObjectIdentifier"
+        }
+    }
+
+    public struct DisableDirectoryResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryArn", required: true, type: .string)
+        ]
+        /// The ARN of the directory that has been disabled.
+        public let directoryArn: String
+
+        public init(directoryArn: String) {
+            self.directoryArn = directoryArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryArn = "DirectoryArn"
+        }
+    }
+
+    public struct ListObjectChildrenRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) that is associated with the Directory where the object resides. For more information, see arns.
+        public let directoryArn: String
+        /// The maximum number of items to be retrieved in a single call. This is an approximate number.
+        public let maxResults: Int32?
+        /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
+        public let consistencyLevel: ConsistencyLevel?
+        /// The reference that identifies the object for which child objects are being listed.
+        public let objectReference: ObjectReference
+        /// The pagination token.
+        public let nextToken: String?
+
+        public init(directoryArn: String, maxResults: Int32? = nil, consistencyLevel: ConsistencyLevel? = nil, objectReference: ObjectReference, nextToken: String? = nil) {
+            self.directoryArn = directoryArn
+            self.maxResults = maxResults
+            self.consistencyLevel = consistencyLevel
+            self.objectReference = objectReference
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryArn = "x-amz-data-partition"
+            case maxResults = "MaxResults"
+            case consistencyLevel = "x-amz-consistency-level"
+            case objectReference = "ObjectReference"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct BatchListIndex: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "RangesOnIndexedValues", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "IndexReference", required: true, type: .structure)
+        ]
+        /// The pagination token.
+        public let nextToken: String?
+        /// Specifies the ranges of indexed values that you want to query.
+        public let rangesOnIndexedValues: [ObjectAttributeRange]?
+        /// The maximum number of results to retrieve.
+        public let maxResults: Int32?
+        /// The reference to the index to list.
+        public let indexReference: ObjectReference
+
+        public init(nextToken: String? = nil, rangesOnIndexedValues: [ObjectAttributeRange]? = nil, maxResults: Int32? = nil, indexReference: ObjectReference) {
+            self.nextToken = nextToken
+            self.rangesOnIndexedValues = rangesOnIndexedValues
+            self.maxResults = maxResults
+            self.indexReference = indexReference
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case rangesOnIndexedValues = "RangesOnIndexedValues"
+            case maxResults = "MaxResults"
+            case indexReference = "IndexReference"
+        }
+    }
+
+    public enum BatchWriteExceptionType: String, CustomStringConvertible, Codable {
+        case internalserviceexception = "InternalServiceException"
+        case validationexception = "ValidationException"
+        case invalidarnexception = "InvalidArnException"
+        case linknamealreadyinuseexception = "LinkNameAlreadyInUseException"
+        case stillcontainslinksexception = "StillContainsLinksException"
+        case facetvalidationexception = "FacetValidationException"
+        case objectnotdetachedexception = "ObjectNotDetachedException"
+        case resourcenotfoundexception = "ResourceNotFoundException"
+        case accessdeniedexception = "AccessDeniedException"
+        case invalidattachmentexception = "InvalidAttachmentException"
+        case notindexexception = "NotIndexException"
+        case notnodeexception = "NotNodeException"
+        case indexedattributemissingexception = "IndexedAttributeMissingException"
+        case objectalreadydetachedexception = "ObjectAlreadyDetachedException"
+        case notpolicyexception = "NotPolicyException"
+        case directorynotenabledexception = "DirectoryNotEnabledException"
+        case limitexceededexception = "LimitExceededException"
+        case unsupportedindextypeexception = "UnsupportedIndexTypeException"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CreateFacetRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "FacetStyle", required: false, type: .enum), 
+            AWSShapeMember(label: "Attributes", required: false, type: .list), 
+            AWSShapeMember(label: "ObjectType", required: false, type: .enum)
+        ]
+        /// The schema ARN in which the new Facet will be created. For more information, see arns.
+        public let schemaArn: String
+        /// The name of the Facet, which is unique for a given schema.
+        public let name: String
+        /// There are two different styles that you can define on any given facet, Static and Dynamic. For static facets, all attributes must be defined in the schema. For dynamic facets, attributes can be defined during data plane operations.
+        public let facetStyle: FacetStyle?
+        /// The attributes that are associated with the Facet.
+        public let attributes: [FacetAttribute]?
+        /// Specifies whether a given object created from this facet is of type node, leaf node, policy or index.   Node: Can have multiple children but one parent.     Leaf node: Cannot have children but can have multiple parents.     Policy: Allows you to store a policy document and policy type. For more information, see Policies.     Index: Can be created with the Index API.  
+        public let objectType: ObjectType?
+
+        public init(schemaArn: String, name: String, facetStyle: FacetStyle? = nil, attributes: [FacetAttribute]? = nil, objectType: ObjectType? = nil) {
+            self.schemaArn = schemaArn
+            self.name = name
+            self.facetStyle = facetStyle
+            self.attributes = attributes
+            self.objectType = objectType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schemaArn = "x-amz-data-partition"
+            case name = "Name"
+            case facetStyle = "FacetStyle"
+            case attributes = "Attributes"
+            case objectType = "ObjectType"
+        }
+    }
+
+    public struct PutSchemaFromJsonResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string)
+        ]
+        /// The ARN of the schema to update.
+        public let arn: String?
+
+        public init(arn: String? = nil) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+        }
+    }
+
+    public struct ListObjectChildrenResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Children", required: false, type: .map), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Children structure, which is a map with key as the LinkName and ObjectIdentifier as the value.
+        public let children: [String: String]?
+        /// The pagination token.
+        public let nextToken: String?
+
+        public init(children: [String: String]? = nil, nextToken: String? = nil) {
+            self.children = children
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case children = "Children"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListObjectAttributesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Attributes", required: false, type: .list)
+        ]
+        /// The pagination token.
+        public let nextToken: String?
+        /// Attributes map that is associated with the object. AttributeArn is the key, and attribute value is the value.
+        public let attributes: [AttributeKeyAndValue]?
+
+        public init(nextToken: String? = nil, attributes: [AttributeKeyAndValue]? = nil) {
+            self.nextToken = nextToken
+            self.attributes = attributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case attributes = "Attributes"
+        }
+    }
+
+    public struct BatchListAttachedIndicesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IndexAttachments", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The indices attached to the specified object.
+        public let indexAttachments: [IndexAttachment]?
+        /// The pagination token.
+        public let nextToken: String?
+
+        public init(indexAttachments: [IndexAttachment]? = nil, nextToken: String? = nil) {
+            self.indexAttachments = indexAttachments
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexAttachments = "IndexAttachments"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DetachPolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "PolicyReference", required: true, type: .structure)
+        ]
+        /// The Amazon Resource Name (ARN) that is associated with the Directory where both objects reside. For more information, see arns.
+        public let directoryArn: String
+        /// Reference that identifies the object whose policy object will be detached.
+        public let objectReference: ObjectReference
+        /// Reference that identifies the policy object.
+        public let policyReference: ObjectReference
+
+        public init(directoryArn: String, objectReference: ObjectReference, policyReference: ObjectReference) {
+            self.directoryArn = directoryArn
+            self.objectReference = objectReference
+            self.policyReference = policyReference
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryArn = "x-amz-data-partition"
+            case objectReference = "ObjectReference"
+            case policyReference = "PolicyReference"
+        }
+    }
+
+    public struct CreateIndexResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string)
+        ]
+        /// The ObjectIdentifier of the index created by this operation.
+        public let objectIdentifier: String?
+
+        public init(objectIdentifier: String? = nil) {
+            self.objectIdentifier = objectIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectIdentifier = "ObjectIdentifier"
+        }
+    }
+
+    public struct UpgradeAppliedSchemaResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryArn", required: false, type: .string), 
+            AWSShapeMember(label: "UpgradedSchemaArn", required: false, type: .string)
+        ]
+        /// The ARN of the directory that is returned as part of the response.
+        public let directoryArn: String?
+        /// The ARN of the upgraded schema that is returned as part of the response.
+        public let upgradedSchemaArn: String?
+
+        public init(directoryArn: String? = nil, upgradedSchemaArn: String? = nil) {
+            self.directoryArn = directoryArn
+            self.upgradedSchemaArn = upgradedSchemaArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryArn = "DirectoryArn"
+            case upgradedSchemaArn = "UpgradedSchemaArn"
+        }
+    }
+
+    public struct GetTypedLinkFacetInformationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
+        public let schemaArn: String
+        /// The unique name of the typed link facet.
+        public let name: String
+
+        public init(schemaArn: String, name: String) {
+            self.schemaArn = schemaArn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schemaArn = "x-amz-data-partition"
+            case name = "Name"
         }
     }
 
@@ -4684,70 +4385,348 @@ extension CloudDirectory {
         }
     }
 
-    public struct TypedAttributeValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StringValue", required: false, type: .string), 
-            AWSShapeMember(label: "DatetimeValue", required: false, type: .timestamp), 
-            AWSShapeMember(label: "BooleanValue", required: false, type: .boolean), 
-            AWSShapeMember(label: "NumberValue", required: false, type: .string), 
-            AWSShapeMember(label: "BinaryValue", required: false, type: .blob)
-        ]
-        /// A string data value.
-        public let stringValue: String?
-        /// A date and time value.
-        public let datetimeValue: TimeStamp?
-        /// A Boolean data value.
-        public let booleanValue: Bool?
-        /// A number data value.
-        public let numberValue: String?
-        /// A binary data value.
-        public let binaryValue: Data?
-
-        public init(stringValue: String? = nil, datetimeValue: TimeStamp? = nil, booleanValue: Bool? = nil, numberValue: String? = nil, binaryValue: Data? = nil) {
-            self.stringValue = stringValue
-            self.datetimeValue = datetimeValue
-            self.booleanValue = booleanValue
-            self.numberValue = numberValue
-            self.binaryValue = binaryValue
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case stringValue = "StringValue"
-            case datetimeValue = "DatetimeValue"
-            case booleanValue = "BooleanValue"
-            case numberValue = "NumberValue"
-            case binaryValue = "BinaryValue"
-        }
-    }
-
-    public struct BatchDetachPolicyResponse: AWSShape {
-
-    }
-
-    public struct BatchReadRequest: AWSShape {
+    public struct DetachObjectRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "Operations", required: true, type: .list), 
-            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum)
+            AWSShapeMember(label: "LinkName", required: true, type: .string), 
+            AWSShapeMember(label: "ParentReference", required: true, type: .structure)
         ]
-        /// The Amazon Resource Name (ARN) that is associated with the Directory. For more information, see arns.
+        /// The Amazon Resource Name (ARN) that is associated with the Directory where objects reside. For more information, see arns.
         public let directoryArn: String
-        /// A list of operations that are part of the batch.
-        public let operations: [BatchReadOperation]
-        /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
-        public let consistencyLevel: ConsistencyLevel?
+        /// The link name associated with the object that needs to be detached.
+        public let linkName: String
+        /// The parent reference from which the object with the specified link name is detached.
+        public let parentReference: ObjectReference
 
-        public init(directoryArn: String, operations: [BatchReadOperation], consistencyLevel: ConsistencyLevel? = nil) {
+        public init(directoryArn: String, linkName: String, parentReference: ObjectReference) {
             self.directoryArn = directoryArn
-            self.operations = operations
-            self.consistencyLevel = consistencyLevel
+            self.linkName = linkName
+            self.parentReference = parentReference
         }
 
         private enum CodingKeys: String, CodingKey {
             case directoryArn = "x-amz-data-partition"
-            case operations = "Operations"
-            case consistencyLevel = "x-amz-consistency-level"
+            case linkName = "LinkName"
+            case parentReference = "ParentReference"
         }
+    }
+
+    public struct DeleteDirectoryResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryArn", required: true, type: .string)
+        ]
+        /// The ARN of the deleted directory.
+        public let directoryArn: String
+
+        public init(directoryArn: String) {
+            self.directoryArn = directoryArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryArn = "DirectoryArn"
+        }
+    }
+
+    public struct BatchListObjectParents: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        public let maxResults: Int32?
+        public let objectReference: ObjectReference
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, objectReference: ObjectReference, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.objectReference = objectReference
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case objectReference = "ObjectReference"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetAppliedSchemaVersionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppliedSchemaArn", required: false, type: .string)
+        ]
+        /// Current applied schema ARN, including the minor version in use if one was provided.
+        public let appliedSchemaArn: String?
+
+        public init(appliedSchemaArn: String? = nil) {
+            self.appliedSchemaArn = appliedSchemaArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appliedSchemaArn = "AppliedSchemaArn"
+        }
+    }
+
+    public struct BatchListOutgoingTypedLinksResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "TypedLinkSpecifiers", required: false, type: .list)
+        ]
+        /// The pagination token.
+        public let nextToken: String?
+        /// Returns a typed link specifier as output.
+        public let typedLinkSpecifiers: [TypedLinkSpecifier]?
+
+        public init(nextToken: String? = nil, typedLinkSpecifiers: [TypedLinkSpecifier]? = nil) {
+            self.nextToken = nextToken
+            self.typedLinkSpecifiers = typedLinkSpecifiers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case typedLinkSpecifiers = "TypedLinkSpecifiers"
+        }
+    }
+
+    public struct BatchGetObjectAttributes: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaFacet", required: true, type: .structure), 
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "AttributeNames", required: true, type: .list)
+        ]
+        /// Identifier for the facet whose attributes will be retrieved. See SchemaFacet for details.
+        public let schemaFacet: SchemaFacet
+        /// Reference that identifies the object whose attributes will be retrieved.
+        public let objectReference: ObjectReference
+        /// List of attribute names whose values will be retrieved.
+        public let attributeNames: [String]
+
+        public init(schemaFacet: SchemaFacet, objectReference: ObjectReference, attributeNames: [String]) {
+            self.schemaFacet = schemaFacet
+            self.objectReference = objectReference
+            self.attributeNames = attributeNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schemaFacet = "SchemaFacet"
+            case objectReference = "ObjectReference"
+            case attributeNames = "AttributeNames"
+        }
+    }
+
+    public struct GetDirectoryRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+        ]
+        /// The ARN of the directory.
+        public let directoryArn: String
+
+        public init(directoryArn: String) {
+            self.directoryArn = directoryArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryArn = "x-amz-data-partition"
+        }
+    }
+
+    public struct BatchCreateIndexResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string)
+        ]
+        /// The ObjectIdentifier of the index created by this operation.
+        public let objectIdentifier: String?
+
+        public init(objectIdentifier: String? = nil) {
+            self.objectIdentifier = objectIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectIdentifier = "ObjectIdentifier"
+        }
+    }
+
+    public struct BatchReadResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Responses", required: false, type: .list)
+        ]
+        /// A list of all the responses for each batch read.
+        public let responses: [BatchReadOperationResponse]?
+
+        public init(responses: [BatchReadOperationResponse]? = nil) {
+            self.responses = responses
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case responses = "Responses"
+        }
+    }
+
+    public struct BatchListObjectParentsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParentLinks", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        public let parentLinks: [ObjectIdentifierAndLinkNameTuple]?
+        public let nextToken: String?
+
+        public init(parentLinks: [ObjectIdentifierAndLinkNameTuple]? = nil, nextToken: String? = nil) {
+            self.parentLinks = parentLinks
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parentLinks = "ParentLinks"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DeleteFacetRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) that is associated with the Facet. For more information, see arns.
+        public let schemaArn: String
+        /// The name of the facet to delete.
+        public let name: String
+
+        public init(schemaArn: String, name: String) {
+            self.schemaArn = schemaArn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schemaArn = "x-amz-data-partition"
+            case name = "Name"
+        }
+    }
+
+    public struct BatchDetachPolicy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "PolicyReference", required: true, type: .structure)
+        ]
+        /// Reference that identifies the object whose policy object will be detached.
+        public let objectReference: ObjectReference
+        /// Reference that identifies the policy object.
+        public let policyReference: ObjectReference
+
+        public init(objectReference: ObjectReference, policyReference: ObjectReference) {
+            self.objectReference = objectReference
+            self.policyReference = policyReference
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectReference = "ObjectReference"
+            case policyReference = "PolicyReference"
+        }
+    }
+
+    public struct GetSchemaAsJsonResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Document", required: false, type: .string)
+        ]
+        /// The name of the retrieved schema.
+        public let name: String?
+        /// The JSON representation of the schema document.
+        public let document: String?
+
+        public init(name: String? = nil, document: String? = nil) {
+            self.name = name
+            self.document = document
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case document = "Document"
+        }
+    }
+
+    public struct GetSchemaAsJsonRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+        ]
+        /// The ARN of the schema to retrieve.
+        public let schemaArn: String
+
+        public init(schemaArn: String) {
+            self.schemaArn = schemaArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schemaArn = "x-amz-data-partition"
+        }
+    }
+
+    public struct GetObjectAttributesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attributes", required: false, type: .list)
+        ]
+        /// The attributes that are associated with the object.
+        public let attributes: [AttributeKeyAndValue]?
+
+        public init(attributes: [AttributeKeyAndValue]? = nil) {
+            self.attributes = attributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+        }
+    }
+
+    public struct BatchListObjectParentPathsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PathToObjectIdentifiersList", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Returns the path to the ObjectIdentifiers that are associated with the directory.
+        public let pathToObjectIdentifiersList: [PathToObjectIdentifiers]?
+        /// The pagination token.
+        public let nextToken: String?
+
+        public init(pathToObjectIdentifiersList: [PathToObjectIdentifiers]? = nil, nextToken: String? = nil) {
+            self.pathToObjectIdentifiersList = pathToObjectIdentifiersList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pathToObjectIdentifiersList = "PathToObjectIdentifiersList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct BatchDetachObject: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BatchReferenceName", required: false, type: .string), 
+            AWSShapeMember(label: "LinkName", required: true, type: .string), 
+            AWSShapeMember(label: "ParentReference", required: true, type: .structure)
+        ]
+        /// The batch reference name. See Transaction Support for more information.
+        public let batchReferenceName: String?
+        /// The name of the link.
+        public let linkName: String
+        /// Parent reference from which the object with the specified link name is detached.
+        public let parentReference: ObjectReference
+
+        public init(batchReferenceName: String? = nil, linkName: String, parentReference: ObjectReference) {
+            self.batchReferenceName = batchReferenceName
+            self.linkName = linkName
+            self.parentReference = parentReference
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case batchReferenceName = "BatchReferenceName"
+            case linkName = "LinkName"
+            case parentReference = "ParentReference"
+        }
+    }
+
+    public enum DirectoryState: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        case deleted = "DELETED"
+        public var description: String { return self.rawValue }
     }
 
     public struct GetObjectInformationRequest: AWSShape {
@@ -4776,6 +4755,157 @@ extension CloudDirectory {
         }
     }
 
+    public struct FacetAttributeReference: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetFacetName", required: true, type: .string), 
+            AWSShapeMember(label: "TargetAttributeName", required: true, type: .string)
+        ]
+        /// The target facet name that is associated with the facet reference. See Attribute References for more information.
+        public let targetFacetName: String
+        /// The target attribute name that is associated with the facet reference. See Attribute References for more information.
+        public let targetAttributeName: String
+
+        public init(targetFacetName: String, targetAttributeName: String) {
+            self.targetFacetName = targetFacetName
+            self.targetAttributeName = targetAttributeName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetFacetName = "TargetFacetName"
+            case targetAttributeName = "TargetAttributeName"
+        }
+    }
+
+    public struct EnableDirectoryResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryArn", required: true, type: .string)
+        ]
+        /// The ARN of the enabled directory.
+        public let directoryArn: String
+
+        public init(directoryArn: String) {
+            self.directoryArn = directoryArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryArn = "DirectoryArn"
+        }
+    }
+
+    public struct BatchListAttachedIndices: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "TargetReference", required: true, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The maximum number of results to retrieve.
+        public let maxResults: Int32?
+        /// A reference to the object that has indices attached.
+        public let targetReference: ObjectReference
+        /// The pagination token.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, targetReference: ObjectReference, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.targetReference = targetReference
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case targetReference = "TargetReference"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct AttributeNameAndValue: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeName", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: true, type: .structure)
+        ]
+        /// The attribute name of the typed link.
+        public let attributeName: String
+        /// The value for the typed link.
+        public let value: TypedAttributeValue
+
+        public init(attributeName: String, value: TypedAttributeValue) {
+            self.attributeName = attributeName
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case value = "Value"
+        }
+    }
+
+    public struct ListDirectoriesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Directories", required: true, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Lists all directories that are associated with your account in pagination fashion.
+        public let directories: [Directory]
+        /// The pagination token.
+        public let nextToken: String?
+
+        public init(directories: [Directory], nextToken: String? = nil) {
+            self.directories = directories
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directories = "Directories"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct CreateObjectResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string)
+        ]
+        /// The identifier that is associated with the object.
+        public let objectIdentifier: String?
+
+        public init(objectIdentifier: String? = nil) {
+            self.objectIdentifier = objectIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectIdentifier = "ObjectIdentifier"
+        }
+    }
+
+    public struct BatchRemoveFacetFromObjectResponse: AWSShape {
+
+    }
+
+    public struct AttachPolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "PolicyReference", required: true, type: .structure)
+        ]
+        /// The Amazon Resource Name (ARN) that is associated with the Directory where both objects reside. For more information, see arns.
+        public let directoryArn: String
+        /// The reference that identifies the object to which the policy will be attached.
+        public let objectReference: ObjectReference
+        /// The reference that is associated with the policy object.
+        public let policyReference: ObjectReference
+
+        public init(directoryArn: String, objectReference: ObjectReference, policyReference: ObjectReference) {
+            self.directoryArn = directoryArn
+            self.objectReference = objectReference
+            self.policyReference = policyReference
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryArn = "x-amz-data-partition"
+            case objectReference = "ObjectReference"
+            case policyReference = "PolicyReference"
+        }
+    }
+
     public struct PublishSchemaResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PublishedSchemaArn", required: false, type: .string)
@@ -4792,433 +4922,303 @@ extension CloudDirectory {
         }
     }
 
-    public struct BatchCreateIndex: AWSShape {
+    public struct BatchListObjectChildren: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BatchReferenceName", required: false, type: .string), 
-            AWSShapeMember(label: "ParentReference", required: false, type: .structure), 
-            AWSShapeMember(label: "OrderedIndexedAttributeList", required: true, type: .list), 
-            AWSShapeMember(label: "LinkName", required: false, type: .string), 
-            AWSShapeMember(label: "IsUnique", required: true, type: .boolean)
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The batch reference name. See Transaction Support for more information.
-        public let batchReferenceName: String?
-        /// A reference to the parent object that contains the index object.
-        public let parentReference: ObjectReference?
-        /// Specifies the attributes that should be indexed on. Currently only a single attribute is supported.
-        public let orderedIndexedAttributeList: [AttributeKey]
-        /// The name of the link between the parent object and the index object.
-        public let linkName: String?
-        /// Indicates whether the attribute that is being indexed has unique values or not.
-        public let isUnique: Bool
+        /// Maximum number of items to be retrieved in a single call. This is an approximate number.
+        public let maxResults: Int32?
+        /// Reference of the object for which child objects are being listed.
+        public let objectReference: ObjectReference
+        /// The pagination token.
+        public let nextToken: String?
 
-        public init(batchReferenceName: String? = nil, parentReference: ObjectReference? = nil, orderedIndexedAttributeList: [AttributeKey], linkName: String? = nil, isUnique: Bool) {
-            self.batchReferenceName = batchReferenceName
-            self.parentReference = parentReference
-            self.orderedIndexedAttributeList = orderedIndexedAttributeList
-            self.linkName = linkName
-            self.isUnique = isUnique
+        public init(maxResults: Int32? = nil, objectReference: ObjectReference, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.objectReference = objectReference
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batchReferenceName = "BatchReferenceName"
-            case parentReference = "ParentReference"
-            case orderedIndexedAttributeList = "OrderedIndexedAttributeList"
-            case linkName = "LinkName"
-            case isUnique = "IsUnique"
+            case maxResults = "MaxResults"
+            case objectReference = "ObjectReference"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct LinkAttributeAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeUpdateValue", required: false, type: .structure), 
+            AWSShapeMember(label: "AttributeActionType", required: false, type: .enum)
+        ]
+        /// The value that you want to update to.
+        public let attributeUpdateValue: TypedAttributeValue?
+        /// A type that can be either UPDATE_OR_CREATE or DELETE.
+        public let attributeActionType: UpdateActionType?
+
+        public init(attributeUpdateValue: TypedAttributeValue? = nil, attributeActionType: UpdateActionType? = nil) {
+            self.attributeUpdateValue = attributeUpdateValue
+            self.attributeActionType = attributeActionType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeUpdateValue = "AttributeUpdateValue"
+            case attributeActionType = "AttributeActionType"
+        }
+    }
+
+    public struct GetDirectoryResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Directory", required: true, type: .structure)
+        ]
+        /// Metadata about the directory.
+        public let directory: Directory
+
+        public init(directory: Directory) {
+            self.directory = directory
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directory = "Directory"
+        }
+    }
+
+    public struct UpdateLinkAttributesResponse: AWSShape {
+
+    }
+
+    public struct ApplySchemaResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryArn", required: false, type: .string), 
+            AWSShapeMember(label: "AppliedSchemaArn", required: false, type: .string)
+        ]
+        /// The ARN that is associated with the Directory. For more information, see arns.
+        public let directoryArn: String?
+        /// The applied schema ARN that is associated with the copied schema in the Directory. You can use this ARN to describe the schema information applied on this directory. For more information, see arns.
+        public let appliedSchemaArn: String?
+
+        public init(directoryArn: String? = nil, appliedSchemaArn: String? = nil) {
+            self.directoryArn = directoryArn
+            self.appliedSchemaArn = appliedSchemaArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryArn = "DirectoryArn"
+            case appliedSchemaArn = "AppliedSchemaArn"
+        }
+    }
+
+    public struct ListTypedLinkFacetAttributesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Attributes", required: false, type: .list)
+        ]
+        /// The pagination token.
+        public let nextToken: String?
+        /// An ordered set of attributes associate with the typed link.
+        public let attributes: [TypedLinkAttributeDefinition]?
+
+        public init(nextToken: String? = nil, attributes: [TypedLinkAttributeDefinition]? = nil) {
+            self.nextToken = nextToken
+            self.attributes = attributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case attributes = "Attributes"
+        }
+    }
+
+    public struct DetachPolicyResponse: AWSShape {
+
+    }
+
+    public enum BatchReadExceptionType: String, CustomStringConvertible, Codable {
+        case validationexception = "ValidationException"
+        case invalidarnexception = "InvalidArnException"
+        case resourcenotfoundexception = "ResourceNotFoundException"
+        case invalidnexttokenexception = "InvalidNextTokenException"
+        case accessdeniedexception = "AccessDeniedException"
+        case notnodeexception = "NotNodeException"
+        case facetvalidationexception = "FacetValidationException"
+        case cannotlistparentofrootexception = "CannotListParentOfRootException"
+        case notindexexception = "NotIndexException"
+        case notpolicyexception = "NotPolicyException"
+        case directorynotenabledexception = "DirectoryNotEnabledException"
+        case limitexceededexception = "LimitExceededException"
+        case internalserviceexception = "InternalServiceException"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct BatchDetachFromIndex: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IndexReference", required: true, type: .structure), 
+            AWSShapeMember(label: "TargetReference", required: true, type: .structure)
+        ]
+        /// A reference to the index object.
+        public let indexReference: ObjectReference
+        /// A reference to the object being detached from the index.
+        public let targetReference: ObjectReference
+
+        public init(indexReference: ObjectReference, targetReference: ObjectReference) {
+            self.indexReference = indexReference
+            self.targetReference = targetReference
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexReference = "IndexReference"
+            case targetReference = "TargetReference"
+        }
+    }
+
+    public struct ListAppliedSchemaArnsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SchemaArns", required: false, type: .list)
+        ]
+        /// The pagination token.
+        public let nextToken: String?
+        /// The ARNs of schemas that are applied to the directory.
+        public let schemaArns: [String]?
+
+        public init(nextToken: String? = nil, schemaArns: [String]? = nil) {
+            self.nextToken = nextToken
+            self.schemaArns = schemaArns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case schemaArns = "SchemaArns"
+        }
+    }
+
+    public enum UpdateActionType: String, CustomStringConvertible, Codable {
+        case createOrUpdate = "CREATE_OR_UPDATE"
+        case delete = "DELETE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListObjectAttributesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "FacetFilter", required: false, type: .structure), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) that is associated with the Directory where the object resides. For more information, see arns.
+        public let directoryArn: String
+        /// Used to filter the list of object attributes that are associated with a certain facet.
+        public let facetFilter: SchemaFacet?
+        /// The maximum number of items to be retrieved in a single call. This is an approximate number.
+        public let maxResults: Int32?
+        /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
+        public let consistencyLevel: ConsistencyLevel?
+        /// The reference that identifies the object whose attributes will be listed.
+        public let objectReference: ObjectReference
+        /// The pagination token.
+        public let nextToken: String?
+
+        public init(directoryArn: String, facetFilter: SchemaFacet? = nil, maxResults: Int32? = nil, consistencyLevel: ConsistencyLevel? = nil, objectReference: ObjectReference, nextToken: String? = nil) {
+            self.directoryArn = directoryArn
+            self.facetFilter = facetFilter
+            self.maxResults = maxResults
+            self.consistencyLevel = consistencyLevel
+            self.objectReference = objectReference
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryArn = "x-amz-data-partition"
+            case facetFilter = "FacetFilter"
+            case maxResults = "MaxResults"
+            case consistencyLevel = "x-amz-consistency-level"
+            case objectReference = "ObjectReference"
+            case nextToken = "NextToken"
         }
     }
 
     public struct ListObjectParentsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "IncludeAllLinksToEachParent", required: false, type: .boolean), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The maximum number of items to be retrieved in a single call. This is an approximate number.
-        public let maxResults: Int32?
         /// When set to True, returns all ListObjectParentsResponse$ParentLinks. There could be multiple links between a parent-child pair.
         public let includeAllLinksToEachParent: Bool?
-        /// The pagination token.
-        public let nextToken: String?
         /// The Amazon Resource Name (ARN) that is associated with the Directory where the object resides. For more information, see arns.
         public let directoryArn: String
+        /// The maximum number of items to be retrieved in a single call. This is an approximate number.
+        public let maxResults: Int32?
         /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
         public let consistencyLevel: ConsistencyLevel?
         /// The reference that identifies the object for which parent objects are being listed.
         public let objectReference: ObjectReference
+        /// The pagination token.
+        public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, includeAllLinksToEachParent: Bool? = nil, nextToken: String? = nil, directoryArn: String, consistencyLevel: ConsistencyLevel? = nil, objectReference: ObjectReference) {
-            self.maxResults = maxResults
+        public init(includeAllLinksToEachParent: Bool? = nil, directoryArn: String, maxResults: Int32? = nil, consistencyLevel: ConsistencyLevel? = nil, objectReference: ObjectReference, nextToken: String? = nil) {
             self.includeAllLinksToEachParent = includeAllLinksToEachParent
-            self.nextToken = nextToken
             self.directoryArn = directoryArn
+            self.maxResults = maxResults
             self.consistencyLevel = consistencyLevel
             self.objectReference = objectReference
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
             case includeAllLinksToEachParent = "IncludeAllLinksToEachParent"
-            case nextToken = "NextToken"
             case directoryArn = "x-amz-data-partition"
+            case maxResults = "MaxResults"
             case consistencyLevel = "x-amz-consistency-level"
             case objectReference = "ObjectReference"
-        }
-    }
-
-    public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
-        /// The key that is associated with the tag.
-        public let key: String?
-        /// The value that is associated with the tag.
-        public let value: String?
-
-        public init(key: String? = nil, value: String? = nil) {
-            self.key = key
-            self.value = value
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "Key"
-            case value = "Value"
-        }
-    }
-
-    public struct BatchListOutgoingTypedLinksResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TypedLinkSpecifiers", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Returns a typed link specifier as output.
-        public let typedLinkSpecifiers: [TypedLinkSpecifier]?
-        /// The pagination token.
-        public let nextToken: String?
-
-        public init(typedLinkSpecifiers: [TypedLinkSpecifier]? = nil, nextToken: String? = nil) {
-            self.typedLinkSpecifiers = typedLinkSpecifiers
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case typedLinkSpecifiers = "TypedLinkSpecifiers"
             case nextToken = "NextToken"
         }
     }
 
-    public struct SchemaFacet: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", required: false, type: .string), 
-            AWSShapeMember(label: "FacetName", required: false, type: .string)
-        ]
-        /// The ARN of the schema that contains the facet with no minor component. See arns and In-Place Schema Upgrade for a description of when to provide minor versions.
-        public let schemaArn: String?
-        /// The name of the facet.
-        public let facetName: String?
+    public enum RangeMode: String, CustomStringConvertible, Codable {
+        case first = "FIRST"
+        case last = "LAST"
+        case lastBeforeMissingValues = "LAST_BEFORE_MISSING_VALUES"
+        case inclusive = "INCLUSIVE"
+        case exclusive = "EXCLUSIVE"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(schemaArn: String? = nil, facetName: String? = nil) {
-            self.schemaArn = schemaArn
-            self.facetName = facetName
+    public struct TypedLinkSpecifier: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "IdentityAttributeValues", required: true, type: .list), 
+            AWSShapeMember(label: "SourceObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "TypedLinkFacet", required: true, type: .structure)
+        ]
+        /// Identifies the target object that the typed link will attach to.
+        public let targetObjectReference: ObjectReference
+        /// Identifies the attribute value to update.
+        public let identityAttributeValues: [AttributeNameAndValue]
+        /// Identifies the source object that the typed link will attach to.
+        public let sourceObjectReference: ObjectReference
+        /// Identifies the typed link facet that is associated with the typed link.
+        public let typedLinkFacet: TypedLinkSchemaAndFacetName
+
+        public init(targetObjectReference: ObjectReference, identityAttributeValues: [AttributeNameAndValue], sourceObjectReference: ObjectReference, typedLinkFacet: TypedLinkSchemaAndFacetName) {
+            self.targetObjectReference = targetObjectReference
+            self.identityAttributeValues = identityAttributeValues
+            self.sourceObjectReference = sourceObjectReference
+            self.typedLinkFacet = typedLinkFacet
         }
 
         private enum CodingKeys: String, CodingKey {
-            case schemaArn = "SchemaArn"
-            case facetName = "FacetName"
-        }
-    }
-
-    public struct ObjectAttributeUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ObjectAttributeKey", required: false, type: .structure), 
-            AWSShapeMember(label: "ObjectAttributeAction", required: false, type: .structure)
-        ]
-        /// The key of the attribute being updated.
-        public let objectAttributeKey: AttributeKey?
-        /// The action to perform as part of the attribute update.
-        public let objectAttributeAction: ObjectAttributeAction?
-
-        public init(objectAttributeKey: AttributeKey? = nil, objectAttributeAction: ObjectAttributeAction? = nil) {
-            self.objectAttributeKey = objectAttributeKey
-            self.objectAttributeAction = objectAttributeAction
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case objectAttributeKey = "ObjectAttributeKey"
-            case objectAttributeAction = "ObjectAttributeAction"
-        }
-    }
-
-    public struct AttachToIndexResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttachedObjectIdentifier", required: false, type: .string)
-        ]
-        /// The ObjectIdentifier of the object that was attached to the index.
-        public let attachedObjectIdentifier: String?
-
-        public init(attachedObjectIdentifier: String? = nil) {
-            self.attachedObjectIdentifier = attachedObjectIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attachedObjectIdentifier = "AttachedObjectIdentifier"
-        }
-    }
-
-    public struct AttachObjectRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChildReference", required: true, type: .structure), 
-            AWSShapeMember(label: "ParentReference", required: true, type: .structure), 
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "LinkName", required: true, type: .string)
-        ]
-        /// The child object reference to be attached to the object.
-        public let childReference: ObjectReference
-        /// The parent object reference.
-        public let parentReference: ObjectReference
-        /// Amazon Resource Name (ARN) that is associated with the Directory where both objects reside. For more information, see arns.
-        public let directoryArn: String
-        /// The link name with which the child object is attached to the parent.
-        public let linkName: String
-
-        public init(childReference: ObjectReference, parentReference: ObjectReference, directoryArn: String, linkName: String) {
-            self.childReference = childReference
-            self.parentReference = parentReference
-            self.directoryArn = directoryArn
-            self.linkName = linkName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case childReference = "ChildReference"
-            case parentReference = "ParentReference"
-            case directoryArn = "x-amz-data-partition"
-            case linkName = "LinkName"
-        }
-    }
-
-    public struct DeleteSchemaRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the development schema. For more information, see arns.
-        public let schemaArn: String
-
-        public init(schemaArn: String) {
-            self.schemaArn = schemaArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case schemaArn = "x-amz-data-partition"
-        }
-    }
-
-    public struct DeleteObjectResponse: AWSShape {
-
-    }
-
-    public struct BatchUpdateLinkAttributesResponse: AWSShape {
-
-    }
-
-    public struct GetTypedLinkFacetInformationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
-        public let schemaArn: String
-        /// The unique name of the typed link facet.
-        public let name: String
-
-        public init(schemaArn: String, name: String) {
-            self.schemaArn = schemaArn
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case schemaArn = "x-amz-data-partition"
-            case name = "Name"
-        }
-    }
-
-    public struct CreateFacetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "ObjectType", required: false, type: .enum), 
-            AWSShapeMember(label: "Attributes", required: false, type: .list), 
-            AWSShapeMember(label: "FacetStyle", required: false, type: .enum)
-        ]
-        /// The schema ARN in which the new Facet will be created. For more information, see arns.
-        public let schemaArn: String
-        /// The name of the Facet, which is unique for a given schema.
-        public let name: String
-        /// Specifies whether a given object created from this facet is of type node, leaf node, policy or index.   Node: Can have multiple children but one parent.     Leaf node: Cannot have children but can have multiple parents.     Policy: Allows you to store a policy document and policy type. For more information, see Policies.     Index: Can be created with the Index API.  
-        public let objectType: ObjectType?
-        /// The attributes that are associated with the Facet.
-        public let attributes: [FacetAttribute]?
-        /// There are two different styles that you can define on any given facet, Static and Dynamic. For static facets, all attributes must be defined in the schema. For dynamic facets, attributes can be defined during data plane operations.
-        public let facetStyle: FacetStyle?
-
-        public init(schemaArn: String, name: String, objectType: ObjectType? = nil, attributes: [FacetAttribute]? = nil, facetStyle: FacetStyle? = nil) {
-            self.schemaArn = schemaArn
-            self.name = name
-            self.objectType = objectType
-            self.attributes = attributes
-            self.facetStyle = facetStyle
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case schemaArn = "x-amz-data-partition"
-            case name = "Name"
-            case objectType = "ObjectType"
-            case attributes = "Attributes"
-            case facetStyle = "FacetStyle"
-        }
-    }
-
-    public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagKeys", required: true, type: .list), 
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
-        ]
-        /// Keys of the tag that need to be removed from the resource.
-        public let tagKeys: [String]
-        /// The Amazon Resource Name (ARN) of the resource. Tagging is only supported for directories.
-        public let resourceArn: String
-
-        public init(tagKeys: [String], resourceArn: String) {
-            self.tagKeys = tagKeys
-            self.resourceArn = resourceArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tagKeys = "TagKeys"
-            case resourceArn = "ResourceArn"
-        }
-    }
-
-    public struct AttachTypedLinkResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TypedLinkSpecifier", required: false, type: .structure)
-        ]
-        /// Returns a typed link specifier as output.
-        public let typedLinkSpecifier: TypedLinkSpecifier?
-
-        public init(typedLinkSpecifier: TypedLinkSpecifier? = nil) {
-            self.typedLinkSpecifier = typedLinkSpecifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case typedLinkSpecifier = "TypedLinkSpecifier"
-        }
-    }
-
-    public struct ListAttachedIndicesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexAttachments", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The indices attached to the specified object.
-        public let indexAttachments: [IndexAttachment]?
-        /// The pagination token.
-        public let nextToken: String?
-
-        public init(indexAttachments: [IndexAttachment]? = nil, nextToken: String? = nil) {
-            self.indexAttachments = indexAttachments
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case indexAttachments = "IndexAttachments"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct PutSchemaFromJsonRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Document", required: true, type: .string), 
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
-        ]
-        /// The replacement JSON schema.
-        public let document: String
-        /// The ARN of the schema to update.
-        public let schemaArn: String
-
-        public init(document: String, schemaArn: String) {
-            self.document = document
-            self.schemaArn = schemaArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case document = "Document"
-            case schemaArn = "x-amz-data-partition"
-        }
-    }
-
-    public struct ListTypedLinkFacetNamesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
-        ]
-        /// The pagination token.
-        public let nextToken: String?
-        /// The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
-        public let schemaArn: String
-        /// The maximum number of results to retrieve.
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, schemaArn: String, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.schemaArn = schemaArn
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case schemaArn = "x-amz-data-partition"
-            case maxResults = "MaxResults"
-        }
-    }
-
-    public struct BatchListIncomingTypedLinks: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "FilterTypedLink", required: false, type: .structure), 
-            AWSShapeMember(label: "FilterAttributeRanges", required: false, type: .list), 
-            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
-        ]
-        /// The pagination token.
-        public let nextToken: String?
-        /// The maximum number of results to retrieve.
-        public let maxResults: Int32?
-        /// Filters are interpreted in the order of the attributes on the typed link facet, not the order in which they are supplied to any API calls.
-        public let filterTypedLink: TypedLinkSchemaAndFacetName?
-        /// Provides range filters for multiple attributes. When providing ranges to typed link selection, any inexact ranges must be specified at the end. Any attributes that do not have a range specified are presumed to match the entire range.
-        public let filterAttributeRanges: [TypedLinkAttributeRange]?
-        /// The reference that identifies the object whose attributes will be listed.
-        public let objectReference: ObjectReference
-
-        public init(nextToken: String? = nil, maxResults: Int32? = nil, filterTypedLink: TypedLinkSchemaAndFacetName? = nil, filterAttributeRanges: [TypedLinkAttributeRange]? = nil, objectReference: ObjectReference) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.filterTypedLink = filterTypedLink
-            self.filterAttributeRanges = filterAttributeRanges
-            self.objectReference = objectReference
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case maxResults = "MaxResults"
-            case filterTypedLink = "FilterTypedLink"
-            case filterAttributeRanges = "FilterAttributeRanges"
-            case objectReference = "ObjectReference"
+            case targetObjectReference = "TargetObjectReference"
+            case identityAttributeValues = "IdentityAttributeValues"
+            case sourceObjectReference = "SourceObjectReference"
+            case typedLinkFacet = "TypedLinkFacet"
         }
     }
 

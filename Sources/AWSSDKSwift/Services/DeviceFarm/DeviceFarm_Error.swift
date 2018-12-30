@@ -6,11 +6,11 @@ import AWSSDKSwiftCore
 public enum DeviceFarmErrorType: AWSErrorType {
     case argumentException(message: String?)
     case notFoundException(message: String?)
+    case notEligibleException(message: String?)
     case limitExceededException(message: String?)
     case serviceAccountException(message: String?)
-    case notEligibleException(message: String?)
-    case idempotencyException(message: String?)
     case invalidOperationException(message: String?)
+    case idempotencyException(message: String?)
 }
 
 extension DeviceFarmErrorType {
@@ -24,16 +24,16 @@ extension DeviceFarmErrorType {
             self = .argumentException(message: message)
         case "NotFoundException":
             self = .notFoundException(message: message)
+        case "NotEligibleException":
+            self = .notEligibleException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
         case "ServiceAccountException":
             self = .serviceAccountException(message: message)
-        case "NotEligibleException":
-            self = .notEligibleException(message: message)
-        case "IdempotencyException":
-            self = .idempotencyException(message: message)
         case "InvalidOperationException":
             self = .invalidOperationException(message: message)
+        case "IdempotencyException":
+            self = .idempotencyException(message: message)
         default:
             return nil
         }

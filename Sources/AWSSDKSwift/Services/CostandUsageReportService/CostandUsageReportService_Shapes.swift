@@ -5,94 +5,42 @@ import AWSSDKSwiftCore
 
 extension CostandUsageReportService {
 
+    public enum CompressionFormat: String, CustomStringConvertible, Codable {
+        case zip = "ZIP"
+        case gzip = "GZIP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReportFormat: String, CustomStringConvertible, Codable {
+        case textorcsv = "textORcsv"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SchemaElement: String, CustomStringConvertible, Codable {
         case resources = "RESOURCES"
         public var description: String { return self.rawValue }
     }
 
-    public struct DescribeReportDefinitionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReportDefinitions", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        public let reportDefinitions: [ReportDefinition]?
-        public let nextToken: String?
-
-        public init(reportDefinitions: [ReportDefinition]? = nil, nextToken: String? = nil) {
-            self.reportDefinitions = reportDefinitions
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case reportDefinitions = "ReportDefinitions"
-            case nextToken = "NextToken"
-        }
+    public enum AdditionalArtifact: String, CustomStringConvertible, Codable {
+        case redshift = "REDSHIFT"
+        case quicksight = "QUICKSIGHT"
+        public var description: String { return self.rawValue }
     }
 
-    public struct PutReportDefinitionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReportDefinition", required: true, type: .structure)
-        ]
-        public let reportDefinition: ReportDefinition
-
-        public init(reportDefinition: ReportDefinition) {
-            self.reportDefinition = reportDefinition
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case reportDefinition = "ReportDefinition"
-        }
+    public enum AWSRegion: String, CustomStringConvertible, Codable {
+        case usEast1 = "us-east-1"
+        case usWest1 = "us-west-1"
+        case usWest2 = "us-west-2"
+        case euCentral1 = "eu-central-1"
+        case euWest1 = "eu-west-1"
+        case apSoutheast1 = "ap-southeast-1"
+        case apSoutheast2 = "ap-southeast-2"
+        case apNortheast1 = "ap-northeast-1"
+        public var description: String { return self.rawValue }
     }
 
     public struct PutReportDefinitionResponse: AWSShape {
 
-    }
-
-    public struct ReportDefinition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3Bucket", required: true, type: .string), 
-            AWSShapeMember(label: "S3Prefix", required: true, type: .string), 
-            AWSShapeMember(label: "TimeUnit", required: true, type: .enum), 
-            AWSShapeMember(label: "AdditionalSchemaElements", required: true, type: .list), 
-            AWSShapeMember(label: "Format", required: true, type: .enum), 
-            AWSShapeMember(label: "S3Region", required: true, type: .enum), 
-            AWSShapeMember(label: "ReportName", required: true, type: .string), 
-            AWSShapeMember(label: "Compression", required: true, type: .enum), 
-            AWSShapeMember(label: "AdditionalArtifacts", required: false, type: .list)
-        ]
-        public let s3Bucket: String
-        public let s3Prefix: String
-        public let timeUnit: TimeUnit
-        public let additionalSchemaElements: [SchemaElement]
-        public let format: ReportFormat
-        public let s3Region: AWSRegion
-        public let reportName: String
-        public let compression: CompressionFormat
-        public let additionalArtifacts: [AdditionalArtifact]?
-
-        public init(s3Bucket: String, s3Prefix: String, timeUnit: TimeUnit, additionalSchemaElements: [SchemaElement], format: ReportFormat, s3Region: AWSRegion, reportName: String, compression: CompressionFormat, additionalArtifacts: [AdditionalArtifact]? = nil) {
-            self.s3Bucket = s3Bucket
-            self.s3Prefix = s3Prefix
-            self.timeUnit = timeUnit
-            self.additionalSchemaElements = additionalSchemaElements
-            self.format = format
-            self.s3Region = s3Region
-            self.reportName = reportName
-            self.compression = compression
-            self.additionalArtifacts = additionalArtifacts
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case s3Bucket = "S3Bucket"
-            case s3Prefix = "S3Prefix"
-            case timeUnit = "TimeUnit"
-            case additionalSchemaElements = "AdditionalSchemaElements"
-            case format = "Format"
-            case s3Region = "S3Region"
-            case reportName = "ReportName"
-            case compression = "Compression"
-            case additionalArtifacts = "AdditionalArtifacts"
-        }
     }
 
     public struct DescribeReportDefinitionsRequest: AWSShape {
@@ -114,31 +62,85 @@ extension CostandUsageReportService {
         }
     }
 
-    public struct DeleteReportDefinitionRequest: AWSShape {
+    public struct PutReportDefinitionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReportName", required: false, type: .string)
+            AWSShapeMember(label: "ReportDefinition", required: true, type: .structure)
         ]
-        public let reportName: String?
+        public let reportDefinition: ReportDefinition
 
-        public init(reportName: String? = nil) {
-            self.reportName = reportName
+        public init(reportDefinition: ReportDefinition) {
+            self.reportDefinition = reportDefinition
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reportName = "ReportName"
+            case reportDefinition = "ReportDefinition"
         }
     }
 
-    public enum AWSRegion: String, CustomStringConvertible, Codable {
-        case usEast1 = "us-east-1"
-        case usWest1 = "us-west-1"
-        case usWest2 = "us-west-2"
-        case euCentral1 = "eu-central-1"
-        case euWest1 = "eu-west-1"
-        case apSoutheast1 = "ap-southeast-1"
-        case apSoutheast2 = "ap-southeast-2"
-        case apNortheast1 = "ap-northeast-1"
-        public var description: String { return self.rawValue }
+    public struct DescribeReportDefinitionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReportDefinitions", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        public let reportDefinitions: [ReportDefinition]?
+        public let nextToken: String?
+
+        public init(reportDefinitions: [ReportDefinition]? = nil, nextToken: String? = nil) {
+            self.reportDefinitions = reportDefinitions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reportDefinitions = "ReportDefinitions"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ReportDefinition: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AdditionalArtifacts", required: false, type: .list), 
+            AWSShapeMember(label: "ReportName", required: true, type: .string), 
+            AWSShapeMember(label: "Compression", required: true, type: .enum), 
+            AWSShapeMember(label: "TimeUnit", required: true, type: .enum), 
+            AWSShapeMember(label: "AdditionalSchemaElements", required: true, type: .list), 
+            AWSShapeMember(label: "Format", required: true, type: .enum), 
+            AWSShapeMember(label: "S3Prefix", required: true, type: .string), 
+            AWSShapeMember(label: "S3Region", required: true, type: .enum), 
+            AWSShapeMember(label: "S3Bucket", required: true, type: .string)
+        ]
+        public let additionalArtifacts: [AdditionalArtifact]?
+        public let reportName: String
+        public let compression: CompressionFormat
+        public let timeUnit: TimeUnit
+        public let additionalSchemaElements: [SchemaElement]
+        public let format: ReportFormat
+        public let s3Prefix: String
+        public let s3Region: AWSRegion
+        public let s3Bucket: String
+
+        public init(additionalArtifacts: [AdditionalArtifact]? = nil, reportName: String, compression: CompressionFormat, timeUnit: TimeUnit, additionalSchemaElements: [SchemaElement], format: ReportFormat, s3Prefix: String, s3Region: AWSRegion, s3Bucket: String) {
+            self.additionalArtifacts = additionalArtifacts
+            self.reportName = reportName
+            self.compression = compression
+            self.timeUnit = timeUnit
+            self.additionalSchemaElements = additionalSchemaElements
+            self.format = format
+            self.s3Prefix = s3Prefix
+            self.s3Region = s3Region
+            self.s3Bucket = s3Bucket
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalArtifacts = "AdditionalArtifacts"
+            case reportName = "ReportName"
+            case compression = "Compression"
+            case timeUnit = "TimeUnit"
+            case additionalSchemaElements = "AdditionalSchemaElements"
+            case format = "Format"
+            case s3Prefix = "S3Prefix"
+            case s3Region = "S3Region"
+            case s3Bucket = "S3Bucket"
+        }
     }
 
     public struct DeleteReportDefinitionResponse: AWSShape {
@@ -156,21 +158,19 @@ extension CostandUsageReportService {
         }
     }
 
-    public enum CompressionFormat: String, CustomStringConvertible, Codable {
-        case zip = "ZIP"
-        case gzip = "GZIP"
-        public var description: String { return self.rawValue }
-    }
+    public struct DeleteReportDefinitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReportName", required: false, type: .string)
+        ]
+        public let reportName: String?
 
-    public enum AdditionalArtifact: String, CustomStringConvertible, Codable {
-        case redshift = "REDSHIFT"
-        case quicksight = "QUICKSIGHT"
-        public var description: String { return self.rawValue }
-    }
+        public init(reportName: String? = nil) {
+            self.reportName = reportName
+        }
 
-    public enum ReportFormat: String, CustomStringConvertible, Codable {
-        case textorcsv = "textORcsv"
-        public var description: String { return self.rawValue }
+        private enum CodingKeys: String, CodingKey {
+            case reportName = "ReportName"
+        }
     }
 
     public enum TimeUnit: String, CustomStringConvertible, Codable {

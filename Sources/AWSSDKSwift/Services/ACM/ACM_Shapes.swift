@@ -5,560 +5,40 @@ import AWSSDKSwiftCore
 
 extension ACM {
 
-    public enum RenewalStatus: String, CustomStringConvertible, Codable {
-        case pendingAutoRenewal = "PENDING_AUTO_RENEWAL"
-        case pendingValidation = "PENDING_VALIDATION"
-        case success = "SUCCESS"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum CertificateTransparencyLoggingPreference: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RenewalEligibility: String, CustomStringConvertible, Codable {
-        case eligible = "ELIGIBLE"
-        case ineligible = "INELIGIBLE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListTagsForCertificateResponse: AWSShape {
+    public struct CertificateOptions: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .list)
+            AWSShapeMember(label: "CertificateTransparencyLoggingPreference", required: false, type: .enum)
         ]
-        /// The key-value pairs that define the applied tags.
-        public let tags: [Tag]?
+        /// You can opt out of certificate transparency logging by specifying the DISABLED option. Opt in by specifying ENABLED. 
+        public let certificateTransparencyLoggingPreference: CertificateTransparencyLoggingPreference?
 
-        public init(tags: [Tag]? = nil) {
-            self.tags = tags
+        public init(certificateTransparencyLoggingPreference: CertificateTransparencyLoggingPreference? = nil) {
+            self.certificateTransparencyLoggingPreference = certificateTransparencyLoggingPreference
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
+            case certificateTransparencyLoggingPreference = "CertificateTransparencyLoggingPreference"
         }
     }
 
-    public struct ResourceRecord: AWSShape {
+    public struct ExtendedKeyUsage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", required: true, type: .enum), 
-            AWSShapeMember(label: "Value", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
+            AWSShapeMember(label: "OID", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .enum)
         ]
-        /// The type of DNS record. Currently this can be CNAME.
-        public let `type`: RecordType
-        /// The value of the CNAME record to add to your DNS database. This is supplied by ACM.
-        public let value: String
-        /// The name of the DNS record to create in your domain. This is supplied by ACM.
-        public let name: String
+        /// An object identifier (OID) for the extension value. OIDs are strings of numbers separated by periods. The following OIDs are defined in RFC 3280 and RFC 5280.     1.3.6.1.5.5.7.3.1 (TLS_WEB_SERVER_AUTHENTICATION)     1.3.6.1.5.5.7.3.2 (TLS_WEB_CLIENT_AUTHENTICATION)     1.3.6.1.5.5.7.3.3 (CODE_SIGNING)     1.3.6.1.5.5.7.3.4 (EMAIL_PROTECTION)     1.3.6.1.5.5.7.3.8 (TIME_STAMPING)     1.3.6.1.5.5.7.3.9 (OCSP_SIGNING)     1.3.6.1.5.5.7.3.5 (IPSEC_END_SYSTEM)     1.3.6.1.5.5.7.3.6 (IPSEC_TUNNEL)     1.3.6.1.5.5.7.3.7 (IPSEC_USER)   
+        public let oid: String?
+        /// The name of an Extended Key Usage value.
+        public let name: ExtendedKeyUsageName?
 
-        public init(type: RecordType, value: String, name: String) {
-            self.`type` = `type`
-            self.value = value
+        public init(oid: String? = nil, name: ExtendedKeyUsageName? = nil) {
+            self.oid = oid
             self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
-            case value = "Value"
+            case oid = "OID"
             case name = "Name"
-        }
-    }
-
-    public enum ExtendedKeyUsageName: String, CustomStringConvertible, Codable {
-        case tlsWebServerAuthentication = "TLS_WEB_SERVER_AUTHENTICATION"
-        case tlsWebClientAuthentication = "TLS_WEB_CLIENT_AUTHENTICATION"
-        case codeSigning = "CODE_SIGNING"
-        case emailProtection = "EMAIL_PROTECTION"
-        case timeStamping = "TIME_STAMPING"
-        case ocspSigning = "OCSP_SIGNING"
-        case ipsecEndSystem = "IPSEC_END_SYSTEM"
-        case ipsecTunnel = "IPSEC_TUNNEL"
-        case ipsecUser = "IPSEC_USER"
-        case any = "ANY"
-        case none = "NONE"
-        case custom = "CUSTOM"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListCertificatesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateSummaryList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// A list of ACM certificates.
-        public let certificateSummaryList: [CertificateSummary]?
-        /// When the list is truncated, this value is present and contains the value to use for the NextToken parameter in a subsequent pagination request.
-        public let nextToken: String?
-
-        public init(certificateSummaryList: [CertificateSummary]? = nil, nextToken: String? = nil) {
-            self.certificateSummaryList = certificateSummaryList
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificateSummaryList = "CertificateSummaryList"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct ExportCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateArn", required: true, type: .string), 
-            AWSShapeMember(label: "Passphrase", required: true, type: .blob)
-        ]
-        /// An Amazon Resource Name (ARN) of the issued certificate. This must be of the form:  arn:aws:acm:region:account:certificate/12345678-1234-1234-1234-123456789012 
-        public let certificateArn: String
-        /// Passphrase to associate with the encrypted exported private key. If you want to later decrypt the private key, you must have the passphrase. You can use the following OpenSSL command to decrypt a private key:   openssl rsa -in encrypted_key.pem -out decrypted_key.pem 
-        public let passphrase: Data
-
-        public init(certificateArn: String, passphrase: Data) {
-            self.certificateArn = certificateArn
-            self.passphrase = passphrase
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificateArn = "CertificateArn"
-            case passphrase = "Passphrase"
-        }
-    }
-
-    public struct CertificateSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "DomainName", required: false, type: .string)
-        ]
-        /// Amazon Resource Name (ARN) of the certificate. This is of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces. 
-        public let certificateArn: String?
-        /// Fully qualified domain name (FQDN), such as www.example.com or example.com, for the certificate.
-        public let domainName: String?
-
-        public init(certificateArn: String? = nil, domainName: String? = nil) {
-            self.certificateArn = certificateArn
-            self.domainName = domainName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificateArn = "CertificateArn"
-            case domainName = "DomainName"
-        }
-    }
-
-    public struct Filters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "extendedKeyUsage", required: false, type: .list), 
-            AWSShapeMember(label: "keyUsage", required: false, type: .list), 
-            AWSShapeMember(label: "keyTypes", required: false, type: .list)
-        ]
-        /// Specify one or more ExtendedKeyUsage extension values.
-        public let extendedKeyUsage: [ExtendedKeyUsageName]?
-        /// Specify one or more KeyUsage extension values.
-        public let keyUsage: [KeyUsageName]?
-        /// Specify one or more algorithms that can be used to generate key pairs.
-        public let keyTypes: [KeyAlgorithm]?
-
-        public init(extendedKeyUsage: [ExtendedKeyUsageName]? = nil, keyUsage: [KeyUsageName]? = nil, keyTypes: [KeyAlgorithm]? = nil) {
-            self.extendedKeyUsage = extendedKeyUsage
-            self.keyUsage = keyUsage
-            self.keyTypes = keyTypes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case extendedKeyUsage = "extendedKeyUsage"
-            case keyUsage = "keyUsage"
-            case keyTypes = "keyTypes"
-        }
-    }
-
-    public struct ListCertificatesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "CertificateStatuses", required: false, type: .list), 
-            AWSShapeMember(label: "Includes", required: false, type: .structure)
-        ]
-        /// Use this parameter when paginating results to specify the maximum number of items to return in the response. If additional items exist beyond the number you specify, the NextToken element is sent in the response. Use this NextToken value in a subsequent request to retrieve additional items.
-        public let maxItems: Int32?
-        /// Use this parameter only when paginating results and only in a subsequent request after you receive a response with truncated results. Set it to the value of NextToken from the response you just received.
-        public let nextToken: String?
-        /// Filter the certificate list by status value.
-        public let certificateStatuses: [CertificateStatus]?
-        /// Filter the certificate list. For more information, see the Filters structure.
-        public let includes: Filters?
-
-        public init(maxItems: Int32? = nil, nextToken: String? = nil, certificateStatuses: [CertificateStatus]? = nil, includes: Filters? = nil) {
-            self.maxItems = maxItems
-            self.nextToken = nextToken
-            self.certificateStatuses = certificateStatuses
-            self.includes = includes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxItems = "MaxItems"
-            case nextToken = "NextToken"
-            case certificateStatuses = "CertificateStatuses"
-            case includes = "Includes"
-        }
-    }
-
-    public struct ImportCertificateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateArn", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the imported certificate.
-        public let certificateArn: String?
-
-        public init(certificateArn: String? = nil) {
-            self.certificateArn = certificateArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificateArn = "CertificateArn"
-        }
-    }
-
-    public struct ImportCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificate", required: true, type: .blob), 
-            AWSShapeMember(label: "CertificateChain", required: false, type: .blob), 
-            AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "PrivateKey", required: true, type: .blob)
-        ]
-        /// The certificate to import.
-        public let certificate: Data
-        /// The PEM encoded certificate chain.
-        public let certificateChain: Data?
-        /// The Amazon Resource Name (ARN) of an imported certificate to replace. To import a new certificate, omit this field. 
-        public let certificateArn: String?
-        /// The private key that matches the public key in the certificate.
-        public let privateKey: Data
-
-        public init(certificate: Data, certificateChain: Data? = nil, certificateArn: String? = nil, privateKey: Data) {
-            self.certificate = certificate
-            self.certificateChain = certificateChain
-            self.certificateArn = certificateArn
-            self.privateKey = privateKey
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificate = "Certificate"
-            case certificateChain = "CertificateChain"
-            case certificateArn = "CertificateArn"
-            case privateKey = "PrivateKey"
-        }
-    }
-
-    public enum CertificateStatus: String, CustomStringConvertible, Codable {
-        case pendingValidation = "PENDING_VALIDATION"
-        case issued = "ISSUED"
-        case inactive = "INACTIVE"
-        case expired = "EXPIRED"
-        case validationTimedOut = "VALIDATION_TIMED_OUT"
-        case revoked = "REVOKED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateArn", required: true, type: .string)
-        ]
-        /// String that contains the ARN of the ACM certificate to be deleted. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
-        public let certificateArn: String
-
-        public init(certificateArn: String) {
-            self.certificateArn = certificateArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificateArn = "CertificateArn"
-        }
-    }
-
-    public struct RequestCertificateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateArn", required: false, type: .string)
-        ]
-        /// String that contains the ARN of the issued certificate. This must be of the form:  arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012 
-        public let certificateArn: String?
-
-        public init(certificateArn: String? = nil) {
-            self.certificateArn = certificateArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificateArn = "CertificateArn"
-        }
-    }
-
-    public struct RemoveTagsFromCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: true, type: .list), 
-            AWSShapeMember(label: "CertificateArn", required: true, type: .string)
-        ]
-        /// The key-value pair that defines the tag to remove.
-        public let tags: [Tag]
-        /// String that contains the ARN of the ACM Certificate with one or more tags that you want to remove. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces. 
-        public let certificateArn: String
-
-        public init(tags: [Tag], certificateArn: String) {
-            self.tags = tags
-            self.certificateArn = certificateArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-            case certificateArn = "CertificateArn"
-        }
-    }
-
-    public struct CertificateDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RevocationReason", required: false, type: .enum), 
-            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "ExtendedKeyUsages", required: false, type: .list), 
-            AWSShapeMember(label: "FailureReason", required: false, type: .enum), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "DomainValidationOptions", required: false, type: .list), 
-            AWSShapeMember(label: "RevokedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Options", required: false, type: .structure), 
-            AWSShapeMember(label: "CertificateAuthorityArn", required: false, type: .string), 
-            AWSShapeMember(label: "Serial", required: false, type: .string), 
-            AWSShapeMember(label: "KeyUsages", required: false, type: .list), 
-            AWSShapeMember(label: "NotAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "KeyAlgorithm", required: false, type: .enum), 
-            AWSShapeMember(label: "NotBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ImportedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "IssuedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "RenewalEligibility", required: false, type: .enum), 
-            AWSShapeMember(label: "DomainName", required: false, type: .string), 
-            AWSShapeMember(label: "SignatureAlgorithm", required: false, type: .string), 
-            AWSShapeMember(label: "Subject", required: false, type: .string), 
-            AWSShapeMember(label: "SubjectAlternativeNames", required: false, type: .list), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "Issuer", required: false, type: .string), 
-            AWSShapeMember(label: "RenewalSummary", required: false, type: .structure), 
-            AWSShapeMember(label: "InUseBy", required: false, type: .list)
-        ]
-        /// The reason the certificate was revoked. This value exists only when the certificate status is REVOKED. 
-        public let revocationReason: RevocationReason?
-        /// The time at which the certificate was requested. This value exists only when the certificate type is AMAZON_ISSUED. 
-        public let createdAt: TimeStamp?
-        /// The Amazon Resource Name (ARN) of the certificate. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
-        public let certificateArn: String?
-        /// Contains a list of Extended Key Usage X.509 v3 extension objects. Each object specifies a purpose for which the certificate public key can be used and consists of a name and an object identifier (OID). 
-        public let extendedKeyUsages: [ExtendedKeyUsage]?
-        /// The reason the certificate request failed. This value exists only when the certificate status is FAILED. For more information, see Certificate Request Failed in the AWS Certificate Manager User Guide. 
-        public let failureReason: FailureReason?
-        /// The status of the certificate.
-        public let status: CertificateStatus?
-        /// Contains information about the initial validation of each domain name that occurs as a result of the RequestCertificate request. This field exists only when the certificate type is AMAZON_ISSUED. 
-        public let domainValidationOptions: [DomainValidation]?
-        /// The time at which the certificate was revoked. This value exists only when the certificate status is REVOKED. 
-        public let revokedAt: TimeStamp?
-        /// Value that specifies whether to add the certificate to a transparency log. Certificate transparency makes it possible to detect SSL certificates that have been mistakenly or maliciously issued. A browser might respond to certificate that has not been logged by showing an error message. The logs are cryptographically secure. 
-        public let options: CertificateOptions?
-        /// The Amazon Resource Name (ARN) of the ACM PCA private certificate authority (CA) that issued the certificate. This has the following format:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 
-        public let certificateAuthorityArn: String?
-        /// The serial number of the certificate.
-        public let serial: String?
-        /// A list of Key Usage X.509 v3 extension objects. Each object is a string value that identifies the purpose of the public key contained in the certificate. Possible extension values include DIGITAL_SIGNATURE, KEY_ENCHIPHERMENT, NON_REPUDIATION, and more.
-        public let keyUsages: [KeyUsage]?
-        /// The time after which the certificate is not valid.
-        public let notAfter: TimeStamp?
-        /// The algorithm that was used to generate the public-private key pair.
-        public let keyAlgorithm: KeyAlgorithm?
-        /// The time before which the certificate is not valid.
-        public let notBefore: TimeStamp?
-        /// The date and time at which the certificate was imported. This value exists only when the certificate type is IMPORTED. 
-        public let importedAt: TimeStamp?
-        /// The time at which the certificate was issued. This value exists only when the certificate type is AMAZON_ISSUED. 
-        public let issuedAt: TimeStamp?
-        /// Specifies whether the certificate is eligible for renewal.
-        public let renewalEligibility: RenewalEligibility?
-        /// The fully qualified domain name for the certificate, such as www.example.com or example.com.
-        public let domainName: String?
-        /// The algorithm that was used to sign the certificate.
-        public let signatureAlgorithm: String?
-        /// The name of the entity that is associated with the public key contained in the certificate.
-        public let subject: String?
-        /// One or more domain names (subject alternative names) included in the certificate. This list contains the domain names that are bound to the public key that is contained in the certificate. The subject alternative names include the canonical domain name (CN) of the certificate and additional domain names that can be used to connect to the website. 
-        public let subjectAlternativeNames: [String]?
-        /// The source of the certificate. For certificates provided by ACM, this value is AMAZON_ISSUED. For certificates that you imported with ImportCertificate, this value is IMPORTED. ACM does not provide managed renewal for imported certificates. For more information about the differences between certificates that you import and those that ACM provides, see Importing Certificates in the AWS Certificate Manager User Guide. 
-        public let `type`: CertificateType?
-        /// The name of the certificate authority that issued and signed the certificate.
-        public let issuer: String?
-        /// Contains information about the status of ACM's managed renewal for the certificate. This field exists only when the certificate type is AMAZON_ISSUED.
-        public let renewalSummary: RenewalSummary?
-        /// A list of ARNs for the AWS resources that are using the certificate. A certificate can be used by multiple AWS resources. 
-        public let inUseBy: [String]?
-
-        public init(revocationReason: RevocationReason? = nil, createdAt: TimeStamp? = nil, certificateArn: String? = nil, extendedKeyUsages: [ExtendedKeyUsage]? = nil, failureReason: FailureReason? = nil, status: CertificateStatus? = nil, domainValidationOptions: [DomainValidation]? = nil, revokedAt: TimeStamp? = nil, options: CertificateOptions? = nil, certificateAuthorityArn: String? = nil, serial: String? = nil, keyUsages: [KeyUsage]? = nil, notAfter: TimeStamp? = nil, keyAlgorithm: KeyAlgorithm? = nil, notBefore: TimeStamp? = nil, importedAt: TimeStamp? = nil, issuedAt: TimeStamp? = nil, renewalEligibility: RenewalEligibility? = nil, domainName: String? = nil, signatureAlgorithm: String? = nil, subject: String? = nil, subjectAlternativeNames: [String]? = nil, type: CertificateType? = nil, issuer: String? = nil, renewalSummary: RenewalSummary? = nil, inUseBy: [String]? = nil) {
-            self.revocationReason = revocationReason
-            self.createdAt = createdAt
-            self.certificateArn = certificateArn
-            self.extendedKeyUsages = extendedKeyUsages
-            self.failureReason = failureReason
-            self.status = status
-            self.domainValidationOptions = domainValidationOptions
-            self.revokedAt = revokedAt
-            self.options = options
-            self.certificateAuthorityArn = certificateAuthorityArn
-            self.serial = serial
-            self.keyUsages = keyUsages
-            self.notAfter = notAfter
-            self.keyAlgorithm = keyAlgorithm
-            self.notBefore = notBefore
-            self.importedAt = importedAt
-            self.issuedAt = issuedAt
-            self.renewalEligibility = renewalEligibility
-            self.domainName = domainName
-            self.signatureAlgorithm = signatureAlgorithm
-            self.subject = subject
-            self.subjectAlternativeNames = subjectAlternativeNames
-            self.`type` = `type`
-            self.issuer = issuer
-            self.renewalSummary = renewalSummary
-            self.inUseBy = inUseBy
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case revocationReason = "RevocationReason"
-            case createdAt = "CreatedAt"
-            case certificateArn = "CertificateArn"
-            case extendedKeyUsages = "ExtendedKeyUsages"
-            case failureReason = "FailureReason"
-            case status = "Status"
-            case domainValidationOptions = "DomainValidationOptions"
-            case revokedAt = "RevokedAt"
-            case options = "Options"
-            case certificateAuthorityArn = "CertificateAuthorityArn"
-            case serial = "Serial"
-            case keyUsages = "KeyUsages"
-            case notAfter = "NotAfter"
-            case keyAlgorithm = "KeyAlgorithm"
-            case notBefore = "NotBefore"
-            case importedAt = "ImportedAt"
-            case issuedAt = "IssuedAt"
-            case renewalEligibility = "RenewalEligibility"
-            case domainName = "DomainName"
-            case signatureAlgorithm = "SignatureAlgorithm"
-            case subject = "Subject"
-            case subjectAlternativeNames = "SubjectAlternativeNames"
-            case `type` = "Type"
-            case issuer = "Issuer"
-            case renewalSummary = "RenewalSummary"
-            case inUseBy = "InUseBy"
-        }
-    }
-
-    public struct DomainValidationOption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "ValidationDomain", required: true, type: .string)
-        ]
-        /// A fully qualified domain name (FQDN) in the certificate request.
-        public let domainName: String
-        /// The domain name that you want ACM to use to send you validation emails. This domain name is the suffix of the email addresses that you want ACM to use. This must be the same as the DomainName value or a superdomain of the DomainName value. For example, if you request a certificate for testing.example.com, you can specify example.com for this value. In that case, ACM sends domain validation emails to the following five addresses:   admin@example.com   administrator@example.com   hostmaster@example.com   postmaster@example.com   webmaster@example.com  
-        public let validationDomain: String
-
-        public init(domainName: String, validationDomain: String) {
-            self.domainName = domainName
-            self.validationDomain = validationDomain
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "DomainName"
-            case validationDomain = "ValidationDomain"
-        }
-    }
-
-    public enum DomainStatus: String, CustomStringConvertible, Codable {
-        case pendingValidation = "PENDING_VALIDATION"
-        case success = "SUCCESS"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum FailureReason: String, CustomStringConvertible, Codable {
-        case noAvailableContacts = "NO_AVAILABLE_CONTACTS"
-        case additionalVerificationRequired = "ADDITIONAL_VERIFICATION_REQUIRED"
-        case domainNotAllowed = "DOMAIN_NOT_ALLOWED"
-        case invalidPublicDomain = "INVALID_PUBLIC_DOMAIN"
-        case caaError = "CAA_ERROR"
-        case pcaLimitExceeded = "PCA_LIMIT_EXCEEDED"
-        case pcaInvalidArn = "PCA_INVALID_ARN"
-        case pcaInvalidState = "PCA_INVALID_STATE"
-        case pcaRequestFailed = "PCA_REQUEST_FAILED"
-        case pcaResourceNotFound = "PCA_RESOURCE_NOT_FOUND"
-        case pcaInvalidArgs = "PCA_INVALID_ARGS"
-        case other = "OTHER"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ResendValidationEmailRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Domain", required: true, type: .string), 
-            AWSShapeMember(label: "CertificateArn", required: true, type: .string), 
-            AWSShapeMember(label: "ValidationDomain", required: true, type: .string)
-        ]
-        /// The fully qualified domain name (FQDN) of the certificate that needs to be validated.
-        public let domain: String
-        /// String that contains the ARN of the requested certificate. The certificate ARN is generated and returned by the RequestCertificate action as soon as the request is made. By default, using this parameter causes email to be sent to all top-level domains you specified in the certificate request. The ARN must be of the form:   arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012 
-        public let certificateArn: String
-        /// The base validation domain that will act as the suffix of the email addresses that are used to send the emails. This must be the same as the Domain value or a superdomain of the Domain value. For example, if you requested a certificate for site.subdomain.example.com and specify a ValidationDomain of subdomain.example.com, ACM sends email to the domain registrant, technical contact, and administrative contact in WHOIS and the following five addresses:   admin@subdomain.example.com   administrator@subdomain.example.com   hostmaster@subdomain.example.com   postmaster@subdomain.example.com   webmaster@subdomain.example.com  
-        public let validationDomain: String
-
-        public init(domain: String, certificateArn: String, validationDomain: String) {
-            self.domain = domain
-            self.certificateArn = certificateArn
-            self.validationDomain = validationDomain
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case domain = "Domain"
-            case certificateArn = "CertificateArn"
-            case validationDomain = "ValidationDomain"
-        }
-    }
-
-    public struct DescribeCertificateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificate", required: false, type: .structure)
-        ]
-        /// Metadata about an ACM certificate.
-        public let certificate: CertificateDetail?
-
-        public init(certificate: CertificateDetail? = nil) {
-            self.certificate = certificate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificate = "Certificate"
-        }
-    }
-
-    public struct UpdateCertificateOptionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateArn", required: true, type: .string), 
-            AWSShapeMember(label: "Options", required: true, type: .structure)
-        ]
-        /// ARN of the requested certificate to update. This must be of the form:  arn:aws:acm:us-east-1:account:certificate/12345678-1234-1234-1234-123456789012  
-        public let certificateArn: String
-        /// Use to update the options for your certificate. Currently, you can specify whether to add your certificate to a transparency log. Certificate transparency makes it possible to detect SSL/TLS certificates that have been mistakenly or maliciously issued. Certificates that have not been logged typically produce an error message in a browser. 
-        public let options: CertificateOptions
-
-        public init(certificateArn: String, options: CertificateOptions) {
-            self.certificateArn = certificateArn
-            self.options = options
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificateArn = "CertificateArn"
-            case options = "Options"
         }
     }
 
@@ -578,167 +58,44 @@ extension ACM {
         }
     }
 
-    public struct GetCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateArn", required: true, type: .string)
-        ]
-        /// String that contains a certificate ARN in the following format:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
-        public let certificateArn: String
-
-        public init(certificateArn: String) {
-            self.certificateArn = certificateArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificateArn = "CertificateArn"
-        }
-    }
-
-    public enum KeyUsageName: String, CustomStringConvertible, Codable {
-        case digitalSignature = "DIGITAL_SIGNATURE"
-        case nonRepudiation = "NON_REPUDIATION"
-        case keyEncipherment = "KEY_ENCIPHERMENT"
-        case dataEncipherment = "DATA_ENCIPHERMENT"
-        case keyAgreement = "KEY_AGREEMENT"
-        case certificateSigning = "CERTIFICATE_SIGNING"
-        case crlSigning = "CRL_SIGNING"
-        case encipherOnly = "ENCIPHER_ONLY"
-        case decipherOnly = "DECIPHER_ONLY"
-        case any = "ANY"
-        case custom = "CUSTOM"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct KeyUsage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .enum)
-        ]
-        /// A string value that contains a Key Usage extension name.
-        public let name: KeyUsageName?
-
-        public init(name: KeyUsageName? = nil) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-        }
-    }
-
-    public struct ListTagsForCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateArn", required: true, type: .string)
-        ]
-        /// String that contains the ARN of the ACM certificate for which you want to list the tags. This must have the following form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces. 
-        public let certificateArn: String
-
-        public init(certificateArn: String) {
-            self.certificateArn = certificateArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificateArn = "CertificateArn"
-        }
-    }
-
     public struct DomainValidation: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ValidationEmails", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceRecord", required: false, type: .structure), 
             AWSShapeMember(label: "ValidationStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string), 
             AWSShapeMember(label: "ValidationMethod", required: false, type: .enum), 
-            AWSShapeMember(label: "ValidationDomain", required: false, type: .string)
+            AWSShapeMember(label: "ValidationDomain", required: false, type: .string), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceRecord", required: false, type: .structure)
         ]
         /// A list of email addresses that ACM used to send domain validation emails.
         public let validationEmails: [String]?
-        /// Contains the CNAME record that you add to your DNS database for domain validation. For more information, see Use DNS to Validate Domain Ownership.
-        public let resourceRecord: ResourceRecord?
         /// The validation status of the domain name. This can be one of the following values:    PENDING_VALIDATION     SUCCESS    FAILED  
         public let validationStatus: DomainStatus?
-        /// A fully qualified domain name (FQDN) in the certificate. For example, www.example.com or example.com. 
-        public let domainName: String
         /// Specifies the domain validation method.
         public let validationMethod: ValidationMethod?
         /// The domain name that ACM used to send domain validation emails.
         public let validationDomain: String?
+        /// A fully qualified domain name (FQDN) in the certificate. For example, www.example.com or example.com. 
+        public let domainName: String
+        /// Contains the CNAME record that you add to your DNS database for domain validation. For more information, see Use DNS to Validate Domain Ownership.
+        public let resourceRecord: ResourceRecord?
 
-        public init(validationEmails: [String]? = nil, resourceRecord: ResourceRecord? = nil, validationStatus: DomainStatus? = nil, domainName: String, validationMethod: ValidationMethod? = nil, validationDomain: String? = nil) {
+        public init(validationEmails: [String]? = nil, validationStatus: DomainStatus? = nil, validationMethod: ValidationMethod? = nil, validationDomain: String? = nil, domainName: String, resourceRecord: ResourceRecord? = nil) {
             self.validationEmails = validationEmails
-            self.resourceRecord = resourceRecord
             self.validationStatus = validationStatus
-            self.domainName = domainName
             self.validationMethod = validationMethod
             self.validationDomain = validationDomain
+            self.domainName = domainName
+            self.resourceRecord = resourceRecord
         }
 
         private enum CodingKeys: String, CodingKey {
             case validationEmails = "ValidationEmails"
-            case resourceRecord = "ResourceRecord"
             case validationStatus = "ValidationStatus"
-            case domainName = "DomainName"
             case validationMethod = "ValidationMethod"
             case validationDomain = "ValidationDomain"
-        }
-    }
-
-    public enum RevocationReason: String, CustomStringConvertible, Codable {
-        case unspecified = "UNSPECIFIED"
-        case keyCompromise = "KEY_COMPROMISE"
-        case caCompromise = "CA_COMPROMISE"
-        case affiliationChanged = "AFFILIATION_CHANGED"
-        case superceded = "SUPERCEDED"
-        case cessationOfOperation = "CESSATION_OF_OPERATION"
-        case certificateHold = "CERTIFICATE_HOLD"
-        case removeFromCrl = "REMOVE_FROM_CRL"
-        case privilegeWithdrawn = "PRIVILEGE_WITHDRAWN"
-        case aACompromise = "A_A_COMPROMISE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct RequestCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdempotencyToken", required: false, type: .string), 
-            AWSShapeMember(label: "DomainValidationOptions", required: false, type: .list), 
-            AWSShapeMember(label: "Options", required: false, type: .structure), 
-            AWSShapeMember(label: "SubjectAlternativeNames", required: false, type: .list), 
-            AWSShapeMember(label: "CertificateAuthorityArn", required: false, type: .string), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "ValidationMethod", required: false, type: .enum)
-        ]
-        /// Customer chosen string that can be used to distinguish between calls to RequestCertificate. Idempotency tokens time out after one hour. Therefore, if you call RequestCertificate multiple times with the same idempotency token within one hour, ACM recognizes that you are requesting only one certificate and will issue only one. If you change the idempotency token for each call, ACM recognizes that you are requesting multiple certificates.
-        public let idempotencyToken: String?
-        /// The domain name that you want ACM to use to send you emails so that you can validate domain ownership.
-        public let domainValidationOptions: [DomainValidationOption]?
-        /// Currently, you can use this parameter to specify whether to add the certificate to a certificate transparency log. Certificate transparency makes it possible to detect SSL/TLS certificates that have been mistakenly or maliciously issued. Certificates that have not been logged typically produce an error message in a browser. For more information, see Opting Out of Certificate Transparency Logging.
-        public let options: CertificateOptions?
-        /// Additional FQDNs to be included in the Subject Alternative Name extension of the ACM certificate. For example, add the name www.example.net to a certificate for which the DomainName field is www.example.com if users can reach your site by using either name. The maximum number of domain names that you can add to an ACM certificate is 100. However, the initial limit is 10 domain names. If you need more than 10 names, you must request a limit increase. For more information, see Limits.  The maximum length of a SAN DNS name is 253 octets. The name is made up of multiple labels separated by periods. No label can be longer than 63 octets. Consider the following examples:     (63 octets).(63 octets).(63 octets).(61 octets) is legal because the total length is 253 octets (63+1+63+1+63+1+61) and no label exceeds 63 octets.    (64 octets).(63 octets).(63 octets).(61 octets) is not legal because the total length exceeds 253 octets (64+1+63+1+63+1+61) and the first label exceeds 63 octets.    (63 octets).(63 octets).(63 octets).(62 octets) is not legal because the total length of the DNS name (63+1+63+1+63+1+62) exceeds 253 octets.  
-        public let subjectAlternativeNames: [String]?
-        /// The Amazon Resource Name (ARN) of the private certificate authority (CA) that will be used to issue the certificate. If you do not provide an ARN and you are trying to request a private certificate, ACM will attempt to issue a public certificate. For more information about private CAs, see the AWS Certificate Manager Private Certificate Authority (PCA) user guide. The ARN must have the following form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 
-        public let certificateAuthorityArn: String?
-        ///  Fully qualified domain name (FQDN), such as www.example.com, that you want to secure with an ACM certificate. Use an asterisk (*) to create a wildcard certificate that protects several sites in the same domain. For example, *.example.com protects www.example.com, site.example.com, and images.example.com.   The first domain name you enter cannot exceed 63 octets, including periods. Each subsequent Subject Alternative Name (SAN), however, can be up to 253 octets in length. 
-        public let domainName: String
-        /// The method you want to use if you are requesting a public certificate to validate that you own or control domain. You can validate with DNS or validate with email. We recommend that you use DNS validation. 
-        public let validationMethod: ValidationMethod?
-
-        public init(idempotencyToken: String? = nil, domainValidationOptions: [DomainValidationOption]? = nil, options: CertificateOptions? = nil, subjectAlternativeNames: [String]? = nil, certificateAuthorityArn: String? = nil, domainName: String, validationMethod: ValidationMethod? = nil) {
-            self.idempotencyToken = idempotencyToken
-            self.domainValidationOptions = domainValidationOptions
-            self.options = options
-            self.subjectAlternativeNames = subjectAlternativeNames
-            self.certificateAuthorityArn = certificateAuthorityArn
-            self.domainName = domainName
-            self.validationMethod = validationMethod
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case idempotencyToken = "IdempotencyToken"
-            case domainValidationOptions = "DomainValidationOptions"
-            case options = "Options"
-            case subjectAlternativeNames = "SubjectAlternativeNames"
-            case certificateAuthorityArn = "CertificateAuthorityArn"
             case domainName = "DomainName"
-            case validationMethod = "ValidationMethod"
+            case resourceRecord = "ResourceRecord"
         }
     }
 
@@ -768,24 +125,419 @@ extension ACM {
         }
     }
 
-    public struct ExtendedKeyUsage: AWSShape {
+    public struct UpdateCertificateOptionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OID", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .enum)
+            AWSShapeMember(label: "CertificateArn", required: true, type: .string), 
+            AWSShapeMember(label: "Options", required: true, type: .structure)
         ]
-        /// An object identifier (OID) for the extension value. OIDs are strings of numbers separated by periods. The following OIDs are defined in RFC 3280 and RFC 5280.     1.3.6.1.5.5.7.3.1 (TLS_WEB_SERVER_AUTHENTICATION)     1.3.6.1.5.5.7.3.2 (TLS_WEB_CLIENT_AUTHENTICATION)     1.3.6.1.5.5.7.3.3 (CODE_SIGNING)     1.3.6.1.5.5.7.3.4 (EMAIL_PROTECTION)     1.3.6.1.5.5.7.3.8 (TIME_STAMPING)     1.3.6.1.5.5.7.3.9 (OCSP_SIGNING)     1.3.6.1.5.5.7.3.5 (IPSEC_END_SYSTEM)     1.3.6.1.5.5.7.3.6 (IPSEC_TUNNEL)     1.3.6.1.5.5.7.3.7 (IPSEC_USER)   
-        public let oid: String?
-        /// The name of an Extended Key Usage value.
-        public let name: ExtendedKeyUsageName?
+        /// ARN of the requested certificate to update. This must be of the form:  arn:aws:acm:us-east-1:account:certificate/12345678-1234-1234-1234-123456789012  
+        public let certificateArn: String
+        /// Use to update the options for your certificate. Currently, you can specify whether to add your certificate to a transparency log. Certificate transparency makes it possible to detect SSL/TLS certificates that have been mistakenly or maliciously issued. Certificates that have not been logged typically produce an error message in a browser. 
+        public let options: CertificateOptions
 
-        public init(oid: String? = nil, name: ExtendedKeyUsageName? = nil) {
-            self.oid = oid
-            self.name = name
+        public init(certificateArn: String, options: CertificateOptions) {
+            self.certificateArn = certificateArn
+            self.options = options
         }
 
         private enum CodingKeys: String, CodingKey {
-            case oid = "OID"
+            case certificateArn = "CertificateArn"
+            case options = "Options"
+        }
+    }
+
+    public struct ResourceRecord: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Type", required: true, type: .enum)
+        ]
+        /// The value of the CNAME record to add to your DNS database. This is supplied by ACM.
+        public let value: String
+        /// The name of the DNS record to create in your domain. This is supplied by ACM.
+        public let name: String
+        /// The type of DNS record. Currently this can be CNAME.
+        public let `type`: RecordType
+
+        public init(value: String, name: String, type: RecordType) {
+            self.value = value
+            self.name = name
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
             case name = "Name"
+            case `type` = "Type"
+        }
+    }
+
+    public enum KeyAlgorithm: String, CustomStringConvertible, Codable {
+        case rsa2048 = "RSA_2048"
+        case rsa1024 = "RSA_1024"
+        case rsa4096 = "RSA_4096"
+        case ecPrime256V1 = "EC_prime256v1"
+        case ecSecp384R1 = "EC_secp384r1"
+        case ecSecp521R1 = "EC_secp521r1"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ValidationMethod: String, CustomStringConvertible, Codable {
+        case email = "EMAIL"
+        case dns = "DNS"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetCertificateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateArn", required: true, type: .string)
+        ]
+        /// String that contains a certificate ARN in the following format:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        public let certificateArn: String
+
+        public init(certificateArn: String) {
+            self.certificateArn = certificateArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
+        }
+    }
+
+    public struct AddTagsToCertificateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: true, type: .list), 
+            AWSShapeMember(label: "CertificateArn", required: true, type: .string)
+        ]
+        /// The key-value pair that defines the tag. The tag value is optional.
+        public let tags: [Tag]
+        /// String that contains the ARN of the ACM certificate to which the tag is to be applied. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces. 
+        public let certificateArn: String
+
+        public init(tags: [Tag], certificateArn: String) {
+            self.tags = tags
+            self.certificateArn = certificateArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+            case certificateArn = "CertificateArn"
+        }
+    }
+
+    public struct ImportCertificateResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateArn", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the imported certificate.
+        public let certificateArn: String?
+
+        public init(certificateArn: String? = nil) {
+            self.certificateArn = certificateArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
+        }
+    }
+
+    public enum FailureReason: String, CustomStringConvertible, Codable {
+        case noAvailableContacts = "NO_AVAILABLE_CONTACTS"
+        case additionalVerificationRequired = "ADDITIONAL_VERIFICATION_REQUIRED"
+        case domainNotAllowed = "DOMAIN_NOT_ALLOWED"
+        case invalidPublicDomain = "INVALID_PUBLIC_DOMAIN"
+        case caaError = "CAA_ERROR"
+        case pcaLimitExceeded = "PCA_LIMIT_EXCEEDED"
+        case pcaInvalidArn = "PCA_INVALID_ARN"
+        case pcaInvalidState = "PCA_INVALID_STATE"
+        case pcaRequestFailed = "PCA_REQUEST_FAILED"
+        case pcaResourceNotFound = "PCA_RESOURCE_NOT_FOUND"
+        case pcaInvalidArgs = "PCA_INVALID_ARGS"
+        case other = "OTHER"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CertificateSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
+            AWSShapeMember(label: "DomainName", required: false, type: .string)
+        ]
+        /// Amazon Resource Name (ARN) of the certificate. This is of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces. 
+        public let certificateArn: String?
+        /// Fully qualified domain name (FQDN), such as www.example.com or example.com, for the certificate.
+        public let domainName: String?
+
+        public init(certificateArn: String? = nil, domainName: String? = nil) {
+            self.certificateArn = certificateArn
+            self.domainName = domainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
+            case domainName = "DomainName"
+        }
+    }
+
+    public struct ExportCertificateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateArn", required: true, type: .string), 
+            AWSShapeMember(label: "Passphrase", required: true, type: .blob)
+        ]
+        /// An Amazon Resource Name (ARN) of the issued certificate. This must be of the form:  arn:aws:acm:region:account:certificate/12345678-1234-1234-1234-123456789012 
+        public let certificateArn: String
+        /// Passphrase to associate with the encrypted exported private key. If you want to later decrypt the private key, you must have the passphrase. You can use the following OpenSSL command to decrypt a private key:   openssl rsa -in encrypted_key.pem -out decrypted_key.pem 
+        public let passphrase: Data
+
+        public init(certificateArn: String, passphrase: Data) {
+            self.certificateArn = certificateArn
+            self.passphrase = passphrase
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
+            case passphrase = "Passphrase"
+        }
+    }
+
+    public enum RenewalEligibility: String, CustomStringConvertible, Codable {
+        case eligible = "ELIGIBLE"
+        case ineligible = "INELIGIBLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct RenewalSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RenewalStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "DomainValidationOptions", required: true, type: .list)
+        ]
+        /// The status of ACM's managed renewal of the certificate.
+        public let renewalStatus: RenewalStatus
+        /// Contains information about the validation of each domain name in the certificate, as it pertains to ACM's managed renewal. This is different from the initial validation that occurs as a result of the RequestCertificate request. This field exists only when the certificate type is AMAZON_ISSUED.
+        public let domainValidationOptions: [DomainValidation]
+
+        public init(renewalStatus: RenewalStatus, domainValidationOptions: [DomainValidation]) {
+            self.renewalStatus = renewalStatus
+            self.domainValidationOptions = domainValidationOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case renewalStatus = "RenewalStatus"
+            case domainValidationOptions = "DomainValidationOptions"
+        }
+    }
+
+    public struct ListCertificatesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateSummaryList", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// A list of ACM certificates.
+        public let certificateSummaryList: [CertificateSummary]?
+        /// When the list is truncated, this value is present and contains the value to use for the NextToken parameter in a subsequent pagination request.
+        public let nextToken: String?
+
+        public init(certificateSummaryList: [CertificateSummary]? = nil, nextToken: String? = nil) {
+            self.certificateSummaryList = certificateSummaryList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateSummaryList = "CertificateSummaryList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct Filters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "keyUsage", required: false, type: .list), 
+            AWSShapeMember(label: "keyTypes", required: false, type: .list), 
+            AWSShapeMember(label: "extendedKeyUsage", required: false, type: .list)
+        ]
+        /// Specify one or more KeyUsage extension values.
+        public let keyUsage: [KeyUsageName]?
+        /// Specify one or more algorithms that can be used to generate key pairs.
+        public let keyTypes: [KeyAlgorithm]?
+        /// Specify one or more ExtendedKeyUsage extension values.
+        public let extendedKeyUsage: [ExtendedKeyUsageName]?
+
+        public init(keyUsage: [KeyUsageName]? = nil, keyTypes: [KeyAlgorithm]? = nil, extendedKeyUsage: [ExtendedKeyUsageName]? = nil) {
+            self.keyUsage = keyUsage
+            self.keyTypes = keyTypes
+            self.extendedKeyUsage = extendedKeyUsage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyUsage = "keyUsage"
+            case keyTypes = "keyTypes"
+            case extendedKeyUsage = "extendedKeyUsage"
+        }
+    }
+
+    public enum DomainStatus: String, CustomStringConvertible, Codable {
+        case pendingValidation = "PENDING_VALIDATION"
+        case success = "SUCCESS"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CertificateTransparencyLoggingPreference: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct RequestCertificateResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateArn", required: false, type: .string)
+        ]
+        /// String that contains the ARN of the issued certificate. This must be of the form:  arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012 
+        public let certificateArn: String?
+
+        public init(certificateArn: String? = nil) {
+            self.certificateArn = certificateArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
+        }
+    }
+
+    public enum RecordType: String, CustomStringConvertible, Codable {
+        case cname = "CNAME"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ResendValidationEmailRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateArn", required: true, type: .string), 
+            AWSShapeMember(label: "Domain", required: true, type: .string), 
+            AWSShapeMember(label: "ValidationDomain", required: true, type: .string)
+        ]
+        /// String that contains the ARN of the requested certificate. The certificate ARN is generated and returned by the RequestCertificate action as soon as the request is made. By default, using this parameter causes email to be sent to all top-level domains you specified in the certificate request. The ARN must be of the form:   arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012 
+        public let certificateArn: String
+        /// The fully qualified domain name (FQDN) of the certificate that needs to be validated.
+        public let domain: String
+        /// The base validation domain that will act as the suffix of the email addresses that are used to send the emails. This must be the same as the Domain value or a superdomain of the Domain value. For example, if you requested a certificate for site.subdomain.example.com and specify a ValidationDomain of subdomain.example.com, ACM sends email to the domain registrant, technical contact, and administrative contact in WHOIS and the following five addresses:   admin@subdomain.example.com   administrator@subdomain.example.com   hostmaster@subdomain.example.com   postmaster@subdomain.example.com   webmaster@subdomain.example.com  
+        public let validationDomain: String
+
+        public init(certificateArn: String, domain: String, validationDomain: String) {
+            self.certificateArn = certificateArn
+            self.domain = domain
+            self.validationDomain = validationDomain
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
+            case domain = "Domain"
+            case validationDomain = "ValidationDomain"
+        }
+    }
+
+    public enum RenewalStatus: String, CustomStringConvertible, Codable {
+        case pendingAutoRenewal = "PENDING_AUTO_RENEWAL"
+        case pendingValidation = "PENDING_VALIDATION"
+        case success = "SUCCESS"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListTagsForCertificateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateArn", required: true, type: .string)
+        ]
+        /// String that contains the ARN of the ACM certificate for which you want to list the tags. This must have the following form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces. 
+        public let certificateArn: String
+
+        public init(certificateArn: String) {
+            self.certificateArn = certificateArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
+        }
+    }
+
+    public struct DescribeCertificateResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Certificate", required: false, type: .structure)
+        ]
+        /// Metadata about an ACM certificate.
+        public let certificate: CertificateDetail?
+
+        public init(certificate: CertificateDetail? = nil) {
+            self.certificate = certificate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificate = "Certificate"
+        }
+    }
+
+    public struct ImportCertificateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Certificate", required: true, type: .blob), 
+            AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
+            AWSShapeMember(label: "CertificateChain", required: false, type: .blob), 
+            AWSShapeMember(label: "PrivateKey", required: true, type: .blob)
+        ]
+        /// The certificate to import.
+        public let certificate: Data
+        /// The Amazon Resource Name (ARN) of an imported certificate to replace. To import a new certificate, omit this field. 
+        public let certificateArn: String?
+        /// The PEM encoded certificate chain.
+        public let certificateChain: Data?
+        /// The private key that matches the public key in the certificate.
+        public let privateKey: Data
+
+        public init(certificate: Data, certificateArn: String? = nil, certificateChain: Data? = nil, privateKey: Data) {
+            self.certificate = certificate
+            self.certificateArn = certificateArn
+            self.certificateChain = certificateChain
+            self.privateKey = privateKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificate = "Certificate"
+            case certificateArn = "CertificateArn"
+            case certificateChain = "CertificateChain"
+            case privateKey = "PrivateKey"
+        }
+    }
+
+    public enum ExtendedKeyUsageName: String, CustomStringConvertible, Codable {
+        case tlsWebServerAuthentication = "TLS_WEB_SERVER_AUTHENTICATION"
+        case tlsWebClientAuthentication = "TLS_WEB_CLIENT_AUTHENTICATION"
+        case codeSigning = "CODE_SIGNING"
+        case emailProtection = "EMAIL_PROTECTION"
+        case timeStamping = "TIME_STAMPING"
+        case ocspSigning = "OCSP_SIGNING"
+        case ipsecEndSystem = "IPSEC_END_SYSTEM"
+        case ipsecTunnel = "IPSEC_TUNNEL"
+        case ipsecUser = "IPSEC_USER"
+        case any = "ANY"
+        case none = "NONE"
+        case custom = "CUSTOM"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetCertificateResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateChain", required: false, type: .string), 
+            AWSShapeMember(label: "Certificate", required: false, type: .string)
+        ]
+        /// The certificate chain that contains the root certificate issued by the certificate authority (CA).
+        public let certificateChain: String?
+        /// String that contains the ACM certificate represented by the ARN specified at input.
+        public let certificate: String?
+
+        public init(certificateChain: String? = nil, certificate: String? = nil) {
+            self.certificateChain = certificateChain
+            self.certificate = certificate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateChain = "CertificateChain"
+            case certificate = "Certificate"
         }
     }
 
@@ -810,19 +562,122 @@ extension ACM {
         }
     }
 
-    public enum RecordType: String, CustomStringConvertible, Codable {
-        case cname = "CNAME"
+    public enum RevocationReason: String, CustomStringConvertible, Codable {
+        case unspecified = "UNSPECIFIED"
+        case keyCompromise = "KEY_COMPROMISE"
+        case caCompromise = "CA_COMPROMISE"
+        case affiliationChanged = "AFFILIATION_CHANGED"
+        case superceded = "SUPERCEDED"
+        case cessationOfOperation = "CESSATION_OF_OPERATION"
+        case certificateHold = "CERTIFICATE_HOLD"
+        case removeFromCrl = "REMOVE_FROM_CRL"
+        case privilegeWithdrawn = "PRIVILEGE_WITHDRAWN"
+        case aACompromise = "A_A_COMPROMISE"
         public var description: String { return self.rawValue }
     }
 
-    public struct AddTagsToCertificateRequest: AWSShape {
+    public enum CertificateStatus: String, CustomStringConvertible, Codable {
+        case pendingValidation = "PENDING_VALIDATION"
+        case issued = "ISSUED"
+        case inactive = "INACTIVE"
+        case expired = "EXPIRED"
+        case validationTimedOut = "VALIDATION_TIMED_OUT"
+        case revoked = "REVOKED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DomainValidationOption: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ValidationDomain", required: true, type: .string), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
+        ]
+        /// The domain name that you want ACM to use to send you validation emails. This domain name is the suffix of the email addresses that you want ACM to use. This must be the same as the DomainName value or a superdomain of the DomainName value. For example, if you request a certificate for testing.example.com, you can specify example.com for this value. In that case, ACM sends domain validation emails to the following five addresses:   admin@example.com   administrator@example.com   hostmaster@example.com   postmaster@example.com   webmaster@example.com  
+        public let validationDomain: String
+        /// A fully qualified domain name (FQDN) in the certificate request.
+        public let domainName: String
+
+        public init(validationDomain: String, domainName: String) {
+            self.validationDomain = validationDomain
+            self.domainName = domainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case validationDomain = "ValidationDomain"
+            case domainName = "DomainName"
+        }
+    }
+
+    public enum KeyUsageName: String, CustomStringConvertible, Codable {
+        case digitalSignature = "DIGITAL_SIGNATURE"
+        case nonRepudiation = "NON_REPUDIATION"
+        case keyEncipherment = "KEY_ENCIPHERMENT"
+        case dataEncipherment = "DATA_ENCIPHERMENT"
+        case keyAgreement = "KEY_AGREEMENT"
+        case certificateSigning = "CERTIFICATE_SIGNING"
+        case crlSigning = "CRL_SIGNING"
+        case encipherOnly = "ENCIPHER_ONLY"
+        case decipherOnly = "DECIPHER_ONLY"
+        case any = "ANY"
+        case custom = "CUSTOM"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListTagsForCertificateResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+        /// The key-value pairs that define the applied tags.
+        public let tags: [Tag]?
+
+        public init(tags: [Tag]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
+    public struct ListCertificatesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateStatuses", required: false, type: .list), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
+            AWSShapeMember(label: "Includes", required: false, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Filter the certificate list by status value.
+        public let certificateStatuses: [CertificateStatus]?
+        /// Use this parameter when paginating results to specify the maximum number of items to return in the response. If additional items exist beyond the number you specify, the NextToken element is sent in the response. Use this NextToken value in a subsequent request to retrieve additional items.
+        public let maxItems: Int32?
+        /// Filter the certificate list. For more information, see the Filters structure.
+        public let includes: Filters?
+        /// Use this parameter only when paginating results and only in a subsequent request after you receive a response with truncated results. Set it to the value of NextToken from the response you just received.
+        public let nextToken: String?
+
+        public init(certificateStatuses: [CertificateStatus]? = nil, maxItems: Int32? = nil, includes: Filters? = nil, nextToken: String? = nil) {
+            self.certificateStatuses = certificateStatuses
+            self.maxItems = maxItems
+            self.includes = includes
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateStatuses = "CertificateStatuses"
+            case maxItems = "MaxItems"
+            case includes = "Includes"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct RemoveTagsFromCertificateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", required: true, type: .list), 
             AWSShapeMember(label: "CertificateArn", required: true, type: .string)
         ]
-        /// The key-value pair that defines the tag. The tag value is optional.
+        /// The key-value pair that defines the tag to remove.
         public let tags: [Tag]
-        /// String that contains the ARN of the ACM certificate to which the tag is to be applied. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces. 
+        /// String that contains the ARN of the ACM Certificate with one or more tags that you want to remove. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces. 
         public let certificateArn: String
 
         public init(tags: [Tag], certificateArn: String) {
@@ -836,84 +691,229 @@ extension ACM {
         }
     }
 
-    public enum CertificateType: String, CustomStringConvertible, Codable {
-        case imported = "IMPORTED"
-        case amazonIssued = "AMAZON_ISSUED"
-        case `private` = "PRIVATE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CertificateOptions: AWSShape {
+    public struct CertificateDetail: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateTransparencyLoggingPreference", required: false, type: .enum)
+            AWSShapeMember(label: "KeyAlgorithm", required: false, type: .enum), 
+            AWSShapeMember(label: "SubjectAlternativeNames", required: false, type: .list), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "IssuedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SignatureAlgorithm", required: false, type: .string), 
+            AWSShapeMember(label: "RevocationReason", required: false, type: .enum), 
+            AWSShapeMember(label: "Issuer", required: false, type: .string), 
+            AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
+            AWSShapeMember(label: "Serial", required: false, type: .string), 
+            AWSShapeMember(label: "NotAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Subject", required: false, type: .string), 
+            AWSShapeMember(label: "InUseBy", required: false, type: .list), 
+            AWSShapeMember(label: "ImportedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "KeyUsages", required: false, type: .list), 
+            AWSShapeMember(label: "NotBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "RenewalEligibility", required: false, type: .enum), 
+            AWSShapeMember(label: "RenewalSummary", required: false, type: .structure), 
+            AWSShapeMember(label: "Options", required: false, type: .structure), 
+            AWSShapeMember(label: "FailureReason", required: false, type: .enum), 
+            AWSShapeMember(label: "RevokedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ExtendedKeyUsages", required: false, type: .list), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DomainName", required: false, type: .string), 
+            AWSShapeMember(label: "DomainValidationOptions", required: false, type: .list), 
+            AWSShapeMember(label: "CertificateAuthorityArn", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
-        /// You can opt out of certificate transparency logging by specifying the DISABLED option. Opt in by specifying ENABLED. 
-        public let certificateTransparencyLoggingPreference: CertificateTransparencyLoggingPreference?
+        /// The algorithm that was used to generate the public-private key pair.
+        public let keyAlgorithm: KeyAlgorithm?
+        /// One or more domain names (subject alternative names) included in the certificate. This list contains the domain names that are bound to the public key that is contained in the certificate. The subject alternative names include the canonical domain name (CN) of the certificate and additional domain names that can be used to connect to the website. 
+        public let subjectAlternativeNames: [String]?
+        /// The status of the certificate.
+        public let status: CertificateStatus?
+        /// The time at which the certificate was issued. This value exists only when the certificate type is AMAZON_ISSUED. 
+        public let issuedAt: TimeStamp?
+        /// The algorithm that was used to sign the certificate.
+        public let signatureAlgorithm: String?
+        /// The reason the certificate was revoked. This value exists only when the certificate status is REVOKED. 
+        public let revocationReason: RevocationReason?
+        /// The name of the certificate authority that issued and signed the certificate.
+        public let issuer: String?
+        /// The Amazon Resource Name (ARN) of the certificate. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        public let certificateArn: String?
+        /// The serial number of the certificate.
+        public let serial: String?
+        /// The time after which the certificate is not valid.
+        public let notAfter: TimeStamp?
+        /// The name of the entity that is associated with the public key contained in the certificate.
+        public let subject: String?
+        /// A list of ARNs for the AWS resources that are using the certificate. A certificate can be used by multiple AWS resources. 
+        public let inUseBy: [String]?
+        /// The date and time at which the certificate was imported. This value exists only when the certificate type is IMPORTED. 
+        public let importedAt: TimeStamp?
+        /// A list of Key Usage X.509 v3 extension objects. Each object is a string value that identifies the purpose of the public key contained in the certificate. Possible extension values include DIGITAL_SIGNATURE, KEY_ENCHIPHERMENT, NON_REPUDIATION, and more.
+        public let keyUsages: [KeyUsage]?
+        /// The time before which the certificate is not valid.
+        public let notBefore: TimeStamp?
+        /// Specifies whether the certificate is eligible for renewal.
+        public let renewalEligibility: RenewalEligibility?
+        /// Contains information about the status of ACM's managed renewal for the certificate. This field exists only when the certificate type is AMAZON_ISSUED.
+        public let renewalSummary: RenewalSummary?
+        /// Value that specifies whether to add the certificate to a transparency log. Certificate transparency makes it possible to detect SSL certificates that have been mistakenly or maliciously issued. A browser might respond to certificate that has not been logged by showing an error message. The logs are cryptographically secure. 
+        public let options: CertificateOptions?
+        /// The reason the certificate request failed. This value exists only when the certificate status is FAILED. For more information, see Certificate Request Failed in the AWS Certificate Manager User Guide. 
+        public let failureReason: FailureReason?
+        /// The time at which the certificate was revoked. This value exists only when the certificate status is REVOKED. 
+        public let revokedAt: TimeStamp?
+        /// Contains a list of Extended Key Usage X.509 v3 extension objects. Each object specifies a purpose for which the certificate public key can be used and consists of a name and an object identifier (OID). 
+        public let extendedKeyUsages: [ExtendedKeyUsage]?
+        /// The time at which the certificate was requested. This value exists only when the certificate type is AMAZON_ISSUED. 
+        public let createdAt: TimeStamp?
+        /// The fully qualified domain name for the certificate, such as www.example.com or example.com.
+        public let domainName: String?
+        /// Contains information about the initial validation of each domain name that occurs as a result of the RequestCertificate request. This field exists only when the certificate type is AMAZON_ISSUED. 
+        public let domainValidationOptions: [DomainValidation]?
+        /// The Amazon Resource Name (ARN) of the ACM PCA private certificate authority (CA) that issued the certificate. This has the following format:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 
+        public let certificateAuthorityArn: String?
+        /// The source of the certificate. For certificates provided by ACM, this value is AMAZON_ISSUED. For certificates that you imported with ImportCertificate, this value is IMPORTED. ACM does not provide managed renewal for imported certificates. For more information about the differences between certificates that you import and those that ACM provides, see Importing Certificates in the AWS Certificate Manager User Guide. 
+        public let `type`: CertificateType?
 
-        public init(certificateTransparencyLoggingPreference: CertificateTransparencyLoggingPreference? = nil) {
-            self.certificateTransparencyLoggingPreference = certificateTransparencyLoggingPreference
+        public init(keyAlgorithm: KeyAlgorithm? = nil, subjectAlternativeNames: [String]? = nil, status: CertificateStatus? = nil, issuedAt: TimeStamp? = nil, signatureAlgorithm: String? = nil, revocationReason: RevocationReason? = nil, issuer: String? = nil, certificateArn: String? = nil, serial: String? = nil, notAfter: TimeStamp? = nil, subject: String? = nil, inUseBy: [String]? = nil, importedAt: TimeStamp? = nil, keyUsages: [KeyUsage]? = nil, notBefore: TimeStamp? = nil, renewalEligibility: RenewalEligibility? = nil, renewalSummary: RenewalSummary? = nil, options: CertificateOptions? = nil, failureReason: FailureReason? = nil, revokedAt: TimeStamp? = nil, extendedKeyUsages: [ExtendedKeyUsage]? = nil, createdAt: TimeStamp? = nil, domainName: String? = nil, domainValidationOptions: [DomainValidation]? = nil, certificateAuthorityArn: String? = nil, type: CertificateType? = nil) {
+            self.keyAlgorithm = keyAlgorithm
+            self.subjectAlternativeNames = subjectAlternativeNames
+            self.status = status
+            self.issuedAt = issuedAt
+            self.signatureAlgorithm = signatureAlgorithm
+            self.revocationReason = revocationReason
+            self.issuer = issuer
+            self.certificateArn = certificateArn
+            self.serial = serial
+            self.notAfter = notAfter
+            self.subject = subject
+            self.inUseBy = inUseBy
+            self.importedAt = importedAt
+            self.keyUsages = keyUsages
+            self.notBefore = notBefore
+            self.renewalEligibility = renewalEligibility
+            self.renewalSummary = renewalSummary
+            self.options = options
+            self.failureReason = failureReason
+            self.revokedAt = revokedAt
+            self.extendedKeyUsages = extendedKeyUsages
+            self.createdAt = createdAt
+            self.domainName = domainName
+            self.domainValidationOptions = domainValidationOptions
+            self.certificateAuthorityArn = certificateAuthorityArn
+            self.`type` = `type`
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateTransparencyLoggingPreference = "CertificateTransparencyLoggingPreference"
+            case keyAlgorithm = "KeyAlgorithm"
+            case subjectAlternativeNames = "SubjectAlternativeNames"
+            case status = "Status"
+            case issuedAt = "IssuedAt"
+            case signatureAlgorithm = "SignatureAlgorithm"
+            case revocationReason = "RevocationReason"
+            case issuer = "Issuer"
+            case certificateArn = "CertificateArn"
+            case serial = "Serial"
+            case notAfter = "NotAfter"
+            case subject = "Subject"
+            case inUseBy = "InUseBy"
+            case importedAt = "ImportedAt"
+            case keyUsages = "KeyUsages"
+            case notBefore = "NotBefore"
+            case renewalEligibility = "RenewalEligibility"
+            case renewalSummary = "RenewalSummary"
+            case options = "Options"
+            case failureReason = "FailureReason"
+            case revokedAt = "RevokedAt"
+            case extendedKeyUsages = "ExtendedKeyUsages"
+            case createdAt = "CreatedAt"
+            case domainName = "DomainName"
+            case domainValidationOptions = "DomainValidationOptions"
+            case certificateAuthorityArn = "CertificateAuthorityArn"
+            case `type` = "Type"
         }
     }
 
-    public struct RenewalSummary: AWSShape {
+    public struct DeleteCertificateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RenewalStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "DomainValidationOptions", required: true, type: .list)
+            AWSShapeMember(label: "CertificateArn", required: true, type: .string)
         ]
-        /// The status of ACM's managed renewal of the certificate.
-        public let renewalStatus: RenewalStatus
-        /// Contains information about the validation of each domain name in the certificate, as it pertains to ACM's managed renewal. This is different from the initial validation that occurs as a result of the RequestCertificate request. This field exists only when the certificate type is AMAZON_ISSUED.
-        public let domainValidationOptions: [DomainValidation]
+        /// String that contains the ARN of the ACM certificate to be deleted. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        public let certificateArn: String
 
-        public init(renewalStatus: RenewalStatus, domainValidationOptions: [DomainValidation]) {
-            self.renewalStatus = renewalStatus
+        public init(certificateArn: String) {
+            self.certificateArn = certificateArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
+        }
+    }
+
+    public struct RequestCertificateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubjectAlternativeNames", required: false, type: .list), 
+            AWSShapeMember(label: "Options", required: false, type: .structure), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "ValidationMethod", required: false, type: .enum), 
+            AWSShapeMember(label: "IdempotencyToken", required: false, type: .string), 
+            AWSShapeMember(label: "CertificateAuthorityArn", required: false, type: .string), 
+            AWSShapeMember(label: "DomainValidationOptions", required: false, type: .list)
+        ]
+        /// Additional FQDNs to be included in the Subject Alternative Name extension of the ACM certificate. For example, add the name www.example.net to a certificate for which the DomainName field is www.example.com if users can reach your site by using either name. The maximum number of domain names that you can add to an ACM certificate is 100. However, the initial limit is 10 domain names. If you need more than 10 names, you must request a limit increase. For more information, see Limits.  The maximum length of a SAN DNS name is 253 octets. The name is made up of multiple labels separated by periods. No label can be longer than 63 octets. Consider the following examples:     (63 octets).(63 octets).(63 octets).(61 octets) is legal because the total length is 253 octets (63+1+63+1+63+1+61) and no label exceeds 63 octets.    (64 octets).(63 octets).(63 octets).(61 octets) is not legal because the total length exceeds 253 octets (64+1+63+1+63+1+61) and the first label exceeds 63 octets.    (63 octets).(63 octets).(63 octets).(62 octets) is not legal because the total length of the DNS name (63+1+63+1+63+1+62) exceeds 253 octets.  
+        public let subjectAlternativeNames: [String]?
+        /// Currently, you can use this parameter to specify whether to add the certificate to a certificate transparency log. Certificate transparency makes it possible to detect SSL/TLS certificates that have been mistakenly or maliciously issued. Certificates that have not been logged typically produce an error message in a browser. For more information, see Opting Out of Certificate Transparency Logging.
+        public let options: CertificateOptions?
+        ///  Fully qualified domain name (FQDN), such as www.example.com, that you want to secure with an ACM certificate. Use an asterisk (*) to create a wildcard certificate that protects several sites in the same domain. For example, *.example.com protects www.example.com, site.example.com, and images.example.com.   The first domain name you enter cannot exceed 63 octets, including periods. Each subsequent Subject Alternative Name (SAN), however, can be up to 253 octets in length. 
+        public let domainName: String
+        /// The method you want to use if you are requesting a public certificate to validate that you own or control domain. You can validate with DNS or validate with email. We recommend that you use DNS validation. 
+        public let validationMethod: ValidationMethod?
+        /// Customer chosen string that can be used to distinguish between calls to RequestCertificate. Idempotency tokens time out after one hour. Therefore, if you call RequestCertificate multiple times with the same idempotency token within one hour, ACM recognizes that you are requesting only one certificate and will issue only one. If you change the idempotency token for each call, ACM recognizes that you are requesting multiple certificates.
+        public let idempotencyToken: String?
+        /// The Amazon Resource Name (ARN) of the private certificate authority (CA) that will be used to issue the certificate. If you do not provide an ARN and you are trying to request a private certificate, ACM will attempt to issue a public certificate. For more information about private CAs, see the AWS Certificate Manager Private Certificate Authority (PCA) user guide. The ARN must have the following form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 
+        public let certificateAuthorityArn: String?
+        /// The domain name that you want ACM to use to send you emails so that you can validate domain ownership.
+        public let domainValidationOptions: [DomainValidationOption]?
+
+        public init(subjectAlternativeNames: [String]? = nil, options: CertificateOptions? = nil, domainName: String, validationMethod: ValidationMethod? = nil, idempotencyToken: String? = nil, certificateAuthorityArn: String? = nil, domainValidationOptions: [DomainValidationOption]? = nil) {
+            self.subjectAlternativeNames = subjectAlternativeNames
+            self.options = options
+            self.domainName = domainName
+            self.validationMethod = validationMethod
+            self.idempotencyToken = idempotencyToken
+            self.certificateAuthorityArn = certificateAuthorityArn
             self.domainValidationOptions = domainValidationOptions
         }
 
         private enum CodingKeys: String, CodingKey {
-            case renewalStatus = "RenewalStatus"
+            case subjectAlternativeNames = "SubjectAlternativeNames"
+            case options = "Options"
+            case domainName = "DomainName"
+            case validationMethod = "ValidationMethod"
+            case idempotencyToken = "IdempotencyToken"
+            case certificateAuthorityArn = "CertificateAuthorityArn"
             case domainValidationOptions = "DomainValidationOptions"
         }
     }
 
-    public struct GetCertificateResponse: AWSShape {
+    public struct KeyUsage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateChain", required: false, type: .string), 
-            AWSShapeMember(label: "Certificate", required: false, type: .string)
+            AWSShapeMember(label: "Name", required: false, type: .enum)
         ]
-        /// The certificate chain that contains the root certificate issued by the certificate authority (CA).
-        public let certificateChain: String?
-        /// String that contains the ACM certificate represented by the ARN specified at input.
-        public let certificate: String?
+        /// A string value that contains a Key Usage extension name.
+        public let name: KeyUsageName?
 
-        public init(certificateChain: String? = nil, certificate: String? = nil) {
-            self.certificateChain = certificateChain
-            self.certificate = certificate
+        public init(name: KeyUsageName? = nil) {
+            self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateChain = "CertificateChain"
-            case certificate = "Certificate"
+            case name = "Name"
         }
     }
 
-    public enum KeyAlgorithm: String, CustomStringConvertible, Codable {
-        case rsa2048 = "RSA_2048"
-        case rsa1024 = "RSA_1024"
-        case rsa4096 = "RSA_4096"
-        case ecPrime256V1 = "EC_prime256v1"
-        case ecSecp384R1 = "EC_secp384r1"
-        case ecSecp521R1 = "EC_secp521r1"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ValidationMethod: String, CustomStringConvertible, Codable {
-        case email = "EMAIL"
-        case dns = "DNS"
+    public enum CertificateType: String, CustomStringConvertible, Codable {
+        case imported = "IMPORTED"
+        case amazonIssued = "AMAZON_ISSUED"
+        case `private` = "PRIVATE"
         public var description: String { return self.rawValue }
     }
 

@@ -5,340 +5,182 @@ import AWSSDKSwiftCore
 
 extension LexModelBuildingService {
 
-    public struct GetIntentRequest: AWSShape {
+    public struct GetBotChannelAssociationResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "version", location: .uri(locationName: "version"), required: true, type: .string), 
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
+            AWSShapeMember(label: "botConfiguration", required: false, type: .map), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "type", required: false, type: .enum), 
+            AWSShapeMember(label: "botName", required: false, type: .string), 
+            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "botAlias", required: false, type: .string), 
+            AWSShapeMember(label: "failureReason", required: false, type: .string)
         ]
-        /// The version of the intent.
-        public let version: String
-        /// The name of the intent. The name is case sensitive. 
-        public let name: String
+        /// Provides information that the messaging platform needs to communicate with the Amazon Lex bot.
+        public let botConfiguration: [String: String]?
+        /// The name of the association between the bot and the channel.
+        public let name: String?
+        /// A description of the association between the bot and the channel.
+        public let description: String?
+        /// The type of the messaging platform.
+        public let `type`: ChannelType?
+        /// The name of the Amazon Lex bot.
+        public let botName: String?
+        /// The date that the association between the bot and the channel was created.
+        public let createdDate: TimeStamp?
+        /// The status of the bot channel.     CREATED - The channel has been created and is ready for use.    IN_PROGRESS - Channel creation is in progress.    FAILED - There was an error creating the channel. For information about the reason for the failure, see the failureReason field.  
+        public let status: ChannelStatus?
+        /// An alias pointing to the specific version of the Amazon Lex bot to which this association is being made.
+        public let botAlias: String?
+        /// If status is FAILED, Amazon Lex provides the reason that it failed to create the association.
+        public let failureReason: String?
 
-        public init(version: String, name: String) {
-            self.version = version
+        public init(botConfiguration: [String: String]? = nil, name: String? = nil, description: String? = nil, type: ChannelType? = nil, botName: String? = nil, createdDate: TimeStamp? = nil, status: ChannelStatus? = nil, botAlias: String? = nil, failureReason: String? = nil) {
+            self.botConfiguration = botConfiguration
             self.name = name
+            self.description = description
+            self.`type` = `type`
+            self.botName = botName
+            self.createdDate = createdDate
+            self.status = status
+            self.botAlias = botAlias
+            self.failureReason = failureReason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case version = "version"
+            case botConfiguration = "botConfiguration"
             case name = "name"
+            case description = "description"
+            case `type` = "type"
+            case botName = "botName"
+            case createdDate = "createdDate"
+            case status = "status"
+            case botAlias = "botAlias"
+            case failureReason = "failureReason"
         }
     }
 
-    public struct Slot: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "responseCard", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "priority", required: false, type: .integer), 
-            AWSShapeMember(label: "slotType", required: false, type: .string), 
-            AWSShapeMember(label: "slotConstraint", required: true, type: .enum), 
-            AWSShapeMember(label: "sampleUtterances", required: false, type: .list), 
-            AWSShapeMember(label: "valueElicitationPrompt", required: false, type: .structure), 
-            AWSShapeMember(label: "slotTypeVersion", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string)
-        ]
-        ///  A set of possible responses for the slot type used by text-based clients. A user chooses an option from the response card, instead of using text to reply. 
-        public let responseCard: String?
-        /// The name of the slot.
-        public let name: String
-        ///  Directs Lex the order in which to elicit this slot value from the user. For example, if the intent has two slots with priorities 1 and 2, AWS Lex first elicits a value for the slot with priority 1. If multiple slots share the same priority, the order in which Lex elicits values is arbitrary.
-        public let priority: Int32?
-        /// The type of the slot, either a custom slot type that you defined or one of the built-in slot types.
-        public let slotType: String?
-        /// Specifies whether the slot is required or optional. 
-        public let slotConstraint: SlotConstraint
-        ///  If you know a specific pattern with which users might respond to an Amazon Lex request for a slot value, you can provide those utterances to improve accuracy. This is optional. In most cases, Amazon Lex is capable of understanding user utterances. 
-        public let sampleUtterances: [String]?
-        /// The prompt that Amazon Lex uses to elicit the slot value from the user.
-        public let valueElicitationPrompt: Prompt?
-        /// The version of the slot type.
-        public let slotTypeVersion: String?
-        /// A description of the slot.
-        public let description: String?
-
-        public init(responseCard: String? = nil, name: String, priority: Int32? = nil, slotType: String? = nil, slotConstraint: SlotConstraint, sampleUtterances: [String]? = nil, valueElicitationPrompt: Prompt? = nil, slotTypeVersion: String? = nil, description: String? = nil) {
-            self.responseCard = responseCard
-            self.name = name
-            self.priority = priority
-            self.slotType = slotType
-            self.slotConstraint = slotConstraint
-            self.sampleUtterances = sampleUtterances
-            self.valueElicitationPrompt = valueElicitationPrompt
-            self.slotTypeVersion = slotTypeVersion
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case responseCard = "responseCard"
-            case name = "name"
-            case priority = "priority"
-            case slotType = "slotType"
-            case slotConstraint = "slotConstraint"
-            case sampleUtterances = "sampleUtterances"
-            case valueElicitationPrompt = "valueElicitationPrompt"
-            case slotTypeVersion = "slotTypeVersion"
-            case description = "description"
-        }
+    public enum ContentType: String, CustomStringConvertible, Codable {
+        case plaintext = "PlainText"
+        case ssml = "SSML"
+        case custompayload = "CustomPayload"
+        public var description: String { return self.rawValue }
     }
 
     public struct GetBuiltinIntentsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "signatureContains", location: .querystring(locationName: "signatureContains"), required: false, type: .string), 
+            AWSShapeMember(label: "locale", location: .querystring(locationName: "locale"), required: false, type: .enum), 
             AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "locale", location: .querystring(locationName: "locale"), required: false, type: .enum)
+            AWSShapeMember(label: "signatureContains", location: .querystring(locationName: "signatureContains"), required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
         ]
-        /// The maximum number of intents to return in the response. The default is 10.
-        public let maxResults: Int32?
-        /// Substring to match in built-in intent signatures. An intent will be returned if any part of its signature matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz." To find the signature for an intent, see Standard Built-in Intents in the Alexa Skills Kit.
-        public let signatureContains: String?
-        /// A pagination token that fetches the next page of intents. If this API call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of intents, use the pagination token in the next request.
-        public let nextToken: String?
         /// A list of locales that the intent supports.
         public let locale: Locale?
-
-        public init(maxResults: Int32? = nil, signatureContains: String? = nil, nextToken: String? = nil, locale: Locale? = nil) {
-            self.maxResults = maxResults
-            self.signatureContains = signatureContains
-            self.nextToken = nextToken
-            self.locale = locale
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case signatureContains = "signatureContains"
-            case nextToken = "nextToken"
-            case locale = "locale"
-        }
-    }
-
-    public struct GetIntentsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nameContains", location: .querystring(locationName: "nameContains"), required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
-        ]
-        /// Substring to match in intent names. An intent will be returned if any part of its name matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz."
-        public let nameContains: String?
+        /// A pagination token that fetches the next page of intents. If this API call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of intents, use the pagination token in the next request.
+        public let nextToken: String?
+        /// Substring to match in built-in intent signatures. An intent will be returned if any part of its signature matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz." To find the signature for an intent, see Standard Built-in Intents in the Alexa Skills Kit.
+        public let signatureContains: String?
         /// The maximum number of intents to return in the response. The default is 10.
         public let maxResults: Int32?
-        /// A pagination token that fetches the next page of intents. If the response to this API call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of intents, specify the pagination token in the next request. 
-        public let nextToken: String?
 
-        public init(nameContains: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.nameContains = nameContains
-            self.maxResults = maxResults
+        public init(locale: Locale? = nil, nextToken: String? = nil, signatureContains: String? = nil, maxResults: Int32? = nil) {
+            self.locale = locale
             self.nextToken = nextToken
+            self.signatureContains = signatureContains
+            self.maxResults = maxResults
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nameContains = "nameContains"
-            case maxResults = "maxResults"
+            case locale = "locale"
             case nextToken = "nextToken"
+            case signatureContains = "signatureContains"
+            case maxResults = "maxResults"
         }
     }
 
-    public struct GetUtterancesViewRequest: AWSShape {
+    public struct DeleteUtterancesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "botName", location: .uri(locationName: "botname"), required: true, type: .string), 
-            AWSShapeMember(label: "botVersions", location: .querystring(locationName: "bot_versions"), required: true, type: .list), 
-            AWSShapeMember(label: "statusType", location: .querystring(locationName: "status_type"), required: true, type: .enum)
+            AWSShapeMember(label: "userId", location: .uri(locationName: "userId"), required: true, type: .string), 
+            AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string)
         ]
-        /// The name of the bot for which utterance information should be returned.
+        ///  The unique identifier for the user that made the utterances. This is the user ID that was sent in the PostContent or PostText operation request that contained the utterance.
+        public let userId: String
+        /// The name of the bot that stored the utterances.
         public let botName: String
-        /// An array of bot versions for which utterance information should be returned. The limit is 5 versions per request.
-        public let botVersions: [String]
-        /// To return utterances that were recognized and handled, useDetected. To return utterances that were not recognized, use Missed.
-        public let statusType: StatusType
 
-        public init(botName: String, botVersions: [String], statusType: StatusType) {
+        public init(userId: String, botName: String) {
+            self.userId = userId
             self.botName = botName
-            self.botVersions = botVersions
-            self.statusType = statusType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botName = "botname"
-            case botVersions = "bot_versions"
-            case statusType = "status_type"
+            case userId = "userId"
+            case botName = "botName"
         }
     }
 
     public struct GetBotAliasesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string), 
+            AWSShapeMember(label: "nameContains", location: .querystring(locationName: "nameContains"), required: false, type: .string), 
             AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "nameContains", location: .querystring(locationName: "nameContains"), required: false, type: .string)
+            AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
         ]
-        /// The maximum number of aliases to return in the response. The default is 50. . 
-        public let maxResults: Int32?
-        /// The name of the bot.
-        public let botName: String
-        /// A pagination token for fetching the next page of aliases. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of aliases, specify the pagination token in the next request. 
-        public let nextToken: String?
         /// Substring to match in bot alias names. An alias will be returned if any part of its name matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz."
         public let nameContains: String?
-
-        public init(maxResults: Int32? = nil, botName: String, nextToken: String? = nil, nameContains: String? = nil) {
-            self.maxResults = maxResults
-            self.botName = botName
-            self.nextToken = nextToken
-            self.nameContains = nameContains
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case botName = "botName"
-            case nextToken = "nextToken"
-            case nameContains = "nameContains"
-        }
-    }
-
-    public struct GetBotAliasResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "checksum", required: false, type: .string), 
-            AWSShapeMember(label: "botName", required: false, type: .string), 
-            AWSShapeMember(label: "botVersion", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp)
-        ]
-        /// The name of the bot alias.
-        public let name: String?
-        /// Checksum of the bot alias.
-        public let checksum: String?
-        /// The name of the bot that the alias points to.
-        public let botName: String?
-        /// The version of the bot that the alias points to.
-        public let botVersion: String?
-        /// A description of the bot alias.
-        public let description: String?
-        /// The date that the bot alias was updated. When you create a resource, the creation date and the last updated date are the same.
-        public let lastUpdatedDate: TimeStamp?
-        /// The date that the bot alias was created.
-        public let createdDate: TimeStamp?
-
-        public init(name: String? = nil, checksum: String? = nil, botName: String? = nil, botVersion: String? = nil, description: String? = nil, lastUpdatedDate: TimeStamp? = nil, createdDate: TimeStamp? = nil) {
-            self.name = name
-            self.checksum = checksum
-            self.botName = botName
-            self.botVersion = botVersion
-            self.description = description
-            self.lastUpdatedDate = lastUpdatedDate
-            self.createdDate = createdDate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case checksum = "checksum"
-            case botName = "botName"
-            case botVersion = "botVersion"
-            case description = "description"
-            case lastUpdatedDate = "lastUpdatedDate"
-            case createdDate = "createdDate"
-        }
-    }
-
-    public enum FulfillmentActivityType: String, CustomStringConvertible, Codable {
-        case returnintent = "ReturnIntent"
-        case codehook = "CodeHook"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetBuiltinSlotTypesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "slotTypes", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// An array of BuiltInSlotTypeMetadata objects, one entry for each slot type returned.
-        public let slotTypes: [BuiltinSlotTypeMetadata]?
-        /// If the response is truncated, the response includes a pagination token that you can use in your next request to fetch the next page of slot types.
+        /// A pagination token for fetching the next page of aliases. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of aliases, specify the pagination token in the next request. 
         public let nextToken: String?
-
-        public init(slotTypes: [BuiltinSlotTypeMetadata]? = nil, nextToken: String? = nil) {
-            self.slotTypes = slotTypes
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case slotTypes = "slotTypes"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct BotMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "version", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string)
-        ]
-        /// The date that the bot was updated. When you create a bot, the creation date and last updated date are the same. 
-        public let lastUpdatedDate: TimeStamp?
-        /// The date that the bot was created.
-        public let createdDate: TimeStamp?
-        /// The status of the bot.
-        public let status: Status?
-        /// The version of the bot. For a new bot, the version is always $LATEST.
-        public let version: String?
-        /// The name of the bot. 
-        public let name: String?
-        /// A description of the bot.
-        public let description: String?
-
-        public init(lastUpdatedDate: TimeStamp? = nil, createdDate: TimeStamp? = nil, status: Status? = nil, version: String? = nil, name: String? = nil, description: String? = nil) {
-            self.lastUpdatedDate = lastUpdatedDate
-            self.createdDate = createdDate
-            self.status = status
-            self.version = version
-            self.name = name
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lastUpdatedDate = "lastUpdatedDate"
-            case createdDate = "createdDate"
-            case status = "status"
-            case version = "version"
-            case name = "name"
-            case description = "description"
-        }
-    }
-
-    public struct GetBuiltinSlotTypesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "signatureContains", location: .querystring(locationName: "signatureContains"), required: false, type: .string), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "locale", location: .querystring(locationName: "locale"), required: false, type: .enum)
-        ]
-        /// The maximum number of slot types to return in the response. The default is 10.
+        /// The name of the bot.
+        public let botName: String
+        /// The maximum number of aliases to return in the response. The default is 50. . 
         public let maxResults: Int32?
-        /// Substring to match in built-in slot type signatures. A slot type will be returned if any part of its signature matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz."
-        public let signatureContains: String?
-        /// A pagination token that fetches the next page of slot types. If the response to this API call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of slot types, specify the pagination token in the next request.
-        public let nextToken: String?
-        /// A list of locales that the slot type supports.
-        public let locale: Locale?
 
-        public init(maxResults: Int32? = nil, signatureContains: String? = nil, nextToken: String? = nil, locale: Locale? = nil) {
-            self.maxResults = maxResults
-            self.signatureContains = signatureContains
+        public init(nameContains: String? = nil, nextToken: String? = nil, botName: String, maxResults: Int32? = nil) {
+            self.nameContains = nameContains
             self.nextToken = nextToken
-            self.locale = locale
+            self.botName = botName
+            self.maxResults = maxResults
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case signatureContains = "signatureContains"
+            case nameContains = "nameContains"
             case nextToken = "nextToken"
-            case locale = "locale"
+            case botName = "botName"
+            case maxResults = "maxResults"
         }
+    }
+
+    public struct GetBuiltinIntentResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "signature", required: false, type: .string), 
+            AWSShapeMember(label: "slots", required: false, type: .list), 
+            AWSShapeMember(label: "supportedLocales", required: false, type: .list)
+        ]
+        /// The unique identifier for a built-in intent.
+        public let signature: String?
+        /// An array of BuiltinIntentSlot objects, one entry for each slot type in the intent.
+        public let slots: [BuiltinIntentSlot]?
+        /// A list of locales that the intent supports.
+        public let supportedLocales: [Locale]?
+
+        public init(signature: String? = nil, slots: [BuiltinIntentSlot]? = nil, supportedLocales: [Locale]? = nil) {
+            self.signature = signature
+            self.slots = slots
+            self.supportedLocales = supportedLocales
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case signature = "signature"
+            case slots = "slots"
+            case supportedLocales = "supportedLocales"
+        }
+    }
+
+    public enum MergeStrategy: String, CustomStringConvertible, Codable {
+        case overwriteLatest = "OVERWRITE_LATEST"
+        case failOnConflict = "FAIL_ON_CONFLICT"
+        public var description: String { return self.rawValue }
     }
 
     public struct GetUtterancesViewResponse: AWSShape {
@@ -362,162 +204,57 @@ extension LexModelBuildingService {
         }
     }
 
-    public enum ExportStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
-        case ready = "READY"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ImportStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
-        case complete = "COMPLETE"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteUtterancesRequest: AWSShape {
+    public struct GetExportResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string), 
-            AWSShapeMember(label: "userId", location: .uri(locationName: "userId"), required: true, type: .string)
-        ]
-        /// The name of the bot that stored the utterances.
-        public let botName: String
-        ///  The unique identifier for the user that made the utterances. This is the user ID that was sent in the PostContent or PostText operation request that contained the utterance.
-        public let userId: String
-
-        public init(botName: String, userId: String) {
-            self.botName = botName
-            self.userId = userId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case botName = "botName"
-            case userId = "userId"
-        }
-    }
-
-    public struct GetBuiltinIntentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "slots", required: false, type: .list), 
-            AWSShapeMember(label: "signature", required: false, type: .string), 
-            AWSShapeMember(label: "supportedLocales", required: false, type: .list)
-        ]
-        /// An array of BuiltinIntentSlot objects, one entry for each slot type in the intent.
-        public let slots: [BuiltinIntentSlot]?
-        /// The unique identifier for a built-in intent.
-        public let signature: String?
-        /// A list of locales that the intent supports.
-        public let supportedLocales: [Locale]?
-
-        public init(slots: [BuiltinIntentSlot]? = nil, signature: String? = nil, supportedLocales: [Locale]? = nil) {
-            self.slots = slots
-            self.signature = signature
-            self.supportedLocales = supportedLocales
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case slots = "slots"
-            case signature = "signature"
-            case supportedLocales = "supportedLocales"
-        }
-    }
-
-    public struct PutIntentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "dialogCodeHook", required: false, type: .structure), 
-            AWSShapeMember(label: "rejectionStatement", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "parentIntentSignature", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "conclusionStatement", required: false, type: .structure), 
-            AWSShapeMember(label: "fulfillmentActivity", required: false, type: .structure), 
-            AWSShapeMember(label: "slots", required: false, type: .list), 
-            AWSShapeMember(label: "confirmationPrompt", required: false, type: .structure), 
-            AWSShapeMember(label: "sampleUtterances", required: false, type: .list), 
-            AWSShapeMember(label: "checksum", required: false, type: .string), 
-            AWSShapeMember(label: "followUpPrompt", required: false, type: .structure), 
             AWSShapeMember(label: "version", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "createVersion", required: false, type: .boolean), 
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp)
+            AWSShapeMember(label: "exportStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "url", required: false, type: .string), 
+            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "exportType", required: false, type: .enum), 
+            AWSShapeMember(label: "failureReason", required: false, type: .string)
         ]
-        /// If defined in the intent, Amazon Lex invokes this Lambda function for each user input.
-        public let dialogCodeHook: CodeHook?
-        /// If the user answers "no" to the question defined in confirmationPrompt Amazon Lex responds with this statement to acknowledge that the intent was canceled. 
-        public let rejectionStatement: Statement?
-        /// The name of the intent.
-        public let name: String?
-        /// A unique identifier for the built-in intent that this intent is based on.
-        public let parentIntentSignature: String?
-        /// A description of the intent.
-        public let description: String?
-        /// After the Lambda function specified in thefulfillmentActivityintent fulfills the intent, Amazon Lex conveys this statement to the user.
-        public let conclusionStatement: Statement?
-        /// If defined in the intent, Amazon Lex invokes this Lambda function to fulfill the intent after the user provides all of the information required by the intent.
-        public let fulfillmentActivity: FulfillmentActivity?
-        /// An array of intent slots that are configured for the intent.
-        public let slots: [Slot]?
-        /// If defined in the intent, Amazon Lex prompts the user to confirm the intent before fulfilling it.
-        public let confirmationPrompt: Prompt?
-        ///  An array of sample utterances that are configured for the intent. 
-        public let sampleUtterances: [String]?
-        /// Checksum of the $LATESTversion of the intent created or updated.
-        public let checksum: String?
-        /// If defined in the intent, Amazon Lex uses this prompt to solicit additional user activity after the intent is fulfilled.
-        public let followUpPrompt: FollowUpPrompt?
-        /// The version of the intent. For a new intent, the version is always $LATEST.
+        /// The version of the bot being exported.
         public let version: String?
-        /// The date that the intent was updated. When you create a resource, the creation date and last update dates are the same.
-        public let lastUpdatedDate: TimeStamp?
-        public let createVersion: Bool?
-        /// The date that the intent was created.
-        public let createdDate: TimeStamp?
+        /// The status of the export.     IN_PROGRESS - The export is in progress.    READY - The export is complete.    FAILED - The export could not be completed.  
+        public let exportStatus: ExportStatus?
+        /// The name of the bot being exported.
+        public let name: String?
+        /// An S3 pre-signed URL that provides the location of the exported resource. The exported resource is a ZIP archive that contains the exported resource in JSON format. The structure of the archive may change. Your code should not rely on the archive structure.
+        public let url: String?
+        /// The type of the exported resource.
+        public let resourceType: ResourceType?
+        /// The format of the exported data.
+        public let exportType: ExportType?
+        /// If status is FAILED, Amazon Lex provides the reason that it failed to export the resource.
+        public let failureReason: String?
 
-        public init(dialogCodeHook: CodeHook? = nil, rejectionStatement: Statement? = nil, name: String? = nil, parentIntentSignature: String? = nil, description: String? = nil, conclusionStatement: Statement? = nil, fulfillmentActivity: FulfillmentActivity? = nil, slots: [Slot]? = nil, confirmationPrompt: Prompt? = nil, sampleUtterances: [String]? = nil, checksum: String? = nil, followUpPrompt: FollowUpPrompt? = nil, version: String? = nil, lastUpdatedDate: TimeStamp? = nil, createVersion: Bool? = nil, createdDate: TimeStamp? = nil) {
-            self.dialogCodeHook = dialogCodeHook
-            self.rejectionStatement = rejectionStatement
-            self.name = name
-            self.parentIntentSignature = parentIntentSignature
-            self.description = description
-            self.conclusionStatement = conclusionStatement
-            self.fulfillmentActivity = fulfillmentActivity
-            self.slots = slots
-            self.confirmationPrompt = confirmationPrompt
-            self.sampleUtterances = sampleUtterances
-            self.checksum = checksum
-            self.followUpPrompt = followUpPrompt
+        public init(version: String? = nil, exportStatus: ExportStatus? = nil, name: String? = nil, url: String? = nil, resourceType: ResourceType? = nil, exportType: ExportType? = nil, failureReason: String? = nil) {
             self.version = version
-            self.lastUpdatedDate = lastUpdatedDate
-            self.createVersion = createVersion
-            self.createdDate = createdDate
+            self.exportStatus = exportStatus
+            self.name = name
+            self.url = url
+            self.resourceType = resourceType
+            self.exportType = exportType
+            self.failureReason = failureReason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dialogCodeHook = "dialogCodeHook"
-            case rejectionStatement = "rejectionStatement"
-            case name = "name"
-            case parentIntentSignature = "parentIntentSignature"
-            case description = "description"
-            case conclusionStatement = "conclusionStatement"
-            case fulfillmentActivity = "fulfillmentActivity"
-            case slots = "slots"
-            case confirmationPrompt = "confirmationPrompt"
-            case sampleUtterances = "sampleUtterances"
-            case checksum = "checksum"
-            case followUpPrompt = "followUpPrompt"
             case version = "version"
-            case lastUpdatedDate = "lastUpdatedDate"
-            case createVersion = "createVersion"
-            case createdDate = "createdDate"
+            case exportStatus = "exportStatus"
+            case name = "name"
+            case url = "url"
+            case resourceType = "resourceType"
+            case exportType = "exportType"
+            case failureReason = "failureReason"
         }
     }
 
-    public struct DeleteSlotTypeRequest: AWSShape {
+    public struct DeleteIntentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
         ]
-        /// The name of the slot type. The name is case sensitive. 
+        /// The name of the intent. The name is case sensitive. 
         public let name: String
 
         public init(name: String) {
@@ -529,70 +266,849 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct StartImportRequest: AWSShape {
+    public struct ResourceReference: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "mergeStrategy", required: true, type: .enum), 
-            AWSShapeMember(label: "resourceType", required: true, type: .enum), 
-            AWSShapeMember(label: "payload", required: true, type: .blob)
+            AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string)
         ]
-        /// Specifies the action that the StartImport operation should take when there is an existing resource with the same name.   FAIL_ON_CONFLICT - The import operation is stopped on the first conflict between a resource in the import file and an existing resource. The name of the resource causing the conflict is in the failureReason field of the response to the GetImport operation. OVERWRITE_LATEST - The import operation proceeds even if there is a conflict with an existing resource. The $LASTEST version of the existing resource is overwritten with the data from the import file.  
-        public let mergeStrategy: MergeStrategy
-        /// Specifies the type of resource to export. Each resource also exports any resources that it depends on.    A bot exports dependent intents.   An intent exports dependent slot types.  
-        public let resourceType: ResourceType
-        /// A zip archive in binary format. The archive should contain one file, a JSON file containing the resource to import. The resource should match the type specified in the resourceType field.
-        public let payload: Data
+        /// The version of the resource that is using the resource that you are trying to delete.
+        public let version: String?
+        /// The name of the resource that is using the resource that you are trying to delete.
+        public let name: String?
 
-        public init(mergeStrategy: MergeStrategy, resourceType: ResourceType, payload: Data) {
-            self.mergeStrategy = mergeStrategy
-            self.resourceType = resourceType
-            self.payload = payload
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case mergeStrategy = "mergeStrategy"
-            case resourceType = "resourceType"
-            case payload = "payload"
-        }
-    }
-
-    public struct GetBotChannelAssociationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string), 
-            AWSShapeMember(label: "botAlias", location: .uri(locationName: "aliasName"), required: true, type: .string), 
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
-        ]
-        /// The name of the Amazon Lex bot.
-        public let botName: String
-        /// An alias pointing to the specific version of the Amazon Lex bot to which this association is being made.
-        public let botAlias: String
-        /// The name of the association between the bot and the channel. The name is case sensitive. 
-        public let name: String
-
-        public init(botName: String, botAlias: String, name: String) {
-            self.botName = botName
-            self.botAlias = botAlias
+        public init(version: String? = nil, name: String? = nil) {
+            self.version = version
             self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botName = "botName"
-            case botAlias = "aliasName"
+            case version = "version"
             case name = "name"
         }
     }
 
-    public struct BuiltinIntentSlot: AWSShape {
+    public struct CreateBotVersionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string)
+            AWSShapeMember(label: "checksum", required: false, type: .string), 
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
         ]
-        /// A list of the slots defined for the intent.
-        public let name: String?
+        /// Identifies a specific revision of the $LATEST version of the bot. If you specify a checksum and the $LATEST version of the bot has a different checksum, a PreconditionFailedException exception is returned and Amazon Lex doesn't publish a new version. If you don't specify a checksum, Amazon Lex publishes the $LATEST version.
+        public let checksum: String?
+        /// The name of the bot that you want to create a new version of. The name is case sensitive. 
+        public let name: String
 
-        public init(name: String? = nil) {
+        public init(checksum: String? = nil, name: String) {
+            self.checksum = checksum
             self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
+            case checksum = "checksum"
+            case name = "name"
+        }
+    }
+
+    public struct GetBuiltinSlotTypesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "locale", location: .querystring(locationName: "locale"), required: false, type: .enum), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "signatureContains", location: .querystring(locationName: "signatureContains"), required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
+        ]
+        /// A list of locales that the slot type supports.
+        public let locale: Locale?
+        /// A pagination token that fetches the next page of slot types. If the response to this API call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of slot types, specify the pagination token in the next request.
+        public let nextToken: String?
+        /// Substring to match in built-in slot type signatures. A slot type will be returned if any part of its signature matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz."
+        public let signatureContains: String?
+        /// The maximum number of slot types to return in the response. The default is 10.
+        public let maxResults: Int32?
+
+        public init(locale: Locale? = nil, nextToken: String? = nil, signatureContains: String? = nil, maxResults: Int32? = nil) {
+            self.locale = locale
+            self.nextToken = nextToken
+            self.signatureContains = signatureContains
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locale = "locale"
+            case nextToken = "nextToken"
+            case signatureContains = "signatureContains"
+            case maxResults = "maxResults"
+        }
+    }
+
+    public struct GetSlotTypeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "version", location: .uri(locationName: "version"), required: true, type: .string), 
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
+        ]
+        /// The version of the slot type. 
+        public let version: String
+        /// The name of the slot type. The name is case sensitive. 
+        public let name: String
+
+        public init(version: String, name: String) {
+            self.version = version
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case version = "version"
+            case name = "name"
+        }
+    }
+
+    public struct GetIntentsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "nameContains", location: .querystring(locationName: "nameContains"), required: false, type: .string)
+        ]
+        /// A pagination token that fetches the next page of intents. If the response to this API call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of intents, specify the pagination token in the next request. 
+        public let nextToken: String?
+        /// The maximum number of intents to return in the response. The default is 10.
+        public let maxResults: Int32?
+        /// Substring to match in intent names. An intent will be returned if any part of its name matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz."
+        public let nameContains: String?
+
+        public init(nextToken: String? = nil, maxResults: Int32? = nil, nameContains: String? = nil) {
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+            self.nameContains = nameContains
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+            case nameContains = "nameContains"
+        }
+    }
+
+    public struct GetBotChannelAssociationsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "botChannelAssociations", required: false, type: .list)
+        ]
+        /// A pagination token that fetches the next page of associations. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of associations, specify the pagination token in the next request. 
+        public let nextToken: String?
+        /// An array of objects, one for each association, that provides information about the Amazon Lex bot and its association with the channel. 
+        public let botChannelAssociations: [BotChannelAssociation]?
+
+        public init(nextToken: String? = nil, botChannelAssociations: [BotChannelAssociation]? = nil) {
+            self.nextToken = nextToken
+            self.botChannelAssociations = botChannelAssociations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case botChannelAssociations = "botChannelAssociations"
+        }
+    }
+
+    public enum StatusType: String, CustomStringConvertible, Codable {
+        case detected = "Detected"
+        case missed = "Missed"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct SlotTypeMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string)
+        ]
+        /// The date that the slot type was created.
+        public let createdDate: TimeStamp?
+        /// The date that the slot type was updated. When you create a resource, the creation date and last updated date are the same. 
+        public let lastUpdatedDate: TimeStamp?
+        /// The version of the slot type.
+        public let version: String?
+        /// The name of the slot type.
+        public let name: String?
+        /// A description of the slot type.
+        public let description: String?
+
+        public init(createdDate: TimeStamp? = nil, lastUpdatedDate: TimeStamp? = nil, version: String? = nil, name: String? = nil, description: String? = nil) {
+            self.createdDate = createdDate
+            self.lastUpdatedDate = lastUpdatedDate
+            self.version = version
+            self.name = name
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdDate = "createdDate"
+            case lastUpdatedDate = "lastUpdatedDate"
+            case version = "version"
+            case name = "name"
+            case description = "description"
+        }
+    }
+
+    public struct UtteranceData: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "count", required: false, type: .integer), 
+            AWSShapeMember(label: "lastUtteredDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "distinctUsers", required: false, type: .integer), 
+            AWSShapeMember(label: "utteranceString", required: false, type: .string), 
+            AWSShapeMember(label: "firstUtteredDate", required: false, type: .timestamp)
+        ]
+        /// The number of times that the utterance was processed.
+        public let count: Int32?
+        /// The date that the utterance was last recorded.
+        public let lastUtteredDate: TimeStamp?
+        /// The total number of individuals that used the utterance.
+        public let distinctUsers: Int32?
+        /// The text that was entered by the user or the text representation of an audio clip.
+        public let utteranceString: String?
+        /// The date that the utterance was first recorded.
+        public let firstUtteredDate: TimeStamp?
+
+        public init(count: Int32? = nil, lastUtteredDate: TimeStamp? = nil, distinctUsers: Int32? = nil, utteranceString: String? = nil, firstUtteredDate: TimeStamp? = nil) {
+            self.count = count
+            self.lastUtteredDate = lastUtteredDate
+            self.distinctUsers = distinctUsers
+            self.utteranceString = utteranceString
+            self.firstUtteredDate = firstUtteredDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case count = "count"
+            case lastUtteredDate = "lastUtteredDate"
+            case distinctUsers = "distinctUsers"
+            case utteranceString = "utteranceString"
+            case firstUtteredDate = "firstUtteredDate"
+        }
+    }
+
+    public struct GetIntentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "version", location: .uri(locationName: "version"), required: true, type: .string), 
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
+        ]
+        /// The version of the intent.
+        public let version: String
+        /// The name of the intent. The name is case sensitive. 
+        public let name: String
+
+        public init(version: String, name: String) {
+            self.version = version
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case version = "version"
+            case name = "name"
+        }
+    }
+
+    public struct GetUtterancesViewRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "botName", location: .uri(locationName: "botname"), required: true, type: .string), 
+            AWSShapeMember(label: "statusType", location: .querystring(locationName: "status_type"), required: true, type: .enum), 
+            AWSShapeMember(label: "botVersions", location: .querystring(locationName: "bot_versions"), required: true, type: .list)
+        ]
+        /// The name of the bot for which utterance information should be returned.
+        public let botName: String
+        /// To return utterances that were recognized and handled, useDetected. To return utterances that were not recognized, use Missed.
+        public let statusType: StatusType
+        /// An array of bot versions for which utterance information should be returned. The limit is 5 versions per request.
+        public let botVersions: [String]
+
+        public init(botName: String, statusType: StatusType, botVersions: [String]) {
+            self.botName = botName
+            self.statusType = statusType
+            self.botVersions = botVersions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botName = "botname"
+            case statusType = "status_type"
+            case botVersions = "bot_versions"
+        }
+    }
+
+    public struct DeleteBotRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
+        ]
+        /// The name of the bot. The name is case sensitive. 
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
+    public struct GetImportResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "importId", required: false, type: .string), 
+            AWSShapeMember(label: "mergeStrategy", required: false, type: .enum), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "importStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "failureReason", required: false, type: .list)
+        ]
+        /// The identifier for the specific import job.
+        public let importId: String?
+        /// The action taken when there was a conflict between an existing resource and a resource in the import file.
+        public let mergeStrategy: MergeStrategy?
+        /// The name given to the import job.
+        public let name: String?
+        /// The status of the import job. If the status is FAILED, you can get the reason for the failure from the failureReason field.
+        public let importStatus: ImportStatus?
+        /// A timestamp for the date and time that the import job was created.
+        public let createdDate: TimeStamp?
+        /// The type of resource imported.
+        public let resourceType: ResourceType?
+        /// A string that describes why an import job failed to complete.
+        public let failureReason: [String]?
+
+        public init(importId: String? = nil, mergeStrategy: MergeStrategy? = nil, name: String? = nil, importStatus: ImportStatus? = nil, createdDate: TimeStamp? = nil, resourceType: ResourceType? = nil, failureReason: [String]? = nil) {
+            self.importId = importId
+            self.mergeStrategy = mergeStrategy
+            self.name = name
+            self.importStatus = importStatus
+            self.createdDate = createdDate
+            self.resourceType = resourceType
+            self.failureReason = failureReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case importId = "importId"
+            case mergeStrategy = "mergeStrategy"
+            case name = "name"
+            case importStatus = "importStatus"
+            case createdDate = "createdDate"
+            case resourceType = "resourceType"
+            case failureReason = "failureReason"
+        }
+    }
+
+    public struct BotAliasMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "botVersion", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "botName", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "checksum", required: false, type: .string)
+        ]
+        /// The version of the Amazon Lex bot to which the alias points.
+        public let botVersion: String?
+        /// The date that the bot alias was updated. When you create a resource, the creation date and last updated date are the same.
+        public let lastUpdatedDate: TimeStamp?
+        /// A description of the bot alias.
+        public let description: String?
+        /// The name of the bot to which the alias points.
+        public let botName: String?
+        /// The name of the bot alias.
+        public let name: String?
+        /// The date that the bot alias was created.
+        public let createdDate: TimeStamp?
+        /// Checksum of the bot alias.
+        public let checksum: String?
+
+        public init(botVersion: String? = nil, lastUpdatedDate: TimeStamp? = nil, description: String? = nil, botName: String? = nil, name: String? = nil, createdDate: TimeStamp? = nil, checksum: String? = nil) {
+            self.botVersion = botVersion
+            self.lastUpdatedDate = lastUpdatedDate
+            self.description = description
+            self.botName = botName
+            self.name = name
+            self.createdDate = createdDate
+            self.checksum = checksum
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botVersion = "botVersion"
+            case lastUpdatedDate = "lastUpdatedDate"
+            case description = "description"
+            case botName = "botName"
+            case name = "name"
+            case createdDate = "createdDate"
+            case checksum = "checksum"
+        }
+    }
+
+    public enum SlotConstraint: String, CustomStringConvertible, Codable {
+        case required = "Required"
+        case optional = "Optional"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct BuiltinIntentMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "signature", required: false, type: .string), 
+            AWSShapeMember(label: "supportedLocales", required: false, type: .list)
+        ]
+        /// A unique identifier for the built-in intent. To find the signature for an intent, see Standard Built-in Intents in the Alexa Skills Kit.
+        public let signature: String?
+        /// A list of identifiers for the locales that the intent supports.
+        public let supportedLocales: [Locale]?
+
+        public init(signature: String? = nil, supportedLocales: [Locale]? = nil) {
+            self.signature = signature
+            self.supportedLocales = supportedLocales
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case signature = "signature"
+            case supportedLocales = "supportedLocales"
+        }
+    }
+
+    public struct GetBotResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "intents", required: false, type: .list), 
+            AWSShapeMember(label: "checksum", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "childDirected", required: false, type: .boolean), 
+            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "locale", required: false, type: .enum), 
+            AWSShapeMember(label: "failureReason", required: false, type: .string), 
+            AWSShapeMember(label: "clarificationPrompt", required: false, type: .structure), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "abortStatement", required: false, type: .structure), 
+            AWSShapeMember(label: "idleSessionTTLInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "voiceId", required: false, type: .string)
+        ]
+        /// An array of intent objects. For more information, see PutBot.
+        public let intents: [Intent]?
+        /// Checksum of the bot used to identify a specific revision of the bot's $LATEST version.
+        public let checksum: String?
+        /// The status of the bot. If the bot is ready to run, the status is READY. If there was a problem with building the bot, the status is FAILED and the failureReason explains why the bot did not build. If the bot was saved but not built, the status is NOT BUILT.
+        public let status: Status?
+        /// For each Amazon Lex bot created with the Amazon Lex Model Building Service, you must specify whether your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to the Children's Online Privacy Protection Act (COPPA) by specifying true or false in the childDirected field. By specifying true in the childDirected field, you confirm that your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. By specifying false in the childDirected field, you confirm that your use of Amazon Lex is not related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. You may not specify a default value for the childDirected field that does not accurately reflect whether your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. If your use of Amazon Lex relates to a website, program, or other application that is directed in whole or in part, to children under age 13, you must obtain any required verifiable parental consent under COPPA. For information regarding the use of Amazon Lex in connection with websites, programs, or other applications that are directed or targeted, in whole or in part, to children under age 13, see the Amazon Lex FAQ. 
+        public let childDirected: Bool?
+        /// The date that the bot was created.
+        public let createdDate: TimeStamp?
+        /// The version of the bot. For a new bot, the version is always $LATEST.
+        public let version: String?
+        /// The name of the bot.
+        public let name: String?
+        /// The date that the bot was updated. When you create a resource, the creation date and last updated date are the same. 
+        public let lastUpdatedDate: TimeStamp?
+        ///  The target locale for the bot. 
+        public let locale: Locale?
+        /// If status is FAILED, Amazon Lex explains why it failed to build the bot.
+        public let failureReason: String?
+        /// The message Amazon Lex uses when it doesn't understand the user's request. For more information, see PutBot. 
+        public let clarificationPrompt: Prompt?
+        /// A description of the bot.
+        public let description: String?
+        /// The message that Amazon Lex returns when the user elects to end the conversation without completing it. For more information, see PutBot.
+        public let abortStatement: Statement?
+        /// The maximum time in seconds that Amazon Lex retains the data gathered in a conversation. For more information, see PutBot.
+        public let idleSessionTTLInSeconds: Int32?
+        /// The Amazon Polly voice ID that Amazon Lex uses for voice interaction with the user. For more information, see PutBot.
+        public let voiceId: String?
+
+        public init(intents: [Intent]? = nil, checksum: String? = nil, status: Status? = nil, childDirected: Bool? = nil, createdDate: TimeStamp? = nil, version: String? = nil, name: String? = nil, lastUpdatedDate: TimeStamp? = nil, locale: Locale? = nil, failureReason: String? = nil, clarificationPrompt: Prompt? = nil, description: String? = nil, abortStatement: Statement? = nil, idleSessionTTLInSeconds: Int32? = nil, voiceId: String? = nil) {
+            self.intents = intents
+            self.checksum = checksum
+            self.status = status
+            self.childDirected = childDirected
+            self.createdDate = createdDate
+            self.version = version
+            self.name = name
+            self.lastUpdatedDate = lastUpdatedDate
+            self.locale = locale
+            self.failureReason = failureReason
+            self.clarificationPrompt = clarificationPrompt
+            self.description = description
+            self.abortStatement = abortStatement
+            self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
+            self.voiceId = voiceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case intents = "intents"
+            case checksum = "checksum"
+            case status = "status"
+            case childDirected = "childDirected"
+            case createdDate = "createdDate"
+            case version = "version"
+            case name = "name"
+            case lastUpdatedDate = "lastUpdatedDate"
+            case locale = "locale"
+            case failureReason = "failureReason"
+            case clarificationPrompt = "clarificationPrompt"
+            case description = "description"
+            case abortStatement = "abortStatement"
+            case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
+            case voiceId = "voiceId"
+        }
+    }
+
+    public struct PutSlotTypeResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "valueSelectionStrategy", required: false, type: .enum), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "enumerationValues", required: false, type: .list), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "checksum", required: false, type: .string), 
+            AWSShapeMember(label: "createVersion", required: false, type: .boolean)
+        ]
+        /// The version of the slot type. For a new slot type, the version is always $LATEST. 
+        public let version: String?
+        /// The date that the slot type was updated. When you create a slot type, the creation date and last update date are the same.
+        public let lastUpdatedDate: TimeStamp?
+        /// The slot resolution strategy that Amazon Lex uses to determine the value of the slot. For more information, see PutSlotType.
+        public let valueSelectionStrategy: SlotValueSelectionStrategy?
+        /// The name of the slot type.
+        public let name: String?
+        /// A list of EnumerationValue objects that defines the values that the slot type can take.
+        public let enumerationValues: [EnumerationValue]?
+        /// A description of the slot type.
+        public let description: String?
+        /// The date that the slot type was created.
+        public let createdDate: TimeStamp?
+        /// Checksum of the $LATEST version of the slot type.
+        public let checksum: String?
+        public let createVersion: Bool?
+
+        public init(version: String? = nil, lastUpdatedDate: TimeStamp? = nil, valueSelectionStrategy: SlotValueSelectionStrategy? = nil, name: String? = nil, enumerationValues: [EnumerationValue]? = nil, description: String? = nil, createdDate: TimeStamp? = nil, checksum: String? = nil, createVersion: Bool? = nil) {
+            self.version = version
+            self.lastUpdatedDate = lastUpdatedDate
+            self.valueSelectionStrategy = valueSelectionStrategy
+            self.name = name
+            self.enumerationValues = enumerationValues
+            self.description = description
+            self.createdDate = createdDate
+            self.checksum = checksum
+            self.createVersion = createVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case version = "version"
+            case lastUpdatedDate = "lastUpdatedDate"
+            case valueSelectionStrategy = "valueSelectionStrategy"
+            case name = "name"
+            case enumerationValues = "enumerationValues"
+            case description = "description"
+            case createdDate = "createdDate"
+            case checksum = "checksum"
+            case createVersion = "createVersion"
+        }
+    }
+
+    public struct GetBotVersionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
+        ]
+        /// A pagination token for fetching the next page of bot versions. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of versions, specify the pagination token in the next request. 
+        public let nextToken: String?
+        /// The maximum number of bot versions to return in the response. The default is 10.
+        public let maxResults: Int32?
+        /// The name of the bot for which versions should be returned.
+        public let name: String
+
+        public init(nextToken: String? = nil, maxResults: Int32? = nil, name: String) {
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+            case name = "name"
+        }
+    }
+
+    public struct GetIntentResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "checksum", required: false, type: .string), 
+            AWSShapeMember(label: "parentIntentSignature", required: false, type: .string), 
+            AWSShapeMember(label: "rejectionStatement", required: false, type: .structure), 
+            AWSShapeMember(label: "dialogCodeHook", required: false, type: .structure), 
+            AWSShapeMember(label: "fulfillmentActivity", required: false, type: .structure), 
+            AWSShapeMember(label: "sampleUtterances", required: false, type: .list), 
+            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "followUpPrompt", required: false, type: .structure), 
+            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "conclusionStatement", required: false, type: .structure), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "slots", required: false, type: .list), 
+            AWSShapeMember(label: "confirmationPrompt", required: false, type: .structure)
+        ]
+        /// Checksum of the intent.
+        public let checksum: String?
+        /// A unique identifier for a built-in intent.
+        public let parentIntentSignature: String?
+        /// If the user answers "no" to the question defined in confirmationPrompt, Amazon Lex responds with this statement to acknowledge that the intent was canceled. 
+        public let rejectionStatement: Statement?
+        /// If defined in the bot, Amazon Amazon Lex invokes this Lambda function for each user input. For more information, see PutIntent. 
+        public let dialogCodeHook: CodeHook?
+        /// Describes how the intent is fulfilled. For more information, see PutIntent. 
+        public let fulfillmentActivity: FulfillmentActivity?
+        /// An array of sample utterances configured for the intent.
+        public let sampleUtterances: [String]?
+        /// The date that the intent was created.
+        public let createdDate: TimeStamp?
+        /// The version of the intent.
+        public let version: String?
+        /// If defined in the bot, Amazon Lex uses this prompt to solicit additional user activity after the intent is fulfilled. For more information, see PutIntent.
+        public let followUpPrompt: FollowUpPrompt?
+        /// The date that the intent was updated. When you create a resource, the creation date and the last updated date are the same. 
+        public let lastUpdatedDate: TimeStamp?
+        /// The name of the intent.
+        public let name: String?
+        /// After the Lambda function specified in the fulfillmentActivity element fulfills the intent, Amazon Lex conveys this statement to the user.
+        public let conclusionStatement: Statement?
+        /// A description of the intent.
+        public let description: String?
+        /// An array of intent slots configured for the intent.
+        public let slots: [Slot]?
+        /// If defined in the bot, Amazon Lex uses prompt to confirm the intent before fulfilling the user's request. For more information, see PutIntent. 
+        public let confirmationPrompt: Prompt?
+
+        public init(checksum: String? = nil, parentIntentSignature: String? = nil, rejectionStatement: Statement? = nil, dialogCodeHook: CodeHook? = nil, fulfillmentActivity: FulfillmentActivity? = nil, sampleUtterances: [String]? = nil, createdDate: TimeStamp? = nil, version: String? = nil, followUpPrompt: FollowUpPrompt? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil, conclusionStatement: Statement? = nil, description: String? = nil, slots: [Slot]? = nil, confirmationPrompt: Prompt? = nil) {
+            self.checksum = checksum
+            self.parentIntentSignature = parentIntentSignature
+            self.rejectionStatement = rejectionStatement
+            self.dialogCodeHook = dialogCodeHook
+            self.fulfillmentActivity = fulfillmentActivity
+            self.sampleUtterances = sampleUtterances
+            self.createdDate = createdDate
+            self.version = version
+            self.followUpPrompt = followUpPrompt
+            self.lastUpdatedDate = lastUpdatedDate
+            self.name = name
+            self.conclusionStatement = conclusionStatement
+            self.description = description
+            self.slots = slots
+            self.confirmationPrompt = confirmationPrompt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case checksum = "checksum"
+            case parentIntentSignature = "parentIntentSignature"
+            case rejectionStatement = "rejectionStatement"
+            case dialogCodeHook = "dialogCodeHook"
+            case fulfillmentActivity = "fulfillmentActivity"
+            case sampleUtterances = "sampleUtterances"
+            case createdDate = "createdDate"
+            case version = "version"
+            case followUpPrompt = "followUpPrompt"
+            case lastUpdatedDate = "lastUpdatedDate"
+            case name = "name"
+            case conclusionStatement = "conclusionStatement"
+            case description = "description"
+            case slots = "slots"
+            case confirmationPrompt = "confirmationPrompt"
+        }
+    }
+
+    public struct Statement: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "responseCard", required: false, type: .string), 
+            AWSShapeMember(label: "messages", required: true, type: .list)
+        ]
+        ///  At runtime, if the client is using the PostText API, Amazon Lex includes the response card in the response. It substitutes all of the session attributes and slot values for placeholders in the response card. 
+        public let responseCard: String?
+        /// A collection of message objects.
+        public let messages: [Message]
+
+        public init(responseCard: String? = nil, messages: [Message]) {
+            self.responseCard = responseCard
+            self.messages = messages
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case responseCard = "responseCard"
+            case messages = "messages"
+        }
+    }
+
+    public struct CreateSlotTypeVersionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "valueSelectionStrategy", required: false, type: .enum), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "enumerationValues", required: false, type: .list), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "checksum", required: false, type: .string)
+        ]
+        /// The version assigned to the new slot type version. 
+        public let version: String?
+        /// The date that the slot type was updated. When you create a resource, the creation date and last update date are the same.
+        public let lastUpdatedDate: TimeStamp?
+        /// The strategy that Amazon Lex uses to determine the value of the slot. For more information, see PutSlotType.
+        public let valueSelectionStrategy: SlotValueSelectionStrategy?
+        /// The name of the slot type.
+        public let name: String?
+        /// A list of EnumerationValue objects that defines the values that the slot type can take.
+        public let enumerationValues: [EnumerationValue]?
+        /// A description of the slot type.
+        public let description: String?
+        /// The date that the slot type was created.
+        public let createdDate: TimeStamp?
+        /// Checksum of the $LATEST version of the slot type.
+        public let checksum: String?
+
+        public init(version: String? = nil, lastUpdatedDate: TimeStamp? = nil, valueSelectionStrategy: SlotValueSelectionStrategy? = nil, name: String? = nil, enumerationValues: [EnumerationValue]? = nil, description: String? = nil, createdDate: TimeStamp? = nil, checksum: String? = nil) {
+            self.version = version
+            self.lastUpdatedDate = lastUpdatedDate
+            self.valueSelectionStrategy = valueSelectionStrategy
+            self.name = name
+            self.enumerationValues = enumerationValues
+            self.description = description
+            self.createdDate = createdDate
+            self.checksum = checksum
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case version = "version"
+            case lastUpdatedDate = "lastUpdatedDate"
+            case valueSelectionStrategy = "valueSelectionStrategy"
+            case name = "name"
+            case enumerationValues = "enumerationValues"
+            case description = "description"
+            case createdDate = "createdDate"
+            case checksum = "checksum"
+        }
+    }
+
+    public struct GetBuiltinIntentsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "intents", required: false, type: .list)
+        ]
+        /// A pagination token that fetches the next page of intents. If the response to this API call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of intents, specify the pagination token in the next request.
+        public let nextToken: String?
+        /// An array of builtinIntentMetadata objects, one for each intent in the response.
+        public let intents: [BuiltinIntentMetadata]?
+
+        public init(nextToken: String? = nil, intents: [BuiltinIntentMetadata]? = nil) {
+            self.nextToken = nextToken
+            self.intents = intents
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case intents = "intents"
+        }
+    }
+
+    public enum ExportStatus: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case ready = "READY"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeleteBotChannelAssociationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string), 
+            AWSShapeMember(label: "botAlias", location: .uri(locationName: "aliasName"), required: true, type: .string)
+        ]
+        /// The name of the association. The name is case sensitive. 
+        public let name: String
+        /// The name of the Amazon Lex bot.
+        public let botName: String
+        /// An alias that points to the specific version of the Amazon Lex bot to which this association is being made.
+        public let botAlias: String
+
+        public init(name: String, botName: String, botAlias: String) {
+            self.name = name
+            self.botName = botName
+            self.botAlias = botAlias
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case botName = "botName"
+            case botAlias = "aliasName"
+        }
+    }
+
+    public struct PutBotAliasResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "botVersion", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "botName", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "checksum", required: false, type: .string)
+        ]
+        /// The version of the bot that the alias points to.
+        public let botVersion: String?
+        /// The date that the bot alias was updated. When you create a resource, the creation date and the last updated date are the same.
+        public let lastUpdatedDate: TimeStamp?
+        /// A description of the alias.
+        public let description: String?
+        /// The name of the bot that the alias points to.
+        public let botName: String?
+        /// The name of the alias.
+        public let name: String?
+        /// The date that the bot alias was created.
+        public let createdDate: TimeStamp?
+        /// The checksum for the current version of the alias.
+        public let checksum: String?
+
+        public init(botVersion: String? = nil, lastUpdatedDate: TimeStamp? = nil, description: String? = nil, botName: String? = nil, name: String? = nil, createdDate: TimeStamp? = nil, checksum: String? = nil) {
+            self.botVersion = botVersion
+            self.lastUpdatedDate = lastUpdatedDate
+            self.description = description
+            self.botName = botName
+            self.name = name
+            self.createdDate = createdDate
+            self.checksum = checksum
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botVersion = "botVersion"
+            case lastUpdatedDate = "lastUpdatedDate"
+            case description = "description"
+            case botName = "botName"
+            case name = "name"
+            case createdDate = "createdDate"
+            case checksum = "checksum"
+        }
+    }
+
+    public struct DeleteSlotTypeVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "version", location: .uri(locationName: "version"), required: true, type: .string), 
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
+        ]
+        /// The version of the slot type to delete. You cannot delete the $LATEST version of the slot type. To delete the $LATEST version, use the DeleteSlotType operation.
+        public let version: String
+        /// The name of the slot type.
+        public let name: String
+
+        public init(version: String, name: String) {
+            self.version = version
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case version = "version"
             case name = "name"
         }
     }
@@ -639,933 +1155,414 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct PutSlotTypeRequest: AWSShape {
+    public struct Slot: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "checksum", required: false, type: .string), 
-            AWSShapeMember(label: "valueSelectionStrategy", required: false, type: .enum), 
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "valueElicitationPrompt", required: false, type: .structure), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "enumerationValues", required: false, type: .list), 
-            AWSShapeMember(label: "createVersion", required: false, type: .boolean)
+            AWSShapeMember(label: "slotType", required: false, type: .string), 
+            AWSShapeMember(label: "responseCard", required: false, type: .string), 
+            AWSShapeMember(label: "priority", required: false, type: .integer), 
+            AWSShapeMember(label: "sampleUtterances", required: false, type: .list), 
+            AWSShapeMember(label: "slotTypeVersion", required: false, type: .string), 
+            AWSShapeMember(label: "slotConstraint", required: true, type: .enum)
         ]
-        /// Identifies a specific revision of the $LATEST version. When you create a new slot type, leave the checksum field blank. If you specify a checksum you get a BadRequestException exception. When you want to update a slot type, set the checksum field to the checksum of the most recent revision of the $LATEST version. If you don't specify the  checksum field, or if the checksum does not match the $LATEST version, you get a PreconditionFailedException exception.
-        public let checksum: String?
-        /// Determines the slot resolution strategy that Amazon Lex uses to return slot type values. The field can be set to one of the following values:    ORIGINAL_VALUE - Returns the value entered by the user, if the user value is similar to the slot value.    TOP_RESOLUTION - If there is a resolution list for the slot, return the first value in the resolution list as the slot type value. If there is no resolution list, null is returned.   If you don't specify the valueSelectionStrategy, the default is ORIGINAL_VALUE.
-        public let valueSelectionStrategy: SlotValueSelectionStrategy?
-        /// The name of the slot type. The name is not case sensitive.  The name can't match a built-in slot type name, or a built-in slot type name with "AMAZON." removed. For example, because there is a built-in slot type called AMAZON.DATE, you can't create a custom slot type called DATE. For a list of built-in slot types, see Slot Type Reference in the Alexa Skills Kit.
+        /// The prompt that Amazon Lex uses to elicit the slot value from the user.
+        public let valueElicitationPrompt: Prompt?
+        /// The name of the slot.
         public let name: String
-        /// A description of the slot type.
+        /// A description of the slot.
         public let description: String?
-        /// A list of EnumerationValue objects that defines the values that the slot type can take. Each value can have a list of synonyms, which are additional values that help train the machine learning model about the values that it resolves for a slot.  When Amazon Lex resolves a slot value, it generates a resolution list that contains up to five possible values for the slot. If you are using a Lambda function, this resolution list is passed to the function. If you are not using a Lambda function you can choose to return the value that the user entered or the first value in the resolution list as the slot value. The valueSelectionStrategy field indicates the option to use. 
-        public let enumerationValues: [EnumerationValue]?
-        public let createVersion: Bool?
+        /// The type of the slot, either a custom slot type that you defined or one of the built-in slot types.
+        public let slotType: String?
+        ///  A set of possible responses for the slot type used by text-based clients. A user chooses an option from the response card, instead of using text to reply. 
+        public let responseCard: String?
+        ///  Directs Lex the order in which to elicit this slot value from the user. For example, if the intent has two slots with priorities 1 and 2, AWS Lex first elicits a value for the slot with priority 1. If multiple slots share the same priority, the order in which Lex elicits values is arbitrary.
+        public let priority: Int32?
+        ///  If you know a specific pattern with which users might respond to an Amazon Lex request for a slot value, you can provide those utterances to improve accuracy. This is optional. In most cases, Amazon Lex is capable of understanding user utterances. 
+        public let sampleUtterances: [String]?
+        /// The version of the slot type.
+        public let slotTypeVersion: String?
+        /// Specifies whether the slot is required or optional. 
+        public let slotConstraint: SlotConstraint
 
-        public init(checksum: String? = nil, valueSelectionStrategy: SlotValueSelectionStrategy? = nil, name: String, description: String? = nil, enumerationValues: [EnumerationValue]? = nil, createVersion: Bool? = nil) {
-            self.checksum = checksum
-            self.valueSelectionStrategy = valueSelectionStrategy
+        public init(valueElicitationPrompt: Prompt? = nil, name: String, description: String? = nil, slotType: String? = nil, responseCard: String? = nil, priority: Int32? = nil, sampleUtterances: [String]? = nil, slotTypeVersion: String? = nil, slotConstraint: SlotConstraint) {
+            self.valueElicitationPrompt = valueElicitationPrompt
             self.name = name
             self.description = description
-            self.enumerationValues = enumerationValues
-            self.createVersion = createVersion
+            self.slotType = slotType
+            self.responseCard = responseCard
+            self.priority = priority
+            self.sampleUtterances = sampleUtterances
+            self.slotTypeVersion = slotTypeVersion
+            self.slotConstraint = slotConstraint
         }
 
         private enum CodingKeys: String, CodingKey {
-            case checksum = "checksum"
-            case valueSelectionStrategy = "valueSelectionStrategy"
+            case valueElicitationPrompt = "valueElicitationPrompt"
             case name = "name"
             case description = "description"
-            case enumerationValues = "enumerationValues"
-            case createVersion = "createVersion"
+            case slotType = "slotType"
+            case responseCard = "responseCard"
+            case priority = "priority"
+            case sampleUtterances = "sampleUtterances"
+            case slotTypeVersion = "slotTypeVersion"
+            case slotConstraint = "slotConstraint"
         }
     }
 
-    public struct PutBotRequest: AWSShape {
+    public struct BotChannelAssociation: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "processBehavior", required: false, type: .enum), 
-            AWSShapeMember(label: "locale", required: true, type: .enum), 
-            AWSShapeMember(label: "abortStatement", required: false, type: .structure), 
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "checksum", required: false, type: .string), 
-            AWSShapeMember(label: "createVersion", required: false, type: .boolean), 
-            AWSShapeMember(label: "clarificationPrompt", required: false, type: .structure), 
+            AWSShapeMember(label: "botConfiguration", required: false, type: .map), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "voiceId", required: false, type: .string), 
-            AWSShapeMember(label: "childDirected", required: true, type: .boolean), 
-            AWSShapeMember(label: "intents", required: false, type: .list), 
-            AWSShapeMember(label: "idleSessionTTLInSeconds", required: false, type: .integer)
+            AWSShapeMember(label: "type", required: false, type: .enum), 
+            AWSShapeMember(label: "botName", required: false, type: .string), 
+            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "botAlias", required: false, type: .string), 
+            AWSShapeMember(label: "failureReason", required: false, type: .string)
         ]
-        /// If you set the processBehavior element to BUILD, Amazon Lex builds the bot so that it can be run. If you set the element to SAVE Amazon Lex saves the bot, but doesn't build it.  If you don't specify this value, the default value is BUILD.
-        public let processBehavior: ProcessBehavior?
-        ///  Specifies the target locale for the bot. Any intent used in the bot must be compatible with the locale of the bot.  The default is en-US.
-        public let locale: Locale
-        /// When Amazon Lex can't understand the user's input in context, it tries to elicit the information a few times. After that, Amazon Lex sends the message defined in abortStatement to the user, and then aborts the conversation. To set the number of retries, use the valueElicitationPrompt field for the slot type.  For example, in a pizza ordering bot, Amazon Lex might ask a user "What type of crust would you like?" If the user's response is not one of the expected responses (for example, "thin crust, "deep dish," etc.), Amazon Lex tries to elicit a correct response a few more times.  For example, in a pizza ordering application, OrderPizza might be one of the intents. This intent might require the CrustType slot. You specify the valueElicitationPrompt field when you create the CrustType slot.
-        public let abortStatement: Statement?
-        /// The name of the bot. The name is not case sensitive. 
-        public let name: String
-        /// Identifies a specific revision of the $LATEST version. When you create a new bot, leave the checksum field blank. If you specify a checksum you get a BadRequestException exception. When you want to update a bot, set the checksum field to the checksum of the most recent revision of the $LATEST version. If you don't specify the  checksum field, or if the checksum does not match the $LATEST version, you get a PreconditionFailedException exception.
-        public let checksum: String?
-        public let createVersion: Bool?
-        /// When Amazon Lex doesn't understand the user's intent, it uses this message to get clarification. To specify how many times Amazon Lex should repeate the clarification prompt, use the maxAttempts field. If Amazon Lex still doesn't understand, it sends the message in the abortStatement field.  When you create a clarification prompt, make sure that it suggests the correct response from the user. for example, for a bot that orders pizza and drinks, you might create this clarification prompt: "What would you like to do? You can say 'Order a pizza' or 'Order a drink.'"
-        public let clarificationPrompt: Prompt?
-        /// A description of the bot.
+        /// Provides information necessary to communicate with the messaging platform. 
+        public let botConfiguration: [String: String]?
+        /// The name of the association between the bot and the channel. 
+        public let name: String?
+        /// A text description of the association you are creating. 
         public let description: String?
-        /// The Amazon Polly voice ID that you want Amazon Lex to use for voice interactions with the user. The locale configured for the voice must match the locale of the bot. For more information, see Available Voices in the Amazon Polly Developer Guide.
-        public let voiceId: String?
-        /// For each Amazon Lex bot created with the Amazon Lex Model Building Service, you must specify whether your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to the Children's Online Privacy Protection Act (COPPA) by specifying true or false in the childDirected field. By specifying true in the childDirected field, you confirm that your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. By specifying false in the childDirected field, you confirm that your use of Amazon Lex is not related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. You may not specify a default value for the childDirected field that does not accurately reflect whether your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. If your use of Amazon Lex relates to a website, program, or other application that is directed in whole or in part, to children under age 13, you must obtain any required verifiable parental consent under COPPA. For information regarding the use of Amazon Lex in connection with websites, programs, or other applications that are directed or targeted, in whole or in part, to children under age 13, see the Amazon Lex FAQ. 
-        public let childDirected: Bool
-        /// An array of Intent objects. Each intent represents a command that a user can express. For example, a pizza ordering bot might support an OrderPizza intent. For more information, see how-it-works.
-        public let intents: [Intent]?
-        /// The maximum time in seconds that Amazon Lex retains the data gathered in a conversation. A user interaction session remains active for the amount of time specified. If no conversation occurs during this time, the session expires and Amazon Lex deletes any data provided before the timeout. For example, suppose that a user chooses the OrderPizza intent, but gets sidetracked halfway through placing an order. If the user doesn't complete the order within the specified time, Amazon Lex discards the slot information that it gathered, and the user must start over. If you don't include the idleSessionTTLInSeconds element in a PutBot operation request, Amazon Lex uses the default value. This is also true if the request replaces an existing bot. The default is 300 seconds (5 minutes).
-        public let idleSessionTTLInSeconds: Int32?
+        /// Specifies the type of association by indicating the type of channel being established between the Amazon Lex bot and the external messaging platform.
+        public let `type`: ChannelType?
+        /// The name of the Amazon Lex bot to which this association is being made.   Currently, Amazon Lex supports associations with Facebook and Slack, and Twilio. 
+        public let botName: String?
+        /// The date that the association between the Amazon Lex bot and the channel was created. 
+        public let createdDate: TimeStamp?
+        /// The status of the bot channel.     CREATED - The channel has been created and is ready for use.    IN_PROGRESS - Channel creation is in progress.    FAILED - There was an error creating the channel. For information about the reason for the failure, see the failureReason field.  
+        public let status: ChannelStatus?
+        /// An alias pointing to the specific version of the Amazon Lex bot to which this association is being made. 
+        public let botAlias: String?
+        /// If status is FAILED, Amazon Lex provides the reason that it failed to create the association.
+        public let failureReason: String?
 
-        public init(processBehavior: ProcessBehavior? = nil, locale: Locale, abortStatement: Statement? = nil, name: String, checksum: String? = nil, createVersion: Bool? = nil, clarificationPrompt: Prompt? = nil, description: String? = nil, voiceId: String? = nil, childDirected: Bool, intents: [Intent]? = nil, idleSessionTTLInSeconds: Int32? = nil) {
-            self.processBehavior = processBehavior
-            self.locale = locale
-            self.abortStatement = abortStatement
+        public init(botConfiguration: [String: String]? = nil, name: String? = nil, description: String? = nil, type: ChannelType? = nil, botName: String? = nil, createdDate: TimeStamp? = nil, status: ChannelStatus? = nil, botAlias: String? = nil, failureReason: String? = nil) {
+            self.botConfiguration = botConfiguration
             self.name = name
-            self.checksum = checksum
-            self.createVersion = createVersion
-            self.clarificationPrompt = clarificationPrompt
             self.description = description
-            self.voiceId = voiceId
-            self.childDirected = childDirected
-            self.intents = intents
-            self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
+            self.`type` = `type`
+            self.botName = botName
+            self.createdDate = createdDate
+            self.status = status
+            self.botAlias = botAlias
+            self.failureReason = failureReason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case processBehavior = "processBehavior"
-            case locale = "locale"
-            case abortStatement = "abortStatement"
+            case botConfiguration = "botConfiguration"
             case name = "name"
-            case checksum = "checksum"
-            case createVersion = "createVersion"
-            case clarificationPrompt = "clarificationPrompt"
             case description = "description"
-            case voiceId = "voiceId"
-            case childDirected = "childDirected"
-            case intents = "intents"
-            case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
+            case `type` = "type"
+            case botName = "botName"
+            case createdDate = "createdDate"
+            case status = "status"
+            case botAlias = "botAlias"
+            case failureReason = "failureReason"
         }
     }
 
-    public enum StatusType: String, CustomStringConvertible, Codable {
-        case detected = "Detected"
-        case missed = "Missed"
-        public var description: String { return self.rawValue }
+    public struct GetBotAliasResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "botVersion", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "botName", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "checksum", required: false, type: .string)
+        ]
+        /// The version of the bot that the alias points to.
+        public let botVersion: String?
+        /// The date that the bot alias was updated. When you create a resource, the creation date and the last updated date are the same.
+        public let lastUpdatedDate: TimeStamp?
+        /// A description of the bot alias.
+        public let description: String?
+        /// The name of the bot that the alias points to.
+        public let botName: String?
+        /// The name of the bot alias.
+        public let name: String?
+        /// The date that the bot alias was created.
+        public let createdDate: TimeStamp?
+        /// Checksum of the bot alias.
+        public let checksum: String?
+
+        public init(botVersion: String? = nil, lastUpdatedDate: TimeStamp? = nil, description: String? = nil, botName: String? = nil, name: String? = nil, createdDate: TimeStamp? = nil, checksum: String? = nil) {
+            self.botVersion = botVersion
+            self.lastUpdatedDate = lastUpdatedDate
+            self.description = description
+            self.botName = botName
+            self.name = name
+            self.createdDate = createdDate
+            self.checksum = checksum
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botVersion = "botVersion"
+            case lastUpdatedDate = "lastUpdatedDate"
+            case description = "description"
+            case botName = "botName"
+            case name = "name"
+            case createdDate = "createdDate"
+            case checksum = "checksum"
+        }
     }
 
-    public struct Intent: AWSShape {
+    public struct CreateIntentVersionResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "intentName", required: true, type: .string), 
-            AWSShapeMember(label: "intentVersion", required: true, type: .string)
+            AWSShapeMember(label: "checksum", required: false, type: .string), 
+            AWSShapeMember(label: "parentIntentSignature", required: false, type: .string), 
+            AWSShapeMember(label: "rejectionStatement", required: false, type: .structure), 
+            AWSShapeMember(label: "dialogCodeHook", required: false, type: .structure), 
+            AWSShapeMember(label: "fulfillmentActivity", required: false, type: .structure), 
+            AWSShapeMember(label: "sampleUtterances", required: false, type: .list), 
+            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "followUpPrompt", required: false, type: .structure), 
+            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "conclusionStatement", required: false, type: .structure), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "slots", required: false, type: .list), 
+            AWSShapeMember(label: "confirmationPrompt", required: false, type: .structure)
         ]
+        /// Checksum of the intent version created.
+        public let checksum: String?
+        /// A unique identifier for a built-in intent.
+        public let parentIntentSignature: String?
+        /// If the user answers "no" to the question defined in confirmationPrompt, Amazon Lex responds with this statement to acknowledge that the intent was canceled. 
+        public let rejectionStatement: Statement?
+        /// If defined, Amazon Lex invokes this Lambda function for each user input.
+        public let dialogCodeHook: CodeHook?
+        ///  Describes how the intent is fulfilled. 
+        public let fulfillmentActivity: FulfillmentActivity?
+        /// An array of sample utterances configured for the intent. 
+        public let sampleUtterances: [String]?
+        /// The date that the intent was created.
+        public let createdDate: TimeStamp?
+        /// The version number assigned to the new version of the intent.
+        public let version: String?
+        /// If defined, Amazon Lex uses this prompt to solicit additional user activity after the intent is fulfilled. 
+        public let followUpPrompt: FollowUpPrompt?
+        /// The date that the intent was updated. 
+        public let lastUpdatedDate: TimeStamp?
         /// The name of the intent.
-        public let intentName: String
-        /// The version of the intent.
-        public let intentVersion: String
+        public let name: String?
+        /// After the Lambda function specified in the fulfillmentActivity field fulfills the intent, Amazon Lex conveys this statement to the user. 
+        public let conclusionStatement: Statement?
+        /// A description of the intent.
+        public let description: String?
+        /// An array of slot types that defines the information required to fulfill the intent.
+        public let slots: [Slot]?
+        /// If defined, the prompt that Amazon Lex uses to confirm the user's intent before fulfilling it. 
+        public let confirmationPrompt: Prompt?
 
-        public init(intentName: String, intentVersion: String) {
-            self.intentName = intentName
-            self.intentVersion = intentVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case intentName = "intentName"
-            case intentVersion = "intentVersion"
-        }
-    }
-
-    public struct GetIntentVersionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
-        ]
-        /// The name of the intent for which versions should be returned.
-        public let name: String
-        /// The maximum number of intent versions to return in the response. The default is 10.
-        public let maxResults: Int32?
-        /// A pagination token for fetching the next page of intent versions. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of versions, specify the pagination token in the next request. 
-        public let nextToken: String?
-
-        public init(name: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(checksum: String? = nil, parentIntentSignature: String? = nil, rejectionStatement: Statement? = nil, dialogCodeHook: CodeHook? = nil, fulfillmentActivity: FulfillmentActivity? = nil, sampleUtterances: [String]? = nil, createdDate: TimeStamp? = nil, version: String? = nil, followUpPrompt: FollowUpPrompt? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil, conclusionStatement: Statement? = nil, description: String? = nil, slots: [Slot]? = nil, confirmationPrompt: Prompt? = nil) {
+            self.checksum = checksum
+            self.parentIntentSignature = parentIntentSignature
+            self.rejectionStatement = rejectionStatement
+            self.dialogCodeHook = dialogCodeHook
+            self.fulfillmentActivity = fulfillmentActivity
+            self.sampleUtterances = sampleUtterances
+            self.createdDate = createdDate
+            self.version = version
+            self.followUpPrompt = followUpPrompt
+            self.lastUpdatedDate = lastUpdatedDate
             self.name = name
-            self.maxResults = maxResults
-            self.nextToken = nextToken
+            self.conclusionStatement = conclusionStatement
+            self.description = description
+            self.slots = slots
+            self.confirmationPrompt = confirmationPrompt
         }
 
         private enum CodingKeys: String, CodingKey {
+            case checksum = "checksum"
+            case parentIntentSignature = "parentIntentSignature"
+            case rejectionStatement = "rejectionStatement"
+            case dialogCodeHook = "dialogCodeHook"
+            case fulfillmentActivity = "fulfillmentActivity"
+            case sampleUtterances = "sampleUtterances"
+            case createdDate = "createdDate"
+            case version = "version"
+            case followUpPrompt = "followUpPrompt"
+            case lastUpdatedDate = "lastUpdatedDate"
             case name = "name"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
+            case conclusionStatement = "conclusionStatement"
+            case description = "description"
+            case slots = "slots"
+            case confirmationPrompt = "confirmationPrompt"
         }
     }
 
     public struct GetSlotTypeResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "checksum", required: false, type: .string), 
             AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "valueSelectionStrategy", required: false, type: .enum), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "enumerationValues", required: false, type: .list), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp)
+            AWSShapeMember(label: "checksum", required: false, type: .string)
         ]
-        /// The name of the slot type.
-        public let name: String?
-        /// Checksum of the $LATEST version of the slot type.
-        public let checksum: String?
         /// The version of the slot type.
         public let version: String?
-        /// The strategy that Amazon Lex uses to determine the value of the slot. For more information, see PutSlotType.
-        public let valueSelectionStrategy: SlotValueSelectionStrategy?
-        /// A description of the slot type.
-        public let description: String?
-        /// A list of EnumerationValue objects that defines the values that the slot type can take.
-        public let enumerationValues: [EnumerationValue]?
-        /// The date that the slot type was created.
-        public let createdDate: TimeStamp?
         /// The date that the slot type was updated. When you create a resource, the creation date and last update date are the same.
         public let lastUpdatedDate: TimeStamp?
-
-        public init(name: String? = nil, checksum: String? = nil, version: String? = nil, valueSelectionStrategy: SlotValueSelectionStrategy? = nil, description: String? = nil, enumerationValues: [EnumerationValue]? = nil, createdDate: TimeStamp? = nil, lastUpdatedDate: TimeStamp? = nil) {
-            self.name = name
-            self.checksum = checksum
-            self.version = version
-            self.valueSelectionStrategy = valueSelectionStrategy
-            self.description = description
-            self.enumerationValues = enumerationValues
-            self.createdDate = createdDate
-            self.lastUpdatedDate = lastUpdatedDate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case checksum = "checksum"
-            case version = "version"
-            case valueSelectionStrategy = "valueSelectionStrategy"
-            case description = "description"
-            case enumerationValues = "enumerationValues"
-            case createdDate = "createdDate"
-            case lastUpdatedDate = "lastUpdatedDate"
-        }
-    }
-
-    public struct DeleteIntentVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "version", location: .uri(locationName: "version"), required: true, type: .string), 
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
-        ]
-        /// The version of the intent to delete. You cannot delete the $LATEST version of the intent. To delete the $LATEST version, use the DeleteIntent operation.
-        public let version: String
-        /// The name of the intent.
-        public let name: String
-
-        public init(version: String, name: String) {
-            self.version = version
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case version = "version"
-            case name = "name"
-        }
-    }
-
-    public struct GetBotVersionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
-        ]
-        /// The name of the bot for which versions should be returned.
-        public let name: String
-        /// The maximum number of bot versions to return in the response. The default is 10.
-        public let maxResults: Int32?
-        /// A pagination token for fetching the next page of bot versions. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of versions, specify the pagination token in the next request. 
-        public let nextToken: String?
-
-        public init(name: String, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.name = name
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct GetSlotTypeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "version", location: .uri(locationName: "version"), required: true, type: .string), 
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
-        ]
-        /// The version of the slot type. 
-        public let version: String
-        /// The name of the slot type. The name is case sensitive. 
-        public let name: String
-
-        public init(version: String, name: String) {
-            self.version = version
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case version = "version"
-            case name = "name"
-        }
-    }
-
-    public struct GetBuiltinIntentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "signature", location: .uri(locationName: "signature"), required: true, type: .string)
-        ]
-        /// The unique identifier for a built-in intent. To find the signature for an intent, see Standard Built-in Intents in the Alexa Skills Kit.
-        public let signature: String
-
-        public init(signature: String) {
-            self.signature = signature
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case signature = "signature"
-        }
-    }
-
-    public struct BuiltinSlotTypeMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "signature", required: false, type: .string), 
-            AWSShapeMember(label: "supportedLocales", required: false, type: .list)
-        ]
-        /// A unique identifier for the built-in slot type. To find the signature for a slot type, see Slot Type Reference in the Alexa Skills Kit.
-        public let signature: String?
-        /// A list of target locales for the slot. 
-        public let supportedLocales: [Locale]?
-
-        public init(signature: String? = nil, supportedLocales: [Locale]? = nil) {
-            self.signature = signature
-            self.supportedLocales = supportedLocales
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case signature = "signature"
-            case supportedLocales = "supportedLocales"
-        }
-    }
-
-    public enum ReferenceType: String, CustomStringConvertible, Codable {
-        case intent = "Intent"
-        case bot = "Bot"
-        case botalias = "BotAlias"
-        case botchannel = "BotChannel"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ChannelStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
-        case created = "CREATED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateIntentVersionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "dialogCodeHook", required: false, type: .structure), 
-            AWSShapeMember(label: "rejectionStatement", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "parentIntentSignature", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "conclusionStatement", required: false, type: .structure), 
-            AWSShapeMember(label: "fulfillmentActivity", required: false, type: .structure), 
-            AWSShapeMember(label: "slots", required: false, type: .list), 
-            AWSShapeMember(label: "confirmationPrompt", required: false, type: .structure), 
-            AWSShapeMember(label: "sampleUtterances", required: false, type: .list), 
-            AWSShapeMember(label: "checksum", required: false, type: .string), 
-            AWSShapeMember(label: "followUpPrompt", required: false, type: .structure), 
-            AWSShapeMember(label: "version", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp)
-        ]
-        /// If defined, Amazon Lex invokes this Lambda function for each user input.
-        public let dialogCodeHook: CodeHook?
-        /// If the user answers "no" to the question defined in confirmationPrompt, Amazon Lex responds with this statement to acknowledge that the intent was canceled. 
-        public let rejectionStatement: Statement?
-        /// The name of the intent.
+        /// The strategy that Amazon Lex uses to determine the value of the slot. For more information, see PutSlotType.
+        public let valueSelectionStrategy: SlotValueSelectionStrategy?
+        /// The name of the slot type.
         public let name: String?
-        /// A unique identifier for a built-in intent.
-        public let parentIntentSignature: String?
-        /// A description of the intent.
+        /// A list of EnumerationValue objects that defines the values that the slot type can take.
+        public let enumerationValues: [EnumerationValue]?
+        /// A description of the slot type.
         public let description: String?
-        /// After the Lambda function specified in the fulfillmentActivity field fulfills the intent, Amazon Lex conveys this statement to the user. 
-        public let conclusionStatement: Statement?
-        ///  Describes how the intent is fulfilled. 
-        public let fulfillmentActivity: FulfillmentActivity?
-        /// An array of slot types that defines the information required to fulfill the intent.
-        public let slots: [Slot]?
-        /// If defined, the prompt that Amazon Lex uses to confirm the user's intent before fulfilling it. 
-        public let confirmationPrompt: Prompt?
-        /// An array of sample utterances configured for the intent. 
-        public let sampleUtterances: [String]?
-        /// Checksum of the intent version created.
+        /// The date that the slot type was created.
+        public let createdDate: TimeStamp?
+        /// Checksum of the $LATEST version of the slot type.
         public let checksum: String?
-        /// If defined, Amazon Lex uses this prompt to solicit additional user activity after the intent is fulfilled. 
-        public let followUpPrompt: FollowUpPrompt?
-        /// The version number assigned to the new version of the intent.
-        public let version: String?
-        /// The date that the intent was updated. 
-        public let lastUpdatedDate: TimeStamp?
-        /// The date that the intent was created.
-        public let createdDate: TimeStamp?
 
-        public init(dialogCodeHook: CodeHook? = nil, rejectionStatement: Statement? = nil, name: String? = nil, parentIntentSignature: String? = nil, description: String? = nil, conclusionStatement: Statement? = nil, fulfillmentActivity: FulfillmentActivity? = nil, slots: [Slot]? = nil, confirmationPrompt: Prompt? = nil, sampleUtterances: [String]? = nil, checksum: String? = nil, followUpPrompt: FollowUpPrompt? = nil, version: String? = nil, lastUpdatedDate: TimeStamp? = nil, createdDate: TimeStamp? = nil) {
-            self.dialogCodeHook = dialogCodeHook
-            self.rejectionStatement = rejectionStatement
+        public init(version: String? = nil, lastUpdatedDate: TimeStamp? = nil, valueSelectionStrategy: SlotValueSelectionStrategy? = nil, name: String? = nil, enumerationValues: [EnumerationValue]? = nil, description: String? = nil, createdDate: TimeStamp? = nil, checksum: String? = nil) {
+            self.version = version
+            self.lastUpdatedDate = lastUpdatedDate
+            self.valueSelectionStrategy = valueSelectionStrategy
             self.name = name
-            self.parentIntentSignature = parentIntentSignature
+            self.enumerationValues = enumerationValues
             self.description = description
-            self.conclusionStatement = conclusionStatement
-            self.fulfillmentActivity = fulfillmentActivity
-            self.slots = slots
-            self.confirmationPrompt = confirmationPrompt
-            self.sampleUtterances = sampleUtterances
+            self.createdDate = createdDate
             self.checksum = checksum
-            self.followUpPrompt = followUpPrompt
-            self.version = version
-            self.lastUpdatedDate = lastUpdatedDate
-            self.createdDate = createdDate
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dialogCodeHook = "dialogCodeHook"
-            case rejectionStatement = "rejectionStatement"
+            case version = "version"
+            case lastUpdatedDate = "lastUpdatedDate"
+            case valueSelectionStrategy = "valueSelectionStrategy"
             case name = "name"
-            case parentIntentSignature = "parentIntentSignature"
+            case enumerationValues = "enumerationValues"
             case description = "description"
-            case conclusionStatement = "conclusionStatement"
-            case fulfillmentActivity = "fulfillmentActivity"
-            case slots = "slots"
-            case confirmationPrompt = "confirmationPrompt"
-            case sampleUtterances = "sampleUtterances"
+            case createdDate = "createdDate"
             case checksum = "checksum"
-            case followUpPrompt = "followUpPrompt"
-            case version = "version"
-            case lastUpdatedDate = "lastUpdatedDate"
-            case createdDate = "createdDate"
-        }
-    }
-
-    public struct IntentMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "version", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string)
-        ]
-        /// The date that the intent was updated. When you create an intent, the creation date and last updated date are the same.
-        public let lastUpdatedDate: TimeStamp?
-        /// The name of the intent.
-        public let name: String?
-        /// The date that the intent was created.
-        public let createdDate: TimeStamp?
-        /// The version of the intent.
-        public let version: String?
-        /// A description of the intent.
-        public let description: String?
-
-        public init(lastUpdatedDate: TimeStamp? = nil, name: String? = nil, createdDate: TimeStamp? = nil, version: String? = nil, description: String? = nil) {
-            self.lastUpdatedDate = lastUpdatedDate
-            self.name = name
-            self.createdDate = createdDate
-            self.version = version
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lastUpdatedDate = "lastUpdatedDate"
-            case name = "name"
-            case createdDate = "createdDate"
-            case version = "version"
-            case description = "description"
-        }
-    }
-
-    public struct GetBotAliasesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BotAliases", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// An array of BotAliasMetadata objects, each describing a bot alias.
-        public let botAliases: [BotAliasMetadata]?
-        /// A pagination token for fetching next page of aliases. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of aliases, specify the pagination token in the next request. 
-        public let nextToken: String?
-
-        public init(botAliases: [BotAliasMetadata]? = nil, nextToken: String? = nil) {
-            self.botAliases = botAliases
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case botAliases = "BotAliases"
-            case nextToken = "nextToken"
         }
     }
 
     public struct GetBotsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nameContains", location: .querystring(locationName: "nameContains"), required: false, type: .string), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
             AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "nameContains", location: .querystring(locationName: "nameContains"), required: false, type: .string)
         ]
-        /// Substring to match in bot names. A bot will be returned if any part of its name matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz."
-        public let nameContains: String?
-        /// The maximum number of bots to return in the response that the request will return. The default is 10.
-        public let maxResults: Int32?
         /// A pagination token that fetches the next page of bots. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of bots, specify the pagination token in the next request. 
         public let nextToken: String?
-
-        public init(nameContains: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.nameContains = nameContains
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nameContains = "nameContains"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct GetBotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "versionOrAlias", location: .uri(locationName: "versionoralias"), required: true, type: .string), 
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
-        ]
-        /// The version or alias of the bot.
-        public let versionOrAlias: String
-        /// The name of the bot. The name is case sensitive. 
-        public let name: String
-
-        public init(versionOrAlias: String, name: String) {
-            self.versionOrAlias = versionOrAlias
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case versionOrAlias = "versionoralias"
-            case name = "name"
-        }
-    }
-
-    public enum ResourceType: String, CustomStringConvertible, Codable {
-        case bot = "BOT"
-        case intent = "INTENT"
-        case slotType = "SLOT_TYPE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ExportType: String, CustomStringConvertible, Codable {
-        case alexaSkillsKit = "ALEXA_SKILLS_KIT"
-        case lex = "LEX"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct FulfillmentActivity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "type", required: true, type: .enum), 
-            AWSShapeMember(label: "codeHook", required: false, type: .structure)
-        ]
-        ///  How the intent should be fulfilled, either by running a Lambda function or by returning the slot data to the client application. 
-        public let `type`: FulfillmentActivityType
-        ///  A description of the Lambda function that is run to fulfill the intent. 
-        public let codeHook: CodeHook?
-
-        public init(type: FulfillmentActivityType, codeHook: CodeHook? = nil) {
-            self.`type` = `type`
-            self.codeHook = codeHook
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "type"
-            case codeHook = "codeHook"
-        }
-    }
-
-    public struct GetSlotTypesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nameContains", location: .querystring(locationName: "nameContains"), required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
-        ]
-        /// Substring to match in slot type names. A slot type will be returned if any part of its name matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz."
+        /// The maximum number of bots to return in the response that the request will return. The default is 10.
+        public let maxResults: Int32?
+        /// Substring to match in bot names. A bot will be returned if any part of its name matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz."
         public let nameContains: String?
-        /// The maximum number of slot types to return in the response. The default is 10.
-        public let maxResults: Int32?
-        /// A pagination token that fetches the next page of slot types. If the response to this API call is truncated, Amazon Lex returns a pagination token in the response. To fetch next page of slot types, specify the pagination token in the next request.
-        public let nextToken: String?
 
-        public init(nameContains: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(nextToken: String? = nil, maxResults: Int32? = nil, nameContains: String? = nil) {
+            self.nextToken = nextToken
+            self.maxResults = maxResults
             self.nameContains = nameContains
-            self.maxResults = maxResults
-            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
             case nameContains = "nameContains"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
         }
     }
 
-    public struct PutBotAliasResponse: AWSShape {
+    public struct PutIntentResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "checksum", required: false, type: .string), 
-            AWSShapeMember(label: "botName", required: false, type: .string), 
-            AWSShapeMember(label: "botVersion", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp)
-        ]
-        /// The name of the alias.
-        public let name: String?
-        /// The checksum for the current version of the alias.
-        public let checksum: String?
-        /// The name of the bot that the alias points to.
-        public let botName: String?
-        /// The version of the bot that the alias points to.
-        public let botVersion: String?
-        /// A description of the alias.
-        public let description: String?
-        /// The date that the bot alias was updated. When you create a resource, the creation date and the last updated date are the same.
-        public let lastUpdatedDate: TimeStamp?
-        /// The date that the bot alias was created.
-        public let createdDate: TimeStamp?
-
-        public init(name: String? = nil, checksum: String? = nil, botName: String? = nil, botVersion: String? = nil, description: String? = nil, lastUpdatedDate: TimeStamp? = nil, createdDate: TimeStamp? = nil) {
-            self.name = name
-            self.checksum = checksum
-            self.botName = botName
-            self.botVersion = botVersion
-            self.description = description
-            self.lastUpdatedDate = lastUpdatedDate
-            self.createdDate = createdDate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case checksum = "checksum"
-            case botName = "botName"
-            case botVersion = "botVersion"
-            case description = "description"
-            case lastUpdatedDate = "lastUpdatedDate"
-            case createdDate = "createdDate"
-        }
-    }
-
-    public struct Message: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "content", required: true, type: .string), 
-            AWSShapeMember(label: "groupNumber", required: false, type: .integer), 
-            AWSShapeMember(label: "contentType", required: true, type: .enum)
-        ]
-        /// The text of the message.
-        public let content: String
-        /// Identifies the message group that the message belongs to. When a group is assigned to a message, Amazon Lex returns one message from each group in the response.
-        public let groupNumber: Int32?
-        /// The content type of the message string.
-        public let contentType: ContentType
-
-        public init(content: String, groupNumber: Int32? = nil, contentType: ContentType) {
-            self.content = content
-            self.groupNumber = groupNumber
-            self.contentType = contentType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case content = "content"
-            case groupNumber = "groupNumber"
-            case contentType = "contentType"
-        }
-    }
-
-    public struct GetBotsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bots", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// An array of botMetadata objects, with one entry for each bot. 
-        public let bots: [BotMetadata]?
-        /// If the response is truncated, it includes a pagination token that you can specify in your next request to fetch the next page of bots. 
-        public let nextToken: String?
-
-        public init(bots: [BotMetadata]? = nil, nextToken: String? = nil) {
-            self.bots = bots
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bots = "bots"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct DeleteBotChannelAssociationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string), 
-            AWSShapeMember(label: "botAlias", location: .uri(locationName: "aliasName"), required: true, type: .string), 
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
-        ]
-        /// The name of the Amazon Lex bot.
-        public let botName: String
-        /// An alias that points to the specific version of the Amazon Lex bot to which this association is being made.
-        public let botAlias: String
-        /// The name of the association. The name is case sensitive. 
-        public let name: String
-
-        public init(botName: String, botAlias: String, name: String) {
-            self.botName = botName
-            self.botAlias = botAlias
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case botName = "botName"
-            case botAlias = "aliasName"
-            case name = "name"
-        }
-    }
-
-    public struct DeleteBotVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "version", location: .uri(locationName: "version"), required: true, type: .string), 
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
-        ]
-        /// The version of the bot to delete. You cannot delete the $LATEST version of the bot. To delete the $LATEST version, use the DeleteBot operation.
-        public let version: String
-        /// The name of the bot.
-        public let name: String
-
-        public init(version: String, name: String) {
-            self.version = version
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case version = "version"
-            case name = "name"
-        }
-    }
-
-    public struct DeleteIntentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
-        ]
-        /// The name of the intent. The name is case sensitive. 
-        public let name: String
-
-        public init(name: String) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-        }
-    }
-
-    public struct GetImportRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "importId", location: .uri(locationName: "importId"), required: true, type: .string)
-        ]
-        /// The identifier of the import job information to return.
-        public let importId: String
-
-        public init(importId: String) {
-            self.importId = importId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case importId = "importId"
-        }
-    }
-
-    public enum Locale: String, CustomStringConvertible, Codable {
-        case enUs = "en-US"
-        case enGb = "en-GB"
-        case deDe = "de-DE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetIntentVersionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "intents", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// An array of IntentMetadata objects, one for each numbered version of the intent plus one for the $LATEST version.
-        public let intents: [IntentMetadata]?
-        /// A pagination token for fetching the next page of intent versions. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of versions, specify the pagination token in the next request. 
-        public let nextToken: String?
-
-        public init(intents: [IntentMetadata]? = nil, nextToken: String? = nil) {
-            self.intents = intents
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case intents = "intents"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct GetSlotTypeVersionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
-        ]
-        /// The name of the slot type for which versions should be returned.
-        public let name: String
-        /// The maximum number of slot type versions to return in the response. The default is 10.
-        public let maxResults: Int32?
-        /// A pagination token for fetching the next page of slot type versions. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of versions, specify the pagination token in the next request. 
-        public let nextToken: String?
-
-        public init(name: String, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.name = name
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public enum Status: String, CustomStringConvertible, Codable {
-        case building = "BUILDING"
-        case ready = "READY"
-        case readyBasicTesting = "READY_BASIC_TESTING"
-        case failed = "FAILED"
-        case notBuilt = "NOT_BUILT"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ResourceReference: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "version", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
-        /// The version of the resource that is using the resource that you are trying to delete.
-        public let version: String?
-        /// The name of the resource that is using the resource that you are trying to delete.
-        public let name: String?
-
-        public init(version: String? = nil, name: String? = nil) {
-            self.version = version
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case version = "version"
-            case name = "name"
-        }
-    }
-
-    public struct PutBotResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "voiceId", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "failureReason", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "locale", required: false, type: .enum), 
-            AWSShapeMember(label: "checksum", required: false, type: .string), 
-            AWSShapeMember(label: "version", required: false, type: .string), 
-            AWSShapeMember(label: "abortStatement", required: false, type: .structure), 
-            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "idleSessionTTLInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "parentIntentSignature", required: false, type: .string), 
+            AWSShapeMember(label: "rejectionStatement", required: false, type: .structure), 
+            AWSShapeMember(label: "dialogCodeHook", required: false, type: .structure), 
+            AWSShapeMember(label: "fulfillmentActivity", required: false, type: .structure), 
             AWSShapeMember(label: "createVersion", required: false, type: .boolean), 
+            AWSShapeMember(label: "sampleUtterances", required: false, type: .list), 
             AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "clarificationPrompt", required: false, type: .structure), 
-            AWSShapeMember(label: "intents", required: false, type: .list), 
-            AWSShapeMember(label: "childDirected", required: false, type: .boolean)
+            AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "followUpPrompt", required: false, type: .structure), 
+            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "conclusionStatement", required: false, type: .structure), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "slots", required: false, type: .list), 
+            AWSShapeMember(label: "confirmationPrompt", required: false, type: .structure)
         ]
-        /// The Amazon Polly voice ID that Amazon Lex uses for voice interaction with the user. For more information, see PutBot.
-        public let voiceId: String?
-        /// The name of the bot.
-        public let name: String?
-        ///  When you send a request to create a bot with processBehavior set to BUILD, Amazon Lex sets the status response element to BUILDING. After Amazon Lex builds the bot, it sets status to READY. If Amazon Lex can't build the bot, Amazon Lex sets status to FAILED. Amazon Lex returns the reason for the failure in the failureReason response element.  When you set processBehaviorto SAVE, Amazon Lex sets the status code to NOT BUILT.
-        public let status: Status?
-        /// If status is FAILED, Amazon Lex provides the reason that it failed to build the bot.
-        public let failureReason: String?
-        /// A description of the bot.
-        public let description: String?
-        ///  The target locale for the bot. 
-        public let locale: Locale?
-        /// Checksum of the bot that you created.
+        /// Checksum of the $LATESTversion of the intent created or updated.
         public let checksum: String?
-        /// The version of the bot. For a new bot, the version is always $LATEST.
-        public let version: String?
-        /// The message that Amazon Lex uses to abort a conversation. For more information, see PutBot.
-        public let abortStatement: Statement?
-        /// The date that the bot was updated. When you create a resource, the creation date and last updated date are the same.
-        public let lastUpdatedDate: TimeStamp?
-        /// The maximum length of time that Amazon Lex retains the data gathered in a conversation. For more information, see PutBot.
-        public let idleSessionTTLInSeconds: Int32?
+        /// A unique identifier for the built-in intent that this intent is based on.
+        public let parentIntentSignature: String?
+        /// If the user answers "no" to the question defined in confirmationPrompt Amazon Lex responds with this statement to acknowledge that the intent was canceled. 
+        public let rejectionStatement: Statement?
+        /// If defined in the intent, Amazon Lex invokes this Lambda function for each user input.
+        public let dialogCodeHook: CodeHook?
+        /// If defined in the intent, Amazon Lex invokes this Lambda function to fulfill the intent after the user provides all of the information required by the intent.
+        public let fulfillmentActivity: FulfillmentActivity?
         public let createVersion: Bool?
-        /// The date that the bot was created.
+        ///  An array of sample utterances that are configured for the intent. 
+        public let sampleUtterances: [String]?
+        /// The date that the intent was created.
         public let createdDate: TimeStamp?
-        ///  The prompts that Amazon Lex uses when it doesn't understand the user's intent. For more information, see PutBot. 
-        public let clarificationPrompt: Prompt?
-        /// An array of Intent objects. For more information, see PutBot.
-        public let intents: [Intent]?
-        /// For each Amazon Lex bot created with the Amazon Lex Model Building Service, you must specify whether your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to the Children's Online Privacy Protection Act (COPPA) by specifying true or false in the childDirected field. By specifying true in the childDirected field, you confirm that your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. By specifying false in the childDirected field, you confirm that your use of Amazon Lex is not related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. You may not specify a default value for the childDirected field that does not accurately reflect whether your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. If your use of Amazon Lex relates to a website, program, or other application that is directed in whole or in part, to children under age 13, you must obtain any required verifiable parental consent under COPPA. For information regarding the use of Amazon Lex in connection with websites, programs, or other applications that are directed or targeted, in whole or in part, to children under age 13, see the Amazon Lex FAQ. 
-        public let childDirected: Bool?
+        /// The version of the intent. For a new intent, the version is always $LATEST.
+        public let version: String?
+        /// If defined in the intent, Amazon Lex uses this prompt to solicit additional user activity after the intent is fulfilled.
+        public let followUpPrompt: FollowUpPrompt?
+        /// The date that the intent was updated. When you create a resource, the creation date and last update dates are the same.
+        public let lastUpdatedDate: TimeStamp?
+        /// The name of the intent.
+        public let name: String?
+        /// After the Lambda function specified in thefulfillmentActivityintent fulfills the intent, Amazon Lex conveys this statement to the user.
+        public let conclusionStatement: Statement?
+        /// A description of the intent.
+        public let description: String?
+        /// An array of intent slots that are configured for the intent.
+        public let slots: [Slot]?
+        /// If defined in the intent, Amazon Lex prompts the user to confirm the intent before fulfilling it.
+        public let confirmationPrompt: Prompt?
 
-        public init(voiceId: String? = nil, name: String? = nil, status: Status? = nil, failureReason: String? = nil, description: String? = nil, locale: Locale? = nil, checksum: String? = nil, version: String? = nil, abortStatement: Statement? = nil, lastUpdatedDate: TimeStamp? = nil, idleSessionTTLInSeconds: Int32? = nil, createVersion: Bool? = nil, createdDate: TimeStamp? = nil, clarificationPrompt: Prompt? = nil, intents: [Intent]? = nil, childDirected: Bool? = nil) {
-            self.voiceId = voiceId
-            self.name = name
-            self.status = status
-            self.failureReason = failureReason
-            self.description = description
-            self.locale = locale
+        public init(checksum: String? = nil, parentIntentSignature: String? = nil, rejectionStatement: Statement? = nil, dialogCodeHook: CodeHook? = nil, fulfillmentActivity: FulfillmentActivity? = nil, createVersion: Bool? = nil, sampleUtterances: [String]? = nil, createdDate: TimeStamp? = nil, version: String? = nil, followUpPrompt: FollowUpPrompt? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil, conclusionStatement: Statement? = nil, description: String? = nil, slots: [Slot]? = nil, confirmationPrompt: Prompt? = nil) {
             self.checksum = checksum
-            self.version = version
-            self.abortStatement = abortStatement
-            self.lastUpdatedDate = lastUpdatedDate
-            self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
+            self.parentIntentSignature = parentIntentSignature
+            self.rejectionStatement = rejectionStatement
+            self.dialogCodeHook = dialogCodeHook
+            self.fulfillmentActivity = fulfillmentActivity
             self.createVersion = createVersion
+            self.sampleUtterances = sampleUtterances
             self.createdDate = createdDate
-            self.clarificationPrompt = clarificationPrompt
-            self.intents = intents
-            self.childDirected = childDirected
+            self.version = version
+            self.followUpPrompt = followUpPrompt
+            self.lastUpdatedDate = lastUpdatedDate
+            self.name = name
+            self.conclusionStatement = conclusionStatement
+            self.description = description
+            self.slots = slots
+            self.confirmationPrompt = confirmationPrompt
         }
 
         private enum CodingKeys: String, CodingKey {
-            case voiceId = "voiceId"
-            case name = "name"
-            case status = "status"
-            case failureReason = "failureReason"
-            case description = "description"
-            case locale = "locale"
             case checksum = "checksum"
-            case version = "version"
-            case abortStatement = "abortStatement"
-            case lastUpdatedDate = "lastUpdatedDate"
-            case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
+            case parentIntentSignature = "parentIntentSignature"
+            case rejectionStatement = "rejectionStatement"
+            case dialogCodeHook = "dialogCodeHook"
+            case fulfillmentActivity = "fulfillmentActivity"
             case createVersion = "createVersion"
+            case sampleUtterances = "sampleUtterances"
             case createdDate = "createdDate"
-            case clarificationPrompt = "clarificationPrompt"
-            case intents = "intents"
-            case childDirected = "childDirected"
+            case version = "version"
+            case followUpPrompt = "followUpPrompt"
+            case lastUpdatedDate = "lastUpdatedDate"
+            case name = "name"
+            case conclusionStatement = "conclusionStatement"
+            case description = "description"
+            case slots = "slots"
+            case confirmationPrompt = "confirmationPrompt"
         }
     }
 
@@ -1577,178 +1574,72 @@ extension LexModelBuildingService {
         public var description: String { return self.rawValue }
     }
 
-    public struct CreateSlotTypeVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "checksum", required: false, type: .string)
-        ]
-        /// The name of the slot type that you want to create a new version for. The name is case sensitive. 
-        public let name: String
-        /// Checksum for the $LATEST version of the slot type that you want to publish. If you specify a checksum and the $LATEST version of the slot type has a different checksum, Amazon Lex returns a PreconditionFailedException exception and doesn't publish the new version. If you don't specify a checksum, Amazon Lex publishes the $LATEST version.
-        public let checksum: String?
+    public enum Locale: String, CustomStringConvertible, Codable {
+        case enUs = "en-US"
+        case enGb = "en-GB"
+        case deDe = "de-DE"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(name: String, checksum: String? = nil) {
+    public struct GetIntentVersionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
+        ]
+        /// A pagination token for fetching the next page of intent versions. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of versions, specify the pagination token in the next request. 
+        public let nextToken: String?
+        /// The maximum number of intent versions to return in the response. The default is 10.
+        public let maxResults: Int32?
+        /// The name of the intent for which versions should be returned.
+        public let name: String
+
+        public init(nextToken: String? = nil, maxResults: Int32? = nil, name: String) {
+            self.nextToken = nextToken
+            self.maxResults = maxResults
             self.name = name
-            self.checksum = checksum
         }
 
         private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
             case name = "name"
-            case checksum = "checksum"
         }
     }
 
     public struct GetBotChannelAssociationsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "nameContains", location: .querystring(locationName: "nameContains"), required: false, type: .string), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
             AWSShapeMember(label: "botAlias", location: .uri(locationName: "aliasName"), required: true, type: .string), 
             AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "nameContains", location: .querystring(locationName: "nameContains"), required: false, type: .string)
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
         ]
-        /// The maximum number of associations to return in the response. The default is 50. 
-        public let maxResults: Int32?
+        /// Substring to match in channel association names. An association will be returned if any part of its name matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz." To return all bot channel associations, use a hyphen ("-") as the nameContains parameter.
+        public let nameContains: String?
+        /// A pagination token for fetching the next page of associations. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of associations, specify the pagination token in the next request. 
+        public let nextToken: String?
         /// An alias pointing to the specific version of the Amazon Lex bot to which this association is being made.
         public let botAlias: String
         /// The name of the Amazon Lex bot in the association.
         public let botName: String
-        /// A pagination token for fetching the next page of associations. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of associations, specify the pagination token in the next request. 
-        public let nextToken: String?
-        /// Substring to match in channel association names. An association will be returned if any part of its name matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz." To return all bot channel associations, use a hyphen ("-") as the nameContains parameter.
-        public let nameContains: String?
+        /// The maximum number of associations to return in the response. The default is 50. 
+        public let maxResults: Int32?
 
-        public init(maxResults: Int32? = nil, botAlias: String, botName: String, nextToken: String? = nil, nameContains: String? = nil) {
-            self.maxResults = maxResults
+        public init(nameContains: String? = nil, nextToken: String? = nil, botAlias: String, botName: String, maxResults: Int32? = nil) {
+            self.nameContains = nameContains
+            self.nextToken = nextToken
             self.botAlias = botAlias
             self.botName = botName
-            self.nextToken = nextToken
-            self.nameContains = nameContains
+            self.maxResults = maxResults
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
+            case nameContains = "nameContains"
+            case nextToken = "nextToken"
             case botAlias = "aliasName"
             case botName = "botName"
-            case nextToken = "nextToken"
-            case nameContains = "nameContains"
-        }
-    }
-
-    public struct BotChannelAssociation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "type", required: false, type: .enum), 
-            AWSShapeMember(label: "botAlias", required: false, type: .string), 
-            AWSShapeMember(label: "failureReason", required: false, type: .string), 
-            AWSShapeMember(label: "botConfiguration", required: false, type: .map), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "botName", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp)
-        ]
-        /// Specifies the type of association by indicating the type of channel being established between the Amazon Lex bot and the external messaging platform.
-        public let `type`: ChannelType?
-        /// An alias pointing to the specific version of the Amazon Lex bot to which this association is being made. 
-        public let botAlias: String?
-        /// If status is FAILED, Amazon Lex provides the reason that it failed to create the association.
-        public let failureReason: String?
-        /// Provides information necessary to communicate with the messaging platform. 
-        public let botConfiguration: [String: String]?
-        /// The status of the bot channel.     CREATED - The channel has been created and is ready for use.    IN_PROGRESS - Channel creation is in progress.    FAILED - There was an error creating the channel. For information about the reason for the failure, see the failureReason field.  
-        public let status: ChannelStatus?
-        /// The name of the Amazon Lex bot to which this association is being made.   Currently, Amazon Lex supports associations with Facebook and Slack, and Twilio. 
-        public let botName: String?
-        /// The name of the association between the bot and the channel. 
-        public let name: String?
-        /// A text description of the association you are creating. 
-        public let description: String?
-        /// The date that the association between the Amazon Lex bot and the channel was created. 
-        public let createdDate: TimeStamp?
-
-        public init(type: ChannelType? = nil, botAlias: String? = nil, failureReason: String? = nil, botConfiguration: [String: String]? = nil, status: ChannelStatus? = nil, botName: String? = nil, name: String? = nil, description: String? = nil, createdDate: TimeStamp? = nil) {
-            self.`type` = `type`
-            self.botAlias = botAlias
-            self.failureReason = failureReason
-            self.botConfiguration = botConfiguration
-            self.status = status
-            self.botName = botName
-            self.name = name
-            self.description = description
-            self.createdDate = createdDate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "type"
-            case botAlias = "botAlias"
-            case failureReason = "failureReason"
-            case botConfiguration = "botConfiguration"
-            case status = "status"
-            case botName = "botName"
-            case name = "name"
-            case description = "description"
-            case createdDate = "createdDate"
-        }
-    }
-
-    public struct GetImportResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "importId", required: false, type: .string), 
-            AWSShapeMember(label: "failureReason", required: false, type: .list), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "importStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "mergeStrategy", required: false, type: .enum), 
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp)
-        ]
-        /// The identifier for the specific import job.
-        public let importId: String?
-        /// A string that describes why an import job failed to complete.
-        public let failureReason: [String]?
-        /// The name given to the import job.
-        public let name: String?
-        /// The status of the import job. If the status is FAILED, you can get the reason for the failure from the failureReason field.
-        public let importStatus: ImportStatus?
-        /// The type of resource imported.
-        public let resourceType: ResourceType?
-        /// The action taken when there was a conflict between an existing resource and a resource in the import file.
-        public let mergeStrategy: MergeStrategy?
-        /// A timestamp for the date and time that the import job was created.
-        public let createdDate: TimeStamp?
-
-        public init(importId: String? = nil, failureReason: [String]? = nil, name: String? = nil, importStatus: ImportStatus? = nil, resourceType: ResourceType? = nil, mergeStrategy: MergeStrategy? = nil, createdDate: TimeStamp? = nil) {
-            self.importId = importId
-            self.failureReason = failureReason
-            self.name = name
-            self.importStatus = importStatus
-            self.resourceType = resourceType
-            self.mergeStrategy = mergeStrategy
-            self.createdDate = createdDate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case importId = "importId"
-            case failureReason = "failureReason"
-            case name = "name"
-            case importStatus = "importStatus"
-            case resourceType = "resourceType"
-            case mergeStrategy = "mergeStrategy"
-            case createdDate = "createdDate"
-        }
-    }
-
-    public struct DeleteBotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
-        ]
-        /// The name of the bot. The name is case sensitive. 
-        public let name: String
-
-        public init(name: String) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
+            case maxResults = "maxResults"
         }
     }
 
@@ -1773,395 +1664,87 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct DeleteBotAliasRequest: AWSShape {
+    public struct PutBotAliasRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "checksum", required: false, type: .string), 
             AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string), 
+            AWSShapeMember(label: "botVersion", required: true, type: .string), 
             AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
         ]
-        /// The name of the bot that the alias points to.
-        public let botName: String
-        /// The name of the alias to delete. The name is case sensitive. 
-        public let name: String
-
-        public init(botName: String, name: String) {
-            self.botName = botName
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case botName = "botName"
-            case name = "name"
-        }
-    }
-
-    public struct GetBotChannelAssociationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "botChannelAssociations", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// An array of objects, one for each association, that provides information about the Amazon Lex bot and its association with the channel. 
-        public let botChannelAssociations: [BotChannelAssociation]?
-        /// A pagination token that fetches the next page of associations. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of associations, specify the pagination token in the next request. 
-        public let nextToken: String?
-
-        public init(botChannelAssociations: [BotChannelAssociation]? = nil, nextToken: String? = nil) {
-            self.botChannelAssociations = botChannelAssociations
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case botChannelAssociations = "botChannelAssociations"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public enum ProcessBehavior: String, CustomStringConvertible, Codable {
-        case save = "SAVE"
-        case build = "BUILD"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateIntentVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "checksum", required: false, type: .string)
-        ]
-        /// The name of the intent that you want to create a new version of. The name is case sensitive. 
-        public let name: String
-        /// Checksum of the $LATEST version of the intent that should be used to create the new version. If you specify a checksum and the $LATEST version of the intent has a different checksum, Amazon Lex returns a PreconditionFailedException exception and doesn't publish a new version. If you don't specify a checksum, Amazon Lex publishes the $LATEST version.
+        /// A description of the alias.
+        public let description: String?
+        /// Identifies a specific revision of the $LATEST version. When you create a new bot alias, leave the checksum field blank. If you specify a checksum you get a BadRequestException exception. When you want to update a bot alias, set the checksum field to the checksum of the most recent revision of the $LATEST version. If you don't specify the  checksum field, or if the checksum does not match the $LATEST version, you get a PreconditionFailedException exception.
         public let checksum: String?
-
-        public init(name: String, checksum: String? = nil) {
-            self.name = name
-            self.checksum = checksum
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case checksum = "checksum"
-        }
-    }
-
-    public struct CreateBotVersionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "voiceId", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "failureReason", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "locale", required: false, type: .enum), 
-            AWSShapeMember(label: "checksum", required: false, type: .string), 
-            AWSShapeMember(label: "version", required: false, type: .string), 
-            AWSShapeMember(label: "abortStatement", required: false, type: .structure), 
-            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "idleSessionTTLInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "clarificationPrompt", required: false, type: .structure), 
-            AWSShapeMember(label: "intents", required: false, type: .list), 
-            AWSShapeMember(label: "childDirected", required: false, type: .boolean)
-        ]
-        /// The Amazon Polly voice ID that Amazon Lex uses for voice interactions with the user.
-        public let voiceId: String?
         /// The name of the bot.
-        public let name: String?
-        ///  When you send a request to create or update a bot, Amazon Lex sets the status response element to BUILDING. After Amazon Lex builds the bot, it sets status to READY. If Amazon Lex can't build the bot, it sets status to FAILED. Amazon Lex returns the reason for the failure in the failureReason response element. 
-        public let status: Status?
-        /// If status is FAILED, Amazon Lex provides the reason that it failed to build the bot.
-        public let failureReason: String?
-        /// A description of the bot.
-        public let description: String?
-        ///  Specifies the target locale for the bot. 
-        public let locale: Locale?
-        /// Checksum identifying the version of the bot that was created.
-        public let checksum: String?
-        /// The version of the bot. 
-        public let version: String?
-        /// The message that Amazon Lex uses to abort a conversation. For more information, see PutBot.
-        public let abortStatement: Statement?
-        /// The date when the $LATEST version of this bot was updated. 
-        public let lastUpdatedDate: TimeStamp?
-        /// The maximum time in seconds that Amazon Lex retains the data gathered in a conversation. For more information, see PutBot.
-        public let idleSessionTTLInSeconds: Int32?
-        /// The date when the bot version was created.
-        public let createdDate: TimeStamp?
-        /// The message that Amazon Lex uses when it doesn't understand the user's request. For more information, see PutBot. 
-        public let clarificationPrompt: Prompt?
-        /// An array of Intent objects. For more information, see PutBot.
-        public let intents: [Intent]?
-        /// For each Amazon Lex bot created with the Amazon Lex Model Building Service, you must specify whether your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to the Children's Online Privacy Protection Act (COPPA) by specifying true or false in the childDirected field. By specifying true in the childDirected field, you confirm that your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. By specifying false in the childDirected field, you confirm that your use of Amazon Lex is not related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. You may not specify a default value for the childDirected field that does not accurately reflect whether your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. If your use of Amazon Lex relates to a website, program, or other application that is directed in whole or in part, to children under age 13, you must obtain any required verifiable parental consent under COPPA. For information regarding the use of Amazon Lex in connection with websites, programs, or other applications that are directed or targeted, in whole or in part, to children under age 13, see the Amazon Lex FAQ. 
-        public let childDirected: Bool?
+        public let botName: String
+        /// The version of the bot.
+        public let botVersion: String
+        /// The name of the alias. The name is not case sensitive.
+        public let name: String
 
-        public init(voiceId: String? = nil, name: String? = nil, status: Status? = nil, failureReason: String? = nil, description: String? = nil, locale: Locale? = nil, checksum: String? = nil, version: String? = nil, abortStatement: Statement? = nil, lastUpdatedDate: TimeStamp? = nil, idleSessionTTLInSeconds: Int32? = nil, createdDate: TimeStamp? = nil, clarificationPrompt: Prompt? = nil, intents: [Intent]? = nil, childDirected: Bool? = nil) {
-            self.voiceId = voiceId
-            self.name = name
-            self.status = status
-            self.failureReason = failureReason
+        public init(description: String? = nil, checksum: String? = nil, botName: String, botVersion: String, name: String) {
             self.description = description
-            self.locale = locale
-            self.checksum = checksum
-            self.version = version
-            self.abortStatement = abortStatement
-            self.lastUpdatedDate = lastUpdatedDate
-            self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
-            self.createdDate = createdDate
-            self.clarificationPrompt = clarificationPrompt
-            self.intents = intents
-            self.childDirected = childDirected
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case voiceId = "voiceId"
-            case name = "name"
-            case status = "status"
-            case failureReason = "failureReason"
-            case description = "description"
-            case locale = "locale"
-            case checksum = "checksum"
-            case version = "version"
-            case abortStatement = "abortStatement"
-            case lastUpdatedDate = "lastUpdatedDate"
-            case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
-            case createdDate = "createdDate"
-            case clarificationPrompt = "clarificationPrompt"
-            case intents = "intents"
-            case childDirected = "childDirected"
-        }
-    }
-
-    public struct UtteranceData: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lastUtteredDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "firstUtteredDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "utteranceString", required: false, type: .string), 
-            AWSShapeMember(label: "count", required: false, type: .integer), 
-            AWSShapeMember(label: "distinctUsers", required: false, type: .integer)
-        ]
-        /// The date that the utterance was last recorded.
-        public let lastUtteredDate: TimeStamp?
-        /// The date that the utterance was first recorded.
-        public let firstUtteredDate: TimeStamp?
-        /// The text that was entered by the user or the text representation of an audio clip.
-        public let utteranceString: String?
-        /// The number of times that the utterance was processed.
-        public let count: Int32?
-        /// The total number of individuals that used the utterance.
-        public let distinctUsers: Int32?
-
-        public init(lastUtteredDate: TimeStamp? = nil, firstUtteredDate: TimeStamp? = nil, utteranceString: String? = nil, count: Int32? = nil, distinctUsers: Int32? = nil) {
-            self.lastUtteredDate = lastUtteredDate
-            self.firstUtteredDate = firstUtteredDate
-            self.utteranceString = utteranceString
-            self.count = count
-            self.distinctUsers = distinctUsers
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lastUtteredDate = "lastUtteredDate"
-            case firstUtteredDate = "firstUtteredDate"
-            case utteranceString = "utteranceString"
-            case count = "count"
-            case distinctUsers = "distinctUsers"
-        }
-    }
-
-    public struct GetIntentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "dialogCodeHook", required: false, type: .structure), 
-            AWSShapeMember(label: "rejectionStatement", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "parentIntentSignature", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "conclusionStatement", required: false, type: .structure), 
-            AWSShapeMember(label: "fulfillmentActivity", required: false, type: .structure), 
-            AWSShapeMember(label: "slots", required: false, type: .list), 
-            AWSShapeMember(label: "confirmationPrompt", required: false, type: .structure), 
-            AWSShapeMember(label: "sampleUtterances", required: false, type: .list), 
-            AWSShapeMember(label: "checksum", required: false, type: .string), 
-            AWSShapeMember(label: "followUpPrompt", required: false, type: .structure), 
-            AWSShapeMember(label: "version", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp)
-        ]
-        /// If defined in the bot, Amazon Amazon Lex invokes this Lambda function for each user input. For more information, see PutIntent. 
-        public let dialogCodeHook: CodeHook?
-        /// If the user answers "no" to the question defined in confirmationPrompt, Amazon Lex responds with this statement to acknowledge that the intent was canceled. 
-        public let rejectionStatement: Statement?
-        /// The name of the intent.
-        public let name: String?
-        /// A unique identifier for a built-in intent.
-        public let parentIntentSignature: String?
-        /// A description of the intent.
-        public let description: String?
-        /// After the Lambda function specified in the fulfillmentActivity element fulfills the intent, Amazon Lex conveys this statement to the user.
-        public let conclusionStatement: Statement?
-        /// Describes how the intent is fulfilled. For more information, see PutIntent. 
-        public let fulfillmentActivity: FulfillmentActivity?
-        /// An array of intent slots configured for the intent.
-        public let slots: [Slot]?
-        /// If defined in the bot, Amazon Lex uses prompt to confirm the intent before fulfilling the user's request. For more information, see PutIntent. 
-        public let confirmationPrompt: Prompt?
-        /// An array of sample utterances configured for the intent.
-        public let sampleUtterances: [String]?
-        /// Checksum of the intent.
-        public let checksum: String?
-        /// If defined in the bot, Amazon Lex uses this prompt to solicit additional user activity after the intent is fulfilled. For more information, see PutIntent.
-        public let followUpPrompt: FollowUpPrompt?
-        /// The version of the intent.
-        public let version: String?
-        /// The date that the intent was updated. When you create a resource, the creation date and the last updated date are the same. 
-        public let lastUpdatedDate: TimeStamp?
-        /// The date that the intent was created.
-        public let createdDate: TimeStamp?
-
-        public init(dialogCodeHook: CodeHook? = nil, rejectionStatement: Statement? = nil, name: String? = nil, parentIntentSignature: String? = nil, description: String? = nil, conclusionStatement: Statement? = nil, fulfillmentActivity: FulfillmentActivity? = nil, slots: [Slot]? = nil, confirmationPrompt: Prompt? = nil, sampleUtterances: [String]? = nil, checksum: String? = nil, followUpPrompt: FollowUpPrompt? = nil, version: String? = nil, lastUpdatedDate: TimeStamp? = nil, createdDate: TimeStamp? = nil) {
-            self.dialogCodeHook = dialogCodeHook
-            self.rejectionStatement = rejectionStatement
-            self.name = name
-            self.parentIntentSignature = parentIntentSignature
-            self.description = description
-            self.conclusionStatement = conclusionStatement
-            self.fulfillmentActivity = fulfillmentActivity
-            self.slots = slots
-            self.confirmationPrompt = confirmationPrompt
-            self.sampleUtterances = sampleUtterances
-            self.checksum = checksum
-            self.followUpPrompt = followUpPrompt
-            self.version = version
-            self.lastUpdatedDate = lastUpdatedDate
-            self.createdDate = createdDate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dialogCodeHook = "dialogCodeHook"
-            case rejectionStatement = "rejectionStatement"
-            case name = "name"
-            case parentIntentSignature = "parentIntentSignature"
-            case description = "description"
-            case conclusionStatement = "conclusionStatement"
-            case fulfillmentActivity = "fulfillmentActivity"
-            case slots = "slots"
-            case confirmationPrompt = "confirmationPrompt"
-            case sampleUtterances = "sampleUtterances"
-            case checksum = "checksum"
-            case followUpPrompt = "followUpPrompt"
-            case version = "version"
-            case lastUpdatedDate = "lastUpdatedDate"
-            case createdDate = "createdDate"
-        }
-    }
-
-    public struct BotAliasMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "checksum", required: false, type: .string), 
-            AWSShapeMember(label: "botName", required: false, type: .string), 
-            AWSShapeMember(label: "botVersion", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp)
-        ]
-        /// The name of the bot alias.
-        public let name: String?
-        /// Checksum of the bot alias.
-        public let checksum: String?
-        /// The name of the bot to which the alias points.
-        public let botName: String?
-        /// The version of the Amazon Lex bot to which the alias points.
-        public let botVersion: String?
-        /// A description of the bot alias.
-        public let description: String?
-        /// The date that the bot alias was updated. When you create a resource, the creation date and last updated date are the same.
-        public let lastUpdatedDate: TimeStamp?
-        /// The date that the bot alias was created.
-        public let createdDate: TimeStamp?
-
-        public init(name: String? = nil, checksum: String? = nil, botName: String? = nil, botVersion: String? = nil, description: String? = nil, lastUpdatedDate: TimeStamp? = nil, createdDate: TimeStamp? = nil) {
-            self.name = name
             self.checksum = checksum
             self.botName = botName
             self.botVersion = botVersion
-            self.description = description
-            self.lastUpdatedDate = lastUpdatedDate
-            self.createdDate = createdDate
+            self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name = "name"
+            case description = "description"
             case checksum = "checksum"
             case botName = "botName"
             case botVersion = "botVersion"
-            case description = "description"
-            case lastUpdatedDate = "lastUpdatedDate"
-            case createdDate = "createdDate"
-        }
-    }
-
-    public struct GetSlotTypesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "slotTypes", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// An array of objects, one for each slot type, that provides information such as the name of the slot type, the version, and a description.
-        public let slotTypes: [SlotTypeMetadata]?
-        /// If the response is truncated, it includes a pagination token that you can specify in your next request to fetch the next page of slot types.
-        public let nextToken: String?
-
-        public init(slotTypes: [SlotTypeMetadata]? = nil, nextToken: String? = nil) {
-            self.slotTypes = slotTypes
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case slotTypes = "slotTypes"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public enum MergeStrategy: String, CustomStringConvertible, Codable {
-        case overwriteLatest = "OVERWRITE_LATEST"
-        case failOnConflict = "FAIL_ON_CONFLICT"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetExportRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceType", location: .querystring(locationName: "resourceType"), required: true, type: .enum), 
-            AWSShapeMember(label: "name", location: .querystring(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "exportType", location: .querystring(locationName: "exportType"), required: true, type: .enum), 
-            AWSShapeMember(label: "version", location: .querystring(locationName: "version"), required: true, type: .string)
-        ]
-        /// The type of resource to export. 
-        public let resourceType: ResourceType
-        /// The name of the bot to export.
-        public let name: String
-        /// The format of the exported data.
-        public let exportType: ExportType
-        /// The version of the bot to export.
-        public let version: String
-
-        public init(resourceType: ResourceType, name: String, exportType: ExportType, version: String) {
-            self.resourceType = resourceType
-            self.name = name
-            self.exportType = exportType
-            self.version = version
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceType = "resourceType"
             case name = "name"
-            case exportType = "exportType"
-            case version = "version"
         }
     }
 
-    public struct BuiltinIntentMetadata: AWSShape {
+    public struct BuiltinIntentSlot: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string)
+        ]
+        /// A list of the slots defined for the intent.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
+    public struct GetBuiltinSlotTypesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "slotTypes", required: false, type: .list)
+        ]
+        /// If the response is truncated, the response includes a pagination token that you can use in your next request to fetch the next page of slot types.
+        public let nextToken: String?
+        /// An array of BuiltInSlotTypeMetadata objects, one entry for each slot type returned.
+        public let slotTypes: [BuiltinSlotTypeMetadata]?
+
+        public init(nextToken: String? = nil, slotTypes: [BuiltinSlotTypeMetadata]? = nil) {
+            self.nextToken = nextToken
+            self.slotTypes = slotTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case slotTypes = "slotTypes"
+        }
+    }
+
+    public struct BuiltinSlotTypeMetadata: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "signature", required: false, type: .string), 
             AWSShapeMember(label: "supportedLocales", required: false, type: .list)
         ]
-        /// A unique identifier for the built-in intent. To find the signature for an intent, see Standard Built-in Intents in the Alexa Skills Kit.
+        /// A unique identifier for the built-in slot type. To find the signature for a slot type, see Slot Type Reference in the Alexa Skills Kit.
         public let signature: String?
-        /// A list of identifiers for the locales that the intent supports.
+        /// A list of target locales for the slot. 
         public let supportedLocales: [Locale]?
 
         public init(signature: String? = nil, supportedLocales: [Locale]? = nil) {
@@ -2175,549 +1758,508 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct GetBotChannelAssociationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "type", required: false, type: .enum), 
-            AWSShapeMember(label: "botAlias", required: false, type: .string), 
-            AWSShapeMember(label: "failureReason", required: false, type: .string), 
-            AWSShapeMember(label: "botConfiguration", required: false, type: .map), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "botName", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp)
-        ]
-        /// The type of the messaging platform.
-        public let `type`: ChannelType?
-        /// An alias pointing to the specific version of the Amazon Lex bot to which this association is being made.
-        public let botAlias: String?
-        /// If status is FAILED, Amazon Lex provides the reason that it failed to create the association.
-        public let failureReason: String?
-        /// Provides information that the messaging platform needs to communicate with the Amazon Lex bot.
-        public let botConfiguration: [String: String]?
-        /// The status of the bot channel.     CREATED - The channel has been created and is ready for use.    IN_PROGRESS - Channel creation is in progress.    FAILED - There was an error creating the channel. For information about the reason for the failure, see the failureReason field.  
-        public let status: ChannelStatus?
-        /// The name of the Amazon Lex bot.
-        public let botName: String?
-        /// The name of the association between the bot and the channel.
-        public let name: String?
-        /// A description of the association between the bot and the channel.
-        public let description: String?
-        /// The date that the association between the bot and the channel was created.
-        public let createdDate: TimeStamp?
-
-        public init(type: ChannelType? = nil, botAlias: String? = nil, failureReason: String? = nil, botConfiguration: [String: String]? = nil, status: ChannelStatus? = nil, botName: String? = nil, name: String? = nil, description: String? = nil, createdDate: TimeStamp? = nil) {
-            self.`type` = `type`
-            self.botAlias = botAlias
-            self.failureReason = failureReason
-            self.botConfiguration = botConfiguration
-            self.status = status
-            self.botName = botName
-            self.name = name
-            self.description = description
-            self.createdDate = createdDate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "type"
-            case botAlias = "botAlias"
-            case failureReason = "failureReason"
-            case botConfiguration = "botConfiguration"
-            case status = "status"
-            case botName = "botName"
-            case name = "name"
-            case description = "description"
-            case createdDate = "createdDate"
-        }
-    }
-
-    public struct PutBotAliasRequest: AWSShape {
+    public struct CreateSlotTypeVersionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "checksum", required: false, type: .string), 
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string), 
-            AWSShapeMember(label: "botVersion", required: true, type: .string)
-        ]
-        /// Identifies a specific revision of the $LATEST version. When you create a new bot alias, leave the checksum field blank. If you specify a checksum you get a BadRequestException exception. When you want to update a bot alias, set the checksum field to the checksum of the most recent revision of the $LATEST version. If you don't specify the  checksum field, or if the checksum does not match the $LATEST version, you get a PreconditionFailedException exception.
-        public let checksum: String?
-        /// The name of the alias. The name is not case sensitive.
-        public let name: String
-        /// A description of the alias.
-        public let description: String?
-        /// The name of the bot.
-        public let botName: String
-        /// The version of the bot.
-        public let botVersion: String
-
-        public init(checksum: String? = nil, name: String, description: String? = nil, botName: String, botVersion: String) {
-            self.checksum = checksum
-            self.name = name
-            self.description = description
-            self.botName = botName
-            self.botVersion = botVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case checksum = "checksum"
-            case name = "name"
-            case description = "description"
-            case botName = "botName"
-            case botVersion = "botVersion"
-        }
-    }
-
-    public struct PutIntentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "dialogCodeHook", required: false, type: .structure), 
-            AWSShapeMember(label: "rejectionStatement", required: false, type: .structure), 
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "parentIntentSignature", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "conclusionStatement", required: false, type: .structure), 
-            AWSShapeMember(label: "fulfillmentActivity", required: false, type: .structure), 
-            AWSShapeMember(label: "slots", required: false, type: .list), 
-            AWSShapeMember(label: "confirmationPrompt", required: false, type: .structure), 
-            AWSShapeMember(label: "sampleUtterances", required: false, type: .list), 
-            AWSShapeMember(label: "checksum", required: false, type: .string), 
-            AWSShapeMember(label: "followUpPrompt", required: false, type: .structure), 
-            AWSShapeMember(label: "createVersion", required: false, type: .boolean)
-        ]
-        ///  Specifies a Lambda function to invoke for each user input. You can invoke this Lambda function to personalize user interaction.  For example, suppose your bot determines that the user is John. Your Lambda function might retrieve John's information from a backend database and prepopulate some of the values. For example, if you find that John is gluten intolerant, you might set the corresponding intent slot, GlutenIntolerant, to true. You might find John's phone number and set the corresponding session attribute. 
-        public let dialogCodeHook: CodeHook?
-        /// When the user answers "no" to the question defined in confirmationPrompt, Amazon Lex responds with this statement to acknowledge that the intent was canceled.   You must provide both the rejectionStatement and the confirmationPrompt, or neither. 
-        public let rejectionStatement: Statement?
-        /// The name of the intent. The name is not case sensitive.  The name can't match a built-in intent name, or a built-in intent name with "AMAZON." removed. For example, because there is a built-in intent called AMAZON.HelpIntent, you can't create a custom intent called HelpIntent. For a list of built-in intents, see Standard Built-in Intents in the Alexa Skills Kit.
-        public let name: String
-        /// A unique identifier for the built-in intent to base this intent on. To find the signature for an intent, see Standard Built-in Intents in the Alexa Skills Kit.
-        public let parentIntentSignature: String?
-        /// A description of the intent.
-        public let description: String?
-        ///  The statement that you want Amazon Lex to convey to the user after the intent is successfully fulfilled by the Lambda function.  This element is relevant only if you provide a Lambda function in the fulfillmentActivity. If you return the intent to the client application, you can't specify this element.  The followUpPrompt and conclusionStatement are mutually exclusive. You can specify only one. 
-        public let conclusionStatement: Statement?
-        /// Required. Describes how the intent is fulfilled. For example, after a user provides all of the information for a pizza order, fulfillmentActivity defines how the bot places an order with a local pizza store.   You might configure Amazon Lex to return all of the intent information to the client application, or direct it to invoke a Lambda function that can process the intent (for example, place an order with a pizzeria). 
-        public let fulfillmentActivity: FulfillmentActivity?
-        /// An array of intent slots. At runtime, Amazon Lex elicits required slot values from the user using prompts defined in the slots. For more information, see how-it-works. 
-        public let slots: [Slot]?
-        /// Prompts the user to confirm the intent. This question should have a yes or no answer. Amazon Lex uses this prompt to ensure that the user acknowledges that the intent is ready for fulfillment. For example, with the OrderPizza intent, you might want to confirm that the order is correct before placing it. For other intents, such as intents that simply respond to user questions, you might not need to ask the user for confirmation before providing the information.   You you must provide both the rejectionStatement and the confirmationPrompt, or neither. 
-        public let confirmationPrompt: Prompt?
-        /// An array of utterances (strings) that a user might say to signal the intent. For example, "I want {PizzaSize} pizza", "Order {Quantity} {PizzaSize} pizzas".  In each utterance, a slot name is enclosed in curly braces. 
-        public let sampleUtterances: [String]?
-        /// Identifies a specific revision of the $LATEST version. When you create a new intent, leave the checksum field blank. If you specify a checksum you get a BadRequestException exception. When you want to update a intent, set the checksum field to the checksum of the most recent revision of the $LATEST version. If you don't specify the  checksum field, or if the checksum does not match the $LATEST version, you get a PreconditionFailedException exception.
-        public let checksum: String?
-        /// Amazon Lex uses this prompt to solicit additional activity after fulfilling an intent. For example, after the OrderPizza intent is fulfilled, you might prompt the user to order a drink. The action that Amazon Lex takes depends on the user's response, as follows:   If the user says "Yes" it responds with the clarification prompt that is configured for the bot.   if the user says "Yes" and continues with an utterance that triggers an intent it starts a conversation for the intent.   If the user says "No" it responds with the rejection statement configured for the the follow-up prompt.   If it doesn't recognize the utterance it repeats the follow-up prompt again.   The followUpPrompt field and the conclusionStatement field are mutually exclusive. You can specify only one. 
-        public let followUpPrompt: FollowUpPrompt?
-        public let createVersion: Bool?
-
-        public init(dialogCodeHook: CodeHook? = nil, rejectionStatement: Statement? = nil, name: String, parentIntentSignature: String? = nil, description: String? = nil, conclusionStatement: Statement? = nil, fulfillmentActivity: FulfillmentActivity? = nil, slots: [Slot]? = nil, confirmationPrompt: Prompt? = nil, sampleUtterances: [String]? = nil, checksum: String? = nil, followUpPrompt: FollowUpPrompt? = nil, createVersion: Bool? = nil) {
-            self.dialogCodeHook = dialogCodeHook
-            self.rejectionStatement = rejectionStatement
-            self.name = name
-            self.parentIntentSignature = parentIntentSignature
-            self.description = description
-            self.conclusionStatement = conclusionStatement
-            self.fulfillmentActivity = fulfillmentActivity
-            self.slots = slots
-            self.confirmationPrompt = confirmationPrompt
-            self.sampleUtterances = sampleUtterances
-            self.checksum = checksum
-            self.followUpPrompt = followUpPrompt
-            self.createVersion = createVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dialogCodeHook = "dialogCodeHook"
-            case rejectionStatement = "rejectionStatement"
-            case name = "name"
-            case parentIntentSignature = "parentIntentSignature"
-            case description = "description"
-            case conclusionStatement = "conclusionStatement"
-            case fulfillmentActivity = "fulfillmentActivity"
-            case slots = "slots"
-            case confirmationPrompt = "confirmationPrompt"
-            case sampleUtterances = "sampleUtterances"
-            case checksum = "checksum"
-            case followUpPrompt = "followUpPrompt"
-            case createVersion = "createVersion"
-        }
-    }
-
-    public struct DeleteSlotTypeVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "version", location: .uri(locationName: "version"), required: true, type: .string), 
             AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
         ]
-        /// The version of the slot type to delete. You cannot delete the $LATEST version of the slot type. To delete the $LATEST version, use the DeleteSlotType operation.
-        public let version: String
-        /// The name of the slot type.
+        /// Checksum for the $LATEST version of the slot type that you want to publish. If you specify a checksum and the $LATEST version of the slot type has a different checksum, Amazon Lex returns a PreconditionFailedException exception and doesn't publish the new version. If you don't specify a checksum, Amazon Lex publishes the $LATEST version.
+        public let checksum: String?
+        /// The name of the slot type that you want to create a new version for. The name is case sensitive. 
         public let name: String
 
-        public init(version: String, name: String) {
-            self.version = version
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case version = "version"
-            case name = "name"
-        }
-    }
-
-    public struct Statement: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "responseCard", required: false, type: .string), 
-            AWSShapeMember(label: "messages", required: true, type: .list)
-        ]
-        ///  At runtime, if the client is using the PostText API, Amazon Lex includes the response card in the response. It substitutes all of the session attributes and slot values for placeholders in the response card. 
-        public let responseCard: String?
-        /// A collection of message objects.
-        public let messages: [Message]
-
-        public init(responseCard: String? = nil, messages: [Message]) {
-            self.responseCard = responseCard
-            self.messages = messages
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case responseCard = "responseCard"
-            case messages = "messages"
-        }
-    }
-
-    public struct StartImportResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "importId", required: false, type: .string), 
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "mergeStrategy", required: false, type: .enum), 
-            AWSShapeMember(label: "importStatus", required: false, type: .enum)
-        ]
-        /// The type of resource to import.
-        public let resourceType: ResourceType?
-        /// The identifier for the specific import job.
-        public let importId: String?
-        /// A timestamp for the date and time that the import job was requested.
-        public let createdDate: TimeStamp?
-        /// The name given to the import job.
-        public let name: String?
-        /// The action to take when there is a merge conflict.
-        public let mergeStrategy: MergeStrategy?
-        /// The status of the import job. If the status is FAILED, you can get the reason for the failure using the GetImport operation.
-        public let importStatus: ImportStatus?
-
-        public init(resourceType: ResourceType? = nil, importId: String? = nil, createdDate: TimeStamp? = nil, name: String? = nil, mergeStrategy: MergeStrategy? = nil, importStatus: ImportStatus? = nil) {
-            self.resourceType = resourceType
-            self.importId = importId
-            self.createdDate = createdDate
-            self.name = name
-            self.mergeStrategy = mergeStrategy
-            self.importStatus = importStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceType = "resourceType"
-            case importId = "importId"
-            case createdDate = "createdDate"
-            case name = "name"
-            case mergeStrategy = "mergeStrategy"
-            case importStatus = "importStatus"
-        }
-    }
-
-    public struct GetBuiltinIntentsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "intents", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// An array of builtinIntentMetadata objects, one for each intent in the response.
-        public let intents: [BuiltinIntentMetadata]?
-        /// A pagination token that fetches the next page of intents. If the response to this API call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of intents, specify the pagination token in the next request.
-        public let nextToken: String?
-
-        public init(intents: [BuiltinIntentMetadata]? = nil, nextToken: String? = nil) {
-            self.intents = intents
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case intents = "intents"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct CreateSlotTypeVersionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "checksum", required: false, type: .string), 
-            AWSShapeMember(label: "version", required: false, type: .string), 
-            AWSShapeMember(label: "valueSelectionStrategy", required: false, type: .enum), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "enumerationValues", required: false, type: .list), 
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp)
-        ]
-        /// The name of the slot type.
-        public let name: String?
-        /// Checksum of the $LATEST version of the slot type.
-        public let checksum: String?
-        /// The version assigned to the new slot type version. 
-        public let version: String?
-        /// The strategy that Amazon Lex uses to determine the value of the slot. For more information, see PutSlotType.
-        public let valueSelectionStrategy: SlotValueSelectionStrategy?
-        /// A description of the slot type.
-        public let description: String?
-        /// A list of EnumerationValue objects that defines the values that the slot type can take.
-        public let enumerationValues: [EnumerationValue]?
-        /// The date that the slot type was created.
-        public let createdDate: TimeStamp?
-        /// The date that the slot type was updated. When you create a resource, the creation date and last update date are the same.
-        public let lastUpdatedDate: TimeStamp?
-
-        public init(name: String? = nil, checksum: String? = nil, version: String? = nil, valueSelectionStrategy: SlotValueSelectionStrategy? = nil, description: String? = nil, enumerationValues: [EnumerationValue]? = nil, createdDate: TimeStamp? = nil, lastUpdatedDate: TimeStamp? = nil) {
-            self.name = name
+        public init(checksum: String? = nil, name: String) {
             self.checksum = checksum
-            self.version = version
-            self.valueSelectionStrategy = valueSelectionStrategy
-            self.description = description
-            self.enumerationValues = enumerationValues
-            self.createdDate = createdDate
-            self.lastUpdatedDate = lastUpdatedDate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case checksum = "checksum"
-            case version = "version"
-            case valueSelectionStrategy = "valueSelectionStrategy"
-            case description = "description"
-            case enumerationValues = "enumerationValues"
-            case createdDate = "createdDate"
-            case lastUpdatedDate = "lastUpdatedDate"
-        }
-    }
-
-    public enum SlotValueSelectionStrategy: String, CustomStringConvertible, Codable {
-        case originalValue = "ORIGINAL_VALUE"
-        case topResolution = "TOP_RESOLUTION"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetBotResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "voiceId", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "failureReason", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "locale", required: false, type: .enum), 
-            AWSShapeMember(label: "checksum", required: false, type: .string), 
-            AWSShapeMember(label: "version", required: false, type: .string), 
-            AWSShapeMember(label: "abortStatement", required: false, type: .structure), 
-            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "idleSessionTTLInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "clarificationPrompt", required: false, type: .structure), 
-            AWSShapeMember(label: "intents", required: false, type: .list), 
-            AWSShapeMember(label: "childDirected", required: false, type: .boolean)
-        ]
-        /// The Amazon Polly voice ID that Amazon Lex uses for voice interaction with the user. For more information, see PutBot.
-        public let voiceId: String?
-        /// The name of the bot.
-        public let name: String?
-        /// The status of the bot. If the bot is ready to run, the status is READY. If there was a problem with building the bot, the status is FAILED and the failureReason explains why the bot did not build. If the bot was saved but not built, the status is NOT BUILT.
-        public let status: Status?
-        /// If status is FAILED, Amazon Lex explains why it failed to build the bot.
-        public let failureReason: String?
-        /// A description of the bot.
-        public let description: String?
-        ///  The target locale for the bot. 
-        public let locale: Locale?
-        /// Checksum of the bot used to identify a specific revision of the bot's $LATEST version.
-        public let checksum: String?
-        /// The version of the bot. For a new bot, the version is always $LATEST.
-        public let version: String?
-        /// The message that Amazon Lex returns when the user elects to end the conversation without completing it. For more information, see PutBot.
-        public let abortStatement: Statement?
-        /// The date that the bot was updated. When you create a resource, the creation date and last updated date are the same. 
-        public let lastUpdatedDate: TimeStamp?
-        /// The maximum time in seconds that Amazon Lex retains the data gathered in a conversation. For more information, see PutBot.
-        public let idleSessionTTLInSeconds: Int32?
-        /// The date that the bot was created.
-        public let createdDate: TimeStamp?
-        /// The message Amazon Lex uses when it doesn't understand the user's request. For more information, see PutBot. 
-        public let clarificationPrompt: Prompt?
-        /// An array of intent objects. For more information, see PutBot.
-        public let intents: [Intent]?
-        /// For each Amazon Lex bot created with the Amazon Lex Model Building Service, you must specify whether your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to the Children's Online Privacy Protection Act (COPPA) by specifying true or false in the childDirected field. By specifying true in the childDirected field, you confirm that your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. By specifying false in the childDirected field, you confirm that your use of Amazon Lex is not related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. You may not specify a default value for the childDirected field that does not accurately reflect whether your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. If your use of Amazon Lex relates to a website, program, or other application that is directed in whole or in part, to children under age 13, you must obtain any required verifiable parental consent under COPPA. For information regarding the use of Amazon Lex in connection with websites, programs, or other applications that are directed or targeted, in whole or in part, to children under age 13, see the Amazon Lex FAQ. 
-        public let childDirected: Bool?
-
-        public init(voiceId: String? = nil, name: String? = nil, status: Status? = nil, failureReason: String? = nil, description: String? = nil, locale: Locale? = nil, checksum: String? = nil, version: String? = nil, abortStatement: Statement? = nil, lastUpdatedDate: TimeStamp? = nil, idleSessionTTLInSeconds: Int32? = nil, createdDate: TimeStamp? = nil, clarificationPrompt: Prompt? = nil, intents: [Intent]? = nil, childDirected: Bool? = nil) {
-            self.voiceId = voiceId
             self.name = name
-            self.status = status
-            self.failureReason = failureReason
-            self.description = description
-            self.locale = locale
-            self.checksum = checksum
-            self.version = version
-            self.abortStatement = abortStatement
-            self.lastUpdatedDate = lastUpdatedDate
-            self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
-            self.createdDate = createdDate
-            self.clarificationPrompt = clarificationPrompt
-            self.intents = intents
-            self.childDirected = childDirected
         }
 
         private enum CodingKeys: String, CodingKey {
-            case voiceId = "voiceId"
-            case name = "name"
-            case status = "status"
-            case failureReason = "failureReason"
-            case description = "description"
-            case locale = "locale"
             case checksum = "checksum"
-            case version = "version"
-            case abortStatement = "abortStatement"
-            case lastUpdatedDate = "lastUpdatedDate"
-            case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
-            case createdDate = "createdDate"
-            case clarificationPrompt = "clarificationPrompt"
-            case intents = "intents"
-            case childDirected = "childDirected"
+            case name = "name"
         }
     }
 
     public struct Prompt: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxAttempts", required: true, type: .integer), 
             AWSShapeMember(label: "responseCard", required: false, type: .string), 
+            AWSShapeMember(label: "maxAttempts", required: true, type: .integer), 
             AWSShapeMember(label: "messages", required: true, type: .list)
         ]
-        /// The number of times to prompt the user for information.
-        public let maxAttempts: Int32
         /// A response card. Amazon Lex uses this prompt at runtime, in the PostText API response. It substitutes session attributes and slot values for placeholders in the response card. For more information, see ex-resp-card. 
         public let responseCard: String?
+        /// The number of times to prompt the user for information.
+        public let maxAttempts: Int32
         /// An array of objects, each of which provides a message string and its type. You can specify the message string in plain text or in Speech Synthesis Markup Language (SSML).
         public let messages: [Message]
 
-        public init(maxAttempts: Int32, responseCard: String? = nil, messages: [Message]) {
-            self.maxAttempts = maxAttempts
+        public init(responseCard: String? = nil, maxAttempts: Int32, messages: [Message]) {
             self.responseCard = responseCard
+            self.maxAttempts = maxAttempts
             self.messages = messages
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxAttempts = "maxAttempts"
             case responseCard = "responseCard"
+            case maxAttempts = "maxAttempts"
             case messages = "messages"
         }
     }
 
-    public enum ContentType: String, CustomStringConvertible, Codable {
-        case plaintext = "PlainText"
-        case ssml = "SSML"
-        case custompayload = "CustomPayload"
-        public var description: String { return self.rawValue }
-    }
-
     public struct GetBotVersionsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bots", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "bots", required: false, type: .list)
         ]
-        /// An array of BotMetadata objects, one for each numbered version of the bot plus one for the $LATEST version.
-        public let bots: [BotMetadata]?
         /// A pagination token for fetching the next page of bot versions. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of versions, specify the pagination token in the next request. 
         public let nextToken: String?
+        /// An array of BotMetadata objects, one for each numbered version of the bot plus one for the $LATEST version.
+        public let bots: [BotMetadata]?
 
-        public init(bots: [BotMetadata]? = nil, nextToken: String? = nil) {
-            self.bots = bots
+        public init(nextToken: String? = nil, bots: [BotMetadata]? = nil) {
             self.nextToken = nextToken
+            self.bots = bots
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bots = "bots"
             case nextToken = "nextToken"
+            case bots = "bots"
+        }
+    }
+
+    public struct GetExportRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "exportType", location: .querystring(locationName: "exportType"), required: true, type: .enum), 
+            AWSShapeMember(label: "version", location: .querystring(locationName: "version"), required: true, type: .string), 
+            AWSShapeMember(label: "name", location: .querystring(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "resourceType", location: .querystring(locationName: "resourceType"), required: true, type: .enum)
+        ]
+        /// The format of the exported data.
+        public let exportType: ExportType
+        /// The version of the bot to export.
+        public let version: String
+        /// The name of the bot to export.
+        public let name: String
+        /// The type of resource to export. 
+        public let resourceType: ResourceType
+
+        public init(exportType: ExportType, version: String, name: String, resourceType: ResourceType) {
+            self.exportType = exportType
+            self.version = version
+            self.name = name
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportType = "exportType"
+            case version = "version"
+            case name = "name"
+            case resourceType = "resourceType"
+        }
+    }
+
+    public struct GetSlotTypesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "slotTypes", required: false, type: .list)
+        ]
+        /// If the response is truncated, it includes a pagination token that you can specify in your next request to fetch the next page of slot types.
+        public let nextToken: String?
+        /// An array of objects, one for each slot type, that provides information such as the name of the slot type, the version, and a description.
+        public let slotTypes: [SlotTypeMetadata]?
+
+        public init(nextToken: String? = nil, slotTypes: [SlotTypeMetadata]? = nil) {
+            self.nextToken = nextToken
+            self.slotTypes = slotTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case slotTypes = "slotTypes"
+        }
+    }
+
+    public struct PutBotResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "intents", required: false, type: .list), 
+            AWSShapeMember(label: "checksum", required: false, type: .string), 
+            AWSShapeMember(label: "createVersion", required: false, type: .boolean), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "childDirected", required: false, type: .boolean), 
+            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "locale", required: false, type: .enum), 
+            AWSShapeMember(label: "failureReason", required: false, type: .string), 
+            AWSShapeMember(label: "clarificationPrompt", required: false, type: .structure), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "abortStatement", required: false, type: .structure), 
+            AWSShapeMember(label: "idleSessionTTLInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "voiceId", required: false, type: .string)
+        ]
+        /// An array of Intent objects. For more information, see PutBot.
+        public let intents: [Intent]?
+        /// Checksum of the bot that you created.
+        public let checksum: String?
+        public let createVersion: Bool?
+        ///  When you send a request to create a bot with processBehavior set to BUILD, Amazon Lex sets the status response element to BUILDING. After Amazon Lex builds the bot, it sets status to READY. If Amazon Lex can't build the bot, Amazon Lex sets status to FAILED. Amazon Lex returns the reason for the failure in the failureReason response element.  When you set processBehaviorto SAVE, Amazon Lex sets the status code to NOT BUILT.
+        public let status: Status?
+        /// For each Amazon Lex bot created with the Amazon Lex Model Building Service, you must specify whether your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to the Children's Online Privacy Protection Act (COPPA) by specifying true or false in the childDirected field. By specifying true in the childDirected field, you confirm that your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. By specifying false in the childDirected field, you confirm that your use of Amazon Lex is not related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. You may not specify a default value for the childDirected field that does not accurately reflect whether your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. If your use of Amazon Lex relates to a website, program, or other application that is directed in whole or in part, to children under age 13, you must obtain any required verifiable parental consent under COPPA. For information regarding the use of Amazon Lex in connection with websites, programs, or other applications that are directed or targeted, in whole or in part, to children under age 13, see the Amazon Lex FAQ. 
+        public let childDirected: Bool?
+        /// The date that the bot was created.
+        public let createdDate: TimeStamp?
+        /// The version of the bot. For a new bot, the version is always $LATEST.
+        public let version: String?
+        /// The name of the bot.
+        public let name: String?
+        /// The date that the bot was updated. When you create a resource, the creation date and last updated date are the same.
+        public let lastUpdatedDate: TimeStamp?
+        ///  The target locale for the bot. 
+        public let locale: Locale?
+        /// If status is FAILED, Amazon Lex provides the reason that it failed to build the bot.
+        public let failureReason: String?
+        ///  The prompts that Amazon Lex uses when it doesn't understand the user's intent. For more information, see PutBot. 
+        public let clarificationPrompt: Prompt?
+        /// A description of the bot.
+        public let description: String?
+        /// The message that Amazon Lex uses to abort a conversation. For more information, see PutBot.
+        public let abortStatement: Statement?
+        /// The maximum length of time that Amazon Lex retains the data gathered in a conversation. For more information, see PutBot.
+        public let idleSessionTTLInSeconds: Int32?
+        /// The Amazon Polly voice ID that Amazon Lex uses for voice interaction with the user. For more information, see PutBot.
+        public let voiceId: String?
+
+        public init(intents: [Intent]? = nil, checksum: String? = nil, createVersion: Bool? = nil, status: Status? = nil, childDirected: Bool? = nil, createdDate: TimeStamp? = nil, version: String? = nil, name: String? = nil, lastUpdatedDate: TimeStamp? = nil, locale: Locale? = nil, failureReason: String? = nil, clarificationPrompt: Prompt? = nil, description: String? = nil, abortStatement: Statement? = nil, idleSessionTTLInSeconds: Int32? = nil, voiceId: String? = nil) {
+            self.intents = intents
+            self.checksum = checksum
+            self.createVersion = createVersion
+            self.status = status
+            self.childDirected = childDirected
+            self.createdDate = createdDate
+            self.version = version
+            self.name = name
+            self.lastUpdatedDate = lastUpdatedDate
+            self.locale = locale
+            self.failureReason = failureReason
+            self.clarificationPrompt = clarificationPrompt
+            self.description = description
+            self.abortStatement = abortStatement
+            self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
+            self.voiceId = voiceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case intents = "intents"
+            case checksum = "checksum"
+            case createVersion = "createVersion"
+            case status = "status"
+            case childDirected = "childDirected"
+            case createdDate = "createdDate"
+            case version = "version"
+            case name = "name"
+            case lastUpdatedDate = "lastUpdatedDate"
+            case locale = "locale"
+            case failureReason = "failureReason"
+            case clarificationPrompt = "clarificationPrompt"
+            case description = "description"
+            case abortStatement = "abortStatement"
+            case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
+            case voiceId = "voiceId"
+        }
+    }
+
+    public struct GetBotsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "bots", required: false, type: .list)
+        ]
+        /// If the response is truncated, it includes a pagination token that you can specify in your next request to fetch the next page of bots. 
+        public let nextToken: String?
+        /// An array of botMetadata objects, with one entry for each bot. 
+        public let bots: [BotMetadata]?
+
+        public init(nextToken: String? = nil, bots: [BotMetadata]? = nil) {
+            self.nextToken = nextToken
+            self.bots = bots
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case bots = "bots"
+        }
+    }
+
+    public struct GetBotRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "versionOrAlias", location: .uri(locationName: "versionoralias"), required: true, type: .string), 
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
+        ]
+        /// The version or alias of the bot.
+        public let versionOrAlias: String
+        /// The name of the bot. The name is case sensitive. 
+        public let name: String
+
+        public init(versionOrAlias: String, name: String) {
+            self.versionOrAlias = versionOrAlias
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case versionOrAlias = "versionoralias"
+            case name = "name"
+        }
+    }
+
+    public struct StartImportResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "mergeStrategy", required: false, type: .enum), 
+            AWSShapeMember(label: "importStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "importId", required: false, type: .string)
+        ]
+        /// A timestamp for the date and time that the import job was requested.
+        public let createdDate: TimeStamp?
+        /// The type of resource to import.
+        public let resourceType: ResourceType?
+        /// The action to take when there is a merge conflict.
+        public let mergeStrategy: MergeStrategy?
+        /// The status of the import job. If the status is FAILED, you can get the reason for the failure using the GetImport operation.
+        public let importStatus: ImportStatus?
+        /// The name given to the import job.
+        public let name: String?
+        /// The identifier for the specific import job.
+        public let importId: String?
+
+        public init(createdDate: TimeStamp? = nil, resourceType: ResourceType? = nil, mergeStrategy: MergeStrategy? = nil, importStatus: ImportStatus? = nil, name: String? = nil, importId: String? = nil) {
+            self.createdDate = createdDate
+            self.resourceType = resourceType
+            self.mergeStrategy = mergeStrategy
+            self.importStatus = importStatus
+            self.name = name
+            self.importId = importId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdDate = "createdDate"
+            case resourceType = "resourceType"
+            case mergeStrategy = "mergeStrategy"
+            case importStatus = "importStatus"
+            case name = "name"
+            case importId = "importId"
+        }
+    }
+
+    public struct GetIntentVersionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "intents", required: false, type: .list)
+        ]
+        /// A pagination token for fetching the next page of intent versions. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of versions, specify the pagination token in the next request. 
+        public let nextToken: String?
+        /// An array of IntentMetadata objects, one for each numbered version of the intent plus one for the $LATEST version.
+        public let intents: [IntentMetadata]?
+
+        public init(nextToken: String? = nil, intents: [IntentMetadata]? = nil) {
+            self.nextToken = nextToken
+            self.intents = intents
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case intents = "intents"
         }
     }
 
     public struct GetSlotTypeVersionsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "slotTypes", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "slotTypes", required: false, type: .list)
         ]
-        /// An array of SlotTypeMetadata objects, one for each numbered version of the slot type plus one for the $LATEST version.
-        public let slotTypes: [SlotTypeMetadata]?
         /// A pagination token for fetching the next page of slot type versions. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of versions, specify the pagination token in the next request. 
         public let nextToken: String?
+        /// An array of SlotTypeMetadata objects, one for each numbered version of the slot type plus one for the $LATEST version.
+        public let slotTypes: [SlotTypeMetadata]?
 
-        public init(slotTypes: [SlotTypeMetadata]? = nil, nextToken: String? = nil) {
-            self.slotTypes = slotTypes
+        public init(nextToken: String? = nil, slotTypes: [SlotTypeMetadata]? = nil) {
             self.nextToken = nextToken
+            self.slotTypes = slotTypes
         }
 
         private enum CodingKeys: String, CodingKey {
-            case slotTypes = "slotTypes"
             case nextToken = "nextToken"
+            case slotTypes = "slotTypes"
         }
     }
 
-    public struct CreateBotVersionRequest: AWSShape {
+    public struct Intent: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "checksum", required: false, type: .string)
+            AWSShapeMember(label: "intentName", required: true, type: .string), 
+            AWSShapeMember(label: "intentVersion", required: true, type: .string)
         ]
-        /// The name of the bot that you want to create a new version of. The name is case sensitive. 
-        public let name: String
-        /// Identifies a specific revision of the $LATEST version of the bot. If you specify a checksum and the $LATEST version of the bot has a different checksum, a PreconditionFailedException exception is returned and Amazon Lex doesn't publish a new version. If you don't specify a checksum, Amazon Lex publishes the $LATEST version.
-        public let checksum: String?
+        /// The name of the intent.
+        public let intentName: String
+        /// The version of the intent.
+        public let intentVersion: String
 
-        public init(name: String, checksum: String? = nil) {
+        public init(intentName: String, intentVersion: String) {
+            self.intentName = intentName
+            self.intentVersion = intentVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case intentName = "intentName"
+            case intentVersion = "intentVersion"
+        }
+    }
+
+    public struct DeleteSlotTypeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
+        ]
+        /// The name of the slot type. The name is case sensitive. 
+        public let name: String
+
+        public init(name: String) {
             self.name = name
-            self.checksum = checksum
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "name"
-            case checksum = "checksum"
         }
     }
 
-    public struct SlotTypeMetadata: AWSShape {
+    public struct GetBotChannelAssociationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string), 
+            AWSShapeMember(label: "botAlias", location: .uri(locationName: "aliasName"), required: true, type: .string)
+        ]
+        /// The name of the association between the bot and the channel. The name is case sensitive. 
+        public let name: String
+        /// The name of the Amazon Lex bot.
+        public let botName: String
+        /// An alias pointing to the specific version of the Amazon Lex bot to which this association is being made.
+        public let botAlias: String
+
+        public init(name: String, botName: String, botAlias: String) {
+            self.name = name
+            self.botName = botName
+            self.botAlias = botAlias
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case botName = "botName"
+            case botAlias = "aliasName"
+        }
+    }
+
+    public struct UtteranceList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "utterances", required: false, type: .list), 
+            AWSShapeMember(label: "botVersion", required: false, type: .string)
+        ]
+        /// One or more UtteranceData objects that contain information about the utterances that have been made to a bot. The maximum number of object is 100.
+        public let utterances: [UtteranceData]?
+        /// The version of the bot that processed the list.
+        public let botVersion: String?
+
+        public init(utterances: [UtteranceData]? = nil, botVersion: String? = nil) {
+            self.utterances = utterances
+            self.botVersion = botVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case utterances = "utterances"
+            case botVersion = "botVersion"
+        }
+    }
+
+    public enum ReferenceType: String, CustomStringConvertible, Codable {
+        case intent = "Intent"
+        case bot = "Bot"
+        case botalias = "BotAlias"
+        case botchannel = "BotChannel"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct IntentMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "description", required: false, type: .string)
         ]
-        /// The date that the slot type was updated. When you create a resource, the creation date and last updated date are the same. 
-        public let lastUpdatedDate: TimeStamp?
-        /// The name of the slot type.
-        public let name: String?
-        /// The date that the slot type was created.
+        /// The date that the intent was created.
         public let createdDate: TimeStamp?
-        /// The version of the slot type.
+        /// The date that the intent was updated. When you create an intent, the creation date and last updated date are the same.
+        public let lastUpdatedDate: TimeStamp?
+        /// The version of the intent.
         public let version: String?
-        /// A description of the slot type.
+        /// The name of the intent.
+        public let name: String?
+        /// A description of the intent.
         public let description: String?
 
-        public init(lastUpdatedDate: TimeStamp? = nil, name: String? = nil, createdDate: TimeStamp? = nil, version: String? = nil, description: String? = nil) {
-            self.lastUpdatedDate = lastUpdatedDate
-            self.name = name
+        public init(createdDate: TimeStamp? = nil, lastUpdatedDate: TimeStamp? = nil, version: String? = nil, name: String? = nil, description: String? = nil) {
             self.createdDate = createdDate
+            self.lastUpdatedDate = lastUpdatedDate
             self.version = version
+            self.name = name
             self.description = description
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lastUpdatedDate = "lastUpdatedDate"
-            case name = "name"
             case createdDate = "createdDate"
+            case lastUpdatedDate = "lastUpdatedDate"
             case version = "version"
+            case name = "name"
             case description = "description"
+        }
+    }
+
+    public struct FulfillmentActivity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "type", required: true, type: .enum), 
+            AWSShapeMember(label: "codeHook", required: false, type: .structure)
+        ]
+        ///  How the intent should be fulfilled, either by running a Lambda function or by returning the slot data to the client application. 
+        public let `type`: FulfillmentActivityType
+        ///  A description of the Lambda function that is run to fulfill the intent. 
+        public let codeHook: CodeHook?
+
+        public init(type: FulfillmentActivityType, codeHook: CodeHook? = nil) {
+            self.`type` = `type`
+            self.codeHook = codeHook
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "type"
+            case codeHook = "codeHook"
+        }
+    }
+
+    public struct GetIntentsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "intents", required: false, type: .list)
+        ]
+        /// If the response is truncated, the response includes a pagination token that you can specify in your next request to fetch the next page of intents. 
+        public let nextToken: String?
+        /// An array of Intent objects. For more information, see PutBot.
+        public let intents: [IntentMetadata]?
+
+        public init(nextToken: String? = nil, intents: [IntentMetadata]? = nil) {
+            self.nextToken = nextToken
+            self.intents = intents
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case intents = "intents"
         }
     }
 
@@ -2742,152 +2284,610 @@ extension LexModelBuildingService {
         }
     }
 
-    public struct GetIntentsResponse: AWSShape {
+    public struct GetSlotTypesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "nameContains", location: .querystring(locationName: "nameContains"), required: false, type: .string)
+        ]
+        /// A pagination token that fetches the next page of slot types. If the response to this API call is truncated, Amazon Lex returns a pagination token in the response. To fetch next page of slot types, specify the pagination token in the next request.
+        public let nextToken: String?
+        /// The maximum number of slot types to return in the response. The default is 10.
+        public let maxResults: Int32?
+        /// Substring to match in slot type names. A slot type will be returned if any part of its name matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz."
+        public let nameContains: String?
+
+        public init(nextToken: String? = nil, maxResults: Int32? = nil, nameContains: String? = nil) {
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+            self.nameContains = nameContains
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+            case nameContains = "nameContains"
+        }
+    }
+
+    public struct CreateIntentVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "checksum", required: false, type: .string), 
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
+        ]
+        /// Checksum of the $LATEST version of the intent that should be used to create the new version. If you specify a checksum and the $LATEST version of the intent has a different checksum, Amazon Lex returns a PreconditionFailedException exception and doesn't publish a new version. If you don't specify a checksum, Amazon Lex publishes the $LATEST version.
+        public let checksum: String?
+        /// The name of the intent that you want to create a new version of. The name is case sensitive. 
+        public let name: String
+
+        public init(checksum: String? = nil, name: String) {
+            self.checksum = checksum
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case checksum = "checksum"
+            case name = "name"
+        }
+    }
+
+    public struct GetBotAliasesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "BotAliases", required: false, type: .list)
+        ]
+        /// A pagination token for fetching next page of aliases. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of aliases, specify the pagination token in the next request. 
+        public let nextToken: String?
+        /// An array of BotAliasMetadata objects, each describing a bot alias.
+        public let botAliases: [BotAliasMetadata]?
+
+        public init(nextToken: String? = nil, botAliases: [BotAliasMetadata]? = nil) {
+            self.nextToken = nextToken
+            self.botAliases = botAliases
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case botAliases = "BotAliases"
+        }
+    }
+
+    public enum Status: String, CustomStringConvertible, Codable {
+        case building = "BUILDING"
+        case ready = "READY"
+        case readyBasicTesting = "READY_BASIC_TESTING"
+        case failed = "FAILED"
+        case notBuilt = "NOT_BUILT"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct PutSlotTypeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "valueSelectionStrategy", required: false, type: .enum), 
+            AWSShapeMember(label: "checksum", required: false, type: .string), 
+            AWSShapeMember(label: "enumerationValues", required: false, type: .list), 
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "createVersion", required: false, type: .boolean)
+        ]
+        /// A description of the slot type.
+        public let description: String?
+        /// Determines the slot resolution strategy that Amazon Lex uses to return slot type values. The field can be set to one of the following values:    ORIGINAL_VALUE - Returns the value entered by the user, if the user value is similar to the slot value.    TOP_RESOLUTION - If there is a resolution list for the slot, return the first value in the resolution list as the slot type value. If there is no resolution list, null is returned.   If you don't specify the valueSelectionStrategy, the default is ORIGINAL_VALUE.
+        public let valueSelectionStrategy: SlotValueSelectionStrategy?
+        /// Identifies a specific revision of the $LATEST version. When you create a new slot type, leave the checksum field blank. If you specify a checksum you get a BadRequestException exception. When you want to update a slot type, set the checksum field to the checksum of the most recent revision of the $LATEST version. If you don't specify the  checksum field, or if the checksum does not match the $LATEST version, you get a PreconditionFailedException exception.
+        public let checksum: String?
+        /// A list of EnumerationValue objects that defines the values that the slot type can take. Each value can have a list of synonyms, which are additional values that help train the machine learning model about the values that it resolves for a slot.  When Amazon Lex resolves a slot value, it generates a resolution list that contains up to five possible values for the slot. If you are using a Lambda function, this resolution list is passed to the function. If you are not using a Lambda function you can choose to return the value that the user entered or the first value in the resolution list as the slot value. The valueSelectionStrategy field indicates the option to use. 
+        public let enumerationValues: [EnumerationValue]?
+        /// The name of the slot type. The name is not case sensitive.  The name can't match a built-in slot type name, or a built-in slot type name with "AMAZON." removed. For example, because there is a built-in slot type called AMAZON.DATE, you can't create a custom slot type called DATE. For a list of built-in slot types, see Slot Type Reference in the Alexa Skills Kit.
+        public let name: String
+        public let createVersion: Bool?
+
+        public init(description: String? = nil, valueSelectionStrategy: SlotValueSelectionStrategy? = nil, checksum: String? = nil, enumerationValues: [EnumerationValue]? = nil, name: String, createVersion: Bool? = nil) {
+            self.description = description
+            self.valueSelectionStrategy = valueSelectionStrategy
+            self.checksum = checksum
+            self.enumerationValues = enumerationValues
+            self.name = name
+            self.createVersion = createVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case valueSelectionStrategy = "valueSelectionStrategy"
+            case checksum = "checksum"
+            case enumerationValues = "enumerationValues"
+            case name = "name"
+            case createVersion = "createVersion"
+        }
+    }
+
+    public struct DeleteBotVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "version", location: .uri(locationName: "version"), required: true, type: .string), 
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
+        ]
+        /// The version of the bot to delete. You cannot delete the $LATEST version of the bot. To delete the $LATEST version, use the DeleteBot operation.
+        public let version: String
+        /// The name of the bot.
+        public let name: String
+
+        public init(version: String, name: String) {
+            self.version = version
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case version = "version"
+            case name = "name"
+        }
+    }
+
+    public struct StartImportRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceType", required: true, type: .enum), 
+            AWSShapeMember(label: "payload", required: true, type: .blob), 
+            AWSShapeMember(label: "mergeStrategy", required: true, type: .enum)
+        ]
+        /// Specifies the type of resource to export. Each resource also exports any resources that it depends on.    A bot exports dependent intents.   An intent exports dependent slot types.  
+        public let resourceType: ResourceType
+        /// A zip archive in binary format. The archive should contain one file, a JSON file containing the resource to import. The resource should match the type specified in the resourceType field.
+        public let payload: Data
+        /// Specifies the action that the StartImport operation should take when there is an existing resource with the same name.   FAIL_ON_CONFLICT - The import operation is stopped on the first conflict between a resource in the import file and an existing resource. The name of the resource causing the conflict is in the failureReason field of the response to the GetImport operation. OVERWRITE_LATEST - The import operation proceeds even if there is a conflict with an existing resource. The $LASTEST version of the existing resource is overwritten with the data from the import file.  
+        public let mergeStrategy: MergeStrategy
+
+        public init(resourceType: ResourceType, payload: Data, mergeStrategy: MergeStrategy) {
+            self.resourceType = resourceType
+            self.payload = payload
+            self.mergeStrategy = mergeStrategy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceType = "resourceType"
+            case payload = "payload"
+            case mergeStrategy = "mergeStrategy"
+        }
+    }
+
+    public enum ExportType: String, CustomStringConvertible, Codable {
+        case alexaSkillsKit = "ALEXA_SKILLS_KIT"
+        case lex = "LEX"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChannelStatus: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case created = "CREATED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeleteBotAliasRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string), 
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
+        ]
+        /// The name of the bot that the alias points to.
+        public let botName: String
+        /// The name of the alias to delete. The name is case sensitive. 
+        public let name: String
+
+        public init(botName: String, name: String) {
+            self.botName = botName
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botName = "botName"
+            case name = "name"
+        }
+    }
+
+    public struct GetImportRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "importId", location: .uri(locationName: "importId"), required: true, type: .string)
+        ]
+        /// The identifier of the import job information to return.
+        public let importId: String
+
+        public init(importId: String) {
+            self.importId = importId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case importId = "importId"
+        }
+    }
+
+    public struct BotMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum)
+        ]
+        /// The date that the bot was created.
+        public let createdDate: TimeStamp?
+        /// The date that the bot was updated. When you create a bot, the creation date and last updated date are the same. 
+        public let lastUpdatedDate: TimeStamp?
+        /// The version of the bot. For a new bot, the version is always $LATEST.
+        public let version: String?
+        /// The name of the bot. 
+        public let name: String?
+        /// A description of the bot.
+        public let description: String?
+        /// The status of the bot.
+        public let status: Status?
+
+        public init(createdDate: TimeStamp? = nil, lastUpdatedDate: TimeStamp? = nil, version: String? = nil, name: String? = nil, description: String? = nil, status: Status? = nil) {
+            self.createdDate = createdDate
+            self.lastUpdatedDate = lastUpdatedDate
+            self.version = version
+            self.name = name
+            self.description = description
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdDate = "createdDate"
+            case lastUpdatedDate = "lastUpdatedDate"
+            case version = "version"
+            case name = "name"
+            case description = "description"
+            case status = "status"
+        }
+    }
+
+    public enum ProcessBehavior: String, CustomStringConvertible, Codable {
+        case save = "SAVE"
+        case build = "BUILD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FulfillmentActivityType: String, CustomStringConvertible, Codable {
+        case returnintent = "ReturnIntent"
+        case codehook = "CodeHook"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImportStatus: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case complete = "COMPLETE"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetBuiltinIntentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "signature", location: .uri(locationName: "signature"), required: true, type: .string)
+        ]
+        /// The unique identifier for a built-in intent. To find the signature for an intent, see Standard Built-in Intents in the Alexa Skills Kit.
+        public let signature: String
+
+        public init(signature: String) {
+            self.signature = signature
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case signature = "signature"
+        }
+    }
+
+    public struct CreateBotVersionResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "intents", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
+            AWSShapeMember(label: "checksum", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "childDirected", required: false, type: .boolean), 
+            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "locale", required: false, type: .enum), 
+            AWSShapeMember(label: "failureReason", required: false, type: .string), 
+            AWSShapeMember(label: "clarificationPrompt", required: false, type: .structure), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "abortStatement", required: false, type: .structure), 
+            AWSShapeMember(label: "idleSessionTTLInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "voiceId", required: false, type: .string)
         ]
         /// An array of Intent objects. For more information, see PutBot.
-        public let intents: [IntentMetadata]?
-        /// If the response is truncated, the response includes a pagination token that you can specify in your next request to fetch the next page of intents. 
-        public let nextToken: String?
+        public let intents: [Intent]?
+        /// Checksum identifying the version of the bot that was created.
+        public let checksum: String?
+        ///  When you send a request to create or update a bot, Amazon Lex sets the status response element to BUILDING. After Amazon Lex builds the bot, it sets status to READY. If Amazon Lex can't build the bot, it sets status to FAILED. Amazon Lex returns the reason for the failure in the failureReason response element. 
+        public let status: Status?
+        /// For each Amazon Lex bot created with the Amazon Lex Model Building Service, you must specify whether your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to the Children's Online Privacy Protection Act (COPPA) by specifying true or false in the childDirected field. By specifying true in the childDirected field, you confirm that your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. By specifying false in the childDirected field, you confirm that your use of Amazon Lex is not related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. You may not specify a default value for the childDirected field that does not accurately reflect whether your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. If your use of Amazon Lex relates to a website, program, or other application that is directed in whole or in part, to children under age 13, you must obtain any required verifiable parental consent under COPPA. For information regarding the use of Amazon Lex in connection with websites, programs, or other applications that are directed or targeted, in whole or in part, to children under age 13, see the Amazon Lex FAQ. 
+        public let childDirected: Bool?
+        /// The date when the bot version was created.
+        public let createdDate: TimeStamp?
+        /// The version of the bot. 
+        public let version: String?
+        /// The name of the bot.
+        public let name: String?
+        /// The date when the $LATEST version of this bot was updated. 
+        public let lastUpdatedDate: TimeStamp?
+        ///  Specifies the target locale for the bot. 
+        public let locale: Locale?
+        /// If status is FAILED, Amazon Lex provides the reason that it failed to build the bot.
+        public let failureReason: String?
+        /// The message that Amazon Lex uses when it doesn't understand the user's request. For more information, see PutBot. 
+        public let clarificationPrompt: Prompt?
+        /// A description of the bot.
+        public let description: String?
+        /// The message that Amazon Lex uses to abort a conversation. For more information, see PutBot.
+        public let abortStatement: Statement?
+        /// The maximum time in seconds that Amazon Lex retains the data gathered in a conversation. For more information, see PutBot.
+        public let idleSessionTTLInSeconds: Int32?
+        /// The Amazon Polly voice ID that Amazon Lex uses for voice interactions with the user.
+        public let voiceId: String?
 
-        public init(intents: [IntentMetadata]? = nil, nextToken: String? = nil) {
+        public init(intents: [Intent]? = nil, checksum: String? = nil, status: Status? = nil, childDirected: Bool? = nil, createdDate: TimeStamp? = nil, version: String? = nil, name: String? = nil, lastUpdatedDate: TimeStamp? = nil, locale: Locale? = nil, failureReason: String? = nil, clarificationPrompt: Prompt? = nil, description: String? = nil, abortStatement: Statement? = nil, idleSessionTTLInSeconds: Int32? = nil, voiceId: String? = nil) {
             self.intents = intents
-            self.nextToken = nextToken
+            self.checksum = checksum
+            self.status = status
+            self.childDirected = childDirected
+            self.createdDate = createdDate
+            self.version = version
+            self.name = name
+            self.lastUpdatedDate = lastUpdatedDate
+            self.locale = locale
+            self.failureReason = failureReason
+            self.clarificationPrompt = clarificationPrompt
+            self.description = description
+            self.abortStatement = abortStatement
+            self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
+            self.voiceId = voiceId
         }
 
         private enum CodingKeys: String, CodingKey {
             case intents = "intents"
-            case nextToken = "nextToken"
+            case checksum = "checksum"
+            case status = "status"
+            case childDirected = "childDirected"
+            case createdDate = "createdDate"
+            case version = "version"
+            case name = "name"
+            case lastUpdatedDate = "lastUpdatedDate"
+            case locale = "locale"
+            case failureReason = "failureReason"
+            case clarificationPrompt = "clarificationPrompt"
+            case description = "description"
+            case abortStatement = "abortStatement"
+            case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
+            case voiceId = "voiceId"
         }
     }
 
-    public struct PutSlotTypeResponse: AWSShape {
+    public struct GetSlotTypeVersionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "checksum", required: false, type: .string), 
-            AWSShapeMember(label: "createVersion", required: false, type: .boolean), 
-            AWSShapeMember(label: "version", required: false, type: .string), 
-            AWSShapeMember(label: "valueSelectionStrategy", required: false, type: .enum), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "enumerationValues", required: false, type: .list), 
-            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp)
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
         ]
-        /// The name of the slot type.
-        public let name: String?
-        /// Checksum of the $LATEST version of the slot type.
-        public let checksum: String?
-        public let createVersion: Bool?
-        /// The version of the slot type. For a new slot type, the version is always $LATEST. 
-        public let version: String?
-        /// The slot resolution strategy that Amazon Lex uses to determine the value of the slot. For more information, see PutSlotType.
-        public let valueSelectionStrategy: SlotValueSelectionStrategy?
-        /// A description of the slot type.
-        public let description: String?
-        /// A list of EnumerationValue objects that defines the values that the slot type can take.
-        public let enumerationValues: [EnumerationValue]?
-        /// The date that the slot type was created.
-        public let createdDate: TimeStamp?
-        /// The date that the slot type was updated. When you create a slot type, the creation date and last update date are the same.
-        public let lastUpdatedDate: TimeStamp?
+        /// A pagination token for fetching the next page of slot type versions. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of versions, specify the pagination token in the next request. 
+        public let nextToken: String?
+        /// The maximum number of slot type versions to return in the response. The default is 10.
+        public let maxResults: Int32?
+        /// The name of the slot type for which versions should be returned.
+        public let name: String
 
-        public init(name: String? = nil, checksum: String? = nil, createVersion: Bool? = nil, version: String? = nil, valueSelectionStrategy: SlotValueSelectionStrategy? = nil, description: String? = nil, enumerationValues: [EnumerationValue]? = nil, createdDate: TimeStamp? = nil, lastUpdatedDate: TimeStamp? = nil) {
+        public init(nextToken: String? = nil, maxResults: Int32? = nil, name: String) {
+            self.nextToken = nextToken
+            self.maxResults = maxResults
             self.name = name
-            self.checksum = checksum
-            self.createVersion = createVersion
-            self.version = version
-            self.valueSelectionStrategy = valueSelectionStrategy
-            self.description = description
-            self.enumerationValues = enumerationValues
-            self.createdDate = createdDate
-            self.lastUpdatedDate = lastUpdatedDate
         }
 
         private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
             case name = "name"
-            case checksum = "checksum"
-            case createVersion = "createVersion"
-            case version = "version"
-            case valueSelectionStrategy = "valueSelectionStrategy"
-            case description = "description"
-            case enumerationValues = "enumerationValues"
-            case createdDate = "createdDate"
-            case lastUpdatedDate = "lastUpdatedDate"
         }
     }
 
-    public enum SlotConstraint: String, CustomStringConvertible, Codable {
-        case required = "Required"
-        case optional = "Optional"
+    public enum SlotValueSelectionStrategy: String, CustomStringConvertible, Codable {
+        case originalValue = "ORIGINAL_VALUE"
+        case topResolution = "TOP_RESOLUTION"
         public var description: String { return self.rawValue }
     }
 
-    public struct GetExportResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "url", required: false, type: .string), 
-            AWSShapeMember(label: "failureReason", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "version", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "exportType", required: false, type: .enum), 
-            AWSShapeMember(label: "exportStatus", required: false, type: .enum)
-        ]
-        /// An S3 pre-signed URL that provides the location of the exported resource. The exported resource is a ZIP archive that contains the exported resource in JSON format. The structure of the archive may change. Your code should not rely on the archive structure.
-        public let url: String?
-        /// If status is FAILED, Amazon Lex provides the reason that it failed to export the resource.
-        public let failureReason: String?
-        /// The name of the bot being exported.
-        public let name: String?
-        /// The version of the bot being exported.
-        public let version: String?
-        /// The type of the exported resource.
-        public let resourceType: ResourceType?
-        /// The format of the exported data.
-        public let exportType: ExportType?
-        /// The status of the export.     IN_PROGRESS - The export is in progress.    READY - The export is complete.    FAILED - The export could not be completed.  
-        public let exportStatus: ExportStatus?
+    public enum ResourceType: String, CustomStringConvertible, Codable {
+        case bot = "BOT"
+        case intent = "INTENT"
+        case slotType = "SLOT_TYPE"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(url: String? = nil, failureReason: String? = nil, name: String? = nil, version: String? = nil, resourceType: ResourceType? = nil, exportType: ExportType? = nil, exportStatus: ExportStatus? = nil) {
-            self.url = url
-            self.failureReason = failureReason
-            self.name = name
-            self.version = version
-            self.resourceType = resourceType
-            self.exportType = exportType
-            self.exportStatus = exportStatus
+    public struct Message: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "groupNumber", required: false, type: .integer), 
+            AWSShapeMember(label: "contentType", required: true, type: .enum), 
+            AWSShapeMember(label: "content", required: true, type: .string)
+        ]
+        /// Identifies the message group that the message belongs to. When a group is assigned to a message, Amazon Lex returns one message from each group in the response.
+        public let groupNumber: Int32?
+        /// The content type of the message string.
+        public let contentType: ContentType
+        /// The text of the message.
+        public let content: String
+
+        public init(groupNumber: Int32? = nil, contentType: ContentType, content: String) {
+            self.groupNumber = groupNumber
+            self.contentType = contentType
+            self.content = content
         }
 
         private enum CodingKeys: String, CodingKey {
-            case url = "url"
-            case failureReason = "failureReason"
-            case name = "name"
-            case version = "version"
-            case resourceType = "resourceType"
-            case exportType = "exportType"
-            case exportStatus = "exportStatus"
+            case groupNumber = "groupNumber"
+            case contentType = "contentType"
+            case content = "content"
         }
     }
 
-    public struct UtteranceList: AWSShape {
+    public struct DeleteIntentVersionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "utterances", required: false, type: .list), 
-            AWSShapeMember(label: "botVersion", required: false, type: .string)
+            AWSShapeMember(label: "version", location: .uri(locationName: "version"), required: true, type: .string), 
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
         ]
-        /// One or more UtteranceData objects that contain information about the utterances that have been made to a bot. The maximum number of object is 100.
-        public let utterances: [UtteranceData]?
-        /// The version of the bot that processed the list.
-        public let botVersion: String?
+        /// The version of the intent to delete. You cannot delete the $LATEST version of the intent. To delete the $LATEST version, use the DeleteIntent operation.
+        public let version: String
+        /// The name of the intent.
+        public let name: String
 
-        public init(utterances: [UtteranceData]? = nil, botVersion: String? = nil) {
-            self.utterances = utterances
-            self.botVersion = botVersion
+        public init(version: String, name: String) {
+            self.version = version
+            self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case utterances = "utterances"
-            case botVersion = "botVersion"
+            case version = "version"
+            case name = "name"
+        }
+    }
+
+    public struct PutIntentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "checksum", required: false, type: .string), 
+            AWSShapeMember(label: "parentIntentSignature", required: false, type: .string), 
+            AWSShapeMember(label: "rejectionStatement", required: false, type: .structure), 
+            AWSShapeMember(label: "dialogCodeHook", required: false, type: .structure), 
+            AWSShapeMember(label: "fulfillmentActivity", required: false, type: .structure), 
+            AWSShapeMember(label: "createVersion", required: false, type: .boolean), 
+            AWSShapeMember(label: "sampleUtterances", required: false, type: .list), 
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "followUpPrompt", required: false, type: .structure), 
+            AWSShapeMember(label: "conclusionStatement", required: false, type: .structure), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "slots", required: false, type: .list), 
+            AWSShapeMember(label: "confirmationPrompt", required: false, type: .structure)
+        ]
+        /// Identifies a specific revision of the $LATEST version. When you create a new intent, leave the checksum field blank. If you specify a checksum you get a BadRequestException exception. When you want to update a intent, set the checksum field to the checksum of the most recent revision of the $LATEST version. If you don't specify the  checksum field, or if the checksum does not match the $LATEST version, you get a PreconditionFailedException exception.
+        public let checksum: String?
+        /// A unique identifier for the built-in intent to base this intent on. To find the signature for an intent, see Standard Built-in Intents in the Alexa Skills Kit.
+        public let parentIntentSignature: String?
+        /// When the user answers "no" to the question defined in confirmationPrompt, Amazon Lex responds with this statement to acknowledge that the intent was canceled.   You must provide both the rejectionStatement and the confirmationPrompt, or neither. 
+        public let rejectionStatement: Statement?
+        ///  Specifies a Lambda function to invoke for each user input. You can invoke this Lambda function to personalize user interaction.  For example, suppose your bot determines that the user is John. Your Lambda function might retrieve John's information from a backend database and prepopulate some of the values. For example, if you find that John is gluten intolerant, you might set the corresponding intent slot, GlutenIntolerant, to true. You might find John's phone number and set the corresponding session attribute. 
+        public let dialogCodeHook: CodeHook?
+        /// Required. Describes how the intent is fulfilled. For example, after a user provides all of the information for a pizza order, fulfillmentActivity defines how the bot places an order with a local pizza store.   You might configure Amazon Lex to return all of the intent information to the client application, or direct it to invoke a Lambda function that can process the intent (for example, place an order with a pizzeria). 
+        public let fulfillmentActivity: FulfillmentActivity?
+        public let createVersion: Bool?
+        /// An array of utterances (strings) that a user might say to signal the intent. For example, "I want {PizzaSize} pizza", "Order {Quantity} {PizzaSize} pizzas".  In each utterance, a slot name is enclosed in curly braces. 
+        public let sampleUtterances: [String]?
+        /// The name of the intent. The name is not case sensitive.  The name can't match a built-in intent name, or a built-in intent name with "AMAZON." removed. For example, because there is a built-in intent called AMAZON.HelpIntent, you can't create a custom intent called HelpIntent. For a list of built-in intents, see Standard Built-in Intents in the Alexa Skills Kit.
+        public let name: String
+        /// Amazon Lex uses this prompt to solicit additional activity after fulfilling an intent. For example, after the OrderPizza intent is fulfilled, you might prompt the user to order a drink. The action that Amazon Lex takes depends on the user's response, as follows:   If the user says "Yes" it responds with the clarification prompt that is configured for the bot.   if the user says "Yes" and continues with an utterance that triggers an intent it starts a conversation for the intent.   If the user says "No" it responds with the rejection statement configured for the the follow-up prompt.   If it doesn't recognize the utterance it repeats the follow-up prompt again.   The followUpPrompt field and the conclusionStatement field are mutually exclusive. You can specify only one. 
+        public let followUpPrompt: FollowUpPrompt?
+        ///  The statement that you want Amazon Lex to convey to the user after the intent is successfully fulfilled by the Lambda function.  This element is relevant only if you provide a Lambda function in the fulfillmentActivity. If you return the intent to the client application, you can't specify this element.  The followUpPrompt and conclusionStatement are mutually exclusive. You can specify only one. 
+        public let conclusionStatement: Statement?
+        /// A description of the intent.
+        public let description: String?
+        /// An array of intent slots. At runtime, Amazon Lex elicits required slot values from the user using prompts defined in the slots. For more information, see how-it-works. 
+        public let slots: [Slot]?
+        /// Prompts the user to confirm the intent. This question should have a yes or no answer. Amazon Lex uses this prompt to ensure that the user acknowledges that the intent is ready for fulfillment. For example, with the OrderPizza intent, you might want to confirm that the order is correct before placing it. For other intents, such as intents that simply respond to user questions, you might not need to ask the user for confirmation before providing the information.   You you must provide both the rejectionStatement and the confirmationPrompt, or neither. 
+        public let confirmationPrompt: Prompt?
+
+        public init(checksum: String? = nil, parentIntentSignature: String? = nil, rejectionStatement: Statement? = nil, dialogCodeHook: CodeHook? = nil, fulfillmentActivity: FulfillmentActivity? = nil, createVersion: Bool? = nil, sampleUtterances: [String]? = nil, name: String, followUpPrompt: FollowUpPrompt? = nil, conclusionStatement: Statement? = nil, description: String? = nil, slots: [Slot]? = nil, confirmationPrompt: Prompt? = nil) {
+            self.checksum = checksum
+            self.parentIntentSignature = parentIntentSignature
+            self.rejectionStatement = rejectionStatement
+            self.dialogCodeHook = dialogCodeHook
+            self.fulfillmentActivity = fulfillmentActivity
+            self.createVersion = createVersion
+            self.sampleUtterances = sampleUtterances
+            self.name = name
+            self.followUpPrompt = followUpPrompt
+            self.conclusionStatement = conclusionStatement
+            self.description = description
+            self.slots = slots
+            self.confirmationPrompt = confirmationPrompt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case checksum = "checksum"
+            case parentIntentSignature = "parentIntentSignature"
+            case rejectionStatement = "rejectionStatement"
+            case dialogCodeHook = "dialogCodeHook"
+            case fulfillmentActivity = "fulfillmentActivity"
+            case createVersion = "createVersion"
+            case sampleUtterances = "sampleUtterances"
+            case name = "name"
+            case followUpPrompt = "followUpPrompt"
+            case conclusionStatement = "conclusionStatement"
+            case description = "description"
+            case slots = "slots"
+            case confirmationPrompt = "confirmationPrompt"
+        }
+    }
+
+    public struct PutBotRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "processBehavior", required: false, type: .enum), 
+            AWSShapeMember(label: "intents", required: false, type: .list), 
+            AWSShapeMember(label: "voiceId", required: false, type: .string), 
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "abortStatement", required: false, type: .structure), 
+            AWSShapeMember(label: "checksum", required: false, type: .string), 
+            AWSShapeMember(label: "createVersion", required: false, type: .boolean), 
+            AWSShapeMember(label: "locale", required: true, type: .enum), 
+            AWSShapeMember(label: "childDirected", required: true, type: .boolean), 
+            AWSShapeMember(label: "idleSessionTTLInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "clarificationPrompt", required: false, type: .structure)
+        ]
+        /// If you set the processBehavior element to BUILD, Amazon Lex builds the bot so that it can be run. If you set the element to SAVE Amazon Lex saves the bot, but doesn't build it.  If you don't specify this value, the default value is BUILD.
+        public let processBehavior: ProcessBehavior?
+        /// An array of Intent objects. Each intent represents a command that a user can express. For example, a pizza ordering bot might support an OrderPizza intent. For more information, see how-it-works.
+        public let intents: [Intent]?
+        /// The Amazon Polly voice ID that you want Amazon Lex to use for voice interactions with the user. The locale configured for the voice must match the locale of the bot. For more information, see Available Voices in the Amazon Polly Developer Guide.
+        public let voiceId: String?
+        /// The name of the bot. The name is not case sensitive. 
+        public let name: String
+        /// A description of the bot.
+        public let description: String?
+        /// When Amazon Lex can't understand the user's input in context, it tries to elicit the information a few times. After that, Amazon Lex sends the message defined in abortStatement to the user, and then aborts the conversation. To set the number of retries, use the valueElicitationPrompt field for the slot type.  For example, in a pizza ordering bot, Amazon Lex might ask a user "What type of crust would you like?" If the user's response is not one of the expected responses (for example, "thin crust, "deep dish," etc.), Amazon Lex tries to elicit a correct response a few more times.  For example, in a pizza ordering application, OrderPizza might be one of the intents. This intent might require the CrustType slot. You specify the valueElicitationPrompt field when you create the CrustType slot.
+        public let abortStatement: Statement?
+        /// Identifies a specific revision of the $LATEST version. When you create a new bot, leave the checksum field blank. If you specify a checksum you get a BadRequestException exception. When you want to update a bot, set the checksum field to the checksum of the most recent revision of the $LATEST version. If you don't specify the  checksum field, or if the checksum does not match the $LATEST version, you get a PreconditionFailedException exception.
+        public let checksum: String?
+        public let createVersion: Bool?
+        ///  Specifies the target locale for the bot. Any intent used in the bot must be compatible with the locale of the bot.  The default is en-US.
+        public let locale: Locale
+        /// For each Amazon Lex bot created with the Amazon Lex Model Building Service, you must specify whether your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to the Children's Online Privacy Protection Act (COPPA) by specifying true or false in the childDirected field. By specifying true in the childDirected field, you confirm that your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. By specifying false in the childDirected field, you confirm that your use of Amazon Lex is not related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. You may not specify a default value for the childDirected field that does not accurately reflect whether your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. If your use of Amazon Lex relates to a website, program, or other application that is directed in whole or in part, to children under age 13, you must obtain any required verifiable parental consent under COPPA. For information regarding the use of Amazon Lex in connection with websites, programs, or other applications that are directed or targeted, in whole or in part, to children under age 13, see the Amazon Lex FAQ. 
+        public let childDirected: Bool
+        /// The maximum time in seconds that Amazon Lex retains the data gathered in a conversation. A user interaction session remains active for the amount of time specified. If no conversation occurs during this time, the session expires and Amazon Lex deletes any data provided before the timeout. For example, suppose that a user chooses the OrderPizza intent, but gets sidetracked halfway through placing an order. If the user doesn't complete the order within the specified time, Amazon Lex discards the slot information that it gathered, and the user must start over. If you don't include the idleSessionTTLInSeconds element in a PutBot operation request, Amazon Lex uses the default value. This is also true if the request replaces an existing bot. The default is 300 seconds (5 minutes).
+        public let idleSessionTTLInSeconds: Int32?
+        /// When Amazon Lex doesn't understand the user's intent, it uses this message to get clarification. To specify how many times Amazon Lex should repeate the clarification prompt, use the maxAttempts field. If Amazon Lex still doesn't understand, it sends the message in the abortStatement field.  When you create a clarification prompt, make sure that it suggests the correct response from the user. for example, for a bot that orders pizza and drinks, you might create this clarification prompt: "What would you like to do? You can say 'Order a pizza' or 'Order a drink.'"
+        public let clarificationPrompt: Prompt?
+
+        public init(processBehavior: ProcessBehavior? = nil, intents: [Intent]? = nil, voiceId: String? = nil, name: String, description: String? = nil, abortStatement: Statement? = nil, checksum: String? = nil, createVersion: Bool? = nil, locale: Locale, childDirected: Bool, idleSessionTTLInSeconds: Int32? = nil, clarificationPrompt: Prompt? = nil) {
+            self.processBehavior = processBehavior
+            self.intents = intents
+            self.voiceId = voiceId
+            self.name = name
+            self.description = description
+            self.abortStatement = abortStatement
+            self.checksum = checksum
+            self.createVersion = createVersion
+            self.locale = locale
+            self.childDirected = childDirected
+            self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
+            self.clarificationPrompt = clarificationPrompt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case processBehavior = "processBehavior"
+            case intents = "intents"
+            case voiceId = "voiceId"
+            case name = "name"
+            case description = "description"
+            case abortStatement = "abortStatement"
+            case checksum = "checksum"
+            case createVersion = "createVersion"
+            case locale = "locale"
+            case childDirected = "childDirected"
+            case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
+            case clarificationPrompt = "clarificationPrompt"
         }
     }
 

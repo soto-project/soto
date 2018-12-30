@@ -5,874 +5,6 @@ import AWSSDKSwiftCore
 
 extension CloudSearch {
 
-    public struct DescribeIndexFieldsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexFields", required: true, type: .list)
-        ]
-        /// The index fields configured for the domain.
-        public let indexFields: [IndexFieldStatus]
-
-        public init(indexFields: [IndexFieldStatus]) {
-            self.indexFields = indexFields
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case indexFields = "IndexFields"
-        }
-    }
-
-    public struct AccessPoliciesStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: true, type: .structure), 
-            AWSShapeMember(label: "Options", required: true, type: .string)
-        ]
-        public let status: OptionStatus
-        public let options: String
-
-        public init(status: OptionStatus, options: String) {
-            self.status = status
-            self.options = options
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "Status"
-            case options = "Options"
-        }
-    }
-
-    public enum OptionState: String, CustomStringConvertible, Codable {
-        case requiresindexdocuments = "RequiresIndexDocuments"
-        case processing = "Processing"
-        case active = "Active"
-        case failedtovalidate = "FailedToValidate"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeScalingParametersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", required: true, type: .string)
-        ]
-        public let domainName: String
-
-        public init(domainName: String) {
-            self.domainName = domainName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "DomainName"
-        }
-    }
-
-    public struct DeleteExpressionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExpressionName", required: true, type: .string), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string)
-        ]
-        /// The name of the Expression to delete.
-        public let expressionName: String
-        public let domainName: String
-
-        public init(expressionName: String, domainName: String) {
-            self.expressionName = expressionName
-            self.domainName = domainName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case expressionName = "ExpressionName"
-            case domainName = "DomainName"
-        }
-    }
-
-    public struct IndexField: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TextArrayOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "DoubleArrayOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "DateOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "IntArrayOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "DoubleOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "DateArrayOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "LiteralArrayOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "IndexFieldName", required: true, type: .string), 
-            AWSShapeMember(label: "TextOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "IndexFieldType", required: true, type: .enum), 
-            AWSShapeMember(label: "IntOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "LatLonOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "LiteralOptions", required: false, type: .structure)
-        ]
-        public let textArrayOptions: TextArrayOptions?
-        public let doubleArrayOptions: DoubleArrayOptions?
-        public let dateOptions: DateOptions?
-        public let intArrayOptions: IntArrayOptions?
-        public let doubleOptions: DoubleOptions?
-        public let dateArrayOptions: DateArrayOptions?
-        public let literalArrayOptions: LiteralArrayOptions?
-        /// A string that represents the name of an index field. CloudSearch supports regular index fields as well as dynamic fields. A dynamic field's name defines a pattern that begins or ends with a wildcard. Any document fields that don't map to a regular index field but do match a dynamic field's pattern are configured with the dynamic field's indexing options.  Regular field names begin with a letter and can contain the following characters: a-z (lowercase), 0-9, and _ (underscore). Dynamic field names must begin or end with a wildcard (*). The wildcard can also be the only character in a dynamic field name. Multiple wildcards, and wildcards embedded within a string are not supported.  The name score is reserved and cannot be used as a field name. To reference a document's ID, you can use the name _id. 
-        public let indexFieldName: String
-        public let textOptions: TextOptions?
-        public let indexFieldType: IndexFieldType
-        public let intOptions: IntOptions?
-        public let latLonOptions: LatLonOptions?
-        public let literalOptions: LiteralOptions?
-
-        public init(textArrayOptions: TextArrayOptions? = nil, doubleArrayOptions: DoubleArrayOptions? = nil, dateOptions: DateOptions? = nil, intArrayOptions: IntArrayOptions? = nil, doubleOptions: DoubleOptions? = nil, dateArrayOptions: DateArrayOptions? = nil, literalArrayOptions: LiteralArrayOptions? = nil, indexFieldName: String, textOptions: TextOptions? = nil, indexFieldType: IndexFieldType, intOptions: IntOptions? = nil, latLonOptions: LatLonOptions? = nil, literalOptions: LiteralOptions? = nil) {
-            self.textArrayOptions = textArrayOptions
-            self.doubleArrayOptions = doubleArrayOptions
-            self.dateOptions = dateOptions
-            self.intArrayOptions = intArrayOptions
-            self.doubleOptions = doubleOptions
-            self.dateArrayOptions = dateArrayOptions
-            self.literalArrayOptions = literalArrayOptions
-            self.indexFieldName = indexFieldName
-            self.textOptions = textOptions
-            self.indexFieldType = indexFieldType
-            self.intOptions = intOptions
-            self.latLonOptions = latLonOptions
-            self.literalOptions = literalOptions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case textArrayOptions = "TextArrayOptions"
-            case doubleArrayOptions = "DoubleArrayOptions"
-            case dateOptions = "DateOptions"
-            case intArrayOptions = "IntArrayOptions"
-            case doubleOptions = "DoubleOptions"
-            case dateArrayOptions = "DateArrayOptions"
-            case literalArrayOptions = "LiteralArrayOptions"
-            case indexFieldName = "IndexFieldName"
-            case textOptions = "TextOptions"
-            case indexFieldType = "IndexFieldType"
-            case intOptions = "IntOptions"
-            case latLonOptions = "LatLonOptions"
-            case literalOptions = "LiteralOptions"
-        }
-    }
-
-    public struct DeleteExpressionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Expression", required: true, type: .structure)
-        ]
-        /// The status of the expression being deleted.
-        public let expression: ExpressionStatus
-
-        public init(expression: ExpressionStatus) {
-            self.expression = expression
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case expression = "Expression"
-        }
-    }
-
-    public struct UpdateServiceAccessPoliciesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessPolicies", required: true, type: .string), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string)
-        ]
-        /// The access rules you want to configure. These rules replace any existing rules. 
-        public let accessPolicies: String
-        public let domainName: String
-
-        public init(accessPolicies: String, domainName: String) {
-            self.accessPolicies = accessPolicies
-            self.domainName = domainName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accessPolicies = "AccessPolicies"
-            case domainName = "DomainName"
-        }
-    }
-
-    public struct DescribeAnalysisSchemesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AnalysisSchemes", required: true, type: .list)
-        ]
-        /// The analysis scheme descriptions.
-        public let analysisSchemes: [AnalysisSchemeStatus]
-
-        public init(analysisSchemes: [AnalysisSchemeStatus]) {
-            self.analysisSchemes = analysisSchemes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case analysisSchemes = "AnalysisSchemes"
-        }
-    }
-
-    public struct DescribeDomainsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainStatusList", required: true, type: .list)
-        ]
-        public let domainStatusList: [DomainStatus]
-
-        public init(domainStatusList: [DomainStatus]) {
-            self.domainStatusList = domainStatusList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case domainStatusList = "DomainStatusList"
-        }
-    }
-
-    public struct DeleteIndexFieldRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexFieldName", required: true, type: .string), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string)
-        ]
-        /// The name of the index field your want to remove from the domain's indexing options.
-        public let indexFieldName: String
-        public let domainName: String
-
-        public init(indexFieldName: String, domainName: String) {
-            self.indexFieldName = indexFieldName
-            self.domainName = domainName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case indexFieldName = "IndexFieldName"
-            case domainName = "DomainName"
-        }
-    }
-
-    public struct LatLonOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "SourceField", required: false, type: .string), 
-            AWSShapeMember(label: "SearchEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "SortEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "FacetEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "DefaultValue", required: false, type: .string)
-        ]
-        /// Whether the contents of the field can be returned in the search results.
-        public let returnEnabled: Bool?
-        public let sourceField: String?
-        /// Whether the contents of the field are searchable.
-        public let searchEnabled: Bool?
-        /// Whether the field can be used to sort the search results.
-        public let sortEnabled: Bool?
-        /// Whether facet information can be returned for the field.
-        public let facetEnabled: Bool?
-        /// A value to use for the field if the field isn't specified for a document.
-        public let defaultValue: String?
-
-        public init(returnEnabled: Bool? = nil, sourceField: String? = nil, searchEnabled: Bool? = nil, sortEnabled: Bool? = nil, facetEnabled: Bool? = nil, defaultValue: String? = nil) {
-            self.returnEnabled = returnEnabled
-            self.sourceField = sourceField
-            self.searchEnabled = searchEnabled
-            self.sortEnabled = sortEnabled
-            self.facetEnabled = facetEnabled
-            self.defaultValue = defaultValue
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case returnEnabled = "ReturnEnabled"
-            case sourceField = "SourceField"
-            case searchEnabled = "SearchEnabled"
-            case sortEnabled = "SortEnabled"
-            case facetEnabled = "FacetEnabled"
-            case defaultValue = "DefaultValue"
-        }
-    }
-
-    public struct DefineSuggesterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Suggester", required: true, type: .structure), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string)
-        ]
-        public let suggester: Suggester
-        public let domainName: String
-
-        public init(suggester: Suggester, domainName: String) {
-            self.suggester = suggester
-            self.domainName = domainName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case suggester = "Suggester"
-            case domainName = "DomainName"
-        }
-    }
-
-    public struct DescribeDomainsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainNames", required: false, type: .list)
-        ]
-        /// The names of the domains you want to include in the response.
-        public let domainNames: [String]?
-
-        public init(domainNames: [String]? = nil) {
-            self.domainNames = domainNames
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case domainNames = "DomainNames"
-        }
-    }
-
-    public struct DefineAnalysisSchemeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AnalysisScheme", required: true, type: .structure), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string)
-        ]
-        public let analysisScheme: AnalysisScheme
-        public let domainName: String
-
-        public init(analysisScheme: AnalysisScheme, domainName: String) {
-            self.analysisScheme = analysisScheme
-            self.domainName = domainName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case analysisScheme = "AnalysisScheme"
-            case domainName = "DomainName"
-        }
-    }
-
-    public struct DeleteAnalysisSchemeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AnalysisScheme", required: true, type: .structure)
-        ]
-        /// The status of the analysis scheme being deleted.
-        public let analysisScheme: AnalysisSchemeStatus
-
-        public init(analysisScheme: AnalysisSchemeStatus) {
-            self.analysisScheme = analysisScheme
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case analysisScheme = "AnalysisScheme"
-        }
-    }
-
-    public struct DescribeExpressionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Expressions", required: true, type: .list)
-        ]
-        /// The expressions configured for the domain.
-        public let expressions: [ExpressionStatus]
-
-        public init(expressions: [ExpressionStatus]) {
-            self.expressions = expressions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case expressions = "Expressions"
-        }
-    }
-
-    public struct OptionStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UpdateVersion", required: false, type: .integer), 
-            AWSShapeMember(label: "CreationDate", required: true, type: .timestamp), 
-            AWSShapeMember(label: "State", required: true, type: .enum), 
-            AWSShapeMember(label: "UpdateDate", required: true, type: .timestamp), 
-            AWSShapeMember(label: "PendingDeletion", required: false, type: .boolean)
-        ]
-        /// A unique integer that indicates when this option was last updated.
-        public let updateVersion: Int32?
-        /// A timestamp for when this option was created.
-        public let creationDate: TimeStamp
-        /// The state of processing a change to an option. Possible values:   RequiresIndexDocuments: the option's latest value will not be deployed until IndexDocuments has been called and indexing is complete.  Processing: the option's latest value is in the process of being activated.   Active: the option's latest value is completely deployed.  FailedToValidate: the option value is not compatible with the domain's data and cannot be used to index the data. You must either modify the option value or update or remove the incompatible documents. 
-        public let state: OptionState
-        /// A timestamp for when this option was last updated.
-        public let updateDate: TimeStamp
-        /// Indicates that the option will be deleted once processing is complete.
-        public let pendingDeletion: Bool?
-
-        public init(updateVersion: Int32? = nil, creationDate: TimeStamp, state: OptionState, updateDate: TimeStamp, pendingDeletion: Bool? = nil) {
-            self.updateVersion = updateVersion
-            self.creationDate = creationDate
-            self.state = state
-            self.updateDate = updateDate
-            self.pendingDeletion = pendingDeletion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case updateVersion = "UpdateVersion"
-            case creationDate = "CreationDate"
-            case state = "State"
-            case updateDate = "UpdateDate"
-            case pendingDeletion = "PendingDeletion"
-        }
-    }
-
-    public struct ScalingParametersStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: true, type: .structure), 
-            AWSShapeMember(label: "Options", required: true, type: .structure)
-        ]
-        public let status: OptionStatus
-        public let options: ScalingParameters
-
-        public init(status: OptionStatus, options: ScalingParameters) {
-            self.status = status
-            self.options = options
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "Status"
-            case options = "Options"
-        }
-    }
-
-    public struct DeleteDomainRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", required: true, type: .string)
-        ]
-        /// The name of the domain you want to permanently delete.
-        public let domainName: String
-
-        public init(domainName: String) {
-            self.domainName = domainName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "DomainName"
-        }
-    }
-
-    public struct AnalysisOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Synonyms", required: false, type: .string), 
-            AWSShapeMember(label: "StemmingDictionary", required: false, type: .string), 
-            AWSShapeMember(label: "JapaneseTokenizationDictionary", required: false, type: .string), 
-            AWSShapeMember(label: "AlgorithmicStemming", required: false, type: .enum), 
-            AWSShapeMember(label: "Stopwords", required: false, type: .string)
-        ]
-        /// A JSON object that defines synonym groups and aliases. A synonym group is an array of arrays, where each sub-array is a group of terms where each term in the group is considered a synonym of every other term in the group. The aliases value is an object that contains a collection of string:value pairs where the string specifies a term and the array of values specifies each of the aliases for that term. An alias is considered a synonym of the specified term, but the term is not considered a synonym of the alias. For more information about specifying synonyms, see Synonyms in the Amazon CloudSearch Developer Guide.
-        public let synonyms: String?
-        /// A JSON object that contains a collection of string:value pairs that each map a term to its stem. For example, {"term1": "stem1", "term2": "stem2", "term3": "stem3"}. The stemming dictionary is applied in addition to any algorithmic stemming. This enables you to override the results of the algorithmic stemming to correct specific cases of overstemming or understemming. The maximum size of a stemming dictionary is 500 KB.
-        public let stemmingDictionary: String?
-        /// A JSON array that contains a collection of terms, tokens, readings and part of speech for Japanese Tokenizaiton. The Japanese tokenization dictionary enables you to override the default tokenization for selected terms. This is only valid for Japanese language fields.
-        public let japaneseTokenizationDictionary: String?
-        /// The level of algorithmic stemming to perform: none, minimal, light, or full. The available levels vary depending on the language. For more information, see Language Specific Text Processing Settings in the Amazon CloudSearch Developer Guide 
-        public let algorithmicStemming: AlgorithmicStemming?
-        /// A JSON array of terms to ignore during indexing and searching. For example, ["a", "an", "the", "of"]. The stopwords dictionary must explicitly list each word you want to ignore. Wildcards and regular expressions are not supported. 
-        public let stopwords: String?
-
-        public init(synonyms: String? = nil, stemmingDictionary: String? = nil, japaneseTokenizationDictionary: String? = nil, algorithmicStemming: AlgorithmicStemming? = nil, stopwords: String? = nil) {
-            self.synonyms = synonyms
-            self.stemmingDictionary = stemmingDictionary
-            self.japaneseTokenizationDictionary = japaneseTokenizationDictionary
-            self.algorithmicStemming = algorithmicStemming
-            self.stopwords = stopwords
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case synonyms = "Synonyms"
-            case stemmingDictionary = "StemmingDictionary"
-            case japaneseTokenizationDictionary = "JapaneseTokenizationDictionary"
-            case algorithmicStemming = "AlgorithmicStemming"
-            case stopwords = "Stopwords"
-        }
-    }
-
-    public struct IndexDocumentsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", required: true, type: .string)
-        ]
-        public let domainName: String
-
-        public init(domainName: String) {
-            self.domainName = domainName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "DomainName"
-        }
-    }
-
-    public struct DomainStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limits", required: false, type: .structure), 
-            AWSShapeMember(label: "SearchPartitionCount", required: false, type: .integer), 
-            AWSShapeMember(label: "Created", required: false, type: .boolean), 
-            AWSShapeMember(label: "DomainId", required: true, type: .string), 
-            AWSShapeMember(label: "SearchService", required: false, type: .structure), 
-            AWSShapeMember(label: "Deleted", required: false, type: .boolean), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "SearchInstanceType", required: false, type: .string), 
-            AWSShapeMember(label: "SearchInstanceCount", required: false, type: .integer), 
-            AWSShapeMember(label: "DocService", required: false, type: .structure), 
-            AWSShapeMember(label: "ARN", required: false, type: .string), 
-            AWSShapeMember(label: "RequiresIndexDocuments", required: true, type: .boolean), 
-            AWSShapeMember(label: "Processing", required: false, type: .boolean)
-        ]
-        public let limits: Limits?
-        /// The number of partitions across which the search index is spread.
-        public let searchPartitionCount: Int32?
-        /// True if the search domain is created. It can take several minutes to initialize a domain when CreateDomain is called. Newly created search domains are returned from DescribeDomains with a false value for Created until domain creation is complete.
-        public let created: Bool?
-        public let domainId: String
-        /// The service endpoint for requesting search results from a search domain.
-        public let searchService: ServiceEndpoint?
-        /// True if the search domain has been deleted. The system must clean up resources dedicated to the search domain when DeleteDomain is called. Newly deleted search domains are returned from DescribeDomains with a true value for IsDeleted for several minutes until resource cleanup is complete.
-        public let deleted: Bool?
-        public let domainName: String
-        /// The instance type that is being used to process search requests.
-        public let searchInstanceType: String?
-        /// The number of search instances that are available to process search requests.
-        public let searchInstanceCount: Int32?
-        /// The service endpoint for updating documents in a search domain.
-        public let docService: ServiceEndpoint?
-        public let arn: String?
-        /// True if IndexDocuments needs to be called to activate the current domain configuration.
-        public let requiresIndexDocuments: Bool
-        /// True if processing is being done to activate the current domain configuration.
-        public let processing: Bool?
-
-        public init(limits: Limits? = nil, searchPartitionCount: Int32? = nil, created: Bool? = nil, domainId: String, searchService: ServiceEndpoint? = nil, deleted: Bool? = nil, domainName: String, searchInstanceType: String? = nil, searchInstanceCount: Int32? = nil, docService: ServiceEndpoint? = nil, arn: String? = nil, requiresIndexDocuments: Bool, processing: Bool? = nil) {
-            self.limits = limits
-            self.searchPartitionCount = searchPartitionCount
-            self.created = created
-            self.domainId = domainId
-            self.searchService = searchService
-            self.deleted = deleted
-            self.domainName = domainName
-            self.searchInstanceType = searchInstanceType
-            self.searchInstanceCount = searchInstanceCount
-            self.docService = docService
-            self.arn = arn
-            self.requiresIndexDocuments = requiresIndexDocuments
-            self.processing = processing
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case limits = "Limits"
-            case searchPartitionCount = "SearchPartitionCount"
-            case created = "Created"
-            case domainId = "DomainId"
-            case searchService = "SearchService"
-            case deleted = "Deleted"
-            case domainName = "DomainName"
-            case searchInstanceType = "SearchInstanceType"
-            case searchInstanceCount = "SearchInstanceCount"
-            case docService = "DocService"
-            case arn = "ARN"
-            case requiresIndexDocuments = "RequiresIndexDocuments"
-            case processing = "Processing"
-        }
-    }
-
-    public struct ExpressionStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: true, type: .structure), 
-            AWSShapeMember(label: "Options", required: true, type: .structure)
-        ]
-        public let status: OptionStatus
-        /// The expression that is evaluated for sorting while processing a search request.
-        public let options: Expression
-
-        public init(status: OptionStatus, options: Expression) {
-            self.status = status
-            self.options = options
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "Status"
-            case options = "Options"
-        }
-    }
-
-    public struct UpdateAvailabilityOptionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityOptions", required: false, type: .structure)
-        ]
-        /// The newly-configured availability options. Indicates whether Multi-AZ is enabled for the domain. 
-        public let availabilityOptions: AvailabilityOptionsStatus?
-
-        public init(availabilityOptions: AvailabilityOptionsStatus? = nil) {
-            self.availabilityOptions = availabilityOptions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case availabilityOptions = "AvailabilityOptions"
-        }
-    }
-
-    public struct IntOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "SourceField", required: false, type: .string), 
-            AWSShapeMember(label: "SearchEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "SortEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "FacetEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "DefaultValue", required: false, type: .long)
-        ]
-        /// Whether the contents of the field can be returned in the search results.
-        public let returnEnabled: Bool?
-        /// The name of the source field to map to the field. 
-        public let sourceField: String?
-        /// Whether the contents of the field are searchable.
-        public let searchEnabled: Bool?
-        /// Whether the field can be used to sort the search results.
-        public let sortEnabled: Bool?
-        /// Whether facet information can be returned for the field.
-        public let facetEnabled: Bool?
-        /// A value to use for the field if the field isn't specified for a document. This can be important if you are using the field in an expression and that field is not present in every document.
-        public let defaultValue: Int64?
-
-        public init(returnEnabled: Bool? = nil, sourceField: String? = nil, searchEnabled: Bool? = nil, sortEnabled: Bool? = nil, facetEnabled: Bool? = nil, defaultValue: Int64? = nil) {
-            self.returnEnabled = returnEnabled
-            self.sourceField = sourceField
-            self.searchEnabled = searchEnabled
-            self.sortEnabled = sortEnabled
-            self.facetEnabled = facetEnabled
-            self.defaultValue = defaultValue
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case returnEnabled = "ReturnEnabled"
-            case sourceField = "SourceField"
-            case searchEnabled = "SearchEnabled"
-            case sortEnabled = "SortEnabled"
-            case facetEnabled = "FacetEnabled"
-            case defaultValue = "DefaultValue"
-        }
-    }
-
-    public struct DateOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "SourceField", required: false, type: .string), 
-            AWSShapeMember(label: "SearchEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "SortEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "FacetEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "DefaultValue", required: false, type: .string)
-        ]
-        /// Whether the contents of the field can be returned in the search results.
-        public let returnEnabled: Bool?
-        public let sourceField: String?
-        /// Whether the contents of the field are searchable.
-        public let searchEnabled: Bool?
-        /// Whether the field can be used to sort the search results.
-        public let sortEnabled: Bool?
-        /// Whether facet information can be returned for the field.
-        public let facetEnabled: Bool?
-        /// A value to use for the field if the field isn't specified for a document.
-        public let defaultValue: String?
-
-        public init(returnEnabled: Bool? = nil, sourceField: String? = nil, searchEnabled: Bool? = nil, sortEnabled: Bool? = nil, facetEnabled: Bool? = nil, defaultValue: String? = nil) {
-            self.returnEnabled = returnEnabled
-            self.sourceField = sourceField
-            self.searchEnabled = searchEnabled
-            self.sortEnabled = sortEnabled
-            self.facetEnabled = facetEnabled
-            self.defaultValue = defaultValue
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case returnEnabled = "ReturnEnabled"
-            case sourceField = "SourceField"
-            case searchEnabled = "SearchEnabled"
-            case sortEnabled = "SortEnabled"
-            case facetEnabled = "FacetEnabled"
-            case defaultValue = "DefaultValue"
-        }
-    }
-
-    public struct DeleteIndexFieldResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexField", required: true, type: .structure)
-        ]
-        /// The status of the index field being deleted.
-        public let indexField: IndexFieldStatus
-
-        public init(indexField: IndexFieldStatus) {
-            self.indexField = indexField
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case indexField = "IndexField"
-        }
-    }
-
-    public struct DocumentSuggesterOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SortExpression", required: false, type: .string), 
-            AWSShapeMember(label: "FuzzyMatching", required: false, type: .enum), 
-            AWSShapeMember(label: "SourceField", required: true, type: .string)
-        ]
-        /// An expression that computes a score for each suggestion to control how they are sorted. The scores are rounded to the nearest integer, with a floor of 0 and a ceiling of 2^31-1. A document's relevance score is not computed for suggestions, so sort expressions cannot reference the _score value. To sort suggestions using a numeric field or existing expression, simply specify the name of the field or expression. If no expression is configured for the suggester, the suggestions are sorted with the closest matches listed first.
-        public let sortExpression: String?
-        /// The level of fuzziness allowed when suggesting matches for a string: none, low, or high. With none, the specified string is treated as an exact prefix. With low, suggestions must differ from the specified string by no more than one character. With high, suggestions can differ by up to two characters. The default is none. 
-        public let fuzzyMatching: SuggesterFuzzyMatching?
-        /// The name of the index field you want to use for suggestions. 
-        public let sourceField: String
-
-        public init(sortExpression: String? = nil, fuzzyMatching: SuggesterFuzzyMatching? = nil, sourceField: String) {
-            self.sortExpression = sortExpression
-            self.fuzzyMatching = fuzzyMatching
-            self.sourceField = sourceField
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sortExpression = "SortExpression"
-            case fuzzyMatching = "FuzzyMatching"
-            case sourceField = "SourceField"
-        }
-    }
-
-    public struct TextArrayOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "AnalysisScheme", required: false, type: .string), 
-            AWSShapeMember(label: "HighlightEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "SourceFields", required: false, type: .string), 
-            AWSShapeMember(label: "DefaultValue", required: false, type: .string)
-        ]
-        /// Whether the contents of the field can be returned in the search results.
-        public let returnEnabled: Bool?
-        /// The name of an analysis scheme for a text-array field.
-        public let analysisScheme: String?
-        /// Whether highlights can be returned for the field.
-        public let highlightEnabled: Bool?
-        /// A list of source fields to map to the field. 
-        public let sourceFields: String?
-        /// A value to use for the field if the field isn't specified for a document.
-        public let defaultValue: String?
-
-        public init(returnEnabled: Bool? = nil, analysisScheme: String? = nil, highlightEnabled: Bool? = nil, sourceFields: String? = nil, defaultValue: String? = nil) {
-            self.returnEnabled = returnEnabled
-            self.analysisScheme = analysisScheme
-            self.highlightEnabled = highlightEnabled
-            self.sourceFields = sourceFields
-            self.defaultValue = defaultValue
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case returnEnabled = "ReturnEnabled"
-            case analysisScheme = "AnalysisScheme"
-            case highlightEnabled = "HighlightEnabled"
-            case sourceFields = "SourceFields"
-            case defaultValue = "DefaultValue"
-        }
-    }
-
-    public enum PartitionInstanceType: String, CustomStringConvertible, Codable {
-        case searchM1Small = "search.m1.small"
-        case searchM1Large = "search.m1.large"
-        case searchM2Xlarge = "search.m2.xlarge"
-        case searchM22Xlarge = "search.m2.2xlarge"
-        case searchM3Medium = "search.m3.medium"
-        case searchM3Large = "search.m3.large"
-        case searchM3Xlarge = "search.m3.xlarge"
-        case searchM32Xlarge = "search.m3.2xlarge"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct IndexFieldStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: true, type: .structure), 
-            AWSShapeMember(label: "Options", required: true, type: .structure)
-        ]
-        public let status: OptionStatus
-        public let options: IndexField
-
-        public init(status: OptionStatus, options: IndexField) {
-            self.status = status
-            self.options = options
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "Status"
-            case options = "Options"
-        }
-    }
-
-    public struct DescribeServiceAccessPoliciesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessPolicies", required: true, type: .structure)
-        ]
-        /// The access rules configured for the domain specified in the request.
-        public let accessPolicies: AccessPoliciesStatus
-
-        public init(accessPolicies: AccessPoliciesStatus) {
-            self.accessPolicies = accessPolicies
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accessPolicies = "AccessPolicies"
-        }
-    }
-
-    public struct DateArrayOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "SearchEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "FacetEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "SourceFields", required: false, type: .string), 
-            AWSShapeMember(label: "DefaultValue", required: false, type: .string)
-        ]
-        /// Whether the contents of the field can be returned in the search results.
-        public let returnEnabled: Bool?
-        /// Whether the contents of the field are searchable.
-        public let searchEnabled: Bool?
-        /// Whether facet information can be returned for the field.
-        public let facetEnabled: Bool?
-        /// A list of source fields to map to the field. 
-        public let sourceFields: String?
-        /// A value to use for the field if the field isn't specified for a document.
-        public let defaultValue: String?
-
-        public init(returnEnabled: Bool? = nil, searchEnabled: Bool? = nil, facetEnabled: Bool? = nil, sourceFields: String? = nil, defaultValue: String? = nil) {
-            self.returnEnabled = returnEnabled
-            self.searchEnabled = searchEnabled
-            self.facetEnabled = facetEnabled
-            self.sourceFields = sourceFields
-            self.defaultValue = defaultValue
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case returnEnabled = "ReturnEnabled"
-            case searchEnabled = "SearchEnabled"
-            case facetEnabled = "FacetEnabled"
-            case sourceFields = "SourceFields"
-            case defaultValue = "DefaultValue"
-        }
-    }
-
-    public struct DescribeIndexFieldsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Deployed", required: false, type: .boolean), 
-            AWSShapeMember(label: "FieldNames", required: false, type: .list), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string)
-        ]
-        /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
-        public let deployed: Bool?
-        /// A list of the index fields you want to describe. If not specified, information is returned for all configured index fields.
-        public let fieldNames: [String]?
-        /// The name of the domain you want to describe.
-        public let domainName: String
-
-        public init(deployed: Bool? = nil, fieldNames: [String]? = nil, domainName: String) {
-            self.deployed = deployed
-            self.fieldNames = fieldNames
-            self.domainName = domainName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deployed = "Deployed"
-            case fieldNames = "FieldNames"
-            case domainName = "DomainName"
-        }
-    }
-
-    public struct DefineSuggesterResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Suggester", required: true, type: .structure)
-        ]
-        public let suggester: SuggesterStatus
-
-        public init(suggester: SuggesterStatus) {
-            self.suggester = suggester
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case suggester = "Suggester"
-        }
-    }
-
     public struct DefineIndexFieldRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IndexField", required: true, type: .structure), 
@@ -893,58 +25,38 @@ extension CloudSearch {
         }
     }
 
-    public struct LiteralOptions: AWSShape {
+    public struct DeleteAnalysisSchemeRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "SourceField", required: false, type: .string), 
-            AWSShapeMember(label: "SearchEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "SortEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "FacetEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "DefaultValue", required: false, type: .string)
+            AWSShapeMember(label: "AnalysisSchemeName", required: true, type: .string), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
-        /// Whether the contents of the field can be returned in the search results.
-        public let returnEnabled: Bool?
-        public let sourceField: String?
-        /// Whether the contents of the field are searchable.
-        public let searchEnabled: Bool?
-        /// Whether the field can be used to sort the search results.
-        public let sortEnabled: Bool?
-        /// Whether facet information can be returned for the field.
-        public let facetEnabled: Bool?
-        /// A value to use for the field if the field isn't specified for a document.
-        public let defaultValue: String?
+        /// The name of the analysis scheme you want to delete.
+        public let analysisSchemeName: String
+        public let domainName: String
 
-        public init(returnEnabled: Bool? = nil, sourceField: String? = nil, searchEnabled: Bool? = nil, sortEnabled: Bool? = nil, facetEnabled: Bool? = nil, defaultValue: String? = nil) {
-            self.returnEnabled = returnEnabled
-            self.sourceField = sourceField
-            self.searchEnabled = searchEnabled
-            self.sortEnabled = sortEnabled
-            self.facetEnabled = facetEnabled
-            self.defaultValue = defaultValue
+        public init(analysisSchemeName: String, domainName: String) {
+            self.analysisSchemeName = analysisSchemeName
+            self.domainName = domainName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case returnEnabled = "ReturnEnabled"
-            case sourceField = "SourceField"
-            case searchEnabled = "SearchEnabled"
-            case sortEnabled = "SortEnabled"
-            case facetEnabled = "FacetEnabled"
-            case defaultValue = "DefaultValue"
+            case analysisSchemeName = "AnalysisSchemeName"
+            case domainName = "DomainName"
         }
     }
 
-    public struct ServiceEndpoint: AWSShape {
+    public struct CreateDomainResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Endpoint", required: false, type: .string)
+            AWSShapeMember(label: "DomainStatus", required: false, type: .structure)
         ]
-        public let endpoint: String?
+        public let domainStatus: DomainStatus?
 
-        public init(endpoint: String? = nil) {
-            self.endpoint = endpoint
+        public init(domainStatus: DomainStatus? = nil) {
+            self.domainStatus = domainStatus
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endpoint = "Endpoint"
+            case domainStatus = "DomainStatus"
         }
     }
 
@@ -967,57 +79,220 @@ extension CloudSearch {
         }
     }
 
-    public struct SuggesterStatus: AWSShape {
+    public struct AnalysisSchemeStatus: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: true, type: .structure), 
-            AWSShapeMember(label: "Options", required: true, type: .structure)
+            AWSShapeMember(label: "Options", required: true, type: .structure), 
+            AWSShapeMember(label: "Status", required: true, type: .structure)
         ]
+        public let options: AnalysisScheme
         public let status: OptionStatus
-        public let options: Suggester
 
-        public init(status: OptionStatus, options: Suggester) {
-            self.status = status
+        public init(options: AnalysisScheme, status: OptionStatus) {
             self.options = options
+            self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status = "Status"
             case options = "Options"
+            case status = "Status"
         }
     }
 
-    public struct DescribeSuggestersRequest: AWSShape {
+    public struct DeleteExpressionResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Deployed", required: false, type: .boolean), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "SuggesterNames", required: false, type: .list)
+            AWSShapeMember(label: "Expression", required: true, type: .structure)
         ]
-        /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
-        public let deployed: Bool?
-        /// The name of the domain you want to describe.
-        public let domainName: String
-        /// The suggesters you want to describe.
-        public let suggesterNames: [String]?
+        /// The status of the expression being deleted.
+        public let expression: ExpressionStatus
 
-        public init(deployed: Bool? = nil, domainName: String, suggesterNames: [String]? = nil) {
-            self.deployed = deployed
-            self.domainName = domainName
-            self.suggesterNames = suggesterNames
+        public init(expression: ExpressionStatus) {
+            self.expression = expression
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deployed = "Deployed"
-            case domainName = "DomainName"
-            case suggesterNames = "SuggesterNames"
+            case expression = "Expression"
         }
     }
 
-    public enum AlgorithmicStemming: String, CustomStringConvertible, Codable {
-        case none = "none"
-        case minimal = "minimal"
-        case light = "light"
-        case full = "full"
-        public var description: String { return self.rawValue }
+    public struct OptionStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationDate", required: true, type: .timestamp), 
+            AWSShapeMember(label: "PendingDeletion", required: false, type: .boolean), 
+            AWSShapeMember(label: "UpdateDate", required: true, type: .timestamp), 
+            AWSShapeMember(label: "UpdateVersion", required: false, type: .integer), 
+            AWSShapeMember(label: "State", required: true, type: .enum)
+        ]
+        /// A timestamp for when this option was created.
+        public let creationDate: TimeStamp
+        /// Indicates that the option will be deleted once processing is complete.
+        public let pendingDeletion: Bool?
+        /// A timestamp for when this option was last updated.
+        public let updateDate: TimeStamp
+        /// A unique integer that indicates when this option was last updated.
+        public let updateVersion: Int32?
+        /// The state of processing a change to an option. Possible values:   RequiresIndexDocuments: the option's latest value will not be deployed until IndexDocuments has been called and indexing is complete.  Processing: the option's latest value is in the process of being activated.   Active: the option's latest value is completely deployed.  FailedToValidate: the option value is not compatible with the domain's data and cannot be used to index the data. You must either modify the option value or update or remove the incompatible documents. 
+        public let state: OptionState
+
+        public init(creationDate: TimeStamp, pendingDeletion: Bool? = nil, updateDate: TimeStamp, updateVersion: Int32? = nil, state: OptionState) {
+            self.creationDate = creationDate
+            self.pendingDeletion = pendingDeletion
+            self.updateDate = updateDate
+            self.updateVersion = updateVersion
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDate = "CreationDate"
+            case pendingDeletion = "PendingDeletion"
+            case updateDate = "UpdateDate"
+            case updateVersion = "UpdateVersion"
+            case state = "State"
+        }
+    }
+
+    public struct ScalingParameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DesiredReplicationCount", required: false, type: .integer), 
+            AWSShapeMember(label: "DesiredInstanceType", required: false, type: .enum), 
+            AWSShapeMember(label: "DesiredPartitionCount", required: false, type: .integer)
+        ]
+        /// The number of replicas you want to preconfigure for each index partition.
+        public let desiredReplicationCount: Int32?
+        /// The instance type that you want to preconfigure for your domain. For example, search.m1.small.
+        public let desiredInstanceType: PartitionInstanceType?
+        /// The number of partitions you want to preconfigure for your domain. Only valid when you select m2.2xlarge as the desired instance type.
+        public let desiredPartitionCount: Int32?
+
+        public init(desiredReplicationCount: Int32? = nil, desiredInstanceType: PartitionInstanceType? = nil, desiredPartitionCount: Int32? = nil) {
+            self.desiredReplicationCount = desiredReplicationCount
+            self.desiredInstanceType = desiredInstanceType
+            self.desiredPartitionCount = desiredPartitionCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case desiredReplicationCount = "DesiredReplicationCount"
+            case desiredInstanceType = "DesiredInstanceType"
+            case desiredPartitionCount = "DesiredPartitionCount"
+        }
+    }
+
+    public struct DeleteExpressionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "ExpressionName", required: true, type: .string)
+        ]
+        public let domainName: String
+        /// The name of the Expression to delete.
+        public let expressionName: String
+
+        public init(domainName: String, expressionName: String) {
+            self.domainName = domainName
+            self.expressionName = expressionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+            case expressionName = "ExpressionName"
+        }
+    }
+
+    public struct TextOptions: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HighlightEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SourceField", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultValue", required: false, type: .string), 
+            AWSShapeMember(label: "AnalysisScheme", required: false, type: .string), 
+            AWSShapeMember(label: "SortEnabled", required: false, type: .boolean)
+        ]
+        /// Whether highlights can be returned for the field.
+        public let highlightEnabled: Bool?
+        /// Whether the contents of the field can be returned in the search results.
+        public let returnEnabled: Bool?
+        public let sourceField: String?
+        /// A value to use for the field if the field isn't specified for a document.
+        public let defaultValue: String?
+        /// The name of an analysis scheme for a text field.
+        public let analysisScheme: String?
+        /// Whether the field can be used to sort the search results.
+        public let sortEnabled: Bool?
+
+        public init(highlightEnabled: Bool? = nil, returnEnabled: Bool? = nil, sourceField: String? = nil, defaultValue: String? = nil, analysisScheme: String? = nil, sortEnabled: Bool? = nil) {
+            self.highlightEnabled = highlightEnabled
+            self.returnEnabled = returnEnabled
+            self.sourceField = sourceField
+            self.defaultValue = defaultValue
+            self.analysisScheme = analysisScheme
+            self.sortEnabled = sortEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case highlightEnabled = "HighlightEnabled"
+            case returnEnabled = "ReturnEnabled"
+            case sourceField = "SourceField"
+            case defaultValue = "DefaultValue"
+            case analysisScheme = "AnalysisScheme"
+            case sortEnabled = "SortEnabled"
+        }
+    }
+
+    public struct LiteralOptions: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SearchEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "FacetEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "DefaultValue", required: false, type: .string), 
+            AWSShapeMember(label: "SourceField", required: false, type: .string), 
+            AWSShapeMember(label: "SortEnabled", required: false, type: .boolean)
+        ]
+        /// Whether the contents of the field can be returned in the search results.
+        public let returnEnabled: Bool?
+        /// Whether the contents of the field are searchable.
+        public let searchEnabled: Bool?
+        /// Whether facet information can be returned for the field.
+        public let facetEnabled: Bool?
+        /// A value to use for the field if the field isn't specified for a document.
+        public let defaultValue: String?
+        public let sourceField: String?
+        /// Whether the field can be used to sort the search results.
+        public let sortEnabled: Bool?
+
+        public init(returnEnabled: Bool? = nil, searchEnabled: Bool? = nil, facetEnabled: Bool? = nil, defaultValue: String? = nil, sourceField: String? = nil, sortEnabled: Bool? = nil) {
+            self.returnEnabled = returnEnabled
+            self.searchEnabled = searchEnabled
+            self.facetEnabled = facetEnabled
+            self.defaultValue = defaultValue
+            self.sourceField = sourceField
+            self.sortEnabled = sortEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case returnEnabled = "ReturnEnabled"
+            case searchEnabled = "SearchEnabled"
+            case facetEnabled = "FacetEnabled"
+            case defaultValue = "DefaultValue"
+            case sourceField = "SourceField"
+            case sortEnabled = "SortEnabled"
+        }
+    }
+
+    public struct DefineExpressionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Expression", required: true, type: .structure), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
+        ]
+        public let expression: Expression
+        public let domainName: String
+
+        public init(expression: Expression, domainName: String) {
+            self.expression = expression
+            self.domainName = domainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expression = "Expression"
+            case domainName = "DomainName"
+        }
     }
 
     public enum IndexFieldType: String, CustomStringConvertible, Codable {
@@ -1035,52 +310,295 @@ extension CloudSearch {
         public var description: String { return self.rawValue }
     }
 
-    public struct CreateDomainResponse: AWSShape {
+    public struct AvailabilityOptionsStatus: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainStatus", required: false, type: .structure)
+            AWSShapeMember(label: "Options", required: true, type: .boolean), 
+            AWSShapeMember(label: "Status", required: true, type: .structure)
         ]
-        public let domainStatus: DomainStatus?
-
-        public init(domainStatus: DomainStatus? = nil) {
-            self.domainStatus = domainStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case domainStatus = "DomainStatus"
-        }
-    }
-
-    public struct BuildSuggestersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FieldNames", required: false, type: .list)
-        ]
-        public let fieldNames: [String]?
-
-        public init(fieldNames: [String]? = nil) {
-            self.fieldNames = fieldNames
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fieldNames = "FieldNames"
-        }
-    }
-
-    public struct AnalysisSchemeStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: true, type: .structure), 
-            AWSShapeMember(label: "Options", required: true, type: .structure)
-        ]
+        /// The availability options configured for the domain.
+        public let options: Bool
         public let status: OptionStatus
-        public let options: AnalysisScheme
 
-        public init(status: OptionStatus, options: AnalysisScheme) {
-            self.status = status
+        public init(options: Bool, status: OptionStatus) {
             self.options = options
+            self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status = "Status"
             case options = "Options"
+            case status = "Status"
+        }
+    }
+
+    public struct ExpressionStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Options", required: true, type: .structure), 
+            AWSShapeMember(label: "Status", required: true, type: .structure)
+        ]
+        /// The expression that is evaluated for sorting while processing a search request.
+        public let options: Expression
+        public let status: OptionStatus
+
+        public init(options: Expression, status: OptionStatus) {
+            self.options = options
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case options = "Options"
+            case status = "Status"
+        }
+    }
+
+    public struct Expression: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExpressionValue", required: true, type: .string), 
+            AWSShapeMember(label: "ExpressionName", required: true, type: .string)
+        ]
+        public let expressionValue: String
+        public let expressionName: String
+
+        public init(expressionValue: String, expressionName: String) {
+            self.expressionValue = expressionValue
+            self.expressionName = expressionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expressionValue = "ExpressionValue"
+            case expressionName = "ExpressionName"
+        }
+    }
+
+    public struct DescribeAnalysisSchemesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AnalysisSchemes", required: true, type: .list)
+        ]
+        /// The analysis scheme descriptions.
+        public let analysisSchemes: [AnalysisSchemeStatus]
+
+        public init(analysisSchemes: [AnalysisSchemeStatus]) {
+            self.analysisSchemes = analysisSchemes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisSchemes = "AnalysisSchemes"
+        }
+    }
+
+    public struct ServiceEndpoint: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Endpoint", required: false, type: .string)
+        ]
+        public let endpoint: String?
+
+        public init(endpoint: String? = nil) {
+            self.endpoint = endpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpoint = "Endpoint"
+        }
+    }
+
+    public struct DoubleOptions: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SearchEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "FacetEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "DefaultValue", required: false, type: .double), 
+            AWSShapeMember(label: "SourceField", required: false, type: .string), 
+            AWSShapeMember(label: "SortEnabled", required: false, type: .boolean)
+        ]
+        /// Whether the contents of the field can be returned in the search results.
+        public let returnEnabled: Bool?
+        /// Whether the contents of the field are searchable.
+        public let searchEnabled: Bool?
+        /// Whether facet information can be returned for the field.
+        public let facetEnabled: Bool?
+        /// A value to use for the field if the field isn't specified for a document. This can be important if you are using the field in an expression and that field is not present in every document.
+        public let defaultValue: Double?
+        /// The name of the source field to map to the field. 
+        public let sourceField: String?
+        /// Whether the field can be used to sort the search results.
+        public let sortEnabled: Bool?
+
+        public init(returnEnabled: Bool? = nil, searchEnabled: Bool? = nil, facetEnabled: Bool? = nil, defaultValue: Double? = nil, sourceField: String? = nil, sortEnabled: Bool? = nil) {
+            self.returnEnabled = returnEnabled
+            self.searchEnabled = searchEnabled
+            self.facetEnabled = facetEnabled
+            self.defaultValue = defaultValue
+            self.sourceField = sourceField
+            self.sortEnabled = sortEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case returnEnabled = "ReturnEnabled"
+            case searchEnabled = "SearchEnabled"
+            case facetEnabled = "FacetEnabled"
+            case defaultValue = "DefaultValue"
+            case sourceField = "SourceField"
+            case sortEnabled = "SortEnabled"
+        }
+    }
+
+    public struct DefineAnalysisSchemeResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AnalysisScheme", required: true, type: .structure)
+        ]
+        public let analysisScheme: AnalysisSchemeStatus
+
+        public init(analysisScheme: AnalysisSchemeStatus) {
+            self.analysisScheme = analysisScheme
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisScheme = "AnalysisScheme"
+        }
+    }
+
+    public struct DoubleArrayOptions: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SearchEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SourceFields", required: false, type: .string), 
+            AWSShapeMember(label: "FacetEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "DefaultValue", required: false, type: .double), 
+            AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean)
+        ]
+        /// Whether the contents of the field are searchable.
+        public let searchEnabled: Bool?
+        /// A list of source fields to map to the field. 
+        public let sourceFields: String?
+        /// Whether facet information can be returned for the field.
+        public let facetEnabled: Bool?
+        /// A value to use for the field if the field isn't specified for a document.
+        public let defaultValue: Double?
+        /// Whether the contents of the field can be returned in the search results.
+        public let returnEnabled: Bool?
+
+        public init(searchEnabled: Bool? = nil, sourceFields: String? = nil, facetEnabled: Bool? = nil, defaultValue: Double? = nil, returnEnabled: Bool? = nil) {
+            self.searchEnabled = searchEnabled
+            self.sourceFields = sourceFields
+            self.facetEnabled = facetEnabled
+            self.defaultValue = defaultValue
+            self.returnEnabled = returnEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case searchEnabled = "SearchEnabled"
+            case sourceFields = "SourceFields"
+            case facetEnabled = "FacetEnabled"
+            case defaultValue = "DefaultValue"
+            case returnEnabled = "ReturnEnabled"
+        }
+    }
+
+    public enum PartitionInstanceType: String, CustomStringConvertible, Codable {
+        case searchM1Small = "search.m1.small"
+        case searchM1Large = "search.m1.large"
+        case searchM2Xlarge = "search.m2.xlarge"
+        case searchM22Xlarge = "search.m2.2xlarge"
+        case searchM3Medium = "search.m3.medium"
+        case searchM3Large = "search.m3.large"
+        case searchM3Xlarge = "search.m3.xlarge"
+        case searchM32Xlarge = "search.m3.2xlarge"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct IntArrayOptions: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SearchEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SourceFields", required: false, type: .string), 
+            AWSShapeMember(label: "FacetEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "DefaultValue", required: false, type: .long), 
+            AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean)
+        ]
+        /// Whether the contents of the field are searchable.
+        public let searchEnabled: Bool?
+        /// A list of source fields to map to the field. 
+        public let sourceFields: String?
+        /// Whether facet information can be returned for the field.
+        public let facetEnabled: Bool?
+        /// A value to use for the field if the field isn't specified for a document.
+        public let defaultValue: Int64?
+        /// Whether the contents of the field can be returned in the search results.
+        public let returnEnabled: Bool?
+
+        public init(searchEnabled: Bool? = nil, sourceFields: String? = nil, facetEnabled: Bool? = nil, defaultValue: Int64? = nil, returnEnabled: Bool? = nil) {
+            self.searchEnabled = searchEnabled
+            self.sourceFields = sourceFields
+            self.facetEnabled = facetEnabled
+            self.defaultValue = defaultValue
+            self.returnEnabled = returnEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case searchEnabled = "SearchEnabled"
+            case sourceFields = "SourceFields"
+            case facetEnabled = "FacetEnabled"
+            case defaultValue = "DefaultValue"
+            case returnEnabled = "ReturnEnabled"
+        }
+    }
+
+    public struct UpdateAvailabilityOptionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityOptions", required: false, type: .structure)
+        ]
+        /// The newly-configured availability options. Indicates whether Multi-AZ is enabled for the domain. 
+        public let availabilityOptions: AvailabilityOptionsStatus?
+
+        public init(availabilityOptions: AvailabilityOptionsStatus? = nil) {
+            self.availabilityOptions = availabilityOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityOptions = "AvailabilityOptions"
+        }
+    }
+
+    public struct DescribeDomainsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainStatusList", required: true, type: .list)
+        ]
+        public let domainStatusList: [DomainStatus]
+
+        public init(domainStatusList: [DomainStatus]) {
+            self.domainStatusList = domainStatusList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainStatusList = "DomainStatusList"
+        }
+    }
+
+    public struct DescribeExpressionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Expressions", required: true, type: .list)
+        ]
+        /// The expressions configured for the domain.
+        public let expressions: [ExpressionStatus]
+
+        public init(expressions: [ExpressionStatus]) {
+            self.expressions = expressions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expressions = "Expressions"
+        }
+    }
+
+    public struct DefineSuggesterResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Suggester", required: true, type: .structure)
+        ]
+        public let suggester: SuggesterStatus
+
+        public init(suggester: SuggesterStatus) {
+            self.suggester = suggester
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case suggester = "Suggester"
         }
     }
 
@@ -1103,28 +621,278 @@ extension CloudSearch {
         }
     }
 
-    public struct DescribeAnalysisSchemesRequest: AWSShape {
+    public struct IntOptions: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Deployed", required: false, type: .boolean), 
-            AWSShapeMember(label: "AnalysisSchemeNames", required: false, type: .list), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string)
+            AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SearchEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "FacetEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "DefaultValue", required: false, type: .long), 
+            AWSShapeMember(label: "SourceField", required: false, type: .string), 
+            AWSShapeMember(label: "SortEnabled", required: false, type: .boolean)
         ]
-        /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
-        public let deployed: Bool?
-        /// The analysis schemes you want to describe.
-        public let analysisSchemeNames: [String]?
+        /// Whether the contents of the field can be returned in the search results.
+        public let returnEnabled: Bool?
+        /// Whether the contents of the field are searchable.
+        public let searchEnabled: Bool?
+        /// Whether facet information can be returned for the field.
+        public let facetEnabled: Bool?
+        /// A value to use for the field if the field isn't specified for a document. This can be important if you are using the field in an expression and that field is not present in every document.
+        public let defaultValue: Int64?
+        /// The name of the source field to map to the field. 
+        public let sourceField: String?
+        /// Whether the field can be used to sort the search results.
+        public let sortEnabled: Bool?
+
+        public init(returnEnabled: Bool? = nil, searchEnabled: Bool? = nil, facetEnabled: Bool? = nil, defaultValue: Int64? = nil, sourceField: String? = nil, sortEnabled: Bool? = nil) {
+            self.returnEnabled = returnEnabled
+            self.searchEnabled = searchEnabled
+            self.facetEnabled = facetEnabled
+            self.defaultValue = defaultValue
+            self.sourceField = sourceField
+            self.sortEnabled = sortEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case returnEnabled = "ReturnEnabled"
+            case searchEnabled = "SearchEnabled"
+            case facetEnabled = "FacetEnabled"
+            case defaultValue = "DefaultValue"
+            case sourceField = "SourceField"
+            case sortEnabled = "SortEnabled"
+        }
+    }
+
+    public struct DescribeSuggestersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SuggesterNames", required: false, type: .list), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "Deployed", required: false, type: .boolean)
+        ]
+        /// The suggesters you want to describe.
+        public let suggesterNames: [String]?
         /// The name of the domain you want to describe.
         public let domainName: String
+        /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
+        public let deployed: Bool?
 
-        public init(deployed: Bool? = nil, analysisSchemeNames: [String]? = nil, domainName: String) {
+        public init(suggesterNames: [String]? = nil, domainName: String, deployed: Bool? = nil) {
+            self.suggesterNames = suggesterNames
+            self.domainName = domainName
             self.deployed = deployed
-            self.analysisSchemeNames = analysisSchemeNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case suggesterNames = "SuggesterNames"
+            case domainName = "DomainName"
+            case deployed = "Deployed"
+        }
+    }
+
+    public struct DateOptions: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SearchEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "FacetEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "DefaultValue", required: false, type: .string), 
+            AWSShapeMember(label: "SourceField", required: false, type: .string), 
+            AWSShapeMember(label: "SortEnabled", required: false, type: .boolean)
+        ]
+        /// Whether the contents of the field can be returned in the search results.
+        public let returnEnabled: Bool?
+        /// Whether the contents of the field are searchable.
+        public let searchEnabled: Bool?
+        /// Whether facet information can be returned for the field.
+        public let facetEnabled: Bool?
+        /// A value to use for the field if the field isn't specified for a document.
+        public let defaultValue: String?
+        public let sourceField: String?
+        /// Whether the field can be used to sort the search results.
+        public let sortEnabled: Bool?
+
+        public init(returnEnabled: Bool? = nil, searchEnabled: Bool? = nil, facetEnabled: Bool? = nil, defaultValue: String? = nil, sourceField: String? = nil, sortEnabled: Bool? = nil) {
+            self.returnEnabled = returnEnabled
+            self.searchEnabled = searchEnabled
+            self.facetEnabled = facetEnabled
+            self.defaultValue = defaultValue
+            self.sourceField = sourceField
+            self.sortEnabled = sortEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case returnEnabled = "ReturnEnabled"
+            case searchEnabled = "SearchEnabled"
+            case facetEnabled = "FacetEnabled"
+            case defaultValue = "DefaultValue"
+            case sourceField = "SourceField"
+            case sortEnabled = "SortEnabled"
+        }
+    }
+
+    public struct DescribeScalingParametersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
+        ]
+        public let domainName: String
+
+        public init(domainName: String) {
             self.domainName = domainName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+        }
+    }
+
+    public struct BuildSuggestersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FieldNames", required: false, type: .list)
+        ]
+        public let fieldNames: [String]?
+
+        public init(fieldNames: [String]? = nil) {
+            self.fieldNames = fieldNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldNames = "FieldNames"
+        }
+    }
+
+    public struct DescribeServiceAccessPoliciesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessPolicies", required: true, type: .structure)
+        ]
+        /// The access rules configured for the domain specified in the request.
+        public let accessPolicies: AccessPoliciesStatus
+
+        public init(accessPolicies: AccessPoliciesStatus) {
+            self.accessPolicies = accessPolicies
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessPolicies = "AccessPolicies"
+        }
+    }
+
+    public struct IndexField: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IntArrayOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "DoubleOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "LiteralArrayOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "IntOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "IndexFieldName", required: true, type: .string), 
+            AWSShapeMember(label: "DoubleArrayOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "TextArrayOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "LatLonOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "TextOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "LiteralOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "IndexFieldType", required: true, type: .enum), 
+            AWSShapeMember(label: "DateArrayOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "DateOptions", required: false, type: .structure)
+        ]
+        public let intArrayOptions: IntArrayOptions?
+        public let doubleOptions: DoubleOptions?
+        public let literalArrayOptions: LiteralArrayOptions?
+        public let intOptions: IntOptions?
+        /// A string that represents the name of an index field. CloudSearch supports regular index fields as well as dynamic fields. A dynamic field's name defines a pattern that begins or ends with a wildcard. Any document fields that don't map to a regular index field but do match a dynamic field's pattern are configured with the dynamic field's indexing options.  Regular field names begin with a letter and can contain the following characters: a-z (lowercase), 0-9, and _ (underscore). Dynamic field names must begin or end with a wildcard (*). The wildcard can also be the only character in a dynamic field name. Multiple wildcards, and wildcards embedded within a string are not supported.  The name score is reserved and cannot be used as a field name. To reference a document's ID, you can use the name _id. 
+        public let indexFieldName: String
+        public let doubleArrayOptions: DoubleArrayOptions?
+        public let textArrayOptions: TextArrayOptions?
+        public let latLonOptions: LatLonOptions?
+        public let textOptions: TextOptions?
+        public let literalOptions: LiteralOptions?
+        public let indexFieldType: IndexFieldType
+        public let dateArrayOptions: DateArrayOptions?
+        public let dateOptions: DateOptions?
+
+        public init(intArrayOptions: IntArrayOptions? = nil, doubleOptions: DoubleOptions? = nil, literalArrayOptions: LiteralArrayOptions? = nil, intOptions: IntOptions? = nil, indexFieldName: String, doubleArrayOptions: DoubleArrayOptions? = nil, textArrayOptions: TextArrayOptions? = nil, latLonOptions: LatLonOptions? = nil, textOptions: TextOptions? = nil, literalOptions: LiteralOptions? = nil, indexFieldType: IndexFieldType, dateArrayOptions: DateArrayOptions? = nil, dateOptions: DateOptions? = nil) {
+            self.intArrayOptions = intArrayOptions
+            self.doubleOptions = doubleOptions
+            self.literalArrayOptions = literalArrayOptions
+            self.intOptions = intOptions
+            self.indexFieldName = indexFieldName
+            self.doubleArrayOptions = doubleArrayOptions
+            self.textArrayOptions = textArrayOptions
+            self.latLonOptions = latLonOptions
+            self.textOptions = textOptions
+            self.literalOptions = literalOptions
+            self.indexFieldType = indexFieldType
+            self.dateArrayOptions = dateArrayOptions
+            self.dateOptions = dateOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case intArrayOptions = "IntArrayOptions"
+            case doubleOptions = "DoubleOptions"
+            case literalArrayOptions = "LiteralArrayOptions"
+            case intOptions = "IntOptions"
+            case indexFieldName = "IndexFieldName"
+            case doubleArrayOptions = "DoubleArrayOptions"
+            case textArrayOptions = "TextArrayOptions"
+            case latLonOptions = "LatLonOptions"
+            case textOptions = "TextOptions"
+            case literalOptions = "LiteralOptions"
+            case indexFieldType = "IndexFieldType"
+            case dateArrayOptions = "DateArrayOptions"
+            case dateOptions = "DateOptions"
+        }
+    }
+
+    public struct DescribeAvailabilityOptionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "Deployed", required: false, type: .boolean)
+        ]
+        /// The name of the domain you want to describe.
+        public let domainName: String
+        /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
+        public let deployed: Bool?
+
+        public init(domainName: String, deployed: Bool? = nil) {
+            self.domainName = domainName
+            self.deployed = deployed
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
             case deployed = "Deployed"
-            case analysisSchemeNames = "AnalysisSchemeNames"
+        }
+    }
+
+    public struct ScalingParametersStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Options", required: true, type: .structure), 
+            AWSShapeMember(label: "Status", required: true, type: .structure)
+        ]
+        public let options: ScalingParameters
+        public let status: OptionStatus
+
+        public init(options: ScalingParameters, status: OptionStatus) {
+            self.options = options
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case options = "Options"
+            case status = "Status"
+        }
+    }
+
+    public struct DefineAnalysisSchemeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AnalysisScheme", required: true, type: .structure), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
+        ]
+        public let analysisScheme: AnalysisScheme
+        public let domainName: String
+
+        public init(analysisScheme: AnalysisScheme, domainName: String) {
+            self.analysisScheme = analysisScheme
+            self.domainName = domainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisScheme = "AnalysisScheme"
             case domainName = "DomainName"
         }
     }
@@ -1168,151 +936,54 @@ extension CloudSearch {
         public var description: String { return self.rawValue }
     }
 
-    public struct IndexDocumentsResponse: AWSShape {
+    public struct DocumentSuggesterOptions: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FieldNames", required: false, type: .list)
+            AWSShapeMember(label: "SortExpression", required: false, type: .string), 
+            AWSShapeMember(label: "SourceField", required: true, type: .string), 
+            AWSShapeMember(label: "FuzzyMatching", required: false, type: .enum)
         ]
-        /// The names of the fields that are currently being indexed.
-        public let fieldNames: [String]?
+        /// An expression that computes a score for each suggestion to control how they are sorted. The scores are rounded to the nearest integer, with a floor of 0 and a ceiling of 2^31-1. A document's relevance score is not computed for suggestions, so sort expressions cannot reference the _score value. To sort suggestions using a numeric field or existing expression, simply specify the name of the field or expression. If no expression is configured for the suggester, the suggestions are sorted with the closest matches listed first.
+        public let sortExpression: String?
+        /// The name of the index field you want to use for suggestions. 
+        public let sourceField: String
+        /// The level of fuzziness allowed when suggesting matches for a string: none, low, or high. With none, the specified string is treated as an exact prefix. With low, suggestions must differ from the specified string by no more than one character. With high, suggestions can differ by up to two characters. The default is none. 
+        public let fuzzyMatching: SuggesterFuzzyMatching?
 
-        public init(fieldNames: [String]? = nil) {
-            self.fieldNames = fieldNames
+        public init(sortExpression: String? = nil, sourceField: String, fuzzyMatching: SuggesterFuzzyMatching? = nil) {
+            self.sortExpression = sortExpression
+            self.sourceField = sourceField
+            self.fuzzyMatching = fuzzyMatching
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fieldNames = "FieldNames"
+            case sortExpression = "SortExpression"
+            case sourceField = "SourceField"
+            case fuzzyMatching = "FuzzyMatching"
         }
     }
 
-    public struct DeleteSuggesterRequest: AWSShape {
+    public struct DescribeExpressionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SuggesterName", required: true, type: .string), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string)
-        ]
-        /// Specifies the name of the suggester you want to delete.
-        public let suggesterName: String
-        public let domainName: String
-
-        public init(suggesterName: String, domainName: String) {
-            self.suggesterName = suggesterName
-            self.domainName = domainName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case suggesterName = "SuggesterName"
-            case domainName = "DomainName"
-        }
-    }
-
-    public struct DeleteDomainResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainStatus", required: false, type: .structure)
-        ]
-        public let domainStatus: DomainStatus?
-
-        public init(domainStatus: DomainStatus? = nil) {
-            self.domainStatus = domainStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case domainStatus = "DomainStatus"
-        }
-    }
-
-    public struct UpdateAvailabilityOptionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MultiAZ", required: true, type: .boolean), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string)
-        ]
-        /// You expand an existing search domain to a second Availability Zone by setting the Multi-AZ option to true. Similarly, you can turn off the Multi-AZ option to downgrade the domain to a single Availability Zone by setting the Multi-AZ option to false. 
-        public let multiAZ: Bool
-        public let domainName: String
-
-        public init(multiAZ: Bool, domainName: String) {
-            self.multiAZ = multiAZ
-            self.domainName = domainName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case multiAZ = "MultiAZ"
-            case domainName = "DomainName"
-        }
-    }
-
-    public struct ScalingParameters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DesiredReplicationCount", required: false, type: .integer), 
-            AWSShapeMember(label: "DesiredInstanceType", required: false, type: .enum), 
-            AWSShapeMember(label: "DesiredPartitionCount", required: false, type: .integer)
-        ]
-        /// The number of replicas you want to preconfigure for each index partition.
-        public let desiredReplicationCount: Int32?
-        /// The instance type that you want to preconfigure for your domain. For example, search.m1.small.
-        public let desiredInstanceType: PartitionInstanceType?
-        /// The number of partitions you want to preconfigure for your domain. Only valid when you select m2.2xlarge as the desired instance type.
-        public let desiredPartitionCount: Int32?
-
-        public init(desiredReplicationCount: Int32? = nil, desiredInstanceType: PartitionInstanceType? = nil, desiredPartitionCount: Int32? = nil) {
-            self.desiredReplicationCount = desiredReplicationCount
-            self.desiredInstanceType = desiredInstanceType
-            self.desiredPartitionCount = desiredPartitionCount
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case desiredReplicationCount = "DesiredReplicationCount"
-            case desiredInstanceType = "DesiredInstanceType"
-            case desiredPartitionCount = "DesiredPartitionCount"
-        }
-    }
-
-    public struct DescribeAvailabilityOptionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExpressionNames", required: false, type: .list), 
             AWSShapeMember(label: "Deployed", required: false, type: .boolean), 
             AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
+        /// Limits the DescribeExpressions response to the specified expressions. If not specified, all expressions are shown.
+        public let expressionNames: [String]?
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
         public let deployed: Bool?
         /// The name of the domain you want to describe.
         public let domainName: String
 
-        public init(deployed: Bool? = nil, domainName: String) {
+        public init(expressionNames: [String]? = nil, deployed: Bool? = nil, domainName: String) {
+            self.expressionNames = expressionNames
             self.deployed = deployed
             self.domainName = domainName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case expressionNames = "ExpressionNames"
             case deployed = "Deployed"
-            case domainName = "DomainName"
-        }
-    }
-
-    public struct UpdateServiceAccessPoliciesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessPolicies", required: true, type: .structure)
-        ]
-        /// The access rules configured for the domain.
-        public let accessPolicies: AccessPoliciesStatus
-
-        public init(accessPolicies: AccessPoliciesStatus) {
-            self.accessPolicies = accessPolicies
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accessPolicies = "AccessPolicies"
-        }
-    }
-
-    public struct BuildSuggestersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", required: true, type: .string)
-        ]
-        public let domainName: String
-
-        public init(domainName: String) {
-            self.domainName = domainName
-        }
-
-        private enum CodingKeys: String, CodingKey {
             case domainName = "DomainName"
         }
     }
@@ -1333,61 +1004,550 @@ extension CloudSearch {
         }
     }
 
+    public struct IndexFieldStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Options", required: true, type: .structure), 
+            AWSShapeMember(label: "Status", required: true, type: .structure)
+        ]
+        public let options: IndexField
+        public let status: OptionStatus
+
+        public init(options: IndexField, status: OptionStatus) {
+            self.options = options
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case options = "Options"
+            case status = "Status"
+        }
+    }
+
+    public struct UpdateScalingParametersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ScalingParameters", required: true, type: .structure)
+        ]
+        public let scalingParameters: ScalingParametersStatus
+
+        public init(scalingParameters: ScalingParametersStatus) {
+            self.scalingParameters = scalingParameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scalingParameters = "ScalingParameters"
+        }
+    }
+
+    public struct DateArrayOptions: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SearchEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SourceFields", required: false, type: .string), 
+            AWSShapeMember(label: "FacetEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "DefaultValue", required: false, type: .string), 
+            AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean)
+        ]
+        /// Whether the contents of the field are searchable.
+        public let searchEnabled: Bool?
+        /// A list of source fields to map to the field. 
+        public let sourceFields: String?
+        /// Whether facet information can be returned for the field.
+        public let facetEnabled: Bool?
+        /// A value to use for the field if the field isn't specified for a document.
+        public let defaultValue: String?
+        /// Whether the contents of the field can be returned in the search results.
+        public let returnEnabled: Bool?
+
+        public init(searchEnabled: Bool? = nil, sourceFields: String? = nil, facetEnabled: Bool? = nil, defaultValue: String? = nil, returnEnabled: Bool? = nil) {
+            self.searchEnabled = searchEnabled
+            self.sourceFields = sourceFields
+            self.facetEnabled = facetEnabled
+            self.defaultValue = defaultValue
+            self.returnEnabled = returnEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case searchEnabled = "SearchEnabled"
+            case sourceFields = "SourceFields"
+            case facetEnabled = "FacetEnabled"
+            case defaultValue = "DefaultValue"
+            case returnEnabled = "ReturnEnabled"
+        }
+    }
+
+    public struct DeleteDomainResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainStatus", required: false, type: .structure)
+        ]
+        public let domainStatus: DomainStatus?
+
+        public init(domainStatus: DomainStatus? = nil) {
+            self.domainStatus = domainStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainStatus = "DomainStatus"
+        }
+    }
+
+    public struct DefineSuggesterRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Suggester", required: true, type: .structure), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
+        ]
+        public let suggester: Suggester
+        public let domainName: String
+
+        public init(suggester: Suggester, domainName: String) {
+            self.suggester = suggester
+            self.domainName = domainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case suggester = "Suggester"
+            case domainName = "DomainName"
+        }
+    }
+
+    public struct DescribeIndexFieldsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FieldNames", required: false, type: .list), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "Deployed", required: false, type: .boolean)
+        ]
+        /// A list of the index fields you want to describe. If not specified, information is returned for all configured index fields.
+        public let fieldNames: [String]?
+        /// The name of the domain you want to describe.
+        public let domainName: String
+        /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
+        public let deployed: Bool?
+
+        public init(fieldNames: [String]? = nil, domainName: String, deployed: Bool? = nil) {
+            self.fieldNames = fieldNames
+            self.domainName = domainName
+            self.deployed = deployed
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldNames = "FieldNames"
+            case domainName = "DomainName"
+            case deployed = "Deployed"
+        }
+    }
+
+    public struct DomainStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SearchInstanceType", required: false, type: .string), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "SearchPartitionCount", required: false, type: .integer), 
+            AWSShapeMember(label: "ARN", required: false, type: .string), 
+            AWSShapeMember(label: "DomainId", required: true, type: .string), 
+            AWSShapeMember(label: "Created", required: false, type: .boolean), 
+            AWSShapeMember(label: "Deleted", required: false, type: .boolean), 
+            AWSShapeMember(label: "SearchService", required: false, type: .structure), 
+            AWSShapeMember(label: "DocService", required: false, type: .structure), 
+            AWSShapeMember(label: "Processing", required: false, type: .boolean), 
+            AWSShapeMember(label: "RequiresIndexDocuments", required: true, type: .boolean), 
+            AWSShapeMember(label: "Limits", required: false, type: .structure), 
+            AWSShapeMember(label: "SearchInstanceCount", required: false, type: .integer)
+        ]
+        /// The instance type that is being used to process search requests.
+        public let searchInstanceType: String?
+        public let domainName: String
+        /// The number of partitions across which the search index is spread.
+        public let searchPartitionCount: Int32?
+        public let arn: String?
+        public let domainId: String
+        /// True if the search domain is created. It can take several minutes to initialize a domain when CreateDomain is called. Newly created search domains are returned from DescribeDomains with a false value for Created until domain creation is complete.
+        public let created: Bool?
+        /// True if the search domain has been deleted. The system must clean up resources dedicated to the search domain when DeleteDomain is called. Newly deleted search domains are returned from DescribeDomains with a true value for IsDeleted for several minutes until resource cleanup is complete.
+        public let deleted: Bool?
+        /// The service endpoint for requesting search results from a search domain.
+        public let searchService: ServiceEndpoint?
+        /// The service endpoint for updating documents in a search domain.
+        public let docService: ServiceEndpoint?
+        /// True if processing is being done to activate the current domain configuration.
+        public let processing: Bool?
+        /// True if IndexDocuments needs to be called to activate the current domain configuration.
+        public let requiresIndexDocuments: Bool
+        public let limits: Limits?
+        /// The number of search instances that are available to process search requests.
+        public let searchInstanceCount: Int32?
+
+        public init(searchInstanceType: String? = nil, domainName: String, searchPartitionCount: Int32? = nil, arn: String? = nil, domainId: String, created: Bool? = nil, deleted: Bool? = nil, searchService: ServiceEndpoint? = nil, docService: ServiceEndpoint? = nil, processing: Bool? = nil, requiresIndexDocuments: Bool, limits: Limits? = nil, searchInstanceCount: Int32? = nil) {
+            self.searchInstanceType = searchInstanceType
+            self.domainName = domainName
+            self.searchPartitionCount = searchPartitionCount
+            self.arn = arn
+            self.domainId = domainId
+            self.created = created
+            self.deleted = deleted
+            self.searchService = searchService
+            self.docService = docService
+            self.processing = processing
+            self.requiresIndexDocuments = requiresIndexDocuments
+            self.limits = limits
+            self.searchInstanceCount = searchInstanceCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case searchInstanceType = "SearchInstanceType"
+            case domainName = "DomainName"
+            case searchPartitionCount = "SearchPartitionCount"
+            case arn = "ARN"
+            case domainId = "DomainId"
+            case created = "Created"
+            case deleted = "Deleted"
+            case searchService = "SearchService"
+            case docService = "DocService"
+            case processing = "Processing"
+            case requiresIndexDocuments = "RequiresIndexDocuments"
+            case limits = "Limits"
+            case searchInstanceCount = "SearchInstanceCount"
+        }
+    }
+
+    public struct AccessPoliciesStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Options", required: true, type: .string), 
+            AWSShapeMember(label: "Status", required: true, type: .structure)
+        ]
+        public let options: String
+        public let status: OptionStatus
+
+        public init(options: String, status: OptionStatus) {
+            self.options = options
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case options = "Options"
+            case status = "Status"
+        }
+    }
+
+    public struct IndexDocumentsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FieldNames", required: false, type: .list)
+        ]
+        /// The names of the fields that are currently being indexed.
+        public let fieldNames: [String]?
+
+        public init(fieldNames: [String]? = nil) {
+            self.fieldNames = fieldNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldNames = "FieldNames"
+        }
+    }
+
+    public struct BuildSuggestersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
+        ]
+        public let domainName: String
+
+        public init(domainName: String) {
+            self.domainName = domainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+        }
+    }
+
+    public enum SuggesterFuzzyMatching: String, CustomStringConvertible, Codable {
+        case none = "none"
+        case low = "low"
+        case high = "high"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeleteDomainRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
+        ]
+        /// The name of the domain you want to permanently delete.
+        public let domainName: String
+
+        public init(domainName: String) {
+            self.domainName = domainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+        }
+    }
+
+    public struct LatLonOptions: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SearchEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "FacetEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "DefaultValue", required: false, type: .string), 
+            AWSShapeMember(label: "SourceField", required: false, type: .string), 
+            AWSShapeMember(label: "SortEnabled", required: false, type: .boolean)
+        ]
+        /// Whether the contents of the field can be returned in the search results.
+        public let returnEnabled: Bool?
+        /// Whether the contents of the field are searchable.
+        public let searchEnabled: Bool?
+        /// Whether facet information can be returned for the field.
+        public let facetEnabled: Bool?
+        /// A value to use for the field if the field isn't specified for a document.
+        public let defaultValue: String?
+        public let sourceField: String?
+        /// Whether the field can be used to sort the search results.
+        public let sortEnabled: Bool?
+
+        public init(returnEnabled: Bool? = nil, searchEnabled: Bool? = nil, facetEnabled: Bool? = nil, defaultValue: String? = nil, sourceField: String? = nil, sortEnabled: Bool? = nil) {
+            self.returnEnabled = returnEnabled
+            self.searchEnabled = searchEnabled
+            self.facetEnabled = facetEnabled
+            self.defaultValue = defaultValue
+            self.sourceField = sourceField
+            self.sortEnabled = sortEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case returnEnabled = "ReturnEnabled"
+            case searchEnabled = "SearchEnabled"
+            case facetEnabled = "FacetEnabled"
+            case defaultValue = "DefaultValue"
+            case sourceField = "SourceField"
+            case sortEnabled = "SortEnabled"
+        }
+    }
+
     public struct Suggester: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SuggesterName", required: true, type: .string), 
-            AWSShapeMember(label: "DocumentSuggesterOptions", required: true, type: .structure)
+            AWSShapeMember(label: "DocumentSuggesterOptions", required: true, type: .structure), 
+            AWSShapeMember(label: "SuggesterName", required: true, type: .string)
         ]
-        public let suggesterName: String
         public let documentSuggesterOptions: DocumentSuggesterOptions
+        public let suggesterName: String
 
-        public init(suggesterName: String, documentSuggesterOptions: DocumentSuggesterOptions) {
-            self.suggesterName = suggesterName
+        public init(documentSuggesterOptions: DocumentSuggesterOptions, suggesterName: String) {
             self.documentSuggesterOptions = documentSuggesterOptions
+            self.suggesterName = suggesterName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case suggesterName = "SuggesterName"
             case documentSuggesterOptions = "DocumentSuggesterOptions"
+            case suggesterName = "SuggesterName"
         }
     }
 
-    public struct AvailabilityOptionsStatus: AWSShape {
+    public struct UpdateAvailabilityOptionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: true, type: .structure), 
-            AWSShapeMember(label: "Options", required: true, type: .boolean)
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "MultiAZ", required: true, type: .boolean)
         ]
-        public let status: OptionStatus
-        /// The availability options configured for the domain.
-        public let options: Bool
+        public let domainName: String
+        /// You expand an existing search domain to a second Availability Zone by setting the Multi-AZ option to true. Similarly, you can turn off the Multi-AZ option to downgrade the domain to a single Availability Zone by setting the Multi-AZ option to false. 
+        public let multiAZ: Bool
 
-        public init(status: OptionStatus, options: Bool) {
-            self.status = status
-            self.options = options
+        public init(domainName: String, multiAZ: Bool) {
+            self.domainName = domainName
+            self.multiAZ = multiAZ
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status = "Status"
-            case options = "Options"
+            case domainName = "DomainName"
+            case multiAZ = "MultiAZ"
         }
     }
 
-    public struct Expression: AWSShape {
+    public struct DefineIndexFieldResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExpressionValue", required: true, type: .string), 
-            AWSShapeMember(label: "ExpressionName", required: true, type: .string)
+            AWSShapeMember(label: "IndexField", required: true, type: .structure)
         ]
-        public let expressionValue: String
-        public let expressionName: String
+        public let indexField: IndexFieldStatus
 
-        public init(expressionValue: String, expressionName: String) {
-            self.expressionValue = expressionValue
-            self.expressionName = expressionName
+        public init(indexField: IndexFieldStatus) {
+            self.indexField = indexField
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expressionValue = "ExpressionValue"
-            case expressionName = "ExpressionName"
+            case indexField = "IndexField"
+        }
+    }
+
+    public struct AnalysisScheme: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AnalysisSchemeName", required: true, type: .string), 
+            AWSShapeMember(label: "AnalysisSchemeLanguage", required: true, type: .enum), 
+            AWSShapeMember(label: "AnalysisOptions", required: false, type: .structure)
+        ]
+        public let analysisSchemeName: String
+        public let analysisSchemeLanguage: AnalysisSchemeLanguage
+        public let analysisOptions: AnalysisOptions?
+
+        public init(analysisSchemeName: String, analysisSchemeLanguage: AnalysisSchemeLanguage, analysisOptions: AnalysisOptions? = nil) {
+            self.analysisSchemeName = analysisSchemeName
+            self.analysisSchemeLanguage = analysisSchemeLanguage
+            self.analysisOptions = analysisOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisSchemeName = "AnalysisSchemeName"
+            case analysisSchemeLanguage = "AnalysisSchemeLanguage"
+            case analysisOptions = "AnalysisOptions"
+        }
+    }
+
+    public struct IndexDocumentsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
+        ]
+        public let domainName: String
+
+        public init(domainName: String) {
+            self.domainName = domainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+        }
+    }
+
+    public enum AlgorithmicStemming: String, CustomStringConvertible, Codable {
+        case none = "none"
+        case minimal = "minimal"
+        case light = "light"
+        case full = "full"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OptionState: String, CustomStringConvertible, Codable {
+        case requiresindexdocuments = "RequiresIndexDocuments"
+        case processing = "Processing"
+        case active = "Active"
+        case failedtovalidate = "FailedToValidate"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeleteSuggesterRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "SuggesterName", required: true, type: .string)
+        ]
+        public let domainName: String
+        /// Specifies the name of the suggester you want to delete.
+        public let suggesterName: String
+
+        public init(domainName: String, suggesterName: String) {
+            self.domainName = domainName
+            self.suggesterName = suggesterName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+            case suggesterName = "SuggesterName"
+        }
+    }
+
+    public struct UpdateServiceAccessPoliciesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessPolicies", required: true, type: .string), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
+        ]
+        /// The access rules you want to configure. These rules replace any existing rules. 
+        public let accessPolicies: String
+        public let domainName: String
+
+        public init(accessPolicies: String, domainName: String) {
+            self.accessPolicies = accessPolicies
+            self.domainName = domainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessPolicies = "AccessPolicies"
+            case domainName = "DomainName"
+        }
+    }
+
+    public struct TextArrayOptions: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SourceFields", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultValue", required: false, type: .string), 
+            AWSShapeMember(label: "HighlightEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "AnalysisScheme", required: false, type: .string)
+        ]
+        /// Whether the contents of the field can be returned in the search results.
+        public let returnEnabled: Bool?
+        /// A list of source fields to map to the field. 
+        public let sourceFields: String?
+        /// A value to use for the field if the field isn't specified for a document.
+        public let defaultValue: String?
+        /// Whether highlights can be returned for the field.
+        public let highlightEnabled: Bool?
+        /// The name of an analysis scheme for a text-array field.
+        public let analysisScheme: String?
+
+        public init(returnEnabled: Bool? = nil, sourceFields: String? = nil, defaultValue: String? = nil, highlightEnabled: Bool? = nil, analysisScheme: String? = nil) {
+            self.returnEnabled = returnEnabled
+            self.sourceFields = sourceFields
+            self.defaultValue = defaultValue
+            self.highlightEnabled = highlightEnabled
+            self.analysisScheme = analysisScheme
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case returnEnabled = "ReturnEnabled"
+            case sourceFields = "SourceFields"
+            case defaultValue = "DefaultValue"
+            case highlightEnabled = "HighlightEnabled"
+            case analysisScheme = "AnalysisScheme"
+        }
+    }
+
+    public struct CreateDomainRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
+        ]
+        /// A name for the domain you are creating. Allowed characters are a-z (lower-case letters), 0-9, and hyphen (-). Domain names must start with a letter or number and be at least 3 and no more than 28 characters long.
+        public let domainName: String
+
+        public init(domainName: String) {
+            self.domainName = domainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+        }
+    }
+
+    public struct DescribeIndexFieldsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IndexFields", required: true, type: .list)
+        ]
+        /// The index fields configured for the domain.
+        public let indexFields: [IndexFieldStatus]
+
+        public init(indexFields: [IndexFieldStatus]) {
+            self.indexFields = indexFields
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexFields = "IndexFields"
+        }
+    }
+
+    public struct DescribeDomainsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainNames", required: false, type: .list)
+        ]
+        /// The names of the domains you want to include in the response.
+        public let domainNames: [String]?
+
+        public init(domainNames: [String]? = nil) {
+            self.domainNames = domainNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainNames = "DomainNames"
         }
     }
 
@@ -1406,35 +1566,61 @@ extension CloudSearch {
         }
     }
 
-    public struct ListDomainNamesResponse: AWSShape {
+    public struct UpdateServiceAccessPoliciesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainNames", required: false, type: .map)
+            AWSShapeMember(label: "AccessPolicies", required: true, type: .structure)
         ]
-        /// The names of the search domains owned by an account.
-        public let domainNames: [String: String]?
+        /// The access rules configured for the domain.
+        public let accessPolicies: AccessPoliciesStatus
 
-        public init(domainNames: [String: String]? = nil) {
-            self.domainNames = domainNames
+        public init(accessPolicies: AccessPoliciesStatus) {
+            self.accessPolicies = accessPolicies
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainNames = "DomainNames"
+            case accessPolicies = "AccessPolicies"
         }
     }
 
-    public struct DescribeSuggestersResponse: AWSShape {
+    public struct DescribeAnalysisSchemesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Suggesters", required: true, type: .list)
+            AWSShapeMember(label: "Deployed", required: false, type: .boolean), 
+            AWSShapeMember(label: "AnalysisSchemeNames", required: false, type: .list), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
-        /// The suggesters configured for the domain specified in the request.
-        public let suggesters: [SuggesterStatus]
+        /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
+        public let deployed: Bool?
+        /// The analysis schemes you want to describe.
+        public let analysisSchemeNames: [String]?
+        /// The name of the domain you want to describe.
+        public let domainName: String
 
-        public init(suggesters: [SuggesterStatus]) {
-            self.suggesters = suggesters
+        public init(deployed: Bool? = nil, analysisSchemeNames: [String]? = nil, domainName: String) {
+            self.deployed = deployed
+            self.analysisSchemeNames = analysisSchemeNames
+            self.domainName = domainName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case suggesters = "Suggesters"
+            case deployed = "Deployed"
+            case analysisSchemeNames = "AnalysisSchemeNames"
+            case domainName = "DomainName"
+        }
+    }
+
+    public struct DeleteAnalysisSchemeResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AnalysisScheme", required: true, type: .structure)
+        ]
+        /// The status of the analysis scheme being deleted.
+        public let analysisScheme: AnalysisSchemeStatus
+
+        public init(analysisScheme: AnalysisSchemeStatus) {
+            self.analysisScheme = analysisScheme
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisScheme = "AnalysisScheme"
         }
     }
 
@@ -1455,262 +1641,77 @@ extension CloudSearch {
 
     public struct DescribeServiceAccessPoliciesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Deployed", required: false, type: .boolean), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string)
-        ]
-        /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
-        public let deployed: Bool?
-        /// The name of the domain you want to describe.
-        public let domainName: String
-
-        public init(deployed: Bool? = nil, domainName: String) {
-            self.deployed = deployed
-            self.domainName = domainName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deployed = "Deployed"
-            case domainName = "DomainName"
-        }
-    }
-
-    public enum SuggesterFuzzyMatching: String, CustomStringConvertible, Codable {
-        case none = "none"
-        case low = "low"
-        case high = "high"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct LiteralArrayOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "SearchEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "FacetEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "SourceFields", required: false, type: .string), 
-            AWSShapeMember(label: "DefaultValue", required: false, type: .string)
-        ]
-        /// Whether the contents of the field can be returned in the search results.
-        public let returnEnabled: Bool?
-        /// Whether the contents of the field are searchable.
-        public let searchEnabled: Bool?
-        /// Whether facet information can be returned for the field.
-        public let facetEnabled: Bool?
-        /// A list of source fields to map to the field. 
-        public let sourceFields: String?
-        /// A value to use for the field if the field isn't specified for a document.
-        public let defaultValue: String?
-
-        public init(returnEnabled: Bool? = nil, searchEnabled: Bool? = nil, facetEnabled: Bool? = nil, sourceFields: String? = nil, defaultValue: String? = nil) {
-            self.returnEnabled = returnEnabled
-            self.searchEnabled = searchEnabled
-            self.facetEnabled = facetEnabled
-            self.sourceFields = sourceFields
-            self.defaultValue = defaultValue
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case returnEnabled = "ReturnEnabled"
-            case searchEnabled = "SearchEnabled"
-            case facetEnabled = "FacetEnabled"
-            case sourceFields = "SourceFields"
-            case defaultValue = "DefaultValue"
-        }
-    }
-
-    public struct DeleteAnalysisSchemeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "AnalysisSchemeName", required: true, type: .string)
+            AWSShapeMember(label: "Deployed", required: false, type: .boolean)
         ]
-        public let domainName: String
-        /// The name of the analysis scheme you want to delete.
-        public let analysisSchemeName: String
-
-        public init(domainName: String, analysisSchemeName: String) {
-            self.domainName = domainName
-            self.analysisSchemeName = analysisSchemeName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "DomainName"
-            case analysisSchemeName = "AnalysisSchemeName"
-        }
-    }
-
-    public struct DescribeExpressionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Deployed", required: false, type: .boolean), 
-            AWSShapeMember(label: "ExpressionNames", required: false, type: .list), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string)
-        ]
-        /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
-        public let deployed: Bool?
-        /// Limits the DescribeExpressions response to the specified expressions. If not specified, all expressions are shown.
-        public let expressionNames: [String]?
         /// The name of the domain you want to describe.
         public let domainName: String
+        /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
+        public let deployed: Bool?
 
-        public init(deployed: Bool? = nil, expressionNames: [String]? = nil, domainName: String) {
-            self.deployed = deployed
-            self.expressionNames = expressionNames
+        public init(domainName: String, deployed: Bool? = nil) {
             self.domainName = domainName
+            self.deployed = deployed
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deployed = "Deployed"
-            case expressionNames = "ExpressionNames"
             case domainName = "DomainName"
+            case deployed = "Deployed"
         }
     }
 
-    public struct DefineIndexFieldResponse: AWSShape {
+    public struct SuggesterStatus: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IndexField", required: true, type: .structure)
+            AWSShapeMember(label: "Options", required: true, type: .structure), 
+            AWSShapeMember(label: "Status", required: true, type: .structure)
         ]
-        public let indexField: IndexFieldStatus
+        public let options: Suggester
+        public let status: OptionStatus
 
-        public init(indexField: IndexFieldStatus) {
-            self.indexField = indexField
+        public init(options: Suggester, status: OptionStatus) {
+            self.options = options
+            self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
-            case indexField = "IndexField"
+            case options = "Options"
+            case status = "Status"
         }
     }
 
-    public struct IntArrayOptions: AWSShape {
+    public struct AnalysisOptions: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "SearchEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "FacetEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "SourceFields", required: false, type: .string), 
-            AWSShapeMember(label: "DefaultValue", required: false, type: .long)
+            AWSShapeMember(label: "Synonyms", required: false, type: .string), 
+            AWSShapeMember(label: "AlgorithmicStemming", required: false, type: .enum), 
+            AWSShapeMember(label: "Stopwords", required: false, type: .string), 
+            AWSShapeMember(label: "StemmingDictionary", required: false, type: .string), 
+            AWSShapeMember(label: "JapaneseTokenizationDictionary", required: false, type: .string)
         ]
-        /// Whether the contents of the field can be returned in the search results.
-        public let returnEnabled: Bool?
-        /// Whether the contents of the field are searchable.
-        public let searchEnabled: Bool?
-        /// Whether facet information can be returned for the field.
-        public let facetEnabled: Bool?
-        /// A list of source fields to map to the field. 
-        public let sourceFields: String?
-        /// A value to use for the field if the field isn't specified for a document.
-        public let defaultValue: Int64?
+        /// A JSON object that defines synonym groups and aliases. A synonym group is an array of arrays, where each sub-array is a group of terms where each term in the group is considered a synonym of every other term in the group. The aliases value is an object that contains a collection of string:value pairs where the string specifies a term and the array of values specifies each of the aliases for that term. An alias is considered a synonym of the specified term, but the term is not considered a synonym of the alias. For more information about specifying synonyms, see Synonyms in the Amazon CloudSearch Developer Guide.
+        public let synonyms: String?
+        /// The level of algorithmic stemming to perform: none, minimal, light, or full. The available levels vary depending on the language. For more information, see Language Specific Text Processing Settings in the Amazon CloudSearch Developer Guide 
+        public let algorithmicStemming: AlgorithmicStemming?
+        /// A JSON array of terms to ignore during indexing and searching. For example, ["a", "an", "the", "of"]. The stopwords dictionary must explicitly list each word you want to ignore. Wildcards and regular expressions are not supported. 
+        public let stopwords: String?
+        /// A JSON object that contains a collection of string:value pairs that each map a term to its stem. For example, {"term1": "stem1", "term2": "stem2", "term3": "stem3"}. The stemming dictionary is applied in addition to any algorithmic stemming. This enables you to override the results of the algorithmic stemming to correct specific cases of overstemming or understemming. The maximum size of a stemming dictionary is 500 KB.
+        public let stemmingDictionary: String?
+        /// A JSON array that contains a collection of terms, tokens, readings and part of speech for Japanese Tokenizaiton. The Japanese tokenization dictionary enables you to override the default tokenization for selected terms. This is only valid for Japanese language fields.
+        public let japaneseTokenizationDictionary: String?
 
-        public init(returnEnabled: Bool? = nil, searchEnabled: Bool? = nil, facetEnabled: Bool? = nil, sourceFields: String? = nil, defaultValue: Int64? = nil) {
-            self.returnEnabled = returnEnabled
-            self.searchEnabled = searchEnabled
-            self.facetEnabled = facetEnabled
-            self.sourceFields = sourceFields
-            self.defaultValue = defaultValue
+        public init(synonyms: String? = nil, algorithmicStemming: AlgorithmicStemming? = nil, stopwords: String? = nil, stemmingDictionary: String? = nil, japaneseTokenizationDictionary: String? = nil) {
+            self.synonyms = synonyms
+            self.algorithmicStemming = algorithmicStemming
+            self.stopwords = stopwords
+            self.stemmingDictionary = stemmingDictionary
+            self.japaneseTokenizationDictionary = japaneseTokenizationDictionary
         }
 
         private enum CodingKeys: String, CodingKey {
-            case returnEnabled = "ReturnEnabled"
-            case searchEnabled = "SearchEnabled"
-            case facetEnabled = "FacetEnabled"
-            case sourceFields = "SourceFields"
-            case defaultValue = "DefaultValue"
-        }
-    }
-
-    public struct DoubleArrayOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "SearchEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "FacetEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "SourceFields", required: false, type: .string), 
-            AWSShapeMember(label: "DefaultValue", required: false, type: .double)
-        ]
-        /// Whether the contents of the field can be returned in the search results.
-        public let returnEnabled: Bool?
-        /// Whether the contents of the field are searchable.
-        public let searchEnabled: Bool?
-        /// Whether facet information can be returned for the field.
-        public let facetEnabled: Bool?
-        /// A list of source fields to map to the field. 
-        public let sourceFields: String?
-        /// A value to use for the field if the field isn't specified for a document.
-        public let defaultValue: Double?
-
-        public init(returnEnabled: Bool? = nil, searchEnabled: Bool? = nil, facetEnabled: Bool? = nil, sourceFields: String? = nil, defaultValue: Double? = nil) {
-            self.returnEnabled = returnEnabled
-            self.searchEnabled = searchEnabled
-            self.facetEnabled = facetEnabled
-            self.sourceFields = sourceFields
-            self.defaultValue = defaultValue
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case returnEnabled = "ReturnEnabled"
-            case searchEnabled = "SearchEnabled"
-            case facetEnabled = "FacetEnabled"
-            case sourceFields = "SourceFields"
-            case defaultValue = "DefaultValue"
-        }
-    }
-
-    public struct DoubleOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "SourceField", required: false, type: .string), 
-            AWSShapeMember(label: "SearchEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "SortEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "FacetEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "DefaultValue", required: false, type: .double)
-        ]
-        /// Whether the contents of the field can be returned in the search results.
-        public let returnEnabled: Bool?
-        /// The name of the source field to map to the field. 
-        public let sourceField: String?
-        /// Whether the contents of the field are searchable.
-        public let searchEnabled: Bool?
-        /// Whether the field can be used to sort the search results.
-        public let sortEnabled: Bool?
-        /// Whether facet information can be returned for the field.
-        public let facetEnabled: Bool?
-        /// A value to use for the field if the field isn't specified for a document. This can be important if you are using the field in an expression and that field is not present in every document.
-        public let defaultValue: Double?
-
-        public init(returnEnabled: Bool? = nil, sourceField: String? = nil, searchEnabled: Bool? = nil, sortEnabled: Bool? = nil, facetEnabled: Bool? = nil, defaultValue: Double? = nil) {
-            self.returnEnabled = returnEnabled
-            self.sourceField = sourceField
-            self.searchEnabled = searchEnabled
-            self.sortEnabled = sortEnabled
-            self.facetEnabled = facetEnabled
-            self.defaultValue = defaultValue
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case returnEnabled = "ReturnEnabled"
-            case sourceField = "SourceField"
-            case searchEnabled = "SearchEnabled"
-            case sortEnabled = "SortEnabled"
-            case facetEnabled = "FacetEnabled"
-            case defaultValue = "DefaultValue"
-        }
-    }
-
-    public struct AnalysisScheme: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AnalysisOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "AnalysisSchemeLanguage", required: true, type: .enum), 
-            AWSShapeMember(label: "AnalysisSchemeName", required: true, type: .string)
-        ]
-        public let analysisOptions: AnalysisOptions?
-        public let analysisSchemeLanguage: AnalysisSchemeLanguage
-        public let analysisSchemeName: String
-
-        public init(analysisOptions: AnalysisOptions? = nil, analysisSchemeLanguage: AnalysisSchemeLanguage, analysisSchemeName: String) {
-            self.analysisOptions = analysisOptions
-            self.analysisSchemeLanguage = analysisSchemeLanguage
-            self.analysisSchemeName = analysisSchemeName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case analysisOptions = "AnalysisOptions"
-            case analysisSchemeLanguage = "AnalysisSchemeLanguage"
-            case analysisSchemeName = "AnalysisSchemeName"
+            case synonyms = "Synonyms"
+            case algorithmicStemming = "AlgorithmicStemming"
+            case stopwords = "Stopwords"
+            case stemmingDictionary = "StemmingDictionary"
+            case japaneseTokenizationDictionary = "JapaneseTokenizationDictionary"
         }
     }
 
@@ -1730,108 +1731,107 @@ extension CloudSearch {
         }
     }
 
-    public struct CreateDomainRequest: AWSShape {
+    public struct DeleteIndexFieldResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainName", required: true, type: .string)
+            AWSShapeMember(label: "IndexField", required: true, type: .structure)
         ]
-        /// A name for the domain you are creating. Allowed characters are a-z (lower-case letters), 0-9, and hyphen (-). Domain names must start with a letter or number and be at least 3 and no more than 28 characters long.
-        public let domainName: String
+        /// The status of the index field being deleted.
+        public let indexField: IndexFieldStatus
 
-        public init(domainName: String) {
-            self.domainName = domainName
+        public init(indexField: IndexFieldStatus) {
+            self.indexField = indexField
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainName = "DomainName"
+            case indexField = "IndexField"
         }
     }
 
-    public struct TextOptions: AWSShape {
+    public struct LiteralArrayOptions: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "SourceField", required: false, type: .string), 
-            AWSShapeMember(label: "SortEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "HighlightEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "AnalysisScheme", required: false, type: .string), 
-            AWSShapeMember(label: "DefaultValue", required: false, type: .string)
+            AWSShapeMember(label: "SearchEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SourceFields", required: false, type: .string), 
+            AWSShapeMember(label: "FacetEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "DefaultValue", required: false, type: .string), 
+            AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean)
         ]
-        /// Whether the contents of the field can be returned in the search results.
-        public let returnEnabled: Bool?
-        public let sourceField: String?
-        /// Whether the field can be used to sort the search results.
-        public let sortEnabled: Bool?
-        /// Whether highlights can be returned for the field.
-        public let highlightEnabled: Bool?
-        /// The name of an analysis scheme for a text field.
-        public let analysisScheme: String?
+        /// Whether the contents of the field are searchable.
+        public let searchEnabled: Bool?
+        /// A list of source fields to map to the field. 
+        public let sourceFields: String?
+        /// Whether facet information can be returned for the field.
+        public let facetEnabled: Bool?
         /// A value to use for the field if the field isn't specified for a document.
         public let defaultValue: String?
+        /// Whether the contents of the field can be returned in the search results.
+        public let returnEnabled: Bool?
 
-        public init(returnEnabled: Bool? = nil, sourceField: String? = nil, sortEnabled: Bool? = nil, highlightEnabled: Bool? = nil, analysisScheme: String? = nil, defaultValue: String? = nil) {
-            self.returnEnabled = returnEnabled
-            self.sourceField = sourceField
-            self.sortEnabled = sortEnabled
-            self.highlightEnabled = highlightEnabled
-            self.analysisScheme = analysisScheme
+        public init(searchEnabled: Bool? = nil, sourceFields: String? = nil, facetEnabled: Bool? = nil, defaultValue: String? = nil, returnEnabled: Bool? = nil) {
+            self.searchEnabled = searchEnabled
+            self.sourceFields = sourceFields
+            self.facetEnabled = facetEnabled
             self.defaultValue = defaultValue
+            self.returnEnabled = returnEnabled
         }
 
         private enum CodingKeys: String, CodingKey {
-            case returnEnabled = "ReturnEnabled"
-            case sourceField = "SourceField"
-            case sortEnabled = "SortEnabled"
-            case highlightEnabled = "HighlightEnabled"
-            case analysisScheme = "AnalysisScheme"
+            case searchEnabled = "SearchEnabled"
+            case sourceFields = "SourceFields"
+            case facetEnabled = "FacetEnabled"
             case defaultValue = "DefaultValue"
+            case returnEnabled = "ReturnEnabled"
         }
     }
 
-    public struct DefineExpressionRequest: AWSShape {
+    public struct ListDomainNamesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainNames", required: false, type: .map)
+        ]
+        /// The names of the search domains owned by an account.
+        public let domainNames: [String: String]?
+
+        public init(domainNames: [String: String]? = nil) {
+            self.domainNames = domainNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainNames = "DomainNames"
+        }
+    }
+
+    public struct DeleteIndexFieldRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "Expression", required: true, type: .structure)
+            AWSShapeMember(label: "IndexFieldName", required: true, type: .string)
         ]
         public let domainName: String
-        public let expression: Expression
+        /// The name of the index field your want to remove from the domain's indexing options.
+        public let indexFieldName: String
 
-        public init(domainName: String, expression: Expression) {
+        public init(domainName: String, indexFieldName: String) {
             self.domainName = domainName
-            self.expression = expression
+            self.indexFieldName = indexFieldName
         }
 
         private enum CodingKeys: String, CodingKey {
             case domainName = "DomainName"
-            case expression = "Expression"
+            case indexFieldName = "IndexFieldName"
         }
     }
 
-    public struct DefineAnalysisSchemeResponse: AWSShape {
+    public struct DescribeSuggestersResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AnalysisScheme", required: true, type: .structure)
+            AWSShapeMember(label: "Suggesters", required: true, type: .list)
         ]
-        public let analysisScheme: AnalysisSchemeStatus
+        /// The suggesters configured for the domain specified in the request.
+        public let suggesters: [SuggesterStatus]
 
-        public init(analysisScheme: AnalysisSchemeStatus) {
-            self.analysisScheme = analysisScheme
+        public init(suggesters: [SuggesterStatus]) {
+            self.suggesters = suggesters
         }
 
         private enum CodingKeys: String, CodingKey {
-            case analysisScheme = "AnalysisScheme"
-        }
-    }
-
-    public struct UpdateScalingParametersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScalingParameters", required: true, type: .structure)
-        ]
-        public let scalingParameters: ScalingParametersStatus
-
-        public init(scalingParameters: ScalingParametersStatus) {
-            self.scalingParameters = scalingParameters
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case scalingParameters = "ScalingParameters"
+            case suggesters = "Suggesters"
         }
     }
 

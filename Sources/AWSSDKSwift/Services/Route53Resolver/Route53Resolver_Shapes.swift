@@ -5,8 +5,162 @@ import AWSSDKSwiftCore
 
 extension Route53Resolver {
 
-    public struct TagResourceResponse: AWSShape {
+    public struct AssociateResolverEndpointIpAddressResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResolverEndpoint", required: false, type: .structure)
+        ]
+        /// The response to an AssociateResolverEndpointIpAddress request.
+        public let resolverEndpoint: ResolverEndpoint?
 
+        public init(resolverEndpoint: ResolverEndpoint? = nil) {
+            self.resolverEndpoint = resolverEndpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resolverEndpoint = "ResolverEndpoint"
+        }
+    }
+
+    public struct ListResolverRulesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .list)
+        ]
+        /// The maximum number of resolver rules that you want to return in the response to a ListResolverRules request. If you don't specify a value for MaxResults, Resolver returns up to 100 resolver rules.
+        public let maxResults: Int32?
+        /// For the first ListResolverRules request, omit this value. If you have more than MaxResults resolver rules, you can submit another ListResolverRules request to get the next group of resolver rules. In the next request, specify the value of NextToken from the previous response. 
+        public let nextToken: String?
+        /// An optional specification to return a subset of resolver rules, such as all resolver rules that are associated with the same resolver endpoint.  If you submit a second or subsequent ListResolverRules request and specify the NextToken parameter, you must use the same values for Filters, if any, as in the previous request. 
+        public let filters: [Filter]?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, filters: [Filter]? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.filters = filters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case filters = "Filters"
+        }
+    }
+
+    public struct PutResolverRulePolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResolverRulePolicy", required: true, type: .string), 
+            AWSShapeMember(label: "Arn", required: true, type: .string)
+        ]
+        /// An AWS Identity and Access Management policy statement that lists the permissions that you want to grant to another AWS account.
+        public let resolverRulePolicy: String
+        /// The Amazon Resource Name (ARN) of the account that you want to grant permissions to.
+        public let arn: String
+
+        public init(resolverRulePolicy: String, arn: String) {
+            self.resolverRulePolicy = resolverRulePolicy
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resolverRulePolicy = "ResolverRulePolicy"
+            case arn = "Arn"
+        }
+    }
+
+    public struct ListTagsForResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) for the resource that you want to list tags for.
+        public let resourceArn: String
+        /// The maximum number of tags that you want to return in the response to a ListTagsForResource request. If you don't specify a value for MaxResults, Resolver returns up to 100 tags.
+        public let maxResults: Int32?
+        /// For the first ListTagsForResource request, omit this value. If you have more than MaxResults tags, you can submit another ListTagsForResource request to get the next group of tags for the resource. In the next request, specify the value of NextToken from the previous response. 
+        public let nextToken: String?
+
+        public init(resourceArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.resourceArn = resourceArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DeleteResolverEndpointRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResolverEndpointId", required: true, type: .string)
+        ]
+        /// The ID of the resolver endpoint that you want to delete.
+        public let resolverEndpointId: String
+
+        public init(resolverEndpointId: String) {
+            self.resolverEndpointId = resolverEndpointId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resolverEndpointId = "ResolverEndpointId"
+        }
+    }
+
+    public struct IpAddressRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetId", required: true, type: .string), 
+            AWSShapeMember(label: "Ip", required: false, type: .string)
+        ]
+        /// The subnet that contains the IP address.
+        public let subnetId: String
+        /// The IP address that you want to use for DNS queries.
+        public let ip: String?
+
+        public init(subnetId: String, ip: String? = nil) {
+            self.subnetId = subnetId
+            self.ip = ip
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subnetId = "SubnetId"
+            case ip = "Ip"
+        }
+    }
+
+    public struct CreateResolverRuleResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResolverRule", required: false, type: .structure)
+        ]
+        /// Information about the CreateResolverRule request, including the status of the request.
+        public let resolverRule: ResolverRule?
+
+        public init(resolverRule: ResolverRule? = nil) {
+            self.resolverRule = resolverRule
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resolverRule = "ResolverRule"
+        }
+    }
+
+    public struct DeleteResolverEndpointResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResolverEndpoint", required: false, type: .structure)
+        ]
+        /// Information about the DeleteResolverEndpoint request, including the status of the request.
+        public let resolverEndpoint: ResolverEndpoint?
+
+        public init(resolverEndpoint: ResolverEndpoint? = nil) {
+            self.resolverEndpoint = resolverEndpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resolverEndpoint = "ResolverEndpoint"
+        }
     }
 
     public enum ShareStatus: String, CustomStringConvertible, Codable {
@@ -16,29 +170,215 @@ extension Route53Resolver {
         public var description: String { return self.rawValue }
     }
 
-    public struct ListResolverEndpointsRequest: AWSShape {
+    public struct DisassociateResolverEndpointIpAddressResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResolverEndpoint", required: false, type: .structure)
+        ]
+        /// The response to an DisassociateResolverEndpointIpAddress request.
+        public let resolverEndpoint: ResolverEndpoint?
+
+        public init(resolverEndpoint: ResolverEndpoint? = nil) {
+            self.resolverEndpoint = resolverEndpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resolverEndpoint = "ResolverEndpoint"
+        }
+    }
+
+    public struct CreateResolverRuleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetIps", required: false, type: .list), 
+            AWSShapeMember(label: "CreatorRequestId", required: true, type: .string), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "ResolverEndpointId", required: false, type: .string), 
+            AWSShapeMember(label: "RuleType", required: true, type: .enum), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// The IPs that you want Resolver to forward DNS queries to. You can specify only IPv4 addresses. Separate IP addresses with a comma.
+        public let targetIps: [TargetAddress]?
+        /// A unique string that identifies the request and that allows failed requests to be retried without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. 
+        public let creatorRequestId: String
+        /// DNS queries for this domain name are forwarded to the IP addresses that you specify in TargetIps. If a query matches multiple resolver rules (example.com and www.example.com), outbound DNS queries are routed using the resolver rule that contains the most specific domain name (www.example.com).
+        public let domainName: String
+        /// The ID of the outbound resolver endpoint that you want to use to route DNS queries to the IP addresses that you specify in TargetIps.
+        public let resolverEndpointId: String?
+        /// Specify FORWARD. Other resolver rule types aren't supported.
+        public let ruleType: RuleTypeOption
+        /// A list of the tag keys and values that you want to associate with the endpoint.
+        public let tags: [Tag]?
+        /// A friendly name that lets you easily find a rule in the Resolver dashboard in the Route 53 console.
+        public let name: String?
+
+        public init(targetIps: [TargetAddress]? = nil, creatorRequestId: String, domainName: String, resolverEndpointId: String? = nil, ruleType: RuleTypeOption, tags: [Tag]? = nil, name: String? = nil) {
+            self.targetIps = targetIps
+            self.creatorRequestId = creatorRequestId
+            self.domainName = domainName
+            self.resolverEndpointId = resolverEndpointId
+            self.ruleType = ruleType
+            self.tags = tags
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetIps = "TargetIps"
+            case creatorRequestId = "CreatorRequestId"
+            case domainName = "DomainName"
+            case resolverEndpointId = "ResolverEndpointId"
+            case ruleType = "RuleType"
+            case tags = "Tags"
+            case name = "Name"
+        }
+    }
+
+    public enum ResolverEndpointDirection: String, CustomStringConvertible, Codable {
+        case inbound = "INBOUND"
+        case outbound = "OUTBOUND"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetResolverRuleResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResolverRule", required: false, type: .structure)
+        ]
+        /// Information about the resolver rule that you specified in a GetResolverRule request.
+        public let resolverRule: ResolverRule?
+
+        public init(resolverRule: ResolverRule? = nil) {
+            self.resolverRule = resolverRule
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resolverRule = "ResolverRule"
+        }
+    }
+
+    public enum ResolverRuleAssociationStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case complete = "COMPLETE"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case overridden = "OVERRIDDEN"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct IpAddressResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
+            AWSShapeMember(label: "Ip", required: false, type: .string), 
+            AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .string), 
+            AWSShapeMember(label: "IpId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "ModificationTime", required: false, type: .string)
+        ]
+        /// The ID of one subnet.
+        public let subnetId: String?
+        /// One IP address that the resolver endpoint uses for DNS queries.
+        public let ip: String?
+        /// A message that provides additional information about the status of the request.
+        public let statusMessage: String?
+        /// The date and time that the IP address was created, in Unix time format and Coordinated Universal Time (UTC).
+        public let creationTime: String?
+        /// The ID of one IP address.
+        public let ipId: String?
+        /// A status code that gives the current status of the request.
+        public let status: IpAddressStatus?
+        /// The date and time that the IP address was last modified, in Unix time format and Coordinated Universal Time (UTC).
+        public let modificationTime: String?
+
+        public init(subnetId: String? = nil, ip: String? = nil, statusMessage: String? = nil, creationTime: String? = nil, ipId: String? = nil, status: IpAddressStatus? = nil, modificationTime: String? = nil) {
+            self.subnetId = subnetId
+            self.ip = ip
+            self.statusMessage = statusMessage
+            self.creationTime = creationTime
+            self.ipId = ipId
+            self.status = status
+            self.modificationTime = modificationTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subnetId = "SubnetId"
+            case ip = "Ip"
+            case statusMessage = "StatusMessage"
+            case creationTime = "CreationTime"
+            case ipId = "IpId"
+            case status = "Status"
+            case modificationTime = "ModificationTime"
+        }
+    }
+
+    public struct ResolverRuleConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetIps", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "ResolverEndpointId", required: false, type: .string)
+        ]
+        /// For DNS queries that originate in your VPC, the new IP addresses that you want to route outbound DNS queries to.
+        public let targetIps: [TargetAddress]?
+        /// The new name for the resolver rule. The name that you specify appears in the Resolver dashboard in the Route 53 console. 
+        public let name: String?
+        /// The ID of the new outbound resolver endpoint that you want to use to route DNS queries to the IP addresses that you specify in TargetIps.
+        public let resolverEndpointId: String?
+
+        public init(targetIps: [TargetAddress]? = nil, name: String? = nil, resolverEndpointId: String? = nil) {
+            self.targetIps = targetIps
+            self.name = name
+            self.resolverEndpointId = resolverEndpointId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetIps = "TargetIps"
+            case name = "Name"
+            case resolverEndpointId = "ResolverEndpointId"
+        }
+    }
+
+    public struct ListResolverEndpointIpAddressesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "IpAddresses", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The maximum number of resolver endpoints that you want to return in the response to a ListResolverEndpoints request. If you don't specify a value for MaxResults, Resolver returns up to 100 resolver endpoints. 
+        /// The value that you specified for MaxResults in the request.
         public let maxResults: Int32?
-        /// An optional specification to return a subset of resolver endpoints, such as all inbound resolver endpoints.  If you submit a second or subsequent ListResolverEndpoints request and specify the NextToken parameter, you must use the same values for Filters, if any, as in the previous request. 
-        public let filters: [Filter]?
-        /// For the first ListResolverEndpoints request, omit this value. If you have more than MaxResults resolver endpoints, you can submit another ListResolverEndpoints request to get the next group of resolver endpoints. In the next request, specify the value of NextToken from the previous response. 
+        /// The IP addresses that DNS queries pass through on their way to your network (outbound endpoint) or on the way to Resolver (inbound endpoint).
+        public let ipAddresses: [IpAddressResponse]?
+        /// If the specified endpoint has more than MaxResults IP addresses, you can submit another ListResolverEndpointIpAddresses request to get the next group of IP addresses. In the next request, specify the value of NextToken from the previous response. 
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, filters: [Filter]? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int32? = nil, ipAddresses: [IpAddressResponse]? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
-            self.filters = filters
+            self.ipAddresses = ipAddresses
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
-            case filters = "Filters"
+            case ipAddresses = "IpAddresses"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct DisassociateResolverEndpointIpAddressRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResolverEndpointId", required: true, type: .string), 
+            AWSShapeMember(label: "IpAddress", required: true, type: .structure)
+        ]
+        /// The ID of the resolver endpoint that you want to disassociate an IP address from.
+        public let resolverEndpointId: String
+        /// The IPv4 address that you want to remove from a resolver endpoint.
+        public let ipAddress: IpAddressUpdate
+
+        public init(resolverEndpointId: String, ipAddress: IpAddressUpdate) {
+            self.resolverEndpointId = resolverEndpointId
+            self.ipAddress = ipAddress
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resolverEndpointId = "ResolverEndpointId"
+            case ipAddress = "IpAddress"
         }
     }
 
@@ -63,58 +403,404 @@ extension Route53Resolver {
         }
     }
 
-    public struct AssociateResolverEndpointIpAddressRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolverEndpointId", required: true, type: .string), 
-            AWSShapeMember(label: "IpAddress", required: true, type: .structure)
-        ]
-        /// The ID of the resolver endpoint that you want to associate IP addresses with.
-        public let resolverEndpointId: String
-        /// Either the IPv4 address that you want to add to a resolver endpoint or a subnet ID. If you specify a subnet ID, Resolver chooses an IP address for you from the available IPs in the specified subnet.
-        public let ipAddress: IpAddressUpdate
+    public struct UntagResourceResponse: AWSShape {
 
-        public init(resolverEndpointId: String, ipAddress: IpAddressUpdate) {
+    }
+
+    public struct TagResourceResponse: AWSShape {
+
+    }
+
+    public struct TargetAddress: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Port", required: false, type: .integer), 
+            AWSShapeMember(label: "Ip", required: true, type: .string)
+        ]
+        /// The port at Ip that you want to forward DNS queries to.
+        public let port: Int32?
+        /// One IP address that you want to forward DNS queries to. You can specify only IPv4 addresses.
+        public let ip: String
+
+        public init(port: Int32? = nil, ip: String) {
+            self.port = port
+            self.ip = ip
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case port = "Port"
+            case ip = "Ip"
+        }
+    }
+
+    public struct IpAddressUpdate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IpId", required: false, type: .string), 
+            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
+            AWSShapeMember(label: "Ip", required: false, type: .string)
+        ]
+        ///  Only when removing an IP address from a resolver endpoint: The ID of the IP address that you want to remove. To get this ID, use GetResolverEndpoint.
+        public let ipId: String?
+        /// The ID of the subnet that includes the IP address that you want to update. To get this ID, use GetResolverEndpoint.
+        public let subnetId: String?
+        /// The new IP address.
+        public let ip: String?
+
+        public init(ipId: String? = nil, subnetId: String? = nil, ip: String? = nil) {
+            self.ipId = ipId
+            self.subnetId = subnetId
+            self.ip = ip
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipId = "IpId"
+            case subnetId = "SubnetId"
+            case ip = "Ip"
+        }
+    }
+
+    public struct UpdateResolverEndpointResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResolverEndpoint", required: false, type: .structure)
+        ]
+        /// The response to an UpdateResolverEndpoint request.
+        public let resolverEndpoint: ResolverEndpoint?
+
+        public init(resolverEndpoint: ResolverEndpoint? = nil) {
+            self.resolverEndpoint = resolverEndpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resolverEndpoint = "ResolverEndpoint"
+        }
+    }
+
+    public struct GetResolverEndpointRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResolverEndpointId", required: true, type: .string)
+        ]
+        /// The ID of the resolver endpoint that you want to get information about.
+        public let resolverEndpointId: String
+
+        public init(resolverEndpointId: String) {
             self.resolverEndpointId = resolverEndpointId
-            self.ipAddress = ipAddress
         }
 
         private enum CodingKeys: String, CodingKey {
             case resolverEndpointId = "ResolverEndpointId"
-            case ipAddress = "IpAddress"
         }
     }
 
-    public struct ListResolverEndpointIpAddressesResponse: AWSShape {
+    public struct GetResolverRuleAssociationResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "IpAddresses", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+            AWSShapeMember(label: "ResolverRuleAssociation", required: false, type: .structure)
         ]
-        /// If the specified endpoint has more than MaxResults IP addresses, you can submit another ListResolverEndpointIpAddresses request to get the next group of IP addresses. In the next request, specify the value of NextToken from the previous response. 
-        public let nextToken: String?
-        /// The IP addresses that DNS queries pass through on their way to your network (outbound endpoint) or on the way to Resolver (inbound endpoint).
-        public let ipAddresses: [IpAddressResponse]?
-        /// The value that you specified for MaxResults in the request.
-        public let maxResults: Int32?
+        /// Information about the resolver rule association that you specified in a GetResolverRuleAssociation request.
+        public let resolverRuleAssociation: ResolverRuleAssociation?
 
-        public init(nextToken: String? = nil, ipAddresses: [IpAddressResponse]? = nil, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.ipAddresses = ipAddresses
-            self.maxResults = maxResults
+        public init(resolverRuleAssociation: ResolverRuleAssociation? = nil) {
+            self.resolverRuleAssociation = resolverRuleAssociation
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case ipAddresses = "IpAddresses"
-            case maxResults = "MaxResults"
+            case resolverRuleAssociation = "ResolverRuleAssociation"
         }
     }
 
-    public struct GetResolverRuleResponse: AWSShape {
+    public struct ResolverRuleAssociation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResolverRuleId", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "VPCId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+        /// The ID of the resolver rule that you associated with the VPC that is specified by VPCId.
+        public let resolverRuleId: String?
+        /// The name of an association between a resolver rule and a VPC.
+        public let name: String?
+        /// A detailed description of the status of the association between a resolver rule and a VPC.
+        public let statusMessage: String?
+        /// The ID of the association between a resolver rule and a VPC. Resolver assigns this value when you submit an AssociateResolverRule request.
+        public let id: String?
+        /// The ID of the VPC that you associated the resolver rule with.
+        public let vPCId: String?
+        /// A code that specifies the current status of the association between a resolver rule and a VPC.
+        public let status: ResolverRuleAssociationStatus?
+
+        public init(resolverRuleId: String? = nil, name: String? = nil, statusMessage: String? = nil, id: String? = nil, vPCId: String? = nil, status: ResolverRuleAssociationStatus? = nil) {
+            self.resolverRuleId = resolverRuleId
+            self.name = name
+            self.statusMessage = statusMessage
+            self.id = id
+            self.vPCId = vPCId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resolverRuleId = "ResolverRuleId"
+            case name = "Name"
+            case statusMessage = "StatusMessage"
+            case id = "Id"
+            case vPCId = "VPCId"
+            case status = "Status"
+        }
+    }
+
+    public struct AssociateResolverRuleResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResolverRuleAssociation", required: false, type: .structure)
+        ]
+        /// Information about the AssociateResolverRule request, including the status of the request.
+        public let resolverRuleAssociation: ResolverRuleAssociation?
+
+        public init(resolverRuleAssociation: ResolverRuleAssociation? = nil) {
+            self.resolverRuleAssociation = resolverRuleAssociation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resolverRuleAssociation = "ResolverRuleAssociation"
+        }
+    }
+
+    public struct ListResolverRulesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "ResolverRules", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The value that you specified for MaxResults in the request.
+        public let maxResults: Int32?
+        /// The resolver rules that were created using the current AWS account and that match the specified filters, if any.
+        public let resolverRules: [ResolverRule]?
+        /// If more than MaxResults resolver rules match the specified criteria, you can submit another ListResolverRules request to get the next group of results. In the next request, specify the value of NextToken from the previous response. 
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, resolverRules: [ResolverRule]? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.resolverRules = resolverRules
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case resolverRules = "ResolverRules"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListResolverEndpointsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ResolverEndpoints", required: false, type: .list)
+        ]
+        /// The value that you specified for MaxResults in the request.
+        public let maxResults: Int32?
+        /// If more than MaxResults IP addresses match the specified criteria, you can submit another ListResolverEndpoint request to get the next group of results. In the next request, specify the value of NextToken from the previous response. 
+        public let nextToken: String?
+        /// The resolver endpoints that were created by using the current AWS account, and that match the specified filters, if any.
+        public let resolverEndpoints: [ResolverEndpoint]?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, resolverEndpoints: [ResolverEndpoint]? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resolverEndpoints = resolverEndpoints
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case resolverEndpoints = "ResolverEndpoints"
+        }
+    }
+
+    public enum ResolverRuleStatus: String, CustomStringConvertible, Codable {
+        case complete = "COMPLETE"
+        case deleting = "DELETING"
+        case updating = "UPDATING"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IpAddressStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case failedCreation = "FAILED_CREATION"
+        case attaching = "ATTACHING"
+        case attached = "ATTACHED"
+        case remapDetaching = "REMAP_DETACHING"
+        case remapAttaching = "REMAP_ATTACHING"
+        case detaching = "DETACHING"
+        case failedResourceGone = "FAILED_RESOURCE_GONE"
+        case deleting = "DELETING"
+        case deleteFailedFasExpired = "DELETE_FAILED_FAS_EXPIRED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CreateResolverEndpointResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResolverEndpoint", required: false, type: .structure)
+        ]
+        /// Information about the CreateResolverEndpoint request, including the status of the request.
+        public let resolverEndpoint: ResolverEndpoint?
+
+        public init(resolverEndpoint: ResolverEndpoint? = nil) {
+            self.resolverEndpoint = resolverEndpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resolverEndpoint = "ResolverEndpoint"
+        }
+    }
+
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+        /// The name for the tag. For example, if you want to associate Resolver resources with the account IDs of your customers for billing purposes, the value of Key might be account-id.
+        public let key: String?
+        /// The value for the tag. For example, if Key is account-id, then Value might be the ID of the customer account that you're creating the resource for.
+        public let value: String?
+
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct ListResolverEndpointsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .list)
+        ]
+        /// The maximum number of resolver endpoints that you want to return in the response to a ListResolverEndpoints request. If you don't specify a value for MaxResults, Resolver returns up to 100 resolver endpoints. 
+        public let maxResults: Int32?
+        /// For the first ListResolverEndpoints request, omit this value. If you have more than MaxResults resolver endpoints, you can submit another ListResolverEndpoints request to get the next group of resolver endpoints. In the next request, specify the value of NextToken from the previous response. 
+        public let nextToken: String?
+        /// An optional specification to return a subset of resolver endpoints, such as all inbound resolver endpoints.  If you submit a second or subsequent ListResolverEndpoints request and specify the NextToken parameter, you must use the same values for Filters, if any, as in the previous request. 
+        public let filters: [Filter]?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, filters: [Filter]? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.filters = filters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case filters = "Filters"
+        }
+    }
+
+    public struct GetResolverRuleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResolverRuleId", required: true, type: .string)
+        ]
+        /// The ID of the resolver rule that you want to get information about.
+        public let resolverRuleId: String
+
+        public init(resolverRuleId: String) {
+            self.resolverRuleId = resolverRuleId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resolverRuleId = "ResolverRuleId"
+        }
+    }
+
+    public struct Filter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Values", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// When you're using a List operation and you want the operation to return a subset of objects, such as resolver endpoints or resolver rules, the value of the parameter that you want to use to filter objects. For example, to list only inbound resolver endpoints, specify INBOUND for the value of Values.
+        public let values: [String]?
+        /// When you're using a List operation and you want the operation to return a subset of objects, such as resolver endpoints or resolver rules, the name of the parameter that you want to use to filter objects. For example, to list only inbound resolver endpoints, specify Direction for the value of Name.
+        public let name: String?
+
+        public init(values: [String]? = nil, name: String? = nil) {
+            self.values = values
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case values = "Values"
+            case name = "Name"
+        }
+    }
+
+    public enum RuleTypeOption: String, CustomStringConvertible, Codable {
+        case forward = "FORWARD"
+        case system = "SYSTEM"
+        case recursive = "RECURSIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListResolverRuleAssociationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .list)
+        ]
+        /// The maximum number of rule associations that you want to return in the response to a ListResolverRuleAssociations request. If you don't specify a value for MaxResults, Resolver returns up to 100 rule associations. 
+        public let maxResults: Int32?
+        /// For the first ListResolverRuleAssociation request, omit this value. If you have more than MaxResults rule associations, you can submit another ListResolverRuleAssociation request to get the next group of rule associations. In the next request, specify the value of NextToken from the previous response. 
+        public let nextToken: String?
+        /// An optional specification to return a subset of resolver rules, such as resolver rules that are associated with the same VPC ID.  If you submit a second or subsequent ListResolverRuleAssociations request and specify the NextToken parameter, you must use the same values for Filters, if any, as in the previous request. 
+        public let filters: [Filter]?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, filters: [Filter]? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.filters = filters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case filters = "Filters"
+        }
+    }
+
+    public struct ListResolverEndpointIpAddressesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "ResolverEndpointId", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The maximum number of IP addresses that you want to return in the response to a ListResolverEndpointIpAddresses request. If you don't specify a value for MaxResults, Resolver returns up to 100 IP addresses. 
+        public let maxResults: Int32?
+        /// The ID of the resolver endpoint that you want to get IP addresses for.
+        public let resolverEndpointId: String
+        /// For the first ListResolverEndpointIpAddresses request, omit this value. If the specified resolver endpoint has more than MaxResults IP addresses, you can submit another ListResolverEndpointIpAddresses request to get the next group of IP addresses. In the next request, specify the value of NextToken from the previous response. 
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, resolverEndpointId: String, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.resolverEndpointId = resolverEndpointId
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case resolverEndpointId = "ResolverEndpointId"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct UpdateResolverRuleResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResolverRule", required: false, type: .structure)
         ]
-        /// Information about the resolver rule that you specified in a GetResolverRule request.
+        /// The response to an UpdateResolverRule request.
         public let resolverRule: ResolverRule?
 
         public init(resolverRule: ResolverRule? = nil) {
@@ -123,6 +809,89 @@ extension Route53Resolver {
 
         private enum CodingKeys: String, CodingKey {
             case resolverRule = "ResolverRule"
+        }
+    }
+
+    public struct ListResolverRuleAssociationsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResolverRuleAssociations", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The associations that were created between resolver rules and VPCs using the current AWS account, and that match the specified filters, if any.
+        public let resolverRuleAssociations: [ResolverRuleAssociation]?
+        /// The value that you specified for MaxResults in the request.
+        public let maxResults: Int32?
+        /// If more than MaxResults rule associations match the specified criteria, you can submit another ListResolverRuleAssociation request to get the next group of results. In the next request, specify the value of NextToken from the previous response. 
+        public let nextToken: String?
+
+        public init(resolverRuleAssociations: [ResolverRuleAssociation]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.resolverRuleAssociations = resolverRuleAssociations
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resolverRuleAssociations = "ResolverRuleAssociations"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DeleteResolverRuleResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResolverRule", required: false, type: .structure)
+        ]
+        /// Information about the DeleteResolverRule request, including the status of the request.
+        public let resolverRule: ResolverRule?
+
+        public init(resolverRule: ResolverRule? = nil) {
+            self.resolverRule = resolverRule
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resolverRule = "ResolverRule"
+        }
+    }
+
+    public struct CreateResolverEndpointRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SecurityGroupIds", required: true, type: .list), 
+            AWSShapeMember(label: "IpAddresses", required: true, type: .list), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "CreatorRequestId", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "Direction", required: true, type: .enum)
+        ]
+        /// The ID of one or more security groups that you want to use to control access to this VPC. The security group that you specify must include one or more inbound rules (for inbound resolver endpoints) or outbound rules (for outbound resolver endpoints).
+        public let securityGroupIds: [String]
+        /// The subnets and IP addresses in your VPC that you want DNS queries to pass through on the way from your VPCs to your network (for outbound endpoints) or on the way from your network to your VPCs (for inbound resolver endpoints). 
+        public let ipAddresses: [IpAddressRequest]
+        /// A friendly name that lets you easily find a configuration in the Resolver dashboard in the Route 53 console.
+        public let name: String?
+        /// A unique string that identifies the request and that allows failed requests to be retried without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. 
+        public let creatorRequestId: String
+        /// A list of the tag keys and values that you want to associate with the endpoint.
+        public let tags: [Tag]?
+        /// Specify the applicable value:    INBOUND: Resolver forwards DNS queries to the DNS service for a VPC from your network or another VPC    OUTBOUND: Resolver forwards DNS queries from the DNS service for a VPC to your network or another VPC  
+        public let direction: ResolverEndpointDirection
+
+        public init(securityGroupIds: [String], ipAddresses: [IpAddressRequest], name: String? = nil, creatorRequestId: String, tags: [Tag]? = nil, direction: ResolverEndpointDirection) {
+            self.securityGroupIds = securityGroupIds
+            self.ipAddresses = ipAddresses
+            self.name = name
+            self.creatorRequestId = creatorRequestId
+            self.tags = tags
+            self.direction = direction
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityGroupIds = "SecurityGroupIds"
+            case ipAddresses = "IpAddresses"
+            case name = "Name"
+            case creatorRequestId = "CreatorRequestId"
+            case tags = "Tags"
+            case direction = "Direction"
         }
     }
 
@@ -147,124 +916,32 @@ extension Route53Resolver {
         }
     }
 
-    public struct IpAddressResponse: AWSShape {
+    public struct TagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ModificationTime", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .string), 
-            AWSShapeMember(label: "IpId", required: false, type: .string), 
-            AWSShapeMember(label: "Ip", required: false, type: .string), 
-            AWSShapeMember(label: "StatusMessage", required: false, type: .string)
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
-        /// The date and time that the IP address was last modified, in Unix time format and Coordinated Universal Time (UTC).
-        public let modificationTime: String?
-        /// A status code that gives the current status of the request.
-        public let status: IpAddressStatus?
-        /// The ID of one subnet.
-        public let subnetId: String?
-        /// The date and time that the IP address was created, in Unix time format and Coordinated Universal Time (UTC).
-        public let creationTime: String?
-        /// The ID of one IP address.
-        public let ipId: String?
-        /// One IP address that the resolver endpoint uses for DNS queries.
-        public let ip: String?
-        /// A message that provides additional information about the status of the request.
-        public let statusMessage: String?
+        /// The Amazon Resource Name (ARN) for the resource that you want to add tags to. To get the ARN for a resource, use the applicable Get or List command:     GetResolverEndpoint     GetResolverRule     GetResolverRuleAssociation     ListResolverEndpoints     ListResolverRuleAssociations     ListResolverRules   
+        public let resourceArn: String
+        /// The tags that you want to add to the specified resource.
+        public let tags: [Tag]
 
-        public init(modificationTime: String? = nil, status: IpAddressStatus? = nil, subnetId: String? = nil, creationTime: String? = nil, ipId: String? = nil, ip: String? = nil, statusMessage: String? = nil) {
-            self.modificationTime = modificationTime
-            self.status = status
-            self.subnetId = subnetId
-            self.creationTime = creationTime
-            self.ipId = ipId
-            self.ip = ip
-            self.statusMessage = statusMessage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case modificationTime = "ModificationTime"
-            case status = "Status"
-            case subnetId = "SubnetId"
-            case creationTime = "CreationTime"
-            case ipId = "IpId"
-            case ip = "Ip"
-            case statusMessage = "StatusMessage"
-        }
-    }
-
-    public struct CreateResolverEndpointRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IpAddresses", required: true, type: .list), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Direction", required: true, type: .enum), 
-            AWSShapeMember(label: "SecurityGroupIds", required: true, type: .list), 
-            AWSShapeMember(label: "CreatorRequestId", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
-        /// The subnets and IP addresses in your VPC that you want DNS queries to pass through on the way from your VPCs to your network (for outbound endpoints) or on the way from your network to your VPCs (for inbound resolver endpoints). 
-        public let ipAddresses: [IpAddressRequest]
-        /// A friendly name that lets you easily find a configuration in the Resolver dashboard in the Route 53 console.
-        public let name: String?
-        /// Specify the applicable value:    INBOUND: Resolver forwards DNS queries to the DNS service for a VPC from your network or another VPC    OUTBOUND: Resolver forwards DNS queries from the DNS service for a VPC to your network or another VPC  
-        public let direction: ResolverEndpointDirection
-        /// The ID of one or more security groups that you want to use to control access to this VPC. The security group that you specify must include one or more inbound rules (for inbound resolver endpoints) or outbound rules (for outbound resolver endpoints).
-        public let securityGroupIds: [String]
-        /// A unique string that identifies the request and that allows failed requests to be retried without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. 
-        public let creatorRequestId: String
-        /// A list of the tag keys and values that you want to associate with the endpoint.
-        public let tags: [Tag]?
-
-        public init(ipAddresses: [IpAddressRequest], name: String? = nil, direction: ResolverEndpointDirection, securityGroupIds: [String], creatorRequestId: String, tags: [Tag]? = nil) {
-            self.ipAddresses = ipAddresses
-            self.name = name
-            self.direction = direction
-            self.securityGroupIds = securityGroupIds
-            self.creatorRequestId = creatorRequestId
+        public init(resourceArn: String, tags: [Tag]) {
+            self.resourceArn = resourceArn
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ipAddresses = "IpAddresses"
-            case name = "Name"
-            case direction = "Direction"
-            case securityGroupIds = "SecurityGroupIds"
-            case creatorRequestId = "CreatorRequestId"
+            case resourceArn = "ResourceArn"
             case tags = "Tags"
         }
     }
 
-    public struct ListResolverEndpointIpAddressesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolverEndpointId", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The ID of the resolver endpoint that you want to get IP addresses for.
-        public let resolverEndpointId: String
-        /// The maximum number of IP addresses that you want to return in the response to a ListResolverEndpointIpAddresses request. If you don't specify a value for MaxResults, Resolver returns up to 100 IP addresses. 
-        public let maxResults: Int32?
-        /// For the first ListResolverEndpointIpAddresses request, omit this value. If the specified resolver endpoint has more than MaxResults IP addresses, you can submit another ListResolverEndpointIpAddresses request to get the next group of IP addresses. In the next request, specify the value of NextToken from the previous response. 
-        public let nextToken: String?
-
-        public init(resolverEndpointId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.resolverEndpointId = resolverEndpointId
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resolverEndpointId = "ResolverEndpointId"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct GetResolverRuleAssociationResponse: AWSShape {
+    public struct DisassociateResolverRuleResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResolverRuleAssociation", required: false, type: .structure)
         ]
-        /// Information about the resolver rule association that you specified in a GetResolverRuleAssociation request.
+        /// Information about the DisassociateResolverRule request, including the status of the request.
         public let resolverRuleAssociation: ResolverRuleAssociation?
 
         public init(resolverRuleAssociation: ResolverRuleAssociation? = nil) {
@@ -276,219 +953,148 @@ extension Route53Resolver {
         }
     }
 
-    public enum ResolverRuleStatus: String, CustomStringConvertible, Codable {
-        case complete = "COMPLETE"
-        case deleting = "DELETING"
-        case updating = "UPDATING"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetResolverRulePolicyResponse: AWSShape {
+    public struct ResolverRule: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolverRulePolicy", required: false, type: .string)
-        ]
-        /// Information about the resolver rule policy that you specified in a GetResolverRulePolicy request.
-        public let resolverRulePolicy: String?
-
-        public init(resolverRulePolicy: String? = nil) {
-            self.resolverRulePolicy = resolverRulePolicy
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resolverRulePolicy = "ResolverRulePolicy"
-        }
-    }
-
-    public struct ResolverRuleAssociation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "VPCId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "ShareStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "TargetIps", required: false, type: .list), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "ResolverRuleId", required: false, type: .string), 
-            AWSShapeMember(label: "StatusMessage", required: false, type: .string)
+            AWSShapeMember(label: "CreatorRequestId", required: false, type: .string), 
+            AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
+            AWSShapeMember(label: "RuleType", required: false, type: .enum), 
+            AWSShapeMember(label: "ResolverEndpointId", required: false, type: .string), 
+            AWSShapeMember(label: "OwnerId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "DomainName", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string)
         ]
-        /// The name of an association between a resolver rule and a VPC.
-        public let name: String?
-        /// The ID of the VPC that you associated the resolver rule with.
-        public let vPCId: String?
-        /// A code that specifies the current status of the association between a resolver rule and a VPC.
-        public let status: ResolverRuleAssociationStatus?
-        /// The ID of the association between a resolver rule and a VPC. Resolver assigns this value when you submit an AssociateResolverRule request.
+        /// Whether the rules is shared and, if so, whether the current account is sharing the rule with another account, or another account is sharing the rule with the current account.
+        public let shareStatus: ShareStatus?
+        /// An array that contains the IP addresses and ports that you want to forward 
+        public let targetIps: [TargetAddress]?
+        /// The ID that Resolver assigned to the resolver rule when you created it.
         public let id: String?
-        /// The ID of the resolver rule that you associated with the VPC that is specified by VPCId.
-        public let resolverRuleId: String?
-        /// A detailed description of the status of the association between a resolver rule and a VPC.
+        /// A unique string that you specified when you created the resolver rule. CreatorRequestIdidentifies the request and allows failed requests to be retried without the risk of executing the operation twice. 
+        public let creatorRequestId: String?
+        /// A detailed description of the status of a resolver rule.
         public let statusMessage: String?
+        /// This value is always FORWARD. Other resolver rule types aren't supported.
+        public let ruleType: RuleTypeOption?
+        /// The ID of the endpoint that the rule is associated with.
+        public let resolverEndpointId: String?
+        /// When a rule is shared with another AWS account, the account ID of the account that the rule is shared with.
+        public let ownerId: String?
+        /// A code that specifies the current status of the resolver rule.
+        public let status: ResolverRuleStatus?
+        /// DNS queries for this domain name are forwarded to the IP addresses that are specified in TargetIps. If a query matches multiple resolver rules (example.com and www.example.com), the query is routed using the resolver rule that contains the most specific domain name (www.example.com).
+        public let domainName: String?
+        /// The name for the resolver rule, which you specified when you created the resolver rule.
+        public let name: String?
+        /// The ARN (Amazon Resource Name) for the resolver rule specified by Id.
+        public let arn: String?
 
-        public init(name: String? = nil, vPCId: String? = nil, status: ResolverRuleAssociationStatus? = nil, id: String? = nil, resolverRuleId: String? = nil, statusMessage: String? = nil) {
-            self.name = name
-            self.vPCId = vPCId
-            self.status = status
+        public init(shareStatus: ShareStatus? = nil, targetIps: [TargetAddress]? = nil, id: String? = nil, creatorRequestId: String? = nil, statusMessage: String? = nil, ruleType: RuleTypeOption? = nil, resolverEndpointId: String? = nil, ownerId: String? = nil, status: ResolverRuleStatus? = nil, domainName: String? = nil, name: String? = nil, arn: String? = nil) {
+            self.shareStatus = shareStatus
+            self.targetIps = targetIps
             self.id = id
-            self.resolverRuleId = resolverRuleId
+            self.creatorRequestId = creatorRequestId
             self.statusMessage = statusMessage
+            self.ruleType = ruleType
+            self.resolverEndpointId = resolverEndpointId
+            self.ownerId = ownerId
+            self.status = status
+            self.domainName = domainName
+            self.name = name
+            self.arn = arn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case vPCId = "VPCId"
-            case status = "Status"
+            case shareStatus = "ShareStatus"
+            case targetIps = "TargetIps"
             case id = "Id"
-            case resolverRuleId = "ResolverRuleId"
+            case creatorRequestId = "CreatorRequestId"
             case statusMessage = "StatusMessage"
+            case ruleType = "RuleType"
+            case resolverEndpointId = "ResolverEndpointId"
+            case ownerId = "OwnerId"
+            case status = "Status"
+            case domainName = "DomainName"
+            case name = "Name"
+            case arn = "Arn"
         }
     }
 
-    public enum IpAddressStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case failedCreation = "FAILED_CREATION"
-        case attaching = "ATTACHING"
-        case attached = "ATTACHED"
-        case remapDetaching = "REMAP_DETACHING"
-        case remapAttaching = "REMAP_ATTACHING"
-        case detaching = "DETACHING"
-        case failedResourceGone = "FAILED_RESOURCE_GONE"
-        case deleting = "DELETING"
-        case deleteFailedFasExpired = "DELETE_FAILED_FAS_EXPIRED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListResolverRulesRequest: AWSShape {
+    public struct AssociateResolverEndpointIpAddressRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "ResolverEndpointId", required: true, type: .string), 
+            AWSShapeMember(label: "IpAddress", required: true, type: .structure)
         ]
-        /// The maximum number of resolver rules that you want to return in the response to a ListResolverRules request. If you don't specify a value for MaxResults, Resolver returns up to 100 resolver rules.
-        public let maxResults: Int32?
-        /// An optional specification to return a subset of resolver rules, such as all resolver rules that are associated with the same resolver endpoint.  If you submit a second or subsequent ListResolverRules request and specify the NextToken parameter, you must use the same values for Filters, if any, as in the previous request. 
-        public let filters: [Filter]?
-        /// For the first ListResolverRules request, omit this value. If you have more than MaxResults resolver rules, you can submit another ListResolverRules request to get the next group of resolver rules. In the next request, specify the value of NextToken from the previous response. 
-        public let nextToken: String?
+        /// The ID of the resolver endpoint that you want to associate IP addresses with.
+        public let resolverEndpointId: String
+        /// Either the IPv4 address that you want to add to a resolver endpoint or a subnet ID. If you specify a subnet ID, Resolver chooses an IP address for you from the available IPs in the specified subnet.
+        public let ipAddress: IpAddressUpdate
 
-        public init(maxResults: Int32? = nil, filters: [Filter]? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.filters = filters
-            self.nextToken = nextToken
+        public init(resolverEndpointId: String, ipAddress: IpAddressUpdate) {
+            self.resolverEndpointId = resolverEndpointId
+            self.ipAddress = ipAddress
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case filters = "Filters"
-            case nextToken = "NextToken"
+            case resolverEndpointId = "ResolverEndpointId"
+            case ipAddress = "IpAddress"
         }
     }
 
-    public struct TargetAddress: AWSShape {
+    public struct UntagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ip", required: true, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer)
-        ]
-        /// One IP address that you want to forward DNS queries to. You can specify only IPv4 addresses.
-        public let ip: String
-        /// The port at Ip that you want to forward DNS queries to.
-        public let port: Int32?
-
-        public init(ip: String, port: Int32? = nil) {
-            self.ip = ip
-            self.port = port
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ip = "Ip"
-            case port = "Port"
-        }
-    }
-
-    public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: true, type: .list), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list), 
             AWSShapeMember(label: "ResourceArn", required: true, type: .string)
         ]
-        /// The tags that you want to add to the specified resource.
-        public let tags: [Tag]
-        /// The Amazon Resource Name (ARN) for the resource that you want to add tags to. To get the ARN for a resource, use the applicable Get or List command:     GetResolverEndpoint     GetResolverRule     GetResolverRuleAssociation     ListResolverEndpoints     ListResolverRuleAssociations     ListResolverRules   
+        /// The tags that you want to remove to the specified resource.
+        public let tagKeys: [String]
+        /// The Amazon Resource Name (ARN) for the resource that you want to remove tags from. To get the ARN for a resource, use the applicable Get or List command:     GetResolverEndpoint     GetResolverRule     GetResolverRuleAssociation     ListResolverEndpoints     ListResolverRuleAssociations     ListResolverRules   
         public let resourceArn: String
 
-        public init(tags: [Tag], resourceArn: String) {
-            self.tags = tags
+        public init(tagKeys: [String], resourceArn: String) {
+            self.tagKeys = tagKeys
             self.resourceArn = resourceArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
+            case tagKeys = "TagKeys"
             case resourceArn = "ResourceArn"
         }
     }
 
-    public enum ResolverEndpointDirection: String, CustomStringConvertible, Codable {
-        case inbound = "INBOUND"
-        case outbound = "OUTBOUND"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListResolverEndpointsResponse: AWSShape {
+    public struct PutResolverRulePolicyResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResolverEndpoints", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+            AWSShapeMember(label: "ReturnValue", required: false, type: .boolean)
         ]
-        /// If more than MaxResults IP addresses match the specified criteria, you can submit another ListResolverEndpoint request to get the next group of results. In the next request, specify the value of NextToken from the previous response. 
-        public let nextToken: String?
-        /// The resolver endpoints that were created by using the current AWS account, and that match the specified filters, if any.
-        public let resolverEndpoints: [ResolverEndpoint]?
-        /// The value that you specified for MaxResults in the request.
-        public let maxResults: Int32?
+        /// Whether the PutResolverRulePolicy request was successful.
+        public let returnValue: Bool?
 
-        public init(nextToken: String? = nil, resolverEndpoints: [ResolverEndpoint]? = nil, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.resolverEndpoints = resolverEndpoints
-            self.maxResults = maxResults
+        public init(returnValue: Bool? = nil) {
+            self.returnValue = returnValue
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case resolverEndpoints = "ResolverEndpoints"
-            case maxResults = "MaxResults"
+            case returnValue = "ReturnValue"
         }
     }
 
-    public struct DeleteResolverEndpointResponse: AWSShape {
+    public struct DeleteResolverRuleRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolverEndpoint", required: false, type: .structure)
+            AWSShapeMember(label: "ResolverRuleId", required: true, type: .string)
         ]
-        /// Information about the DeleteResolverEndpoint request, including the status of the request.
-        public let resolverEndpoint: ResolverEndpoint?
+        /// The ID of the resolver rule that you want to delete.
+        public let resolverRuleId: String
 
-        public init(resolverEndpoint: ResolverEndpoint? = nil) {
-            self.resolverEndpoint = resolverEndpoint
+        public init(resolverRuleId: String) {
+            self.resolverRuleId = resolverRuleId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resolverEndpoint = "ResolverEndpoint"
-        }
-    }
-
-    public struct IpAddressRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ip", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetId", required: true, type: .string)
-        ]
-        /// The IP address that you want to use for DNS queries.
-        public let ip: String?
-        /// The subnet that contains the IP address.
-        public let subnetId: String
-
-        public init(ip: String? = nil, subnetId: String) {
-            self.ip = ip
-            self.subnetId = subnetId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ip = "Ip"
-            case subnetId = "SubnetId"
+            case resolverRuleId = "ResolverRuleId"
         }
     }
 
@@ -524,48 +1130,11 @@ extension Route53Resolver {
         }
     }
 
-    public struct GetResolverRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolverRuleId", required: true, type: .string)
-        ]
-        /// The ID of the resolver rule that you want to get information about.
-        public let resolverRuleId: String
-
-        public init(resolverRuleId: String) {
-            self.resolverRuleId = resolverRuleId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resolverRuleId = "ResolverRuleId"
-        }
-    }
-
-    public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string)
-        ]
-        /// The name for the tag. For example, if you want to associate Resolver resources with the account IDs of your customers for billing purposes, the value of Key might be account-id.
-        public let key: String?
-        /// The value for the tag. For example, if Key is account-id, then Value might be the ID of the customer account that you're creating the resource for.
-        public let value: String?
-
-        public init(key: String? = nil, value: String? = nil) {
-            self.key = key
-            self.value = value
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "Key"
-            case value = "Value"
-        }
-    }
-
-    public struct CreateResolverEndpointResponse: AWSShape {
+    public struct GetResolverEndpointResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResolverEndpoint", required: false, type: .structure)
         ]
-        /// Information about the CreateResolverEndpoint request, including the status of the request.
+        /// Information about the resolver endpoint that you specified in a GetResolverEndpoint request.
         public let resolverEndpoint: ResolverEndpoint?
 
         public init(resolverEndpoint: ResolverEndpoint? = nil) {
@@ -577,484 +1146,110 @@ extension Route53Resolver {
         }
     }
 
-    public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
-        ]
-        /// The maximum number of tags that you want to return in the response to a ListTagsForResource request. If you don't specify a value for MaxResults, Resolver returns up to 100 tags.
-        public let maxResults: Int32?
-        /// For the first ListTagsForResource request, omit this value. If you have more than MaxResults tags, you can submit another ListTagsForResource request to get the next group of tags for the resource. In the next request, specify the value of NextToken from the previous response. 
-        public let nextToken: String?
-        /// The Amazon Resource Name (ARN) for the resource that you want to list tags for.
-        public let resourceArn: String
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceArn: String) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-            self.resourceArn = resourceArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-            case resourceArn = "ResourceArn"
-        }
-    }
-
-    public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagKeys", required: true, type: .list), 
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
-        ]
-        /// The tags that you want to remove to the specified resource.
-        public let tagKeys: [String]
-        /// The Amazon Resource Name (ARN) for the resource that you want to remove tags from. To get the ARN for a resource, use the applicable Get or List command:     GetResolverEndpoint     GetResolverRule     GetResolverRuleAssociation     ListResolverEndpoints     ListResolverRuleAssociations     ListResolverRules   
-        public let resourceArn: String
-
-        public init(tagKeys: [String], resourceArn: String) {
-            self.tagKeys = tagKeys
-            self.resourceArn = resourceArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tagKeys = "TagKeys"
-            case resourceArn = "ResourceArn"
-        }
-    }
-
-    public struct ResolverRuleConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolverEndpointId", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "TargetIps", required: false, type: .list)
-        ]
-        /// The ID of the new outbound resolver endpoint that you want to use to route DNS queries to the IP addresses that you specify in TargetIps.
-        public let resolverEndpointId: String?
-        /// The new name for the resolver rule. The name that you specify appears in the Resolver dashboard in the Route 53 console. 
-        public let name: String?
-        /// For DNS queries that originate in your VPC, the new IP addresses that you want to route outbound DNS queries to.
-        public let targetIps: [TargetAddress]?
-
-        public init(resolverEndpointId: String? = nil, name: String? = nil, targetIps: [TargetAddress]? = nil) {
-            self.resolverEndpointId = resolverEndpointId
-            self.name = name
-            self.targetIps = targetIps
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resolverEndpointId = "ResolverEndpointId"
-            case name = "Name"
-            case targetIps = "TargetIps"
-        }
-    }
-
-    public struct UpdateResolverRuleResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolverRule", required: false, type: .structure)
-        ]
-        /// The response to an UpdateResolverRule request.
-        public let resolverRule: ResolverRule?
-
-        public init(resolverRule: ResolverRule? = nil) {
-            self.resolverRule = resolverRule
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resolverRule = "ResolverRule"
-        }
-    }
-
-    public struct CreateResolverRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "RuleType", required: true, type: .enum), 
-            AWSShapeMember(label: "CreatorRequestId", required: true, type: .string), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "TargetIps", required: false, type: .list), 
-            AWSShapeMember(label: "ResolverEndpointId", required: false, type: .string)
-        ]
-        /// A friendly name that lets you easily find a rule in the Resolver dashboard in the Route 53 console.
-        public let name: String?
-        /// A list of the tag keys and values that you want to associate with the endpoint.
-        public let tags: [Tag]?
-        /// Specify FORWARD. Other resolver rule types aren't supported.
-        public let ruleType: RuleTypeOption
-        /// A unique string that identifies the request and that allows failed requests to be retried without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. 
-        public let creatorRequestId: String
-        /// DNS queries for this domain name are forwarded to the IP addresses that you specify in TargetIps. If a query matches multiple resolver rules (example.com and www.example.com), outbound DNS queries are routed using the resolver rule that contains the most specific domain name (www.example.com).
-        public let domainName: String
-        /// The IPs that you want Resolver to forward DNS queries to. You can specify only IPv4 addresses. Separate IP addresses with a comma.
-        public let targetIps: [TargetAddress]?
-        /// The ID of the outbound resolver endpoint that you want to use to route DNS queries to the IP addresses that you specify in TargetIps.
-        public let resolverEndpointId: String?
-
-        public init(name: String? = nil, tags: [Tag]? = nil, ruleType: RuleTypeOption, creatorRequestId: String, domainName: String, targetIps: [TargetAddress]? = nil, resolverEndpointId: String? = nil) {
-            self.name = name
-            self.tags = tags
-            self.ruleType = ruleType
-            self.creatorRequestId = creatorRequestId
-            self.domainName = domainName
-            self.targetIps = targetIps
-            self.resolverEndpointId = resolverEndpointId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case tags = "Tags"
-            case ruleType = "RuleType"
-            case creatorRequestId = "CreatorRequestId"
-            case domainName = "DomainName"
-            case targetIps = "TargetIps"
-            case resolverEndpointId = "ResolverEndpointId"
-        }
-    }
-
     public struct AssociateResolverRuleRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VPCId", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "VPCId", required: true, type: .string), 
             AWSShapeMember(label: "ResolverRuleId", required: true, type: .string)
         ]
-        /// The ID of the VPC that you want to associate the resolver rule with.
-        public let vPCId: String
         /// A name for the association that you're creating between a resolver rule and a VPC.
         public let name: String?
+        /// The ID of the VPC that you want to associate the resolver rule with.
+        public let vPCId: String
         /// The ID of the resolver rule that you want to associate with the VPC. To list the existing resolver rules, use ListResolverRules.
         public let resolverRuleId: String
 
-        public init(vPCId: String, name: String? = nil, resolverRuleId: String) {
-            self.vPCId = vPCId
+        public init(name: String? = nil, vPCId: String, resolverRuleId: String) {
             self.name = name
+            self.vPCId = vPCId
             self.resolverRuleId = resolverRuleId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case vPCId = "VPCId"
             case name = "Name"
+            case vPCId = "VPCId"
             case resolverRuleId = "ResolverRuleId"
         }
     }
 
-    public struct ResolverRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "RuleType", required: false, type: .enum), 
-            AWSShapeMember(label: "CreatorRequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "OwnerId", required: false, type: .string), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "TargetIps", required: false, type: .list), 
-            AWSShapeMember(label: "DomainName", required: false, type: .string), 
-            AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
-            AWSShapeMember(label: "ResolverEndpointId", required: false, type: .string), 
-            AWSShapeMember(label: "ShareStatus", required: false, type: .enum)
-        ]
-        /// The name for the resolver rule, which you specified when you created the resolver rule.
-        public let name: String?
-        /// A code that specifies the current status of the resolver rule.
-        public let status: ResolverRuleStatus?
-        /// This value is always FORWARD. Other resolver rule types aren't supported.
-        public let ruleType: RuleTypeOption?
-        /// A unique string that you specified when you created the resolver rule. CreatorRequestIdidentifies the request and allows failed requests to be retried without the risk of executing the operation twice. 
-        public let creatorRequestId: String?
-        /// The ID that Resolver assigned to the resolver rule when you created it.
-        public let id: String?
-        /// When a rule is shared with another AWS account, the account ID of the account that the rule is shared with.
-        public let ownerId: String?
-        /// The ARN (Amazon Resource Name) for the resolver rule specified by Id.
-        public let arn: String?
-        /// An array that contains the IP addresses and ports that you want to forward 
-        public let targetIps: [TargetAddress]?
-        /// DNS queries for this domain name are forwarded to the IP addresses that are specified in TargetIps. If a query matches multiple resolver rules (example.com and www.example.com), the query is routed using the resolver rule that contains the most specific domain name (www.example.com).
-        public let domainName: String?
-        /// A detailed description of the status of a resolver rule.
-        public let statusMessage: String?
-        /// The ID of the endpoint that the rule is associated with.
-        public let resolverEndpointId: String?
-        /// Whether the rules is shared and, if so, whether the current account is sharing the rule with another account, or another account is sharing the rule with the current account.
-        public let shareStatus: ShareStatus?
-
-        public init(name: String? = nil, status: ResolverRuleStatus? = nil, ruleType: RuleTypeOption? = nil, creatorRequestId: String? = nil, id: String? = nil, ownerId: String? = nil, arn: String? = nil, targetIps: [TargetAddress]? = nil, domainName: String? = nil, statusMessage: String? = nil, resolverEndpointId: String? = nil, shareStatus: ShareStatus? = nil) {
-            self.name = name
-            self.status = status
-            self.ruleType = ruleType
-            self.creatorRequestId = creatorRequestId
-            self.id = id
-            self.ownerId = ownerId
-            self.arn = arn
-            self.targetIps = targetIps
-            self.domainName = domainName
-            self.statusMessage = statusMessage
-            self.resolverEndpointId = resolverEndpointId
-            self.shareStatus = shareStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case status = "Status"
-            case ruleType = "RuleType"
-            case creatorRequestId = "CreatorRequestId"
-            case id = "Id"
-            case ownerId = "OwnerId"
-            case arn = "Arn"
-            case targetIps = "TargetIps"
-            case domainName = "DomainName"
-            case statusMessage = "StatusMessage"
-            case resolverEndpointId = "ResolverEndpointId"
-            case shareStatus = "ShareStatus"
-        }
-    }
-
-    public enum RuleTypeOption: String, CustomStringConvertible, Codable {
-        case forward = "FORWARD"
-        case system = "SYSTEM"
-        case recursive = "RECURSIVE"
+    public enum ResolverEndpointStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case operational = "OPERATIONAL"
+        case updating = "UPDATING"
+        case autoRecovering = "AUTO_RECOVERING"
+        case actionNeeded = "ACTION_NEEDED"
+        case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
     public struct ResolverEndpoint: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "ModificationTime", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "CreatorRequestId", required: false, type: .string), 
             AWSShapeMember(label: "IpAddressCount", required: false, type: .integer), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .string), 
+            AWSShapeMember(label: "CreatorRequestId", required: false, type: .string), 
             AWSShapeMember(label: "HostVPCId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .string), 
+            AWSShapeMember(label: "Direction", required: false, type: .enum), 
+            AWSShapeMember(label: "ModificationTime", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
-            AWSShapeMember(label: "Direction", required: false, type: .enum)
+            AWSShapeMember(label: "Arn", required: false, type: .string)
         ]
-        /// The name that you assigned to the resolver endpoint when you submitted a CreateResolverEndpoint request.
-        public let name: String?
-        /// The date and time that the endpoint was last modified, in Unix time format and Coordinated Universal Time (UTC).
-        public let modificationTime: String?
-        /// A code that specifies the current status of the resolver endpoint.
-        public let status: ResolverEndpointStatus?
-        /// A unique string that identifies the request that created the resolver endpoint. The CreatorRequestId allows failed requests to be retried without the risk of executing the operation twice.
-        public let creatorRequestId: String?
         /// The number of IP addresses that the resolver endpoint can use for DNS queries.
         public let ipAddressCount: Int32?
         /// The ID of the resolver endpoint.
         public let id: String?
-        /// The ARN (Amazon Resource Name) for the resolver endpoint.
-        public let arn: String?
-        /// The date and time that the endpoint was created, in Unix time format and Coordinated Universal Time (UTC).
-        public let creationTime: String?
+        /// A unique string that identifies the request that created the resolver endpoint. The CreatorRequestId allows failed requests to be retried without the risk of executing the operation twice.
+        public let creatorRequestId: String?
         /// The ID of the VPC that you want to create the resolver endpoint in.
         public let hostVPCId: String?
+        /// A code that specifies the current status of the resolver endpoint.
+        public let status: ResolverEndpointStatus?
         /// A detailed description of the status of the resolver endpoint.
         public let statusMessage: String?
-        /// The ID of one or more security groups that control access to this VPC. The security group must include one or more inbound resolver rules.
-        public let securityGroupIds: [String]?
+        /// The date and time that the endpoint was created, in Unix time format and Coordinated Universal Time (UTC).
+        public let creationTime: String?
         /// Indicates whether the resolver endpoint allows inbound or outbound DNS queries:    INBOUND: allows DNS queries to your VPC from your network or another VPC    OUTBOUND: allows DNS queries from your VPC to your network or another VPC  
         public let direction: ResolverEndpointDirection?
+        /// The date and time that the endpoint was last modified, in Unix time format and Coordinated Universal Time (UTC).
+        public let modificationTime: String?
+        /// The name that you assigned to the resolver endpoint when you submitted a CreateResolverEndpoint request.
+        public let name: String?
+        /// The ID of one or more security groups that control access to this VPC. The security group must include one or more inbound resolver rules.
+        public let securityGroupIds: [String]?
+        /// The ARN (Amazon Resource Name) for the resolver endpoint.
+        public let arn: String?
 
-        public init(name: String? = nil, modificationTime: String? = nil, status: ResolverEndpointStatus? = nil, creatorRequestId: String? = nil, ipAddressCount: Int32? = nil, id: String? = nil, arn: String? = nil, creationTime: String? = nil, hostVPCId: String? = nil, statusMessage: String? = nil, securityGroupIds: [String]? = nil, direction: ResolverEndpointDirection? = nil) {
-            self.name = name
-            self.modificationTime = modificationTime
-            self.status = status
-            self.creatorRequestId = creatorRequestId
+        public init(ipAddressCount: Int32? = nil, id: String? = nil, creatorRequestId: String? = nil, hostVPCId: String? = nil, status: ResolverEndpointStatus? = nil, statusMessage: String? = nil, creationTime: String? = nil, direction: ResolverEndpointDirection? = nil, modificationTime: String? = nil, name: String? = nil, securityGroupIds: [String]? = nil, arn: String? = nil) {
             self.ipAddressCount = ipAddressCount
             self.id = id
-            self.arn = arn
-            self.creationTime = creationTime
+            self.creatorRequestId = creatorRequestId
             self.hostVPCId = hostVPCId
+            self.status = status
             self.statusMessage = statusMessage
-            self.securityGroupIds = securityGroupIds
+            self.creationTime = creationTime
             self.direction = direction
+            self.modificationTime = modificationTime
+            self.name = name
+            self.securityGroupIds = securityGroupIds
+            self.arn = arn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case modificationTime = "ModificationTime"
-            case status = "Status"
-            case creatorRequestId = "CreatorRequestId"
             case ipAddressCount = "IpAddressCount"
             case id = "Id"
-            case arn = "Arn"
-            case creationTime = "CreationTime"
+            case creatorRequestId = "CreatorRequestId"
             case hostVPCId = "HostVPCId"
+            case status = "Status"
             case statusMessage = "StatusMessage"
-            case securityGroupIds = "SecurityGroupIds"
+            case creationTime = "CreationTime"
             case direction = "Direction"
-        }
-    }
-
-    public struct PutResolverRulePolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolverRulePolicy", required: true, type: .string), 
-            AWSShapeMember(label: "Arn", required: true, type: .string)
-        ]
-        /// An AWS Identity and Access Management policy statement that lists the permissions that you want to grant to another AWS account.
-        public let resolverRulePolicy: String
-        /// The Amazon Resource Name (ARN) of the account that you want to grant permissions to.
-        public let arn: String
-
-        public init(resolverRulePolicy: String, arn: String) {
-            self.resolverRulePolicy = resolverRulePolicy
-            self.arn = arn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resolverRulePolicy = "ResolverRulePolicy"
+            case modificationTime = "ModificationTime"
+            case name = "Name"
+            case securityGroupIds = "SecurityGroupIds"
             case arn = "Arn"
-        }
-    }
-
-    public struct DisassociateResolverRuleResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolverRuleAssociation", required: false, type: .structure)
-        ]
-        /// Information about the DisassociateResolverRule request, including the status of the request.
-        public let resolverRuleAssociation: ResolverRuleAssociation?
-
-        public init(resolverRuleAssociation: ResolverRuleAssociation? = nil) {
-            self.resolverRuleAssociation = resolverRuleAssociation
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resolverRuleAssociation = "ResolverRuleAssociation"
-        }
-    }
-
-    public enum ResolverRuleAssociationStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case complete = "COMPLETE"
-        case deleting = "DELETING"
-        case failed = "FAILED"
-        case overridden = "OVERRIDDEN"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DisassociateResolverEndpointIpAddressRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolverEndpointId", required: true, type: .string), 
-            AWSShapeMember(label: "IpAddress", required: true, type: .structure)
-        ]
-        /// The ID of the resolver endpoint that you want to disassociate an IP address from.
-        public let resolverEndpointId: String
-        /// The IPv4 address that you want to remove from a resolver endpoint.
-        public let ipAddress: IpAddressUpdate
-
-        public init(resolverEndpointId: String, ipAddress: IpAddressUpdate) {
-            self.resolverEndpointId = resolverEndpointId
-            self.ipAddress = ipAddress
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resolverEndpointId = "ResolverEndpointId"
-            case ipAddress = "IpAddress"
-        }
-    }
-
-    public struct UntagResourceResponse: AWSShape {
-
-    }
-
-    public struct CreateResolverRuleResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolverRule", required: false, type: .structure)
-        ]
-        /// Information about the CreateResolverRule request, including the status of the request.
-        public let resolverRule: ResolverRule?
-
-        public init(resolverRule: ResolverRule? = nil) {
-            self.resolverRule = resolverRule
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resolverRule = "ResolverRule"
-        }
-    }
-
-    public struct ListResolverRuleAssociationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolverRuleAssociations", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
-        ]
-        /// The associations that were created between resolver rules and VPCs using the current AWS account, and that match the specified filters, if any.
-        public let resolverRuleAssociations: [ResolverRuleAssociation]?
-        /// If more than MaxResults rule associations match the specified criteria, you can submit another ListResolverRuleAssociation request to get the next group of results. In the next request, specify the value of NextToken from the previous response. 
-        public let nextToken: String?
-        /// The value that you specified for MaxResults in the request.
-        public let maxResults: Int32?
-
-        public init(resolverRuleAssociations: [ResolverRuleAssociation]? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
-            self.resolverRuleAssociations = resolverRuleAssociations
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resolverRuleAssociations = "ResolverRuleAssociations"
-            case nextToken = "NextToken"
-            case maxResults = "MaxResults"
-        }
-    }
-
-    public struct ListResolverRulesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResolverRules", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
-        ]
-        /// If more than MaxResults resolver rules match the specified criteria, you can submit another ListResolverRules request to get the next group of results. In the next request, specify the value of NextToken from the previous response. 
-        public let nextToken: String?
-        /// The resolver rules that were created using the current AWS account and that match the specified filters, if any.
-        public let resolverRules: [ResolverRule]?
-        /// The value that you specified for MaxResults in the request.
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, resolverRules: [ResolverRule]? = nil, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.resolverRules = resolverRules
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case resolverRules = "ResolverRules"
-            case maxResults = "MaxResults"
-        }
-    }
-
-    public struct DeleteResolverRuleResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolverRule", required: false, type: .structure)
-        ]
-        /// Information about the DeleteResolverRule request, including the status of the request.
-        public let resolverRule: ResolverRule?
-
-        public init(resolverRule: ResolverRule? = nil) {
-            self.resolverRule = resolverRule
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resolverRule = "ResolverRule"
-        }
-    }
-
-    public struct AssociateResolverRuleResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolverRuleAssociation", required: false, type: .structure)
-        ]
-        /// Information about the AssociateResolverRule request, including the status of the request.
-        public let resolverRuleAssociation: ResolverRuleAssociation?
-
-        public init(resolverRuleAssociation: ResolverRuleAssociation? = nil) {
-            self.resolverRuleAssociation = resolverRuleAssociation
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resolverRuleAssociation = "ResolverRuleAssociation"
         }
     }
 
@@ -1079,6 +1274,22 @@ extension Route53Resolver {
         }
     }
 
+    public struct GetResolverRulePolicyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResolverRulePolicy", required: false, type: .string)
+        ]
+        /// Information about the resolver rule policy that you specified in a GetResolverRulePolicy request.
+        public let resolverRulePolicy: String?
+
+        public init(resolverRulePolicy: String? = nil) {
+            self.resolverRulePolicy = resolverRulePolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resolverRulePolicy = "ResolverRulePolicy"
+        }
+    }
+
     public struct DisassociateResolverRuleRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VPCId", required: true, type: .string), 
@@ -1097,217 +1308,6 @@ extension Route53Resolver {
         private enum CodingKeys: String, CodingKey {
             case vPCId = "VPCId"
             case resolverRuleId = "ResolverRuleId"
-        }
-    }
-
-    public struct GetResolverEndpointResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolverEndpoint", required: false, type: .structure)
-        ]
-        /// Information about the resolver endpoint that you specified in a GetResolverEndpoint request.
-        public let resolverEndpoint: ResolverEndpoint?
-
-        public init(resolverEndpoint: ResolverEndpoint? = nil) {
-            self.resolverEndpoint = resolverEndpoint
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resolverEndpoint = "ResolverEndpoint"
-        }
-    }
-
-    public struct DeleteResolverRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolverRuleId", required: true, type: .string)
-        ]
-        /// The ID of the resolver rule that you want to delete.
-        public let resolverRuleId: String
-
-        public init(resolverRuleId: String) {
-            self.resolverRuleId = resolverRuleId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resolverRuleId = "ResolverRuleId"
-        }
-    }
-
-    public struct DisassociateResolverEndpointIpAddressResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolverEndpoint", required: false, type: .structure)
-        ]
-        /// The response to an DisassociateResolverEndpointIpAddress request.
-        public let resolverEndpoint: ResolverEndpoint?
-
-        public init(resolverEndpoint: ResolverEndpoint? = nil) {
-            self.resolverEndpoint = resolverEndpoint
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resolverEndpoint = "ResolverEndpoint"
-        }
-    }
-
-    public struct ListResolverRuleAssociationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The maximum number of rule associations that you want to return in the response to a ListResolverRuleAssociations request. If you don't specify a value for MaxResults, Resolver returns up to 100 rule associations. 
-        public let maxResults: Int32?
-        /// An optional specification to return a subset of resolver rules, such as resolver rules that are associated with the same VPC ID.  If you submit a second or subsequent ListResolverRuleAssociations request and specify the NextToken parameter, you must use the same values for Filters, if any, as in the previous request. 
-        public let filters: [Filter]?
-        /// For the first ListResolverRuleAssociation request, omit this value. If you have more than MaxResults rule associations, you can submit another ListResolverRuleAssociation request to get the next group of rule associations. In the next request, specify the value of NextToken from the previous response. 
-        public let nextToken: String?
-
-        public init(maxResults: Int32? = nil, filters: [Filter]? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.filters = filters
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case filters = "Filters"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct PutResolverRulePolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReturnValue", required: false, type: .boolean)
-        ]
-        /// Whether the PutResolverRulePolicy request was successful.
-        public let returnValue: Bool?
-
-        public init(returnValue: Bool? = nil) {
-            self.returnValue = returnValue
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case returnValue = "ReturnValue"
-        }
-    }
-
-    public struct GetResolverEndpointRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolverEndpointId", required: true, type: .string)
-        ]
-        /// The ID of the resolver endpoint that you want to get information about.
-        public let resolverEndpointId: String
-
-        public init(resolverEndpointId: String) {
-            self.resolverEndpointId = resolverEndpointId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resolverEndpointId = "ResolverEndpointId"
-        }
-    }
-
-    public struct UpdateResolverEndpointResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolverEndpoint", required: false, type: .structure)
-        ]
-        /// The response to an UpdateResolverEndpoint request.
-        public let resolverEndpoint: ResolverEndpoint?
-
-        public init(resolverEndpoint: ResolverEndpoint? = nil) {
-            self.resolverEndpoint = resolverEndpoint
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resolverEndpoint = "ResolverEndpoint"
-        }
-    }
-
-    public struct AssociateResolverEndpointIpAddressResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolverEndpoint", required: false, type: .structure)
-        ]
-        /// The response to an AssociateResolverEndpointIpAddress request.
-        public let resolverEndpoint: ResolverEndpoint?
-
-        public init(resolverEndpoint: ResolverEndpoint? = nil) {
-            self.resolverEndpoint = resolverEndpoint
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resolverEndpoint = "ResolverEndpoint"
-        }
-    }
-
-    public enum ResolverEndpointStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case operational = "OPERATIONAL"
-        case updating = "UPDATING"
-        case autoRecovering = "AUTO_RECOVERING"
-        case actionNeeded = "ACTION_NEEDED"
-        case deleting = "DELETING"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteResolverEndpointRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResolverEndpointId", required: true, type: .string)
-        ]
-        /// The ID of the resolver endpoint that you want to delete.
-        public let resolverEndpointId: String
-
-        public init(resolverEndpointId: String) {
-            self.resolverEndpointId = resolverEndpointId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resolverEndpointId = "ResolverEndpointId"
-        }
-    }
-
-    public struct IpAddressUpdate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ip", required: false, type: .string), 
-            AWSShapeMember(label: "IpId", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetId", required: false, type: .string)
-        ]
-        /// The new IP address.
-        public let ip: String?
-        ///  Only when removing an IP address from a resolver endpoint: The ID of the IP address that you want to remove. To get this ID, use GetResolverEndpoint.
-        public let ipId: String?
-        /// The ID of the subnet that includes the IP address that you want to update. To get this ID, use GetResolverEndpoint.
-        public let subnetId: String?
-
-        public init(ip: String? = nil, ipId: String? = nil, subnetId: String? = nil) {
-            self.ip = ip
-            self.ipId = ipId
-            self.subnetId = subnetId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ip = "Ip"
-            case ipId = "IpId"
-            case subnetId = "SubnetId"
-        }
-    }
-
-    public struct Filter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Values", required: false, type: .list), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// When you're using a List operation and you want the operation to return a subset of objects, such as resolver endpoints or resolver rules, the value of the parameter that you want to use to filter objects. For example, to list only inbound resolver endpoints, specify INBOUND for the value of Values.
-        public let values: [String]?
-        /// When you're using a List operation and you want the operation to return a subset of objects, such as resolver endpoints or resolver rules, the name of the parameter that you want to use to filter objects. For example, to list only inbound resolver endpoints, specify Direction for the value of Name.
-        public let name: String?
-
-        public init(values: [String]? = nil, name: String? = nil) {
-            self.values = values
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case values = "Values"
-            case name = "Name"
         }
     }
 

@@ -8,10 +8,11 @@ public enum ImportExportErrorType: AWSErrorType {
     case expiredJobIdException(message: String?)
     case canceledJobIdException(message: String?)
     case invalidAccessKeyIdException(message: String?)
+    case invalidAddressException(message: String?)
     case invalidVersionException(message: String?)
     case invalidParameterException(message: String?)
+    case unableToCancelJobIdException(message: String?)
     case missingParameterException(message: String?)
-    case invalidAddressException(message: String?)
     case invalidManifestFieldException(message: String?)
     case missingManifestFieldException(message: String?)
     case noSuchBucketException(message: String?)
@@ -23,7 +24,6 @@ public enum ImportExportErrorType: AWSErrorType {
     case malformedManifestException(message: String?)
     case unableToUpdateJobIdException(message: String?)
     case createJobQuotaExceededException(message: String?)
-    case unableToCancelJobIdException(message: String?)
 }
 
 extension ImportExportErrorType {
@@ -41,14 +41,16 @@ extension ImportExportErrorType {
             self = .canceledJobIdException(message: message)
         case "InvalidAccessKeyIdException":
             self = .invalidAccessKeyIdException(message: message)
+        case "InvalidAddressException":
+            self = .invalidAddressException(message: message)
         case "InvalidVersionException":
             self = .invalidVersionException(message: message)
         case "InvalidParameterException":
             self = .invalidParameterException(message: message)
+        case "UnableToCancelJobIdException":
+            self = .unableToCancelJobIdException(message: message)
         case "MissingParameterException":
             self = .missingParameterException(message: message)
-        case "InvalidAddressException":
-            self = .invalidAddressException(message: message)
         case "InvalidManifestFieldException":
             self = .invalidManifestFieldException(message: message)
         case "MissingManifestFieldException":
@@ -71,8 +73,6 @@ extension ImportExportErrorType {
             self = .unableToUpdateJobIdException(message: message)
         case "CreateJobQuotaExceededException":
             self = .createJobQuotaExceededException(message: message)
-        case "UnableToCancelJobIdException":
-            self = .unableToCancelJobIdException(message: message)
         default:
             return nil
         }

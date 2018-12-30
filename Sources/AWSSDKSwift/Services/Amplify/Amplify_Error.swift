@@ -7,8 +7,8 @@ public enum AmplifyErrorType: AWSErrorType {
     case badRequestException(message: String?)
     case unauthorizedException(message: String?)
     case internalFailureException(message: String?)
-    case limitExceededException(message: String?)
     case notFoundException(message: String?)
+    case limitExceededException(message: String?)
     case dependentServiceFailureException(message: String?)
 }
 
@@ -25,10 +25,10 @@ extension AmplifyErrorType {
             self = .unauthorizedException(message: message)
         case "InternalFailureException":
             self = .internalFailureException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
         case "NotFoundException":
             self = .notFoundException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
         case "DependentServiceFailureException":
             self = .dependentServiceFailureException(message: message)
         default:

@@ -9,9 +9,9 @@ public enum RoboMakerErrorType: AWSErrorType {
     case internalServerException(message: String?)
     case throttlingException(message: String?)
     case limitExceededException(message: String?)
+    case concurrentDeploymentException(message: String?)
     case idempotentParameterMismatchException(message: String?)
     case resourceAlreadyExistsException(message: String?)
-    case concurrentDeploymentException(message: String?)
 }
 
 extension RoboMakerErrorType {
@@ -31,12 +31,12 @@ extension RoboMakerErrorType {
             self = .throttlingException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
+        case "ConcurrentDeploymentException":
+            self = .concurrentDeploymentException(message: message)
         case "IdempotentParameterMismatchException":
             self = .idempotentParameterMismatchException(message: message)
         case "ResourceAlreadyExistsException":
             self = .resourceAlreadyExistsException(message: message)
-        case "ConcurrentDeploymentException":
-            self = .concurrentDeploymentException(message: message)
         default:
             return nil
         }

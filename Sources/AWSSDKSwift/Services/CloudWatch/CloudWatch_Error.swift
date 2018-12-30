@@ -6,14 +6,14 @@ import AWSSDKSwiftCore
 public enum CloudWatchErrorType: AWSErrorType {
     case internalServiceFault(message: String?)
     case invalidParameterValueException(message: String?)
-    case resourceNotFound(message: String?)
+    case dashboardNotFoundError(message: String?)
     case invalidNextToken(message: String?)
     case dashboardInvalidInputError(message: String?)
-    case dashboardNotFoundError(message: String?)
-    case invalidFormatFault(message: String?)
-    case limitExceededFault(message: String?)
     case missingRequiredParameterException(message: String?)
     case invalidParameterCombinationException(message: String?)
+    case resourceNotFound(message: String?)
+    case invalidFormatFault(message: String?)
+    case limitExceededFault(message: String?)
 }
 
 extension CloudWatchErrorType {
@@ -27,22 +27,22 @@ extension CloudWatchErrorType {
             self = .internalServiceFault(message: message)
         case "InvalidParameterValueException":
             self = .invalidParameterValueException(message: message)
-        case "ResourceNotFound":
-            self = .resourceNotFound(message: message)
+        case "DashboardNotFoundError":
+            self = .dashboardNotFoundError(message: message)
         case "InvalidNextToken":
             self = .invalidNextToken(message: message)
         case "DashboardInvalidInputError":
             self = .dashboardInvalidInputError(message: message)
-        case "DashboardNotFoundError":
-            self = .dashboardNotFoundError(message: message)
-        case "InvalidFormatFault":
-            self = .invalidFormatFault(message: message)
-        case "LimitExceededFault":
-            self = .limitExceededFault(message: message)
         case "MissingRequiredParameterException":
             self = .missingRequiredParameterException(message: message)
         case "InvalidParameterCombinationException":
             self = .invalidParameterCombinationException(message: message)
+        case "ResourceNotFound":
+            self = .resourceNotFound(message: message)
+        case "InvalidFormatFault":
+            self = .invalidFormatFault(message: message)
+        case "LimitExceededFault":
+            self = .limitExceededFault(message: message)
         default:
             return nil
         }

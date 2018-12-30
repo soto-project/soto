@@ -5,66 +5,184 @@ import AWSSDKSwiftCore
 
 extension AppSync {
 
-    public struct PipelineConfig: AWSShape {
+    public struct GetFunctionResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "functions", required: false, type: .list)
+            AWSShapeMember(label: "functionConfiguration", required: false, type: .structure)
         ]
-        /// A list of Function objects.
-        public let functions: [String]?
+        /// The Function object.
+        public let functionConfiguration: FunctionConfiguration?
 
-        public init(functions: [String]? = nil) {
-            self.functions = functions
+        public init(functionConfiguration: FunctionConfiguration? = nil) {
+            self.functionConfiguration = functionConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
-            case functions = "functions"
+            case functionConfiguration = "functionConfiguration"
         }
     }
 
-    public struct CreateTypeResponse: AWSShape {
+    public struct CreateResolverResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "type", required: false, type: .structure)
+            AWSShapeMember(label: "resolver", required: false, type: .structure)
         ]
-        /// The Type object.
-        public let `type`: `Type`?
+        /// The Resolver object.
+        public let resolver: Resolver?
 
-        public init(type: `Type`? = nil) {
-            self.`type` = `type`
+        public init(resolver: Resolver? = nil) {
+            self.resolver = resolver
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type` = "type"
+            case resolver = "resolver"
         }
     }
 
-    public struct ListDataSourcesRequest: AWSShape {
+    public struct GraphqlApi: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "openIDConnectConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "userPoolConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "uris", required: false, type: .map), 
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "authenticationType", required: false, type: .enum), 
+            AWSShapeMember(label: "logConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "apiId", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string)
+        ]
+        /// The OpenID Connect configuration.
+        public let openIDConnectConfig: OpenIDConnectConfig?
+        /// The Amazon Cognito user pool configuration.
+        public let userPoolConfig: UserPoolConfig?
+        /// The URIs.
+        public let uris: [String: String]?
+        /// The ARN.
+        public let arn: String?
+        /// The authentication type.
+        public let authenticationType: AuthenticationType?
+        /// The Amazon CloudWatch Logs configuration.
+        public let logConfig: LogConfig?
+        /// The API ID.
+        public let apiId: String?
+        /// The API name.
+        public let name: String?
+
+        public init(openIDConnectConfig: OpenIDConnectConfig? = nil, userPoolConfig: UserPoolConfig? = nil, uris: [String: String]? = nil, arn: String? = nil, authenticationType: AuthenticationType? = nil, logConfig: LogConfig? = nil, apiId: String? = nil, name: String? = nil) {
+            self.openIDConnectConfig = openIDConnectConfig
+            self.userPoolConfig = userPoolConfig
+            self.uris = uris
+            self.arn = arn
+            self.authenticationType = authenticationType
+            self.logConfig = logConfig
+            self.apiId = apiId
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case openIDConnectConfig = "openIDConnectConfig"
+            case userPoolConfig = "userPoolConfig"
+            case uris = "uris"
+            case arn = "arn"
+            case authenticationType = "authenticationType"
+            case logConfig = "logConfig"
+            case apiId = "apiId"
+            case name = "name"
+        }
+    }
+
+    public struct DeleteGraphqlApiRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string)
         ]
         /// The API ID.
         public let apiId: String
-        /// The maximum number of results you want the request to return.
-        public let maxResults: Int32?
-        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list. 
-        public let nextToken: String?
 
-        public init(apiId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(apiId: String) {
             self.apiId = apiId
-            self.maxResults = maxResults
-            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case apiId = "apiId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
         }
     }
 
-    public struct DeleteGraphqlApiResponse: AWSShape {
+    public struct ListFunctionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
+        ]
+        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+        public let nextToken: String?
+        /// The GraphQL API ID.
+        public let apiId: String
+        /// The maximum number of results you want the request to return.
+        public let maxResults: Int32?
 
+        public init(nextToken: String? = nil, apiId: String, maxResults: Int32? = nil) {
+            self.nextToken = nextToken
+            self.apiId = apiId
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case apiId = "apiId"
+            case maxResults = "maxResults"
+        }
+    }
+
+    public struct ListFunctionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "functions", required: false, type: .list)
+        ]
+        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+        public let nextToken: String?
+        /// A list of Function objects.
+        public let functions: [FunctionConfiguration]?
+
+        public init(nextToken: String? = nil, functions: [FunctionConfiguration]? = nil) {
+            self.nextToken = nextToken
+            self.functions = functions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case functions = "functions"
+        }
+    }
+
+    public struct GetSchemaCreationStatusResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "details", required: false, type: .string)
+        ]
+        /// The current state of the schema (PROCESSING, ACTIVE, or DELETING). Once the schema is in the ACTIVE state, you can add data.
+        public let status: SchemaStatus?
+        /// Detailed information about the status of the schema creation operation.
+        public let details: String?
+
+        public init(status: SchemaStatus? = nil, details: String? = nil) {
+            self.status = status
+            self.details = details
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case details = "details"
+        }
+    }
+
+    public enum SchemaStatus: String, CustomStringConvertible, Codable {
+        case processing = "PROCESSING"
+        case active = "ACTIVE"
+        case deleting = "DELETING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResolverKind: String, CustomStringConvertible, Codable {
+        case unit = "UNIT"
+        case pipeline = "PIPELINE"
+        public var description: String { return self.rawValue }
     }
 
     public struct UpdateGraphqlApiResponse: AWSShape {
@@ -83,192 +201,7 @@ extension AppSync {
         }
     }
 
-    public struct GetIntrospectionSchemaRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "format", location: .querystring(locationName: "format"), required: true, type: .enum), 
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string)
-        ]
-        /// The schema format: SDL or JSON.
-        public let format: OutputType
-        /// The API ID.
-        public let apiId: String
-
-        public init(format: OutputType, apiId: String) {
-            self.format = format
-            self.apiId = apiId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case format = "format"
-            case apiId = "apiId"
-        }
-    }
-
-    public enum OutputType: String, CustomStringConvertible, Codable {
-        case sdl = "SDL"
-        case json = "JSON"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct UserPoolConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "defaultAction", required: true, type: .enum), 
-            AWSShapeMember(label: "awsRegion", required: true, type: .string), 
-            AWSShapeMember(label: "userPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "appIdClientRegex", required: false, type: .string)
-        ]
-        /// The action that you want your GraphQL API to take when a request that uses Amazon Cognito user pool authentication doesn't match the Amazon Cognito user pool configuration.
-        public let defaultAction: DefaultAction
-        /// The AWS Region in which the user pool was created.
-        public let awsRegion: String
-        /// The user pool ID.
-        public let userPoolId: String
-        /// A regular expression for validating the incoming Amazon Cognito user pool app client ID.
-        public let appIdClientRegex: String?
-
-        public init(defaultAction: DefaultAction, awsRegion: String, userPoolId: String, appIdClientRegex: String? = nil) {
-            self.defaultAction = defaultAction
-            self.awsRegion = awsRegion
-            self.userPoolId = userPoolId
-            self.appIdClientRegex = appIdClientRegex
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case defaultAction = "defaultAction"
-            case awsRegion = "awsRegion"
-            case userPoolId = "userPoolId"
-            case appIdClientRegex = "appIdClientRegex"
-        }
-    }
-
-    public struct ListFunctionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "functions", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// A list of Function objects.
-        public let functions: [FunctionConfiguration]?
-        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public let nextToken: String?
-
-        public init(functions: [FunctionConfiguration]? = nil, nextToken: String? = nil) {
-            self.functions = functions
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case functions = "functions"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public enum SchemaStatus: String, CustomStringConvertible, Codable {
-        case processing = "PROCESSING"
-        case active = "ACTIVE"
-        case deleting = "DELETING"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateDataSourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "type", required: true, type: .enum), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "elasticsearchConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "relationalDatabaseConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "dynamodbConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "serviceRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "lambdaConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "httpConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "description", required: false, type: .string)
-        ]
-        /// The type of the DataSource.
-        public let `type`: DataSourceType
-        /// A user-supplied name for the DataSource.
-        public let name: String
-        /// Amazon Elasticsearch Service settings.
-        public let elasticsearchConfig: ElasticsearchDataSourceConfig?
-        /// Relational database settings.
-        public let relationalDatabaseConfig: RelationalDatabaseDataSourceConfig?
-        /// Amazon DynamoDB settings.
-        public let dynamodbConfig: DynamodbDataSourceConfig?
-        /// The API ID for the GraphQL API for the DataSource.
-        public let apiId: String
-        /// The AWS IAM service role ARN for the data source. The system assumes this role when accessing the data source.
-        public let serviceRoleArn: String?
-        /// AWS Lambda settings.
-        public let lambdaConfig: LambdaDataSourceConfig?
-        /// HTTP endpoint settings.
-        public let httpConfig: HttpDataSourceConfig?
-        /// A description of the DataSource.
-        public let description: String?
-
-        public init(type: DataSourceType, name: String, elasticsearchConfig: ElasticsearchDataSourceConfig? = nil, relationalDatabaseConfig: RelationalDatabaseDataSourceConfig? = nil, dynamodbConfig: DynamodbDataSourceConfig? = nil, apiId: String, serviceRoleArn: String? = nil, lambdaConfig: LambdaDataSourceConfig? = nil, httpConfig: HttpDataSourceConfig? = nil, description: String? = nil) {
-            self.`type` = `type`
-            self.name = name
-            self.elasticsearchConfig = elasticsearchConfig
-            self.relationalDatabaseConfig = relationalDatabaseConfig
-            self.dynamodbConfig = dynamodbConfig
-            self.apiId = apiId
-            self.serviceRoleArn = serviceRoleArn
-            self.lambdaConfig = lambdaConfig
-            self.httpConfig = httpConfig
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "type"
-            case name = "name"
-            case elasticsearchConfig = "elasticsearchConfig"
-            case relationalDatabaseConfig = "relationalDatabaseConfig"
-            case dynamodbConfig = "dynamodbConfig"
-            case apiId = "apiId"
-            case serviceRoleArn = "serviceRoleArn"
-            case lambdaConfig = "lambdaConfig"
-            case httpConfig = "httpConfig"
-            case description = "description"
-        }
-    }
-
-    public enum FieldLogLevel: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case error = "ERROR"
-        case all = "ALL"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListTypesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "format", location: .querystring(locationName: "format"), required: true, type: .enum), 
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
-        ]
-        /// The maximum number of results you want the request to return.
-        public let maxResults: Int32?
-        /// The type format: SDL or JSON.
-        public let format: TypeDefinitionFormat
-        /// The API ID.
-        public let apiId: String
-        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list. 
-        public let nextToken: String?
-
-        public init(maxResults: Int32? = nil, format: TypeDefinitionFormat, apiId: String, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.format = format
-            self.apiId = apiId
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case format = "format"
-            case apiId = "apiId"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct GetDataSourceResponse: AWSShape {
+    public struct CreateDataSourceResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "dataSource", required: false, type: .structure)
         ]
@@ -284,178 +217,266 @@ extension AppSync {
         }
     }
 
-    public struct GetGraphqlApiResponse: AWSShape {
+    public struct ListDataSourcesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "graphqlApi", required: false, type: .structure)
-        ]
-        /// The GraphqlApi object.
-        public let graphqlApi: GraphqlApi?
-
-        public init(graphqlApi: GraphqlApi? = nil) {
-            self.graphqlApi = graphqlApi
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case graphqlApi = "graphqlApi"
-        }
-    }
-
-    public struct GetIntrospectionSchemaResponse: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "schema"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "schema", required: false, type: .blob)
-        ]
-        /// The schema, in GraphQL Schema Definition Language (SDL) format. For more information, see the GraphQL SDL documentation.
-        public let schema: Data?
-
-        public init(schema: Data? = nil) {
-            self.schema = schema
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case schema = "schema"
-        }
-    }
-
-    public struct DeleteDataSourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
             AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
         ]
+        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list. 
+        public let nextToken: String?
         /// The API ID.
         public let apiId: String
-        /// The name of the data source.
-        public let name: String
+        /// The maximum number of results you want the request to return.
+        public let maxResults: Int32?
 
-        public init(apiId: String, name: String) {
+        public init(nextToken: String? = nil, apiId: String, maxResults: Int32? = nil) {
+            self.nextToken = nextToken
             self.apiId = apiId
-            self.name = name
+            self.maxResults = maxResults
         }
 
         private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
             case apiId = "apiId"
-            case name = "name"
+            case maxResults = "maxResults"
         }
     }
 
-    public struct UpdateApiKeyResponse: AWSShape {
+    public struct UpdateDataSourceResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiKey", required: false, type: .structure)
+            AWSShapeMember(label: "dataSource", required: false, type: .structure)
         ]
-        /// The API key.
-        public let apiKey: ApiKey?
+        /// The updated DataSource object.
+        public let dataSource: DataSource?
 
-        public init(apiKey: ApiKey? = nil) {
-            self.apiKey = apiKey
+        public init(dataSource: DataSource? = nil) {
+            self.dataSource = dataSource
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiKey = "apiKey"
+            case dataSource = "dataSource"
         }
     }
 
-    public struct DeleteTypeRequest: AWSShape {
+    public struct CreateApiKeyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"), required: true, type: .string)
+            AWSShapeMember(label: "expires", required: false, type: .long), 
+            AWSShapeMember(label: "description", required: false, type: .string)
         ]
-        /// The API ID.
+        /// The ID for your GraphQL API.
         public let apiId: String
-        /// The type name.
-        public let typeName: String
-
-        public init(apiId: String, typeName: String) {
-            self.apiId = apiId
-            self.typeName = typeName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case typeName = "typeName"
-        }
-    }
-
-    public struct GetGraphqlApiRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string)
-        ]
-        /// The API ID for the GraphQL API.
-        public let apiId: String
-
-        public init(apiId: String) {
-            self.apiId = apiId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-        }
-    }
-
-    public struct FunctionConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "responseMappingTemplate", required: false, type: .string), 
-            AWSShapeMember(label: "functionId", required: false, type: .string), 
-            AWSShapeMember(label: "functionArn", required: false, type: .string), 
-            AWSShapeMember(label: "functionVersion", required: false, type: .string), 
-            AWSShapeMember(label: "dataSourceName", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "requestMappingTemplate", required: false, type: .string)
-        ]
-        /// The name of the Function object.
-        public let name: String?
-        /// The Function response mapping template.
-        public let responseMappingTemplate: String?
-        /// A unique ID representing the Function object.
-        public let functionId: String?
-        /// The ARN of the Function object.
-        public let functionArn: String?
-        /// The version of the request mapping template. Currently only the 2018-05-29 version of the template is supported.
-        public let functionVersion: String?
-        /// The name of the DataSource.
-        public let dataSourceName: String?
-        /// The Function description.
+        /// The time from creation time after which the API key expires. The date is represented as seconds since the epoch, rounded down to the nearest hour. The default value for this parameter is 7 days from creation time. For more information, see .
+        public let expires: Int64?
+        /// A description of the purpose of the API key.
         public let description: String?
-        /// The Function request mapping template. Functions support only the 2018-05-29 version of the request mapping template.
-        public let requestMappingTemplate: String?
 
-        public init(name: String? = nil, responseMappingTemplate: String? = nil, functionId: String? = nil, functionArn: String? = nil, functionVersion: String? = nil, dataSourceName: String? = nil, description: String? = nil, requestMappingTemplate: String? = nil) {
-            self.name = name
-            self.responseMappingTemplate = responseMappingTemplate
-            self.functionId = functionId
-            self.functionArn = functionArn
-            self.functionVersion = functionVersion
-            self.dataSourceName = dataSourceName
-            self.description = description
-            self.requestMappingTemplate = requestMappingTemplate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case responseMappingTemplate = "responseMappingTemplate"
-            case functionId = "functionId"
-            case functionArn = "functionArn"
-            case functionVersion = "functionVersion"
-            case dataSourceName = "dataSourceName"
-            case description = "description"
-            case requestMappingTemplate = "requestMappingTemplate"
-        }
-    }
-
-    public struct DeleteGraphqlApiRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string)
-        ]
-        /// The API ID.
-        public let apiId: String
-
-        public init(apiId: String) {
+        public init(apiId: String, expires: Int64? = nil, description: String? = nil) {
             self.apiId = apiId
+            self.expires = expires
+            self.description = description
         }
 
         private enum CodingKeys: String, CodingKey {
             case apiId = "apiId"
+            case expires = "expires"
+            case description = "description"
+        }
+    }
+
+    public struct AuthorizationConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "awsIamConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "authorizationType", required: true, type: .enum)
+        ]
+        /// The AWS IAM settings.
+        public let awsIamConfig: AwsIamConfig?
+        /// The authorization type required by the HTTP endpoint.    AWS_IAM: The authorization type is Sigv4.  
+        public let authorizationType: AuthorizationType
+
+        public init(awsIamConfig: AwsIamConfig? = nil, authorizationType: AuthorizationType) {
+            self.awsIamConfig = awsIamConfig
+            self.authorizationType = authorizationType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsIamConfig = "awsIamConfig"
+            case authorizationType = "authorizationType"
+        }
+    }
+
+    public struct UpdateDataSourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "elasticsearchConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "lambdaConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "relationalDatabaseConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "type", required: true, type: .enum), 
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "httpConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "dynamodbConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "serviceRoleArn", required: false, type: .string)
+        ]
+        /// The new Elasticsearch Service configuration.
+        public let elasticsearchConfig: ElasticsearchDataSourceConfig?
+        /// The new AWS Lambda configuration.
+        public let lambdaConfig: LambdaDataSourceConfig?
+        /// The new relational database configuration.
+        public let relationalDatabaseConfig: RelationalDatabaseDataSourceConfig?
+        /// The new data source type.
+        public let `type`: DataSourceType
+        /// The API ID.
+        public let apiId: String
+        /// The new description for the data source.
+        public let description: String?
+        /// The new HTTP endpoint configuration.
+        public let httpConfig: HttpDataSourceConfig?
+        /// The new Amazon DynamoDB configuration.
+        public let dynamodbConfig: DynamodbDataSourceConfig?
+        /// The new name for the data source.
+        public let name: String
+        /// The new service role ARN for the data source.
+        public let serviceRoleArn: String?
+
+        public init(elasticsearchConfig: ElasticsearchDataSourceConfig? = nil, lambdaConfig: LambdaDataSourceConfig? = nil, relationalDatabaseConfig: RelationalDatabaseDataSourceConfig? = nil, type: DataSourceType, apiId: String, description: String? = nil, httpConfig: HttpDataSourceConfig? = nil, dynamodbConfig: DynamodbDataSourceConfig? = nil, name: String, serviceRoleArn: String? = nil) {
+            self.elasticsearchConfig = elasticsearchConfig
+            self.lambdaConfig = lambdaConfig
+            self.relationalDatabaseConfig = relationalDatabaseConfig
+            self.`type` = `type`
+            self.apiId = apiId
+            self.description = description
+            self.httpConfig = httpConfig
+            self.dynamodbConfig = dynamodbConfig
+            self.name = name
+            self.serviceRoleArn = serviceRoleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case elasticsearchConfig = "elasticsearchConfig"
+            case lambdaConfig = "lambdaConfig"
+            case relationalDatabaseConfig = "relationalDatabaseConfig"
+            case `type` = "type"
+            case apiId = "apiId"
+            case description = "description"
+            case httpConfig = "httpConfig"
+            case dynamodbConfig = "dynamodbConfig"
+            case name = "name"
+            case serviceRoleArn = "serviceRoleArn"
+        }
+    }
+
+    public enum AuthenticationType: String, CustomStringConvertible, Codable {
+        case apiKey = "API_KEY"
+        case awsIam = "AWS_IAM"
+        case amazonCognitoUserPools = "AMAZON_COGNITO_USER_POOLS"
+        case openidConnect = "OPENID_CONNECT"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListTypesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
+            AWSShapeMember(label: "format", location: .querystring(locationName: "format"), required: true, type: .enum), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
+        ]
+        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list. 
+        public let nextToken: String?
+        /// The API ID.
+        public let apiId: String
+        /// The type format: SDL or JSON.
+        public let format: TypeDefinitionFormat
+        /// The maximum number of results you want the request to return.
+        public let maxResults: Int32?
+
+        public init(nextToken: String? = nil, apiId: String, format: TypeDefinitionFormat, maxResults: Int32? = nil) {
+            self.nextToken = nextToken
+            self.apiId = apiId
+            self.format = format
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case apiId = "apiId"
+            case format = "format"
+            case maxResults = "maxResults"
+        }
+    }
+
+    public struct AwsIamConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "signingRegion", required: false, type: .string), 
+            AWSShapeMember(label: "signingServiceName", required: false, type: .string)
+        ]
+        /// The signing region for AWS IAM authorization.
+        public let signingRegion: String?
+        /// The signing service name for AWS IAM authorization.
+        public let signingServiceName: String?
+
+        public init(signingRegion: String? = nil, signingServiceName: String? = nil) {
+            self.signingRegion = signingRegion
+            self.signingServiceName = signingServiceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case signingRegion = "signingRegion"
+            case signingServiceName = "signingServiceName"
+        }
+    }
+
+    public struct DeleteApiKeyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
+            AWSShapeMember(label: "id", location: .uri(locationName: "id"), required: true, type: .string)
+        ]
+        /// The API ID.
+        public let apiId: String
+        /// The ID for the API key.
+        public let id: String
+
+        public init(apiId: String, id: String) {
+            self.apiId = apiId
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiId = "apiId"
+            case id = "id"
+        }
+    }
+
+    public struct UpdateResolverResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resolver", required: false, type: .structure)
+        ]
+        /// The updated Resolver object.
+        public let resolver: Resolver?
+
+        public init(resolver: Resolver? = nil) {
+            self.resolver = resolver
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resolver = "resolver"
+        }
+    }
+
+    public struct CreateTypeResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "type", required: false, type: .structure)
+        ]
+        /// The Type object.
+        public let `type`: `Type`?
+
+        public init(type: `Type`? = nil) {
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "type"
         }
     }
 
@@ -480,184 +501,496 @@ extension AppSync {
         }
     }
 
-    public struct ListResolversByFunctionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "functionId", location: .uri(locationName: "functionId"), required: true, type: .string)
-        ]
-        /// The maximum number of results you want the request to return.
-        public let maxResults: Int32?
-        /// The API ID.
-        public let apiId: String
-        /// An identifier that was returned from the previous call to this operation, which you can use to return the next set of items in the list.
-        public let nextToken: String?
-        /// The Function ID.
-        public let functionId: String
+    public struct DeleteFunctionResponse: AWSShape {
 
-        public init(maxResults: Int32? = nil, apiId: String, nextToken: String? = nil, functionId: String) {
-            self.maxResults = maxResults
-            self.apiId = apiId
-            self.nextToken = nextToken
+    }
+
+    public struct `Type`: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "format", required: false, type: .enum), 
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "definition", required: false, type: .string)
+        ]
+        /// The type format: SDL or JSON.
+        public let format: TypeDefinitionFormat?
+        /// The type ARN.
+        public let arn: String?
+        /// The type name.
+        public let name: String?
+        /// The type description.
+        public let description: String?
+        /// The type definition.
+        public let definition: String?
+
+        public init(format: TypeDefinitionFormat? = nil, arn: String? = nil, name: String? = nil, description: String? = nil, definition: String? = nil) {
+            self.format = format
+            self.arn = arn
+            self.name = name
+            self.description = description
+            self.definition = definition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case format = "format"
+            case arn = "arn"
+            case name = "name"
+            case description = "description"
+            case definition = "definition"
+        }
+    }
+
+    public struct FunctionConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "requestMappingTemplate", required: false, type: .string), 
+            AWSShapeMember(label: "functionArn", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "responseMappingTemplate", required: false, type: .string), 
+            AWSShapeMember(label: "functionVersion", required: false, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "dataSourceName", required: false, type: .string), 
+            AWSShapeMember(label: "functionId", required: false, type: .string)
+        ]
+        /// The Function request mapping template. Functions support only the 2018-05-29 version of the request mapping template.
+        public let requestMappingTemplate: String?
+        /// The ARN of the Function object.
+        public let functionArn: String?
+        /// The name of the Function object.
+        public let name: String?
+        /// The Function response mapping template.
+        public let responseMappingTemplate: String?
+        /// The version of the request mapping template. Currently only the 2018-05-29 version of the template is supported.
+        public let functionVersion: String?
+        /// The Function description.
+        public let description: String?
+        /// The name of the DataSource.
+        public let dataSourceName: String?
+        /// A unique ID representing the Function object.
+        public let functionId: String?
+
+        public init(requestMappingTemplate: String? = nil, functionArn: String? = nil, name: String? = nil, responseMappingTemplate: String? = nil, functionVersion: String? = nil, description: String? = nil, dataSourceName: String? = nil, functionId: String? = nil) {
+            self.requestMappingTemplate = requestMappingTemplate
+            self.functionArn = functionArn
+            self.name = name
+            self.responseMappingTemplate = responseMappingTemplate
+            self.functionVersion = functionVersion
+            self.description = description
+            self.dataSourceName = dataSourceName
             self.functionId = functionId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case apiId = "apiId"
-            case nextToken = "nextToken"
+            case requestMappingTemplate = "requestMappingTemplate"
+            case functionArn = "functionArn"
+            case name = "name"
+            case responseMappingTemplate = "responseMappingTemplate"
+            case functionVersion = "functionVersion"
+            case description = "description"
+            case dataSourceName = "dataSourceName"
             case functionId = "functionId"
         }
     }
 
-    public struct ApiKey: AWSShape {
+    public struct HttpDataSourceConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "expires", required: false, type: .long), 
-            AWSShapeMember(label: "description", required: false, type: .string)
+            AWSShapeMember(label: "endpoint", required: false, type: .string), 
+            AWSShapeMember(label: "authorizationConfig", required: false, type: .structure)
         ]
-        /// The API key ID.
-        public let id: String?
-        /// The time after which the API key expires. The date is represented as seconds since the epoch, rounded down to the nearest hour.
-        public let expires: Int64?
-        /// A description of the purpose of the API key.
-        public let description: String?
+        /// The HTTP URL endpoint. You can either specify the domain name or IP, and port combination, and the URL scheme must be HTTP or HTTPS. If the port is not specified, AWS AppSync uses the default port 80 for the HTTP endpoint and port 443 for HTTPS endpoints.
+        public let endpoint: String?
+        /// The authorization config in case the HTTP endpoint requires authorization.
+        public let authorizationConfig: AuthorizationConfig?
 
-        public init(id: String? = nil, expires: Int64? = nil, description: String? = nil) {
-            self.id = id
-            self.expires = expires
-            self.description = description
+        public init(endpoint: String? = nil, authorizationConfig: AuthorizationConfig? = nil) {
+            self.endpoint = endpoint
+            self.authorizationConfig = authorizationConfig
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id = "id"
-            case expires = "expires"
-            case description = "description"
+            case endpoint = "endpoint"
+            case authorizationConfig = "authorizationConfig"
         }
     }
 
-    public struct UpdateDataSourceRequest: AWSShape {
+    public struct GetDataSourceResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "type", required: true, type: .enum), 
-            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "elasticsearchConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "relationalDatabaseConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "dynamodbConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "serviceRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "lambdaConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "httpConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "description", required: false, type: .string)
+            AWSShapeMember(label: "dataSource", required: false, type: .structure)
         ]
-        /// The new data source type.
-        public let `type`: DataSourceType
-        /// The new name for the data source.
-        public let name: String
-        /// The new Elasticsearch Service configuration.
+        /// The DataSource object.
+        public let dataSource: DataSource?
+
+        public init(dataSource: DataSource? = nil) {
+            self.dataSource = dataSource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSource = "dataSource"
+        }
+    }
+
+    public enum DefaultAction: String, CustomStringConvertible, Codable {
+        case allow = "ALLOW"
+        case deny = "DENY"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CreateDataSourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "elasticsearchConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "lambdaConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "relationalDatabaseConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "type", required: true, type: .enum), 
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "httpConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "dynamodbConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "serviceRoleArn", required: false, type: .string)
+        ]
+        /// Amazon Elasticsearch Service settings.
         public let elasticsearchConfig: ElasticsearchDataSourceConfig?
-        /// The new relational database configuration.
+        /// AWS Lambda settings.
+        public let lambdaConfig: LambdaDataSourceConfig?
+        /// Relational database settings.
         public let relationalDatabaseConfig: RelationalDatabaseDataSourceConfig?
-        /// The new Amazon DynamoDB configuration.
+        /// The type of the DataSource.
+        public let `type`: DataSourceType
+        /// The API ID for the GraphQL API for the DataSource.
+        public let apiId: String
+        /// A description of the DataSource.
+        public let description: String?
+        /// HTTP endpoint settings.
+        public let httpConfig: HttpDataSourceConfig?
+        /// Amazon DynamoDB settings.
         public let dynamodbConfig: DynamodbDataSourceConfig?
+        /// A user-supplied name for the DataSource.
+        public let name: String
+        /// The AWS IAM service role ARN for the data source. The system assumes this role when accessing the data source.
+        public let serviceRoleArn: String?
+
+        public init(elasticsearchConfig: ElasticsearchDataSourceConfig? = nil, lambdaConfig: LambdaDataSourceConfig? = nil, relationalDatabaseConfig: RelationalDatabaseDataSourceConfig? = nil, type: DataSourceType, apiId: String, description: String? = nil, httpConfig: HttpDataSourceConfig? = nil, dynamodbConfig: DynamodbDataSourceConfig? = nil, name: String, serviceRoleArn: String? = nil) {
+            self.elasticsearchConfig = elasticsearchConfig
+            self.lambdaConfig = lambdaConfig
+            self.relationalDatabaseConfig = relationalDatabaseConfig
+            self.`type` = `type`
+            self.apiId = apiId
+            self.description = description
+            self.httpConfig = httpConfig
+            self.dynamodbConfig = dynamodbConfig
+            self.name = name
+            self.serviceRoleArn = serviceRoleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case elasticsearchConfig = "elasticsearchConfig"
+            case lambdaConfig = "lambdaConfig"
+            case relationalDatabaseConfig = "relationalDatabaseConfig"
+            case `type` = "type"
+            case apiId = "apiId"
+            case description = "description"
+            case httpConfig = "httpConfig"
+            case dynamodbConfig = "dynamodbConfig"
+            case name = "name"
+            case serviceRoleArn = "serviceRoleArn"
+        }
+    }
+
+    public struct Resolver: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resolverArn", required: false, type: .string), 
+            AWSShapeMember(label: "requestMappingTemplate", required: false, type: .string), 
+            AWSShapeMember(label: "typeName", required: false, type: .string), 
+            AWSShapeMember(label: "responseMappingTemplate", required: false, type: .string), 
+            AWSShapeMember(label: "fieldName", required: false, type: .string), 
+            AWSShapeMember(label: "kind", required: false, type: .enum), 
+            AWSShapeMember(label: "dataSourceName", required: false, type: .string), 
+            AWSShapeMember(label: "pipelineConfig", required: false, type: .structure)
+        ]
+        /// The resolver ARN.
+        public let resolverArn: String?
+        /// The request mapping template.
+        public let requestMappingTemplate: String?
+        /// The resolver type name.
+        public let typeName: String?
+        /// The response mapping template.
+        public let responseMappingTemplate: String?
+        /// The resolver field name.
+        public let fieldName: String?
+        /// The resolver type.    UNIT: A UNIT resolver type. A UNIT resolver is the default resolver type. A UNIT resolver enables you to execute a GraphQL query against a single data source.    PIPELINE: A PIPELINE resolver type. A PIPELINE resolver enables you to execute a series of Function in a serial manner. You can use a pipeline resolver to execute a GraphQL query against multiple data sources.  
+        public let kind: ResolverKind?
+        /// The resolver data source name.
+        public let dataSourceName: String?
+        /// The PipelineConfig.
+        public let pipelineConfig: PipelineConfig?
+
+        public init(resolverArn: String? = nil, requestMappingTemplate: String? = nil, typeName: String? = nil, responseMappingTemplate: String? = nil, fieldName: String? = nil, kind: ResolverKind? = nil, dataSourceName: String? = nil, pipelineConfig: PipelineConfig? = nil) {
+            self.resolverArn = resolverArn
+            self.requestMappingTemplate = requestMappingTemplate
+            self.typeName = typeName
+            self.responseMappingTemplate = responseMappingTemplate
+            self.fieldName = fieldName
+            self.kind = kind
+            self.dataSourceName = dataSourceName
+            self.pipelineConfig = pipelineConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resolverArn = "resolverArn"
+            case requestMappingTemplate = "requestMappingTemplate"
+            case typeName = "typeName"
+            case responseMappingTemplate = "responseMappingTemplate"
+            case fieldName = "fieldName"
+            case kind = "kind"
+            case dataSourceName = "dataSourceName"
+            case pipelineConfig = "pipelineConfig"
+        }
+    }
+
+    public struct UpdateFunctionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "requestMappingTemplate", required: true, type: .string), 
+            AWSShapeMember(label: "functionVersion", required: true, type: .string), 
+            AWSShapeMember(label: "responseMappingTemplate", required: false, type: .string), 
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "dataSourceName", required: true, type: .string), 
+            AWSShapeMember(label: "functionId", location: .uri(locationName: "functionId"), required: true, type: .string)
+        ]
+        /// The Function request mapping template. Functions support only the 2018-05-29 version of the request mapping template.
+        public let requestMappingTemplate: String
+        /// The version of the request mapping template. Currently the supported value is 2018-05-29. 
+        public let functionVersion: String
+        /// The Function request mapping template. 
+        public let responseMappingTemplate: String?
+        /// The GraphQL API ID.
+        public let apiId: String
+        /// The Function description.
+        public let description: String?
+        /// The Function name.
+        public let name: String
+        /// The Function DataSource name.
+        public let dataSourceName: String
+        /// The function ID.
+        public let functionId: String
+
+        public init(requestMappingTemplate: String, functionVersion: String, responseMappingTemplate: String? = nil, apiId: String, description: String? = nil, name: String, dataSourceName: String, functionId: String) {
+            self.requestMappingTemplate = requestMappingTemplate
+            self.functionVersion = functionVersion
+            self.responseMappingTemplate = responseMappingTemplate
+            self.apiId = apiId
+            self.description = description
+            self.name = name
+            self.dataSourceName = dataSourceName
+            self.functionId = functionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestMappingTemplate = "requestMappingTemplate"
+            case functionVersion = "functionVersion"
+            case responseMappingTemplate = "responseMappingTemplate"
+            case apiId = "apiId"
+            case description = "description"
+            case name = "name"
+            case dataSourceName = "dataSourceName"
+            case functionId = "functionId"
+        }
+    }
+
+    public struct DeleteResolverResponse: AWSShape {
+
+    }
+
+    public enum OutputType: String, CustomStringConvertible, Codable {
+        case sdl = "SDL"
+        case json = "JSON"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct LogConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "fieldLogLevel", required: true, type: .enum), 
+            AWSShapeMember(label: "cloudWatchLogsRoleArn", required: true, type: .string)
+        ]
+        /// The field logging level. Values can be NONE, ERROR, or ALL.     NONE: No field-level logs are captured.    ERROR: Logs the following information only for the fields that are in error:   The error section in the server response.   Field-level errors.   The generated request/response functions that got resolved for error fields.      ALL: The following information is logged for all fields in the query:   Field-level tracing information.   The generated request/response functions that got resolved for each field.    
+        public let fieldLogLevel: FieldLogLevel
+        /// The service role that AWS AppSync will assume to publish to Amazon CloudWatch logs in your account. 
+        public let cloudWatchLogsRoleArn: String
+
+        public init(fieldLogLevel: FieldLogLevel, cloudWatchLogsRoleArn: String) {
+            self.fieldLogLevel = fieldLogLevel
+            self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldLogLevel = "fieldLogLevel"
+            case cloudWatchLogsRoleArn = "cloudWatchLogsRoleArn"
+        }
+    }
+
+    public struct DeleteTypeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
+            AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"), required: true, type: .string)
+        ]
         /// The API ID.
         public let apiId: String
-        /// The new service role ARN for the data source.
-        public let serviceRoleArn: String?
-        /// The new AWS Lambda configuration.
-        public let lambdaConfig: LambdaDataSourceConfig?
-        /// The new HTTP endpoint configuration.
-        public let httpConfig: HttpDataSourceConfig?
-        /// The new description for the data source.
-        public let description: String?
+        /// The type name.
+        public let typeName: String
 
-        public init(type: DataSourceType, name: String, elasticsearchConfig: ElasticsearchDataSourceConfig? = nil, relationalDatabaseConfig: RelationalDatabaseDataSourceConfig? = nil, dynamodbConfig: DynamodbDataSourceConfig? = nil, apiId: String, serviceRoleArn: String? = nil, lambdaConfig: LambdaDataSourceConfig? = nil, httpConfig: HttpDataSourceConfig? = nil, description: String? = nil) {
-            self.`type` = `type`
-            self.name = name
-            self.elasticsearchConfig = elasticsearchConfig
-            self.relationalDatabaseConfig = relationalDatabaseConfig
-            self.dynamodbConfig = dynamodbConfig
+        public init(apiId: String, typeName: String) {
             self.apiId = apiId
-            self.serviceRoleArn = serviceRoleArn
-            self.lambdaConfig = lambdaConfig
-            self.httpConfig = httpConfig
-            self.description = description
+            self.typeName = typeName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type` = "type"
-            case name = "name"
-            case elasticsearchConfig = "elasticsearchConfig"
-            case relationalDatabaseConfig = "relationalDatabaseConfig"
-            case dynamodbConfig = "dynamodbConfig"
             case apiId = "apiId"
-            case serviceRoleArn = "serviceRoleArn"
-            case lambdaConfig = "lambdaConfig"
-            case httpConfig = "httpConfig"
-            case description = "description"
+            case typeName = "typeName"
         }
     }
 
-    public struct ListResolversResponse: AWSShape {
+    public struct CreateGraphqlApiRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resolvers", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
+            AWSShapeMember(label: "logConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "userPoolConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "openIDConnectConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "authenticationType", required: true, type: .enum), 
+            AWSShapeMember(label: "name", required: true, type: .string)
         ]
-        /// The Resolver objects.
-        public let resolvers: [Resolver]?
-        /// An identifier to be passed in the next request to this operation to return the next set of items in the list.
-        public let nextToken: String?
+        /// The Amazon CloudWatch Logs configuration.
+        public let logConfig: LogConfig?
+        /// The Amazon Cognito user pool configuration.
+        public let userPoolConfig: UserPoolConfig?
+        /// The OpenID Connect configuration.
+        public let openIDConnectConfig: OpenIDConnectConfig?
+        /// The authentication type: API key, AWS IAM, or Amazon Cognito user pools.
+        public let authenticationType: AuthenticationType
+        /// A user-supplied name for the GraphqlApi.
+        public let name: String
 
-        public init(resolvers: [Resolver]? = nil, nextToken: String? = nil) {
-            self.resolvers = resolvers
-            self.nextToken = nextToken
+        public init(logConfig: LogConfig? = nil, userPoolConfig: UserPoolConfig? = nil, openIDConnectConfig: OpenIDConnectConfig? = nil, authenticationType: AuthenticationType, name: String) {
+            self.logConfig = logConfig
+            self.userPoolConfig = userPoolConfig
+            self.openIDConnectConfig = openIDConnectConfig
+            self.authenticationType = authenticationType
+            self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resolvers = "resolvers"
-            case nextToken = "nextToken"
+            case logConfig = "logConfig"
+            case userPoolConfig = "userPoolConfig"
+            case openIDConnectConfig = "openIDConnectConfig"
+            case authenticationType = "authenticationType"
+            case name = "name"
         }
     }
 
-    public struct AuthorizationConfig: AWSShape {
+    public struct UpdateGraphqlApiRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorizationType", required: true, type: .enum), 
-            AWSShapeMember(label: "awsIamConfig", required: false, type: .structure)
+            AWSShapeMember(label: "logConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
+            AWSShapeMember(label: "userPoolConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "openIDConnectConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "authenticationType", required: false, type: .enum), 
+            AWSShapeMember(label: "name", required: true, type: .string)
         ]
-        /// The authorization type required by the HTTP endpoint.    AWS_IAM: The authorization type is Sigv4.  
-        public let authorizationType: AuthorizationType
-        /// The AWS IAM settings.
-        public let awsIamConfig: AwsIamConfig?
+        /// The Amazon CloudWatch Logs configuration for the GraphqlApi object.
+        public let logConfig: LogConfig?
+        /// The API ID.
+        public let apiId: String
+        /// The new Amazon Cognito user pool configuration for the GraphqlApi object.
+        public let userPoolConfig: UserPoolConfig?
+        /// The OpenID Connect configuration for the GraphqlApi object.
+        public let openIDConnectConfig: OpenIDConnectConfig?
+        /// The new authentication type for the GraphqlApi object.
+        public let authenticationType: AuthenticationType?
+        /// The new name for the GraphqlApi object.
+        public let name: String
 
-        public init(authorizationType: AuthorizationType, awsIamConfig: AwsIamConfig? = nil) {
-            self.authorizationType = authorizationType
-            self.awsIamConfig = awsIamConfig
+        public init(logConfig: LogConfig? = nil, apiId: String, userPoolConfig: UserPoolConfig? = nil, openIDConnectConfig: OpenIDConnectConfig? = nil, authenticationType: AuthenticationType? = nil, name: String) {
+            self.logConfig = logConfig
+            self.apiId = apiId
+            self.userPoolConfig = userPoolConfig
+            self.openIDConnectConfig = openIDConnectConfig
+            self.authenticationType = authenticationType
+            self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorizationType = "authorizationType"
-            case awsIamConfig = "awsIamConfig"
+            case logConfig = "logConfig"
+            case apiId = "apiId"
+            case userPoolConfig = "userPoolConfig"
+            case openIDConnectConfig = "openIDConnectConfig"
+            case authenticationType = "authenticationType"
+            case name = "name"
         }
     }
 
-    public struct ListDataSourcesResponse: AWSShape {
+    public struct StartSchemaCreationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "dataSources", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
+            AWSShapeMember(label: "definition", required: true, type: .blob)
         ]
-        /// The DataSource objects.
-        public let dataSources: [DataSource]?
-        /// An identifier to be passed in the next request to this operation to return the next set of items in the list.
-        public let nextToken: String?
+        /// The API ID.
+        public let apiId: String
+        /// The schema definition, in GraphQL schema language format.
+        public let definition: Data
 
-        public init(dataSources: [DataSource]? = nil, nextToken: String? = nil) {
-            self.dataSources = dataSources
-            self.nextToken = nextToken
+        public init(apiId: String, definition: Data) {
+            self.apiId = apiId
+            self.definition = definition
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataSources = "dataSources"
-            case nextToken = "nextToken"
+            case apiId = "apiId"
+            case definition = "definition"
+        }
+    }
+
+    public enum AuthorizationType: String, CustomStringConvertible, Codable {
+        case awsIam = "AWS_IAM"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetResolverResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resolver", required: false, type: .structure)
+        ]
+        /// The Resolver object.
+        public let resolver: Resolver?
+
+        public init(resolver: Resolver? = nil) {
+            self.resolver = resolver
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resolver = "resolver"
+        }
+    }
+
+    public struct DeleteTypeResponse: AWSShape {
+
+    }
+
+    public struct RelationalDatabaseDataSourceConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "relationalDatabaseSourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "rdsHttpEndpointConfig", required: false, type: .structure)
+        ]
+        /// Source type for the relational database.    RDS_HTTP_ENDPOINT: The relational database source type is an Amazon RDS HTTP endpoint.  
+        public let relationalDatabaseSourceType: RelationalDatabaseSourceType?
+        /// Amazon RDS HTTP endpoint settings.
+        public let rdsHttpEndpointConfig: RdsHttpEndpointConfig?
+
+        public init(relationalDatabaseSourceType: RelationalDatabaseSourceType? = nil, rdsHttpEndpointConfig: RdsHttpEndpointConfig? = nil) {
+            self.relationalDatabaseSourceType = relationalDatabaseSourceType
+            self.rdsHttpEndpointConfig = rdsHttpEndpointConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case relationalDatabaseSourceType = "relationalDatabaseSourceType"
+            case rdsHttpEndpointConfig = "rdsHttpEndpointConfig"
         }
     }
 
@@ -665,95 +998,268 @@ extension AppSync {
 
     }
 
-    public struct CreateApiKeyRequest: AWSShape {
+    public struct ListDataSourcesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "expires", required: false, type: .long), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string)
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "dataSources", required: false, type: .list)
         ]
-        /// The time from creation time after which the API key expires. The date is represented as seconds since the epoch, rounded down to the nearest hour. The default value for this parameter is 7 days from creation time. For more information, see .
-        public let expires: Int64?
-        /// A description of the purpose of the API key.
-        public let description: String?
-        /// The ID for your GraphQL API.
-        public let apiId: String
+        /// An identifier to be passed in the next request to this operation to return the next set of items in the list.
+        public let nextToken: String?
+        /// The DataSource objects.
+        public let dataSources: [DataSource]?
 
-        public init(expires: Int64? = nil, description: String? = nil, apiId: String) {
-            self.expires = expires
-            self.description = description
-            self.apiId = apiId
+        public init(nextToken: String? = nil, dataSources: [DataSource]? = nil) {
+            self.nextToken = nextToken
+            self.dataSources = dataSources
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expires = "expires"
-            case description = "description"
-            case apiId = "apiId"
+            case nextToken = "nextToken"
+            case dataSources = "dataSources"
         }
     }
 
-    public struct UpdateGraphqlApiRequest: AWSShape {
+    public struct ListResolversByFunctionResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authenticationType", required: false, type: .enum), 
-            AWSShapeMember(label: "userPoolConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "logConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "openIDConnectConfig", required: false, type: .structure)
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "resolvers", required: false, type: .list)
         ]
-        /// The new authentication type for the GraphqlApi object.
-        public let authenticationType: AuthenticationType?
-        /// The new Amazon Cognito user pool configuration for the GraphqlApi object.
-        public let userPoolConfig: UserPoolConfig?
+        /// An identifier that can be used to return the next set of items in the list.
+        public let nextToken: String?
+        /// The list of resolvers.
+        public let resolvers: [Resolver]?
+
+        public init(nextToken: String? = nil, resolvers: [Resolver]? = nil) {
+            self.nextToken = nextToken
+            self.resolvers = resolvers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case resolvers = "resolvers"
+        }
+    }
+
+    public struct CreateTypeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
+            AWSShapeMember(label: "definition", required: true, type: .string), 
+            AWSShapeMember(label: "format", required: true, type: .enum)
+        ]
         /// The API ID.
         public let apiId: String
-        /// The Amazon CloudWatch Logs configuration for the GraphqlApi object.
-        public let logConfig: LogConfig?
-        /// The new name for the GraphqlApi object.
-        public let name: String
-        /// The OpenID Connect configuration for the GraphqlApi object.
-        public let openIDConnectConfig: OpenIDConnectConfig?
+        /// The type definition, in GraphQL Schema Definition Language (SDL) format. For more information, see the GraphQL SDL documentation.
+        public let definition: String
+        /// The type format: SDL or JSON.
+        public let format: TypeDefinitionFormat
 
-        public init(authenticationType: AuthenticationType? = nil, userPoolConfig: UserPoolConfig? = nil, apiId: String, logConfig: LogConfig? = nil, name: String, openIDConnectConfig: OpenIDConnectConfig? = nil) {
-            self.authenticationType = authenticationType
-            self.userPoolConfig = userPoolConfig
+        public init(apiId: String, definition: String, format: TypeDefinitionFormat) {
             self.apiId = apiId
-            self.logConfig = logConfig
-            self.name = name
-            self.openIDConnectConfig = openIDConnectConfig
+            self.definition = definition
+            self.format = format
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authenticationType = "authenticationType"
-            case userPoolConfig = "userPoolConfig"
             case apiId = "apiId"
-            case logConfig = "logConfig"
-            case name = "name"
-            case openIDConnectConfig = "openIDConnectConfig"
+            case definition = "definition"
+            case format = "format"
         }
     }
 
-    public struct DeleteFunctionResponse: AWSShape {
+    public struct GetDataSourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
+        ]
+        /// The API ID.
+        public let apiId: String
+        /// The name of the data source.
+        public let name: String
 
+        public init(apiId: String, name: String) {
+            self.apiId = apiId
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiId = "apiId"
+            case name = "name"
+        }
+    }
+
+    public struct ListGraphqlApisRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
+        ]
+        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list. 
+        public let nextToken: String?
+        /// The maximum number of results you want the request to return.
+        public let maxResults: Int32?
+
+        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+        }
     }
 
     public struct ListApiKeysResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiKeys", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "apiKeys", required: false, type: .list)
         ]
-        /// The ApiKey objects.
-        public let apiKeys: [ApiKey]?
         /// An identifier to be passed in the next request to this operation to return the next set of items in the list.
         public let nextToken: String?
+        /// The ApiKey objects.
+        public let apiKeys: [ApiKey]?
 
-        public init(apiKeys: [ApiKey]? = nil, nextToken: String? = nil) {
-            self.apiKeys = apiKeys
+        public init(nextToken: String? = nil, apiKeys: [ApiKey]? = nil) {
             self.nextToken = nextToken
+            self.apiKeys = apiKeys
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiKeys = "apiKeys"
             case nextToken = "nextToken"
+            case apiKeys = "apiKeys"
+        }
+    }
+
+    public struct DeleteGraphqlApiResponse: AWSShape {
+
+    }
+
+    public struct DynamodbDataSourceConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "awsRegion", required: true, type: .string), 
+            AWSShapeMember(label: "useCallerCredentials", required: false, type: .boolean), 
+            AWSShapeMember(label: "tableName", required: true, type: .string)
+        ]
+        /// The AWS Region.
+        public let awsRegion: String
+        /// Set to TRUE to use Amazon Cognito credentials with this data source.
+        public let useCallerCredentials: Bool?
+        /// The table name.
+        public let tableName: String
+
+        public init(awsRegion: String, useCallerCredentials: Bool? = nil, tableName: String) {
+            self.awsRegion = awsRegion
+            self.useCallerCredentials = useCallerCredentials
+            self.tableName = tableName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsRegion = "awsRegion"
+            case useCallerCredentials = "useCallerCredentials"
+            case tableName = "tableName"
+        }
+    }
+
+    public struct CreateFunctionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "requestMappingTemplate", required: true, type: .string), 
+            AWSShapeMember(label: "functionVersion", required: true, type: .string), 
+            AWSShapeMember(label: "responseMappingTemplate", required: false, type: .string), 
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "dataSourceName", required: true, type: .string)
+        ]
+        /// The Function request mapping template. Functions support only the 2018-05-29 version of the request mapping template.
+        public let requestMappingTemplate: String
+        /// The version of the request mapping template. Currently the supported value is 2018-05-29. 
+        public let functionVersion: String
+        /// The Function response mapping template. 
+        public let responseMappingTemplate: String?
+        /// The GraphQL API ID.
+        public let apiId: String
+        /// The Function description.
+        public let description: String?
+        /// The Function name. The function name does not have to be unique.
+        public let name: String
+        /// The Function DataSource name.
+        public let dataSourceName: String
+
+        public init(requestMappingTemplate: String, functionVersion: String, responseMappingTemplate: String? = nil, apiId: String, description: String? = nil, name: String, dataSourceName: String) {
+            self.requestMappingTemplate = requestMappingTemplate
+            self.functionVersion = functionVersion
+            self.responseMappingTemplate = responseMappingTemplate
+            self.apiId = apiId
+            self.description = description
+            self.name = name
+            self.dataSourceName = dataSourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestMappingTemplate = "requestMappingTemplate"
+            case functionVersion = "functionVersion"
+            case responseMappingTemplate = "responseMappingTemplate"
+            case apiId = "apiId"
+            case description = "description"
+            case name = "name"
+            case dataSourceName = "dataSourceName"
+        }
+    }
+
+    public struct GetIntrospectionSchemaRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
+            AWSShapeMember(label: "format", location: .querystring(locationName: "format"), required: true, type: .enum)
+        ]
+        /// The API ID.
+        public let apiId: String
+        /// The schema format: SDL or JSON.
+        public let format: OutputType
+
+        public init(apiId: String, format: OutputType) {
+            self.apiId = apiId
+            self.format = format
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiId = "apiId"
+            case format = "format"
+        }
+    }
+
+    public enum TypeDefinitionFormat: String, CustomStringConvertible, Codable {
+        case sdl = "SDL"
+        case json = "JSON"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UpdateTypeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
+            AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"), required: true, type: .string), 
+            AWSShapeMember(label: "format", required: true, type: .enum), 
+            AWSShapeMember(label: "definition", required: false, type: .string)
+        ]
+        /// The API ID.
+        public let apiId: String
+        /// The new type name.
+        public let typeName: String
+        /// The new type format: SDL or JSON.
+        public let format: TypeDefinitionFormat
+        /// The new definition.
+        public let definition: String?
+
+        public init(apiId: String, typeName: String, format: TypeDefinitionFormat, definition: String? = nil) {
+            self.apiId = apiId
+            self.typeName = typeName
+            self.format = format
+            self.definition = definition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiId = "apiId"
+            case typeName = "typeName"
+            case format = "format"
+            case definition = "definition"
         }
     }
 
@@ -783,548 +1289,6 @@ extension AppSync {
         }
     }
 
-    public struct UpdateResolverResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resolver", required: false, type: .structure)
-        ]
-        /// The updated Resolver object.
-        public let resolver: Resolver?
-
-        public init(resolver: Resolver? = nil) {
-            self.resolver = resolver
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resolver = "resolver"
-        }
-    }
-
-    public struct `Type`: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "definition", required: false, type: .string), 
-            AWSShapeMember(label: "format", required: false, type: .enum), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "arn", required: false, type: .string)
-        ]
-        /// The type definition.
-        public let definition: String?
-        /// The type format: SDL or JSON.
-        public let format: TypeDefinitionFormat?
-        /// The type name.
-        public let name: String?
-        /// The type description.
-        public let description: String?
-        /// The type ARN.
-        public let arn: String?
-
-        public init(definition: String? = nil, format: TypeDefinitionFormat? = nil, name: String? = nil, description: String? = nil, arn: String? = nil) {
-            self.definition = definition
-            self.format = format
-            self.name = name
-            self.description = description
-            self.arn = arn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case definition = "definition"
-            case format = "format"
-            case name = "name"
-            case description = "description"
-            case arn = "arn"
-        }
-    }
-
-    public struct GetFunctionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "functionConfiguration", required: false, type: .structure)
-        ]
-        /// The Function object.
-        public let functionConfiguration: FunctionConfiguration?
-
-        public init(functionConfiguration: FunctionConfiguration? = nil) {
-            self.functionConfiguration = functionConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case functionConfiguration = "functionConfiguration"
-        }
-    }
-
-    public struct ListFunctionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
-        ]
-        /// The GraphQL API ID.
-        public let apiId: String
-        /// The maximum number of results you want the request to return.
-        public let maxResults: Int32?
-        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public let nextToken: String?
-
-        public init(apiId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.apiId = apiId
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public enum TypeDefinitionFormat: String, CustomStringConvertible, Codable {
-        case sdl = "SDL"
-        case json = "JSON"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct RelationalDatabaseDataSourceConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "rdsHttpEndpointConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "relationalDatabaseSourceType", required: false, type: .enum)
-        ]
-        /// Amazon RDS HTTP endpoint settings.
-        public let rdsHttpEndpointConfig: RdsHttpEndpointConfig?
-        /// Source type for the relational database.    RDS_HTTP_ENDPOINT: The relational database source type is an Amazon RDS HTTP endpoint.  
-        public let relationalDatabaseSourceType: RelationalDatabaseSourceType?
-
-        public init(rdsHttpEndpointConfig: RdsHttpEndpointConfig? = nil, relationalDatabaseSourceType: RelationalDatabaseSourceType? = nil) {
-            self.rdsHttpEndpointConfig = rdsHttpEndpointConfig
-            self.relationalDatabaseSourceType = relationalDatabaseSourceType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case rdsHttpEndpointConfig = "rdsHttpEndpointConfig"
-            case relationalDatabaseSourceType = "relationalDatabaseSourceType"
-        }
-    }
-
-    public struct CreateApiKeyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiKey", required: false, type: .structure)
-        ]
-        /// The API key.
-        public let apiKey: ApiKey?
-
-        public init(apiKey: ApiKey? = nil) {
-            self.apiKey = apiKey
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case apiKey = "apiKey"
-        }
-    }
-
-    public enum ResolverKind: String, CustomStringConvertible, Codable {
-        case unit = "UNIT"
-        case pipeline = "PIPELINE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListResolversByFunctionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resolvers", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// The list of resolvers.
-        public let resolvers: [Resolver]?
-        /// An identifier that can be used to return the next set of items in the list.
-        public let nextToken: String?
-
-        public init(resolvers: [Resolver]? = nil, nextToken: String? = nil) {
-            self.resolvers = resolvers
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resolvers = "resolvers"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct ListGraphqlApisRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
-        ]
-        /// The maximum number of results you want the request to return.
-        public let maxResults: Int32?
-        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list. 
-        public let nextToken: String?
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct ListResolversRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"), required: true, type: .string), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
-        ]
-        /// The maximum number of results you want the request to return.
-        public let maxResults: Int32?
-        /// The API ID.
-        public let apiId: String
-        /// The type name.
-        public let typeName: String
-        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list. 
-        public let nextToken: String?
-
-        public init(maxResults: Int32? = nil, apiId: String, typeName: String, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.apiId = apiId
-            self.typeName = typeName
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case apiId = "apiId"
-            case typeName = "typeName"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct CreateFunctionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "responseMappingTemplate", required: false, type: .string), 
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "functionVersion", required: true, type: .string), 
-            AWSShapeMember(label: "dataSourceName", required: true, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "requestMappingTemplate", required: true, type: .string)
-        ]
-        /// The Function name. The function name does not have to be unique.
-        public let name: String
-        /// The Function response mapping template. 
-        public let responseMappingTemplate: String?
-        /// The GraphQL API ID.
-        public let apiId: String
-        /// The version of the request mapping template. Currently the supported value is 2018-05-29. 
-        public let functionVersion: String
-        /// The Function DataSource name.
-        public let dataSourceName: String
-        /// The Function description.
-        public let description: String?
-        /// The Function request mapping template. Functions support only the 2018-05-29 version of the request mapping template.
-        public let requestMappingTemplate: String
-
-        public init(name: String, responseMappingTemplate: String? = nil, apiId: String, functionVersion: String, dataSourceName: String, description: String? = nil, requestMappingTemplate: String) {
-            self.name = name
-            self.responseMappingTemplate = responseMappingTemplate
-            self.apiId = apiId
-            self.functionVersion = functionVersion
-            self.dataSourceName = dataSourceName
-            self.description = description
-            self.requestMappingTemplate = requestMappingTemplate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case responseMappingTemplate = "responseMappingTemplate"
-            case apiId = "apiId"
-            case functionVersion = "functionVersion"
-            case dataSourceName = "dataSourceName"
-            case description = "description"
-            case requestMappingTemplate = "requestMappingTemplate"
-        }
-    }
-
-    public struct DeleteResolverResponse: AWSShape {
-
-    }
-
-    public struct GetTypeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "type", required: false, type: .structure)
-        ]
-        /// The Type object.
-        public let `type`: `Type`?
-
-        public init(type: `Type`? = nil) {
-            self.`type` = `type`
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "type"
-        }
-    }
-
-    public struct ListApiKeysRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
-        ]
-        /// The API ID.
-        public let apiId: String
-        /// The maximum number of results you want the request to return.
-        public let maxResults: Int32?
-        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public let nextToken: String?
-
-        public init(apiId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.apiId = apiId
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case apiId = "apiId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct LogConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "fieldLogLevel", required: true, type: .enum), 
-            AWSShapeMember(label: "cloudWatchLogsRoleArn", required: true, type: .string)
-        ]
-        /// The field logging level. Values can be NONE, ERROR, or ALL.     NONE: No field-level logs are captured.    ERROR: Logs the following information only for the fields that are in error:   The error section in the server response.   Field-level errors.   The generated request/response functions that got resolved for error fields.      ALL: The following information is logged for all fields in the query:   Field-level tracing information.   The generated request/response functions that got resolved for each field.    
-        public let fieldLogLevel: FieldLogLevel
-        /// The service role that AWS AppSync will assume to publish to Amazon CloudWatch logs in your account. 
-        public let cloudWatchLogsRoleArn: String
-
-        public init(fieldLogLevel: FieldLogLevel, cloudWatchLogsRoleArn: String) {
-            self.fieldLogLevel = fieldLogLevel
-            self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fieldLogLevel = "fieldLogLevel"
-            case cloudWatchLogsRoleArn = "cloudWatchLogsRoleArn"
-        }
-    }
-
-    public struct StartSchemaCreationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "definition", required: true, type: .blob), 
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string)
-        ]
-        /// The schema definition, in GraphQL schema language format.
-        public let definition: Data
-        /// The API ID.
-        public let apiId: String
-
-        public init(definition: Data, apiId: String) {
-            self.definition = definition
-            self.apiId = apiId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case definition = "definition"
-            case apiId = "apiId"
-        }
-    }
-
-    public struct CreateFunctionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "functionConfiguration", required: false, type: .structure)
-        ]
-        /// The Function object.
-        public let functionConfiguration: FunctionConfiguration?
-
-        public init(functionConfiguration: FunctionConfiguration? = nil) {
-            self.functionConfiguration = functionConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case functionConfiguration = "functionConfiguration"
-        }
-    }
-
-    public struct RdsHttpEndpointConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "databaseName", required: false, type: .string), 
-            AWSShapeMember(label: "awsSecretStoreArn", required: false, type: .string), 
-            AWSShapeMember(label: "schema", required: false, type: .string), 
-            AWSShapeMember(label: "awsRegion", required: false, type: .string), 
-            AWSShapeMember(label: "dbClusterIdentifier", required: false, type: .string)
-        ]
-        /// Logical database name.
-        public let databaseName: String?
-        /// AWS secret store ARN for database credentials.
-        public let awsSecretStoreArn: String?
-        /// Logical schema name.
-        public let schema: String?
-        /// AWS Region for RDS HTTP endpoint.
-        public let awsRegion: String?
-        /// Amazon RDS cluster identifier.
-        public let dbClusterIdentifier: String?
-
-        public init(databaseName: String? = nil, awsSecretStoreArn: String? = nil, schema: String? = nil, awsRegion: String? = nil, dbClusterIdentifier: String? = nil) {
-            self.databaseName = databaseName
-            self.awsSecretStoreArn = awsSecretStoreArn
-            self.schema = schema
-            self.awsRegion = awsRegion
-            self.dbClusterIdentifier = dbClusterIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case databaseName = "databaseName"
-            case awsSecretStoreArn = "awsSecretStoreArn"
-            case schema = "schema"
-            case awsRegion = "awsRegion"
-            case dbClusterIdentifier = "dbClusterIdentifier"
-        }
-    }
-
-    public struct UpdateDataSourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "dataSource", required: false, type: .structure)
-        ]
-        /// The updated DataSource object.
-        public let dataSource: DataSource?
-
-        public init(dataSource: DataSource? = nil) {
-            self.dataSource = dataSource
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dataSource = "dataSource"
-        }
-    }
-
-    public struct HttpDataSourceConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "endpoint", required: false, type: .string), 
-            AWSShapeMember(label: "authorizationConfig", required: false, type: .structure)
-        ]
-        /// The HTTP URL endpoint. You can either specify the domain name or IP, and port combination, and the URL scheme must be HTTP or HTTPS. If the port is not specified, AWS AppSync uses the default port 80 for the HTTP endpoint and port 443 for HTTPS endpoints.
-        public let endpoint: String?
-        /// The authorization config in case the HTTP endpoint requires authorization.
-        public let authorizationConfig: AuthorizationConfig?
-
-        public init(endpoint: String? = nil, authorizationConfig: AuthorizationConfig? = nil) {
-            self.endpoint = endpoint
-            self.authorizationConfig = authorizationConfig
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case endpoint = "endpoint"
-            case authorizationConfig = "authorizationConfig"
-        }
-    }
-
-    public enum RelationalDatabaseSourceType: String, CustomStringConvertible, Codable {
-        case rdsHttpEndpoint = "RDS_HTTP_ENDPOINT"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetTypeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "format", location: .querystring(locationName: "format"), required: true, type: .enum), 
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"), required: true, type: .string)
-        ]
-        /// The type format: SDL or JSON.
-        public let format: TypeDefinitionFormat
-        /// The API ID.
-        public let apiId: String
-        /// The type name.
-        public let typeName: String
-
-        public init(format: TypeDefinitionFormat, apiId: String, typeName: String) {
-            self.format = format
-            self.apiId = apiId
-            self.typeName = typeName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case format = "format"
-            case apiId = "apiId"
-            case typeName = "typeName"
-        }
-    }
-
-    public struct UpdateFunctionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "responseMappingTemplate", required: false, type: .string), 
-            AWSShapeMember(label: "functionId", location: .uri(locationName: "functionId"), required: true, type: .string), 
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "functionVersion", required: true, type: .string), 
-            AWSShapeMember(label: "dataSourceName", required: true, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "requestMappingTemplate", required: true, type: .string)
-        ]
-        /// The Function name.
-        public let name: String
-        /// The Function request mapping template. 
-        public let responseMappingTemplate: String?
-        /// The function ID.
-        public let functionId: String
-        /// The GraphQL API ID.
-        public let apiId: String
-        /// The version of the request mapping template. Currently the supported value is 2018-05-29. 
-        public let functionVersion: String
-        /// The Function DataSource name.
-        public let dataSourceName: String
-        /// The Function description.
-        public let description: String?
-        /// The Function request mapping template. Functions support only the 2018-05-29 version of the request mapping template.
-        public let requestMappingTemplate: String
-
-        public init(name: String, responseMappingTemplate: String? = nil, functionId: String, apiId: String, functionVersion: String, dataSourceName: String, description: String? = nil, requestMappingTemplate: String) {
-            self.name = name
-            self.responseMappingTemplate = responseMappingTemplate
-            self.functionId = functionId
-            self.apiId = apiId
-            self.functionVersion = functionVersion
-            self.dataSourceName = dataSourceName
-            self.description = description
-            self.requestMappingTemplate = requestMappingTemplate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case responseMappingTemplate = "responseMappingTemplate"
-            case functionId = "functionId"
-            case apiId = "apiId"
-            case functionVersion = "functionVersion"
-            case dataSourceName = "dataSourceName"
-            case description = "description"
-            case requestMappingTemplate = "requestMappingTemplate"
-        }
-    }
-
-    public struct ElasticsearchDataSourceConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "awsRegion", required: true, type: .string), 
-            AWSShapeMember(label: "endpoint", required: true, type: .string)
-        ]
-        /// The AWS Region.
-        public let awsRegion: String
-        /// The endpoint.
-        public let endpoint: String
-
-        public init(awsRegion: String, endpoint: String) {
-            self.awsRegion = awsRegion
-            self.endpoint = endpoint
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case awsRegion = "awsRegion"
-            case endpoint = "endpoint"
-        }
-    }
-
     public struct CreateGraphqlApiResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "graphqlApi", required: false, type: .structure)
@@ -1341,75 +1305,60 @@ extension AppSync {
         }
     }
 
-    public struct GraphqlApi: AWSShape {
+    public struct GetSchemaCreationStatusRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authenticationType", required: false, type: .enum), 
-            AWSShapeMember(label: "openIDConnectConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "apiId", required: false, type: .string), 
-            AWSShapeMember(label: "userPoolConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "logConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "uris", required: false, type: .map), 
-            AWSShapeMember(label: "arn", required: false, type: .string)
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string)
         ]
-        /// The authentication type.
-        public let authenticationType: AuthenticationType?
-        /// The OpenID Connect configuration.
-        public let openIDConnectConfig: OpenIDConnectConfig?
-        /// The API name.
-        public let name: String?
         /// The API ID.
-        public let apiId: String?
-        /// The Amazon Cognito user pool configuration.
-        public let userPoolConfig: UserPoolConfig?
-        /// The Amazon CloudWatch Logs configuration.
-        public let logConfig: LogConfig?
-        /// The URIs.
-        public let uris: [String: String]?
-        /// The ARN.
-        public let arn: String?
+        public let apiId: String
 
-        public init(authenticationType: AuthenticationType? = nil, openIDConnectConfig: OpenIDConnectConfig? = nil, name: String? = nil, apiId: String? = nil, userPoolConfig: UserPoolConfig? = nil, logConfig: LogConfig? = nil, uris: [String: String]? = nil, arn: String? = nil) {
-            self.authenticationType = authenticationType
-            self.openIDConnectConfig = openIDConnectConfig
-            self.name = name
+        public init(apiId: String) {
             self.apiId = apiId
-            self.userPoolConfig = userPoolConfig
-            self.logConfig = logConfig
-            self.uris = uris
-            self.arn = arn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authenticationType = "authenticationType"
-            case openIDConnectConfig = "openIDConnectConfig"
-            case name = "name"
             case apiId = "apiId"
-            case userPoolConfig = "userPoolConfig"
-            case logConfig = "logConfig"
-            case uris = "uris"
-            case arn = "arn"
         }
     }
 
-    public struct ListTypesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "types", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// The Type objects.
-        public let types: [`Type`]?
-        /// An identifier to be passed in the next request to this operation to return the next set of items in the list.
-        public let nextToken: String?
+    public struct DeleteDataSourceResponse: AWSShape {
 
-        public init(types: [`Type`]? = nil, nextToken: String? = nil) {
-            self.types = types
-            self.nextToken = nextToken
+    }
+
+    public struct GetFunctionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
+            AWSShapeMember(label: "functionId", location: .uri(locationName: "functionId"), required: true, type: .string)
+        ]
+        /// The GraphQL API ID.
+        public let apiId: String
+        /// The Function ID.
+        public let functionId: String
+
+        public init(apiId: String, functionId: String) {
+            self.apiId = apiId
+            self.functionId = functionId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case types = "types"
-            case nextToken = "nextToken"
+            case apiId = "apiId"
+            case functionId = "functionId"
+        }
+    }
+
+    public struct GetGraphqlApiResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "graphqlApi", required: false, type: .structure)
+        ]
+        /// The GraphqlApi object.
+        public let graphqlApi: GraphqlApi?
+
+        public init(graphqlApi: GraphqlApi? = nil) {
+            self.graphqlApi = graphqlApi
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case graphqlApi = "graphqlApi"
         }
     }
 
@@ -1439,263 +1388,34 @@ extension AppSync {
         }
     }
 
-    public struct LambdaDataSourceConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lambdaFunctionArn", required: true, type: .string)
-        ]
-        /// The ARN for the Lambda function.
-        public let lambdaFunctionArn: String
-
-        public init(lambdaFunctionArn: String) {
-            self.lambdaFunctionArn = lambdaFunctionArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lambdaFunctionArn = "lambdaFunctionArn"
-        }
-    }
-
-    public struct Resolver: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "kind", required: false, type: .enum), 
-            AWSShapeMember(label: "pipelineConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "resolverArn", required: false, type: .string), 
-            AWSShapeMember(label: "typeName", required: false, type: .string), 
-            AWSShapeMember(label: "responseMappingTemplate", required: false, type: .string), 
-            AWSShapeMember(label: "dataSourceName", required: false, type: .string), 
-            AWSShapeMember(label: "requestMappingTemplate", required: false, type: .string), 
-            AWSShapeMember(label: "fieldName", required: false, type: .string)
-        ]
-        /// The resolver type.    UNIT: A UNIT resolver type. A UNIT resolver is the default resolver type. A UNIT resolver enables you to execute a GraphQL query against a single data source.    PIPELINE: A PIPELINE resolver type. A PIPELINE resolver enables you to execute a series of Function in a serial manner. You can use a pipeline resolver to execute a GraphQL query against multiple data sources.  
-        public let kind: ResolverKind?
-        /// The PipelineConfig.
-        public let pipelineConfig: PipelineConfig?
-        /// The resolver ARN.
-        public let resolverArn: String?
-        /// The resolver type name.
-        public let typeName: String?
-        /// The response mapping template.
-        public let responseMappingTemplate: String?
-        /// The resolver data source name.
-        public let dataSourceName: String?
-        /// The request mapping template.
-        public let requestMappingTemplate: String?
-        /// The resolver field name.
-        public let fieldName: String?
-
-        public init(kind: ResolverKind? = nil, pipelineConfig: PipelineConfig? = nil, resolverArn: String? = nil, typeName: String? = nil, responseMappingTemplate: String? = nil, dataSourceName: String? = nil, requestMappingTemplate: String? = nil, fieldName: String? = nil) {
-            self.kind = kind
-            self.pipelineConfig = pipelineConfig
-            self.resolverArn = resolverArn
-            self.typeName = typeName
-            self.responseMappingTemplate = responseMappingTemplate
-            self.dataSourceName = dataSourceName
-            self.requestMappingTemplate = requestMappingTemplate
-            self.fieldName = fieldName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case kind = "kind"
-            case pipelineConfig = "pipelineConfig"
-            case resolverArn = "resolverArn"
-            case typeName = "typeName"
-            case responseMappingTemplate = "responseMappingTemplate"
-            case dataSourceName = "dataSourceName"
-            case requestMappingTemplate = "requestMappingTemplate"
-            case fieldName = "fieldName"
-        }
-    }
-
-    public struct GetSchemaCreationStatusResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "details", required: false, type: .string)
-        ]
-        /// The current state of the schema (PROCESSING, ACTIVE, or DELETING). Once the schema is in the ACTIVE state, you can add data.
-        public let status: SchemaStatus?
-        /// Detailed information about the status of the schema creation operation.
-        public let details: String?
-
-        public init(status: SchemaStatus? = nil, details: String? = nil) {
-            self.status = status
-            self.details = details
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "status"
-            case details = "details"
-        }
-    }
-
-    public struct CreateResolverRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "kind", required: false, type: .enum), 
-            AWSShapeMember(label: "pipelineConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"), required: true, type: .string), 
-            AWSShapeMember(label: "responseMappingTemplate", required: false, type: .string), 
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "dataSourceName", required: false, type: .string), 
-            AWSShapeMember(label: "requestMappingTemplate", required: true, type: .string), 
-            AWSShapeMember(label: "fieldName", required: true, type: .string)
-        ]
-        /// The resolver type.    UNIT: A UNIT resolver type. A UNIT resolver is the default resolver type. A UNIT resolver enables you to execute a GraphQL query against a single data source.    PIPELINE: A PIPELINE resolver type. A PIPELINE resolver enables you to execute a series of Function in a serial manner. You can use a pipeline resolver to execute a GraphQL query against multiple data sources.  
-        public let kind: ResolverKind?
-        /// The PipelineConfig.
-        public let pipelineConfig: PipelineConfig?
-        /// The name of the Type.
-        public let typeName: String
-        /// The mapping template to be used for responses from the data source.
-        public let responseMappingTemplate: String?
-        /// The ID for the GraphQL API for which the resolver is being created.
-        public let apiId: String
-        /// The name of the data source for which the resolver is being created.
-        public let dataSourceName: String?
-        /// The mapping template to be used for requests. A resolver uses a request mapping template to convert a GraphQL expression into a format that a data source can understand. Mapping templates are written in Apache Velocity Template Language (VTL).
-        public let requestMappingTemplate: String
-        /// The name of the field to attach the resolver to.
-        public let fieldName: String
-
-        public init(kind: ResolverKind? = nil, pipelineConfig: PipelineConfig? = nil, typeName: String, responseMappingTemplate: String? = nil, apiId: String, dataSourceName: String? = nil, requestMappingTemplate: String, fieldName: String) {
-            self.kind = kind
-            self.pipelineConfig = pipelineConfig
-            self.typeName = typeName
-            self.responseMappingTemplate = responseMappingTemplate
-            self.apiId = apiId
-            self.dataSourceName = dataSourceName
-            self.requestMappingTemplate = requestMappingTemplate
-            self.fieldName = fieldName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case kind = "kind"
-            case pipelineConfig = "pipelineConfig"
-            case typeName = "typeName"
-            case responseMappingTemplate = "responseMappingTemplate"
-            case apiId = "apiId"
-            case dataSourceName = "dataSourceName"
-            case requestMappingTemplate = "requestMappingTemplate"
-            case fieldName = "fieldName"
-        }
-    }
-
-    public struct DynamodbDataSourceConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "awsRegion", required: true, type: .string), 
-            AWSShapeMember(label: "tableName", required: true, type: .string), 
-            AWSShapeMember(label: "useCallerCredentials", required: false, type: .boolean)
-        ]
-        /// The AWS Region.
-        public let awsRegion: String
-        /// The table name.
-        public let tableName: String
-        /// Set to TRUE to use Amazon Cognito credentials with this data source.
-        public let useCallerCredentials: Bool?
-
-        public init(awsRegion: String, tableName: String, useCallerCredentials: Bool? = nil) {
-            self.awsRegion = awsRegion
-            self.tableName = tableName
-            self.useCallerCredentials = useCallerCredentials
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case awsRegion = "awsRegion"
-            case tableName = "tableName"
-            case useCallerCredentials = "useCallerCredentials"
-        }
-    }
-
-    public struct StartSchemaCreationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
-        /// The current state of the schema (PROCESSING, ACTIVE, or DELETING). When the schema is in the ACTIVE state, you can add data.
-        public let status: SchemaStatus?
-
-        public init(status: SchemaStatus? = nil) {
-            self.status = status
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "status"
-        }
-    }
-
-    public struct CreateTypeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "format", required: true, type: .enum), 
-            AWSShapeMember(label: "definition", required: true, type: .string), 
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string)
-        ]
-        /// The type format: SDL or JSON.
-        public let format: TypeDefinitionFormat
-        /// The type definition, in GraphQL Schema Definition Language (SDL) format. For more information, see the GraphQL SDL documentation.
-        public let definition: String
-        /// The API ID.
-        public let apiId: String
-
-        public init(format: TypeDefinitionFormat, definition: String, apiId: String) {
-            self.format = format
-            self.definition = definition
-            self.apiId = apiId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case format = "format"
-            case definition = "definition"
-            case apiId = "apiId"
-        }
-    }
-
-    public struct CreateDataSourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "dataSource", required: false, type: .structure)
-        ]
-        /// The DataSource object.
-        public let dataSource: DataSource?
-
-        public init(dataSource: DataSource? = nil) {
-            self.dataSource = dataSource
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dataSource = "dataSource"
-        }
-    }
-
-    public enum DefaultAction: String, CustomStringConvertible, Codable {
-        case allow = "ALLOW"
-        case deny = "DENY"
-        public var description: String { return self.rawValue }
-    }
-
     public struct OpenIDConnectConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "iatTTL", required: false, type: .long), 
-            AWSShapeMember(label: "clientId", required: false, type: .string), 
+            AWSShapeMember(label: "issuer", required: true, type: .string), 
             AWSShapeMember(label: "authTTL", required: false, type: .long), 
-            AWSShapeMember(label: "issuer", required: true, type: .string)
+            AWSShapeMember(label: "iatTTL", required: false, type: .long), 
+            AWSShapeMember(label: "clientId", required: false, type: .string)
         ]
+        /// The issuer for the OpenID Connect configuration. The issuer returned by discovery must exactly match the value of iss in the ID token.
+        public let issuer: String
+        /// The number of milliseconds a token is valid after being authenticated.
+        public let authTTL: Int64?
         /// The number of milliseconds a token is valid after being issued to a user.
         public let iatTTL: Int64?
         /// The client identifier of the Relying party at the OpenID identity provider. This identifier is typically obtained when the Relying party is registered with the OpenID identity provider. You can specify a regular expression so the AWS AppSync can validate against multiple client identifiers at a time.
         public let clientId: String?
-        /// The number of milliseconds a token is valid after being authenticated.
-        public let authTTL: Int64?
-        /// The issuer for the OpenID Connect configuration. The issuer returned by discovery must exactly match the value of iss in the ID token.
-        public let issuer: String
 
-        public init(iatTTL: Int64? = nil, clientId: String? = nil, authTTL: Int64? = nil, issuer: String) {
+        public init(issuer: String, authTTL: Int64? = nil, iatTTL: Int64? = nil, clientId: String? = nil) {
+            self.issuer = issuer
+            self.authTTL = authTTL
             self.iatTTL = iatTTL
             self.clientId = clientId
-            self.authTTL = authTTL
-            self.issuer = issuer
         }
 
         private enum CodingKeys: String, CodingKey {
+            case issuer = "issuer"
+            case authTTL = "authTTL"
             case iatTTL = "iatTTL"
             case clientId = "clientId"
-            case authTTL = "authTTL"
-            case issuer = "issuer"
         }
     }
 
@@ -1715,99 +1435,435 @@ extension AppSync {
         }
     }
 
-    public struct CreateResolverResponse: AWSShape {
+    public struct CreateApiKeyResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resolver", required: false, type: .structure)
+            AWSShapeMember(label: "apiKey", required: false, type: .structure)
         ]
-        /// The Resolver object.
-        public let resolver: Resolver?
+        /// The API key.
+        public let apiKey: ApiKey?
 
-        public init(resolver: Resolver? = nil) {
-            self.resolver = resolver
+        public init(apiKey: ApiKey? = nil) {
+            self.apiKey = apiKey
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resolver = "resolver"
+            case apiKey = "apiKey"
         }
     }
 
-    public struct UpdateApiKeyRequest: AWSShape {
+    public struct GetGraphqlApiRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "expires", required: false, type: .long), 
-            AWSShapeMember(label: "id", location: .uri(locationName: "id"), required: true, type: .string)
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string)
         ]
-        /// A description of the purpose of the API key.
-        public let description: String?
-        /// The ID for the GraphQL API.
+        /// The API ID for the GraphQL API.
         public let apiId: String
-        /// The time from update time after which the API key expires. The date is represented as seconds since the epoch. For more information, see .
-        public let expires: Int64?
-        /// The API key ID.
-        public let id: String
 
-        public init(description: String? = nil, apiId: String, expires: Int64? = nil, id: String) {
-            self.description = description
+        public init(apiId: String) {
             self.apiId = apiId
-            self.expires = expires
-            self.id = id
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description = "description"
             case apiId = "apiId"
-            case expires = "expires"
-            case id = "id"
         }
     }
 
-    public enum AuthenticationType: String, CustomStringConvertible, Codable {
-        case apiKey = "API_KEY"
-        case awsIam = "AWS_IAM"
-        case amazonCognitoUserPools = "AMAZON_COGNITO_USER_POOLS"
-        case openidConnect = "OPENID_CONNECT"
+    public struct ListResolversResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "resolvers", required: false, type: .list)
+        ]
+        /// An identifier to be passed in the next request to this operation to return the next set of items in the list.
+        public let nextToken: String?
+        /// The Resolver objects.
+        public let resolvers: [Resolver]?
+
+        public init(nextToken: String? = nil, resolvers: [Resolver]? = nil) {
+            self.nextToken = nextToken
+            self.resolvers = resolvers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case resolvers = "resolvers"
+        }
+    }
+
+    public struct UpdateResolverRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "requestMappingTemplate", required: true, type: .string), 
+            AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"), required: true, type: .string), 
+            AWSShapeMember(label: "responseMappingTemplate", required: false, type: .string), 
+            AWSShapeMember(label: "fieldName", location: .uri(locationName: "fieldName"), required: true, type: .string), 
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
+            AWSShapeMember(label: "kind", required: false, type: .enum), 
+            AWSShapeMember(label: "dataSourceName", required: false, type: .string), 
+            AWSShapeMember(label: "pipelineConfig", required: false, type: .structure)
+        ]
+        /// The new request mapping template.
+        public let requestMappingTemplate: String
+        /// The new type name.
+        public let typeName: String
+        /// The new response mapping template.
+        public let responseMappingTemplate: String?
+        /// The new field name.
+        public let fieldName: String
+        /// The API ID.
+        public let apiId: String
+        /// The resolver type.    UNIT: A UNIT resolver type. A UNIT resolver is the default resolver type. A UNIT resolver enables you to execute a GraphQL query against a single data source.    PIPELINE: A PIPELINE resolver type. A PIPELINE resolver enables you to execute a series of Function in a serial manner. You can use a pipeline resolver to execute a GraphQL query against multiple data sources.  
+        public let kind: ResolverKind?
+        /// The new data source name.
+        public let dataSourceName: String?
+        /// The PipelineConfig.
+        public let pipelineConfig: PipelineConfig?
+
+        public init(requestMappingTemplate: String, typeName: String, responseMappingTemplate: String? = nil, fieldName: String, apiId: String, kind: ResolverKind? = nil, dataSourceName: String? = nil, pipelineConfig: PipelineConfig? = nil) {
+            self.requestMappingTemplate = requestMappingTemplate
+            self.typeName = typeName
+            self.responseMappingTemplate = responseMappingTemplate
+            self.fieldName = fieldName
+            self.apiId = apiId
+            self.kind = kind
+            self.dataSourceName = dataSourceName
+            self.pipelineConfig = pipelineConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestMappingTemplate = "requestMappingTemplate"
+            case typeName = "typeName"
+            case responseMappingTemplate = "responseMappingTemplate"
+            case fieldName = "fieldName"
+            case apiId = "apiId"
+            case kind = "kind"
+            case dataSourceName = "dataSourceName"
+            case pipelineConfig = "pipelineConfig"
+        }
+    }
+
+    public struct CreateResolverRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "requestMappingTemplate", required: true, type: .string), 
+            AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"), required: true, type: .string), 
+            AWSShapeMember(label: "responseMappingTemplate", required: false, type: .string), 
+            AWSShapeMember(label: "fieldName", required: true, type: .string), 
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
+            AWSShapeMember(label: "kind", required: false, type: .enum), 
+            AWSShapeMember(label: "dataSourceName", required: false, type: .string), 
+            AWSShapeMember(label: "pipelineConfig", required: false, type: .structure)
+        ]
+        /// The mapping template to be used for requests. A resolver uses a request mapping template to convert a GraphQL expression into a format that a data source can understand. Mapping templates are written in Apache Velocity Template Language (VTL).
+        public let requestMappingTemplate: String
+        /// The name of the Type.
+        public let typeName: String
+        /// The mapping template to be used for responses from the data source.
+        public let responseMappingTemplate: String?
+        /// The name of the field to attach the resolver to.
+        public let fieldName: String
+        /// The ID for the GraphQL API for which the resolver is being created.
+        public let apiId: String
+        /// The resolver type.    UNIT: A UNIT resolver type. A UNIT resolver is the default resolver type. A UNIT resolver enables you to execute a GraphQL query against a single data source.    PIPELINE: A PIPELINE resolver type. A PIPELINE resolver enables you to execute a series of Function in a serial manner. You can use a pipeline resolver to execute a GraphQL query against multiple data sources.  
+        public let kind: ResolverKind?
+        /// The name of the data source for which the resolver is being created.
+        public let dataSourceName: String?
+        /// The PipelineConfig.
+        public let pipelineConfig: PipelineConfig?
+
+        public init(requestMappingTemplate: String, typeName: String, responseMappingTemplate: String? = nil, fieldName: String, apiId: String, kind: ResolverKind? = nil, dataSourceName: String? = nil, pipelineConfig: PipelineConfig? = nil) {
+            self.requestMappingTemplate = requestMappingTemplate
+            self.typeName = typeName
+            self.responseMappingTemplate = responseMappingTemplate
+            self.fieldName = fieldName
+            self.apiId = apiId
+            self.kind = kind
+            self.dataSourceName = dataSourceName
+            self.pipelineConfig = pipelineConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestMappingTemplate = "requestMappingTemplate"
+            case typeName = "typeName"
+            case responseMappingTemplate = "responseMappingTemplate"
+            case fieldName = "fieldName"
+            case apiId = "apiId"
+            case kind = "kind"
+            case dataSourceName = "dataSourceName"
+            case pipelineConfig = "pipelineConfig"
+        }
+    }
+
+    public struct DataSource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "dataSourceArn", required: false, type: .string), 
+            AWSShapeMember(label: "elasticsearchConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "lambdaConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "relationalDatabaseConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "type", required: false, type: .enum), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "httpConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "dynamodbConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "serviceRoleArn", required: false, type: .string)
+        ]
+        /// The data source ARN.
+        public let dataSourceArn: String?
+        /// Amazon Elasticsearch Service settings.
+        public let elasticsearchConfig: ElasticsearchDataSourceConfig?
+        /// AWS Lambda settings.
+        public let lambdaConfig: LambdaDataSourceConfig?
+        /// Relational database settings.
+        public let relationalDatabaseConfig: RelationalDatabaseDataSourceConfig?
+        /// The type of the data source.    AMAZON_DYNAMODB: The data source is an Amazon DynamoDB table.    AMAZON_ELASTICSEARCH: The data source is an Amazon Elasticsearch Service domain.    AWS_LAMBDA: The data source is an AWS Lambda function.    NONE: There is no data source. This type is used when you wish to invoke a GraphQL operation without connecting to a data source, such as performing data transformation with resolvers or triggering a subscription to be invoked from a mutation.    HTTP: The data source is an HTTP endpoint.    RELATIONAL_DATABASE: The data source is a relational database.  
+        public let `type`: DataSourceType?
+        /// The description of the data source.
+        public let description: String?
+        /// The name of the data source.
+        public let name: String?
+        /// HTTP endpoint settings.
+        public let httpConfig: HttpDataSourceConfig?
+        /// Amazon DynamoDB settings.
+        public let dynamodbConfig: DynamodbDataSourceConfig?
+        /// The AWS IAM service role ARN for the data source. The system assumes this role when accessing the data source.
+        public let serviceRoleArn: String?
+
+        public init(dataSourceArn: String? = nil, elasticsearchConfig: ElasticsearchDataSourceConfig? = nil, lambdaConfig: LambdaDataSourceConfig? = nil, relationalDatabaseConfig: RelationalDatabaseDataSourceConfig? = nil, type: DataSourceType? = nil, description: String? = nil, name: String? = nil, httpConfig: HttpDataSourceConfig? = nil, dynamodbConfig: DynamodbDataSourceConfig? = nil, serviceRoleArn: String? = nil) {
+            self.dataSourceArn = dataSourceArn
+            self.elasticsearchConfig = elasticsearchConfig
+            self.lambdaConfig = lambdaConfig
+            self.relationalDatabaseConfig = relationalDatabaseConfig
+            self.`type` = `type`
+            self.description = description
+            self.name = name
+            self.httpConfig = httpConfig
+            self.dynamodbConfig = dynamodbConfig
+            self.serviceRoleArn = serviceRoleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceArn = "dataSourceArn"
+            case elasticsearchConfig = "elasticsearchConfig"
+            case lambdaConfig = "lambdaConfig"
+            case relationalDatabaseConfig = "relationalDatabaseConfig"
+            case `type` = "type"
+            case description = "description"
+            case name = "name"
+            case httpConfig = "httpConfig"
+            case dynamodbConfig = "dynamodbConfig"
+            case serviceRoleArn = "serviceRoleArn"
+        }
+    }
+
+    public struct PipelineConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "functions", required: false, type: .list)
+        ]
+        /// A list of Function objects.
+        public let functions: [String]?
+
+        public init(functions: [String]? = nil) {
+            self.functions = functions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functions = "functions"
+        }
+    }
+
+    public struct ListResolversRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
+            AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"), required: true, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
+        ]
+        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list. 
+        public let nextToken: String?
+        /// The API ID.
+        public let apiId: String
+        /// The type name.
+        public let typeName: String
+        /// The maximum number of results you want the request to return.
+        public let maxResults: Int32?
+
+        public init(nextToken: String? = nil, apiId: String, typeName: String, maxResults: Int32? = nil) {
+            self.nextToken = nextToken
+            self.apiId = apiId
+            self.typeName = typeName
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case apiId = "apiId"
+            case typeName = "typeName"
+            case maxResults = "maxResults"
+        }
+    }
+
+    public struct ElasticsearchDataSourceConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "endpoint", required: true, type: .string), 
+            AWSShapeMember(label: "awsRegion", required: true, type: .string)
+        ]
+        /// The endpoint.
+        public let endpoint: String
+        /// The AWS Region.
+        public let awsRegion: String
+
+        public init(endpoint: String, awsRegion: String) {
+            self.endpoint = endpoint
+            self.awsRegion = awsRegion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpoint = "endpoint"
+            case awsRegion = "awsRegion"
+        }
+    }
+
+    public struct UpdateApiKeyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "apiKey", required: false, type: .structure)
+        ]
+        /// The API key.
+        public let apiKey: ApiKey?
+
+        public init(apiKey: ApiKey? = nil) {
+            self.apiKey = apiKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiKey = "apiKey"
+        }
+    }
+
+    public struct UserPoolConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "userPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "appIdClientRegex", required: false, type: .string), 
+            AWSShapeMember(label: "defaultAction", required: true, type: .enum), 
+            AWSShapeMember(label: "awsRegion", required: true, type: .string)
+        ]
+        /// The user pool ID.
+        public let userPoolId: String
+        /// A regular expression for validating the incoming Amazon Cognito user pool app client ID.
+        public let appIdClientRegex: String?
+        /// The action that you want your GraphQL API to take when a request that uses Amazon Cognito user pool authentication doesn't match the Amazon Cognito user pool configuration.
+        public let defaultAction: DefaultAction
+        /// The AWS Region in which the user pool was created.
+        public let awsRegion: String
+
+        public init(userPoolId: String, appIdClientRegex: String? = nil, defaultAction: DefaultAction, awsRegion: String) {
+            self.userPoolId = userPoolId
+            self.appIdClientRegex = appIdClientRegex
+            self.defaultAction = defaultAction
+            self.awsRegion = awsRegion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userPoolId = "userPoolId"
+            case appIdClientRegex = "appIdClientRegex"
+            case defaultAction = "defaultAction"
+            case awsRegion = "awsRegion"
+        }
+    }
+
+    public struct ListGraphqlApisResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "graphqlApis", required: false, type: .list)
+        ]
+        /// An identifier to be passed in the next request to this operation to return the next set of items in the list.
+        public let nextToken: String?
+        /// The GraphqlApi objects.
+        public let graphqlApis: [GraphqlApi]?
+
+        public init(nextToken: String? = nil, graphqlApis: [GraphqlApi]? = nil) {
+            self.nextToken = nextToken
+            self.graphqlApis = graphqlApis
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case graphqlApis = "graphqlApis"
+        }
+    }
+
+    public struct CreateFunctionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "functionConfiguration", required: false, type: .structure)
+        ]
+        /// The Function object.
+        public let functionConfiguration: FunctionConfiguration?
+
+        public init(functionConfiguration: FunctionConfiguration? = nil) {
+            self.functionConfiguration = functionConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functionConfiguration = "functionConfiguration"
+        }
+    }
+
+    public enum FieldLogLevel: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case error = "ERROR"
+        case all = "ALL"
         public var description: String { return self.rawValue }
     }
 
-    public struct DeleteApiKeyRequest: AWSShape {
+    public struct GetTypeResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", location: .uri(locationName: "id"), required: true, type: .string), 
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string)
+            AWSShapeMember(label: "type", required: false, type: .structure)
         ]
-        /// The ID for the API key.
-        public let id: String
-        /// The API ID.
-        public let apiId: String
+        /// The Type object.
+        public let `type`: `Type`?
 
-        public init(id: String, apiId: String) {
-            self.id = id
-            self.apiId = apiId
+        public init(type: `Type`? = nil) {
+            self.`type` = `type`
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id = "id"
-            case apiId = "apiId"
+            case `type` = "type"
         }
     }
 
-    public struct GetResolverResponse: AWSShape {
+    public struct ListTypesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resolver", required: false, type: .structure)
+            AWSShapeMember(label: "types", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
-        /// The Resolver object.
-        public let resolver: Resolver?
+        /// The Type objects.
+        public let types: [`Type`]?
+        /// An identifier to be passed in the next request to this operation to return the next set of items in the list.
+        public let nextToken: String?
 
-        public init(resolver: Resolver? = nil) {
-            self.resolver = resolver
+        public init(types: [`Type`]? = nil, nextToken: String? = nil) {
+            self.types = types
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resolver = "resolver"
+            case types = "types"
+            case nextToken = "nextToken"
         }
     }
 
-    public struct GetDataSourceRequest: AWSShape {
+    public struct LambdaDataSourceConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "lambdaFunctionArn", required: true, type: .string)
+        ]
+        /// The ARN for the Lambda function.
+        public let lambdaFunctionArn: String
+
+        public init(lambdaFunctionArn: String) {
+            self.lambdaFunctionArn = lambdaFunctionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lambdaFunctionArn = "lambdaFunctionArn"
+        }
+    }
+
+    public struct DeleteDataSourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
             AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
@@ -1828,253 +1884,60 @@ extension AppSync {
         }
     }
 
-    public struct DeleteTypeResponse: AWSShape {
-
-    }
-
-    public struct DataSource: AWSShape {
+    public struct ListResolversByFunctionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "type", required: false, type: .enum), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "elasticsearchConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "relationalDatabaseConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "dynamodbConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "serviceRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "lambdaConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "httpConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "dataSourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string)
-        ]
-        /// The type of the data source.    AMAZON_DYNAMODB: The data source is an Amazon DynamoDB table.    AMAZON_ELASTICSEARCH: The data source is an Amazon Elasticsearch Service domain.    AWS_LAMBDA: The data source is an AWS Lambda function.    NONE: There is no data source. This type is used when you wish to invoke a GraphQL operation without connecting to a data source, such as performing data transformation with resolvers or triggering a subscription to be invoked from a mutation.    HTTP: The data source is an HTTP endpoint.    RELATIONAL_DATABASE: The data source is a relational database.  
-        public let `type`: DataSourceType?
-        /// The name of the data source.
-        public let name: String?
-        /// Amazon Elasticsearch Service settings.
-        public let elasticsearchConfig: ElasticsearchDataSourceConfig?
-        /// Relational database settings.
-        public let relationalDatabaseConfig: RelationalDatabaseDataSourceConfig?
-        /// Amazon DynamoDB settings.
-        public let dynamodbConfig: DynamodbDataSourceConfig?
-        /// The AWS IAM service role ARN for the data source. The system assumes this role when accessing the data source.
-        public let serviceRoleArn: String?
-        /// AWS Lambda settings.
-        public let lambdaConfig: LambdaDataSourceConfig?
-        /// HTTP endpoint settings.
-        public let httpConfig: HttpDataSourceConfig?
-        /// The data source ARN.
-        public let dataSourceArn: String?
-        /// The description of the data source.
-        public let description: String?
-
-        public init(type: DataSourceType? = nil, name: String? = nil, elasticsearchConfig: ElasticsearchDataSourceConfig? = nil, relationalDatabaseConfig: RelationalDatabaseDataSourceConfig? = nil, dynamodbConfig: DynamodbDataSourceConfig? = nil, serviceRoleArn: String? = nil, lambdaConfig: LambdaDataSourceConfig? = nil, httpConfig: HttpDataSourceConfig? = nil, dataSourceArn: String? = nil, description: String? = nil) {
-            self.`type` = `type`
-            self.name = name
-            self.elasticsearchConfig = elasticsearchConfig
-            self.relationalDatabaseConfig = relationalDatabaseConfig
-            self.dynamodbConfig = dynamodbConfig
-            self.serviceRoleArn = serviceRoleArn
-            self.lambdaConfig = lambdaConfig
-            self.httpConfig = httpConfig
-            self.dataSourceArn = dataSourceArn
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "type"
-            case name = "name"
-            case elasticsearchConfig = "elasticsearchConfig"
-            case relationalDatabaseConfig = "relationalDatabaseConfig"
-            case dynamodbConfig = "dynamodbConfig"
-            case serviceRoleArn = "serviceRoleArn"
-            case lambdaConfig = "lambdaConfig"
-            case httpConfig = "httpConfig"
-            case dataSourceArn = "dataSourceArn"
-            case description = "description"
-        }
-    }
-
-    public struct UpdateTypeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "definition", required: false, type: .string), 
-            AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"), required: true, type: .string), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
             AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "format", required: true, type: .enum)
+            AWSShapeMember(label: "functionId", location: .uri(locationName: "functionId"), required: true, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
         ]
-        /// The new definition.
-        public let definition: String?
-        /// The new type name.
-        public let typeName: String
-        /// The API ID.
-        public let apiId: String
-        /// The new type format: SDL or JSON.
-        public let format: TypeDefinitionFormat
-
-        public init(definition: String? = nil, typeName: String, apiId: String, format: TypeDefinitionFormat) {
-            self.definition = definition
-            self.typeName = typeName
-            self.apiId = apiId
-            self.format = format
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case definition = "definition"
-            case typeName = "typeName"
-            case apiId = "apiId"
-            case format = "format"
-        }
-    }
-
-    public struct UpdateResolverRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "kind", required: false, type: .enum), 
-            AWSShapeMember(label: "pipelineConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"), required: true, type: .string), 
-            AWSShapeMember(label: "responseMappingTemplate", required: false, type: .string), 
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "dataSourceName", required: false, type: .string), 
-            AWSShapeMember(label: "requestMappingTemplate", required: true, type: .string), 
-            AWSShapeMember(label: "fieldName", location: .uri(locationName: "fieldName"), required: true, type: .string)
-        ]
-        /// The resolver type.    UNIT: A UNIT resolver type. A UNIT resolver is the default resolver type. A UNIT resolver enables you to execute a GraphQL query against a single data source.    PIPELINE: A PIPELINE resolver type. A PIPELINE resolver enables you to execute a series of Function in a serial manner. You can use a pipeline resolver to execute a GraphQL query against multiple data sources.  
-        public let kind: ResolverKind?
-        /// The PipelineConfig.
-        public let pipelineConfig: PipelineConfig?
-        /// The new type name.
-        public let typeName: String
-        /// The new response mapping template.
-        public let responseMappingTemplate: String?
-        /// The API ID.
-        public let apiId: String
-        /// The new data source name.
-        public let dataSourceName: String?
-        /// The new request mapping template.
-        public let requestMappingTemplate: String
-        /// The new field name.
-        public let fieldName: String
-
-        public init(kind: ResolverKind? = nil, pipelineConfig: PipelineConfig? = nil, typeName: String, responseMappingTemplate: String? = nil, apiId: String, dataSourceName: String? = nil, requestMappingTemplate: String, fieldName: String) {
-            self.kind = kind
-            self.pipelineConfig = pipelineConfig
-            self.typeName = typeName
-            self.responseMappingTemplate = responseMappingTemplate
-            self.apiId = apiId
-            self.dataSourceName = dataSourceName
-            self.requestMappingTemplate = requestMappingTemplate
-            self.fieldName = fieldName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case kind = "kind"
-            case pipelineConfig = "pipelineConfig"
-            case typeName = "typeName"
-            case responseMappingTemplate = "responseMappingTemplate"
-            case apiId = "apiId"
-            case dataSourceName = "dataSourceName"
-            case requestMappingTemplate = "requestMappingTemplate"
-            case fieldName = "fieldName"
-        }
-    }
-
-    public struct AwsIamConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "signingServiceName", required: false, type: .string), 
-            AWSShapeMember(label: "signingRegion", required: false, type: .string)
-        ]
-        /// The signing service name for AWS IAM authorization.
-        public let signingServiceName: String?
-        /// The signing region for AWS IAM authorization.
-        public let signingRegion: String?
-
-        public init(signingServiceName: String? = nil, signingRegion: String? = nil) {
-            self.signingServiceName = signingServiceName
-            self.signingRegion = signingRegion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case signingServiceName = "signingServiceName"
-            case signingRegion = "signingRegion"
-        }
-    }
-
-    public struct DeleteDataSourceResponse: AWSShape {
-
-    }
-
-    public struct ListGraphqlApisResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "graphqlApis", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// The GraphqlApi objects.
-        public let graphqlApis: [GraphqlApi]?
-        /// An identifier to be passed in the next request to this operation to return the next set of items in the list.
+        /// An identifier that was returned from the previous call to this operation, which you can use to return the next set of items in the list.
         public let nextToken: String?
-
-        public init(graphqlApis: [GraphqlApi]? = nil, nextToken: String? = nil) {
-            self.graphqlApis = graphqlApis
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case graphqlApis = "graphqlApis"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct GetFunctionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
-            AWSShapeMember(label: "functionId", location: .uri(locationName: "functionId"), required: true, type: .string)
-        ]
-        /// The GraphQL API ID.
+        /// The API ID.
         public let apiId: String
         /// The Function ID.
         public let functionId: String
+        /// The maximum number of results you want the request to return.
+        public let maxResults: Int32?
 
-        public init(apiId: String, functionId: String) {
+        public init(nextToken: String? = nil, apiId: String, functionId: String, maxResults: Int32? = nil) {
+            self.nextToken = nextToken
             self.apiId = apiId
             self.functionId = functionId
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case apiId = "apiId"
+            case functionId = "functionId"
+            case maxResults = "maxResults"
+        }
+    }
+
+    public struct GetTypeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
+            AWSShapeMember(label: "format", location: .querystring(locationName: "format"), required: true, type: .enum), 
+            AWSShapeMember(label: "typeName", location: .uri(locationName: "typeName"), required: true, type: .string)
+        ]
+        /// The API ID.
+        public let apiId: String
+        /// The type format: SDL or JSON.
+        public let format: TypeDefinitionFormat
+        /// The type name.
+        public let typeName: String
+
+        public init(apiId: String, format: TypeDefinitionFormat, typeName: String) {
+            self.apiId = apiId
+            self.format = format
+            self.typeName = typeName
         }
 
         private enum CodingKeys: String, CodingKey {
             case apiId = "apiId"
-            case functionId = "functionId"
-        }
-    }
-
-    public struct CreateGraphqlApiRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authenticationType", required: true, type: .enum), 
-            AWSShapeMember(label: "userPoolConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "logConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "openIDConnectConfig", required: false, type: .structure)
-        ]
-        /// The authentication type: API key, AWS IAM, or Amazon Cognito user pools.
-        public let authenticationType: AuthenticationType
-        /// The Amazon Cognito user pool configuration.
-        public let userPoolConfig: UserPoolConfig?
-        /// The Amazon CloudWatch Logs configuration.
-        public let logConfig: LogConfig?
-        /// A user-supplied name for the GraphqlApi.
-        public let name: String
-        /// The OpenID Connect configuration.
-        public let openIDConnectConfig: OpenIDConnectConfig?
-
-        public init(authenticationType: AuthenticationType, userPoolConfig: UserPoolConfig? = nil, logConfig: LogConfig? = nil, name: String, openIDConnectConfig: OpenIDConnectConfig? = nil) {
-            self.authenticationType = authenticationType
-            self.userPoolConfig = userPoolConfig
-            self.logConfig = logConfig
-            self.name = name
-            self.openIDConnectConfig = openIDConnectConfig
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case authenticationType = "authenticationType"
-            case userPoolConfig = "userPoolConfig"
-            case logConfig = "logConfig"
-            case name = "name"
-            case openIDConnectConfig = "openIDConnectConfig"
+            case format = "format"
+            case typeName = "typeName"
         }
     }
 
@@ -2088,25 +1951,162 @@ extension AppSync {
         public var description: String { return self.rawValue }
     }
 
-    public struct GetSchemaCreationStatusRequest: AWSShape {
+    public struct RdsHttpEndpointConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string)
+            AWSShapeMember(label: "schema", required: false, type: .string), 
+            AWSShapeMember(label: "dbClusterIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "databaseName", required: false, type: .string), 
+            AWSShapeMember(label: "awsRegion", required: false, type: .string), 
+            AWSShapeMember(label: "awsSecretStoreArn", required: false, type: .string)
         ]
-        /// The API ID.
-        public let apiId: String
+        /// Logical schema name.
+        public let schema: String?
+        /// Amazon RDS cluster identifier.
+        public let dbClusterIdentifier: String?
+        /// Logical database name.
+        public let databaseName: String?
+        /// AWS Region for RDS HTTP endpoint.
+        public let awsRegion: String?
+        /// AWS secret store ARN for database credentials.
+        public let awsSecretStoreArn: String?
 
-        public init(apiId: String) {
+        public init(schema: String? = nil, dbClusterIdentifier: String? = nil, databaseName: String? = nil, awsRegion: String? = nil, awsSecretStoreArn: String? = nil) {
+            self.schema = schema
+            self.dbClusterIdentifier = dbClusterIdentifier
+            self.databaseName = databaseName
+            self.awsRegion = awsRegion
+            self.awsSecretStoreArn = awsSecretStoreArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schema = "schema"
+            case dbClusterIdentifier = "dbClusterIdentifier"
+            case databaseName = "databaseName"
+            case awsRegion = "awsRegion"
+            case awsSecretStoreArn = "awsSecretStoreArn"
+        }
+    }
+
+    public enum RelationalDatabaseSourceType: String, CustomStringConvertible, Codable {
+        case rdsHttpEndpoint = "RDS_HTTP_ENDPOINT"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UpdateApiKeyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
+            AWSShapeMember(label: "expires", required: false, type: .long), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "id", location: .uri(locationName: "id"), required: true, type: .string)
+        ]
+        /// The ID for the GraphQL API.
+        public let apiId: String
+        /// The time from update time after which the API key expires. The date is represented as seconds since the epoch. For more information, see .
+        public let expires: Int64?
+        /// A description of the purpose of the API key.
+        public let description: String?
+        /// The API key ID.
+        public let id: String
+
+        public init(apiId: String, expires: Int64? = nil, description: String? = nil, id: String) {
             self.apiId = apiId
+            self.expires = expires
+            self.description = description
+            self.id = id
         }
 
         private enum CodingKeys: String, CodingKey {
             case apiId = "apiId"
+            case expires = "expires"
+            case description = "description"
+            case id = "id"
         }
     }
 
-    public enum AuthorizationType: String, CustomStringConvertible, Codable {
-        case awsIam = "AWS_IAM"
-        public var description: String { return self.rawValue }
+    public struct ListApiKeysRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "apiId", location: .uri(locationName: "apiId"), required: true, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
+        ]
+        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+        public let nextToken: String?
+        /// The API ID.
+        public let apiId: String
+        /// The maximum number of results you want the request to return.
+        public let maxResults: Int32?
+
+        public init(nextToken: String? = nil, apiId: String, maxResults: Int32? = nil) {
+            self.nextToken = nextToken
+            self.apiId = apiId
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case apiId = "apiId"
+            case maxResults = "maxResults"
+        }
+    }
+
+    public struct GetIntrospectionSchemaResponse: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "schema"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "schema", required: false, type: .blob)
+        ]
+        /// The schema, in GraphQL Schema Definition Language (SDL) format. For more information, see the GraphQL SDL documentation.
+        public let schema: Data?
+
+        public init(schema: Data? = nil) {
+            self.schema = schema
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schema = "schema"
+        }
+    }
+
+    public struct ApiKey: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "expires", required: false, type: .long), 
+            AWSShapeMember(label: "id", required: false, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string)
+        ]
+        /// The time after which the API key expires. The date is represented as seconds since the epoch, rounded down to the nearest hour.
+        public let expires: Int64?
+        /// The API key ID.
+        public let id: String?
+        /// A description of the purpose of the API key.
+        public let description: String?
+
+        public init(expires: Int64? = nil, id: String? = nil, description: String? = nil) {
+            self.expires = expires
+            self.id = id
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expires = "expires"
+            case id = "id"
+            case description = "description"
+        }
+    }
+
+    public struct StartSchemaCreationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: false, type: .enum)
+        ]
+        /// The current state of the schema (PROCESSING, ACTIVE, or DELETING). When the schema is in the ACTIVE state, you can add data.
+        public let status: SchemaStatus?
+
+        public init(status: SchemaStatus? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+        }
     }
 
     public struct UpdateFunctionResponse: AWSShape {

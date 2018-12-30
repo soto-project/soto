@@ -26,324 +26,324 @@ public struct DeviceFarm {
         )
     }
 
-    ///  Creates a network profile.
-    public func createNetworkProfile(_ input: CreateNetworkProfileRequest) throws -> EventLoopFuture<CreateNetworkProfileResult> {
-        return try client.send(operation: "CreateNetworkProfile", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Modifies the specified project name, given the project ARN and a new name.
-    public func updateProject(_ input: UpdateProjectRequest) throws -> EventLoopFuture<UpdateProjectResult> {
-        return try client.send(operation: "UpdateProject", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns the number of unmetered iOS and/or unmetered Android devices that have been purchased by the account.
-    public func getAccountSettings(_ input: GetAccountSettingsRequest) throws -> EventLoopFuture<GetAccountSettingsResult> {
-        return try client.send(operation: "GetAccountSettings", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about samples, given an AWS Device Farm job ARN.
-    public func listSamples(_ input: ListSamplesRequest) throws -> EventLoopFuture<ListSamplesResult> {
-        return try client.send(operation: "ListSamples", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Immediately purchases offerings for an AWS account. Offerings renew with the latest total purchased quantity for an offering, unless the renewal was overridden. The API returns a NotEligible error if the user is not permitted to invoke the operation. Please contact aws-devicefarm-support@amazon.com if you believe that you should be able to invoke this operation.
-    public func purchaseOffering(_ input: PurchaseOfferingRequest) throws -> EventLoopFuture<PurchaseOfferingResult> {
-        return try client.send(operation: "PurchaseOffering", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes a completed remote access session and its results.
-    public func deleteRemoteAccessSession(_ input: DeleteRemoteAccessSessionRequest) throws -> EventLoopFuture<DeleteRemoteAccessSessionResult> {
-        return try client.send(operation: "DeleteRemoteAccessSession", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Ends a specified remote access session.
-    public func stopRemoteAccessSession(_ input: StopRemoteAccessSessionRequest) throws -> EventLoopFuture<StopRemoteAccessSessionResult> {
-        return try client.send(operation: "StopRemoteAccessSession", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns a list of all historical purchases, renewals, and system renewal transactions for an AWS account. The list is paginated and ordered by a descending timestamp (most recent transactions are first). The API returns a NotEligible error if the user is not permitted to invoke the operation. Please contact aws-devicefarm-support@amazon.com if you believe that you should be able to invoke this operation.
-    public func listOfferingTransactions(_ input: ListOfferingTransactionsRequest) throws -> EventLoopFuture<ListOfferingTransactionsResult> {
-        return try client.send(operation: "ListOfferingTransactions", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns information about a network profile.
-    public func getNetworkProfile(_ input: GetNetworkProfileRequest) throws -> EventLoopFuture<GetNetworkProfileResult> {
-        return try client.send(operation: "GetNetworkProfile", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about unique device types.
-    public func listDevices(_ input: ListDevicesRequest) throws -> EventLoopFuture<ListDevicesResult> {
-        return try client.send(operation: "ListDevices", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about artifacts.
-    public func listArtifacts(_ input: ListArtifactsRequest) throws -> EventLoopFuture<ListArtifactsResult> {
-        return try client.send(operation: "ListArtifacts", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about a job.
-    public func getJob(_ input: GetJobRequest) throws -> EventLoopFuture<GetJobResult> {
-        return try client.send(operation: "GetJob", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns information about all Amazon Virtual Private Cloud (VPC) endpoint configurations in the AWS account.
-    public func listVPCEConfigurations(_ input: ListVPCEConfigurationsRequest) throws -> EventLoopFuture<ListVPCEConfigurationsResult> {
-        return try client.send(operation: "ListVPCEConfigurations", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Initiates a stop request for the current job. AWS Device Farm will immediately stop the job on the device where tests have not started executing, and you will not be billed for this device. On the device where tests have started executing, Setup Suite and Teardown Suite tests will run to completion before stopping execution on the device. You will be billed for Setup, Teardown, and any tests that were in progress or already completed.
-    public func stopJob(_ input: StopJobRequest) throws -> EventLoopFuture<StopJobResult> {
-        return try client.send(operation: "StopJob", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns information about the specified instance profile.
-    public func getInstanceProfile(_ input: GetInstanceProfileRequest) throws -> EventLoopFuture<GetInstanceProfileResult> {
-        return try client.send(operation: "GetInstanceProfile", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about runs, given an AWS Device Farm project ARN.
-    public func listRuns(_ input: ListRunsRequest) throws -> EventLoopFuture<ListRunsResult> {
-        return try client.send(operation: "ListRuns", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Gets the current status and future status of all offerings purchased by an AWS account. The response indicates how many offerings are currently available and the offerings that will be available in the next period. The API returns a NotEligible error if the user is not permitted to invoke the operation. Please contact aws-devicefarm-support@amazon.com if you believe that you should be able to invoke this operation.
-    public func getOfferingStatus(_ input: GetOfferingStatusRequest) throws -> EventLoopFuture<GetOfferingStatusResult> {
+    public func getOfferingStatus(_ input: GetOfferingStatusRequest) throws -> Future<GetOfferingStatusResult> {
         return try client.send(operation: "GetOfferingStatus", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns information about the private device instances associated with one or more AWS accounts.
-    public func listDeviceInstances(_ input: ListDeviceInstancesRequest) throws -> EventLoopFuture<ListDeviceInstancesResult> {
-        return try client.send(operation: "ListDeviceInstances", path: "/", httpMethod: "POST", input: input)
+    ///  Modifies the specified project name, given the project ARN and a new name.
+    public func updateProject(_ input: UpdateProjectRequest) throws -> Future<UpdateProjectResult> {
+        return try client.send(operation: "UpdateProject", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a device pool.
-    public func createDevicePool(_ input: CreateDevicePoolRequest) throws -> EventLoopFuture<CreateDevicePoolResult> {
-        return try client.send(operation: "CreateDevicePool", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Schedules a run.
-    public func scheduleRun(_ input: ScheduleRunRequest) throws -> EventLoopFuture<ScheduleRunResult> {
-        return try client.send(operation: "ScheduleRun", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Update an uploaded test specification (test spec).
-    public func updateUpload(_ input: UpdateUploadRequest) throws -> EventLoopFuture<UpdateUploadResult> {
-        return try client.send(operation: "UpdateUpload", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Specifies and starts a remote access session.
-    public func createRemoteAccessSession(_ input: CreateRemoteAccessSessionRequest) throws -> EventLoopFuture<CreateRemoteAccessSessionResult> {
-        return try client.send(operation: "CreateRemoteAccessSession", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about jobs for a given test run.
-    public func listJobs(_ input: ListJobsRequest) throws -> EventLoopFuture<ListJobsResult> {
-        return try client.send(operation: "ListJobs", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about test suites for a given job.
-    public func listSuites(_ input: ListSuitesRequest) throws -> EventLoopFuture<ListSuitesResult> {
-        return try client.send(operation: "ListSuites", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes a device pool given the pool ARN. Does not allow deletion of curated pools owned by the system.
-    public func deleteDevicePool(_ input: DeleteDevicePoolRequest) throws -> EventLoopFuture<DeleteDevicePoolResult> {
-        return try client.send(operation: "DeleteDevicePool", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes an upload given the upload ARN.
-    public func deleteUpload(_ input: DeleteUploadRequest) throws -> EventLoopFuture<DeleteUploadResult> {
-        return try client.send(operation: "DeleteUpload", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about a run.
-    public func getRun(_ input: GetRunRequest) throws -> EventLoopFuture<GetRunResult> {
-        return try client.send(operation: "GetRun", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about a project.
-    public func getProject(_ input: GetProjectRequest) throws -> EventLoopFuture<GetProjectResult> {
-        return try client.send(operation: "GetProject", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Uploads an app or test scripts.
-    public func createUpload(_ input: CreateUploadRequest) throws -> EventLoopFuture<CreateUploadResult> {
-        return try client.send(operation: "CreateUpload", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns information about the configuration settings for your Amazon Virtual Private Cloud (VPC) endpoint.
-    public func getVPCEConfiguration(_ input: GetVPCEConfigurationRequest) throws -> EventLoopFuture<GetVPCEConfigurationResult> {
-        return try client.send(operation: "GetVPCEConfiguration", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about unique problems.
-    public func listUniqueProblems(_ input: ListUniqueProblemsRequest) throws -> EventLoopFuture<ListUniqueProblemsResult> {
-        return try client.send(operation: "ListUniqueProblems", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about a test.
-    public func getTest(_ input: GetTestRequest) throws -> EventLoopFuture<GetTestResult> {
-        return try client.send(operation: "GetTest", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about device pools.
-    public func listDevicePools(_ input: ListDevicePoolsRequest) throws -> EventLoopFuture<ListDevicePoolsResult> {
-        return try client.send(operation: "ListDevicePools", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes the run, given the run ARN.  Note Deleting this resource does not stop an in-progress run.
-    public func deleteRun(_ input: DeleteRunRequest) throws -> EventLoopFuture<DeleteRunResult> {
-        return try client.send(operation: "DeleteRun", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns a list of all currently running remote access sessions.
-    public func listRemoteAccessSessions(_ input: ListRemoteAccessSessionsRequest) throws -> EventLoopFuture<ListRemoteAccessSessionsResult> {
-        return try client.send(operation: "ListRemoteAccessSessions", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Installs an application to the device in a remote access session. For Android applications, the file must be in .apk format. For iOS applications, the file must be in .ipa format.
-    public func installToRemoteAccessSession(_ input: InstallToRemoteAccessSessionRequest) throws -> EventLoopFuture<InstallToRemoteAccessSessionResult> {
-        return try client.send(operation: "InstallToRemoteAccessSession", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns the list of available network profiles.
-    public func listNetworkProfiles(_ input: ListNetworkProfilesRequest) throws -> EventLoopFuture<ListNetworkProfilesResult> {
-        return try client.send(operation: "ListNetworkProfiles", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about tests in a given test suite.
-    public func listTests(_ input: ListTestsRequest) throws -> EventLoopFuture<ListTestsResult> {
-        return try client.send(operation: "ListTests", path: "/", httpMethod: "POST", input: input)
+    ///  Modifies the name, description, and rules in a device pool given the attributes and the pool ARN. Rule updates are all-or-nothing, meaning they can only be updated as a whole (or not at all).
+    public func updateDevicePool(_ input: UpdateDevicePoolRequest) throws -> Future<UpdateDevicePoolResult> {
+        return try client.send(operation: "UpdateDevicePool", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about projects.
-    public func listProjects(_ input: ListProjectsRequest) throws -> EventLoopFuture<ListProjectsResult> {
+    public func listProjects(_ input: ListProjectsRequest) throws -> Future<ListProjectsResult> {
         return try client.send(operation: "ListProjects", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Deletes an AWS Device Farm project, given the project ARN.  Note Deleting this resource does not stop an in-progress run.
+    public func deleteProject(_ input: DeleteProjectRequest) throws -> Future<DeleteProjectResult> {
+        return try client.send(operation: "DeleteProject", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about the specified instance profile.
+    public func getInstanceProfile(_ input: GetInstanceProfileRequest) throws -> Future<GetInstanceProfileResult> {
+        return try client.send(operation: "GetInstanceProfile", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a device pool given the pool ARN. Does not allow deletion of curated pools owned by the system.
+    public func deleteDevicePool(_ input: DeleteDevicePoolRequest) throws -> Future<DeleteDevicePoolResult> {
+        return try client.send(operation: "DeleteDevicePool", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about jobs for a given test run.
+    public func listJobs(_ input: ListJobsRequest) throws -> Future<ListJobsResult> {
+        return try client.send(operation: "ListJobs", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about a project.
+    public func getProject(_ input: GetProjectRequest) throws -> Future<GetProjectResult> {
+        return try client.send(operation: "GetProject", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about runs, given an AWS Device Farm project ARN.
+    public func listRuns(_ input: ListRunsRequest) throws -> Future<ListRunsResult> {
+        return try client.send(operation: "ListRuns", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Returns a list of offering promotions. Each offering promotion record contains the ID and description of the promotion. The API returns a NotEligible error if the caller is not permitted to invoke the operation. Contact aws-devicefarm-support@amazon.com if you believe that you should be able to invoke this operation.
-    public func listOfferingPromotions(_ input: ListOfferingPromotionsRequest) throws -> EventLoopFuture<ListOfferingPromotionsResult> {
+    public func listOfferingPromotions(_ input: ListOfferingPromotionsRequest) throws -> Future<ListOfferingPromotionsResult> {
         return try client.send(operation: "ListOfferingPromotions", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Gets information about a test.
+    public func getTest(_ input: GetTestRequest) throws -> Future<GetTestResult> {
+        return try client.send(operation: "GetTest", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about tests in a given test suite.
+    public func listTests(_ input: ListTestsRequest) throws -> Future<ListTestsResult> {
+        return try client.send(operation: "ListTests", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates information about an existing private device instance profile.
+    public func updateInstanceProfile(_ input: UpdateInstanceProfileRequest) throws -> Future<UpdateInstanceProfileResult> {
+        return try client.send(operation: "UpdateInstanceProfile", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Uploads an app or test scripts.
+    public func createUpload(_ input: CreateUploadRequest) throws -> Future<CreateUploadResult> {
+        return try client.send(operation: "CreateUpload", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates information about an existing private device instance.
+    public func updateDeviceInstance(_ input: UpdateDeviceInstanceRequest) throws -> Future<UpdateDeviceInstanceResult> {
+        return try client.send(operation: "UpdateDeviceInstance", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns a list of all historical purchases, renewals, and system renewal transactions for an AWS account. The list is paginated and ordered by a descending timestamp (most recent transactions are first). The API returns a NotEligible error if the user is not permitted to invoke the operation. Please contact aws-devicefarm-support@amazon.com if you believe that you should be able to invoke this operation.
+    public func listOfferingTransactions(_ input: ListOfferingTransactionsRequest) throws -> Future<ListOfferingTransactionsResult> {
+        return try client.send(operation: "ListOfferingTransactions", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a device pool.
+    public func createDevicePool(_ input: CreateDevicePoolRequest) throws -> Future<CreateDevicePoolResult> {
+        return try client.send(operation: "CreateDevicePool", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a configuration for your Amazon Virtual Private Cloud (VPC) endpoint.
+    public func deleteVPCEConfiguration(_ input: DeleteVPCEConfigurationRequest) throws -> Future<DeleteVPCEConfigurationResult> {
+        return try client.send(operation: "DeleteVPCEConfiguration", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about compatibility with a device pool.
+    public func getDevicePoolCompatibility(_ input: GetDevicePoolCompatibilityRequest) throws -> Future<GetDevicePoolCompatibilityResult> {
+        return try client.send(operation: "GetDevicePoolCompatibility", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Returns information about a device instance belonging to a private device fleet.
-    public func getDeviceInstance(_ input: GetDeviceInstanceRequest) throws -> EventLoopFuture<GetDeviceInstanceResult> {
+    public func getDeviceInstance(_ input: GetDeviceInstanceRequest) throws -> Future<GetDeviceInstanceResult> {
         return try client.send(operation: "GetDeviceInstance", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Gets information about a unique device type.
-    public func getDevice(_ input: GetDeviceRequest) throws -> EventLoopFuture<GetDeviceResult> {
-        return try client.send(operation: "GetDevice", path: "/", httpMethod: "POST", input: input)
+    ///  Specifies and starts a remote access session.
+    public func createRemoteAccessSession(_ input: CreateRemoteAccessSessionRequest) throws -> Future<CreateRemoteAccessSessionResult> {
+        return try client.send(operation: "CreateRemoteAccessSession", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Gets information about a suite.
-    public func getSuite(_ input: GetSuiteRequest) throws -> EventLoopFuture<GetSuiteResult> {
-        return try client.send(operation: "GetSuite", path: "/", httpMethod: "POST", input: input)
+    ///  Returns a link to a currently running remote access session.
+    public func getRemoteAccessSession(_ input: GetRemoteAccessSessionRequest) throws -> Future<GetRemoteAccessSessionResult> {
+        return try client.send(operation: "GetRemoteAccessSession", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns the list of available network profiles.
+    public func listNetworkProfiles(_ input: ListNetworkProfilesRequest) throws -> Future<ListNetworkProfilesResult> {
+        return try client.send(operation: "ListNetworkProfiles", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a profile that can be applied to one or more private device instances.
+    public func deleteInstanceProfile(_ input: DeleteInstanceProfileRequest) throws -> Future<DeleteInstanceProfileResult> {
+        return try client.send(operation: "DeleteInstanceProfile", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about an upload.
-    public func getUpload(_ input: GetUploadRequest) throws -> EventLoopFuture<GetUploadResult> {
+    public func getUpload(_ input: GetUploadRequest) throws -> Future<GetUploadResult> {
         return try client.send(operation: "GetUpload", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Ends a specified remote access session.
+    public func stopRemoteAccessSession(_ input: StopRemoteAccessSessionRequest) throws -> Future<StopRemoteAccessSessionResult> {
+        return try client.send(operation: "StopRemoteAccessSession", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about the configuration settings for your Amazon Virtual Private Cloud (VPC) endpoint.
+    public func getVPCEConfiguration(_ input: GetVPCEConfigurationRequest) throws -> Future<GetVPCEConfigurationResult> {
+        return try client.send(operation: "GetVPCEConfiguration", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about unique device types.
+    public func listDevices(_ input: ListDevicesRequest) throws -> Future<ListDevicesResult> {
+        return try client.send(operation: "ListDevices", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about a network profile.
+    public func getNetworkProfile(_ input: GetNetworkProfileRequest) throws -> Future<GetNetworkProfileResult> {
+        return try client.send(operation: "GetNetworkProfile", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about a unique device type.
+    public func getDevice(_ input: GetDeviceRequest) throws -> Future<GetDeviceResult> {
+        return try client.send(operation: "GetDevice", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about all Amazon Virtual Private Cloud (VPC) endpoint configurations in the AWS account.
+    public func listVPCEConfigurations(_ input: ListVPCEConfigurationsRequest) throws -> Future<ListVPCEConfigurationsResult> {
+        return try client.send(operation: "ListVPCEConfigurations", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a configuration record in Device Farm for your Amazon Virtual Private Cloud (VPC) endpoint.
+    public func createVPCEConfiguration(_ input: CreateVPCEConfigurationRequest) throws -> Future<CreateVPCEConfigurationResult> {
+        return try client.send(operation: "CreateVPCEConfiguration", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns a list of products or offerings that the user can manage through the API. Each offering record indicates the recurring price per unit and the frequency for that offering. The API returns a NotEligible error if the user is not permitted to invoke the operation. Please contact aws-devicefarm-support@amazon.com if you believe that you should be able to invoke this operation.
+    public func listOfferings(_ input: ListOfferingsRequest) throws -> Future<ListOfferingsResult> {
+        return try client.send(operation: "ListOfferings", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about a device pool.
+    public func getDevicePool(_ input: GetDevicePoolRequest) throws -> Future<GetDevicePoolResult> {
+        return try client.send(operation: "GetDevicePool", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about test suites for a given job.
+    public func listSuites(_ input: ListSuitesRequest) throws -> Future<ListSuitesResult> {
+        return try client.send(operation: "ListSuites", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Returns information about all the instance profiles in an AWS account.
-    public func listInstanceProfiles(_ input: ListInstanceProfilesRequest) throws -> EventLoopFuture<ListInstanceProfilesResult> {
+    public func listInstanceProfiles(_ input: ListInstanceProfilesRequest) throws -> Future<ListInstanceProfilesResult> {
         return try client.send(operation: "ListInstanceProfiles", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a network profile.
-    public func deleteNetworkProfile(_ input: DeleteNetworkProfileRequest) throws -> EventLoopFuture<DeleteNetworkProfileResult> {
+    public func deleteNetworkProfile(_ input: DeleteNetworkProfileRequest) throws -> Future<DeleteNetworkProfileResult> {
         return try client.send(operation: "DeleteNetworkProfile", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates information about an existing private device instance.
-    public func updateDeviceInstance(_ input: UpdateDeviceInstanceRequest) throws -> EventLoopFuture<UpdateDeviceInstanceResult> {
-        return try client.send(operation: "UpdateDeviceInstance", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Updates information about an existing private device instance profile.
-    public func updateInstanceProfile(_ input: UpdateInstanceProfileRequest) throws -> EventLoopFuture<UpdateInstanceProfileResult> {
-        return try client.send(operation: "UpdateInstanceProfile", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes an AWS Device Farm project, given the project ARN.  Note Deleting this resource does not stop an in-progress run.
-    public func deleteProject(_ input: DeleteProjectRequest) throws -> EventLoopFuture<DeleteProjectResult> {
-        return try client.send(operation: "DeleteProject", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Initiates a stop request for the current test run. AWS Device Farm will immediately stop the run on devices where tests have not started executing, and you will not be billed for these devices. On devices where tests have started executing, Setup Suite and Teardown Suite tests will run to completion before stopping execution on those devices. You will be billed for Setup, Teardown, and any tests that were in progress or already completed.
-    public func stopRun(_ input: StopRunRequest) throws -> EventLoopFuture<StopRunResult> {
-        return try client.send(operation: "StopRun", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about compatibility with a device pool.
-    public func getDevicePoolCompatibility(_ input: GetDevicePoolCompatibilityRequest) throws -> EventLoopFuture<GetDevicePoolCompatibilityResult> {
-        return try client.send(operation: "GetDevicePoolCompatibility", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes a profile that can be applied to one or more private device instances.
-    public func deleteInstanceProfile(_ input: DeleteInstanceProfileRequest) throws -> EventLoopFuture<DeleteInstanceProfileResult> {
-        return try client.send(operation: "DeleteInstanceProfile", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates a new project.
-    public func createProject(_ input: CreateProjectRequest) throws -> EventLoopFuture<CreateProjectResult> {
-        return try client.send(operation: "CreateProject", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns a list of products or offerings that the user can manage through the API. Each offering record indicates the recurring price per unit and the frequency for that offering. The API returns a NotEligible error if the user is not permitted to invoke the operation. Please contact aws-devicefarm-support@amazon.com if you believe that you should be able to invoke this operation.
-    public func listOfferings(_ input: ListOfferingsRequest) throws -> EventLoopFuture<ListOfferingsResult> {
-        return try client.send(operation: "ListOfferings", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns a link to a currently running remote access session.
-    public func getRemoteAccessSession(_ input: GetRemoteAccessSessionRequest) throws -> EventLoopFuture<GetRemoteAccessSessionResult> {
-        return try client.send(operation: "GetRemoteAccessSession", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Explicitly sets the quantity of devices to renew for an offering, starting from the effectiveDate of the next period. The API returns a NotEligible error if the user is not permitted to invoke the operation. Please contact aws-devicefarm-support@amazon.com if you believe that you should be able to invoke this operation.
-    public func renewOffering(_ input: RenewOfferingRequest) throws -> EventLoopFuture<RenewOfferingResult> {
-        return try client.send(operation: "RenewOffering", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Updates the network profile with specific settings.
-    public func updateNetworkProfile(_ input: UpdateNetworkProfileRequest) throws -> EventLoopFuture<UpdateNetworkProfileResult> {
-        return try client.send(operation: "UpdateNetworkProfile", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates a profile that can be applied to one or more private fleet device instances.
-    public func createInstanceProfile(_ input: CreateInstanceProfileRequest) throws -> EventLoopFuture<CreateInstanceProfileResult> {
-        return try client.send(operation: "CreateInstanceProfile", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Updates information about an existing Amazon Virtual Private Cloud (VPC) endpoint configuration.
-    public func updateVPCEConfiguration(_ input: UpdateVPCEConfigurationRequest) throws -> EventLoopFuture<UpdateVPCEConfigurationResult> {
-        return try client.send(operation: "UpdateVPCEConfiguration", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes a configuration for your Amazon Virtual Private Cloud (VPC) endpoint.
-    public func deleteVPCEConfiguration(_ input: DeleteVPCEConfigurationRequest) throws -> EventLoopFuture<DeleteVPCEConfigurationResult> {
-        return try client.send(operation: "DeleteVPCEConfiguration", path: "/", httpMethod: "POST", input: input)
+    ///  Initiates a stop request for the current job. AWS Device Farm will immediately stop the job on the device where tests have not started executing, and you will not be billed for this device. On the device where tests have started executing, Setup Suite and Teardown Suite tests will run to completion before stopping execution on the device. You will be billed for Setup, Teardown, and any tests that were in progress or already completed.
+    public func stopJob(_ input: StopJobRequest) throws -> Future<StopJobResult> {
+        return try client.send(operation: "StopJob", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about uploads, given an AWS Device Farm project ARN.
-    public func listUploads(_ input: ListUploadsRequest) throws -> EventLoopFuture<ListUploadsResult> {
+    public func listUploads(_ input: ListUploadsRequest) throws -> Future<ListUploadsResult> {
         return try client.send(operation: "ListUploads", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modifies the name, description, and rules in a device pool given the attributes and the pool ARN. Rule updates are all-or-nothing, meaning they can only be updated as a whole (or not at all).
-    public func updateDevicePool(_ input: UpdateDevicePoolRequest) throws -> EventLoopFuture<UpdateDevicePoolResult> {
-        return try client.send(operation: "UpdateDevicePool", path: "/", httpMethod: "POST", input: input)
+    ///  Returns a list of all currently running remote access sessions.
+    public func listRemoteAccessSessions(_ input: ListRemoteAccessSessionsRequest) throws -> Future<ListRemoteAccessSessionsResult> {
+        return try client.send(operation: "ListRemoteAccessSessions", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a configuration record in Device Farm for your Amazon Virtual Private Cloud (VPC) endpoint.
-    public func createVPCEConfiguration(_ input: CreateVPCEConfigurationRequest) throws -> EventLoopFuture<CreateVPCEConfigurationResult> {
-        return try client.send(operation: "CreateVPCEConfiguration", path: "/", httpMethod: "POST", input: input)
+    ///  Schedules a run.
+    public func scheduleRun(_ input: ScheduleRunRequest) throws -> Future<ScheduleRunResult> {
+        return try client.send(operation: "ScheduleRun", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Gets information about a device pool.
-    public func getDevicePool(_ input: GetDevicePoolRequest) throws -> EventLoopFuture<GetDevicePoolResult> {
-        return try client.send(operation: "GetDevicePool", path: "/", httpMethod: "POST", input: input)
+    ///  Updates information about an existing Amazon Virtual Private Cloud (VPC) endpoint configuration.
+    public func updateVPCEConfiguration(_ input: UpdateVPCEConfigurationRequest) throws -> Future<UpdateVPCEConfigurationResult> {
+        return try client.send(operation: "UpdateVPCEConfiguration", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Immediately purchases offerings for an AWS account. Offerings renew with the latest total purchased quantity for an offering, unless the renewal was overridden. The API returns a NotEligible error if the user is not permitted to invoke the operation. Please contact aws-devicefarm-support@amazon.com if you believe that you should be able to invoke this operation.
+    public func purchaseOffering(_ input: PurchaseOfferingRequest) throws -> Future<PurchaseOfferingResult> {
+        return try client.send(operation: "PurchaseOffering", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about samples, given an AWS Device Farm job ARN.
+    public func listSamples(_ input: ListSamplesRequest) throws -> Future<ListSamplesResult> {
+        return try client.send(operation: "ListSamples", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about a job.
+    public func getJob(_ input: GetJobRequest) throws -> Future<GetJobResult> {
+        return try client.send(operation: "GetJob", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about the private device instances associated with one or more AWS accounts.
+    public func listDeviceInstances(_ input: ListDeviceInstancesRequest) throws -> Future<ListDeviceInstancesResult> {
+        return try client.send(operation: "ListDeviceInstances", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Explicitly sets the quantity of devices to renew for an offering, starting from the effectiveDate of the next period. The API returns a NotEligible error if the user is not permitted to invoke the operation. Please contact aws-devicefarm-support@amazon.com if you believe that you should be able to invoke this operation.
+    public func renewOffering(_ input: RenewOfferingRequest) throws -> Future<RenewOfferingResult> {
+        return try client.send(operation: "RenewOffering", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Update an uploaded test specification (test spec).
+    public func updateUpload(_ input: UpdateUploadRequest) throws -> Future<UpdateUploadResult> {
+        return try client.send(operation: "UpdateUpload", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes an upload given the upload ARN.
+    public func deleteUpload(_ input: DeleteUploadRequest) throws -> Future<DeleteUploadResult> {
+        return try client.send(operation: "DeleteUpload", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about unique problems.
+    public func listUniqueProblems(_ input: ListUniqueProblemsRequest) throws -> Future<ListUniqueProblemsResult> {
+        return try client.send(operation: "ListUniqueProblems", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about a suite.
+    public func getSuite(_ input: GetSuiteRequest) throws -> Future<GetSuiteResult> {
+        return try client.send(operation: "GetSuite", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a network profile.
+    public func createNetworkProfile(_ input: CreateNetworkProfileRequest) throws -> Future<CreateNetworkProfileResult> {
+        return try client.send(operation: "CreateNetworkProfile", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Initiates a stop request for the current test run. AWS Device Farm will immediately stop the run on devices where tests have not started executing, and you will not be billed for these devices. On devices where tests have started executing, Setup Suite and Teardown Suite tests will run to completion before stopping execution on those devices. You will be billed for Setup, Teardown, and any tests that were in progress or already completed.
+    public func stopRun(_ input: StopRunRequest) throws -> Future<StopRunResult> {
+        return try client.send(operation: "StopRun", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about artifacts.
+    public func listArtifacts(_ input: ListArtifactsRequest) throws -> Future<ListArtifactsResult> {
+        return try client.send(operation: "ListArtifacts", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about a run.
+    public func getRun(_ input: GetRunRequest) throws -> Future<GetRunResult> {
+        return try client.send(operation: "GetRun", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about device pools.
+    public func listDevicePools(_ input: ListDevicePoolsRequest) throws -> Future<ListDevicePoolsResult> {
+        return try client.send(operation: "ListDevicePools", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a completed remote access session and its results.
+    public func deleteRemoteAccessSession(_ input: DeleteRemoteAccessSessionRequest) throws -> Future<DeleteRemoteAccessSessionResult> {
+        return try client.send(operation: "DeleteRemoteAccessSession", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes the run, given the run ARN.  Note Deleting this resource does not stop an in-progress run.
+    public func deleteRun(_ input: DeleteRunRequest) throws -> Future<DeleteRunResult> {
+        return try client.send(operation: "DeleteRun", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Installs an application to the device in a remote access session. For Android applications, the file must be in .apk format. For iOS applications, the file must be in .ipa format.
+    public func installToRemoteAccessSession(_ input: InstallToRemoteAccessSessionRequest) throws -> Future<InstallToRemoteAccessSessionResult> {
+        return try client.send(operation: "InstallToRemoteAccessSession", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a profile that can be applied to one or more private fleet device instances.
+    public func createInstanceProfile(_ input: CreateInstanceProfileRequest) throws -> Future<CreateInstanceProfileResult> {
+        return try client.send(operation: "CreateInstanceProfile", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns the number of unmetered iOS and/or unmetered Android devices that have been purchased by the account.
+    public func getAccountSettings(_ input: GetAccountSettingsRequest) throws -> Future<GetAccountSettingsResult> {
+        return try client.send(operation: "GetAccountSettings", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a new project.
+    public func createProject(_ input: CreateProjectRequest) throws -> Future<CreateProjectResult> {
+        return try client.send(operation: "CreateProject", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the network profile with specific settings.
+    public func updateNetworkProfile(_ input: UpdateNetworkProfileRequest) throws -> Future<UpdateNetworkProfileResult> {
+        return try client.send(operation: "UpdateNetworkProfile", path: "/", httpMethod: "POST", input: input)
     }
 
 

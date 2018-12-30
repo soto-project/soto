@@ -5,6 +5,97 @@ import AWSSDKSwiftCore
 
 extension PinpointSMSVoice {
 
+    public struct KinesisFirehoseDestination: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeliveryStreamArn", required: false, type: .string), 
+            AWSShapeMember(label: "IamRoleArn", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of an IAM role that can write data to an Amazon Kinesis Data Firehose stream.
+        public let deliveryStreamArn: String?
+        /// The Amazon Resource Name (ARN) of the Amazon Kinesis Data Firehose destination that you want to use in the event destination.
+        public let iamRoleArn: String?
+
+        public init(deliveryStreamArn: String? = nil, iamRoleArn: String? = nil) {
+            self.deliveryStreamArn = deliveryStreamArn
+            self.iamRoleArn = iamRoleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliveryStreamArn = "DeliveryStreamArn"
+            case iamRoleArn = "IamRoleArn"
+        }
+    }
+
+    public struct SendVoiceMessageRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationSetName", required: false, type: .string), 
+            AWSShapeMember(label: "CallerId", required: false, type: .string), 
+            AWSShapeMember(label: "OriginationPhoneNumber", required: false, type: .string), 
+            AWSShapeMember(label: "DestinationPhoneNumber", required: false, type: .string), 
+            AWSShapeMember(label: "Content", required: false, type: .structure)
+        ]
+        /// The name of the configuration set that you want to use to send the message.
+        public let configurationSetName: String?
+        /// The phone number that appears on recipients' devices when they receive the message.
+        public let callerId: String?
+        /// The phone number that Amazon Pinpoint should use to send the voice message. This isn't necessarily the phone number that appears on recipients' devices when they receive the message, because you can specify a CallerId parameter in the request.
+        public let originationPhoneNumber: String?
+        /// The phone number that you want to send the voice message to.
+        public let destinationPhoneNumber: String?
+        public let content: VoiceMessageContent?
+
+        public init(configurationSetName: String? = nil, callerId: String? = nil, originationPhoneNumber: String? = nil, destinationPhoneNumber: String? = nil, content: VoiceMessageContent? = nil) {
+            self.configurationSetName = configurationSetName
+            self.callerId = callerId
+            self.originationPhoneNumber = originationPhoneNumber
+            self.destinationPhoneNumber = destinationPhoneNumber
+            self.content = content
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationSetName = "ConfigurationSetName"
+            case callerId = "CallerId"
+            case originationPhoneNumber = "OriginationPhoneNumber"
+            case destinationPhoneNumber = "DestinationPhoneNumber"
+            case content = "Content"
+        }
+    }
+
+    public struct CallInstructionsMessageType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Text", required: false, type: .string)
+        ]
+        /// The language to use when delivering the message. For a complete list of supported languages, see the Amazon Polly Developer Guide.
+        public let text: String?
+
+        public init(text: String? = nil) {
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "Text"
+        }
+    }
+
+    public struct DeleteConfigurationSetEventDestinationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventDestinationName", location: .uri(locationName: "EventDestinationName"), required: true, type: .string), 
+            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string)
+        ]
+        public let eventDestinationName: String
+        public let configurationSetName: String
+
+        public init(eventDestinationName: String, configurationSetName: String) {
+            self.eventDestinationName = eventDestinationName
+            self.configurationSetName = configurationSetName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventDestinationName = "EventDestinationName"
+            case configurationSetName = "ConfigurationSetName"
+        }
+    }
+
     public struct CloudWatchLogsDestination: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IamRoleArn", required: false, type: .string), 
@@ -38,6 +129,57 @@ extension PinpointSMSVoice {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case configurationSetName = "ConfigurationSetName"
+        }
+    }
+
+    public struct VoiceMessageContent: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CallInstructionsMessage", required: false, type: .structure), 
+            AWSShapeMember(label: "PlainTextMessage", required: false, type: .structure), 
+            AWSShapeMember(label: "SSMLMessage", required: false, type: .structure)
+        ]
+        public let callInstructionsMessage: CallInstructionsMessageType?
+        public let plainTextMessage: PlainTextMessageType?
+        public let sSMLMessage: SSMLMessageType?
+
+        public init(callInstructionsMessage: CallInstructionsMessageType? = nil, plainTextMessage: PlainTextMessageType? = nil, sSMLMessage: SSMLMessageType? = nil) {
+            self.callInstructionsMessage = callInstructionsMessage
+            self.plainTextMessage = plainTextMessage
+            self.sSMLMessage = sSMLMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case callInstructionsMessage = "CallInstructionsMessage"
+            case plainTextMessage = "PlainTextMessage"
+            case sSMLMessage = "SSMLMessage"
+        }
+    }
+
+    public struct DeleteConfigurationSetEventDestinationResponse: AWSShape {
+
+    }
+
+    public struct CreateConfigurationSetEventDestinationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventDestinationName", required: false, type: .string), 
+            AWSShapeMember(label: "EventDestination", required: false, type: .structure), 
+            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string)
+        ]
+        /// A name that identifies the event destination.
+        public let eventDestinationName: String?
+        public let eventDestination: EventDestinationDefinition?
+        public let configurationSetName: String
+
+        public init(eventDestinationName: String? = nil, eventDestination: EventDestinationDefinition? = nil, configurationSetName: String) {
+            self.eventDestinationName = eventDestinationName
+            self.eventDestination = eventDestination
+            self.configurationSetName = configurationSetName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventDestinationName = "EventDestinationName"
+            case eventDestination = "EventDestination"
             case configurationSetName = "ConfigurationSetName"
         }
     }
@@ -86,59 +228,6 @@ extension PinpointSMSVoice {
 
     }
 
-    public struct DeleteConfigurationSetResponse: AWSShape {
-
-    }
-
-    public struct EventDestination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "KinesisFirehoseDestination", required: false, type: .structure), 
-            AWSShapeMember(label: "MatchingEventTypes", required: false, type: .list), 
-            AWSShapeMember(label: "CloudWatchLogsDestination", required: false, type: .structure)
-        ]
-        /// A name that identifies the event destination configuration.
-        public let name: String?
-        /// Indicates whether or not the event destination is enabled. If the event destination is enabled, then Amazon Pinpoint sends response data to the specified event destination.
-        public let enabled: Bool?
-        public let kinesisFirehoseDestination: KinesisFirehoseDestination?
-        public let matchingEventTypes: [EventType]?
-        public let cloudWatchLogsDestination: CloudWatchLogsDestination?
-
-        public init(name: String? = nil, enabled: Bool? = nil, kinesisFirehoseDestination: KinesisFirehoseDestination? = nil, matchingEventTypes: [EventType]? = nil, cloudWatchLogsDestination: CloudWatchLogsDestination? = nil) {
-            self.name = name
-            self.enabled = enabled
-            self.kinesisFirehoseDestination = kinesisFirehoseDestination
-            self.matchingEventTypes = matchingEventTypes
-            self.cloudWatchLogsDestination = cloudWatchLogsDestination
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case enabled = "Enabled"
-            case kinesisFirehoseDestination = "KinesisFirehoseDestination"
-            case matchingEventTypes = "MatchingEventTypes"
-            case cloudWatchLogsDestination = "CloudWatchLogsDestination"
-        }
-    }
-
-    public struct CallInstructionsMessageType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Text", required: false, type: .string)
-        ]
-        /// The language to use when delivering the message. For a complete list of supported languages, see the Amazon Polly Developer Guide.
-        public let text: String?
-
-        public init(text: String? = nil) {
-            self.text = text
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case text = "Text"
-        }
-    }
-
     public struct SSMLMessageType: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Text", required: false, type: .string), 
@@ -165,139 +254,31 @@ extension PinpointSMSVoice {
         }
     }
 
-    public struct UpdateConfigurationSetEventDestinationResponse: AWSShape {
-
-    }
-
-    public struct SendVoiceMessageRequest: AWSShape {
+    public struct UpdateConfigurationSetEventDestinationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CallerId", required: false, type: .string), 
-            AWSShapeMember(label: "ConfigurationSetName", required: false, type: .string), 
-            AWSShapeMember(label: "DestinationPhoneNumber", required: false, type: .string), 
-            AWSShapeMember(label: "OriginationPhoneNumber", required: false, type: .string), 
-            AWSShapeMember(label: "Content", required: false, type: .structure)
-        ]
-        /// The phone number that appears on recipients' devices when they receive the message.
-        public let callerId: String?
-        /// The name of the configuration set that you want to use to send the message.
-        public let configurationSetName: String?
-        /// The phone number that you want to send the voice message to.
-        public let destinationPhoneNumber: String?
-        /// The phone number that Amazon Pinpoint should use to send the voice message. This isn't necessarily the phone number that appears on recipients' devices when they receive the message, because you can specify a CallerId parameter in the request.
-        public let originationPhoneNumber: String?
-        public let content: VoiceMessageContent?
-
-        public init(callerId: String? = nil, configurationSetName: String? = nil, destinationPhoneNumber: String? = nil, originationPhoneNumber: String? = nil, content: VoiceMessageContent? = nil) {
-            self.callerId = callerId
-            self.configurationSetName = configurationSetName
-            self.destinationPhoneNumber = destinationPhoneNumber
-            self.originationPhoneNumber = originationPhoneNumber
-            self.content = content
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case callerId = "CallerId"
-            case configurationSetName = "ConfigurationSetName"
-            case destinationPhoneNumber = "DestinationPhoneNumber"
-            case originationPhoneNumber = "OriginationPhoneNumber"
-            case content = "Content"
-        }
-    }
-
-    public struct GetConfigurationSetEventDestinationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventDestinationName", location: .uri(locationName: "EventDestinationName"), required: true, type: .string), 
+            AWSShapeMember(label: "EventDestination", required: false, type: .structure), 
             AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string)
         ]
+        public let eventDestinationName: String
+        public let eventDestination: EventDestinationDefinition?
         public let configurationSetName: String
 
-        public init(configurationSetName: String) {
+        public init(eventDestinationName: String, eventDestination: EventDestinationDefinition? = nil, configurationSetName: String) {
+            self.eventDestinationName = eventDestinationName
+            self.eventDestination = eventDestination
             self.configurationSetName = configurationSetName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case eventDestinationName = "EventDestinationName"
+            case eventDestination = "EventDestination"
             case configurationSetName = "ConfigurationSetName"
         }
     }
 
-    public struct EventDestinationDefinition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MatchingEventTypes", required: false, type: .list), 
-            AWSShapeMember(label: "KinesisFirehoseDestination", required: false, type: .structure), 
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "CloudWatchLogsDestination", required: false, type: .structure)
-        ]
-        public let matchingEventTypes: [EventType]?
-        public let kinesisFirehoseDestination: KinesisFirehoseDestination?
-        /// Indicates whether or not the event destination is enabled. If the event destination is enabled, then Amazon Pinpoint sends response data to the specified event destination.
-        public let enabled: Bool?
-        public let cloudWatchLogsDestination: CloudWatchLogsDestination?
+    public struct DeleteConfigurationSetResponse: AWSShape {
 
-        public init(matchingEventTypes: [EventType]? = nil, kinesisFirehoseDestination: KinesisFirehoseDestination? = nil, enabled: Bool? = nil, cloudWatchLogsDestination: CloudWatchLogsDestination? = nil) {
-            self.matchingEventTypes = matchingEventTypes
-            self.kinesisFirehoseDestination = kinesisFirehoseDestination
-            self.enabled = enabled
-            self.cloudWatchLogsDestination = cloudWatchLogsDestination
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case matchingEventTypes = "MatchingEventTypes"
-            case kinesisFirehoseDestination = "KinesisFirehoseDestination"
-            case enabled = "Enabled"
-            case cloudWatchLogsDestination = "CloudWatchLogsDestination"
-        }
-    }
-
-    public struct DeleteConfigurationSetEventDestinationResponse: AWSShape {
-
-    }
-
-    public enum EventType: String, CustomStringConvertible, Codable {
-        case initiatedCall = "INITIATED_CALL"
-        case ringing = "RINGING"
-        case answered = "ANSWERED"
-        case completedCall = "COMPLETED_CALL"
-        case busy = "BUSY"
-        case failed = "FAILED"
-        case noAnswer = "NO_ANSWER"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetConfigurationSetEventDestinationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventDestinations", required: false, type: .list)
-        ]
-        public let eventDestinations: [EventDestination]?
-
-        public init(eventDestinations: [EventDestination]? = nil) {
-            self.eventDestinations = eventDestinations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eventDestinations = "EventDestinations"
-        }
-    }
-
-    public struct VoiceMessageContent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PlainTextMessage", required: false, type: .structure), 
-            AWSShapeMember(label: "SSMLMessage", required: false, type: .structure), 
-            AWSShapeMember(label: "CallInstructionsMessage", required: false, type: .structure)
-        ]
-        public let plainTextMessage: PlainTextMessageType?
-        public let sSMLMessage: SSMLMessageType?
-        public let callInstructionsMessage: CallInstructionsMessageType?
-
-        public init(plainTextMessage: PlainTextMessageType? = nil, sSMLMessage: SSMLMessageType? = nil, callInstructionsMessage: CallInstructionsMessageType? = nil) {
-            self.plainTextMessage = plainTextMessage
-            self.sSMLMessage = sSMLMessage
-            self.callInstructionsMessage = callInstructionsMessage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case plainTextMessage = "PlainTextMessage"
-            case sSMLMessage = "SSMLMessage"
-            case callInstructionsMessage = "CallInstructionsMessage"
-        }
     }
 
     public struct SendVoiceMessageResponse: AWSShape {
@@ -316,90 +297,109 @@ extension PinpointSMSVoice {
         }
     }
 
-    public struct CreateConfigurationSetEventDestinationRequest: AWSShape {
+    public struct EventDestinationDefinition: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventDestination", required: false, type: .structure), 
-            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string), 
-            AWSShapeMember(label: "EventDestinationName", required: false, type: .string)
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "KinesisFirehoseDestination", required: false, type: .structure), 
+            AWSShapeMember(label: "MatchingEventTypes", required: false, type: .list), 
+            AWSShapeMember(label: "CloudWatchLogsDestination", required: false, type: .structure)
         ]
-        public let eventDestination: EventDestinationDefinition?
-        public let configurationSetName: String
-        /// A name that identifies the event destination.
-        public let eventDestinationName: String?
+        /// Indicates whether or not the event destination is enabled. If the event destination is enabled, then Amazon Pinpoint sends response data to the specified event destination.
+        public let enabled: Bool?
+        public let kinesisFirehoseDestination: KinesisFirehoseDestination?
+        public let matchingEventTypes: [EventType]?
+        public let cloudWatchLogsDestination: CloudWatchLogsDestination?
 
-        public init(eventDestination: EventDestinationDefinition? = nil, configurationSetName: String, eventDestinationName: String? = nil) {
-            self.eventDestination = eventDestination
-            self.configurationSetName = configurationSetName
-            self.eventDestinationName = eventDestinationName
+        public init(enabled: Bool? = nil, kinesisFirehoseDestination: KinesisFirehoseDestination? = nil, matchingEventTypes: [EventType]? = nil, cloudWatchLogsDestination: CloudWatchLogsDestination? = nil) {
+            self.enabled = enabled
+            self.kinesisFirehoseDestination = kinesisFirehoseDestination
+            self.matchingEventTypes = matchingEventTypes
+            self.cloudWatchLogsDestination = cloudWatchLogsDestination
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventDestination = "EventDestination"
-            case configurationSetName = "ConfigurationSetName"
-            case eventDestinationName = "EventDestinationName"
+            case enabled = "Enabled"
+            case kinesisFirehoseDestination = "KinesisFirehoseDestination"
+            case matchingEventTypes = "MatchingEventTypes"
+            case cloudWatchLogsDestination = "CloudWatchLogsDestination"
         }
     }
 
-    public struct DeleteConfigurationSetEventDestinationRequest: AWSShape {
+    public struct GetConfigurationSetEventDestinationsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string), 
-            AWSShapeMember(label: "EventDestinationName", location: .uri(locationName: "EventDestinationName"), required: true, type: .string)
+            AWSShapeMember(label: "EventDestinations", required: false, type: .list)
+        ]
+        public let eventDestinations: [EventDestination]?
+
+        public init(eventDestinations: [EventDestination]? = nil) {
+            self.eventDestinations = eventDestinations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventDestinations = "EventDestinations"
+        }
+    }
+
+    public struct UpdateConfigurationSetEventDestinationResponse: AWSShape {
+
+    }
+
+    public struct EventDestination: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KinesisFirehoseDestination", required: false, type: .structure), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "MatchingEventTypes", required: false, type: .list), 
+            AWSShapeMember(label: "CloudWatchLogsDestination", required: false, type: .structure)
+        ]
+        public let kinesisFirehoseDestination: KinesisFirehoseDestination?
+        /// Indicates whether or not the event destination is enabled. If the event destination is enabled, then Amazon Pinpoint sends response data to the specified event destination.
+        public let enabled: Bool?
+        /// A name that identifies the event destination configuration.
+        public let name: String?
+        public let matchingEventTypes: [EventType]?
+        public let cloudWatchLogsDestination: CloudWatchLogsDestination?
+
+        public init(kinesisFirehoseDestination: KinesisFirehoseDestination? = nil, enabled: Bool? = nil, name: String? = nil, matchingEventTypes: [EventType]? = nil, cloudWatchLogsDestination: CloudWatchLogsDestination? = nil) {
+            self.kinesisFirehoseDestination = kinesisFirehoseDestination
+            self.enabled = enabled
+            self.name = name
+            self.matchingEventTypes = matchingEventTypes
+            self.cloudWatchLogsDestination = cloudWatchLogsDestination
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kinesisFirehoseDestination = "KinesisFirehoseDestination"
+            case enabled = "Enabled"
+            case name = "Name"
+            case matchingEventTypes = "MatchingEventTypes"
+            case cloudWatchLogsDestination = "CloudWatchLogsDestination"
+        }
+    }
+
+    public enum EventType: String, CustomStringConvertible, Codable {
+        case initiatedCall = "INITIATED_CALL"
+        case ringing = "RINGING"
+        case answered = "ANSWERED"
+        case completedCall = "COMPLETED_CALL"
+        case busy = "BUSY"
+        case failed = "FAILED"
+        case noAnswer = "NO_ANSWER"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetConfigurationSetEventDestinationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string)
         ]
         public let configurationSetName: String
-        public let eventDestinationName: String
 
-        public init(configurationSetName: String, eventDestinationName: String) {
+        public init(configurationSetName: String) {
             self.configurationSetName = configurationSetName
-            self.eventDestinationName = eventDestinationName
         }
 
         private enum CodingKeys: String, CodingKey {
             case configurationSetName = "ConfigurationSetName"
-            case eventDestinationName = "EventDestinationName"
-        }
-    }
-
-    public struct UpdateConfigurationSetEventDestinationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventDestination", required: false, type: .structure), 
-            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string), 
-            AWSShapeMember(label: "EventDestinationName", location: .uri(locationName: "EventDestinationName"), required: true, type: .string)
-        ]
-        public let eventDestination: EventDestinationDefinition?
-        public let configurationSetName: String
-        public let eventDestinationName: String
-
-        public init(eventDestination: EventDestinationDefinition? = nil, configurationSetName: String, eventDestinationName: String) {
-            self.eventDestination = eventDestination
-            self.configurationSetName = configurationSetName
-            self.eventDestinationName = eventDestinationName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eventDestination = "EventDestination"
-            case configurationSetName = "ConfigurationSetName"
-            case eventDestinationName = "EventDestinationName"
-        }
-    }
-
-    public struct KinesisFirehoseDestination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IamRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "DeliveryStreamArn", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the Amazon Kinesis Data Firehose destination that you want to use in the event destination.
-        public let iamRoleArn: String?
-        /// The Amazon Resource Name (ARN) of an IAM role that can write data to an Amazon Kinesis Data Firehose stream.
-        public let deliveryStreamArn: String?
-
-        public init(iamRoleArn: String? = nil, deliveryStreamArn: String? = nil) {
-            self.iamRoleArn = iamRoleArn
-            self.deliveryStreamArn = deliveryStreamArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case iamRoleArn = "IamRoleArn"
-            case deliveryStreamArn = "DeliveryStreamArn"
         }
     }
 

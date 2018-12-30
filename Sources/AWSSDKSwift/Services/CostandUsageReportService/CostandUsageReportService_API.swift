@@ -26,19 +26,19 @@ public struct CostandUsageReportService {
         )
     }
 
-    ///  Describe a list of report definitions owned by the account
-    public func describeReportDefinitions(_ input: DescribeReportDefinitionsRequest) throws -> EventLoopFuture<DescribeReportDefinitionsResponse> {
-        return try client.send(operation: "DescribeReportDefinitions", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Delete a specified report definition
-    public func deleteReportDefinition(_ input: DeleteReportDefinitionRequest) throws -> EventLoopFuture<DeleteReportDefinitionResponse> {
+    public func deleteReportDefinition(_ input: DeleteReportDefinitionRequest) throws -> Future<DeleteReportDefinitionResponse> {
         return try client.send(operation: "DeleteReportDefinition", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Create a new report definition
-    public func putReportDefinition(_ input: PutReportDefinitionRequest) throws -> EventLoopFuture<PutReportDefinitionResponse> {
+    public func putReportDefinition(_ input: PutReportDefinitionRequest) throws -> Future<PutReportDefinitionResponse> {
         return try client.send(operation: "PutReportDefinition", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describe a list of report definitions owned by the account
+    public func describeReportDefinitions(_ input: DescribeReportDefinitionsRequest) throws -> Future<DescribeReportDefinitionsResponse> {
+        return try client.send(operation: "DescribeReportDefinitions", path: "/", httpMethod: "POST", input: input)
     }
 
 

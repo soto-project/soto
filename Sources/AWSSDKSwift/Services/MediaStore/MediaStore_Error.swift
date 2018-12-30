@@ -5,10 +5,10 @@ import AWSSDKSwiftCore
 /// Error enum for MediaStore
 public enum MediaStoreErrorType: AWSErrorType {
     case containerNotFoundException(message: String?)
-    case containerInUseException(message: String?)
     case internalServerError(message: String?)
-    case corsPolicyNotFoundException(message: String?)
+    case containerInUseException(message: String?)
     case limitExceededException(message: String?)
+    case corsPolicyNotFoundException(message: String?)
     case policyNotFoundException(message: String?)
 }
 
@@ -21,14 +21,14 @@ extension MediaStoreErrorType {
         switch errorCode {
         case "ContainerNotFoundException":
             self = .containerNotFoundException(message: message)
-        case "ContainerInUseException":
-            self = .containerInUseException(message: message)
         case "InternalServerError":
             self = .internalServerError(message: message)
-        case "CorsPolicyNotFoundException":
-            self = .corsPolicyNotFoundException(message: message)
+        case "ContainerInUseException":
+            self = .containerInUseException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
+        case "CorsPolicyNotFoundException":
+            self = .corsPolicyNotFoundException(message: message)
         case "PolicyNotFoundException":
             self = .policyNotFoundException(message: message)
         default:

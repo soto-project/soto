@@ -11,13 +11,13 @@ public enum RekognitionErrorType: AWSErrorType {
     case internalServerError(message: String?)
     case throttlingException(message: String?)
     case provisionedThroughputExceededException(message: String?)
-    case invalidImageFormatException(message: String?)
-    case invalidPaginationTokenException(message: String?)
     case resourceNotFoundException(message: String?)
+    case invalidImageFormatException(message: String?)
+    case resourceInUseException(message: String?)
     case idempotentParameterMismatchException(message: String?)
     case videoTooLargeException(message: String?)
     case limitExceededException(message: String?)
-    case resourceInUseException(message: String?)
+    case invalidPaginationTokenException(message: String?)
     case resourceAlreadyExistsException(message: String?)
 }
 
@@ -42,20 +42,20 @@ extension RekognitionErrorType {
             self = .throttlingException(message: message)
         case "ProvisionedThroughputExceededException":
             self = .provisionedThroughputExceededException(message: message)
-        case "InvalidImageFormatException":
-            self = .invalidImageFormatException(message: message)
-        case "InvalidPaginationTokenException":
-            self = .invalidPaginationTokenException(message: message)
         case "ResourceNotFoundException":
             self = .resourceNotFoundException(message: message)
+        case "InvalidImageFormatException":
+            self = .invalidImageFormatException(message: message)
+        case "ResourceInUseException":
+            self = .resourceInUseException(message: message)
         case "IdempotentParameterMismatchException":
             self = .idempotentParameterMismatchException(message: message)
         case "VideoTooLargeException":
             self = .videoTooLargeException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
-        case "ResourceInUseException":
-            self = .resourceInUseException(message: message)
+        case "InvalidPaginationTokenException":
+            self = .invalidPaginationTokenException(message: message)
         case "ResourceAlreadyExistsException":
             self = .resourceAlreadyExistsException(message: message)
         default:

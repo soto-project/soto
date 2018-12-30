@@ -9,8 +9,8 @@ public enum CloudWatchEventsErrorType: AWSErrorType {
     case concurrentModificationException(message: String?)
     case limitExceededException(message: String?)
     case managedRuleException(message: String?)
-    case invalidEventPatternException(message: String?)
     case policyLengthExceededException(message: String?)
+    case invalidEventPatternException(message: String?)
 }
 
 extension CloudWatchEventsErrorType {
@@ -30,10 +30,10 @@ extension CloudWatchEventsErrorType {
             self = .limitExceededException(message: message)
         case "ManagedRuleException":
             self = .managedRuleException(message: message)
-        case "InvalidEventPatternException":
-            self = .invalidEventPatternException(message: message)
         case "PolicyLengthExceededException":
             self = .policyLengthExceededException(message: message)
+        case "InvalidEventPatternException":
+            self = .invalidEventPatternException(message: message)
         default:
             return nil
         }

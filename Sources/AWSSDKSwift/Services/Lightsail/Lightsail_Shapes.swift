@@ -5,45 +5,331 @@ import AWSSDKSwiftCore
 
 extension Lightsail {
 
-    public struct UpdateLoadBalancerAttributeRequest: AWSShape {
+    public struct GetActiveNamesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attributeName", required: true, type: .enum), 
-            AWSShapeMember(label: "attributeValue", required: true, type: .string), 
-            AWSShapeMember(label: "loadBalancerName", required: true, type: .string)
+            AWSShapeMember(label: "pageToken", required: false, type: .string)
         ]
-        /// The name of the attribute you want to update. Valid values are below.
-        public let attributeName: LoadBalancerAttributeName
-        /// The value that you want to specify for the attribute name.
-        public let attributeValue: String
-        /// The name of the load balancer that you want to modify (e.g., my-load-balancer.
-        public let loadBalancerName: String
+        /// A token used for paginating results from your get active names request.
+        public let pageToken: String?
 
-        public init(attributeName: LoadBalancerAttributeName, attributeValue: String, loadBalancerName: String) {
-            self.attributeName = attributeName
-            self.attributeValue = attributeValue
-            self.loadBalancerName = loadBalancerName
+        public init(pageToken: String? = nil) {
+            self.pageToken = pageToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributeName = "attributeName"
-            case attributeValue = "attributeValue"
-            case loadBalancerName = "loadBalancerName"
+            case pageToken = "pageToken"
         }
     }
 
-    public struct GetInstancePortStatesResult: AWSShape {
+    public struct CreateInstancesFromSnapshotRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "portStates", required: false, type: .list)
+            AWSShapeMember(label: "attachedDiskMapping", required: false, type: .map), 
+            AWSShapeMember(label: "instanceNames", required: true, type: .list), 
+            AWSShapeMember(label: "instanceSnapshotName", required: true, type: .string), 
+            AWSShapeMember(label: "bundleId", required: true, type: .string), 
+            AWSShapeMember(label: "userData", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "availabilityZone", required: true, type: .string), 
+            AWSShapeMember(label: "keyPairName", required: false, type: .string)
         ]
-        /// Information about the port states resulting from your request.
-        public let portStates: [InstancePortState]?
+        /// An object containing information about one or more disk mappings.
+        public let attachedDiskMapping: [String: [DiskMap]]?
+        /// The names for your new instances.
+        public let instanceNames: [String]
+        /// The name of the instance snapshot on which you are basing your new instances. Use the get instance snapshots operation to return information about your existing snapshots.
+        public let instanceSnapshotName: String
+        /// The bundle of specification information for your virtual private server (or instance), including the pricing plan (e.g., micro_1_0).
+        public let bundleId: String
+        /// You can create a launch script that configures a server with additional user data. For example, apt-get -y update.  Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum, Debian and Ubuntu use apt-get, and FreeBSD uses pkg. For a complete list, see the Dev Guide. 
+        public let userData: String?
+        /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
+        public let tags: [Tag]?
+        /// The Availability Zone where you want to create your instances. Use the following formatting: us-east-2a (case sensitive). You can get a list of Availability Zones by using the get regions operation. Be sure to add the include Availability Zones parameter to your request.
+        public let availabilityZone: String
+        /// The name for your key pair.
+        public let keyPairName: String?
 
-        public init(portStates: [InstancePortState]? = nil) {
-            self.portStates = portStates
+        public init(attachedDiskMapping: [String: [DiskMap]]? = nil, instanceNames: [String], instanceSnapshotName: String, bundleId: String, userData: String? = nil, tags: [Tag]? = nil, availabilityZone: String, keyPairName: String? = nil) {
+            self.attachedDiskMapping = attachedDiskMapping
+            self.instanceNames = instanceNames
+            self.instanceSnapshotName = instanceSnapshotName
+            self.bundleId = bundleId
+            self.userData = userData
+            self.tags = tags
+            self.availabilityZone = availabilityZone
+            self.keyPairName = keyPairName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case portStates = "portStates"
+            case attachedDiskMapping = "attachedDiskMapping"
+            case instanceNames = "instanceNames"
+            case instanceSnapshotName = "instanceSnapshotName"
+            case bundleId = "bundleId"
+            case userData = "userData"
+            case tags = "tags"
+            case availabilityZone = "availabilityZone"
+            case keyPairName = "keyPairName"
+        }
+    }
+
+    public struct InstanceState: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "code", required: false, type: .integer), 
+            AWSShapeMember(label: "name", required: false, type: .string)
+        ]
+        /// The status code for the instance.
+        public let code: Int32?
+        /// The state of the instance (e.g., running or pending).
+        public let name: String?
+
+        public init(code: Int32? = nil, name: String? = nil) {
+            self.code = code
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case name = "name"
+        }
+    }
+
+    public enum LoadBalancerState: String, CustomStringConvertible, Codable {
+        case active = "active"
+        case provisioning = "provisioning"
+        case activeImpaired = "active_impaired"
+        case failed = "failed"
+        case unknown = "unknown"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetRelationalDatabaseSnapshotResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "relationalDatabaseSnapshot", required: false, type: .structure)
+        ]
+        /// An object describing the specified database snapshot.
+        public let relationalDatabaseSnapshot: RelationalDatabaseSnapshot?
+
+        public init(relationalDatabaseSnapshot: RelationalDatabaseSnapshot? = nil) {
+            self.relationalDatabaseSnapshot = relationalDatabaseSnapshot
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case relationalDatabaseSnapshot = "relationalDatabaseSnapshot"
+        }
+    }
+
+    public enum RelationalDatabaseEngine: String, CustomStringConvertible, Codable {
+        case mysql = "mysql"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetDiskResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "disk", required: false, type: .structure)
+        ]
+        /// An object containing information about the disk.
+        public let disk: Disk?
+
+        public init(disk: Disk? = nil) {
+            self.disk = disk
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case disk = "disk"
+        }
+    }
+
+    public struct AttachStaticIpRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "staticIpName", required: true, type: .string), 
+            AWSShapeMember(label: "instanceName", required: true, type: .string)
+        ]
+        /// The name of the static IP.
+        public let staticIpName: String
+        /// The instance name to which you want to attach the static IP address.
+        public let instanceName: String
+
+        public init(staticIpName: String, instanceName: String) {
+            self.staticIpName = staticIpName
+            self.instanceName = instanceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case staticIpName = "staticIpName"
+            case instanceName = "instanceName"
+        }
+    }
+
+    public struct CreateInstancesFromSnapshotResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+        /// An array of key-value pairs containing information about the results of your create instances from snapshot request.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct PasswordData: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ciphertext", required: false, type: .string), 
+            AWSShapeMember(label: "keyPairName", required: false, type: .string)
+        ]
+        /// The encrypted password. Ciphertext will be an empty string if access to your new instance is not ready yet. When you create an instance, it can take up to 15 minutes for the instance to be ready.  If you use the default key pair (LightsailDefaultKeyPair), the decrypted password will be available in the password field. If you are using a custom key pair, you need to use your own means of decryption. If you change the Administrator password on the instance, Lightsail will continue to return the original ciphertext value. When accessing the instance using RDP, you need to manually enter the Administrator password after changing it from the default. 
+        public let ciphertext: String?
+        /// The name of the key pair that you used when creating your instance. If no key pair name was specified when creating the instance, Lightsail uses the default key pair (LightsailDefaultKeyPair). If you are using a custom key pair, you need to use your own means of decrypting your password using the ciphertext. Lightsail creates the ciphertext by encrypting your password with the public key part of this key pair.
+        public let keyPairName: String?
+
+        public init(ciphertext: String? = nil, keyPairName: String? = nil) {
+            self.ciphertext = ciphertext
+            self.keyPairName = keyPairName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ciphertext = "ciphertext"
+            case keyPairName = "keyPairName"
+        }
+    }
+
+    public struct GetInstanceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceName", required: true, type: .string)
+        ]
+        /// The name of the instance.
+        public let instanceName: String
+
+        public init(instanceName: String) {
+            self.instanceName = instanceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceName = "instanceName"
+        }
+    }
+
+    public struct CreateDomainEntryResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operation", required: false, type: .structure)
+        ]
+        /// An array of key-value pairs containing information about the operation.
+        public let operation: Operation?
+
+        public init(operation: Operation? = nil) {
+            self.operation = operation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operation = "operation"
+        }
+    }
+
+    public struct MonthlyTransfer: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "gbPerMonthAllocated", required: false, type: .integer)
+        ]
+        /// The amount allocated per month (in GB).
+        public let gbPerMonthAllocated: Int32?
+
+        public init(gbPerMonthAllocated: Int32? = nil) {
+            self.gbPerMonthAllocated = gbPerMonthAllocated
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gbPerMonthAllocated = "gbPerMonthAllocated"
+        }
+    }
+
+    public struct RelationalDatabaseParameter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "dataType", required: false, type: .string), 
+            AWSShapeMember(label: "applyMethod", required: false, type: .string), 
+            AWSShapeMember(label: "isModifiable", required: false, type: .boolean), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "parameterValue", required: false, type: .string), 
+            AWSShapeMember(label: "allowedValues", required: false, type: .string), 
+            AWSShapeMember(label: "parameterName", required: false, type: .string), 
+            AWSShapeMember(label: "applyType", required: false, type: .string)
+        ]
+        /// Specifies the valid data type for the parameter.
+        public let dataType: String?
+        /// Indicates when parameter updates are applied. Can be immediate or pending-reboot.
+        public let applyMethod: String?
+        /// A Boolean value indicating whether the parameter can be modified.
+        public let isModifiable: Bool?
+        /// Provides a description of the parameter.
+        public let description: String?
+        /// Specifies the value of the parameter.
+        public let parameterValue: String?
+        /// Specifies the valid range of values for the parameter.
+        public let allowedValues: String?
+        /// Specifies the name of the parameter.
+        public let parameterName: String?
+        /// Specifies the engine-specific parameter type.
+        public let applyType: String?
+
+        public init(dataType: String? = nil, applyMethod: String? = nil, isModifiable: Bool? = nil, description: String? = nil, parameterValue: String? = nil, allowedValues: String? = nil, parameterName: String? = nil, applyType: String? = nil) {
+            self.dataType = dataType
+            self.applyMethod = applyMethod
+            self.isModifiable = isModifiable
+            self.description = description
+            self.parameterValue = parameterValue
+            self.allowedValues = allowedValues
+            self.parameterName = parameterName
+            self.applyType = applyType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataType = "dataType"
+            case applyMethod = "applyMethod"
+            case isModifiable = "isModifiable"
+            case description = "description"
+            case parameterValue = "parameterValue"
+            case allowedValues = "allowedValues"
+            case parameterName = "parameterName"
+            case applyType = "applyType"
+        }
+    }
+
+    public struct GetRelationalDatabaseRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string)
+        ]
+        /// The name of the database that you are looking up.
+        public let relationalDatabaseName: String
+
+        public init(relationalDatabaseName: String) {
+            self.relationalDatabaseName = relationalDatabaseName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case relationalDatabaseName = "relationalDatabaseName"
+        }
+    }
+
+    public struct GetLoadBalancerMetricDataResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "metricName", required: false, type: .enum), 
+            AWSShapeMember(label: "metricData", required: false, type: .list)
+        ]
+        /// The metric about which you are receiving information. Valid values are listed below, along with the most useful statistics to include in your request.     ClientTLSNegotiationErrorCount  - The number of TLS connections initiated by the client that did not establish a session with the load balancer. Possible causes include a mismatch of ciphers or protocols.  Statistics: The most useful statistic is Sum.     HealthyHostCount  - The number of target instances that are considered healthy.  Statistics: The most useful statistic are Average, Minimum, and Maximum.     UnhealthyHostCount  - The number of target instances that are considered unhealthy.  Statistics: The most useful statistic are Average, Minimum, and Maximum.     HTTPCode_LB_4XX_Count  - The number of HTTP 4XX client error codes that originate from the load balancer. Client errors are generated when requests are malformed or incomplete. These requests have not been received by the target instance. This count does not include any response codes generated by the target instances.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_LB_5XX_Count  - The number of HTTP 5XX server error codes that originate from the load balancer. This count does not include any response codes generated by the target instances.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_Instance_2XX_Count  - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_Instance_3XX_Count  - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer.   Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_Instance_4XX_Count  - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_Instance_5XX_Count  - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     InstanceResponseTime  - The time elapsed, in seconds, after the request leaves the load balancer until a response from the target instance is received.  Statistics: The most useful statistic is Average.     RejectedConnectionCount  - The number of connections that were rejected because the load balancer had reached its maximum number of connections.  Statistics: The most useful statistic is Sum.     RequestCount  - The number of requests processed over IPv4. This count includes only the requests with a response generated by a target instance of the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.  
+        public let metricName: LoadBalancerMetricName?
+        /// An array of metric datapoint objects.
+        public let metricData: [MetricDatapoint]?
+
+        public init(metricName: LoadBalancerMetricName? = nil, metricData: [MetricDatapoint]? = nil) {
+            self.metricName = metricName
+            self.metricData = metricData
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricName = "metricName"
+            case metricData = "metricData"
         }
     }
 
@@ -68,6 +354,2688 @@ extension Lightsail {
         }
     }
 
+    public struct CreateDiskRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "availabilityZone", required: true, type: .string), 
+            AWSShapeMember(label: "sizeInGb", required: true, type: .integer), 
+            AWSShapeMember(label: "diskName", required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .list)
+        ]
+        /// The Availability Zone where you want to create the disk (e.g., us-east-2a). Choose the same Availability Zone as the Lightsail instance where you want to create the disk. Use the GetRegions operation to list the Availability Zones where Lightsail is currently available.
+        public let availabilityZone: String
+        /// The size of the disk in GB (e.g., 32).
+        public let sizeInGb: Int32
+        /// The unique Lightsail disk name (e.g., my-disk).
+        public let diskName: String
+        /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
+        public let tags: [Tag]?
+
+        public init(availabilityZone: String, sizeInGb: Int32, diskName: String, tags: [Tag]? = nil) {
+            self.availabilityZone = availabilityZone
+            self.sizeInGb = sizeInGb
+            self.diskName = diskName
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "availabilityZone"
+            case sizeInGb = "sizeInGb"
+            case diskName = "diskName"
+            case tags = "tags"
+        }
+    }
+
+    public struct GetRelationalDatabaseResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "relationalDatabase", required: false, type: .structure)
+        ]
+        /// An object describing the specified database.
+        public let relationalDatabase: RelationalDatabase?
+
+        public init(relationalDatabase: RelationalDatabase? = nil) {
+            self.relationalDatabase = relationalDatabase
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case relationalDatabase = "relationalDatabase"
+        }
+    }
+
+    public struct StartRelationalDatabaseResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+        /// An object describing the result of your start relational database request.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct GetExportSnapshotRecordsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "exportSnapshotRecords", required: false, type: .list)
+        ]
+        /// A token used for advancing to the next page of results of your get relational database bundles request.
+        public let nextPageToken: String?
+        /// A list of objects describing the export snapshot records.
+        public let exportSnapshotRecords: [ExportSnapshotRecord]?
+
+        public init(nextPageToken: String? = nil, exportSnapshotRecords: [ExportSnapshotRecord]? = nil) {
+            self.nextPageToken = nextPageToken
+            self.exportSnapshotRecords = exportSnapshotRecords
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "nextPageToken"
+            case exportSnapshotRecords = "exportSnapshotRecords"
+        }
+    }
+
+    public struct UnpeerVpcRequest: AWSShape {
+
+    }
+
+    public struct StopInstanceResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+        /// An array of key-value pairs containing information about the request operation.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct GetDomainResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "domain", required: false, type: .structure)
+        ]
+        /// An array of key-value pairs containing information about your get domain request.
+        public let domain: Domain?
+
+        public init(domain: Domain? = nil) {
+            self.domain = domain
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domain = "domain"
+        }
+    }
+
+    public struct ExportSnapshotRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "sourceSnapshotName", required: true, type: .string)
+        ]
+        /// The name of the instance or disk snapshot to be exported to Amazon EC2.
+        public let sourceSnapshotName: String
+
+        public init(sourceSnapshotName: String) {
+            self.sourceSnapshotName = sourceSnapshotName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceSnapshotName = "sourceSnapshotName"
+        }
+    }
+
+    public struct CloudFormationStackRecord: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "sourceInfo", required: false, type: .list), 
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "state", required: false, type: .enum), 
+            AWSShapeMember(label: "destinationInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "location", required: false, type: .structure), 
+            AWSShapeMember(label: "resourceType", required: false, type: .enum)
+        ]
+        /// A list of objects describing the source of the CloudFormation stack record.
+        public let sourceInfo: [CloudFormationStackRecordSourceInfo]?
+        /// The Amazon Resource Name (ARN) of the CloudFormation stack record.
+        public let arn: String?
+        /// The name of the CloudFormation stack record. It starts with CloudFormationStackRecord followed by a GUID.
+        public let name: String?
+        /// The date when the CloudFormation stack record was created.
+        public let createdAt: TimeStamp?
+        /// The current state of the CloudFormation stack record.
+        public let state: RecordState?
+        /// A list of objects describing the destination service, which is AWS CloudFormation, and the Amazon Resource Name (ARN) of the AWS CloudFormation stack.
+        public let destinationInfo: DestinationInfo?
+        /// A list of objects describing the Availability Zone and AWS Region of the CloudFormation stack record.
+        public let location: ResourceLocation?
+        /// The Lightsail resource type (e.g., CloudFormationStackRecord).
+        public let resourceType: ResourceType?
+
+        public init(sourceInfo: [CloudFormationStackRecordSourceInfo]? = nil, arn: String? = nil, name: String? = nil, createdAt: TimeStamp? = nil, state: RecordState? = nil, destinationInfo: DestinationInfo? = nil, location: ResourceLocation? = nil, resourceType: ResourceType? = nil) {
+            self.sourceInfo = sourceInfo
+            self.arn = arn
+            self.name = name
+            self.createdAt = createdAt
+            self.state = state
+            self.destinationInfo = destinationInfo
+            self.location = location
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceInfo = "sourceInfo"
+            case arn = "arn"
+            case name = "name"
+            case createdAt = "createdAt"
+            case state = "state"
+            case destinationInfo = "destinationInfo"
+            case location = "location"
+            case resourceType = "resourceType"
+        }
+    }
+
+    public struct RelationalDatabase: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "relationalDatabaseBundleId", required: false, type: .string), 
+            AWSShapeMember(label: "supportCode", required: false, type: .string), 
+            AWSShapeMember(label: "masterUsername", required: false, type: .string), 
+            AWSShapeMember(label: "relationalDatabaseBlueprintId", required: false, type: .string), 
+            AWSShapeMember(label: "latestRestorableTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "publiclyAccessible", required: false, type: .boolean), 
+            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "engine", required: false, type: .string), 
+            AWSShapeMember(label: "state", required: false, type: .string), 
+            AWSShapeMember(label: "masterDatabaseName", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "engineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "parameterApplyStatus", required: false, type: .string), 
+            AWSShapeMember(label: "preferredBackupWindow", required: false, type: .string), 
+            AWSShapeMember(label: "backupRetentionEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "pendingMaintenanceActions", required: false, type: .list), 
+            AWSShapeMember(label: "secondaryAvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "preferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "masterEndpoint", required: false, type: .structure), 
+            AWSShapeMember(label: "hardware", required: false, type: .structure), 
+            AWSShapeMember(label: "pendingModifiedValues", required: false, type: .structure), 
+            AWSShapeMember(label: "location", required: false, type: .structure)
+        ]
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
+        public let tags: [Tag]?
+        /// The bundle ID for the database. A bundle describes the performance specifications for your database.
+        public let relationalDatabaseBundleId: String?
+        /// The support code for the database. Include this code in your email to support when you have questions about a database in Lightsail. This code enables our support team to look up your Lightsail information more easily.
+        public let supportCode: String?
+        /// The master user name of the database.
+        public let masterUsername: String?
+        /// The blueprint ID for the database. A blueprint describes the major engine version of a database.
+        public let relationalDatabaseBlueprintId: String?
+        /// The latest point in time to which the database can be restored. Formatted in Unix time.
+        public let latestRestorableTime: TimeStamp?
+        /// The unique name of the database resource in Lightsail.
+        public let name: String?
+        /// A Boolean value indicating whether the database is publicly accessible.
+        public let publiclyAccessible: Bool?
+        /// The Lightsail resource type for the database (for example, RelationalDatabase).
+        public let resourceType: ResourceType?
+        /// The database software (for example, MySQL).
+        public let engine: String?
+        /// Describes the current state of the database.
+        public let state: String?
+        /// The name of the master database created when the Lightsail database resource is created.
+        public let masterDatabaseName: String?
+        /// The Amazon Resource Name (ARN) of the database.
+        public let arn: String?
+        /// The database engine version (for example, 5.7.23).
+        public let engineVersion: String?
+        /// The status of parameter updates for the database.
+        public let parameterApplyStatus: String?
+        /// The daily time range during which automated backups are created for the database (for example, 16:00-16:30).
+        public let preferredBackupWindow: String?
+        /// A Boolean value indicating whether automated backup retention is enabled for the database.
+        public let backupRetentionEnabled: Bool?
+        /// Describes the pending maintenance actions for the database.
+        public let pendingMaintenanceActions: [PendingMaintenanceAction]?
+        /// Describes the secondary Availability Zone of a high availability database. The secondary database is used for failover support of a high availability database.
+        public let secondaryAvailabilityZone: String?
+        /// The weekly time range during which system maintenance can occur on the database. In the format ddd:hh24:mi-ddd:hh24:mi. For example, Tue:17:00-Tue:17:30.
+        public let preferredMaintenanceWindow: String?
+        /// The timestamp when the database was created. Formatted in Unix time.
+        public let createdAt: TimeStamp?
+        /// The master endpoint for the database.
+        public let masterEndpoint: RelationalDatabaseEndpoint?
+        /// Describes the hardware of the database.
+        public let hardware: RelationalDatabaseHardware?
+        /// Describes pending database value modifications.
+        public let pendingModifiedValues: PendingModifiedRelationalDatabaseValues?
+        /// The Region name and Availability Zone where the database is located.
+        public let location: ResourceLocation?
+
+        public init(tags: [Tag]? = nil, relationalDatabaseBundleId: String? = nil, supportCode: String? = nil, masterUsername: String? = nil, relationalDatabaseBlueprintId: String? = nil, latestRestorableTime: TimeStamp? = nil, name: String? = nil, publiclyAccessible: Bool? = nil, resourceType: ResourceType? = nil, engine: String? = nil, state: String? = nil, masterDatabaseName: String? = nil, arn: String? = nil, engineVersion: String? = nil, parameterApplyStatus: String? = nil, preferredBackupWindow: String? = nil, backupRetentionEnabled: Bool? = nil, pendingMaintenanceActions: [PendingMaintenanceAction]? = nil, secondaryAvailabilityZone: String? = nil, preferredMaintenanceWindow: String? = nil, createdAt: TimeStamp? = nil, masterEndpoint: RelationalDatabaseEndpoint? = nil, hardware: RelationalDatabaseHardware? = nil, pendingModifiedValues: PendingModifiedRelationalDatabaseValues? = nil, location: ResourceLocation? = nil) {
+            self.tags = tags
+            self.relationalDatabaseBundleId = relationalDatabaseBundleId
+            self.supportCode = supportCode
+            self.masterUsername = masterUsername
+            self.relationalDatabaseBlueprintId = relationalDatabaseBlueprintId
+            self.latestRestorableTime = latestRestorableTime
+            self.name = name
+            self.publiclyAccessible = publiclyAccessible
+            self.resourceType = resourceType
+            self.engine = engine
+            self.state = state
+            self.masterDatabaseName = masterDatabaseName
+            self.arn = arn
+            self.engineVersion = engineVersion
+            self.parameterApplyStatus = parameterApplyStatus
+            self.preferredBackupWindow = preferredBackupWindow
+            self.backupRetentionEnabled = backupRetentionEnabled
+            self.pendingMaintenanceActions = pendingMaintenanceActions
+            self.secondaryAvailabilityZone = secondaryAvailabilityZone
+            self.preferredMaintenanceWindow = preferredMaintenanceWindow
+            self.createdAt = createdAt
+            self.masterEndpoint = masterEndpoint
+            self.hardware = hardware
+            self.pendingModifiedValues = pendingModifiedValues
+            self.location = location
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+            case relationalDatabaseBundleId = "relationalDatabaseBundleId"
+            case supportCode = "supportCode"
+            case masterUsername = "masterUsername"
+            case relationalDatabaseBlueprintId = "relationalDatabaseBlueprintId"
+            case latestRestorableTime = "latestRestorableTime"
+            case name = "name"
+            case publiclyAccessible = "publiclyAccessible"
+            case resourceType = "resourceType"
+            case engine = "engine"
+            case state = "state"
+            case masterDatabaseName = "masterDatabaseName"
+            case arn = "arn"
+            case engineVersion = "engineVersion"
+            case parameterApplyStatus = "parameterApplyStatus"
+            case preferredBackupWindow = "preferredBackupWindow"
+            case backupRetentionEnabled = "backupRetentionEnabled"
+            case pendingMaintenanceActions = "pendingMaintenanceActions"
+            case secondaryAvailabilityZone = "secondaryAvailabilityZone"
+            case preferredMaintenanceWindow = "preferredMaintenanceWindow"
+            case createdAt = "createdAt"
+            case masterEndpoint = "masterEndpoint"
+            case hardware = "hardware"
+            case pendingModifiedValues = "pendingModifiedValues"
+            case location = "location"
+        }
+    }
+
+    public struct PendingMaintenanceAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "currentApplyDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "action", required: false, type: .string)
+        ]
+        /// The effective date of the pending database maintenance action.
+        public let currentApplyDate: TimeStamp?
+        /// Additional detail about the pending database maintenance action.
+        public let description: String?
+        /// The type of pending database maintenance action.
+        public let action: String?
+
+        public init(currentApplyDate: TimeStamp? = nil, description: String? = nil, action: String? = nil) {
+            self.currentApplyDate = currentApplyDate
+            self.description = description
+            self.action = action
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currentApplyDate = "currentApplyDate"
+            case description = "description"
+            case action = "action"
+        }
+    }
+
+    public struct LoadBalancer: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "location", required: false, type: .structure), 
+            AWSShapeMember(label: "tlsCertificateSummaries", required: false, type: .list), 
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "healthCheckPath", required: false, type: .string), 
+            AWSShapeMember(label: "supportCode", required: false, type: .string), 
+            AWSShapeMember(label: "instancePort", required: false, type: .integer), 
+            AWSShapeMember(label: "protocol", required: false, type: .enum), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "configurationOptions", required: false, type: .map), 
+            AWSShapeMember(label: "dnsName", required: false, type: .string), 
+            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "state", required: false, type: .enum), 
+            AWSShapeMember(label: "instanceHealthSummary", required: false, type: .list), 
+            AWSShapeMember(label: "publicPorts", required: false, type: .list)
+        ]
+        /// The AWS Region where your load balancer was created (e.g., us-east-2a). Lightsail automatically creates your load balancer across Availability Zones.
+        public let location: ResourceLocation?
+        /// An array of LoadBalancerTlsCertificateSummary objects that provide additional information about the SSL/TLS certificates. For example, if true, the certificate is attached to the load balancer.
+        public let tlsCertificateSummaries: [LoadBalancerTlsCertificateSummary]?
+        /// The Amazon Resource Name (ARN) of the load balancer.
+        public let arn: String?
+        /// The date when your load balancer was created.
+        public let createdAt: TimeStamp?
+        /// The name of the load balancer (e.g., my-load-balancer).
+        public let name: String?
+        /// The path you specified to perform your health checks. If no path is specified, the load balancer tries to make a request to the default (root) page.
+        public let healthCheckPath: String?
+        /// The support code. Include this code in your email to support when you have questions about your Lightsail load balancer. This code enables our support team to look up your Lightsail information more easily.
+        public let supportCode: String?
+        /// The port where the load balancer will direct traffic to your Lightsail instances. For HTTP traffic, it's port 80. For HTTPS traffic, it's port 443.
+        public let instancePort: Int32?
+        /// The protocol you have enabled for your load balancer. Valid values are below. You can't just have HTTP_HTTPS, but you can have just HTTP.
+        public let `protocol`: LoadBalancerProtocol?
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
+        public let tags: [Tag]?
+        /// A string to string map of the configuration options for your load balancer. Valid values are listed below.
+        public let configurationOptions: [LoadBalancerAttributeName: String]?
+        /// The DNS name of your Lightsail load balancer.
+        public let dnsName: String?
+        /// The resource type (e.g., LoadBalancer.
+        public let resourceType: ResourceType?
+        /// The status of your load balancer. Valid values are below.
+        public let state: LoadBalancerState?
+        /// An array of InstanceHealthSummary objects describing the health of the load balancer.
+        public let instanceHealthSummary: [InstanceHealthSummary]?
+        /// An array of public port settings for your load balancer. For HTTP, use port 80. For HTTPS, use port 443.
+        public let publicPorts: [Int32]?
+
+        public init(location: ResourceLocation? = nil, tlsCertificateSummaries: [LoadBalancerTlsCertificateSummary]? = nil, arn: String? = nil, createdAt: TimeStamp? = nil, name: String? = nil, healthCheckPath: String? = nil, supportCode: String? = nil, instancePort: Int32? = nil, protocol: LoadBalancerProtocol? = nil, tags: [Tag]? = nil, configurationOptions: [LoadBalancerAttributeName: String]? = nil, dnsName: String? = nil, resourceType: ResourceType? = nil, state: LoadBalancerState? = nil, instanceHealthSummary: [InstanceHealthSummary]? = nil, publicPorts: [Int32]? = nil) {
+            self.location = location
+            self.tlsCertificateSummaries = tlsCertificateSummaries
+            self.arn = arn
+            self.createdAt = createdAt
+            self.name = name
+            self.healthCheckPath = healthCheckPath
+            self.supportCode = supportCode
+            self.instancePort = instancePort
+            self.`protocol` = `protocol`
+            self.tags = tags
+            self.configurationOptions = configurationOptions
+            self.dnsName = dnsName
+            self.resourceType = resourceType
+            self.state = state
+            self.instanceHealthSummary = instanceHealthSummary
+            self.publicPorts = publicPorts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case location = "location"
+            case tlsCertificateSummaries = "tlsCertificateSummaries"
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case name = "name"
+            case healthCheckPath = "healthCheckPath"
+            case supportCode = "supportCode"
+            case instancePort = "instancePort"
+            case `protocol` = "protocol"
+            case tags = "tags"
+            case configurationOptions = "configurationOptions"
+            case dnsName = "dnsName"
+            case resourceType = "resourceType"
+            case state = "state"
+            case instanceHealthSummary = "instanceHealthSummary"
+            case publicPorts = "publicPorts"
+        }
+    }
+
+    public struct UpdateRelationalDatabaseResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+        /// An object describing the result of your update relational database request.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct Blueprint: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "productUrl", required: false, type: .string), 
+            AWSShapeMember(label: "minPower", required: false, type: .integer), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "type", required: false, type: .enum), 
+            AWSShapeMember(label: "isActive", required: false, type: .boolean), 
+            AWSShapeMember(label: "blueprintId", required: false, type: .string), 
+            AWSShapeMember(label: "platform", required: false, type: .enum), 
+            AWSShapeMember(label: "versionCode", required: false, type: .string), 
+            AWSShapeMember(label: "group", required: false, type: .string), 
+            AWSShapeMember(label: "licenseUrl", required: false, type: .string)
+        ]
+        /// The version number of the operating system, application, or stack (e.g., 2016.03.0).
+        public let version: String?
+        /// The product URL to learn more about the image or blueprint.
+        public let productUrl: String?
+        /// The minimum bundle power required to run this blueprint. For example, you need a bundle with a power value of 500 or more to create an instance that uses a blueprint with a minimum power value of 500. 0 indicates that the blueprint runs on all instance sizes. 
+        public let minPower: Int32?
+        /// The friendly name of the blueprint (e.g., Amazon Linux).
+        public let name: String?
+        /// The description of the blueprint.
+        public let description: String?
+        /// The type of the blueprint (e.g., os or app).
+        public let `type`: BlueprintType?
+        /// A Boolean value indicating whether the blueprint is active. Inactive blueprints are listed to support customers with existing instances but are not necessarily available for launch of new instances. Blueprints are marked inactive when they become outdated due to operating system updates or new application releases.
+        public let isActive: Bool?
+        /// The ID for the virtual private server image (e.g., app_wordpress_4_4 or app_lamp_7_0).
+        public let blueprintId: String?
+        /// The operating system platform (either Linux/Unix-based or Windows Server-based) of the blueprint.
+        public let platform: InstancePlatform?
+        /// The version code.
+        public let versionCode: String?
+        /// The group name of the blueprint (e.g., amazon-linux).
+        public let group: String?
+        /// The end-user license agreement URL for the image or blueprint.
+        public let licenseUrl: String?
+
+        public init(version: String? = nil, productUrl: String? = nil, minPower: Int32? = nil, name: String? = nil, description: String? = nil, type: BlueprintType? = nil, isActive: Bool? = nil, blueprintId: String? = nil, platform: InstancePlatform? = nil, versionCode: String? = nil, group: String? = nil, licenseUrl: String? = nil) {
+            self.version = version
+            self.productUrl = productUrl
+            self.minPower = minPower
+            self.name = name
+            self.description = description
+            self.`type` = `type`
+            self.isActive = isActive
+            self.blueprintId = blueprintId
+            self.platform = platform
+            self.versionCode = versionCode
+            self.group = group
+            self.licenseUrl = licenseUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case version = "version"
+            case productUrl = "productUrl"
+            case minPower = "minPower"
+            case name = "name"
+            case description = "description"
+            case `type` = "type"
+            case isActive = "isActive"
+            case blueprintId = "blueprintId"
+            case platform = "platform"
+            case versionCode = "versionCode"
+            case group = "group"
+            case licenseUrl = "licenseUrl"
+        }
+    }
+
+    public struct DeleteLoadBalancerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "loadBalancerName", required: true, type: .string)
+        ]
+        /// The name of the load balancer you want to delete.
+        public let loadBalancerName: String
+
+        public init(loadBalancerName: String) {
+            self.loadBalancerName = loadBalancerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerName = "loadBalancerName"
+        }
+    }
+
+    public struct StopRelationalDatabaseResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+        /// An object describing the result of your stop relational database request.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct UnpeerVpcResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operation", required: false, type: .structure)
+        ]
+        /// An array of key-value pairs containing information about the request operation.
+        public let operation: Operation?
+
+        public init(operation: Operation? = nil) {
+            self.operation = operation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operation = "operation"
+        }
+    }
+
+    public struct DeleteInstanceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceName", required: true, type: .string)
+        ]
+        /// The name of the instance to delete.
+        public let instanceName: String
+
+        public init(instanceName: String) {
+            self.instanceName = instanceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceName = "instanceName"
+        }
+    }
+
+    public struct AttachInstancesToLoadBalancerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceNames", required: true, type: .list), 
+            AWSShapeMember(label: "loadBalancerName", required: true, type: .string)
+        ]
+        /// An array of strings representing the instance name(s) you want to attach to your load balancer. An instance must be running before you can attach it to your load balancer. There are no additional limits on the number of instances you can attach to your load balancer, aside from the limit of Lightsail instances you can create in your account (20).
+        public let instanceNames: [String]
+        /// The name of the load balancer.
+        public let loadBalancerName: String
+
+        public init(instanceNames: [String], loadBalancerName: String) {
+            self.instanceNames = instanceNames
+            self.loadBalancerName = loadBalancerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceNames = "instanceNames"
+            case loadBalancerName = "loadBalancerName"
+        }
+    }
+
+    public enum LoadBalancerMetricName: String, CustomStringConvertible, Codable {
+        case clienttlsnegotiationerrorcount = "ClientTLSNegotiationErrorCount"
+        case healthyhostcount = "HealthyHostCount"
+        case unhealthyhostcount = "UnhealthyHostCount"
+        case httpcodeLb4XxCount = "HTTPCode_LB_4XX_Count"
+        case httpcodeLb5XxCount = "HTTPCode_LB_5XX_Count"
+        case httpcodeInstance2XxCount = "HTTPCode_Instance_2XX_Count"
+        case httpcodeInstance3XxCount = "HTTPCode_Instance_3XX_Count"
+        case httpcodeInstance4XxCount = "HTTPCode_Instance_4XX_Count"
+        case httpcodeInstance5XxCount = "HTTPCode_Instance_5XX_Count"
+        case instanceresponsetime = "InstanceResponseTime"
+        case rejectedconnectioncount = "RejectedConnectionCount"
+        case requestcount = "RequestCount"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Instance: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "username", required: false, type: .string), 
+            AWSShapeMember(label: "location", required: false, type: .structure), 
+            AWSShapeMember(label: "networking", required: false, type: .structure), 
+            AWSShapeMember(label: "blueprintName", required: false, type: .string), 
+            AWSShapeMember(label: "publicIpAddress", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "blueprintId", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "sshKeyName", required: false, type: .string), 
+            AWSShapeMember(label: "supportCode", required: false, type: .string), 
+            AWSShapeMember(label: "ipv6Address", required: false, type: .string), 
+            AWSShapeMember(label: "bundleId", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "hardware", required: false, type: .structure), 
+            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "state", required: false, type: .structure), 
+            AWSShapeMember(label: "isStaticIp", required: false, type: .boolean), 
+            AWSShapeMember(label: "privateIpAddress", required: false, type: .string)
+        ]
+        /// The user name for connecting to the instance (e.g., ec2-user).
+        public let username: String?
+        /// The region name and Availability Zone where the instance is located.
+        public let location: ResourceLocation?
+        /// Information about the public ports and monthly data transfer rates for the instance.
+        public let networking: InstanceNetworking?
+        /// The friendly name of the blueprint (e.g., Amazon Linux).
+        public let blueprintName: String?
+        /// The public IP address of the instance.
+        public let publicIpAddress: String?
+        /// The Amazon Resource Name (ARN) of the instance (e.g., arn:aws:lightsail:us-east-2:123456789101:Instance/244ad76f-8aad-4741-809f-12345EXAMPLE).
+        public let arn: String?
+        /// The timestamp when the instance was created (e.g., 1479734909.17).
+        public let createdAt: TimeStamp?
+        /// The blueprint ID (e.g., os_amlinux_2016_03).
+        public let blueprintId: String?
+        /// The name the user gave the instance (e.g., Amazon_Linux-1GB-Ohio-1).
+        public let name: String?
+        /// The name of the SSH key being used to connect to the instance (e.g., LightsailDefaultKeyPair).
+        public let sshKeyName: String?
+        /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
+        public let supportCode: String?
+        /// The IPv6 address of the instance.
+        public let ipv6Address: String?
+        /// The bundle for the instance (e.g., micro_1_0).
+        public let bundleId: String?
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
+        public let tags: [Tag]?
+        /// The size of the vCPU and the amount of RAM for the instance.
+        public let hardware: InstanceHardware?
+        /// The type of resource (usually Instance).
+        public let resourceType: ResourceType?
+        /// The status code and the state (e.g., running) for the instance.
+        public let state: InstanceState?
+        /// A Boolean value indicating whether this instance has a static IP assigned to it.
+        public let isStaticIp: Bool?
+        /// The private IP address of the instance.
+        public let privateIpAddress: String?
+
+        public init(username: String? = nil, location: ResourceLocation? = nil, networking: InstanceNetworking? = nil, blueprintName: String? = nil, publicIpAddress: String? = nil, arn: String? = nil, createdAt: TimeStamp? = nil, blueprintId: String? = nil, name: String? = nil, sshKeyName: String? = nil, supportCode: String? = nil, ipv6Address: String? = nil, bundleId: String? = nil, tags: [Tag]? = nil, hardware: InstanceHardware? = nil, resourceType: ResourceType? = nil, state: InstanceState? = nil, isStaticIp: Bool? = nil, privateIpAddress: String? = nil) {
+            self.username = username
+            self.location = location
+            self.networking = networking
+            self.blueprintName = blueprintName
+            self.publicIpAddress = publicIpAddress
+            self.arn = arn
+            self.createdAt = createdAt
+            self.blueprintId = blueprintId
+            self.name = name
+            self.sshKeyName = sshKeyName
+            self.supportCode = supportCode
+            self.ipv6Address = ipv6Address
+            self.bundleId = bundleId
+            self.tags = tags
+            self.hardware = hardware
+            self.resourceType = resourceType
+            self.state = state
+            self.isStaticIp = isStaticIp
+            self.privateIpAddress = privateIpAddress
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case username = "username"
+            case location = "location"
+            case networking = "networking"
+            case blueprintName = "blueprintName"
+            case publicIpAddress = "publicIpAddress"
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case blueprintId = "blueprintId"
+            case name = "name"
+            case sshKeyName = "sshKeyName"
+            case supportCode = "supportCode"
+            case ipv6Address = "ipv6Address"
+            case bundleId = "bundleId"
+            case tags = "tags"
+            case hardware = "hardware"
+            case resourceType = "resourceType"
+            case state = "state"
+            case isStaticIp = "isStaticIp"
+            case privateIpAddress = "privateIpAddress"
+        }
+    }
+
+    public struct InstanceSnapshotInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "fromBundleId", required: false, type: .string), 
+            AWSShapeMember(label: "fromDiskInfo", required: false, type: .list), 
+            AWSShapeMember(label: "fromBlueprintId", required: false, type: .string)
+        ]
+        /// The bundle ID from which the source instance was created (e.g., micro_1_0).
+        public let fromBundleId: String?
+        /// A list of objects describing the disks that were attached to the source instance.
+        public let fromDiskInfo: [DiskInfo]?
+        /// The blueprint ID from which the source instance (e.g., os_debian_8_3).
+        public let fromBlueprintId: String?
+
+        public init(fromBundleId: String? = nil, fromDiskInfo: [DiskInfo]? = nil, fromBlueprintId: String? = nil) {
+            self.fromBundleId = fromBundleId
+            self.fromDiskInfo = fromDiskInfo
+            self.fromBlueprintId = fromBlueprintId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fromBundleId = "fromBundleId"
+            case fromDiskInfo = "fromDiskInfo"
+            case fromBlueprintId = "fromBlueprintId"
+        }
+    }
+
+    public struct RebootInstanceResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+        /// An array of key-value pairs containing information about the request operations.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct GetInstancePortStatesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceName", required: true, type: .string)
+        ]
+        /// The name of the instance.
+        public let instanceName: String
+
+        public init(instanceName: String) {
+            self.instanceName = instanceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceName = "instanceName"
+        }
+    }
+
+    public struct RebootRelationalDatabaseRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string)
+        ]
+        /// The name of your database to reboot.
+        public let relationalDatabaseName: String
+
+        public init(relationalDatabaseName: String) {
+            self.relationalDatabaseName = relationalDatabaseName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case relationalDatabaseName = "relationalDatabaseName"
+        }
+    }
+
+    public struct DetachDiskResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+        /// An object describing the API operations.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tagKeys", required: true, type: .list), 
+            AWSShapeMember(label: "resourceName", required: true, type: .string)
+        ]
+        /// The tag keys to delete from the specified resource.
+        public let tagKeys: [String]
+        /// The name of the resource from which you are removing a tag.
+        public let resourceName: String
+
+        public init(tagKeys: [String], resourceName: String) {
+            self.tagKeys = tagKeys
+            self.resourceName = resourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagKeys = "tagKeys"
+            case resourceName = "resourceName"
+        }
+    }
+
+    public struct ImportKeyPairResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operation", required: false, type: .structure)
+        ]
+        /// An array of key-value pairs containing information about the request operation.
+        public let operation: Operation?
+
+        public init(operation: Operation? = nil) {
+            self.operation = operation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operation = "operation"
+        }
+    }
+
+    public enum InstanceMetricName: String, CustomStringConvertible, Codable {
+        case cpuutilization = "CPUUtilization"
+        case networkin = "NetworkIn"
+        case networkout = "NetworkOut"
+        case statuscheckfailed = "StatusCheckFailed"
+        case statuscheckfailedInstance = "StatusCheckFailed_Instance"
+        case statuscheckfailedSystem = "StatusCheckFailed_System"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CreateLoadBalancerTlsCertificateResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+        /// An object containing information about the API operations.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct CopySnapshotResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+        /// A list of objects describing the API operation.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct CreateLoadBalancerResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+        /// An object containing information about the API operations.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct CreateRelationalDatabaseSnapshotRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "relationalDatabaseSnapshotName", required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string)
+        ]
+        /// The name for your new database snapshot. Constraints:   Must contain from 2 to 255 alphanumeric characters, or hyphens.   The first and last character must be a letter or number.  
+        public let relationalDatabaseSnapshotName: String
+        /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
+        public let tags: [Tag]?
+        /// The name of the database on which to base your new snapshot.
+        public let relationalDatabaseName: String
+
+        public init(relationalDatabaseSnapshotName: String, tags: [Tag]? = nil, relationalDatabaseName: String) {
+            self.relationalDatabaseSnapshotName = relationalDatabaseSnapshotName
+            self.tags = tags
+            self.relationalDatabaseName = relationalDatabaseName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case relationalDatabaseSnapshotName = "relationalDatabaseSnapshotName"
+            case tags = "tags"
+            case relationalDatabaseName = "relationalDatabaseName"
+        }
+    }
+
+    public struct GetOperationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pageToken", required: false, type: .string)
+        ]
+        /// A token used for advancing to the next page of results from your get operations request.
+        public let pageToken: String?
+
+        public init(pageToken: String? = nil) {
+            self.pageToken = pageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pageToken = "pageToken"
+        }
+    }
+
+    public enum LoadBalancerTlsCertificateDomainStatus: String, CustomStringConvertible, Codable {
+        case pendingValidation = "PENDING_VALIDATION"
+        case failed = "FAILED"
+        case success = "SUCCESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct AttachLoadBalancerTlsCertificateResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+        /// An object representing the API operations. These SSL/TLS certificates are only usable by Lightsail load balancers. You can't get the certificate and use it for another purpose.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct StopRelationalDatabaseRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "relationalDatabaseSnapshotName", required: false, type: .string), 
+            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string)
+        ]
+        /// The name of your new database snapshot to be created before stopping your database.
+        public let relationalDatabaseSnapshotName: String?
+        /// The name of your database to stop.
+        public let relationalDatabaseName: String
+
+        public init(relationalDatabaseSnapshotName: String? = nil, relationalDatabaseName: String) {
+            self.relationalDatabaseSnapshotName = relationalDatabaseSnapshotName
+            self.relationalDatabaseName = relationalDatabaseName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case relationalDatabaseSnapshotName = "relationalDatabaseSnapshotName"
+            case relationalDatabaseName = "relationalDatabaseName"
+        }
+    }
+
+    public struct CreateInstanceSnapshotResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+        /// An array of key-value pairs containing information about the results of your create instances snapshot request.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct RebootRelationalDatabaseResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+        /// An object describing the result of your reboot relational database request.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct DetachInstancesFromLoadBalancerResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+        /// An object describing the API operations.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct GetKeyPairRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "keyPairName", required: true, type: .string)
+        ]
+        /// The name of the key pair for which you are requesting information.
+        public let keyPairName: String
+
+        public init(keyPairName: String) {
+            self.keyPairName = keyPairName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyPairName = "keyPairName"
+        }
+    }
+
+    public struct GetLoadBalancerTlsCertificatesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "loadBalancerName", required: true, type: .string)
+        ]
+        /// The name of the load balancer you associated with your SSL/TLS certificate.
+        public let loadBalancerName: String
+
+        public init(loadBalancerName: String) {
+            self.loadBalancerName = loadBalancerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerName = "loadBalancerName"
+        }
+    }
+
+    public struct GetDiskSnapshotRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "diskSnapshotName", required: true, type: .string)
+        ]
+        /// The name of the disk snapshot (e.g., my-disk-snapshot).
+        public let diskSnapshotName: String
+
+        public init(diskSnapshotName: String) {
+            self.diskSnapshotName = diskSnapshotName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case diskSnapshotName = "diskSnapshotName"
+        }
+    }
+
+    public struct GetRelationalDatabaseBundlesResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "bundles", required: false, type: .list), 
+            AWSShapeMember(label: "nextPageToken", required: false, type: .string)
+        ]
+        /// An object describing the result of your get relational database bundles request.
+        public let bundles: [RelationalDatabaseBundle]?
+        /// A token used for advancing to the next page of results of your get relational database bundles request.
+        public let nextPageToken: String?
+
+        public init(bundles: [RelationalDatabaseBundle]? = nil, nextPageToken: String? = nil) {
+            self.bundles = bundles
+            self.nextPageToken = nextPageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bundles = "bundles"
+            case nextPageToken = "nextPageToken"
+        }
+    }
+
+    public struct InstanceHealthSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceName", required: false, type: .string), 
+            AWSShapeMember(label: "instanceHealth", required: false, type: .enum), 
+            AWSShapeMember(label: "instanceHealthReason", required: false, type: .enum)
+        ]
+        /// The name of the Lightsail instance for which you are requesting health check data.
+        public let instanceName: String?
+        /// Describes the overall instance health. Valid values are below.
+        public let instanceHealth: InstanceHealthState?
+        /// More information about the instance health. If the instanceHealth is healthy, then an instanceHealthReason value is not provided. If  instanceHealth  is initial, the  instanceHealthReason  value can be one of the following:     Lb.RegistrationInProgress  - The target instance is in the process of being registered with the load balancer.     Lb.InitialHealthChecking  - The Lightsail load balancer is still sending the target instance the minimum number of health checks required to determine its health status.   If  instanceHealth  is unhealthy, the  instanceHealthReason  value can be one of the following:     Instance.ResponseCodeMismatch  - The health checks did not return an expected HTTP code.     Instance.Timeout  - The health check requests timed out.     Instance.FailedHealthChecks  - The health checks failed because the connection to the target instance timed out, the target instance response was malformed, or the target instance failed the health check for an unknown reason.     Lb.InternalError  - The health checks failed due to an internal error.   If  instanceHealth  is unused, the  instanceHealthReason  value can be one of the following:     Instance.NotRegistered  - The target instance is not registered with the target group.     Instance.NotInUse  - The target group is not used by any load balancer, or the target instance is in an Availability Zone that is not enabled for its load balancer.     Instance.IpUnusable  - The target IP address is reserved for use by a Lightsail load balancer.     Instance.InvalidState  - The target is in the stopped or terminated state.   If  instanceHealth  is draining, the  instanceHealthReason  value can be one of the following:     Instance.DeregistrationInProgress  - The target instance is in the process of being deregistered and the deregistration delay period has not expired.  
+        public let instanceHealthReason: InstanceHealthReason?
+
+        public init(instanceName: String? = nil, instanceHealth: InstanceHealthState? = nil, instanceHealthReason: InstanceHealthReason? = nil) {
+            self.instanceName = instanceName
+            self.instanceHealth = instanceHealth
+            self.instanceHealthReason = instanceHealthReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceName = "instanceName"
+            case instanceHealth = "instanceHealth"
+            case instanceHealthReason = "instanceHealthReason"
+        }
+    }
+
+    public struct GetInstanceStateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceName", required: true, type: .string)
+        ]
+        /// The name of the instance to get state information about.
+        public let instanceName: String
+
+        public init(instanceName: String) {
+            self.instanceName = instanceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceName = "instanceName"
+        }
+    }
+
+    public struct AttachDiskRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "diskName", required: true, type: .string), 
+            AWSShapeMember(label: "diskPath", required: true, type: .string), 
+            AWSShapeMember(label: "instanceName", required: true, type: .string)
+        ]
+        /// The unique Lightsail disk name (e.g., my-disk).
+        public let diskName: String
+        /// The disk path to expose to the instance (e.g., /dev/xvdf).
+        public let diskPath: String
+        /// The name of the Lightsail instance where you want to utilize the storage disk.
+        public let instanceName: String
+
+        public init(diskName: String, diskPath: String, instanceName: String) {
+            self.diskName = diskName
+            self.diskPath = diskPath
+            self.instanceName = instanceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case diskName = "diskName"
+            case diskPath = "diskPath"
+            case instanceName = "instanceName"
+        }
+    }
+
+    public struct IsVpcPeeredResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "isPeered", required: false, type: .boolean)
+        ]
+        /// Returns true if the Lightsail VPC is peered; otherwise, false.
+        public let isPeered: Bool?
+
+        public init(isPeered: Bool? = nil) {
+            self.isPeered = isPeered
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isPeered = "isPeered"
+        }
+    }
+
+    public struct PutInstancePublicPortsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "portInfos", required: true, type: .list), 
+            AWSShapeMember(label: "instanceName", required: true, type: .string)
+        ]
+        /// Specifies information about the public port(s).
+        public let portInfos: [PortInfo]
+        /// The Lightsail instance name of the public port(s) you are setting.
+        public let instanceName: String
+
+        public init(portInfos: [PortInfo], instanceName: String) {
+            self.portInfos = portInfos
+            self.instanceName = instanceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case portInfos = "portInfos"
+            case instanceName = "instanceName"
+        }
+    }
+
+    public struct GetInstanceStateResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "state", required: false, type: .structure)
+        ]
+        /// The state of the instance.
+        public let state: InstanceState?
+
+        public init(state: InstanceState? = nil) {
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
+        }
+    }
+
+    public struct CreateDomainRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "domainName", required: true, type: .string)
+        ]
+        /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
+        public let tags: [Tag]?
+        /// The domain name to manage (e.g., example.com).  You cannot register a new domain name using Lightsail. You must register a domain name using Amazon Route 53 or another domain name registrar. If you have already registered your domain, you can enter its name in this parameter to manage the DNS records for that domain. 
+        public let domainName: String
+
+        public init(tags: [Tag]? = nil, domainName: String) {
+            self.tags = tags
+            self.domainName = domainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+            case domainName = "domainName"
+        }
+    }
+
+    public struct GetInstanceMetricDataRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "metricName", required: true, type: .enum), 
+            AWSShapeMember(label: "instanceName", required: true, type: .string), 
+            AWSShapeMember(label: "endTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "startTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "period", required: true, type: .integer), 
+            AWSShapeMember(label: "unit", required: true, type: .enum), 
+            AWSShapeMember(label: "statistics", required: true, type: .list)
+        ]
+        /// The metric name to get data about. 
+        public let metricName: InstanceMetricName
+        /// The name of the instance for which you want to get metrics data.
+        public let instanceName: String
+        /// The end time of the time period.
+        public let endTime: TimeStamp
+        /// The start time of the time period.
+        public let startTime: TimeStamp
+        /// The granularity, in seconds, of the returned data points.
+        public let period: Int32
+        /// The unit. The list of valid values is below.
+        public let unit: MetricUnit
+        /// The instance statistics. 
+        public let statistics: [MetricStatistic]
+
+        public init(metricName: InstanceMetricName, instanceName: String, endTime: TimeStamp, startTime: TimeStamp, period: Int32, unit: MetricUnit, statistics: [MetricStatistic]) {
+            self.metricName = metricName
+            self.instanceName = instanceName
+            self.endTime = endTime
+            self.startTime = startTime
+            self.period = period
+            self.unit = unit
+            self.statistics = statistics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricName = "metricName"
+            case instanceName = "instanceName"
+            case endTime = "endTime"
+            case startTime = "startTime"
+            case period = "period"
+            case unit = "unit"
+            case statistics = "statistics"
+        }
+    }
+
+    public struct AvailabilityZone: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "state", required: false, type: .string), 
+            AWSShapeMember(label: "zoneName", required: false, type: .string)
+        ]
+        /// The state of the Availability Zone.
+        public let state: String?
+        /// The name of the Availability Zone. The format is us-east-2a (case-sensitive).
+        public let zoneName: String?
+
+        public init(state: String? = nil, zoneName: String? = nil) {
+            self.state = state
+            self.zoneName = zoneName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
+            case zoneName = "zoneName"
+        }
+    }
+
+    public struct GetInstanceAccessDetailsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "protocol", required: false, type: .enum), 
+            AWSShapeMember(label: "instanceName", required: true, type: .string)
+        ]
+        /// The protocol to use to connect to your instance. Defaults to ssh.
+        public let `protocol`: InstanceAccessProtocol?
+        /// The name of the instance to access.
+        public let instanceName: String
+
+        public init(protocol: InstanceAccessProtocol? = nil, instanceName: String) {
+            self.`protocol` = `protocol`
+            self.instanceName = instanceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `protocol` = "protocol"
+            case instanceName = "instanceName"
+        }
+    }
+
+    public struct GetKeyPairResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "keyPair", required: false, type: .structure)
+        ]
+        /// An array of key-value pairs containing information about the key pair.
+        public let keyPair: KeyPair?
+
+        public init(keyPair: KeyPair? = nil) {
+            self.keyPair = keyPair
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyPair = "keyPair"
+        }
+    }
+
+    public struct GetLoadBalancerResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "loadBalancer", required: false, type: .structure)
+        ]
+        /// An object containing information about your load balancer.
+        public let loadBalancer: LoadBalancer?
+
+        public init(loadBalancer: LoadBalancer? = nil) {
+            self.loadBalancer = loadBalancer
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancer = "loadBalancer"
+        }
+    }
+
+    public struct ExportSnapshotRecord: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "sourceInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "state", required: false, type: .enum), 
+            AWSShapeMember(label: "destinationInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "location", required: false, type: .structure), 
+            AWSShapeMember(label: "resourceType", required: false, type: .enum)
+        ]
+        /// A list of objects describing the source of the export snapshot record.
+        public let sourceInfo: ExportSnapshotRecordSourceInfo?
+        /// The Amazon Resource Name (ARN) of the export snapshot record.
+        public let arn: String?
+        /// The export snapshot record name.
+        public let name: String?
+        /// The date when the export snapshot record was created.
+        public let createdAt: TimeStamp?
+        /// The state of the export snapshot record.
+        public let state: RecordState?
+        /// A list of objects describing the destination of the export snapshot record.
+        public let destinationInfo: DestinationInfo?
+        /// The AWS Region and Availability Zone where the export snapshot record is located.
+        public let location: ResourceLocation?
+        /// The Lightsail resource type (e.g., ExportSnapshotRecord).
+        public let resourceType: ResourceType?
+
+        public init(sourceInfo: ExportSnapshotRecordSourceInfo? = nil, arn: String? = nil, name: String? = nil, createdAt: TimeStamp? = nil, state: RecordState? = nil, destinationInfo: DestinationInfo? = nil, location: ResourceLocation? = nil, resourceType: ResourceType? = nil) {
+            self.sourceInfo = sourceInfo
+            self.arn = arn
+            self.name = name
+            self.createdAt = createdAt
+            self.state = state
+            self.destinationInfo = destinationInfo
+            self.location = location
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceInfo = "sourceInfo"
+            case arn = "arn"
+            case name = "name"
+            case createdAt = "createdAt"
+            case state = "state"
+            case destinationInfo = "destinationInfo"
+            case location = "location"
+            case resourceType = "resourceType"
+        }
+    }
+
+    public struct DetachStaticIpResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+        /// An array of key-value pairs containing information about the results of your detach static IP request.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct GetKeyPairsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "keyPairs", required: false, type: .list)
+        ]
+        /// A token used for advancing to the next page of results from your get key pairs request.
+        public let nextPageToken: String?
+        /// An array of key-value pairs containing information about the key pairs.
+        public let keyPairs: [KeyPair]?
+
+        public init(nextPageToken: String? = nil, keyPairs: [KeyPair]? = nil) {
+            self.nextPageToken = nextPageToken
+            self.keyPairs = keyPairs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "nextPageToken"
+            case keyPairs = "keyPairs"
+        }
+    }
+
+    public struct GetRelationalDatabaseLogStreamsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string)
+        ]
+        /// The name of your database for which to get log streams.
+        public let relationalDatabaseName: String
+
+        public init(relationalDatabaseName: String) {
+            self.relationalDatabaseName = relationalDatabaseName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case relationalDatabaseName = "relationalDatabaseName"
+        }
+    }
+
+    public struct CreateRelationalDatabaseResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+        /// An object describing the result of your create relational database request.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct MetricDatapoint: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maximum", required: false, type: .double), 
+            AWSShapeMember(label: "sampleCount", required: false, type: .double), 
+            AWSShapeMember(label: "timestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "unit", required: false, type: .enum), 
+            AWSShapeMember(label: "average", required: false, type: .double), 
+            AWSShapeMember(label: "sum", required: false, type: .double), 
+            AWSShapeMember(label: "minimum", required: false, type: .double)
+        ]
+        /// The maximum.
+        public let maximum: Double?
+        /// The sample count.
+        public let sampleCount: Double?
+        /// The timestamp (e.g., 1479816991.349).
+        public let timestamp: TimeStamp?
+        /// The unit. 
+        public let unit: MetricUnit?
+        /// The average.
+        public let average: Double?
+        /// The sum.
+        public let sum: Double?
+        /// The minimum.
+        public let minimum: Double?
+
+        public init(maximum: Double? = nil, sampleCount: Double? = nil, timestamp: TimeStamp? = nil, unit: MetricUnit? = nil, average: Double? = nil, sum: Double? = nil, minimum: Double? = nil) {
+            self.maximum = maximum
+            self.sampleCount = sampleCount
+            self.timestamp = timestamp
+            self.unit = unit
+            self.average = average
+            self.sum = sum
+            self.minimum = minimum
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maximum = "maximum"
+            case sampleCount = "sampleCount"
+            case timestamp = "timestamp"
+            case unit = "unit"
+            case average = "average"
+            case sum = "sum"
+            case minimum = "minimum"
+        }
+    }
+
+    public struct PeerVpcResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operation", required: false, type: .structure)
+        ]
+        /// An array of key-value pairs containing information about the request operation.
+        public let operation: Operation?
+
+        public init(operation: Operation? = nil) {
+            self.operation = operation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operation = "operation"
+        }
+    }
+
+    public struct GetBundlesResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "bundles", required: false, type: .list), 
+            AWSShapeMember(label: "nextPageToken", required: false, type: .string)
+        ]
+        /// An array of key-value pairs that contains information about the available bundles.
+        public let bundles: [Bundle]?
+        /// A token used for advancing to the next page of results from your get active names request.
+        public let nextPageToken: String?
+
+        public init(bundles: [Bundle]? = nil, nextPageToken: String? = nil) {
+            self.bundles = bundles
+            self.nextPageToken = nextPageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bundles = "bundles"
+            case nextPageToken = "nextPageToken"
+        }
+    }
+
+    public struct GetLoadBalancersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pageToken", required: false, type: .string)
+        ]
+        /// A token used for paginating the results from your GetLoadBalancers request.
+        public let pageToken: String?
+
+        public init(pageToken: String? = nil) {
+            self.pageToken = pageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pageToken = "pageToken"
+        }
+    }
+
+    public struct DeleteRelationalDatabaseSnapshotResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+        /// An object describing the result of your delete relational database snapshot request.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct GetLoadBalancerMetricDataRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "metricName", required: true, type: .enum), 
+            AWSShapeMember(label: "loadBalancerName", required: true, type: .string), 
+            AWSShapeMember(label: "endTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "startTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "period", required: true, type: .integer), 
+            AWSShapeMember(label: "unit", required: true, type: .enum), 
+            AWSShapeMember(label: "statistics", required: true, type: .list)
+        ]
+        /// The metric about which you want to return information. Valid values are listed below, along with the most useful statistics to include in your request.     ClientTLSNegotiationErrorCount  - The number of TLS connections initiated by the client that did not establish a session with the load balancer. Possible causes include a mismatch of ciphers or protocols.  Statistics: The most useful statistic is Sum.     HealthyHostCount  - The number of target instances that are considered healthy.  Statistics: The most useful statistic are Average, Minimum, and Maximum.     UnhealthyHostCount  - The number of target instances that are considered unhealthy.  Statistics: The most useful statistic are Average, Minimum, and Maximum.     HTTPCode_LB_4XX_Count  - The number of HTTP 4XX client error codes that originate from the load balancer. Client errors are generated when requests are malformed or incomplete. These requests have not been received by the target instance. This count does not include any response codes generated by the target instances.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_LB_5XX_Count  - The number of HTTP 5XX server error codes that originate from the load balancer. This count does not include any response codes generated by the target instances.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_Instance_2XX_Count  - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_Instance_3XX_Count  - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer.   Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_Instance_4XX_Count  - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_Instance_5XX_Count  - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     InstanceResponseTime  - The time elapsed, in seconds, after the request leaves the load balancer until a response from the target instance is received.  Statistics: The most useful statistic is Average.     RejectedConnectionCount  - The number of connections that were rejected because the load balancer had reached its maximum number of connections.  Statistics: The most useful statistic is Sum.     RequestCount  - The number of requests processed over IPv4. This count includes only the requests with a response generated by a target instance of the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.  
+        public let metricName: LoadBalancerMetricName
+        /// The name of the load balancer.
+        public let loadBalancerName: String
+        /// The end time of the period.
+        public let endTime: TimeStamp
+        /// The start time of the period.
+        public let startTime: TimeStamp
+        /// The granularity, in seconds, of the returned data points.
+        public let period: Int32
+        /// The unit for the time period request. Valid values are listed below.
+        public let unit: MetricUnit
+        /// An array of statistics that you want to request metrics for. Valid values are listed below.     SampleCount  - The count (number) of data points used for the statistical calculation.     Average  - The value of Sum / SampleCount during the specified period. By comparing this statistic with the Minimum and Maximum, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum. This comparison helps you to know when to increase or decrease your resources as needed.     Sum  - All values submitted for the matching metric added together. This statistic can be useful for determining the total volume of a metric.     Minimum  - The lowest value observed during the specified period. You can use this value to determine low volumes of activity for your application.     Maximum  - The highest value observed during the specified period. You can use this value to determine high volumes of activity for your application.  
+        public let statistics: [MetricStatistic]
+
+        public init(metricName: LoadBalancerMetricName, loadBalancerName: String, endTime: TimeStamp, startTime: TimeStamp, period: Int32, unit: MetricUnit, statistics: [MetricStatistic]) {
+            self.metricName = metricName
+            self.loadBalancerName = loadBalancerName
+            self.endTime = endTime
+            self.startTime = startTime
+            self.period = period
+            self.unit = unit
+            self.statistics = statistics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricName = "metricName"
+            case loadBalancerName = "loadBalancerName"
+            case endTime = "endTime"
+            case startTime = "startTime"
+            case period = "period"
+            case unit = "unit"
+            case statistics = "statistics"
+        }
+    }
+
+    public struct GetRelationalDatabaseParametersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pageToken", required: false, type: .string), 
+            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string)
+        ]
+        /// A token used for advancing to a specific page of results for your get relational database parameters request.
+        public let pageToken: String?
+        /// The name of your database for which to get parameters.
+        public let relationalDatabaseName: String
+
+        public init(pageToken: String? = nil, relationalDatabaseName: String) {
+            self.pageToken = pageToken
+            self.relationalDatabaseName = relationalDatabaseName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pageToken = "pageToken"
+            case relationalDatabaseName = "relationalDatabaseName"
+        }
+    }
+
+    public struct ImportKeyPairRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "keyPairName", required: true, type: .string), 
+            AWSShapeMember(label: "publicKeyBase64", required: true, type: .string)
+        ]
+        /// The name of the key pair for which you want to import the public key.
+        public let keyPairName: String
+        /// A base64-encoded public key of the ssh-rsa type.
+        public let publicKeyBase64: String
+
+        public init(keyPairName: String, publicKeyBase64: String) {
+            self.keyPairName = keyPairName
+            self.publicKeyBase64 = publicKeyBase64
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyPairName = "keyPairName"
+            case publicKeyBase64 = "publicKeyBase64"
+        }
+    }
+
+    public struct CreateKeyPairResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operation", required: false, type: .structure), 
+            AWSShapeMember(label: "publicKeyBase64", required: false, type: .string), 
+            AWSShapeMember(label: "keyPair", required: false, type: .structure), 
+            AWSShapeMember(label: "privateKeyBase64", required: false, type: .string)
+        ]
+        /// An array of key-value pairs containing information about the results of your create key pair request.
+        public let operation: Operation?
+        /// A base64-encoded public key of the ssh-rsa type.
+        public let publicKeyBase64: String?
+        /// An array of key-value pairs containing information about the new key pair you just created.
+        public let keyPair: KeyPair?
+        /// A base64-encoded RSA private key.
+        public let privateKeyBase64: String?
+
+        public init(operation: Operation? = nil, publicKeyBase64: String? = nil, keyPair: KeyPair? = nil, privateKeyBase64: String? = nil) {
+            self.operation = operation
+            self.publicKeyBase64 = publicKeyBase64
+            self.keyPair = keyPair
+            self.privateKeyBase64 = privateKeyBase64
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operation = "operation"
+            case publicKeyBase64 = "publicKeyBase64"
+            case keyPair = "keyPair"
+            case privateKeyBase64 = "privateKeyBase64"
+        }
+    }
+
+    public struct UpdateDomainEntryRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "domainEntry", required: true, type: .structure), 
+            AWSShapeMember(label: "domainName", required: true, type: .string)
+        ]
+        /// An array of key-value pairs containing information about the domain entry.
+        public let domainEntry: DomainEntry
+        /// The name of the domain recordset to update.
+        public let domainName: String
+
+        public init(domainEntry: DomainEntry, domainName: String) {
+            self.domainEntry = domainEntry
+            self.domainName = domainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainEntry = "domainEntry"
+            case domainName = "domainName"
+        }
+    }
+
+    public struct RelationalDatabaseSnapshot: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "fromRelationalDatabaseBundleId", required: false, type: .string), 
+            AWSShapeMember(label: "location", required: false, type: .structure), 
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "engineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "supportCode", required: false, type: .string), 
+            AWSShapeMember(label: "fromRelationalDatabaseArn", required: false, type: .string), 
+            AWSShapeMember(label: "sizeInGb", required: false, type: .integer), 
+            AWSShapeMember(label: "engine", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "state", required: false, type: .string), 
+            AWSShapeMember(label: "fromRelationalDatabaseName", required: false, type: .string), 
+            AWSShapeMember(label: "fromRelationalDatabaseBlueprintId", required: false, type: .string)
+        ]
+        /// The bundle ID of the database from which the database snapshot was created.
+        public let fromRelationalDatabaseBundleId: String?
+        /// The Region name and Availability Zone where the database snapshot is located.
+        public let location: ResourceLocation?
+        /// The Amazon Resource Name (ARN) of the database snapshot.
+        public let arn: String?
+        /// The timestamp when the database snapshot was created.
+        public let createdAt: TimeStamp?
+        /// The database engine version for the database snapshot (for example, 5.7.23).
+        public let engineVersion: String?
+        /// The name of the database snapshot.
+        public let name: String?
+        /// The support code for the database snapshot. Include this code in your email to support when you have questions about a database snapshot in Lightsail. This code enables our support team to look up your Lightsail information more easily.
+        public let supportCode: String?
+        /// The Amazon Resource Name (ARN) of the database from which the database snapshot was created.
+        public let fromRelationalDatabaseArn: String?
+        /// The size of the disk in GB (for example, 32) for the database snapshot.
+        public let sizeInGb: Int32?
+        /// The software of the database snapshot (for example, MySQL)
+        public let engine: String?
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
+        public let tags: [Tag]?
+        /// The Lightsail resource type.
+        public let resourceType: ResourceType?
+        /// The state of the database snapshot.
+        public let state: String?
+        /// The name of the source database from which the database snapshot was created.
+        public let fromRelationalDatabaseName: String?
+        /// The blueprint ID of the database from which the database snapshot was created. A blueprint describes the major engine version of a database.
+        public let fromRelationalDatabaseBlueprintId: String?
+
+        public init(fromRelationalDatabaseBundleId: String? = nil, location: ResourceLocation? = nil, arn: String? = nil, createdAt: TimeStamp? = nil, engineVersion: String? = nil, name: String? = nil, supportCode: String? = nil, fromRelationalDatabaseArn: String? = nil, sizeInGb: Int32? = nil, engine: String? = nil, tags: [Tag]? = nil, resourceType: ResourceType? = nil, state: String? = nil, fromRelationalDatabaseName: String? = nil, fromRelationalDatabaseBlueprintId: String? = nil) {
+            self.fromRelationalDatabaseBundleId = fromRelationalDatabaseBundleId
+            self.location = location
+            self.arn = arn
+            self.createdAt = createdAt
+            self.engineVersion = engineVersion
+            self.name = name
+            self.supportCode = supportCode
+            self.fromRelationalDatabaseArn = fromRelationalDatabaseArn
+            self.sizeInGb = sizeInGb
+            self.engine = engine
+            self.tags = tags
+            self.resourceType = resourceType
+            self.state = state
+            self.fromRelationalDatabaseName = fromRelationalDatabaseName
+            self.fromRelationalDatabaseBlueprintId = fromRelationalDatabaseBlueprintId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fromRelationalDatabaseBundleId = "fromRelationalDatabaseBundleId"
+            case location = "location"
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case engineVersion = "engineVersion"
+            case name = "name"
+            case supportCode = "supportCode"
+            case fromRelationalDatabaseArn = "fromRelationalDatabaseArn"
+            case sizeInGb = "sizeInGb"
+            case engine = "engine"
+            case tags = "tags"
+            case resourceType = "resourceType"
+            case state = "state"
+            case fromRelationalDatabaseName = "fromRelationalDatabaseName"
+            case fromRelationalDatabaseBlueprintId = "fromRelationalDatabaseBlueprintId"
+        }
+    }
+
+    public struct GetDiskSnapshotResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "diskSnapshot", required: false, type: .structure)
+        ]
+        /// An object containing information about the disk snapshot.
+        public let diskSnapshot: DiskSnapshot?
+
+        public init(diskSnapshot: DiskSnapshot? = nil) {
+            self.diskSnapshot = diskSnapshot
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case diskSnapshot = "diskSnapshot"
+        }
+    }
+
+    public struct InstanceHardware: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ramSizeInGb", required: false, type: .float), 
+            AWSShapeMember(label: "disks", required: false, type: .list), 
+            AWSShapeMember(label: "cpuCount", required: false, type: .integer)
+        ]
+        /// The amount of RAM in GB on the instance (e.g., 1.0).
+        public let ramSizeInGb: Float?
+        /// The disks attached to the instance.
+        public let disks: [Disk]?
+        /// The number of vCPUs the instance has.
+        public let cpuCount: Int32?
+
+        public init(ramSizeInGb: Float? = nil, disks: [Disk]? = nil, cpuCount: Int32? = nil) {
+            self.ramSizeInGb = ramSizeInGb
+            self.disks = disks
+            self.cpuCount = cpuCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ramSizeInGb = "ramSizeInGb"
+            case disks = "disks"
+            case cpuCount = "cpuCount"
+        }
+    }
+
+    public struct PutInstancePublicPortsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operation", required: false, type: .structure)
+        ]
+        /// Describes metadata about the operation you just executed.
+        public let operation: Operation?
+
+        public init(operation: Operation? = nil) {
+            self.operation = operation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operation = "operation"
+        }
+    }
+
+    public struct GetRegionsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "regions", required: false, type: .list)
+        ]
+        /// An array of key-value pairs containing information about your get regions request.
+        public let regions: [Region]?
+
+        public init(regions: [Region]? = nil) {
+            self.regions = regions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case regions = "regions"
+        }
+    }
+
+    public enum PortState: String, CustomStringConvertible, Codable {
+        case open = "open"
+        case closed = "closed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LoadBalancerTlsCertificateStatus: String, CustomStringConvertible, Codable {
+        case pendingValidation = "PENDING_VALIDATION"
+        case issued = "ISSUED"
+        case inactive = "INACTIVE"
+        case expired = "EXPIRED"
+        case validationTimedOut = "VALIDATION_TIMED_OUT"
+        case revoked = "REVOKED"
+        case failed = "FAILED"
+        case unknown = "UNKNOWN"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeleteLoadBalancerResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+        /// An object describing the API operations.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct InstanceEntry: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "userData", required: false, type: .string), 
+            AWSShapeMember(label: "availabilityZone", required: true, type: .string), 
+            AWSShapeMember(label: "instanceType", required: true, type: .string), 
+            AWSShapeMember(label: "portInfoSource", required: true, type: .enum), 
+            AWSShapeMember(label: "sourceName", required: true, type: .string)
+        ]
+        /// A launch script you can create that configures a server with additional user data. For example, you might want to run apt-get -y update.  Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum, Debian and Ubuntu use apt-get, and FreeBSD uses pkg. 
+        public let userData: String?
+        /// The Availability Zone for the new Amazon EC2 instance.
+        public let availabilityZone: String
+        /// The instance type (e.g., t2.micro) to use for the new Amazon EC2 instance.
+        public let instanceType: String
+        /// The port configuration to use for the new Amazon EC2 instance. The following configuration options are available:   DEFAULT — Use the default firewall settings from the image.   INSTANCE — Use the firewall settings from the source Lightsail instance.   NONE — Default to Amazon EC2.  
+        public let portInfoSource: PortInfoSourceType
+        /// The name of the export snapshot record, which contains the exported Lightsail instance snapshot that will be used as the source of the new Amazon EC2 instance. Use the get export snapshot records operation to get a list of export snapshot records that you can use to create a CloudFormation stack.
+        public let sourceName: String
+
+        public init(userData: String? = nil, availabilityZone: String, instanceType: String, portInfoSource: PortInfoSourceType, sourceName: String) {
+            self.userData = userData
+            self.availabilityZone = availabilityZone
+            self.instanceType = instanceType
+            self.portInfoSource = portInfoSource
+            self.sourceName = sourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userData = "userData"
+            case availabilityZone = "availabilityZone"
+            case instanceType = "instanceType"
+            case portInfoSource = "portInfoSource"
+            case sourceName = "sourceName"
+        }
+    }
+
+    public struct OpenInstancePublicPortsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "portInfo", required: true, type: .structure), 
+            AWSShapeMember(label: "instanceName", required: true, type: .string)
+        ]
+        /// An array of key-value pairs containing information about the port mappings.
+        public let portInfo: PortInfo
+        /// The name of the instance for which you want to open the public ports.
+        public let instanceName: String
+
+        public init(portInfo: PortInfo, instanceName: String) {
+            self.portInfo = portInfo
+            self.instanceName = instanceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case portInfo = "portInfo"
+            case instanceName = "instanceName"
+        }
+    }
+
+    public struct GetRelationalDatabaseBundlesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pageToken", required: false, type: .string)
+        ]
+        /// A token used for advancing to a specific page of results for your get relational database bundles request.
+        public let pageToken: String?
+
+        public init(pageToken: String? = nil) {
+            self.pageToken = pageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pageToken = "pageToken"
+        }
+    }
+
+    public enum InstanceSnapshotState: String, CustomStringConvertible, Codable {
+        case pending = "pending"
+        case error = "error"
+        case available = "available"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetRelationalDatabaseParametersResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "parameters", required: false, type: .list), 
+            AWSShapeMember(label: "nextPageToken", required: false, type: .string)
+        ]
+        /// An object describing the result of your get relational database parameters request.
+        public let parameters: [RelationalDatabaseParameter]?
+        /// A token used for advancing to the next page of results from your get static IPs request.
+        public let nextPageToken: String?
+
+        public init(parameters: [RelationalDatabaseParameter]? = nil, nextPageToken: String? = nil) {
+            self.parameters = parameters
+            self.nextPageToken = nextPageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parameters = "parameters"
+            case nextPageToken = "nextPageToken"
+        }
+    }
+
+    public struct CreateDiskResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+        /// An object describing the API operations.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct DeleteDomainRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "domainName", required: true, type: .string)
+        ]
+        /// The specific domain name to delete.
+        public let domainName: String
+
+        public init(domainName: String) {
+            self.domainName = domainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "domainName"
+        }
+    }
+
+    public struct UpdateRelationalDatabaseRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "publiclyAccessible", required: false, type: .boolean), 
+            AWSShapeMember(label: "disableBackupRetention", required: false, type: .boolean), 
+            AWSShapeMember(label: "masterUserPassword", required: false, type: .string), 
+            AWSShapeMember(label: "enableBackupRetention", required: false, type: .boolean), 
+            AWSShapeMember(label: "rotateMasterUserPassword", required: false, type: .boolean), 
+            AWSShapeMember(label: "applyImmediately", required: false, type: .boolean), 
+            AWSShapeMember(label: "preferredBackupWindow", required: false, type: .string), 
+            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string), 
+            AWSShapeMember(label: "preferredMaintenanceWindow", required: false, type: .string)
+        ]
+        /// Specifies the accessibility options for your database. A value of true specifies a database that is available to resources outside of your Lightsail account. A value of false specifies a database that is available only to your Lightsail resources in the same region as your database.
+        public let publiclyAccessible: Bool?
+        /// When true, disables automated backup retention for your database. Disabling backup retention deletes all automated database backups. Before disabling this, you may want to create a snapshot of your database using the create relational database snapshot operation. Updates are applied during the next maintenance window because this can result in an outage.
+        public let disableBackupRetention: Bool?
+        /// The password for the master user of your database. The password can include any printable ASCII character except "/", """, or "@". Constraints: Must contain 8 to 41 characters.
+        public let masterUserPassword: String?
+        /// When true, enables automated backup retention for your database. Updates are applied during the next maintenance window because this can result in an outage.
+        public let enableBackupRetention: Bool?
+        /// When true, the master user password is changed to a new strong password generated by Lightsail. Use the get relational database master user password operation to get the new password.
+        public let rotateMasterUserPassword: Bool?
+        /// When true, applies changes immediately. When false, applies changes during the preferred maintenance window. Some changes may cause an outage. Default: false 
+        public let applyImmediately: Bool?
+        /// The daily time range during which automated backups are created for your database if automated backups are enabled. Constraints:   Must be in the hh24:mi-hh24:mi format. Example: 16:00-16:30    Specified in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
+        public let preferredBackupWindow: String?
+        /// The name of your database to update.
+        public let relationalDatabaseName: String
+        /// The weekly time range during which system maintenance can occur on your database. The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region, occurring on a random day of the week. Constraints:   Must be in the ddd:hh24:mi-ddd:hh24:mi format.   Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun.   Must be at least 30 minutes.   Specified in Universal Coordinated Time (UTC).   Example: Tue:17:00-Tue:17:30   
+        public let preferredMaintenanceWindow: String?
+
+        public init(publiclyAccessible: Bool? = nil, disableBackupRetention: Bool? = nil, masterUserPassword: String? = nil, enableBackupRetention: Bool? = nil, rotateMasterUserPassword: Bool? = nil, applyImmediately: Bool? = nil, preferredBackupWindow: String? = nil, relationalDatabaseName: String, preferredMaintenanceWindow: String? = nil) {
+            self.publiclyAccessible = publiclyAccessible
+            self.disableBackupRetention = disableBackupRetention
+            self.masterUserPassword = masterUserPassword
+            self.enableBackupRetention = enableBackupRetention
+            self.rotateMasterUserPassword = rotateMasterUserPassword
+            self.applyImmediately = applyImmediately
+            self.preferredBackupWindow = preferredBackupWindow
+            self.relationalDatabaseName = relationalDatabaseName
+            self.preferredMaintenanceWindow = preferredMaintenanceWindow
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case publiclyAccessible = "publiclyAccessible"
+            case disableBackupRetention = "disableBackupRetention"
+            case masterUserPassword = "masterUserPassword"
+            case enableBackupRetention = "enableBackupRetention"
+            case rotateMasterUserPassword = "rotateMasterUserPassword"
+            case applyImmediately = "applyImmediately"
+            case preferredBackupWindow = "preferredBackupWindow"
+            case relationalDatabaseName = "relationalDatabaseName"
+            case preferredMaintenanceWindow = "preferredMaintenanceWindow"
+        }
+    }
+
+    public struct LoadBalancerTlsCertificateSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "isAttached", required: false, type: .boolean), 
+            AWSShapeMember(label: "name", required: false, type: .string)
+        ]
+        /// When true, the SSL/TLS certificate is attached to the Lightsail load balancer.
+        public let isAttached: Bool?
+        /// The name of the SSL/TLS certificate.
+        public let name: String?
+
+        public init(isAttached: Bool? = nil, name: String? = nil) {
+            self.isAttached = isAttached
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isAttached = "isAttached"
+            case name = "name"
+        }
+    }
+
+    public struct DetachDiskRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "diskName", required: true, type: .string)
+        ]
+        /// The unique name of the disk you want to detach from your instance (e.g., my-disk).
+        public let diskName: String
+
+        public init(diskName: String) {
+            self.diskName = diskName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case diskName = "diskName"
+        }
+    }
+
+    public struct CreateCloudFormationStackRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instances", required: true, type: .list)
+        ]
+        /// An array of parameters that will be used to create the new Amazon EC2 instance. You can only pass one instance entry at a time in this array. You will get an invalid parameter error if you pass more than one instance entry in this array.
+        public let instances: [InstanceEntry]
+
+        public init(instances: [InstanceEntry]) {
+            self.instances = instances
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instances = "instances"
+        }
+    }
+
+    public struct DetachInstancesFromLoadBalancerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceNames", required: true, type: .list), 
+            AWSShapeMember(label: "loadBalancerName", required: true, type: .string)
+        ]
+        /// An array of strings containing the names of the instances you want to detach from the load balancer.
+        public let instanceNames: [String]
+        /// The name of the Lightsail load balancer.
+        public let loadBalancerName: String
+
+        public init(instanceNames: [String], loadBalancerName: String) {
+            self.instanceNames = instanceNames
+            self.loadBalancerName = loadBalancerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceNames = "instanceNames"
+            case loadBalancerName = "loadBalancerName"
+        }
+    }
+
+    public struct GetRelationalDatabaseMasterUserPasswordResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "masterUserPassword", required: false, type: .string)
+        ]
+        /// The timestamp when the specified version of the master user password was created.
+        public let createdAt: TimeStamp?
+        /// The master user password for the password version specified.
+        public let masterUserPassword: String?
+
+        public init(createdAt: TimeStamp? = nil, masterUserPassword: String? = nil) {
+            self.createdAt = createdAt
+            self.masterUserPassword = masterUserPassword
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case masterUserPassword = "masterUserPassword"
+        }
+    }
+
+    public struct CreateDomainEntryRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "domainEntry", required: true, type: .structure), 
+            AWSShapeMember(label: "domainName", required: true, type: .string)
+        ]
+        /// An array of key-value pairs containing information about the domain entry request.
+        public let domainEntry: DomainEntry
+        /// The domain name (e.g., example.com) for which you want to create the domain entry.
+        public let domainName: String
+
+        public init(domainEntry: DomainEntry, domainName: String) {
+            self.domainEntry = domainEntry
+            self.domainName = domainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainEntry = "domainEntry"
+            case domainName = "domainName"
+        }
+    }
+
+    public struct GetOperationsForResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pageToken", required: false, type: .string), 
+            AWSShapeMember(label: "resourceName", required: true, type: .string)
+        ]
+        /// A token used for advancing to the next page of results from your get operations for resource request.
+        public let pageToken: String?
+        /// The name of the resource for which you are requesting information.
+        public let resourceName: String
+
+        public init(pageToken: String? = nil, resourceName: String) {
+            self.pageToken = pageToken
+            self.resourceName = resourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pageToken = "pageToken"
+            case resourceName = "resourceName"
+        }
+    }
+
+    public struct CloseInstancePublicPortsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operation", required: false, type: .structure)
+        ]
+        /// An array of key-value pairs that contains information about the operation.
+        public let operation: Operation?
+
+        public init(operation: Operation? = nil) {
+            self.operation = operation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operation = "operation"
+        }
+    }
+
+    public struct DeleteInstanceSnapshotResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+        /// An array of key-value pairs containing information about the results of your delete instance snapshot request.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct CreateRelationalDatabaseFromSnapshotResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+        /// An object describing the result of your create relational database from snapshot request.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct GetInstanceAccessDetailsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "accessDetails", required: false, type: .structure)
+        ]
+        /// An array of key-value pairs containing information about a get instance access request.
+        public let accessDetails: InstanceAccessDetails?
+
+        public init(accessDetails: InstanceAccessDetails? = nil) {
+            self.accessDetails = accessDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessDetails = "accessDetails"
+        }
+    }
+
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "key", required: false, type: .string), 
+            AWSShapeMember(label: "value", required: false, type: .string)
+        ]
+        /// The key of the tag. Constraints: Tag keys accept a maximum of 128 letters, numbers, spaces in UTF-8, or the following characters: + - = . _ : / @
+        public let key: String?
+        /// The value of the tag. Constraints: Tag values accept a maximum of 256 letters, numbers, spaces in UTF-8, or the following characters: + - = . _ : / @
+        public let value: String?
+
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
+        }
+    }
+
+    public enum OperationStatus: String, CustomStringConvertible, Codable {
+        case notstarted = "NotStarted"
+        case started = "Started"
+        case failed = "Failed"
+        case completed = "Completed"
+        case succeeded = "Succeeded"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetDiskSnapshotsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pageToken", required: false, type: .string)
+        ]
+        /// A token used for advancing to the next page of results from your GetDiskSnapshots request.
+        public let pageToken: String?
+
+        public init(pageToken: String? = nil) {
+            self.pageToken = pageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pageToken = "pageToken"
+        }
+    }
+
+    public struct GetCloudFormationStackRecordsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "cloudFormationStackRecords", required: false, type: .list)
+        ]
+        /// A token used for advancing to the next page of results of your get relational database bundles request.
+        public let nextPageToken: String?
+        /// A list of objects describing the CloudFormation stack records.
+        public let cloudFormationStackRecords: [CloudFormationStackRecord]?
+
+        public init(nextPageToken: String? = nil, cloudFormationStackRecords: [CloudFormationStackRecord]? = nil) {
+            self.nextPageToken = nextPageToken
+            self.cloudFormationStackRecords = cloudFormationStackRecords
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "nextPageToken"
+            case cloudFormationStackRecords = "cloudFormationStackRecords"
+        }
+    }
+
+    public struct GetLoadBalancerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "loadBalancerName", required: true, type: .string)
+        ]
+        /// The name of the load balancer.
+        public let loadBalancerName: String
+
+        public init(loadBalancerName: String) {
+            self.loadBalancerName = loadBalancerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerName = "loadBalancerName"
+        }
+    }
+
+    public enum BlueprintType: String, CustomStringConvertible, Codable {
+        case os = "os"
+        case app = "app"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DiskSnapshotState: String, CustomStringConvertible, Codable {
+        case pending = "pending"
+        case completed = "completed"
+        case error = "error"
+        case unknown = "unknown"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExportSnapshotRecordSourceType: String, CustomStringConvertible, Codable {
+        case instancesnapshot = "InstanceSnapshot"
+        case disksnapshot = "DiskSnapshot"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetRelationalDatabaseSnapshotsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "relationalDatabaseSnapshots", required: false, type: .list), 
+            AWSShapeMember(label: "nextPageToken", required: false, type: .string)
+        ]
+        /// An object describing the result of your get relational database snapshots request.
+        public let relationalDatabaseSnapshots: [RelationalDatabaseSnapshot]?
+        /// A token used for advancing to the next page of results from your get relational database snapshots request.
+        public let nextPageToken: String?
+
+        public init(relationalDatabaseSnapshots: [RelationalDatabaseSnapshot]? = nil, nextPageToken: String? = nil) {
+            self.relationalDatabaseSnapshots = relationalDatabaseSnapshots
+            self.nextPageToken = nextPageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case relationalDatabaseSnapshots = "relationalDatabaseSnapshots"
+            case nextPageToken = "nextPageToken"
+        }
+    }
+
+    public enum RelationalDatabaseMetricName: String, CustomStringConvertible, Codable {
+        case cpuutilization = "CPUUtilization"
+        case databaseconnections = "DatabaseConnections"
+        case diskqueuedepth = "DiskQueueDepth"
+        case freestoragespace = "FreeStorageSpace"
+        case networkreceivethroughput = "NetworkReceiveThroughput"
+        case networktransmitthroughput = "NetworkTransmitThroughput"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetInstanceSnapshotRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceSnapshotName", required: true, type: .string)
+        ]
+        /// The name of the snapshot for which you are requesting information.
+        public let instanceSnapshotName: String
+
+        public init(instanceSnapshotName: String) {
+            self.instanceSnapshotName = instanceSnapshotName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceSnapshotName = "instanceSnapshotName"
+        }
+    }
+
+    public struct GetOperationResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operation", required: false, type: .structure)
+        ]
+        /// An array of key-value pairs containing information about the results of your get operation request.
+        public let operation: Operation?
+
+        public init(operation: Operation? = nil) {
+            self.operation = operation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operation = "operation"
+        }
+    }
+
+    public struct GetOperationsForResourceResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "operations", required: false, type: .list), 
+            AWSShapeMember(label: "nextPageCount", required: false, type: .string)
+        ]
+        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+        public let nextPageToken: String?
+        /// An array of key-value pairs containing information about the results of your get operations for resource request.
+        public let operations: [Operation]?
+        /// (Deprecated) Returns the number of pages of results that remain.  In releases prior to June 12, 2017, this parameter returned null by the API. It is now deprecated, and the API returns the next page token parameter instead. 
+        public let nextPageCount: String?
+
+        public init(nextPageToken: String? = nil, operations: [Operation]? = nil, nextPageCount: String? = nil) {
+            self.nextPageToken = nextPageToken
+            self.operations = operations
+            self.nextPageCount = nextPageCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "nextPageToken"
+            case operations = "operations"
+            case nextPageCount = "nextPageCount"
+        }
+    }
+
+    public enum InstancePlatform: String, CustomStringConvertible, Codable {
+        case linuxUnix = "LINUX_UNIX"
+        case windows = "WINDOWS"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UpdateLoadBalancerAttributeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "attributeValue", required: true, type: .string), 
+            AWSShapeMember(label: "attributeName", required: true, type: .enum), 
+            AWSShapeMember(label: "loadBalancerName", required: true, type: .string)
+        ]
+        /// The value that you want to specify for the attribute name.
+        public let attributeValue: String
+        /// The name of the attribute you want to update. Valid values are below.
+        public let attributeName: LoadBalancerAttributeName
+        /// The name of the load balancer that you want to modify (e.g., my-load-balancer.
+        public let loadBalancerName: String
+
+        public init(attributeValue: String, attributeName: LoadBalancerAttributeName, loadBalancerName: String) {
+            self.attributeValue = attributeValue
+            self.attributeName = attributeName
+            self.loadBalancerName = loadBalancerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeValue = "attributeValue"
+            case attributeName = "attributeName"
+            case loadBalancerName = "loadBalancerName"
+        }
+    }
+
+    public struct CreateDiskSnapshotRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "diskName", required: true, type: .string), 
+            AWSShapeMember(label: "diskSnapshotName", required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .list)
+        ]
+        /// The unique name of the source disk (e.g., my-source-disk).
+        public let diskName: String
+        /// The name of the destination disk snapshot (e.g., my-disk-snapshot) based on the source disk.
+        public let diskSnapshotName: String
+        /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
+        public let tags: [Tag]?
+
+        public init(diskName: String, diskSnapshotName: String, tags: [Tag]? = nil) {
+            self.diskName = diskName
+            self.diskSnapshotName = diskSnapshotName
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case diskName = "diskName"
+            case diskSnapshotName = "diskSnapshotName"
+            case tags = "tags"
+        }
+    }
+
+    public struct DeleteDiskResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+        /// An object describing the API operations.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct UntagResourceResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+        /// A list of objects describing the API operation.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct Region: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "relationalDatabaseAvailabilityZones", required: false, type: .list), 
+            AWSShapeMember(label: "continentCode", required: false, type: .string), 
+            AWSShapeMember(label: "availabilityZones", required: false, type: .list), 
+            AWSShapeMember(label: "name", required: false, type: .enum), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "displayName", required: false, type: .string)
+        ]
+        /// The Availability Zones for databases. Follows the format us-east-2a (case-sensitive).
+        public let relationalDatabaseAvailabilityZones: [AvailabilityZone]?
+        /// The continent code (e.g., NA, meaning North America).
+        public let continentCode: String?
+        /// The Availability Zones. Follows the format us-east-2a (case-sensitive).
+        public let availabilityZones: [AvailabilityZone]?
+        /// The region name (e.g., us-east-2).
+        public let name: RegionName?
+        /// The description of the AWS Region (e.g., This region is recommended to serve users in the eastern United States and eastern Canada).
+        public let description: String?
+        /// The display name (e.g., Ohio).
+        public let displayName: String?
+
+        public init(relationalDatabaseAvailabilityZones: [AvailabilityZone]? = nil, continentCode: String? = nil, availabilityZones: [AvailabilityZone]? = nil, name: RegionName? = nil, description: String? = nil, displayName: String? = nil) {
+            self.relationalDatabaseAvailabilityZones = relationalDatabaseAvailabilityZones
+            self.continentCode = continentCode
+            self.availabilityZones = availabilityZones
+            self.name = name
+            self.description = description
+            self.displayName = displayName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case relationalDatabaseAvailabilityZones = "relationalDatabaseAvailabilityZones"
+            case continentCode = "continentCode"
+            case availabilityZones = "availabilityZones"
+            case name = "name"
+            case description = "description"
+            case displayName = "displayName"
+        }
+    }
+
+    public struct GetInstancesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pageToken", required: false, type: .string)
+        ]
+        /// A token used for advancing to the next page of results from your get instances request.
+        public let pageToken: String?
+
+        public init(pageToken: String? = nil) {
+            self.pageToken = pageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pageToken = "pageToken"
+        }
+    }
+
     public struct DeleteDomainEntryRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "domainEntry", required: true, type: .structure), 
@@ -89,393 +3057,122 @@ extension Lightsail {
         }
     }
 
-    public struct PortInfo: AWSShape {
+    public struct GetOperationsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "toPort", required: false, type: .integer), 
-            AWSShapeMember(label: "protocol", required: false, type: .enum), 
-            AWSShapeMember(label: "fromPort", required: false, type: .integer)
-        ]
-        /// The last port in the range.
-        public let toPort: Int32?
-        /// The protocol. 
-        public let `protocol`: NetworkProtocol?
-        /// The first port in the range.
-        public let fromPort: Int32?
-
-        public init(toPort: Int32? = nil, protocol: NetworkProtocol? = nil, fromPort: Int32? = nil) {
-            self.toPort = toPort
-            self.`protocol` = `protocol`
-            self.fromPort = fromPort
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case toPort = "toPort"
-            case `protocol` = "protocol"
-            case fromPort = "fromPort"
-        }
-    }
-
-    public struct GetLoadBalancerResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "loadBalancer", required: false, type: .structure)
-        ]
-        /// An object containing information about your load balancer.
-        public let loadBalancer: LoadBalancer?
-
-        public init(loadBalancer: LoadBalancer? = nil) {
-            self.loadBalancer = loadBalancer
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case loadBalancer = "loadBalancer"
-        }
-    }
-
-    public struct GetLoadBalancersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageToken", required: false, type: .string)
-        ]
-        /// A token used for paginating the results from your GetLoadBalancers request.
-        public let pageToken: String?
-
-        public init(pageToken: String? = nil) {
-            self.pageToken = pageToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pageToken = "pageToken"
-        }
-    }
-
-    public struct CreateDiskResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
             AWSShapeMember(label: "operations", required: false, type: .list)
         ]
-        /// An object describing the API operations.
-        public let operations: [Operation]?
-
-        public init(operations: [Operation]? = nil) {
-            self.operations = operations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operations = "operations"
-        }
-    }
-
-    public struct GetDisksResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "disks", required: false, type: .list), 
-            AWSShapeMember(label: "nextPageToken", required: false, type: .string)
-        ]
-        /// An array of objects containing information about all block storage disks.
-        public let disks: [Disk]?
-        /// A token used for advancing to the next page of results from your GetDisks request.
+        /// A token used for advancing to the next page of results from your get operations request.
         public let nextPageToken: String?
+        /// An array of key-value pairs containing information about the results of your get operations request.
+        public let operations: [Operation]?
 
-        public init(disks: [Disk]? = nil, nextPageToken: String? = nil) {
-            self.disks = disks
+        public init(nextPageToken: String? = nil, operations: [Operation]? = nil) {
             self.nextPageToken = nextPageToken
+            self.operations = operations
         }
 
         private enum CodingKeys: String, CodingKey {
-            case disks = "disks"
             case nextPageToken = "nextPageToken"
-        }
-    }
-
-    public struct DeleteLoadBalancerTlsCertificateResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
-        /// An object describing the API operations.
-        public let operations: [Operation]?
-
-        public init(operations: [Operation]? = nil) {
-            self.operations = operations
-        }
-
-        private enum CodingKeys: String, CodingKey {
             case operations = "operations"
         }
     }
 
-    public struct CreateInstanceSnapshotResult: AWSShape {
+    public struct GetOperationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
+            AWSShapeMember(label: "operationId", required: true, type: .string)
         ]
-        /// An array of key-value pairs containing information about the results of your create instances snapshot request.
-        public let operations: [Operation]?
+        /// A GUID used to identify the operation.
+        public let operationId: String
 
-        public init(operations: [Operation]? = nil) {
-            self.operations = operations
+        public init(operationId: String) {
+            self.operationId = operationId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations = "operations"
+            case operationId = "operationId"
         }
     }
 
-    public struct DeleteKeyPairRequest: AWSShape {
+    public struct GetDiskRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "keyPairName", required: true, type: .string)
-        ]
-        /// The name of the key pair to delete.
-        public let keyPairName: String
-
-        public init(keyPairName: String) {
-            self.keyPairName = keyPairName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case keyPairName = "keyPairName"
-        }
-    }
-
-    public struct InstanceSnapshotInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "fromBlueprintId", required: false, type: .string), 
-            AWSShapeMember(label: "fromBundleId", required: false, type: .string), 
-            AWSShapeMember(label: "fromDiskInfo", required: false, type: .list)
-        ]
-        /// The blueprint ID from which the source instance (e.g., os_debian_8_3).
-        public let fromBlueprintId: String?
-        /// The bundle ID from which the source instance was created (e.g., micro_1_0).
-        public let fromBundleId: String?
-        /// A list of objects describing the disks that were attached to the source instance.
-        public let fromDiskInfo: [DiskInfo]?
-
-        public init(fromBlueprintId: String? = nil, fromBundleId: String? = nil, fromDiskInfo: [DiskInfo]? = nil) {
-            self.fromBlueprintId = fromBlueprintId
-            self.fromBundleId = fromBundleId
-            self.fromDiskInfo = fromDiskInfo
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fromBlueprintId = "fromBlueprintId"
-            case fromBundleId = "fromBundleId"
-            case fromDiskInfo = "fromDiskInfo"
-        }
-    }
-
-    public struct DestinationInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "service", required: false, type: .string)
-        ]
-        /// The ID of the resource created at the destination.
-        public let id: String?
-        /// The destination service of the record.
-        public let service: String?
-
-        public init(id: String? = nil, service: String? = nil) {
-            self.id = id
-            self.service = service
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-            case service = "service"
-        }
-    }
-
-    public struct CreateInstancesFromSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
-        /// An array of key-value pairs containing information about the results of your create instances from snapshot request.
-        public let operations: [Operation]?
-
-        public init(operations: [Operation]? = nil) {
-            self.operations = operations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operations = "operations"
-        }
-    }
-
-    public struct Domain: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "domainEntries", required: false, type: .list), 
-            AWSShapeMember(label: "supportCode", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "arn", required: false, type: .string)
-        ]
-        /// The name of the domain.
-        public let name: String?
-        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
-        public let tags: [Tag]?
-        /// An array of key-value pairs containing information about the domain entries.
-        public let domainEntries: [DomainEntry]?
-        /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
-        public let supportCode: String?
-        /// The resource type. 
-        public let resourceType: ResourceType?
-        /// The date when the domain recordset was created.
-        public let createdAt: TimeStamp?
-        /// The AWS Region and Availability Zones where the domain recordset was created.
-        public let location: ResourceLocation?
-        /// The Amazon Resource Name (ARN) of the domain recordset (e.g., arn:aws:lightsail:global:123456789101:Domain/824cede0-abc7-4f84-8dbc-12345EXAMPLE).
-        public let arn: String?
-
-        public init(name: String? = nil, tags: [Tag]? = nil, domainEntries: [DomainEntry]? = nil, supportCode: String? = nil, resourceType: ResourceType? = nil, createdAt: TimeStamp? = nil, location: ResourceLocation? = nil, arn: String? = nil) {
-            self.name = name
-            self.tags = tags
-            self.domainEntries = domainEntries
-            self.supportCode = supportCode
-            self.resourceType = resourceType
-            self.createdAt = createdAt
-            self.location = location
-            self.arn = arn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case tags = "tags"
-            case domainEntries = "domainEntries"
-            case supportCode = "supportCode"
-            case resourceType = "resourceType"
-            case createdAt = "createdAt"
-            case location = "location"
-            case arn = "arn"
-        }
-    }
-
-    public enum RelationalDatabaseMetricName: String, CustomStringConvertible, Codable {
-        case cpuutilization = "CPUUtilization"
-        case databaseconnections = "DatabaseConnections"
-        case diskqueuedepth = "DiskQueueDepth"
-        case freestoragespace = "FreeStorageSpace"
-        case networkreceivethroughput = "NetworkReceiveThroughput"
-        case networktransmitthroughput = "NetworkTransmitThroughput"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DiskMap: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "originalDiskPath", required: false, type: .string), 
-            AWSShapeMember(label: "newDiskName", required: false, type: .string)
-        ]
-        /// The original disk path exposed to the instance (for example, /dev/sdh).
-        public let originalDiskPath: String?
-        /// The new disk name (e.g., my-new-disk).
-        public let newDiskName: String?
-
-        public init(originalDiskPath: String? = nil, newDiskName: String? = nil) {
-            self.originalDiskPath = originalDiskPath
-            self.newDiskName = newDiskName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case originalDiskPath = "originalDiskPath"
-            case newDiskName = "newDiskName"
-        }
-    }
-
-    public struct MonthlyTransfer: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "gbPerMonthAllocated", required: false, type: .integer)
-        ]
-        /// The amount allocated per month (in GB).
-        public let gbPerMonthAllocated: Int32?
-
-        public init(gbPerMonthAllocated: Int32? = nil) {
-            self.gbPerMonthAllocated = gbPerMonthAllocated
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gbPerMonthAllocated = "gbPerMonthAllocated"
-        }
-    }
-
-    public struct CreateDiskSnapshotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "diskSnapshotName", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
             AWSShapeMember(label: "diskName", required: true, type: .string)
         ]
-        /// The name of the destination disk snapshot (e.g., my-disk-snapshot) based on the source disk.
-        public let diskSnapshotName: String
-        /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
-        public let tags: [Tag]?
-        /// The unique name of the source disk (e.g., my-source-disk).
+        /// The name of the disk (e.g., my-disk).
         public let diskName: String
 
-        public init(diskSnapshotName: String, tags: [Tag]? = nil, diskName: String) {
-            self.diskSnapshotName = diskSnapshotName
-            self.tags = tags
+        public init(diskName: String) {
             self.diskName = diskName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case diskSnapshotName = "diskSnapshotName"
-            case tags = "tags"
             case diskName = "diskName"
         }
     }
 
-    public enum PortState: String, CustomStringConvertible, Codable {
-        case open = "open"
-        case closed = "closed"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DiskSnapshotState: String, CustomStringConvertible, Codable {
-        case pending = "pending"
-        case completed = "completed"
-        case error = "error"
-        case unknown = "unknown"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetRelationalDatabaseMetricDataRequest: AWSShape {
+    public struct CreateRelationalDatabaseRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "metricName", required: true, type: .enum), 
-            AWSShapeMember(label: "startTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "endTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "period", required: true, type: .integer), 
-            AWSShapeMember(label: "statistics", required: true, type: .list), 
+            AWSShapeMember(label: "publiclyAccessible", required: false, type: .boolean), 
+            AWSShapeMember(label: "masterDatabaseName", required: true, type: .string), 
+            AWSShapeMember(label: "masterUserPassword", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "relationalDatabaseBundleId", required: true, type: .string), 
             AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "unit", required: true, type: .enum)
+            AWSShapeMember(label: "preferredBackupWindow", required: false, type: .string), 
+            AWSShapeMember(label: "relationalDatabaseBlueprintId", required: true, type: .string), 
+            AWSShapeMember(label: "availabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "masterUsername", required: true, type: .string), 
+            AWSShapeMember(label: "preferredMaintenanceWindow", required: false, type: .string)
         ]
-        /// The name of the metric data to return.
-        public let metricName: RelationalDatabaseMetricName
-        /// The start of the time interval from which to get metric data. Constraints:   Specified in Universal Coordinated Time (UTC).   Specified in the Unix time format. For example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the start time.  
-        public let startTime: TimeStamp
-        /// The end of the time interval from which to get metric data. Constraints:   Specified in Universal Coordinated Time (UTC).   Specified in the Unix time format. For example, if you wish to use an end time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the end time.  
-        public let endTime: TimeStamp
-        /// The granularity, in seconds, of the returned data points.
-        public let period: Int32
-        /// The array of statistics for your metric data request.
-        public let statistics: [MetricStatistic]
-        /// The name of your database from which to get metric data.
+        /// Specifies the accessibility options for your new database. A value of true specifies a database that is available to resources outside of your Lightsail account. A value of false specifies a database that is available only to your Lightsail resources in the same region as your database.
+        public let publiclyAccessible: Bool?
+        /// The name of the master database created when the Lightsail database resource is created. Constraints:   Must contain from 1 to 64 alphanumeric characters.   Cannot be a word reserved by the specified database engine  
+        public let masterDatabaseName: String
+        /// The password for the master user of your new database. The password can include any printable ASCII character except "/", """, or "@". Constraints: Must contain 8 to 41 characters.
+        public let masterUserPassword: String?
+        /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
+        public let tags: [Tag]?
+        /// The bundle ID for your new database. A bundle describes the performance specifications for your database. You can get a list of database bundle IDs by using the get relational database bundles operation.
+        public let relationalDatabaseBundleId: String
+        /// The name to use for your new database. Constraints:   Must contain from 2 to 255 alphanumeric characters, or hyphens.   The first and last character must be a letter or number.  
         public let relationalDatabaseName: String
-        /// The unit for the metric data request.
-        public let unit: MetricUnit
+        /// The daily time range during which automated backups are created for your new database if automated backups are enabled. The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region. For more information about the preferred backup window time blocks for each region, see the Working With Backups guide in the Amazon Relational Database Service (Amazon RDS) documentation. Constraints:   Must be in the hh24:mi-hh24:mi format. Example: 16:00-16:30    Specified in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
+        public let preferredBackupWindow: String?
+        /// The blueprint ID for your new database. A blueprint describes the major engine version of a database. You can get a list of database blueprints IDs by using the get relational database blueprints operation.
+        public let relationalDatabaseBlueprintId: String
+        /// The Availability Zone in which to create your new database. Use the us-east-2a case-sensitive format. You can get a list of Availability Zones by using the get regions operation. Be sure to add the include relational database Availability Zones parameter to your request.
+        public let availabilityZone: String?
+        /// The master user name for your new database. Constraints:   Master user name is required.   Must contain from 1 to 16 alphanumeric characters.   The first character must be a letter.   Cannot be a reserved word for the database engine you choose. For more information about reserved words in MySQL 5.6 or 5.7, see the Keywords and Reserved Words articles for MySQL 5.6 or MySQL 5.7 respectively.  
+        public let masterUsername: String
+        /// The weekly time range during which system maintenance can occur on your new database. The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region, occurring on a random day of the week. Constraints:   Must be in the ddd:hh24:mi-ddd:hh24:mi format.   Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun.   Must be at least 30 minutes.   Specified in Universal Coordinated Time (UTC).   Example: Tue:17:00-Tue:17:30   
+        public let preferredMaintenanceWindow: String?
 
-        public init(metricName: RelationalDatabaseMetricName, startTime: TimeStamp, endTime: TimeStamp, period: Int32, statistics: [MetricStatistic], relationalDatabaseName: String, unit: MetricUnit) {
-            self.metricName = metricName
-            self.startTime = startTime
-            self.endTime = endTime
-            self.period = period
-            self.statistics = statistics
+        public init(publiclyAccessible: Bool? = nil, masterDatabaseName: String, masterUserPassword: String? = nil, tags: [Tag]? = nil, relationalDatabaseBundleId: String, relationalDatabaseName: String, preferredBackupWindow: String? = nil, relationalDatabaseBlueprintId: String, availabilityZone: String? = nil, masterUsername: String, preferredMaintenanceWindow: String? = nil) {
+            self.publiclyAccessible = publiclyAccessible
+            self.masterDatabaseName = masterDatabaseName
+            self.masterUserPassword = masterUserPassword
+            self.tags = tags
+            self.relationalDatabaseBundleId = relationalDatabaseBundleId
             self.relationalDatabaseName = relationalDatabaseName
-            self.unit = unit
+            self.preferredBackupWindow = preferredBackupWindow
+            self.relationalDatabaseBlueprintId = relationalDatabaseBlueprintId
+            self.availabilityZone = availabilityZone
+            self.masterUsername = masterUsername
+            self.preferredMaintenanceWindow = preferredMaintenanceWindow
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metricName = "metricName"
-            case startTime = "startTime"
-            case endTime = "endTime"
-            case period = "period"
-            case statistics = "statistics"
+            case publiclyAccessible = "publiclyAccessible"
+            case masterDatabaseName = "masterDatabaseName"
+            case masterUserPassword = "masterUserPassword"
+            case tags = "tags"
+            case relationalDatabaseBundleId = "relationalDatabaseBundleId"
             case relationalDatabaseName = "relationalDatabaseName"
-            case unit = "unit"
+            case preferredBackupWindow = "preferredBackupWindow"
+            case relationalDatabaseBlueprintId = "relationalDatabaseBlueprintId"
+            case availabilityZone = "availabilityZone"
+            case masterUsername = "masterUsername"
+            case preferredMaintenanceWindow = "preferredMaintenanceWindow"
         }
     }
 
@@ -495,25 +3192,79 @@ extension Lightsail {
         }
     }
 
-    public struct LoadBalancerTlsCertificateSummary: AWSShape {
+    public struct DeleteKeyPairResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "isAttached", required: false, type: .boolean)
+            AWSShapeMember(label: "operation", required: false, type: .structure)
         ]
-        /// The name of the SSL/TLS certificate.
-        public let name: String?
-        /// When true, the SSL/TLS certificate is attached to the Lightsail load balancer.
-        public let isAttached: Bool?
+        /// An array of key-value pairs containing information about the results of your delete key pair request.
+        public let operation: Operation?
 
-        public init(name: String? = nil, isAttached: Bool? = nil) {
-            self.name = name
-            self.isAttached = isAttached
+        public init(operation: Operation? = nil) {
+            self.operation = operation
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case isAttached = "isAttached"
+            case operation = "operation"
         }
+    }
+
+    public struct CreateDiskFromSnapshotResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+        /// An object describing the API operations.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct LogEvent: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "message", required: false, type: .string)
+        ]
+        /// The timestamp when the database log event was created.
+        public let createdAt: TimeStamp?
+        /// The message of the database log event.
+        public let message: String?
+
+        public init(createdAt: TimeStamp? = nil, message: String? = nil) {
+            self.createdAt = createdAt
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case message = "message"
+        }
+    }
+
+    public struct ExportSnapshotResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+        /// A list of objects describing the API operation.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public enum InstanceAccessProtocol: String, CustomStringConvertible, Codable {
+        case ssh = "ssh"
+        case rdp = "rdp"
+        public var description: String { return self.rawValue }
     }
 
     public struct GetKeyPairsRequest: AWSShape {
@@ -529,6 +3280,864 @@ extension Lightsail {
 
         private enum CodingKeys: String, CodingKey {
             case pageToken = "pageToken"
+        }
+    }
+
+    public struct GetInstancesResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "instances", required: false, type: .list)
+        ]
+        /// A token used for advancing to the next page of results from your get instances request.
+        public let nextPageToken: String?
+        /// An array of key-value pairs containing information about your instances.
+        public let instances: [Instance]?
+
+        public init(nextPageToken: String? = nil, instances: [Instance]? = nil) {
+            self.nextPageToken = nextPageToken
+            self.instances = instances
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "nextPageToken"
+            case instances = "instances"
+        }
+    }
+
+    public struct RelationalDatabaseHardware: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "diskSizeInGb", required: false, type: .integer), 
+            AWSShapeMember(label: "ramSizeInGb", required: false, type: .float), 
+            AWSShapeMember(label: "cpuCount", required: false, type: .integer)
+        ]
+        /// The size of the disk for the database.
+        public let diskSizeInGb: Int32?
+        /// The amount of RAM in GB for the database.
+        public let ramSizeInGb: Float?
+        /// The number of vCPUs for the database.
+        public let cpuCount: Int32?
+
+        public init(diskSizeInGb: Int32? = nil, ramSizeInGb: Float? = nil, cpuCount: Int32? = nil) {
+            self.diskSizeInGb = diskSizeInGb
+            self.ramSizeInGb = ramSizeInGb
+            self.cpuCount = cpuCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case diskSizeInGb = "diskSizeInGb"
+            case ramSizeInGb = "ramSizeInGb"
+            case cpuCount = "cpuCount"
+        }
+    }
+
+    public struct LoadBalancerTlsCertificate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "loadBalancerName", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "keyAlgorithm", required: false, type: .string), 
+            AWSShapeMember(label: "issuedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "notBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "domainName", required: false, type: .string), 
+            AWSShapeMember(label: "supportCode", required: false, type: .string), 
+            AWSShapeMember(label: "notAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "isAttached", required: false, type: .boolean), 
+            AWSShapeMember(label: "revocationReason", required: false, type: .enum), 
+            AWSShapeMember(label: "subjectAlternativeNames", required: false, type: .list), 
+            AWSShapeMember(label: "subject", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "issuer", required: false, type: .string), 
+            AWSShapeMember(label: "revokedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "signatureAlgorithm", required: false, type: .string), 
+            AWSShapeMember(label: "failureReason", required: false, type: .enum), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "serial", required: false, type: .string), 
+            AWSShapeMember(label: "renewalSummary", required: false, type: .structure), 
+            AWSShapeMember(label: "location", required: false, type: .structure), 
+            AWSShapeMember(label: "domainValidationRecords", required: false, type: .list)
+        ]
+        /// The load balancer name where your SSL/TLS certificate is attached.
+        public let loadBalancerName: String?
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
+        public let tags: [Tag]?
+        /// The algorithm that was used to generate the key pair (the public and private key).
+        public let keyAlgorithm: String?
+        /// The time when the SSL/TLS certificate was issued.
+        public let issuedAt: TimeStamp?
+        /// The status of the SSL/TLS certificate. Valid values are below.
+        public let status: LoadBalancerTlsCertificateStatus?
+        /// The timestamp when the SSL/TLS certificate is first valid.
+        public let notBefore: TimeStamp?
+        /// The domain name for your SSL/TLS certificate.
+        public let domainName: String?
+        /// The support code. Include this code in your email to support when you have questions about your Lightsail load balancer or SSL/TLS certificate. This code enables our support team to look up your Lightsail information more easily.
+        public let supportCode: String?
+        /// The timestamp when the SSL/TLS certificate expires.
+        public let notAfter: TimeStamp?
+        /// When true, the SSL/TLS certificate is attached to the Lightsail load balancer.
+        public let isAttached: Bool?
+        /// The reason the certificate was revoked. Valid values are below.
+        public let revocationReason: LoadBalancerTlsCertificateRevocationReason?
+        /// One or more domains or subdomains included in the certificate. This list contains the domain names that are bound to the public key that is contained in the certificate. The subject alternative names include the canonical domain name (CNAME) of the certificate and additional domain names that can be used to connect to the website, such as example.com, www.example.com, or m.example.com.
+        public let subjectAlternativeNames: [String]?
+        /// The name of the entity that is associated with the public key contained in the certificate.
+        public let subject: String?
+        /// The name of the SSL/TLS certificate (e.g., my-certificate).
+        public let name: String?
+        /// The resource type (e.g., LoadBalancerTlsCertificate).     Instance  - A Lightsail instance (a virtual private server)     StaticIp  - A static IP address     KeyPair  - The key pair used to connect to a Lightsail instance     InstanceSnapshot  - A Lightsail instance snapshot     Domain  - A DNS zone     PeeredVpc  - A peered VPC     LoadBalancer  - A Lightsail load balancer     LoadBalancerTlsCertificate  - An SSL/TLS certificate associated with a Lightsail load balancer     Disk  - A Lightsail block storage disk     DiskSnapshot  - A block storage disk snapshot  
+        public let resourceType: ResourceType?
+        /// The issuer of the certificate.
+        public let issuer: String?
+        /// The timestamp when the SSL/TLS certificate was revoked.
+        public let revokedAt: TimeStamp?
+        /// The Amazon Resource Name (ARN) of the SSL/TLS certificate.
+        public let arn: String?
+        /// The algorithm that was used to sign the certificate.
+        public let signatureAlgorithm: String?
+        /// The reason for the SSL/TLS certificate validation failure.
+        public let failureReason: LoadBalancerTlsCertificateFailureReason?
+        /// The time when you created your SSL/TLS certificate.
+        public let createdAt: TimeStamp?
+        /// The serial number of the certificate.
+        public let serial: String?
+        /// An object containing information about the status of Lightsail's managed renewal for the certificate.
+        public let renewalSummary: LoadBalancerTlsCertificateRenewalSummary?
+        /// The AWS Region and Availability Zone where you created your certificate.
+        public let location: ResourceLocation?
+        /// An array of LoadBalancerTlsCertificateDomainValidationRecord objects describing the records.
+        public let domainValidationRecords: [LoadBalancerTlsCertificateDomainValidationRecord]?
+
+        public init(loadBalancerName: String? = nil, tags: [Tag]? = nil, keyAlgorithm: String? = nil, issuedAt: TimeStamp? = nil, status: LoadBalancerTlsCertificateStatus? = nil, notBefore: TimeStamp? = nil, domainName: String? = nil, supportCode: String? = nil, notAfter: TimeStamp? = nil, isAttached: Bool? = nil, revocationReason: LoadBalancerTlsCertificateRevocationReason? = nil, subjectAlternativeNames: [String]? = nil, subject: String? = nil, name: String? = nil, resourceType: ResourceType? = nil, issuer: String? = nil, revokedAt: TimeStamp? = nil, arn: String? = nil, signatureAlgorithm: String? = nil, failureReason: LoadBalancerTlsCertificateFailureReason? = nil, createdAt: TimeStamp? = nil, serial: String? = nil, renewalSummary: LoadBalancerTlsCertificateRenewalSummary? = nil, location: ResourceLocation? = nil, domainValidationRecords: [LoadBalancerTlsCertificateDomainValidationRecord]? = nil) {
+            self.loadBalancerName = loadBalancerName
+            self.tags = tags
+            self.keyAlgorithm = keyAlgorithm
+            self.issuedAt = issuedAt
+            self.status = status
+            self.notBefore = notBefore
+            self.domainName = domainName
+            self.supportCode = supportCode
+            self.notAfter = notAfter
+            self.isAttached = isAttached
+            self.revocationReason = revocationReason
+            self.subjectAlternativeNames = subjectAlternativeNames
+            self.subject = subject
+            self.name = name
+            self.resourceType = resourceType
+            self.issuer = issuer
+            self.revokedAt = revokedAt
+            self.arn = arn
+            self.signatureAlgorithm = signatureAlgorithm
+            self.failureReason = failureReason
+            self.createdAt = createdAt
+            self.serial = serial
+            self.renewalSummary = renewalSummary
+            self.location = location
+            self.domainValidationRecords = domainValidationRecords
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerName = "loadBalancerName"
+            case tags = "tags"
+            case keyAlgorithm = "keyAlgorithm"
+            case issuedAt = "issuedAt"
+            case status = "status"
+            case notBefore = "notBefore"
+            case domainName = "domainName"
+            case supportCode = "supportCode"
+            case notAfter = "notAfter"
+            case isAttached = "isAttached"
+            case revocationReason = "revocationReason"
+            case subjectAlternativeNames = "subjectAlternativeNames"
+            case subject = "subject"
+            case name = "name"
+            case resourceType = "resourceType"
+            case issuer = "issuer"
+            case revokedAt = "revokedAt"
+            case arn = "arn"
+            case signatureAlgorithm = "signatureAlgorithm"
+            case failureReason = "failureReason"
+            case createdAt = "createdAt"
+            case serial = "serial"
+            case renewalSummary = "renewalSummary"
+            case location = "location"
+            case domainValidationRecords = "domainValidationRecords"
+        }
+    }
+
+    public struct GetDisksResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "disks", required: false, type: .list)
+        ]
+        /// A token used for advancing to the next page of results from your GetDisks request.
+        public let nextPageToken: String?
+        /// An array of objects containing information about all block storage disks.
+        public let disks: [Disk]?
+
+        public init(nextPageToken: String? = nil, disks: [Disk]? = nil) {
+            self.nextPageToken = nextPageToken
+            self.disks = disks
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "nextPageToken"
+            case disks = "disks"
+        }
+    }
+
+    public struct CreateInstanceSnapshotRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceSnapshotName", required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "instanceName", required: true, type: .string)
+        ]
+        /// The name for your new snapshot.
+        public let instanceSnapshotName: String
+        /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
+        public let tags: [Tag]?
+        /// The Lightsail instance on which to base your snapshot.
+        public let instanceName: String
+
+        public init(instanceSnapshotName: String, tags: [Tag]? = nil, instanceName: String) {
+            self.instanceSnapshotName = instanceSnapshotName
+            self.tags = tags
+            self.instanceName = instanceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceSnapshotName = "instanceSnapshotName"
+            case tags = "tags"
+            case instanceName = "instanceName"
+        }
+    }
+
+    public struct DiskSnapshotInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "sizeInGb", required: false, type: .integer)
+        ]
+        /// The size of the disk in GB (e.g., 32).
+        public let sizeInGb: Int32?
+
+        public init(sizeInGb: Int32? = nil) {
+            self.sizeInGb = sizeInGb
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sizeInGb = "sizeInGb"
+        }
+    }
+
+    public struct DeleteDiskSnapshotRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "diskSnapshotName", required: true, type: .string)
+        ]
+        /// The name of the disk snapshot you want to delete (e.g., my-disk-snapshot).
+        public let diskSnapshotName: String
+
+        public init(diskSnapshotName: String) {
+            self.diskSnapshotName = diskSnapshotName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case diskSnapshotName = "diskSnapshotName"
+        }
+    }
+
+    public struct CreateDiskSnapshotResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+        /// An object describing the API operations.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct CreateCloudFormationStackResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+        /// A list of objects describing the API operation.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct PortInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "protocol", required: false, type: .enum), 
+            AWSShapeMember(label: "fromPort", required: false, type: .integer), 
+            AWSShapeMember(label: "toPort", required: false, type: .integer)
+        ]
+        /// The protocol. 
+        public let `protocol`: NetworkProtocol?
+        /// The first port in the range.
+        public let fromPort: Int32?
+        /// The last port in the range.
+        public let toPort: Int32?
+
+        public init(protocol: NetworkProtocol? = nil, fromPort: Int32? = nil, toPort: Int32? = nil) {
+            self.`protocol` = `protocol`
+            self.fromPort = fromPort
+            self.toPort = toPort
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `protocol` = "protocol"
+            case fromPort = "fromPort"
+            case toPort = "toPort"
+        }
+    }
+
+    public struct RelationalDatabaseBlueprint: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "isEngineDefault", required: false, type: .boolean), 
+            AWSShapeMember(label: "blueprintId", required: false, type: .string), 
+            AWSShapeMember(label: "engine", required: false, type: .enum), 
+            AWSShapeMember(label: "engineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "engineDescription", required: false, type: .string), 
+            AWSShapeMember(label: "engineVersionDescription", required: false, type: .string)
+        ]
+        /// A Boolean value indicating whether the engine version is the default for the database blueprint.
+        public let isEngineDefault: Bool?
+        /// The ID for the database blueprint.
+        public let blueprintId: String?
+        /// The database software of the database blueprint (for example, MySQL).
+        public let engine: RelationalDatabaseEngine?
+        /// The database engine version for the database blueprint (for example, 5.7.23).
+        public let engineVersion: String?
+        /// The description of the database engine for the database blueprint.
+        public let engineDescription: String?
+        /// The description of the database engine version for the database blueprint.
+        public let engineVersionDescription: String?
+
+        public init(isEngineDefault: Bool? = nil, blueprintId: String? = nil, engine: RelationalDatabaseEngine? = nil, engineVersion: String? = nil, engineDescription: String? = nil, engineVersionDescription: String? = nil) {
+            self.isEngineDefault = isEngineDefault
+            self.blueprintId = blueprintId
+            self.engine = engine
+            self.engineVersion = engineVersion
+            self.engineDescription = engineDescription
+            self.engineVersionDescription = engineVersionDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isEngineDefault = "isEngineDefault"
+            case blueprintId = "blueprintId"
+            case engine = "engine"
+            case engineVersion = "engineVersion"
+            case engineDescription = "engineDescription"
+            case engineVersionDescription = "engineVersionDescription"
+        }
+    }
+
+    public enum MetricUnit: String, CustomStringConvertible, Codable {
+        case seconds = "Seconds"
+        case microseconds = "Microseconds"
+        case milliseconds = "Milliseconds"
+        case bytes = "Bytes"
+        case kilobytes = "Kilobytes"
+        case megabytes = "Megabytes"
+        case gigabytes = "Gigabytes"
+        case terabytes = "Terabytes"
+        case bits = "Bits"
+        case kilobits = "Kilobits"
+        case megabits = "Megabits"
+        case gigabits = "Gigabits"
+        case terabits = "Terabits"
+        case percent = "Percent"
+        case count = "Count"
+        case bytesSecond = "Bytes/Second"
+        case kilobytesSecond = "Kilobytes/Second"
+        case megabytesSecond = "Megabytes/Second"
+        case gigabytesSecond = "Gigabytes/Second"
+        case terabytesSecond = "Terabytes/Second"
+        case bitsSecond = "Bits/Second"
+        case kilobitsSecond = "Kilobits/Second"
+        case megabitsSecond = "Megabits/Second"
+        case gigabitsSecond = "Gigabits/Second"
+        case terabitsSecond = "Terabits/Second"
+        case countSecond = "Count/Second"
+        case none = "None"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct AttachDiskResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+        /// An object describing the API operations.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct CloudFormationStackRecordSourceInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: false, type: .string)
+        ]
+        /// The Lightsail resource type (e.g., ExportSnapshotRecord).
+        public let resourceType: CloudFormationStackRecordSourceType?
+        /// The name of the record.
+        public let name: String?
+        /// The Amazon Resource Name (ARN) of the export snapshot record.
+        public let arn: String?
+
+        public init(resourceType: CloudFormationStackRecordSourceType? = nil, name: String? = nil, arn: String? = nil) {
+            self.resourceType = resourceType
+            self.name = name
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceType = "resourceType"
+            case name = "name"
+            case arn = "arn"
+        }
+    }
+
+    public struct UpdateRelationalDatabaseParametersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "parameters", required: true, type: .list), 
+            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string)
+        ]
+        /// The database parameters to update.
+        public let parameters: [RelationalDatabaseParameter]
+        /// The name of your database for which to update parameters.
+        public let relationalDatabaseName: String
+
+        public init(parameters: [RelationalDatabaseParameter], relationalDatabaseName: String) {
+            self.parameters = parameters
+            self.relationalDatabaseName = relationalDatabaseName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parameters = "parameters"
+            case relationalDatabaseName = "relationalDatabaseName"
+        }
+    }
+
+    public struct GetCloudFormationStackRecordsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pageToken", required: false, type: .string)
+        ]
+        /// A token used for advancing to a specific page of results for your get cloud formation stack records request.
+        public let pageToken: String?
+
+        public init(pageToken: String? = nil) {
+            self.pageToken = pageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pageToken = "pageToken"
+        }
+    }
+
+    public struct GetRelationalDatabaseLogStreamsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "logStreams", required: false, type: .list)
+        ]
+        /// An object describing the result of your get relational database log streams request.
+        public let logStreams: [String]?
+
+        public init(logStreams: [String]? = nil) {
+            self.logStreams = logStreams
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logStreams = "logStreams"
+        }
+    }
+
+    public struct RebootInstanceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceName", required: true, type: .string)
+        ]
+        /// The name of the instance to reboot.
+        public let instanceName: String
+
+        public init(instanceName: String) {
+            self.instanceName = instanceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceName = "instanceName"
+        }
+    }
+
+    public struct GetRelationalDatabaseLogEventsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextForwardToken", required: false, type: .string), 
+            AWSShapeMember(label: "nextBackwardToken", required: false, type: .string), 
+            AWSShapeMember(label: "resourceLogEvents", required: false, type: .list)
+        ]
+        /// A token used for advancing to the next page of results from your get relational database log events request.
+        public let nextForwardToken: String?
+        /// A token used for advancing to the previous page of results from your get relational database log events request.
+        public let nextBackwardToken: String?
+        /// An object describing the result of your get relational database log events request.
+        public let resourceLogEvents: [LogEvent]?
+
+        public init(nextForwardToken: String? = nil, nextBackwardToken: String? = nil, resourceLogEvents: [LogEvent]? = nil) {
+            self.nextForwardToken = nextForwardToken
+            self.nextBackwardToken = nextBackwardToken
+            self.resourceLogEvents = resourceLogEvents
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextForwardToken = "nextForwardToken"
+            case nextBackwardToken = "nextBackwardToken"
+            case resourceLogEvents = "resourceLogEvents"
+        }
+    }
+
+    public struct AllocateStaticIpResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+        /// An array of key-value pairs containing information about the static IP address you allocated.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct AttachStaticIpResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+        /// An array of key-value pairs containing information about your API operations.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct LoadBalancerTlsCertificateRenewalSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "renewalStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "domainValidationOptions", required: false, type: .list)
+        ]
+        /// The status of Lightsail's managed renewal of the certificate. Valid values are listed below.
+        public let renewalStatus: LoadBalancerTlsCertificateRenewalStatus?
+        /// Contains information about the validation of each domain name in the certificate, as it pertains to Lightsail's managed renewal. This is different from the initial validation that occurs as a result of the RequestCertificate request.
+        public let domainValidationOptions: [LoadBalancerTlsCertificateDomainValidationOption]?
+
+        public init(renewalStatus: LoadBalancerTlsCertificateRenewalStatus? = nil, domainValidationOptions: [LoadBalancerTlsCertificateDomainValidationOption]? = nil) {
+            self.renewalStatus = renewalStatus
+            self.domainValidationOptions = domainValidationOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case renewalStatus = "renewalStatus"
+            case domainValidationOptions = "domainValidationOptions"
+        }
+    }
+
+    public struct InstanceNetworking: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ports", required: false, type: .list), 
+            AWSShapeMember(label: "monthlyTransfer", required: false, type: .structure)
+        ]
+        /// An array of key-value pairs containing information about the ports on the instance.
+        public let ports: [InstancePortInfo]?
+        /// The amount of data in GB allocated for monthly data transfers.
+        public let monthlyTransfer: MonthlyTransfer?
+
+        public init(ports: [InstancePortInfo]? = nil, monthlyTransfer: MonthlyTransfer? = nil) {
+            self.ports = ports
+            self.monthlyTransfer = monthlyTransfer
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ports = "ports"
+            case monthlyTransfer = "monthlyTransfer"
+        }
+    }
+
+    public struct IsVpcPeeredRequest: AWSShape {
+
+    }
+
+    public struct DeleteDiskSnapshotResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+        /// An object describing the API operations.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct CreateDomainResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operation", required: false, type: .structure)
+        ]
+        /// An array of key-value pairs containing information about the domain resource you created.
+        public let operation: Operation?
+
+        public init(operation: Operation? = nil) {
+            self.operation = operation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operation = "operation"
+        }
+    }
+
+    public struct DiskSnapshot: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "progress", required: false, type: .string), 
+            AWSShapeMember(label: "fromDiskName", required: false, type: .string), 
+            AWSShapeMember(label: "fromDiskArn", required: false, type: .string), 
+            AWSShapeMember(label: "supportCode", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "state", required: false, type: .enum), 
+            AWSShapeMember(label: "sizeInGb", required: false, type: .integer), 
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "location", required: false, type: .structure)
+        ]
+        /// The progress of the disk snapshot operation.
+        public let progress: String?
+        /// The unique name of the source disk from which you are creating the disk snapshot.
+        public let fromDiskName: String?
+        /// The Amazon Resource Name (ARN) of the source disk from which you are creating the disk snapshot.
+        public let fromDiskArn: String?
+        /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
+        public let supportCode: String?
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
+        public let tags: [Tag]?
+        /// The date when the disk snapshot was created.
+        public let createdAt: TimeStamp?
+        /// The name of the disk snapshot (e.g., my-disk-snapshot).
+        public let name: String?
+        /// The status of the disk snapshot operation.
+        public let state: DiskSnapshotState?
+        /// The size of the disk in GB.
+        public let sizeInGb: Int32?
+        /// The Amazon Resource Name (ARN) of the disk snapshot.
+        public let arn: String?
+        /// The Lightsail resource type (e.g., DiskSnapshot).
+        public let resourceType: ResourceType?
+        /// The AWS Region and Availability Zone where the disk snapshot was created.
+        public let location: ResourceLocation?
+
+        public init(progress: String? = nil, fromDiskName: String? = nil, fromDiskArn: String? = nil, supportCode: String? = nil, tags: [Tag]? = nil, createdAt: TimeStamp? = nil, name: String? = nil, state: DiskSnapshotState? = nil, sizeInGb: Int32? = nil, arn: String? = nil, resourceType: ResourceType? = nil, location: ResourceLocation? = nil) {
+            self.progress = progress
+            self.fromDiskName = fromDiskName
+            self.fromDiskArn = fromDiskArn
+            self.supportCode = supportCode
+            self.tags = tags
+            self.createdAt = createdAt
+            self.name = name
+            self.state = state
+            self.sizeInGb = sizeInGb
+            self.arn = arn
+            self.resourceType = resourceType
+            self.location = location
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case progress = "progress"
+            case fromDiskName = "fromDiskName"
+            case fromDiskArn = "fromDiskArn"
+            case supportCode = "supportCode"
+            case tags = "tags"
+            case createdAt = "createdAt"
+            case name = "name"
+            case state = "state"
+            case sizeInGb = "sizeInGb"
+            case arn = "arn"
+            case resourceType = "resourceType"
+            case location = "location"
+        }
+    }
+
+    public struct ReleaseStaticIpRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "staticIpName", required: true, type: .string)
+        ]
+        /// The name of the static IP to delete.
+        public let staticIpName: String
+
+        public init(staticIpName: String) {
+            self.staticIpName = staticIpName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case staticIpName = "staticIpName"
+        }
+    }
+
+    public enum LoadBalancerProtocol: String, CustomStringConvertible, Codable {
+        case httpHttps = "HTTP_HTTPS"
+        case http = "HTTP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RelationalDatabasePasswordVersion: String, CustomStringConvertible, Codable {
+        case current = "CURRENT"
+        case previous = "PREVIOUS"
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceHealthState: String, CustomStringConvertible, Codable {
+        case initial = "initial"
+        case healthy = "healthy"
+        case unhealthy = "unhealthy"
+        case unused = "unused"
+        case draining = "draining"
+        case unavailable = "unavailable"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ReleaseStaticIpResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+        /// An array of key-value pairs containing information about the request operation.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct LoadBalancerTlsCertificateDomainValidationOption: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "validationStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "domainName", required: false, type: .string)
+        ]
+        /// The status of the domain validation. Valid values are listed below.
+        public let validationStatus: LoadBalancerTlsCertificateDomainStatus?
+        /// The fully qualified domain name in the certificate request.
+        public let domainName: String?
+
+        public init(validationStatus: LoadBalancerTlsCertificateDomainStatus? = nil, domainName: String? = nil) {
+            self.validationStatus = validationStatus
+            self.domainName = domainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case validationStatus = "validationStatus"
+            case domainName = "domainName"
+        }
+    }
+
+    public struct InstanceAccessDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "username", required: false, type: .string), 
+            AWSShapeMember(label: "protocol", required: false, type: .enum), 
+            AWSShapeMember(label: "passwordData", required: false, type: .structure), 
+            AWSShapeMember(label: "ipAddress", required: false, type: .string), 
+            AWSShapeMember(label: "instanceName", required: false, type: .string), 
+            AWSShapeMember(label: "password", required: false, type: .string), 
+            AWSShapeMember(label: "expiresAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "certKey", required: false, type: .string), 
+            AWSShapeMember(label: "privateKey", required: false, type: .string)
+        ]
+        /// The user name to use when logging in to the Amazon Lightsail instance.
+        public let username: String?
+        /// The protocol for these Amazon Lightsail instance access details.
+        public let `protocol`: InstanceAccessProtocol?
+        /// For a Windows Server-based instance, an object with the data you can use to retrieve your password. This is only needed if password is empty and the instance is not new (and therefore the password is not ready yet). When you create an instance, it can take up to 15 minutes for the instance to be ready.
+        public let passwordData: PasswordData?
+        /// The public IP address of the Amazon Lightsail instance.
+        public let ipAddress: String?
+        /// The name of this Amazon Lightsail instance.
+        public let instanceName: String?
+        /// For RDP access, the password for your Amazon Lightsail instance. Password will be an empty string if the password for your new instance is not ready yet. When you create an instance, it can take up to 15 minutes for the instance to be ready.  If you create an instance using any key pair other than the default (LightsailDefaultKeyPair), password will always be an empty string. If you change the Administrator password on the instance, Lightsail will continue to return the original password value. When accessing the instance using RDP, you need to manually enter the Administrator password after changing it from the default. 
+        public let password: String?
+        /// For SSH access, the date on which the temporary keys expire.
+        public let expiresAt: TimeStamp?
+        /// For SSH access, the public key to use when accessing your instance For OpenSSH clients (e.g., command line SSH), you should save this value to tempkey-cert.pub.
+        public let certKey: String?
+        /// For SSH access, the temporary private key. For OpenSSH clients (e.g., command line SSH), you should save this value to tempkey).
+        public let privateKey: String?
+
+        public init(username: String? = nil, protocol: InstanceAccessProtocol? = nil, passwordData: PasswordData? = nil, ipAddress: String? = nil, instanceName: String? = nil, password: String? = nil, expiresAt: TimeStamp? = nil, certKey: String? = nil, privateKey: String? = nil) {
+            self.username = username
+            self.`protocol` = `protocol`
+            self.passwordData = passwordData
+            self.ipAddress = ipAddress
+            self.instanceName = instanceName
+            self.password = password
+            self.expiresAt = expiresAt
+            self.certKey = certKey
+            self.privateKey = privateKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case username = "username"
+            case `protocol` = "protocol"
+            case passwordData = "passwordData"
+            case ipAddress = "ipAddress"
+            case instanceName = "instanceName"
+            case password = "password"
+            case expiresAt = "expiresAt"
+            case certKey = "certKey"
+            case privateKey = "privateKey"
+        }
+    }
+
+    public struct UpdateRelationalDatabaseParametersResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+        /// An object describing the result of your update relational database parameters request.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
         }
     }
 
@@ -548,35 +4157,492 @@ extension Lightsail {
         }
     }
 
-    public struct GetDiskSnapshotResult: AWSShape {
+    public struct GetInstanceSnapshotResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "diskSnapshot", required: false, type: .structure)
+            AWSShapeMember(label: "instanceSnapshot", required: false, type: .structure)
         ]
-        /// An object containing information about the disk snapshot.
-        public let diskSnapshot: DiskSnapshot?
+        /// An array of key-value pairs containing information about the results of your get instance snapshot request.
+        public let instanceSnapshot: InstanceSnapshot?
 
-        public init(diskSnapshot: DiskSnapshot? = nil) {
-            self.diskSnapshot = diskSnapshot
+        public init(instanceSnapshot: InstanceSnapshot? = nil) {
+            self.instanceSnapshot = instanceSnapshot
         }
 
         private enum CodingKeys: String, CodingKey {
-            case diskSnapshot = "diskSnapshot"
+            case instanceSnapshot = "instanceSnapshot"
         }
     }
 
-    public enum LoadBalancerTlsCertificateRenewalStatus: String, CustomStringConvertible, Codable {
-        case pendingAutoRenewal = "PENDING_AUTO_RENEWAL"
-        case pendingValidation = "PENDING_VALIDATION"
-        case success = "SUCCESS"
-        case failed = "FAILED"
+    public struct Bundle: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "bundleId", required: false, type: .string), 
+            AWSShapeMember(label: "transferPerMonthInGb", required: false, type: .integer), 
+            AWSShapeMember(label: "diskSizeInGb", required: false, type: .integer), 
+            AWSShapeMember(label: "price", required: false, type: .float), 
+            AWSShapeMember(label: "instanceType", required: false, type: .string), 
+            AWSShapeMember(label: "supportedPlatforms", required: false, type: .list), 
+            AWSShapeMember(label: "ramSizeInGb", required: false, type: .float), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "isActive", required: false, type: .boolean), 
+            AWSShapeMember(label: "cpuCount", required: false, type: .integer), 
+            AWSShapeMember(label: "power", required: false, type: .integer)
+        ]
+        /// The bundle ID (e.g., micro_1_0).
+        public let bundleId: String?
+        /// The data transfer rate per month in GB (e.g., 2000).
+        public let transferPerMonthInGb: Int32?
+        /// The size of the SSD (e.g., 30).
+        public let diskSizeInGb: Int32?
+        /// The price in US dollars (e.g., 5.0).
+        public let price: Float?
+        /// The Amazon EC2 instance type (e.g., t2.micro).
+        public let instanceType: String?
+        /// The operating system platform (Linux/Unix-based or Windows Server-based) that the bundle supports. You can only launch a WINDOWS bundle on a blueprint that supports the WINDOWS platform. LINUX_UNIX blueprints require a LINUX_UNIX bundle.
+        public let supportedPlatforms: [InstancePlatform]?
+        /// The amount of RAM in GB (e.g., 2.0).
+        public let ramSizeInGb: Float?
+        /// A friendly name for the bundle (e.g., Micro).
+        public let name: String?
+        /// A Boolean value indicating whether the bundle is active.
+        public let isActive: Bool?
+        /// The number of vCPUs included in the bundle (e.g., 2).
+        public let cpuCount: Int32?
+        /// A numeric value that represents the power of the bundle (e.g., 500). You can use the bundle's power value in conjunction with a blueprint's minimum power value to determine whether the blueprint will run on the bundle. For example, you need a bundle with a power value of 500 or more to create an instance that uses a blueprint with a minimum power value of 500.
+        public let power: Int32?
+
+        public init(bundleId: String? = nil, transferPerMonthInGb: Int32? = nil, diskSizeInGb: Int32? = nil, price: Float? = nil, instanceType: String? = nil, supportedPlatforms: [InstancePlatform]? = nil, ramSizeInGb: Float? = nil, name: String? = nil, isActive: Bool? = nil, cpuCount: Int32? = nil, power: Int32? = nil) {
+            self.bundleId = bundleId
+            self.transferPerMonthInGb = transferPerMonthInGb
+            self.diskSizeInGb = diskSizeInGb
+            self.price = price
+            self.instanceType = instanceType
+            self.supportedPlatforms = supportedPlatforms
+            self.ramSizeInGb = ramSizeInGb
+            self.name = name
+            self.isActive = isActive
+            self.cpuCount = cpuCount
+            self.power = power
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bundleId = "bundleId"
+            case transferPerMonthInGb = "transferPerMonthInGb"
+            case diskSizeInGb = "diskSizeInGb"
+            case price = "price"
+            case instanceType = "instanceType"
+            case supportedPlatforms = "supportedPlatforms"
+            case ramSizeInGb = "ramSizeInGb"
+            case name = "name"
+            case isActive = "isActive"
+            case cpuCount = "cpuCount"
+            case power = "power"
+        }
+    }
+
+    public struct DomainEntry: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "isAlias", required: false, type: .boolean), 
+            AWSShapeMember(label: "id", required: false, type: .string), 
+            AWSShapeMember(label: "type", required: false, type: .string), 
+            AWSShapeMember(label: "options", required: false, type: .map), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "target", required: false, type: .string)
+        ]
+        /// When true, specifies whether the domain entry is an alias used by the Lightsail load balancer. You can include an alias (A type) record in your request, which points to a load balancer DNS name and routes traffic to your load balancer
+        public let isAlias: Bool?
+        /// The ID of the domain recordset entry.
+        public let id: String?
+        /// The type of domain entry (e.g., SOA or NS).
+        public let `type`: String?
+        /// (Deprecated) The options for the domain entry.  In releases prior to November 29, 2017, this parameter was not included in the API response. It is now deprecated. 
+        public let options: [String: String]?
+        /// The name of the domain.
+        public let name: String?
+        /// The target AWS name server (e.g., ns-111.awsdns-22.com.). For Lightsail load balancers, the value looks like ab1234c56789c6b86aba6fb203d443bc-123456789.us-east-2.elb.amazonaws.com. Be sure to also set isAlias to true when setting up an A record for a load balancer.
+        public let target: String?
+
+        public init(isAlias: Bool? = nil, id: String? = nil, type: String? = nil, options: [String: String]? = nil, name: String? = nil, target: String? = nil) {
+            self.isAlias = isAlias
+            self.id = id
+            self.`type` = `type`
+            self.options = options
+            self.name = name
+            self.target = target
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isAlias = "isAlias"
+            case id = "id"
+            case `type` = "type"
+            case options = "options"
+            case name = "name"
+            case target = "target"
+        }
+    }
+
+    public struct GetRelationalDatabaseMasterUserPasswordRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string), 
+            AWSShapeMember(label: "passwordVersion", required: false, type: .enum)
+        ]
+        /// The name of your database for which to get the master user password.
+        public let relationalDatabaseName: String
+        /// The password version to return. Specifying CURRENT or PREVIOUS returns the current or previous passwords respectively. Specifying PENDING returns the newest version of the password that will rotate to CURRENT. After the PENDING password rotates to CURRENT, the PENDING password is no longer available. Default: CURRENT 
+        public let passwordVersion: RelationalDatabasePasswordVersion?
+
+        public init(relationalDatabaseName: String, passwordVersion: RelationalDatabasePasswordVersion? = nil) {
+            self.relationalDatabaseName = relationalDatabaseName
+            self.passwordVersion = passwordVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case relationalDatabaseName = "relationalDatabaseName"
+            case passwordVersion = "passwordVersion"
+        }
+    }
+
+    public struct GetStaticIpsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "staticIps", required: false, type: .list)
+        ]
+        /// A token used for advancing to the next page of results from your get static IPs request.
+        public let nextPageToken: String?
+        /// An array of key-value pairs containing information about your get static IPs request.
+        public let staticIps: [StaticIp]?
+
+        public init(nextPageToken: String? = nil, staticIps: [StaticIp]? = nil) {
+            self.nextPageToken = nextPageToken
+            self.staticIps = staticIps
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "nextPageToken"
+            case staticIps = "staticIps"
+        }
+    }
+
+    public struct AllocateStaticIpRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "staticIpName", required: true, type: .string)
+        ]
+        /// The name of the static IP address.
+        public let staticIpName: String
+
+        public init(staticIpName: String) {
+            self.staticIpName = staticIpName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case staticIpName = "staticIpName"
+        }
+    }
+
+    public struct AttachInstancesToLoadBalancerResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+        /// An object representing the API operations.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public enum LoadBalancerTlsCertificateFailureReason: String, CustomStringConvertible, Codable {
+        case noAvailableContacts = "NO_AVAILABLE_CONTACTS"
+        case additionalVerificationRequired = "ADDITIONAL_VERIFICATION_REQUIRED"
+        case domainNotAllowed = "DOMAIN_NOT_ALLOWED"
+        case invalidPublicDomain = "INVALID_PUBLIC_DOMAIN"
+        case other = "OTHER"
         public var description: String { return self.rawValue }
     }
 
-    public struct CloseInstancePublicPortsResult: AWSShape {
+    public struct PendingModifiedRelationalDatabaseValues: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "masterUserPassword", required: false, type: .string), 
+            AWSShapeMember(label: "engineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "backupRetentionEnabled", required: false, type: .boolean)
+        ]
+        /// The password for the master user of the database.
+        public let masterUserPassword: String?
+        /// The database engine version.
+        public let engineVersion: String?
+        /// A Boolean value indicating whether automated backup retention is enabled.
+        public let backupRetentionEnabled: Bool?
+
+        public init(masterUserPassword: String? = nil, engineVersion: String? = nil, backupRetentionEnabled: Bool? = nil) {
+            self.masterUserPassword = masterUserPassword
+            self.engineVersion = engineVersion
+            self.backupRetentionEnabled = backupRetentionEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case masterUserPassword = "masterUserPassword"
+            case engineVersion = "engineVersion"
+            case backupRetentionEnabled = "backupRetentionEnabled"
+        }
+    }
+
+    public enum ResourceType: String, CustomStringConvertible, Codable {
+        case instance = "Instance"
+        case staticip = "StaticIp"
+        case keypair = "KeyPair"
+        case instancesnapshot = "InstanceSnapshot"
+        case domain = "Domain"
+        case peeredvpc = "PeeredVpc"
+        case loadbalancer = "LoadBalancer"
+        case loadbalancertlscertificate = "LoadBalancerTlsCertificate"
+        case disk = "Disk"
+        case disksnapshot = "DiskSnapshot"
+        case relationaldatabase = "RelationalDatabase"
+        case relationaldatabasesnapshot = "RelationalDatabaseSnapshot"
+        case exportsnapshotrecord = "ExportSnapshotRecord"
+        case cloudformationstackrecord = "CloudFormationStackRecord"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct StartInstanceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceName", required: true, type: .string)
+        ]
+        /// The name of the instance (a virtual private server) to start.
+        public let instanceName: String
+
+        public init(instanceName: String) {
+            self.instanceName = instanceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceName = "instanceName"
+        }
+    }
+
+    public struct GetRegionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "includeRelationalDatabaseAvailabilityZones", required: false, type: .boolean), 
+            AWSShapeMember(label: "includeAvailabilityZones", required: false, type: .boolean)
+        ]
+        /// &gt;A Boolean value indicating whether to also include Availability Zones for databases in your get regions request. Availability Zones are indicated with a letter (e.g., us-east-2a).
+        public let includeRelationalDatabaseAvailabilityZones: Bool?
+        /// A Boolean value indicating whether to also include Availability Zones in your get regions request. Availability Zones are indicated with a letter: e.g., us-east-2a.
+        public let includeAvailabilityZones: Bool?
+
+        public init(includeRelationalDatabaseAvailabilityZones: Bool? = nil, includeAvailabilityZones: Bool? = nil) {
+            self.includeRelationalDatabaseAvailabilityZones = includeRelationalDatabaseAvailabilityZones
+            self.includeAvailabilityZones = includeAvailabilityZones
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case includeRelationalDatabaseAvailabilityZones = "includeRelationalDatabaseAvailabilityZones"
+            case includeAvailabilityZones = "includeAvailabilityZones"
+        }
+    }
+
+    public struct InstanceSnapshot: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "progress", required: false, type: .string), 
+            AWSShapeMember(label: "fromInstanceName", required: false, type: .string), 
+            AWSShapeMember(label: "location", required: false, type: .structure), 
+            AWSShapeMember(label: "fromBundleId", required: false, type: .string), 
+            AWSShapeMember(label: "fromBlueprintId", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "fromAttachedDisks", required: false, type: .list), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "fromInstanceArn", required: false, type: .string), 
+            AWSShapeMember(label: "supportCode", required: false, type: .string), 
+            AWSShapeMember(label: "sizeInGb", required: false, type: .integer), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "state", required: false, type: .enum)
+        ]
+        /// The progress of the snapshot.
+        public let progress: String?
+        /// The instance from which the snapshot was created.
+        public let fromInstanceName: String?
+        /// The region name and Availability Zone where you created the snapshot.
+        public let location: ResourceLocation?
+        /// The bundle ID from which you created the snapshot (e.g., micro_1_0).
+        public let fromBundleId: String?
+        /// The blueprint ID from which you created the snapshot (e.g., os_debian_8_3). A blueprint is a virtual private server (or instance) image used to create instances quickly.
+        public let fromBlueprintId: String?
+        /// The Amazon Resource Name (ARN) of the snapshot (e.g., arn:aws:lightsail:us-east-2:123456789101:InstanceSnapshot/d23b5706-3322-4d83-81e5-12345EXAMPLE).
+        public let arn: String?
+        /// The timestamp when the snapshot was created (e.g., 1479907467.024).
+        public let createdAt: TimeStamp?
+        /// An array of disk objects containing information about all block storage disks.
+        public let fromAttachedDisks: [Disk]?
+        /// The name of the snapshot.
+        public let name: String?
+        /// The Amazon Resource Name (ARN) of the instance from which the snapshot was created (e.g., arn:aws:lightsail:us-east-2:123456789101:Instance/64b8404c-ccb1-430b-8daf-12345EXAMPLE).
+        public let fromInstanceArn: String?
+        /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
+        public let supportCode: String?
+        /// The size in GB of the SSD.
+        public let sizeInGb: Int32?
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
+        public let tags: [Tag]?
+        /// The type of resource (usually InstanceSnapshot).
+        public let resourceType: ResourceType?
+        /// The state the snapshot is in.
+        public let state: InstanceSnapshotState?
+
+        public init(progress: String? = nil, fromInstanceName: String? = nil, location: ResourceLocation? = nil, fromBundleId: String? = nil, fromBlueprintId: String? = nil, arn: String? = nil, createdAt: TimeStamp? = nil, fromAttachedDisks: [Disk]? = nil, name: String? = nil, fromInstanceArn: String? = nil, supportCode: String? = nil, sizeInGb: Int32? = nil, tags: [Tag]? = nil, resourceType: ResourceType? = nil, state: InstanceSnapshotState? = nil) {
+            self.progress = progress
+            self.fromInstanceName = fromInstanceName
+            self.location = location
+            self.fromBundleId = fromBundleId
+            self.fromBlueprintId = fromBlueprintId
+            self.arn = arn
+            self.createdAt = createdAt
+            self.fromAttachedDisks = fromAttachedDisks
+            self.name = name
+            self.fromInstanceArn = fromInstanceArn
+            self.supportCode = supportCode
+            self.sizeInGb = sizeInGb
+            self.tags = tags
+            self.resourceType = resourceType
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case progress = "progress"
+            case fromInstanceName = "fromInstanceName"
+            case location = "location"
+            case fromBundleId = "fromBundleId"
+            case fromBlueprintId = "fromBlueprintId"
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case fromAttachedDisks = "fromAttachedDisks"
+            case name = "name"
+            case fromInstanceArn = "fromInstanceArn"
+            case supportCode = "supportCode"
+            case sizeInGb = "sizeInGb"
+            case tags = "tags"
+            case resourceType = "resourceType"
+            case state = "state"
+        }
+    }
+
+    public struct DeleteRelationalDatabaseRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "finalRelationalDatabaseSnapshotName", required: false, type: .string), 
+            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string), 
+            AWSShapeMember(label: "skipFinalSnapshot", required: false, type: .boolean)
+        ]
+        /// The name of the database snapshot created if skip final snapshot is false, which is the default value for that parameter.  Specifying this parameter and also specifying the skip final snapshot parameter to true results in an error.  Constraints:   Must contain from 2 to 255 alphanumeric characters, or hyphens.   The first and last character must be a letter or number.  
+        public let finalRelationalDatabaseSnapshotName: String?
+        /// The name of the database that you are deleting.
+        public let relationalDatabaseName: String
+        /// Determines whether a final database snapshot is created before your database is deleted. If true is specified, no database snapshot is created. If false is specified, a database snapshot is created before your database is deleted. You must specify the final relational database snapshot name parameter if the skip final snapshot parameter is false. Default: false 
+        public let skipFinalSnapshot: Bool?
+
+        public init(finalRelationalDatabaseSnapshotName: String? = nil, relationalDatabaseName: String, skipFinalSnapshot: Bool? = nil) {
+            self.finalRelationalDatabaseSnapshotName = finalRelationalDatabaseSnapshotName
+            self.relationalDatabaseName = relationalDatabaseName
+            self.skipFinalSnapshot = skipFinalSnapshot
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case finalRelationalDatabaseSnapshotName = "finalRelationalDatabaseSnapshotName"
+            case relationalDatabaseName = "relationalDatabaseName"
+            case skipFinalSnapshot = "skipFinalSnapshot"
+        }
+    }
+
+    public struct CreateDiskFromSnapshotRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "availabilityZone", required: true, type: .string), 
+            AWSShapeMember(label: "sizeInGb", required: true, type: .integer), 
+            AWSShapeMember(label: "diskName", required: true, type: .string), 
+            AWSShapeMember(label: "diskSnapshotName", required: true, type: .string)
+        ]
+        /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
+        public let tags: [Tag]?
+        /// The Availability Zone where you want to create the disk (e.g., us-east-2a). Choose the same Availability Zone as the Lightsail instance where you want to create the disk. Use the GetRegions operation to list the Availability Zones where Lightsail is currently available.
+        public let availabilityZone: String
+        /// The size of the disk in GB (e.g., 32).
+        public let sizeInGb: Int32
+        /// The unique Lightsail disk name (e.g., my-disk).
+        public let diskName: String
+        /// The name of the disk snapshot (e.g., my-snapshot) from which to create the new storage disk.
+        public let diskSnapshotName: String
+
+        public init(tags: [Tag]? = nil, availabilityZone: String, sizeInGb: Int32, diskName: String, diskSnapshotName: String) {
+            self.tags = tags
+            self.availabilityZone = availabilityZone
+            self.sizeInGb = sizeInGb
+            self.diskName = diskName
+            self.diskSnapshotName = diskSnapshotName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+            case availabilityZone = "availabilityZone"
+            case sizeInGb = "sizeInGb"
+            case diskName = "diskName"
+            case diskSnapshotName = "diskSnapshotName"
+        }
+    }
+
+    public struct GetRelationalDatabaseMetricDataRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "metricName", required: true, type: .enum), 
+            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string), 
+            AWSShapeMember(label: "endTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "startTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "period", required: true, type: .integer), 
+            AWSShapeMember(label: "unit", required: true, type: .enum), 
+            AWSShapeMember(label: "statistics", required: true, type: .list)
+        ]
+        /// The name of the metric data to return.
+        public let metricName: RelationalDatabaseMetricName
+        /// The name of your database from which to get metric data.
+        public let relationalDatabaseName: String
+        /// The end of the time interval from which to get metric data. Constraints:   Specified in Universal Coordinated Time (UTC).   Specified in the Unix time format. For example, if you wish to use an end time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the end time.  
+        public let endTime: TimeStamp
+        /// The start of the time interval from which to get metric data. Constraints:   Specified in Universal Coordinated Time (UTC).   Specified in the Unix time format. For example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the start time.  
+        public let startTime: TimeStamp
+        /// The granularity, in seconds, of the returned data points.
+        public let period: Int32
+        /// The unit for the metric data request.
+        public let unit: MetricUnit
+        /// The array of statistics for your metric data request.
+        public let statistics: [MetricStatistic]
+
+        public init(metricName: RelationalDatabaseMetricName, relationalDatabaseName: String, endTime: TimeStamp, startTime: TimeStamp, period: Int32, unit: MetricUnit, statistics: [MetricStatistic]) {
+            self.metricName = metricName
+            self.relationalDatabaseName = relationalDatabaseName
+            self.endTime = endTime
+            self.startTime = startTime
+            self.period = period
+            self.unit = unit
+            self.statistics = statistics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricName = "metricName"
+            case relationalDatabaseName = "relationalDatabaseName"
+            case endTime = "endTime"
+            case startTime = "startTime"
+            case period = "period"
+            case unit = "unit"
+            case statistics = "statistics"
+        }
+    }
+
+    public struct DeleteDomainResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "operation", required: false, type: .structure)
         ]
-        /// An array of key-value pairs that contains information about the operation.
+        /// An array of key-value pairs containing information about the results of your delete domain request.
         public let operation: Operation?
 
         public init(operation: Operation? = nil) {
@@ -588,19 +4654,227 @@ extension Lightsail {
         }
     }
 
-    public struct DeleteDiskSnapshotRequest: AWSShape {
+    public struct DeleteLoadBalancerTlsCertificateResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "diskSnapshotName", required: true, type: .string)
+            AWSShapeMember(label: "operations", required: false, type: .list)
         ]
-        /// The name of the disk snapshot you want to delete (e.g., my-disk-snapshot).
-        public let diskSnapshotName: String
+        /// An object describing the API operations.
+        public let operations: [Operation]?
 
-        public init(diskSnapshotName: String) {
-            self.diskSnapshotName = diskSnapshotName
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
         }
 
         private enum CodingKeys: String, CodingKey {
-            case diskSnapshotName = "diskSnapshotName"
+            case operations = "operations"
+        }
+    }
+
+    public struct GetActiveNamesResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "activeNames", required: false, type: .list)
+        ]
+        /// A token used for advancing to the next page of results from your get active names request.
+        public let nextPageToken: String?
+        /// The list of active names returned by the get active names request.
+        public let activeNames: [String]?
+
+        public init(nextPageToken: String? = nil, activeNames: [String]? = nil) {
+            self.nextPageToken = nextPageToken
+            self.activeNames = activeNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "nextPageToken"
+            case activeNames = "activeNames"
+        }
+    }
+
+    public struct GetInstanceSnapshotsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pageToken", required: false, type: .string)
+        ]
+        /// A token used for advancing to the next page of results from your get instance snapshots request.
+        public let pageToken: String?
+
+        public init(pageToken: String? = nil) {
+            self.pageToken = pageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pageToken = "pageToken"
+        }
+    }
+
+    public struct Operation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "isTerminal", required: false, type: .boolean), 
+            AWSShapeMember(label: "errorDetails", required: false, type: .string), 
+            AWSShapeMember(label: "operationType", required: false, type: .enum), 
+            AWSShapeMember(label: "errorCode", required: false, type: .string), 
+            AWSShapeMember(label: "statusChangedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "operationDetails", required: false, type: .string), 
+            AWSShapeMember(label: "resourceName", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "location", required: false, type: .structure), 
+            AWSShapeMember(label: "id", required: false, type: .string), 
+            AWSShapeMember(label: "resourceType", required: false, type: .enum)
+        ]
+        /// A Boolean value indicating whether the operation is terminal.
+        public let isTerminal: Bool?
+        /// The error details.
+        public let errorDetails: String?
+        /// The type of operation. 
+        public let operationType: OperationType?
+        /// The error code.
+        public let errorCode: String?
+        /// The timestamp when the status was changed (e.g., 1479816991.349).
+        public let statusChangedAt: TimeStamp?
+        /// The timestamp when the operation was initialized (e.g., 1479816991.349).
+        public let createdAt: TimeStamp?
+        /// Details about the operation (e.g., Debian-1GB-Ohio-1).
+        public let operationDetails: String?
+        /// The resource name.
+        public let resourceName: String?
+        /// The status of the operation. 
+        public let status: OperationStatus?
+        /// The region and Availability Zone.
+        public let location: ResourceLocation?
+        /// The ID of the operation.
+        public let id: String?
+        /// The resource type. 
+        public let resourceType: ResourceType?
+
+        public init(isTerminal: Bool? = nil, errorDetails: String? = nil, operationType: OperationType? = nil, errorCode: String? = nil, statusChangedAt: TimeStamp? = nil, createdAt: TimeStamp? = nil, operationDetails: String? = nil, resourceName: String? = nil, status: OperationStatus? = nil, location: ResourceLocation? = nil, id: String? = nil, resourceType: ResourceType? = nil) {
+            self.isTerminal = isTerminal
+            self.errorDetails = errorDetails
+            self.operationType = operationType
+            self.errorCode = errorCode
+            self.statusChangedAt = statusChangedAt
+            self.createdAt = createdAt
+            self.operationDetails = operationDetails
+            self.resourceName = resourceName
+            self.status = status
+            self.location = location
+            self.id = id
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isTerminal = "isTerminal"
+            case errorDetails = "errorDetails"
+            case operationType = "operationType"
+            case errorCode = "errorCode"
+            case statusChangedAt = "statusChangedAt"
+            case createdAt = "createdAt"
+            case operationDetails = "operationDetails"
+            case resourceName = "resourceName"
+            case status = "status"
+            case location = "location"
+            case id = "id"
+            case resourceType = "resourceType"
+        }
+    }
+
+    public struct GetInstanceResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instance", required: false, type: .structure)
+        ]
+        /// An array of key-value pairs containing information about the specified instance.
+        public let instance: Instance?
+
+        public init(instance: Instance? = nil) {
+            self.instance = instance
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instance = "instance"
+        }
+    }
+
+    public struct GetRelationalDatabaseBlueprintsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "blueprints", required: false, type: .list)
+        ]
+        /// A token used for advancing to the next page of results of your get relational database blueprints request.
+        public let nextPageToken: String?
+        /// An object describing the result of your get relational database blueprints request.
+        public let blueprints: [RelationalDatabaseBlueprint]?
+
+        public init(nextPageToken: String? = nil, blueprints: [RelationalDatabaseBlueprint]? = nil) {
+            self.nextPageToken = nextPageToken
+            self.blueprints = blueprints
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "nextPageToken"
+            case blueprints = "blueprints"
+        }
+    }
+
+    public struct CreateInstancesResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+        /// An array of key-value pairs containing information about the results of your create instances request.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct InstancePortState: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "state", required: false, type: .enum), 
+            AWSShapeMember(label: "toPort", required: false, type: .integer), 
+            AWSShapeMember(label: "fromPort", required: false, type: .integer), 
+            AWSShapeMember(label: "protocol", required: false, type: .enum)
+        ]
+        /// Specifies whether the instance port is open or closed.
+        public let state: PortState?
+        /// The last port in the range.
+        public let toPort: Int32?
+        /// The first port in the range.
+        public let fromPort: Int32?
+        /// The protocol being used. Can be one of the following.    tcp - Transmission Control Protocol (TCP) provides reliable, ordered, and error-checked delivery of streamed data between applications running on hosts communicating by an IP network. If you have an application that doesn't require reliable data stream service, use UDP instead.    all - All transport layer protocol types. For more general information, see Transport layer on Wikipedia.    udp - With User Datagram Protocol (UDP), computer applications can send messages (or datagrams) to other hosts on an Internet Protocol (IP) network. Prior communications are not required to set up transmission channels or data paths. Applications that don't require reliable data stream service can use UDP, which provides a connectionless datagram service that emphasizes reduced latency over reliability. If you do require reliable data stream service, use TCP instead.  
+        public let `protocol`: NetworkProtocol?
+
+        public init(state: PortState? = nil, toPort: Int32? = nil, fromPort: Int32? = nil, protocol: NetworkProtocol? = nil) {
+            self.state = state
+            self.toPort = toPort
+            self.fromPort = fromPort
+            self.`protocol` = `protocol`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
+            case toPort = "toPort"
+            case fromPort = "fromPort"
+            case `protocol` = "protocol"
+        }
+    }
+
+    public struct GetRelationalDatabaseSnapshotRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "relationalDatabaseSnapshotName", required: true, type: .string)
+        ]
+        /// The name of the database snapshot for which to get information.
+        public let relationalDatabaseSnapshotName: String
+
+        public init(relationalDatabaseSnapshotName: String) {
+            self.relationalDatabaseSnapshotName = relationalDatabaseSnapshotName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case relationalDatabaseSnapshotName = "relationalDatabaseSnapshotName"
         }
     }
 
@@ -625,82 +4899,151 @@ extension Lightsail {
         }
     }
 
-    public struct UnpeerVpcResult: AWSShape {
+    public struct ResourceLocation: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operation", required: false, type: .structure)
+            AWSShapeMember(label: "regionName", required: false, type: .enum), 
+            AWSShapeMember(label: "availabilityZone", required: false, type: .string)
         ]
-        /// An array of key-value pairs containing information about the request operation.
-        public let operation: Operation?
+        /// The AWS Region name.
+        public let regionName: RegionName?
+        /// The Availability Zone. Follows the format us-east-2a (case-sensitive).
+        public let availabilityZone: String?
 
-        public init(operation: Operation? = nil) {
-            self.operation = operation
+        public init(regionName: RegionName? = nil, availabilityZone: String? = nil) {
+            self.regionName = regionName
+            self.availabilityZone = availabilityZone
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operation = "operation"
+            case regionName = "regionName"
+            case availabilityZone = "availabilityZone"
         }
     }
 
-    public struct GetRelationalDatabaseEventsRequest: AWSShape {
+    public struct TagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageToken", required: false, type: .string), 
-            AWSShapeMember(label: "durationInMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string)
+            AWSShapeMember(label: "tags", required: true, type: .list), 
+            AWSShapeMember(label: "resourceName", required: true, type: .string)
         ]
-        /// A token used for advancing to a specific page of results from for get relational database events request.
-        public let pageToken: String?
-        /// The number of minutes in the past from which to retrieve events. For example, to get all events from the past 2 hours, enter 120. Default: 60  The minimum is 1 and the maximum is 14 days (20160 minutes).
-        public let durationInMinutes: Int32?
-        /// The name of the database from which to get events.
-        public let relationalDatabaseName: String
+        /// The tag key and optional value.
+        public let tags: [Tag]
+        /// The name of the resource to which you are adding tags.
+        public let resourceName: String
 
-        public init(pageToken: String? = nil, durationInMinutes: Int32? = nil, relationalDatabaseName: String) {
-            self.pageToken = pageToken
-            self.durationInMinutes = durationInMinutes
-            self.relationalDatabaseName = relationalDatabaseName
+        public init(tags: [Tag], resourceName: String) {
+            self.tags = tags
+            self.resourceName = resourceName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageToken = "pageToken"
-            case durationInMinutes = "durationInMinutes"
-            case relationalDatabaseName = "relationalDatabaseName"
+            case tags = "tags"
+            case resourceName = "resourceName"
         }
     }
 
-    public struct GetBlueprintsRequest: AWSShape {
+    public struct GetStaticIpResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageToken", required: false, type: .string), 
-            AWSShapeMember(label: "includeInactive", required: false, type: .boolean)
+            AWSShapeMember(label: "staticIp", required: false, type: .structure)
         ]
-        /// A token used for advancing to the next page of results from your get blueprints request.
-        public let pageToken: String?
-        /// A Boolean value indicating whether to include inactive results in your request.
-        public let includeInactive: Bool?
+        /// An array of key-value pairs containing information about the requested static IP.
+        public let staticIp: StaticIp?
 
-        public init(pageToken: String? = nil, includeInactive: Bool? = nil) {
-            self.pageToken = pageToken
-            self.includeInactive = includeInactive
+        public init(staticIp: StaticIp? = nil) {
+            self.staticIp = staticIp
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageToken = "pageToken"
-            case includeInactive = "includeInactive"
+            case staticIp = "staticIp"
         }
     }
 
-    public struct ImportKeyPairResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operation", required: false, type: .structure)
-        ]
-        /// An array of key-value pairs containing information about the request operation.
-        public let operation: Operation?
+    public enum LoadBalancerTlsCertificateRenewalStatus: String, CustomStringConvertible, Codable {
+        case pendingAutoRenewal = "PENDING_AUTO_RENEWAL"
+        case pendingValidation = "PENDING_VALIDATION"
+        case success = "SUCCESS"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(operation: Operation? = nil) {
-            self.operation = operation
+    public struct GetRelationalDatabaseMetricDataResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "metricName", required: false, type: .enum), 
+            AWSShapeMember(label: "metricData", required: false, type: .list)
+        ]
+        /// The name of the metric.
+        public let metricName: RelationalDatabaseMetricName?
+        /// An object describing the result of your get relational database metric data request.
+        public let metricData: [MetricDatapoint]?
+
+        public init(metricName: RelationalDatabaseMetricName? = nil, metricData: [MetricDatapoint]? = nil) {
+            self.metricName = metricName
+            self.metricData = metricData
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operation = "operation"
+            case metricName = "metricName"
+            case metricData = "metricData"
+        }
+    }
+
+    public struct DownloadDefaultKeyPairRequest: AWSShape {
+
+    }
+
+    public struct GetRelationalDatabaseEventsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "relationalDatabaseEvents", required: false, type: .list)
+        ]
+        /// A token used for advancing to the next page of results from your get relational database events request.
+        public let nextPageToken: String?
+        /// An object describing the result of your get relational database events request.
+        public let relationalDatabaseEvents: [RelationalDatabaseEvent]?
+
+        public init(nextPageToken: String? = nil, relationalDatabaseEvents: [RelationalDatabaseEvent]? = nil) {
+            self.nextPageToken = nextPageToken
+            self.relationalDatabaseEvents = relationalDatabaseEvents
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "nextPageToken"
+            case relationalDatabaseEvents = "relationalDatabaseEvents"
+        }
+    }
+
+    public struct LoadBalancerTlsCertificateDomainValidationRecord: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "validationStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "type", required: false, type: .string), 
+            AWSShapeMember(label: "value", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "domainName", required: false, type: .string)
+        ]
+        /// The validation status. Valid values are listed below.
+        public let validationStatus: LoadBalancerTlsCertificateDomainStatus?
+        /// The type of validation record. For example, CNAME for domain validation.
+        public let `type`: String?
+        /// The value for that type.
+        public let value: String?
+        /// A fully qualified domain name in the certificate. For example, example.com.
+        public let name: String?
+        /// The domain name against which your SSL/TLS certificate was validated.
+        public let domainName: String?
+
+        public init(validationStatus: LoadBalancerTlsCertificateDomainStatus? = nil, type: String? = nil, value: String? = nil, name: String? = nil, domainName: String? = nil) {
+            self.validationStatus = validationStatus
+            self.`type` = `type`
+            self.value = value
+            self.name = name
+            self.domainName = domainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case validationStatus = "validationStatus"
+            case `type` = "type"
+            case value = "value"
+            case name = "name"
+            case domainName = "domainName"
         }
     }
 
@@ -720,11 +5063,80 @@ extension Lightsail {
         }
     }
 
-    public struct DeleteKeyPairResult: AWSShape {
+    public struct CreateInstancesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceNames", required: true, type: .list), 
+            AWSShapeMember(label: "customImageName", required: false, type: .string), 
+            AWSShapeMember(label: "bundleId", required: true, type: .string), 
+            AWSShapeMember(label: "userData", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "blueprintId", required: true, type: .string), 
+            AWSShapeMember(label: "availabilityZone", required: true, type: .string), 
+            AWSShapeMember(label: "keyPairName", required: false, type: .string)
+        ]
+        /// The names to use for your new Lightsail instances. Separate multiple values using quotation marks and commas, for example: ["MyFirstInstance","MySecondInstance"] 
+        public let instanceNames: [String]
+        /// (Deprecated) The name for your custom image.  In releases prior to June 12, 2017, this parameter was ignored by the API. It is now deprecated. 
+        public let customImageName: String?
+        /// The bundle of specification information for your virtual private server (or instance), including the pricing plan (e.g., micro_1_0).
+        public let bundleId: String
+        /// A launch script you can create that configures a server with additional user data. For example, you might want to run apt-get -y update.  Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum, Debian and Ubuntu use apt-get, and FreeBSD uses pkg. For a complete list, see the Dev Guide. 
+        public let userData: String?
+        /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
+        public let tags: [Tag]?
+        /// The ID for a virtual private server image (e.g., app_wordpress_4_4 or app_lamp_7_0). Use the get blueprints operation to return a list of available images (or blueprints).
+        public let blueprintId: String
+        /// The Availability Zone in which to create your instance. Use the following format: us-east-2a (case sensitive). You can get a list of Availability Zones by using the get regions operation. Be sure to add the include Availability Zones parameter to your request.
+        public let availabilityZone: String
+        /// The name of your key pair.
+        public let keyPairName: String?
+
+        public init(instanceNames: [String], customImageName: String? = nil, bundleId: String, userData: String? = nil, tags: [Tag]? = nil, blueprintId: String, availabilityZone: String, keyPairName: String? = nil) {
+            self.instanceNames = instanceNames
+            self.customImageName = customImageName
+            self.bundleId = bundleId
+            self.userData = userData
+            self.tags = tags
+            self.blueprintId = blueprintId
+            self.availabilityZone = availabilityZone
+            self.keyPairName = keyPairName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceNames = "instanceNames"
+            case customImageName = "customImageName"
+            case bundleId = "bundleId"
+            case userData = "userData"
+            case tags = "tags"
+            case blueprintId = "blueprintId"
+            case availabilityZone = "availabilityZone"
+            case keyPairName = "keyPairName"
+        }
+    }
+
+    public enum RegionName: String, CustomStringConvertible, Codable {
+        case usEast1 = "us-east-1"
+        case usEast2 = "us-east-2"
+        case usWest1 = "us-west-1"
+        case usWest2 = "us-west-2"
+        case euWest1 = "eu-west-1"
+        case euWest2 = "eu-west-2"
+        case euWest3 = "eu-west-3"
+        case euCentral1 = "eu-central-1"
+        case caCentral1 = "ca-central-1"
+        case apSouth1 = "ap-south-1"
+        case apSoutheast1 = "ap-southeast-1"
+        case apSoutheast2 = "ap-southeast-2"
+        case apNortheast1 = "ap-northeast-1"
+        case apNortheast2 = "ap-northeast-2"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeleteDomainEntryResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "operation", required: false, type: .structure)
         ]
-        /// An array of key-value pairs containing information about the results of your delete key pair request.
+        /// An array of key-value pairs containing information about the results of your delete domain entry request.
         public let operation: Operation?
 
         public init(operation: Operation? = nil) {
@@ -733,6 +5145,94 @@ extension Lightsail {
 
         private enum CodingKeys: String, CodingKey {
             case operation = "operation"
+        }
+    }
+
+    public struct RelationalDatabaseBundle: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "bundleId", required: false, type: .string), 
+            AWSShapeMember(label: "transferPerMonthInGb", required: false, type: .integer), 
+            AWSShapeMember(label: "diskSizeInGb", required: false, type: .integer), 
+            AWSShapeMember(label: "price", required: false, type: .float), 
+            AWSShapeMember(label: "isActive", required: false, type: .boolean), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "ramSizeInGb", required: false, type: .float), 
+            AWSShapeMember(label: "isEncrypted", required: false, type: .boolean), 
+            AWSShapeMember(label: "cpuCount", required: false, type: .integer)
+        ]
+        /// The ID for the database bundle.
+        public let bundleId: String?
+        /// The data transfer rate per month in GB for the database bundle.
+        public let transferPerMonthInGb: Int32?
+        /// The size of the disk for the database bundle.
+        public let diskSizeInGb: Int32?
+        /// The cost of the database bundle in US currency.
+        public let price: Float?
+        /// A Boolean value indicating whether the database bundle is active.
+        public let isActive: Bool?
+        /// The name for the database bundle.
+        public let name: String?
+        /// The amount of RAM in GB (for example, 2.0) for the database bundle.
+        public let ramSizeInGb: Float?
+        /// A Boolean value indicating whether the database bundle is encrypted.
+        public let isEncrypted: Bool?
+        /// The number of virtual CPUs (vCPUs) for the database bundle.
+        public let cpuCount: Int32?
+
+        public init(bundleId: String? = nil, transferPerMonthInGb: Int32? = nil, diskSizeInGb: Int32? = nil, price: Float? = nil, isActive: Bool? = nil, name: String? = nil, ramSizeInGb: Float? = nil, isEncrypted: Bool? = nil, cpuCount: Int32? = nil) {
+            self.bundleId = bundleId
+            self.transferPerMonthInGb = transferPerMonthInGb
+            self.diskSizeInGb = diskSizeInGb
+            self.price = price
+            self.isActive = isActive
+            self.name = name
+            self.ramSizeInGb = ramSizeInGb
+            self.isEncrypted = isEncrypted
+            self.cpuCount = cpuCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bundleId = "bundleId"
+            case transferPerMonthInGb = "transferPerMonthInGb"
+            case diskSizeInGb = "diskSizeInGb"
+            case price = "price"
+            case isActive = "isActive"
+            case name = "name"
+            case ramSizeInGb = "ramSizeInGb"
+            case isEncrypted = "isEncrypted"
+            case cpuCount = "cpuCount"
+        }
+    }
+
+    public struct DeleteInstanceSnapshotRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceSnapshotName", required: true, type: .string)
+        ]
+        /// The name of the snapshot to delete.
+        public let instanceSnapshotName: String
+
+        public init(instanceSnapshotName: String) {
+            self.instanceSnapshotName = instanceSnapshotName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceSnapshotName = "instanceSnapshotName"
+        }
+    }
+
+    public struct DeleteRelationalDatabaseSnapshotRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "relationalDatabaseSnapshotName", required: true, type: .string)
+        ]
+        /// The name of the database snapshot that you are deleting.
+        public let relationalDatabaseSnapshotName: String
+
+        public init(relationalDatabaseSnapshotName: String) {
+            self.relationalDatabaseSnapshotName = relationalDatabaseSnapshotName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case relationalDatabaseSnapshotName = "relationalDatabaseSnapshotName"
         }
     }
 
@@ -784,231 +5284,6 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public struct GetCloudFormationStackRecordsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageToken", required: false, type: .string)
-        ]
-        /// A token used for advancing to a specific page of results for your get cloud formation stack records request.
-        public let pageToken: String?
-
-        public init(pageToken: String? = nil) {
-            self.pageToken = pageToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pageToken = "pageToken"
-        }
-    }
-
-    public enum InstanceMetricName: String, CustomStringConvertible, Codable {
-        case cpuutilization = "CPUUtilization"
-        case networkin = "NetworkIn"
-        case networkout = "NetworkOut"
-        case statuscheckfailed = "StatusCheckFailed"
-        case statuscheckfailedInstance = "StatusCheckFailed_Instance"
-        case statuscheckfailedSystem = "StatusCheckFailed_System"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ExportSnapshotRecordSourceType: String, CustomStringConvertible, Codable {
-        case instancesnapshot = "InstanceSnapshot"
-        case disksnapshot = "DiskSnapshot"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetInstanceSnapshotsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceSnapshots", required: false, type: .list), 
-            AWSShapeMember(label: "nextPageToken", required: false, type: .string)
-        ]
-        /// An array of key-value pairs containing information about the results of your get instance snapshots request.
-        public let instanceSnapshots: [InstanceSnapshot]?
-        /// A token used for advancing to the next page of results from your get instance snapshots request.
-        public let nextPageToken: String?
-
-        public init(instanceSnapshots: [InstanceSnapshot]? = nil, nextPageToken: String? = nil) {
-            self.instanceSnapshots = instanceSnapshots
-            self.nextPageToken = nextPageToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceSnapshots = "instanceSnapshots"
-            case nextPageToken = "nextPageToken"
-        }
-    }
-
-    public struct GetInstancePortStatesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceName", required: true, type: .string)
-        ]
-        /// The name of the instance.
-        public let instanceName: String
-
-        public init(instanceName: String) {
-            self.instanceName = instanceName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceName = "instanceName"
-        }
-    }
-
-    public struct CreateCloudFormationStackRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instances", required: true, type: .list)
-        ]
-        /// An array of parameters that will be used to create the new Amazon EC2 instance. You can only pass one instance entry at a time in this array. You will get an invalid parameter error if you pass more than one instance entry in this array.
-        public let instances: [InstanceEntry]
-
-        public init(instances: [InstanceEntry]) {
-            self.instances = instances
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instances = "instances"
-        }
-    }
-
-    public struct PasswordData: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "keyPairName", required: false, type: .string), 
-            AWSShapeMember(label: "ciphertext", required: false, type: .string)
-        ]
-        /// The name of the key pair that you used when creating your instance. If no key pair name was specified when creating the instance, Lightsail uses the default key pair (LightsailDefaultKeyPair). If you are using a custom key pair, you need to use your own means of decrypting your password using the ciphertext. Lightsail creates the ciphertext by encrypting your password with the public key part of this key pair.
-        public let keyPairName: String?
-        /// The encrypted password. Ciphertext will be an empty string if access to your new instance is not ready yet. When you create an instance, it can take up to 15 minutes for the instance to be ready.  If you use the default key pair (LightsailDefaultKeyPair), the decrypted password will be available in the password field. If you are using a custom key pair, you need to use your own means of decryption. If you change the Administrator password on the instance, Lightsail will continue to return the original ciphertext value. When accessing the instance using RDP, you need to manually enter the Administrator password after changing it from the default. 
-        public let ciphertext: String?
-
-        public init(keyPairName: String? = nil, ciphertext: String? = nil) {
-            self.keyPairName = keyPairName
-            self.ciphertext = ciphertext
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case keyPairName = "keyPairName"
-            case ciphertext = "ciphertext"
-        }
-    }
-
-    public struct GetStaticIpResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "staticIp", required: false, type: .structure)
-        ]
-        /// An array of key-value pairs containing information about the requested static IP.
-        public let staticIp: StaticIp?
-
-        public init(staticIp: StaticIp? = nil) {
-            self.staticIp = staticIp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case staticIp = "staticIp"
-        }
-    }
-
-    public enum MetricStatistic: String, CustomStringConvertible, Codable {
-        case minimum = "Minimum"
-        case maximum = "Maximum"
-        case sum = "Sum"
-        case average = "Average"
-        case samplecount = "SampleCount"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum LoadBalancerProtocol: String, CustomStringConvertible, Codable {
-        case httpHttps = "HTTP_HTTPS"
-        case http = "HTTP"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ExportSnapshotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "sourceSnapshotName", required: true, type: .string)
-        ]
-        /// The name of the instance or disk snapshot to be exported to Amazon EC2.
-        public let sourceSnapshotName: String
-
-        public init(sourceSnapshotName: String) {
-            self.sourceSnapshotName = sourceSnapshotName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sourceSnapshotName = "sourceSnapshotName"
-        }
-    }
-
-    public struct GetInstanceSnapshotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceSnapshotName", required: true, type: .string)
-        ]
-        /// The name of the snapshot for which you are requesting information.
-        public let instanceSnapshotName: String
-
-        public init(instanceSnapshotName: String) {
-            self.instanceSnapshotName = instanceSnapshotName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceSnapshotName = "instanceSnapshotName"
-        }
-    }
-
-    public struct RelationalDatabaseBundle: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ramSizeInGb", required: false, type: .float), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "cpuCount", required: false, type: .integer), 
-            AWSShapeMember(label: "isEncrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "diskSizeInGb", required: false, type: .integer), 
-            AWSShapeMember(label: "bundleId", required: false, type: .string), 
-            AWSShapeMember(label: "transferPerMonthInGb", required: false, type: .integer), 
-            AWSShapeMember(label: "price", required: false, type: .float), 
-            AWSShapeMember(label: "isActive", required: false, type: .boolean)
-        ]
-        /// The amount of RAM in GB (for example, 2.0) for the database bundle.
-        public let ramSizeInGb: Float?
-        /// The name for the database bundle.
-        public let name: String?
-        /// The number of virtual CPUs (vCPUs) for the database bundle.
-        public let cpuCount: Int32?
-        /// A Boolean value indicating whether the database bundle is encrypted.
-        public let isEncrypted: Bool?
-        /// The size of the disk for the database bundle.
-        public let diskSizeInGb: Int32?
-        /// The ID for the database bundle.
-        public let bundleId: String?
-        /// The data transfer rate per month in GB for the database bundle.
-        public let transferPerMonthInGb: Int32?
-        /// The cost of the database bundle in US currency.
-        public let price: Float?
-        /// A Boolean value indicating whether the database bundle is active.
-        public let isActive: Bool?
-
-        public init(ramSizeInGb: Float? = nil, name: String? = nil, cpuCount: Int32? = nil, isEncrypted: Bool? = nil, diskSizeInGb: Int32? = nil, bundleId: String? = nil, transferPerMonthInGb: Int32? = nil, price: Float? = nil, isActive: Bool? = nil) {
-            self.ramSizeInGb = ramSizeInGb
-            self.name = name
-            self.cpuCount = cpuCount
-            self.isEncrypted = isEncrypted
-            self.diskSizeInGb = diskSizeInGb
-            self.bundleId = bundleId
-            self.transferPerMonthInGb = transferPerMonthInGb
-            self.price = price
-            self.isActive = isActive
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ramSizeInGb = "ramSizeInGb"
-            case name = "name"
-            case cpuCount = "cpuCount"
-            case isEncrypted = "isEncrypted"
-            case diskSizeInGb = "diskSizeInGb"
-            case bundleId = "bundleId"
-            case transferPerMonthInGb = "transferPerMonthInGb"
-            case price = "price"
-            case isActive = "isActive"
-        }
-    }
-
     public struct StartInstanceResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "operations", required: false, type: .list)
@@ -1025,1558 +5300,76 @@ extension Lightsail {
         }
     }
 
-    public enum AccessDirection: String, CustomStringConvertible, Codable {
-        case inbound = "inbound"
-        case outbound = "outbound"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetStaticIpsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageToken", required: false, type: .string)
-        ]
-        /// A token used for advancing to the next page of results from your get static IPs request.
-        public let pageToken: String?
-
-        public init(pageToken: String? = nil) {
-            self.pageToken = pageToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pageToken = "pageToken"
-        }
-    }
-
-    public struct MetricDatapoint: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "minimum", required: false, type: .double), 
-            AWSShapeMember(label: "sampleCount", required: false, type: .double), 
-            AWSShapeMember(label: "timestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "average", required: false, type: .double), 
-            AWSShapeMember(label: "maximum", required: false, type: .double), 
-            AWSShapeMember(label: "sum", required: false, type: .double), 
-            AWSShapeMember(label: "unit", required: false, type: .enum)
-        ]
-        /// The minimum.
-        public let minimum: Double?
-        /// The sample count.
-        public let sampleCount: Double?
-        /// The timestamp (e.g., 1479816991.349).
-        public let timestamp: TimeStamp?
-        /// The average.
-        public let average: Double?
-        /// The maximum.
-        public let maximum: Double?
-        /// The sum.
-        public let sum: Double?
-        /// The unit. 
-        public let unit: MetricUnit?
-
-        public init(minimum: Double? = nil, sampleCount: Double? = nil, timestamp: TimeStamp? = nil, average: Double? = nil, maximum: Double? = nil, sum: Double? = nil, unit: MetricUnit? = nil) {
-            self.minimum = minimum
-            self.sampleCount = sampleCount
-            self.timestamp = timestamp
-            self.average = average
-            self.maximum = maximum
-            self.sum = sum
-            self.unit = unit
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case minimum = "minimum"
-            case sampleCount = "sampleCount"
-            case timestamp = "timestamp"
-            case average = "average"
-            case maximum = "maximum"
-            case sum = "sum"
-            case unit = "unit"
-        }
-    }
-
-    public struct DeleteDiskResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
-        /// An object describing the API operations.
-        public let operations: [Operation]?
-
-        public init(operations: [Operation]? = nil) {
-            self.operations = operations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operations = "operations"
-        }
-    }
-
-    public struct DeleteInstanceResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
-        /// An array of key-value pairs containing information about the results of your delete instance request.
-        public let operations: [Operation]?
-
-        public init(operations: [Operation]? = nil) {
-            self.operations = operations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operations = "operations"
-        }
-    }
-
-    public struct AttachDiskResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
-        /// An object describing the API operations.
-        public let operations: [Operation]?
-
-        public init(operations: [Operation]? = nil) {
-            self.operations = operations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operations = "operations"
-        }
-    }
-
-    public struct GetRelationalDatabaseMasterUserPasswordRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "passwordVersion", required: false, type: .enum), 
-            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string)
-        ]
-        /// The password version to return. Specifying CURRENT or PREVIOUS returns the current or previous passwords respectively. Specifying PENDING returns the newest version of the password that will rotate to CURRENT. After the PENDING password rotates to CURRENT, the PENDING password is no longer available. Default: CURRENT 
-        public let passwordVersion: RelationalDatabasePasswordVersion?
-        /// The name of your database for which to get the master user password.
-        public let relationalDatabaseName: String
-
-        public init(passwordVersion: RelationalDatabasePasswordVersion? = nil, relationalDatabaseName: String) {
-            self.passwordVersion = passwordVersion
-            self.relationalDatabaseName = relationalDatabaseName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case passwordVersion = "passwordVersion"
-            case relationalDatabaseName = "relationalDatabaseName"
-        }
-    }
-
-    public struct CopySnapshotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "sourceSnapshotName", required: true, type: .string), 
-            AWSShapeMember(label: "sourceRegion", required: true, type: .enum), 
-            AWSShapeMember(label: "targetSnapshotName", required: true, type: .string)
-        ]
-        /// The name of the source instance or disk snapshot to be copied.
-        public let sourceSnapshotName: String
-        /// The AWS Region where the source snapshot is located.
-        public let sourceRegion: RegionName
-        /// The name of the new instance or disk snapshot to be created as a copy.
-        public let targetSnapshotName: String
-
-        public init(sourceSnapshotName: String, sourceRegion: RegionName, targetSnapshotName: String) {
-            self.sourceSnapshotName = sourceSnapshotName
-            self.sourceRegion = sourceRegion
-            self.targetSnapshotName = targetSnapshotName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sourceSnapshotName = "sourceSnapshotName"
-            case sourceRegion = "sourceRegion"
-            case targetSnapshotName = "targetSnapshotName"
-        }
-    }
-
-    public struct DeleteDomainResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operation", required: false, type: .structure)
-        ]
-        /// An array of key-value pairs containing information about the results of your delete domain request.
-        public let operation: Operation?
-
-        public init(operation: Operation? = nil) {
-            self.operation = operation
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operation = "operation"
-        }
-    }
-
-    public struct CreateLoadBalancerTlsCertificateResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
-        /// An object containing information about the API operations.
-        public let operations: [Operation]?
-
-        public init(operations: [Operation]? = nil) {
-            self.operations = operations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operations = "operations"
-        }
-    }
-
-    public struct GetActiveNamesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageToken", required: false, type: .string)
-        ]
-        /// A token used for paginating results from your get active names request.
-        public let pageToken: String?
-
-        public init(pageToken: String? = nil) {
-            self.pageToken = pageToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pageToken = "pageToken"
-        }
-    }
-
-    public struct CreateInstancesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
-        /// An array of key-value pairs containing information about the results of your create instances request.
-        public let operations: [Operation]?
-
-        public init(operations: [Operation]? = nil) {
-            self.operations = operations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operations = "operations"
-        }
-    }
-
-    public struct GetInstanceMetricDataRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceName", required: true, type: .string), 
-            AWSShapeMember(label: "metricName", required: true, type: .enum), 
-            AWSShapeMember(label: "startTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "endTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "period", required: true, type: .integer), 
-            AWSShapeMember(label: "statistics", required: true, type: .list), 
-            AWSShapeMember(label: "unit", required: true, type: .enum)
-        ]
-        /// The name of the instance for which you want to get metrics data.
-        public let instanceName: String
-        /// The metric name to get data about. 
-        public let metricName: InstanceMetricName
-        /// The start time of the time period.
-        public let startTime: TimeStamp
-        /// The end time of the time period.
-        public let endTime: TimeStamp
-        /// The granularity, in seconds, of the returned data points.
-        public let period: Int32
-        /// The instance statistics. 
-        public let statistics: [MetricStatistic]
-        /// The unit. The list of valid values is below.
-        public let unit: MetricUnit
-
-        public init(instanceName: String, metricName: InstanceMetricName, startTime: TimeStamp, endTime: TimeStamp, period: Int32, statistics: [MetricStatistic], unit: MetricUnit) {
-            self.instanceName = instanceName
-            self.metricName = metricName
-            self.startTime = startTime
-            self.endTime = endTime
-            self.period = period
-            self.statistics = statistics
-            self.unit = unit
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceName = "instanceName"
-            case metricName = "metricName"
-            case startTime = "startTime"
-            case endTime = "endTime"
-            case period = "period"
-            case statistics = "statistics"
-            case unit = "unit"
-        }
-    }
-
-    public struct CreateRelationalDatabaseFromSnapshotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "publiclyAccessible", required: false, type: .boolean), 
-            AWSShapeMember(label: "availabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "sourceRelationalDatabaseName", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "useLatestRestorableTime", required: false, type: .boolean), 
-            AWSShapeMember(label: "restoreTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "relationalDatabaseSnapshotName", required: false, type: .string), 
-            AWSShapeMember(label: "relationalDatabaseBundleId", required: false, type: .string)
-        ]
-        /// Specifies the accessibility options for your new database. A value of true specifies a database that is available to resources outside of your Lightsail account. A value of false specifies a database that is available only to your Lightsail resources in the same region as your database.
-        public let publiclyAccessible: Bool?
-        /// The Availability Zone in which to create your new database. Use the us-east-2a case-sensitive format. You can get a list of Availability Zones by using the get regions operation. Be sure to add the include relational database Availability Zones parameter to your request.
-        public let availabilityZone: String?
-        /// The name of the source database.
-        public let sourceRelationalDatabaseName: String?
-        /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
-        public let tags: [Tag]?
-        /// Specifies whether your database is restored from the latest backup time. A value of true restores from the latest backup time.  Default: false  Constraints: Cannot be specified if the restore time parameter is provided.
-        public let useLatestRestorableTime: Bool?
-        /// The date and time to restore your database from. Constraints:   Must be before the latest restorable time for the database.   Cannot be specified if the use latest restorable time parameter is true.   Specified in Universal Coordinated Time (UTC).   Specified in the Unix time format. For example, if you wish to use a restore time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the restore time.  
-        public let restoreTime: TimeStamp?
-        /// The name to use for your new database. Constraints:   Must contain from 2 to 255 alphanumeric characters, or hyphens.   The first and last character must be a letter or number.  
-        public let relationalDatabaseName: String
-        /// The name of the database snapshot from which to create your new database.
-        public let relationalDatabaseSnapshotName: String?
-        /// The bundle ID for your new database. A bundle describes the performance specifications for your database. You can get a list of database bundle IDs by using the get relational database bundles operation. When creating a new database from a snapshot, you cannot choose a bundle that is smaller than the bundle of the source database.
-        public let relationalDatabaseBundleId: String?
-
-        public init(publiclyAccessible: Bool? = nil, availabilityZone: String? = nil, sourceRelationalDatabaseName: String? = nil, tags: [Tag]? = nil, useLatestRestorableTime: Bool? = nil, restoreTime: TimeStamp? = nil, relationalDatabaseName: String, relationalDatabaseSnapshotName: String? = nil, relationalDatabaseBundleId: String? = nil) {
-            self.publiclyAccessible = publiclyAccessible
-            self.availabilityZone = availabilityZone
-            self.sourceRelationalDatabaseName = sourceRelationalDatabaseName
-            self.tags = tags
-            self.useLatestRestorableTime = useLatestRestorableTime
-            self.restoreTime = restoreTime
-            self.relationalDatabaseName = relationalDatabaseName
-            self.relationalDatabaseSnapshotName = relationalDatabaseSnapshotName
-            self.relationalDatabaseBundleId = relationalDatabaseBundleId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case publiclyAccessible = "publiclyAccessible"
-            case availabilityZone = "availabilityZone"
-            case sourceRelationalDatabaseName = "sourceRelationalDatabaseName"
-            case tags = "tags"
-            case useLatestRestorableTime = "useLatestRestorableTime"
-            case restoreTime = "restoreTime"
-            case relationalDatabaseName = "relationalDatabaseName"
-            case relationalDatabaseSnapshotName = "relationalDatabaseSnapshotName"
-            case relationalDatabaseBundleId = "relationalDatabaseBundleId"
-        }
-    }
-
-    public struct RelationalDatabaseSnapshot: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "state", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "fromRelationalDatabaseBlueprintId", required: false, type: .string), 
-            AWSShapeMember(label: "engineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "sizeInGb", required: false, type: .integer), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "fromRelationalDatabaseArn", required: false, type: .string), 
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "fromRelationalDatabaseBundleId", required: false, type: .string), 
-            AWSShapeMember(label: "fromRelationalDatabaseName", required: false, type: .string), 
-            AWSShapeMember(label: "supportCode", required: false, type: .string), 
-            AWSShapeMember(label: "engine", required: false, type: .string)
-        ]
-        /// The state of the database snapshot.
-        public let state: String?
-        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
-        public let tags: [Tag]?
-        /// The blueprint ID of the database from which the database snapshot was created. A blueprint describes the major engine version of a database.
-        public let fromRelationalDatabaseBlueprintId: String?
-        /// The database engine version for the database snapshot (for example, 5.7.23).
-        public let engineVersion: String?
-        /// The name of the database snapshot.
-        public let name: String?
-        /// The Lightsail resource type.
-        public let resourceType: ResourceType?
-        /// The size of the disk in GB (for example, 32) for the database snapshot.
-        public let sizeInGb: Int32?
-        /// The Amazon Resource Name (ARN) of the database snapshot.
-        public let arn: String?
-        /// The timestamp when the database snapshot was created.
-        public let createdAt: TimeStamp?
-        /// The Amazon Resource Name (ARN) of the database from which the database snapshot was created.
-        public let fromRelationalDatabaseArn: String?
-        /// The Region name and Availability Zone where the database snapshot is located.
-        public let location: ResourceLocation?
-        /// The bundle ID of the database from which the database snapshot was created.
-        public let fromRelationalDatabaseBundleId: String?
-        /// The name of the source database from which the database snapshot was created.
-        public let fromRelationalDatabaseName: String?
-        /// The support code for the database snapshot. Include this code in your email to support when you have questions about a database snapshot in Lightsail. This code enables our support team to look up your Lightsail information more easily.
-        public let supportCode: String?
-        /// The software of the database snapshot (for example, MySQL)
-        public let engine: String?
-
-        public init(state: String? = nil, tags: [Tag]? = nil, fromRelationalDatabaseBlueprintId: String? = nil, engineVersion: String? = nil, name: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int32? = nil, arn: String? = nil, createdAt: TimeStamp? = nil, fromRelationalDatabaseArn: String? = nil, location: ResourceLocation? = nil, fromRelationalDatabaseBundleId: String? = nil, fromRelationalDatabaseName: String? = nil, supportCode: String? = nil, engine: String? = nil) {
-            self.state = state
-            self.tags = tags
-            self.fromRelationalDatabaseBlueprintId = fromRelationalDatabaseBlueprintId
-            self.engineVersion = engineVersion
-            self.name = name
-            self.resourceType = resourceType
-            self.sizeInGb = sizeInGb
-            self.arn = arn
-            self.createdAt = createdAt
-            self.fromRelationalDatabaseArn = fromRelationalDatabaseArn
-            self.location = location
-            self.fromRelationalDatabaseBundleId = fromRelationalDatabaseBundleId
-            self.fromRelationalDatabaseName = fromRelationalDatabaseName
-            self.supportCode = supportCode
-            self.engine = engine
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case state = "state"
-            case tags = "tags"
-            case fromRelationalDatabaseBlueprintId = "fromRelationalDatabaseBlueprintId"
-            case engineVersion = "engineVersion"
-            case name = "name"
-            case resourceType = "resourceType"
-            case sizeInGb = "sizeInGb"
-            case arn = "arn"
-            case createdAt = "createdAt"
-            case fromRelationalDatabaseArn = "fromRelationalDatabaseArn"
-            case location = "location"
-            case fromRelationalDatabaseBundleId = "fromRelationalDatabaseBundleId"
-            case fromRelationalDatabaseName = "fromRelationalDatabaseName"
-            case supportCode = "supportCode"
-            case engine = "engine"
-        }
-    }
-
-    public struct KeyPair: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "fingerprint", required: false, type: .string), 
-            AWSShapeMember(label: "supportCode", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "arn", required: false, type: .string)
-        ]
-        /// The friendly name of the SSH key pair.
-        public let name: String?
-        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
-        public let tags: [Tag]?
-        /// The RSA fingerprint of the key pair.
-        public let fingerprint: String?
-        /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
-        public let supportCode: String?
-        /// The resource type (usually KeyPair).
-        public let resourceType: ResourceType?
-        /// The timestamp when the key pair was created (e.g., 1479816991.349).
-        public let createdAt: TimeStamp?
-        /// The region name and Availability Zone where the key pair was created.
-        public let location: ResourceLocation?
-        /// The Amazon Resource Name (ARN) of the key pair (e.g., arn:aws:lightsail:us-east-2:123456789101:KeyPair/05859e3d-331d-48ba-9034-12345EXAMPLE).
-        public let arn: String?
-
-        public init(name: String? = nil, tags: [Tag]? = nil, fingerprint: String? = nil, supportCode: String? = nil, resourceType: ResourceType? = nil, createdAt: TimeStamp? = nil, location: ResourceLocation? = nil, arn: String? = nil) {
-            self.name = name
-            self.tags = tags
-            self.fingerprint = fingerprint
-            self.supportCode = supportCode
-            self.resourceType = resourceType
-            self.createdAt = createdAt
-            self.location = location
-            self.arn = arn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case tags = "tags"
-            case fingerprint = "fingerprint"
-            case supportCode = "supportCode"
-            case resourceType = "resourceType"
-            case createdAt = "createdAt"
-            case location = "location"
-            case arn = "arn"
-        }
-    }
-
-    public struct DeleteInstanceSnapshotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceSnapshotName", required: true, type: .string)
-        ]
-        /// The name of the snapshot to delete.
-        public let instanceSnapshotName: String
-
-        public init(instanceSnapshotName: String) {
-            self.instanceSnapshotName = instanceSnapshotName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceSnapshotName = "instanceSnapshotName"
-        }
-    }
-
-    public struct GetKeyPairResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "keyPair", required: false, type: .structure)
-        ]
-        /// An array of key-value pairs containing information about the key pair.
-        public let keyPair: KeyPair?
-
-        public init(keyPair: KeyPair? = nil) {
-            self.keyPair = keyPair
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case keyPair = "keyPair"
-        }
-    }
-
-    public struct GetDiskSnapshotsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageToken", required: false, type: .string)
-        ]
-        /// A token used for advancing to the next page of results from your GetDiskSnapshots request.
-        public let pageToken: String?
-
-        public init(pageToken: String? = nil) {
-            self.pageToken = pageToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pageToken = "pageToken"
-        }
-    }
-
-    public struct StartRelationalDatabaseResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
-        /// An object describing the result of your start relational database request.
-        public let operations: [Operation]?
-
-        public init(operations: [Operation]? = nil) {
-            self.operations = operations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operations = "operations"
-        }
-    }
-
-    public struct CreateRelationalDatabaseFromSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
-        /// An object describing the result of your create relational database from snapshot request.
-        public let operations: [Operation]?
-
-        public init(operations: [Operation]? = nil) {
-            self.operations = operations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operations = "operations"
-        }
-    }
-
-    public struct GetRelationalDatabaseSnapshotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "relationalDatabaseSnapshotName", required: true, type: .string)
-        ]
-        /// The name of the database snapshot for which to get information.
-        public let relationalDatabaseSnapshotName: String
-
-        public init(relationalDatabaseSnapshotName: String) {
-            self.relationalDatabaseSnapshotName = relationalDatabaseSnapshotName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case relationalDatabaseSnapshotName = "relationalDatabaseSnapshotName"
-        }
-    }
-
-    public struct GetRegionsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "regions", required: false, type: .list)
-        ]
-        /// An array of key-value pairs containing information about your get regions request.
-        public let regions: [Region]?
-
-        public init(regions: [Region]? = nil) {
-            self.regions = regions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case regions = "regions"
-        }
-    }
-
-    public struct UpdateRelationalDatabaseParametersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "parameters", required: true, type: .list), 
-            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string)
-        ]
-        /// The database parameters to update.
-        public let parameters: [RelationalDatabaseParameter]
-        /// The name of your database for which to update parameters.
-        public let relationalDatabaseName: String
-
-        public init(parameters: [RelationalDatabaseParameter], relationalDatabaseName: String) {
-            self.parameters = parameters
-            self.relationalDatabaseName = relationalDatabaseName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case parameters = "parameters"
-            case relationalDatabaseName = "relationalDatabaseName"
-        }
-    }
-
-    public enum RelationalDatabaseEngine: String, CustomStringConvertible, Codable {
-        case mysql = "mysql"
+    public enum PortAccessType: String, CustomStringConvertible, Codable {
+        case `public` = "Public"
+        case `private` = "Private"
         public var description: String { return self.rawValue }
     }
 
     public struct InstancePortInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "protocol", required: false, type: .enum), 
+            AWSShapeMember(label: "accessFrom", required: false, type: .string), 
             AWSShapeMember(label: "commonName", required: false, type: .string), 
-            AWSShapeMember(label: "accessType", required: false, type: .enum), 
+            AWSShapeMember(label: "fromPort", required: false, type: .integer), 
+            AWSShapeMember(label: "protocol", required: false, type: .enum), 
             AWSShapeMember(label: "toPort", required: false, type: .integer), 
             AWSShapeMember(label: "accessDirection", required: false, type: .enum), 
-            AWSShapeMember(label: "accessFrom", required: false, type: .string), 
-            AWSShapeMember(label: "fromPort", required: false, type: .integer)
+            AWSShapeMember(label: "accessType", required: false, type: .enum)
         ]
-        /// The protocol being used. Can be one of the following.    tcp - Transmission Control Protocol (TCP) provides reliable, ordered, and error-checked delivery of streamed data between applications running on hosts communicating by an IP network. If you have an application that doesn't require reliable data stream service, use UDP instead.    all - All transport layer protocol types. For more general information, see Transport layer on Wikipedia.    udp - With User Datagram Protocol (UDP), computer applications can send messages (or datagrams) to other hosts on an Internet Protocol (IP) network. Prior communications are not required to set up transmission channels or data paths. Applications that don't require reliable data stream service can use UDP, which provides a connectionless datagram service that emphasizes reduced latency over reliability. If you do require reliable data stream service, use TCP instead.  
-        public let `protocol`: NetworkProtocol?
+        /// The location from which access is allowed (e.g., Anywhere (0.0.0.0/0)).
+        public let accessFrom: String?
         /// The common name.
         public let commonName: String?
-        /// The type of access (Public or Private).
-        public let accessType: PortAccessType?
+        /// The first port in the range.
+        public let fromPort: Int32?
+        /// The protocol being used. Can be one of the following.    tcp - Transmission Control Protocol (TCP) provides reliable, ordered, and error-checked delivery of streamed data between applications running on hosts communicating by an IP network. If you have an application that doesn't require reliable data stream service, use UDP instead.    all - All transport layer protocol types. For more general information, see Transport layer on Wikipedia.    udp - With User Datagram Protocol (UDP), computer applications can send messages (or datagrams) to other hosts on an Internet Protocol (IP) network. Prior communications are not required to set up transmission channels or data paths. Applications that don't require reliable data stream service can use UDP, which provides a connectionless datagram service that emphasizes reduced latency over reliability. If you do require reliable data stream service, use TCP instead.  
+        public let `protocol`: NetworkProtocol?
         /// The last port in the range.
         public let toPort: Int32?
         /// The access direction (inbound or outbound).
         public let accessDirection: AccessDirection?
-        /// The location from which access is allowed (e.g., Anywhere (0.0.0.0/0)).
-        public let accessFrom: String?
-        /// The first port in the range.
-        public let fromPort: Int32?
+        /// The type of access (Public or Private).
+        public let accessType: PortAccessType?
 
-        public init(protocol: NetworkProtocol? = nil, commonName: String? = nil, accessType: PortAccessType? = nil, toPort: Int32? = nil, accessDirection: AccessDirection? = nil, accessFrom: String? = nil, fromPort: Int32? = nil) {
-            self.`protocol` = `protocol`
+        public init(accessFrom: String? = nil, commonName: String? = nil, fromPort: Int32? = nil, protocol: NetworkProtocol? = nil, toPort: Int32? = nil, accessDirection: AccessDirection? = nil, accessType: PortAccessType? = nil) {
+            self.accessFrom = accessFrom
             self.commonName = commonName
-            self.accessType = accessType
+            self.fromPort = fromPort
+            self.`protocol` = `protocol`
             self.toPort = toPort
             self.accessDirection = accessDirection
-            self.accessFrom = accessFrom
-            self.fromPort = fromPort
+            self.accessType = accessType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `protocol` = "protocol"
+            case accessFrom = "accessFrom"
             case commonName = "commonName"
-            case accessType = "accessType"
+            case fromPort = "fromPort"
+            case `protocol` = "protocol"
             case toPort = "toPort"
             case accessDirection = "accessDirection"
-            case accessFrom = "accessFrom"
-            case fromPort = "fromPort"
+            case accessType = "accessType"
         }
     }
 
-    public struct CreateInstancesFromSnapshotRequest: AWSShape {
+    public struct DiskMap: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attachedDiskMapping", required: false, type: .map), 
-            AWSShapeMember(label: "instanceNames", required: true, type: .list), 
-            AWSShapeMember(label: "instanceSnapshotName", required: true, type: .string), 
-            AWSShapeMember(label: "availabilityZone", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "keyPairName", required: false, type: .string), 
-            AWSShapeMember(label: "bundleId", required: true, type: .string), 
-            AWSShapeMember(label: "userData", required: false, type: .string)
+            AWSShapeMember(label: "newDiskName", required: false, type: .string), 
+            AWSShapeMember(label: "originalDiskPath", required: false, type: .string)
         ]
-        /// An object containing information about one or more disk mappings.
-        public let attachedDiskMapping: [String: [DiskMap]]?
-        /// The names for your new instances.
-        public let instanceNames: [String]
-        /// The name of the instance snapshot on which you are basing your new instances. Use the get instance snapshots operation to return information about your existing snapshots.
-        public let instanceSnapshotName: String
-        /// The Availability Zone where you want to create your instances. Use the following formatting: us-east-2a (case sensitive). You can get a list of Availability Zones by using the get regions operation. Be sure to add the include Availability Zones parameter to your request.
-        public let availabilityZone: String
-        /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
-        public let tags: [Tag]?
-        /// The name for your key pair.
-        public let keyPairName: String?
-        /// The bundle of specification information for your virtual private server (or instance), including the pricing plan (e.g., micro_1_0).
-        public let bundleId: String
-        /// You can create a launch script that configures a server with additional user data. For example, apt-get -y update.  Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum, Debian and Ubuntu use apt-get, and FreeBSD uses pkg. For a complete list, see the Dev Guide. 
-        public let userData: String?
+        /// The new disk name (e.g., my-new-disk).
+        public let newDiskName: String?
+        /// The original disk path exposed to the instance (for example, /dev/sdh).
+        public let originalDiskPath: String?
 
-        public init(attachedDiskMapping: [String: [DiskMap]]? = nil, instanceNames: [String], instanceSnapshotName: String, availabilityZone: String, tags: [Tag]? = nil, keyPairName: String? = nil, bundleId: String, userData: String? = nil) {
-            self.attachedDiskMapping = attachedDiskMapping
-            self.instanceNames = instanceNames
-            self.instanceSnapshotName = instanceSnapshotName
-            self.availabilityZone = availabilityZone
-            self.tags = tags
-            self.keyPairName = keyPairName
-            self.bundleId = bundleId
-            self.userData = userData
+        public init(newDiskName: String? = nil, originalDiskPath: String? = nil) {
+            self.newDiskName = newDiskName
+            self.originalDiskPath = originalDiskPath
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attachedDiskMapping = "attachedDiskMapping"
-            case instanceNames = "instanceNames"
-            case instanceSnapshotName = "instanceSnapshotName"
-            case availabilityZone = "availabilityZone"
-            case tags = "tags"
-            case keyPairName = "keyPairName"
-            case bundleId = "bundleId"
-            case userData = "userData"
-        }
-    }
-
-    public struct GetDisksRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageToken", required: false, type: .string)
-        ]
-        /// A token used for advancing to the next page of results from your GetDisks request.
-        public let pageToken: String?
-
-        public init(pageToken: String? = nil) {
-            self.pageToken = pageToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pageToken = "pageToken"
-        }
-    }
-
-    public struct GetDomainResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domain", required: false, type: .structure)
-        ]
-        /// An array of key-value pairs containing information about your get domain request.
-        public let domain: Domain?
-
-        public init(domain: Domain? = nil) {
-            self.domain = domain
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case domain = "domain"
-        }
-    }
-
-    public struct GetBlueprintsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "blueprints", required: false, type: .list), 
-            AWSShapeMember(label: "nextPageToken", required: false, type: .string)
-        ]
-        /// An array of key-value pairs that contains information about the available blueprints.
-        public let blueprints: [Blueprint]?
-        /// A token used for advancing to the next page of results from your get blueprints request.
-        public let nextPageToken: String?
-
-        public init(blueprints: [Blueprint]? = nil, nextPageToken: String? = nil) {
-            self.blueprints = blueprints
-            self.nextPageToken = nextPageToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case blueprints = "blueprints"
-            case nextPageToken = "nextPageToken"
-        }
-    }
-
-    public struct DiskInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "path", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "isSystemDisk", required: false, type: .boolean), 
-            AWSShapeMember(label: "sizeInGb", required: false, type: .integer)
-        ]
-        /// The disk path.
-        public let path: String?
-        /// The disk name.
-        public let name: String?
-        /// A Boolean value indicating whether this disk is a system disk (has an operating system loaded on it).
-        public let isSystemDisk: Bool?
-        /// The size of the disk in GB (e.g., 32).
-        public let sizeInGb: Int32?
-
-        public init(path: String? = nil, name: String? = nil, isSystemDisk: Bool? = nil, sizeInGb: Int32? = nil) {
-            self.path = path
-            self.name = name
-            self.isSystemDisk = isSystemDisk
-            self.sizeInGb = sizeInGb
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case path = "path"
-            case name = "name"
-            case isSystemDisk = "isSystemDisk"
-            case sizeInGb = "sizeInGb"
-        }
-    }
-
-    public struct ReleaseStaticIpResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
-        /// An array of key-value pairs containing information about the request operation.
-        public let operations: [Operation]?
-
-        public init(operations: [Operation]? = nil) {
-            self.operations = operations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operations = "operations"
-        }
-    }
-
-    public struct GetLoadBalancerMetricDataResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "metricData", required: false, type: .list), 
-            AWSShapeMember(label: "metricName", required: false, type: .enum)
-        ]
-        /// An array of metric datapoint objects.
-        public let metricData: [MetricDatapoint]?
-        /// The metric about which you are receiving information. Valid values are listed below, along with the most useful statistics to include in your request.     ClientTLSNegotiationErrorCount  - The number of TLS connections initiated by the client that did not establish a session with the load balancer. Possible causes include a mismatch of ciphers or protocols.  Statistics: The most useful statistic is Sum.     HealthyHostCount  - The number of target instances that are considered healthy.  Statistics: The most useful statistic are Average, Minimum, and Maximum.     UnhealthyHostCount  - The number of target instances that are considered unhealthy.  Statistics: The most useful statistic are Average, Minimum, and Maximum.     HTTPCode_LB_4XX_Count  - The number of HTTP 4XX client error codes that originate from the load balancer. Client errors are generated when requests are malformed or incomplete. These requests have not been received by the target instance. This count does not include any response codes generated by the target instances.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_LB_5XX_Count  - The number of HTTP 5XX server error codes that originate from the load balancer. This count does not include any response codes generated by the target instances.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_Instance_2XX_Count  - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_Instance_3XX_Count  - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer.   Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_Instance_4XX_Count  - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_Instance_5XX_Count  - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     InstanceResponseTime  - The time elapsed, in seconds, after the request leaves the load balancer until a response from the target instance is received.  Statistics: The most useful statistic is Average.     RejectedConnectionCount  - The number of connections that were rejected because the load balancer had reached its maximum number of connections.  Statistics: The most useful statistic is Sum.     RequestCount  - The number of requests processed over IPv4. This count includes only the requests with a response generated by a target instance of the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.  
-        public let metricName: LoadBalancerMetricName?
-
-        public init(metricData: [MetricDatapoint]? = nil, metricName: LoadBalancerMetricName? = nil) {
-            self.metricData = metricData
-            self.metricName = metricName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case metricData = "metricData"
-            case metricName = "metricName"
-        }
-    }
-
-    public struct GetRelationalDatabaseMetricDataResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "metricData", required: false, type: .list), 
-            AWSShapeMember(label: "metricName", required: false, type: .enum)
-        ]
-        /// An object describing the result of your get relational database metric data request.
-        public let metricData: [MetricDatapoint]?
-        /// The name of the metric.
-        public let metricName: RelationalDatabaseMetricName?
-
-        public init(metricData: [MetricDatapoint]? = nil, metricName: RelationalDatabaseMetricName? = nil) {
-            self.metricData = metricData
-            self.metricName = metricName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case metricData = "metricData"
-            case metricName = "metricName"
-        }
-    }
-
-    public enum LoadBalancerState: String, CustomStringConvertible, Codable {
-        case active = "active"
-        case provisioning = "provisioning"
-        case activeImpaired = "active_impaired"
-        case failed = "failed"
-        case unknown = "unknown"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct RelationalDatabaseParameter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "allowedValues", required: false, type: .string), 
-            AWSShapeMember(label: "isModifiable", required: false, type: .boolean), 
-            AWSShapeMember(label: "parameterName", required: false, type: .string), 
-            AWSShapeMember(label: "parameterValue", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "applyType", required: false, type: .string), 
-            AWSShapeMember(label: "applyMethod", required: false, type: .string), 
-            AWSShapeMember(label: "dataType", required: false, type: .string)
-        ]
-        /// Specifies the valid range of values for the parameter.
-        public let allowedValues: String?
-        /// A Boolean value indicating whether the parameter can be modified.
-        public let isModifiable: Bool?
-        /// Specifies the name of the parameter.
-        public let parameterName: String?
-        /// Specifies the value of the parameter.
-        public let parameterValue: String?
-        /// Provides a description of the parameter.
-        public let description: String?
-        /// Specifies the engine-specific parameter type.
-        public let applyType: String?
-        /// Indicates when parameter updates are applied. Can be immediate or pending-reboot.
-        public let applyMethod: String?
-        /// Specifies the valid data type for the parameter.
-        public let dataType: String?
-
-        public init(allowedValues: String? = nil, isModifiable: Bool? = nil, parameterName: String? = nil, parameterValue: String? = nil, description: String? = nil, applyType: String? = nil, applyMethod: String? = nil, dataType: String? = nil) {
-            self.allowedValues = allowedValues
-            self.isModifiable = isModifiable
-            self.parameterName = parameterName
-            self.parameterValue = parameterValue
-            self.description = description
-            self.applyType = applyType
-            self.applyMethod = applyMethod
-            self.dataType = dataType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case allowedValues = "allowedValues"
-            case isModifiable = "isModifiable"
-            case parameterName = "parameterName"
-            case parameterValue = "parameterValue"
-            case description = "description"
-            case applyType = "applyType"
-            case applyMethod = "applyMethod"
-            case dataType = "dataType"
-        }
-    }
-
-    public struct GetInstanceResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instance", required: false, type: .structure)
-        ]
-        /// An array of key-value pairs containing information about the specified instance.
-        public let instance: Instance?
-
-        public init(instance: Instance? = nil) {
-            self.instance = instance
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instance = "instance"
-        }
-    }
-
-    public struct GetRelationalDatabaseLogStreamsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logStreams", required: false, type: .list)
-        ]
-        /// An object describing the result of your get relational database log streams request.
-        public let logStreams: [String]?
-
-        public init(logStreams: [String]? = nil) {
-            self.logStreams = logStreams
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case logStreams = "logStreams"
-        }
-    }
-
-    public struct CreateLoadBalancerTlsCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateDomainName", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "loadBalancerName", required: true, type: .string), 
-            AWSShapeMember(label: "certificateName", required: true, type: .string), 
-            AWSShapeMember(label: "certificateAlternativeNames", required: false, type: .list)
-        ]
-        /// The domain name (e.g., example.com) for your SSL/TLS certificate.
-        public let certificateDomainName: String
-        /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
-        public let tags: [Tag]?
-        /// The load balancer name where you want to create the SSL/TLS certificate.
-        public let loadBalancerName: String
-        /// The SSL/TLS certificate name. You can have up to 10 certificates in your account at one time. Each Lightsail load balancer can have up to 2 certificates associated with it at one time. There is also an overall limit to the number of certificates that can be issue in a 365-day period. For more information, see Limits.
-        public let certificateName: String
-        /// An array of strings listing alternative domains and subdomains for your SSL/TLS certificate. Lightsail will de-dupe the names for you. You can have a maximum of 9 alternative names (in addition to the 1 primary domain). We do not support wildcards (e.g., *.example.com).
-        public let certificateAlternativeNames: [String]?
-
-        public init(certificateDomainName: String, tags: [Tag]? = nil, loadBalancerName: String, certificateName: String, certificateAlternativeNames: [String]? = nil) {
-            self.certificateDomainName = certificateDomainName
-            self.tags = tags
-            self.loadBalancerName = loadBalancerName
-            self.certificateName = certificateName
-            self.certificateAlternativeNames = certificateAlternativeNames
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificateDomainName = "certificateDomainName"
-            case tags = "tags"
-            case loadBalancerName = "loadBalancerName"
-            case certificateName = "certificateName"
-            case certificateAlternativeNames = "certificateAlternativeNames"
-        }
-    }
-
-    public struct Disk: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "state", required: false, type: .enum), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "attachmentState", required: false, type: .string), 
-            AWSShapeMember(label: "path", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "sizeInGb", required: false, type: .integer), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "isAttached", required: false, type: .boolean), 
-            AWSShapeMember(label: "gbInUse", required: false, type: .integer), 
-            AWSShapeMember(label: "iops", required: false, type: .integer), 
-            AWSShapeMember(label: "isSystemDisk", required: false, type: .boolean), 
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "attachedTo", required: false, type: .string), 
-            AWSShapeMember(label: "supportCode", required: false, type: .string)
-        ]
-        /// Describes the status of the disk.
-        public let state: DiskState?
-        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
-        public let tags: [Tag]?
-        /// (Deprecated) The attachment state of the disk.  In releases prior to November 14, 2017, this parameter returned attached for system disks in the API response. It is now deprecated, but still included in the response. Use isAttached instead. 
-        public let attachmentState: String?
-        /// The disk path.
-        public let path: String?
-        /// The unique name of the disk.
-        public let name: String?
-        /// The Lightsail resource type (e.g., Disk).
-        public let resourceType: ResourceType?
-        /// The size of the disk in GB.
-        public let sizeInGb: Int32?
-        /// The Amazon Resource Name (ARN) of the disk.
-        public let arn: String?
-        /// The date when the disk was created.
-        public let createdAt: TimeStamp?
-        /// A Boolean value indicating whether the disk is attached.
-        public let isAttached: Bool?
-        /// (Deprecated) The number of GB in use by the disk.  In releases prior to November 14, 2017, this parameter was not included in the API response. It is now deprecated. 
-        public let gbInUse: Int32?
-        /// The input/output operations per second (IOPS) of the disk.
-        public let iops: Int32?
-        /// A Boolean value indicating whether this disk is a system disk (has an operating system loaded on it).
-        public let isSystemDisk: Bool?
-        /// The AWS Region and Availability Zone where the disk is located.
-        public let location: ResourceLocation?
-        /// The resources to which the disk is attached.
-        public let attachedTo: String?
-        /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
-        public let supportCode: String?
-
-        public init(state: DiskState? = nil, tags: [Tag]? = nil, attachmentState: String? = nil, path: String? = nil, name: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int32? = nil, arn: String? = nil, createdAt: TimeStamp? = nil, isAttached: Bool? = nil, gbInUse: Int32? = nil, iops: Int32? = nil, isSystemDisk: Bool? = nil, location: ResourceLocation? = nil, attachedTo: String? = nil, supportCode: String? = nil) {
-            self.state = state
-            self.tags = tags
-            self.attachmentState = attachmentState
-            self.path = path
-            self.name = name
-            self.resourceType = resourceType
-            self.sizeInGb = sizeInGb
-            self.arn = arn
-            self.createdAt = createdAt
-            self.isAttached = isAttached
-            self.gbInUse = gbInUse
-            self.iops = iops
-            self.isSystemDisk = isSystemDisk
-            self.location = location
-            self.attachedTo = attachedTo
-            self.supportCode = supportCode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case state = "state"
-            case tags = "tags"
-            case attachmentState = "attachmentState"
-            case path = "path"
-            case name = "name"
-            case resourceType = "resourceType"
-            case sizeInGb = "sizeInGb"
-            case arn = "arn"
-            case createdAt = "createdAt"
-            case isAttached = "isAttached"
-            case gbInUse = "gbInUse"
-            case iops = "iops"
-            case isSystemDisk = "isSystemDisk"
-            case location = "location"
-            case attachedTo = "attachedTo"
-            case supportCode = "supportCode"
-        }
-    }
-
-    public struct CreateDiskFromSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
-        /// An object describing the API operations.
-        public let operations: [Operation]?
-
-        public init(operations: [Operation]? = nil) {
-            self.operations = operations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operations = "operations"
-        }
-    }
-
-    public struct RebootInstanceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceName", required: true, type: .string)
-        ]
-        /// The name of the instance to reboot.
-        public let instanceName: String
-
-        public init(instanceName: String) {
-            self.instanceName = instanceName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceName = "instanceName"
-        }
-    }
-
-    public struct GetOperationsForResourceResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list), 
-            AWSShapeMember(label: "nextPageCount", required: false, type: .string), 
-            AWSShapeMember(label: "nextPageToken", required: false, type: .string)
-        ]
-        /// An array of key-value pairs containing information about the results of your get operations for resource request.
-        public let operations: [Operation]?
-        /// (Deprecated) Returns the number of pages of results that remain.  In releases prior to June 12, 2017, this parameter returned null by the API. It is now deprecated, and the API returns the next page token parameter instead. 
-        public let nextPageCount: String?
-        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public let nextPageToken: String?
-
-        public init(operations: [Operation]? = nil, nextPageCount: String? = nil, nextPageToken: String? = nil) {
-            self.operations = operations
-            self.nextPageCount = nextPageCount
-            self.nextPageToken = nextPageToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operations = "operations"
-            case nextPageCount = "nextPageCount"
-            case nextPageToken = "nextPageToken"
-        }
-    }
-
-    public struct ExportSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
-        /// A list of objects describing the API operation.
-        public let operations: [Operation]?
-
-        public init(operations: [Operation]? = nil) {
-            self.operations = operations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operations = "operations"
-        }
-    }
-
-    public enum RegionName: String, CustomStringConvertible, Codable {
-        case usEast1 = "us-east-1"
-        case usEast2 = "us-east-2"
-        case usWest1 = "us-west-1"
-        case usWest2 = "us-west-2"
-        case euWest1 = "eu-west-1"
-        case euWest2 = "eu-west-2"
-        case euWest3 = "eu-west-3"
-        case euCentral1 = "eu-central-1"
-        case caCentral1 = "ca-central-1"
-        case apSouth1 = "ap-south-1"
-        case apSoutheast1 = "ap-southeast-1"
-        case apSoutheast2 = "ap-southeast-2"
-        case apNortheast1 = "ap-northeast-1"
-        case apNortheast2 = "ap-northeast-2"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct LoadBalancerTlsCertificateRenewalSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domainValidationOptions", required: false, type: .list), 
-            AWSShapeMember(label: "renewalStatus", required: false, type: .enum)
-        ]
-        /// Contains information about the validation of each domain name in the certificate, as it pertains to Lightsail's managed renewal. This is different from the initial validation that occurs as a result of the RequestCertificate request.
-        public let domainValidationOptions: [LoadBalancerTlsCertificateDomainValidationOption]?
-        /// The status of Lightsail's managed renewal of the certificate. Valid values are listed below.
-        public let renewalStatus: LoadBalancerTlsCertificateRenewalStatus?
-
-        public init(domainValidationOptions: [LoadBalancerTlsCertificateDomainValidationOption]? = nil, renewalStatus: LoadBalancerTlsCertificateRenewalStatus? = nil) {
-            self.domainValidationOptions = domainValidationOptions
-            self.renewalStatus = renewalStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case domainValidationOptions = "domainValidationOptions"
-            case renewalStatus = "renewalStatus"
-        }
-    }
-
-    public struct RebootRelationalDatabaseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string)
-        ]
-        /// The name of your database to reboot.
-        public let relationalDatabaseName: String
-
-        public init(relationalDatabaseName: String) {
-            self.relationalDatabaseName = relationalDatabaseName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case relationalDatabaseName = "relationalDatabaseName"
-        }
-    }
-
-    public struct Instance: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "state", required: false, type: .structure), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "sshKeyName", required: false, type: .string), 
-            AWSShapeMember(label: "isStaticIp", required: false, type: .boolean), 
-            AWSShapeMember(label: "bundleId", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "networking", required: false, type: .structure), 
-            AWSShapeMember(label: "hardware", required: false, type: .structure), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "publicIpAddress", required: false, type: .string), 
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "blueprintName", required: false, type: .string), 
-            AWSShapeMember(label: "username", required: false, type: .string), 
-            AWSShapeMember(label: "ipv6Address", required: false, type: .string), 
-            AWSShapeMember(label: "blueprintId", required: false, type: .string), 
-            AWSShapeMember(label: "supportCode", required: false, type: .string), 
-            AWSShapeMember(label: "privateIpAddress", required: false, type: .string)
-        ]
-        /// The status code and the state (e.g., running) for the instance.
-        public let state: InstanceState?
-        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
-        public let tags: [Tag]?
-        /// The name of the SSH key being used to connect to the instance (e.g., LightsailDefaultKeyPair).
-        public let sshKeyName: String?
-        /// A Boolean value indicating whether this instance has a static IP assigned to it.
-        public let isStaticIp: Bool?
-        /// The bundle for the instance (e.g., micro_1_0).
-        public let bundleId: String?
-        /// The name the user gave the instance (e.g., Amazon_Linux-1GB-Ohio-1).
-        public let name: String?
-        /// The type of resource (usually Instance).
-        public let resourceType: ResourceType?
-        /// Information about the public ports and monthly data transfer rates for the instance.
-        public let networking: InstanceNetworking?
-        /// The size of the vCPU and the amount of RAM for the instance.
-        public let hardware: InstanceHardware?
-        /// The Amazon Resource Name (ARN) of the instance (e.g., arn:aws:lightsail:us-east-2:123456789101:Instance/244ad76f-8aad-4741-809f-12345EXAMPLE).
-        public let arn: String?
-        /// The timestamp when the instance was created (e.g., 1479734909.17).
-        public let createdAt: TimeStamp?
-        /// The public IP address of the instance.
-        public let publicIpAddress: String?
-        /// The region name and Availability Zone where the instance is located.
-        public let location: ResourceLocation?
-        /// The friendly name of the blueprint (e.g., Amazon Linux).
-        public let blueprintName: String?
-        /// The user name for connecting to the instance (e.g., ec2-user).
-        public let username: String?
-        /// The IPv6 address of the instance.
-        public let ipv6Address: String?
-        /// The blueprint ID (e.g., os_amlinux_2016_03).
-        public let blueprintId: String?
-        /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
-        public let supportCode: String?
-        /// The private IP address of the instance.
-        public let privateIpAddress: String?
-
-        public init(state: InstanceState? = nil, tags: [Tag]? = nil, sshKeyName: String? = nil, isStaticIp: Bool? = nil, bundleId: String? = nil, name: String? = nil, resourceType: ResourceType? = nil, networking: InstanceNetworking? = nil, hardware: InstanceHardware? = nil, arn: String? = nil, createdAt: TimeStamp? = nil, publicIpAddress: String? = nil, location: ResourceLocation? = nil, blueprintName: String? = nil, username: String? = nil, ipv6Address: String? = nil, blueprintId: String? = nil, supportCode: String? = nil, privateIpAddress: String? = nil) {
-            self.state = state
-            self.tags = tags
-            self.sshKeyName = sshKeyName
-            self.isStaticIp = isStaticIp
-            self.bundleId = bundleId
-            self.name = name
-            self.resourceType = resourceType
-            self.networking = networking
-            self.hardware = hardware
-            self.arn = arn
-            self.createdAt = createdAt
-            self.publicIpAddress = publicIpAddress
-            self.location = location
-            self.blueprintName = blueprintName
-            self.username = username
-            self.ipv6Address = ipv6Address
-            self.blueprintId = blueprintId
-            self.supportCode = supportCode
-            self.privateIpAddress = privateIpAddress
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case state = "state"
-            case tags = "tags"
-            case sshKeyName = "sshKeyName"
-            case isStaticIp = "isStaticIp"
-            case bundleId = "bundleId"
-            case name = "name"
-            case resourceType = "resourceType"
-            case networking = "networking"
-            case hardware = "hardware"
-            case arn = "arn"
-            case createdAt = "createdAt"
-            case publicIpAddress = "publicIpAddress"
-            case location = "location"
-            case blueprintName = "blueprintName"
-            case username = "username"
-            case ipv6Address = "ipv6Address"
-            case blueprintId = "blueprintId"
-            case supportCode = "supportCode"
-            case privateIpAddress = "privateIpAddress"
-        }
-    }
-
-    public struct GetExportSnapshotRecordsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "exportSnapshotRecords", required: false, type: .list), 
-            AWSShapeMember(label: "nextPageToken", required: false, type: .string)
-        ]
-        /// A list of objects describing the export snapshot records.
-        public let exportSnapshotRecords: [ExportSnapshotRecord]?
-        /// A token used for advancing to the next page of results of your get relational database bundles request.
-        public let nextPageToken: String?
-
-        public init(exportSnapshotRecords: [ExportSnapshotRecord]? = nil, nextPageToken: String? = nil) {
-            self.exportSnapshotRecords = exportSnapshotRecords
-            self.nextPageToken = nextPageToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case exportSnapshotRecords = "exportSnapshotRecords"
-            case nextPageToken = "nextPageToken"
-        }
-    }
-
-    public struct GetKeyPairRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "keyPairName", required: true, type: .string)
-        ]
-        /// The name of the key pair for which you are requesting information.
-        public let keyPairName: String
-
-        public init(keyPairName: String) {
-            self.keyPairName = keyPairName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case keyPairName = "keyPairName"
-        }
-    }
-
-    public struct AttachDiskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceName", required: true, type: .string), 
-            AWSShapeMember(label: "diskPath", required: true, type: .string), 
-            AWSShapeMember(label: "diskName", required: true, type: .string)
-        ]
-        /// The name of the Lightsail instance where you want to utilize the storage disk.
-        public let instanceName: String
-        /// The disk path to expose to the instance (e.g., /dev/xvdf).
-        public let diskPath: String
-        /// The unique Lightsail disk name (e.g., my-disk).
-        public let diskName: String
-
-        public init(instanceName: String, diskPath: String, diskName: String) {
-            self.instanceName = instanceName
-            self.diskPath = diskPath
-            self.diskName = diskName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceName = "instanceName"
-            case diskPath = "diskPath"
-            case diskName = "diskName"
-        }
-    }
-
-    public struct GetOperationsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceName", required: true, type: .string)
-        ]
-        /// A token used for advancing to the next page of results from your get operations for resource request.
-        public let pageToken: String?
-        /// The name of the resource for which you are requesting information.
-        public let resourceName: String
-
-        public init(pageToken: String? = nil, resourceName: String) {
-            self.pageToken = pageToken
-            self.resourceName = resourceName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pageToken = "pageToken"
-            case resourceName = "resourceName"
-        }
-    }
-
-    public struct CloudFormationStackRecord: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "state", required: false, type: .enum), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "sourceInfo", required: false, type: .list), 
-            AWSShapeMember(label: "destinationInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "arn", required: false, type: .string)
-        ]
-        /// The current state of the CloudFormation stack record.
-        public let state: RecordState?
-        /// The name of the CloudFormation stack record. It starts with CloudFormationStackRecord followed by a GUID.
-        public let name: String?
-        /// A list of objects describing the source of the CloudFormation stack record.
-        public let sourceInfo: [CloudFormationStackRecordSourceInfo]?
-        /// A list of objects describing the destination service, which is AWS CloudFormation, and the Amazon Resource Name (ARN) of the AWS CloudFormation stack.
-        public let destinationInfo: DestinationInfo?
-        /// The Lightsail resource type (e.g., CloudFormationStackRecord).
-        public let resourceType: ResourceType?
-        /// The date when the CloudFormation stack record was created.
-        public let createdAt: TimeStamp?
-        /// A list of objects describing the Availability Zone and AWS Region of the CloudFormation stack record.
-        public let location: ResourceLocation?
-        /// The Amazon Resource Name (ARN) of the CloudFormation stack record.
-        public let arn: String?
-
-        public init(state: RecordState? = nil, name: String? = nil, sourceInfo: [CloudFormationStackRecordSourceInfo]? = nil, destinationInfo: DestinationInfo? = nil, resourceType: ResourceType? = nil, createdAt: TimeStamp? = nil, location: ResourceLocation? = nil, arn: String? = nil) {
-            self.state = state
-            self.name = name
-            self.sourceInfo = sourceInfo
-            self.destinationInfo = destinationInfo
-            self.resourceType = resourceType
-            self.createdAt = createdAt
-            self.location = location
-            self.arn = arn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case state = "state"
-            case name = "name"
-            case sourceInfo = "sourceInfo"
-            case destinationInfo = "destinationInfo"
-            case resourceType = "resourceType"
-            case createdAt = "createdAt"
-            case location = "location"
-            case arn = "arn"
-        }
-    }
-
-    public struct DetachDiskResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
-        /// An object describing the API operations.
-        public let operations: [Operation]?
-
-        public init(operations: [Operation]? = nil) {
-            self.operations = operations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operations = "operations"
-        }
-    }
-
-    public struct LoadBalancer: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "state", required: false, type: .enum), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "instancePort", required: false, type: .integer), 
-            AWSShapeMember(label: "dnsName", required: false, type: .string), 
-            AWSShapeMember(label: "instanceHealthSummary", required: false, type: .list), 
-            AWSShapeMember(label: "configurationOptions", required: false, type: .map), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "healthCheckPath", required: false, type: .string), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "tlsCertificateSummaries", required: false, type: .list), 
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "protocol", required: false, type: .enum), 
-            AWSShapeMember(label: "supportCode", required: false, type: .string), 
-            AWSShapeMember(label: "publicPorts", required: false, type: .list)
-        ]
-        /// The status of your load balancer. Valid values are below.
-        public let state: LoadBalancerState?
-        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
-        public let tags: [Tag]?
-        /// The port where the load balancer will direct traffic to your Lightsail instances. For HTTP traffic, it's port 80. For HTTPS traffic, it's port 443.
-        public let instancePort: Int32?
-        /// The DNS name of your Lightsail load balancer.
-        public let dnsName: String?
-        /// An array of InstanceHealthSummary objects describing the health of the load balancer.
-        public let instanceHealthSummary: [InstanceHealthSummary]?
-        /// A string to string map of the configuration options for your load balancer. Valid values are listed below.
-        public let configurationOptions: [LoadBalancerAttributeName: String]?
-        /// The name of the load balancer (e.g., my-load-balancer).
-        public let name: String?
-        /// The resource type (e.g., LoadBalancer.
-        public let resourceType: ResourceType?
-        /// The path you specified to perform your health checks. If no path is specified, the load balancer tries to make a request to the default (root) page.
-        public let healthCheckPath: String?
-        /// The Amazon Resource Name (ARN) of the load balancer.
-        public let arn: String?
-        /// The date when your load balancer was created.
-        public let createdAt: TimeStamp?
-        /// An array of LoadBalancerTlsCertificateSummary objects that provide additional information about the SSL/TLS certificates. For example, if true, the certificate is attached to the load balancer.
-        public let tlsCertificateSummaries: [LoadBalancerTlsCertificateSummary]?
-        /// The AWS Region where your load balancer was created (e.g., us-east-2a). Lightsail automatically creates your load balancer across Availability Zones.
-        public let location: ResourceLocation?
-        /// The protocol you have enabled for your load balancer. Valid values are below. You can't just have HTTP_HTTPS, but you can have just HTTP.
-        public let `protocol`: LoadBalancerProtocol?
-        /// The support code. Include this code in your email to support when you have questions about your Lightsail load balancer. This code enables our support team to look up your Lightsail information more easily.
-        public let supportCode: String?
-        /// An array of public port settings for your load balancer. For HTTP, use port 80. For HTTPS, use port 443.
-        public let publicPorts: [Int32]?
-
-        public init(state: LoadBalancerState? = nil, tags: [Tag]? = nil, instancePort: Int32? = nil, dnsName: String? = nil, instanceHealthSummary: [InstanceHealthSummary]? = nil, configurationOptions: [LoadBalancerAttributeName: String]? = nil, name: String? = nil, resourceType: ResourceType? = nil, healthCheckPath: String? = nil, arn: String? = nil, createdAt: TimeStamp? = nil, tlsCertificateSummaries: [LoadBalancerTlsCertificateSummary]? = nil, location: ResourceLocation? = nil, protocol: LoadBalancerProtocol? = nil, supportCode: String? = nil, publicPorts: [Int32]? = nil) {
-            self.state = state
-            self.tags = tags
-            self.instancePort = instancePort
-            self.dnsName = dnsName
-            self.instanceHealthSummary = instanceHealthSummary
-            self.configurationOptions = configurationOptions
-            self.name = name
-            self.resourceType = resourceType
-            self.healthCheckPath = healthCheckPath
-            self.arn = arn
-            self.createdAt = createdAt
-            self.tlsCertificateSummaries = tlsCertificateSummaries
-            self.location = location
-            self.`protocol` = `protocol`
-            self.supportCode = supportCode
-            self.publicPorts = publicPorts
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case state = "state"
-            case tags = "tags"
-            case instancePort = "instancePort"
-            case dnsName = "dnsName"
-            case instanceHealthSummary = "instanceHealthSummary"
-            case configurationOptions = "configurationOptions"
-            case name = "name"
-            case resourceType = "resourceType"
-            case healthCheckPath = "healthCheckPath"
-            case arn = "arn"
-            case createdAt = "createdAt"
-            case tlsCertificateSummaries = "tlsCertificateSummaries"
-            case location = "location"
-            case `protocol` = "protocol"
-            case supportCode = "supportCode"
-            case publicPorts = "publicPorts"
-        }
-    }
-
-    public struct GetRelationalDatabaseSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "relationalDatabaseSnapshot", required: false, type: .structure)
-        ]
-        /// An object describing the specified database snapshot.
-        public let relationalDatabaseSnapshot: RelationalDatabaseSnapshot?
-
-        public init(relationalDatabaseSnapshot: RelationalDatabaseSnapshot? = nil) {
-            self.relationalDatabaseSnapshot = relationalDatabaseSnapshot
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case relationalDatabaseSnapshot = "relationalDatabaseSnapshot"
+            case newDiskName = "newDiskName"
+            case originalDiskPath = "originalDiskPath"
         }
     }
 
@@ -2601,245 +5394,24 @@ extension Lightsail {
         }
     }
 
-    public enum CloudFormationStackRecordSourceType: String, CustomStringConvertible, Codable {
-        case exportsnapshotrecord = "ExportSnapshotRecord"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetInstanceSnapshotsRequest: AWSShape {
+    public struct DeleteRelationalDatabaseResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageToken", required: false, type: .string)
+            AWSShapeMember(label: "operations", required: false, type: .list)
         ]
-        /// A token used for advancing to the next page of results from your get instance snapshots request.
-        public let pageToken: String?
+        /// An object describing the result of your delete relational database request.
+        public let operations: [Operation]?
 
-        public init(pageToken: String? = nil) {
-            self.pageToken = pageToken
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageToken = "pageToken"
+            case operations = "operations"
         }
     }
 
-    public struct DetachDiskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "diskName", required: true, type: .string)
-        ]
-        /// The unique name of the disk you want to detach from your instance (e.g., my-disk).
-        public let diskName: String
+    public struct PeerVpcRequest: AWSShape {
 
-        public init(diskName: String) {
-            self.diskName = diskName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case diskName = "diskName"
-        }
-    }
-
-    public struct CreateInstancesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "customImageName", required: false, type: .string), 
-            AWSShapeMember(label: "instanceNames", required: true, type: .list), 
-            AWSShapeMember(label: "blueprintId", required: true, type: .string), 
-            AWSShapeMember(label: "availabilityZone", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "keyPairName", required: false, type: .string), 
-            AWSShapeMember(label: "bundleId", required: true, type: .string), 
-            AWSShapeMember(label: "userData", required: false, type: .string)
-        ]
-        /// (Deprecated) The name for your custom image.  In releases prior to June 12, 2017, this parameter was ignored by the API. It is now deprecated. 
-        public let customImageName: String?
-        /// The names to use for your new Lightsail instances. Separate multiple values using quotation marks and commas, for example: ["MyFirstInstance","MySecondInstance"] 
-        public let instanceNames: [String]
-        /// The ID for a virtual private server image (e.g., app_wordpress_4_4 or app_lamp_7_0). Use the get blueprints operation to return a list of available images (or blueprints).
-        public let blueprintId: String
-        /// The Availability Zone in which to create your instance. Use the following format: us-east-2a (case sensitive). You can get a list of Availability Zones by using the get regions operation. Be sure to add the include Availability Zones parameter to your request.
-        public let availabilityZone: String
-        /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
-        public let tags: [Tag]?
-        /// The name of your key pair.
-        public let keyPairName: String?
-        /// The bundle of specification information for your virtual private server (or instance), including the pricing plan (e.g., micro_1_0).
-        public let bundleId: String
-        /// A launch script you can create that configures a server with additional user data. For example, you might want to run apt-get -y update.  Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum, Debian and Ubuntu use apt-get, and FreeBSD uses pkg. For a complete list, see the Dev Guide. 
-        public let userData: String?
-
-        public init(customImageName: String? = nil, instanceNames: [String], blueprintId: String, availabilityZone: String, tags: [Tag]? = nil, keyPairName: String? = nil, bundleId: String, userData: String? = nil) {
-            self.customImageName = customImageName
-            self.instanceNames = instanceNames
-            self.blueprintId = blueprintId
-            self.availabilityZone = availabilityZone
-            self.tags = tags
-            self.keyPairName = keyPairName
-            self.bundleId = bundleId
-            self.userData = userData
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case customImageName = "customImageName"
-            case instanceNames = "instanceNames"
-            case blueprintId = "blueprintId"
-            case availabilityZone = "availabilityZone"
-            case tags = "tags"
-            case keyPairName = "keyPairName"
-            case bundleId = "bundleId"
-            case userData = "userData"
-        }
-    }
-
-    public struct GetDiskSnapshotsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "diskSnapshots", required: false, type: .list), 
-            AWSShapeMember(label: "nextPageToken", required: false, type: .string)
-        ]
-        /// An array of objects containing information about all block storage disk snapshots.
-        public let diskSnapshots: [DiskSnapshot]?
-        /// A token used for advancing to the next page of results from your GetDiskSnapshots request.
-        public let nextPageToken: String?
-
-        public init(diskSnapshots: [DiskSnapshot]? = nil, nextPageToken: String? = nil) {
-            self.diskSnapshots = diskSnapshots
-            self.nextPageToken = nextPageToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case diskSnapshots = "diskSnapshots"
-            case nextPageToken = "nextPageToken"
-        }
-    }
-
-    public struct PutInstancePublicPortsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operation", required: false, type: .structure)
-        ]
-        /// Describes metadata about the operation you just executed.
-        public let operation: Operation?
-
-        public init(operation: Operation? = nil) {
-            self.operation = operation
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operation = "operation"
-        }
-    }
-
-    public struct CreateLoadBalancerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateAlternativeNames", required: false, type: .list), 
-            AWSShapeMember(label: "healthCheckPath", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "certificateDomainName", required: false, type: .string), 
-            AWSShapeMember(label: "certificateName", required: false, type: .string), 
-            AWSShapeMember(label: "instancePort", required: true, type: .integer), 
-            AWSShapeMember(label: "loadBalancerName", required: true, type: .string)
-        ]
-        /// The optional alternative domains and subdomains to use with your SSL/TLS certificate (e.g., www.example.com, example.com, m.example.com, blog.example.com).
-        public let certificateAlternativeNames: [String]?
-        /// The path you provided to perform the load balancer health check. If you didn't specify a health check path, Lightsail uses the root path of your website (e.g., "/"). You may want to specify a custom health check path other than the root of your application if your home page loads slowly or has a lot of media or scripting on it.
-        public let healthCheckPath: String?
-        /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
-        public let tags: [Tag]?
-        /// The domain name with which your certificate is associated (e.g., example.com). If you specify certificateDomainName, then certificateName is required (and vice-versa).
-        public let certificateDomainName: String?
-        /// The name of the SSL/TLS certificate. If you specify certificateName, then certificateDomainName is required (and vice-versa).
-        public let certificateName: String?
-        /// The instance port where you're creating your load balancer.
-        public let instancePort: Int32
-        /// The name of your load balancer.
-        public let loadBalancerName: String
-
-        public init(certificateAlternativeNames: [String]? = nil, healthCheckPath: String? = nil, tags: [Tag]? = nil, certificateDomainName: String? = nil, certificateName: String? = nil, instancePort: Int32, loadBalancerName: String) {
-            self.certificateAlternativeNames = certificateAlternativeNames
-            self.healthCheckPath = healthCheckPath
-            self.tags = tags
-            self.certificateDomainName = certificateDomainName
-            self.certificateName = certificateName
-            self.instancePort = instancePort
-            self.loadBalancerName = loadBalancerName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificateAlternativeNames = "certificateAlternativeNames"
-            case healthCheckPath = "healthCheckPath"
-            case tags = "tags"
-            case certificateDomainName = "certificateDomainName"
-            case certificateName = "certificateName"
-            case instancePort = "instancePort"
-            case loadBalancerName = "loadBalancerName"
-        }
-    }
-
-    public struct InstanceAccessDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certKey", required: false, type: .string), 
-            AWSShapeMember(label: "instanceName", required: false, type: .string), 
-            AWSShapeMember(label: "protocol", required: false, type: .enum), 
-            AWSShapeMember(label: "privateKey", required: false, type: .string), 
-            AWSShapeMember(label: "password", required: false, type: .string), 
-            AWSShapeMember(label: "expiresAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "username", required: false, type: .string), 
-            AWSShapeMember(label: "passwordData", required: false, type: .structure), 
-            AWSShapeMember(label: "ipAddress", required: false, type: .string)
-        ]
-        /// For SSH access, the public key to use when accessing your instance For OpenSSH clients (e.g., command line SSH), you should save this value to tempkey-cert.pub.
-        public let certKey: String?
-        /// The name of this Amazon Lightsail instance.
-        public let instanceName: String?
-        /// The protocol for these Amazon Lightsail instance access details.
-        public let `protocol`: InstanceAccessProtocol?
-        /// For SSH access, the temporary private key. For OpenSSH clients (e.g., command line SSH), you should save this value to tempkey).
-        public let privateKey: String?
-        /// For RDP access, the password for your Amazon Lightsail instance. Password will be an empty string if the password for your new instance is not ready yet. When you create an instance, it can take up to 15 minutes for the instance to be ready.  If you create an instance using any key pair other than the default (LightsailDefaultKeyPair), password will always be an empty string. If you change the Administrator password on the instance, Lightsail will continue to return the original password value. When accessing the instance using RDP, you need to manually enter the Administrator password after changing it from the default. 
-        public let password: String?
-        /// For SSH access, the date on which the temporary keys expire.
-        public let expiresAt: TimeStamp?
-        /// The user name to use when logging in to the Amazon Lightsail instance.
-        public let username: String?
-        /// For a Windows Server-based instance, an object with the data you can use to retrieve your password. This is only needed if password is empty and the instance is not new (and therefore the password is not ready yet). When you create an instance, it can take up to 15 minutes for the instance to be ready.
-        public let passwordData: PasswordData?
-        /// The public IP address of the Amazon Lightsail instance.
-        public let ipAddress: String?
-
-        public init(certKey: String? = nil, instanceName: String? = nil, protocol: InstanceAccessProtocol? = nil, privateKey: String? = nil, password: String? = nil, expiresAt: TimeStamp? = nil, username: String? = nil, passwordData: PasswordData? = nil, ipAddress: String? = nil) {
-            self.certKey = certKey
-            self.instanceName = instanceName
-            self.`protocol` = `protocol`
-            self.privateKey = privateKey
-            self.password = password
-            self.expiresAt = expiresAt
-            self.username = username
-            self.passwordData = passwordData
-            self.ipAddress = ipAddress
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certKey = "certKey"
-            case instanceName = "instanceName"
-            case `protocol` = "protocol"
-            case privateKey = "privateKey"
-            case password = "password"
-            case expiresAt = "expiresAt"
-            case username = "username"
-            case passwordData = "passwordData"
-            case ipAddress = "ipAddress"
-        }
-    }
-
-    public enum LoadBalancerAttributeName: String, CustomStringConvertible, Codable {
-        case healthcheckpath = "HealthCheckPath"
-        case sessionstickinessenabled = "SessionStickinessEnabled"
-        case sessionstickinessLbCookiedurationseconds = "SessionStickiness_LB_CookieDurationSeconds"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RelationalDatabasePasswordVersion: String, CustomStringConvertible, Codable {
-        case current = "CURRENT"
-        case previous = "PREVIOUS"
-        case pending = "PENDING"
-        public var description: String { return self.rawValue }
     }
 
     public struct DownloadDefaultKeyPairResult: AWSShape {
@@ -2863,261 +5435,347 @@ extension Lightsail {
         }
     }
 
-    public struct StopRelationalDatabaseResult: AWSShape {
+    public struct GetInstanceMetricDataResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
+            AWSShapeMember(label: "metricName", required: false, type: .enum), 
+            AWSShapeMember(label: "metricData", required: false, type: .list)
         ]
-        /// An object describing the result of your stop relational database request.
-        public let operations: [Operation]?
+        /// The metric name to return data for.
+        public let metricName: InstanceMetricName?
+        /// An array of key-value pairs containing information about the results of your get instance metric data request.
+        public let metricData: [MetricDatapoint]?
 
-        public init(operations: [Operation]? = nil) {
-            self.operations = operations
+        public init(metricName: InstanceMetricName? = nil, metricData: [MetricDatapoint]? = nil) {
+            self.metricName = metricName
+            self.metricData = metricData
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations = "operations"
+            case metricName = "metricName"
+            case metricData = "metricData"
         }
     }
 
-    public enum InstancePlatform: String, CustomStringConvertible, Codable {
-        case linuxUnix = "LINUX_UNIX"
-        case windows = "WINDOWS"
+    public enum PortInfoSourceType: String, CustomStringConvertible, Codable {
+        case `default` = "DEFAULT"
+        case instance = "INSTANCE"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public struct GetInstanceAccessDetailsResult: AWSShape {
+    public struct DiskInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accessDetails", required: false, type: .structure)
+            AWSShapeMember(label: "path", required: false, type: .string), 
+            AWSShapeMember(label: "sizeInGb", required: false, type: .integer), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "isSystemDisk", required: false, type: .boolean)
         ]
-        /// An array of key-value pairs containing information about a get instance access request.
-        public let accessDetails: InstanceAccessDetails?
+        /// The disk path.
+        public let path: String?
+        /// The size of the disk in GB (e.g., 32).
+        public let sizeInGb: Int32?
+        /// The disk name.
+        public let name: String?
+        /// A Boolean value indicating whether this disk is a system disk (has an operating system loaded on it).
+        public let isSystemDisk: Bool?
 
-        public init(accessDetails: InstanceAccessDetails? = nil) {
-            self.accessDetails = accessDetails
+        public init(path: String? = nil, sizeInGb: Int32? = nil, name: String? = nil, isSystemDisk: Bool? = nil) {
+            self.path = path
+            self.sizeInGb = sizeInGb
+            self.name = name
+            self.isSystemDisk = isSystemDisk
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessDetails = "accessDetails"
+            case path = "path"
+            case sizeInGb = "sizeInGb"
+            case name = "name"
+            case isSystemDisk = "isSystemDisk"
         }
     }
 
-    public struct Operation: AWSShape {
+    public struct DeleteKeyPairRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "operationType", required: false, type: .enum), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "resourceName", required: false, type: .string), 
-            AWSShapeMember(label: "errorCode", required: false, type: .string), 
-            AWSShapeMember(label: "isTerminal", required: false, type: .boolean), 
-            AWSShapeMember(label: "errorDetails", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "operationDetails", required: false, type: .string), 
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "statusChangedAt", required: false, type: .timestamp)
+            AWSShapeMember(label: "keyPairName", required: true, type: .string)
         ]
-        /// The ID of the operation.
-        public let id: String?
-        /// The type of operation. 
-        public let operationType: OperationType?
-        /// The status of the operation. 
-        public let status: OperationStatus?
-        /// The resource name.
-        public let resourceName: String?
-        /// The error code.
-        public let errorCode: String?
-        /// A Boolean value indicating whether the operation is terminal.
-        public let isTerminal: Bool?
-        /// The error details.
-        public let errorDetails: String?
-        /// The resource type. 
-        public let resourceType: ResourceType?
-        /// The timestamp when the operation was initialized (e.g., 1479816991.349).
-        public let createdAt: TimeStamp?
-        /// Details about the operation (e.g., Debian-1GB-Ohio-1).
-        public let operationDetails: String?
-        /// The region and Availability Zone.
-        public let location: ResourceLocation?
-        /// The timestamp when the status was changed (e.g., 1479816991.349).
-        public let statusChangedAt: TimeStamp?
-
-        public init(id: String? = nil, operationType: OperationType? = nil, status: OperationStatus? = nil, resourceName: String? = nil, errorCode: String? = nil, isTerminal: Bool? = nil, errorDetails: String? = nil, resourceType: ResourceType? = nil, createdAt: TimeStamp? = nil, operationDetails: String? = nil, location: ResourceLocation? = nil, statusChangedAt: TimeStamp? = nil) {
-            self.id = id
-            self.operationType = operationType
-            self.status = status
-            self.resourceName = resourceName
-            self.errorCode = errorCode
-            self.isTerminal = isTerminal
-            self.errorDetails = errorDetails
-            self.resourceType = resourceType
-            self.createdAt = createdAt
-            self.operationDetails = operationDetails
-            self.location = location
-            self.statusChangedAt = statusChangedAt
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-            case operationType = "operationType"
-            case status = "status"
-            case resourceName = "resourceName"
-            case errorCode = "errorCode"
-            case isTerminal = "isTerminal"
-            case errorDetails = "errorDetails"
-            case resourceType = "resourceType"
-            case createdAt = "createdAt"
-            case operationDetails = "operationDetails"
-            case location = "location"
-            case statusChangedAt = "statusChangedAt"
-        }
-    }
-
-    public struct DeleteRelationalDatabaseResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
-        /// An object describing the result of your delete relational database request.
-        public let operations: [Operation]?
-
-        public init(operations: [Operation]? = nil) {
-            self.operations = operations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operations = "operations"
-        }
-    }
-
-    public struct PeerVpcRequest: AWSShape {
-
-    }
-
-    public struct GetInstancesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instances", required: false, type: .list), 
-            AWSShapeMember(label: "nextPageToken", required: false, type: .string)
-        ]
-        /// An array of key-value pairs containing information about your instances.
-        public let instances: [Instance]?
-        /// A token used for advancing to the next page of results from your get instances request.
-        public let nextPageToken: String?
-
-        public init(instances: [Instance]? = nil, nextPageToken: String? = nil) {
-            self.instances = instances
-            self.nextPageToken = nextPageToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instances = "instances"
-            case nextPageToken = "nextPageToken"
-        }
-    }
-
-    public struct ImportKeyPairRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "keyPairName", required: true, type: .string), 
-            AWSShapeMember(label: "publicKeyBase64", required: true, type: .string)
-        ]
-        /// The name of the key pair for which you want to import the public key.
+        /// The name of the key pair to delete.
         public let keyPairName: String
-        /// A base64-encoded public key of the ssh-rsa type.
-        public let publicKeyBase64: String
 
-        public init(keyPairName: String, publicKeyBase64: String) {
+        public init(keyPairName: String) {
             self.keyPairName = keyPairName
-            self.publicKeyBase64 = publicKeyBase64
         }
 
         private enum CodingKeys: String, CodingKey {
             case keyPairName = "keyPairName"
-            case publicKeyBase64 = "publicKeyBase64"
         }
     }
 
-    public struct DetachStaticIpRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "staticIpName", required: true, type: .string)
-        ]
-        /// The name of the static IP to detach from the instance.
-        public let staticIpName: String
+    public enum DiskState: String, CustomStringConvertible, Codable {
+        case pending = "pending"
+        case error = "error"
+        case available = "available"
+        case inUse = "in-use"
+        case unknown = "unknown"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(staticIpName: String) {
-            self.staticIpName = staticIpName
+    public struct GetRelationalDatabaseLogEventsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "startFromHead", required: false, type: .boolean), 
+            AWSShapeMember(label: "logStreamName", required: true, type: .string), 
+            AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string), 
+            AWSShapeMember(label: "pageToken", required: false, type: .string), 
+            AWSShapeMember(label: "startTime", required: false, type: .timestamp)
+        ]
+        /// Parameter to specify if the log should start from head or tail. If true is specified, the log event starts from the head of the log. If false is specified, the log event starts from the tail of the log. Default: false 
+        public let startFromHead: Bool?
+        /// The name of the log stream. Use the get relational database log streams operation to get a list of available log streams.
+        public let logStreamName: String
+        /// The end of the time interval from which to get log events. Constraints:   Specified in Universal Coordinated Time (UTC).   Specified in the Unix time format. For example, if you wish to use an end time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the end time.  
+        public let endTime: TimeStamp?
+        /// The name of your database for which to get log events.
+        public let relationalDatabaseName: String
+        /// A token used for advancing to a specific page of results for your get relational database log events request.
+        public let pageToken: String?
+        /// The start of the time interval from which to get log events. Constraints:   Specified in Universal Coordinated Time (UTC).   Specified in the Unix time format. For example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the start time.  
+        public let startTime: TimeStamp?
+
+        public init(startFromHead: Bool? = nil, logStreamName: String, endTime: TimeStamp? = nil, relationalDatabaseName: String, pageToken: String? = nil, startTime: TimeStamp? = nil) {
+            self.startFromHead = startFromHead
+            self.logStreamName = logStreamName
+            self.endTime = endTime
+            self.relationalDatabaseName = relationalDatabaseName
+            self.pageToken = pageToken
+            self.startTime = startTime
         }
 
         private enum CodingKeys: String, CodingKey {
-            case staticIpName = "staticIpName"
+            case startFromHead = "startFromHead"
+            case logStreamName = "logStreamName"
+            case endTime = "endTime"
+            case relationalDatabaseName = "relationalDatabaseName"
+            case pageToken = "pageToken"
+            case startTime = "startTime"
         }
     }
 
-    public struct Blueprint: AWSShape {
+    public struct GetRelationalDatabaseSnapshotsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "licenseUrl", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: false, type: .enum), 
-            AWSShapeMember(label: "group", required: false, type: .string), 
-            AWSShapeMember(label: "blueprintId", required: false, type: .string), 
-            AWSShapeMember(label: "productUrl", required: false, type: .string), 
-            AWSShapeMember(label: "versionCode", required: false, type: .string), 
-            AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "pageToken", required: false, type: .string)
+        ]
+        /// A token used for advancing to a specific page of results for your get relational database snapshots request.
+        public let pageToken: String?
+
+        public init(pageToken: String? = nil) {
+            self.pageToken = pageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pageToken = "pageToken"
+        }
+    }
+
+    public struct GetRelationalDatabaseBlueprintsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pageToken", required: false, type: .string)
+        ]
+        /// A token used for advancing to a specific page of results for your get relational database blueprints request.
+        public let pageToken: String?
+
+        public init(pageToken: String? = nil) {
+            self.pageToken = pageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pageToken = "pageToken"
+        }
+    }
+
+    public enum LoadBalancerAttributeName: String, CustomStringConvertible, Codable {
+        case healthcheckpath = "HealthCheckPath"
+        case sessionstickinessenabled = "SessionStickinessEnabled"
+        case sessionstickinessLbCookiedurationseconds = "SessionStickiness_LB_CookieDurationSeconds"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct StaticIp: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "attachedTo", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "supportCode", required: false, type: .string), 
+            AWSShapeMember(label: "ipAddress", required: false, type: .string), 
             AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "minPower", required: false, type: .integer), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "isActive", required: false, type: .boolean), 
-            AWSShapeMember(label: "platform", required: false, type: .enum)
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "isAttached", required: false, type: .boolean), 
+            AWSShapeMember(label: "location", required: false, type: .structure), 
+            AWSShapeMember(label: "resourceType", required: false, type: .enum)
         ]
-        /// The end-user license agreement URL for the image or blueprint.
-        public let licenseUrl: String?
-        /// The type of the blueprint (e.g., os or app).
-        public let `type`: BlueprintType?
-        /// The group name of the blueprint (e.g., amazon-linux).
-        public let group: String?
-        /// The ID for the virtual private server image (e.g., app_wordpress_4_4 or app_lamp_7_0).
-        public let blueprintId: String?
-        /// The product URL to learn more about the image or blueprint.
-        public let productUrl: String?
-        /// The version code.
-        public let versionCode: String?
-        /// The version number of the operating system, application, or stack (e.g., 2016.03.0).
-        public let version: String?
-        /// The friendly name of the blueprint (e.g., Amazon Linux).
+        /// The instance where the static IP is attached (e.g., Amazon_Linux-1GB-Ohio-1).
+        public let attachedTo: String?
+        /// The Amazon Resource Name (ARN) of the static IP (e.g., arn:aws:lightsail:us-east-2:123456789101:StaticIp/9cbb4a9e-f8e3-4dfe-b57e-12345EXAMPLE).
+        public let arn: String?
+        /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
+        public let supportCode: String?
+        /// The static IP address.
+        public let ipAddress: String?
+        /// The name of the static IP (e.g., StaticIP-Ohio-EXAMPLE).
         public let name: String?
-        /// The minimum bundle power required to run this blueprint. For example, you need a bundle with a power value of 500 or more to create an instance that uses a blueprint with a minimum power value of 500. 0 indicates that the blueprint runs on all instance sizes. 
-        public let minPower: Int32?
-        /// The description of the blueprint.
-        public let description: String?
-        /// A Boolean value indicating whether the blueprint is active. Inactive blueprints are listed to support customers with existing instances but are not necessarily available for launch of new instances. Blueprints are marked inactive when they become outdated due to operating system updates or new application releases.
-        public let isActive: Bool?
-        /// The operating system platform (either Linux/Unix-based or Windows Server-based) of the blueprint.
-        public let platform: InstancePlatform?
+        /// The timestamp when the static IP was created (e.g., 1479735304.222).
+        public let createdAt: TimeStamp?
+        /// A Boolean value indicating whether the static IP is attached.
+        public let isAttached: Bool?
+        /// The region and Availability Zone where the static IP was created.
+        public let location: ResourceLocation?
+        /// The resource type (usually StaticIp).
+        public let resourceType: ResourceType?
 
-        public init(licenseUrl: String? = nil, type: BlueprintType? = nil, group: String? = nil, blueprintId: String? = nil, productUrl: String? = nil, versionCode: String? = nil, version: String? = nil, name: String? = nil, minPower: Int32? = nil, description: String? = nil, isActive: Bool? = nil, platform: InstancePlatform? = nil) {
-            self.licenseUrl = licenseUrl
-            self.`type` = `type`
-            self.group = group
-            self.blueprintId = blueprintId
-            self.productUrl = productUrl
-            self.versionCode = versionCode
-            self.version = version
+        public init(attachedTo: String? = nil, arn: String? = nil, supportCode: String? = nil, ipAddress: String? = nil, name: String? = nil, createdAt: TimeStamp? = nil, isAttached: Bool? = nil, location: ResourceLocation? = nil, resourceType: ResourceType? = nil) {
+            self.attachedTo = attachedTo
+            self.arn = arn
+            self.supportCode = supportCode
+            self.ipAddress = ipAddress
             self.name = name
-            self.minPower = minPower
-            self.description = description
-            self.isActive = isActive
-            self.platform = platform
+            self.createdAt = createdAt
+            self.isAttached = isAttached
+            self.location = location
+            self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case licenseUrl = "licenseUrl"
-            case `type` = "type"
-            case group = "group"
-            case blueprintId = "blueprintId"
-            case productUrl = "productUrl"
-            case versionCode = "versionCode"
-            case version = "version"
+            case attachedTo = "attachedTo"
+            case arn = "arn"
+            case supportCode = "supportCode"
+            case ipAddress = "ipAddress"
             case name = "name"
-            case minPower = "minPower"
-            case description = "description"
-            case isActive = "isActive"
-            case platform = "platform"
+            case createdAt = "createdAt"
+            case isAttached = "isAttached"
+            case location = "location"
+            case resourceType = "resourceType"
+        }
+    }
+
+    public struct CreateKeyPairRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "keyPairName", required: true, type: .string)
+        ]
+        /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
+        public let tags: [Tag]?
+        /// The name for your new key pair.
+        public let keyPairName: String
+
+        public init(tags: [Tag]? = nil, keyPairName: String) {
+            self.tags = tags
+            self.keyPairName = keyPairName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+            case keyPairName = "keyPairName"
+        }
+    }
+
+    public struct KeyPair: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "supportCode", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "fingerprint", required: false, type: .string), 
+            AWSShapeMember(label: "location", required: false, type: .structure), 
+            AWSShapeMember(label: "resourceType", required: false, type: .enum)
+        ]
+        /// The Amazon Resource Name (ARN) of the key pair (e.g., arn:aws:lightsail:us-east-2:123456789101:KeyPair/05859e3d-331d-48ba-9034-12345EXAMPLE).
+        public let arn: String?
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
+        public let tags: [Tag]?
+        /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
+        public let supportCode: String?
+        /// The friendly name of the SSH key pair.
+        public let name: String?
+        /// The timestamp when the key pair was created (e.g., 1479816991.349).
+        public let createdAt: TimeStamp?
+        /// The RSA fingerprint of the key pair.
+        public let fingerprint: String?
+        /// The region name and Availability Zone where the key pair was created.
+        public let location: ResourceLocation?
+        /// The resource type (usually KeyPair).
+        public let resourceType: ResourceType?
+
+        public init(arn: String? = nil, tags: [Tag]? = nil, supportCode: String? = nil, name: String? = nil, createdAt: TimeStamp? = nil, fingerprint: String? = nil, location: ResourceLocation? = nil, resourceType: ResourceType? = nil) {
+            self.arn = arn
+            self.tags = tags
+            self.supportCode = supportCode
+            self.name = name
+            self.createdAt = createdAt
+            self.fingerprint = fingerprint
+            self.location = location
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case tags = "tags"
+            case supportCode = "supportCode"
+            case name = "name"
+            case createdAt = "createdAt"
+            case fingerprint = "fingerprint"
+            case location = "location"
+            case resourceType = "resourceType"
+        }
+    }
+
+    public struct GetBlueprintsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pageToken", required: false, type: .string), 
+            AWSShapeMember(label: "includeInactive", required: false, type: .boolean)
+        ]
+        /// A token used for advancing to the next page of results from your get blueprints request.
+        public let pageToken: String?
+        /// A Boolean value indicating whether to include inactive results in your request.
+        public let includeInactive: Bool?
+
+        public init(pageToken: String? = nil, includeInactive: Bool? = nil) {
+            self.pageToken = pageToken
+            self.includeInactive = includeInactive
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pageToken = "pageToken"
+            case includeInactive = "includeInactive"
+        }
+    }
+
+    public struct RelationalDatabaseEvent: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "message", required: false, type: .string), 
+            AWSShapeMember(label: "eventCategories", required: false, type: .list), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "resource", required: false, type: .string)
+        ]
+        /// The message of the database event.
+        public let message: String?
+        /// The category that the database event belongs to.
+        public let eventCategories: [String]?
+        /// The timestamp when the database event was created.
+        public let createdAt: TimeStamp?
+        /// The database that the database event relates to.
+        public let resource: String?
+
+        public init(message: String? = nil, eventCategories: [String]? = nil, createdAt: TimeStamp? = nil, resource: String? = nil) {
+            self.message = message
+            self.eventCategories = eventCategories
+            self.createdAt = createdAt
+            self.resource = resource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case eventCategories = "eventCategories"
+            case createdAt = "createdAt"
+            case resource = "resource"
         }
     }
 
@@ -3142,714 +5800,115 @@ extension Lightsail {
         }
     }
 
-    public struct StartRelationalDatabaseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string)
-        ]
-        /// The name of your database to start.
-        public let relationalDatabaseName: String
-
-        public init(relationalDatabaseName: String) {
-            self.relationalDatabaseName = relationalDatabaseName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case relationalDatabaseName = "relationalDatabaseName"
-        }
-    }
-
-    public struct RelationalDatabaseEndpoint: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "address", required: false, type: .string), 
-            AWSShapeMember(label: "port", required: false, type: .integer)
-        ]
-        /// Specifies the DNS address of the database.
-        public let address: String?
-        /// Specifies the port that the database is listening on.
-        public let port: Int32?
-
-        public init(address: String? = nil, port: Int32? = nil) {
-            self.address = address
-            self.port = port
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case address = "address"
-            case port = "port"
-        }
-    }
-
-    public struct LoadBalancerTlsCertificateDomainValidationRecord: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "validationStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "value", required: false, type: .string), 
-            AWSShapeMember(label: "domainName", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: false, type: .string)
-        ]
-        /// The validation status. Valid values are listed below.
-        public let validationStatus: LoadBalancerTlsCertificateDomainStatus?
-        /// The value for that type.
-        public let value: String?
-        /// The domain name against which your SSL/TLS certificate was validated.
-        public let domainName: String?
-        /// A fully qualified domain name in the certificate. For example, example.com.
-        public let name: String?
-        /// The type of validation record. For example, CNAME for domain validation.
-        public let `type`: String?
-
-        public init(validationStatus: LoadBalancerTlsCertificateDomainStatus? = nil, value: String? = nil, domainName: String? = nil, name: String? = nil, type: String? = nil) {
-            self.validationStatus = validationStatus
-            self.value = value
-            self.domainName = domainName
-            self.name = name
-            self.`type` = `type`
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case validationStatus = "validationStatus"
-            case value = "value"
-            case domainName = "domainName"
-            case name = "name"
-            case `type` = "type"
-        }
-    }
-
-    public struct GetExportSnapshotRecordsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageToken", required: false, type: .string)
-        ]
-        /// A token used for advancing to a specific page of results for your get export snapshot records request.
-        public let pageToken: String?
-
-        public init(pageToken: String? = nil) {
-            self.pageToken = pageToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pageToken = "pageToken"
-        }
-    }
-
-    public struct PendingModifiedRelationalDatabaseValues: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "backupRetentionEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "masterUserPassword", required: false, type: .string), 
-            AWSShapeMember(label: "engineVersion", required: false, type: .string)
-        ]
-        /// A Boolean value indicating whether automated backup retention is enabled.
-        public let backupRetentionEnabled: Bool?
-        /// The password for the master user of the database.
-        public let masterUserPassword: String?
-        /// The database engine version.
-        public let engineVersion: String?
-
-        public init(backupRetentionEnabled: Bool? = nil, masterUserPassword: String? = nil, engineVersion: String? = nil) {
-            self.backupRetentionEnabled = backupRetentionEnabled
-            self.masterUserPassword = masterUserPassword
-            self.engineVersion = engineVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case backupRetentionEnabled = "backupRetentionEnabled"
-            case masterUserPassword = "masterUserPassword"
-            case engineVersion = "engineVersion"
-        }
-    }
-
-    public struct GetLoadBalancerMetricDataRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "metricName", required: true, type: .enum), 
-            AWSShapeMember(label: "startTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "endTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "period", required: true, type: .integer), 
-            AWSShapeMember(label: "statistics", required: true, type: .list), 
-            AWSShapeMember(label: "loadBalancerName", required: true, type: .string), 
-            AWSShapeMember(label: "unit", required: true, type: .enum)
-        ]
-        /// The metric about which you want to return information. Valid values are listed below, along with the most useful statistics to include in your request.     ClientTLSNegotiationErrorCount  - The number of TLS connections initiated by the client that did not establish a session with the load balancer. Possible causes include a mismatch of ciphers or protocols.  Statistics: The most useful statistic is Sum.     HealthyHostCount  - The number of target instances that are considered healthy.  Statistics: The most useful statistic are Average, Minimum, and Maximum.     UnhealthyHostCount  - The number of target instances that are considered unhealthy.  Statistics: The most useful statistic are Average, Minimum, and Maximum.     HTTPCode_LB_4XX_Count  - The number of HTTP 4XX client error codes that originate from the load balancer. Client errors are generated when requests are malformed or incomplete. These requests have not been received by the target instance. This count does not include any response codes generated by the target instances.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_LB_5XX_Count  - The number of HTTP 5XX server error codes that originate from the load balancer. This count does not include any response codes generated by the target instances.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_Instance_2XX_Count  - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_Instance_3XX_Count  - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer.   Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_Instance_4XX_Count  - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_Instance_5XX_Count  - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     InstanceResponseTime  - The time elapsed, in seconds, after the request leaves the load balancer until a response from the target instance is received.  Statistics: The most useful statistic is Average.     RejectedConnectionCount  - The number of connections that were rejected because the load balancer had reached its maximum number of connections.  Statistics: The most useful statistic is Sum.     RequestCount  - The number of requests processed over IPv4. This count includes only the requests with a response generated by a target instance of the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.  
-        public let metricName: LoadBalancerMetricName
-        /// The start time of the period.
-        public let startTime: TimeStamp
-        /// The end time of the period.
-        public let endTime: TimeStamp
-        /// The granularity, in seconds, of the returned data points.
-        public let period: Int32
-        /// An array of statistics that you want to request metrics for. Valid values are listed below.     SampleCount  - The count (number) of data points used for the statistical calculation.     Average  - The value of Sum / SampleCount during the specified period. By comparing this statistic with the Minimum and Maximum, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum. This comparison helps you to know when to increase or decrease your resources as needed.     Sum  - All values submitted for the matching metric added together. This statistic can be useful for determining the total volume of a metric.     Minimum  - The lowest value observed during the specified period. You can use this value to determine low volumes of activity for your application.     Maximum  - The highest value observed during the specified period. You can use this value to determine high volumes of activity for your application.  
-        public let statistics: [MetricStatistic]
-        /// The name of the load balancer.
-        public let loadBalancerName: String
-        /// The unit for the time period request. Valid values are listed below.
-        public let unit: MetricUnit
-
-        public init(metricName: LoadBalancerMetricName, startTime: TimeStamp, endTime: TimeStamp, period: Int32, statistics: [MetricStatistic], loadBalancerName: String, unit: MetricUnit) {
-            self.metricName = metricName
-            self.startTime = startTime
-            self.endTime = endTime
-            self.period = period
-            self.statistics = statistics
-            self.loadBalancerName = loadBalancerName
-            self.unit = unit
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case metricName = "metricName"
-            case startTime = "startTime"
-            case endTime = "endTime"
-            case period = "period"
-            case statistics = "statistics"
-            case loadBalancerName = "loadBalancerName"
-            case unit = "unit"
-        }
-    }
-
-    public struct CloseInstancePublicPortsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceName", required: true, type: .string), 
-            AWSShapeMember(label: "portInfo", required: true, type: .structure)
-        ]
-        /// The name of the instance on which you're attempting to close the public ports.
-        public let instanceName: String
-        /// Information about the public port you are trying to close.
-        public let portInfo: PortInfo
-
-        public init(instanceName: String, portInfo: PortInfo) {
-            self.instanceName = instanceName
-            self.portInfo = portInfo
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceName = "instanceName"
-            case portInfo = "portInfo"
-        }
-    }
-
-    public struct DeleteRelationalDatabaseSnapshotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "relationalDatabaseSnapshotName", required: true, type: .string)
-        ]
-        /// The name of the database snapshot that you are deleting.
-        public let relationalDatabaseSnapshotName: String
-
-        public init(relationalDatabaseSnapshotName: String) {
-            self.relationalDatabaseSnapshotName = relationalDatabaseSnapshotName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case relationalDatabaseSnapshotName = "relationalDatabaseSnapshotName"
-        }
-    }
-
-    public struct GetRelationalDatabaseBundlesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageToken", required: false, type: .string)
-        ]
-        /// A token used for advancing to a specific page of results for your get relational database bundles request.
-        public let pageToken: String?
-
-        public init(pageToken: String? = nil) {
-            self.pageToken = pageToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pageToken = "pageToken"
-        }
-    }
-
-    public struct GetOperationResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operation", required: false, type: .structure)
-        ]
-        /// An array of key-value pairs containing information about the results of your get operation request.
-        public let operation: Operation?
-
-        public init(operation: Operation? = nil) {
-            self.operation = operation
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operation = "operation"
-        }
-    }
-
-    public struct CreateDomainResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operation", required: false, type: .structure)
-        ]
-        /// An array of key-value pairs containing information about the domain resource you created.
-        public let operation: Operation?
-
-        public init(operation: Operation? = nil) {
-            self.operation = operation
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operation = "operation"
-        }
-    }
-
-    public struct GetRelationalDatabaseParametersResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "parameters", required: false, type: .list), 
-            AWSShapeMember(label: "nextPageToken", required: false, type: .string)
-        ]
-        /// An object describing the result of your get relational database parameters request.
-        public let parameters: [RelationalDatabaseParameter]?
-        /// A token used for advancing to the next page of results from your get static IPs request.
-        public let nextPageToken: String?
-
-        public init(parameters: [RelationalDatabaseParameter]? = nil, nextPageToken: String? = nil) {
-            self.parameters = parameters
-            self.nextPageToken = nextPageToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case parameters = "parameters"
-            case nextPageToken = "nextPageToken"
-        }
-    }
-
-    public enum ResourceType: String, CustomStringConvertible, Codable {
-        case instance = "Instance"
-        case staticip = "StaticIp"
-        case keypair = "KeyPair"
-        case instancesnapshot = "InstanceSnapshot"
-        case domain = "Domain"
-        case peeredvpc = "PeeredVpc"
-        case loadbalancer = "LoadBalancer"
-        case loadbalancertlscertificate = "LoadBalancerTlsCertificate"
-        case disk = "Disk"
-        case disksnapshot = "DiskSnapshot"
-        case relationaldatabase = "RelationalDatabase"
-        case relationaldatabasesnapshot = "RelationalDatabaseSnapshot"
+    public enum CloudFormationStackRecordSourceType: String, CustomStringConvertible, Codable {
         case exportsnapshotrecord = "ExportSnapshotRecord"
-        case cloudformationstackrecord = "CloudFormationStackRecord"
         public var description: String { return self.rawValue }
     }
 
-    public enum LoadBalancerMetricName: String, CustomStringConvertible, Codable {
-        case clienttlsnegotiationerrorcount = "ClientTLSNegotiationErrorCount"
-        case healthyhostcount = "HealthyHostCount"
-        case unhealthyhostcount = "UnhealthyHostCount"
-        case httpcodeLb4XxCount = "HTTPCode_LB_4XX_Count"
-        case httpcodeLb5XxCount = "HTTPCode_LB_5XX_Count"
-        case httpcodeInstance2XxCount = "HTTPCode_Instance_2XX_Count"
-        case httpcodeInstance3XxCount = "HTTPCode_Instance_3XX_Count"
-        case httpcodeInstance4XxCount = "HTTPCode_Instance_4XX_Count"
-        case httpcodeInstance5XxCount = "HTTPCode_Instance_5XX_Count"
-        case instanceresponsetime = "InstanceResponseTime"
-        case rejectedconnectioncount = "RejectedConnectionCount"
-        case requestcount = "RequestCount"
+    public struct CopySnapshotRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "sourceRegion", required: true, type: .enum), 
+            AWSShapeMember(label: "targetSnapshotName", required: true, type: .string), 
+            AWSShapeMember(label: "sourceSnapshotName", required: true, type: .string)
+        ]
+        /// The AWS Region where the source snapshot is located.
+        public let sourceRegion: RegionName
+        /// The name of the new instance or disk snapshot to be created as a copy.
+        public let targetSnapshotName: String
+        /// The name of the source instance or disk snapshot to be copied.
+        public let sourceSnapshotName: String
+
+        public init(sourceRegion: RegionName, targetSnapshotName: String, sourceSnapshotName: String) {
+            self.sourceRegion = sourceRegion
+            self.targetSnapshotName = targetSnapshotName
+            self.sourceSnapshotName = sourceSnapshotName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceRegion = "sourceRegion"
+            case targetSnapshotName = "targetSnapshotName"
+            case sourceSnapshotName = "sourceSnapshotName"
+        }
+    }
+
+    public enum MetricStatistic: String, CustomStringConvertible, Codable {
+        case minimum = "Minimum"
+        case maximum = "Maximum"
+        case sum = "Sum"
+        case average = "Average"
+        case samplecount = "SampleCount"
         public var description: String { return self.rawValue }
     }
 
-    public struct UpdateRelationalDatabaseParametersResult: AWSShape {
+    public struct GetBlueprintsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
+            AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "blueprints", required: false, type: .list)
         ]
-        /// An object describing the result of your update relational database parameters request.
-        public let operations: [Operation]?
-
-        public init(operations: [Operation]? = nil) {
-            self.operations = operations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operations = "operations"
-        }
-    }
-
-    public struct UpdateRelationalDatabaseResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
-        /// An object describing the result of your update relational database request.
-        public let operations: [Operation]?
-
-        public init(operations: [Operation]? = nil) {
-            self.operations = operations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operations = "operations"
-        }
-    }
-
-    public struct ExportSnapshotRecordSourceInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceSnapshotInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "fromResourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "fromResourceName", required: false, type: .string), 
-            AWSShapeMember(label: "diskSnapshotInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "arn", required: false, type: .string)
-        ]
-        /// A list of objects describing an instance snapshot.
-        public let instanceSnapshotInfo: InstanceSnapshotInfo?
-        /// The name of the source instance or disk snapshot.
-        public let name: String?
-        /// The Amazon Resource Name (ARN) of the snapshot's source instance or disk.
-        public let fromResourceArn: String?
-        /// The Lightsail resource type (e.g., InstanceSnapshot or DiskSnapshot).
-        public let resourceType: ExportSnapshotRecordSourceType?
-        /// The name of the snapshot's source instance or disk.
-        public let fromResourceName: String?
-        /// A list of objects describing a disk snapshot.
-        public let diskSnapshotInfo: DiskSnapshotInfo?
-        /// The date when the source instance or disk snapshot was created.
-        public let createdAt: TimeStamp?
-        /// The Amazon Resource Name (ARN) of the source instance or disk snapshot.
-        public let arn: String?
-
-        public init(instanceSnapshotInfo: InstanceSnapshotInfo? = nil, name: String? = nil, fromResourceArn: String? = nil, resourceType: ExportSnapshotRecordSourceType? = nil, fromResourceName: String? = nil, diskSnapshotInfo: DiskSnapshotInfo? = nil, createdAt: TimeStamp? = nil, arn: String? = nil) {
-            self.instanceSnapshotInfo = instanceSnapshotInfo
-            self.name = name
-            self.fromResourceArn = fromResourceArn
-            self.resourceType = resourceType
-            self.fromResourceName = fromResourceName
-            self.diskSnapshotInfo = diskSnapshotInfo
-            self.createdAt = createdAt
-            self.arn = arn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceSnapshotInfo = "instanceSnapshotInfo"
-            case name = "name"
-            case fromResourceArn = "fromResourceArn"
-            case resourceType = "resourceType"
-            case fromResourceName = "fromResourceName"
-            case diskSnapshotInfo = "diskSnapshotInfo"
-            case createdAt = "createdAt"
-            case arn = "arn"
-        }
-    }
-
-    public struct StopInstanceResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
-        /// An array of key-value pairs containing information about the request operation.
-        public let operations: [Operation]?
-
-        public init(operations: [Operation]? = nil) {
-            self.operations = operations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operations = "operations"
-        }
-    }
-
-    public enum NetworkProtocol: String, CustomStringConvertible, Codable {
-        case tcp = "tcp"
-        case all = "all"
-        case udp = "udp"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct AttachLoadBalancerTlsCertificateResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
-        /// An object representing the API operations. These SSL/TLS certificates are only usable by Lightsail load balancers. You can't get the certificate and use it for another purpose.
-        public let operations: [Operation]?
-
-        public init(operations: [Operation]? = nil) {
-            self.operations = operations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operations = "operations"
-        }
-    }
-
-    public struct PeerVpcResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operation", required: false, type: .structure)
-        ]
-        /// An array of key-value pairs containing information about the request operation.
-        public let operation: Operation?
-
-        public init(operation: Operation? = nil) {
-            self.operation = operation
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operation = "operation"
-        }
-    }
-
-    public struct CreateKeyPairRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "keyPairName", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
-        /// The name for your new key pair.
-        public let keyPairName: String
-        /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
-        public let tags: [Tag]?
-
-        public init(keyPairName: String, tags: [Tag]? = nil) {
-            self.keyPairName = keyPairName
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case keyPairName = "keyPairName"
-            case tags = "tags"
-        }
-    }
-
-    public struct CreateDiskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "diskName", required: true, type: .string), 
-            AWSShapeMember(label: "availabilityZone", required: true, type: .string), 
-            AWSShapeMember(label: "sizeInGb", required: true, type: .integer)
-        ]
-        /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
-        public let tags: [Tag]?
-        /// The unique Lightsail disk name (e.g., my-disk).
-        public let diskName: String
-        /// The Availability Zone where you want to create the disk (e.g., us-east-2a). Choose the same Availability Zone as the Lightsail instance where you want to create the disk. Use the GetRegions operation to list the Availability Zones where Lightsail is currently available.
-        public let availabilityZone: String
-        /// The size of the disk in GB (e.g., 32).
-        public let sizeInGb: Int32
-
-        public init(tags: [Tag]? = nil, diskName: String, availabilityZone: String, sizeInGb: Int32) {
-            self.tags = tags
-            self.diskName = diskName
-            self.availabilityZone = availabilityZone
-            self.sizeInGb = sizeInGb
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "tags"
-            case diskName = "diskName"
-            case availabilityZone = "availabilityZone"
-            case sizeInGb = "sizeInGb"
-        }
-    }
-
-    public struct CopySnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
-        /// A list of objects describing the API operation.
-        public let operations: [Operation]?
-
-        public init(operations: [Operation]? = nil) {
-            self.operations = operations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operations = "operations"
-        }
-    }
-
-    public struct RelationalDatabaseBlueprint: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "engine", required: false, type: .enum), 
-            AWSShapeMember(label: "blueprintId", required: false, type: .string), 
-            AWSShapeMember(label: "engineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "engineDescription", required: false, type: .string), 
-            AWSShapeMember(label: "engineVersionDescription", required: false, type: .string), 
-            AWSShapeMember(label: "isEngineDefault", required: false, type: .boolean)
-        ]
-        /// The database software of the database blueprint (for example, MySQL).
-        public let engine: RelationalDatabaseEngine?
-        /// The ID for the database blueprint.
-        public let blueprintId: String?
-        /// The database engine version for the database blueprint (for example, 5.7.23).
-        public let engineVersion: String?
-        /// The description of the database engine for the database blueprint.
-        public let engineDescription: String?
-        /// The description of the database engine version for the database blueprint.
-        public let engineVersionDescription: String?
-        /// A Boolean value indicating whether the engine version is the default for the database blueprint.
-        public let isEngineDefault: Bool?
-
-        public init(engine: RelationalDatabaseEngine? = nil, blueprintId: String? = nil, engineVersion: String? = nil, engineDescription: String? = nil, engineVersionDescription: String? = nil, isEngineDefault: Bool? = nil) {
-            self.engine = engine
-            self.blueprintId = blueprintId
-            self.engineVersion = engineVersion
-            self.engineDescription = engineDescription
-            self.engineVersionDescription = engineVersionDescription
-            self.isEngineDefault = isEngineDefault
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case engine = "engine"
-            case blueprintId = "blueprintId"
-            case engineVersion = "engineVersion"
-            case engineDescription = "engineDescription"
-            case engineVersionDescription = "engineVersionDescription"
-            case isEngineDefault = "isEngineDefault"
-        }
-    }
-
-    public struct AttachInstancesToLoadBalancerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceNames", required: true, type: .list), 
-            AWSShapeMember(label: "loadBalancerName", required: true, type: .string)
-        ]
-        /// An array of strings representing the instance name(s) you want to attach to your load balancer. An instance must be running before you can attach it to your load balancer. There are no additional limits on the number of instances you can attach to your load balancer, aside from the limit of Lightsail instances you can create in your account (20).
-        public let instanceNames: [String]
-        /// The name of the load balancer.
-        public let loadBalancerName: String
-
-        public init(instanceNames: [String], loadBalancerName: String) {
-            self.instanceNames = instanceNames
-            self.loadBalancerName = loadBalancerName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceNames = "instanceNames"
-            case loadBalancerName = "loadBalancerName"
-        }
-    }
-
-    public struct UpdateLoadBalancerAttributeResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
-        /// An object describing the API operations.
-        public let operations: [Operation]?
-
-        public init(operations: [Operation]? = nil) {
-            self.operations = operations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operations = "operations"
-        }
-    }
-
-    public struct UntagResourceResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
-        /// A list of objects describing the API operation.
-        public let operations: [Operation]?
-
-        public init(operations: [Operation]? = nil) {
-            self.operations = operations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operations = "operations"
-        }
-    }
-
-    public struct GetRelationalDatabaseSnapshotsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageToken", required: false, type: .string)
-        ]
-        /// A token used for advancing to a specific page of results for your get relational database snapshots request.
-        public let pageToken: String?
-
-        public init(pageToken: String? = nil) {
-            self.pageToken = pageToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pageToken = "pageToken"
-        }
-    }
-
-    public struct GetDiskResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "disk", required: false, type: .structure)
-        ]
-        /// An object containing information about the disk.
-        public let disk: Disk?
-
-        public init(disk: Disk? = nil) {
-            self.disk = disk
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case disk = "disk"
-        }
-    }
-
-    public struct GetRelationalDatabaseLogEventsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "startFromHead", required: false, type: .boolean), 
-            AWSShapeMember(label: "pageToken", required: false, type: .string), 
-            AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "logStreamName", required: true, type: .string), 
-            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "endTime", required: false, type: .timestamp)
-        ]
-        /// Parameter to specify if the log should start from head or tail. If true is specified, the log event starts from the head of the log. If false is specified, the log event starts from the tail of the log. Default: false 
-        public let startFromHead: Bool?
-        /// A token used for advancing to a specific page of results for your get relational database log events request.
-        public let pageToken: String?
-        /// The start of the time interval from which to get log events. Constraints:   Specified in Universal Coordinated Time (UTC).   Specified in the Unix time format. For example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the start time.  
-        public let startTime: TimeStamp?
-        /// The name of the log stream. Use the get relational database log streams operation to get a list of available log streams.
-        public let logStreamName: String
-        /// The name of your database for which to get log events.
-        public let relationalDatabaseName: String
-        /// The end of the time interval from which to get log events. Constraints:   Specified in Universal Coordinated Time (UTC).   Specified in the Unix time format. For example, if you wish to use an end time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the end time.  
-        public let endTime: TimeStamp?
-
-        public init(startFromHead: Bool? = nil, pageToken: String? = nil, startTime: TimeStamp? = nil, logStreamName: String, relationalDatabaseName: String, endTime: TimeStamp? = nil) {
-            self.startFromHead = startFromHead
-            self.pageToken = pageToken
-            self.startTime = startTime
-            self.logStreamName = logStreamName
-            self.relationalDatabaseName = relationalDatabaseName
-            self.endTime = endTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case startFromHead = "startFromHead"
-            case pageToken = "pageToken"
-            case startTime = "startTime"
-            case logStreamName = "logStreamName"
-            case relationalDatabaseName = "relationalDatabaseName"
-            case endTime = "endTime"
-        }
-    }
-
-    public struct AllocateStaticIpRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "staticIpName", required: true, type: .string)
-        ]
-        /// The name of the static IP address.
-        public let staticIpName: String
-
-        public init(staticIpName: String) {
-            self.staticIpName = staticIpName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case staticIpName = "staticIpName"
-        }
-    }
-
-    public struct GetOperationsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list), 
-            AWSShapeMember(label: "nextPageToken", required: false, type: .string)
-        ]
-        /// An array of key-value pairs containing information about the results of your get operations request.
-        public let operations: [Operation]?
-        /// A token used for advancing to the next page of results from your get operations request.
+        /// A token used for advancing to the next page of results from your get blueprints request.
         public let nextPageToken: String?
+        /// An array of key-value pairs that contains information about the available blueprints.
+        public let blueprints: [Blueprint]?
 
-        public init(operations: [Operation]? = nil, nextPageToken: String? = nil) {
-            self.operations = operations
+        public init(nextPageToken: String? = nil, blueprints: [Blueprint]? = nil) {
             self.nextPageToken = nextPageToken
+            self.blueprints = blueprints
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "nextPageToken"
+            case blueprints = "blueprints"
+        }
+    }
+
+    public enum LoadBalancerTlsCertificateRevocationReason: String, CustomStringConvertible, Codable {
+        case unspecified = "UNSPECIFIED"
+        case keyCompromise = "KEY_COMPROMISE"
+        case caCompromise = "CA_COMPROMISE"
+        case affiliationChanged = "AFFILIATION_CHANGED"
+        case superceded = "SUPERCEDED"
+        case cessationOfOperation = "CESSATION_OF_OPERATION"
+        case certificateHold = "CERTIFICATE_HOLD"
+        case removeFromCrl = "REMOVE_FROM_CRL"
+        case privilegeWithdrawn = "PRIVILEGE_WITHDRAWN"
+        case aACompromise = "A_A_COMPROMISE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DestinationInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "service", required: false, type: .string), 
+            AWSShapeMember(label: "id", required: false, type: .string)
+        ]
+        /// The destination service of the record.
+        public let service: String?
+        /// The ID of the resource created at the destination.
+        public let id: String?
+
+        public init(service: String? = nil, id: String? = nil) {
+            self.service = service
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case service = "service"
+            case id = "id"
+        }
+    }
+
+    public struct CreateRelationalDatabaseSnapshotResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+        /// An object describing the result of your create relational database snapshot request.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
         }
 
         private enum CodingKeys: String, CodingKey {
             case operations = "operations"
-            case nextPageToken = "nextPageToken"
         }
     }
 
@@ -3874,299 +5933,11 @@ extension Lightsail {
         }
     }
 
-    public enum InstanceHealthReason: String, CustomStringConvertible, Codable {
-        case lbRegistrationinprogress = "Lb.RegistrationInProgress"
-        case lbInitialhealthchecking = "Lb.InitialHealthChecking"
-        case lbInternalerror = "Lb.InternalError"
-        case instanceResponsecodemismatch = "Instance.ResponseCodeMismatch"
-        case instanceTimeout = "Instance.Timeout"
-        case instanceFailedhealthchecks = "Instance.FailedHealthChecks"
-        case instanceNotregistered = "Instance.NotRegistered"
-        case instanceNotinuse = "Instance.NotInUse"
-        case instanceDeregistrationinprogress = "Instance.DeregistrationInProgress"
-        case instanceInvalidstate = "Instance.InvalidState"
-        case instanceIpunusable = "Instance.IpUnusable"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum LoadBalancerTlsCertificateStatus: String, CustomStringConvertible, Codable {
-        case pendingValidation = "PENDING_VALIDATION"
-        case issued = "ISSUED"
-        case inactive = "INACTIVE"
-        case expired = "EXPIRED"
-        case validationTimedOut = "VALIDATION_TIMED_OUT"
-        case revoked = "REVOKED"
-        case failed = "FAILED"
-        case unknown = "UNKNOWN"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum LoadBalancerTlsCertificateFailureReason: String, CustomStringConvertible, Codable {
-        case noAvailableContacts = "NO_AVAILABLE_CONTACTS"
-        case additionalVerificationRequired = "ADDITIONAL_VERIFICATION_REQUIRED"
-        case domainNotAllowed = "DOMAIN_NOT_ALLOWED"
-        case invalidPublicDomain = "INVALID_PUBLIC_DOMAIN"
-        case other = "OTHER"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct TagResourceResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
-        /// A list of objects describing the API operation.
-        public let operations: [Operation]?
-
-        public init(operations: [Operation]? = nil) {
-            self.operations = operations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operations = "operations"
-        }
-    }
-
-    public struct GetCloudFormationStackRecordsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cloudFormationStackRecords", required: false, type: .list), 
-            AWSShapeMember(label: "nextPageToken", required: false, type: .string)
-        ]
-        /// A list of objects describing the CloudFormation stack records.
-        public let cloudFormationStackRecords: [CloudFormationStackRecord]?
-        /// A token used for advancing to the next page of results of your get relational database bundles request.
-        public let nextPageToken: String?
-
-        public init(cloudFormationStackRecords: [CloudFormationStackRecord]? = nil, nextPageToken: String? = nil) {
-            self.cloudFormationStackRecords = cloudFormationStackRecords
-            self.nextPageToken = nextPageToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cloudFormationStackRecords = "cloudFormationStackRecords"
-            case nextPageToken = "nextPageToken"
-        }
-    }
-
-    public struct RelationalDatabase: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "backupRetentionEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "latestRestorableTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "relationalDatabaseBundleId", required: false, type: .string), 
-            AWSShapeMember(label: "hardware", required: false, type: .structure), 
-            AWSShapeMember(label: "masterUsername", required: false, type: .string), 
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "engineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "masterEndpoint", required: false, type: .structure), 
-            AWSShapeMember(label: "parameterApplyStatus", required: false, type: .string), 
-            AWSShapeMember(label: "secondaryAvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "preferredBackupWindow", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "supportCode", required: false, type: .string), 
-            AWSShapeMember(label: "pendingMaintenanceActions", required: false, type: .list), 
-            AWSShapeMember(label: "engine", required: false, type: .string), 
-            AWSShapeMember(label: "pendingModifiedValues", required: false, type: .structure), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "publiclyAccessible", required: false, type: .boolean), 
-            AWSShapeMember(label: "state", required: false, type: .string), 
-            AWSShapeMember(label: "preferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "masterDatabaseName", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "relationalDatabaseBlueprintId", required: false, type: .string)
-        ]
-        /// A Boolean value indicating whether automated backup retention is enabled for the database.
-        public let backupRetentionEnabled: Bool?
-        /// The latest point in time to which the database can be restored. Formatted in Unix time.
-        public let latestRestorableTime: TimeStamp?
-        /// The bundle ID for the database. A bundle describes the performance specifications for your database.
-        public let relationalDatabaseBundleId: String?
-        /// Describes the hardware of the database.
-        public let hardware: RelationalDatabaseHardware?
-        /// The master user name of the database.
-        public let masterUsername: String?
-        /// The Region name and Availability Zone where the database is located.
-        public let location: ResourceLocation?
-        /// The database engine version (for example, 5.7.23).
-        public let engineVersion: String?
-        /// The timestamp when the database was created. Formatted in Unix time.
-        public let createdAt: TimeStamp?
-        /// The master endpoint for the database.
-        public let masterEndpoint: RelationalDatabaseEndpoint?
-        /// The status of parameter updates for the database.
-        public let parameterApplyStatus: String?
-        /// Describes the secondary Availability Zone of a high availability database. The secondary database is used for failover support of a high availability database.
-        public let secondaryAvailabilityZone: String?
-        /// The daily time range during which automated backups are created for the database (for example, 16:00-16:30).
-        public let preferredBackupWindow: String?
-        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
-        public let tags: [Tag]?
-        /// The support code for the database. Include this code in your email to support when you have questions about a database in Lightsail. This code enables our support team to look up your Lightsail information more easily.
-        public let supportCode: String?
-        /// Describes the pending maintenance actions for the database.
-        public let pendingMaintenanceActions: [PendingMaintenanceAction]?
-        /// The database software (for example, MySQL).
-        public let engine: String?
-        /// Describes pending database value modifications.
-        public let pendingModifiedValues: PendingModifiedRelationalDatabaseValues?
-        /// The Lightsail resource type for the database (for example, RelationalDatabase).
-        public let resourceType: ResourceType?
-        /// A Boolean value indicating whether the database is publicly accessible.
-        public let publiclyAccessible: Bool?
-        /// Describes the current state of the database.
-        public let state: String?
-        /// The weekly time range during which system maintenance can occur on the database. In the format ddd:hh24:mi-ddd:hh24:mi. For example, Tue:17:00-Tue:17:30.
-        public let preferredMaintenanceWindow: String?
-        /// The Amazon Resource Name (ARN) of the database.
-        public let arn: String?
-        /// The name of the master database created when the Lightsail database resource is created.
-        public let masterDatabaseName: String?
-        /// The unique name of the database resource in Lightsail.
-        public let name: String?
-        /// The blueprint ID for the database. A blueprint describes the major engine version of a database.
-        public let relationalDatabaseBlueprintId: String?
-
-        public init(backupRetentionEnabled: Bool? = nil, latestRestorableTime: TimeStamp? = nil, relationalDatabaseBundleId: String? = nil, hardware: RelationalDatabaseHardware? = nil, masterUsername: String? = nil, location: ResourceLocation? = nil, engineVersion: String? = nil, createdAt: TimeStamp? = nil, masterEndpoint: RelationalDatabaseEndpoint? = nil, parameterApplyStatus: String? = nil, secondaryAvailabilityZone: String? = nil, preferredBackupWindow: String? = nil, tags: [Tag]? = nil, supportCode: String? = nil, pendingMaintenanceActions: [PendingMaintenanceAction]? = nil, engine: String? = nil, pendingModifiedValues: PendingModifiedRelationalDatabaseValues? = nil, resourceType: ResourceType? = nil, publiclyAccessible: Bool? = nil, state: String? = nil, preferredMaintenanceWindow: String? = nil, arn: String? = nil, masterDatabaseName: String? = nil, name: String? = nil, relationalDatabaseBlueprintId: String? = nil) {
-            self.backupRetentionEnabled = backupRetentionEnabled
-            self.latestRestorableTime = latestRestorableTime
-            self.relationalDatabaseBundleId = relationalDatabaseBundleId
-            self.hardware = hardware
-            self.masterUsername = masterUsername
-            self.location = location
-            self.engineVersion = engineVersion
-            self.createdAt = createdAt
-            self.masterEndpoint = masterEndpoint
-            self.parameterApplyStatus = parameterApplyStatus
-            self.secondaryAvailabilityZone = secondaryAvailabilityZone
-            self.preferredBackupWindow = preferredBackupWindow
-            self.tags = tags
-            self.supportCode = supportCode
-            self.pendingMaintenanceActions = pendingMaintenanceActions
-            self.engine = engine
-            self.pendingModifiedValues = pendingModifiedValues
-            self.resourceType = resourceType
-            self.publiclyAccessible = publiclyAccessible
-            self.state = state
-            self.preferredMaintenanceWindow = preferredMaintenanceWindow
-            self.arn = arn
-            self.masterDatabaseName = masterDatabaseName
-            self.name = name
-            self.relationalDatabaseBlueprintId = relationalDatabaseBlueprintId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case backupRetentionEnabled = "backupRetentionEnabled"
-            case latestRestorableTime = "latestRestorableTime"
-            case relationalDatabaseBundleId = "relationalDatabaseBundleId"
-            case hardware = "hardware"
-            case masterUsername = "masterUsername"
-            case location = "location"
-            case engineVersion = "engineVersion"
-            case createdAt = "createdAt"
-            case masterEndpoint = "masterEndpoint"
-            case parameterApplyStatus = "parameterApplyStatus"
-            case secondaryAvailabilityZone = "secondaryAvailabilityZone"
-            case preferredBackupWindow = "preferredBackupWindow"
-            case tags = "tags"
-            case supportCode = "supportCode"
-            case pendingMaintenanceActions = "pendingMaintenanceActions"
-            case engine = "engine"
-            case pendingModifiedValues = "pendingModifiedValues"
-            case resourceType = "resourceType"
-            case publiclyAccessible = "publiclyAccessible"
-            case state = "state"
-            case preferredMaintenanceWindow = "preferredMaintenanceWindow"
-            case arn = "arn"
-            case masterDatabaseName = "masterDatabaseName"
-            case name = "name"
-            case relationalDatabaseBlueprintId = "relationalDatabaseBlueprintId"
-        }
-    }
-
-    public struct DeleteLoadBalancerTlsCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "force", required: false, type: .boolean), 
-            AWSShapeMember(label: "certificateName", required: true, type: .string), 
-            AWSShapeMember(label: "loadBalancerName", required: true, type: .string)
-        ]
-        /// When true, forces the deletion of an SSL/TLS certificate. There can be two certificates associated with a Lightsail load balancer: the primary and the backup. The force parameter is required when the primary SSL/TLS certificate is in use by an instance attached to the load balancer.
-        public let force: Bool?
-        /// The SSL/TLS certificate name.
-        public let certificateName: String
-        /// The load balancer name.
-        public let loadBalancerName: String
-
-        public init(force: Bool? = nil, certificateName: String, loadBalancerName: String) {
-            self.force = force
-            self.certificateName = certificateName
-            self.loadBalancerName = loadBalancerName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case force = "force"
-            case certificateName = "certificateName"
-            case loadBalancerName = "loadBalancerName"
-        }
-    }
-
-    public struct DiskSnapshotInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "sizeInGb", required: false, type: .integer)
-        ]
-        /// The size of the disk in GB (e.g., 32).
-        public let sizeInGb: Int32?
-
-        public init(sizeInGb: Int32? = nil) {
-            self.sizeInGb = sizeInGb
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sizeInGb = "sizeInGb"
-        }
-    }
-
-    public struct DeleteRelationalDatabaseSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
-        /// An object describing the result of your delete relational database snapshot request.
-        public let operations: [Operation]?
-
-        public init(operations: [Operation]? = nil) {
-            self.operations = operations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operations = "operations"
-        }
-    }
-
-    public struct GetInstanceAccessDetailsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceName", required: true, type: .string), 
-            AWSShapeMember(label: "protocol", required: false, type: .enum)
-        ]
-        /// The name of the instance to access.
-        public let instanceName: String
-        /// The protocol to use to connect to your instance. Defaults to ssh.
-        public let `protocol`: InstanceAccessProtocol?
-
-        public init(instanceName: String, protocol: InstanceAccessProtocol? = nil) {
-            self.instanceName = instanceName
-            self.`protocol` = `protocol`
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceName = "instanceName"
-            case `protocol` = "protocol"
-        }
-    }
-
-    public struct GetInstancesRequest: AWSShape {
+    public struct GetExportSnapshotRecordsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "pageToken", required: false, type: .string)
         ]
-        /// A token used for advancing to the next page of results from your get instances request.
+        /// A token used for advancing to a specific page of results for your get export snapshot records request.
         public let pageToken: String?
 
         public init(pageToken: String? = nil) {
@@ -4178,1181 +5949,11 @@ extension Lightsail {
         }
     }
 
-    public struct DeleteLoadBalancerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "loadBalancerName", required: true, type: .string)
-        ]
-        /// The name of the load balancer you want to delete.
-        public let loadBalancerName: String
-
-        public init(loadBalancerName: String) {
-            self.loadBalancerName = loadBalancerName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case loadBalancerName = "loadBalancerName"
-        }
-    }
-
-    public struct InstancePortState: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "toPort", required: false, type: .integer), 
-            AWSShapeMember(label: "state", required: false, type: .enum), 
-            AWSShapeMember(label: "fromPort", required: false, type: .integer), 
-            AWSShapeMember(label: "protocol", required: false, type: .enum)
-        ]
-        /// The last port in the range.
-        public let toPort: Int32?
-        /// Specifies whether the instance port is open or closed.
-        public let state: PortState?
-        /// The first port in the range.
-        public let fromPort: Int32?
-        /// The protocol being used. Can be one of the following.    tcp - Transmission Control Protocol (TCP) provides reliable, ordered, and error-checked delivery of streamed data between applications running on hosts communicating by an IP network. If you have an application that doesn't require reliable data stream service, use UDP instead.    all - All transport layer protocol types. For more general information, see Transport layer on Wikipedia.    udp - With User Datagram Protocol (UDP), computer applications can send messages (or datagrams) to other hosts on an Internet Protocol (IP) network. Prior communications are not required to set up transmission channels or data paths. Applications that don't require reliable data stream service can use UDP, which provides a connectionless datagram service that emphasizes reduced latency over reliability. If you do require reliable data stream service, use TCP instead.  
-        public let `protocol`: NetworkProtocol?
-
-        public init(toPort: Int32? = nil, state: PortState? = nil, fromPort: Int32? = nil, protocol: NetworkProtocol? = nil) {
-            self.toPort = toPort
-            self.state = state
-            self.fromPort = fromPort
-            self.`protocol` = `protocol`
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case toPort = "toPort"
-            case state = "state"
-            case fromPort = "fromPort"
-            case `protocol` = "protocol"
-        }
-    }
-
-    public struct GetBundlesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageToken", required: false, type: .string), 
-            AWSShapeMember(label: "includeInactive", required: false, type: .boolean)
-        ]
-        /// A token used for advancing to the next page of results from your get bundles request.
-        public let pageToken: String?
-        /// A Boolean value that indicates whether to include inactive bundle results in your request.
-        public let includeInactive: Bool?
-
-        public init(pageToken: String? = nil, includeInactive: Bool? = nil) {
-            self.pageToken = pageToken
-            self.includeInactive = includeInactive
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pageToken = "pageToken"
-            case includeInactive = "includeInactive"
-        }
-    }
-
-    public struct UpdateDomainEntryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domainEntry", required: true, type: .structure), 
-            AWSShapeMember(label: "domainName", required: true, type: .string)
-        ]
-        /// An array of key-value pairs containing information about the domain entry.
-        public let domainEntry: DomainEntry
-        /// The name of the domain recordset to update.
-        public let domainName: String
-
-        public init(domainEntry: DomainEntry, domainName: String) {
-            self.domainEntry = domainEntry
-            self.domainName = domainName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case domainEntry = "domainEntry"
-            case domainName = "domainName"
-        }
-    }
-
-    public enum PortInfoSourceType: String, CustomStringConvertible, Codable {
-        case `default` = "DEFAULT"
-        case instance = "INSTANCE"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DiskSnapshot: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "sizeInGb", required: false, type: .integer), 
-            AWSShapeMember(label: "fromDiskName", required: false, type: .string), 
-            AWSShapeMember(label: "progress", required: false, type: .string), 
-            AWSShapeMember(label: "state", required: false, type: .enum), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "supportCode", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "fromDiskArn", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "location", required: false, type: .structure)
-        ]
-        /// The size of the disk in GB.
-        public let sizeInGb: Int32?
-        /// The unique name of the source disk from which you are creating the disk snapshot.
-        public let fromDiskName: String?
-        /// The progress of the disk snapshot operation.
-        public let progress: String?
-        /// The status of the disk snapshot operation.
-        public let state: DiskSnapshotState?
-        /// The name of the disk snapshot (e.g., my-disk-snapshot).
-        public let name: String?
-        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
-        public let tags: [Tag]?
-        /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
-        public let supportCode: String?
-        /// The Lightsail resource type (e.g., DiskSnapshot).
-        public let resourceType: ResourceType?
-        /// The Amazon Resource Name (ARN) of the source disk from which you are creating the disk snapshot.
-        public let fromDiskArn: String?
-        /// The date when the disk snapshot was created.
-        public let createdAt: TimeStamp?
-        /// The Amazon Resource Name (ARN) of the disk snapshot.
-        public let arn: String?
-        /// The AWS Region and Availability Zone where the disk snapshot was created.
-        public let location: ResourceLocation?
-
-        public init(sizeInGb: Int32? = nil, fromDiskName: String? = nil, progress: String? = nil, state: DiskSnapshotState? = nil, name: String? = nil, tags: [Tag]? = nil, supportCode: String? = nil, resourceType: ResourceType? = nil, fromDiskArn: String? = nil, createdAt: TimeStamp? = nil, arn: String? = nil, location: ResourceLocation? = nil) {
-            self.sizeInGb = sizeInGb
-            self.fromDiskName = fromDiskName
-            self.progress = progress
-            self.state = state
-            self.name = name
-            self.tags = tags
-            self.supportCode = supportCode
-            self.resourceType = resourceType
-            self.fromDiskArn = fromDiskArn
-            self.createdAt = createdAt
-            self.arn = arn
-            self.location = location
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sizeInGb = "sizeInGb"
-            case fromDiskName = "fromDiskName"
-            case progress = "progress"
-            case state = "state"
-            case name = "name"
-            case tags = "tags"
-            case supportCode = "supportCode"
-            case resourceType = "resourceType"
-            case fromDiskArn = "fromDiskArn"
-            case createdAt = "createdAt"
-            case arn = "arn"
-            case location = "location"
-        }
-    }
-
-    public struct GetStaticIpsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "staticIps", required: false, type: .list), 
-            AWSShapeMember(label: "nextPageToken", required: false, type: .string)
-        ]
-        /// An array of key-value pairs containing information about your get static IPs request.
-        public let staticIps: [StaticIp]?
-        /// A token used for advancing to the next page of results from your get static IPs request.
-        public let nextPageToken: String?
-
-        public init(staticIps: [StaticIp]? = nil, nextPageToken: String? = nil) {
-            self.staticIps = staticIps
-            self.nextPageToken = nextPageToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case staticIps = "staticIps"
-            case nextPageToken = "nextPageToken"
-        }
-    }
-
-    public struct CreateRelationalDatabaseResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
-        /// An object describing the result of your create relational database request.
-        public let operations: [Operation]?
-
-        public init(operations: [Operation]? = nil) {
-            self.operations = operations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operations = "operations"
-        }
-    }
-
-    public struct DeleteDomainEntryResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operation", required: false, type: .structure)
-        ]
-        /// An array of key-value pairs containing information about the results of your delete domain entry request.
-        public let operation: Operation?
-
-        public init(operation: Operation? = nil) {
-            self.operation = operation
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operation = "operation"
-        }
-    }
-
-    public struct AttachStaticIpRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceName", required: true, type: .string), 
-            AWSShapeMember(label: "staticIpName", required: true, type: .string)
-        ]
-        /// The instance name to which you want to attach the static IP address.
-        public let instanceName: String
-        /// The name of the static IP.
-        public let staticIpName: String
-
-        public init(instanceName: String, staticIpName: String) {
-            self.instanceName = instanceName
-            self.staticIpName = staticIpName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceName = "instanceName"
-            case staticIpName = "staticIpName"
-        }
-    }
-
-    public struct GetInstanceStateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceName", required: true, type: .string)
-        ]
-        /// The name of the instance to get state information about.
-        public let instanceName: String
-
-        public init(instanceName: String) {
-            self.instanceName = instanceName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceName = "instanceName"
-        }
-    }
-
-    public struct AttachStaticIpResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
-        /// An array of key-value pairs containing information about your API operations.
-        public let operations: [Operation]?
-
-        public init(operations: [Operation]? = nil) {
-            self.operations = operations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operations = "operations"
-        }
-    }
-
-    public struct GetRelationalDatabaseSnapshotsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "relationalDatabaseSnapshots", required: false, type: .list), 
-            AWSShapeMember(label: "nextPageToken", required: false, type: .string)
-        ]
-        /// An object describing the result of your get relational database snapshots request.
-        public let relationalDatabaseSnapshots: [RelationalDatabaseSnapshot]?
-        /// A token used for advancing to the next page of results from your get relational database snapshots request.
-        public let nextPageToken: String?
-
-        public init(relationalDatabaseSnapshots: [RelationalDatabaseSnapshot]? = nil, nextPageToken: String? = nil) {
-            self.relationalDatabaseSnapshots = relationalDatabaseSnapshots
-            self.nextPageToken = nextPageToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case relationalDatabaseSnapshots = "relationalDatabaseSnapshots"
-            case nextPageToken = "nextPageToken"
-        }
-    }
-
-    public struct CreateDomainEntryResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operation", required: false, type: .structure)
-        ]
-        /// An array of key-value pairs containing information about the operation.
-        public let operation: Operation?
-
-        public init(operation: Operation? = nil) {
-            self.operation = operation
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operation = "operation"
-        }
-    }
-
-    public struct RebootInstanceResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
-        /// An array of key-value pairs containing information about the request operations.
-        public let operations: [Operation]?
-
-        public init(operations: [Operation]? = nil) {
-            self.operations = operations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operations = "operations"
-        }
-    }
-
-    public struct GetRelationalDatabaseBlueprintsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "blueprints", required: false, type: .list), 
-            AWSShapeMember(label: "nextPageToken", required: false, type: .string)
-        ]
-        /// An object describing the result of your get relational database blueprints request.
-        public let blueprints: [RelationalDatabaseBlueprint]?
-        /// A token used for advancing to the next page of results of your get relational database blueprints request.
-        public let nextPageToken: String?
-
-        public init(blueprints: [RelationalDatabaseBlueprint]? = nil, nextPageToken: String? = nil) {
-            self.blueprints = blueprints
-            self.nextPageToken = nextPageToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case blueprints = "blueprints"
-            case nextPageToken = "nextPageToken"
-        }
-    }
-
-    public struct InstanceSnapshot: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "state", required: false, type: .enum), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "sizeInGb", required: false, type: .integer), 
-            AWSShapeMember(label: "fromBundleId", required: false, type: .string), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "fromBlueprintId", required: false, type: .string), 
-            AWSShapeMember(label: "fromAttachedDisks", required: false, type: .list), 
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "progress", required: false, type: .string), 
-            AWSShapeMember(label: "fromInstanceArn", required: false, type: .string), 
-            AWSShapeMember(label: "supportCode", required: false, type: .string), 
-            AWSShapeMember(label: "fromInstanceName", required: false, type: .string)
-        ]
-        /// The state the snapshot is in.
-        public let state: InstanceSnapshotState?
-        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
-        public let tags: [Tag]?
-        /// The name of the snapshot.
-        public let name: String?
-        /// The type of resource (usually InstanceSnapshot).
-        public let resourceType: ResourceType?
-        /// The size in GB of the SSD.
-        public let sizeInGb: Int32?
-        /// The bundle ID from which you created the snapshot (e.g., micro_1_0).
-        public let fromBundleId: String?
-        /// The Amazon Resource Name (ARN) of the snapshot (e.g., arn:aws:lightsail:us-east-2:123456789101:InstanceSnapshot/d23b5706-3322-4d83-81e5-12345EXAMPLE).
-        public let arn: String?
-        /// The timestamp when the snapshot was created (e.g., 1479907467.024).
-        public let createdAt: TimeStamp?
-        /// The blueprint ID from which you created the snapshot (e.g., os_debian_8_3). A blueprint is a virtual private server (or instance) image used to create instances quickly.
-        public let fromBlueprintId: String?
-        /// An array of disk objects containing information about all block storage disks.
-        public let fromAttachedDisks: [Disk]?
-        /// The region name and Availability Zone where you created the snapshot.
-        public let location: ResourceLocation?
-        /// The progress of the snapshot.
-        public let progress: String?
-        /// The Amazon Resource Name (ARN) of the instance from which the snapshot was created (e.g., arn:aws:lightsail:us-east-2:123456789101:Instance/64b8404c-ccb1-430b-8daf-12345EXAMPLE).
-        public let fromInstanceArn: String?
-        /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
-        public let supportCode: String?
-        /// The instance from which the snapshot was created.
-        public let fromInstanceName: String?
-
-        public init(state: InstanceSnapshotState? = nil, tags: [Tag]? = nil, name: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int32? = nil, fromBundleId: String? = nil, arn: String? = nil, createdAt: TimeStamp? = nil, fromBlueprintId: String? = nil, fromAttachedDisks: [Disk]? = nil, location: ResourceLocation? = nil, progress: String? = nil, fromInstanceArn: String? = nil, supportCode: String? = nil, fromInstanceName: String? = nil) {
-            self.state = state
-            self.tags = tags
-            self.name = name
-            self.resourceType = resourceType
-            self.sizeInGb = sizeInGb
-            self.fromBundleId = fromBundleId
-            self.arn = arn
-            self.createdAt = createdAt
-            self.fromBlueprintId = fromBlueprintId
-            self.fromAttachedDisks = fromAttachedDisks
-            self.location = location
-            self.progress = progress
-            self.fromInstanceArn = fromInstanceArn
-            self.supportCode = supportCode
-            self.fromInstanceName = fromInstanceName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case state = "state"
-            case tags = "tags"
-            case name = "name"
-            case resourceType = "resourceType"
-            case sizeInGb = "sizeInGb"
-            case fromBundleId = "fromBundleId"
-            case arn = "arn"
-            case createdAt = "createdAt"
-            case fromBlueprintId = "fromBlueprintId"
-            case fromAttachedDisks = "fromAttachedDisks"
-            case location = "location"
-            case progress = "progress"
-            case fromInstanceArn = "fromInstanceArn"
-            case supportCode = "supportCode"
-            case fromInstanceName = "fromInstanceName"
-        }
-    }
-
-    public struct CreateLoadBalancerResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
-        /// An object containing information about the API operations.
-        public let operations: [Operation]?
-
-        public init(operations: [Operation]? = nil) {
-            self.operations = operations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operations = "operations"
-        }
-    }
-
-    public struct CreateRelationalDatabaseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "relationalDatabaseBlueprintId", required: true, type: .string), 
-            AWSShapeMember(label: "masterUsername", required: true, type: .string), 
-            AWSShapeMember(label: "publiclyAccessible", required: false, type: .boolean), 
-            AWSShapeMember(label: "availabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "masterDatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "preferredBackupWindow", required: false, type: .string), 
-            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "relationalDatabaseBundleId", required: true, type: .string), 
-            AWSShapeMember(label: "masterUserPassword", required: false, type: .string), 
-            AWSShapeMember(label: "preferredMaintenanceWindow", required: false, type: .string)
-        ]
-        /// The blueprint ID for your new database. A blueprint describes the major engine version of a database. You can get a list of database blueprints IDs by using the get relational database blueprints operation.
-        public let relationalDatabaseBlueprintId: String
-        /// The master user name for your new database. Constraints:   Master user name is required.   Must contain from 1 to 16 alphanumeric characters.   The first character must be a letter.   Cannot be a reserved word for the database engine you choose. For more information about reserved words in MySQL 5.6 or 5.7, see the Keywords and Reserved Words articles for MySQL 5.6 or MySQL 5.7 respectively.  
-        public let masterUsername: String
-        /// Specifies the accessibility options for your new database. A value of true specifies a database that is available to resources outside of your Lightsail account. A value of false specifies a database that is available only to your Lightsail resources in the same region as your database.
-        public let publiclyAccessible: Bool?
-        /// The Availability Zone in which to create your new database. Use the us-east-2a case-sensitive format. You can get a list of Availability Zones by using the get regions operation. Be sure to add the include relational database Availability Zones parameter to your request.
-        public let availabilityZone: String?
-        /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
-        public let tags: [Tag]?
-        /// The name of the master database created when the Lightsail database resource is created. Constraints:   Must contain from 1 to 64 alphanumeric characters.   Cannot be a word reserved by the specified database engine  
-        public let masterDatabaseName: String
-        /// The daily time range during which automated backups are created for your new database if automated backups are enabled. The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region. For more information about the preferred backup window time blocks for each region, see the Working With Backups guide in the Amazon Relational Database Service (Amazon RDS) documentation. Constraints:   Must be in the hh24:mi-hh24:mi format. Example: 16:00-16:30    Specified in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
-        public let preferredBackupWindow: String?
-        /// The name to use for your new database. Constraints:   Must contain from 2 to 255 alphanumeric characters, or hyphens.   The first and last character must be a letter or number.  
-        public let relationalDatabaseName: String
-        /// The bundle ID for your new database. A bundle describes the performance specifications for your database. You can get a list of database bundle IDs by using the get relational database bundles operation.
-        public let relationalDatabaseBundleId: String
-        /// The password for the master user of your new database. The password can include any printable ASCII character except "/", """, or "@". Constraints: Must contain 8 to 41 characters.
-        public let masterUserPassword: String?
-        /// The weekly time range during which system maintenance can occur on your new database. The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region, occurring on a random day of the week. Constraints:   Must be in the ddd:hh24:mi-ddd:hh24:mi format.   Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun.   Must be at least 30 minutes.   Specified in Universal Coordinated Time (UTC).   Example: Tue:17:00-Tue:17:30   
-        public let preferredMaintenanceWindow: String?
-
-        public init(relationalDatabaseBlueprintId: String, masterUsername: String, publiclyAccessible: Bool? = nil, availabilityZone: String? = nil, tags: [Tag]? = nil, masterDatabaseName: String, preferredBackupWindow: String? = nil, relationalDatabaseName: String, relationalDatabaseBundleId: String, masterUserPassword: String? = nil, preferredMaintenanceWindow: String? = nil) {
-            self.relationalDatabaseBlueprintId = relationalDatabaseBlueprintId
-            self.masterUsername = masterUsername
-            self.publiclyAccessible = publiclyAccessible
-            self.availabilityZone = availabilityZone
-            self.tags = tags
-            self.masterDatabaseName = masterDatabaseName
-            self.preferredBackupWindow = preferredBackupWindow
-            self.relationalDatabaseName = relationalDatabaseName
-            self.relationalDatabaseBundleId = relationalDatabaseBundleId
-            self.masterUserPassword = masterUserPassword
-            self.preferredMaintenanceWindow = preferredMaintenanceWindow
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case relationalDatabaseBlueprintId = "relationalDatabaseBlueprintId"
-            case masterUsername = "masterUsername"
-            case publiclyAccessible = "publiclyAccessible"
-            case availabilityZone = "availabilityZone"
-            case tags = "tags"
-            case masterDatabaseName = "masterDatabaseName"
-            case preferredBackupWindow = "preferredBackupWindow"
-            case relationalDatabaseName = "relationalDatabaseName"
-            case relationalDatabaseBundleId = "relationalDatabaseBundleId"
-            case masterUserPassword = "masterUserPassword"
-            case preferredMaintenanceWindow = "preferredMaintenanceWindow"
-        }
-    }
-
-    public struct GetActiveNamesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "activeNames", required: false, type: .list)
-        ]
-        /// A token used for advancing to the next page of results from your get active names request.
-        public let nextPageToken: String?
-        /// The list of active names returned by the get active names request.
-        public let activeNames: [String]?
-
-        public init(nextPageToken: String? = nil, activeNames: [String]? = nil) {
-            self.nextPageToken = nextPageToken
-            self.activeNames = activeNames
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextPageToken = "nextPageToken"
-            case activeNames = "activeNames"
-        }
-    }
-
-    public struct StartInstanceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceName", required: true, type: .string)
-        ]
-        /// The name of the instance (a virtual private server) to start.
-        public let instanceName: String
-
-        public init(instanceName: String) {
-            self.instanceName = instanceName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceName = "instanceName"
-        }
-    }
-
-    public struct TagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: true, type: .list), 
-            AWSShapeMember(label: "resourceName", required: true, type: .string)
-        ]
-        /// The tag key and optional value.
-        public let tags: [Tag]
-        /// The name of the resource to which you are adding tags.
-        public let resourceName: String
-
-        public init(tags: [Tag], resourceName: String) {
-            self.tags = tags
-            self.resourceName = resourceName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "tags"
-            case resourceName = "resourceName"
-        }
-    }
-
-    public struct CreateDomainRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "domainName", required: true, type: .string)
-        ]
-        /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
-        public let tags: [Tag]?
-        /// The domain name to manage (e.g., example.com).  You cannot register a new domain name using Lightsail. You must register a domain name using Amazon Route 53 or another domain name registrar. If you have already registered your domain, you can enter its name in this parameter to manage the DNS records for that domain. 
-        public let domainName: String
-
-        public init(tags: [Tag]? = nil, domainName: String) {
-            self.tags = tags
-            self.domainName = domainName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "tags"
-            case domainName = "domainName"
-        }
-    }
-
-    public struct GetBundlesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bundles", required: false, type: .list), 
-            AWSShapeMember(label: "nextPageToken", required: false, type: .string)
-        ]
-        /// An array of key-value pairs that contains information about the available bundles.
-        public let bundles: [Bundle]?
-        /// A token used for advancing to the next page of results from your get active names request.
-        public let nextPageToken: String?
-
-        public init(bundles: [Bundle]? = nil, nextPageToken: String? = nil) {
-            self.bundles = bundles
-            self.nextPageToken = nextPageToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bundles = "bundles"
-            case nextPageToken = "nextPageToken"
-        }
-    }
-
-    public struct GetRelationalDatabaseMasterUserPasswordResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "masterUserPassword", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp)
-        ]
-        /// The master user password for the password version specified.
-        public let masterUserPassword: String?
-        /// The timestamp when the specified version of the master user password was created.
-        public let createdAt: TimeStamp?
-
-        public init(masterUserPassword: String? = nil, createdAt: TimeStamp? = nil) {
-            self.masterUserPassword = masterUserPassword
-            self.createdAt = createdAt
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case masterUserPassword = "masterUserPassword"
-            case createdAt = "createdAt"
-        }
-    }
-
-    public enum LoadBalancerTlsCertificateRevocationReason: String, CustomStringConvertible, Codable {
-        case unspecified = "UNSPECIFIED"
-        case keyCompromise = "KEY_COMPROMISE"
-        case caCompromise = "CA_COMPROMISE"
-        case affiliationChanged = "AFFILIATION_CHANGED"
-        case superceded = "SUPERCEDED"
-        case cessationOfOperation = "CESSATION_OF_OPERATION"
-        case certificateHold = "CERTIFICATE_HOLD"
-        case removeFromCrl = "REMOVE_FROM_CRL"
-        case privilegeWithdrawn = "PRIVILEGE_WITHDRAWN"
-        case aACompromise = "A_A_COMPROMISE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct StopRelationalDatabaseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "relationalDatabaseSnapshotName", required: false, type: .string), 
-            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string)
-        ]
-        /// The name of your new database snapshot to be created before stopping your database.
-        public let relationalDatabaseSnapshotName: String?
-        /// The name of your database to stop.
-        public let relationalDatabaseName: String
-
-        public init(relationalDatabaseSnapshotName: String? = nil, relationalDatabaseName: String) {
-            self.relationalDatabaseSnapshotName = relationalDatabaseSnapshotName
-            self.relationalDatabaseName = relationalDatabaseName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case relationalDatabaseSnapshotName = "relationalDatabaseSnapshotName"
-            case relationalDatabaseName = "relationalDatabaseName"
-        }
-    }
-
-    public struct AttachInstancesToLoadBalancerResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
-        /// An object representing the API operations.
-        public let operations: [Operation]?
-
-        public init(operations: [Operation]? = nil) {
-            self.operations = operations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operations = "operations"
-        }
-    }
-
-    public struct AllocateStaticIpResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
-        /// An array of key-value pairs containing information about the static IP address you allocated.
-        public let operations: [Operation]?
-
-        public init(operations: [Operation]? = nil) {
-            self.operations = operations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operations = "operations"
-        }
-    }
-
-    public struct GetRegionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "includeRelationalDatabaseAvailabilityZones", required: false, type: .boolean), 
-            AWSShapeMember(label: "includeAvailabilityZones", required: false, type: .boolean)
-        ]
-        /// &gt;A Boolean value indicating whether to also include Availability Zones for databases in your get regions request. Availability Zones are indicated with a letter (e.g., us-east-2a).
-        public let includeRelationalDatabaseAvailabilityZones: Bool?
-        /// A Boolean value indicating whether to also include Availability Zones in your get regions request. Availability Zones are indicated with a letter: e.g., us-east-2a.
-        public let includeAvailabilityZones: Bool?
-
-        public init(includeRelationalDatabaseAvailabilityZones: Bool? = nil, includeAvailabilityZones: Bool? = nil) {
-            self.includeRelationalDatabaseAvailabilityZones = includeRelationalDatabaseAvailabilityZones
-            self.includeAvailabilityZones = includeAvailabilityZones
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case includeRelationalDatabaseAvailabilityZones = "includeRelationalDatabaseAvailabilityZones"
-            case includeAvailabilityZones = "includeAvailabilityZones"
-        }
-    }
-
-    public struct GetRelationalDatabaseEventsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeMember(label: "relationalDatabaseEvents", required: false, type: .list)
-        ]
-        /// A token used for advancing to the next page of results from your get relational database events request.
-        public let nextPageToken: String?
-        /// An object describing the result of your get relational database events request.
-        public let relationalDatabaseEvents: [RelationalDatabaseEvent]?
-
-        public init(nextPageToken: String? = nil, relationalDatabaseEvents: [RelationalDatabaseEvent]? = nil) {
-            self.nextPageToken = nextPageToken
-            self.relationalDatabaseEvents = relationalDatabaseEvents
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextPageToken = "nextPageToken"
-            case relationalDatabaseEvents = "relationalDatabaseEvents"
-        }
-    }
-
-    public struct GetOperationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operationId", required: true, type: .string)
-        ]
-        /// A GUID used to identify the operation.
-        public let operationId: String
-
-        public init(operationId: String) {
-            self.operationId = operationId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operationId = "operationId"
-        }
-    }
-
-    public enum DiskState: String, CustomStringConvertible, Codable {
-        case pending = "pending"
-        case error = "error"
-        case available = "available"
-        case inUse = "in-use"
-        case unknown = "unknown"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateCloudFormationStackResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
-        /// A list of objects describing the API operation.
-        public let operations: [Operation]?
-
-        public init(operations: [Operation]? = nil) {
-            self.operations = operations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operations = "operations"
-        }
-    }
-
-    public struct GetInstanceSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceSnapshot", required: false, type: .structure)
-        ]
-        /// An array of key-value pairs containing information about the results of your get instance snapshot request.
-        public let instanceSnapshot: InstanceSnapshot?
-
-        public init(instanceSnapshot: InstanceSnapshot? = nil) {
-            self.instanceSnapshot = instanceSnapshot
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceSnapshot = "instanceSnapshot"
-        }
-    }
-
-    public struct CreateDomainEntryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domainEntry", required: true, type: .structure), 
-            AWSShapeMember(label: "domainName", required: true, type: .string)
-        ]
-        /// An array of key-value pairs containing information about the domain entry request.
-        public let domainEntry: DomainEntry
-        /// The domain name (e.g., example.com) for which you want to create the domain entry.
-        public let domainName: String
-
-        public init(domainEntry: DomainEntry, domainName: String) {
-            self.domainEntry = domainEntry
-            self.domainName = domainName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case domainEntry = "domainEntry"
-            case domainName = "domainName"
-        }
-    }
-
-    public enum InstanceAccessProtocol: String, CustomStringConvertible, Codable {
-        case ssh = "ssh"
-        case rdp = "rdp"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetRelationalDatabaseBlueprintsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageToken", required: false, type: .string)
-        ]
-        /// A token used for advancing to a specific page of results for your get relational database blueprints request.
-        public let pageToken: String?
-
-        public init(pageToken: String? = nil) {
-            self.pageToken = pageToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pageToken = "pageToken"
-        }
-    }
-
-    public struct UpdateRelationalDatabaseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "publiclyAccessible", required: false, type: .boolean), 
-            AWSShapeMember(label: "preferredBackupWindow", required: false, type: .string), 
-            AWSShapeMember(label: "enableBackupRetention", required: false, type: .boolean), 
-            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string), 
-            AWSShapeMember(label: "disableBackupRetention", required: false, type: .boolean), 
-            AWSShapeMember(label: "applyImmediately", required: false, type: .boolean), 
-            AWSShapeMember(label: "rotateMasterUserPassword", required: false, type: .boolean), 
-            AWSShapeMember(label: "masterUserPassword", required: false, type: .string), 
-            AWSShapeMember(label: "preferredMaintenanceWindow", required: false, type: .string)
-        ]
-        /// Specifies the accessibility options for your database. A value of true specifies a database that is available to resources outside of your Lightsail account. A value of false specifies a database that is available only to your Lightsail resources in the same region as your database.
-        public let publiclyAccessible: Bool?
-        /// The daily time range during which automated backups are created for your database if automated backups are enabled. Constraints:   Must be in the hh24:mi-hh24:mi format. Example: 16:00-16:30    Specified in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
-        public let preferredBackupWindow: String?
-        /// When true, enables automated backup retention for your database. Updates are applied during the next maintenance window because this can result in an outage.
-        public let enableBackupRetention: Bool?
-        /// The name of your database to update.
-        public let relationalDatabaseName: String
-        /// When true, disables automated backup retention for your database. Disabling backup retention deletes all automated database backups. Before disabling this, you may want to create a snapshot of your database using the create relational database snapshot operation. Updates are applied during the next maintenance window because this can result in an outage.
-        public let disableBackupRetention: Bool?
-        /// When true, applies changes immediately. When false, applies changes during the preferred maintenance window. Some changes may cause an outage. Default: false 
-        public let applyImmediately: Bool?
-        /// When true, the master user password is changed to a new strong password generated by Lightsail. Use the get relational database master user password operation to get the new password.
-        public let rotateMasterUserPassword: Bool?
-        /// The password for the master user of your database. The password can include any printable ASCII character except "/", """, or "@". Constraints: Must contain 8 to 41 characters.
-        public let masterUserPassword: String?
-        /// The weekly time range during which system maintenance can occur on your database. The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region, occurring on a random day of the week. Constraints:   Must be in the ddd:hh24:mi-ddd:hh24:mi format.   Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun.   Must be at least 30 minutes.   Specified in Universal Coordinated Time (UTC).   Example: Tue:17:00-Tue:17:30   
-        public let preferredMaintenanceWindow: String?
-
-        public init(publiclyAccessible: Bool? = nil, preferredBackupWindow: String? = nil, enableBackupRetention: Bool? = nil, relationalDatabaseName: String, disableBackupRetention: Bool? = nil, applyImmediately: Bool? = nil, rotateMasterUserPassword: Bool? = nil, masterUserPassword: String? = nil, preferredMaintenanceWindow: String? = nil) {
-            self.publiclyAccessible = publiclyAccessible
-            self.preferredBackupWindow = preferredBackupWindow
-            self.enableBackupRetention = enableBackupRetention
-            self.relationalDatabaseName = relationalDatabaseName
-            self.disableBackupRetention = disableBackupRetention
-            self.applyImmediately = applyImmediately
-            self.rotateMasterUserPassword = rotateMasterUserPassword
-            self.masterUserPassword = masterUserPassword
-            self.preferredMaintenanceWindow = preferredMaintenanceWindow
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case publiclyAccessible = "publiclyAccessible"
-            case preferredBackupWindow = "preferredBackupWindow"
-            case enableBackupRetention = "enableBackupRetention"
-            case relationalDatabaseName = "relationalDatabaseName"
-            case disableBackupRetention = "disableBackupRetention"
-            case applyImmediately = "applyImmediately"
-            case rotateMasterUserPassword = "rotateMasterUserPassword"
-            case masterUserPassword = "masterUserPassword"
-            case preferredMaintenanceWindow = "preferredMaintenanceWindow"
-        }
-    }
-
-    public struct InstanceNetworking: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "monthlyTransfer", required: false, type: .structure), 
-            AWSShapeMember(label: "ports", required: false, type: .list)
-        ]
-        /// The amount of data in GB allocated for monthly data transfers.
-        public let monthlyTransfer: MonthlyTransfer?
-        /// An array of key-value pairs containing information about the ports on the instance.
-        public let ports: [InstancePortInfo]?
-
-        public init(monthlyTransfer: MonthlyTransfer? = nil, ports: [InstancePortInfo]? = nil) {
-            self.monthlyTransfer = monthlyTransfer
-            self.ports = ports
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case monthlyTransfer = "monthlyTransfer"
-            case ports = "ports"
-        }
-    }
-
-    public struct GetLoadBalancerTlsCertificatesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "loadBalancerName", required: true, type: .string)
-        ]
-        /// The name of the load balancer you associated with your SSL/TLS certificate.
-        public let loadBalancerName: String
-
-        public init(loadBalancerName: String) {
-            self.loadBalancerName = loadBalancerName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case loadBalancerName = "loadBalancerName"
-        }
-    }
-
-    public enum OperationStatus: String, CustomStringConvertible, Codable {
-        case notstarted = "NotStarted"
-        case started = "Started"
-        case failed = "Failed"
-        case completed = "Completed"
-        case succeeded = "Succeeded"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct Bundle: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "supportedPlatforms", required: false, type: .list), 
-            AWSShapeMember(label: "ramSizeInGb", required: false, type: .float), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "instanceType", required: false, type: .string), 
-            AWSShapeMember(label: "cpuCount", required: false, type: .integer), 
-            AWSShapeMember(label: "diskSizeInGb", required: false, type: .integer), 
-            AWSShapeMember(label: "power", required: false, type: .integer), 
-            AWSShapeMember(label: "bundleId", required: false, type: .string), 
-            AWSShapeMember(label: "transferPerMonthInGb", required: false, type: .integer), 
-            AWSShapeMember(label: "price", required: false, type: .float), 
-            AWSShapeMember(label: "isActive", required: false, type: .boolean)
-        ]
-        /// The operating system platform (Linux/Unix-based or Windows Server-based) that the bundle supports. You can only launch a WINDOWS bundle on a blueprint that supports the WINDOWS platform. LINUX_UNIX blueprints require a LINUX_UNIX bundle.
-        public let supportedPlatforms: [InstancePlatform]?
-        /// The amount of RAM in GB (e.g., 2.0).
-        public let ramSizeInGb: Float?
-        /// A friendly name for the bundle (e.g., Micro).
-        public let name: String?
-        /// The Amazon EC2 instance type (e.g., t2.micro).
-        public let instanceType: String?
-        /// The number of vCPUs included in the bundle (e.g., 2).
-        public let cpuCount: Int32?
-        /// The size of the SSD (e.g., 30).
-        public let diskSizeInGb: Int32?
-        /// A numeric value that represents the power of the bundle (e.g., 500). You can use the bundle's power value in conjunction with a blueprint's minimum power value to determine whether the blueprint will run on the bundle. For example, you need a bundle with a power value of 500 or more to create an instance that uses a blueprint with a minimum power value of 500.
-        public let power: Int32?
-        /// The bundle ID (e.g., micro_1_0).
-        public let bundleId: String?
-        /// The data transfer rate per month in GB (e.g., 2000).
-        public let transferPerMonthInGb: Int32?
-        /// The price in US dollars (e.g., 5.0).
-        public let price: Float?
-        /// A Boolean value indicating whether the bundle is active.
-        public let isActive: Bool?
-
-        public init(supportedPlatforms: [InstancePlatform]? = nil, ramSizeInGb: Float? = nil, name: String? = nil, instanceType: String? = nil, cpuCount: Int32? = nil, diskSizeInGb: Int32? = nil, power: Int32? = nil, bundleId: String? = nil, transferPerMonthInGb: Int32? = nil, price: Float? = nil, isActive: Bool? = nil) {
-            self.supportedPlatforms = supportedPlatforms
-            self.ramSizeInGb = ramSizeInGb
-            self.name = name
-            self.instanceType = instanceType
-            self.cpuCount = cpuCount
-            self.diskSizeInGb = diskSizeInGb
-            self.power = power
-            self.bundleId = bundleId
-            self.transferPerMonthInGb = transferPerMonthInGb
-            self.price = price
-            self.isActive = isActive
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case supportedPlatforms = "supportedPlatforms"
-            case ramSizeInGb = "ramSizeInGb"
-            case name = "name"
-            case instanceType = "instanceType"
-            case cpuCount = "cpuCount"
-            case diskSizeInGb = "diskSizeInGb"
-            case power = "power"
-            case bundleId = "bundleId"
-            case transferPerMonthInGb = "transferPerMonthInGb"
-            case price = "price"
-            case isActive = "isActive"
-        }
-    }
-
-    public struct GetRelationalDatabaseLogEventsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceLogEvents", required: false, type: .list), 
-            AWSShapeMember(label: "nextBackwardToken", required: false, type: .string), 
-            AWSShapeMember(label: "nextForwardToken", required: false, type: .string)
-        ]
-        /// An object describing the result of your get relational database log events request.
-        public let resourceLogEvents: [LogEvent]?
-        /// A token used for advancing to the previous page of results from your get relational database log events request.
-        public let nextBackwardToken: String?
-        /// A token used for advancing to the next page of results from your get relational database log events request.
-        public let nextForwardToken: String?
-
-        public init(resourceLogEvents: [LogEvent]? = nil, nextBackwardToken: String? = nil, nextForwardToken: String? = nil) {
-            self.resourceLogEvents = resourceLogEvents
-            self.nextBackwardToken = nextBackwardToken
-            self.nextForwardToken = nextForwardToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceLogEvents = "resourceLogEvents"
-            case nextBackwardToken = "nextBackwardToken"
-            case nextForwardToken = "nextForwardToken"
-        }
-    }
-
-    public struct InstanceHardware: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ramSizeInGb", required: false, type: .float), 
-            AWSShapeMember(label: "disks", required: false, type: .list), 
-            AWSShapeMember(label: "cpuCount", required: false, type: .integer)
-        ]
-        /// The amount of RAM in GB on the instance (e.g., 1.0).
-        public let ramSizeInGb: Float?
-        /// The disks attached to the instance.
-        public let disks: [Disk]?
-        /// The number of vCPUs the instance has.
-        public let cpuCount: Int32?
-
-        public init(ramSizeInGb: Float? = nil, disks: [Disk]? = nil, cpuCount: Int32? = nil) {
-            self.ramSizeInGb = ramSizeInGb
-            self.disks = disks
-            self.cpuCount = cpuCount
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ramSizeInGb = "ramSizeInGb"
-            case disks = "disks"
-            case cpuCount = "cpuCount"
-        }
-    }
-
-    public struct RelationalDatabaseHardware: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ramSizeInGb", required: false, type: .float), 
-            AWSShapeMember(label: "cpuCount", required: false, type: .integer), 
-            AWSShapeMember(label: "diskSizeInGb", required: false, type: .integer)
-        ]
-        /// The amount of RAM in GB for the database.
-        public let ramSizeInGb: Float?
-        /// The number of vCPUs for the database.
-        public let cpuCount: Int32?
-        /// The size of the disk for the database.
-        public let diskSizeInGb: Int32?
-
-        public init(ramSizeInGb: Float? = nil, cpuCount: Int32? = nil, diskSizeInGb: Int32? = nil) {
-            self.ramSizeInGb = ramSizeInGb
-            self.cpuCount = cpuCount
-            self.diskSizeInGb = diskSizeInGb
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ramSizeInGb = "ramSizeInGb"
-            case cpuCount = "cpuCount"
-            case diskSizeInGb = "diskSizeInGb"
-        }
-    }
-
-    public struct GetRelationalDatabaseParametersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageToken", required: false, type: .string), 
-            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string)
-        ]
-        /// A token used for advancing to a specific page of results for your get relational database parameters request.
-        public let pageToken: String?
-        /// The name of your database for which to get parameters.
-        public let relationalDatabaseName: String
-
-        public init(pageToken: String? = nil, relationalDatabaseName: String) {
-            self.pageToken = pageToken
-            self.relationalDatabaseName = relationalDatabaseName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pageToken = "pageToken"
-            case relationalDatabaseName = "relationalDatabaseName"
-        }
-    }
-
-    public struct GetInstanceStateResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "state", required: false, type: .structure)
-        ]
-        /// The state of the instance.
-        public let state: InstanceState?
-
-        public init(state: InstanceState? = nil) {
-            self.state = state
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case state = "state"
-        }
-    }
-
-    public struct DeleteDomainRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domainName", required: true, type: .string)
-        ]
-        /// The specific domain name to delete.
-        public let domainName: String
-
-        public init(domainName: String) {
-            self.domainName = domainName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "domainName"
-        }
-    }
-
-    public enum BlueprintType: String, CustomStringConvertible, Codable {
-        case os = "os"
-        case app = "app"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct IsVpcPeeredResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "isPeered", required: false, type: .boolean)
-        ]
-        /// Returns true if the Lightsail VPC is peered; otherwise, false.
-        public let isPeered: Bool?
-
-        public init(isPeered: Bool? = nil) {
-            self.isPeered = isPeered
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case isPeered = "isPeered"
-        }
-    }
-
-    public struct DownloadDefaultKeyPairRequest: AWSShape {
-
-    }
-
-    public struct GetRelationalDatabaseLogStreamsRequest: AWSShape {
+    public struct StartRelationalDatabaseRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string)
         ]
-        /// The name of your database for which to get log streams.
+        /// The name of your database to start.
         public let relationalDatabaseName: String
 
         public init(relationalDatabaseName: String) {
@@ -5364,1202 +5965,11 @@ extension Lightsail {
         }
     }
 
-    public struct PendingMaintenanceAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "action", required: false, type: .string), 
-            AWSShapeMember(label: "currentApplyDate", required: false, type: .timestamp)
-        ]
-        /// Additional detail about the pending database maintenance action.
-        public let description: String?
-        /// The type of pending database maintenance action.
-        public let action: String?
-        /// The effective date of the pending database maintenance action.
-        public let currentApplyDate: TimeStamp?
-
-        public init(description: String? = nil, action: String? = nil, currentApplyDate: TimeStamp? = nil) {
-            self.description = description
-            self.action = action
-            self.currentApplyDate = currentApplyDate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case description = "description"
-            case action = "action"
-            case currentApplyDate = "currentApplyDate"
-        }
-    }
-
-    public struct GetRelationalDatabaseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string)
-        ]
-        /// The name of the database that you are looking up.
-        public let relationalDatabaseName: String
-
-        public init(relationalDatabaseName: String) {
-            self.relationalDatabaseName = relationalDatabaseName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case relationalDatabaseName = "relationalDatabaseName"
-        }
-    }
-
-    public struct CreateDiskFromSnapshotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "diskName", required: true, type: .string), 
-            AWSShapeMember(label: "diskSnapshotName", required: true, type: .string), 
-            AWSShapeMember(label: "availabilityZone", required: true, type: .string), 
-            AWSShapeMember(label: "sizeInGb", required: true, type: .integer)
-        ]
-        /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
-        public let tags: [Tag]?
-        /// The unique Lightsail disk name (e.g., my-disk).
-        public let diskName: String
-        /// The name of the disk snapshot (e.g., my-snapshot) from which to create the new storage disk.
-        public let diskSnapshotName: String
-        /// The Availability Zone where you want to create the disk (e.g., us-east-2a). Choose the same Availability Zone as the Lightsail instance where you want to create the disk. Use the GetRegions operation to list the Availability Zones where Lightsail is currently available.
-        public let availabilityZone: String
-        /// The size of the disk in GB (e.g., 32).
-        public let sizeInGb: Int32
-
-        public init(tags: [Tag]? = nil, diskName: String, diskSnapshotName: String, availabilityZone: String, sizeInGb: Int32) {
-            self.tags = tags
-            self.diskName = diskName
-            self.diskSnapshotName = diskSnapshotName
-            self.availabilityZone = availabilityZone
-            self.sizeInGb = sizeInGb
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "tags"
-            case diskName = "diskName"
-            case diskSnapshotName = "diskSnapshotName"
-            case availabilityZone = "availabilityZone"
-            case sizeInGb = "sizeInGb"
-        }
-    }
-
-    public struct StaticIp: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ipAddress", required: false, type: .string), 
-            AWSShapeMember(label: "attachedTo", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "isAttached", required: false, type: .boolean), 
-            AWSShapeMember(label: "supportCode", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "location", required: false, type: .structure)
-        ]
-        /// The static IP address.
-        public let ipAddress: String?
-        /// The instance where the static IP is attached (e.g., Amazon_Linux-1GB-Ohio-1).
-        public let attachedTo: String?
-        /// The name of the static IP (e.g., StaticIP-Ohio-EXAMPLE).
-        public let name: String?
-        /// A Boolean value indicating whether the static IP is attached.
-        public let isAttached: Bool?
-        /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
-        public let supportCode: String?
-        /// The resource type (usually StaticIp).
-        public let resourceType: ResourceType?
-        /// The timestamp when the static IP was created (e.g., 1479735304.222).
-        public let createdAt: TimeStamp?
-        /// The Amazon Resource Name (ARN) of the static IP (e.g., arn:aws:lightsail:us-east-2:123456789101:StaticIp/9cbb4a9e-f8e3-4dfe-b57e-12345EXAMPLE).
-        public let arn: String?
-        /// The region and Availability Zone where the static IP was created.
-        public let location: ResourceLocation?
-
-        public init(ipAddress: String? = nil, attachedTo: String? = nil, name: String? = nil, isAttached: Bool? = nil, supportCode: String? = nil, resourceType: ResourceType? = nil, createdAt: TimeStamp? = nil, arn: String? = nil, location: ResourceLocation? = nil) {
-            self.ipAddress = ipAddress
-            self.attachedTo = attachedTo
-            self.name = name
-            self.isAttached = isAttached
-            self.supportCode = supportCode
-            self.resourceType = resourceType
-            self.createdAt = createdAt
-            self.arn = arn
-            self.location = location
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ipAddress = "ipAddress"
-            case attachedTo = "attachedTo"
-            case name = "name"
-            case isAttached = "isAttached"
-            case supportCode = "supportCode"
-            case resourceType = "resourceType"
-            case createdAt = "createdAt"
-            case arn = "arn"
-            case location = "location"
-        }
-    }
-
-    public struct RelationalDatabaseEvent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "message", required: false, type: .string), 
-            AWSShapeMember(label: "eventCategories", required: false, type: .list), 
-            AWSShapeMember(label: "resource", required: false, type: .string)
-        ]
-        /// The timestamp when the database event was created.
-        public let createdAt: TimeStamp?
-        /// The message of the database event.
-        public let message: String?
-        /// The category that the database event belongs to.
-        public let eventCategories: [String]?
-        /// The database that the database event relates to.
-        public let resource: String?
-
-        public init(createdAt: TimeStamp? = nil, message: String? = nil, eventCategories: [String]? = nil, resource: String? = nil) {
-            self.createdAt = createdAt
-            self.message = message
-            self.eventCategories = eventCategories
-            self.resource = resource
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case createdAt = "createdAt"
-            case message = "message"
-            case eventCategories = "eventCategories"
-            case resource = "resource"
-        }
-    }
-
-    public struct DeleteDiskSnapshotResult: AWSShape {
+    public struct UpdateLoadBalancerAttributeResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "operations", required: false, type: .list)
         ]
         /// An object describing the API operations.
-        public let operations: [Operation]?
-
-        public init(operations: [Operation]? = nil) {
-            self.operations = operations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operations = "operations"
-        }
-    }
-
-    public struct GetDomainRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domainName", required: true, type: .string)
-        ]
-        /// The domain name for which your want to return information about.
-        public let domainName: String
-
-        public init(domainName: String) {
-            self.domainName = domainName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "domainName"
-        }
-    }
-
-    public struct OpenInstancePublicPortsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceName", required: true, type: .string), 
-            AWSShapeMember(label: "portInfo", required: true, type: .structure)
-        ]
-        /// The name of the instance for which you want to open the public ports.
-        public let instanceName: String
-        /// An array of key-value pairs containing information about the port mappings.
-        public let portInfo: PortInfo
-
-        public init(instanceName: String, portInfo: PortInfo) {
-            self.instanceName = instanceName
-            self.portInfo = portInfo
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceName = "instanceName"
-            case portInfo = "portInfo"
-        }
-    }
-
-    public struct DeleteDiskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "diskName", required: true, type: .string)
-        ]
-        /// The unique name of the disk you want to delete (e.g., my-disk).
-        public let diskName: String
-
-        public init(diskName: String) {
-            self.diskName = diskName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case diskName = "diskName"
-        }
-    }
-
-    public struct LoadBalancerTlsCertificate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "subjectAlternativeNames", required: false, type: .list), 
-            AWSShapeMember(label: "issuedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "notBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "keyAlgorithm", required: false, type: .string), 
-            AWSShapeMember(label: "loadBalancerName", required: false, type: .string), 
-            AWSShapeMember(label: "notAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "subject", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "renewalSummary", required: false, type: .structure), 
-            AWSShapeMember(label: "revocationReason", required: false, type: .enum), 
-            AWSShapeMember(label: "domainValidationRecords", required: false, type: .list), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "domainName", required: false, type: .string), 
-            AWSShapeMember(label: "serial", required: false, type: .string), 
-            AWSShapeMember(label: "supportCode", required: false, type: .string), 
-            AWSShapeMember(label: "revokedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "issuer", required: false, type: .string), 
-            AWSShapeMember(label: "isAttached", required: false, type: .boolean), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "failureReason", required: false, type: .enum), 
-            AWSShapeMember(label: "signatureAlgorithm", required: false, type: .string), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
-        /// One or more domains or subdomains included in the certificate. This list contains the domain names that are bound to the public key that is contained in the certificate. The subject alternative names include the canonical domain name (CNAME) of the certificate and additional domain names that can be used to connect to the website, such as example.com, www.example.com, or m.example.com.
-        public let subjectAlternativeNames: [String]?
-        /// The time when the SSL/TLS certificate was issued.
-        public let issuedAt: TimeStamp?
-        /// The timestamp when the SSL/TLS certificate is first valid.
-        public let notBefore: TimeStamp?
-        /// The algorithm that was used to generate the key pair (the public and private key).
-        public let keyAlgorithm: String?
-        /// The load balancer name where your SSL/TLS certificate is attached.
-        public let loadBalancerName: String?
-        /// The timestamp when the SSL/TLS certificate expires.
-        public let notAfter: TimeStamp?
-        /// The AWS Region and Availability Zone where you created your certificate.
-        public let location: ResourceLocation?
-        /// The name of the entity that is associated with the public key contained in the certificate.
-        public let subject: String?
-        /// The time when you created your SSL/TLS certificate.
-        public let createdAt: TimeStamp?
-        /// An object containing information about the status of Lightsail's managed renewal for the certificate.
-        public let renewalSummary: LoadBalancerTlsCertificateRenewalSummary?
-        /// The reason the certificate was revoked. Valid values are below.
-        public let revocationReason: LoadBalancerTlsCertificateRevocationReason?
-        /// An array of LoadBalancerTlsCertificateDomainValidationRecord objects describing the records.
-        public let domainValidationRecords: [LoadBalancerTlsCertificateDomainValidationRecord]?
-        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
-        public let tags: [Tag]?
-        /// The domain name for your SSL/TLS certificate.
-        public let domainName: String?
-        /// The serial number of the certificate.
-        public let serial: String?
-        /// The support code. Include this code in your email to support when you have questions about your Lightsail load balancer or SSL/TLS certificate. This code enables our support team to look up your Lightsail information more easily.
-        public let supportCode: String?
-        /// The timestamp when the SSL/TLS certificate was revoked.
-        public let revokedAt: TimeStamp?
-        /// The issuer of the certificate.
-        public let issuer: String?
-        /// When true, the SSL/TLS certificate is attached to the Lightsail load balancer.
-        public let isAttached: Bool?
-        /// The resource type (e.g., LoadBalancerTlsCertificate).     Instance  - A Lightsail instance (a virtual private server)     StaticIp  - A static IP address     KeyPair  - The key pair used to connect to a Lightsail instance     InstanceSnapshot  - A Lightsail instance snapshot     Domain  - A DNS zone     PeeredVpc  - A peered VPC     LoadBalancer  - A Lightsail load balancer     LoadBalancerTlsCertificate  - An SSL/TLS certificate associated with a Lightsail load balancer     Disk  - A Lightsail block storage disk     DiskSnapshot  - A block storage disk snapshot  
-        public let resourceType: ResourceType?
-        /// The reason for the SSL/TLS certificate validation failure.
-        public let failureReason: LoadBalancerTlsCertificateFailureReason?
-        /// The algorithm that was used to sign the certificate.
-        public let signatureAlgorithm: String?
-        /// The Amazon Resource Name (ARN) of the SSL/TLS certificate.
-        public let arn: String?
-        /// The status of the SSL/TLS certificate. Valid values are below.
-        public let status: LoadBalancerTlsCertificateStatus?
-        /// The name of the SSL/TLS certificate (e.g., my-certificate).
-        public let name: String?
-
-        public init(subjectAlternativeNames: [String]? = nil, issuedAt: TimeStamp? = nil, notBefore: TimeStamp? = nil, keyAlgorithm: String? = nil, loadBalancerName: String? = nil, notAfter: TimeStamp? = nil, location: ResourceLocation? = nil, subject: String? = nil, createdAt: TimeStamp? = nil, renewalSummary: LoadBalancerTlsCertificateRenewalSummary? = nil, revocationReason: LoadBalancerTlsCertificateRevocationReason? = nil, domainValidationRecords: [LoadBalancerTlsCertificateDomainValidationRecord]? = nil, tags: [Tag]? = nil, domainName: String? = nil, serial: String? = nil, supportCode: String? = nil, revokedAt: TimeStamp? = nil, issuer: String? = nil, isAttached: Bool? = nil, resourceType: ResourceType? = nil, failureReason: LoadBalancerTlsCertificateFailureReason? = nil, signatureAlgorithm: String? = nil, arn: String? = nil, status: LoadBalancerTlsCertificateStatus? = nil, name: String? = nil) {
-            self.subjectAlternativeNames = subjectAlternativeNames
-            self.issuedAt = issuedAt
-            self.notBefore = notBefore
-            self.keyAlgorithm = keyAlgorithm
-            self.loadBalancerName = loadBalancerName
-            self.notAfter = notAfter
-            self.location = location
-            self.subject = subject
-            self.createdAt = createdAt
-            self.renewalSummary = renewalSummary
-            self.revocationReason = revocationReason
-            self.domainValidationRecords = domainValidationRecords
-            self.tags = tags
-            self.domainName = domainName
-            self.serial = serial
-            self.supportCode = supportCode
-            self.revokedAt = revokedAt
-            self.issuer = issuer
-            self.isAttached = isAttached
-            self.resourceType = resourceType
-            self.failureReason = failureReason
-            self.signatureAlgorithm = signatureAlgorithm
-            self.arn = arn
-            self.status = status
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case subjectAlternativeNames = "subjectAlternativeNames"
-            case issuedAt = "issuedAt"
-            case notBefore = "notBefore"
-            case keyAlgorithm = "keyAlgorithm"
-            case loadBalancerName = "loadBalancerName"
-            case notAfter = "notAfter"
-            case location = "location"
-            case subject = "subject"
-            case createdAt = "createdAt"
-            case renewalSummary = "renewalSummary"
-            case revocationReason = "revocationReason"
-            case domainValidationRecords = "domainValidationRecords"
-            case tags = "tags"
-            case domainName = "domainName"
-            case serial = "serial"
-            case supportCode = "supportCode"
-            case revokedAt = "revokedAt"
-            case issuer = "issuer"
-            case isAttached = "isAttached"
-            case resourceType = "resourceType"
-            case failureReason = "failureReason"
-            case signatureAlgorithm = "signatureAlgorithm"
-            case arn = "arn"
-            case status = "status"
-            case name = "name"
-        }
-    }
-
-    public struct GetInstanceMetricDataResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "metricData", required: false, type: .list), 
-            AWSShapeMember(label: "metricName", required: false, type: .enum)
-        ]
-        /// An array of key-value pairs containing information about the results of your get instance metric data request.
-        public let metricData: [MetricDatapoint]?
-        /// The metric name to return data for.
-        public let metricName: InstanceMetricName?
-
-        public init(metricData: [MetricDatapoint]? = nil, metricName: InstanceMetricName? = nil) {
-            self.metricData = metricData
-            self.metricName = metricName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case metricData = "metricData"
-            case metricName = "metricName"
-        }
-    }
-
-    public struct CreateInstanceSnapshotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceName", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "instanceSnapshotName", required: true, type: .string)
-        ]
-        /// The Lightsail instance on which to base your snapshot.
-        public let instanceName: String
-        /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
-        public let tags: [Tag]?
-        /// The name for your new snapshot.
-        public let instanceSnapshotName: String
-
-        public init(instanceName: String, tags: [Tag]? = nil, instanceSnapshotName: String) {
-            self.instanceName = instanceName
-            self.tags = tags
-            self.instanceSnapshotName = instanceSnapshotName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceName = "instanceName"
-            case tags = "tags"
-            case instanceSnapshotName = "instanceSnapshotName"
-        }
-    }
-
-    public enum PortAccessType: String, CustomStringConvertible, Codable {
-        case `public` = "Public"
-        case `private` = "Private"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct RebootRelationalDatabaseResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
-        /// An object describing the result of your reboot relational database request.
-        public let operations: [Operation]?
-
-        public init(operations: [Operation]? = nil) {
-            self.operations = operations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operations = "operations"
-        }
-    }
-
-    public struct DetachInstancesFromLoadBalancerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceNames", required: true, type: .list), 
-            AWSShapeMember(label: "loadBalancerName", required: true, type: .string)
-        ]
-        /// An array of strings containing the names of the instances you want to detach from the load balancer.
-        public let instanceNames: [String]
-        /// The name of the Lightsail load balancer.
-        public let loadBalancerName: String
-
-        public init(instanceNames: [String], loadBalancerName: String) {
-            self.instanceNames = instanceNames
-            self.loadBalancerName = loadBalancerName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceNames = "instanceNames"
-            case loadBalancerName = "loadBalancerName"
-        }
-    }
-
-    public struct GetOperationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageToken", required: false, type: .string)
-        ]
-        /// A token used for advancing to the next page of results from your get operations request.
-        public let pageToken: String?
-
-        public init(pageToken: String? = nil) {
-            self.pageToken = pageToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pageToken = "pageToken"
-        }
-    }
-
-    public struct DeleteRelationalDatabaseRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "finalRelationalDatabaseSnapshotName", required: false, type: .string), 
-            AWSShapeMember(label: "skipFinalSnapshot", required: false, type: .boolean), 
-            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string)
-        ]
-        /// The name of the database snapshot created if skip final snapshot is false, which is the default value for that parameter.  Specifying this parameter and also specifying the skip final snapshot parameter to true results in an error.  Constraints:   Must contain from 2 to 255 alphanumeric characters, or hyphens.   The first and last character must be a letter or number.  
-        public let finalRelationalDatabaseSnapshotName: String?
-        /// Determines whether a final database snapshot is created before your database is deleted. If true is specified, no database snapshot is created. If false is specified, a database snapshot is created before your database is deleted. You must specify the final relational database snapshot name parameter if the skip final snapshot parameter is false. Default: false 
-        public let skipFinalSnapshot: Bool?
-        /// The name of the database that you are deleting.
-        public let relationalDatabaseName: String
-
-        public init(finalRelationalDatabaseSnapshotName: String? = nil, skipFinalSnapshot: Bool? = nil, relationalDatabaseName: String) {
-            self.finalRelationalDatabaseSnapshotName = finalRelationalDatabaseSnapshotName
-            self.skipFinalSnapshot = skipFinalSnapshot
-            self.relationalDatabaseName = relationalDatabaseName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case finalRelationalDatabaseSnapshotName = "finalRelationalDatabaseSnapshotName"
-            case skipFinalSnapshot = "skipFinalSnapshot"
-            case relationalDatabaseName = "relationalDatabaseName"
-        }
-    }
-
-    public struct InstanceEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "portInfoSource", required: true, type: .enum), 
-            AWSShapeMember(label: "instanceType", required: true, type: .string), 
-            AWSShapeMember(label: "sourceName", required: true, type: .string), 
-            AWSShapeMember(label: "availabilityZone", required: true, type: .string), 
-            AWSShapeMember(label: "userData", required: false, type: .string)
-        ]
-        /// The port configuration to use for the new Amazon EC2 instance. The following configuration options are available:   DEFAULT — Use the default firewall settings from the image.   INSTANCE — Use the firewall settings from the source Lightsail instance.   NONE — Default to Amazon EC2.  
-        public let portInfoSource: PortInfoSourceType
-        /// The instance type (e.g., t2.micro) to use for the new Amazon EC2 instance.
-        public let instanceType: String
-        /// The name of the export snapshot record, which contains the exported Lightsail instance snapshot that will be used as the source of the new Amazon EC2 instance. Use the get export snapshot records operation to get a list of export snapshot records that you can use to create a CloudFormation stack.
-        public let sourceName: String
-        /// The Availability Zone for the new Amazon EC2 instance.
-        public let availabilityZone: String
-        /// A launch script you can create that configures a server with additional user data. For example, you might want to run apt-get -y update.  Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum, Debian and Ubuntu use apt-get, and FreeBSD uses pkg. 
-        public let userData: String?
-
-        public init(portInfoSource: PortInfoSourceType, instanceType: String, sourceName: String, availabilityZone: String, userData: String? = nil) {
-            self.portInfoSource = portInfoSource
-            self.instanceType = instanceType
-            self.sourceName = sourceName
-            self.availabilityZone = availabilityZone
-            self.userData = userData
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case portInfoSource = "portInfoSource"
-            case instanceType = "instanceType"
-            case sourceName = "sourceName"
-            case availabilityZone = "availabilityZone"
-            case userData = "userData"
-        }
-    }
-
-    public struct ExportSnapshotRecord: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "state", required: false, type: .enum), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "sourceInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "destinationInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "arn", required: false, type: .string)
-        ]
-        /// The state of the export snapshot record.
-        public let state: RecordState?
-        /// The export snapshot record name.
-        public let name: String?
-        /// A list of objects describing the source of the export snapshot record.
-        public let sourceInfo: ExportSnapshotRecordSourceInfo?
-        /// A list of objects describing the destination of the export snapshot record.
-        public let destinationInfo: DestinationInfo?
-        /// The Lightsail resource type (e.g., ExportSnapshotRecord).
-        public let resourceType: ResourceType?
-        /// The date when the export snapshot record was created.
-        public let createdAt: TimeStamp?
-        /// The AWS Region and Availability Zone where the export snapshot record is located.
-        public let location: ResourceLocation?
-        /// The Amazon Resource Name (ARN) of the export snapshot record.
-        public let arn: String?
-
-        public init(state: RecordState? = nil, name: String? = nil, sourceInfo: ExportSnapshotRecordSourceInfo? = nil, destinationInfo: DestinationInfo? = nil, resourceType: ResourceType? = nil, createdAt: TimeStamp? = nil, location: ResourceLocation? = nil, arn: String? = nil) {
-            self.state = state
-            self.name = name
-            self.sourceInfo = sourceInfo
-            self.destinationInfo = destinationInfo
-            self.resourceType = resourceType
-            self.createdAt = createdAt
-            self.location = location
-            self.arn = arn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case state = "state"
-            case name = "name"
-            case sourceInfo = "sourceInfo"
-            case destinationInfo = "destinationInfo"
-            case resourceType = "resourceType"
-            case createdAt = "createdAt"
-            case location = "location"
-            case arn = "arn"
-        }
-    }
-
-    public struct GetDomainsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageToken", required: false, type: .string)
-        ]
-        /// A token used for advancing to the next page of results from your get domains request.
-        public let pageToken: String?
-
-        public init(pageToken: String? = nil) {
-            self.pageToken = pageToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pageToken = "pageToken"
-        }
-    }
-
-    public struct GetDiskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "diskName", required: true, type: .string)
-        ]
-        /// The name of the disk (e.g., my-disk).
-        public let diskName: String
-
-        public init(diskName: String) {
-            self.diskName = diskName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case diskName = "diskName"
-        }
-    }
-
-    public struct InstanceHealthSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceName", required: false, type: .string), 
-            AWSShapeMember(label: "instanceHealthReason", required: false, type: .enum), 
-            AWSShapeMember(label: "instanceHealth", required: false, type: .enum)
-        ]
-        /// The name of the Lightsail instance for which you are requesting health check data.
-        public let instanceName: String?
-        /// More information about the instance health. If the instanceHealth is healthy, then an instanceHealthReason value is not provided. If  instanceHealth  is initial, the  instanceHealthReason  value can be one of the following:     Lb.RegistrationInProgress  - The target instance is in the process of being registered with the load balancer.     Lb.InitialHealthChecking  - The Lightsail load balancer is still sending the target instance the minimum number of health checks required to determine its health status.   If  instanceHealth  is unhealthy, the  instanceHealthReason  value can be one of the following:     Instance.ResponseCodeMismatch  - The health checks did not return an expected HTTP code.     Instance.Timeout  - The health check requests timed out.     Instance.FailedHealthChecks  - The health checks failed because the connection to the target instance timed out, the target instance response was malformed, or the target instance failed the health check for an unknown reason.     Lb.InternalError  - The health checks failed due to an internal error.   If  instanceHealth  is unused, the  instanceHealthReason  value can be one of the following:     Instance.NotRegistered  - The target instance is not registered with the target group.     Instance.NotInUse  - The target group is not used by any load balancer, or the target instance is in an Availability Zone that is not enabled for its load balancer.     Instance.IpUnusable  - The target IP address is reserved for use by a Lightsail load balancer.     Instance.InvalidState  - The target is in the stopped or terminated state.   If  instanceHealth  is draining, the  instanceHealthReason  value can be one of the following:     Instance.DeregistrationInProgress  - The target instance is in the process of being deregistered and the deregistration delay period has not expired.  
-        public let instanceHealthReason: InstanceHealthReason?
-        /// Describes the overall instance health. Valid values are below.
-        public let instanceHealth: InstanceHealthState?
-
-        public init(instanceName: String? = nil, instanceHealthReason: InstanceHealthReason? = nil, instanceHealth: InstanceHealthState? = nil) {
-            self.instanceName = instanceName
-            self.instanceHealthReason = instanceHealthReason
-            self.instanceHealth = instanceHealth
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceName = "instanceName"
-            case instanceHealthReason = "instanceHealthReason"
-            case instanceHealth = "instanceHealth"
-        }
-    }
-
-    public struct CreateKeyPairResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "keyPair", required: false, type: .structure), 
-            AWSShapeMember(label: "publicKeyBase64", required: false, type: .string), 
-            AWSShapeMember(label: "operation", required: false, type: .structure), 
-            AWSShapeMember(label: "privateKeyBase64", required: false, type: .string)
-        ]
-        /// An array of key-value pairs containing information about the new key pair you just created.
-        public let keyPair: KeyPair?
-        /// A base64-encoded public key of the ssh-rsa type.
-        public let publicKeyBase64: String?
-        /// An array of key-value pairs containing information about the results of your create key pair request.
-        public let operation: Operation?
-        /// A base64-encoded RSA private key.
-        public let privateKeyBase64: String?
-
-        public init(keyPair: KeyPair? = nil, publicKeyBase64: String? = nil, operation: Operation? = nil, privateKeyBase64: String? = nil) {
-            self.keyPair = keyPair
-            self.publicKeyBase64 = publicKeyBase64
-            self.operation = operation
-            self.privateKeyBase64 = privateKeyBase64
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case keyPair = "keyPair"
-            case publicKeyBase64 = "publicKeyBase64"
-            case operation = "operation"
-            case privateKeyBase64 = "privateKeyBase64"
-        }
-    }
-
-    public enum RecordState: String, CustomStringConvertible, Codable {
-        case started = "Started"
-        case succeeded = "Succeeded"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ReleaseStaticIpRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "staticIpName", required: true, type: .string)
-        ]
-        /// The name of the static IP to delete.
-        public let staticIpName: String
-
-        public init(staticIpName: String) {
-            self.staticIpName = staticIpName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case staticIpName = "staticIpName"
-        }
-    }
-
-    public struct GetLoadBalancerTlsCertificatesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tlsCertificates", required: false, type: .list)
-        ]
-        /// An array of LoadBalancerTlsCertificate objects describing your SSL/TLS certificates.
-        public let tlsCertificates: [LoadBalancerTlsCertificate]?
-
-        public init(tlsCertificates: [LoadBalancerTlsCertificate]? = nil) {
-            self.tlsCertificates = tlsCertificates
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tlsCertificates = "tlsCertificates"
-        }
-    }
-
-    public struct DetachInstancesFromLoadBalancerResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
-        /// An object describing the API operations.
-        public let operations: [Operation]?
-
-        public init(operations: [Operation]? = nil) {
-            self.operations = operations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operations = "operations"
-        }
-    }
-
-    public struct LogEvent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "message", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp)
-        ]
-        /// The message of the database log event.
-        public let message: String?
-        /// The timestamp when the database log event was created.
-        public let createdAt: TimeStamp?
-
-        public init(message: String? = nil, createdAt: TimeStamp? = nil) {
-            self.message = message
-            self.createdAt = createdAt
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-            case createdAt = "createdAt"
-        }
-    }
-
-    public struct GetLoadBalancerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "loadBalancerName", required: true, type: .string)
-        ]
-        /// The name of the load balancer.
-        public let loadBalancerName: String
-
-        public init(loadBalancerName: String) {
-            self.loadBalancerName = loadBalancerName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case loadBalancerName = "loadBalancerName"
-        }
-    }
-
-    public struct CloudFormationStackRecordSourceInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the export snapshot record.
-        public let arn: String?
-        /// The Lightsail resource type (e.g., ExportSnapshotRecord).
-        public let resourceType: CloudFormationStackRecordSourceType?
-        /// The name of the record.
-        public let name: String?
-
-        public init(arn: String? = nil, resourceType: CloudFormationStackRecordSourceType? = nil, name: String? = nil) {
-            self.arn = arn
-            self.resourceType = resourceType
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
-            case resourceType = "resourceType"
-            case name = "name"
-        }
-    }
-
-    public struct UnpeerVpcRequest: AWSShape {
-
-    }
-
-    public struct DetachStaticIpResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
-        /// An array of key-value pairs containing information about the results of your detach static IP request.
-        public let operations: [Operation]?
-
-        public init(operations: [Operation]? = nil) {
-            self.operations = operations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operations = "operations"
-        }
-    }
-
-    public struct CreateRelationalDatabaseSnapshotRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "relationalDatabaseSnapshotName", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string)
-        ]
-        /// The name for your new database snapshot. Constraints:   Must contain from 2 to 255 alphanumeric characters, or hyphens.   The first and last character must be a letter or number.  
-        public let relationalDatabaseSnapshotName: String
-        /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
-        public let tags: [Tag]?
-        /// The name of the database on which to base your new snapshot.
-        public let relationalDatabaseName: String
-
-        public init(relationalDatabaseSnapshotName: String, tags: [Tag]? = nil, relationalDatabaseName: String) {
-            self.relationalDatabaseSnapshotName = relationalDatabaseSnapshotName
-            self.tags = tags
-            self.relationalDatabaseName = relationalDatabaseName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case relationalDatabaseSnapshotName = "relationalDatabaseSnapshotName"
-            case tags = "tags"
-            case relationalDatabaseName = "relationalDatabaseName"
-        }
-    }
-
-    public struct GetInstanceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceName", required: true, type: .string)
-        ]
-        /// The name of the instance.
-        public let instanceName: String
-
-        public init(instanceName: String) {
-            self.instanceName = instanceName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceName = "instanceName"
-        }
-    }
-
-    public struct AvailabilityZone: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "zoneName", required: false, type: .string), 
-            AWSShapeMember(label: "state", required: false, type: .string)
-        ]
-        /// The name of the Availability Zone. The format is us-east-2a (case-sensitive).
-        public let zoneName: String?
-        /// The state of the Availability Zone.
-        public let state: String?
-
-        public init(zoneName: String? = nil, state: String? = nil) {
-            self.zoneName = zoneName
-            self.state = state
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case zoneName = "zoneName"
-            case state = "state"
-        }
-    }
-
-    public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "key", required: false, type: .string), 
-            AWSShapeMember(label: "value", required: false, type: .string)
-        ]
-        /// The key of the tag. Constraints: Tag keys accept a maximum of 128 letters, numbers, spaces in UTF-8, or the following characters: + - = . _ : / @
-        public let key: String?
-        /// The value of the tag. Constraints: Tag values accept a maximum of 256 letters, numbers, spaces in UTF-8, or the following characters: + - = . _ : / @
-        public let value: String?
-
-        public init(key: String? = nil, value: String? = nil) {
-            self.key = key
-            self.value = value
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "key"
-            case value = "value"
-        }
-    }
-
-    public struct Region: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "availabilityZones", required: false, type: .list), 
-            AWSShapeMember(label: "relationalDatabaseAvailabilityZones", required: false, type: .list), 
-            AWSShapeMember(label: "displayName", required: false, type: .string), 
-            AWSShapeMember(label: "continentCode", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .enum)
-        ]
-        /// The description of the AWS Region (e.g., This region is recommended to serve users in the eastern United States and eastern Canada).
-        public let description: String?
-        /// The Availability Zones. Follows the format us-east-2a (case-sensitive).
-        public let availabilityZones: [AvailabilityZone]?
-        /// The Availability Zones for databases. Follows the format us-east-2a (case-sensitive).
-        public let relationalDatabaseAvailabilityZones: [AvailabilityZone]?
-        /// The display name (e.g., Ohio).
-        public let displayName: String?
-        /// The continent code (e.g., NA, meaning North America).
-        public let continentCode: String?
-        /// The region name (e.g., us-east-2).
-        public let name: RegionName?
-
-        public init(description: String? = nil, availabilityZones: [AvailabilityZone]? = nil, relationalDatabaseAvailabilityZones: [AvailabilityZone]? = nil, displayName: String? = nil, continentCode: String? = nil, name: RegionName? = nil) {
-            self.description = description
-            self.availabilityZones = availabilityZones
-            self.relationalDatabaseAvailabilityZones = relationalDatabaseAvailabilityZones
-            self.displayName = displayName
-            self.continentCode = continentCode
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case description = "description"
-            case availabilityZones = "availabilityZones"
-            case relationalDatabaseAvailabilityZones = "relationalDatabaseAvailabilityZones"
-            case displayName = "displayName"
-            case continentCode = "continentCode"
-            case name = "name"
-        }
-    }
-
-    public struct CreateDiskSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
-        /// An object describing the API operations.
-        public let operations: [Operation]?
-
-        public init(operations: [Operation]? = nil) {
-            self.operations = operations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operations = "operations"
-        }
-    }
-
-    public struct DeleteInstanceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceName", required: true, type: .string)
-        ]
-        /// The name of the instance to delete.
-        public let instanceName: String
-
-        public init(instanceName: String) {
-            self.instanceName = instanceName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceName = "instanceName"
-        }
-    }
-
-    public struct DeleteLoadBalancerResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
-        /// An object describing the API operations.
-        public let operations: [Operation]?
-
-        public init(operations: [Operation]? = nil) {
-            self.operations = operations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operations = "operations"
-        }
-    }
-
-    public struct GetRelationalDatabaseResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "relationalDatabase", required: false, type: .structure)
-        ]
-        /// An object describing the specified database.
-        public let relationalDatabase: RelationalDatabase?
-
-        public init(relationalDatabase: RelationalDatabase? = nil) {
-            self.relationalDatabase = relationalDatabase
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case relationalDatabase = "relationalDatabase"
-        }
-    }
-
-    public enum InstanceSnapshotState: String, CustomStringConvertible, Codable {
-        case pending = "pending"
-        case error = "error"
-        case available = "available"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum LoadBalancerTlsCertificateDomainStatus: String, CustomStringConvertible, Codable {
-        case pendingValidation = "PENDING_VALIDATION"
-        case failed = "FAILED"
-        case success = "SUCCESS"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum MetricUnit: String, CustomStringConvertible, Codable {
-        case seconds = "Seconds"
-        case microseconds = "Microseconds"
-        case milliseconds = "Milliseconds"
-        case bytes = "Bytes"
-        case kilobytes = "Kilobytes"
-        case megabytes = "Megabytes"
-        case gigabytes = "Gigabytes"
-        case terabytes = "Terabytes"
-        case bits = "Bits"
-        case kilobits = "Kilobits"
-        case megabits = "Megabits"
-        case gigabits = "Gigabits"
-        case terabits = "Terabits"
-        case percent = "Percent"
-        case count = "Count"
-        case bytesSecond = "Bytes/Second"
-        case kilobytesSecond = "Kilobytes/Second"
-        case megabytesSecond = "Megabytes/Second"
-        case gigabytesSecond = "Gigabytes/Second"
-        case terabytesSecond = "Terabytes/Second"
-        case bitsSecond = "Bits/Second"
-        case kilobitsSecond = "Kilobits/Second"
-        case megabitsSecond = "Megabits/Second"
-        case gigabitsSecond = "Gigabits/Second"
-        case terabitsSecond = "Terabits/Second"
-        case countSecond = "Count/Second"
-        case none = "None"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DomainEntry: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "target", required: false, type: .string), 
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "type", required: false, type: .string), 
-            AWSShapeMember(label: "isAlias", required: false, type: .boolean), 
-            AWSShapeMember(label: "options", required: false, type: .map)
-        ]
-        /// The target AWS name server (e.g., ns-111.awsdns-22.com.). For Lightsail load balancers, the value looks like ab1234c56789c6b86aba6fb203d443bc-123456789.us-east-2.elb.amazonaws.com. Be sure to also set isAlias to true when setting up an A record for a load balancer.
-        public let target: String?
-        /// The ID of the domain recordset entry.
-        public let id: String?
-        /// The name of the domain.
-        public let name: String?
-        /// The type of domain entry (e.g., SOA or NS).
-        public let `type`: String?
-        /// When true, specifies whether the domain entry is an alias used by the Lightsail load balancer. You can include an alias (A type) record in your request, which points to a load balancer DNS name and routes traffic to your load balancer
-        public let isAlias: Bool?
-        /// (Deprecated) The options for the domain entry.  In releases prior to November 29, 2017, this parameter was not included in the API response. It is now deprecated. 
-        public let options: [String: String]?
-
-        public init(target: String? = nil, id: String? = nil, name: String? = nil, type: String? = nil, isAlias: Bool? = nil, options: [String: String]? = nil) {
-            self.target = target
-            self.id = id
-            self.name = name
-            self.`type` = `type`
-            self.isAlias = isAlias
-            self.options = options
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case target = "target"
-            case id = "id"
-            case name = "name"
-            case `type` = "type"
-            case isAlias = "isAlias"
-            case options = "options"
-        }
-    }
-
-    public struct CreateRelationalDatabaseSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
-        /// An object describing the result of your create relational database snapshot request.
-        public let operations: [Operation]?
-
-        public init(operations: [Operation]? = nil) {
-            self.operations = operations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operations = "operations"
-        }
-    }
-
-    public struct GetKeyPairsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "keyPairs", required: false, type: .list), 
-            AWSShapeMember(label: "nextPageToken", required: false, type: .string)
-        ]
-        /// An array of key-value pairs containing information about the key pairs.
-        public let keyPairs: [KeyPair]?
-        /// A token used for advancing to the next page of results from your get key pairs request.
-        public let nextPageToken: String?
-
-        public init(keyPairs: [KeyPair]? = nil, nextPageToken: String? = nil) {
-            self.keyPairs = keyPairs
-            self.nextPageToken = nextPageToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case keyPairs = "keyPairs"
-            case nextPageToken = "nextPageToken"
-        }
-    }
-
-    public struct LoadBalancerTlsCertificateDomainValidationOption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "domainName", required: false, type: .string), 
-            AWSShapeMember(label: "validationStatus", required: false, type: .enum)
-        ]
-        /// The fully qualified domain name in the certificate request.
-        public let domainName: String?
-        /// The status of the domain validation. Valid values are listed below.
-        public let validationStatus: LoadBalancerTlsCertificateDomainStatus?
-
-        public init(domainName: String? = nil, validationStatus: LoadBalancerTlsCertificateDomainStatus? = nil) {
-            self.domainName = domainName
-            self.validationStatus = validationStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case domainName = "domainName"
-            case validationStatus = "validationStatus"
-        }
-    }
-
-    public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tagKeys", required: true, type: .list), 
-            AWSShapeMember(label: "resourceName", required: true, type: .string)
-        ]
-        /// The tag keys to delete from the specified resource.
-        public let tagKeys: [String]
-        /// The name of the resource from which you are removing a tag.
-        public let resourceName: String
-
-        public init(tagKeys: [String], resourceName: String) {
-            self.tagKeys = tagKeys
-            self.resourceName = resourceName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tagKeys = "tagKeys"
-            case resourceName = "resourceName"
-        }
-    }
-
-    public struct GetRelationalDatabaseBundlesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bundles", required: false, type: .list), 
-            AWSShapeMember(label: "nextPageToken", required: false, type: .string)
-        ]
-        /// An object describing the result of your get relational database bundles request.
-        public let bundles: [RelationalDatabaseBundle]?
-        /// A token used for advancing to the next page of results of your get relational database bundles request.
-        public let nextPageToken: String?
-
-        public init(bundles: [RelationalDatabaseBundle]? = nil, nextPageToken: String? = nil) {
-            self.bundles = bundles
-            self.nextPageToken = nextPageToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bundles = "bundles"
-            case nextPageToken = "nextPageToken"
-        }
-    }
-
-    public struct DeleteInstanceSnapshotResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "operations", required: false, type: .list)
-        ]
-        /// An array of key-value pairs containing information about the results of your delete instance snapshot request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -6587,97 +5997,687 @@ extension Lightsail {
         }
     }
 
-    public struct GetDiskSnapshotRequest: AWSShape {
+    public struct CreateRelationalDatabaseFromSnapshotRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "diskSnapshotName", required: true, type: .string)
+            AWSShapeMember(label: "publiclyAccessible", required: false, type: .boolean), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "relationalDatabaseBundleId", required: false, type: .string), 
+            AWSShapeMember(label: "useLatestRestorableTime", required: false, type: .boolean), 
+            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string), 
+            AWSShapeMember(label: "availabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "sourceRelationalDatabaseName", required: false, type: .string), 
+            AWSShapeMember(label: "restoreTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "relationalDatabaseSnapshotName", required: false, type: .string)
         ]
-        /// The name of the disk snapshot (e.g., my-disk-snapshot).
-        public let diskSnapshotName: String
-
-        public init(diskSnapshotName: String) {
-            self.diskSnapshotName = diskSnapshotName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case diskSnapshotName = "diskSnapshotName"
-        }
-    }
-
-    public struct IsVpcPeeredRequest: AWSShape {
-
-    }
-
-    public struct InstanceState: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "code", required: false, type: .integer), 
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
-        /// The status code for the instance.
-        public let code: Int32?
-        /// The state of the instance (e.g., running or pending).
-        public let name: String?
-
-        public init(code: Int32? = nil, name: String? = nil) {
-            self.code = code
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case code = "code"
-            case name = "name"
-        }
-    }
-
-    public struct ResourceLocation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "regionName", required: false, type: .enum), 
-            AWSShapeMember(label: "availabilityZone", required: false, type: .string)
-        ]
-        /// The AWS Region name.
-        public let regionName: RegionName?
-        /// The Availability Zone. Follows the format us-east-2a (case-sensitive).
+        /// Specifies the accessibility options for your new database. A value of true specifies a database that is available to resources outside of your Lightsail account. A value of false specifies a database that is available only to your Lightsail resources in the same region as your database.
+        public let publiclyAccessible: Bool?
+        /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
+        public let tags: [Tag]?
+        /// The bundle ID for your new database. A bundle describes the performance specifications for your database. You can get a list of database bundle IDs by using the get relational database bundles operation. When creating a new database from a snapshot, you cannot choose a bundle that is smaller than the bundle of the source database.
+        public let relationalDatabaseBundleId: String?
+        /// Specifies whether your database is restored from the latest backup time. A value of true restores from the latest backup time.  Default: false  Constraints: Cannot be specified if the restore time parameter is provided.
+        public let useLatestRestorableTime: Bool?
+        /// The name to use for your new database. Constraints:   Must contain from 2 to 255 alphanumeric characters, or hyphens.   The first and last character must be a letter or number.  
+        public let relationalDatabaseName: String
+        /// The Availability Zone in which to create your new database. Use the us-east-2a case-sensitive format. You can get a list of Availability Zones by using the get regions operation. Be sure to add the include relational database Availability Zones parameter to your request.
         public let availabilityZone: String?
+        /// The name of the source database.
+        public let sourceRelationalDatabaseName: String?
+        /// The date and time to restore your database from. Constraints:   Must be before the latest restorable time for the database.   Cannot be specified if the use latest restorable time parameter is true.   Specified in Universal Coordinated Time (UTC).   Specified in the Unix time format. For example, if you wish to use a restore time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the restore time.  
+        public let restoreTime: TimeStamp?
+        /// The name of the database snapshot from which to create your new database.
+        public let relationalDatabaseSnapshotName: String?
 
-        public init(regionName: RegionName? = nil, availabilityZone: String? = nil) {
-            self.regionName = regionName
+        public init(publiclyAccessible: Bool? = nil, tags: [Tag]? = nil, relationalDatabaseBundleId: String? = nil, useLatestRestorableTime: Bool? = nil, relationalDatabaseName: String, availabilityZone: String? = nil, sourceRelationalDatabaseName: String? = nil, restoreTime: TimeStamp? = nil, relationalDatabaseSnapshotName: String? = nil) {
+            self.publiclyAccessible = publiclyAccessible
+            self.tags = tags
+            self.relationalDatabaseBundleId = relationalDatabaseBundleId
+            self.useLatestRestorableTime = useLatestRestorableTime
+            self.relationalDatabaseName = relationalDatabaseName
             self.availabilityZone = availabilityZone
+            self.sourceRelationalDatabaseName = sourceRelationalDatabaseName
+            self.restoreTime = restoreTime
+            self.relationalDatabaseSnapshotName = relationalDatabaseSnapshotName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case regionName = "regionName"
+            case publiclyAccessible = "publiclyAccessible"
+            case tags = "tags"
+            case relationalDatabaseBundleId = "relationalDatabaseBundleId"
+            case useLatestRestorableTime = "useLatestRestorableTime"
+            case relationalDatabaseName = "relationalDatabaseName"
             case availabilityZone = "availabilityZone"
+            case sourceRelationalDatabaseName = "sourceRelationalDatabaseName"
+            case restoreTime = "restoreTime"
+            case relationalDatabaseSnapshotName = "relationalDatabaseSnapshotName"
         }
     }
 
-    public struct PutInstancePublicPortsRequest: AWSShape {
+    public struct GetInstancePortStatesResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceName", required: true, type: .string), 
-            AWSShapeMember(label: "portInfos", required: true, type: .list)
+            AWSShapeMember(label: "portStates", required: false, type: .list)
         ]
-        /// The Lightsail instance name of the public port(s) you are setting.
-        public let instanceName: String
-        /// Specifies information about the public port(s).
-        public let portInfos: [PortInfo]
+        /// Information about the port states resulting from your request.
+        public let portStates: [InstancePortState]?
 
-        public init(instanceName: String, portInfos: [PortInfo]) {
-            self.instanceName = instanceName
-            self.portInfos = portInfos
+        public init(portStates: [InstancePortState]? = nil) {
+            self.portStates = portStates
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceName = "instanceName"
-            case portInfos = "portInfos"
+            case portStates = "portStates"
         }
     }
 
-    public enum InstanceHealthState: String, CustomStringConvertible, Codable {
-        case initial = "initial"
-        case healthy = "healthy"
-        case unhealthy = "unhealthy"
-        case unused = "unused"
-        case draining = "draining"
-        case unavailable = "unavailable"
+    public enum InstanceHealthReason: String, CustomStringConvertible, Codable {
+        case lbRegistrationinprogress = "Lb.RegistrationInProgress"
+        case lbInitialhealthchecking = "Lb.InitialHealthChecking"
+        case lbInternalerror = "Lb.InternalError"
+        case instanceResponsecodemismatch = "Instance.ResponseCodeMismatch"
+        case instanceTimeout = "Instance.Timeout"
+        case instanceFailedhealthchecks = "Instance.FailedHealthChecks"
+        case instanceNotregistered = "Instance.NotRegistered"
+        case instanceNotinuse = "Instance.NotInUse"
+        case instanceDeregistrationinprogress = "Instance.DeregistrationInProgress"
+        case instanceInvalidstate = "Instance.InvalidState"
+        case instanceIpunusable = "Instance.IpUnusable"
         public var description: String { return self.rawValue }
+    }
+
+    public struct Disk: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "location", required: false, type: .structure), 
+            AWSShapeMember(label: "isAttached", required: false, type: .boolean), 
+            AWSShapeMember(label: "attachmentState", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "supportCode", required: false, type: .string), 
+            AWSShapeMember(label: "isSystemDisk", required: false, type: .boolean), 
+            AWSShapeMember(label: "attachedTo", required: false, type: .string), 
+            AWSShapeMember(label: "sizeInGb", required: false, type: .integer), 
+            AWSShapeMember(label: "iops", required: false, type: .integer), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "path", required: false, type: .string), 
+            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "state", required: false, type: .enum), 
+            AWSShapeMember(label: "gbInUse", required: false, type: .integer)
+        ]
+        /// The AWS Region and Availability Zone where the disk is located.
+        public let location: ResourceLocation?
+        /// A Boolean value indicating whether the disk is attached.
+        public let isAttached: Bool?
+        /// (Deprecated) The attachment state of the disk.  In releases prior to November 14, 2017, this parameter returned attached for system disks in the API response. It is now deprecated, but still included in the response. Use isAttached instead. 
+        public let attachmentState: String?
+        /// The Amazon Resource Name (ARN) of the disk.
+        public let arn: String?
+        /// The date when the disk was created.
+        public let createdAt: TimeStamp?
+        /// The unique name of the disk.
+        public let name: String?
+        /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
+        public let supportCode: String?
+        /// A Boolean value indicating whether this disk is a system disk (has an operating system loaded on it).
+        public let isSystemDisk: Bool?
+        /// The resources to which the disk is attached.
+        public let attachedTo: String?
+        /// The size of the disk in GB.
+        public let sizeInGb: Int32?
+        /// The input/output operations per second (IOPS) of the disk.
+        public let iops: Int32?
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
+        public let tags: [Tag]?
+        /// The disk path.
+        public let path: String?
+        /// The Lightsail resource type (e.g., Disk).
+        public let resourceType: ResourceType?
+        /// Describes the status of the disk.
+        public let state: DiskState?
+        /// (Deprecated) The number of GB in use by the disk.  In releases prior to November 14, 2017, this parameter was not included in the API response. It is now deprecated. 
+        public let gbInUse: Int32?
+
+        public init(location: ResourceLocation? = nil, isAttached: Bool? = nil, attachmentState: String? = nil, arn: String? = nil, createdAt: TimeStamp? = nil, name: String? = nil, supportCode: String? = nil, isSystemDisk: Bool? = nil, attachedTo: String? = nil, sizeInGb: Int32? = nil, iops: Int32? = nil, tags: [Tag]? = nil, path: String? = nil, resourceType: ResourceType? = nil, state: DiskState? = nil, gbInUse: Int32? = nil) {
+            self.location = location
+            self.isAttached = isAttached
+            self.attachmentState = attachmentState
+            self.arn = arn
+            self.createdAt = createdAt
+            self.name = name
+            self.supportCode = supportCode
+            self.isSystemDisk = isSystemDisk
+            self.attachedTo = attachedTo
+            self.sizeInGb = sizeInGb
+            self.iops = iops
+            self.tags = tags
+            self.path = path
+            self.resourceType = resourceType
+            self.state = state
+            self.gbInUse = gbInUse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case location = "location"
+            case isAttached = "isAttached"
+            case attachmentState = "attachmentState"
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case name = "name"
+            case supportCode = "supportCode"
+            case isSystemDisk = "isSystemDisk"
+            case attachedTo = "attachedTo"
+            case sizeInGb = "sizeInGb"
+            case iops = "iops"
+            case tags = "tags"
+            case path = "path"
+            case resourceType = "resourceType"
+            case state = "state"
+            case gbInUse = "gbInUse"
+        }
+    }
+
+    public struct ExportSnapshotRecordSourceInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "fromResourceArn", required: false, type: .string), 
+            AWSShapeMember(label: "instanceSnapshotInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "fromResourceName", required: false, type: .string), 
+            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "diskSnapshotInfo", required: false, type: .structure)
+        ]
+        /// The Amazon Resource Name (ARN) of the source instance or disk snapshot.
+        public let arn: String?
+        /// The Amazon Resource Name (ARN) of the snapshot's source instance or disk.
+        public let fromResourceArn: String?
+        /// A list of objects describing an instance snapshot.
+        public let instanceSnapshotInfo: InstanceSnapshotInfo?
+        /// The name of the source instance or disk snapshot.
+        public let name: String?
+        /// The date when the source instance or disk snapshot was created.
+        public let createdAt: TimeStamp?
+        /// The name of the snapshot's source instance or disk.
+        public let fromResourceName: String?
+        /// The Lightsail resource type (e.g., InstanceSnapshot or DiskSnapshot).
+        public let resourceType: ExportSnapshotRecordSourceType?
+        /// A list of objects describing a disk snapshot.
+        public let diskSnapshotInfo: DiskSnapshotInfo?
+
+        public init(arn: String? = nil, fromResourceArn: String? = nil, instanceSnapshotInfo: InstanceSnapshotInfo? = nil, name: String? = nil, createdAt: TimeStamp? = nil, fromResourceName: String? = nil, resourceType: ExportSnapshotRecordSourceType? = nil, diskSnapshotInfo: DiskSnapshotInfo? = nil) {
+            self.arn = arn
+            self.fromResourceArn = fromResourceArn
+            self.instanceSnapshotInfo = instanceSnapshotInfo
+            self.name = name
+            self.createdAt = createdAt
+            self.fromResourceName = fromResourceName
+            self.resourceType = resourceType
+            self.diskSnapshotInfo = diskSnapshotInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case fromResourceArn = "fromResourceArn"
+            case instanceSnapshotInfo = "instanceSnapshotInfo"
+            case name = "name"
+            case createdAt = "createdAt"
+            case fromResourceName = "fromResourceName"
+            case resourceType = "resourceType"
+            case diskSnapshotInfo = "diskSnapshotInfo"
+        }
+    }
+
+    public struct TagResourceResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+        /// A list of objects describing the API operation.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct CreateLoadBalancerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "healthCheckPath", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "certificateName", required: false, type: .string), 
+            AWSShapeMember(label: "loadBalancerName", required: true, type: .string), 
+            AWSShapeMember(label: "certificateDomainName", required: false, type: .string), 
+            AWSShapeMember(label: "certificateAlternativeNames", required: false, type: .list), 
+            AWSShapeMember(label: "instancePort", required: true, type: .integer)
+        ]
+        /// The path you provided to perform the load balancer health check. If you didn't specify a health check path, Lightsail uses the root path of your website (e.g., "/"). You may want to specify a custom health check path other than the root of your application if your home page loads slowly or has a lot of media or scripting on it.
+        public let healthCheckPath: String?
+        /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
+        public let tags: [Tag]?
+        /// The name of the SSL/TLS certificate. If you specify certificateName, then certificateDomainName is required (and vice-versa).
+        public let certificateName: String?
+        /// The name of your load balancer.
+        public let loadBalancerName: String
+        /// The domain name with which your certificate is associated (e.g., example.com). If you specify certificateDomainName, then certificateName is required (and vice-versa).
+        public let certificateDomainName: String?
+        /// The optional alternative domains and subdomains to use with your SSL/TLS certificate (e.g., www.example.com, example.com, m.example.com, blog.example.com).
+        public let certificateAlternativeNames: [String]?
+        /// The instance port where you're creating your load balancer.
+        public let instancePort: Int32
+
+        public init(healthCheckPath: String? = nil, tags: [Tag]? = nil, certificateName: String? = nil, loadBalancerName: String, certificateDomainName: String? = nil, certificateAlternativeNames: [String]? = nil, instancePort: Int32) {
+            self.healthCheckPath = healthCheckPath
+            self.tags = tags
+            self.certificateName = certificateName
+            self.loadBalancerName = loadBalancerName
+            self.certificateDomainName = certificateDomainName
+            self.certificateAlternativeNames = certificateAlternativeNames
+            self.instancePort = instancePort
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case healthCheckPath = "healthCheckPath"
+            case tags = "tags"
+            case certificateName = "certificateName"
+            case loadBalancerName = "loadBalancerName"
+            case certificateDomainName = "certificateDomainName"
+            case certificateAlternativeNames = "certificateAlternativeNames"
+            case instancePort = "instancePort"
+        }
+    }
+
+    public enum RecordState: String, CustomStringConvertible, Codable {
+        case started = "Started"
+        case succeeded = "Succeeded"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeleteInstanceResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+        /// An array of key-value pairs containing information about the results of your delete instance request.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct DetachStaticIpRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "staticIpName", required: true, type: .string)
+        ]
+        /// The name of the static IP to detach from the instance.
+        public let staticIpName: String
+
+        public init(staticIpName: String) {
+            self.staticIpName = staticIpName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case staticIpName = "staticIpName"
+        }
+    }
+
+    public enum NetworkProtocol: String, CustomStringConvertible, Codable {
+        case tcp = "tcp"
+        case all = "all"
+        case udp = "udp"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetDomainRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "domainName", required: true, type: .string)
+        ]
+        /// The domain name for which your want to return information about.
+        public let domainName: String
+
+        public init(domainName: String) {
+            self.domainName = domainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "domainName"
+        }
+    }
+
+    public struct GetBundlesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pageToken", required: false, type: .string), 
+            AWSShapeMember(label: "includeInactive", required: false, type: .boolean)
+        ]
+        /// A token used for advancing to the next page of results from your get bundles request.
+        public let pageToken: String?
+        /// A Boolean value that indicates whether to include inactive bundle results in your request.
+        public let includeInactive: Bool?
+
+        public init(pageToken: String? = nil, includeInactive: Bool? = nil) {
+            self.pageToken = pageToken
+            self.includeInactive = includeInactive
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pageToken = "pageToken"
+            case includeInactive = "includeInactive"
+        }
+    }
+
+    public struct DeleteLoadBalancerTlsCertificateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificateName", required: true, type: .string), 
+            AWSShapeMember(label: "force", required: false, type: .boolean), 
+            AWSShapeMember(label: "loadBalancerName", required: true, type: .string)
+        ]
+        /// The SSL/TLS certificate name.
+        public let certificateName: String
+        /// When true, forces the deletion of an SSL/TLS certificate. There can be two certificates associated with a Lightsail load balancer: the primary and the backup. The force parameter is required when the primary SSL/TLS certificate is in use by an instance attached to the load balancer.
+        public let force: Bool?
+        /// The load balancer name.
+        public let loadBalancerName: String
+
+        public init(certificateName: String, force: Bool? = nil, loadBalancerName: String) {
+            self.certificateName = certificateName
+            self.force = force
+            self.loadBalancerName = loadBalancerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateName = "certificateName"
+            case force = "force"
+            case loadBalancerName = "loadBalancerName"
+        }
+    }
+
+    public struct Domain: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "domainEntries", required: false, type: .list), 
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "supportCode", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "location", required: false, type: .structure), 
+            AWSShapeMember(label: "resourceType", required: false, type: .enum)
+        ]
+        /// An array of key-value pairs containing information about the domain entries.
+        public let domainEntries: [DomainEntry]?
+        /// The Amazon Resource Name (ARN) of the domain recordset (e.g., arn:aws:lightsail:global:123456789101:Domain/824cede0-abc7-4f84-8dbc-12345EXAMPLE).
+        public let arn: String?
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
+        public let tags: [Tag]?
+        /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
+        public let supportCode: String?
+        /// The name of the domain.
+        public let name: String?
+        /// The date when the domain recordset was created.
+        public let createdAt: TimeStamp?
+        /// The AWS Region and Availability Zones where the domain recordset was created.
+        public let location: ResourceLocation?
+        /// The resource type. 
+        public let resourceType: ResourceType?
+
+        public init(domainEntries: [DomainEntry]? = nil, arn: String? = nil, tags: [Tag]? = nil, supportCode: String? = nil, name: String? = nil, createdAt: TimeStamp? = nil, location: ResourceLocation? = nil, resourceType: ResourceType? = nil) {
+            self.domainEntries = domainEntries
+            self.arn = arn
+            self.tags = tags
+            self.supportCode = supportCode
+            self.name = name
+            self.createdAt = createdAt
+            self.location = location
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainEntries = "domainEntries"
+            case arn = "arn"
+            case tags = "tags"
+            case supportCode = "supportCode"
+            case name = "name"
+            case createdAt = "createdAt"
+            case location = "location"
+            case resourceType = "resourceType"
+        }
+    }
+
+    public struct GetRelationalDatabaseEventsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pageToken", required: false, type: .string), 
+            AWSShapeMember(label: "relationalDatabaseName", required: true, type: .string), 
+            AWSShapeMember(label: "durationInMinutes", required: false, type: .integer)
+        ]
+        /// A token used for advancing to a specific page of results from for get relational database events request.
+        public let pageToken: String?
+        /// The name of the database from which to get events.
+        public let relationalDatabaseName: String
+        /// The number of minutes in the past from which to retrieve events. For example, to get all events from the past 2 hours, enter 120. Default: 60  The minimum is 1 and the maximum is 14 days (20160 minutes).
+        public let durationInMinutes: Int32?
+
+        public init(pageToken: String? = nil, relationalDatabaseName: String, durationInMinutes: Int32? = nil) {
+            self.pageToken = pageToken
+            self.relationalDatabaseName = relationalDatabaseName
+            self.durationInMinutes = durationInMinutes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pageToken = "pageToken"
+            case relationalDatabaseName = "relationalDatabaseName"
+            case durationInMinutes = "durationInMinutes"
+        }
+    }
+
+    public struct GetDomainsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pageToken", required: false, type: .string)
+        ]
+        /// A token used for advancing to the next page of results from your get domains request.
+        public let pageToken: String?
+
+        public init(pageToken: String? = nil) {
+            self.pageToken = pageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pageToken = "pageToken"
+        }
+    }
+
+    public struct CloseInstancePublicPortsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "portInfo", required: true, type: .structure), 
+            AWSShapeMember(label: "instanceName", required: true, type: .string)
+        ]
+        /// Information about the public port you are trying to close.
+        public let portInfo: PortInfo
+        /// The name of the instance on which you're attempting to close the public ports.
+        public let instanceName: String
+
+        public init(portInfo: PortInfo, instanceName: String) {
+            self.portInfo = portInfo
+            self.instanceName = instanceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case portInfo = "portInfo"
+            case instanceName = "instanceName"
+        }
+    }
+
+    public struct CreateLoadBalancerTlsCertificateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificateName", required: true, type: .string), 
+            AWSShapeMember(label: "loadBalancerName", required: true, type: .string), 
+            AWSShapeMember(label: "certificateDomainName", required: true, type: .string), 
+            AWSShapeMember(label: "certificateAlternativeNames", required: false, type: .list), 
+            AWSShapeMember(label: "tags", required: false, type: .list)
+        ]
+        /// The SSL/TLS certificate name. You can have up to 10 certificates in your account at one time. Each Lightsail load balancer can have up to 2 certificates associated with it at one time. There is also an overall limit to the number of certificates that can be issue in a 365-day period. For more information, see Limits.
+        public let certificateName: String
+        /// The load balancer name where you want to create the SSL/TLS certificate.
+        public let loadBalancerName: String
+        /// The domain name (e.g., example.com) for your SSL/TLS certificate.
+        public let certificateDomainName: String
+        /// An array of strings listing alternative domains and subdomains for your SSL/TLS certificate. Lightsail will de-dupe the names for you. You can have a maximum of 9 alternative names (in addition to the 1 primary domain). We do not support wildcards (e.g., *.example.com).
+        public let certificateAlternativeNames: [String]?
+        /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
+        public let tags: [Tag]?
+
+        public init(certificateName: String, loadBalancerName: String, certificateDomainName: String, certificateAlternativeNames: [String]? = nil, tags: [Tag]? = nil) {
+            self.certificateName = certificateName
+            self.loadBalancerName = loadBalancerName
+            self.certificateDomainName = certificateDomainName
+            self.certificateAlternativeNames = certificateAlternativeNames
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateName = "certificateName"
+            case loadBalancerName = "loadBalancerName"
+            case certificateDomainName = "certificateDomainName"
+            case certificateAlternativeNames = "certificateAlternativeNames"
+            case tags = "tags"
+        }
+    }
+
+    public struct GetInstanceSnapshotsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "instanceSnapshots", required: false, type: .list)
+        ]
+        /// A token used for advancing to the next page of results from your get instance snapshots request.
+        public let nextPageToken: String?
+        /// An array of key-value pairs containing information about the results of your get instance snapshots request.
+        public let instanceSnapshots: [InstanceSnapshot]?
+
+        public init(nextPageToken: String? = nil, instanceSnapshots: [InstanceSnapshot]? = nil) {
+            self.nextPageToken = nextPageToken
+            self.instanceSnapshots = instanceSnapshots
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "nextPageToken"
+            case instanceSnapshots = "instanceSnapshots"
+        }
+    }
+
+    public struct RelationalDatabaseEndpoint: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "address", required: false, type: .string), 
+            AWSShapeMember(label: "port", required: false, type: .integer)
+        ]
+        /// Specifies the DNS address of the database.
+        public let address: String?
+        /// Specifies the port that the database is listening on.
+        public let port: Int32?
+
+        public init(address: String? = nil, port: Int32? = nil) {
+            self.address = address
+            self.port = port
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case address = "address"
+            case port = "port"
+        }
+    }
+
+    public struct GetDiskSnapshotsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "diskSnapshots", required: false, type: .list)
+        ]
+        /// A token used for advancing to the next page of results from your GetDiskSnapshots request.
+        public let nextPageToken: String?
+        /// An array of objects containing information about all block storage disk snapshots.
+        public let diskSnapshots: [DiskSnapshot]?
+
+        public init(nextPageToken: String? = nil, diskSnapshots: [DiskSnapshot]? = nil) {
+            self.nextPageToken = nextPageToken
+            self.diskSnapshots = diskSnapshots
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "nextPageToken"
+            case diskSnapshots = "diskSnapshots"
+        }
+    }
+
+    public struct GetDisksRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pageToken", required: false, type: .string)
+        ]
+        /// A token used for advancing to the next page of results from your GetDisks request.
+        public let pageToken: String?
+
+        public init(pageToken: String? = nil) {
+            self.pageToken = pageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pageToken = "pageToken"
+        }
+    }
+
+    public struct GetLoadBalancerTlsCertificatesResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tlsCertificates", required: false, type: .list)
+        ]
+        /// An array of LoadBalancerTlsCertificate objects describing your SSL/TLS certificates.
+        public let tlsCertificates: [LoadBalancerTlsCertificate]?
+
+        public init(tlsCertificates: [LoadBalancerTlsCertificate]? = nil) {
+            self.tlsCertificates = tlsCertificates
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tlsCertificates = "tlsCertificates"
+        }
+    }
+
+    public enum AccessDirection: String, CustomStringConvertible, Codable {
+        case inbound = "inbound"
+        case outbound = "outbound"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetStaticIpsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pageToken", required: false, type: .string)
+        ]
+        /// A token used for advancing to the next page of results from your get static IPs request.
+        public let pageToken: String?
+
+        public init(pageToken: String? = nil) {
+            self.pageToken = pageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pageToken = "pageToken"
+        }
+    }
+
+    public struct DeleteDiskRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "diskName", required: true, type: .string)
+        ]
+        /// The unique name of the disk you want to delete (e.g., my-disk).
+        public let diskName: String
+
+        public init(diskName: String) {
+            self.diskName = diskName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case diskName = "diskName"
+        }
     }
 
 }

@@ -8,19 +8,19 @@ public enum ECSErrorType: AWSErrorType {
     case clientException(message: String?)
     case invalidParameterException(message: String?)
     case clusterNotFoundException(message: String?)
-    case serviceNotFoundException(message: String?)
     case targetNotFoundException(message: String?)
-    case attributeLimitExceededException(message: String?)
+    case accessDeniedException(message: String?)
+    case serviceNotFoundException(message: String?)
+    case resourceNotFoundException(message: String?)
     case unsupportedFeatureException(message: String?)
     case platformUnknownException(message: String?)
     case platformTaskDefinitionIncompatibilityException(message: String?)
-    case accessDeniedException(message: String?)
     case blockedException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case serviceNotActiveException(message: String?)
+    case attributeLimitExceededException(message: String?)
     case clusterContainsContainerInstancesException(message: String?)
     case clusterContainsServicesException(message: String?)
     case clusterContainsTasksException(message: String?)
+    case serviceNotActiveException(message: String?)
     case updateInProgressException(message: String?)
     case noUpdateAvailableException(message: String?)
     case missingVersionException(message: String?)
@@ -41,32 +41,32 @@ extension ECSErrorType {
             self = .invalidParameterException(message: message)
         case "ClusterNotFoundException":
             self = .clusterNotFoundException(message: message)
-        case "ServiceNotFoundException":
-            self = .serviceNotFoundException(message: message)
         case "TargetNotFoundException":
             self = .targetNotFoundException(message: message)
-        case "AttributeLimitExceededException":
-            self = .attributeLimitExceededException(message: message)
+        case "AccessDeniedException":
+            self = .accessDeniedException(message: message)
+        case "ServiceNotFoundException":
+            self = .serviceNotFoundException(message: message)
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
         case "UnsupportedFeatureException":
             self = .unsupportedFeatureException(message: message)
         case "PlatformUnknownException":
             self = .platformUnknownException(message: message)
         case "PlatformTaskDefinitionIncompatibilityException":
             self = .platformTaskDefinitionIncompatibilityException(message: message)
-        case "AccessDeniedException":
-            self = .accessDeniedException(message: message)
         case "BlockedException":
             self = .blockedException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ServiceNotActiveException":
-            self = .serviceNotActiveException(message: message)
+        case "AttributeLimitExceededException":
+            self = .attributeLimitExceededException(message: message)
         case "ClusterContainsContainerInstancesException":
             self = .clusterContainsContainerInstancesException(message: message)
         case "ClusterContainsServicesException":
             self = .clusterContainsServicesException(message: message)
         case "ClusterContainsTasksException":
             self = .clusterContainsTasksException(message: message)
+        case "ServiceNotActiveException":
+            self = .serviceNotActiveException(message: message)
         case "UpdateInProgressException":
             self = .updateInProgressException(message: message)
         case "NoUpdateAvailableException":

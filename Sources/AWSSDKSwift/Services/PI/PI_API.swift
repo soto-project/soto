@@ -26,14 +26,14 @@ public struct PI {
         )
     }
 
-    ///  Retrieve Performance Insights metrics for a set of data sources, over a time period. You can provide specific dimension groups and dimensions, and provide aggregation and filtering criteria for each group.
-    public func getResourceMetrics(_ input: GetResourceMetricsRequest) throws -> EventLoopFuture<GetResourceMetricsResponse> {
-        return try client.send(operation: "GetResourceMetrics", path: "/", httpMethod: "POST", input: input)
+    ///  For a specific time period, retrieve the top N dimension keys for a metric.
+    public func describeDimensionKeys(_ input: DescribeDimensionKeysRequest) throws -> Future<DescribeDimensionKeysResponse> {
+        return try client.send(operation: "DescribeDimensionKeys", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  For a specific time period, retrieve the top N dimension keys for a metric.
-    public func describeDimensionKeys(_ input: DescribeDimensionKeysRequest) throws -> EventLoopFuture<DescribeDimensionKeysResponse> {
-        return try client.send(operation: "DescribeDimensionKeys", path: "/", httpMethod: "POST", input: input)
+    ///  Retrieve Performance Insights metrics for a set of data sources, over a time period. You can provide specific dimension groups and dimensions, and provide aggregation and filtering criteria for each group.
+    public func getResourceMetrics(_ input: GetResourceMetricsRequest) throws -> Future<GetResourceMetricsResponse> {
+        return try client.send(operation: "GetResourceMetrics", path: "/", httpMethod: "POST", input: input)
     }
 
 

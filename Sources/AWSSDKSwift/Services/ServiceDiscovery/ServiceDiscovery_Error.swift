@@ -5,16 +5,16 @@ import AWSSDKSwiftCore
 /// Error enum for ServiceDiscovery
 public enum ServiceDiscoveryErrorType: AWSErrorType {
     case invalidInput(message: String?)
+    case serviceNotFound(message: String?)
     case resourceLimitExceeded(message: String?)
     case namespaceNotFound(message: String?)
     case serviceAlreadyExists(message: String?)
     case duplicateRequest(message: String?)
     case instanceNotFound(message: String?)
     case resourceInUse(message: String?)
-    case serviceNotFound(message: String?)
     case namespaceAlreadyExists(message: String?)
-    case customHealthNotFound(message: String?)
     case operationNotFound(message: String?)
+    case customHealthNotFound(message: String?)
 }
 
 extension ServiceDiscoveryErrorType {
@@ -26,6 +26,8 @@ extension ServiceDiscoveryErrorType {
         switch errorCode {
         case "InvalidInput":
             self = .invalidInput(message: message)
+        case "ServiceNotFound":
+            self = .serviceNotFound(message: message)
         case "ResourceLimitExceeded":
             self = .resourceLimitExceeded(message: message)
         case "NamespaceNotFound":
@@ -38,14 +40,12 @@ extension ServiceDiscoveryErrorType {
             self = .instanceNotFound(message: message)
         case "ResourceInUse":
             self = .resourceInUse(message: message)
-        case "ServiceNotFound":
-            self = .serviceNotFound(message: message)
         case "NamespaceAlreadyExists":
             self = .namespaceAlreadyExists(message: message)
-        case "CustomHealthNotFound":
-            self = .customHealthNotFound(message: message)
         case "OperationNotFound":
             self = .operationNotFound(message: message)
+        case "CustomHealthNotFound":
+            self = .customHealthNotFound(message: message)
         default:
             return nil
         }

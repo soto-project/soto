@@ -7,11 +7,11 @@ public enum ACMErrorType: AWSErrorType {
     case resourceNotFoundException(message: String?)
     case requestInProgressException(message: String?)
     case invalidArnException(message: String?)
-    case invalidTagException(message: String?)
-    case resourceInUseException(message: String?)
     case limitExceededException(message: String?)
-    case invalidDomainValidationOptionsException(message: String?)
     case invalidStateException(message: String?)
+    case resourceInUseException(message: String?)
+    case invalidTagException(message: String?)
+    case invalidDomainValidationOptionsException(message: String?)
     case tooManyTagsException(message: String?)
 }
 
@@ -28,16 +28,16 @@ extension ACMErrorType {
             self = .requestInProgressException(message: message)
         case "InvalidArnException":
             self = .invalidArnException(message: message)
-        case "InvalidTagException":
-            self = .invalidTagException(message: message)
-        case "ResourceInUseException":
-            self = .resourceInUseException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
-        case "InvalidDomainValidationOptionsException":
-            self = .invalidDomainValidationOptionsException(message: message)
         case "InvalidStateException":
             self = .invalidStateException(message: message)
+        case "ResourceInUseException":
+            self = .resourceInUseException(message: message)
+        case "InvalidTagException":
+            self = .invalidTagException(message: message)
+        case "InvalidDomainValidationOptionsException":
+            self = .invalidDomainValidationOptionsException(message: message)
         case "TooManyTagsException":
             self = .tooManyTagsException(message: message)
         default:

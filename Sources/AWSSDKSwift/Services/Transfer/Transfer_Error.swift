@@ -8,8 +8,8 @@ public enum TransferErrorType: AWSErrorType {
     case internalServiceError(message: String?)
     case invalidRequestException(message: String?)
     case resourceNotFoundException(message: String?)
-    case resourceExistsException(message: String?)
     case invalidNextTokenException(message: String?)
+    case resourceExistsException(message: String?)
 }
 
 extension TransferErrorType {
@@ -27,10 +27,10 @@ extension TransferErrorType {
             self = .invalidRequestException(message: message)
         case "ResourceNotFoundException":
             self = .resourceNotFoundException(message: message)
-        case "ResourceExistsException":
-            self = .resourceExistsException(message: message)
         case "InvalidNextTokenException":
             self = .invalidNextTokenException(message: message)
+        case "ResourceExistsException":
+            self = .resourceExistsException(message: message)
         default:
             return nil
         }

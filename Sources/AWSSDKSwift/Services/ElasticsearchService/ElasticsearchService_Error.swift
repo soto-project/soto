@@ -4,14 +4,14 @@ import AWSSDKSwiftCore
 
 /// Error enum for ElasticsearchService
 public enum ElasticsearchServiceErrorType: AWSErrorType {
-    case resourceNotFoundException(message: String?)
-    case resourceAlreadyExistsException(message: String?)
-    case limitExceededException(message: String?)
-    case disabledOperationException(message: String?)
-    case validationException(message: String?)
-    case internalException(message: String?)
     case baseException(message: String?)
+    case internalException(message: String?)
+    case resourceNotFoundException(message: String?)
+    case validationException(message: String?)
+    case disabledOperationException(message: String?)
     case invalidTypeException(message: String?)
+    case limitExceededException(message: String?)
+    case resourceAlreadyExistsException(message: String?)
 }
 
 extension ElasticsearchServiceErrorType {
@@ -21,22 +21,22 @@ extension ElasticsearchServiceErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ResourceAlreadyExistsException":
-            self = .resourceAlreadyExistsException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "DisabledOperationException":
-            self = .disabledOperationException(message: message)
-        case "ValidationException":
-            self = .validationException(message: message)
-        case "InternalException":
-            self = .internalException(message: message)
         case "BaseException":
             self = .baseException(message: message)
+        case "InternalException":
+            self = .internalException(message: message)
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
+        case "ValidationException":
+            self = .validationException(message: message)
+        case "DisabledOperationException":
+            self = .disabledOperationException(message: message)
         case "InvalidTypeException":
             self = .invalidTypeException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
+        case "ResourceAlreadyExistsException":
+            self = .resourceAlreadyExistsException(message: message)
         default:
             return nil
         }

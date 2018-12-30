@@ -8,8 +8,8 @@ public enum ApplicationDiscoveryServiceErrorType: AWSErrorType {
     case invalidParameterException(message: String?)
     case invalidParameterValueException(message: String?)
     case serverInternalErrorException(message: String?)
-    case operationNotPermittedException(message: String?)
     case resourceNotFoundException(message: String?)
+    case operationNotPermittedException(message: String?)
     case resourceInUseException(message: String?)
     case conflictErrorException(message: String?)
 }
@@ -29,10 +29,10 @@ extension ApplicationDiscoveryServiceErrorType {
             self = .invalidParameterValueException(message: message)
         case "ServerInternalErrorException":
             self = .serverInternalErrorException(message: message)
-        case "OperationNotPermittedException":
-            self = .operationNotPermittedException(message: message)
         case "ResourceNotFoundException":
             self = .resourceNotFoundException(message: message)
+        case "OperationNotPermittedException":
+            self = .operationNotPermittedException(message: message)
         case "ResourceInUseException":
             self = .resourceInUseException(message: message)
         case "ConflictErrorException":

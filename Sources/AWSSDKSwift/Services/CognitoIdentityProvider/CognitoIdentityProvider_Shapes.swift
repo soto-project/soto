@@ -5,3039 +5,11 @@ import AWSSDKSwiftCore
 
 extension CognitoIdentityProvider {
 
-    public struct AnalyticsMetadataType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AnalyticsEndpointId", required: false, type: .string)
-        ]
-        /// The endpoint ID.
-        public let analyticsEndpointId: String?
-
-        public init(analyticsEndpointId: String? = nil) {
-            self.analyticsEndpointId = analyticsEndpointId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case analyticsEndpointId = "AnalyticsEndpointId"
-        }
-    }
-
-    public struct GetDeviceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Device", required: true, type: .structure)
-        ]
-        /// The device.
-        public let device: DeviceType
-
-        public init(device: DeviceType) {
-            self.device = device
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case device = "Device"
-        }
-    }
-
     public enum UserPoolMfaType: String, CustomStringConvertible, Codable {
         case off = "OFF"
         case on = "ON"
         case optional = "OPTIONAL"
         public var description: String { return self.rawValue }
-    }
-
-    public struct CreateUserPoolDomainRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Domain", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "CustomDomainConfig", required: false, type: .structure)
-        ]
-        /// The domain string.
-        public let domain: String
-        /// The user pool ID.
-        public let userPoolId: String
-        /// The configuration for a custom domain that hosts the sign-up and sign-in webpages for your application. Provide this parameter only if you want to use own custom domain for your user pool. Otherwise, you can exclude this parameter and use the Amazon Cognito hosted domain instead. For more information about the hosted domain and custom domains, see Configuring a User Pool Domain.
-        public let customDomainConfig: CustomDomainConfigType?
-
-        public init(domain: String, userPoolId: String, customDomainConfig: CustomDomainConfigType? = nil) {
-            self.domain = domain
-            self.userPoolId = userPoolId
-            self.customDomainConfig = customDomainConfig
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case domain = "Domain"
-            case userPoolId = "UserPoolId"
-            case customDomainConfig = "CustomDomainConfig"
-        }
-    }
-
-    public struct HttpHeader: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "headerName", required: false, type: .string), 
-            AWSShapeMember(label: "headerValue", required: false, type: .string)
-        ]
-        /// The header name
-        public let headerName: String?
-        /// The header value.
-        public let headerValue: String?
-
-        public init(headerName: String? = nil, headerValue: String? = nil) {
-            self.headerName = headerName
-            self.headerValue = headerValue
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case headerName = "headerName"
-            case headerValue = "headerValue"
-        }
-    }
-
-    public enum VerifiedAttributeType: String, CustomStringConvertible, Codable {
-        case phoneNumber = "phone_number"
-        case email = "email"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct NotifyEmailType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TextBody", required: false, type: .string), 
-            AWSShapeMember(label: "Subject", required: true, type: .string), 
-            AWSShapeMember(label: "HtmlBody", required: false, type: .string)
-        ]
-        /// The text body.
-        public let textBody: String?
-        /// The subject.
-        public let subject: String
-        /// The HTML body.
-        public let htmlBody: String?
-
-        public init(textBody: String? = nil, subject: String, htmlBody: String? = nil) {
-            self.textBody = textBody
-            self.subject = subject
-            self.htmlBody = htmlBody
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case textBody = "TextBody"
-            case subject = "Subject"
-            case htmlBody = "HtmlBody"
-        }
-    }
-
-    public struct AdminUpdateAuthEventFeedbackRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "EventId", required: true, type: .string), 
-            AWSShapeMember(label: "FeedbackValue", required: true, type: .enum), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
-        /// The user pool username.
-        public let username: String
-        /// The authentication event ID.
-        public let eventId: String
-        /// The authentication event feedback value.
-        public let feedbackValue: FeedbackValueType
-        /// The user pool ID.
-        public let userPoolId: String
-
-        public init(username: String, eventId: String, feedbackValue: FeedbackValueType, userPoolId: String) {
-            self.username = username
-            self.eventId = eventId
-            self.feedbackValue = feedbackValue
-            self.userPoolId = userPoolId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case username = "Username"
-            case eventId = "EventId"
-            case feedbackValue = "FeedbackValue"
-            case userPoolId = "UserPoolId"
-        }
-    }
-
-    public struct UserPoolType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdminCreateUserConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "DeviceConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "CustomDomain", required: false, type: .string), 
-            AWSShapeMember(label: "LambdaConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Policies", required: false, type: .structure), 
-            AWSShapeMember(label: "SmsVerificationMessage", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "AutoVerifiedAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "EmailVerificationMessage", required: false, type: .string), 
-            AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "SchemaAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "EmailConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "SmsConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "EstimatedNumberOfUsers", required: false, type: .integer), 
-            AWSShapeMember(label: "UsernameAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "EmailVerificationSubject", required: false, type: .string), 
-            AWSShapeMember(label: "UserPoolAddOns", required: false, type: .structure), 
-            AWSShapeMember(label: "EmailConfigurationFailure", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Domain", required: false, type: .string), 
-            AWSShapeMember(label: "MfaConfiguration", required: false, type: .enum), 
-            AWSShapeMember(label: "VerificationMessageTemplate", required: false, type: .structure), 
-            AWSShapeMember(label: "UserPoolTags", required: false, type: .map), 
-            AWSShapeMember(label: "SmsAuthenticationMessage", required: false, type: .string), 
-            AWSShapeMember(label: "SmsConfigurationFailure", required: false, type: .string), 
-            AWSShapeMember(label: "AliasAttributes", required: false, type: .list)
-        ]
-        /// The configuration for AdminCreateUser requests.
-        public let adminCreateUserConfig: AdminCreateUserConfigType?
-        /// The device configuration.
-        public let deviceConfiguration: DeviceConfigurationType?
-        public let customDomain: String?
-        /// The AWS Lambda triggers associated with the user pool.
-        public let lambdaConfig: LambdaConfigType?
-        /// The Amazon Resource Name (ARN) for the user pool.
-        public let arn: String?
-        /// The policies associated with the user pool.
-        public let policies: UserPoolPolicyType?
-        /// The contents of the SMS verification message.
-        public let smsVerificationMessage: String?
-        /// The ID of the user pool.
-        public let id: String?
-        /// Specifies the attributes that are auto-verified in a user pool.
-        public let autoVerifiedAttributes: [VerifiedAttributeType]?
-        /// The contents of the email verification message.
-        public let emailVerificationMessage: String?
-        /// The date the user pool was last modified.
-        public let lastModifiedDate: TimeStamp?
-        /// A container with the schema attributes of a user pool.
-        public let schemaAttributes: [SchemaAttributeType]?
-        /// The email configuration.
-        public let emailConfiguration: EmailConfigurationType?
-        /// The SMS configuration.
-        public let smsConfiguration: SmsConfigurationType?
-        /// The date the user pool was created.
-        public let creationDate: TimeStamp?
-        /// The status of a user pool.
-        public let status: StatusType?
-        /// A number estimating the size of the user pool.
-        public let estimatedNumberOfUsers: Int32?
-        /// Specifies whether email addresses or phone numbers can be specified as usernames when a user signs up.
-        public let usernameAttributes: [UsernameAttributeType]?
-        /// The subject of the email verification message.
-        public let emailVerificationSubject: String?
-        /// The user pool add-ons.
-        public let userPoolAddOns: UserPoolAddOnsType?
-        /// The reason why the email configuration cannot send the messages to your users.
-        public let emailConfigurationFailure: String?
-        /// The name of the user pool.
-        public let name: String?
-        /// Holds the domain prefix if the user pool has a domain associated with it.
-        public let domain: String?
-        /// Can be one of the following values:    OFF - MFA tokens are not required and cannot be specified during user registration.    ON - MFA tokens are required for all user registrations. You can only specify required when you are initially creating a user pool.    OPTIONAL - Users have the option when registering to create an MFA token.  
-        public let mfaConfiguration: UserPoolMfaType?
-        /// The template for verification messages.
-        public let verificationMessageTemplate: VerificationMessageTemplateType?
-        /// The cost allocation tags for the user pool. For more information, see Adding Cost Allocation Tags to Your User Pool 
-        public let userPoolTags: [String: String]?
-        /// The contents of the SMS authentication message.
-        public let smsAuthenticationMessage: String?
-        /// The reason why the SMS configuration cannot send the messages to your users.
-        public let smsConfigurationFailure: String?
-        /// Specifies the attributes that are aliased in a user pool.
-        public let aliasAttributes: [AliasAttributeType]?
-
-        public init(adminCreateUserConfig: AdminCreateUserConfigType? = nil, deviceConfiguration: DeviceConfigurationType? = nil, customDomain: String? = nil, lambdaConfig: LambdaConfigType? = nil, arn: String? = nil, policies: UserPoolPolicyType? = nil, smsVerificationMessage: String? = nil, id: String? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, emailVerificationMessage: String? = nil, lastModifiedDate: TimeStamp? = nil, schemaAttributes: [SchemaAttributeType]? = nil, emailConfiguration: EmailConfigurationType? = nil, smsConfiguration: SmsConfigurationType? = nil, creationDate: TimeStamp? = nil, status: StatusType? = nil, estimatedNumberOfUsers: Int32? = nil, usernameAttributes: [UsernameAttributeType]? = nil, emailVerificationSubject: String? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, emailConfigurationFailure: String? = nil, name: String? = nil, domain: String? = nil, mfaConfiguration: UserPoolMfaType? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil, userPoolTags: [String: String]? = nil, smsAuthenticationMessage: String? = nil, smsConfigurationFailure: String? = nil, aliasAttributes: [AliasAttributeType]? = nil) {
-            self.adminCreateUserConfig = adminCreateUserConfig
-            self.deviceConfiguration = deviceConfiguration
-            self.customDomain = customDomain
-            self.lambdaConfig = lambdaConfig
-            self.arn = arn
-            self.policies = policies
-            self.smsVerificationMessage = smsVerificationMessage
-            self.id = id
-            self.autoVerifiedAttributes = autoVerifiedAttributes
-            self.emailVerificationMessage = emailVerificationMessage
-            self.lastModifiedDate = lastModifiedDate
-            self.schemaAttributes = schemaAttributes
-            self.emailConfiguration = emailConfiguration
-            self.smsConfiguration = smsConfiguration
-            self.creationDate = creationDate
-            self.status = status
-            self.estimatedNumberOfUsers = estimatedNumberOfUsers
-            self.usernameAttributes = usernameAttributes
-            self.emailVerificationSubject = emailVerificationSubject
-            self.userPoolAddOns = userPoolAddOns
-            self.emailConfigurationFailure = emailConfigurationFailure
-            self.name = name
-            self.domain = domain
-            self.mfaConfiguration = mfaConfiguration
-            self.verificationMessageTemplate = verificationMessageTemplate
-            self.userPoolTags = userPoolTags
-            self.smsAuthenticationMessage = smsAuthenticationMessage
-            self.smsConfigurationFailure = smsConfigurationFailure
-            self.aliasAttributes = aliasAttributes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case adminCreateUserConfig = "AdminCreateUserConfig"
-            case deviceConfiguration = "DeviceConfiguration"
-            case customDomain = "CustomDomain"
-            case lambdaConfig = "LambdaConfig"
-            case arn = "Arn"
-            case policies = "Policies"
-            case smsVerificationMessage = "SmsVerificationMessage"
-            case id = "Id"
-            case autoVerifiedAttributes = "AutoVerifiedAttributes"
-            case emailVerificationMessage = "EmailVerificationMessage"
-            case lastModifiedDate = "LastModifiedDate"
-            case schemaAttributes = "SchemaAttributes"
-            case emailConfiguration = "EmailConfiguration"
-            case smsConfiguration = "SmsConfiguration"
-            case creationDate = "CreationDate"
-            case status = "Status"
-            case estimatedNumberOfUsers = "EstimatedNumberOfUsers"
-            case usernameAttributes = "UsernameAttributes"
-            case emailVerificationSubject = "EmailVerificationSubject"
-            case userPoolAddOns = "UserPoolAddOns"
-            case emailConfigurationFailure = "EmailConfigurationFailure"
-            case name = "Name"
-            case domain = "Domain"
-            case mfaConfiguration = "MfaConfiguration"
-            case verificationMessageTemplate = "VerificationMessageTemplate"
-            case userPoolTags = "UserPoolTags"
-            case smsAuthenticationMessage = "SmsAuthenticationMessage"
-            case smsConfigurationFailure = "SmsConfigurationFailure"
-            case aliasAttributes = "AliasAttributes"
-        }
-    }
-
-    public struct VerificationMessageTemplateType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EmailSubject", required: false, type: .string), 
-            AWSShapeMember(label: "EmailMessage", required: false, type: .string), 
-            AWSShapeMember(label: "EmailMessageByLink", required: false, type: .string), 
-            AWSShapeMember(label: "DefaultEmailOption", required: false, type: .enum), 
-            AWSShapeMember(label: "SmsMessage", required: false, type: .string), 
-            AWSShapeMember(label: "EmailSubjectByLink", required: false, type: .string)
-        ]
-        /// The subject line for the email message template.
-        public let emailSubject: String?
-        /// The email message template.
-        public let emailMessage: String?
-        /// The email message template for sending a confirmation link to the user.
-        public let emailMessageByLink: String?
-        /// The default email option.
-        public let defaultEmailOption: DefaultEmailOptionType?
-        /// The SMS message template.
-        public let smsMessage: String?
-        /// The subject line for the email message template for sending a confirmation link to the user.
-        public let emailSubjectByLink: String?
-
-        public init(emailSubject: String? = nil, emailMessage: String? = nil, emailMessageByLink: String? = nil, defaultEmailOption: DefaultEmailOptionType? = nil, smsMessage: String? = nil, emailSubjectByLink: String? = nil) {
-            self.emailSubject = emailSubject
-            self.emailMessage = emailMessage
-            self.emailMessageByLink = emailMessageByLink
-            self.defaultEmailOption = defaultEmailOption
-            self.smsMessage = smsMessage
-            self.emailSubjectByLink = emailSubjectByLink
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case emailSubject = "EmailSubject"
-            case emailMessage = "EmailMessage"
-            case emailMessageByLink = "EmailMessageByLink"
-            case defaultEmailOption = "DefaultEmailOption"
-            case smsMessage = "SmsMessage"
-            case emailSubjectByLink = "EmailSubjectByLink"
-        }
-    }
-
-    public struct UserType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MFAOptions", required: false, type: .list), 
-            AWSShapeMember(label: "Attributes", required: false, type: .list), 
-            AWSShapeMember(label: "UserStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "UserLastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "UserCreateDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "Username", required: false, type: .string)
-        ]
-        /// The MFA options for the user.
-        public let mFAOptions: [MFAOptionType]?
-        /// A container with information about the user type attributes.
-        public let attributes: [AttributeType]?
-        /// The user status. Can be one of the following:   UNCONFIRMED - User has been created but not confirmed.   CONFIRMED - User has been confirmed.   ARCHIVED - User is no longer active.   COMPROMISED - User is disabled due to a potential security threat.   UNKNOWN - User status is not known.  
-        public let userStatus: UserStatusType?
-        /// The last modified date of the user.
-        public let userLastModifiedDate: TimeStamp?
-        /// The creation date of the user.
-        public let userCreateDate: TimeStamp?
-        /// Specifies whether the user is enabled.
-        public let enabled: Bool?
-        /// The user name of the user you wish to describe.
-        public let username: String?
-
-        public init(mFAOptions: [MFAOptionType]? = nil, attributes: [AttributeType]? = nil, userStatus: UserStatusType? = nil, userLastModifiedDate: TimeStamp? = nil, userCreateDate: TimeStamp? = nil, enabled: Bool? = nil, username: String? = nil) {
-            self.mFAOptions = mFAOptions
-            self.attributes = attributes
-            self.userStatus = userStatus
-            self.userLastModifiedDate = userLastModifiedDate
-            self.userCreateDate = userCreateDate
-            self.enabled = enabled
-            self.username = username
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case mFAOptions = "MFAOptions"
-            case attributes = "Attributes"
-            case userStatus = "UserStatus"
-            case userLastModifiedDate = "UserLastModifiedDate"
-            case userCreateDate = "UserCreateDate"
-            case enabled = "Enabled"
-            case username = "Username"
-        }
-    }
-
-    public struct DescribeIdentityProviderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "ProviderName", required: true, type: .string)
-        ]
-        /// The user pool ID.
-        public let userPoolId: String
-        /// The identity provider name.
-        public let providerName: String
-
-        public init(userPoolId: String, providerName: String) {
-            self.userPoolId = userPoolId
-            self.providerName = providerName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userPoolId = "UserPoolId"
-            case providerName = "ProviderName"
-        }
-    }
-
-    public struct ProviderDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProviderName", required: false, type: .string), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ProviderType", required: false, type: .enum)
-        ]
-        /// The identity provider name.
-        public let providerName: String?
-        /// The date the provider was added to the user pool.
-        public let creationDate: TimeStamp?
-        /// The date the provider was last modified.
-        public let lastModifiedDate: TimeStamp?
-        /// The identity provider type.
-        public let providerType: IdentityProviderTypeType?
-
-        public init(providerName: String? = nil, creationDate: TimeStamp? = nil, lastModifiedDate: TimeStamp? = nil, providerType: IdentityProviderTypeType? = nil) {
-            self.providerName = providerName
-            self.creationDate = creationDate
-            self.lastModifiedDate = lastModifiedDate
-            self.providerType = providerType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case providerName = "ProviderName"
-            case creationDate = "CreationDate"
-            case lastModifiedDate = "LastModifiedDate"
-            case providerType = "ProviderType"
-        }
-    }
-
-    public struct SetRiskConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RiskConfiguration", required: true, type: .structure)
-        ]
-        /// The risk configuration.
-        public let riskConfiguration: RiskConfigurationType
-
-        public init(riskConfiguration: RiskConfigurationType) {
-            self.riskConfiguration = riskConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case riskConfiguration = "RiskConfiguration"
-        }
-    }
-
-    public struct GetIdentityProviderByIdentifierResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdentityProvider", required: true, type: .structure)
-        ]
-        /// The identity provider object.
-        public let identityProvider: IdentityProviderType
-
-        public init(identityProvider: IdentityProviderType) {
-            self.identityProvider = identityProvider
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case identityProvider = "IdentityProvider"
-        }
-    }
-
-    public struct AdminLinkProviderForUserResponse: AWSShape {
-
-    }
-
-    public struct RiskConfigurationType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "RiskExceptionConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "CompromisedCredentialsRiskConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "UserPoolId", required: false, type: .string), 
-            AWSShapeMember(label: "ClientId", required: false, type: .string), 
-            AWSShapeMember(label: "AccountTakeoverRiskConfiguration", required: false, type: .structure)
-        ]
-        /// The last modified date.
-        public let lastModifiedDate: TimeStamp?
-        /// The configuration to override the risk decision.
-        public let riskExceptionConfiguration: RiskExceptionConfigurationType?
-        /// The compromised credentials risk configuration object including the EventFilter and the EventAction 
-        public let compromisedCredentialsRiskConfiguration: CompromisedCredentialsRiskConfigurationType?
-        /// The user pool ID.
-        public let userPoolId: String?
-        /// The app client ID.
-        public let clientId: String?
-        /// The account takeover risk configuration object including the NotifyConfiguration object and Actions to take in the case of an account takeover.
-        public let accountTakeoverRiskConfiguration: AccountTakeoverRiskConfigurationType?
-
-        public init(lastModifiedDate: TimeStamp? = nil, riskExceptionConfiguration: RiskExceptionConfigurationType? = nil, compromisedCredentialsRiskConfiguration: CompromisedCredentialsRiskConfigurationType? = nil, userPoolId: String? = nil, clientId: String? = nil, accountTakeoverRiskConfiguration: AccountTakeoverRiskConfigurationType? = nil) {
-            self.lastModifiedDate = lastModifiedDate
-            self.riskExceptionConfiguration = riskExceptionConfiguration
-            self.compromisedCredentialsRiskConfiguration = compromisedCredentialsRiskConfiguration
-            self.userPoolId = userPoolId
-            self.clientId = clientId
-            self.accountTakeoverRiskConfiguration = accountTakeoverRiskConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lastModifiedDate = "LastModifiedDate"
-            case riskExceptionConfiguration = "RiskExceptionConfiguration"
-            case compromisedCredentialsRiskConfiguration = "CompromisedCredentialsRiskConfiguration"
-            case userPoolId = "UserPoolId"
-            case clientId = "ClientId"
-            case accountTakeoverRiskConfiguration = "AccountTakeoverRiskConfiguration"
-        }
-    }
-
-    public struct AdminGetUserResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MFAOptions", required: false, type: .list), 
-            AWSShapeMember(label: "UserMFASettingList", required: false, type: .list), 
-            AWSShapeMember(label: "UserStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "UserLastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "UserCreateDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "UserAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "PreferredMfaSetting", required: false, type: .string)
-        ]
-        /// Specifies the options for MFA (e.g., email or phone number).
-        public let mFAOptions: [MFAOptionType]?
-        /// The list of the user's MFA settings.
-        public let userMFASettingList: [String]?
-        /// The user status. Can be one of the following:   UNCONFIRMED - User has been created but not confirmed.   CONFIRMED - User has been confirmed.   ARCHIVED - User is no longer active.   COMPROMISED - User is disabled due to a potential security threat.   UNKNOWN - User status is not known.  
-        public let userStatus: UserStatusType?
-        /// The date the user was last modified.
-        public let userLastModifiedDate: TimeStamp?
-        /// The date the user was created.
-        public let userCreateDate: TimeStamp?
-        /// An array of name-value pairs representing user attributes.
-        public let userAttributes: [AttributeType]?
-        /// Indicates that the status is enabled.
-        public let enabled: Bool?
-        /// The user name of the user about whom you are receiving information.
-        public let username: String
-        /// The user's preferred MFA setting.
-        public let preferredMfaSetting: String?
-
-        public init(mFAOptions: [MFAOptionType]? = nil, userMFASettingList: [String]? = nil, userStatus: UserStatusType? = nil, userLastModifiedDate: TimeStamp? = nil, userCreateDate: TimeStamp? = nil, userAttributes: [AttributeType]? = nil, enabled: Bool? = nil, username: String, preferredMfaSetting: String? = nil) {
-            self.mFAOptions = mFAOptions
-            self.userMFASettingList = userMFASettingList
-            self.userStatus = userStatus
-            self.userLastModifiedDate = userLastModifiedDate
-            self.userCreateDate = userCreateDate
-            self.userAttributes = userAttributes
-            self.enabled = enabled
-            self.username = username
-            self.preferredMfaSetting = preferredMfaSetting
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case mFAOptions = "MFAOptions"
-            case userMFASettingList = "UserMFASettingList"
-            case userStatus = "UserStatus"
-            case userLastModifiedDate = "UserLastModifiedDate"
-            case userCreateDate = "UserCreateDate"
-            case userAttributes = "UserAttributes"
-            case enabled = "Enabled"
-            case username = "Username"
-            case preferredMfaSetting = "PreferredMfaSetting"
-        }
-    }
-
-    public struct AdminInitiateAuthRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContextData", required: false, type: .structure), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "AuthFlow", required: true, type: .enum), 
-            AWSShapeMember(label: "AuthParameters", required: false, type: .map), 
-            AWSShapeMember(label: "AnalyticsMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "ClientMetadata", required: false, type: .map), 
-            AWSShapeMember(label: "ClientId", required: true, type: .string)
-        ]
-        /// Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
-        public let contextData: ContextDataType?
-        /// The ID of the Amazon Cognito user pool.
-        public let userPoolId: String
-        /// The authentication flow for this call to execute. The API action will depend on this value. For example:    REFRESH_TOKEN_AUTH will take in a valid refresh token and return new tokens.    USER_SRP_AUTH will take in USERNAME and SRP_A and return the SRP variables to be used for next challenge execution.    USER_PASSWORD_AUTH will take in USERNAME and PASSWORD and return the next challenge or tokens.   Valid values include:    USER_SRP_AUTH: Authentication flow for the Secure Remote Password (SRP) protocol.    REFRESH_TOKEN_AUTH/REFRESH_TOKEN: Authentication flow for refreshing the access token and ID token by supplying a valid refresh token.    CUSTOM_AUTH: Custom authentication flow.    ADMIN_NO_SRP_AUTH: Non-SRP authentication flow; you can pass in the USERNAME and PASSWORD directly if the flow is enabled for calling the app client.    USER_PASSWORD_AUTH: Non-SRP authentication flow; USERNAME and PASSWORD are passed directly. If a user migration Lambda trigger is set, this flow will invoke the user migration Lambda if the USERNAME is not found in the user pool.   
-        public let authFlow: AuthFlowType
-        /// The authentication parameters. These are inputs corresponding to the AuthFlow that you are invoking. The required values depend on the value of AuthFlow:   For USER_SRP_AUTH: USERNAME (required), SRP_A (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY    For REFRESH_TOKEN_AUTH/REFRESH_TOKEN: REFRESH_TOKEN (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY    For ADMIN_NO_SRP_AUTH: USERNAME (required), SECRET_HASH (if app client is configured with client secret), PASSWORD (required), DEVICE_KEY    For CUSTOM_AUTH: USERNAME (required), SECRET_HASH (if app client is configured with client secret), DEVICE_KEY   
-        public let authParameters: [String: String]?
-        /// The analytics metadata for collecting Amazon Pinpoint metrics for AdminInitiateAuth calls.
-        public let analyticsMetadata: AnalyticsMetadataType?
-        /// This is a random key-value pair map which can contain any key and will be passed to your PreAuthentication Lambda trigger as-is. It can be used to implement additional validations around authentication.
-        public let clientMetadata: [String: String]?
-        /// The app client ID.
-        public let clientId: String
-
-        public init(contextData: ContextDataType? = nil, userPoolId: String, authFlow: AuthFlowType, authParameters: [String: String]? = nil, analyticsMetadata: AnalyticsMetadataType? = nil, clientMetadata: [String: String]? = nil, clientId: String) {
-            self.contextData = contextData
-            self.userPoolId = userPoolId
-            self.authFlow = authFlow
-            self.authParameters = authParameters
-            self.analyticsMetadata = analyticsMetadata
-            self.clientMetadata = clientMetadata
-            self.clientId = clientId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case contextData = "ContextData"
-            case userPoolId = "UserPoolId"
-            case authFlow = "AuthFlow"
-            case authParameters = "AuthParameters"
-            case analyticsMetadata = "AnalyticsMetadata"
-            case clientMetadata = "ClientMetadata"
-            case clientId = "ClientId"
-        }
-    }
-
-    public struct DeleteUserPoolRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
-        /// The user pool ID for the user pool you want to delete.
-        public let userPoolId: String
-
-        public init(userPoolId: String) {
-            self.userPoolId = userPoolId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userPoolId = "UserPoolId"
-        }
-    }
-
-    public struct GlobalSignOutRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessToken", required: true, type: .string)
-        ]
-        /// The access token.
-        public let accessToken: String
-
-        public init(accessToken: String) {
-            self.accessToken = accessToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accessToken = "AccessToken"
-        }
-    }
-
-    public enum AuthFlowType: String, CustomStringConvertible, Codable {
-        case userSrpAuth = "USER_SRP_AUTH"
-        case refreshTokenAuth = "REFRESH_TOKEN_AUTH"
-        case refreshToken = "REFRESH_TOKEN"
-        case customAuth = "CUSTOM_AUTH"
-        case adminNoSrpAuth = "ADMIN_NO_SRP_AUTH"
-        case userPasswordAuth = "USER_PASSWORD_AUTH"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct AuthenticationResultType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RefreshToken", required: false, type: .string), 
-            AWSShapeMember(label: "ExpiresIn", required: false, type: .integer), 
-            AWSShapeMember(label: "NewDeviceMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "IdToken", required: false, type: .string), 
-            AWSShapeMember(label: "TokenType", required: false, type: .string), 
-            AWSShapeMember(label: "AccessToken", required: false, type: .string)
-        ]
-        /// The refresh token.
-        public let refreshToken: String?
-        /// The expiration period of the authentication result in seconds.
-        public let expiresIn: Int32?
-        /// The new device metadata from an authentication result.
-        public let newDeviceMetadata: NewDeviceMetadataType?
-        /// The ID token.
-        public let idToken: String?
-        /// The token type.
-        public let tokenType: String?
-        /// The access token.
-        public let accessToken: String?
-
-        public init(refreshToken: String? = nil, expiresIn: Int32? = nil, newDeviceMetadata: NewDeviceMetadataType? = nil, idToken: String? = nil, tokenType: String? = nil, accessToken: String? = nil) {
-            self.refreshToken = refreshToken
-            self.expiresIn = expiresIn
-            self.newDeviceMetadata = newDeviceMetadata
-            self.idToken = idToken
-            self.tokenType = tokenType
-            self.accessToken = accessToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case refreshToken = "RefreshToken"
-            case expiresIn = "ExpiresIn"
-            case newDeviceMetadata = "NewDeviceMetadata"
-            case idToken = "IdToken"
-            case tokenType = "TokenType"
-            case accessToken = "AccessToken"
-        }
-    }
-
-    public struct AdminAddUserToGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "GroupName", required: true, type: .string)
-        ]
-        /// The user pool ID for the user pool.
-        public let userPoolId: String
-        /// The username for the user.
-        public let username: String
-        /// The group name.
-        public let groupName: String
-
-        public init(userPoolId: String, username: String, groupName: String) {
-            self.userPoolId = userPoolId
-            self.username = username
-            self.groupName = groupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userPoolId = "UserPoolId"
-            case username = "Username"
-            case groupName = "GroupName"
-        }
-    }
-
-    public struct AdminCreateUserResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "User", required: false, type: .structure)
-        ]
-        /// The newly created user.
-        public let user: UserType?
-
-        public init(user: UserType? = nil) {
-            self.user = user
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case user = "User"
-        }
-    }
-
-    public struct ListIdentityProvidersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Providers", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// A list of identity provider objects.
-        public let providers: [ProviderDescription]
-        /// A pagination token.
-        public let nextToken: String?
-
-        public init(providers: [ProviderDescription], nextToken: String? = nil) {
-            self.providers = providers
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case providers = "Providers"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct UpdateResourceServerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceServer", required: true, type: .structure)
-        ]
-        /// The resource server.
-        public let resourceServer: ResourceServerType
-
-        public init(resourceServer: ResourceServerType) {
-            self.resourceServer = resourceServer
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceServer = "ResourceServer"
-        }
-    }
-
-    public struct GetGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Group", required: false, type: .structure)
-        ]
-        /// The group object for the group.
-        public let group: GroupType?
-
-        public init(group: GroupType? = nil) {
-            self.group = group
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case group = "Group"
-        }
-    }
-
-    public struct GetUserAttributeVerificationCodeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CodeDeliveryDetails", required: false, type: .structure)
-        ]
-        /// The code delivery details returned by the server in response to the request to get the user attribute verification code.
-        public let codeDeliveryDetails: CodeDeliveryDetailsType?
-
-        public init(codeDeliveryDetails: CodeDeliveryDetailsType? = nil) {
-            self.codeDeliveryDetails = codeDeliveryDetails
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case codeDeliveryDetails = "CodeDeliveryDetails"
-        }
-    }
-
-    public enum AdvancedSecurityModeType: String, CustomStringConvertible, Codable {
-        case off = "OFF"
-        case audit = "AUDIT"
-        case enforced = "ENFORCED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ConfirmSignUpResponse: AWSShape {
-
-    }
-
-    public struct UICustomizationType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "UserPoolId", required: false, type: .string), 
-            AWSShapeMember(label: "CSSVersion", required: false, type: .string), 
-            AWSShapeMember(label: "ImageUrl", required: false, type: .string), 
-            AWSShapeMember(label: "ClientId", required: false, type: .string), 
-            AWSShapeMember(label: "CSS", required: false, type: .string)
-        ]
-        /// The creation date for the UI customization.
-        public let creationDate: TimeStamp?
-        /// The last-modified date for the UI customization.
-        public let lastModifiedDate: TimeStamp?
-        /// The user pool ID for the user pool.
-        public let userPoolId: String?
-        /// The CSS version number.
-        public let cSSVersion: String?
-        /// The logo image for the UI customization.
-        public let imageUrl: String?
-        /// The client ID for the client app.
-        public let clientId: String?
-        /// The CSS values in the UI customization.
-        public let css: String?
-
-        public init(creationDate: TimeStamp? = nil, lastModifiedDate: TimeStamp? = nil, userPoolId: String? = nil, cSSVersion: String? = nil, imageUrl: String? = nil, clientId: String? = nil, css: String? = nil) {
-            self.creationDate = creationDate
-            self.lastModifiedDate = lastModifiedDate
-            self.userPoolId = userPoolId
-            self.cSSVersion = cSSVersion
-            self.imageUrl = imageUrl
-            self.clientId = clientId
-            self.css = css
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case creationDate = "CreationDate"
-            case lastModifiedDate = "LastModifiedDate"
-            case userPoolId = "UserPoolId"
-            case cSSVersion = "CSSVersion"
-            case imageUrl = "ImageUrl"
-            case clientId = "ClientId"
-            case css = "CSS"
-        }
-    }
-
-    public struct AdminListUserAuthEventsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
-        /// The user pool username or an alias.
-        public let username: String
-        /// The maximum number of authentication events to return.
-        public let maxResults: Int32?
-        /// A pagination token.
-        public let nextToken: String?
-        /// The user pool ID.
-        public let userPoolId: String
-
-        public init(username: String, maxResults: Int32? = nil, nextToken: String? = nil, userPoolId: String) {
-            self.username = username
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-            self.userPoolId = userPoolId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case username = "Username"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-            case userPoolId = "UserPoolId"
-        }
-    }
-
-    public struct AdminDisableUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "Username", required: true, type: .string)
-        ]
-        /// The user pool ID for the user pool where you want to disable the user.
-        public let userPoolId: String
-        /// The user name of the user you wish to disable.
-        public let username: String
-
-        public init(userPoolId: String, username: String) {
-            self.userPoolId = userPoolId
-            self.username = username
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userPoolId = "UserPoolId"
-            case username = "Username"
-        }
-    }
-
-    public struct CreateUserPoolClientRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllowedOAuthScopes", required: false, type: .list), 
-            AWSShapeMember(label: "AnalyticsConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "RefreshTokenValidity", required: false, type: .integer), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "WriteAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "AllowedOAuthFlowsUserPoolClient", required: false, type: .boolean), 
-            AWSShapeMember(label: "ExplicitAuthFlows", required: false, type: .list), 
-            AWSShapeMember(label: "DefaultRedirectURI", required: false, type: .string), 
-            AWSShapeMember(label: "LogoutURLs", required: false, type: .list), 
-            AWSShapeMember(label: "SupportedIdentityProviders", required: false, type: .list), 
-            AWSShapeMember(label: "GenerateSecret", required: false, type: .boolean), 
-            AWSShapeMember(label: "AllowedOAuthFlows", required: false, type: .list), 
-            AWSShapeMember(label: "ClientName", required: true, type: .string), 
-            AWSShapeMember(label: "ReadAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "CallbackURLs", required: false, type: .list)
-        ]
-        /// A list of allowed OAuth scopes. Currently supported values are "phone", "email", "openid", and "Cognito".
-        public let allowedOAuthScopes: [String]?
-        /// The Amazon Pinpoint analytics configuration for collecting metrics for this user pool.
-        public let analyticsConfiguration: AnalyticsConfigurationType?
-        /// The time limit, in days, after which the refresh token is no longer valid and cannot be used.
-        public let refreshTokenValidity: Int32?
-        /// The user pool ID for the user pool where you want to create a user pool client.
-        public let userPoolId: String
-        /// The write attributes.
-        public let writeAttributes: [String]?
-        /// Set to True if the client is allowed to follow the OAuth protocol when interacting with Cognito user pools.
-        public let allowedOAuthFlowsUserPoolClient: Bool?
-        /// The explicit authentication flows.
-        public let explicitAuthFlows: [ExplicitAuthFlowsType]?
-        /// The default redirect URI. Must be in the CallbackURLs list. A redirect URI must:   Be an absolute URI.   Be registered with the authorization server.   Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint. Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes only. App callback URLs such as myapp://example are also supported.
-        public let defaultRedirectURI: String?
-        /// A list of allowed logout URLs for the identity providers.
-        public let logoutURLs: [String]?
-        /// A list of provider names for the identity providers that are supported on this client.
-        public let supportedIdentityProviders: [String]?
-        /// Boolean to specify whether you want to generate a secret for the user pool client being created.
-        public let generateSecret: Bool?
-        /// Set to code to initiate a code grant flow, which provides an authorization code as the response. This code can be exchanged for access tokens with the token endpoint. Set to token to specify that the client should get the access token (and, optionally, ID token, based on scopes) directly.
-        public let allowedOAuthFlows: [OAuthFlowType]?
-        /// The client name for the user pool client you would like to create.
-        public let clientName: String
-        /// The read attributes.
-        public let readAttributes: [String]?
-        /// A list of allowed redirect (callback) URLs for the identity providers. A redirect URI must:   Be an absolute URI.   Be registered with the authorization server.   Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint. Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes only. App callback URLs such as myapp://example are also supported.
-        public let callbackURLs: [String]?
-
-        public init(allowedOAuthScopes: [String]? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, refreshTokenValidity: Int32? = nil, userPoolId: String, writeAttributes: [String]? = nil, allowedOAuthFlowsUserPoolClient: Bool? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, defaultRedirectURI: String? = nil, logoutURLs: [String]? = nil, supportedIdentityProviders: [String]? = nil, generateSecret: Bool? = nil, allowedOAuthFlows: [OAuthFlowType]? = nil, clientName: String, readAttributes: [String]? = nil, callbackURLs: [String]? = nil) {
-            self.allowedOAuthScopes = allowedOAuthScopes
-            self.analyticsConfiguration = analyticsConfiguration
-            self.refreshTokenValidity = refreshTokenValidity
-            self.userPoolId = userPoolId
-            self.writeAttributes = writeAttributes
-            self.allowedOAuthFlowsUserPoolClient = allowedOAuthFlowsUserPoolClient
-            self.explicitAuthFlows = explicitAuthFlows
-            self.defaultRedirectURI = defaultRedirectURI
-            self.logoutURLs = logoutURLs
-            self.supportedIdentityProviders = supportedIdentityProviders
-            self.generateSecret = generateSecret
-            self.allowedOAuthFlows = allowedOAuthFlows
-            self.clientName = clientName
-            self.readAttributes = readAttributes
-            self.callbackURLs = callbackURLs
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case allowedOAuthScopes = "AllowedOAuthScopes"
-            case analyticsConfiguration = "AnalyticsConfiguration"
-            case refreshTokenValidity = "RefreshTokenValidity"
-            case userPoolId = "UserPoolId"
-            case writeAttributes = "WriteAttributes"
-            case allowedOAuthFlowsUserPoolClient = "AllowedOAuthFlowsUserPoolClient"
-            case explicitAuthFlows = "ExplicitAuthFlows"
-            case defaultRedirectURI = "DefaultRedirectURI"
-            case logoutURLs = "LogoutURLs"
-            case supportedIdentityProviders = "SupportedIdentityProviders"
-            case generateSecret = "GenerateSecret"
-            case allowedOAuthFlows = "AllowedOAuthFlows"
-            case clientName = "ClientName"
-            case readAttributes = "ReadAttributes"
-            case callbackURLs = "CallbackURLs"
-        }
-    }
-
-    public struct ListUsersInGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Users", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The users returned in the request to list users.
-        public let users: [UserType]?
-        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public let nextToken: String?
-
-        public init(users: [UserType]? = nil, nextToken: String? = nil) {
-            self.users = users
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case users = "Users"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DescribeUserPoolDomainResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DomainDescription", required: false, type: .structure)
-        ]
-        /// A domain description object containing information about the domain.
-        public let domainDescription: DomainDescriptionType?
-
-        public init(domainDescription: DomainDescriptionType? = nil) {
-            self.domainDescription = domainDescription
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case domainDescription = "DomainDescription"
-        }
-    }
-
-    public struct ForgotPasswordResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CodeDeliveryDetails", required: false, type: .structure)
-        ]
-        /// The code delivery details returned by the server in response to the request to reset a password.
-        public let codeDeliveryDetails: CodeDeliveryDetailsType?
-
-        public init(codeDeliveryDetails: CodeDeliveryDetailsType? = nil) {
-            self.codeDeliveryDetails = codeDeliveryDetails
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case codeDeliveryDetails = "CodeDeliveryDetails"
-        }
-    }
-
-    public struct AdminListGroupsForUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
-        /// The username for the user.
-        public let username: String
-        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public let nextToken: String?
-        /// The limit of the request to list groups.
-        public let limit: Int32?
-        /// The user pool ID for the user pool.
-        public let userPoolId: String
-
-        public init(username: String, nextToken: String? = nil, limit: Int32? = nil, userPoolId: String) {
-            self.username = username
-            self.nextToken = nextToken
-            self.limit = limit
-            self.userPoolId = userPoolId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case username = "Username"
-            case nextToken = "NextToken"
-            case limit = "Limit"
-            case userPoolId = "UserPoolId"
-        }
-    }
-
-    public struct ListResourceServersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
-        ]
-        /// The user pool ID for the user pool.
-        public let userPoolId: String
-        /// A pagination token.
-        public let nextToken: String?
-        /// The maximum number of resource servers to return.
-        public let maxResults: Int32?
-
-        public init(userPoolId: String, nextToken: String? = nil, maxResults: Int32? = nil) {
-            self.userPoolId = userPoolId
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userPoolId = "UserPoolId"
-            case nextToken = "NextToken"
-            case maxResults = "MaxResults"
-        }
-    }
-
-    public struct AdminDeleteUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "Username", required: true, type: .string)
-        ]
-        /// The user pool ID for the user pool where you want to delete the user.
-        public let userPoolId: String
-        /// The user name of the user you wish to delete.
-        public let username: String
-
-        public init(userPoolId: String, username: String) {
-            self.userPoolId = userPoolId
-            self.username = username
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userPoolId = "UserPoolId"
-            case username = "Username"
-        }
-    }
-
-    public struct AdminConfirmSignUpRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "Username", required: true, type: .string)
-        ]
-        /// The user pool ID for which you want to confirm user registration.
-        public let userPoolId: String
-        /// The user name for which you want to confirm user registration.
-        public let username: String
-
-        public init(userPoolId: String, username: String) {
-            self.userPoolId = userPoolId
-            self.username = username
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userPoolId = "UserPoolId"
-            case username = "Username"
-        }
-    }
-
-    public struct DescribeUserPoolClientResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolClient", required: false, type: .structure)
-        ]
-        /// The user pool client from a server response to describe the user pool client.
-        public let userPoolClient: UserPoolClientType?
-
-        public init(userPoolClient: UserPoolClientType? = nil) {
-            self.userPoolClient = userPoolClient
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userPoolClient = "UserPoolClient"
-        }
-    }
-
-    public struct ListDevicesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PaginationToken", required: false, type: .string), 
-            AWSShapeMember(label: "Devices", required: false, type: .list)
-        ]
-        /// The pagination token for the list device response.
-        public let paginationToken: String?
-        /// The devices returned in the list devices response.
-        public let devices: [DeviceType]?
-
-        public init(paginationToken: String? = nil, devices: [DeviceType]? = nil) {
-            self.paginationToken = paginationToken
-            self.devices = devices
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case paginationToken = "PaginationToken"
-            case devices = "Devices"
-        }
-    }
-
-    public struct ChangePasswordRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProposedPassword", required: true, type: .string), 
-            AWSShapeMember(label: "AccessToken", required: true, type: .string), 
-            AWSShapeMember(label: "PreviousPassword", required: true, type: .string)
-        ]
-        /// The new password.
-        public let proposedPassword: String
-        /// The access token.
-        public let accessToken: String
-        /// The old password.
-        public let previousPassword: String
-
-        public init(proposedPassword: String, accessToken: String, previousPassword: String) {
-            self.proposedPassword = proposedPassword
-            self.accessToken = accessToken
-            self.previousPassword = previousPassword
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case proposedPassword = "ProposedPassword"
-            case accessToken = "AccessToken"
-            case previousPassword = "PreviousPassword"
-        }
-    }
-
-    public struct DomainDescriptionType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3Bucket", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "CloudFrontDistribution", required: false, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: false, type: .string), 
-            AWSShapeMember(label: "Version", required: false, type: .string), 
-            AWSShapeMember(label: "CustomDomainConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "Domain", required: false, type: .string), 
-            AWSShapeMember(label: "AWSAccountId", required: false, type: .string)
-        ]
-        /// The S3 bucket where the static files for this domain are stored.
-        public let s3Bucket: String?
-        /// The domain status.
-        public let status: DomainStatusType?
-        /// The ARN of the CloudFront distribution.
-        public let cloudFrontDistribution: String?
-        /// The user pool ID.
-        public let userPoolId: String?
-        /// The app version.
-        public let version: String?
-        public let customDomainConfig: CustomDomainConfigType?
-        /// The domain string.
-        public let domain: String?
-        /// The AWS account ID for the user pool owner.
-        public let aWSAccountId: String?
-
-        public init(s3Bucket: String? = nil, status: DomainStatusType? = nil, cloudFrontDistribution: String? = nil, userPoolId: String? = nil, version: String? = nil, customDomainConfig: CustomDomainConfigType? = nil, domain: String? = nil, aWSAccountId: String? = nil) {
-            self.s3Bucket = s3Bucket
-            self.status = status
-            self.cloudFrontDistribution = cloudFrontDistribution
-            self.userPoolId = userPoolId
-            self.version = version
-            self.customDomainConfig = customDomainConfig
-            self.domain = domain
-            self.aWSAccountId = aWSAccountId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case s3Bucket = "S3Bucket"
-            case status = "Status"
-            case cloudFrontDistribution = "CloudFrontDistribution"
-            case userPoolId = "UserPoolId"
-            case version = "Version"
-            case customDomainConfig = "CustomDomainConfig"
-            case domain = "Domain"
-            case aWSAccountId = "AWSAccountId"
-        }
-    }
-
-    public struct UpdateUserAttributesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CodeDeliveryDetailsList", required: false, type: .list)
-        ]
-        /// The code delivery details list from the server for the request to update user attributes.
-        public let codeDeliveryDetailsList: [CodeDeliveryDetailsType]?
-
-        public init(codeDeliveryDetailsList: [CodeDeliveryDetailsType]? = nil) {
-            self.codeDeliveryDetailsList = codeDeliveryDetailsList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case codeDeliveryDetailsList = "CodeDeliveryDetailsList"
-        }
-    }
-
-    public struct AdminEnableUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "Username", required: true, type: .string)
-        ]
-        /// The user pool ID for the user pool where you want to enable the user.
-        public let userPoolId: String
-        /// The user name of the user you wish to enable.
-        public let username: String
-
-        public init(userPoolId: String, username: String) {
-            self.userPoolId = userPoolId
-            self.username = username
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userPoolId = "UserPoolId"
-            case username = "Username"
-        }
-    }
-
-    public struct UpdateIdentityProviderResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdentityProvider", required: true, type: .structure)
-        ]
-        /// The identity provider object.
-        public let identityProvider: IdentityProviderType
-
-        public init(identityProvider: IdentityProviderType) {
-            self.identityProvider = identityProvider
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case identityProvider = "IdentityProvider"
-        }
-    }
-
-    public struct AssociateSoftwareTokenResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Session", required: false, type: .string), 
-            AWSShapeMember(label: "SecretCode", required: false, type: .string)
-        ]
-        /// The session which should be passed both ways in challenge-response calls to the service. This allows authentication of the user as part of the MFA setup process.
-        public let session: String?
-        /// A unique generated shared secret code that is used in the TOTP algorithm to generate a one time code.
-        public let secretCode: String?
-
-        public init(session: String? = nil, secretCode: String? = nil) {
-            self.session = session
-            self.secretCode = secretCode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case session = "Session"
-            case secretCode = "SecretCode"
-        }
-    }
-
-    public struct AdminCreateUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TemporaryPassword", required: false, type: .string), 
-            AWSShapeMember(label: "ValidationData", required: false, type: .list), 
-            AWSShapeMember(label: "MessageAction", required: false, type: .enum), 
-            AWSShapeMember(label: "DesiredDeliveryMediums", required: false, type: .list), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "UserAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "ForceAliasCreation", required: false, type: .boolean), 
-            AWSShapeMember(label: "Username", required: true, type: .string)
-        ]
-        /// The user's temporary password. This password must conform to the password policy that you specified when you created the user pool. The temporary password is valid only once. To complete the Admin Create User flow, the user must enter the temporary password in the sign-in page along with a new password to be used in all future sign-ins. This parameter is not required. If you do not specify a value, Amazon Cognito generates one for you. The temporary password can only be used until the user account expiration limit that you specified when you created the user pool. To reset the account after that time limit, you must call AdminCreateUser again, specifying "RESEND" for the MessageAction parameter.
-        public let temporaryPassword: String?
-        /// The user's validation data. This is an array of name-value pairs that contain user attributes and attribute values that you can use for custom validation, such as restricting the types of user accounts that can be registered. For example, you might choose to allow or disallow user sign-up based on the user's domain. To configure custom validation, you must create a Pre Sign-up Lambda trigger for the user pool as described in the Amazon Cognito Developer Guide. The Lambda trigger receives the validation data and uses it in the validation process. The user's validation data is not persisted.
-        public let validationData: [AttributeType]?
-        /// Set to "RESEND" to resend the invitation message to a user that already exists and reset the expiration limit on the user's account. Set to "SUPPRESS" to suppress sending the message. Only one value can be specified.
-        public let messageAction: MessageActionType?
-        /// Specify "EMAIL" if email will be used to send the welcome message. Specify "SMS" if the phone number will be used. The default value is "SMS". More than one value can be specified.
-        public let desiredDeliveryMediums: [DeliveryMediumType]?
-        /// The user pool ID for the user pool where the user will be created.
-        public let userPoolId: String
-        /// An array of name-value pairs that contain user attributes and attribute values to be set for the user to be created. You can create a user without specifying any attributes other than Username. However, any attributes that you specify as required (in or in the Attributes tab of the console) must be supplied either by you (in your call to AdminCreateUser) or by the user (when he or she signs up in response to your welcome message). For custom attributes, you must prepend the custom: prefix to the attribute name. To send a message inviting the user to sign up, you must specify the user's email address or phone number. This can be done in your call to AdminCreateUser or in the Users tab of the Amazon Cognito console for managing your user pools. In your call to AdminCreateUser, you can set the email_verified attribute to True, and you can set the phone_number_verified attribute to True. (You can also do this by calling .)    email: The email address of the user to whom the message that contains the code and username will be sent. Required if the email_verified attribute is set to True, or if "EMAIL" is specified in the DesiredDeliveryMediums parameter.    phone_number: The phone number of the user to whom the message that contains the code and username will be sent. Required if the phone_number_verified attribute is set to True, or if "SMS" is specified in the DesiredDeliveryMediums parameter.  
-        public let userAttributes: [AttributeType]?
-        /// This parameter is only used if the phone_number_verified or email_verified attribute is set to True. Otherwise, it is ignored. If this parameter is set to True and the phone number or email address specified in the UserAttributes parameter already exists as an alias with a different user, the API call will migrate the alias from the previous user to the newly created user. The previous user will no longer be able to log in using that alias. If this parameter is set to False, the API throws an AliasExistsException error if the alias already exists. The default value is False.
-        public let forceAliasCreation: Bool?
-        /// The username for the user. Must be unique within the user pool. Must be a UTF-8 string between 1 and 128 characters. After the user is created, the username cannot be changed.
-        public let username: String
-
-        public init(temporaryPassword: String? = nil, validationData: [AttributeType]? = nil, messageAction: MessageActionType? = nil, desiredDeliveryMediums: [DeliveryMediumType]? = nil, userPoolId: String, userAttributes: [AttributeType]? = nil, forceAliasCreation: Bool? = nil, username: String) {
-            self.temporaryPassword = temporaryPassword
-            self.validationData = validationData
-            self.messageAction = messageAction
-            self.desiredDeliveryMediums = desiredDeliveryMediums
-            self.userPoolId = userPoolId
-            self.userAttributes = userAttributes
-            self.forceAliasCreation = forceAliasCreation
-            self.username = username
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case temporaryPassword = "TemporaryPassword"
-            case validationData = "ValidationData"
-            case messageAction = "MessageAction"
-            case desiredDeliveryMediums = "DesiredDeliveryMediums"
-            case userPoolId = "UserPoolId"
-            case userAttributes = "UserAttributes"
-            case forceAliasCreation = "ForceAliasCreation"
-            case username = "Username"
-        }
-    }
-
-    public struct AdminUserGlobalSignOutRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "Username", required: true, type: .string)
-        ]
-        /// The user pool ID.
-        public let userPoolId: String
-        /// The user name.
-        public let username: String
-
-        public init(userPoolId: String, username: String) {
-            self.userPoolId = userPoolId
-            self.username = username
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userPoolId = "UserPoolId"
-            case username = "Username"
-        }
-    }
-
-    public struct DeviceSecretVerifierConfigType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Salt", required: false, type: .string), 
-            AWSShapeMember(label: "PasswordVerifier", required: false, type: .string)
-        ]
-        /// The salt.
-        public let salt: String?
-        /// The password verifier.
-        public let passwordVerifier: String?
-
-        public init(salt: String? = nil, passwordVerifier: String? = nil) {
-            self.salt = salt
-            self.passwordVerifier = passwordVerifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case salt = "Salt"
-            case passwordVerifier = "PasswordVerifier"
-        }
-    }
-
-    public struct UpdateResourceServerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Identifier", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Scopes", required: false, type: .list), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
-        /// The identifier for the resource server.
-        public let identifier: String
-        /// The name of the resource server.
-        public let name: String
-        /// The scope values to be set for the resource server.
-        public let scopes: [ResourceServerScopeType]?
-        /// The user pool ID for the user pool.
-        public let userPoolId: String
-
-        public init(identifier: String, name: String, scopes: [ResourceServerScopeType]? = nil, userPoolId: String) {
-            self.identifier = identifier
-            self.name = name
-            self.scopes = scopes
-            self.userPoolId = userPoolId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case identifier = "Identifier"
-            case name = "Name"
-            case scopes = "Scopes"
-            case userPoolId = "UserPoolId"
-        }
-    }
-
-    public struct ListUserPoolsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: true, type: .integer)
-        ]
-        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public let nextToken: String?
-        /// The maximum number of results you want the request to return when listing the user pools.
-        public let maxResults: Int32
-
-        public init(nextToken: String? = nil, maxResults: Int32) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case maxResults = "MaxResults"
-        }
-    }
-
-    public enum ChallengeName: String, CustomStringConvertible, Codable {
-        case password = "Password"
-        case mfa = "Mfa"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct AdminUpdateAuthEventFeedbackResponse: AWSShape {
-
-    }
-
-    public struct ContextDataType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerPath", required: true, type: .string), 
-            AWSShapeMember(label: "IpAddress", required: true, type: .string), 
-            AWSShapeMember(label: "HttpHeaders", required: true, type: .list), 
-            AWSShapeMember(label: "ServerName", required: true, type: .string), 
-            AWSShapeMember(label: "EncodedData", required: false, type: .string)
-        ]
-        /// Your server path where this API is invoked. 
-        public let serverPath: String
-        /// Source IP address of your user.
-        public let ipAddress: String
-        /// HttpHeaders received on your server in same order.
-        public let httpHeaders: [HttpHeader]
-        /// Your server endpoint where this API is invoked.
-        public let serverName: String
-        /// Encoded data containing device fingerprinting details, collected using the Amazon Cognito context data collection library.
-        public let encodedData: String?
-
-        public init(serverPath: String, ipAddress: String, httpHeaders: [HttpHeader], serverName: String, encodedData: String? = nil) {
-            self.serverPath = serverPath
-            self.ipAddress = ipAddress
-            self.httpHeaders = httpHeaders
-            self.serverName = serverName
-            self.encodedData = encodedData
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serverPath = "ServerPath"
-            case ipAddress = "IpAddress"
-            case httpHeaders = "HttpHeaders"
-            case serverName = "ServerName"
-            case encodedData = "EncodedData"
-        }
-    }
-
-    public struct CustomDomainConfigType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of an AWS Certificate Manager SSL certificate. You use this certificate for the subdomain of your custom domain.
-        public let certificateArn: String
-
-        public init(certificateArn: String) {
-            self.certificateArn = certificateArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificateArn = "CertificateArn"
-        }
-    }
-
-    public struct DeleteUserPoolDomainRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Domain", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
-        /// The domain string.
-        public let domain: String
-        /// The user pool ID.
-        public let userPoolId: String
-
-        public init(domain: String, userPoolId: String) {
-            self.domain = domain
-            self.userPoolId = userPoolId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case domain = "Domain"
-            case userPoolId = "UserPoolId"
-        }
-    }
-
-    public struct ConfirmDeviceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceSecretVerifierConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "DeviceKey", required: true, type: .string), 
-            AWSShapeMember(label: "DeviceName", required: false, type: .string), 
-            AWSShapeMember(label: "AccessToken", required: true, type: .string)
-        ]
-        /// The configuration of the device secret verifier.
-        public let deviceSecretVerifierConfig: DeviceSecretVerifierConfigType?
-        /// The device key.
-        public let deviceKey: String
-        /// The device name.
-        public let deviceName: String?
-        /// The access token.
-        public let accessToken: String
-
-        public init(deviceSecretVerifierConfig: DeviceSecretVerifierConfigType? = nil, deviceKey: String, deviceName: String? = nil, accessToken: String) {
-            self.deviceSecretVerifierConfig = deviceSecretVerifierConfig
-            self.deviceKey = deviceKey
-            self.deviceName = deviceName
-            self.accessToken = accessToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deviceSecretVerifierConfig = "DeviceSecretVerifierConfig"
-            case deviceKey = "DeviceKey"
-            case deviceName = "DeviceName"
-            case accessToken = "AccessToken"
-        }
-    }
-
-    public struct AdminCreateUserConfigType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UnusedAccountValidityDays", required: false, type: .integer), 
-            AWSShapeMember(label: "InviteMessageTemplate", required: false, type: .structure), 
-            AWSShapeMember(label: "AllowAdminCreateUserOnly", required: false, type: .boolean)
-        ]
-        /// The user account expiration limit, in days, after which the account is no longer usable. To reset the account after that time limit, you must call AdminCreateUser again, specifying "RESEND" for the MessageAction parameter. The default value for this parameter is 7.
-        public let unusedAccountValidityDays: Int32?
-        /// The message template to be used for the welcome message to new users. See also Customizing User Invitation Messages.
-        public let inviteMessageTemplate: MessageTemplateType?
-        /// Set to True if only the administrator is allowed to create user profiles. Set to False if users can sign themselves up via an app.
-        public let allowAdminCreateUserOnly: Bool?
-
-        public init(unusedAccountValidityDays: Int32? = nil, inviteMessageTemplate: MessageTemplateType? = nil, allowAdminCreateUserOnly: Bool? = nil) {
-            self.unusedAccountValidityDays = unusedAccountValidityDays
-            self.inviteMessageTemplate = inviteMessageTemplate
-            self.allowAdminCreateUserOnly = allowAdminCreateUserOnly
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case unusedAccountValidityDays = "UnusedAccountValidityDays"
-            case inviteMessageTemplate = "InviteMessageTemplate"
-            case allowAdminCreateUserOnly = "AllowAdminCreateUserOnly"
-        }
-    }
-
-    public struct ConfirmForgotPasswordResponse: AWSShape {
-
-    }
-
-    public struct StopUserImportJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserImportJob", required: false, type: .structure)
-        ]
-        /// The job object that represents the user import job.
-        public let userImportJob: UserImportJobType?
-
-        public init(userImportJob: UserImportJobType? = nil) {
-            self.userImportJob = userImportJob
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userImportJob = "UserImportJob"
-        }
-    }
-
-    public struct UserPoolDescriptionType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "LambdaConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp)
-        ]
-        /// The name in a user pool description.
-        public let name: String?
-        /// The AWS Lambda configuration information in a user pool description.
-        public let lambdaConfig: LambdaConfigType?
-        /// The date the user pool description was created.
-        public let creationDate: TimeStamp?
-        /// The user pool status in a user pool description.
-        public let status: StatusType?
-        /// The ID in a user pool description.
-        public let id: String?
-        /// The date the user pool description was last modified.
-        public let lastModifiedDate: TimeStamp?
-
-        public init(name: String? = nil, lambdaConfig: LambdaConfigType? = nil, creationDate: TimeStamp? = nil, status: StatusType? = nil, id: String? = nil, lastModifiedDate: TimeStamp? = nil) {
-            self.name = name
-            self.lambdaConfig = lambdaConfig
-            self.creationDate = creationDate
-            self.status = status
-            self.id = id
-            self.lastModifiedDate = lastModifiedDate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case lambdaConfig = "LambdaConfig"
-            case creationDate = "CreationDate"
-            case status = "Status"
-            case id = "Id"
-            case lastModifiedDate = "LastModifiedDate"
-        }
-    }
-
-    public struct AdminListGroupsForUserResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Groups", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The groups that the user belongs to.
-        public let groups: [GroupType]?
-        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public let nextToken: String?
-
-        public init(groups: [GroupType]? = nil, nextToken: String? = nil) {
-            self.groups = groups
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groups = "Groups"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct AdminRespondToAuthChallengeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Session", required: false, type: .string), 
-            AWSShapeMember(label: "AuthenticationResult", required: false, type: .structure), 
-            AWSShapeMember(label: "ChallengeName", required: false, type: .enum), 
-            AWSShapeMember(label: "ChallengeParameters", required: false, type: .map)
-        ]
-        /// The session which should be passed both ways in challenge-response calls to the service. If the or API call determines that the caller needs to go through another challenge, they return a session with other challenge parameters. This session should be passed as it is to the next RespondToAuthChallenge API call.
-        public let session: String?
-        /// The result returned by the server in response to the authentication request.
-        public let authenticationResult: AuthenticationResultType?
-        /// The name of the challenge. For more information, see .
-        public let challengeName: ChallengeNameType?
-        /// The challenge parameters. For more information, see .
-        public let challengeParameters: [String: String]?
-
-        public init(session: String? = nil, authenticationResult: AuthenticationResultType? = nil, challengeName: ChallengeNameType? = nil, challengeParameters: [String: String]? = nil) {
-            self.session = session
-            self.authenticationResult = authenticationResult
-            self.challengeName = challengeName
-            self.challengeParameters = challengeParameters
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case session = "Session"
-            case authenticationResult = "AuthenticationResult"
-            case challengeName = "ChallengeName"
-            case challengeParameters = "ChallengeParameters"
-        }
-    }
-
-    public struct SmsMfaConfigType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SmsAuthenticationMessage", required: false, type: .string), 
-            AWSShapeMember(label: "SmsConfiguration", required: false, type: .structure)
-        ]
-        /// The SMS authentication message.
-        public let smsAuthenticationMessage: String?
-        /// The SMS configuration.
-        public let smsConfiguration: SmsConfigurationType?
-
-        public init(smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil) {
-            self.smsAuthenticationMessage = smsAuthenticationMessage
-            self.smsConfiguration = smsConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case smsAuthenticationMessage = "SmsAuthenticationMessage"
-            case smsConfiguration = "SmsConfiguration"
-        }
-    }
-
-    public struct SetUserPoolMfaConfigResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SmsMfaConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "SoftwareTokenMfaConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "MfaConfiguration", required: false, type: .enum)
-        ]
-        /// The SMS text message MFA configuration.
-        public let smsMfaConfiguration: SmsMfaConfigType?
-        /// The software token MFA configuration.
-        public let softwareTokenMfaConfiguration: SoftwareTokenMfaConfigType?
-        /// The MFA configuration.
-        public let mfaConfiguration: UserPoolMfaType?
-
-        public init(smsMfaConfiguration: SmsMfaConfigType? = nil, softwareTokenMfaConfiguration: SoftwareTokenMfaConfigType? = nil, mfaConfiguration: UserPoolMfaType? = nil) {
-            self.smsMfaConfiguration = smsMfaConfiguration
-            self.softwareTokenMfaConfiguration = softwareTokenMfaConfiguration
-            self.mfaConfiguration = mfaConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case smsMfaConfiguration = "SmsMfaConfiguration"
-            case softwareTokenMfaConfiguration = "SoftwareTokenMfaConfiguration"
-            case mfaConfiguration = "MfaConfiguration"
-        }
-    }
-
-    public struct UpdateUserPoolResponse: AWSShape {
-
-    }
-
-    public struct AdminDisableProviderForUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "User", required: true, type: .structure)
-        ]
-        /// The user pool ID for the user pool.
-        public let userPoolId: String
-        /// The user to be disabled.
-        public let user: ProviderUserIdentifierType
-
-        public init(userPoolId: String, user: ProviderUserIdentifierType) {
-            self.userPoolId = userPoolId
-            self.user = user
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userPoolId = "UserPoolId"
-            case user = "User"
-        }
-    }
-
-    public struct StringAttributeConstraintsType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MinLength", required: false, type: .string), 
-            AWSShapeMember(label: "MaxLength", required: false, type: .string)
-        ]
-        /// The minimum length.
-        public let minLength: String?
-        /// The maximum length.
-        public let maxLength: String?
-
-        public init(minLength: String? = nil, maxLength: String? = nil) {
-            self.minLength = minLength
-            self.maxLength = maxLength
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case minLength = "MinLength"
-            case maxLength = "MaxLength"
-        }
-    }
-
-    public struct IdentityProviderType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ProviderName", required: false, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: false, type: .string), 
-            AWSShapeMember(label: "IdpIdentifiers", required: false, type: .list), 
-            AWSShapeMember(label: "ProviderType", required: false, type: .enum), 
-            AWSShapeMember(label: "AttributeMapping", required: false, type: .map), 
-            AWSShapeMember(label: "ProviderDetails", required: false, type: .map)
-        ]
-        /// The date the identity provider was created.
-        public let creationDate: TimeStamp?
-        /// The date the identity provider was last modified.
-        public let lastModifiedDate: TimeStamp?
-        /// The identity provider name.
-        public let providerName: String?
-        /// The user pool ID.
-        public let userPoolId: String?
-        /// A list of identity provider identifiers.
-        public let idpIdentifiers: [String]?
-        /// The identity provider type.
-        public let providerType: IdentityProviderTypeType?
-        /// A mapping of identity provider attributes to standard and custom user pool attributes.
-        public let attributeMapping: [String: String]?
-        /// The identity provider details, such as MetadataURL and MetadataFile.
-        public let providerDetails: [String: String]?
-
-        public init(creationDate: TimeStamp? = nil, lastModifiedDate: TimeStamp? = nil, providerName: String? = nil, userPoolId: String? = nil, idpIdentifiers: [String]? = nil, providerType: IdentityProviderTypeType? = nil, attributeMapping: [String: String]? = nil, providerDetails: [String: String]? = nil) {
-            self.creationDate = creationDate
-            self.lastModifiedDate = lastModifiedDate
-            self.providerName = providerName
-            self.userPoolId = userPoolId
-            self.idpIdentifiers = idpIdentifiers
-            self.providerType = providerType
-            self.attributeMapping = attributeMapping
-            self.providerDetails = providerDetails
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case creationDate = "CreationDate"
-            case lastModifiedDate = "LastModifiedDate"
-            case providerName = "ProviderName"
-            case userPoolId = "UserPoolId"
-            case idpIdentifiers = "IdpIdentifiers"
-            case providerType = "ProviderType"
-            case attributeMapping = "AttributeMapping"
-            case providerDetails = "ProviderDetails"
-        }
-    }
-
-    public struct ListUsersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PaginationToken", required: false, type: .string), 
-            AWSShapeMember(label: "Users", required: false, type: .list)
-        ]
-        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public let paginationToken: String?
-        /// The users returned in the request to list users.
-        public let users: [UserType]?
-
-        public init(paginationToken: String? = nil, users: [UserType]? = nil) {
-            self.paginationToken = paginationToken
-            self.users = users
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case paginationToken = "PaginationToken"
-            case users = "Users"
-        }
-    }
-
-    public struct GetUserAttributeVerificationCodeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeName", required: true, type: .string), 
-            AWSShapeMember(label: "AccessToken", required: true, type: .string)
-        ]
-        /// The attribute name returned by the server response to get the user attribute verification code.
-        public let attributeName: String
-        /// The access token returned by the server response to get the user attribute verification code.
-        public let accessToken: String
-
-        public init(attributeName: String, accessToken: String) {
-            self.attributeName = attributeName
-            self.accessToken = accessToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attributeName = "AttributeName"
-            case accessToken = "AccessToken"
-        }
-    }
-
-    public struct ListUserPoolClientsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
-        ]
-        /// The user pool ID for the user pool where you want to list user pool clients.
-        public let userPoolId: String
-        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public let nextToken: String?
-        /// The maximum number of results you want the request to return when listing the user pool clients.
-        public let maxResults: Int32?
-
-        public init(userPoolId: String, nextToken: String? = nil, maxResults: Int32? = nil) {
-            self.userPoolId = userPoolId
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userPoolId = "UserPoolId"
-            case nextToken = "NextToken"
-            case maxResults = "MaxResults"
-        }
-    }
-
-    public enum AccountTakeoverEventActionType: String, CustomStringConvertible, Codable {
-        case block = "BLOCK"
-        case mfaIfConfigured = "MFA_IF_CONFIGURED"
-        case mfaRequired = "MFA_REQUIRED"
-        case noAction = "NO_ACTION"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct AdminSetUserSettingsResponse: AWSShape {
-
-    }
-
-    public struct ResourceServerScopeType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScopeName", required: true, type: .string), 
-            AWSShapeMember(label: "ScopeDescription", required: true, type: .string)
-        ]
-        /// The name of the scope.
-        public let scopeName: String
-        /// A description of the scope.
-        public let scopeDescription: String
-
-        public init(scopeName: String, scopeDescription: String) {
-            self.scopeName = scopeName
-            self.scopeDescription = scopeDescription
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case scopeName = "ScopeName"
-            case scopeDescription = "ScopeDescription"
-        }
-    }
-
-    public struct AdminUpdateDeviceStatusResponse: AWSShape {
-
-    }
-
-    public struct SetUserMFAPreferenceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SoftwareTokenMfaSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "SMSMfaSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "AccessToken", required: true, type: .string)
-        ]
-        /// The time-based one-time password software token MFA settings.
-        public let softwareTokenMfaSettings: SoftwareTokenMfaSettingsType?
-        /// The SMS text message multi-factor authentication (MFA) settings.
-        public let sMSMfaSettings: SMSMfaSettingsType?
-        /// The access token.
-        public let accessToken: String
-
-        public init(softwareTokenMfaSettings: SoftwareTokenMfaSettingsType? = nil, sMSMfaSettings: SMSMfaSettingsType? = nil, accessToken: String) {
-            self.softwareTokenMfaSettings = softwareTokenMfaSettings
-            self.sMSMfaSettings = sMSMfaSettings
-            self.accessToken = accessToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case softwareTokenMfaSettings = "SoftwareTokenMfaSettings"
-            case sMSMfaSettings = "SMSMfaSettings"
-            case accessToken = "AccessToken"
-        }
-    }
-
-    public enum RiskLevelType: String, CustomStringConvertible, Codable {
-        case low = "Low"
-        case medium = "Medium"
-        case high = "High"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeUserImportJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "JobId", required: true, type: .string)
-        ]
-        /// The user pool ID for the user pool that the users are being imported into.
-        public let userPoolId: String
-        /// The job ID for the user import job.
-        public let jobId: String
-
-        public init(userPoolId: String, jobId: String) {
-            self.userPoolId = userPoolId
-            self.jobId = jobId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userPoolId = "UserPoolId"
-            case jobId = "JobId"
-        }
-    }
-
-    public struct DescribeResourceServerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceServer", required: true, type: .structure)
-        ]
-        /// The resource server.
-        public let resourceServer: ResourceServerType
-
-        public init(resourceServer: ResourceServerType) {
-            self.resourceServer = resourceServer
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceServer = "ResourceServer"
-        }
-    }
-
-    public enum ChallengeResponse: String, CustomStringConvertible, Codable {
-        case success = "Success"
-        case failure = "Failure"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct AccountTakeoverRiskConfigurationType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NotifyConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "Actions", required: true, type: .structure)
-        ]
-        /// The notify configuration used to construct email notifications.
-        public let notifyConfiguration: NotifyConfigurationType?
-        /// Account takeover risk configuration actions
-        public let actions: AccountTakeoverActionsType
-
-        public init(notifyConfiguration: NotifyConfigurationType? = nil, actions: AccountTakeoverActionsType) {
-            self.notifyConfiguration = notifyConfiguration
-            self.actions = actions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case notifyConfiguration = "NotifyConfiguration"
-            case actions = "Actions"
-        }
-    }
-
-    public struct UpdateDeviceStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceKey", required: true, type: .string), 
-            AWSShapeMember(label: "AccessToken", required: true, type: .string), 
-            AWSShapeMember(label: "DeviceRememberedStatus", required: false, type: .enum)
-        ]
-        /// The device key.
-        public let deviceKey: String
-        /// The access token.
-        public let accessToken: String
-        /// The status of whether a device is remembered.
-        public let deviceRememberedStatus: DeviceRememberedStatusType?
-
-        public init(deviceKey: String, accessToken: String, deviceRememberedStatus: DeviceRememberedStatusType? = nil) {
-            self.deviceKey = deviceKey
-            self.accessToken = accessToken
-            self.deviceRememberedStatus = deviceRememberedStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deviceKey = "DeviceKey"
-            case accessToken = "AccessToken"
-            case deviceRememberedStatus = "DeviceRememberedStatus"
-        }
-    }
-
-    public struct ListGroupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The limit of the request to list groups.
-        public let limit: Int32?
-        /// The user pool ID for the user pool.
-        public let userPoolId: String
-        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public let nextToken: String?
-
-        public init(limit: Int32? = nil, userPoolId: String, nextToken: String? = nil) {
-            self.limit = limit
-            self.userPoolId = userPoolId
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case limit = "Limit"
-            case userPoolId = "UserPoolId"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public enum DeviceRememberedStatusType: String, CustomStringConvertible, Codable {
-        case remembered = "remembered"
-        case notRemembered = "not_remembered"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct SMSMfaSettingsType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PreferredMfa", required: false, type: .boolean), 
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean)
-        ]
-        /// The preferred MFA method.
-        public let preferredMfa: Bool?
-        /// Specifies whether SMS text message MFA is enabled.
-        public let enabled: Bool?
-
-        public init(preferredMfa: Bool? = nil, enabled: Bool? = nil) {
-            self.preferredMfa = preferredMfa
-            self.enabled = enabled
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case preferredMfa = "PreferredMfa"
-            case enabled = "Enabled"
-        }
-    }
-
-    public struct CreateUserImportJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobName", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "CloudWatchLogsRoleArn", required: true, type: .string)
-        ]
-        /// The job name for the user import job.
-        public let jobName: String
-        /// The user pool ID for the user pool that the users are being imported into.
-        public let userPoolId: String
-        /// The role ARN for the Amazon CloudWatch Logging role for the user import job.
-        public let cloudWatchLogsRoleArn: String
-
-        public init(jobName: String, userPoolId: String, cloudWatchLogsRoleArn: String) {
-            self.jobName = jobName
-            self.userPoolId = userPoolId
-            self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobName = "JobName"
-            case userPoolId = "UserPoolId"
-            case cloudWatchLogsRoleArn = "CloudWatchLogsRoleArn"
-        }
-    }
-
-    public struct SetUserSettingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MFAOptions", required: true, type: .list), 
-            AWSShapeMember(label: "AccessToken", required: true, type: .string)
-        ]
-        /// Specifies the options for MFA (e.g., email or phone number).
-        public let mFAOptions: [MFAOptionType]
-        /// The access token for the set user settings request.
-        public let accessToken: String
-
-        public init(mFAOptions: [MFAOptionType], accessToken: String) {
-            self.mFAOptions = mFAOptions
-            self.accessToken = accessToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case mFAOptions = "MFAOptions"
-            case accessToken = "AccessToken"
-        }
-    }
-
-    public struct DescribeUserImportJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserImportJob", required: false, type: .structure)
-        ]
-        /// The job object that represents the user import job.
-        public let userImportJob: UserImportJobType?
-
-        public init(userImportJob: UserImportJobType? = nil) {
-            self.userImportJob = userImportJob
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userImportJob = "UserImportJob"
-        }
-    }
-
-    public struct RiskExceptionConfigurationType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BlockedIPRangeList", required: false, type: .list), 
-            AWSShapeMember(label: "SkippedIPRangeList", required: false, type: .list)
-        ]
-        /// Overrides the risk decision to always block the pre-authentication requests. The IP range is in CIDR notation: a compact representation of an IP address and its associated routing prefix.
-        public let blockedIPRangeList: [String]?
-        /// Risk detection is not performed on the IP addresses in the range list. The IP range is in CIDR notation.
-        public let skippedIPRangeList: [String]?
-
-        public init(blockedIPRangeList: [String]? = nil, skippedIPRangeList: [String]? = nil) {
-            self.blockedIPRangeList = blockedIPRangeList
-            self.skippedIPRangeList = skippedIPRangeList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case blockedIPRangeList = "BlockedIPRangeList"
-            case skippedIPRangeList = "SkippedIPRangeList"
-        }
-    }
-
-    public struct UpdateUserPoolClientResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolClient", required: false, type: .structure)
-        ]
-        /// The user pool client value from the response from the server when an update user pool client request is made.
-        public let userPoolClient: UserPoolClientType?
-
-        public init(userPoolClient: UserPoolClientType? = nil) {
-            self.userPoolClient = userPoolClient
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userPoolClient = "UserPoolClient"
-        }
-    }
-
-    public struct UserPoolClientDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientName", required: false, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: false, type: .string), 
-            AWSShapeMember(label: "ClientId", required: false, type: .string)
-        ]
-        /// The client name from the user pool client description.
-        public let clientName: String?
-        /// The user pool ID for the user pool where you want to describe the user pool client.
-        public let userPoolId: String?
-        /// The ID of the client associated with the user pool.
-        public let clientId: String?
-
-        public init(clientName: String? = nil, userPoolId: String? = nil, clientId: String? = nil) {
-            self.clientName = clientName
-            self.userPoolId = userPoolId
-            self.clientId = clientId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case clientName = "ClientName"
-            case userPoolId = "UserPoolId"
-            case clientId = "ClientId"
-        }
-    }
-
-    public struct AttributeType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// The value of the attribute.
-        public let value: String?
-        /// The name of the attribute.
-        public let name: String
-
-        public init(value: String? = nil, name: String) {
-            self.value = value
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case name = "Name"
-        }
-    }
-
-    public struct SetUserPoolMfaConfigRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SmsMfaConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "MfaConfiguration", required: false, type: .enum), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "SoftwareTokenMfaConfiguration", required: false, type: .structure)
-        ]
-        /// The SMS text message MFA configuration.
-        public let smsMfaConfiguration: SmsMfaConfigType?
-        /// The MFA configuration.
-        public let mfaConfiguration: UserPoolMfaType?
-        /// The user pool ID.
-        public let userPoolId: String
-        /// The software token MFA configuration.
-        public let softwareTokenMfaConfiguration: SoftwareTokenMfaConfigType?
-
-        public init(smsMfaConfiguration: SmsMfaConfigType? = nil, mfaConfiguration: UserPoolMfaType? = nil, userPoolId: String, softwareTokenMfaConfiguration: SoftwareTokenMfaConfigType? = nil) {
-            self.smsMfaConfiguration = smsMfaConfiguration
-            self.mfaConfiguration = mfaConfiguration
-            self.userPoolId = userPoolId
-            self.softwareTokenMfaConfiguration = softwareTokenMfaConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case smsMfaConfiguration = "SmsMfaConfiguration"
-            case mfaConfiguration = "MfaConfiguration"
-            case userPoolId = "UserPoolId"
-            case softwareTokenMfaConfiguration = "SoftwareTokenMfaConfiguration"
-        }
-    }
-
-    public struct AdminListDevicesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "PaginationToken", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
-        /// The user name.
-        public let username: String
-        /// The pagination token.
-        public let paginationToken: String?
-        /// The limit of the devices request.
-        public let limit: Int32?
-        /// The user pool ID.
-        public let userPoolId: String
-
-        public init(username: String, paginationToken: String? = nil, limit: Int32? = nil, userPoolId: String) {
-            self.username = username
-            self.paginationToken = paginationToken
-            self.limit = limit
-            self.userPoolId = userPoolId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case username = "Username"
-            case paginationToken = "PaginationToken"
-            case limit = "Limit"
-            case userPoolId = "UserPoolId"
-        }
-    }
-
-    public struct VerifyUserAttributeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", required: true, type: .string), 
-            AWSShapeMember(label: "AccessToken", required: true, type: .string), 
-            AWSShapeMember(label: "AttributeName", required: true, type: .string)
-        ]
-        /// The verification code in the request to verify user attributes.
-        public let code: String
-        /// Represents the access token of the request to verify user attributes.
-        public let accessToken: String
-        /// The attribute name in the request to verify user attributes.
-        public let attributeName: String
-
-        public init(code: String, accessToken: String, attributeName: String) {
-            self.code = code
-            self.accessToken = accessToken
-            self.attributeName = attributeName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case code = "Code"
-            case accessToken = "AccessToken"
-            case attributeName = "AttributeName"
-        }
-    }
-
-    public struct SignUpResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CodeDeliveryDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "UserSub", required: true, type: .string), 
-            AWSShapeMember(label: "UserConfirmed", required: true, type: .boolean)
-        ]
-        /// The code delivery details returned by the server response to the user registration request.
-        public let codeDeliveryDetails: CodeDeliveryDetailsType?
-        /// The UUID of the authenticated user. This is not the same as username.
-        public let userSub: String
-        /// A response from the server indicating that a user registration has been confirmed.
-        public let userConfirmed: Bool
-
-        public init(codeDeliveryDetails: CodeDeliveryDetailsType? = nil, userSub: String, userConfirmed: Bool) {
-            self.codeDeliveryDetails = codeDeliveryDetails
-            self.userSub = userSub
-            self.userConfirmed = userConfirmed
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case codeDeliveryDetails = "CodeDeliveryDetails"
-            case userSub = "UserSub"
-            case userConfirmed = "UserConfirmed"
-        }
-    }
-
-    public struct GetGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "GroupName", required: true, type: .string)
-        ]
-        /// The user pool ID for the user pool.
-        public let userPoolId: String
-        /// The name of the group.
-        public let groupName: String
-
-        public init(userPoolId: String, groupName: String) {
-            self.userPoolId = userPoolId
-            self.groupName = groupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userPoolId = "UserPoolId"
-            case groupName = "GroupName"
-        }
-    }
-
-    public struct CreateGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Group", required: false, type: .structure)
-        ]
-        /// The group object for the group.
-        public let group: GroupType?
-
-        public init(group: GroupType? = nil) {
-            self.group = group
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case group = "Group"
-        }
-    }
-
-    public struct UpdateIdentityProviderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProviderName", required: true, type: .string), 
-            AWSShapeMember(label: "ProviderDetails", required: false, type: .map), 
-            AWSShapeMember(label: "AttributeMapping", required: false, type: .map), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "IdpIdentifiers", required: false, type: .list)
-        ]
-        /// The identity provider name.
-        public let providerName: String
-        /// The identity provider details to be updated, such as MetadataURL and MetadataFile.
-        public let providerDetails: [String: String]?
-        /// The identity provider attribute mapping to be changed.
-        public let attributeMapping: [String: String]?
-        /// The user pool ID.
-        public let userPoolId: String
-        /// A list of identity provider identifiers.
-        public let idpIdentifiers: [String]?
-
-        public init(providerName: String, providerDetails: [String: String]? = nil, attributeMapping: [String: String]? = nil, userPoolId: String, idpIdentifiers: [String]? = nil) {
-            self.providerName = providerName
-            self.providerDetails = providerDetails
-            self.attributeMapping = attributeMapping
-            self.userPoolId = userPoolId
-            self.idpIdentifiers = idpIdentifiers
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case providerName = "ProviderName"
-            case providerDetails = "ProviderDetails"
-            case attributeMapping = "AttributeMapping"
-            case userPoolId = "UserPoolId"
-            case idpIdentifiers = "IdpIdentifiers"
-        }
-    }
-
-    public enum UsernameAttributeType: String, CustomStringConvertible, Codable {
-        case phoneNumber = "phone_number"
-        case email = "email"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct AdminUpdateDeviceStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "DeviceKey", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "DeviceRememberedStatus", required: false, type: .enum)
-        ]
-        /// The user name.
-        public let username: String
-        /// The device key.
-        public let deviceKey: String
-        /// The user pool ID.
-        public let userPoolId: String
-        /// The status indicating whether a device has been remembered or not.
-        public let deviceRememberedStatus: DeviceRememberedStatusType?
-
-        public init(username: String, deviceKey: String, userPoolId: String, deviceRememberedStatus: DeviceRememberedStatusType? = nil) {
-            self.username = username
-            self.deviceKey = deviceKey
-            self.userPoolId = userPoolId
-            self.deviceRememberedStatus = deviceRememberedStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case username = "Username"
-            case deviceKey = "DeviceKey"
-            case userPoolId = "UserPoolId"
-            case deviceRememberedStatus = "DeviceRememberedStatus"
-        }
-    }
-
-    public struct UserImportJobType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailedUsers", required: false, type: .long), 
-            AWSShapeMember(label: "UserPoolId", required: false, type: .string), 
-            AWSShapeMember(label: "ImportedUsers", required: false, type: .long), 
-            AWSShapeMember(label: "CloudWatchLogsRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "JobName", required: false, type: .string), 
-            AWSShapeMember(label: "StartDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CompletionDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CompletionMessage", required: false, type: .string), 
-            AWSShapeMember(label: "JobId", required: false, type: .string), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "PreSignedUrl", required: false, type: .string), 
-            AWSShapeMember(label: "SkippedUsers", required: false, type: .long), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
-        /// The number of users that could not be imported.
-        public let failedUsers: Int64?
-        /// The user pool ID for the user pool that the users are being imported into.
-        public let userPoolId: String?
-        /// The number of users that were successfully imported.
-        public let importedUsers: Int64?
-        /// The role ARN for the Amazon CloudWatch Logging role for the user import job. For more information, see "Creating the CloudWatch Logs IAM Role" in the Amazon Cognito Developer Guide.
-        public let cloudWatchLogsRoleArn: String?
-        /// The job name for the user import job.
-        public let jobName: String?
-        /// The date when the user import job was started.
-        public let startDate: TimeStamp?
-        /// The date when the user import job was completed.
-        public let completionDate: TimeStamp?
-        /// The message returned when the user import job is completed.
-        public let completionMessage: String?
-        /// The job ID for the user import job.
-        public let jobId: String?
-        /// The date the user import job was created.
-        public let creationDate: TimeStamp?
-        /// The pre-signed URL to be used to upload the .csv file.
-        public let preSignedUrl: String?
-        /// The number of users that were skipped.
-        public let skippedUsers: Int64?
-        /// The status of the user import job. One of the following:    Created - The job was created but not started.    Pending - A transition state. You have started the job, but it has not begun importing users yet.    InProgress - The job has started, and users are being imported.    Stopping - You have stopped the job, but the job has not stopped importing users yet.    Stopped - You have stopped the job, and the job has stopped importing users.    Succeeded - The job has completed successfully.    Failed - The job has stopped due to an error.    Expired - You created a job, but did not start the job within 24-48 hours. All data associated with the job was deleted, and the job cannot be started.  
-        public let status: UserImportJobStatusType?
-
-        public init(failedUsers: Int64? = nil, userPoolId: String? = nil, importedUsers: Int64? = nil, cloudWatchLogsRoleArn: String? = nil, jobName: String? = nil, startDate: TimeStamp? = nil, completionDate: TimeStamp? = nil, completionMessage: String? = nil, jobId: String? = nil, creationDate: TimeStamp? = nil, preSignedUrl: String? = nil, skippedUsers: Int64? = nil, status: UserImportJobStatusType? = nil) {
-            self.failedUsers = failedUsers
-            self.userPoolId = userPoolId
-            self.importedUsers = importedUsers
-            self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
-            self.jobName = jobName
-            self.startDate = startDate
-            self.completionDate = completionDate
-            self.completionMessage = completionMessage
-            self.jobId = jobId
-            self.creationDate = creationDate
-            self.preSignedUrl = preSignedUrl
-            self.skippedUsers = skippedUsers
-            self.status = status
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case failedUsers = "FailedUsers"
-            case userPoolId = "UserPoolId"
-            case importedUsers = "ImportedUsers"
-            case cloudWatchLogsRoleArn = "CloudWatchLogsRoleArn"
-            case jobName = "JobName"
-            case startDate = "StartDate"
-            case completionDate = "CompletionDate"
-            case completionMessage = "CompletionMessage"
-            case jobId = "JobId"
-            case creationDate = "CreationDate"
-            case preSignedUrl = "PreSignedUrl"
-            case skippedUsers = "SkippedUsers"
-            case status = "Status"
-        }
-    }
-
-    public struct AdminResetUserPasswordRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "Username", required: true, type: .string)
-        ]
-        /// The user pool ID for the user pool where you want to reset the user's password.
-        public let userPoolId: String
-        /// The user name of the user whose password you wish to reset.
-        public let username: String
-
-        public init(userPoolId: String, username: String) {
-            self.userPoolId = userPoolId
-            self.username = username
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userPoolId = "UserPoolId"
-            case username = "Username"
-        }
-    }
-
-    public struct AdminLinkProviderForUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceUser", required: true, type: .structure), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "DestinationUser", required: true, type: .structure)
-        ]
-        /// An external identity provider account for a user who does not currently exist yet in the user pool. This user must be a federated user (for example, a SAML or Facebook user), not another native user. If the SourceUser is a federated social identity provider user (Facebook, Google, or Login with Amazon), you must set the ProviderAttributeName to Cognito_Subject. For social identity providers, the ProviderName will be Facebook, Google, or LoginWithAmazon, and Cognito will automatically parse the Facebook, Google, and Login with Amazon tokens for id, sub, and user_id, respectively. The ProviderAttributeValue for the user must be the same value as the id, sub, or user_id value found in the social identity provider token.  For SAML, the ProviderAttributeName can be any value that matches a claim in the SAML assertion. If you wish to link SAML users based on the subject of the SAML assertion, you should map the subject to a claim through the SAML identity provider and submit that claim name as the ProviderAttributeName. If you set ProviderAttributeName to Cognito_Subject, Cognito will automatically parse the default unique identifier found in the subject from the SAML token.
-        public let sourceUser: ProviderUserIdentifierType
-        /// The user pool ID for the user pool.
-        public let userPoolId: String
-        /// The existing user in the user pool to be linked to the external identity provider user account. Can be a native (Username + Password) Cognito User Pools user or a federated user (for example, a SAML or Facebook user). If the user doesn't exist, an exception is thrown. This is the user that is returned when the new user (with the linked identity provider attribute) signs in. For a native username + password user, the ProviderAttributeValue for the DestinationUser should be the username in the user pool. For a federated user, it should be the provider-specific user_id. The ProviderAttributeName of the DestinationUser is ignored. The ProviderName should be set to Cognito for users in Cognito user pools.
-        public let destinationUser: ProviderUserIdentifierType
-
-        public init(sourceUser: ProviderUserIdentifierType, userPoolId: String, destinationUser: ProviderUserIdentifierType) {
-            self.sourceUser = sourceUser
-            self.userPoolId = userPoolId
-            self.destinationUser = destinationUser
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sourceUser = "SourceUser"
-            case userPoolId = "UserPoolId"
-            case destinationUser = "DestinationUser"
-        }
-    }
-
-    public struct ListResourceServersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceServers", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The resource servers.
-        public let resourceServers: [ResourceServerType]
-        /// A pagination token.
-        public let nextToken: String?
-
-        public init(resourceServers: [ResourceServerType], nextToken: String? = nil) {
-            self.resourceServers = resourceServers
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceServers = "ResourceServers"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct GetSigningCertificateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificate", required: false, type: .string)
-        ]
-        /// The signing certificate.
-        public let certificate: String?
-
-        public init(certificate: String? = nil) {
-            self.certificate = certificate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificate = "Certificate"
-        }
-    }
-
-    public struct AccountTakeoverActionType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventAction", required: true, type: .enum), 
-            AWSShapeMember(label: "Notify", required: true, type: .boolean)
-        ]
-        /// The event action.    BLOCK Choosing this action will block the request.    MFA_IF_CONFIGURED Throw MFA challenge if user has configured it, else allow the request.    MFA_REQUIRED Throw MFA challenge if user has configured it, else block the request.    NO_ACTION Allow the user sign-in.  
-        public let eventAction: AccountTakeoverEventActionType
-        /// Flag specifying whether to send a notification.
-        public let notify: Bool
-
-        public init(eventAction: AccountTakeoverEventActionType, notify: Bool) {
-            self.eventAction = eventAction
-            self.notify = notify
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eventAction = "EventAction"
-            case notify = "Notify"
-        }
-    }
-
-    public struct SetUserSettingsResponse: AWSShape {
-
-    }
-
-    public struct AdminGetDeviceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "DeviceKey", required: true, type: .string)
-        ]
-        /// The user name.
-        public let username: String
-        /// The user pool ID.
-        public let userPoolId: String
-        /// The device key.
-        public let deviceKey: String
-
-        public init(username: String, userPoolId: String, deviceKey: String) {
-            self.username = username
-            self.userPoolId = userPoolId
-            self.deviceKey = deviceKey
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case username = "Username"
-            case userPoolId = "UserPoolId"
-            case deviceKey = "DeviceKey"
-        }
-    }
-
-    public struct CreateUserPoolDomainResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CloudFrontDomain", required: false, type: .string)
-        ]
-        /// The Amazon CloudFront endpoint that you use as the target of the alias that you set up with your Domain Name Service (DNS) provider.
-        public let cloudFrontDomain: String?
-
-        public init(cloudFrontDomain: String? = nil) {
-            self.cloudFrontDomain = cloudFrontDomain
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cloudFrontDomain = "CloudFrontDomain"
-        }
-    }
-
-    public struct MFAOptionType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeName", required: false, type: .string), 
-            AWSShapeMember(label: "DeliveryMedium", required: false, type: .enum)
-        ]
-        /// The attribute name of the MFA option type.
-        public let attributeName: String?
-        /// The delivery medium (email message or SMS message) to send the MFA code.
-        public let deliveryMedium: DeliveryMediumType?
-
-        public init(attributeName: String? = nil, deliveryMedium: DeliveryMediumType? = nil) {
-            self.attributeName = attributeName
-            self.deliveryMedium = deliveryMedium
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attributeName = "AttributeName"
-            case deliveryMedium = "DeliveryMedium"
-        }
-    }
-
-    public struct AccountTakeoverActionsType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HighAction", required: false, type: .structure), 
-            AWSShapeMember(label: "MediumAction", required: false, type: .structure), 
-            AWSShapeMember(label: "LowAction", required: false, type: .structure)
-        ]
-        /// Action to take for a high risk.
-        public let highAction: AccountTakeoverActionType?
-        /// Action to take for a medium risk.
-        public let mediumAction: AccountTakeoverActionType?
-        /// Action to take for a low risk.
-        public let lowAction: AccountTakeoverActionType?
-
-        public init(highAction: AccountTakeoverActionType? = nil, mediumAction: AccountTakeoverActionType? = nil, lowAction: AccountTakeoverActionType? = nil) {
-            self.highAction = highAction
-            self.mediumAction = mediumAction
-            self.lowAction = lowAction
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case highAction = "HighAction"
-            case mediumAction = "MediumAction"
-            case lowAction = "LowAction"
-        }
-    }
-
-    public struct UserPoolClientType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllowedOAuthScopes", required: false, type: .list), 
-            AWSShapeMember(label: "AnalyticsConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "RefreshTokenValidity", required: false, type: .integer), 
-            AWSShapeMember(label: "UserPoolId", required: false, type: .string), 
-            AWSShapeMember(label: "WriteAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "ClientId", required: false, type: .string), 
-            AWSShapeMember(label: "AllowedOAuthFlowsUserPoolClient", required: false, type: .boolean), 
-            AWSShapeMember(label: "ExplicitAuthFlows", required: false, type: .list), 
-            AWSShapeMember(label: "DefaultRedirectURI", required: false, type: .string), 
-            AWSShapeMember(label: "LogoutURLs", required: false, type: .list), 
-            AWSShapeMember(label: "SupportedIdentityProviders", required: false, type: .list), 
-            AWSShapeMember(label: "ClientSecret", required: false, type: .string), 
-            AWSShapeMember(label: "AllowedOAuthFlows", required: false, type: .list), 
-            AWSShapeMember(label: "ClientName", required: false, type: .string), 
-            AWSShapeMember(label: "ReadAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CallbackURLs", required: false, type: .list)
-        ]
-        /// A list of allowed OAuth scopes. Currently supported values are "phone", "email", "openid", and "Cognito".
-        public let allowedOAuthScopes: [String]?
-        /// The Amazon Pinpoint analytics configuration for the user pool client.
-        public let analyticsConfiguration: AnalyticsConfigurationType?
-        /// The date the user pool client was last modified.
-        public let lastModifiedDate: TimeStamp?
-        /// The time limit, in days, after which the refresh token is no longer valid and cannot be used.
-        public let refreshTokenValidity: Int32?
-        /// The user pool ID for the user pool client.
-        public let userPoolId: String?
-        /// The writeable attributes.
-        public let writeAttributes: [String]?
-        /// The ID of the client associated with the user pool.
-        public let clientId: String?
-        /// Set to TRUE if the client is allowed to follow the OAuth protocol when interacting with Cognito user pools.
-        public let allowedOAuthFlowsUserPoolClient: Bool?
-        /// The explicit authentication flows.
-        public let explicitAuthFlows: [ExplicitAuthFlowsType]?
-        /// The default redirect URI. Must be in the CallbackURLs list. A redirect URI must:   Be an absolute URI.   Be registered with the authorization server.   Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint. Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes only. App callback URLs such as myapp://example are also supported.
-        public let defaultRedirectURI: String?
-        /// A list of allowed logout URLs for the identity providers.
-        public let logoutURLs: [String]?
-        /// A list of provider names for the identity providers that are supported on this client.
-        public let supportedIdentityProviders: [String]?
-        /// The client secret from the user pool request of the client type.
-        public let clientSecret: String?
-        /// Set to code to initiate a code grant flow, which provides an authorization code as the response. This code can be exchanged for access tokens with the token endpoint. Set to token to specify that the client should get the access token (and, optionally, ID token, based on scopes) directly.
-        public let allowedOAuthFlows: [OAuthFlowType]?
-        /// The client name from the user pool request of the client type.
-        public let clientName: String?
-        /// The Read-only attributes.
-        public let readAttributes: [String]?
-        /// The date the user pool client was created.
-        public let creationDate: TimeStamp?
-        /// A list of allowed redirect (callback) URLs for the identity providers. A redirect URI must:   Be an absolute URI.   Be registered with the authorization server.   Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint. Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes only. App callback URLs such as myapp://example are also supported.
-        public let callbackURLs: [String]?
-
-        public init(allowedOAuthScopes: [String]? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, lastModifiedDate: TimeStamp? = nil, refreshTokenValidity: Int32? = nil, userPoolId: String? = nil, writeAttributes: [String]? = nil, clientId: String? = nil, allowedOAuthFlowsUserPoolClient: Bool? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, defaultRedirectURI: String? = nil, logoutURLs: [String]? = nil, supportedIdentityProviders: [String]? = nil, clientSecret: String? = nil, allowedOAuthFlows: [OAuthFlowType]? = nil, clientName: String? = nil, readAttributes: [String]? = nil, creationDate: TimeStamp? = nil, callbackURLs: [String]? = nil) {
-            self.allowedOAuthScopes = allowedOAuthScopes
-            self.analyticsConfiguration = analyticsConfiguration
-            self.lastModifiedDate = lastModifiedDate
-            self.refreshTokenValidity = refreshTokenValidity
-            self.userPoolId = userPoolId
-            self.writeAttributes = writeAttributes
-            self.clientId = clientId
-            self.allowedOAuthFlowsUserPoolClient = allowedOAuthFlowsUserPoolClient
-            self.explicitAuthFlows = explicitAuthFlows
-            self.defaultRedirectURI = defaultRedirectURI
-            self.logoutURLs = logoutURLs
-            self.supportedIdentityProviders = supportedIdentityProviders
-            self.clientSecret = clientSecret
-            self.allowedOAuthFlows = allowedOAuthFlows
-            self.clientName = clientName
-            self.readAttributes = readAttributes
-            self.creationDate = creationDate
-            self.callbackURLs = callbackURLs
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case allowedOAuthScopes = "AllowedOAuthScopes"
-            case analyticsConfiguration = "AnalyticsConfiguration"
-            case lastModifiedDate = "LastModifiedDate"
-            case refreshTokenValidity = "RefreshTokenValidity"
-            case userPoolId = "UserPoolId"
-            case writeAttributes = "WriteAttributes"
-            case clientId = "ClientId"
-            case allowedOAuthFlowsUserPoolClient = "AllowedOAuthFlowsUserPoolClient"
-            case explicitAuthFlows = "ExplicitAuthFlows"
-            case defaultRedirectURI = "DefaultRedirectURI"
-            case logoutURLs = "LogoutURLs"
-            case supportedIdentityProviders = "SupportedIdentityProviders"
-            case clientSecret = "ClientSecret"
-            case allowedOAuthFlows = "AllowedOAuthFlows"
-            case clientName = "ClientName"
-            case readAttributes = "ReadAttributes"
-            case creationDate = "CreationDate"
-            case callbackURLs = "CallbackURLs"
-        }
-    }
-
-    public struct DescribeUserPoolDomainRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Domain", required: true, type: .string)
-        ]
-        /// The domain string.
-        public let domain: String
-
-        public init(domain: String) {
-            self.domain = domain
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case domain = "Domain"
-        }
-    }
-
-    public struct AdminUpdateUserAttributesResponse: AWSShape {
-
-    }
-
-    public struct AdminEnableUserResponse: AWSShape {
-
-    }
-
-    public struct InitiateAuthResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Session", required: false, type: .string), 
-            AWSShapeMember(label: "AuthenticationResult", required: false, type: .structure), 
-            AWSShapeMember(label: "ChallengeName", required: false, type: .enum), 
-            AWSShapeMember(label: "ChallengeParameters", required: false, type: .map)
-        ]
-        /// The session which should be passed both ways in challenge-response calls to the service. If the or API call determines that the caller needs to go through another challenge, they return a session with other challenge parameters. This session should be passed as it is to the next RespondToAuthChallenge API call.
-        public let session: String?
-        /// The result of the authentication response. This is only returned if the caller does not need to pass another challenge. If the caller does need to pass another challenge before it gets tokens, ChallengeName, ChallengeParameters, and Session are returned.
-        public let authenticationResult: AuthenticationResultType?
-        /// The name of the challenge which you are responding to with this call. This is returned to you in the AdminInitiateAuth response if you need to pass another challenge. Valid values include the following. Note that all of these challenges require USERNAME and SECRET_HASH (if applicable) in the parameters.    SMS_MFA: Next challenge is to supply an SMS_MFA_CODE, delivered via SMS.    PASSWORD_VERIFIER: Next challenge is to supply PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK, and TIMESTAMP after the client-side SRP calculations.    CUSTOM_CHALLENGE: This is returned if your custom authentication flow determines that the user should pass another challenge before tokens are issued.    DEVICE_SRP_AUTH: If device tracking was enabled on your user pool and the previous challenges were passed, this challenge is returned so that Amazon Cognito can start tracking this device.    DEVICE_PASSWORD_VERIFIER: Similar to PASSWORD_VERIFIER, but for devices only.    NEW_PASSWORD_REQUIRED: For users which are required to change their passwords after successful first login. This challenge should be passed with NEW_PASSWORD and any other required attributes.  
-        public let challengeName: ChallengeNameType?
-        /// The challenge parameters. These are returned to you in the InitiateAuth response if you need to pass another challenge. The responses in this parameter should be used to compute inputs to the next call (RespondToAuthChallenge).  All challenges require USERNAME and SECRET_HASH (if applicable).
-        public let challengeParameters: [String: String]?
-
-        public init(session: String? = nil, authenticationResult: AuthenticationResultType? = nil, challengeName: ChallengeNameType? = nil, challengeParameters: [String: String]? = nil) {
-            self.session = session
-            self.authenticationResult = authenticationResult
-            self.challengeName = challengeName
-            self.challengeParameters = challengeParameters
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case session = "Session"
-            case authenticationResult = "AuthenticationResult"
-            case challengeName = "ChallengeName"
-            case challengeParameters = "ChallengeParameters"
-        }
-    }
-
-    public struct UpdateGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Group", required: false, type: .structure)
-        ]
-        /// The group object for the group.
-        public let group: GroupType?
-
-        public init(group: GroupType? = nil) {
-            self.group = group
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case group = "Group"
-        }
-    }
-
-    public enum AliasAttributeType: String, CustomStringConvertible, Codable {
-        case phoneNumber = "phone_number"
-        case email = "email"
-        case preferredUsername = "preferred_username"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct SetUICustomizationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UICustomization", required: true, type: .structure)
-        ]
-        /// The UI customization information.
-        public let uICustomization: UICustomizationType
-
-        public init(uICustomization: UICustomizationType) {
-            self.uICustomization = uICustomization
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case uICustomization = "UICustomization"
-        }
-    }
-
-    public enum EventResponseType: String, CustomStringConvertible, Codable {
-        case success = "Success"
-        case failure = "Failure"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ResendConfirmationCodeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CodeDeliveryDetails", required: false, type: .structure)
-        ]
-        /// The code delivery details returned by the server in response to the request to resend the confirmation code.
-        public let codeDeliveryDetails: CodeDeliveryDetailsType?
-
-        public init(codeDeliveryDetails: CodeDeliveryDetailsType? = nil) {
-            self.codeDeliveryDetails = codeDeliveryDetails
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case codeDeliveryDetails = "CodeDeliveryDetails"
-        }
     }
 
     public struct UserContextDataType: AWSShape {
@@ -3056,769 +28,425 @@ extension CognitoIdentityProvider {
         }
     }
 
+    public enum OAuthFlowType: String, CustomStringConvertible, Codable {
+        case code = "code"
+        case implicit = "implicit"
+        case clientCredentials = "client_credentials"
+        public var description: String { return self.rawValue }
+    }
+
     public struct AddCustomAttributesResponse: AWSShape {
 
     }
 
-    public struct StartUserImportJobRequest: AWSShape {
+    public struct UpdateDeviceStatusRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "JobId", required: true, type: .string)
-        ]
-        /// The user pool ID for the user pool that the users are being imported into.
-        public let userPoolId: String
-        /// The job ID for the user import job.
-        public let jobId: String
-
-        public init(userPoolId: String, jobId: String) {
-            self.userPoolId = userPoolId
-            self.jobId = jobId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userPoolId = "UserPoolId"
-            case jobId = "JobId"
-        }
-    }
-
-    public enum StatusType: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
-        case disabled = "Disabled"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct AdminResetUserPasswordResponse: AWSShape {
-
-    }
-
-    public struct LambdaConfigType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreateAuthChallenge", required: false, type: .string), 
-            AWSShapeMember(label: "PostConfirmation", required: false, type: .string), 
-            AWSShapeMember(label: "CustomMessage", required: false, type: .string), 
-            AWSShapeMember(label: "VerifyAuthChallengeResponse", required: false, type: .string), 
-            AWSShapeMember(label: "PreAuthentication", required: false, type: .string), 
-            AWSShapeMember(label: "DefineAuthChallenge", required: false, type: .string), 
-            AWSShapeMember(label: "UserMigration", required: false, type: .string), 
-            AWSShapeMember(label: "PreTokenGeneration", required: false, type: .string), 
-            AWSShapeMember(label: "PreSignUp", required: false, type: .string), 
-            AWSShapeMember(label: "PostAuthentication", required: false, type: .string)
-        ]
-        /// Creates an authentication challenge.
-        public let createAuthChallenge: String?
-        /// A post-confirmation AWS Lambda trigger.
-        public let postConfirmation: String?
-        /// A custom Message AWS Lambda trigger.
-        public let customMessage: String?
-        /// Verifies the authentication challenge response.
-        public let verifyAuthChallengeResponse: String?
-        /// A pre-authentication AWS Lambda trigger.
-        public let preAuthentication: String?
-        /// Defines the authentication challenge.
-        public let defineAuthChallenge: String?
-        /// The user migration Lambda config type.
-        public let userMigration: String?
-        /// A Lambda trigger that is invoked before token generation.
-        public let preTokenGeneration: String?
-        /// A pre-registration AWS Lambda trigger.
-        public let preSignUp: String?
-        /// A post-authentication AWS Lambda trigger.
-        public let postAuthentication: String?
-
-        public init(createAuthChallenge: String? = nil, postConfirmation: String? = nil, customMessage: String? = nil, verifyAuthChallengeResponse: String? = nil, preAuthentication: String? = nil, defineAuthChallenge: String? = nil, userMigration: String? = nil, preTokenGeneration: String? = nil, preSignUp: String? = nil, postAuthentication: String? = nil) {
-            self.createAuthChallenge = createAuthChallenge
-            self.postConfirmation = postConfirmation
-            self.customMessage = customMessage
-            self.verifyAuthChallengeResponse = verifyAuthChallengeResponse
-            self.preAuthentication = preAuthentication
-            self.defineAuthChallenge = defineAuthChallenge
-            self.userMigration = userMigration
-            self.preTokenGeneration = preTokenGeneration
-            self.preSignUp = preSignUp
-            self.postAuthentication = postAuthentication
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case createAuthChallenge = "CreateAuthChallenge"
-            case postConfirmation = "PostConfirmation"
-            case customMessage = "CustomMessage"
-            case verifyAuthChallengeResponse = "VerifyAuthChallengeResponse"
-            case preAuthentication = "PreAuthentication"
-            case defineAuthChallenge = "DefineAuthChallenge"
-            case userMigration = "UserMigration"
-            case preTokenGeneration = "PreTokenGeneration"
-            case preSignUp = "PreSignUp"
-            case postAuthentication = "PostAuthentication"
-        }
-    }
-
-    public enum UserStatusType: String, CustomStringConvertible, Codable {
-        case unconfirmed = "UNCONFIRMED"
-        case confirmed = "CONFIRMED"
-        case archived = "ARCHIVED"
-        case compromised = "COMPROMISED"
-        case unknown = "UNKNOWN"
-        case resetRequired = "RESET_REQUIRED"
-        case forceChangePassword = "FORCE_CHANGE_PASSWORD"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct UpdateAuthEventFeedbackResponse: AWSShape {
-
-    }
-
-    public struct GroupType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "GroupName", required: false, type: .string), 
-            AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "UserPoolId", required: false, type: .string), 
-            AWSShapeMember(label: "Precedence", required: false, type: .integer), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: false, type: .string)
-        ]
-        /// The date the group was created.
-        public let creationDate: TimeStamp?
-        /// The name of the group.
-        public let groupName: String?
-        /// The date the group was last modified.
-        public let lastModifiedDate: TimeStamp?
-        /// The user pool ID for the user pool.
-        public let userPoolId: String?
-        /// A nonnegative integer value that specifies the precedence of this group relative to the other groups that a user can belong to in the user pool. If a user belongs to two or more groups, it is the group with the highest precedence whose role ARN will be used in the cognito:roles and cognito:preferred_role claims in the user's tokens. Groups with higher Precedence values take precedence over groups with lower Precedence values or with null Precedence values. Two groups can have the same Precedence value. If this happens, neither group takes precedence over the other. If two groups with the same Precedence have the same role ARN, that role is used in the cognito:preferred_role claim in tokens for users in each group. If the two groups have different role ARNs, the cognito:preferred_role claim is not set in users' tokens. The default Precedence value is null.
-        public let precedence: Int32?
-        /// A string containing the description of the group.
-        public let description: String?
-        /// The role ARN for the group.
-        public let roleArn: String?
-
-        public init(creationDate: TimeStamp? = nil, groupName: String? = nil, lastModifiedDate: TimeStamp? = nil, userPoolId: String? = nil, precedence: Int32? = nil, description: String? = nil, roleArn: String? = nil) {
-            self.creationDate = creationDate
-            self.groupName = groupName
-            self.lastModifiedDate = lastModifiedDate
-            self.userPoolId = userPoolId
-            self.precedence = precedence
-            self.description = description
-            self.roleArn = roleArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case creationDate = "CreationDate"
-            case groupName = "GroupName"
-            case lastModifiedDate = "LastModifiedDate"
-            case userPoolId = "UserPoolId"
-            case precedence = "Precedence"
-            case description = "Description"
-            case roleArn = "RoleArn"
-        }
-    }
-
-    public struct ListUserPoolsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPools", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The user pools from the response to list users.
-        public let userPools: [UserPoolDescriptionType]?
-        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public let nextToken: String?
-
-        public init(userPools: [UserPoolDescriptionType]? = nil, nextToken: String? = nil) {
-            self.userPools = userPools
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userPools = "UserPools"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct CreateUserPoolRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoVerifiedAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "AliasAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "SmsVerificationMessage", required: false, type: .string), 
-            AWSShapeMember(label: "UserPoolTags", required: false, type: .map), 
-            AWSShapeMember(label: "EmailVerificationSubject", required: false, type: .string), 
-            AWSShapeMember(label: "EmailVerificationMessage", required: false, type: .string), 
-            AWSShapeMember(label: "Policies", required: false, type: .structure), 
-            AWSShapeMember(label: "AdminCreateUserConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "Schema", required: false, type: .list), 
-            AWSShapeMember(label: "DeviceConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "MfaConfiguration", required: false, type: .enum), 
-            AWSShapeMember(label: "VerificationMessageTemplate", required: false, type: .structure), 
-            AWSShapeMember(label: "SmsAuthenticationMessage", required: false, type: .string), 
-            AWSShapeMember(label: "UsernameAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "PoolName", required: true, type: .string), 
-            AWSShapeMember(label: "EmailConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "UserPoolAddOns", required: false, type: .structure), 
-            AWSShapeMember(label: "LambdaConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "SmsConfiguration", required: false, type: .structure)
-        ]
-        /// The attributes to be auto-verified. Possible values: email, phone_number.
-        public let autoVerifiedAttributes: [VerifiedAttributeType]?
-        /// Attributes supported as an alias for this user pool. Possible values: phone_number, email, or preferred_username.
-        public let aliasAttributes: [AliasAttributeType]?
-        /// A string representing the SMS verification message.
-        public let smsVerificationMessage: String?
-        /// The cost allocation tags for the user pool. For more information, see Adding Cost Allocation Tags to Your User Pool 
-        public let userPoolTags: [String: String]?
-        /// A string representing the email verification subject.
-        public let emailVerificationSubject: String?
-        /// A string representing the email verification message.
-        public let emailVerificationMessage: String?
-        /// The policies associated with the new user pool.
-        public let policies: UserPoolPolicyType?
-        /// The configuration for AdminCreateUser requests.
-        public let adminCreateUserConfig: AdminCreateUserConfigType?
-        /// An array of schema attributes for the new user pool. These attributes can be standard or custom attributes.
-        public let schema: [SchemaAttributeType]?
-        /// The device configuration.
-        public let deviceConfiguration: DeviceConfigurationType?
-        /// Specifies MFA configuration details.
-        public let mfaConfiguration: UserPoolMfaType?
-        /// The template for the verification message that the user sees when the app requests permission to access the user's information.
-        public let verificationMessageTemplate: VerificationMessageTemplateType?
-        /// A string representing the SMS authentication message.
-        public let smsAuthenticationMessage: String?
-        /// Specifies whether email addresses or phone numbers can be specified as usernames when a user signs up.
-        public let usernameAttributes: [UsernameAttributeType]?
-        /// A string used to name the user pool.
-        public let poolName: String
-        /// The email configuration.
-        public let emailConfiguration: EmailConfigurationType?
-        /// Used to enable advanced security risk detection. Set the key AdvancedSecurityMode to the value "AUDIT".
-        public let userPoolAddOns: UserPoolAddOnsType?
-        /// The Lambda trigger configuration information for the new user pool.  In a push model, event sources (such as Amazon S3 and custom applications) need permission to invoke a function. So you will need to make an extra call to add permission for these event sources to invoke your Lambda function.  For more information on using the Lambda API to add permission, see  AddPermission .  For adding permission using the AWS CLI, see  add-permission . 
-        public let lambdaConfig: LambdaConfigType?
-        /// The SMS configuration.
-        public let smsConfiguration: SmsConfigurationType?
-
-        public init(autoVerifiedAttributes: [VerifiedAttributeType]? = nil, aliasAttributes: [AliasAttributeType]? = nil, smsVerificationMessage: String? = nil, userPoolTags: [String: String]? = nil, emailVerificationSubject: String? = nil, emailVerificationMessage: String? = nil, policies: UserPoolPolicyType? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, schema: [SchemaAttributeType]? = nil, deviceConfiguration: DeviceConfigurationType? = nil, mfaConfiguration: UserPoolMfaType? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil, smsAuthenticationMessage: String? = nil, usernameAttributes: [UsernameAttributeType]? = nil, poolName: String, emailConfiguration: EmailConfigurationType? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, lambdaConfig: LambdaConfigType? = nil, smsConfiguration: SmsConfigurationType? = nil) {
-            self.autoVerifiedAttributes = autoVerifiedAttributes
-            self.aliasAttributes = aliasAttributes
-            self.smsVerificationMessage = smsVerificationMessage
-            self.userPoolTags = userPoolTags
-            self.emailVerificationSubject = emailVerificationSubject
-            self.emailVerificationMessage = emailVerificationMessage
-            self.policies = policies
-            self.adminCreateUserConfig = adminCreateUserConfig
-            self.schema = schema
-            self.deviceConfiguration = deviceConfiguration
-            self.mfaConfiguration = mfaConfiguration
-            self.verificationMessageTemplate = verificationMessageTemplate
-            self.smsAuthenticationMessage = smsAuthenticationMessage
-            self.usernameAttributes = usernameAttributes
-            self.poolName = poolName
-            self.emailConfiguration = emailConfiguration
-            self.userPoolAddOns = userPoolAddOns
-            self.lambdaConfig = lambdaConfig
-            self.smsConfiguration = smsConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case autoVerifiedAttributes = "AutoVerifiedAttributes"
-            case aliasAttributes = "AliasAttributes"
-            case smsVerificationMessage = "SmsVerificationMessage"
-            case userPoolTags = "UserPoolTags"
-            case emailVerificationSubject = "EmailVerificationSubject"
-            case emailVerificationMessage = "EmailVerificationMessage"
-            case policies = "Policies"
-            case adminCreateUserConfig = "AdminCreateUserConfig"
-            case schema = "Schema"
-            case deviceConfiguration = "DeviceConfiguration"
-            case mfaConfiguration = "MfaConfiguration"
-            case verificationMessageTemplate = "VerificationMessageTemplate"
-            case smsAuthenticationMessage = "SmsAuthenticationMessage"
-            case usernameAttributes = "UsernameAttributes"
-            case poolName = "PoolName"
-            case emailConfiguration = "EmailConfiguration"
-            case userPoolAddOns = "UserPoolAddOns"
-            case lambdaConfig = "LambdaConfig"
-            case smsConfiguration = "SmsConfiguration"
-        }
-    }
-
-    public struct DeviceType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceLastAuthenticatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DeviceKey", required: false, type: .string), 
-            AWSShapeMember(label: "DeviceAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "DeviceLastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DeviceCreateDate", required: false, type: .timestamp)
-        ]
-        /// The date in which the device was last authenticated.
-        public let deviceLastAuthenticatedDate: TimeStamp?
-        /// The device key.
-        public let deviceKey: String?
-        /// The device attributes.
-        public let deviceAttributes: [AttributeType]?
-        /// The last modified date of the device.
-        public let deviceLastModifiedDate: TimeStamp?
-        /// The creation date of the device.
-        public let deviceCreateDate: TimeStamp?
-
-        public init(deviceLastAuthenticatedDate: TimeStamp? = nil, deviceKey: String? = nil, deviceAttributes: [AttributeType]? = nil, deviceLastModifiedDate: TimeStamp? = nil, deviceCreateDate: TimeStamp? = nil) {
-            self.deviceLastAuthenticatedDate = deviceLastAuthenticatedDate
-            self.deviceKey = deviceKey
-            self.deviceAttributes = deviceAttributes
-            self.deviceLastModifiedDate = deviceLastModifiedDate
-            self.deviceCreateDate = deviceCreateDate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deviceLastAuthenticatedDate = "DeviceLastAuthenticatedDate"
-            case deviceKey = "DeviceKey"
-            case deviceAttributes = "DeviceAttributes"
-            case deviceLastModifiedDate = "DeviceLastModifiedDate"
-            case deviceCreateDate = "DeviceCreateDate"
-        }
-    }
-
-    public struct GetUserPoolMfaConfigResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SmsMfaConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "SoftwareTokenMfaConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "MfaConfiguration", required: false, type: .enum)
-        ]
-        /// The SMS text message multi-factor (MFA) configuration.
-        public let smsMfaConfiguration: SmsMfaConfigType?
-        /// The software token multi-factor (MFA) configuration.
-        public let softwareTokenMfaConfiguration: SoftwareTokenMfaConfigType?
-        /// The multi-factor (MFA) configuration.
-        public let mfaConfiguration: UserPoolMfaType?
-
-        public init(smsMfaConfiguration: SmsMfaConfigType? = nil, softwareTokenMfaConfiguration: SoftwareTokenMfaConfigType? = nil, mfaConfiguration: UserPoolMfaType? = nil) {
-            self.smsMfaConfiguration = smsMfaConfiguration
-            self.softwareTokenMfaConfiguration = softwareTokenMfaConfiguration
-            self.mfaConfiguration = mfaConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case smsMfaConfiguration = "SmsMfaConfiguration"
-            case softwareTokenMfaConfiguration = "SoftwareTokenMfaConfiguration"
-            case mfaConfiguration = "MfaConfiguration"
-        }
-    }
-
-    public struct GetUserPoolMfaConfigRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
-        /// The user pool ID.
-        public let userPoolId: String
-
-        public init(userPoolId: String) {
-            self.userPoolId = userPoolId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userPoolId = "UserPoolId"
-        }
-    }
-
-    public struct SetUserMFAPreferenceResponse: AWSShape {
-
-    }
-
-    public enum EventType: String, CustomStringConvertible, Codable {
-        case signin = "SignIn"
-        case signup = "SignUp"
-        case forgotpassword = "ForgotPassword"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ForgetDeviceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessToken", required: true, type: .string), 
             AWSShapeMember(label: "DeviceKey", required: true, type: .string), 
-            AWSShapeMember(label: "AccessToken", required: false, type: .string)
+            AWSShapeMember(label: "DeviceRememberedStatus", required: false, type: .enum)
         ]
+        /// The access token.
+        public let accessToken: String
         /// The device key.
         public let deviceKey: String
-        /// The access token for the forgotten device request.
-        public let accessToken: String?
+        /// The status of whether a device is remembered.
+        public let deviceRememberedStatus: DeviceRememberedStatusType?
 
-        public init(deviceKey: String, accessToken: String? = nil) {
-            self.deviceKey = deviceKey
+        public init(accessToken: String, deviceKey: String, deviceRememberedStatus: DeviceRememberedStatusType? = nil) {
             self.accessToken = accessToken
+            self.deviceKey = deviceKey
+            self.deviceRememberedStatus = deviceRememberedStatus
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceKey = "DeviceKey"
             case accessToken = "AccessToken"
+            case deviceKey = "DeviceKey"
+            case deviceRememberedStatus = "DeviceRememberedStatus"
         }
     }
 
-    public struct DescribeResourceServerRequest: AWSShape {
+    public struct AdminGetDeviceResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Identifier", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
+            AWSShapeMember(label: "Device", required: true, type: .structure)
         ]
-        /// The identifier for the resource server
-        public let identifier: String
-        /// The user pool ID for the user pool that hosts the resource server.
-        public let userPoolId: String
+        /// The device.
+        public let device: DeviceType
 
-        public init(identifier: String, userPoolId: String) {
-            self.identifier = identifier
-            self.userPoolId = userPoolId
+        public init(device: DeviceType) {
+            self.device = device
         }
 
         private enum CodingKeys: String, CodingKey {
-            case identifier = "Identifier"
-            case userPoolId = "UserPoolId"
+            case device = "Device"
         }
     }
 
-    public struct AuthEventType: AWSShape {
+    public struct EventContextDataType: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventId", required: false, type: .string), 
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ChallengeResponses", required: false, type: .list), 
-            AWSShapeMember(label: "EventContextData", required: false, type: .structure), 
-            AWSShapeMember(label: "EventRisk", required: false, type: .structure), 
-            AWSShapeMember(label: "EventType", required: false, type: .enum), 
-            AWSShapeMember(label: "EventFeedback", required: false, type: .structure), 
-            AWSShapeMember(label: "EventResponse", required: false, type: .enum)
+            AWSShapeMember(label: "City", required: false, type: .string), 
+            AWSShapeMember(label: "Timezone", required: false, type: .string), 
+            AWSShapeMember(label: "DeviceName", required: false, type: .string), 
+            AWSShapeMember(label: "Country", required: false, type: .string), 
+            AWSShapeMember(label: "IpAddress", required: false, type: .string)
         ]
-        /// The event ID.
-        public let eventId: String?
-        /// The creation date
-        public let creationDate: TimeStamp?
-        /// The challenge responses.
-        public let challengeResponses: [ChallengeResponseType]?
-        /// The user context data captured at the time of an event request. It provides additional information about the client from which event the request is received.
-        public let eventContextData: EventContextDataType?
-        /// The event risk.
-        public let eventRisk: EventRiskType?
-        /// The event type.
-        public let eventType: EventType?
-        /// A flag specifying the user feedback captured at the time of an event request is good or bad. 
-        public let eventFeedback: EventFeedbackType?
-        /// The event response.
-        public let eventResponse: EventResponseType?
+        /// The user's city.
+        public let city: String?
+        /// The user's time zone.
+        public let timezone: String?
+        /// The user's device name.
+        public let deviceName: String?
+        /// The user's country.
+        public let country: String?
+        /// The user's IP address.
+        public let ipAddress: String?
 
-        public init(eventId: String? = nil, creationDate: TimeStamp? = nil, challengeResponses: [ChallengeResponseType]? = nil, eventContextData: EventContextDataType? = nil, eventRisk: EventRiskType? = nil, eventType: EventType? = nil, eventFeedback: EventFeedbackType? = nil, eventResponse: EventResponseType? = nil) {
-            self.eventId = eventId
-            self.creationDate = creationDate
-            self.challengeResponses = challengeResponses
-            self.eventContextData = eventContextData
-            self.eventRisk = eventRisk
-            self.eventType = eventType
-            self.eventFeedback = eventFeedback
-            self.eventResponse = eventResponse
+        public init(city: String? = nil, timezone: String? = nil, deviceName: String? = nil, country: String? = nil, ipAddress: String? = nil) {
+            self.city = city
+            self.timezone = timezone
+            self.deviceName = deviceName
+            self.country = country
+            self.ipAddress = ipAddress
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventId = "EventId"
-            case creationDate = "CreationDate"
-            case challengeResponses = "ChallengeResponses"
-            case eventContextData = "EventContextData"
-            case eventRisk = "EventRisk"
-            case eventType = "EventType"
-            case eventFeedback = "EventFeedback"
-            case eventResponse = "EventResponse"
-        }
-    }
-
-    public struct StartUserImportJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserImportJob", required: false, type: .structure)
-        ]
-        /// The job object that represents the user import job.
-        public let userImportJob: UserImportJobType?
-
-        public init(userImportJob: UserImportJobType? = nil) {
-            self.userImportJob = userImportJob
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userImportJob = "UserImportJob"
-        }
-    }
-
-    public struct NotifyConfigurationType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "BlockEmail", required: false, type: .structure), 
-            AWSShapeMember(label: "MfaEmail", required: false, type: .structure), 
-            AWSShapeMember(label: "From", required: false, type: .string), 
-            AWSShapeMember(label: "NoActionEmail", required: false, type: .structure), 
-            AWSShapeMember(label: "ReplyTo", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the identity that is associated with the sending authorization policy. It permits Amazon Cognito to send for the email address specified in the From parameter.
-        public let sourceArn: String
-        /// Email template used when a detected risk event is blocked.
-        public let blockEmail: NotifyEmailType?
-        /// The MFA email template used when MFA is challenged as part of a detected risk.
-        public let mfaEmail: NotifyEmailType?
-        /// The email address that is sending the email. It must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES.
-        public let from: String?
-        /// The email template used when a detected risk event is allowed.
-        public let noActionEmail: NotifyEmailType?
-        /// The destination to which the receiver of an email should reply to.
-        public let replyTo: String?
-
-        public init(sourceArn: String, blockEmail: NotifyEmailType? = nil, mfaEmail: NotifyEmailType? = nil, from: String? = nil, noActionEmail: NotifyEmailType? = nil, replyTo: String? = nil) {
-            self.sourceArn = sourceArn
-            self.blockEmail = blockEmail
-            self.mfaEmail = mfaEmail
-            self.from = from
-            self.noActionEmail = noActionEmail
-            self.replyTo = replyTo
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sourceArn = "SourceArn"
-            case blockEmail = "BlockEmail"
-            case mfaEmail = "MfaEmail"
-            case from = "From"
-            case noActionEmail = "NoActionEmail"
-            case replyTo = "ReplyTo"
-        }
-    }
-
-    public struct UpdateAuthEventFeedbackRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "EventId", required: true, type: .string), 
-            AWSShapeMember(label: "FeedbackValue", required: true, type: .enum), 
-            AWSShapeMember(label: "FeedbackToken", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
-        /// The user pool username.
-        public let username: String
-        /// The event ID.
-        public let eventId: String
-        /// The authentication event feedback value.
-        public let feedbackValue: FeedbackValueType
-        /// The feedback token.
-        public let feedbackToken: String
-        /// The user pool ID.
-        public let userPoolId: String
-
-        public init(username: String, eventId: String, feedbackValue: FeedbackValueType, feedbackToken: String, userPoolId: String) {
-            self.username = username
-            self.eventId = eventId
-            self.feedbackValue = feedbackValue
-            self.feedbackToken = feedbackToken
-            self.userPoolId = userPoolId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case username = "Username"
-            case eventId = "EventId"
-            case feedbackValue = "FeedbackValue"
-            case feedbackToken = "FeedbackToken"
-            case userPoolId = "UserPoolId"
-        }
-    }
-
-    public struct CompromisedCredentialsRiskConfigurationType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventFilter", required: false, type: .list), 
-            AWSShapeMember(label: "Actions", required: true, type: .structure)
-        ]
-        /// Perform the action for these events. The default is to perform all events if no event filter is specified.
-        public let eventFilter: [EventFilterType]?
-        /// The compromised credentials risk configuration actions.
-        public let actions: CompromisedCredentialsActionsType
-
-        public init(eventFilter: [EventFilterType]? = nil, actions: CompromisedCredentialsActionsType) {
-            self.eventFilter = eventFilter
-            self.actions = actions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eventFilter = "EventFilter"
-            case actions = "Actions"
-        }
-    }
-
-    public struct AdminUpdateUserAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "UserAttributes", required: true, type: .list)
-        ]
-        /// The user pool ID for the user pool where you want to update user attributes.
-        public let userPoolId: String
-        /// The user name of the user for whom you want to update user attributes.
-        public let username: String
-        /// An array of name-value pairs representing user attributes. For custom attributes, you must prepend the custom: prefix to the attribute name.
-        public let userAttributes: [AttributeType]
-
-        public init(userPoolId: String, username: String, userAttributes: [AttributeType]) {
-            self.userPoolId = userPoolId
-            self.username = username
-            self.userAttributes = userAttributes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userPoolId = "UserPoolId"
-            case username = "Username"
-            case userAttributes = "UserAttributes"
-        }
-    }
-
-    public struct DescribeRiskConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "ClientId", required: false, type: .string)
-        ]
-        /// The user pool ID.
-        public let userPoolId: String
-        /// The app client ID.
-        public let clientId: String?
-
-        public init(userPoolId: String, clientId: String? = nil) {
-            self.userPoolId = userPoolId
-            self.clientId = clientId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userPoolId = "UserPoolId"
-            case clientId = "ClientId"
-        }
-    }
-
-    public struct ListUsersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributesToGet", required: false, type: .list), 
-            AWSShapeMember(label: "PaginationToken", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "Filter", required: false, type: .string)
-        ]
-        /// An array of strings, where each string is the name of a user attribute to be returned for each user in the search results. If the array is null, all attributes are returned.
-        public let attributesToGet: [String]?
-        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public let paginationToken: String?
-        /// Maximum number of users to be returned.
-        public let limit: Int32?
-        /// The user pool ID for the user pool on which the search should be performed.
-        public let userPoolId: String
-        /// A filter string of the form "AttributeName Filter-Type "AttributeValue"". Quotation marks within the filter string must be escaped using the backslash (\) character. For example, "family_name = \"Reddy\"".    AttributeName: The name of the attribute to search for. You can only search for one attribute at a time.    Filter-Type: For an exact match, use =, for example, "given_name = \"Jon\"". For a prefix ("starts with") match, use ^=, for example, "given_name ^= \"Jon\"".     AttributeValue: The attribute value that must be matched for each user.   If the filter string is empty, ListUsers returns all users in the user pool. You can only search for the following standard attributes:    username (case-sensitive)    email     phone_number     name     given_name     family_name     preferred_username     cognito:user_status (called Status in the Console) (case-insensitive)    status (called Enabled in the Console) (case-sensitive)     sub    Custom attributes are not searchable. For more information, see Searching for Users Using the ListUsers API and Examples of Using the ListUsers API in the Amazon Cognito Developer Guide.
-        public let filter: String?
-
-        public init(attributesToGet: [String]? = nil, paginationToken: String? = nil, limit: Int32? = nil, userPoolId: String, filter: String? = nil) {
-            self.attributesToGet = attributesToGet
-            self.paginationToken = paginationToken
-            self.limit = limit
-            self.userPoolId = userPoolId
-            self.filter = filter
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attributesToGet = "AttributesToGet"
-            case paginationToken = "PaginationToken"
-            case limit = "Limit"
-            case userPoolId = "UserPoolId"
-            case filter = "Filter"
-        }
-    }
-
-    public struct GlobalSignOutResponse: AWSShape {
-
-    }
-
-    public struct GetCSVHeaderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
-        /// The user pool ID for the user pool that the users are to be imported into.
-        public let userPoolId: String
-
-        public init(userPoolId: String) {
-            self.userPoolId = userPoolId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userPoolId = "UserPoolId"
+            case city = "City"
+            case timezone = "Timezone"
+            case deviceName = "DeviceName"
+            case country = "Country"
+            case ipAddress = "IpAddress"
         }
     }
 
     public struct AdminInitiateAuthResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Session", required: false, type: .string), 
             AWSShapeMember(label: "AuthenticationResult", required: false, type: .structure), 
+            AWSShapeMember(label: "Session", required: false, type: .string), 
             AWSShapeMember(label: "ChallengeName", required: false, type: .enum), 
             AWSShapeMember(label: "ChallengeParameters", required: false, type: .map)
         ]
-        /// The session which should be passed both ways in challenge-response calls to the service. If AdminInitiateAuth or AdminRespondToAuthChallenge API call determines that the caller needs to go through another challenge, they return a session with other challenge parameters. This session should be passed as it is to the next AdminRespondToAuthChallenge API call.
-        public let session: String?
         /// The result of the authentication response. This is only returned if the caller does not need to pass another challenge. If the caller does need to pass another challenge before it gets tokens, ChallengeName, ChallengeParameters, and Session are returned.
         public let authenticationResult: AuthenticationResultType?
+        /// The session which should be passed both ways in challenge-response calls to the service. If AdminInitiateAuth or AdminRespondToAuthChallenge API call determines that the caller needs to go through another challenge, they return a session with other challenge parameters. This session should be passed as it is to the next AdminRespondToAuthChallenge API call.
+        public let session: String?
         /// The name of the challenge which you are responding to with this call. This is returned to you in the AdminInitiateAuth response if you need to pass another challenge.    MFA_SETUP: If MFA is required, users who do not have at least one of the MFA methods set up are presented with an MFA_SETUP challenge. The user must set up at least one MFA type to continue to authenticate.    SELECT_MFA_TYPE: Selects the MFA type. Valid MFA options are SMS_MFA for text SMS MFA, and SOFTWARE_TOKEN_MFA for TOTP software token MFA.    SMS_MFA: Next challenge is to supply an SMS_MFA_CODE, delivered via SMS.    PASSWORD_VERIFIER: Next challenge is to supply PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK, and TIMESTAMP after the client-side SRP calculations.    CUSTOM_CHALLENGE: This is returned if your custom authentication flow determines that the user should pass another challenge before tokens are issued.    DEVICE_SRP_AUTH: If device tracking was enabled on your user pool and the previous challenges were passed, this challenge is returned so that Amazon Cognito can start tracking this device.    DEVICE_PASSWORD_VERIFIER: Similar to PASSWORD_VERIFIER, but for devices only.    ADMIN_NO_SRP_AUTH: This is returned if you need to authenticate with USERNAME and PASSWORD directly. An app client must be enabled to use this flow.    NEW_PASSWORD_REQUIRED: For users which are required to change their passwords after successful first login. This challenge should be passed with NEW_PASSWORD and any other required attributes.  
         public let challengeName: ChallengeNameType?
         /// The challenge parameters. These are returned to you in the AdminInitiateAuth response if you need to pass another challenge. The responses in this parameter should be used to compute inputs to the next call (AdminRespondToAuthChallenge). All challenges require USERNAME and SECRET_HASH (if applicable). The value of the USER_ID_FOR_SRP attribute will be the user's actual username, not an alias (such as email address or phone number), even if you specified an alias in your call to AdminInitiateAuth. This is because, in the AdminRespondToAuthChallenge API ChallengeResponses, the USERNAME attribute cannot be an alias.
         public let challengeParameters: [String: String]?
 
-        public init(session: String? = nil, authenticationResult: AuthenticationResultType? = nil, challengeName: ChallengeNameType? = nil, challengeParameters: [String: String]? = nil) {
-            self.session = session
+        public init(authenticationResult: AuthenticationResultType? = nil, session: String? = nil, challengeName: ChallengeNameType? = nil, challengeParameters: [String: String]? = nil) {
             self.authenticationResult = authenticationResult
+            self.session = session
             self.challengeName = challengeName
             self.challengeParameters = challengeParameters
         }
 
         private enum CodingKeys: String, CodingKey {
-            case session = "Session"
             case authenticationResult = "AuthenticationResult"
+            case session = "Session"
             case challengeName = "ChallengeName"
             case challengeParameters = "ChallengeParameters"
         }
     }
 
-    public struct ListGroupsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Groups", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The group objects for the groups.
-        public let groups: [GroupType]?
-        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public let nextToken: String?
+    public enum FeedbackValueType: String, CustomStringConvertible, Codable {
+        case valid = "Valid"
+        case invalid = "Invalid"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(groups: [GroupType]? = nil, nextToken: String? = nil) {
-            self.groups = groups
-            self.nextToken = nextToken
+    public struct LambdaConfigType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PostConfirmation", required: false, type: .string), 
+            AWSShapeMember(label: "PreSignUp", required: false, type: .string), 
+            AWSShapeMember(label: "CustomMessage", required: false, type: .string), 
+            AWSShapeMember(label: "PreTokenGeneration", required: false, type: .string), 
+            AWSShapeMember(label: "VerifyAuthChallengeResponse", required: false, type: .string), 
+            AWSShapeMember(label: "DefineAuthChallenge", required: false, type: .string), 
+            AWSShapeMember(label: "CreateAuthChallenge", required: false, type: .string), 
+            AWSShapeMember(label: "UserMigration", required: false, type: .string), 
+            AWSShapeMember(label: "PostAuthentication", required: false, type: .string), 
+            AWSShapeMember(label: "PreAuthentication", required: false, type: .string)
+        ]
+        /// A post-confirmation AWS Lambda trigger.
+        public let postConfirmation: String?
+        /// A pre-registration AWS Lambda trigger.
+        public let preSignUp: String?
+        /// A custom Message AWS Lambda trigger.
+        public let customMessage: String?
+        /// A Lambda trigger that is invoked before token generation.
+        public let preTokenGeneration: String?
+        /// Verifies the authentication challenge response.
+        public let verifyAuthChallengeResponse: String?
+        /// Defines the authentication challenge.
+        public let defineAuthChallenge: String?
+        /// Creates an authentication challenge.
+        public let createAuthChallenge: String?
+        /// The user migration Lambda config type.
+        public let userMigration: String?
+        /// A post-authentication AWS Lambda trigger.
+        public let postAuthentication: String?
+        /// A pre-authentication AWS Lambda trigger.
+        public let preAuthentication: String?
+
+        public init(postConfirmation: String? = nil, preSignUp: String? = nil, customMessage: String? = nil, preTokenGeneration: String? = nil, verifyAuthChallengeResponse: String? = nil, defineAuthChallenge: String? = nil, createAuthChallenge: String? = nil, userMigration: String? = nil, postAuthentication: String? = nil, preAuthentication: String? = nil) {
+            self.postConfirmation = postConfirmation
+            self.preSignUp = preSignUp
+            self.customMessage = customMessage
+            self.preTokenGeneration = preTokenGeneration
+            self.verifyAuthChallengeResponse = verifyAuthChallengeResponse
+            self.defineAuthChallenge = defineAuthChallenge
+            self.createAuthChallenge = createAuthChallenge
+            self.userMigration = userMigration
+            self.postAuthentication = postAuthentication
+            self.preAuthentication = preAuthentication
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groups = "Groups"
-            case nextToken = "NextToken"
+            case postConfirmation = "PostConfirmation"
+            case preSignUp = "PreSignUp"
+            case customMessage = "CustomMessage"
+            case preTokenGeneration = "PreTokenGeneration"
+            case verifyAuthChallengeResponse = "VerifyAuthChallengeResponse"
+            case defineAuthChallenge = "DefineAuthChallenge"
+            case createAuthChallenge = "CreateAuthChallenge"
+            case userMigration = "UserMigration"
+            case postAuthentication = "PostAuthentication"
+            case preAuthentication = "PreAuthentication"
         }
     }
 
-    public struct ResourceServerType: AWSShape {
+    public struct ListDevicesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Identifier", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Scopes", required: false, type: .list), 
-            AWSShapeMember(label: "UserPoolId", required: false, type: .string)
+            AWSShapeMember(label: "PaginationToken", required: false, type: .string), 
+            AWSShapeMember(label: "AccessToken", required: true, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
-        /// The identifier for the resource server.
-        public let identifier: String?
-        /// The name of the resource server.
-        public let name: String?
-        /// A list of scopes that are defined for the resource server.
-        public let scopes: [ResourceServerScopeType]?
-        /// The user pool ID for the user pool that hosts the resource server.
-        public let userPoolId: String?
+        /// The pagination token for the list request.
+        public let paginationToken: String?
+        /// The access tokens for the request to list devices.
+        public let accessToken: String
+        /// The limit of the device request.
+        public let limit: Int32?
 
-        public init(identifier: String? = nil, name: String? = nil, scopes: [ResourceServerScopeType]? = nil, userPoolId: String? = nil) {
-            self.identifier = identifier
-            self.name = name
-            self.scopes = scopes
+        public init(paginationToken: String? = nil, accessToken: String, limit: Int32? = nil) {
+            self.paginationToken = paginationToken
+            self.accessToken = accessToken
+            self.limit = limit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case paginationToken = "PaginationToken"
+            case accessToken = "AccessToken"
+            case limit = "Limit"
+        }
+    }
+
+    public struct CreateUserPoolClientResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserPoolClient", required: false, type: .structure)
+        ]
+        /// The user pool client that was just created.
+        public let userPoolClient: UserPoolClientType?
+
+        public init(userPoolClient: UserPoolClientType? = nil) {
+            self.userPoolClient = userPoolClient
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userPoolClient = "UserPoolClient"
+        }
+    }
+
+    public struct SetUICustomizationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ImageFile", required: false, type: .blob), 
+            AWSShapeMember(label: "ClientId", required: false, type: .string), 
+            AWSShapeMember(label: "CSS", required: false, type: .string), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
+        ]
+        /// The uploaded logo image for the UI customization.
+        public let imageFile: Data?
+        /// The client ID for the client app.
+        public let clientId: String?
+        /// The CSS values in the UI customization.
+        public let css: String?
+        /// The user pool ID for the user pool.
+        public let userPoolId: String
+
+        public init(imageFile: Data? = nil, clientId: String? = nil, css: String? = nil, userPoolId: String) {
+            self.imageFile = imageFile
+            self.clientId = clientId
+            self.css = css
             self.userPoolId = userPoolId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case identifier = "Identifier"
-            case name = "Name"
-            case scopes = "Scopes"
+            case imageFile = "ImageFile"
+            case clientId = "ClientId"
+            case css = "CSS"
             case userPoolId = "UserPoolId"
+        }
+    }
+
+    public struct AdminLinkProviderForUserResponse: AWSShape {
+
+    }
+
+    public struct UpdateResourceServerResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceServer", required: true, type: .structure)
+        ]
+        /// The resource server.
+        public let resourceServer: ResourceServerType
+
+        public init(resourceServer: ResourceServerType) {
+            self.resourceServer = resourceServer
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceServer = "ResourceServer"
+        }
+    }
+
+    public struct GetUserResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserAttributes", required: true, type: .list), 
+            AWSShapeMember(label: "PreferredMfaSetting", required: false, type: .string), 
+            AWSShapeMember(label: "UserMFASettingList", required: false, type: .list), 
+            AWSShapeMember(label: "MFAOptions", required: false, type: .list), 
+            AWSShapeMember(label: "Username", required: true, type: .string)
+        ]
+        /// An array of name-value pairs representing user attributes. For custom attributes, you must prepend the custom: prefix to the attribute name.
+        public let userAttributes: [AttributeType]
+        /// The user's preferred MFA setting.
+        public let preferredMfaSetting: String?
+        /// The list of the user's MFA settings.
+        public let userMFASettingList: [String]?
+        /// Specifies the options for MFA (e.g., email or phone number).
+        public let mFAOptions: [MFAOptionType]?
+        /// The user name of the user you wish to retrieve from the get user request.
+        public let username: String
+
+        public init(userAttributes: [AttributeType], preferredMfaSetting: String? = nil, userMFASettingList: [String]? = nil, mFAOptions: [MFAOptionType]? = nil, username: String) {
+            self.userAttributes = userAttributes
+            self.preferredMfaSetting = preferredMfaSetting
+            self.userMFASettingList = userMFASettingList
+            self.mFAOptions = mFAOptions
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userAttributes = "UserAttributes"
+            case preferredMfaSetting = "PreferredMfaSetting"
+            case userMFASettingList = "UserMFASettingList"
+            case mFAOptions = "MFAOptions"
+            case username = "Username"
+        }
+    }
+
+    public struct CreateUserPoolRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserPoolTags", required: false, type: .map), 
+            AWSShapeMember(label: "Schema", required: false, type: .list), 
+            AWSShapeMember(label: "EmailVerificationMessage", required: false, type: .string), 
+            AWSShapeMember(label: "LambdaConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "EmailVerificationSubject", required: false, type: .string), 
+            AWSShapeMember(label: "SmsAuthenticationMessage", required: false, type: .string), 
+            AWSShapeMember(label: "SmsConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "Policies", required: false, type: .structure), 
+            AWSShapeMember(label: "DeviceConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "PoolName", required: true, type: .string), 
+            AWSShapeMember(label: "AdminCreateUserConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "EmailConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "UserPoolAddOns", required: false, type: .structure), 
+            AWSShapeMember(label: "UsernameAttributes", required: false, type: .list), 
+            AWSShapeMember(label: "AliasAttributes", required: false, type: .list), 
+            AWSShapeMember(label: "SmsVerificationMessage", required: false, type: .string), 
+            AWSShapeMember(label: "VerificationMessageTemplate", required: false, type: .structure), 
+            AWSShapeMember(label: "AutoVerifiedAttributes", required: false, type: .list), 
+            AWSShapeMember(label: "MfaConfiguration", required: false, type: .enum)
+        ]
+        /// The cost allocation tags for the user pool. For more information, see Adding Cost Allocation Tags to Your User Pool 
+        public let userPoolTags: [String: String]?
+        /// An array of schema attributes for the new user pool. These attributes can be standard or custom attributes.
+        public let schema: [SchemaAttributeType]?
+        /// A string representing the email verification message.
+        public let emailVerificationMessage: String?
+        /// The Lambda trigger configuration information for the new user pool.  In a push model, event sources (such as Amazon S3 and custom applications) need permission to invoke a function. So you will need to make an extra call to add permission for these event sources to invoke your Lambda function.  For more information on using the Lambda API to add permission, see  AddPermission .  For adding permission using the AWS CLI, see  add-permission . 
+        public let lambdaConfig: LambdaConfigType?
+        /// A string representing the email verification subject.
+        public let emailVerificationSubject: String?
+        /// A string representing the SMS authentication message.
+        public let smsAuthenticationMessage: String?
+        /// The SMS configuration.
+        public let smsConfiguration: SmsConfigurationType?
+        /// The policies associated with the new user pool.
+        public let policies: UserPoolPolicyType?
+        /// The device configuration.
+        public let deviceConfiguration: DeviceConfigurationType?
+        /// A string used to name the user pool.
+        public let poolName: String
+        /// The configuration for AdminCreateUser requests.
+        public let adminCreateUserConfig: AdminCreateUserConfigType?
+        /// The email configuration.
+        public let emailConfiguration: EmailConfigurationType?
+        /// Used to enable advanced security risk detection. Set the key AdvancedSecurityMode to the value "AUDIT".
+        public let userPoolAddOns: UserPoolAddOnsType?
+        /// Specifies whether email addresses or phone numbers can be specified as usernames when a user signs up.
+        public let usernameAttributes: [UsernameAttributeType]?
+        /// Attributes supported as an alias for this user pool. Possible values: phone_number, email, or preferred_username.
+        public let aliasAttributes: [AliasAttributeType]?
+        /// A string representing the SMS verification message.
+        public let smsVerificationMessage: String?
+        /// The template for the verification message that the user sees when the app requests permission to access the user's information.
+        public let verificationMessageTemplate: VerificationMessageTemplateType?
+        /// The attributes to be auto-verified. Possible values: email, phone_number.
+        public let autoVerifiedAttributes: [VerifiedAttributeType]?
+        /// Specifies MFA configuration details.
+        public let mfaConfiguration: UserPoolMfaType?
+
+        public init(userPoolTags: [String: String]? = nil, schema: [SchemaAttributeType]? = nil, emailVerificationMessage: String? = nil, lambdaConfig: LambdaConfigType? = nil, emailVerificationSubject: String? = nil, smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, policies: UserPoolPolicyType? = nil, deviceConfiguration: DeviceConfigurationType? = nil, poolName: String, adminCreateUserConfig: AdminCreateUserConfigType? = nil, emailConfiguration: EmailConfigurationType? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, usernameAttributes: [UsernameAttributeType]? = nil, aliasAttributes: [AliasAttributeType]? = nil, smsVerificationMessage: String? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, mfaConfiguration: UserPoolMfaType? = nil) {
+            self.userPoolTags = userPoolTags
+            self.schema = schema
+            self.emailVerificationMessage = emailVerificationMessage
+            self.lambdaConfig = lambdaConfig
+            self.emailVerificationSubject = emailVerificationSubject
+            self.smsAuthenticationMessage = smsAuthenticationMessage
+            self.smsConfiguration = smsConfiguration
+            self.policies = policies
+            self.deviceConfiguration = deviceConfiguration
+            self.poolName = poolName
+            self.adminCreateUserConfig = adminCreateUserConfig
+            self.emailConfiguration = emailConfiguration
+            self.userPoolAddOns = userPoolAddOns
+            self.usernameAttributes = usernameAttributes
+            self.aliasAttributes = aliasAttributes
+            self.smsVerificationMessage = smsVerificationMessage
+            self.verificationMessageTemplate = verificationMessageTemplate
+            self.autoVerifiedAttributes = autoVerifiedAttributes
+            self.mfaConfiguration = mfaConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userPoolTags = "UserPoolTags"
+            case schema = "Schema"
+            case emailVerificationMessage = "EmailVerificationMessage"
+            case lambdaConfig = "LambdaConfig"
+            case emailVerificationSubject = "EmailVerificationSubject"
+            case smsAuthenticationMessage = "SmsAuthenticationMessage"
+            case smsConfiguration = "SmsConfiguration"
+            case policies = "Policies"
+            case deviceConfiguration = "DeviceConfiguration"
+            case poolName = "PoolName"
+            case adminCreateUserConfig = "AdminCreateUserConfig"
+            case emailConfiguration = "EmailConfiguration"
+            case userPoolAddOns = "UserPoolAddOns"
+            case usernameAttributes = "UsernameAttributes"
+            case aliasAttributes = "AliasAttributes"
+            case smsVerificationMessage = "SmsVerificationMessage"
+            case verificationMessageTemplate = "VerificationMessageTemplate"
+            case autoVerifiedAttributes = "AutoVerifiedAttributes"
+            case mfaConfiguration = "MfaConfiguration"
         }
     }
 
@@ -3843,113 +471,299 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct DeleteGroupRequest: AWSShape {
+    public enum EventType: String, CustomStringConvertible, Codable {
+        case signin = "SignIn"
+        case signup = "SignUp"
+        case forgotpassword = "ForgotPassword"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct EmailConfigurationType: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplyToEmailAddress", required: false, type: .string), 
+            AWSShapeMember(label: "SourceArn", required: false, type: .string)
+        ]
+        /// The destination to which the receiver of the email should reply to.
+        public let replyToEmailAddress: String?
+        /// The Amazon Resource Name (ARN) of the email source.
+        public let sourceArn: String?
+
+        public init(replyToEmailAddress: String? = nil, sourceArn: String? = nil) {
+            self.replyToEmailAddress = replyToEmailAddress
+            self.sourceArn = sourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replyToEmailAddress = "ReplyToEmailAddress"
+            case sourceArn = "SourceArn"
+        }
+    }
+
+    public struct VerifySoftwareTokenResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Session", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+        /// The session which should be passed both ways in challenge-response calls to the service.
+        public let session: String?
+        /// The status of the verify software token.
+        public let status: VerifySoftwareTokenResponseType?
+
+        public init(session: String? = nil, status: VerifySoftwareTokenResponseType? = nil) {
+            self.session = session
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case session = "Session"
+            case status = "Status"
+        }
+    }
+
+    public struct UpdateUserPoolRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserPoolTags", required: false, type: .map), 
+            AWSShapeMember(label: "EmailVerificationMessage", required: false, type: .string), 
+            AWSShapeMember(label: "LambdaConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "EmailVerificationSubject", required: false, type: .string), 
+            AWSShapeMember(label: "SmsAuthenticationMessage", required: false, type: .string), 
+            AWSShapeMember(label: "SmsConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "Policies", required: false, type: .structure), 
+            AWSShapeMember(label: "DeviceConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "AdminCreateUserConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "UserPoolAddOns", required: false, type: .structure), 
+            AWSShapeMember(label: "EmailConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "GroupName", required: true, type: .string)
+            AWSShapeMember(label: "SmsVerificationMessage", required: false, type: .string), 
+            AWSShapeMember(label: "VerificationMessageTemplate", required: false, type: .structure), 
+            AWSShapeMember(label: "AutoVerifiedAttributes", required: false, type: .list), 
+            AWSShapeMember(label: "MfaConfiguration", required: false, type: .enum)
         ]
-        /// The user pool ID for the user pool.
+        /// The cost allocation tags for the user pool. For more information, see Adding Cost Allocation Tags to Your User Pool 
+        public let userPoolTags: [String: String]?
+        /// The contents of the email verification message.
+        public let emailVerificationMessage: String?
+        /// The AWS Lambda configuration information from the request to update the user pool.
+        public let lambdaConfig: LambdaConfigType?
+        /// The subject of the email verification message.
+        public let emailVerificationSubject: String?
+        /// The contents of the SMS authentication message.
+        public let smsAuthenticationMessage: String?
+        /// SMS configuration.
+        public let smsConfiguration: SmsConfigurationType?
+        /// A container with the policies you wish to update in a user pool.
+        public let policies: UserPoolPolicyType?
+        /// Device configuration.
+        public let deviceConfiguration: DeviceConfigurationType?
+        /// The configuration for AdminCreateUser requests.
+        public let adminCreateUserConfig: AdminCreateUserConfigType?
+        /// Used to enable advanced security risk detection. Set the key AdvancedSecurityMode to the value "AUDIT".
+        public let userPoolAddOns: UserPoolAddOnsType?
+        /// Email configuration.
+        public let emailConfiguration: EmailConfigurationType?
+        /// The user pool ID for the user pool you want to update.
         public let userPoolId: String
-        /// The name of the group.
-        public let groupName: String
+        /// A container with information about the SMS verification message.
+        public let smsVerificationMessage: String?
+        /// The template for verification messages.
+        public let verificationMessageTemplate: VerificationMessageTemplateType?
+        /// The attributes that are automatically verified when the Amazon Cognito service makes a request to update user pools.
+        public let autoVerifiedAttributes: [VerifiedAttributeType]?
+        /// Can be one of the following values:    OFF - MFA tokens are not required and cannot be specified during user registration.    ON - MFA tokens are required for all user registrations. You can only specify required when you are initially creating a user pool.    OPTIONAL - Users have the option when registering to create an MFA token.  
+        public let mfaConfiguration: UserPoolMfaType?
 
-        public init(userPoolId: String, groupName: String) {
+        public init(userPoolTags: [String: String]? = nil, emailVerificationMessage: String? = nil, lambdaConfig: LambdaConfigType? = nil, emailVerificationSubject: String? = nil, smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, policies: UserPoolPolicyType? = nil, deviceConfiguration: DeviceConfigurationType? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, emailConfiguration: EmailConfigurationType? = nil, userPoolId: String, smsVerificationMessage: String? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, mfaConfiguration: UserPoolMfaType? = nil) {
+            self.userPoolTags = userPoolTags
+            self.emailVerificationMessage = emailVerificationMessage
+            self.lambdaConfig = lambdaConfig
+            self.emailVerificationSubject = emailVerificationSubject
+            self.smsAuthenticationMessage = smsAuthenticationMessage
+            self.smsConfiguration = smsConfiguration
+            self.policies = policies
+            self.deviceConfiguration = deviceConfiguration
+            self.adminCreateUserConfig = adminCreateUserConfig
+            self.userPoolAddOns = userPoolAddOns
+            self.emailConfiguration = emailConfiguration
             self.userPoolId = userPoolId
-            self.groupName = groupName
+            self.smsVerificationMessage = smsVerificationMessage
+            self.verificationMessageTemplate = verificationMessageTemplate
+            self.autoVerifiedAttributes = autoVerifiedAttributes
+            self.mfaConfiguration = mfaConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
+            case userPoolTags = "UserPoolTags"
+            case emailVerificationMessage = "EmailVerificationMessage"
+            case lambdaConfig = "LambdaConfig"
+            case emailVerificationSubject = "EmailVerificationSubject"
+            case smsAuthenticationMessage = "SmsAuthenticationMessage"
+            case smsConfiguration = "SmsConfiguration"
+            case policies = "Policies"
+            case deviceConfiguration = "DeviceConfiguration"
+            case adminCreateUserConfig = "AdminCreateUserConfig"
+            case userPoolAddOns = "UserPoolAddOns"
+            case emailConfiguration = "EmailConfiguration"
             case userPoolId = "UserPoolId"
-            case groupName = "GroupName"
+            case smsVerificationMessage = "SmsVerificationMessage"
+            case verificationMessageTemplate = "VerificationMessageTemplate"
+            case autoVerifiedAttributes = "AutoVerifiedAttributes"
+            case mfaConfiguration = "MfaConfiguration"
         }
     }
 
-    public struct CreateUserImportJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserImportJob", required: false, type: .structure)
-        ]
-        /// The job object that represents the user import job.
-        public let userImportJob: UserImportJobType?
+    public enum AttributeDataType: String, CustomStringConvertible, Codable {
+        case string = "String"
+        case number = "Number"
+        case datetime = "DateTime"
+        case boolean = "Boolean"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(userImportJob: UserImportJobType? = nil) {
-            self.userImportJob = userImportJob
+    public enum MessageActionType: String, CustomStringConvertible, Codable {
+        case resend = "RESEND"
+        case suppress = "SUPPRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UserPoolAddOnsType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AdvancedSecurityMode", required: true, type: .enum)
+        ]
+        /// The advanced security mode.
+        public let advancedSecurityMode: AdvancedSecurityModeType
+
+        public init(advancedSecurityMode: AdvancedSecurityModeType) {
+            self.advancedSecurityMode = advancedSecurityMode
         }
 
         private enum CodingKeys: String, CodingKey {
-            case userImportJob = "UserImportJob"
+            case advancedSecurityMode = "AdvancedSecurityMode"
         }
     }
 
-    public struct SoftwareTokenMfaConfigType: AWSShape {
+    public struct UpdateUserAttributesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean)
+            AWSShapeMember(label: "UserAttributes", required: true, type: .list), 
+            AWSShapeMember(label: "AccessToken", required: true, type: .string)
         ]
-        /// Specifies whether software token MFA is enabled.
-        public let enabled: Bool?
+        /// An array of name-value pairs representing user attributes. For custom attributes, you must prepend the custom: prefix to the attribute name.
+        public let userAttributes: [AttributeType]
+        /// The access token for the request to update user attributes.
+        public let accessToken: String
 
-        public init(enabled: Bool? = nil) {
-            self.enabled = enabled
+        public init(userAttributes: [AttributeType], accessToken: String) {
+            self.userAttributes = userAttributes
+            self.accessToken = accessToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enabled = "Enabled"
+            case userAttributes = "UserAttributes"
+            case accessToken = "AccessToken"
         }
     }
 
-    public struct SetUICustomizationRequest: AWSShape {
+    public struct DescribeIdentityProviderResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ImageFile", required: false, type: .blob), 
-            AWSShapeMember(label: "CSS", required: false, type: .string), 
+            AWSShapeMember(label: "IdentityProvider", required: true, type: .structure)
+        ]
+        /// The identity provider that was deleted.
+        public let identityProvider: IdentityProviderType
+
+        public init(identityProvider: IdentityProviderType) {
+            self.identityProvider = identityProvider
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityProvider = "IdentityProvider"
+        }
+    }
+
+    public struct ForgetDeviceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessToken", required: false, type: .string), 
+            AWSShapeMember(label: "DeviceKey", required: true, type: .string)
+        ]
+        /// The access token for the forgotten device request.
+        public let accessToken: String?
+        /// The device key.
+        public let deviceKey: String
+
+        public init(accessToken: String? = nil, deviceKey: String) {
+            self.accessToken = accessToken
+            self.deviceKey = deviceKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessToken = "AccessToken"
+            case deviceKey = "DeviceKey"
+        }
+    }
+
+    public struct AssociateSoftwareTokenResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Session", required: false, type: .string), 
+            AWSShapeMember(label: "SecretCode", required: false, type: .string)
+        ]
+        /// The session which should be passed both ways in challenge-response calls to the service. This allows authentication of the user as part of the MFA setup process.
+        public let session: String?
+        /// A unique generated shared secret code that is used in the TOTP algorithm to generate a one time code.
+        public let secretCode: String?
+
+        public init(session: String? = nil, secretCode: String? = nil) {
+            self.session = session
+            self.secretCode = secretCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case session = "Session"
+            case secretCode = "SecretCode"
+        }
+    }
+
+    public struct ListUserPoolClientsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The maximum number of results you want the request to return when listing the user pool clients.
+        public let maxResults: Int32?
+        /// The user pool ID for the user pool where you want to list user pool clients.
+        public let userPoolId: String
+        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, userPoolId: String, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.userPoolId = userPoolId
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case userPoolId = "UserPoolId"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetUICustomizationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
             AWSShapeMember(label: "ClientId", required: false, type: .string)
         ]
-        /// The uploaded logo image for the UI customization.
-        public let imageFile: Data?
-        /// The CSS values in the UI customization.
-        public let css: String?
         /// The user pool ID for the user pool.
         public let userPoolId: String
         /// The client ID for the client app.
         public let clientId: String?
 
-        public init(imageFile: Data? = nil, css: String? = nil, userPoolId: String, clientId: String? = nil) {
-            self.imageFile = imageFile
-            self.css = css
+        public init(userPoolId: String, clientId: String? = nil) {
             self.userPoolId = userPoolId
             self.clientId = clientId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageFile = "ImageFile"
-            case css = "CSS"
             case userPoolId = "UserPoolId"
             case clientId = "ClientId"
-        }
-    }
-
-    public struct ProviderUserIdentifierType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProviderAttributeName", required: false, type: .string), 
-            AWSShapeMember(label: "ProviderName", required: false, type: .string), 
-            AWSShapeMember(label: "ProviderAttributeValue", required: false, type: .string)
-        ]
-        /// The name of the provider attribute to link to, for example, NameID.
-        public let providerAttributeName: String?
-        /// The name of the provider, for example, Facebook, Google, or Login with Amazon.
-        public let providerName: String?
-        /// The value of the provider attribute to link to, for example, xxxxx_account.
-        public let providerAttributeValue: String?
-
-        public init(providerAttributeName: String? = nil, providerName: String? = nil, providerAttributeValue: String? = nil) {
-            self.providerAttributeName = providerAttributeName
-            self.providerName = providerName
-            self.providerAttributeValue = providerAttributeValue
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case providerAttributeName = "ProviderAttributeName"
-            case providerName = "ProviderName"
-            case providerAttributeValue = "ProviderAttributeValue"
         }
     }
 
@@ -3969,213 +783,11 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AdminSetUserSettingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "MFAOptions", required: true, type: .list)
-        ]
-        /// The user pool ID for the user pool where you want to set the user's settings, such as MFA options.
-        public let userPoolId: String
-        /// The user name of the user for whom you wish to set user settings.
-        public let username: String
-        /// Specifies the options for MFA (e.g., email or phone number).
-        public let mFAOptions: [MFAOptionType]
-
-        public init(userPoolId: String, username: String, mFAOptions: [MFAOptionType]) {
-            self.userPoolId = userPoolId
-            self.username = username
-            self.mFAOptions = mFAOptions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userPoolId = "UserPoolId"
-            case username = "Username"
-            case mFAOptions = "MFAOptions"
-        }
-    }
-
-    public enum AttributeDataType: String, CustomStringConvertible, Codable {
-        case string = "String"
-        case number = "Number"
-        case datetime = "DateTime"
-        case boolean = "Boolean"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct AdminGetUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "Username", required: true, type: .string)
-        ]
-        /// The user pool ID for the user pool where you want to get information about the user.
-        public let userPoolId: String
-        /// The user name of the user you wish to retrieve.
-        public let username: String
-
-        public init(userPoolId: String, username: String) {
-            self.userPoolId = userPoolId
-            self.username = username
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userPoolId = "UserPoolId"
-            case username = "Username"
-        }
-    }
-
-    public enum CompromisedCredentialsEventActionType: String, CustomStringConvertible, Codable {
-        case block = "BLOCK"
-        case noAction = "NO_ACTION"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct AnalyticsConfigurationType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserDataShared", required: false, type: .boolean), 
-            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "ExternalId", required: true, type: .string), 
-            AWSShapeMember(label: "ApplicationId", required: true, type: .string)
-        ]
-        /// If UserDataShared is true, Amazon Cognito will include user data in the events it publishes to Amazon Pinpoint analytics.
-        public let userDataShared: Bool?
-        /// The ARN of an IAM role that authorizes Amazon Cognito to publish events to Amazon Pinpoint analytics.
-        public let roleArn: String
-        /// The external ID.
-        public let externalId: String
-        /// The application ID for an Amazon Pinpoint application.
-        public let applicationId: String
-
-        public init(userDataShared: Bool? = nil, roleArn: String, externalId: String, applicationId: String) {
-            self.userDataShared = userDataShared
-            self.roleArn = roleArn
-            self.externalId = externalId
-            self.applicationId = applicationId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userDataShared = "UserDataShared"
-            case roleArn = "RoleArn"
-            case externalId = "ExternalId"
-            case applicationId = "ApplicationId"
-        }
-    }
-
-    public struct CreateGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Precedence", required: false, type: .integer), 
-            AWSShapeMember(label: "GroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
-        /// A nonnegative integer value that specifies the precedence of this group relative to the other groups that a user can belong to in the user pool. Zero is the highest precedence value. Groups with lower Precedence values take precedence over groups with higher or null Precedence values. If a user belongs to two or more groups, it is the group with the lowest precedence value whose role ARN will be used in the cognito:roles and cognito:preferred_role claims in the user's tokens. Two groups can have the same Precedence value. If this happens, neither group takes precedence over the other. If two groups with the same Precedence have the same role ARN, that role is used in the cognito:preferred_role claim in tokens for users in each group. If the two groups have different role ARNs, the cognito:preferred_role claim is not set in users' tokens. The default Precedence value is null.
-        public let precedence: Int32?
-        /// The name of the group. Must be unique.
-        public let groupName: String
-        /// A string containing the description of the group.
-        public let description: String?
-        /// The role ARN for the group.
-        public let roleArn: String?
-        /// The user pool ID for the user pool.
-        public let userPoolId: String
-
-        public init(precedence: Int32? = nil, groupName: String, description: String? = nil, roleArn: String? = nil, userPoolId: String) {
-            self.precedence = precedence
-            self.groupName = groupName
-            self.description = description
-            self.roleArn = roleArn
-            self.userPoolId = userPoolId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case precedence = "Precedence"
-            case groupName = "GroupName"
-            case description = "Description"
-            case roleArn = "RoleArn"
-            case userPoolId = "UserPoolId"
-        }
-    }
-
-    public struct DescribeUserPoolResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPool", required: false, type: .structure)
-        ]
-        /// The container of metadata returned by the server to describe the pool.
-        public let userPool: UserPoolType?
-
-        public init(userPool: UserPoolType? = nil) {
-            self.userPool = userPool
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userPool = "UserPool"
-        }
-    }
-
-    public struct DeleteResourceServerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Identifier", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
-        /// The identifier for the resource server.
-        public let identifier: String
-        /// The user pool ID for the user pool that hosts the resource server.
-        public let userPoolId: String
-
-        public init(identifier: String, userPoolId: String) {
-            self.identifier = identifier
-            self.userPoolId = userPoolId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case identifier = "Identifier"
-            case userPoolId = "UserPoolId"
-        }
-    }
-
-    public struct ConfirmDeviceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserConfirmationNecessary", required: false, type: .boolean)
-        ]
-        /// Indicates whether the user confirmation is necessary to confirm the device response.
-        public let userConfirmationNecessary: Bool?
-
-        public init(userConfirmationNecessary: Bool? = nil) {
-            self.userConfirmationNecessary = userConfirmationNecessary
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userConfirmationNecessary = "UserConfirmationNecessary"
-        }
-    }
-
-    public struct DescribeUserPoolClientRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "ClientId", required: true, type: .string)
-        ]
-        /// The user pool ID for the user pool you want to describe.
-        public let userPoolId: String
-        /// The app client ID of the app associated with the user pool.
-        public let clientId: String
-
-        public init(userPoolId: String, clientId: String) {
-            self.userPoolId = userPoolId
-            self.clientId = clientId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userPoolId = "UserPoolId"
-            case clientId = "ClientId"
-        }
-    }
-
-    public struct DeleteUserRequest: AWSShape {
+    public struct GetUserRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccessToken", required: true, type: .string)
         ]
-        /// The access token from a request to delete a user.
+        /// The access token returned by the server response to get information about the user.
         public let accessToken: String
 
         public init(accessToken: String) {
@@ -4187,415 +799,43 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct CreateIdentityProviderResponse: AWSShape {
+    public struct DescribeUserImportJobResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdentityProvider", required: true, type: .structure)
+            AWSShapeMember(label: "UserImportJob", required: false, type: .structure)
         ]
-        /// The newly created identity provider object.
-        public let identityProvider: IdentityProviderType
+        /// The job object that represents the user import job.
+        public let userImportJob: UserImportJobType?
 
-        public init(identityProvider: IdentityProviderType) {
-            self.identityProvider = identityProvider
+        public init(userImportJob: UserImportJobType? = nil) {
+            self.userImportJob = userImportJob
         }
 
         private enum CodingKeys: String, CodingKey {
-            case identityProvider = "IdentityProvider"
+            case userImportJob = "UserImportJob"
         }
     }
 
-    public struct CreateIdentityProviderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProviderName", required: true, type: .string), 
-            AWSShapeMember(label: "ProviderDetails", required: true, type: .map), 
-            AWSShapeMember(label: "AttributeMapping", required: false, type: .map), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "ProviderType", required: true, type: .enum), 
-            AWSShapeMember(label: "IdpIdentifiers", required: false, type: .list)
-        ]
-        /// The identity provider name.
-        public let providerName: String
-        /// The identity provider details, such as MetadataURL and MetadataFile.
-        public let providerDetails: [String: String]
-        /// A mapping of identity provider attributes to standard and custom user pool attributes.
-        public let attributeMapping: [String: String]?
-        /// The user pool ID.
-        public let userPoolId: String
-        /// The identity provider type.
-        public let providerType: IdentityProviderTypeType
-        /// A list of identity provider identifiers.
-        public let idpIdentifiers: [String]?
+    public struct ConfirmSignUpResponse: AWSShape {
 
-        public init(providerName: String, providerDetails: [String: String], attributeMapping: [String: String]? = nil, userPoolId: String, providerType: IdentityProviderTypeType, idpIdentifiers: [String]? = nil) {
-            self.providerName = providerName
-            self.providerDetails = providerDetails
-            self.attributeMapping = attributeMapping
-            self.userPoolId = userPoolId
-            self.providerType = providerType
-            self.idpIdentifiers = idpIdentifiers
+    }
+
+    public struct VerifyUserAttributeResponse: AWSShape {
+
+    }
+
+    public struct CreateGroupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Group", required: false, type: .structure)
+        ]
+        /// The group object for the group.
+        public let group: GroupType?
+
+        public init(group: GroupType? = nil) {
+            self.group = group
         }
 
         private enum CodingKeys: String, CodingKey {
-            case providerName = "ProviderName"
-            case providerDetails = "ProviderDetails"
-            case attributeMapping = "AttributeMapping"
-            case userPoolId = "UserPoolId"
-            case providerType = "ProviderType"
-            case idpIdentifiers = "IdpIdentifiers"
-        }
-    }
-
-    public struct AdminDeleteUserAttributesResponse: AWSShape {
-
-    }
-
-    public struct ListUserImportJobsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PaginationToken", required: false, type: .string), 
-            AWSShapeMember(label: "UserImportJobs", required: false, type: .list)
-        ]
-        /// An identifier that can be used to return the next set of user import jobs in the list.
-        public let paginationToken: String?
-        /// The user import jobs.
-        public let userImportJobs: [UserImportJobType]?
-
-        public init(paginationToken: String? = nil, userImportJobs: [UserImportJobType]? = nil) {
-            self.paginationToken = paginationToken
-            self.userImportJobs = userImportJobs
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case paginationToken = "PaginationToken"
-            case userImportJobs = "UserImportJobs"
-        }
-    }
-
-    public struct DeleteUserAttributesResponse: AWSShape {
-
-    }
-
-    public struct AdminListUserAuthEventsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthEvents", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The response object. It includes the EventID, EventType, CreationDate, EventRisk, and EventResponse.
-        public let authEvents: [AuthEventType]?
-        /// A pagination token.
-        public let nextToken: String?
-
-        public init(authEvents: [AuthEventType]? = nil, nextToken: String? = nil) {
-            self.authEvents = authEvents
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case authEvents = "AuthEvents"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct AdminUserGlobalSignOutResponse: AWSShape {
-
-    }
-
-    public struct UpdateGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Precedence", required: false, type: .integer), 
-            AWSShapeMember(label: "GroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
-        /// The new precedence value for the group. For more information about this parameter, see .
-        public let precedence: Int32?
-        /// The name of the group.
-        public let groupName: String
-        /// A string containing the new description of the group.
-        public let description: String?
-        /// The new role ARN for the group. This is used for setting the cognito:roles and cognito:preferred_role claims in the token.
-        public let roleArn: String?
-        /// The user pool ID for the user pool.
-        public let userPoolId: String
-
-        public init(precedence: Int32? = nil, groupName: String, description: String? = nil, roleArn: String? = nil, userPoolId: String) {
-            self.precedence = precedence
-            self.groupName = groupName
-            self.description = description
-            self.roleArn = roleArn
-            self.userPoolId = userPoolId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case precedence = "Precedence"
-            case groupName = "GroupName"
-            case description = "Description"
-            case roleArn = "RoleArn"
-            case userPoolId = "UserPoolId"
-        }
-    }
-
-    public struct AdminDeleteUserAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "UserAttributeNames", required: true, type: .list), 
-            AWSShapeMember(label: "Username", required: true, type: .string)
-        ]
-        /// The user pool ID for the user pool where you want to delete user attributes.
-        public let userPoolId: String
-        /// An array of strings representing the user attribute names you wish to delete. For custom attributes, you must prepend the custom: prefix to the attribute name.
-        public let userAttributeNames: [String]
-        /// The user name of the user from which you would like to delete attributes.
-        public let username: String
-
-        public init(userPoolId: String, userAttributeNames: [String], username: String) {
-            self.userPoolId = userPoolId
-            self.userAttributeNames = userAttributeNames
-            self.username = username
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userPoolId = "UserPoolId"
-            case userAttributeNames = "UserAttributeNames"
-            case username = "Username"
-        }
-    }
-
-    public struct DeviceConfigurationType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceOnlyRememberedOnUserPrompt", required: false, type: .boolean), 
-            AWSShapeMember(label: "ChallengeRequiredOnNewDevice", required: false, type: .boolean)
-        ]
-        /// If true, a device is only remembered on user prompt.
-        public let deviceOnlyRememberedOnUserPrompt: Bool?
-        /// Indicates whether a challenge is required on a new device. Only applicable to a new device.
-        public let challengeRequiredOnNewDevice: Bool?
-
-        public init(deviceOnlyRememberedOnUserPrompt: Bool? = nil, challengeRequiredOnNewDevice: Bool? = nil) {
-            self.deviceOnlyRememberedOnUserPrompt = deviceOnlyRememberedOnUserPrompt
-            self.challengeRequiredOnNewDevice = challengeRequiredOnNewDevice
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deviceOnlyRememberedOnUserPrompt = "DeviceOnlyRememberedOnUserPrompt"
-            case challengeRequiredOnNewDevice = "ChallengeRequiredOnNewDevice"
-        }
-    }
-
-    public struct EventRiskType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RiskDecision", required: false, type: .enum), 
-            AWSShapeMember(label: "RiskLevel", required: false, type: .enum)
-        ]
-        /// The risk decision.
-        public let riskDecision: RiskDecisionType?
-        /// The risk level.
-        public let riskLevel: RiskLevelType?
-
-        public init(riskDecision: RiskDecisionType? = nil, riskLevel: RiskLevelType? = nil) {
-            self.riskDecision = riskDecision
-            self.riskLevel = riskLevel
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case riskDecision = "RiskDecision"
-            case riskLevel = "RiskLevel"
-        }
-    }
-
-    public struct ConfirmSignUpRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserContextData", required: false, type: .structure), 
-            AWSShapeMember(label: "ConfirmationCode", required: true, type: .string), 
-            AWSShapeMember(label: "AnalyticsMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "SecretHash", required: false, type: .string), 
-            AWSShapeMember(label: "ClientId", required: true, type: .string), 
-            AWSShapeMember(label: "ForceAliasCreation", required: false, type: .boolean), 
-            AWSShapeMember(label: "Username", required: true, type: .string)
-        ]
-        /// Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
-        public let userContextData: UserContextDataType?
-        /// The confirmation code sent by a user's request to confirm registration.
-        public let confirmationCode: String
-        /// The Amazon Pinpoint analytics metadata for collecting metrics for ConfirmSignUp calls.
-        public let analyticsMetadata: AnalyticsMetadataType?
-        /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message.
-        public let secretHash: String?
-        /// The ID of the app client associated with the user pool.
-        public let clientId: String
-        /// Boolean to be specified to force user confirmation irrespective of existing alias. By default set to False. If this parameter is set to True and the phone number/email used for sign up confirmation already exists as an alias with a different user, the API call will migrate the alias from the previous user to the newly created user being confirmed. If set to False, the API will throw an AliasExistsException error.
-        public let forceAliasCreation: Bool?
-        /// The user name of the user whose registration you wish to confirm.
-        public let username: String
-
-        public init(userContextData: UserContextDataType? = nil, confirmationCode: String, analyticsMetadata: AnalyticsMetadataType? = nil, secretHash: String? = nil, clientId: String, forceAliasCreation: Bool? = nil, username: String) {
-            self.userContextData = userContextData
-            self.confirmationCode = confirmationCode
-            self.analyticsMetadata = analyticsMetadata
-            self.secretHash = secretHash
-            self.clientId = clientId
-            self.forceAliasCreation = forceAliasCreation
-            self.username = username
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userContextData = "UserContextData"
-            case confirmationCode = "ConfirmationCode"
-            case analyticsMetadata = "AnalyticsMetadata"
-            case secretHash = "SecretHash"
-            case clientId = "ClientId"
-            case forceAliasCreation = "ForceAliasCreation"
-            case username = "Username"
-        }
-    }
-
-    public struct VerifySoftwareTokenRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FriendlyDeviceName", required: false, type: .string), 
-            AWSShapeMember(label: "Session", required: false, type: .string), 
-            AWSShapeMember(label: "UserCode", required: true, type: .string), 
-            AWSShapeMember(label: "AccessToken", required: false, type: .string)
-        ]
-        /// The friendly device name.
-        public let friendlyDeviceName: String?
-        /// The session which should be passed both ways in challenge-response calls to the service.
-        public let session: String?
-        /// The one time password computed using the secret code returned by 
-        public let userCode: String
-        /// The access token.
-        public let accessToken: String?
-
-        public init(friendlyDeviceName: String? = nil, session: String? = nil, userCode: String, accessToken: String? = nil) {
-            self.friendlyDeviceName = friendlyDeviceName
-            self.session = session
-            self.userCode = userCode
-            self.accessToken = accessToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case friendlyDeviceName = "FriendlyDeviceName"
-            case session = "Session"
-            case userCode = "UserCode"
-            case accessToken = "AccessToken"
-        }
-    }
-
-    public struct SmsConfigurationType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExternalId", required: false, type: .string), 
-            AWSShapeMember(label: "SnsCallerArn", required: true, type: .string)
-        ]
-        /// The external ID.
-        public let externalId: String?
-        /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) caller.
-        public let snsCallerArn: String
-
-        public init(externalId: String? = nil, snsCallerArn: String) {
-            self.externalId = externalId
-            self.snsCallerArn = snsCallerArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case externalId = "ExternalId"
-            case snsCallerArn = "SnsCallerArn"
-        }
-    }
-
-    public struct SetRiskConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RiskExceptionConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "CompromisedCredentialsRiskConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "ClientId", required: false, type: .string), 
-            AWSShapeMember(label: "AccountTakeoverRiskConfiguration", required: false, type: .structure)
-        ]
-        /// The configuration to override the risk decision.
-        public let riskExceptionConfiguration: RiskExceptionConfigurationType?
-        /// The compromised credentials risk configuration.
-        public let compromisedCredentialsRiskConfiguration: CompromisedCredentialsRiskConfigurationType?
-        /// The user pool ID. 
-        public let userPoolId: String
-        /// The app client ID. If ClientId is null, then the risk configuration is mapped to userPoolId. When the client ID is null, the same risk configuration is applied to all the clients in the userPool. Otherwise, ClientId is mapped to the client. When the client ID is not null, the user pool configuration is overridden and the risk configuration for the client is used instead.
-        public let clientId: String?
-        /// The account takeover risk configuration.
-        public let accountTakeoverRiskConfiguration: AccountTakeoverRiskConfigurationType?
-
-        public init(riskExceptionConfiguration: RiskExceptionConfigurationType? = nil, compromisedCredentialsRiskConfiguration: CompromisedCredentialsRiskConfigurationType? = nil, userPoolId: String, clientId: String? = nil, accountTakeoverRiskConfiguration: AccountTakeoverRiskConfigurationType? = nil) {
-            self.riskExceptionConfiguration = riskExceptionConfiguration
-            self.compromisedCredentialsRiskConfiguration = compromisedCredentialsRiskConfiguration
-            self.userPoolId = userPoolId
-            self.clientId = clientId
-            self.accountTakeoverRiskConfiguration = accountTakeoverRiskConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case riskExceptionConfiguration = "RiskExceptionConfiguration"
-            case compromisedCredentialsRiskConfiguration = "CompromisedCredentialsRiskConfiguration"
-            case userPoolId = "UserPoolId"
-            case clientId = "ClientId"
-            case accountTakeoverRiskConfiguration = "AccountTakeoverRiskConfiguration"
-        }
-    }
-
-    public struct AddCustomAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "CustomAttributes", required: true, type: .list)
-        ]
-        /// The user pool ID for the user pool where you want to add custom attributes.
-        public let userPoolId: String
-        /// An array of custom attributes, such as Mutable and Name.
-        public let customAttributes: [SchemaAttributeType]
-
-        public init(userPoolId: String, customAttributes: [SchemaAttributeType]) {
-            self.userPoolId = userPoolId
-            self.customAttributes = customAttributes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userPoolId = "UserPoolId"
-            case customAttributes = "CustomAttributes"
-        }
-    }
-
-    public enum EventFilterType: String, CustomStringConvertible, Codable {
-        case signIn = "SIGN_IN"
-        case passwordChange = "PASSWORD_CHANGE"
-        case signUp = "SIGN_UP"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ChallengeNameType: String, CustomStringConvertible, Codable {
-        case smsMfa = "SMS_MFA"
-        case softwareTokenMfa = "SOFTWARE_TOKEN_MFA"
-        case selectMfaType = "SELECT_MFA_TYPE"
-        case mfaSetup = "MFA_SETUP"
-        case passwordVerifier = "PASSWORD_VERIFIER"
-        case customChallenge = "CUSTOM_CHALLENGE"
-        case deviceSrpAuth = "DEVICE_SRP_AUTH"
-        case devicePasswordVerifier = "DEVICE_PASSWORD_VERIFIER"
-        case adminNoSrpAuth = "ADMIN_NO_SRP_AUTH"
-        case newPasswordRequired = "NEW_PASSWORD_REQUIRED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct StopUserImportJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "JobId", required: true, type: .string)
-        ]
-        /// The user pool ID for the user pool that the users are being imported into.
-        public let userPoolId: String
-        /// The job ID for the user import job.
-        public let jobId: String
-
-        public init(userPoolId: String, jobId: String) {
-            self.userPoolId = userPoolId
-            self.jobId = jobId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userPoolId = "UserPoolId"
-            case jobId = "JobId"
+            case group = "Group"
         }
     }
 
@@ -4625,230 +865,449 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct DescribeUserPoolRequest: AWSShape {
+    public struct AdminUpdateUserAttributesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
+            AWSShapeMember(label: "UserAttributes", required: true, type: .list), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "Username", required: true, type: .string)
         ]
-        /// The user pool ID for the user pool you want to describe.
+        /// An array of name-value pairs representing user attributes. For custom attributes, you must prepend the custom: prefix to the attribute name.
+        public let userAttributes: [AttributeType]
+        /// The user pool ID for the user pool where you want to update user attributes.
         public let userPoolId: String
+        /// The user name of the user for whom you want to update user attributes.
+        public let username: String
 
-        public init(userPoolId: String) {
+        public init(userAttributes: [AttributeType], userPoolId: String, username: String) {
+            self.userAttributes = userAttributes
             self.userPoolId = userPoolId
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userAttributes = "UserAttributes"
+            case userPoolId = "UserPoolId"
+            case username = "Username"
+        }
+    }
+
+    public struct ForgotPasswordRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SecretHash", required: false, type: .string), 
+            AWSShapeMember(label: "ClientId", required: true, type: .string), 
+            AWSShapeMember(label: "UserContextData", required: false, type: .structure), 
+            AWSShapeMember(label: "AnalyticsMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "Username", required: true, type: .string)
+        ]
+        /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message.
+        public let secretHash: String?
+        /// The ID of the client associated with the user pool.
+        public let clientId: String
+        /// Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
+        public let userContextData: UserContextDataType?
+        /// The Amazon Pinpoint analytics metadata for collecting metrics for ForgotPassword calls.
+        public let analyticsMetadata: AnalyticsMetadataType?
+        /// The user name of the user for whom you want to enter a code to reset a forgotten password.
+        public let username: String
+
+        public init(secretHash: String? = nil, clientId: String, userContextData: UserContextDataType? = nil, analyticsMetadata: AnalyticsMetadataType? = nil, username: String) {
+            self.secretHash = secretHash
+            self.clientId = clientId
+            self.userContextData = userContextData
+            self.analyticsMetadata = analyticsMetadata
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case secretHash = "SecretHash"
+            case clientId = "ClientId"
+            case userContextData = "UserContextData"
+            case analyticsMetadata = "AnalyticsMetadata"
+            case username = "Username"
+        }
+    }
+
+    public struct StringAttributeConstraintsType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MinLength", required: false, type: .string), 
+            AWSShapeMember(label: "MaxLength", required: false, type: .string)
+        ]
+        /// The minimum length.
+        public let minLength: String?
+        /// The maximum length.
+        public let maxLength: String?
+
+        public init(minLength: String? = nil, maxLength: String? = nil) {
+            self.minLength = minLength
+            self.maxLength = maxLength
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case minLength = "MinLength"
+            case maxLength = "MaxLength"
+        }
+    }
+
+    public struct DeleteUserPoolClientRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "ClientId", required: true, type: .string)
+        ]
+        /// The user pool ID for the user pool where you want to delete the client.
+        public let userPoolId: String
+        /// The app client ID of the app associated with the user pool.
+        public let clientId: String
+
+        public init(userPoolId: String, clientId: String) {
+            self.userPoolId = userPoolId
+            self.clientId = clientId
         }
 
         private enum CodingKeys: String, CodingKey {
             case userPoolId = "UserPoolId"
+            case clientId = "ClientId"
         }
     }
 
-    public struct CreateResourceServerResponse: AWSShape {
+    public struct RespondToAuthChallengeRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceServer", required: true, type: .structure)
+            AWSShapeMember(label: "UserContextData", required: false, type: .structure), 
+            AWSShapeMember(label: "ClientId", required: true, type: .string), 
+            AWSShapeMember(label: "AnalyticsMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "Session", required: false, type: .string), 
+            AWSShapeMember(label: "ChallengeResponses", required: false, type: .map), 
+            AWSShapeMember(label: "ChallengeName", required: true, type: .enum)
         ]
-        /// The newly created resource server.
-        public let resourceServer: ResourceServerType
+        /// Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
+        public let userContextData: UserContextDataType?
+        /// The app client ID.
+        public let clientId: String
+        /// The Amazon Pinpoint analytics metadata for collecting metrics for RespondToAuthChallenge calls.
+        public let analyticsMetadata: AnalyticsMetadataType?
+        /// The session which should be passed both ways in challenge-response calls to the service. If InitiateAuth or RespondToAuthChallenge API call determines that the caller needs to go through another challenge, they return a session with other challenge parameters. This session should be passed as it is to the next RespondToAuthChallenge API call.
+        public let session: String?
+        /// The challenge responses. These are inputs corresponding to the value of ChallengeName, for example:    SMS_MFA: SMS_MFA_CODE, USERNAME, SECRET_HASH (if app client is configured with client secret).    PASSWORD_VERIFIER: PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK, TIMESTAMP, USERNAME, SECRET_HASH (if app client is configured with client secret).    NEW_PASSWORD_REQUIRED: NEW_PASSWORD, any other required attributes, USERNAME, SECRET_HASH (if app client is configured with client secret).   
+        public let challengeResponses: [String: String]?
+        /// The challenge name. For more information, see .  ADMIN_NO_SRP_AUTH is not a valid value.
+        public let challengeName: ChallengeNameType
 
-        public init(resourceServer: ResourceServerType) {
-            self.resourceServer = resourceServer
+        public init(userContextData: UserContextDataType? = nil, clientId: String, analyticsMetadata: AnalyticsMetadataType? = nil, session: String? = nil, challengeResponses: [String: String]? = nil, challengeName: ChallengeNameType) {
+            self.userContextData = userContextData
+            self.clientId = clientId
+            self.analyticsMetadata = analyticsMetadata
+            self.session = session
+            self.challengeResponses = challengeResponses
+            self.challengeName = challengeName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceServer = "ResourceServer"
+            case userContextData = "UserContextData"
+            case clientId = "ClientId"
+            case analyticsMetadata = "AnalyticsMetadata"
+            case session = "Session"
+            case challengeResponses = "ChallengeResponses"
+            case challengeName = "ChallengeName"
         }
     }
 
-    public struct EventContextDataType: AWSShape {
+    public struct CreateIdentityProviderResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Timezone", required: false, type: .string), 
-            AWSShapeMember(label: "IpAddress", required: false, type: .string), 
-            AWSShapeMember(label: "City", required: false, type: .string), 
-            AWSShapeMember(label: "DeviceName", required: false, type: .string), 
-            AWSShapeMember(label: "Country", required: false, type: .string)
+            AWSShapeMember(label: "IdentityProvider", required: true, type: .structure)
         ]
-        /// The user's time zone.
-        public let timezone: String?
-        /// The user's IP address.
-        public let ipAddress: String?
-        /// The user's city.
-        public let city: String?
-        /// The user's device name.
-        public let deviceName: String?
-        /// The user's country.
-        public let country: String?
+        /// The newly created identity provider object.
+        public let identityProvider: IdentityProviderType
 
-        public init(timezone: String? = nil, ipAddress: String? = nil, city: String? = nil, deviceName: String? = nil, country: String? = nil) {
-            self.timezone = timezone
-            self.ipAddress = ipAddress
-            self.city = city
-            self.deviceName = deviceName
-            self.country = country
+        public init(identityProvider: IdentityProviderType) {
+            self.identityProvider = identityProvider
         }
 
         private enum CodingKeys: String, CodingKey {
-            case timezone = "Timezone"
-            case ipAddress = "IpAddress"
-            case city = "City"
-            case deviceName = "DeviceName"
-            case country = "Country"
+            case identityProvider = "IdentityProvider"
         }
     }
 
-    public enum OAuthFlowType: String, CustomStringConvertible, Codable {
-        case code = "code"
-        case implicit = "implicit"
-        case clientCredentials = "client_credentials"
+    public enum ChallengeName: String, CustomStringConvertible, Codable {
+        case password = "Password"
+        case mfa = "Mfa"
         public var description: String { return self.rawValue }
     }
 
-    public struct CreateResourceServerRequest: AWSShape {
+    public struct GetGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Identifier", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Scopes", required: false, type: .list), 
+            AWSShapeMember(label: "GroupName", required: true, type: .string), 
             AWSShapeMember(label: "UserPoolId", required: true, type: .string)
         ]
-        /// A unique resource server identifier for the resource server. This could be an HTTPS endpoint where the resource server is located. For example, https://my-weather-api.example.com.
-        public let identifier: String
-        /// A friendly name for the resource server.
-        public let name: String
-        /// A list of scopes. Each scope is map, where the keys are name and description.
-        public let scopes: [ResourceServerScopeType]?
+        /// The name of the group.
+        public let groupName: String
         /// The user pool ID for the user pool.
         public let userPoolId: String
 
-        public init(identifier: String, name: String, scopes: [ResourceServerScopeType]? = nil, userPoolId: String) {
-            self.identifier = identifier
-            self.name = name
-            self.scopes = scopes
+        public init(groupName: String, userPoolId: String) {
+            self.groupName = groupName
             self.userPoolId = userPoolId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case identifier = "Identifier"
-            case name = "Name"
-            case scopes = "Scopes"
+            case groupName = "GroupName"
             case userPoolId = "UserPoolId"
         }
     }
 
-    public struct AdminDisableUserResponse: AWSShape {
+    public struct CreateUserImportJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserImportJob", required: false, type: .structure)
+        ]
+        /// The job object that represents the user import job.
+        public let userImportJob: UserImportJobType?
 
+        public init(userImportJob: UserImportJobType? = nil) {
+            self.userImportJob = userImportJob
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userImportJob = "UserImportJob"
+        }
     }
 
-    public struct ListIdentityProvidersRequest: AWSShape {
+    public struct IdentityProviderType: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+            AWSShapeMember(label: "UserPoolId", required: false, type: .string), 
+            AWSShapeMember(label: "IdpIdentifiers", required: false, type: .list), 
+            AWSShapeMember(label: "ProviderDetails", required: false, type: .map), 
+            AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ProviderName", required: false, type: .string), 
+            AWSShapeMember(label: "ProviderType", required: false, type: .enum), 
+            AWSShapeMember(label: "AttributeMapping", required: false, type: .map)
         ]
         /// The user pool ID.
-        public let userPoolId: String
-        /// A pagination token.
-        public let nextToken: String?
-        /// The maximum number of identity providers to return.
-        public let maxResults: Int32?
+        public let userPoolId: String?
+        /// A list of identity provider identifiers.
+        public let idpIdentifiers: [String]?
+        /// The identity provider details, such as MetadataURL and MetadataFile.
+        public let providerDetails: [String: String]?
+        /// The date the identity provider was last modified.
+        public let lastModifiedDate: TimeStamp?
+        /// The date the identity provider was created.
+        public let creationDate: TimeStamp?
+        /// The identity provider name.
+        public let providerName: String?
+        /// The identity provider type.
+        public let providerType: IdentityProviderTypeType?
+        /// A mapping of identity provider attributes to standard and custom user pool attributes.
+        public let attributeMapping: [String: String]?
 
-        public init(userPoolId: String, nextToken: String? = nil, maxResults: Int32? = nil) {
+        public init(userPoolId: String? = nil, idpIdentifiers: [String]? = nil, providerDetails: [String: String]? = nil, lastModifiedDate: TimeStamp? = nil, creationDate: TimeStamp? = nil, providerName: String? = nil, providerType: IdentityProviderTypeType? = nil, attributeMapping: [String: String]? = nil) {
             self.userPoolId = userPoolId
-            self.nextToken = nextToken
-            self.maxResults = maxResults
+            self.idpIdentifiers = idpIdentifiers
+            self.providerDetails = providerDetails
+            self.lastModifiedDate = lastModifiedDate
+            self.creationDate = creationDate
+            self.providerName = providerName
+            self.providerType = providerType
+            self.attributeMapping = attributeMapping
         }
 
         private enum CodingKeys: String, CodingKey {
             case userPoolId = "UserPoolId"
-            case nextToken = "NextToken"
-            case maxResults = "MaxResults"
+            case idpIdentifiers = "IdpIdentifiers"
+            case providerDetails = "ProviderDetails"
+            case lastModifiedDate = "LastModifiedDate"
+            case creationDate = "CreationDate"
+            case providerName = "ProviderName"
+            case providerType = "ProviderType"
+            case attributeMapping = "AttributeMapping"
         }
     }
 
-    public struct VerifySoftwareTokenResponse: AWSShape {
+    public struct UserPoolPolicyType: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Session", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum)
+            AWSShapeMember(label: "PasswordPolicy", required: false, type: .structure)
         ]
-        /// The session which should be passed both ways in challenge-response calls to the service.
-        public let session: String?
-        /// The status of the verify software token.
-        public let status: VerifySoftwareTokenResponseType?
+        /// The password policy.
+        public let passwordPolicy: PasswordPolicyType?
 
-        public init(session: String? = nil, status: VerifySoftwareTokenResponseType? = nil) {
-            self.session = session
-            self.status = status
+        public init(passwordPolicy: PasswordPolicyType? = nil) {
+            self.passwordPolicy = passwordPolicy
         }
 
         private enum CodingKeys: String, CodingKey {
-            case session = "Session"
-            case status = "Status"
+            case passwordPolicy = "PasswordPolicy"
         }
     }
 
-    public struct GetUserRequest: AWSShape {
+    public struct ListUsersResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessToken", required: true, type: .string)
+            AWSShapeMember(label: "Users", required: false, type: .list), 
+            AWSShapeMember(label: "PaginationToken", required: false, type: .string)
         ]
-        /// The access token returned by the server response to get information about the user.
-        public let accessToken: String
+        /// The users returned in the request to list users.
+        public let users: [UserType]?
+        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+        public let paginationToken: String?
 
-        public init(accessToken: String) {
-            self.accessToken = accessToken
+        public init(users: [UserType]? = nil, paginationToken: String? = nil) {
+            self.users = users
+            self.paginationToken = paginationToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessToken = "AccessToken"
+            case users = "Users"
+            case paginationToken = "PaginationToken"
         }
     }
 
-    public enum ExplicitAuthFlowsType: String, CustomStringConvertible, Codable {
-        case adminNoSrpAuth = "ADMIN_NO_SRP_AUTH"
-        case customAuthFlowOnly = "CUSTOM_AUTH_FLOW_ONLY"
-        case userPasswordAuth = "USER_PASSWORD_AUTH"
+    public struct ListUsersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PaginationToken", required: false, type: .string), 
+            AWSShapeMember(label: "AttributesToGet", required: false, type: .list), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "Filter", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
+        ]
+        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+        public let paginationToken: String?
+        /// An array of strings, where each string is the name of a user attribute to be returned for each user in the search results. If the array is null, all attributes are returned.
+        public let attributesToGet: [String]?
+        /// The user pool ID for the user pool on which the search should be performed.
+        public let userPoolId: String
+        /// A filter string of the form "AttributeName Filter-Type "AttributeValue"". Quotation marks within the filter string must be escaped using the backslash (\) character. For example, "family_name = \"Reddy\"".    AttributeName: The name of the attribute to search for. You can only search for one attribute at a time.    Filter-Type: For an exact match, use =, for example, "given_name = \"Jon\"". For a prefix ("starts with") match, use ^=, for example, "given_name ^= \"Jon\"".     AttributeValue: The attribute value that must be matched for each user.   If the filter string is empty, ListUsers returns all users in the user pool. You can only search for the following standard attributes:    username (case-sensitive)    email     phone_number     name     given_name     family_name     preferred_username     cognito:user_status (called Status in the Console) (case-insensitive)    status (called Enabled in the Console) (case-sensitive)     sub    Custom attributes are not searchable. For more information, see Searching for Users Using the ListUsers API and Examples of Using the ListUsers API in the Amazon Cognito Developer Guide.
+        public let filter: String?
+        /// Maximum number of users to be returned.
+        public let limit: Int32?
+
+        public init(paginationToken: String? = nil, attributesToGet: [String]? = nil, userPoolId: String, filter: String? = nil, limit: Int32? = nil) {
+            self.paginationToken = paginationToken
+            self.attributesToGet = attributesToGet
+            self.userPoolId = userPoolId
+            self.filter = filter
+            self.limit = limit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case paginationToken = "PaginationToken"
+            case attributesToGet = "AttributesToGet"
+            case userPoolId = "UserPoolId"
+            case filter = "Filter"
+            case limit = "Limit"
+        }
+    }
+
+    public struct SetUserMFAPreferenceResponse: AWSShape {
+
+    }
+
+    public enum EventResponseType: String, CustomStringConvertible, Codable {
+        case success = "Success"
+        case failure = "Failure"
         public var description: String { return self.rawValue }
     }
 
-    public struct DeleteIdentityProviderRequest: AWSShape {
+    public struct GroupType: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "ProviderName", required: true, type: .string)
+            AWSShapeMember(label: "Precedence", required: false, type: .integer), 
+            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "UserPoolId", required: false, type: .string), 
+            AWSShapeMember(label: "GroupName", required: false, type: .string), 
+            AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
-        /// The user pool ID.
-        public let userPoolId: String
-        /// The identity provider name.
-        public let providerName: String
+        /// A nonnegative integer value that specifies the precedence of this group relative to the other groups that a user can belong to in the user pool. If a user belongs to two or more groups, it is the group with the highest precedence whose role ARN will be used in the cognito:roles and cognito:preferred_role claims in the user's tokens. Groups with higher Precedence values take precedence over groups with lower Precedence values or with null Precedence values. Two groups can have the same Precedence value. If this happens, neither group takes precedence over the other. If two groups with the same Precedence have the same role ARN, that role is used in the cognito:preferred_role claim in tokens for users in each group. If the two groups have different role ARNs, the cognito:preferred_role claim is not set in users' tokens. The default Precedence value is null.
+        public let precedence: Int32?
+        /// The role ARN for the group.
+        public let roleArn: String?
+        /// The user pool ID for the user pool.
+        public let userPoolId: String?
+        /// The name of the group.
+        public let groupName: String?
+        /// The date the group was last modified.
+        public let lastModifiedDate: TimeStamp?
+        /// The date the group was created.
+        public let creationDate: TimeStamp?
+        /// A string containing the description of the group.
+        public let description: String?
 
-        public init(userPoolId: String, providerName: String) {
+        public init(precedence: Int32? = nil, roleArn: String? = nil, userPoolId: String? = nil, groupName: String? = nil, lastModifiedDate: TimeStamp? = nil, creationDate: TimeStamp? = nil, description: String? = nil) {
+            self.precedence = precedence
+            self.roleArn = roleArn
             self.userPoolId = userPoolId
-            self.providerName = providerName
+            self.groupName = groupName
+            self.lastModifiedDate = lastModifiedDate
+            self.creationDate = creationDate
+            self.description = description
         }
 
         private enum CodingKeys: String, CodingKey {
+            case precedence = "Precedence"
+            case roleArn = "RoleArn"
             case userPoolId = "UserPoolId"
-            case providerName = "ProviderName"
+            case groupName = "GroupName"
+            case lastModifiedDate = "LastModifiedDate"
+            case creationDate = "CreationDate"
+            case description = "Description"
         }
     }
 
-    public struct AssociateSoftwareTokenRequest: AWSShape {
+    public struct CreateUserImportJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Session", required: false, type: .string), 
-            AWSShapeMember(label: "AccessToken", required: false, type: .string)
+            AWSShapeMember(label: "JobName", required: true, type: .string), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "CloudWatchLogsRoleArn", required: true, type: .string)
         ]
-        /// The session which should be passed both ways in challenge-response calls to the service. This allows authentication of the user as part of the MFA setup process.
-        public let session: String?
-        /// The access token.
-        public let accessToken: String?
+        /// The job name for the user import job.
+        public let jobName: String
+        /// The user pool ID for the user pool that the users are being imported into.
+        public let userPoolId: String
+        /// The role ARN for the Amazon CloudWatch Logging role for the user import job.
+        public let cloudWatchLogsRoleArn: String
 
-        public init(session: String? = nil, accessToken: String? = nil) {
-            self.session = session
-            self.accessToken = accessToken
+        public init(jobName: String, userPoolId: String, cloudWatchLogsRoleArn: String) {
+            self.jobName = jobName
+            self.userPoolId = userPoolId
+            self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case session = "Session"
-            case accessToken = "AccessToken"
+            case jobName = "JobName"
+            case userPoolId = "UserPoolId"
+            case cloudWatchLogsRoleArn = "CloudWatchLogsRoleArn"
         }
     }
 
-    public struct UpdateDeviceStatusResponse: AWSShape {
+    public struct DeleteUserPoolDomainResponse: AWSShape {
 
+    }
+
+    public struct AnalyticsConfigurationType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserDataShared", required: false, type: .boolean), 
+            AWSShapeMember(label: "ExternalId", required: true, type: .string), 
+            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "ApplicationId", required: true, type: .string)
+        ]
+        /// If UserDataShared is true, Amazon Cognito will include user data in the events it publishes to Amazon Pinpoint analytics.
+        public let userDataShared: Bool?
+        /// The external ID.
+        public let externalId: String
+        /// The ARN of an IAM role that authorizes Amazon Cognito to publish events to Amazon Pinpoint analytics.
+        public let roleArn: String
+        /// The application ID for an Amazon Pinpoint application.
+        public let applicationId: String
+
+        public init(userDataShared: Bool? = nil, externalId: String, roleArn: String, applicationId: String) {
+            self.userDataShared = userDataShared
+            self.externalId = externalId
+            self.roleArn = roleArn
+            self.applicationId = applicationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userDataShared = "UserDataShared"
+            case externalId = "ExternalId"
+            case roleArn = "RoleArn"
+            case applicationId = "ApplicationId"
+        }
     }
 
     public struct NumberAttributeConstraintsType: AWSShape {
@@ -4872,107 +1331,226 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct SignUpRequest: AWSShape {
+    public struct ContextDataType: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserContextData", required: false, type: .structure), 
-            AWSShapeMember(label: "ValidationData", required: false, type: .list), 
-            AWSShapeMember(label: "AnalyticsMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "UserAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "SecretHash", required: false, type: .string), 
-            AWSShapeMember(label: "ClientId", required: true, type: .string), 
-            AWSShapeMember(label: "Password", required: true, type: .string), 
+            AWSShapeMember(label: "ServerName", required: true, type: .string), 
+            AWSShapeMember(label: "HttpHeaders", required: true, type: .list), 
+            AWSShapeMember(label: "IpAddress", required: true, type: .string), 
+            AWSShapeMember(label: "EncodedData", required: false, type: .string), 
+            AWSShapeMember(label: "ServerPath", required: true, type: .string)
+        ]
+        /// Your server endpoint where this API is invoked.
+        public let serverName: String
+        /// HttpHeaders received on your server in same order.
+        public let httpHeaders: [HttpHeader]
+        /// Source IP address of your user.
+        public let ipAddress: String
+        /// Encoded data containing device fingerprinting details, collected using the Amazon Cognito context data collection library.
+        public let encodedData: String?
+        /// Your server path where this API is invoked. 
+        public let serverPath: String
+
+        public init(serverName: String, httpHeaders: [HttpHeader], ipAddress: String, encodedData: String? = nil, serverPath: String) {
+            self.serverName = serverName
+            self.httpHeaders = httpHeaders
+            self.ipAddress = ipAddress
+            self.encodedData = encodedData
+            self.serverPath = serverPath
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverName = "ServerName"
+            case httpHeaders = "HttpHeaders"
+            case ipAddress = "IpAddress"
+            case encodedData = "EncodedData"
+            case serverPath = "ServerPath"
+        }
+    }
+
+    public enum CompromisedCredentialsEventActionType: String, CustomStringConvertible, Codable {
+        case block = "BLOCK"
+        case noAction = "NO_ACTION"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct StartUserImportJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserImportJob", required: false, type: .structure)
+        ]
+        /// The job object that represents the user import job.
+        public let userImportJob: UserImportJobType?
+
+        public init(userImportJob: UserImportJobType? = nil) {
+            self.userImportJob = userImportJob
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userImportJob = "UserImportJob"
+        }
+    }
+
+    public struct AdminDisableProviderForUserRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "User", required: true, type: .structure)
+        ]
+        /// The user pool ID for the user pool.
+        public let userPoolId: String
+        /// The user to be disabled.
+        public let user: ProviderUserIdentifierType
+
+        public init(userPoolId: String, user: ProviderUserIdentifierType) {
+            self.userPoolId = userPoolId
+            self.user = user
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userPoolId = "UserPoolId"
+            case user = "User"
+        }
+    }
+
+    public struct CustomDomainConfigType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of an AWS Certificate Manager SSL certificate. You use this certificate for the subdomain of your custom domain.
+        public let certificateArn: String
+
+        public init(certificateArn: String) {
+            self.certificateArn = certificateArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
+        }
+    }
+
+    public struct DescribeUserPoolDomainResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainDescription", required: false, type: .structure)
+        ]
+        /// A domain description object containing information about the domain.
+        public let domainDescription: DomainDescriptionType?
+
+        public init(domainDescription: DomainDescriptionType? = nil) {
+            self.domainDescription = domainDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainDescription = "DomainDescription"
+        }
+    }
+
+    public struct ListIdentityProvidersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Providers", required: true, type: .list)
+        ]
+        /// A pagination token.
+        public let nextToken: String?
+        /// A list of identity provider objects.
+        public let providers: [ProviderDescription]
+
+        public init(nextToken: String? = nil, providers: [ProviderDescription]) {
+            self.nextToken = nextToken
+            self.providers = providers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case providers = "Providers"
+        }
+    }
+
+    public struct ResourceServerType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "UserPoolId", required: false, type: .string), 
+            AWSShapeMember(label: "Scopes", required: false, type: .list), 
+            AWSShapeMember(label: "Identifier", required: false, type: .string)
+        ]
+        /// The name of the resource server.
+        public let name: String?
+        /// The user pool ID for the user pool that hosts the resource server.
+        public let userPoolId: String?
+        /// A list of scopes that are defined for the resource server.
+        public let scopes: [ResourceServerScopeType]?
+        /// The identifier for the resource server.
+        public let identifier: String?
+
+        public init(name: String? = nil, userPoolId: String? = nil, scopes: [ResourceServerScopeType]? = nil, identifier: String? = nil) {
+            self.name = name
+            self.userPoolId = userPoolId
+            self.scopes = scopes
+            self.identifier = identifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case userPoolId = "UserPoolId"
+            case scopes = "Scopes"
+            case identifier = "Identifier"
+        }
+    }
+
+    public enum AliasAttributeType: String, CustomStringConvertible, Codable {
+        case phoneNumber = "phone_number"
+        case email = "email"
+        case preferredUsername = "preferred_username"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct AdminDeleteUserRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
             AWSShapeMember(label: "Username", required: true, type: .string)
         ]
-        /// Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
-        public let userContextData: UserContextDataType?
-        /// The validation data in the request to register a user.
-        public let validationData: [AttributeType]?
-        /// The Amazon Pinpoint analytics metadata for collecting metrics for SignUp calls.
-        public let analyticsMetadata: AnalyticsMetadataType?
-        /// An array of name-value pairs representing user attributes. For custom attributes, you must prepend the custom: prefix to the attribute name.
-        public let userAttributes: [AttributeType]?
-        /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message.
-        public let secretHash: String?
-        /// The ID of the client associated with the user pool.
-        public let clientId: String
-        /// The password of the user you wish to register.
-        public let password: String
-        /// The user name of the user you wish to register.
+        /// The user pool ID for the user pool where you want to delete the user.
+        public let userPoolId: String
+        /// The user name of the user you wish to delete.
         public let username: String
 
-        public init(userContextData: UserContextDataType? = nil, validationData: [AttributeType]? = nil, analyticsMetadata: AnalyticsMetadataType? = nil, userAttributes: [AttributeType]? = nil, secretHash: String? = nil, clientId: String, password: String, username: String) {
-            self.userContextData = userContextData
-            self.validationData = validationData
-            self.analyticsMetadata = analyticsMetadata
-            self.userAttributes = userAttributes
-            self.secretHash = secretHash
-            self.clientId = clientId
-            self.password = password
+        public init(userPoolId: String, username: String) {
+            self.userPoolId = userPoolId
             self.username = username
         }
 
         private enum CodingKeys: String, CodingKey {
-            case userContextData = "UserContextData"
-            case validationData = "ValidationData"
-            case analyticsMetadata = "AnalyticsMetadata"
-            case userAttributes = "UserAttributes"
-            case secretHash = "SecretHash"
-            case clientId = "ClientId"
-            case password = "Password"
+            case userPoolId = "UserPoolId"
             case username = "Username"
         }
     }
 
-    public enum DeliveryMediumType: String, CustomStringConvertible, Codable {
-        case sms = "SMS"
-        case email = "EMAIL"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct UserPoolPolicyType: AWSShape {
+    public struct AdminListGroupsForUserRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PasswordPolicy", required: false, type: .structure)
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "Username", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The password policy.
-        public let passwordPolicy: PasswordPolicyType?
+        /// The limit of the request to list groups.
+        public let limit: Int32?
+        /// The user pool ID for the user pool.
+        public let userPoolId: String
+        /// The username for the user.
+        public let username: String
+        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+        public let nextToken: String?
 
-        public init(passwordPolicy: PasswordPolicyType? = nil) {
-            self.passwordPolicy = passwordPolicy
+        public init(limit: Int32? = nil, userPoolId: String, username: String, nextToken: String? = nil) {
+            self.limit = limit
+            self.userPoolId = userPoolId
+            self.username = username
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case passwordPolicy = "PasswordPolicy"
+            case limit = "Limit"
+            case userPoolId = "UserPoolId"
+            case username = "Username"
+            case nextToken = "NextToken"
         }
-    }
-
-    public struct NewDeviceMetadataType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceGroupKey", required: false, type: .string), 
-            AWSShapeMember(label: "DeviceKey", required: false, type: .string)
-        ]
-        /// The device group key.
-        public let deviceGroupKey: String?
-        /// The device key.
-        public let deviceKey: String?
-
-        public init(deviceGroupKey: String? = nil, deviceKey: String? = nil) {
-            self.deviceGroupKey = deviceGroupKey
-            self.deviceKey = deviceKey
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deviceGroupKey = "DeviceGroupKey"
-            case deviceKey = "DeviceKey"
-        }
-    }
-
-    public enum DomainStatusType: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case deleting = "DELETING"
-        case updating = "UPDATING"
-        case active = "ACTIVE"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateUserPoolResponse: AWSShape {
@@ -4991,252 +1569,1018 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AdminGetDeviceResponse: AWSShape {
+    public struct UpdateAuthEventFeedbackRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Device", required: true, type: .structure)
+            AWSShapeMember(label: "FeedbackToken", required: true, type: .string), 
+            AWSShapeMember(label: "FeedbackValue", required: true, type: .enum), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "EventId", required: true, type: .string), 
+            AWSShapeMember(label: "Username", required: true, type: .string)
         ]
-        /// The device.
-        public let device: DeviceType
+        /// The feedback token.
+        public let feedbackToken: String
+        /// The authentication event feedback value.
+        public let feedbackValue: FeedbackValueType
+        /// The user pool ID.
+        public let userPoolId: String
+        /// The event ID.
+        public let eventId: String
+        /// The user pool username.
+        public let username: String
 
-        public init(device: DeviceType) {
-            self.device = device
+        public init(feedbackToken: String, feedbackValue: FeedbackValueType, userPoolId: String, eventId: String, username: String) {
+            self.feedbackToken = feedbackToken
+            self.feedbackValue = feedbackValue
+            self.userPoolId = userPoolId
+            self.eventId = eventId
+            self.username = username
         }
 
         private enum CodingKeys: String, CodingKey {
-            case device = "Device"
+            case feedbackToken = "FeedbackToken"
+            case feedbackValue = "FeedbackValue"
+            case userPoolId = "UserPoolId"
+            case eventId = "EventId"
+            case username = "Username"
         }
     }
 
-    public struct UserPoolAddOnsType: AWSShape {
+    public struct DescribeIdentityProviderRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdvancedSecurityMode", required: true, type: .enum)
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "ProviderName", required: true, type: .string)
         ]
-        /// The advanced security mode.
-        public let advancedSecurityMode: AdvancedSecurityModeType
+        /// The user pool ID.
+        public let userPoolId: String
+        /// The identity provider name.
+        public let providerName: String
 
-        public init(advancedSecurityMode: AdvancedSecurityModeType) {
-            self.advancedSecurityMode = advancedSecurityMode
+        public init(userPoolId: String, providerName: String) {
+            self.userPoolId = userPoolId
+            self.providerName = providerName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case advancedSecurityMode = "AdvancedSecurityMode"
+            case userPoolId = "UserPoolId"
+            case providerName = "ProviderName"
         }
     }
 
-    public struct UpdateUserAttributesRequest: AWSShape {
+    public struct AdminUserGlobalSignOutResponse: AWSShape {
+
+    }
+
+    public enum VerifySoftwareTokenResponseType: String, CustomStringConvertible, Codable {
+        case success = "SUCCESS"
+        case error = "ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct AdminSetUserSettingsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "Username", required: true, type: .string), 
+            AWSShapeMember(label: "MFAOptions", required: true, type: .list)
+        ]
+        /// The user pool ID for the user pool where you want to set the user's settings, such as MFA options.
+        public let userPoolId: String
+        /// The user name of the user for whom you wish to set user settings.
+        public let username: String
+        /// Specifies the options for MFA (e.g., email or phone number).
+        public let mFAOptions: [MFAOptionType]
+
+        public init(userPoolId: String, username: String, mFAOptions: [MFAOptionType]) {
+            self.userPoolId = userPoolId
+            self.username = username
+            self.mFAOptions = mFAOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userPoolId = "UserPoolId"
+            case username = "Username"
+            case mFAOptions = "MFAOptions"
+        }
+    }
+
+    public struct UpdateIdentityProviderRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProviderDetails", required: false, type: .map), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "IdpIdentifiers", required: false, type: .list), 
+            AWSShapeMember(label: "AttributeMapping", required: false, type: .map), 
+            AWSShapeMember(label: "ProviderName", required: true, type: .string)
+        ]
+        /// The identity provider details to be updated, such as MetadataURL and MetadataFile.
+        public let providerDetails: [String: String]?
+        /// The user pool ID.
+        public let userPoolId: String
+        /// A list of identity provider identifiers.
+        public let idpIdentifiers: [String]?
+        /// The identity provider attribute mapping to be changed.
+        public let attributeMapping: [String: String]?
+        /// The identity provider name.
+        public let providerName: String
+
+        public init(providerDetails: [String: String]? = nil, userPoolId: String, idpIdentifiers: [String]? = nil, attributeMapping: [String: String]? = nil, providerName: String) {
+            self.providerDetails = providerDetails
+            self.userPoolId = userPoolId
+            self.idpIdentifiers = idpIdentifiers
+            self.attributeMapping = attributeMapping
+            self.providerName = providerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case providerDetails = "ProviderDetails"
+            case userPoolId = "UserPoolId"
+            case idpIdentifiers = "IdpIdentifiers"
+            case attributeMapping = "AttributeMapping"
+            case providerName = "ProviderName"
+        }
+    }
+
+    public struct ListUserPoolClientsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserPoolClients", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The user pool clients in the response that lists user pool clients.
+        public let userPoolClients: [UserPoolClientDescription]?
+        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+        public let nextToken: String?
+
+        public init(userPoolClients: [UserPoolClientDescription]? = nil, nextToken: String? = nil) {
+            self.userPoolClients = userPoolClients
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userPoolClients = "UserPoolClients"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct AdminUpdateUserAttributesResponse: AWSShape {
+
+    }
+
+    public struct AccountTakeoverActionsType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MediumAction", required: false, type: .structure), 
+            AWSShapeMember(label: "LowAction", required: false, type: .structure), 
+            AWSShapeMember(label: "HighAction", required: false, type: .structure)
+        ]
+        /// Action to take for a medium risk.
+        public let mediumAction: AccountTakeoverActionType?
+        /// Action to take for a low risk.
+        public let lowAction: AccountTakeoverActionType?
+        /// Action to take for a high risk.
+        public let highAction: AccountTakeoverActionType?
+
+        public init(mediumAction: AccountTakeoverActionType? = nil, lowAction: AccountTakeoverActionType? = nil, highAction: AccountTakeoverActionType? = nil) {
+            self.mediumAction = mediumAction
+            self.lowAction = lowAction
+            self.highAction = highAction
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mediumAction = "MediumAction"
+            case lowAction = "LowAction"
+            case highAction = "HighAction"
+        }
+    }
+
+    public struct AdminListUserAuthEventsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "Username", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The maximum number of authentication events to return.
+        public let maxResults: Int32?
+        /// The user pool ID.
+        public let userPoolId: String
+        /// The user pool username or an alias.
+        public let username: String
+        /// A pagination token.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, userPoolId: String, username: String, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.userPoolId = userPoolId
+            self.username = username
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case userPoolId = "UserPoolId"
+            case username = "Username"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct UserImportJobType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ImportedUsers", required: false, type: .long), 
+            AWSShapeMember(label: "CloudWatchLogsRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "PreSignedUrl", required: false, type: .string), 
+            AWSShapeMember(label: "SkippedUsers", required: false, type: .long), 
+            AWSShapeMember(label: "CompletionMessage", required: false, type: .string), 
+            AWSShapeMember(label: "JobId", required: false, type: .string), 
+            AWSShapeMember(label: "JobName", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "CompletionDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "FailedUsers", required: false, type: .long), 
+            AWSShapeMember(label: "UserPoolId", required: false, type: .string), 
+            AWSShapeMember(label: "StartDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp)
+        ]
+        /// The number of users that were successfully imported.
+        public let importedUsers: Int64?
+        /// The role ARN for the Amazon CloudWatch Logging role for the user import job. For more information, see "Creating the CloudWatch Logs IAM Role" in the Amazon Cognito Developer Guide.
+        public let cloudWatchLogsRoleArn: String?
+        /// The pre-signed URL to be used to upload the .csv file.
+        public let preSignedUrl: String?
+        /// The number of users that were skipped.
+        public let skippedUsers: Int64?
+        /// The message returned when the user import job is completed.
+        public let completionMessage: String?
+        /// The job ID for the user import job.
+        public let jobId: String?
+        /// The job name for the user import job.
+        public let jobName: String?
+        /// The status of the user import job. One of the following:    Created - The job was created but not started.    Pending - A transition state. You have started the job, but it has not begun importing users yet.    InProgress - The job has started, and users are being imported.    Stopping - You have stopped the job, but the job has not stopped importing users yet.    Stopped - You have stopped the job, and the job has stopped importing users.    Succeeded - The job has completed successfully.    Failed - The job has stopped due to an error.    Expired - You created a job, but did not start the job within 24-48 hours. All data associated with the job was deleted, and the job cannot be started.  
+        public let status: UserImportJobStatusType?
+        /// The date when the user import job was completed.
+        public let completionDate: TimeStamp?
+        /// The number of users that could not be imported.
+        public let failedUsers: Int64?
+        /// The user pool ID for the user pool that the users are being imported into.
+        public let userPoolId: String?
+        /// The date when the user import job was started.
+        public let startDate: TimeStamp?
+        /// The date the user import job was created.
+        public let creationDate: TimeStamp?
+
+        public init(importedUsers: Int64? = nil, cloudWatchLogsRoleArn: String? = nil, preSignedUrl: String? = nil, skippedUsers: Int64? = nil, completionMessage: String? = nil, jobId: String? = nil, jobName: String? = nil, status: UserImportJobStatusType? = nil, completionDate: TimeStamp? = nil, failedUsers: Int64? = nil, userPoolId: String? = nil, startDate: TimeStamp? = nil, creationDate: TimeStamp? = nil) {
+            self.importedUsers = importedUsers
+            self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
+            self.preSignedUrl = preSignedUrl
+            self.skippedUsers = skippedUsers
+            self.completionMessage = completionMessage
+            self.jobId = jobId
+            self.jobName = jobName
+            self.status = status
+            self.completionDate = completionDate
+            self.failedUsers = failedUsers
+            self.userPoolId = userPoolId
+            self.startDate = startDate
+            self.creationDate = creationDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case importedUsers = "ImportedUsers"
+            case cloudWatchLogsRoleArn = "CloudWatchLogsRoleArn"
+            case preSignedUrl = "PreSignedUrl"
+            case skippedUsers = "SkippedUsers"
+            case completionMessage = "CompletionMessage"
+            case jobId = "JobId"
+            case jobName = "JobName"
+            case status = "Status"
+            case completionDate = "CompletionDate"
+            case failedUsers = "FailedUsers"
+            case userPoolId = "UserPoolId"
+            case startDate = "StartDate"
+            case creationDate = "CreationDate"
+        }
+    }
+
+    public struct AuthenticationResultType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TokenType", required: false, type: .string), 
+            AWSShapeMember(label: "IdToken", required: false, type: .string), 
+            AWSShapeMember(label: "RefreshToken", required: false, type: .string), 
+            AWSShapeMember(label: "ExpiresIn", required: false, type: .integer), 
+            AWSShapeMember(label: "NewDeviceMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "AccessToken", required: false, type: .string)
+        ]
+        /// The token type.
+        public let tokenType: String?
+        /// The ID token.
+        public let idToken: String?
+        /// The refresh token.
+        public let refreshToken: String?
+        /// The expiration period of the authentication result in seconds.
+        public let expiresIn: Int32?
+        /// The new device metadata from an authentication result.
+        public let newDeviceMetadata: NewDeviceMetadataType?
+        /// The access token.
+        public let accessToken: String?
+
+        public init(tokenType: String? = nil, idToken: String? = nil, refreshToken: String? = nil, expiresIn: Int32? = nil, newDeviceMetadata: NewDeviceMetadataType? = nil, accessToken: String? = nil) {
+            self.tokenType = tokenType
+            self.idToken = idToken
+            self.refreshToken = refreshToken
+            self.expiresIn = expiresIn
+            self.newDeviceMetadata = newDeviceMetadata
+            self.accessToken = accessToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tokenType = "TokenType"
+            case idToken = "IdToken"
+            case refreshToken = "RefreshToken"
+            case expiresIn = "ExpiresIn"
+            case newDeviceMetadata = "NewDeviceMetadata"
+            case accessToken = "AccessToken"
+        }
+    }
+
+    public struct UpdateDeviceStatusResponse: AWSShape {
+
+    }
+
+    public struct SetUserSettingsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccessToken", required: true, type: .string), 
-            AWSShapeMember(label: "UserAttributes", required: true, type: .list)
+            AWSShapeMember(label: "MFAOptions", required: true, type: .list)
         ]
-        /// The access token for the request to update user attributes.
+        /// The access token for the set user settings request.
         public let accessToken: String
-        /// An array of name-value pairs representing user attributes. For custom attributes, you must prepend the custom: prefix to the attribute name.
-        public let userAttributes: [AttributeType]
+        /// Specifies the options for MFA (e.g., email or phone number).
+        public let mFAOptions: [MFAOptionType]
 
-        public init(accessToken: String, userAttributes: [AttributeType]) {
+        public init(accessToken: String, mFAOptions: [MFAOptionType]) {
             self.accessToken = accessToken
-            self.userAttributes = userAttributes
+            self.mFAOptions = mFAOptions
         }
 
         private enum CodingKeys: String, CodingKey {
             case accessToken = "AccessToken"
-            case userAttributes = "UserAttributes"
+            case mFAOptions = "MFAOptions"
         }
     }
 
-    public struct SchemaAttributeType: AWSShape {
+    public struct UpdateResourceServerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Mutable", required: false, type: .boolean), 
-            AWSShapeMember(label: "DeveloperOnlyAttribute", required: false, type: .boolean), 
-            AWSShapeMember(label: "AttributeDataType", required: false, type: .enum), 
-            AWSShapeMember(label: "NumberAttributeConstraints", required: false, type: .structure), 
-            AWSShapeMember(label: "StringAttributeConstraints", required: false, type: .structure), 
-            AWSShapeMember(label: "Required", required: false, type: .boolean)
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "Scopes", required: false, type: .list), 
+            AWSShapeMember(label: "Identifier", required: true, type: .string)
         ]
-        /// A schema attribute of the name type.
-        public let name: String?
-        /// Specifies whether the value of the attribute can be changed.
-        public let mutable: Bool?
-        /// Specifies whether the attribute type is developer only.
-        public let developerOnlyAttribute: Bool?
-        /// The attribute data type.
-        public let attributeDataType: AttributeDataType?
-        /// Specifies the constraints for an attribute of the number type.
-        public let numberAttributeConstraints: NumberAttributeConstraintsType?
-        /// Specifies the constraints for an attribute of the string type.
-        public let stringAttributeConstraints: StringAttributeConstraintsType?
-        /// Specifies whether a user pool attribute is required. If the attribute is required and the user does not provide a value, registration or sign-in will fail.
-        public let required: Bool?
+        /// The name of the resource server.
+        public let name: String
+        /// The user pool ID for the user pool.
+        public let userPoolId: String
+        /// The scope values to be set for the resource server.
+        public let scopes: [ResourceServerScopeType]?
+        /// The identifier for the resource server.
+        public let identifier: String
 
-        public init(name: String? = nil, mutable: Bool? = nil, developerOnlyAttribute: Bool? = nil, attributeDataType: AttributeDataType? = nil, numberAttributeConstraints: NumberAttributeConstraintsType? = nil, stringAttributeConstraints: StringAttributeConstraintsType? = nil, required: Bool? = nil) {
+        public init(name: String, userPoolId: String, scopes: [ResourceServerScopeType]? = nil, identifier: String) {
             self.name = name
-            self.mutable = mutable
-            self.developerOnlyAttribute = developerOnlyAttribute
-            self.attributeDataType = attributeDataType
-            self.numberAttributeConstraints = numberAttributeConstraints
-            self.stringAttributeConstraints = stringAttributeConstraints
-            self.required = required
+            self.userPoolId = userPoolId
+            self.scopes = scopes
+            self.identifier = identifier
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
-            case mutable = "Mutable"
-            case developerOnlyAttribute = "DeveloperOnlyAttribute"
-            case attributeDataType = "AttributeDataType"
-            case numberAttributeConstraints = "NumberAttributeConstraints"
-            case stringAttributeConstraints = "StringAttributeConstraints"
-            case required = "Required"
+            case userPoolId = "UserPoolId"
+            case scopes = "Scopes"
+            case identifier = "Identifier"
         }
     }
 
-    public struct AdminDisableProviderForUserResponse: AWSShape {
+    public struct CreateResourceServerResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceServer", required: true, type: .structure)
+        ]
+        /// The newly created resource server.
+        public let resourceServer: ResourceServerType
 
+        public init(resourceServer: ResourceServerType) {
+            self.resourceServer = resourceServer
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceServer = "ResourceServer"
+        }
+    }
+
+    public struct ChallengeResponseType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChallengeName", required: false, type: .enum), 
+            AWSShapeMember(label: "ChallengeResponse", required: false, type: .enum)
+        ]
+        /// The challenge name
+        public let challengeName: ChallengeName?
+        /// The challenge response.
+        public let challengeResponse: ChallengeResponse?
+
+        public init(challengeName: ChallengeName? = nil, challengeResponse: ChallengeResponse? = nil) {
+            self.challengeName = challengeName
+            self.challengeResponse = challengeResponse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case challengeName = "ChallengeName"
+            case challengeResponse = "ChallengeResponse"
+        }
+    }
+
+    public enum VerifiedAttributeType: String, CustomStringConvertible, Codable {
+        case phoneNumber = "phone_number"
+        case email = "email"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct InitiateAuthRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserContextData", required: false, type: .structure), 
+            AWSShapeMember(label: "AuthParameters", required: false, type: .map), 
+            AWSShapeMember(label: "ClientMetadata", required: false, type: .map), 
+            AWSShapeMember(label: "AnalyticsMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "AuthFlow", required: true, type: .enum), 
+            AWSShapeMember(label: "ClientId", required: true, type: .string)
+        ]
+        /// Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
+        public let userContextData: UserContextDataType?
+        /// The authentication parameters. These are inputs corresponding to the AuthFlow that you are invoking. The required values depend on the value of AuthFlow:   For USER_SRP_AUTH: USERNAME (required), SRP_A (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY    For REFRESH_TOKEN_AUTH/REFRESH_TOKEN: REFRESH_TOKEN (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY    For CUSTOM_AUTH: USERNAME (required), SECRET_HASH (if app client is configured with client secret), DEVICE_KEY   
+        public let authParameters: [String: String]?
+        /// This is a random key-value pair map which can contain any key and will be passed to your PreAuthentication Lambda trigger as-is. It can be used to implement additional validations around authentication.
+        public let clientMetadata: [String: String]?
+        /// The Amazon Pinpoint analytics metadata for collecting metrics for InitiateAuth calls.
+        public let analyticsMetadata: AnalyticsMetadataType?
+        /// The authentication flow for this call to execute. The API action will depend on this value. For example:     REFRESH_TOKEN_AUTH will take in a valid refresh token and return new tokens.    USER_SRP_AUTH will take in USERNAME and SRP_A and return the SRP variables to be used for next challenge execution.    USER_PASSWORD_AUTH will take in USERNAME and PASSWORD and return the next challenge or tokens.   Valid values include:    USER_SRP_AUTH: Authentication flow for the Secure Remote Password (SRP) protocol.    REFRESH_TOKEN_AUTH/REFRESH_TOKEN: Authentication flow for refreshing the access token and ID token by supplying a valid refresh token.    CUSTOM_AUTH: Custom authentication flow.    USER_PASSWORD_AUTH: Non-SRP authentication flow; USERNAME and PASSWORD are passed directly. If a user migration Lambda trigger is set, this flow will invoke the user migration Lambda if the USERNAME is not found in the user pool.     ADMIN_NO_SRP_AUTH is not a valid value.
+        public let authFlow: AuthFlowType
+        /// The app client ID.
+        public let clientId: String
+
+        public init(userContextData: UserContextDataType? = nil, authParameters: [String: String]? = nil, clientMetadata: [String: String]? = nil, analyticsMetadata: AnalyticsMetadataType? = nil, authFlow: AuthFlowType, clientId: String) {
+            self.userContextData = userContextData
+            self.authParameters = authParameters
+            self.clientMetadata = clientMetadata
+            self.analyticsMetadata = analyticsMetadata
+            self.authFlow = authFlow
+            self.clientId = clientId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userContextData = "UserContextData"
+            case authParameters = "AuthParameters"
+            case clientMetadata = "ClientMetadata"
+            case analyticsMetadata = "AnalyticsMetadata"
+            case authFlow = "AuthFlow"
+            case clientId = "ClientId"
+        }
+    }
+
+    public struct AdminSetUserMFAPreferenceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SoftwareTokenMfaSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "Username", required: true, type: .string), 
+            AWSShapeMember(label: "SMSMfaSettings", required: false, type: .structure)
+        ]
+        /// The time-based one-time password software token MFA settings.
+        public let softwareTokenMfaSettings: SoftwareTokenMfaSettingsType?
+        /// The user pool ID.
+        public let userPoolId: String
+        /// The user pool username or alias.
+        public let username: String
+        /// The SMS text message MFA settings.
+        public let sMSMfaSettings: SMSMfaSettingsType?
+
+        public init(softwareTokenMfaSettings: SoftwareTokenMfaSettingsType? = nil, userPoolId: String, username: String, sMSMfaSettings: SMSMfaSettingsType? = nil) {
+            self.softwareTokenMfaSettings = softwareTokenMfaSettings
+            self.userPoolId = userPoolId
+            self.username = username
+            self.sMSMfaSettings = sMSMfaSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case softwareTokenMfaSettings = "SoftwareTokenMfaSettings"
+            case userPoolId = "UserPoolId"
+            case username = "Username"
+            case sMSMfaSettings = "SMSMfaSettings"
+        }
+    }
+
+    public struct AdminSetUserSettingsResponse: AWSShape {
+
+    }
+
+    public struct VerifySoftwareTokenRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserCode", required: true, type: .string), 
+            AWSShapeMember(label: "AccessToken", required: false, type: .string), 
+            AWSShapeMember(label: "Session", required: false, type: .string), 
+            AWSShapeMember(label: "FriendlyDeviceName", required: false, type: .string)
+        ]
+        /// The one time password computed using the secret code returned by 
+        public let userCode: String
+        /// The access token.
+        public let accessToken: String?
+        /// The session which should be passed both ways in challenge-response calls to the service.
+        public let session: String?
+        /// The friendly device name.
+        public let friendlyDeviceName: String?
+
+        public init(userCode: String, accessToken: String? = nil, session: String? = nil, friendlyDeviceName: String? = nil) {
+            self.userCode = userCode
+            self.accessToken = accessToken
+            self.session = session
+            self.friendlyDeviceName = friendlyDeviceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userCode = "UserCode"
+            case accessToken = "AccessToken"
+            case session = "Session"
+            case friendlyDeviceName = "FriendlyDeviceName"
+        }
+    }
+
+    public struct CreateIdentityProviderRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProviderType", required: true, type: .enum), 
+            AWSShapeMember(label: "ProviderDetails", required: true, type: .map), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "IdpIdentifiers", required: false, type: .list), 
+            AWSShapeMember(label: "AttributeMapping", required: false, type: .map), 
+            AWSShapeMember(label: "ProviderName", required: true, type: .string)
+        ]
+        /// The identity provider type.
+        public let providerType: IdentityProviderTypeType
+        /// The identity provider details, such as MetadataURL and MetadataFile.
+        public let providerDetails: [String: String]
+        /// The user pool ID.
+        public let userPoolId: String
+        /// A list of identity provider identifiers.
+        public let idpIdentifiers: [String]?
+        /// A mapping of identity provider attributes to standard and custom user pool attributes.
+        public let attributeMapping: [String: String]?
+        /// The identity provider name.
+        public let providerName: String
+
+        public init(providerType: IdentityProviderTypeType, providerDetails: [String: String], userPoolId: String, idpIdentifiers: [String]? = nil, attributeMapping: [String: String]? = nil, providerName: String) {
+            self.providerType = providerType
+            self.providerDetails = providerDetails
+            self.userPoolId = userPoolId
+            self.idpIdentifiers = idpIdentifiers
+            self.attributeMapping = attributeMapping
+            self.providerName = providerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case providerType = "ProviderType"
+            case providerDetails = "ProviderDetails"
+            case userPoolId = "UserPoolId"
+            case idpIdentifiers = "IdpIdentifiers"
+            case attributeMapping = "AttributeMapping"
+            case providerName = "ProviderName"
+        }
+    }
+
+    public struct AssociateSoftwareTokenRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessToken", required: false, type: .string), 
+            AWSShapeMember(label: "Session", required: false, type: .string)
+        ]
+        /// The access token.
+        public let accessToken: String?
+        /// The session which should be passed both ways in challenge-response calls to the service. This allows authentication of the user as part of the MFA setup process.
+        public let session: String?
+
+        public init(accessToken: String? = nil, session: String? = nil) {
+            self.accessToken = accessToken
+            self.session = session
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessToken = "AccessToken"
+            case session = "Session"
+        }
+    }
+
+    public struct AdminRemoveUserFromGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupName", required: true, type: .string), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "Username", required: true, type: .string)
+        ]
+        /// The group name.
+        public let groupName: String
+        /// The user pool ID for the user pool.
+        public let userPoolId: String
+        /// The username for the user.
+        public let username: String
+
+        public init(groupName: String, userPoolId: String, username: String) {
+            self.groupName = groupName
+            self.userPoolId = userPoolId
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupName = "GroupName"
+            case userPoolId = "UserPoolId"
+            case username = "Username"
+        }
+    }
+
+    public enum DefaultEmailOptionType: String, CustomStringConvertible, Codable {
+        case confirmWithLink = "CONFIRM_WITH_LINK"
+        case confirmWithCode = "CONFIRM_WITH_CODE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListIdentityProvidersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The maximum number of identity providers to return.
+        public let maxResults: Int32?
+        /// The user pool ID.
+        public let userPoolId: String
+        /// A pagination token.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, userPoolId: String, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.userPoolId = userPoolId
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case userPoolId = "UserPoolId"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct AdminUpdateAuthEventFeedbackRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FeedbackValue", required: true, type: .enum), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "EventId", required: true, type: .string), 
+            AWSShapeMember(label: "Username", required: true, type: .string)
+        ]
+        /// The authentication event feedback value.
+        public let feedbackValue: FeedbackValueType
+        /// The user pool ID.
+        public let userPoolId: String
+        /// The authentication event ID.
+        public let eventId: String
+        /// The user pool username.
+        public let username: String
+
+        public init(feedbackValue: FeedbackValueType, userPoolId: String, eventId: String, username: String) {
+            self.feedbackValue = feedbackValue
+            self.userPoolId = userPoolId
+            self.eventId = eventId
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case feedbackValue = "FeedbackValue"
+            case userPoolId = "UserPoolId"
+            case eventId = "EventId"
+            case username = "Username"
+        }
+    }
+
+    public enum UserImportJobStatusType: String, CustomStringConvertible, Codable {
+        case created = "Created"
+        case pending = "Pending"
+        case inprogress = "InProgress"
+        case stopping = "Stopping"
+        case expired = "Expired"
+        case stopped = "Stopped"
+        case failed = "Failed"
+        case succeeded = "Succeeded"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListUserPoolsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: true, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The maximum number of results you want the request to return when listing the user pools.
+        public let maxResults: Int32
+        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+        public let nextToken: String?
+
+        public init(maxResults: Int32, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct AdminDisableUserResponse: AWSShape {
+
+    }
+
+    public struct GetIdentityProviderByIdentifierRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdpIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
+        ]
+        /// The identity provider ID.
+        public let idpIdentifier: String
+        /// The user pool ID.
+        public let userPoolId: String
+
+        public init(idpIdentifier: String, userPoolId: String) {
+            self.idpIdentifier = idpIdentifier
+            self.userPoolId = userPoolId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idpIdentifier = "IdpIdentifier"
+            case userPoolId = "UserPoolId"
+        }
     }
 
     public struct UpdateUserPoolClientRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllowedOAuthScopes", required: false, type: .list), 
-            AWSShapeMember(label: "AnalyticsConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "RefreshTokenValidity", required: false, type: .integer), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "WriteAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "ClientId", required: true, type: .string), 
-            AWSShapeMember(label: "AllowedOAuthFlowsUserPoolClient", required: false, type: .boolean), 
             AWSShapeMember(label: "ExplicitAuthFlows", required: false, type: .list), 
-            AWSShapeMember(label: "DefaultRedirectURI", required: false, type: .string), 
-            AWSShapeMember(label: "LogoutURLs", required: false, type: .list), 
+            AWSShapeMember(label: "AllowedOAuthScopes", required: false, type: .list), 
             AWSShapeMember(label: "SupportedIdentityProviders", required: false, type: .list), 
+            AWSShapeMember(label: "DefaultRedirectURI", required: false, type: .string), 
             AWSShapeMember(label: "AllowedOAuthFlows", required: false, type: .list), 
             AWSShapeMember(label: "ClientName", required: false, type: .string), 
+            AWSShapeMember(label: "ClientId", required: true, type: .string), 
+            AWSShapeMember(label: "AnalyticsConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "AllowedOAuthFlowsUserPoolClient", required: false, type: .boolean), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "LogoutURLs", required: false, type: .list), 
+            AWSShapeMember(label: "RefreshTokenValidity", required: false, type: .integer), 
+            AWSShapeMember(label: "WriteAttributes", required: false, type: .list), 
             AWSShapeMember(label: "ReadAttributes", required: false, type: .list), 
             AWSShapeMember(label: "CallbackURLs", required: false, type: .list)
         ]
-        /// A list of allowed OAuth scopes. Currently supported values are "phone", "email", "openid", and "Cognito".
-        public let allowedOAuthScopes: [String]?
-        /// The Amazon Pinpoint analytics configuration for collecting metrics for this user pool.
-        public let analyticsConfiguration: AnalyticsConfigurationType?
-        /// The time limit, in days, after which the refresh token is no longer valid and cannot be used.
-        public let refreshTokenValidity: Int32?
-        /// The user pool ID for the user pool where you want to update the user pool client.
-        public let userPoolId: String
-        /// The writeable attributes of the user pool.
-        public let writeAttributes: [String]?
-        /// The ID of the client associated with the user pool.
-        public let clientId: String
-        /// Set to TRUE if the client is allowed to follow the OAuth protocol when interacting with Cognito user pools.
-        public let allowedOAuthFlowsUserPoolClient: Bool?
         /// Explicit authentication flows.
         public let explicitAuthFlows: [ExplicitAuthFlowsType]?
-        /// The default redirect URI. Must be in the CallbackURLs list. A redirect URI must:   Be an absolute URI.   Be registered with the authorization server.   Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint. Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes only. App callback URLs such as myapp://example are also supported.
-        public let defaultRedirectURI: String?
-        /// A list of allowed logout URLs for the identity providers.
-        public let logoutURLs: [String]?
+        /// A list of allowed OAuth scopes. Currently supported values are "phone", "email", "openid", and "Cognito".
+        public let allowedOAuthScopes: [String]?
         /// A list of provider names for the identity providers that are supported on this client.
         public let supportedIdentityProviders: [String]?
+        /// The default redirect URI. Must be in the CallbackURLs list. A redirect URI must:   Be an absolute URI.   Be registered with the authorization server.   Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint. Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes only. App callback URLs such as myapp://example are also supported.
+        public let defaultRedirectURI: String?
         /// Set to code to initiate a code grant flow, which provides an authorization code as the response. This code can be exchanged for access tokens with the token endpoint. Set to token to specify that the client should get the access token (and, optionally, ID token, based on scopes) directly.
         public let allowedOAuthFlows: [OAuthFlowType]?
         /// The client name from the update user pool client request.
         public let clientName: String?
+        /// The ID of the client associated with the user pool.
+        public let clientId: String
+        /// The Amazon Pinpoint analytics configuration for collecting metrics for this user pool.
+        public let analyticsConfiguration: AnalyticsConfigurationType?
+        /// Set to TRUE if the client is allowed to follow the OAuth protocol when interacting with Cognito user pools.
+        public let allowedOAuthFlowsUserPoolClient: Bool?
+        /// The user pool ID for the user pool where you want to update the user pool client.
+        public let userPoolId: String
+        /// A list of allowed logout URLs for the identity providers.
+        public let logoutURLs: [String]?
+        /// The time limit, in days, after which the refresh token is no longer valid and cannot be used.
+        public let refreshTokenValidity: Int32?
+        /// The writeable attributes of the user pool.
+        public let writeAttributes: [String]?
         /// The read-only attributes of the user pool.
         public let readAttributes: [String]?
         /// A list of allowed redirect (callback) URLs for the identity providers. A redirect URI must:   Be an absolute URI.   Be registered with the authorization server.   Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint. Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes only. App callback URLs such as myapp://example are also supported.
         public let callbackURLs: [String]?
 
-        public init(allowedOAuthScopes: [String]? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, refreshTokenValidity: Int32? = nil, userPoolId: String, writeAttributes: [String]? = nil, clientId: String, allowedOAuthFlowsUserPoolClient: Bool? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, defaultRedirectURI: String? = nil, logoutURLs: [String]? = nil, supportedIdentityProviders: [String]? = nil, allowedOAuthFlows: [OAuthFlowType]? = nil, clientName: String? = nil, readAttributes: [String]? = nil, callbackURLs: [String]? = nil) {
-            self.allowedOAuthScopes = allowedOAuthScopes
-            self.analyticsConfiguration = analyticsConfiguration
-            self.refreshTokenValidity = refreshTokenValidity
-            self.userPoolId = userPoolId
-            self.writeAttributes = writeAttributes
-            self.clientId = clientId
-            self.allowedOAuthFlowsUserPoolClient = allowedOAuthFlowsUserPoolClient
+        public init(explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, allowedOAuthScopes: [String]? = nil, supportedIdentityProviders: [String]? = nil, defaultRedirectURI: String? = nil, allowedOAuthFlows: [OAuthFlowType]? = nil, clientName: String? = nil, clientId: String, analyticsConfiguration: AnalyticsConfigurationType? = nil, allowedOAuthFlowsUserPoolClient: Bool? = nil, userPoolId: String, logoutURLs: [String]? = nil, refreshTokenValidity: Int32? = nil, writeAttributes: [String]? = nil, readAttributes: [String]? = nil, callbackURLs: [String]? = nil) {
             self.explicitAuthFlows = explicitAuthFlows
-            self.defaultRedirectURI = defaultRedirectURI
-            self.logoutURLs = logoutURLs
+            self.allowedOAuthScopes = allowedOAuthScopes
             self.supportedIdentityProviders = supportedIdentityProviders
+            self.defaultRedirectURI = defaultRedirectURI
             self.allowedOAuthFlows = allowedOAuthFlows
             self.clientName = clientName
+            self.clientId = clientId
+            self.analyticsConfiguration = analyticsConfiguration
+            self.allowedOAuthFlowsUserPoolClient = allowedOAuthFlowsUserPoolClient
+            self.userPoolId = userPoolId
+            self.logoutURLs = logoutURLs
+            self.refreshTokenValidity = refreshTokenValidity
+            self.writeAttributes = writeAttributes
             self.readAttributes = readAttributes
             self.callbackURLs = callbackURLs
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowedOAuthScopes = "AllowedOAuthScopes"
-            case analyticsConfiguration = "AnalyticsConfiguration"
-            case refreshTokenValidity = "RefreshTokenValidity"
-            case userPoolId = "UserPoolId"
-            case writeAttributes = "WriteAttributes"
-            case clientId = "ClientId"
-            case allowedOAuthFlowsUserPoolClient = "AllowedOAuthFlowsUserPoolClient"
             case explicitAuthFlows = "ExplicitAuthFlows"
-            case defaultRedirectURI = "DefaultRedirectURI"
-            case logoutURLs = "LogoutURLs"
+            case allowedOAuthScopes = "AllowedOAuthScopes"
             case supportedIdentityProviders = "SupportedIdentityProviders"
+            case defaultRedirectURI = "DefaultRedirectURI"
             case allowedOAuthFlows = "AllowedOAuthFlows"
             case clientName = "ClientName"
+            case clientId = "ClientId"
+            case analyticsConfiguration = "AnalyticsConfiguration"
+            case allowedOAuthFlowsUserPoolClient = "AllowedOAuthFlowsUserPoolClient"
+            case userPoolId = "UserPoolId"
+            case logoutURLs = "LogoutURLs"
+            case refreshTokenValidity = "RefreshTokenValidity"
+            case writeAttributes = "WriteAttributes"
             case readAttributes = "ReadAttributes"
             case callbackURLs = "CallbackURLs"
         }
     }
 
-    public struct ListUsersInGroupRequest: AWSShape {
+    public struct ConfirmDeviceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "GroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
-        ]
-        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public let nextToken: String?
-        /// The name of the group.
-        public let groupName: String
-        /// The limit of the request to list users.
-        public let limit: Int32?
-        /// The user pool ID for the user pool.
-        public let userPoolId: String
-
-        public init(nextToken: String? = nil, groupName: String, limit: Int32? = nil, userPoolId: String) {
-            self.nextToken = nextToken
-            self.groupName = groupName
-            self.limit = limit
-            self.userPoolId = userPoolId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case groupName = "GroupName"
-            case limit = "Limit"
-            case userPoolId = "UserPoolId"
-        }
-    }
-
-    public struct DeleteUserAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserAttributeNames", required: true, type: .list), 
+            AWSShapeMember(label: "DeviceName", required: false, type: .string), 
+            AWSShapeMember(label: "DeviceSecretVerifierConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "DeviceKey", required: true, type: .string), 
             AWSShapeMember(label: "AccessToken", required: true, type: .string)
         ]
-        /// An array of strings representing the user attribute names you wish to delete. For custom attributes, you must prepend the custom: prefix to the attribute name.
-        public let userAttributeNames: [String]
-        /// The access token used in the request to delete user attributes.
+        /// The device name.
+        public let deviceName: String?
+        /// The configuration of the device secret verifier.
+        public let deviceSecretVerifierConfig: DeviceSecretVerifierConfigType?
+        /// The device key.
+        public let deviceKey: String
+        /// The access token.
         public let accessToken: String
 
-        public init(userAttributeNames: [String], accessToken: String) {
-            self.userAttributeNames = userAttributeNames
+        public init(deviceName: String? = nil, deviceSecretVerifierConfig: DeviceSecretVerifierConfigType? = nil, deviceKey: String, accessToken: String) {
+            self.deviceName = deviceName
+            self.deviceSecretVerifierConfig = deviceSecretVerifierConfig
+            self.deviceKey = deviceKey
             self.accessToken = accessToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case userAttributeNames = "UserAttributeNames"
+            case deviceName = "DeviceName"
+            case deviceSecretVerifierConfig = "DeviceSecretVerifierConfig"
+            case deviceKey = "DeviceKey"
             case accessToken = "AccessToken"
         }
     }
 
-    public struct GetSigningCertificateRequest: AWSShape {
+    public struct DeleteUserAttributesResponse: AWSShape {
+
+    }
+
+    public enum AuthFlowType: String, CustomStringConvertible, Codable {
+        case userSrpAuth = "USER_SRP_AUTH"
+        case refreshTokenAuth = "REFRESH_TOKEN_AUTH"
+        case refreshToken = "REFRESH_TOKEN"
+        case customAuth = "CUSTOM_AUTH"
+        case adminNoSrpAuth = "ADMIN_NO_SRP_AUTH"
+        case userPasswordAuth = "USER_PASSWORD_AUTH"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ProviderDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ProviderType", required: false, type: .enum), 
+            AWSShapeMember(label: "ProviderName", required: false, type: .string)
+        ]
+        /// The date the provider was last modified.
+        public let lastModifiedDate: TimeStamp?
+        /// The date the provider was added to the user pool.
+        public let creationDate: TimeStamp?
+        /// The identity provider type.
+        public let providerType: IdentityProviderTypeType?
+        /// The identity provider name.
+        public let providerName: String?
+
+        public init(lastModifiedDate: TimeStamp? = nil, creationDate: TimeStamp? = nil, providerType: IdentityProviderTypeType? = nil, providerName: String? = nil) {
+            self.lastModifiedDate = lastModifiedDate
+            self.creationDate = creationDate
+            self.providerType = providerType
+            self.providerName = providerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastModifiedDate = "LastModifiedDate"
+            case creationDate = "CreationDate"
+            case providerType = "ProviderType"
+            case providerName = "ProviderName"
+        }
+    }
+
+    public struct AdminLinkProviderForUserRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourceUser", required: true, type: .structure), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "DestinationUser", required: true, type: .structure)
+        ]
+        /// An external identity provider account for a user who does not currently exist yet in the user pool. This user must be a federated user (for example, a SAML or Facebook user), not another native user. If the SourceUser is a federated social identity provider user (Facebook, Google, or Login with Amazon), you must set the ProviderAttributeName to Cognito_Subject. For social identity providers, the ProviderName will be Facebook, Google, or LoginWithAmazon, and Cognito will automatically parse the Facebook, Google, and Login with Amazon tokens for id, sub, and user_id, respectively. The ProviderAttributeValue for the user must be the same value as the id, sub, or user_id value found in the social identity provider token.  For SAML, the ProviderAttributeName can be any value that matches a claim in the SAML assertion. If you wish to link SAML users based on the subject of the SAML assertion, you should map the subject to a claim through the SAML identity provider and submit that claim name as the ProviderAttributeName. If you set ProviderAttributeName to Cognito_Subject, Cognito will automatically parse the default unique identifier found in the subject from the SAML token.
+        public let sourceUser: ProviderUserIdentifierType
+        /// The user pool ID for the user pool.
+        public let userPoolId: String
+        /// The existing user in the user pool to be linked to the external identity provider user account. Can be a native (Username + Password) Cognito User Pools user or a federated user (for example, a SAML or Facebook user). If the user doesn't exist, an exception is thrown. This is the user that is returned when the new user (with the linked identity provider attribute) signs in. For a native username + password user, the ProviderAttributeValue for the DestinationUser should be the username in the user pool. For a federated user, it should be the provider-specific user_id. The ProviderAttributeName of the DestinationUser is ignored. The ProviderName should be set to Cognito for users in Cognito user pools.
+        public let destinationUser: ProviderUserIdentifierType
+
+        public init(sourceUser: ProviderUserIdentifierType, userPoolId: String, destinationUser: ProviderUserIdentifierType) {
+            self.sourceUser = sourceUser
+            self.userPoolId = userPoolId
+            self.destinationUser = destinationUser
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceUser = "SourceUser"
+            case userPoolId = "UserPoolId"
+            case destinationUser = "DestinationUser"
+        }
+    }
+
+    public enum ChallengeNameType: String, CustomStringConvertible, Codable {
+        case smsMfa = "SMS_MFA"
+        case softwareTokenMfa = "SOFTWARE_TOKEN_MFA"
+        case selectMfaType = "SELECT_MFA_TYPE"
+        case mfaSetup = "MFA_SETUP"
+        case passwordVerifier = "PASSWORD_VERIFIER"
+        case customChallenge = "CUSTOM_CHALLENGE"
+        case deviceSrpAuth = "DEVICE_SRP_AUTH"
+        case devicePasswordVerifier = "DEVICE_PASSWORD_VERIFIER"
+        case adminNoSrpAuth = "ADMIN_NO_SRP_AUTH"
+        case newPasswordRequired = "NEW_PASSWORD_REQUIRED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct VerificationMessageTemplateType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SmsMessage", required: false, type: .string), 
+            AWSShapeMember(label: "EmailMessage", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultEmailOption", required: false, type: .enum), 
+            AWSShapeMember(label: "EmailMessageByLink", required: false, type: .string), 
+            AWSShapeMember(label: "EmailSubjectByLink", required: false, type: .string), 
+            AWSShapeMember(label: "EmailSubject", required: false, type: .string)
+        ]
+        /// The SMS message template.
+        public let smsMessage: String?
+        /// The email message template.
+        public let emailMessage: String?
+        /// The default email option.
+        public let defaultEmailOption: DefaultEmailOptionType?
+        /// The email message template for sending a confirmation link to the user.
+        public let emailMessageByLink: String?
+        /// The subject line for the email message template for sending a confirmation link to the user.
+        public let emailSubjectByLink: String?
+        /// The subject line for the email message template.
+        public let emailSubject: String?
+
+        public init(smsMessage: String? = nil, emailMessage: String? = nil, defaultEmailOption: DefaultEmailOptionType? = nil, emailMessageByLink: String? = nil, emailSubjectByLink: String? = nil, emailSubject: String? = nil) {
+            self.smsMessage = smsMessage
+            self.emailMessage = emailMessage
+            self.defaultEmailOption = defaultEmailOption
+            self.emailMessageByLink = emailMessageByLink
+            self.emailSubjectByLink = emailSubjectByLink
+            self.emailSubject = emailSubject
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case smsMessage = "SmsMessage"
+            case emailMessage = "EmailMessage"
+            case defaultEmailOption = "DefaultEmailOption"
+            case emailMessageByLink = "EmailMessageByLink"
+            case emailSubjectByLink = "EmailSubjectByLink"
+            case emailSubject = "EmailSubject"
+        }
+    }
+
+    public struct AdminListGroupsForUserResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Groups", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The groups that the user belongs to.
+        public let groups: [GroupType]?
+        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+        public let nextToken: String?
+
+        public init(groups: [GroupType]? = nil, nextToken: String? = nil) {
+            self.groups = groups
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groups = "Groups"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeUserPoolRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UserPoolId", required: true, type: .string)
         ]
-        /// The user pool ID.
+        /// The user pool ID for the user pool you want to describe.
         public let userPoolId: String
 
         public init(userPoolId: String) {
@@ -5248,352 +2592,93 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct VerifyUserAttributeResponse: AWSShape {
-
-    }
-
-    public struct RespondToAuthChallengeResponse: AWSShape {
+    public struct PasswordPolicyType: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Session", required: false, type: .string), 
-            AWSShapeMember(label: "AuthenticationResult", required: false, type: .structure), 
-            AWSShapeMember(label: "ChallengeName", required: false, type: .enum), 
-            AWSShapeMember(label: "ChallengeParameters", required: false, type: .map)
+            AWSShapeMember(label: "MinimumLength", required: false, type: .integer), 
+            AWSShapeMember(label: "RequireNumbers", required: false, type: .boolean), 
+            AWSShapeMember(label: "RequireSymbols", required: false, type: .boolean), 
+            AWSShapeMember(label: "RequireLowercase", required: false, type: .boolean), 
+            AWSShapeMember(label: "RequireUppercase", required: false, type: .boolean)
         ]
-        /// The session which should be passed both ways in challenge-response calls to the service. If the or API call determines that the caller needs to go through another challenge, they return a session with other challenge parameters. This session should be passed as it is to the next RespondToAuthChallenge API call.
-        public let session: String?
-        /// The result returned by the server in response to the request to respond to the authentication challenge.
-        public let authenticationResult: AuthenticationResultType?
-        /// The challenge name. For more information, see .
-        public let challengeName: ChallengeNameType?
-        /// The challenge parameters. For more information, see .
-        public let challengeParameters: [String: String]?
+        /// The minimum length of the password policy that you have set. Cannot be less than 6.
+        public let minimumLength: Int32?
+        /// In the password policy that you have set, refers to whether you have required users to use at least one number in their password.
+        public let requireNumbers: Bool?
+        /// In the password policy that you have set, refers to whether you have required users to use at least one symbol in their password.
+        public let requireSymbols: Bool?
+        /// In the password policy that you have set, refers to whether you have required users to use at least one lowercase letter in their password.
+        public let requireLowercase: Bool?
+        /// In the password policy that you have set, refers to whether you have required users to use at least one uppercase letter in their password.
+        public let requireUppercase: Bool?
 
-        public init(session: String? = nil, authenticationResult: AuthenticationResultType? = nil, challengeName: ChallengeNameType? = nil, challengeParameters: [String: String]? = nil) {
-            self.session = session
-            self.authenticationResult = authenticationResult
-            self.challengeName = challengeName
-            self.challengeParameters = challengeParameters
+        public init(minimumLength: Int32? = nil, requireNumbers: Bool? = nil, requireSymbols: Bool? = nil, requireLowercase: Bool? = nil, requireUppercase: Bool? = nil) {
+            self.minimumLength = minimumLength
+            self.requireNumbers = requireNumbers
+            self.requireSymbols = requireSymbols
+            self.requireLowercase = requireLowercase
+            self.requireUppercase = requireUppercase
         }
 
         private enum CodingKeys: String, CodingKey {
-            case session = "Session"
-            case authenticationResult = "AuthenticationResult"
-            case challengeName = "ChallengeName"
-            case challengeParameters = "ChallengeParameters"
+            case minimumLength = "MinimumLength"
+            case requireNumbers = "RequireNumbers"
+            case requireSymbols = "RequireSymbols"
+            case requireLowercase = "RequireLowercase"
+            case requireUppercase = "RequireUppercase"
         }
     }
 
-    public struct ChangePasswordResponse: AWSShape {
-
-    }
-
-    public struct GetIdentityProviderByIdentifierRequest: AWSShape {
+    public struct UserType: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "IdpIdentifier", required: true, type: .string)
-        ]
-        /// The user pool ID.
-        public let userPoolId: String
-        /// The identity provider ID.
-        public let idpIdentifier: String
-
-        public init(userPoolId: String, idpIdentifier: String) {
-            self.userPoolId = userPoolId
-            self.idpIdentifier = idpIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userPoolId = "UserPoolId"
-            case idpIdentifier = "IdpIdentifier"
-        }
-    }
-
-    public struct RespondToAuthChallengeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AnalyticsMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "UserContextData", required: false, type: .structure), 
-            AWSShapeMember(label: "Session", required: false, type: .string), 
-            AWSShapeMember(label: "ChallengeName", required: true, type: .enum), 
-            AWSShapeMember(label: "ChallengeResponses", required: false, type: .map), 
-            AWSShapeMember(label: "ClientId", required: true, type: .string)
-        ]
-        /// The Amazon Pinpoint analytics metadata for collecting metrics for RespondToAuthChallenge calls.
-        public let analyticsMetadata: AnalyticsMetadataType?
-        /// Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
-        public let userContextData: UserContextDataType?
-        /// The session which should be passed both ways in challenge-response calls to the service. If InitiateAuth or RespondToAuthChallenge API call determines that the caller needs to go through another challenge, they return a session with other challenge parameters. This session should be passed as it is to the next RespondToAuthChallenge API call.
-        public let session: String?
-        /// The challenge name. For more information, see .  ADMIN_NO_SRP_AUTH is not a valid value.
-        public let challengeName: ChallengeNameType
-        /// The challenge responses. These are inputs corresponding to the value of ChallengeName, for example:    SMS_MFA: SMS_MFA_CODE, USERNAME, SECRET_HASH (if app client is configured with client secret).    PASSWORD_VERIFIER: PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK, TIMESTAMP, USERNAME, SECRET_HASH (if app client is configured with client secret).    NEW_PASSWORD_REQUIRED: NEW_PASSWORD, any other required attributes, USERNAME, SECRET_HASH (if app client is configured with client secret).   
-        public let challengeResponses: [String: String]?
-        /// The app client ID.
-        public let clientId: String
-
-        public init(analyticsMetadata: AnalyticsMetadataType? = nil, userContextData: UserContextDataType? = nil, session: String? = nil, challengeName: ChallengeNameType, challengeResponses: [String: String]? = nil, clientId: String) {
-            self.analyticsMetadata = analyticsMetadata
-            self.userContextData = userContextData
-            self.session = session
-            self.challengeName = challengeName
-            self.challengeResponses = challengeResponses
-            self.clientId = clientId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case analyticsMetadata = "AnalyticsMetadata"
-            case userContextData = "UserContextData"
-            case session = "Session"
-            case challengeName = "ChallengeName"
-            case challengeResponses = "ChallengeResponses"
-            case clientId = "ClientId"
-        }
-    }
-
-    public struct GetCSVHeaderResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolId", required: false, type: .string), 
-            AWSShapeMember(label: "CSVHeader", required: false, type: .list)
-        ]
-        /// The user pool ID for the user pool that the users are to be imported into.
-        public let userPoolId: String?
-        /// The header information for the .csv file for the user import job.
-        public let cSVHeader: [String]?
-
-        public init(userPoolId: String? = nil, cSVHeader: [String]? = nil) {
-            self.userPoolId = userPoolId
-            self.cSVHeader = cSVHeader
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userPoolId = "UserPoolId"
-            case cSVHeader = "CSVHeader"
-        }
-    }
-
-    public struct AdminConfirmSignUpResponse: AWSShape {
-
-    }
-
-    public enum IdentityProviderTypeType: String, CustomStringConvertible, Codable {
-        case saml = "SAML"
-        case facebook = "Facebook"
-        case google = "Google"
-        case loginwithamazon = "LoginWithAmazon"
-        case oidc = "OIDC"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeIdentityProviderResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdentityProvider", required: true, type: .structure)
-        ]
-        /// The identity provider that was deleted.
-        public let identityProvider: IdentityProviderType
-
-        public init(identityProvider: IdentityProviderType) {
-            self.identityProvider = identityProvider
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case identityProvider = "IdentityProvider"
-        }
-    }
-
-    public struct ListDevicesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "PaginationToken", required: false, type: .string), 
-            AWSShapeMember(label: "AccessToken", required: true, type: .string)
-        ]
-        /// The limit of the device request.
-        public let limit: Int32?
-        /// The pagination token for the list request.
-        public let paginationToken: String?
-        /// The access tokens for the request to list devices.
-        public let accessToken: String
-
-        public init(limit: Int32? = nil, paginationToken: String? = nil, accessToken: String) {
-            self.limit = limit
-            self.paginationToken = paginationToken
-            self.accessToken = accessToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case limit = "Limit"
-            case paginationToken = "PaginationToken"
-            case accessToken = "AccessToken"
-        }
-    }
-
-    public struct GetUserResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "UserAttributes", required: true, type: .list), 
+            AWSShapeMember(label: "Username", required: false, type: .string), 
+            AWSShapeMember(label: "UserStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "UserCreateDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "MFAOptions", required: false, type: .list), 
-            AWSShapeMember(label: "UserMFASettingList", required: false, type: .list), 
-            AWSShapeMember(label: "PreferredMfaSetting", required: false, type: .string)
+            AWSShapeMember(label: "Attributes", required: false, type: .list), 
+            AWSShapeMember(label: "UserLastModifiedDate", required: false, type: .timestamp)
         ]
-        /// The user name of the user you wish to retrieve from the get user request.
-        public let username: String
-        /// An array of name-value pairs representing user attributes. For custom attributes, you must prepend the custom: prefix to the attribute name.
-        public let userAttributes: [AttributeType]
-        /// Specifies the options for MFA (e.g., email or phone number).
-        public let mFAOptions: [MFAOptionType]?
-        /// The list of the user's MFA settings.
-        public let userMFASettingList: [String]?
-        /// The user's preferred MFA setting.
-        public let preferredMfaSetting: String?
-
-        public init(username: String, userAttributes: [AttributeType], mFAOptions: [MFAOptionType]? = nil, userMFASettingList: [String]? = nil, preferredMfaSetting: String? = nil) {
-            self.username = username
-            self.userAttributes = userAttributes
-            self.mFAOptions = mFAOptions
-            self.userMFASettingList = userMFASettingList
-            self.preferredMfaSetting = preferredMfaSetting
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case username = "Username"
-            case userAttributes = "UserAttributes"
-            case mFAOptions = "MFAOptions"
-            case userMFASettingList = "UserMFASettingList"
-            case preferredMfaSetting = "PreferredMfaSetting"
-        }
-    }
-
-    public struct DeleteUserPoolDomainResponse: AWSShape {
-
-    }
-
-    public struct ConfirmForgotPasswordRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserContextData", required: false, type: .structure), 
-            AWSShapeMember(label: "ConfirmationCode", required: true, type: .string), 
-            AWSShapeMember(label: "AnalyticsMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "SecretHash", required: false, type: .string), 
-            AWSShapeMember(label: "ClientId", required: true, type: .string), 
-            AWSShapeMember(label: "Password", required: true, type: .string), 
-            AWSShapeMember(label: "Username", required: true, type: .string)
-        ]
-        /// Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
-        public let userContextData: UserContextDataType?
-        /// The confirmation code sent by a user's request to retrieve a forgotten password. For more information, see 
-        public let confirmationCode: String
-        /// The Amazon Pinpoint analytics metadata for collecting metrics for ConfirmForgotPassword calls.
-        public let analyticsMetadata: AnalyticsMetadataType?
-        /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message.
-        public let secretHash: String?
-        /// The app client ID of the app associated with the user pool.
-        public let clientId: String
-        /// The password sent by a user's request to retrieve a forgotten password.
-        public let password: String
-        /// The user name of the user for whom you want to enter a code to retrieve a forgotten password.
-        public let username: String
-
-        public init(userContextData: UserContextDataType? = nil, confirmationCode: String, analyticsMetadata: AnalyticsMetadataType? = nil, secretHash: String? = nil, clientId: String, password: String, username: String) {
-            self.userContextData = userContextData
-            self.confirmationCode = confirmationCode
-            self.analyticsMetadata = analyticsMetadata
-            self.secretHash = secretHash
-            self.clientId = clientId
-            self.password = password
-            self.username = username
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userContextData = "UserContextData"
-            case confirmationCode = "ConfirmationCode"
-            case analyticsMetadata = "AnalyticsMetadata"
-            case secretHash = "SecretHash"
-            case clientId = "ClientId"
-            case password = "Password"
-            case username = "Username"
-        }
-    }
-
-    public struct CreateUserPoolClientResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolClient", required: false, type: .structure)
-        ]
-        /// The user pool client that was just created.
-        public let userPoolClient: UserPoolClientType?
-
-        public init(userPoolClient: UserPoolClientType? = nil) {
-            self.userPoolClient = userPoolClient
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userPoolClient = "UserPoolClient"
-        }
-    }
-
-    public enum RiskDecisionType: String, CustomStringConvertible, Codable {
-        case norisk = "NoRisk"
-        case accounttakeover = "AccountTakeover"
-        case block = "Block"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DefaultEmailOptionType: String, CustomStringConvertible, Codable {
-        case confirmWithLink = "CONFIRM_WITH_LINK"
-        case confirmWithCode = "CONFIRM_WITH_CODE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct AdminSetUserMFAPreferenceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "SMSMfaSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "SoftwareTokenMfaSettings", required: false, type: .structure)
-        ]
-        /// The user pool username or alias.
-        public let username: String
-        /// The SMS text message MFA settings.
-        public let sMSMfaSettings: SMSMfaSettingsType?
-        /// The user pool ID.
-        public let userPoolId: String
-        /// The time-based one-time password software token MFA settings.
-        public let softwareTokenMfaSettings: SoftwareTokenMfaSettingsType?
-
-        public init(username: String, sMSMfaSettings: SMSMfaSettingsType? = nil, userPoolId: String, softwareTokenMfaSettings: SoftwareTokenMfaSettingsType? = nil) {
-            self.username = username
-            self.sMSMfaSettings = sMSMfaSettings
-            self.userPoolId = userPoolId
-            self.softwareTokenMfaSettings = softwareTokenMfaSettings
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case username = "Username"
-            case sMSMfaSettings = "SMSMfaSettings"
-            case userPoolId = "UserPoolId"
-            case softwareTokenMfaSettings = "SoftwareTokenMfaSettings"
-        }
-    }
-
-    public struct AdminSetUserMFAPreferenceResponse: AWSShape {
-
-    }
-
-    public struct SoftwareTokenMfaSettingsType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PreferredMfa", required: false, type: .boolean), 
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean)
-        ]
-        /// The preferred MFA method.
-        public let preferredMfa: Bool?
-        /// Specifies whether software token MFA is enabled.
+        /// The user name of the user you wish to describe.
+        public let username: String?
+        /// The user status. Can be one of the following:   UNCONFIRMED - User has been created but not confirmed.   CONFIRMED - User has been confirmed.   ARCHIVED - User is no longer active.   COMPROMISED - User is disabled due to a potential security threat.   UNKNOWN - User status is not known.  
+        public let userStatus: UserStatusType?
+        /// Specifies whether the user is enabled.
         public let enabled: Bool?
+        /// The creation date of the user.
+        public let userCreateDate: TimeStamp?
+        /// The MFA options for the user.
+        public let mFAOptions: [MFAOptionType]?
+        /// A container with information about the user type attributes.
+        public let attributes: [AttributeType]?
+        /// The last modified date of the user.
+        public let userLastModifiedDate: TimeStamp?
 
-        public init(preferredMfa: Bool? = nil, enabled: Bool? = nil) {
-            self.preferredMfa = preferredMfa
+        public init(username: String? = nil, userStatus: UserStatusType? = nil, enabled: Bool? = nil, userCreateDate: TimeStamp? = nil, mFAOptions: [MFAOptionType]? = nil, attributes: [AttributeType]? = nil, userLastModifiedDate: TimeStamp? = nil) {
+            self.username = username
+            self.userStatus = userStatus
             self.enabled = enabled
+            self.userCreateDate = userCreateDate
+            self.mFAOptions = mFAOptions
+            self.attributes = attributes
+            self.userLastModifiedDate = userLastModifiedDate
         }
 
         private enum CodingKeys: String, CodingKey {
-            case preferredMfa = "PreferredMfa"
+            case username = "Username"
+            case userStatus = "UserStatus"
             case enabled = "Enabled"
+            case userCreateDate = "UserCreateDate"
+            case mFAOptions = "MFAOptions"
+            case attributes = "Attributes"
+            case userLastModifiedDate = "UserLastModifiedDate"
         }
+    }
+
+    public enum AdvancedSecurityModeType: String, CustomStringConvertible, Codable {
+        case off = "OFF"
+        case audit = "AUDIT"
+        case enforced = "ENFORCED"
+        public var description: String { return self.rawValue }
     }
 
     public struct AdminForgetDeviceRequest: AWSShape {
@@ -5622,223 +2707,693 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct AdminRespondToAuthChallengeRequest: AWSShape {
+    public struct RiskExceptionConfigurationType: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContextData", required: false, type: .structure), 
-            AWSShapeMember(label: "ChallengeResponses", required: false, type: .map), 
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "AnalyticsMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "ChallengeName", required: true, type: .enum), 
-            AWSShapeMember(label: "Session", required: false, type: .string), 
-            AWSShapeMember(label: "ClientId", required: true, type: .string)
+            AWSShapeMember(label: "SkippedIPRangeList", required: false, type: .list), 
+            AWSShapeMember(label: "BlockedIPRangeList", required: false, type: .list)
         ]
-        /// Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
-        public let contextData: ContextDataType?
-        /// The challenge responses. These are inputs corresponding to the value of ChallengeName, for example:    SMS_MFA: SMS_MFA_CODE, USERNAME, SECRET_HASH (if app client is configured with client secret).    PASSWORD_VERIFIER: PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK, TIMESTAMP, USERNAME, SECRET_HASH (if app client is configured with client secret).    ADMIN_NO_SRP_AUTH: PASSWORD, USERNAME, SECRET_HASH (if app client is configured with client secret).     NEW_PASSWORD_REQUIRED: NEW_PASSWORD, any other required attributes, USERNAME, SECRET_HASH (if app client is configured with client secret).    The value of the USERNAME attribute must be the user's actual username, not an alias (such as email address or phone number). To make this easier, the AdminInitiateAuth response includes the actual username value in the USERNAMEUSER_ID_FOR_SRP attribute, even if you specified an alias in your call to AdminInitiateAuth.
-        public let challengeResponses: [String: String]?
-        /// The ID of the Amazon Cognito user pool.
-        public let userPoolId: String
-        /// The analytics metadata for collecting Amazon Pinpoint metrics for AdminRespondToAuthChallenge calls.
-        public let analyticsMetadata: AnalyticsMetadataType?
-        /// The challenge name. For more information, see .
-        public let challengeName: ChallengeNameType
-        /// The session which should be passed both ways in challenge-response calls to the service. If InitiateAuth or RespondToAuthChallenge API call determines that the caller needs to go through another challenge, they return a session with other challenge parameters. This session should be passed as it is to the next RespondToAuthChallenge API call.
-        public let session: String?
-        /// The app client ID.
-        public let clientId: String
+        /// Risk detection is not performed on the IP addresses in the range list. The IP range is in CIDR notation.
+        public let skippedIPRangeList: [String]?
+        /// Overrides the risk decision to always block the pre-authentication requests. The IP range is in CIDR notation: a compact representation of an IP address and its associated routing prefix.
+        public let blockedIPRangeList: [String]?
 
-        public init(contextData: ContextDataType? = nil, challengeResponses: [String: String]? = nil, userPoolId: String, analyticsMetadata: AnalyticsMetadataType? = nil, challengeName: ChallengeNameType, session: String? = nil, clientId: String) {
-            self.contextData = contextData
+        public init(skippedIPRangeList: [String]? = nil, blockedIPRangeList: [String]? = nil) {
+            self.skippedIPRangeList = skippedIPRangeList
+            self.blockedIPRangeList = blockedIPRangeList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case skippedIPRangeList = "SkippedIPRangeList"
+            case blockedIPRangeList = "BlockedIPRangeList"
+        }
+    }
+
+    public struct AuthEventType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventContextData", required: false, type: .structure), 
+            AWSShapeMember(label: "EventRisk", required: false, type: .structure), 
+            AWSShapeMember(label: "EventResponse", required: false, type: .enum), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ChallengeResponses", required: false, type: .list), 
+            AWSShapeMember(label: "EventId", required: false, type: .string), 
+            AWSShapeMember(label: "EventFeedback", required: false, type: .structure), 
+            AWSShapeMember(label: "EventType", required: false, type: .enum)
+        ]
+        /// The user context data captured at the time of an event request. It provides additional information about the client from which event the request is received.
+        public let eventContextData: EventContextDataType?
+        /// The event risk.
+        public let eventRisk: EventRiskType?
+        /// The event response.
+        public let eventResponse: EventResponseType?
+        /// The creation date
+        public let creationDate: TimeStamp?
+        /// The challenge responses.
+        public let challengeResponses: [ChallengeResponseType]?
+        /// The event ID.
+        public let eventId: String?
+        /// A flag specifying the user feedback captured at the time of an event request is good or bad. 
+        public let eventFeedback: EventFeedbackType?
+        /// The event type.
+        public let eventType: EventType?
+
+        public init(eventContextData: EventContextDataType? = nil, eventRisk: EventRiskType? = nil, eventResponse: EventResponseType? = nil, creationDate: TimeStamp? = nil, challengeResponses: [ChallengeResponseType]? = nil, eventId: String? = nil, eventFeedback: EventFeedbackType? = nil, eventType: EventType? = nil) {
+            self.eventContextData = eventContextData
+            self.eventRisk = eventRisk
+            self.eventResponse = eventResponse
+            self.creationDate = creationDate
             self.challengeResponses = challengeResponses
+            self.eventId = eventId
+            self.eventFeedback = eventFeedback
+            self.eventType = eventType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventContextData = "EventContextData"
+            case eventRisk = "EventRisk"
+            case eventResponse = "EventResponse"
+            case creationDate = "CreationDate"
+            case challengeResponses = "ChallengeResponses"
+            case eventId = "EventId"
+            case eventFeedback = "EventFeedback"
+            case eventType = "EventType"
+        }
+    }
+
+    public struct RiskConfigurationType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RiskExceptionConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "AccountTakeoverRiskConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "ClientId", required: false, type: .string), 
+            AWSShapeMember(label: "UserPoolId", required: false, type: .string), 
+            AWSShapeMember(label: "CompromisedCredentialsRiskConfiguration", required: false, type: .structure)
+        ]
+        /// The configuration to override the risk decision.
+        public let riskExceptionConfiguration: RiskExceptionConfigurationType?
+        /// The last modified date.
+        public let lastModifiedDate: TimeStamp?
+        /// The account takeover risk configuration object including the NotifyConfiguration object and Actions to take in the case of an account takeover.
+        public let accountTakeoverRiskConfiguration: AccountTakeoverRiskConfigurationType?
+        /// The app client ID.
+        public let clientId: String?
+        /// The user pool ID.
+        public let userPoolId: String?
+        /// The compromised credentials risk configuration object including the EventFilter and the EventAction 
+        public let compromisedCredentialsRiskConfiguration: CompromisedCredentialsRiskConfigurationType?
+
+        public init(riskExceptionConfiguration: RiskExceptionConfigurationType? = nil, lastModifiedDate: TimeStamp? = nil, accountTakeoverRiskConfiguration: AccountTakeoverRiskConfigurationType? = nil, clientId: String? = nil, userPoolId: String? = nil, compromisedCredentialsRiskConfiguration: CompromisedCredentialsRiskConfigurationType? = nil) {
+            self.riskExceptionConfiguration = riskExceptionConfiguration
+            self.lastModifiedDate = lastModifiedDate
+            self.accountTakeoverRiskConfiguration = accountTakeoverRiskConfiguration
+            self.clientId = clientId
             self.userPoolId = userPoolId
-            self.analyticsMetadata = analyticsMetadata
-            self.challengeName = challengeName
-            self.session = session
+            self.compromisedCredentialsRiskConfiguration = compromisedCredentialsRiskConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case riskExceptionConfiguration = "RiskExceptionConfiguration"
+            case lastModifiedDate = "LastModifiedDate"
+            case accountTakeoverRiskConfiguration = "AccountTakeoverRiskConfiguration"
+            case clientId = "ClientId"
+            case userPoolId = "UserPoolId"
+            case compromisedCredentialsRiskConfiguration = "CompromisedCredentialsRiskConfiguration"
+        }
+    }
+
+    public struct DescribeRiskConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "ClientId", required: false, type: .string)
+        ]
+        /// The user pool ID.
+        public let userPoolId: String
+        /// The app client ID.
+        public let clientId: String?
+
+        public init(userPoolId: String, clientId: String? = nil) {
+            self.userPoolId = userPoolId
             self.clientId = clientId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contextData = "ContextData"
-            case challengeResponses = "ChallengeResponses"
             case userPoolId = "UserPoolId"
-            case analyticsMetadata = "AnalyticsMetadata"
-            case challengeName = "ChallengeName"
-            case session = "Session"
             case clientId = "ClientId"
         }
     }
 
-    public enum MessageActionType: String, CustomStringConvertible, Codable {
-        case resend = "RESEND"
-        case suppress = "SUPPRESS"
-        public var description: String { return self.rawValue }
+    public struct SoftwareTokenMfaSettingsType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PreferredMfa", required: false, type: .boolean), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean)
+        ]
+        /// The preferred MFA method.
+        public let preferredMfa: Bool?
+        /// Specifies whether software token MFA is enabled.
+        public let enabled: Bool?
+
+        public init(preferredMfa: Bool? = nil, enabled: Bool? = nil) {
+            self.preferredMfa = preferredMfa
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case preferredMfa = "PreferredMfa"
+            case enabled = "Enabled"
+        }
     }
 
-    public enum UserImportJobStatusType: String, CustomStringConvertible, Codable {
-        case created = "Created"
-        case pending = "Pending"
-        case inprogress = "InProgress"
-        case stopping = "Stopping"
-        case expired = "Expired"
-        case stopped = "Stopped"
-        case failed = "Failed"
-        case succeeded = "Succeeded"
-        public var description: String { return self.rawValue }
+    public struct ListDevicesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PaginationToken", required: false, type: .string), 
+            AWSShapeMember(label: "Devices", required: false, type: .list)
+        ]
+        /// The pagination token for the list device response.
+        public let paginationToken: String?
+        /// The devices returned in the list devices response.
+        public let devices: [DeviceType]?
+
+        public init(paginationToken: String? = nil, devices: [DeviceType]? = nil) {
+            self.paginationToken = paginationToken
+            self.devices = devices
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case paginationToken = "PaginationToken"
+            case devices = "Devices"
+        }
     }
 
-    public struct AdminRemoveUserFromGroupRequest: AWSShape {
+    public struct AdminDeleteUserAttributesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
             AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "GroupName", required: true, type: .string)
+            AWSShapeMember(label: "UserAttributeNames", required: true, type: .list)
         ]
-        /// The user pool ID for the user pool.
+        /// The user pool ID for the user pool where you want to delete user attributes.
         public let userPoolId: String
-        /// The username for the user.
+        /// The user name of the user from which you would like to delete attributes.
         public let username: String
-        /// The group name.
-        public let groupName: String
+        /// An array of strings representing the user attribute names you wish to delete. For custom attributes, you must prepend the custom: prefix to the attribute name.
+        public let userAttributeNames: [String]
 
-        public init(userPoolId: String, username: String, groupName: String) {
+        public init(userPoolId: String, username: String, userAttributeNames: [String]) {
             self.userPoolId = userPoolId
             self.username = username
-            self.groupName = groupName
+            self.userAttributeNames = userAttributeNames
         }
 
         private enum CodingKeys: String, CodingKey {
             case userPoolId = "UserPoolId"
             case username = "Username"
-            case groupName = "GroupName"
+            case userAttributeNames = "UserAttributeNames"
         }
     }
 
-    public struct MessageTemplateType: AWSShape {
+    public struct GetUserPoolMfaConfigResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EmailSubject", required: false, type: .string), 
-            AWSShapeMember(label: "SMSMessage", required: false, type: .string), 
-            AWSShapeMember(label: "EmailMessage", required: false, type: .string)
+            AWSShapeMember(label: "SmsMfaConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "SoftwareTokenMfaConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "MfaConfiguration", required: false, type: .enum)
         ]
-        /// The subject line for email messages.
-        public let emailSubject: String?
-        /// The message template for SMS messages.
-        public let sMSMessage: String?
-        /// The message template for email messages.
-        public let emailMessage: String?
+        /// The SMS text message multi-factor (MFA) configuration.
+        public let smsMfaConfiguration: SmsMfaConfigType?
+        /// The software token multi-factor (MFA) configuration.
+        public let softwareTokenMfaConfiguration: SoftwareTokenMfaConfigType?
+        /// The multi-factor (MFA) configuration.
+        public let mfaConfiguration: UserPoolMfaType?
 
-        public init(emailSubject: String? = nil, sMSMessage: String? = nil, emailMessage: String? = nil) {
-            self.emailSubject = emailSubject
-            self.sMSMessage = sMSMessage
-            self.emailMessage = emailMessage
+        public init(smsMfaConfiguration: SmsMfaConfigType? = nil, softwareTokenMfaConfiguration: SoftwareTokenMfaConfigType? = nil, mfaConfiguration: UserPoolMfaType? = nil) {
+            self.smsMfaConfiguration = smsMfaConfiguration
+            self.softwareTokenMfaConfiguration = softwareTokenMfaConfiguration
+            self.mfaConfiguration = mfaConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
-            case emailSubject = "EmailSubject"
-            case sMSMessage = "SMSMessage"
-            case emailMessage = "EmailMessage"
+            case smsMfaConfiguration = "SmsMfaConfiguration"
+            case softwareTokenMfaConfiguration = "SoftwareTokenMfaConfiguration"
+            case mfaConfiguration = "MfaConfiguration"
         }
     }
 
-    public enum FeedbackValueType: String, CustomStringConvertible, Codable {
-        case valid = "Valid"
-        case invalid = "Invalid"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeRiskConfigurationResponse: AWSShape {
+    public struct AdminResetUserPasswordRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RiskConfiguration", required: true, type: .structure)
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "Username", required: true, type: .string)
         ]
-        /// The risk configuration.
-        public let riskConfiguration: RiskConfigurationType
+        /// The user pool ID for the user pool where you want to reset the user's password.
+        public let userPoolId: String
+        /// The user name of the user whose password you wish to reset.
+        public let username: String
 
-        public init(riskConfiguration: RiskConfigurationType) {
-            self.riskConfiguration = riskConfiguration
+        public init(userPoolId: String, username: String) {
+            self.userPoolId = userPoolId
+            self.username = username
         }
 
         private enum CodingKeys: String, CodingKey {
-            case riskConfiguration = "RiskConfiguration"
+            case userPoolId = "UserPoolId"
+            case username = "Username"
         }
     }
 
-    public struct EmailConfigurationType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "ReplyToEmailAddress", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the email source.
-        public let sourceArn: String?
-        /// The destination to which the receiver of the email should reply to.
-        public let replyToEmailAddress: String?
+    public struct SetUserSettingsResponse: AWSShape {
 
-        public init(sourceArn: String? = nil, replyToEmailAddress: String? = nil) {
-            self.sourceArn = sourceArn
-            self.replyToEmailAddress = replyToEmailAddress
+    }
+
+    public struct DescribeResourceServerResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceServer", required: true, type: .structure)
+        ]
+        /// The resource server.
+        public let resourceServer: ResourceServerType
+
+        public init(resourceServer: ResourceServerType) {
+            self.resourceServer = resourceServer
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceArn = "SourceArn"
-            case replyToEmailAddress = "ReplyToEmailAddress"
+            case resourceServer = "ResourceServer"
         }
     }
 
-    public struct GetDeviceRequest: AWSShape {
+    public struct ConfirmDeviceResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceKey", required: true, type: .string), 
-            AWSShapeMember(label: "AccessToken", required: false, type: .string)
+            AWSShapeMember(label: "UserConfirmationNecessary", required: false, type: .boolean)
         ]
-        /// The device key.
-        public let deviceKey: String
+        /// Indicates whether the user confirmation is necessary to confirm the device response.
+        public let userConfirmationNecessary: Bool?
+
+        public init(userConfirmationNecessary: Bool? = nil) {
+            self.userConfirmationNecessary = userConfirmationNecessary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userConfirmationNecessary = "UserConfirmationNecessary"
+        }
+    }
+
+    public struct GlobalSignOutRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessToken", required: true, type: .string)
+        ]
         /// The access token.
-        public let accessToken: String?
+        public let accessToken: String
 
-        public init(deviceKey: String, accessToken: String? = nil) {
-            self.deviceKey = deviceKey
+        public init(accessToken: String) {
             self.accessToken = accessToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceKey = "DeviceKey"
             case accessToken = "AccessToken"
         }
     }
 
-    public struct InitiateAuthRequest: AWSShape {
+    public struct GetSigningCertificateResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthParameters", required: false, type: .map), 
+            AWSShapeMember(label: "Certificate", required: false, type: .string)
+        ]
+        /// The signing certificate.
+        public let certificate: String?
+
+        public init(certificate: String? = nil) {
+            self.certificate = certificate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificate = "Certificate"
+        }
+    }
+
+    public struct RespondToAuthChallengeResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationResult", required: false, type: .structure), 
+            AWSShapeMember(label: "Session", required: false, type: .string), 
+            AWSShapeMember(label: "ChallengeName", required: false, type: .enum), 
+            AWSShapeMember(label: "ChallengeParameters", required: false, type: .map)
+        ]
+        /// The result returned by the server in response to the request to respond to the authentication challenge.
+        public let authenticationResult: AuthenticationResultType?
+        /// The session which should be passed both ways in challenge-response calls to the service. If the or API call determines that the caller needs to go through another challenge, they return a session with other challenge parameters. This session should be passed as it is to the next RespondToAuthChallenge API call.
+        public let session: String?
+        /// The challenge name. For more information, see .
+        public let challengeName: ChallengeNameType?
+        /// The challenge parameters. For more information, see .
+        public let challengeParameters: [String: String]?
+
+        public init(authenticationResult: AuthenticationResultType? = nil, session: String? = nil, challengeName: ChallengeNameType? = nil, challengeParameters: [String: String]? = nil) {
+            self.authenticationResult = authenticationResult
+            self.session = session
+            self.challengeName = challengeName
+            self.challengeParameters = challengeParameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationResult = "AuthenticationResult"
+            case session = "Session"
+            case challengeName = "ChallengeName"
+            case challengeParameters = "ChallengeParameters"
+        }
+    }
+
+    public struct AccountTakeoverActionType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventAction", required: true, type: .enum), 
+            AWSShapeMember(label: "Notify", required: true, type: .boolean)
+        ]
+        /// The event action.    BLOCK Choosing this action will block the request.    MFA_IF_CONFIGURED Throw MFA challenge if user has configured it, else allow the request.    MFA_REQUIRED Throw MFA challenge if user has configured it, else block the request.    NO_ACTION Allow the user sign-in.  
+        public let eventAction: AccountTakeoverEventActionType
+        /// Flag specifying whether to send a notification.
+        public let notify: Bool
+
+        public init(eventAction: AccountTakeoverEventActionType, notify: Bool) {
+            self.eventAction = eventAction
+            self.notify = notify
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventAction = "EventAction"
+            case notify = "Notify"
+        }
+    }
+
+    public struct AdminEnableUserResponse: AWSShape {
+
+    }
+
+    public struct ProviderUserIdentifierType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProviderAttributeName", required: false, type: .string), 
+            AWSShapeMember(label: "ProviderAttributeValue", required: false, type: .string), 
+            AWSShapeMember(label: "ProviderName", required: false, type: .string)
+        ]
+        /// The name of the provider attribute to link to, for example, NameID.
+        public let providerAttributeName: String?
+        /// The value of the provider attribute to link to, for example, xxxxx_account.
+        public let providerAttributeValue: String?
+        /// The name of the provider, for example, Facebook, Google, or Login with Amazon.
+        public let providerName: String?
+
+        public init(providerAttributeName: String? = nil, providerAttributeValue: String? = nil, providerName: String? = nil) {
+            self.providerAttributeName = providerAttributeName
+            self.providerAttributeValue = providerAttributeValue
+            self.providerName = providerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case providerAttributeName = "ProviderAttributeName"
+            case providerAttributeValue = "ProviderAttributeValue"
+            case providerName = "ProviderName"
+        }
+    }
+
+    public struct AdminDeleteUserAttributesResponse: AWSShape {
+
+    }
+
+    public struct DeleteResourceServerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Identifier", required: true, type: .string), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
+        ]
+        /// The identifier for the resource server.
+        public let identifier: String
+        /// The user pool ID for the user pool that hosts the resource server.
+        public let userPoolId: String
+
+        public init(identifier: String, userPoolId: String) {
+            self.identifier = identifier
+            self.userPoolId = userPoolId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identifier = "Identifier"
+            case userPoolId = "UserPoolId"
+        }
+    }
+
+    public struct AdminRespondToAuthChallengeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
             AWSShapeMember(label: "AnalyticsMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "UserContextData", required: false, type: .structure), 
+            AWSShapeMember(label: "ClientId", required: true, type: .string), 
+            AWSShapeMember(label: "ChallengeName", required: true, type: .enum), 
+            AWSShapeMember(label: "Session", required: false, type: .string), 
+            AWSShapeMember(label: "ChallengeResponses", required: false, type: .map), 
+            AWSShapeMember(label: "ContextData", required: false, type: .structure)
+        ]
+        /// The ID of the Amazon Cognito user pool.
+        public let userPoolId: String
+        /// The analytics metadata for collecting Amazon Pinpoint metrics for AdminRespondToAuthChallenge calls.
+        public let analyticsMetadata: AnalyticsMetadataType?
+        /// The app client ID.
+        public let clientId: String
+        /// The challenge name. For more information, see .
+        public let challengeName: ChallengeNameType
+        /// The session which should be passed both ways in challenge-response calls to the service. If InitiateAuth or RespondToAuthChallenge API call determines that the caller needs to go through another challenge, they return a session with other challenge parameters. This session should be passed as it is to the next RespondToAuthChallenge API call.
+        public let session: String?
+        /// The challenge responses. These are inputs corresponding to the value of ChallengeName, for example:    SMS_MFA: SMS_MFA_CODE, USERNAME, SECRET_HASH (if app client is configured with client secret).    PASSWORD_VERIFIER: PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK, TIMESTAMP, USERNAME, SECRET_HASH (if app client is configured with client secret).    ADMIN_NO_SRP_AUTH: PASSWORD, USERNAME, SECRET_HASH (if app client is configured with client secret).     NEW_PASSWORD_REQUIRED: NEW_PASSWORD, any other required attributes, USERNAME, SECRET_HASH (if app client is configured with client secret).    The value of the USERNAME attribute must be the user's actual username, not an alias (such as email address or phone number). To make this easier, the AdminInitiateAuth response includes the actual username value in the USERNAMEUSER_ID_FOR_SRP attribute, even if you specified an alias in your call to AdminInitiateAuth.
+        public let challengeResponses: [String: String]?
+        /// Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
+        public let contextData: ContextDataType?
+
+        public init(userPoolId: String, analyticsMetadata: AnalyticsMetadataType? = nil, clientId: String, challengeName: ChallengeNameType, session: String? = nil, challengeResponses: [String: String]? = nil, contextData: ContextDataType? = nil) {
+            self.userPoolId = userPoolId
+            self.analyticsMetadata = analyticsMetadata
+            self.clientId = clientId
+            self.challengeName = challengeName
+            self.session = session
+            self.challengeResponses = challengeResponses
+            self.contextData = contextData
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userPoolId = "UserPoolId"
+            case analyticsMetadata = "AnalyticsMetadata"
+            case clientId = "ClientId"
+            case challengeName = "ChallengeName"
+            case session = "Session"
+            case challengeResponses = "ChallengeResponses"
+            case contextData = "ContextData"
+        }
+    }
+
+    public struct SoftwareTokenMfaConfigType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean)
+        ]
+        /// Specifies whether software token MFA is enabled.
+        public let enabled: Bool?
+
+        public init(enabled: Bool? = nil) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+        }
+    }
+
+    public struct AdminInitiateAuthRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
             AWSShapeMember(label: "ClientMetadata", required: false, type: .map), 
             AWSShapeMember(label: "AuthFlow", required: true, type: .enum), 
-            AWSShapeMember(label: "ClientId", required: true, type: .string)
+            AWSShapeMember(label: "ClientId", required: true, type: .string), 
+            AWSShapeMember(label: "AuthParameters", required: false, type: .map), 
+            AWSShapeMember(label: "AnalyticsMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "ContextData", required: false, type: .structure)
         ]
-        /// The authentication parameters. These are inputs corresponding to the AuthFlow that you are invoking. The required values depend on the value of AuthFlow:   For USER_SRP_AUTH: USERNAME (required), SRP_A (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY    For REFRESH_TOKEN_AUTH/REFRESH_TOKEN: REFRESH_TOKEN (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY    For CUSTOM_AUTH: USERNAME (required), SECRET_HASH (if app client is configured with client secret), DEVICE_KEY   
-        public let authParameters: [String: String]?
-        /// The Amazon Pinpoint analytics metadata for collecting metrics for InitiateAuth calls.
-        public let analyticsMetadata: AnalyticsMetadataType?
-        /// Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
-        public let userContextData: UserContextDataType?
+        /// The ID of the Amazon Cognito user pool.
+        public let userPoolId: String
         /// This is a random key-value pair map which can contain any key and will be passed to your PreAuthentication Lambda trigger as-is. It can be used to implement additional validations around authentication.
         public let clientMetadata: [String: String]?
-        /// The authentication flow for this call to execute. The API action will depend on this value. For example:     REFRESH_TOKEN_AUTH will take in a valid refresh token and return new tokens.    USER_SRP_AUTH will take in USERNAME and SRP_A and return the SRP variables to be used for next challenge execution.    USER_PASSWORD_AUTH will take in USERNAME and PASSWORD and return the next challenge or tokens.   Valid values include:    USER_SRP_AUTH: Authentication flow for the Secure Remote Password (SRP) protocol.    REFRESH_TOKEN_AUTH/REFRESH_TOKEN: Authentication flow for refreshing the access token and ID token by supplying a valid refresh token.    CUSTOM_AUTH: Custom authentication flow.    USER_PASSWORD_AUTH: Non-SRP authentication flow; USERNAME and PASSWORD are passed directly. If a user migration Lambda trigger is set, this flow will invoke the user migration Lambda if the USERNAME is not found in the user pool.     ADMIN_NO_SRP_AUTH is not a valid value.
+        /// The authentication flow for this call to execute. The API action will depend on this value. For example:    REFRESH_TOKEN_AUTH will take in a valid refresh token and return new tokens.    USER_SRP_AUTH will take in USERNAME and SRP_A and return the SRP variables to be used for next challenge execution.    USER_PASSWORD_AUTH will take in USERNAME and PASSWORD and return the next challenge or tokens.   Valid values include:    USER_SRP_AUTH: Authentication flow for the Secure Remote Password (SRP) protocol.    REFRESH_TOKEN_AUTH/REFRESH_TOKEN: Authentication flow for refreshing the access token and ID token by supplying a valid refresh token.    CUSTOM_AUTH: Custom authentication flow.    ADMIN_NO_SRP_AUTH: Non-SRP authentication flow; you can pass in the USERNAME and PASSWORD directly if the flow is enabled for calling the app client.    USER_PASSWORD_AUTH: Non-SRP authentication flow; USERNAME and PASSWORD are passed directly. If a user migration Lambda trigger is set, this flow will invoke the user migration Lambda if the USERNAME is not found in the user pool.   
         public let authFlow: AuthFlowType
         /// The app client ID.
         public let clientId: String
+        /// The authentication parameters. These are inputs corresponding to the AuthFlow that you are invoking. The required values depend on the value of AuthFlow:   For USER_SRP_AUTH: USERNAME (required), SRP_A (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY    For REFRESH_TOKEN_AUTH/REFRESH_TOKEN: REFRESH_TOKEN (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY    For ADMIN_NO_SRP_AUTH: USERNAME (required), SECRET_HASH (if app client is configured with client secret), PASSWORD (required), DEVICE_KEY    For CUSTOM_AUTH: USERNAME (required), SECRET_HASH (if app client is configured with client secret), DEVICE_KEY   
+        public let authParameters: [String: String]?
+        /// The analytics metadata for collecting Amazon Pinpoint metrics for AdminInitiateAuth calls.
+        public let analyticsMetadata: AnalyticsMetadataType?
+        /// Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
+        public let contextData: ContextDataType?
 
-        public init(authParameters: [String: String]? = nil, analyticsMetadata: AnalyticsMetadataType? = nil, userContextData: UserContextDataType? = nil, clientMetadata: [String: String]? = nil, authFlow: AuthFlowType, clientId: String) {
-            self.authParameters = authParameters
-            self.analyticsMetadata = analyticsMetadata
-            self.userContextData = userContextData
+        public init(userPoolId: String, clientMetadata: [String: String]? = nil, authFlow: AuthFlowType, clientId: String, authParameters: [String: String]? = nil, analyticsMetadata: AnalyticsMetadataType? = nil, contextData: ContextDataType? = nil) {
+            self.userPoolId = userPoolId
             self.clientMetadata = clientMetadata
             self.authFlow = authFlow
+            self.clientId = clientId
+            self.authParameters = authParameters
+            self.analyticsMetadata = analyticsMetadata
+            self.contextData = contextData
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userPoolId = "UserPoolId"
+            case clientMetadata = "ClientMetadata"
+            case authFlow = "AuthFlow"
+            case clientId = "ClientId"
+            case authParameters = "AuthParameters"
+            case analyticsMetadata = "AnalyticsMetadata"
+            case contextData = "ContextData"
+        }
+    }
+
+    public enum ExplicitAuthFlowsType: String, CustomStringConvertible, Codable {
+        case adminNoSrpAuth = "ADMIN_NO_SRP_AUTH"
+        case customAuthFlowOnly = "CUSTOM_AUTH_FLOW_ONLY"
+        case userPasswordAuth = "USER_PASSWORD_AUTH"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DomainDescriptionType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserPoolId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "Version", required: false, type: .string), 
+            AWSShapeMember(label: "CloudFrontDistribution", required: false, type: .string), 
+            AWSShapeMember(label: "CustomDomainConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "S3Bucket", required: false, type: .string), 
+            AWSShapeMember(label: "AWSAccountId", required: false, type: .string), 
+            AWSShapeMember(label: "Domain", required: false, type: .string)
+        ]
+        /// The user pool ID.
+        public let userPoolId: String?
+        /// The domain status.
+        public let status: DomainStatusType?
+        /// The app version.
+        public let version: String?
+        /// The ARN of the CloudFront distribution.
+        public let cloudFrontDistribution: String?
+        public let customDomainConfig: CustomDomainConfigType?
+        /// The S3 bucket where the static files for this domain are stored.
+        public let s3Bucket: String?
+        /// The AWS account ID for the user pool owner.
+        public let aWSAccountId: String?
+        /// The domain string.
+        public let domain: String?
+
+        public init(userPoolId: String? = nil, status: DomainStatusType? = nil, version: String? = nil, cloudFrontDistribution: String? = nil, customDomainConfig: CustomDomainConfigType? = nil, s3Bucket: String? = nil, aWSAccountId: String? = nil, domain: String? = nil) {
+            self.userPoolId = userPoolId
+            self.status = status
+            self.version = version
+            self.cloudFrontDistribution = cloudFrontDistribution
+            self.customDomainConfig = customDomainConfig
+            self.s3Bucket = s3Bucket
+            self.aWSAccountId = aWSAccountId
+            self.domain = domain
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userPoolId = "UserPoolId"
+            case status = "Status"
+            case version = "Version"
+            case cloudFrontDistribution = "CloudFrontDistribution"
+            case customDomainConfig = "CustomDomainConfig"
+            case s3Bucket = "S3Bucket"
+            case aWSAccountId = "AWSAccountId"
+            case domain = "Domain"
+        }
+    }
+
+    public struct ListUserImportJobsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: true, type: .integer), 
+            AWSShapeMember(label: "PaginationToken", required: false, type: .string), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
+        ]
+        /// The maximum number of import jobs you want the request to return.
+        public let maxResults: Int32
+        /// An identifier that was returned from the previous call to ListUserImportJobs, which can be used to return the next set of import jobs in the list.
+        public let paginationToken: String?
+        /// The user pool ID for the user pool that the users are being imported into.
+        public let userPoolId: String
+
+        public init(maxResults: Int32, paginationToken: String? = nil, userPoolId: String) {
+            self.maxResults = maxResults
+            self.paginationToken = paginationToken
+            self.userPoolId = userPoolId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case paginationToken = "PaginationToken"
+            case userPoolId = "UserPoolId"
+        }
+    }
+
+    public struct ConfirmForgotPasswordResponse: AWSShape {
+
+    }
+
+    public struct SetUserMFAPreferenceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SoftwareTokenMfaSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "AccessToken", required: true, type: .string), 
+            AWSShapeMember(label: "SMSMfaSettings", required: false, type: .structure)
+        ]
+        /// The time-based one-time password software token MFA settings.
+        public let softwareTokenMfaSettings: SoftwareTokenMfaSettingsType?
+        /// The access token.
+        public let accessToken: String
+        /// The SMS text message multi-factor authentication (MFA) settings.
+        public let sMSMfaSettings: SMSMfaSettingsType?
+
+        public init(softwareTokenMfaSettings: SoftwareTokenMfaSettingsType? = nil, accessToken: String, sMSMfaSettings: SMSMfaSettingsType? = nil) {
+            self.softwareTokenMfaSettings = softwareTokenMfaSettings
+            self.accessToken = accessToken
+            self.sMSMfaSettings = sMSMfaSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case softwareTokenMfaSettings = "SoftwareTokenMfaSettings"
+            case accessToken = "AccessToken"
+            case sMSMfaSettings = "SMSMfaSettings"
+        }
+    }
+
+    public struct ConfirmForgotPasswordRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserContextData", required: false, type: .structure), 
+            AWSShapeMember(label: "Username", required: true, type: .string), 
+            AWSShapeMember(label: "Password", required: true, type: .string), 
+            AWSShapeMember(label: "SecretHash", required: false, type: .string), 
+            AWSShapeMember(label: "ConfirmationCode", required: true, type: .string), 
+            AWSShapeMember(label: "AnalyticsMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "ClientId", required: true, type: .string)
+        ]
+        /// Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
+        public let userContextData: UserContextDataType?
+        /// The user name of the user for whom you want to enter a code to retrieve a forgotten password.
+        public let username: String
+        /// The password sent by a user's request to retrieve a forgotten password.
+        public let password: String
+        /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message.
+        public let secretHash: String?
+        /// The confirmation code sent by a user's request to retrieve a forgotten password. For more information, see 
+        public let confirmationCode: String
+        /// The Amazon Pinpoint analytics metadata for collecting metrics for ConfirmForgotPassword calls.
+        public let analyticsMetadata: AnalyticsMetadataType?
+        /// The app client ID of the app associated with the user pool.
+        public let clientId: String
+
+        public init(userContextData: UserContextDataType? = nil, username: String, password: String, secretHash: String? = nil, confirmationCode: String, analyticsMetadata: AnalyticsMetadataType? = nil, clientId: String) {
+            self.userContextData = userContextData
+            self.username = username
+            self.password = password
+            self.secretHash = secretHash
+            self.confirmationCode = confirmationCode
+            self.analyticsMetadata = analyticsMetadata
             self.clientId = clientId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authParameters = "AuthParameters"
-            case analyticsMetadata = "AnalyticsMetadata"
             case userContextData = "UserContextData"
-            case clientMetadata = "ClientMetadata"
-            case authFlow = "AuthFlow"
+            case username = "Username"
+            case password = "Password"
+            case secretHash = "SecretHash"
+            case confirmationCode = "ConfirmationCode"
+            case analyticsMetadata = "AnalyticsMetadata"
             case clientId = "ClientId"
         }
     }
@@ -5859,145 +3414,2081 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct ListUserPoolClientsResponse: AWSShape {
+    public struct InitiateAuthResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolClients", required: false, type: .list), 
+            AWSShapeMember(label: "AuthenticationResult", required: false, type: .structure), 
+            AWSShapeMember(label: "Session", required: false, type: .string), 
+            AWSShapeMember(label: "ChallengeName", required: false, type: .enum), 
+            AWSShapeMember(label: "ChallengeParameters", required: false, type: .map)
+        ]
+        /// The result of the authentication response. This is only returned if the caller does not need to pass another challenge. If the caller does need to pass another challenge before it gets tokens, ChallengeName, ChallengeParameters, and Session are returned.
+        public let authenticationResult: AuthenticationResultType?
+        /// The session which should be passed both ways in challenge-response calls to the service. If the or API call determines that the caller needs to go through another challenge, they return a session with other challenge parameters. This session should be passed as it is to the next RespondToAuthChallenge API call.
+        public let session: String?
+        /// The name of the challenge which you are responding to with this call. This is returned to you in the AdminInitiateAuth response if you need to pass another challenge. Valid values include the following. Note that all of these challenges require USERNAME and SECRET_HASH (if applicable) in the parameters.    SMS_MFA: Next challenge is to supply an SMS_MFA_CODE, delivered via SMS.    PASSWORD_VERIFIER: Next challenge is to supply PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK, and TIMESTAMP after the client-side SRP calculations.    CUSTOM_CHALLENGE: This is returned if your custom authentication flow determines that the user should pass another challenge before tokens are issued.    DEVICE_SRP_AUTH: If device tracking was enabled on your user pool and the previous challenges were passed, this challenge is returned so that Amazon Cognito can start tracking this device.    DEVICE_PASSWORD_VERIFIER: Similar to PASSWORD_VERIFIER, but for devices only.    NEW_PASSWORD_REQUIRED: For users which are required to change their passwords after successful first login. This challenge should be passed with NEW_PASSWORD and any other required attributes.  
+        public let challengeName: ChallengeNameType?
+        /// The challenge parameters. These are returned to you in the InitiateAuth response if you need to pass another challenge. The responses in this parameter should be used to compute inputs to the next call (RespondToAuthChallenge).  All challenges require USERNAME and SECRET_HASH (if applicable).
+        public let challengeParameters: [String: String]?
+
+        public init(authenticationResult: AuthenticationResultType? = nil, session: String? = nil, challengeName: ChallengeNameType? = nil, challengeParameters: [String: String]? = nil) {
+            self.authenticationResult = authenticationResult
+            self.session = session
+            self.challengeName = challengeName
+            self.challengeParameters = challengeParameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationResult = "AuthenticationResult"
+            case session = "Session"
+            case challengeName = "ChallengeName"
+            case challengeParameters = "ChallengeParameters"
+        }
+    }
+
+    public struct StartUserImportJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: true, type: .string), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
+        ]
+        /// The job ID for the user import job.
+        public let jobId: String
+        /// The user pool ID for the user pool that the users are being imported into.
+        public let userPoolId: String
+
+        public init(jobId: String, userPoolId: String) {
+            self.jobId = jobId
+            self.userPoolId = userPoolId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+            case userPoolId = "UserPoolId"
+        }
+    }
+
+    public enum RiskLevelType: String, CustomStringConvertible, Codable {
+        case low = "Low"
+        case medium = "Medium"
+        case high = "High"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ChangePasswordRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProposedPassword", required: true, type: .string), 
+            AWSShapeMember(label: "AccessToken", required: true, type: .string), 
+            AWSShapeMember(label: "PreviousPassword", required: true, type: .string)
+        ]
+        /// The new password.
+        public let proposedPassword: String
+        /// The access token.
+        public let accessToken: String
+        /// The old password.
+        public let previousPassword: String
+
+        public init(proposedPassword: String, accessToken: String, previousPassword: String) {
+            self.proposedPassword = proposedPassword
+            self.accessToken = accessToken
+            self.previousPassword = previousPassword
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case proposedPassword = "ProposedPassword"
+            case accessToken = "AccessToken"
+            case previousPassword = "PreviousPassword"
+        }
+    }
+
+    public struct DescribeRiskConfigurationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RiskConfiguration", required: true, type: .structure)
+        ]
+        /// The risk configuration.
+        public let riskConfiguration: RiskConfigurationType
+
+        public init(riskConfiguration: RiskConfigurationType) {
+            self.riskConfiguration = riskConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case riskConfiguration = "RiskConfiguration"
+        }
+    }
+
+    public struct GetUserAttributeVerificationCodeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeName", required: true, type: .string), 
+            AWSShapeMember(label: "AccessToken", required: true, type: .string)
+        ]
+        /// The attribute name returned by the server response to get the user attribute verification code.
+        public let attributeName: String
+        /// The access token returned by the server response to get the user attribute verification code.
+        public let accessToken: String
+
+        public init(attributeName: String, accessToken: String) {
+            self.attributeName = attributeName
+            self.accessToken = accessToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case accessToken = "AccessToken"
+        }
+    }
+
+    public struct AdminDisableUserRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "Username", required: true, type: .string)
+        ]
+        /// The user pool ID for the user pool where you want to disable the user.
+        public let userPoolId: String
+        /// The user name of the user you wish to disable.
+        public let username: String
+
+        public init(userPoolId: String, username: String) {
+            self.userPoolId = userPoolId
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userPoolId = "UserPoolId"
+            case username = "Username"
+        }
+    }
+
+    public struct SetRiskConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RiskExceptionConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "AccountTakeoverRiskConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "ClientId", required: false, type: .string), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "CompromisedCredentialsRiskConfiguration", required: false, type: .structure)
+        ]
+        /// The configuration to override the risk decision.
+        public let riskExceptionConfiguration: RiskExceptionConfigurationType?
+        /// The account takeover risk configuration.
+        public let accountTakeoverRiskConfiguration: AccountTakeoverRiskConfigurationType?
+        /// The app client ID. If ClientId is null, then the risk configuration is mapped to userPoolId. When the client ID is null, the same risk configuration is applied to all the clients in the userPool. Otherwise, ClientId is mapped to the client. When the client ID is not null, the user pool configuration is overridden and the risk configuration for the client is used instead.
+        public let clientId: String?
+        /// The user pool ID. 
+        public let userPoolId: String
+        /// The compromised credentials risk configuration.
+        public let compromisedCredentialsRiskConfiguration: CompromisedCredentialsRiskConfigurationType?
+
+        public init(riskExceptionConfiguration: RiskExceptionConfigurationType? = nil, accountTakeoverRiskConfiguration: AccountTakeoverRiskConfigurationType? = nil, clientId: String? = nil, userPoolId: String, compromisedCredentialsRiskConfiguration: CompromisedCredentialsRiskConfigurationType? = nil) {
+            self.riskExceptionConfiguration = riskExceptionConfiguration
+            self.accountTakeoverRiskConfiguration = accountTakeoverRiskConfiguration
+            self.clientId = clientId
+            self.userPoolId = userPoolId
+            self.compromisedCredentialsRiskConfiguration = compromisedCredentialsRiskConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case riskExceptionConfiguration = "RiskExceptionConfiguration"
+            case accountTakeoverRiskConfiguration = "AccountTakeoverRiskConfiguration"
+            case clientId = "ClientId"
+            case userPoolId = "UserPoolId"
+            case compromisedCredentialsRiskConfiguration = "CompromisedCredentialsRiskConfiguration"
+        }
+    }
+
+    public struct CreateGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Precedence", required: false, type: .integer), 
+            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "GroupName", required: true, type: .string), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
+        ]
+        /// A nonnegative integer value that specifies the precedence of this group relative to the other groups that a user can belong to in the user pool. Zero is the highest precedence value. Groups with lower Precedence values take precedence over groups with higher or null Precedence values. If a user belongs to two or more groups, it is the group with the lowest precedence value whose role ARN will be used in the cognito:roles and cognito:preferred_role claims in the user's tokens. Two groups can have the same Precedence value. If this happens, neither group takes precedence over the other. If two groups with the same Precedence have the same role ARN, that role is used in the cognito:preferred_role claim in tokens for users in each group. If the two groups have different role ARNs, the cognito:preferred_role claim is not set in users' tokens. The default Precedence value is null.
+        public let precedence: Int32?
+        /// The role ARN for the group.
+        public let roleArn: String?
+        /// The name of the group. Must be unique.
+        public let groupName: String
+        /// The user pool ID for the user pool.
+        public let userPoolId: String
+        /// A string containing the description of the group.
+        public let description: String?
+
+        public init(precedence: Int32? = nil, roleArn: String? = nil, groupName: String, userPoolId: String, description: String? = nil) {
+            self.precedence = precedence
+            self.roleArn = roleArn
+            self.groupName = groupName
+            self.userPoolId = userPoolId
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case precedence = "Precedence"
+            case roleArn = "RoleArn"
+            case groupName = "GroupName"
+            case userPoolId = "UserPoolId"
+            case description = "Description"
+        }
+    }
+
+    public struct CodeDeliveryDetailsType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeliveryMedium", required: false, type: .enum), 
+            AWSShapeMember(label: "AttributeName", required: false, type: .string), 
+            AWSShapeMember(label: "Destination", required: false, type: .string)
+        ]
+        /// The delivery medium (email message or phone number).
+        public let deliveryMedium: DeliveryMediumType?
+        /// The attribute name.
+        public let attributeName: String?
+        /// The destination for the code delivery details.
+        public let destination: String?
+
+        public init(deliveryMedium: DeliveryMediumType? = nil, attributeName: String? = nil, destination: String? = nil) {
+            self.deliveryMedium = deliveryMedium
+            self.attributeName = attributeName
+            self.destination = destination
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliveryMedium = "DeliveryMedium"
+            case attributeName = "AttributeName"
+            case destination = "Destination"
+        }
+    }
+
+    public enum IdentityProviderTypeType: String, CustomStringConvertible, Codable {
+        case saml = "SAML"
+        case facebook = "Facebook"
+        case google = "Google"
+        case loginwithamazon = "LoginWithAmazon"
+        case oidc = "OIDC"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct AdminUpdateAuthEventFeedbackResponse: AWSShape {
+
+    }
+
+    public struct DeleteUserRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessToken", required: true, type: .string)
+        ]
+        /// The access token from a request to delete a user.
+        public let accessToken: String
+
+        public init(accessToken: String) {
+            self.accessToken = accessToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessToken = "AccessToken"
+        }
+    }
+
+    public struct ListUserPoolsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserPools", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The user pool clients in the response that lists user pool clients.
-        public let userPoolClients: [UserPoolClientDescription]?
+        /// The user pools from the response to list users.
+        public let userPools: [UserPoolDescriptionType]?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
 
-        public init(userPoolClients: [UserPoolClientDescription]? = nil, nextToken: String? = nil) {
-            self.userPoolClients = userPoolClients
+        public init(userPools: [UserPoolDescriptionType]? = nil, nextToken: String? = nil) {
+            self.userPools = userPools
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case userPoolClients = "UserPoolClients"
+            case userPools = "UserPools"
             case nextToken = "NextToken"
         }
     }
 
-    public struct UpdateUserPoolRequest: AWSShape {
+    public struct CreateResourceServerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoVerifiedAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "SmsVerificationMessage", required: false, type: .string), 
-            AWSShapeMember(label: "UserPoolTags", required: false, type: .map), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "EmailVerificationSubject", required: false, type: .string), 
-            AWSShapeMember(label: "Policies", required: false, type: .structure), 
-            AWSShapeMember(label: "EmailVerificationMessage", required: false, type: .string), 
-            AWSShapeMember(label: "AdminCreateUserConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "DeviceConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "MfaConfiguration", required: false, type: .enum), 
-            AWSShapeMember(label: "VerificationMessageTemplate", required: false, type: .structure), 
-            AWSShapeMember(label: "SmsAuthenticationMessage", required: false, type: .string), 
-            AWSShapeMember(label: "EmailConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "UserPoolAddOns", required: false, type: .structure), 
-            AWSShapeMember(label: "LambdaConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "SmsConfiguration", required: false, type: .structure)
+            AWSShapeMember(label: "Scopes", required: false, type: .list), 
+            AWSShapeMember(label: "Identifier", required: true, type: .string)
         ]
-        /// The attributes that are automatically verified when the Amazon Cognito service makes a request to update user pools.
-        public let autoVerifiedAttributes: [VerifiedAttributeType]?
-        /// A container with information about the SMS verification message.
-        public let smsVerificationMessage: String?
-        /// The cost allocation tags for the user pool. For more information, see Adding Cost Allocation Tags to Your User Pool 
-        public let userPoolTags: [String: String]?
-        /// The user pool ID for the user pool you want to update.
+        /// A friendly name for the resource server.
+        public let name: String
+        /// The user pool ID for the user pool.
         public let userPoolId: String
-        /// The subject of the email verification message.
-        public let emailVerificationSubject: String?
-        /// A container with the policies you wish to update in a user pool.
-        public let policies: UserPoolPolicyType?
-        /// The contents of the email verification message.
-        public let emailVerificationMessage: String?
-        /// The configuration for AdminCreateUser requests.
-        public let adminCreateUserConfig: AdminCreateUserConfigType?
-        /// Device configuration.
-        public let deviceConfiguration: DeviceConfigurationType?
-        /// Can be one of the following values:    OFF - MFA tokens are not required and cannot be specified during user registration.    ON - MFA tokens are required for all user registrations. You can only specify required when you are initially creating a user pool.    OPTIONAL - Users have the option when registering to create an MFA token.  
-        public let mfaConfiguration: UserPoolMfaType?
-        /// The template for verification messages.
-        public let verificationMessageTemplate: VerificationMessageTemplateType?
-        /// The contents of the SMS authentication message.
-        public let smsAuthenticationMessage: String?
-        /// Email configuration.
-        public let emailConfiguration: EmailConfigurationType?
-        /// Used to enable advanced security risk detection. Set the key AdvancedSecurityMode to the value "AUDIT".
-        public let userPoolAddOns: UserPoolAddOnsType?
-        /// The AWS Lambda configuration information from the request to update the user pool.
-        public let lambdaConfig: LambdaConfigType?
-        /// SMS configuration.
-        public let smsConfiguration: SmsConfigurationType?
+        /// A list of scopes. Each scope is map, where the keys are name and description.
+        public let scopes: [ResourceServerScopeType]?
+        /// A unique resource server identifier for the resource server. This could be an HTTPS endpoint where the resource server is located. For example, https://my-weather-api.example.com.
+        public let identifier: String
 
-        public init(autoVerifiedAttributes: [VerifiedAttributeType]? = nil, smsVerificationMessage: String? = nil, userPoolTags: [String: String]? = nil, userPoolId: String, emailVerificationSubject: String? = nil, policies: UserPoolPolicyType? = nil, emailVerificationMessage: String? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, deviceConfiguration: DeviceConfigurationType? = nil, mfaConfiguration: UserPoolMfaType? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil, smsAuthenticationMessage: String? = nil, emailConfiguration: EmailConfigurationType? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, lambdaConfig: LambdaConfigType? = nil, smsConfiguration: SmsConfigurationType? = nil) {
-            self.autoVerifiedAttributes = autoVerifiedAttributes
-            self.smsVerificationMessage = smsVerificationMessage
-            self.userPoolTags = userPoolTags
+        public init(name: String, userPoolId: String, scopes: [ResourceServerScopeType]? = nil, identifier: String) {
+            self.name = name
             self.userPoolId = userPoolId
-            self.emailVerificationSubject = emailVerificationSubject
-            self.policies = policies
-            self.emailVerificationMessage = emailVerificationMessage
-            self.adminCreateUserConfig = adminCreateUserConfig
-            self.deviceConfiguration = deviceConfiguration
-            self.mfaConfiguration = mfaConfiguration
-            self.verificationMessageTemplate = verificationMessageTemplate
-            self.smsAuthenticationMessage = smsAuthenticationMessage
-            self.emailConfiguration = emailConfiguration
-            self.userPoolAddOns = userPoolAddOns
-            self.lambdaConfig = lambdaConfig
-            self.smsConfiguration = smsConfiguration
+            self.scopes = scopes
+            self.identifier = identifier
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoVerifiedAttributes = "AutoVerifiedAttributes"
-            case smsVerificationMessage = "SmsVerificationMessage"
-            case userPoolTags = "UserPoolTags"
+            case name = "Name"
             case userPoolId = "UserPoolId"
-            case emailVerificationSubject = "EmailVerificationSubject"
-            case policies = "Policies"
-            case emailVerificationMessage = "EmailVerificationMessage"
-            case adminCreateUserConfig = "AdminCreateUserConfig"
-            case deviceConfiguration = "DeviceConfiguration"
-            case mfaConfiguration = "MfaConfiguration"
-            case verificationMessageTemplate = "VerificationMessageTemplate"
-            case smsAuthenticationMessage = "SmsAuthenticationMessage"
-            case emailConfiguration = "EmailConfiguration"
-            case userPoolAddOns = "UserPoolAddOns"
-            case lambdaConfig = "LambdaConfig"
-            case smsConfiguration = "SmsConfiguration"
+            case scopes = "Scopes"
+            case identifier = "Identifier"
         }
     }
 
-    public struct GetUICustomizationRequest: AWSShape {
+    public struct DeleteUserAttributesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessToken", required: true, type: .string), 
+            AWSShapeMember(label: "UserAttributeNames", required: true, type: .list)
+        ]
+        /// The access token used in the request to delete user attributes.
+        public let accessToken: String
+        /// An array of strings representing the user attribute names you wish to delete. For custom attributes, you must prepend the custom: prefix to the attribute name.
+        public let userAttributeNames: [String]
+
+        public init(accessToken: String, userAttributeNames: [String]) {
+            self.accessToken = accessToken
+            self.userAttributeNames = userAttributeNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessToken = "AccessToken"
+            case userAttributeNames = "UserAttributeNames"
+        }
+    }
+
+    public struct UpdateGroupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Group", required: false, type: .structure)
+        ]
+        /// The group object for the group.
+        public let group: GroupType?
+
+        public init(group: GroupType? = nil) {
+            self.group = group
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case group = "Group"
+        }
+    }
+
+    public struct UpdateUserPoolResponse: AWSShape {
+
+    }
+
+    public struct GetIdentityProviderByIdentifierResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdentityProvider", required: true, type: .structure)
+        ]
+        /// The identity provider object.
+        public let identityProvider: IdentityProviderType
+
+        public init(identityProvider: IdentityProviderType) {
+            self.identityProvider = identityProvider
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityProvider = "IdentityProvider"
+        }
+    }
+
+    public struct GlobalSignOutResponse: AWSShape {
+
+    }
+
+    public struct MessageTemplateType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SMSMessage", required: false, type: .string), 
+            AWSShapeMember(label: "EmailMessage", required: false, type: .string), 
+            AWSShapeMember(label: "EmailSubject", required: false, type: .string)
+        ]
+        /// The message template for SMS messages.
+        public let sMSMessage: String?
+        /// The message template for email messages.
+        public let emailMessage: String?
+        /// The subject line for email messages.
+        public let emailSubject: String?
+
+        public init(sMSMessage: String? = nil, emailMessage: String? = nil, emailSubject: String? = nil) {
+            self.sMSMessage = sMSMessage
+            self.emailMessage = emailMessage
+            self.emailSubject = emailSubject
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sMSMessage = "SMSMessage"
+            case emailMessage = "EmailMessage"
+            case emailSubject = "EmailSubject"
+        }
+    }
+
+    public struct DescribeUserPoolDomainRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Domain", required: true, type: .string)
+        ]
+        /// The domain string.
+        public let domain: String
+
+        public init(domain: String) {
+            self.domain = domain
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domain = "Domain"
+        }
+    }
+
+    public struct SchemaAttributeType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Required", required: false, type: .boolean), 
+            AWSShapeMember(label: "Mutable", required: false, type: .boolean), 
+            AWSShapeMember(label: "AttributeDataType", required: false, type: .enum), 
+            AWSShapeMember(label: "NumberAttributeConstraints", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "DeveloperOnlyAttribute", required: false, type: .boolean), 
+            AWSShapeMember(label: "StringAttributeConstraints", required: false, type: .structure)
+        ]
+        /// Specifies whether a user pool attribute is required. If the attribute is required and the user does not provide a value, registration or sign-in will fail.
+        public let required: Bool?
+        /// Specifies whether the value of the attribute can be changed.
+        public let mutable: Bool?
+        /// The attribute data type.
+        public let attributeDataType: AttributeDataType?
+        /// Specifies the constraints for an attribute of the number type.
+        public let numberAttributeConstraints: NumberAttributeConstraintsType?
+        /// A schema attribute of the name type.
+        public let name: String?
+        /// Specifies whether the attribute type is developer only.
+        public let developerOnlyAttribute: Bool?
+        /// Specifies the constraints for an attribute of the string type.
+        public let stringAttributeConstraints: StringAttributeConstraintsType?
+
+        public init(required: Bool? = nil, mutable: Bool? = nil, attributeDataType: AttributeDataType? = nil, numberAttributeConstraints: NumberAttributeConstraintsType? = nil, name: String? = nil, developerOnlyAttribute: Bool? = nil, stringAttributeConstraints: StringAttributeConstraintsType? = nil) {
+            self.required = required
+            self.mutable = mutable
+            self.attributeDataType = attributeDataType
+            self.numberAttributeConstraints = numberAttributeConstraints
+            self.name = name
+            self.developerOnlyAttribute = developerOnlyAttribute
+            self.stringAttributeConstraints = stringAttributeConstraints
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case required = "Required"
+            case mutable = "Mutable"
+            case attributeDataType = "AttributeDataType"
+            case numberAttributeConstraints = "NumberAttributeConstraints"
+            case name = "Name"
+            case developerOnlyAttribute = "DeveloperOnlyAttribute"
+            case stringAttributeConstraints = "StringAttributeConstraints"
+        }
+    }
+
+    public struct ListResourceServersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The maximum number of resource servers to return.
+        public let maxResults: Int32?
+        /// The user pool ID for the user pool.
+        public let userPoolId: String
+        /// A pagination token.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, userPoolId: String, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.userPoolId = userPoolId
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case userPoolId = "UserPoolId"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct SetRiskConfigurationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RiskConfiguration", required: true, type: .structure)
+        ]
+        /// The risk configuration.
+        public let riskConfiguration: RiskConfigurationType
+
+        public init(riskConfiguration: RiskConfigurationType) {
+            self.riskConfiguration = riskConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case riskConfiguration = "RiskConfiguration"
+        }
+    }
+
+    public struct DeviceConfigurationType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChallengeRequiredOnNewDevice", required: false, type: .boolean), 
+            AWSShapeMember(label: "DeviceOnlyRememberedOnUserPrompt", required: false, type: .boolean)
+        ]
+        /// Indicates whether a challenge is required on a new device. Only applicable to a new device.
+        public let challengeRequiredOnNewDevice: Bool?
+        /// If true, a device is only remembered on user prompt.
+        public let deviceOnlyRememberedOnUserPrompt: Bool?
+
+        public init(challengeRequiredOnNewDevice: Bool? = nil, deviceOnlyRememberedOnUserPrompt: Bool? = nil) {
+            self.challengeRequiredOnNewDevice = challengeRequiredOnNewDevice
+            self.deviceOnlyRememberedOnUserPrompt = deviceOnlyRememberedOnUserPrompt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case challengeRequiredOnNewDevice = "ChallengeRequiredOnNewDevice"
+            case deviceOnlyRememberedOnUserPrompt = "DeviceOnlyRememberedOnUserPrompt"
+        }
+    }
+
+    public struct SignUpRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserContextData", required: false, type: .structure), 
+            AWSShapeMember(label: "Username", required: true, type: .string), 
+            AWSShapeMember(label: "ValidationData", required: false, type: .list), 
+            AWSShapeMember(label: "Password", required: true, type: .string), 
+            AWSShapeMember(label: "SecretHash", required: false, type: .string), 
+            AWSShapeMember(label: "AnalyticsMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "ClientId", required: true, type: .string), 
+            AWSShapeMember(label: "UserAttributes", required: false, type: .list)
+        ]
+        /// Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
+        public let userContextData: UserContextDataType?
+        /// The user name of the user you wish to register.
+        public let username: String
+        /// The validation data in the request to register a user.
+        public let validationData: [AttributeType]?
+        /// The password of the user you wish to register.
+        public let password: String
+        /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message.
+        public let secretHash: String?
+        /// The Amazon Pinpoint analytics metadata for collecting metrics for SignUp calls.
+        public let analyticsMetadata: AnalyticsMetadataType?
+        /// The ID of the client associated with the user pool.
+        public let clientId: String
+        /// An array of name-value pairs representing user attributes. For custom attributes, you must prepend the custom: prefix to the attribute name.
+        public let userAttributes: [AttributeType]?
+
+        public init(userContextData: UserContextDataType? = nil, username: String, validationData: [AttributeType]? = nil, password: String, secretHash: String? = nil, analyticsMetadata: AnalyticsMetadataType? = nil, clientId: String, userAttributes: [AttributeType]? = nil) {
+            self.userContextData = userContextData
+            self.username = username
+            self.validationData = validationData
+            self.password = password
+            self.secretHash = secretHash
+            self.analyticsMetadata = analyticsMetadata
+            self.clientId = clientId
+            self.userAttributes = userAttributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userContextData = "UserContextData"
+            case username = "Username"
+            case validationData = "ValidationData"
+            case password = "Password"
+            case secretHash = "SecretHash"
+            case analyticsMetadata = "AnalyticsMetadata"
+            case clientId = "ClientId"
+            case userAttributes = "UserAttributes"
+        }
+    }
+
+    public struct CreateUserPoolDomainRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Domain", required: true, type: .string), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "CustomDomainConfig", required: false, type: .structure)
+        ]
+        /// The domain string.
+        public let domain: String
+        /// The user pool ID.
+        public let userPoolId: String
+        /// The configuration for a custom domain that hosts the sign-up and sign-in webpages for your application. Provide this parameter only if you want to use own custom domain for your user pool. Otherwise, you can exclude this parameter and use the Amazon Cognito hosted domain instead. For more information about the hosted domain and custom domains, see Configuring a User Pool Domain.
+        public let customDomainConfig: CustomDomainConfigType?
+
+        public init(domain: String, userPoolId: String, customDomainConfig: CustomDomainConfigType? = nil) {
+            self.domain = domain
+            self.userPoolId = userPoolId
+            self.customDomainConfig = customDomainConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domain = "Domain"
+            case userPoolId = "UserPoolId"
+            case customDomainConfig = "CustomDomainConfig"
+        }
+    }
+
+    public struct NewDeviceMetadataType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeviceGroupKey", required: false, type: .string), 
+            AWSShapeMember(label: "DeviceKey", required: false, type: .string)
+        ]
+        /// The device group key.
+        public let deviceGroupKey: String?
+        /// The device key.
+        public let deviceKey: String?
+
+        public init(deviceGroupKey: String? = nil, deviceKey: String? = nil) {
+            self.deviceGroupKey = deviceGroupKey
+            self.deviceKey = deviceKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceGroupKey = "DeviceGroupKey"
+            case deviceKey = "DeviceKey"
+        }
+    }
+
+    public struct AdminDisableProviderForUserResponse: AWSShape {
+
+    }
+
+    public struct UpdateAuthEventFeedbackResponse: AWSShape {
+
+    }
+
+    public struct AdminSetUserMFAPreferenceResponse: AWSShape {
+
+    }
+
+    public struct CompromisedCredentialsRiskConfigurationType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Actions", required: true, type: .structure), 
+            AWSShapeMember(label: "EventFilter", required: false, type: .list)
+        ]
+        /// The compromised credentials risk configuration actions.
+        public let actions: CompromisedCredentialsActionsType
+        /// Perform the action for these events. The default is to perform all events if no event filter is specified.
+        public let eventFilter: [EventFilterType]?
+
+        public init(actions: CompromisedCredentialsActionsType, eventFilter: [EventFilterType]? = nil) {
+            self.actions = actions
+            self.eventFilter = eventFilter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case eventFilter = "EventFilter"
+        }
+    }
+
+    public struct ResourceServerScopeType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ScopeDescription", required: true, type: .string), 
+            AWSShapeMember(label: "ScopeName", required: true, type: .string)
+        ]
+        /// A description of the scope.
+        public let scopeDescription: String
+        /// The name of the scope.
+        public let scopeName: String
+
+        public init(scopeDescription: String, scopeName: String) {
+            self.scopeDescription = scopeDescription
+            self.scopeName = scopeName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scopeDescription = "ScopeDescription"
+            case scopeName = "ScopeName"
+        }
+    }
+
+    public struct DeviceSecretVerifierConfigType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Salt", required: false, type: .string), 
+            AWSShapeMember(label: "PasswordVerifier", required: false, type: .string)
+        ]
+        /// The salt.
+        public let salt: String?
+        /// The password verifier.
+        public let passwordVerifier: String?
+
+        public init(salt: String? = nil, passwordVerifier: String? = nil) {
+            self.salt = salt
+            self.passwordVerifier = passwordVerifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case salt = "Salt"
+            case passwordVerifier = "PasswordVerifier"
+        }
+    }
+
+    public struct AdminGetDeviceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "ClientId", required: false, type: .string)
+            AWSShapeMember(label: "Username", required: true, type: .string), 
+            AWSShapeMember(label: "DeviceKey", required: true, type: .string)
+        ]
+        /// The user pool ID.
+        public let userPoolId: String
+        /// The user name.
+        public let username: String
+        /// The device key.
+        public let deviceKey: String
+
+        public init(userPoolId: String, username: String, deviceKey: String) {
+            self.userPoolId = userPoolId
+            self.username = username
+            self.deviceKey = deviceKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userPoolId = "UserPoolId"
+            case username = "Username"
+            case deviceKey = "DeviceKey"
+        }
+    }
+
+    public struct SetUserPoolMfaConfigRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SoftwareTokenMfaConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "MfaConfiguration", required: false, type: .enum), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "SmsMfaConfiguration", required: false, type: .structure)
+        ]
+        /// The software token MFA configuration.
+        public let softwareTokenMfaConfiguration: SoftwareTokenMfaConfigType?
+        /// The MFA configuration.
+        public let mfaConfiguration: UserPoolMfaType?
+        /// The user pool ID.
+        public let userPoolId: String
+        /// The SMS text message MFA configuration.
+        public let smsMfaConfiguration: SmsMfaConfigType?
+
+        public init(softwareTokenMfaConfiguration: SoftwareTokenMfaConfigType? = nil, mfaConfiguration: UserPoolMfaType? = nil, userPoolId: String, smsMfaConfiguration: SmsMfaConfigType? = nil) {
+            self.softwareTokenMfaConfiguration = softwareTokenMfaConfiguration
+            self.mfaConfiguration = mfaConfiguration
+            self.userPoolId = userPoolId
+            self.smsMfaConfiguration = smsMfaConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case softwareTokenMfaConfiguration = "SoftwareTokenMfaConfiguration"
+            case mfaConfiguration = "MfaConfiguration"
+            case userPoolId = "UserPoolId"
+            case smsMfaConfiguration = "SmsMfaConfiguration"
+        }
+    }
+
+    public struct GetUserPoolMfaConfigRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
+        ]
+        /// The user pool ID.
+        public let userPoolId: String
+
+        public init(userPoolId: String) {
+            self.userPoolId = userPoolId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userPoolId = "UserPoolId"
+        }
+    }
+
+    public struct AdminCreateUserResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "User", required: false, type: .structure)
+        ]
+        /// The newly created user.
+        public let user: UserType?
+
+        public init(user: UserType? = nil) {
+            self.user = user
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case user = "User"
+        }
+    }
+
+    public struct EventRiskType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RiskLevel", required: false, type: .enum), 
+            AWSShapeMember(label: "RiskDecision", required: false, type: .enum)
+        ]
+        /// The risk level.
+        public let riskLevel: RiskLevelType?
+        /// The risk decision.
+        public let riskDecision: RiskDecisionType?
+
+        public init(riskLevel: RiskLevelType? = nil, riskDecision: RiskDecisionType? = nil) {
+            self.riskLevel = riskLevel
+            self.riskDecision = riskDecision
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case riskLevel = "RiskLevel"
+            case riskDecision = "RiskDecision"
+        }
+    }
+
+    public struct GetDeviceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Device", required: true, type: .structure)
+        ]
+        /// The device.
+        public let device: DeviceType
+
+        public init(device: DeviceType) {
+            self.device = device
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case device = "Device"
+        }
+    }
+
+    public struct GetUserAttributeVerificationCodeResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CodeDeliveryDetails", required: false, type: .structure)
+        ]
+        /// The code delivery details returned by the server in response to the request to get the user attribute verification code.
+        public let codeDeliveryDetails: CodeDeliveryDetailsType?
+
+        public init(codeDeliveryDetails: CodeDeliveryDetailsType? = nil) {
+            self.codeDeliveryDetails = codeDeliveryDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeDeliveryDetails = "CodeDeliveryDetails"
+        }
+    }
+
+    public struct AdminConfirmSignUpResponse: AWSShape {
+
+    }
+
+    public struct ResendConfirmationCodeResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CodeDeliveryDetails", required: false, type: .structure)
+        ]
+        /// The code delivery details returned by the server in response to the request to resend the confirmation code.
+        public let codeDeliveryDetails: CodeDeliveryDetailsType?
+
+        public init(codeDeliveryDetails: CodeDeliveryDetailsType? = nil) {
+            self.codeDeliveryDetails = codeDeliveryDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeDeliveryDetails = "CodeDeliveryDetails"
+        }
+    }
+
+    public enum AccountTakeoverEventActionType: String, CustomStringConvertible, Codable {
+        case block = "BLOCK"
+        case mfaIfConfigured = "MFA_IF_CONFIGURED"
+        case mfaRequired = "MFA_REQUIRED"
+        case noAction = "NO_ACTION"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListGroupsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Groups", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The group objects for the groups.
+        public let groups: [GroupType]?
+        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+        public let nextToken: String?
+
+        public init(groups: [GroupType]? = nil, nextToken: String? = nil) {
+            self.groups = groups
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groups = "Groups"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct SetUICustomizationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UICustomization", required: true, type: .structure)
+        ]
+        /// The UI customization information.
+        public let uICustomization: UICustomizationType
+
+        public init(uICustomization: UICustomizationType) {
+            self.uICustomization = uICustomization
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case uICustomization = "UICustomization"
+        }
+    }
+
+    public struct AdminGetUserRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "Username", required: true, type: .string)
+        ]
+        /// The user pool ID for the user pool where you want to get information about the user.
+        public let userPoolId: String
+        /// The user name of the user you wish to retrieve.
+        public let username: String
+
+        public init(userPoolId: String, username: String) {
+            self.userPoolId = userPoolId
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userPoolId = "UserPoolId"
+            case username = "Username"
+        }
+    }
+
+    public enum ChallengeResponse: String, CustomStringConvertible, Codable {
+        case success = "Success"
+        case failure = "Failure"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DescribeUserPoolResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserPool", required: false, type: .structure)
+        ]
+        /// The container of metadata returned by the server to describe the pool.
+        public let userPool: UserPoolType?
+
+        public init(userPool: UserPoolType? = nil) {
+            self.userPool = userPool
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userPool = "UserPool"
+        }
+    }
+
+    public struct AdminUpdateDeviceStatusRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeviceRememberedStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "DeviceKey", required: true, type: .string), 
+            AWSShapeMember(label: "Username", required: true, type: .string)
+        ]
+        /// The status indicating whether a device has been remembered or not.
+        public let deviceRememberedStatus: DeviceRememberedStatusType?
+        /// The user pool ID.
+        public let userPoolId: String
+        /// The device key.
+        public let deviceKey: String
+        /// The user name.
+        public let username: String
+
+        public init(deviceRememberedStatus: DeviceRememberedStatusType? = nil, userPoolId: String, deviceKey: String, username: String) {
+            self.deviceRememberedStatus = deviceRememberedStatus
+            self.userPoolId = userPoolId
+            self.deviceKey = deviceKey
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceRememberedStatus = "DeviceRememberedStatus"
+            case userPoolId = "UserPoolId"
+            case deviceKey = "DeviceKey"
+            case username = "Username"
+        }
+    }
+
+    public struct MFAOptionType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeName", required: false, type: .string), 
+            AWSShapeMember(label: "DeliveryMedium", required: false, type: .enum)
+        ]
+        /// The attribute name of the MFA option type.
+        public let attributeName: String?
+        /// The delivery medium (email message or SMS message) to send the MFA code.
+        public let deliveryMedium: DeliveryMediumType?
+
+        public init(attributeName: String? = nil, deliveryMedium: DeliveryMediumType? = nil) {
+            self.attributeName = attributeName
+            self.deliveryMedium = deliveryMedium
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case deliveryMedium = "DeliveryMedium"
+        }
+    }
+
+    public struct UserPoolType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CustomDomain", required: false, type: .string), 
+            AWSShapeMember(label: "SmsVerificationMessage", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EmailVerificationMessage", required: false, type: .string), 
+            AWSShapeMember(label: "SmsConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "AdminCreateUserConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "EmailVerificationSubject", required: false, type: .string), 
+            AWSShapeMember(label: "SmsConfigurationFailure", required: false, type: .string), 
+            AWSShapeMember(label: "AliasAttributes", required: false, type: .list), 
+            AWSShapeMember(label: "SmsAuthenticationMessage", required: false, type: .string), 
+            AWSShapeMember(label: "UsernameAttributes", required: false, type: .list), 
+            AWSShapeMember(label: "VerificationMessageTemplate", required: false, type: .structure), 
+            AWSShapeMember(label: "UserPoolAddOns", required: false, type: .structure), 
+            AWSShapeMember(label: "Policies", required: false, type: .structure), 
+            AWSShapeMember(label: "EmailConfigurationFailure", required: false, type: .string), 
+            AWSShapeMember(label: "MfaConfiguration", required: false, type: .enum), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EstimatedNumberOfUsers", required: false, type: .integer), 
+            AWSShapeMember(label: "SchemaAttributes", required: false, type: .list), 
+            AWSShapeMember(label: "LambdaConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "AutoVerifiedAttributes", required: false, type: .list), 
+            AWSShapeMember(label: "UserPoolTags", required: false, type: .map), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "EmailConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Domain", required: false, type: .string), 
+            AWSShapeMember(label: "DeviceConfiguration", required: false, type: .structure)
+        ]
+        public let customDomain: String?
+        /// The contents of the SMS verification message.
+        public let smsVerificationMessage: String?
+        /// The Amazon Resource Name (ARN) for the user pool.
+        public let arn: String?
+        /// The date the user pool was last modified.
+        public let lastModifiedDate: TimeStamp?
+        /// The contents of the email verification message.
+        public let emailVerificationMessage: String?
+        /// The SMS configuration.
+        public let smsConfiguration: SmsConfigurationType?
+        /// The configuration for AdminCreateUser requests.
+        public let adminCreateUserConfig: AdminCreateUserConfigType?
+        /// The status of a user pool.
+        public let status: StatusType?
+        /// The subject of the email verification message.
+        public let emailVerificationSubject: String?
+        /// The reason why the SMS configuration cannot send the messages to your users.
+        public let smsConfigurationFailure: String?
+        /// Specifies the attributes that are aliased in a user pool.
+        public let aliasAttributes: [AliasAttributeType]?
+        /// The contents of the SMS authentication message.
+        public let smsAuthenticationMessage: String?
+        /// Specifies whether email addresses or phone numbers can be specified as usernames when a user signs up.
+        public let usernameAttributes: [UsernameAttributeType]?
+        /// The template for verification messages.
+        public let verificationMessageTemplate: VerificationMessageTemplateType?
+        /// The user pool add-ons.
+        public let userPoolAddOns: UserPoolAddOnsType?
+        /// The policies associated with the user pool.
+        public let policies: UserPoolPolicyType?
+        /// The reason why the email configuration cannot send the messages to your users.
+        public let emailConfigurationFailure: String?
+        /// Can be one of the following values:    OFF - MFA tokens are not required and cannot be specified during user registration.    ON - MFA tokens are required for all user registrations. You can only specify required when you are initially creating a user pool.    OPTIONAL - Users have the option when registering to create an MFA token.  
+        public let mfaConfiguration: UserPoolMfaType?
+        /// The date the user pool was created.
+        public let creationDate: TimeStamp?
+        /// A number estimating the size of the user pool.
+        public let estimatedNumberOfUsers: Int32?
+        /// A container with the schema attributes of a user pool.
+        public let schemaAttributes: [SchemaAttributeType]?
+        /// The AWS Lambda triggers associated with the user pool.
+        public let lambdaConfig: LambdaConfigType?
+        /// Specifies the attributes that are auto-verified in a user pool.
+        public let autoVerifiedAttributes: [VerifiedAttributeType]?
+        /// The cost allocation tags for the user pool. For more information, see Adding Cost Allocation Tags to Your User Pool 
+        public let userPoolTags: [String: String]?
+        /// The name of the user pool.
+        public let name: String?
+        /// The email configuration.
+        public let emailConfiguration: EmailConfigurationType?
+        /// The ID of the user pool.
+        public let id: String?
+        /// Holds the domain prefix if the user pool has a domain associated with it.
+        public let domain: String?
+        /// The device configuration.
+        public let deviceConfiguration: DeviceConfigurationType?
+
+        public init(customDomain: String? = nil, smsVerificationMessage: String? = nil, arn: String? = nil, lastModifiedDate: TimeStamp? = nil, emailVerificationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, status: StatusType? = nil, emailVerificationSubject: String? = nil, smsConfigurationFailure: String? = nil, aliasAttributes: [AliasAttributeType]? = nil, smsAuthenticationMessage: String? = nil, usernameAttributes: [UsernameAttributeType]? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, policies: UserPoolPolicyType? = nil, emailConfigurationFailure: String? = nil, mfaConfiguration: UserPoolMfaType? = nil, creationDate: TimeStamp? = nil, estimatedNumberOfUsers: Int32? = nil, schemaAttributes: [SchemaAttributeType]? = nil, lambdaConfig: LambdaConfigType? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, userPoolTags: [String: String]? = nil, name: String? = nil, emailConfiguration: EmailConfigurationType? = nil, id: String? = nil, domain: String? = nil, deviceConfiguration: DeviceConfigurationType? = nil) {
+            self.customDomain = customDomain
+            self.smsVerificationMessage = smsVerificationMessage
+            self.arn = arn
+            self.lastModifiedDate = lastModifiedDate
+            self.emailVerificationMessage = emailVerificationMessage
+            self.smsConfiguration = smsConfiguration
+            self.adminCreateUserConfig = adminCreateUserConfig
+            self.status = status
+            self.emailVerificationSubject = emailVerificationSubject
+            self.smsConfigurationFailure = smsConfigurationFailure
+            self.aliasAttributes = aliasAttributes
+            self.smsAuthenticationMessage = smsAuthenticationMessage
+            self.usernameAttributes = usernameAttributes
+            self.verificationMessageTemplate = verificationMessageTemplate
+            self.userPoolAddOns = userPoolAddOns
+            self.policies = policies
+            self.emailConfigurationFailure = emailConfigurationFailure
+            self.mfaConfiguration = mfaConfiguration
+            self.creationDate = creationDate
+            self.estimatedNumberOfUsers = estimatedNumberOfUsers
+            self.schemaAttributes = schemaAttributes
+            self.lambdaConfig = lambdaConfig
+            self.autoVerifiedAttributes = autoVerifiedAttributes
+            self.userPoolTags = userPoolTags
+            self.name = name
+            self.emailConfiguration = emailConfiguration
+            self.id = id
+            self.domain = domain
+            self.deviceConfiguration = deviceConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customDomain = "CustomDomain"
+            case smsVerificationMessage = "SmsVerificationMessage"
+            case arn = "Arn"
+            case lastModifiedDate = "LastModifiedDate"
+            case emailVerificationMessage = "EmailVerificationMessage"
+            case smsConfiguration = "SmsConfiguration"
+            case adminCreateUserConfig = "AdminCreateUserConfig"
+            case status = "Status"
+            case emailVerificationSubject = "EmailVerificationSubject"
+            case smsConfigurationFailure = "SmsConfigurationFailure"
+            case aliasAttributes = "AliasAttributes"
+            case smsAuthenticationMessage = "SmsAuthenticationMessage"
+            case usernameAttributes = "UsernameAttributes"
+            case verificationMessageTemplate = "VerificationMessageTemplate"
+            case userPoolAddOns = "UserPoolAddOns"
+            case policies = "Policies"
+            case emailConfigurationFailure = "EmailConfigurationFailure"
+            case mfaConfiguration = "MfaConfiguration"
+            case creationDate = "CreationDate"
+            case estimatedNumberOfUsers = "EstimatedNumberOfUsers"
+            case schemaAttributes = "SchemaAttributes"
+            case lambdaConfig = "LambdaConfig"
+            case autoVerifiedAttributes = "AutoVerifiedAttributes"
+            case userPoolTags = "UserPoolTags"
+            case name = "Name"
+            case emailConfiguration = "EmailConfiguration"
+            case id = "Id"
+            case domain = "Domain"
+            case deviceConfiguration = "DeviceConfiguration"
+        }
+    }
+
+    public struct AccountTakeoverRiskConfigurationType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Actions", required: true, type: .structure), 
+            AWSShapeMember(label: "NotifyConfiguration", required: false, type: .structure)
+        ]
+        /// Account takeover risk configuration actions
+        public let actions: AccountTakeoverActionsType
+        /// The notify configuration used to construct email notifications.
+        public let notifyConfiguration: NotifyConfigurationType?
+
+        public init(actions: AccountTakeoverActionsType, notifyConfiguration: NotifyConfigurationType? = nil) {
+            self.actions = actions
+            self.notifyConfiguration = notifyConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case notifyConfiguration = "NotifyConfiguration"
+        }
+    }
+
+    public struct ListUsersInGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "GroupName", required: true, type: .string), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The limit of the request to list users.
+        public let limit: Int32?
+        /// The name of the group.
+        public let groupName: String
+        /// The user pool ID for the user pool.
+        public let userPoolId: String
+        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+        public let nextToken: String?
+
+        public init(limit: Int32? = nil, groupName: String, userPoolId: String, nextToken: String? = nil) {
+            self.limit = limit
+            self.groupName = groupName
+            self.userPoolId = userPoolId
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "Limit"
+            case groupName = "GroupName"
+            case userPoolId = "UserPoolId"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DeviceType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeviceCreateDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DeviceLastAuthenticatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DeviceLastModifiedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DeviceAttributes", required: false, type: .list), 
+            AWSShapeMember(label: "DeviceKey", required: false, type: .string)
+        ]
+        /// The creation date of the device.
+        public let deviceCreateDate: TimeStamp?
+        /// The date in which the device was last authenticated.
+        public let deviceLastAuthenticatedDate: TimeStamp?
+        /// The last modified date of the device.
+        public let deviceLastModifiedDate: TimeStamp?
+        /// The device attributes.
+        public let deviceAttributes: [AttributeType]?
+        /// The device key.
+        public let deviceKey: String?
+
+        public init(deviceCreateDate: TimeStamp? = nil, deviceLastAuthenticatedDate: TimeStamp? = nil, deviceLastModifiedDate: TimeStamp? = nil, deviceAttributes: [AttributeType]? = nil, deviceKey: String? = nil) {
+            self.deviceCreateDate = deviceCreateDate
+            self.deviceLastAuthenticatedDate = deviceLastAuthenticatedDate
+            self.deviceLastModifiedDate = deviceLastModifiedDate
+            self.deviceAttributes = deviceAttributes
+            self.deviceKey = deviceKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceCreateDate = "DeviceCreateDate"
+            case deviceLastAuthenticatedDate = "DeviceLastAuthenticatedDate"
+            case deviceLastModifiedDate = "DeviceLastModifiedDate"
+            case deviceAttributes = "DeviceAttributes"
+            case deviceKey = "DeviceKey"
+        }
+    }
+
+    public struct SMSMfaSettingsType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PreferredMfa", required: false, type: .boolean), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean)
+        ]
+        /// The preferred MFA method.
+        public let preferredMfa: Bool?
+        /// Specifies whether SMS text message MFA is enabled.
+        public let enabled: Bool?
+
+        public init(preferredMfa: Bool? = nil, enabled: Bool? = nil) {
+            self.preferredMfa = preferredMfa
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case preferredMfa = "PreferredMfa"
+            case enabled = "Enabled"
+        }
+    }
+
+    public struct ListGroupsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
         /// The user pool ID for the user pool.
         public let userPoolId: String
-        /// The client ID for the client app.
-        public let clientId: String?
+        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+        public let nextToken: String?
+        /// The limit of the request to list groups.
+        public let limit: Int32?
 
-        public init(userPoolId: String, clientId: String? = nil) {
+        public init(userPoolId: String, nextToken: String? = nil, limit: Int32? = nil) {
             self.userPoolId = userPoolId
+            self.nextToken = nextToken
+            self.limit = limit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userPoolId = "UserPoolId"
+            case nextToken = "NextToken"
+            case limit = "Limit"
+        }
+    }
+
+    public enum DeviceRememberedStatusType: String, CustomStringConvertible, Codable {
+        case remembered = "remembered"
+        case notRemembered = "not_remembered"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct AdminRespondToAuthChallengeResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationResult", required: false, type: .structure), 
+            AWSShapeMember(label: "Session", required: false, type: .string), 
+            AWSShapeMember(label: "ChallengeName", required: false, type: .enum), 
+            AWSShapeMember(label: "ChallengeParameters", required: false, type: .map)
+        ]
+        /// The result returned by the server in response to the authentication request.
+        public let authenticationResult: AuthenticationResultType?
+        /// The session which should be passed both ways in challenge-response calls to the service. If the or API call determines that the caller needs to go through another challenge, they return a session with other challenge parameters. This session should be passed as it is to the next RespondToAuthChallenge API call.
+        public let session: String?
+        /// The name of the challenge. For more information, see .
+        public let challengeName: ChallengeNameType?
+        /// The challenge parameters. For more information, see .
+        public let challengeParameters: [String: String]?
+
+        public init(authenticationResult: AuthenticationResultType? = nil, session: String? = nil, challengeName: ChallengeNameType? = nil, challengeParameters: [String: String]? = nil) {
+            self.authenticationResult = authenticationResult
+            self.session = session
+            self.challengeName = challengeName
+            self.challengeParameters = challengeParameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationResult = "AuthenticationResult"
+            case session = "Session"
+            case challengeName = "ChallengeName"
+            case challengeParameters = "ChallengeParameters"
+        }
+    }
+
+    public struct AdminResetUserPasswordResponse: AWSShape {
+
+    }
+
+    public struct SignUpResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CodeDeliveryDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "UserConfirmed", required: true, type: .boolean), 
+            AWSShapeMember(label: "UserSub", required: true, type: .string)
+        ]
+        /// The code delivery details returned by the server response to the user registration request.
+        public let codeDeliveryDetails: CodeDeliveryDetailsType?
+        /// A response from the server indicating that a user registration has been confirmed.
+        public let userConfirmed: Bool
+        /// The UUID of the authenticated user. This is not the same as username.
+        public let userSub: String
+
+        public init(codeDeliveryDetails: CodeDeliveryDetailsType? = nil, userConfirmed: Bool, userSub: String) {
+            self.codeDeliveryDetails = codeDeliveryDetails
+            self.userConfirmed = userConfirmed
+            self.userSub = userSub
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeDeliveryDetails = "CodeDeliveryDetails"
+            case userConfirmed = "UserConfirmed"
+            case userSub = "UserSub"
+        }
+    }
+
+    public struct GetCSVHeaderRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
+        ]
+        /// The user pool ID for the user pool that the users are to be imported into.
+        public let userPoolId: String
+
+        public init(userPoolId: String) {
+            self.userPoolId = userPoolId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userPoolId = "UserPoolId"
+        }
+    }
+
+    public struct ConfirmSignUpRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ForceAliasCreation", required: false, type: .boolean), 
+            AWSShapeMember(label: "UserContextData", required: false, type: .structure), 
+            AWSShapeMember(label: "Username", required: true, type: .string), 
+            AWSShapeMember(label: "SecretHash", required: false, type: .string), 
+            AWSShapeMember(label: "ConfirmationCode", required: true, type: .string), 
+            AWSShapeMember(label: "AnalyticsMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "ClientId", required: true, type: .string)
+        ]
+        /// Boolean to be specified to force user confirmation irrespective of existing alias. By default set to False. If this parameter is set to True and the phone number/email used for sign up confirmation already exists as an alias with a different user, the API call will migrate the alias from the previous user to the newly created user being confirmed. If set to False, the API will throw an AliasExistsException error.
+        public let forceAliasCreation: Bool?
+        /// Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
+        public let userContextData: UserContextDataType?
+        /// The user name of the user whose registration you wish to confirm.
+        public let username: String
+        /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message.
+        public let secretHash: String?
+        /// The confirmation code sent by a user's request to confirm registration.
+        public let confirmationCode: String
+        /// The Amazon Pinpoint analytics metadata for collecting metrics for ConfirmSignUp calls.
+        public let analyticsMetadata: AnalyticsMetadataType?
+        /// The ID of the app client associated with the user pool.
+        public let clientId: String
+
+        public init(forceAliasCreation: Bool? = nil, userContextData: UserContextDataType? = nil, username: String, secretHash: String? = nil, confirmationCode: String, analyticsMetadata: AnalyticsMetadataType? = nil, clientId: String) {
+            self.forceAliasCreation = forceAliasCreation
+            self.userContextData = userContextData
+            self.username = username
+            self.secretHash = secretHash
+            self.confirmationCode = confirmationCode
+            self.analyticsMetadata = analyticsMetadata
             self.clientId = clientId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case userPoolId = "UserPoolId"
+            case forceAliasCreation = "ForceAliasCreation"
+            case userContextData = "UserContextData"
+            case username = "Username"
+            case secretHash = "SecretHash"
+            case confirmationCode = "ConfirmationCode"
+            case analyticsMetadata = "AnalyticsMetadata"
             case clientId = "ClientId"
         }
     }
 
-    public struct DeleteUserPoolClientRequest: AWSShape {
+    public struct DeleteIdentityProviderRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "ProviderName", required: true, type: .string)
+        ]
+        /// The user pool ID.
+        public let userPoolId: String
+        /// The identity provider name.
+        public let providerName: String
+
+        public init(userPoolId: String, providerName: String) {
+            self.userPoolId = userPoolId
+            self.providerName = providerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userPoolId = "UserPoolId"
+            case providerName = "ProviderName"
+        }
+    }
+
+    public struct ChangePasswordResponse: AWSShape {
+
+    }
+
+    public struct AdminUpdateDeviceStatusResponse: AWSShape {
+
+    }
+
+    public struct AdminUserGlobalSignOutRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "Username", required: true, type: .string)
+        ]
+        /// The user pool ID.
+        public let userPoolId: String
+        /// The user name.
+        public let username: String
+
+        public init(userPoolId: String, username: String) {
+            self.userPoolId = userPoolId
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userPoolId = "UserPoolId"
+            case username = "Username"
+        }
+    }
+
+    public struct UpdateIdentityProviderResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdentityProvider", required: true, type: .structure)
+        ]
+        /// The identity provider object.
+        public let identityProvider: IdentityProviderType
+
+        public init(identityProvider: IdentityProviderType) {
+            self.identityProvider = identityProvider
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityProvider = "IdentityProvider"
+        }
+    }
+
+    public enum RiskDecisionType: String, CustomStringConvertible, Codable {
+        case norisk = "NoRisk"
+        case accounttakeover = "AccountTakeover"
+        case block = "Block"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetDeviceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessToken", required: false, type: .string), 
+            AWSShapeMember(label: "DeviceKey", required: true, type: .string)
+        ]
+        /// The access token.
+        public let accessToken: String?
+        /// The device key.
+        public let deviceKey: String
+
+        public init(accessToken: String? = nil, deviceKey: String) {
+            self.accessToken = accessToken
+            self.deviceKey = deviceKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessToken = "AccessToken"
+            case deviceKey = "DeviceKey"
+        }
+    }
+
+    public struct AnalyticsMetadataType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AnalyticsEndpointId", required: false, type: .string)
+        ]
+        /// The endpoint ID.
+        public let analyticsEndpointId: String?
+
+        public init(analyticsEndpointId: String? = nil) {
+            self.analyticsEndpointId = analyticsEndpointId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analyticsEndpointId = "AnalyticsEndpointId"
+        }
+    }
+
+    public struct NotifyConfigurationType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "NoActionEmail", required: false, type: .structure), 
+            AWSShapeMember(label: "ReplyTo", required: false, type: .string), 
+            AWSShapeMember(label: "From", required: false, type: .string), 
+            AWSShapeMember(label: "BlockEmail", required: false, type: .structure), 
+            AWSShapeMember(label: "MfaEmail", required: false, type: .structure)
+        ]
+        /// The Amazon Resource Name (ARN) of the identity that is associated with the sending authorization policy. It permits Amazon Cognito to send for the email address specified in the From parameter.
+        public let sourceArn: String
+        /// The email template used when a detected risk event is allowed.
+        public let noActionEmail: NotifyEmailType?
+        /// The destination to which the receiver of an email should reply to.
+        public let replyTo: String?
+        /// The email address that is sending the email. It must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES.
+        public let from: String?
+        /// Email template used when a detected risk event is blocked.
+        public let blockEmail: NotifyEmailType?
+        /// The MFA email template used when MFA is challenged as part of a detected risk.
+        public let mfaEmail: NotifyEmailType?
+
+        public init(sourceArn: String, noActionEmail: NotifyEmailType? = nil, replyTo: String? = nil, from: String? = nil, blockEmail: NotifyEmailType? = nil, mfaEmail: NotifyEmailType? = nil) {
+            self.sourceArn = sourceArn
+            self.noActionEmail = noActionEmail
+            self.replyTo = replyTo
+            self.from = from
+            self.blockEmail = blockEmail
+            self.mfaEmail = mfaEmail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceArn = "SourceArn"
+            case noActionEmail = "NoActionEmail"
+            case replyTo = "ReplyTo"
+            case from = "From"
+            case blockEmail = "BlockEmail"
+            case mfaEmail = "MfaEmail"
+        }
+    }
+
+    public enum DeliveryMediumType: String, CustomStringConvertible, Codable {
+        case sms = "SMS"
+        case email = "EMAIL"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct StopUserImportJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserImportJob", required: false, type: .structure)
+        ]
+        /// The job object that represents the user import job.
+        public let userImportJob: UserImportJobType?
+
+        public init(userImportJob: UserImportJobType? = nil) {
+            self.userImportJob = userImportJob
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userImportJob = "UserImportJob"
+        }
+    }
+
+    public struct AdminCreateUserConfigType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InviteMessageTemplate", required: false, type: .structure), 
+            AWSShapeMember(label: "AllowAdminCreateUserOnly", required: false, type: .boolean), 
+            AWSShapeMember(label: "UnusedAccountValidityDays", required: false, type: .integer)
+        ]
+        /// The message template to be used for the welcome message to new users. See also Customizing User Invitation Messages.
+        public let inviteMessageTemplate: MessageTemplateType?
+        /// Set to True if only the administrator is allowed to create user profiles. Set to False if users can sign themselves up via an app.
+        public let allowAdminCreateUserOnly: Bool?
+        /// The user account expiration limit, in days, after which the account is no longer usable. To reset the account after that time limit, you must call AdminCreateUser again, specifying "RESEND" for the MessageAction parameter. The default value for this parameter is 7.
+        public let unusedAccountValidityDays: Int32?
+
+        public init(inviteMessageTemplate: MessageTemplateType? = nil, allowAdminCreateUserOnly: Bool? = nil, unusedAccountValidityDays: Int32? = nil) {
+            self.inviteMessageTemplate = inviteMessageTemplate
+            self.allowAdminCreateUserOnly = allowAdminCreateUserOnly
+            self.unusedAccountValidityDays = unusedAccountValidityDays
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inviteMessageTemplate = "InviteMessageTemplate"
+            case allowAdminCreateUserOnly = "AllowAdminCreateUserOnly"
+            case unusedAccountValidityDays = "UnusedAccountValidityDays"
+        }
+    }
+
+    public struct AdminListUserAuthEventsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "AuthEvents", required: false, type: .list)
+        ]
+        /// A pagination token.
+        public let nextToken: String?
+        /// The response object. It includes the EventID, EventType, CreationDate, EventRisk, and EventResponse.
+        public let authEvents: [AuthEventType]?
+
+        public init(nextToken: String? = nil, authEvents: [AuthEventType]? = nil) {
+            self.nextToken = nextToken
+            self.authEvents = authEvents
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case authEvents = "AuthEvents"
+        }
+    }
+
+    public struct UICustomizationType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserPoolId", required: false, type: .string), 
+            AWSShapeMember(label: "CSS", required: false, type: .string), 
+            AWSShapeMember(label: "ImageUrl", required: false, type: .string), 
+            AWSShapeMember(label: "ClientId", required: false, type: .string), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CSSVersion", required: false, type: .string)
+        ]
+        /// The user pool ID for the user pool.
+        public let userPoolId: String?
+        /// The CSS values in the UI customization.
+        public let css: String?
+        /// The logo image for the UI customization.
+        public let imageUrl: String?
+        /// The client ID for the client app.
+        public let clientId: String?
+        /// The creation date for the UI customization.
+        public let creationDate: TimeStamp?
+        /// The last-modified date for the UI customization.
+        public let lastModifiedDate: TimeStamp?
+        /// The CSS version number.
+        public let cSSVersion: String?
+
+        public init(userPoolId: String? = nil, css: String? = nil, imageUrl: String? = nil, clientId: String? = nil, creationDate: TimeStamp? = nil, lastModifiedDate: TimeStamp? = nil, cSSVersion: String? = nil) {
+            self.userPoolId = userPoolId
+            self.css = css
+            self.imageUrl = imageUrl
+            self.clientId = clientId
+            self.creationDate = creationDate
+            self.lastModifiedDate = lastModifiedDate
+            self.cSSVersion = cSSVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userPoolId = "UserPoolId"
+            case css = "CSS"
+            case imageUrl = "ImageUrl"
+            case clientId = "ClientId"
+            case creationDate = "CreationDate"
+            case lastModifiedDate = "LastModifiedDate"
+            case cSSVersion = "CSSVersion"
+        }
+    }
+
+    public struct DeleteUserPoolRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
+        ]
+        /// The user pool ID for the user pool you want to delete.
+        public let userPoolId: String
+
+        public init(userPoolId: String) {
+            self.userPoolId = userPoolId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userPoolId = "UserPoolId"
+        }
+    }
+
+    public struct GetGroupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Group", required: false, type: .structure)
+        ]
+        /// The group object for the group.
+        public let group: GroupType?
+
+        public init(group: GroupType? = nil) {
+            self.group = group
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case group = "Group"
+        }
+    }
+
+    public enum StatusType: String, CustomStringConvertible, Codable {
+        case enabled = "Enabled"
+        case disabled = "Disabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct AdminAddUserToGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupName", required: true, type: .string), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "Username", required: true, type: .string)
+        ]
+        /// The group name.
+        public let groupName: String
+        /// The user pool ID for the user pool.
+        public let userPoolId: String
+        /// The username for the user.
+        public let username: String
+
+        public init(groupName: String, userPoolId: String, username: String) {
+            self.groupName = groupName
+            self.userPoolId = userPoolId
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupName = "GroupName"
+            case userPoolId = "UserPoolId"
+            case username = "Username"
+        }
+    }
+
+    public struct UpdateUserPoolClientResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserPoolClient", required: false, type: .structure)
+        ]
+        /// The user pool client value from the response from the server when an update user pool client request is made.
+        public let userPoolClient: UserPoolClientType?
+
+        public init(userPoolClient: UserPoolClientType? = nil) {
+            self.userPoolClient = userPoolClient
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userPoolClient = "UserPoolClient"
+        }
+    }
+
+    public struct AdminEnableUserRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "Username", required: true, type: .string)
+        ]
+        /// The user pool ID for the user pool where you want to enable the user.
+        public let userPoolId: String
+        /// The user name of the user you wish to enable.
+        public let username: String
+
+        public init(userPoolId: String, username: String) {
+            self.userPoolId = userPoolId
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userPoolId = "UserPoolId"
+            case username = "Username"
+        }
+    }
+
+    public struct UpdateGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Precedence", required: false, type: .integer), 
+            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "GroupName", required: true, type: .string), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
+        ]
+        /// The new precedence value for the group. For more information about this parameter, see .
+        public let precedence: Int32?
+        /// The new role ARN for the group. This is used for setting the cognito:roles and cognito:preferred_role claims in the token.
+        public let roleArn: String?
+        /// The name of the group.
+        public let groupName: String
+        /// The user pool ID for the user pool.
+        public let userPoolId: String
+        /// A string containing the new description of the group.
+        public let description: String?
+
+        public init(precedence: Int32? = nil, roleArn: String? = nil, groupName: String, userPoolId: String, description: String? = nil) {
+            self.precedence = precedence
+            self.roleArn = roleArn
+            self.groupName = groupName
+            self.userPoolId = userPoolId
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case precedence = "Precedence"
+            case roleArn = "RoleArn"
+            case groupName = "GroupName"
+            case userPoolId = "UserPoolId"
+            case description = "Description"
+        }
+    }
+
+    public struct ListUserImportJobsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserImportJobs", required: false, type: .list), 
+            AWSShapeMember(label: "PaginationToken", required: false, type: .string)
+        ]
+        /// The user import jobs.
+        public let userImportJobs: [UserImportJobType]?
+        /// An identifier that can be used to return the next set of user import jobs in the list.
+        public let paginationToken: String?
+
+        public init(userImportJobs: [UserImportJobType]? = nil, paginationToken: String? = nil) {
+            self.userImportJobs = userImportJobs
+            self.paginationToken = paginationToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userImportJobs = "UserImportJobs"
+            case paginationToken = "PaginationToken"
+        }
+    }
+
+    public struct ListUsersInGroupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Users", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The users returned in the request to list users.
+        public let users: [UserType]?
+        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+        public let nextToken: String?
+
+        public init(users: [UserType]? = nil, nextToken: String? = nil) {
+            self.users = users
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case users = "Users"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct AdminListDevicesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PaginationToken", required: false, type: .string), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "Username", required: true, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
+        ]
+        /// The pagination token.
+        public let paginationToken: String?
+        /// The user pool ID.
+        public let userPoolId: String
+        /// The user name.
+        public let username: String
+        /// The limit of the devices request.
+        public let limit: Int32?
+
+        public init(paginationToken: String? = nil, userPoolId: String, username: String, limit: Int32? = nil) {
+            self.paginationToken = paginationToken
+            self.userPoolId = userPoolId
+            self.username = username
+            self.limit = limit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case paginationToken = "PaginationToken"
+            case userPoolId = "UserPoolId"
+            case username = "Username"
+            case limit = "Limit"
+        }
+    }
+
+    public enum UserStatusType: String, CustomStringConvertible, Codable {
+        case unconfirmed = "UNCONFIRMED"
+        case confirmed = "CONFIRMED"
+        case archived = "ARCHIVED"
+        case compromised = "COMPROMISED"
+        case unknown = "UNKNOWN"
+        case resetRequired = "RESET_REQUIRED"
+        case forceChangePassword = "FORCE_CHANGE_PASSWORD"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct NotifyEmailType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TextBody", required: false, type: .string), 
+            AWSShapeMember(label: "Subject", required: true, type: .string), 
+            AWSShapeMember(label: "HtmlBody", required: false, type: .string)
+        ]
+        /// The text body.
+        public let textBody: String?
+        /// The subject.
+        public let subject: String
+        /// The HTML body.
+        public let htmlBody: String?
+
+        public init(textBody: String? = nil, subject: String, htmlBody: String? = nil) {
+            self.textBody = textBody
+            self.subject = subject
+            self.htmlBody = htmlBody
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case textBody = "TextBody"
+            case subject = "Subject"
+            case htmlBody = "HtmlBody"
+        }
+    }
+
+    public struct AddCustomAttributesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "CustomAttributes", required: true, type: .list)
+        ]
+        /// The user pool ID for the user pool where you want to add custom attributes.
+        public let userPoolId: String
+        /// An array of custom attributes, such as Mutable and Name.
+        public let customAttributes: [SchemaAttributeType]
+
+        public init(userPoolId: String, customAttributes: [SchemaAttributeType]) {
+            self.userPoolId = userPoolId
+            self.customAttributes = customAttributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userPoolId = "UserPoolId"
+            case customAttributes = "CustomAttributes"
+        }
+    }
+
+    public struct SmsConfigurationType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnsCallerArn", required: true, type: .string), 
+            AWSShapeMember(label: "ExternalId", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) caller.
+        public let snsCallerArn: String
+        /// The external ID.
+        public let externalId: String?
+
+        public init(snsCallerArn: String, externalId: String? = nil) {
+            self.snsCallerArn = snsCallerArn
+            self.externalId = externalId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snsCallerArn = "SnsCallerArn"
+            case externalId = "ExternalId"
+        }
+    }
+
+    public struct CreateUserPoolClientRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExplicitAuthFlows", required: false, type: .list), 
+            AWSShapeMember(label: "AllowedOAuthScopes", required: false, type: .list), 
+            AWSShapeMember(label: "SupportedIdentityProviders", required: false, type: .list), 
+            AWSShapeMember(label: "DefaultRedirectURI", required: false, type: .string), 
+            AWSShapeMember(label: "AllowedOAuthFlows", required: false, type: .list), 
+            AWSShapeMember(label: "ClientName", required: true, type: .string), 
+            AWSShapeMember(label: "AnalyticsConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "AllowedOAuthFlowsUserPoolClient", required: false, type: .boolean), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "LogoutURLs", required: false, type: .list), 
+            AWSShapeMember(label: "RefreshTokenValidity", required: false, type: .integer), 
+            AWSShapeMember(label: "WriteAttributes", required: false, type: .list), 
+            AWSShapeMember(label: "GenerateSecret", required: false, type: .boolean), 
+            AWSShapeMember(label: "ReadAttributes", required: false, type: .list), 
+            AWSShapeMember(label: "CallbackURLs", required: false, type: .list)
+        ]
+        /// The explicit authentication flows.
+        public let explicitAuthFlows: [ExplicitAuthFlowsType]?
+        /// A list of allowed OAuth scopes. Currently supported values are "phone", "email", "openid", and "Cognito".
+        public let allowedOAuthScopes: [String]?
+        /// A list of provider names for the identity providers that are supported on this client.
+        public let supportedIdentityProviders: [String]?
+        /// The default redirect URI. Must be in the CallbackURLs list. A redirect URI must:   Be an absolute URI.   Be registered with the authorization server.   Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint. Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes only. App callback URLs such as myapp://example are also supported.
+        public let defaultRedirectURI: String?
+        /// Set to code to initiate a code grant flow, which provides an authorization code as the response. This code can be exchanged for access tokens with the token endpoint. Set to token to specify that the client should get the access token (and, optionally, ID token, based on scopes) directly.
+        public let allowedOAuthFlows: [OAuthFlowType]?
+        /// The client name for the user pool client you would like to create.
+        public let clientName: String
+        /// The Amazon Pinpoint analytics configuration for collecting metrics for this user pool.
+        public let analyticsConfiguration: AnalyticsConfigurationType?
+        /// Set to True if the client is allowed to follow the OAuth protocol when interacting with Cognito user pools.
+        public let allowedOAuthFlowsUserPoolClient: Bool?
+        /// The user pool ID for the user pool where you want to create a user pool client.
+        public let userPoolId: String
+        /// A list of allowed logout URLs for the identity providers.
+        public let logoutURLs: [String]?
+        /// The time limit, in days, after which the refresh token is no longer valid and cannot be used.
+        public let refreshTokenValidity: Int32?
+        /// The write attributes.
+        public let writeAttributes: [String]?
+        /// Boolean to specify whether you want to generate a secret for the user pool client being created.
+        public let generateSecret: Bool?
+        /// The read attributes.
+        public let readAttributes: [String]?
+        /// A list of allowed redirect (callback) URLs for the identity providers. A redirect URI must:   Be an absolute URI.   Be registered with the authorization server.   Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint. Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes only. App callback URLs such as myapp://example are also supported.
+        public let callbackURLs: [String]?
+
+        public init(explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, allowedOAuthScopes: [String]? = nil, supportedIdentityProviders: [String]? = nil, defaultRedirectURI: String? = nil, allowedOAuthFlows: [OAuthFlowType]? = nil, clientName: String, analyticsConfiguration: AnalyticsConfigurationType? = nil, allowedOAuthFlowsUserPoolClient: Bool? = nil, userPoolId: String, logoutURLs: [String]? = nil, refreshTokenValidity: Int32? = nil, writeAttributes: [String]? = nil, generateSecret: Bool? = nil, readAttributes: [String]? = nil, callbackURLs: [String]? = nil) {
+            self.explicitAuthFlows = explicitAuthFlows
+            self.allowedOAuthScopes = allowedOAuthScopes
+            self.supportedIdentityProviders = supportedIdentityProviders
+            self.defaultRedirectURI = defaultRedirectURI
+            self.allowedOAuthFlows = allowedOAuthFlows
+            self.clientName = clientName
+            self.analyticsConfiguration = analyticsConfiguration
+            self.allowedOAuthFlowsUserPoolClient = allowedOAuthFlowsUserPoolClient
+            self.userPoolId = userPoolId
+            self.logoutURLs = logoutURLs
+            self.refreshTokenValidity = refreshTokenValidity
+            self.writeAttributes = writeAttributes
+            self.generateSecret = generateSecret
+            self.readAttributes = readAttributes
+            self.callbackURLs = callbackURLs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case explicitAuthFlows = "ExplicitAuthFlows"
+            case allowedOAuthScopes = "AllowedOAuthScopes"
+            case supportedIdentityProviders = "SupportedIdentityProviders"
+            case defaultRedirectURI = "DefaultRedirectURI"
+            case allowedOAuthFlows = "AllowedOAuthFlows"
+            case clientName = "ClientName"
+            case analyticsConfiguration = "AnalyticsConfiguration"
+            case allowedOAuthFlowsUserPoolClient = "AllowedOAuthFlowsUserPoolClient"
+            case userPoolId = "UserPoolId"
+            case logoutURLs = "LogoutURLs"
+            case refreshTokenValidity = "RefreshTokenValidity"
+            case writeAttributes = "WriteAttributes"
+            case generateSecret = "GenerateSecret"
+            case readAttributes = "ReadAttributes"
+            case callbackURLs = "CallbackURLs"
+        }
+    }
+
+    public struct DescribeUserPoolClientRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
             AWSShapeMember(label: "ClientId", required: true, type: .string)
         ]
-        /// The user pool ID for the user pool where you want to delete the client.
+        /// The user pool ID for the user pool you want to describe.
         public let userPoolId: String
         /// The app client ID of the app associated with the user pool.
         public let clientId: String
@@ -6013,190 +5504,699 @@ extension CognitoIdentityProvider {
         }
     }
 
-    public struct CodeDeliveryDetailsType: AWSShape {
+    public struct UpdateUserAttributesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Destination", required: false, type: .string), 
-            AWSShapeMember(label: "AttributeName", required: false, type: .string), 
-            AWSShapeMember(label: "DeliveryMedium", required: false, type: .enum)
+            AWSShapeMember(label: "CodeDeliveryDetailsList", required: false, type: .list)
         ]
-        /// The destination for the code delivery details.
-        public let destination: String?
-        /// The attribute name.
-        public let attributeName: String?
-        /// The delivery medium (email message or phone number).
-        public let deliveryMedium: DeliveryMediumType?
+        /// The code delivery details list from the server for the request to update user attributes.
+        public let codeDeliveryDetailsList: [CodeDeliveryDetailsType]?
 
-        public init(destination: String? = nil, attributeName: String? = nil, deliveryMedium: DeliveryMediumType? = nil) {
-            self.destination = destination
-            self.attributeName = attributeName
-            self.deliveryMedium = deliveryMedium
+        public init(codeDeliveryDetailsList: [CodeDeliveryDetailsType]? = nil) {
+            self.codeDeliveryDetailsList = codeDeliveryDetailsList
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destination = "Destination"
-            case attributeName = "AttributeName"
-            case deliveryMedium = "DeliveryMedium"
+            case codeDeliveryDetailsList = "CodeDeliveryDetailsList"
         }
     }
 
-    public struct PasswordPolicyType: AWSShape {
+    public struct DescribeUserImportJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MinimumLength", required: false, type: .integer), 
-            AWSShapeMember(label: "RequireSymbols", required: false, type: .boolean), 
-            AWSShapeMember(label: "RequireNumbers", required: false, type: .boolean), 
-            AWSShapeMember(label: "RequireLowercase", required: false, type: .boolean), 
-            AWSShapeMember(label: "RequireUppercase", required: false, type: .boolean)
+            AWSShapeMember(label: "JobId", required: true, type: .string), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
         ]
-        /// The minimum length of the password policy that you have set. Cannot be less than 6.
-        public let minimumLength: Int32?
-        /// In the password policy that you have set, refers to whether you have required users to use at least one symbol in their password.
-        public let requireSymbols: Bool?
-        /// In the password policy that you have set, refers to whether you have required users to use at least one number in their password.
-        public let requireNumbers: Bool?
-        /// In the password policy that you have set, refers to whether you have required users to use at least one lowercase letter in their password.
-        public let requireLowercase: Bool?
-        /// In the password policy that you have set, refers to whether you have required users to use at least one uppercase letter in their password.
-        public let requireUppercase: Bool?
-
-        public init(minimumLength: Int32? = nil, requireSymbols: Bool? = nil, requireNumbers: Bool? = nil, requireLowercase: Bool? = nil, requireUppercase: Bool? = nil) {
-            self.minimumLength = minimumLength
-            self.requireSymbols = requireSymbols
-            self.requireNumbers = requireNumbers
-            self.requireLowercase = requireLowercase
-            self.requireUppercase = requireUppercase
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case minimumLength = "MinimumLength"
-            case requireSymbols = "RequireSymbols"
-            case requireNumbers = "RequireNumbers"
-            case requireLowercase = "RequireLowercase"
-            case requireUppercase = "RequireUppercase"
-        }
-    }
-
-    public enum VerifySoftwareTokenResponseType: String, CustomStringConvertible, Codable {
-        case success = "SUCCESS"
-        case error = "ERROR"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListUserImportJobsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
-            AWSShapeMember(label: "PaginationToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: true, type: .integer)
-        ]
+        /// The job ID for the user import job.
+        public let jobId: String
         /// The user pool ID for the user pool that the users are being imported into.
         public let userPoolId: String
-        /// An identifier that was returned from the previous call to ListUserImportJobs, which can be used to return the next set of import jobs in the list.
-        public let paginationToken: String?
-        /// The maximum number of import jobs you want the request to return.
-        public let maxResults: Int32
 
-        public init(userPoolId: String, paginationToken: String? = nil, maxResults: Int32) {
+        public init(jobId: String, userPoolId: String) {
+            self.jobId = jobId
             self.userPoolId = userPoolId
-            self.paginationToken = paginationToken
-            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+            case userPoolId = "UserPoolId"
+        }
+    }
+
+    public struct AdminConfirmSignUpRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "Username", required: true, type: .string)
+        ]
+        /// The user pool ID for which you want to confirm user registration.
+        public let userPoolId: String
+        /// The user name for which you want to confirm user registration.
+        public let username: String
+
+        public init(userPoolId: String, username: String) {
+            self.userPoolId = userPoolId
+            self.username = username
         }
 
         private enum CodingKeys: String, CodingKey {
             case userPoolId = "UserPoolId"
-            case paginationToken = "PaginationToken"
-            case maxResults = "MaxResults"
+            case username = "Username"
+        }
+    }
+
+    public struct GetSigningCertificateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
+        ]
+        /// The user pool ID.
+        public let userPoolId: String
+
+        public init(userPoolId: String) {
+            self.userPoolId = userPoolId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userPoolId = "UserPoolId"
+        }
+    }
+
+    public struct AdminGetUserResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Username", required: true, type: .string), 
+            AWSShapeMember(label: "UserStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "UserMFASettingList", required: false, type: .list), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "UserCreateDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MFAOptions", required: false, type: .list), 
+            AWSShapeMember(label: "PreferredMfaSetting", required: false, type: .string), 
+            AWSShapeMember(label: "UserAttributes", required: false, type: .list), 
+            AWSShapeMember(label: "UserLastModifiedDate", required: false, type: .timestamp)
+        ]
+        /// The user name of the user about whom you are receiving information.
+        public let username: String
+        /// The user status. Can be one of the following:   UNCONFIRMED - User has been created but not confirmed.   CONFIRMED - User has been confirmed.   ARCHIVED - User is no longer active.   COMPROMISED - User is disabled due to a potential security threat.   UNKNOWN - User status is not known.  
+        public let userStatus: UserStatusType?
+        /// The list of the user's MFA settings.
+        public let userMFASettingList: [String]?
+        /// Indicates that the status is enabled.
+        public let enabled: Bool?
+        /// The date the user was created.
+        public let userCreateDate: TimeStamp?
+        /// Specifies the options for MFA (e.g., email or phone number).
+        public let mFAOptions: [MFAOptionType]?
+        /// The user's preferred MFA setting.
+        public let preferredMfaSetting: String?
+        /// An array of name-value pairs representing user attributes.
+        public let userAttributes: [AttributeType]?
+        /// The date the user was last modified.
+        public let userLastModifiedDate: TimeStamp?
+
+        public init(username: String, userStatus: UserStatusType? = nil, userMFASettingList: [String]? = nil, enabled: Bool? = nil, userCreateDate: TimeStamp? = nil, mFAOptions: [MFAOptionType]? = nil, preferredMfaSetting: String? = nil, userAttributes: [AttributeType]? = nil, userLastModifiedDate: TimeStamp? = nil) {
+            self.username = username
+            self.userStatus = userStatus
+            self.userMFASettingList = userMFASettingList
+            self.enabled = enabled
+            self.userCreateDate = userCreateDate
+            self.mFAOptions = mFAOptions
+            self.preferredMfaSetting = preferredMfaSetting
+            self.userAttributes = userAttributes
+            self.userLastModifiedDate = userLastModifiedDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case username = "Username"
+            case userStatus = "UserStatus"
+            case userMFASettingList = "UserMFASettingList"
+            case enabled = "Enabled"
+            case userCreateDate = "UserCreateDate"
+            case mFAOptions = "MFAOptions"
+            case preferredMfaSetting = "PreferredMfaSetting"
+            case userAttributes = "UserAttributes"
+            case userLastModifiedDate = "UserLastModifiedDate"
+        }
+    }
+
+    public struct VerifyUserAttributeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeName", required: true, type: .string), 
+            AWSShapeMember(label: "AccessToken", required: true, type: .string), 
+            AWSShapeMember(label: "Code", required: true, type: .string)
+        ]
+        /// The attribute name in the request to verify user attributes.
+        public let attributeName: String
+        /// Represents the access token of the request to verify user attributes.
+        public let accessToken: String
+        /// The verification code in the request to verify user attributes.
+        public let code: String
+
+        public init(attributeName: String, accessToken: String, code: String) {
+            self.attributeName = attributeName
+            self.accessToken = accessToken
+            self.code = code
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case accessToken = "AccessToken"
+            case code = "Code"
+        }
+    }
+
+    public struct DeleteGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupName", required: true, type: .string), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
+        ]
+        /// The name of the group.
+        public let groupName: String
+        /// The user pool ID for the user pool.
+        public let userPoolId: String
+
+        public init(groupName: String, userPoolId: String) {
+            self.groupName = groupName
+            self.userPoolId = userPoolId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupName = "GroupName"
+            case userPoolId = "UserPoolId"
+        }
+    }
+
+    public struct ForgotPasswordResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CodeDeliveryDetails", required: false, type: .structure)
+        ]
+        /// The code delivery details returned by the server in response to the request to reset a password.
+        public let codeDeliveryDetails: CodeDeliveryDetailsType?
+
+        public init(codeDeliveryDetails: CodeDeliveryDetailsType? = nil) {
+            self.codeDeliveryDetails = codeDeliveryDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeDeliveryDetails = "CodeDeliveryDetails"
+        }
+    }
+
+    public struct DeleteUserPoolDomainRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Domain", required: true, type: .string), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
+        ]
+        /// The domain string.
+        public let domain: String
+        /// The user pool ID.
+        public let userPoolId: String
+
+        public init(domain: String, userPoolId: String) {
+            self.domain = domain
+            self.userPoolId = userPoolId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domain = "Domain"
+            case userPoolId = "UserPoolId"
+        }
+    }
+
+    public enum UsernameAttributeType: String, CustomStringConvertible, Codable {
+        case phoneNumber = "phone_number"
+        case email = "email"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct HttpHeader: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "headerName", required: false, type: .string), 
+            AWSShapeMember(label: "headerValue", required: false, type: .string)
+        ]
+        /// The header name
+        public let headerName: String?
+        /// The header value.
+        public let headerValue: String?
+
+        public init(headerName: String? = nil, headerValue: String? = nil) {
+            self.headerName = headerName
+            self.headerValue = headerValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case headerName = "headerName"
+            case headerValue = "headerValue"
+        }
+    }
+
+    public struct SetUserPoolMfaConfigResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SmsMfaConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "SoftwareTokenMfaConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "MfaConfiguration", required: false, type: .enum)
+        ]
+        /// The SMS text message MFA configuration.
+        public let smsMfaConfiguration: SmsMfaConfigType?
+        /// The software token MFA configuration.
+        public let softwareTokenMfaConfiguration: SoftwareTokenMfaConfigType?
+        /// The MFA configuration.
+        public let mfaConfiguration: UserPoolMfaType?
+
+        public init(smsMfaConfiguration: SmsMfaConfigType? = nil, softwareTokenMfaConfiguration: SoftwareTokenMfaConfigType? = nil, mfaConfiguration: UserPoolMfaType? = nil) {
+            self.smsMfaConfiguration = smsMfaConfiguration
+            self.softwareTokenMfaConfiguration = softwareTokenMfaConfiguration
+            self.mfaConfiguration = mfaConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case smsMfaConfiguration = "SmsMfaConfiguration"
+            case softwareTokenMfaConfiguration = "SoftwareTokenMfaConfiguration"
+            case mfaConfiguration = "MfaConfiguration"
+        }
+    }
+
+    public struct AdminCreateUserRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ForceAliasCreation", required: false, type: .boolean), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "ValidationData", required: false, type: .list), 
+            AWSShapeMember(label: "Username", required: true, type: .string), 
+            AWSShapeMember(label: "DesiredDeliveryMediums", required: false, type: .list), 
+            AWSShapeMember(label: "TemporaryPassword", required: false, type: .string), 
+            AWSShapeMember(label: "MessageAction", required: false, type: .enum), 
+            AWSShapeMember(label: "UserAttributes", required: false, type: .list)
+        ]
+        /// This parameter is only used if the phone_number_verified or email_verified attribute is set to True. Otherwise, it is ignored. If this parameter is set to True and the phone number or email address specified in the UserAttributes parameter already exists as an alias with a different user, the API call will migrate the alias from the previous user to the newly created user. The previous user will no longer be able to log in using that alias. If this parameter is set to False, the API throws an AliasExistsException error if the alias already exists. The default value is False.
+        public let forceAliasCreation: Bool?
+        /// The user pool ID for the user pool where the user will be created.
+        public let userPoolId: String
+        /// The user's validation data. This is an array of name-value pairs that contain user attributes and attribute values that you can use for custom validation, such as restricting the types of user accounts that can be registered. For example, you might choose to allow or disallow user sign-up based on the user's domain. To configure custom validation, you must create a Pre Sign-up Lambda trigger for the user pool as described in the Amazon Cognito Developer Guide. The Lambda trigger receives the validation data and uses it in the validation process. The user's validation data is not persisted.
+        public let validationData: [AttributeType]?
+        /// The username for the user. Must be unique within the user pool. Must be a UTF-8 string between 1 and 128 characters. After the user is created, the username cannot be changed.
+        public let username: String
+        /// Specify "EMAIL" if email will be used to send the welcome message. Specify "SMS" if the phone number will be used. The default value is "SMS". More than one value can be specified.
+        public let desiredDeliveryMediums: [DeliveryMediumType]?
+        /// The user's temporary password. This password must conform to the password policy that you specified when you created the user pool. The temporary password is valid only once. To complete the Admin Create User flow, the user must enter the temporary password in the sign-in page along with a new password to be used in all future sign-ins. This parameter is not required. If you do not specify a value, Amazon Cognito generates one for you. The temporary password can only be used until the user account expiration limit that you specified when you created the user pool. To reset the account after that time limit, you must call AdminCreateUser again, specifying "RESEND" for the MessageAction parameter.
+        public let temporaryPassword: String?
+        /// Set to "RESEND" to resend the invitation message to a user that already exists and reset the expiration limit on the user's account. Set to "SUPPRESS" to suppress sending the message. Only one value can be specified.
+        public let messageAction: MessageActionType?
+        /// An array of name-value pairs that contain user attributes and attribute values to be set for the user to be created. You can create a user without specifying any attributes other than Username. However, any attributes that you specify as required (in or in the Attributes tab of the console) must be supplied either by you (in your call to AdminCreateUser) or by the user (when he or she signs up in response to your welcome message). For custom attributes, you must prepend the custom: prefix to the attribute name. To send a message inviting the user to sign up, you must specify the user's email address or phone number. This can be done in your call to AdminCreateUser or in the Users tab of the Amazon Cognito console for managing your user pools. In your call to AdminCreateUser, you can set the email_verified attribute to True, and you can set the phone_number_verified attribute to True. (You can also do this by calling .)    email: The email address of the user to whom the message that contains the code and username will be sent. Required if the email_verified attribute is set to True, or if "EMAIL" is specified in the DesiredDeliveryMediums parameter.    phone_number: The phone number of the user to whom the message that contains the code and username will be sent. Required if the phone_number_verified attribute is set to True, or if "SMS" is specified in the DesiredDeliveryMediums parameter.  
+        public let userAttributes: [AttributeType]?
+
+        public init(forceAliasCreation: Bool? = nil, userPoolId: String, validationData: [AttributeType]? = nil, username: String, desiredDeliveryMediums: [DeliveryMediumType]? = nil, temporaryPassword: String? = nil, messageAction: MessageActionType? = nil, userAttributes: [AttributeType]? = nil) {
+            self.forceAliasCreation = forceAliasCreation
+            self.userPoolId = userPoolId
+            self.validationData = validationData
+            self.username = username
+            self.desiredDeliveryMediums = desiredDeliveryMediums
+            self.temporaryPassword = temporaryPassword
+            self.messageAction = messageAction
+            self.userAttributes = userAttributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case forceAliasCreation = "ForceAliasCreation"
+            case userPoolId = "UserPoolId"
+            case validationData = "ValidationData"
+            case username = "Username"
+            case desiredDeliveryMediums = "DesiredDeliveryMediums"
+            case temporaryPassword = "TemporaryPassword"
+            case messageAction = "MessageAction"
+            case userAttributes = "UserAttributes"
+        }
+    }
+
+    public struct ListResourceServersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceServers", required: true, type: .list)
+        ]
+        /// A pagination token.
+        public let nextToken: String?
+        /// The resource servers.
+        public let resourceServers: [ResourceServerType]
+
+        public init(nextToken: String? = nil, resourceServers: [ResourceServerType]) {
+            self.nextToken = nextToken
+            self.resourceServers = resourceServers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case resourceServers = "ResourceServers"
+        }
+    }
+
+    public struct UserPoolDescriptionType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "LambdaConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+        /// The date the user pool description was last modified.
+        public let lastModifiedDate: TimeStamp?
+        /// The date the user pool description was created.
+        public let creationDate: TimeStamp?
+        /// The name in a user pool description.
+        public let name: String?
+        /// The AWS Lambda configuration information in a user pool description.
+        public let lambdaConfig: LambdaConfigType?
+        /// The ID in a user pool description.
+        public let id: String?
+        /// The user pool status in a user pool description.
+        public let status: StatusType?
+
+        public init(lastModifiedDate: TimeStamp? = nil, creationDate: TimeStamp? = nil, name: String? = nil, lambdaConfig: LambdaConfigType? = nil, id: String? = nil, status: StatusType? = nil) {
+            self.lastModifiedDate = lastModifiedDate
+            self.creationDate = creationDate
+            self.name = name
+            self.lambdaConfig = lambdaConfig
+            self.id = id
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastModifiedDate = "LastModifiedDate"
+            case creationDate = "CreationDate"
+            case name = "Name"
+            case lambdaConfig = "LambdaConfig"
+            case id = "Id"
+            case status = "Status"
+        }
+    }
+
+    public struct DescribeUserPoolClientResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserPoolClient", required: false, type: .structure)
+        ]
+        /// The user pool client from a server response to describe the user pool client.
+        public let userPoolClient: UserPoolClientType?
+
+        public init(userPoolClient: UserPoolClientType? = nil) {
+            self.userPoolClient = userPoolClient
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userPoolClient = "UserPoolClient"
         }
     }
 
     public struct ResendConfirmationCodeRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "AnalyticsMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "UserContextData", required: false, type: .structure), 
             AWSShapeMember(label: "SecretHash", required: false, type: .string), 
-            AWSShapeMember(label: "ClientId", required: true, type: .string)
+            AWSShapeMember(label: "ClientId", required: true, type: .string), 
+            AWSShapeMember(label: "UserContextData", required: false, type: .structure), 
+            AWSShapeMember(label: "AnalyticsMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "Username", required: true, type: .string)
         ]
-        /// The user name of the user to whom you wish to resend a confirmation code.
-        public let username: String
+        /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message.
+        public let secretHash: String?
+        /// The ID of the client associated with the user pool.
+        public let clientId: String
+        /// Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
+        public let userContextData: UserContextDataType?
         /// The Amazon Pinpoint analytics metadata for collecting metrics for ResendConfirmationCode calls.
         public let analyticsMetadata: AnalyticsMetadataType?
-        /// Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
-        public let userContextData: UserContextDataType?
-        /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message.
-        public let secretHash: String?
-        /// The ID of the client associated with the user pool.
-        public let clientId: String
-
-        public init(username: String, analyticsMetadata: AnalyticsMetadataType? = nil, userContextData: UserContextDataType? = nil, secretHash: String? = nil, clientId: String) {
-            self.username = username
-            self.analyticsMetadata = analyticsMetadata
-            self.userContextData = userContextData
-            self.secretHash = secretHash
-            self.clientId = clientId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case username = "Username"
-            case analyticsMetadata = "AnalyticsMetadata"
-            case userContextData = "UserContextData"
-            case secretHash = "SecretHash"
-            case clientId = "ClientId"
-        }
-    }
-
-    public struct ChallengeResponseType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChallengeName", required: false, type: .enum), 
-            AWSShapeMember(label: "ChallengeResponse", required: false, type: .enum)
-        ]
-        /// The challenge name
-        public let challengeName: ChallengeName?
-        /// The challenge response.
-        public let challengeResponse: ChallengeResponse?
-
-        public init(challengeName: ChallengeName? = nil, challengeResponse: ChallengeResponse? = nil) {
-            self.challengeName = challengeName
-            self.challengeResponse = challengeResponse
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case challengeName = "ChallengeName"
-            case challengeResponse = "ChallengeResponse"
-        }
-    }
-
-    public struct ForgotPasswordRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Username", required: true, type: .string), 
-            AWSShapeMember(label: "AnalyticsMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "UserContextData", required: false, type: .structure), 
-            AWSShapeMember(label: "SecretHash", required: false, type: .string), 
-            AWSShapeMember(label: "ClientId", required: true, type: .string)
-        ]
-        /// The user name of the user for whom you want to enter a code to reset a forgotten password.
+        /// The user name of the user to whom you wish to resend a confirmation code.
         public let username: String
-        /// The Amazon Pinpoint analytics metadata for collecting metrics for ForgotPassword calls.
-        public let analyticsMetadata: AnalyticsMetadataType?
-        /// Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
-        public let userContextData: UserContextDataType?
-        /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message.
-        public let secretHash: String?
-        /// The ID of the client associated with the user pool.
-        public let clientId: String
 
-        public init(username: String, analyticsMetadata: AnalyticsMetadataType? = nil, userContextData: UserContextDataType? = nil, secretHash: String? = nil, clientId: String) {
-            self.username = username
-            self.analyticsMetadata = analyticsMetadata
-            self.userContextData = userContextData
+        public init(secretHash: String? = nil, clientId: String, userContextData: UserContextDataType? = nil, analyticsMetadata: AnalyticsMetadataType? = nil, username: String) {
             self.secretHash = secretHash
+            self.clientId = clientId
+            self.userContextData = userContextData
+            self.analyticsMetadata = analyticsMetadata
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case secretHash = "SecretHash"
+            case clientId = "ClientId"
+            case userContextData = "UserContextData"
+            case analyticsMetadata = "AnalyticsMetadata"
+            case username = "Username"
+        }
+    }
+
+    public struct UserPoolClientDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserPoolId", required: false, type: .string), 
+            AWSShapeMember(label: "ClientName", required: false, type: .string), 
+            AWSShapeMember(label: "ClientId", required: false, type: .string)
+        ]
+        /// The user pool ID for the user pool where you want to describe the user pool client.
+        public let userPoolId: String?
+        /// The client name from the user pool client description.
+        public let clientName: String?
+        /// The ID of the client associated with the user pool.
+        public let clientId: String?
+
+        public init(userPoolId: String? = nil, clientName: String? = nil, clientId: String? = nil) {
+            self.userPoolId = userPoolId
+            self.clientName = clientName
             self.clientId = clientId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case username = "Username"
-            case analyticsMetadata = "AnalyticsMetadata"
-            case userContextData = "UserContextData"
-            case secretHash = "SecretHash"
+            case userPoolId = "UserPoolId"
+            case clientName = "ClientName"
             case clientId = "ClientId"
+        }
+    }
+
+    public struct AttributeType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+        /// The name of the attribute.
+        public let name: String
+        /// The value of the attribute.
+        public let value: String?
+
+        public init(name: String, value: String? = nil) {
+            self.name = name
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case value = "Value"
+        }
+    }
+
+    public struct CreateUserPoolDomainResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CloudFrontDomain", required: false, type: .string)
+        ]
+        /// The Amazon CloudFront endpoint that you use as the target of the alias that you set up with your Domain Name Service (DNS) provider.
+        public let cloudFrontDomain: String?
+
+        public init(cloudFrontDomain: String? = nil) {
+            self.cloudFrontDomain = cloudFrontDomain
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudFrontDomain = "CloudFrontDomain"
+        }
+    }
+
+    public struct StopUserImportJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: true, type: .string), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
+        ]
+        /// The job ID for the user import job.
+        public let jobId: String
+        /// The user pool ID for the user pool that the users are being imported into.
+        public let userPoolId: String
+
+        public init(jobId: String, userPoolId: String) {
+            self.jobId = jobId
+            self.userPoolId = userPoolId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+            case userPoolId = "UserPoolId"
+        }
+    }
+
+    public enum DomainStatusType: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case updating = "UPDATING"
+        case active = "ACTIVE"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EventFilterType: String, CustomStringConvertible, Codable {
+        case signIn = "SIGN_IN"
+        case passwordChange = "PASSWORD_CHANGE"
+        case signUp = "SIGN_UP"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DescribeResourceServerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Identifier", required: true, type: .string), 
+            AWSShapeMember(label: "UserPoolId", required: true, type: .string)
+        ]
+        /// The identifier for the resource server
+        public let identifier: String
+        /// The user pool ID for the user pool that hosts the resource server.
+        public let userPoolId: String
+
+        public init(identifier: String, userPoolId: String) {
+            self.identifier = identifier
+            self.userPoolId = userPoolId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identifier = "Identifier"
+            case userPoolId = "UserPoolId"
+        }
+    }
+
+    public struct UserPoolClientType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ExplicitAuthFlows", required: false, type: .list), 
+            AWSShapeMember(label: "AllowedOAuthScopes", required: false, type: .list), 
+            AWSShapeMember(label: "SupportedIdentityProviders", required: false, type: .list), 
+            AWSShapeMember(label: "DefaultRedirectURI", required: false, type: .string), 
+            AWSShapeMember(label: "AllowedOAuthFlows", required: false, type: .list), 
+            AWSShapeMember(label: "ClientName", required: false, type: .string), 
+            AWSShapeMember(label: "ClientId", required: false, type: .string), 
+            AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "AnalyticsConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "AllowedOAuthFlowsUserPoolClient", required: false, type: .boolean), 
+            AWSShapeMember(label: "UserPoolId", required: false, type: .string), 
+            AWSShapeMember(label: "ClientSecret", required: false, type: .string), 
+            AWSShapeMember(label: "LogoutURLs", required: false, type: .list), 
+            AWSShapeMember(label: "RefreshTokenValidity", required: false, type: .integer), 
+            AWSShapeMember(label: "WriteAttributes", required: false, type: .list), 
+            AWSShapeMember(label: "ReadAttributes", required: false, type: .list), 
+            AWSShapeMember(label: "CallbackURLs", required: false, type: .list)
+        ]
+        /// The date the user pool client was created.
+        public let creationDate: TimeStamp?
+        /// The explicit authentication flows.
+        public let explicitAuthFlows: [ExplicitAuthFlowsType]?
+        /// A list of allowed OAuth scopes. Currently supported values are "phone", "email", "openid", and "Cognito".
+        public let allowedOAuthScopes: [String]?
+        /// A list of provider names for the identity providers that are supported on this client.
+        public let supportedIdentityProviders: [String]?
+        /// The default redirect URI. Must be in the CallbackURLs list. A redirect URI must:   Be an absolute URI.   Be registered with the authorization server.   Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint. Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes only. App callback URLs such as myapp://example are also supported.
+        public let defaultRedirectURI: String?
+        /// Set to code to initiate a code grant flow, which provides an authorization code as the response. This code can be exchanged for access tokens with the token endpoint. Set to token to specify that the client should get the access token (and, optionally, ID token, based on scopes) directly.
+        public let allowedOAuthFlows: [OAuthFlowType]?
+        /// The client name from the user pool request of the client type.
+        public let clientName: String?
+        /// The ID of the client associated with the user pool.
+        public let clientId: String?
+        /// The date the user pool client was last modified.
+        public let lastModifiedDate: TimeStamp?
+        /// The Amazon Pinpoint analytics configuration for the user pool client.
+        public let analyticsConfiguration: AnalyticsConfigurationType?
+        /// Set to TRUE if the client is allowed to follow the OAuth protocol when interacting with Cognito user pools.
+        public let allowedOAuthFlowsUserPoolClient: Bool?
+        /// The user pool ID for the user pool client.
+        public let userPoolId: String?
+        /// The client secret from the user pool request of the client type.
+        public let clientSecret: String?
+        /// A list of allowed logout URLs for the identity providers.
+        public let logoutURLs: [String]?
+        /// The time limit, in days, after which the refresh token is no longer valid and cannot be used.
+        public let refreshTokenValidity: Int32?
+        /// The writeable attributes.
+        public let writeAttributes: [String]?
+        /// The Read-only attributes.
+        public let readAttributes: [String]?
+        /// A list of allowed redirect (callback) URLs for the identity providers. A redirect URI must:   Be an absolute URI.   Be registered with the authorization server.   Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint. Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes only. App callback URLs such as myapp://example are also supported.
+        public let callbackURLs: [String]?
+
+        public init(creationDate: TimeStamp? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, allowedOAuthScopes: [String]? = nil, supportedIdentityProviders: [String]? = nil, defaultRedirectURI: String? = nil, allowedOAuthFlows: [OAuthFlowType]? = nil, clientName: String? = nil, clientId: String? = nil, lastModifiedDate: TimeStamp? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, allowedOAuthFlowsUserPoolClient: Bool? = nil, userPoolId: String? = nil, clientSecret: String? = nil, logoutURLs: [String]? = nil, refreshTokenValidity: Int32? = nil, writeAttributes: [String]? = nil, readAttributes: [String]? = nil, callbackURLs: [String]? = nil) {
+            self.creationDate = creationDate
+            self.explicitAuthFlows = explicitAuthFlows
+            self.allowedOAuthScopes = allowedOAuthScopes
+            self.supportedIdentityProviders = supportedIdentityProviders
+            self.defaultRedirectURI = defaultRedirectURI
+            self.allowedOAuthFlows = allowedOAuthFlows
+            self.clientName = clientName
+            self.clientId = clientId
+            self.lastModifiedDate = lastModifiedDate
+            self.analyticsConfiguration = analyticsConfiguration
+            self.allowedOAuthFlowsUserPoolClient = allowedOAuthFlowsUserPoolClient
+            self.userPoolId = userPoolId
+            self.clientSecret = clientSecret
+            self.logoutURLs = logoutURLs
+            self.refreshTokenValidity = refreshTokenValidity
+            self.writeAttributes = writeAttributes
+            self.readAttributes = readAttributes
+            self.callbackURLs = callbackURLs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDate = "CreationDate"
+            case explicitAuthFlows = "ExplicitAuthFlows"
+            case allowedOAuthScopes = "AllowedOAuthScopes"
+            case supportedIdentityProviders = "SupportedIdentityProviders"
+            case defaultRedirectURI = "DefaultRedirectURI"
+            case allowedOAuthFlows = "AllowedOAuthFlows"
+            case clientName = "ClientName"
+            case clientId = "ClientId"
+            case lastModifiedDate = "LastModifiedDate"
+            case analyticsConfiguration = "AnalyticsConfiguration"
+            case allowedOAuthFlowsUserPoolClient = "AllowedOAuthFlowsUserPoolClient"
+            case userPoolId = "UserPoolId"
+            case clientSecret = "ClientSecret"
+            case logoutURLs = "LogoutURLs"
+            case refreshTokenValidity = "RefreshTokenValidity"
+            case writeAttributes = "WriteAttributes"
+            case readAttributes = "ReadAttributes"
+            case callbackURLs = "CallbackURLs"
+        }
+    }
+
+    public struct SmsMfaConfigType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SmsAuthenticationMessage", required: false, type: .string), 
+            AWSShapeMember(label: "SmsConfiguration", required: false, type: .structure)
+        ]
+        /// The SMS authentication message.
+        public let smsAuthenticationMessage: String?
+        /// The SMS configuration.
+        public let smsConfiguration: SmsConfigurationType?
+
+        public init(smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil) {
+            self.smsAuthenticationMessage = smsAuthenticationMessage
+            self.smsConfiguration = smsConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case smsAuthenticationMessage = "SmsAuthenticationMessage"
+            case smsConfiguration = "SmsConfiguration"
+        }
+    }
+
+    public struct GetCSVHeaderResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserPoolId", required: false, type: .string), 
+            AWSShapeMember(label: "CSVHeader", required: false, type: .list)
+        ]
+        /// The user pool ID for the user pool that the users are to be imported into.
+        public let userPoolId: String?
+        /// The header information for the .csv file for the user import job.
+        public let cSVHeader: [String]?
+
+        public init(userPoolId: String? = nil, cSVHeader: [String]? = nil) {
+            self.userPoolId = userPoolId
+            self.cSVHeader = cSVHeader
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userPoolId = "UserPoolId"
+            case cSVHeader = "CSVHeader"
         }
     }
 

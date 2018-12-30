@@ -4,10 +4,15 @@ import AWSSDKSwiftCore
 
 /// Error enum for Lambda
 public enum LambdaErrorType: AWSErrorType {
-    case serviceException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case invalidParameterValueException(message: String?)
     case tooManyRequestsException(message: String?)
+    case serviceException(message: String?)
+    case invalidParameterValueException(message: String?)
+    case resourceNotFoundException(message: String?)
+    case preconditionFailedException(message: String?)
+    case codeStorageExceededException(message: String?)
+    case resourceConflictException(message: String?)
+    case resourceInUseException(message: String?)
+    case policyLengthExceededException(message: String?)
     case invalidRequestContentException(message: String?)
     case requestTooLargeException(message: String?)
     case unsupportedMediaTypeException(message: String?)
@@ -24,11 +29,6 @@ public enum LambdaErrorType: AWSErrorType {
     case kMSAccessDeniedException(message: String?)
     case kMSNotFoundException(message: String?)
     case invalidRuntimeException(message: String?)
-    case codeStorageExceededException(message: String?)
-    case preconditionFailedException(message: String?)
-    case resourceInUseException(message: String?)
-    case resourceConflictException(message: String?)
-    case policyLengthExceededException(message: String?)
 }
 
 extension LambdaErrorType {
@@ -38,14 +38,24 @@ extension LambdaErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "ServiceException":
-            self = .serviceException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "InvalidParameterValueException":
-            self = .invalidParameterValueException(message: message)
         case "TooManyRequestsException":
             self = .tooManyRequestsException(message: message)
+        case "ServiceException":
+            self = .serviceException(message: message)
+        case "InvalidParameterValueException":
+            self = .invalidParameterValueException(message: message)
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
+        case "PreconditionFailedException":
+            self = .preconditionFailedException(message: message)
+        case "CodeStorageExceededException":
+            self = .codeStorageExceededException(message: message)
+        case "ResourceConflictException":
+            self = .resourceConflictException(message: message)
+        case "ResourceInUseException":
+            self = .resourceInUseException(message: message)
+        case "PolicyLengthExceededException":
+            self = .policyLengthExceededException(message: message)
         case "InvalidRequestContentException":
             self = .invalidRequestContentException(message: message)
         case "RequestTooLargeException":
@@ -78,16 +88,6 @@ extension LambdaErrorType {
             self = .kMSNotFoundException(message: message)
         case "InvalidRuntimeException":
             self = .invalidRuntimeException(message: message)
-        case "CodeStorageExceededException":
-            self = .codeStorageExceededException(message: message)
-        case "PreconditionFailedException":
-            self = .preconditionFailedException(message: message)
-        case "ResourceInUseException":
-            self = .resourceInUseException(message: message)
-        case "ResourceConflictException":
-            self = .resourceConflictException(message: message)
-        case "PolicyLengthExceededException":
-            self = .policyLengthExceededException(message: message)
         default:
             return nil
         }

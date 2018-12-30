@@ -75,7 +75,7 @@ extension AWSSDKSwiftCore.Operation {
         code += " throws"
 
         if let shape = self.outputShape {
-            code += " -> EventLoopFuture<\(shape.swiftTypeName)>"
+            code += " -> Future<\(shape.swiftTypeName)>"
         }
 
         code += " {\n"
