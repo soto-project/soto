@@ -7,18 +7,18 @@ public struct S3RequestMiddleware: AWSRequestMiddleware {
 
     public func chain(request: AWSRequest) throws -> AWSRequest {
         var request = request
-        
+
         var paths = request.url.path.components(separatedBy: "/").filter({ $0 != "" })
         if paths.count == 0 {
             return request
         }
-        
+
         switch request.httpMethod.lowercased() {
         case "get":
             let query = request.url.query != nil ? "?\(request.url.query!)" : ""
             let domain: String
             if let host = request.url.host, host.contains("amazonaws.com") {
-                domain = "s3-\(request.region.rawValue).amazonaws.com"
+                domain = host
             } else {
                 let port = request.url.port == nil ? "" : ":\(request.url.port!)"
                 domain = request.url.host!+port
@@ -43,7 +43,7 @@ public struct S3RequestMiddleware: AWSRequestMiddleware {
                 request.url = URL(string: urlString)!
             }
         }
-        
+
         switch request.operation {
         case "CreateBucket":
             var xml = ""
@@ -53,7 +53,7 @@ public struct S3RequestMiddleware: AWSRequestMiddleware {
             xml += "</LocationConstraint>"
             xml += "</CreateBucketConfiguration>"
             request.body = .text(xml)
-            
+
         case "PutObject":
             if let data = try request.body.asData() {
                 let encoded = Data(bytes: md5(data)).base64EncodedString()
@@ -62,7 +62,7 @@ public struct S3RequestMiddleware: AWSRequestMiddleware {
         default:
             break
         }
-        
+
         return request
     }
 }
