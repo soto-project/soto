@@ -13,35 +13,35 @@ public enum OrganizationsErrorType: AWSErrorType {
     case masterCannotLeaveOrganizationException(message: String?)
     case serviceException(message: String?)
     case tooManyRequestsException(message: String?)
+    case duplicatePolicyException(message: String?)
+    case malformedPolicyDocumentException(message: String?)
+    case policyTypeNotAvailableForOrganizationException(message: String?)
+    case policyTypeNotEnabledException(message: String?)
+    case rootNotFoundException(message: String?)
+    case finalizingOrganizationException(message: String?)
+    case policyNotAttachedException(message: String?)
+    case policyNotFoundException(message: String?)
+    case targetNotFoundException(message: String?)
+    case duplicateOrganizationalUnitException(message: String?)
+    case parentNotFoundException(message: String?)
+    case organizationNotEmptyException(message: String?)
+    case handshakeConstraintViolationException(message: String?)
     case handshakeNotFoundException(message: String?)
     case invalidHandshakeTransitionException(message: String?)
     case handshakeAlreadyInStateException(message: String?)
-    case finalizingOrganizationException(message: String?)
-    case duplicatePolicyException(message: String?)
-    case malformedPolicyDocumentException(message: String?)
-    case policyNotFoundException(message: String?)
-    case policyTypeNotEnabledException(message: String?)
-    case rootNotFoundException(message: String?)
-    case duplicateOrganizationalUnitException(message: String?)
-    case organizationalUnitNotFoundException(message: String?)
+    case accessDeniedForDependencyException(message: String?)
     case sourceParentNotFoundException(message: String?)
     case destinationParentNotFoundException(message: String?)
     case duplicateAccountException(message: String?)
-    case policyTypeNotAvailableForOrganizationException(message: String?)
-    case parentNotFoundException(message: String?)
-    case policyTypeAlreadyEnabledException(message: String?)
-    case policyNotAttachedException(message: String?)
-    case targetNotFoundException(message: String?)
-    case alreadyInOrganizationException(message: String?)
-    case accessDeniedForDependencyException(message: String?)
     case childNotFoundException(message: String?)
-    case duplicatePolicyAttachmentException(message: String?)
-    case organizationNotEmptyException(message: String?)
-    case handshakeConstraintViolationException(message: String?)
-    case createAccountStatusNotFoundException(message: String?)
-    case policyInUseException(message: String?)
+    case organizationalUnitNotFoundException(message: String?)
     case accountOwnerNotVerifiedException(message: String?)
     case duplicateHandshakeException(message: String?)
+    case policyInUseException(message: String?)
+    case policyTypeAlreadyEnabledException(message: String?)
+    case duplicatePolicyAttachmentException(message: String?)
+    case createAccountStatusNotFoundException(message: String?)
+    case alreadyInOrganizationException(message: String?)
     case organizationalUnitNotEmptyException(message: String?)
 }
 
@@ -70,64 +70,64 @@ extension OrganizationsErrorType {
             self = .serviceException(message: message)
         case "TooManyRequestsException":
             self = .tooManyRequestsException(message: message)
+        case "DuplicatePolicyException":
+            self = .duplicatePolicyException(message: message)
+        case "MalformedPolicyDocumentException":
+            self = .malformedPolicyDocumentException(message: message)
+        case "PolicyTypeNotAvailableForOrganizationException":
+            self = .policyTypeNotAvailableForOrganizationException(message: message)
+        case "PolicyTypeNotEnabledException":
+            self = .policyTypeNotEnabledException(message: message)
+        case "RootNotFoundException":
+            self = .rootNotFoundException(message: message)
+        case "FinalizingOrganizationException":
+            self = .finalizingOrganizationException(message: message)
+        case "PolicyNotAttachedException":
+            self = .policyNotAttachedException(message: message)
+        case "PolicyNotFoundException":
+            self = .policyNotFoundException(message: message)
+        case "TargetNotFoundException":
+            self = .targetNotFoundException(message: message)
+        case "DuplicateOrganizationalUnitException":
+            self = .duplicateOrganizationalUnitException(message: message)
+        case "ParentNotFoundException":
+            self = .parentNotFoundException(message: message)
+        case "OrganizationNotEmptyException":
+            self = .organizationNotEmptyException(message: message)
+        case "HandshakeConstraintViolationException":
+            self = .handshakeConstraintViolationException(message: message)
         case "HandshakeNotFoundException":
             self = .handshakeNotFoundException(message: message)
         case "InvalidHandshakeTransitionException":
             self = .invalidHandshakeTransitionException(message: message)
         case "HandshakeAlreadyInStateException":
             self = .handshakeAlreadyInStateException(message: message)
-        case "FinalizingOrganizationException":
-            self = .finalizingOrganizationException(message: message)
-        case "DuplicatePolicyException":
-            self = .duplicatePolicyException(message: message)
-        case "MalformedPolicyDocumentException":
-            self = .malformedPolicyDocumentException(message: message)
-        case "PolicyNotFoundException":
-            self = .policyNotFoundException(message: message)
-        case "PolicyTypeNotEnabledException":
-            self = .policyTypeNotEnabledException(message: message)
-        case "RootNotFoundException":
-            self = .rootNotFoundException(message: message)
-        case "DuplicateOrganizationalUnitException":
-            self = .duplicateOrganizationalUnitException(message: message)
-        case "OrganizationalUnitNotFoundException":
-            self = .organizationalUnitNotFoundException(message: message)
+        case "AccessDeniedForDependencyException":
+            self = .accessDeniedForDependencyException(message: message)
         case "SourceParentNotFoundException":
             self = .sourceParentNotFoundException(message: message)
         case "DestinationParentNotFoundException":
             self = .destinationParentNotFoundException(message: message)
         case "DuplicateAccountException":
             self = .duplicateAccountException(message: message)
-        case "PolicyTypeNotAvailableForOrganizationException":
-            self = .policyTypeNotAvailableForOrganizationException(message: message)
-        case "ParentNotFoundException":
-            self = .parentNotFoundException(message: message)
-        case "PolicyTypeAlreadyEnabledException":
-            self = .policyTypeAlreadyEnabledException(message: message)
-        case "PolicyNotAttachedException":
-            self = .policyNotAttachedException(message: message)
-        case "TargetNotFoundException":
-            self = .targetNotFoundException(message: message)
-        case "AlreadyInOrganizationException":
-            self = .alreadyInOrganizationException(message: message)
-        case "AccessDeniedForDependencyException":
-            self = .accessDeniedForDependencyException(message: message)
         case "ChildNotFoundException":
             self = .childNotFoundException(message: message)
-        case "DuplicatePolicyAttachmentException":
-            self = .duplicatePolicyAttachmentException(message: message)
-        case "OrganizationNotEmptyException":
-            self = .organizationNotEmptyException(message: message)
-        case "HandshakeConstraintViolationException":
-            self = .handshakeConstraintViolationException(message: message)
-        case "CreateAccountStatusNotFoundException":
-            self = .createAccountStatusNotFoundException(message: message)
-        case "PolicyInUseException":
-            self = .policyInUseException(message: message)
+        case "OrganizationalUnitNotFoundException":
+            self = .organizationalUnitNotFoundException(message: message)
         case "AccountOwnerNotVerifiedException":
             self = .accountOwnerNotVerifiedException(message: message)
         case "DuplicateHandshakeException":
             self = .duplicateHandshakeException(message: message)
+        case "PolicyInUseException":
+            self = .policyInUseException(message: message)
+        case "PolicyTypeAlreadyEnabledException":
+            self = .policyTypeAlreadyEnabledException(message: message)
+        case "DuplicatePolicyAttachmentException":
+            self = .duplicatePolicyAttachmentException(message: message)
+        case "CreateAccountStatusNotFoundException":
+            self = .createAccountStatusNotFoundException(message: message)
+        case "AlreadyInOrganizationException":
+            self = .alreadyInOrganizationException(message: message)
         case "OrganizationalUnitNotEmptyException":
             self = .organizationalUnitNotEmptyException(message: message)
         default:

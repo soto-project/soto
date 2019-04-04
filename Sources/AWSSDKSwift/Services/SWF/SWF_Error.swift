@@ -6,13 +6,13 @@ import AWSSDKSwiftCore
 public enum SWFErrorType: AWSErrorType {
     case unknownResourceFault(message: String?)
     case typeDeprecatedFault(message: String?)
-    case operationNotPermittedFault(message: String?)
-    case limitExceededFault(message: String?)
-    case domainDeprecatedFault(message: String?)
-    case domainAlreadyExistsFault(message: String?)
-    case typeAlreadyExistsFault(message: String?)
     case workflowExecutionAlreadyStartedFault(message: String?)
+    case limitExceededFault(message: String?)
+    case operationNotPermittedFault(message: String?)
     case defaultUndefinedFault(message: String?)
+    case domainAlreadyExistsFault(message: String?)
+    case domainDeprecatedFault(message: String?)
+    case typeAlreadyExistsFault(message: String?)
 }
 
 extension SWFErrorType {
@@ -26,20 +26,20 @@ extension SWFErrorType {
             self = .unknownResourceFault(message: message)
         case "TypeDeprecatedFault":
             self = .typeDeprecatedFault(message: message)
-        case "OperationNotPermittedFault":
-            self = .operationNotPermittedFault(message: message)
-        case "LimitExceededFault":
-            self = .limitExceededFault(message: message)
-        case "DomainDeprecatedFault":
-            self = .domainDeprecatedFault(message: message)
-        case "DomainAlreadyExistsFault":
-            self = .domainAlreadyExistsFault(message: message)
-        case "TypeAlreadyExistsFault":
-            self = .typeAlreadyExistsFault(message: message)
         case "WorkflowExecutionAlreadyStartedFault":
             self = .workflowExecutionAlreadyStartedFault(message: message)
+        case "LimitExceededFault":
+            self = .limitExceededFault(message: message)
+        case "OperationNotPermittedFault":
+            self = .operationNotPermittedFault(message: message)
         case "DefaultUndefinedFault":
             self = .defaultUndefinedFault(message: message)
+        case "DomainAlreadyExistsFault":
+            self = .domainAlreadyExistsFault(message: message)
+        case "DomainDeprecatedFault":
+            self = .domainDeprecatedFault(message: message)
+        case "TypeAlreadyExistsFault":
+            self = .typeAlreadyExistsFault(message: message)
         default:
             return nil
         }

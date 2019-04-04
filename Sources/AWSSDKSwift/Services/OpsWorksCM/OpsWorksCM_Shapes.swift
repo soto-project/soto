@@ -5,6 +5,301 @@ import AWSSDKSwiftCore
 
 extension OpsWorksCM {
 
+    public enum BackupType: String, CustomStringConvertible, Codable {
+        case automated = "AUTOMATED"
+        case manual = "MANUAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DescribeNodeAssociationStatusResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NodeAssociationStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "EngineAttributes", required: false, type: .list)
+        ]
+        /// The status of the association or disassociation request.   Possible values:     SUCCESS: The association or disassociation succeeded.     FAILED: The association or disassociation failed.     IN_PROGRESS: The association or disassociation is still in progress.   
+        public let nodeAssociationStatus: NodeAssociationStatus?
+        /// Attributes specific to the node association. In Puppet, the attibute PUPPET_NODE_CERT contains the signed certificate (the result of the CSR). 
+        public let engineAttributes: [EngineAttribute]?
+
+        public init(nodeAssociationStatus: NodeAssociationStatus? = nil, engineAttributes: [EngineAttribute]? = nil) {
+            self.nodeAssociationStatus = nodeAssociationStatus
+            self.engineAttributes = engineAttributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nodeAssociationStatus = "NodeAssociationStatus"
+            case engineAttributes = "EngineAttributes"
+        }
+    }
+
+    public struct UpdateServerEngineAttributesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServerName", required: true, type: .string), 
+            AWSShapeMember(label: "AttributeName", required: true, type: .string), 
+            AWSShapeMember(label: "AttributeValue", required: false, type: .string)
+        ]
+        /// The name of the server to update. 
+        public let serverName: String
+        /// The name of the engine attribute to update. 
+        public let attributeName: String
+        /// The value to set for the attribute. 
+        public let attributeValue: String?
+
+        public init(serverName: String, attributeName: String, attributeValue: String? = nil) {
+            self.serverName = serverName
+            self.attributeName = attributeName
+            self.attributeValue = attributeValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverName = "ServerName"
+            case attributeName = "AttributeName"
+            case attributeValue = "AttributeValue"
+        }
+    }
+
+    public struct CreateServerResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Server", required: false, type: .structure)
+        ]
+        /// The server that is created by the request. 
+        public let server: Server?
+
+        public init(server: Server? = nil) {
+            self.server = server
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case server = "Server"
+        }
+    }
+
+    public enum NodeAssociationStatus: String, CustomStringConvertible, Codable {
+        case success = "SUCCESS"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DisassociateNodeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NodeName", required: true, type: .string), 
+            AWSShapeMember(label: "EngineAttributes", required: false, type: .list), 
+            AWSShapeMember(label: "ServerName", required: true, type: .string)
+        ]
+        /// The name of the client node. 
+        public let nodeName: String
+        /// Engine attributes that are used for disassociating the node. No attributes are required for Puppet.   Attributes required in a DisassociateNode request for Chef     CHEF_ORGANIZATION: The Chef organization with which the node was associated. By default only one organization named default can exist.   
+        public let engineAttributes: [EngineAttribute]?
+        /// The name of the server from which to disassociate the node. 
+        public let serverName: String
+
+        public init(nodeName: String, engineAttributes: [EngineAttribute]? = nil, serverName: String) {
+            self.nodeName = nodeName
+            self.engineAttributes = engineAttributes
+            self.serverName = serverName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nodeName = "NodeName"
+            case engineAttributes = "EngineAttributes"
+            case serverName = "ServerName"
+        }
+    }
+
+    public struct DescribeEventsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "ServerName", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// To receive a paginated response, use this parameter to specify the maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results. 
+        public let maxResults: Int32?
+        /// The name of the server for which you want to view events.
+        public let serverName: String
+        /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call DescribeEvents again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur. 
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, serverName: String, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.serverName = serverName
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case serverName = "ServerName"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct EngineAttribute: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+        /// The name of the engine attribute. 
+        public let name: String?
+        /// The value of the engine attribute. 
+        public let value: String?
+
+        public init(name: String? = nil, value: String? = nil) {
+            self.name = name
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case value = "Value"
+        }
+    }
+
+    public struct DeleteBackupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BackupId", required: true, type: .string)
+        ]
+        /// The ID of the backup to delete. Run the DescribeBackups command to get a list of backup IDs. Backup IDs are in the format ServerName-yyyyMMddHHmmssSSS. 
+        public let backupId: String
+
+        public init(backupId: String) {
+            self.backupId = backupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backupId = "BackupId"
+        }
+    }
+
+    public struct CreateServerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceProfileArn", required: true, type: .string), 
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "BackupId", required: false, type: .string), 
+            AWSShapeMember(label: "EngineModel", required: false, type: .string), 
+            AWSShapeMember(label: "BackupRetentionCount", required: false, type: .integer), 
+            AWSShapeMember(label: "KeyPair", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceRoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "AssociatePublicIpAddress", required: false, type: .boolean), 
+            AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string), 
+            AWSShapeMember(label: "DisableAutomatedBackup", required: false, type: .boolean), 
+            AWSShapeMember(label: "Engine", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceType", required: true, type: .string), 
+            AWSShapeMember(label: "ServerName", required: true, type: .string), 
+            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
+            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeMember(label: "EngineAttributes", required: false, type: .list), 
+            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list)
+        ]
+        ///  The ARN of the instance profile that your Amazon EC2 instances use. Although the AWS OpsWorks console typically creates the instance profile for you, if you are using API commands instead, run the service-role-creation.yaml AWS CloudFormation template, located at https://s3.amazonaws.com/opsworks-cm-us-east-1-prod-default-assets/misc/opsworks-cm-roles.yaml. This template creates a CloudFormation stack that includes the instance profile you need. 
+        public let instanceProfileArn: String
+        ///  The major release version of the engine that you want to use. For a Chef server, the valid value for EngineVersion is currently 12. For a Puppet server, the valid value is 2017. 
+        public let engineVersion: String?
+        ///  If you specify this field, AWS OpsWorks CM creates the server by using the backup represented by BackupId. 
+        public let backupId: String?
+        ///  The engine model of the server. Valid values in this release include Monolithic for Puppet and Single for Chef. 
+        public let engineModel: String?
+        ///  The number of automated backups that you want to keep. Whenever a new backup is created, AWS OpsWorks CM deletes the oldest backups if this number is exceeded. The default value is 1. 
+        public let backupRetentionCount: Int32?
+        ///  The Amazon EC2 key pair to set for the instance. This parameter is optional; if desired, you may specify this parameter to connect to your instances by using SSH. 
+        public let keyPair: String?
+        ///  The service role that the AWS OpsWorks CM service backend uses to work with your account. Although the AWS OpsWorks management console typically creates the service role for you, if you are using the AWS CLI or API commands, run the service-role-creation.yaml AWS CloudFormation template, located at https://s3.amazonaws.com/opsworks-cm-us-east-1-prod-default-assets/misc/opsworks-cm-roles.yaml. This template creates a CloudFormation stack that includes the service role and instance profile that you need. 
+        public let serviceRoleArn: String
+        ///  Associate a public IP address with a server that you are launching. Valid values are true or false. The default value is true. 
+        public let associatePublicIpAddress: Bool?
+        ///  The start time for a one-hour period during which AWS OpsWorks CM backs up application-level data on your server if automated backups are enabled. Valid values must be specified in one of the following formats:     HH:MM for daily backups    DDD:HH:MM for weekly backups   The specified time is in coordinated universal time (UTC). The default value is a random, daily start time.  Example: 08:00, which represents a daily start time of 08:00 UTC.  Example: Mon:08:00, which represents a start time of every Monday at 08:00 UTC. (8:00 a.m.)
+        public let preferredBackupWindow: String?
+        ///  Enable or disable scheduled backups. Valid values are true or false. The default value is true. 
+        public let disableAutomatedBackup: Bool?
+        ///  The configuration management engine to use. Valid values include Chef and Puppet. 
+        public let engine: String?
+        ///  The Amazon EC2 instance type to use. For example, m4.large. Recommended instance types include t2.medium and greater, m4.*, or c4.xlarge and greater. 
+        public let instanceType: String
+        ///  The name of the server. The server name must be unique within your AWS account, within each region. Server names must start with a letter; then letters, numbers, or hyphens (-) are allowed, up to a maximum of 40 characters. 
+        public let serverName: String
+        ///  The IDs of subnets in which to launch the server EC2 instance.   Amazon EC2-Classic customers: This field is required. All servers must run within a VPC. The VPC must have "Auto Assign Public IP" enabled.   EC2-VPC customers: This field is optional. If you do not specify subnet IDs, your EC2 instances are created in a default subnet that is selected by Amazon EC2. If you specify subnet IDs, the VPC must have "Auto Assign Public IP" enabled.  For more information about supported Amazon EC2 platforms, see Supported Platforms.
+        public let subnetIds: [String]?
+        ///  The start time for a one-hour period each week during which AWS OpsWorks CM performs maintenance on the instance. Valid values must be specified in the following format: DDD:HH:MM. The specified time is in coordinated universal time (UTC). The default value is a random one-hour period on Tuesday, Wednesday, or Friday. See TimeWindowDefinition for more information.   Example: Mon:08:00, which represents a start time of every Monday at 08:00 UTC. (8:00 a.m.) 
+        public let preferredMaintenanceWindow: String?
+        /// Optional engine attributes on a specified server.   Attributes accepted in a Chef createServer request:     CHEF_PIVOTAL_KEY: A base64-encoded RSA private key that is not stored by AWS OpsWorks for Chef Automate. This private key is required to access the Chef API. When no CHEF_PIVOTAL_KEY is set, one is generated and returned in the response.     CHEF_DELIVERY_ADMIN_PASSWORD: The password for the administrative user in the Chef Automate GUI. The password length is a minimum of eight characters, and a maximum of 32. The password can contain letters, numbers, and special characters (!/@#$%^&amp;+=_). The password must contain at least one lower case letter, one upper case letter, one number, and one special character. When no CHEF_DELIVERY_ADMIN_PASSWORD is set, one is generated and returned in the response.    Attributes accepted in a Puppet createServer request:     PUPPET_ADMIN_PASSWORD: To work with the Puppet Enterprise console, a password must use ASCII characters.  
+        public let engineAttributes: [EngineAttribute]?
+        ///  A list of security group IDs to attach to the Amazon EC2 instance. If you add this parameter, the specified security groups must be within the VPC that is specified by SubnetIds.   If you do not specify this parameter, AWS OpsWorks CM creates one new security group that uses TCP ports 22 and 443, open to 0.0.0.0/0 (everyone). 
+        public let securityGroupIds: [String]?
+
+        public init(instanceProfileArn: String, engineVersion: String? = nil, backupId: String? = nil, engineModel: String? = nil, backupRetentionCount: Int32? = nil, keyPair: String? = nil, serviceRoleArn: String, associatePublicIpAddress: Bool? = nil, preferredBackupWindow: String? = nil, disableAutomatedBackup: Bool? = nil, engine: String? = nil, instanceType: String, serverName: String, subnetIds: [String]? = nil, preferredMaintenanceWindow: String? = nil, engineAttributes: [EngineAttribute]? = nil, securityGroupIds: [String]? = nil) {
+            self.instanceProfileArn = instanceProfileArn
+            self.engineVersion = engineVersion
+            self.backupId = backupId
+            self.engineModel = engineModel
+            self.backupRetentionCount = backupRetentionCount
+            self.keyPair = keyPair
+            self.serviceRoleArn = serviceRoleArn
+            self.associatePublicIpAddress = associatePublicIpAddress
+            self.preferredBackupWindow = preferredBackupWindow
+            self.disableAutomatedBackup = disableAutomatedBackup
+            self.engine = engine
+            self.instanceType = instanceType
+            self.serverName = serverName
+            self.subnetIds = subnetIds
+            self.preferredMaintenanceWindow = preferredMaintenanceWindow
+            self.engineAttributes = engineAttributes
+            self.securityGroupIds = securityGroupIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceProfileArn = "InstanceProfileArn"
+            case engineVersion = "EngineVersion"
+            case backupId = "BackupId"
+            case engineModel = "EngineModel"
+            case backupRetentionCount = "BackupRetentionCount"
+            case keyPair = "KeyPair"
+            case serviceRoleArn = "ServiceRoleArn"
+            case associatePublicIpAddress = "AssociatePublicIpAddress"
+            case preferredBackupWindow = "PreferredBackupWindow"
+            case disableAutomatedBackup = "DisableAutomatedBackup"
+            case engine = "Engine"
+            case instanceType = "InstanceType"
+            case serverName = "ServerName"
+            case subnetIds = "SubnetIds"
+            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case engineAttributes = "EngineAttributes"
+            case securityGroupIds = "SecurityGroupIds"
+        }
+    }
+
+    public struct UpdateServerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string), 
+            AWSShapeMember(label: "BackupRetentionCount", required: false, type: .integer), 
+            AWSShapeMember(label: "ServerName", required: true, type: .string), 
+            AWSShapeMember(label: "DisableAutomatedBackup", required: false, type: .boolean), 
+            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string)
+        ]
+        public let preferredBackupWindow: String?
+        /// Sets the number of automated backups that you want to keep. 
+        public let backupRetentionCount: Int32?
+        /// The name of the server to update. 
+        public let serverName: String
+        /// Setting DisableAutomatedBackup to true disables automated or scheduled backups. Automated backups are enabled by default. 
+        public let disableAutomatedBackup: Bool?
+        public let preferredMaintenanceWindow: String?
+
+        public init(preferredBackupWindow: String? = nil, backupRetentionCount: Int32? = nil, serverName: String, disableAutomatedBackup: Bool? = nil, preferredMaintenanceWindow: String? = nil) {
+            self.preferredBackupWindow = preferredBackupWindow
+            self.backupRetentionCount = backupRetentionCount
+            self.serverName = serverName
+            self.disableAutomatedBackup = disableAutomatedBackup
+            self.preferredMaintenanceWindow = preferredMaintenanceWindow
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case preferredBackupWindow = "PreferredBackupWindow"
+            case backupRetentionCount = "BackupRetentionCount"
+            case serverName = "ServerName"
+            case disableAutomatedBackup = "DisableAutomatedBackup"
+            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+        }
+    }
+
     public struct DescribeBackupsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Backups", required: false, type: .list), 
@@ -26,20 +321,324 @@ extension OpsWorksCM {
         }
     }
 
-    public struct UpdateServerEngineAttributesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Server", required: false, type: .structure)
-        ]
-        /// Contains the response to an UpdateServerEngineAttributes request. 
-        public let server: Server?
+    public enum ServerStatus: String, CustomStringConvertible, Codable {
+        case backingUp = "BACKING_UP"
+        case connectionLost = "CONNECTION_LOST"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case modifying = "MODIFYING"
+        case failed = "FAILED"
+        case healthy = "HEALTHY"
+        case running = "RUNNING"
+        case restoring = "RESTORING"
+        case setup = "SETUP"
+        case underMaintenance = "UNDER_MAINTENANCE"
+        case unhealthy = "UNHEALTHY"
+        case terminated = "TERMINATED"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(server: Server? = nil) {
-            self.server = server
+    public struct ExportServerEngineAttributeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServerName", required: true, type: .string), 
+            AWSShapeMember(label: "ExportAttributeName", required: true, type: .string), 
+            AWSShapeMember(label: "InputAttributes", required: false, type: .list)
+        ]
+        /// The name of the Server to which the attribute is being exported from 
+        public let serverName: String
+        /// The name of the export attribute. Currently supported export attribute is "Userdata" which exports a userdata script filled out with parameters provided in the InputAttributes list.
+        public let exportAttributeName: String
+        /// The list of engine attributes. The list type is EngineAttribute. EngineAttribute is a pair of attribute name and value. For ExportAttributeName "Userdata", currently supported input attribute names are: - "RunList": For Chef, an ordered list of roles and/or recipes that are run in the exact order. For Puppet, this parameter is ignored. - "OrganizationName": For Chef, an organization name. AWS OpsWorks for Chef Server always creates the organization "default". For Puppet, this parameter is ignored. - "NodeEnvironment": For Chef, a node environment (eg. development, staging, onebox). For Puppet, this parameter is ignored. - "NodeClientVersion": For Chef, version of Chef Engine (3 numbers separated by dots, eg. "13.8.5"). If empty, it uses the latest one. For Puppet, this parameter is ignored. 
+        public let inputAttributes: [EngineAttribute]?
+
+        public init(serverName: String, exportAttributeName: String, inputAttributes: [EngineAttribute]? = nil) {
+            self.serverName = serverName
+            self.exportAttributeName = exportAttributeName
+            self.inputAttributes = inputAttributes
         }
 
         private enum CodingKeys: String, CodingKey {
-            case server = "Server"
+            case serverName = "ServerName"
+            case exportAttributeName = "ExportAttributeName"
+            case inputAttributes = "InputAttributes"
         }
+    }
+
+    public struct ServerEvent: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServerName", required: false, type: .string), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LogUrl", required: false, type: .string)
+        ]
+        /// The name of the server on or for which the event occurred. 
+        public let serverName: String?
+        /// A human-readable informational or status message.
+        public let message: String?
+        /// The time when the event occurred. 
+        public let createdAt: TimeStamp?
+        /// The Amazon S3 URL of the event's log file.
+        public let logUrl: String?
+
+        public init(serverName: String? = nil, message: String? = nil, createdAt: TimeStamp? = nil, logUrl: String? = nil) {
+            self.serverName = serverName
+            self.message = message
+            self.createdAt = createdAt
+            self.logUrl = logUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverName = "ServerName"
+            case message = "Message"
+            case createdAt = "CreatedAt"
+            case logUrl = "LogUrl"
+        }
+    }
+
+    public enum BackupStatus: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case ok = "OK"
+        case failed = "FAILED"
+        case deleting = "DELETING"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DescribeBackupsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ServerName", required: false, type: .string), 
+            AWSShapeMember(label: "BackupId", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+        ]
+        /// This is not currently implemented for DescribeBackups requests.
+        public let nextToken: String?
+        /// Returns backups for the server with the specified ServerName. 
+        public let serverName: String?
+        /// Describes a single backup. 
+        public let backupId: String?
+        /// This is not currently implemented for DescribeBackups requests.
+        public let maxResults: Int32?
+
+        public init(nextToken: String? = nil, serverName: String? = nil, backupId: String? = nil, maxResults: Int32? = nil) {
+            self.nextToken = nextToken
+            self.serverName = serverName
+            self.backupId = backupId
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case serverName = "ServerName"
+            case backupId = "BackupId"
+            case maxResults = "MaxResults"
+        }
+    }
+
+    public struct Backup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceProfileArn", required: false, type: .string), 
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
+            AWSShapeMember(label: "BackupId", required: false, type: .string), 
+            AWSShapeMember(label: "S3LogUrl", required: false, type: .string), 
+            AWSShapeMember(label: "EngineModel", required: false, type: .string), 
+            AWSShapeMember(label: "S3DataUrl", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "KeyPair", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "StatusDescription", required: false, type: .string), 
+            AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string), 
+            AWSShapeMember(label: "BackupArn", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
+            AWSShapeMember(label: "Engine", required: false, type: .string), 
+            AWSShapeMember(label: "S3DataSize", required: false, type: .integer), 
+            AWSShapeMember(label: "UserArn", required: false, type: .string), 
+            AWSShapeMember(label: "ServerName", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeMember(label: "ToolsVersion", required: false, type: .string), 
+            AWSShapeMember(label: "BackupType", required: false, type: .enum), 
+            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list)
+        ]
+        ///  The EC2 instance profile ARN that is obtained from the server when the backup is created. Because this value is stored, you are not required to provide the InstanceProfileArn again if you restore a backup. 
+        public let instanceProfileArn: String?
+        ///  The engine version that is obtained from the server when the backup is created. 
+        public let engineVersion: String?
+        ///  The time stamp when the backup was created in the database. Example: 2016-07-29T13:38:47.520Z 
+        public let createdAt: TimeStamp?
+        ///  The subnet IDs that are obtained from the server when the backup is created. 
+        public let subnetIds: [String]?
+        ///  The generated ID of the backup. Example: myServerName-yyyyMMddHHmmssSSS 
+        public let backupId: String?
+        ///  The Amazon S3 URL of the backup's log file. 
+        public let s3LogUrl: String?
+        ///  The engine model that is obtained from the server when the backup is created. 
+        public let engineModel: String?
+        ///  This field is deprecated and is no longer used. 
+        public let s3DataUrl: String?
+        ///  The service role ARN that is obtained from the server when the backup is created. 
+        public let serviceRoleArn: String?
+        ///  The key pair that is obtained from the server when the backup is created. 
+        public let keyPair: String?
+        ///  A user-provided description for a manual backup. This field is empty for automated backups. 
+        public let description: String?
+        ///  An informational message about backup status. 
+        public let statusDescription: String?
+        ///  The preferred backup period that is obtained from the server when the backup is created. 
+        public let preferredBackupWindow: String?
+        /// The ARN of the backup. 
+        public let backupArn: String?
+        ///  The instance type that is obtained from the server when the backup is created. 
+        public let instanceType: String?
+        ///  The engine type that is obtained from the server when the backup is created. 
+        public let engine: String?
+        ///  This field is deprecated and is no longer used. 
+        public let s3DataSize: Int32?
+        ///  The IAM user ARN of the requester for manual backups. This field is empty for automated backups. 
+        public let userArn: String?
+        ///  The name of the server from which the backup was made. 
+        public let serverName: String?
+        /// The status of a backup while in progress. 
+        public let status: BackupStatus?
+        ///  The preferred maintenance period that is obtained from the server when the backup is created. 
+        public let preferredMaintenanceWindow: String?
+        ///  The version of AWS OpsWorks CM-specific tools that is obtained from the server when the backup is created. 
+        public let toolsVersion: String?
+        ///  The backup type. Valid values are automated or manual. 
+        public let backupType: BackupType?
+        ///  The security group IDs that are obtained from the server when the backup is created. 
+        public let securityGroupIds: [String]?
+
+        public init(instanceProfileArn: String? = nil, engineVersion: String? = nil, createdAt: TimeStamp? = nil, subnetIds: [String]? = nil, backupId: String? = nil, s3LogUrl: String? = nil, engineModel: String? = nil, s3DataUrl: String? = nil, serviceRoleArn: String? = nil, keyPair: String? = nil, description: String? = nil, statusDescription: String? = nil, preferredBackupWindow: String? = nil, backupArn: String? = nil, instanceType: String? = nil, engine: String? = nil, s3DataSize: Int32? = nil, userArn: String? = nil, serverName: String? = nil, status: BackupStatus? = nil, preferredMaintenanceWindow: String? = nil, toolsVersion: String? = nil, backupType: BackupType? = nil, securityGroupIds: [String]? = nil) {
+            self.instanceProfileArn = instanceProfileArn
+            self.engineVersion = engineVersion
+            self.createdAt = createdAt
+            self.subnetIds = subnetIds
+            self.backupId = backupId
+            self.s3LogUrl = s3LogUrl
+            self.engineModel = engineModel
+            self.s3DataUrl = s3DataUrl
+            self.serviceRoleArn = serviceRoleArn
+            self.keyPair = keyPair
+            self.description = description
+            self.statusDescription = statusDescription
+            self.preferredBackupWindow = preferredBackupWindow
+            self.backupArn = backupArn
+            self.instanceType = instanceType
+            self.engine = engine
+            self.s3DataSize = s3DataSize
+            self.userArn = userArn
+            self.serverName = serverName
+            self.status = status
+            self.preferredMaintenanceWindow = preferredMaintenanceWindow
+            self.toolsVersion = toolsVersion
+            self.backupType = backupType
+            self.securityGroupIds = securityGroupIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceProfileArn = "InstanceProfileArn"
+            case engineVersion = "EngineVersion"
+            case createdAt = "CreatedAt"
+            case subnetIds = "SubnetIds"
+            case backupId = "BackupId"
+            case s3LogUrl = "S3LogUrl"
+            case engineModel = "EngineModel"
+            case s3DataUrl = "S3DataUrl"
+            case serviceRoleArn = "ServiceRoleArn"
+            case keyPair = "KeyPair"
+            case description = "Description"
+            case statusDescription = "StatusDescription"
+            case preferredBackupWindow = "PreferredBackupWindow"
+            case backupArn = "BackupArn"
+            case instanceType = "InstanceType"
+            case engine = "Engine"
+            case s3DataSize = "S3DataSize"
+            case userArn = "UserArn"
+            case serverName = "ServerName"
+            case status = "Status"
+            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case toolsVersion = "ToolsVersion"
+            case backupType = "BackupType"
+            case securityGroupIds = "SecurityGroupIds"
+        }
+    }
+
+    public struct RestoreServerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeyPair", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
+            AWSShapeMember(label: "ServerName", required: true, type: .string), 
+            AWSShapeMember(label: "BackupId", required: true, type: .string)
+        ]
+        ///  The name of the key pair to set on the new EC2 instance. This can be helpful if the administrator no longer has the SSH key. 
+        public let keyPair: String?
+        ///  The type of the instance to create. Valid values must be specified in the following format: ^([cm][34]|t2).* For example, m4.large. Valid values are t2.medium, m4.large, and m4.2xlarge. If you do not specify this parameter, RestoreServer uses the instance type from the specified backup. 
+        public let instanceType: String?
+        ///  The name of the server that you want to restore. 
+        public let serverName: String
+        ///  The ID of the backup that you want to use to restore a server. 
+        public let backupId: String
+
+        public init(keyPair: String? = nil, instanceType: String? = nil, serverName: String, backupId: String) {
+            self.keyPair = keyPair
+            self.instanceType = instanceType
+            self.serverName = serverName
+            self.backupId = backupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyPair = "KeyPair"
+            case instanceType = "InstanceType"
+            case serverName = "ServerName"
+            case backupId = "BackupId"
+        }
+    }
+
+    public struct AssociateNodeResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NodeAssociationStatusToken", required: false, type: .string)
+        ]
+        /// Contains a token which can be passed to the DescribeNodeAssociationStatus API call to get the status of the association request. 
+        public let nodeAssociationStatusToken: String?
+
+        public init(nodeAssociationStatusToken: String? = nil) {
+            self.nodeAssociationStatusToken = nodeAssociationStatusToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nodeAssociationStatusToken = "NodeAssociationStatusToken"
+        }
+    }
+
+    public struct DescribeServersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Servers", required: false, type: .list)
+        ]
+        /// This is not currently implemented for DescribeServers requests. 
+        public let nextToken: String?
+        /// Contains the response to a DescribeServers request.  For Puppet Server: DescribeServersResponse$Servers$EngineAttributes contains PUPPET_API_CA_CERT. This is the PEM-encoded CA certificate that is used by the Puppet API over TCP port number 8140. The CA certificate is also used to sign node certificates.
+        public let servers: [Server]?
+
+        public init(nextToken: String? = nil, servers: [Server]? = nil) {
+            self.nextToken = nextToken
+            self.servers = servers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case servers = "Servers"
+        }
+    }
+
+    public struct RestoreServerResponse: AWSShape {
+
+    }
+
+    public struct DeleteBackupResponse: AWSShape {
+
     }
 
     public struct UpdateServerResponse: AWSShape {
@@ -55,6 +654,178 @@ extension OpsWorksCM {
 
         private enum CodingKeys: String, CodingKey {
             case server = "Server"
+        }
+    }
+
+    public struct CreateBackupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServerName", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
+        ]
+        /// The name of the server that you want to back up. 
+        public let serverName: String
+        ///  A user-defined description of the backup. 
+        public let description: String?
+
+        public init(serverName: String, description: String? = nil) {
+            self.serverName = serverName
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverName = "ServerName"
+            case description = "Description"
+        }
+    }
+
+    public struct DeleteServerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServerName", required: true, type: .string)
+        ]
+        /// The ID of the server to delete.
+        public let serverName: String
+
+        public init(serverName: String) {
+            self.serverName = serverName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverName = "ServerName"
+        }
+    }
+
+    public enum MaintenanceStatus: String, CustomStringConvertible, Codable {
+        case success = "SUCCESS"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DescribeAccountAttributesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attributes", required: false, type: .list)
+        ]
+        ///  The attributes that are currently set for the account. 
+        public let attributes: [AccountAttribute]?
+
+        public init(attributes: [AccountAttribute]? = nil) {
+            self.attributes = attributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+        }
+    }
+
+    public struct DescribeServersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ServerName", required: false, type: .string)
+        ]
+        /// This is not currently implemented for DescribeServers requests. 
+        public let maxResults: Int32?
+        /// This is not currently implemented for DescribeServers requests. 
+        public let nextToken: String?
+        /// Describes the server with the specified ServerName.
+        public let serverName: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, serverName: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.serverName = serverName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case serverName = "ServerName"
+        }
+    }
+
+    public struct StartMaintenanceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EngineAttributes", required: false, type: .list), 
+            AWSShapeMember(label: "ServerName", required: true, type: .string)
+        ]
+        /// Engine attributes that are specific to the server on which you want to run maintenance. 
+        public let engineAttributes: [EngineAttribute]?
+        /// The name of the server on which to run maintenance. 
+        public let serverName: String
+
+        public init(engineAttributes: [EngineAttribute]? = nil, serverName: String) {
+            self.engineAttributes = engineAttributes
+            self.serverName = serverName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case engineAttributes = "EngineAttributes"
+            case serverName = "ServerName"
+        }
+    }
+
+    public struct ExportServerEngineAttributeResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EngineAttribute", required: false, type: .structure), 
+            AWSShapeMember(label: "ServerName", required: false, type: .string)
+        ]
+        /// The requested engine attribute pair with attribute name and value. 
+        public let engineAttribute: EngineAttribute?
+        /// The requested ServerName. 
+        public let serverName: String?
+
+        public init(engineAttribute: EngineAttribute? = nil, serverName: String? = nil) {
+            self.engineAttribute = engineAttribute
+            self.serverName = serverName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case engineAttribute = "EngineAttribute"
+            case serverName = "ServerName"
+        }
+    }
+
+    public struct DescribeNodeAssociationStatusRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NodeAssociationStatusToken", required: true, type: .string), 
+            AWSShapeMember(label: "ServerName", required: true, type: .string)
+        ]
+        /// The token returned in either the AssociateNodeResponse or the DisassociateNodeResponse. 
+        public let nodeAssociationStatusToken: String
+        /// The name of the server from which to disassociate the node. 
+        public let serverName: String
+
+        public init(nodeAssociationStatusToken: String, serverName: String) {
+            self.nodeAssociationStatusToken = nodeAssociationStatusToken
+            self.serverName = serverName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nodeAssociationStatusToken = "NodeAssociationStatusToken"
+            case serverName = "ServerName"
+        }
+    }
+
+    public struct DescribeAccountAttributesRequest: AWSShape {
+
+    }
+
+    public struct DeleteServerResponse: AWSShape {
+
+    }
+
+    public struct DisassociateNodeResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NodeAssociationStatusToken", required: false, type: .string)
+        ]
+        /// Contains a token which can be passed to the DescribeNodeAssociationStatus API call to get the status of the disassociation request. 
+        public let nodeAssociationStatusToken: String?
+
+        public init(nodeAssociationStatusToken: String? = nil) {
+            self.nodeAssociationStatusToken = nodeAssociationStatusToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nodeAssociationStatusToken = "NodeAssociationStatusToken"
         }
     }
 
@@ -84,146 +855,19 @@ extension OpsWorksCM {
         }
     }
 
-    public struct DisassociateNodeResponse: AWSShape {
+    public struct CreateBackupResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NodeAssociationStatusToken", required: false, type: .string)
+            AWSShapeMember(label: "Backup", required: false, type: .structure)
         ]
-        /// Contains a token which can be passed to the DescribeNodeAssociationStatus API call to get the status of the disassociation request. 
-        public let nodeAssociationStatusToken: String?
+        /// Backup created by request.
+        public let backup: Backup?
 
-        public init(nodeAssociationStatusToken: String? = nil) {
-            self.nodeAssociationStatusToken = nodeAssociationStatusToken
+        public init(backup: Backup? = nil) {
+            self.backup = backup
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nodeAssociationStatusToken = "NodeAssociationStatusToken"
-        }
-    }
-
-    public struct ExportServerEngineAttributeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "ExportAttributeName", required: true, type: .string), 
-            AWSShapeMember(label: "ServerName", required: true, type: .string)
-        ]
-        /// The list of engine attributes. The list type is EngineAttribute. EngineAttribute is a pair of attribute name and value. For ExportAttributeName "Userdata", currently supported input attribute names are: - "RunList": For Chef, an ordered list of roles and/or recipes that are run in the exact order. For Puppet, this parameter is ignored. - "OrganizationName": For Chef, an organization name. AWS OpsWorks for Chef Server always creates the organization "default". For Puppet, this parameter is ignored. - "NodeEnvironment": For Chef, a node environment (eg. development, staging, onebox). For Puppet, this parameter is ignored. - "NodeClientVersion": For Chef, version of Chef Engine (3 numbers separated by dots, eg. "13.8.5"). If empty, it uses the latest one. For Puppet, this parameter is ignored. 
-        public let inputAttributes: [EngineAttribute]?
-        /// The name of the export attribute. Currently supported export attribute is "Userdata" which exports a userdata script filled out with parameters provided in the InputAttributes list.
-        public let exportAttributeName: String
-        /// The name of the Server to which the attribute is being exported from 
-        public let serverName: String
-
-        public init(inputAttributes: [EngineAttribute]? = nil, exportAttributeName: String, serverName: String) {
-            self.inputAttributes = inputAttributes
-            self.exportAttributeName = exportAttributeName
-            self.serverName = serverName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case inputAttributes = "InputAttributes"
-            case exportAttributeName = "ExportAttributeName"
-            case serverName = "ServerName"
-        }
-    }
-
-    public enum MaintenanceStatus: String, CustomStringConvertible, Codable {
-        case success = "SUCCESS"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeAccountAttributesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .list)
-        ]
-        ///  The attributes that are currently set for the account. 
-        public let attributes: [AccountAttribute]?
-
-        public init(attributes: [AccountAttribute]? = nil) {
-            self.attributes = attributes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attributes = "Attributes"
-        }
-    }
-
-    public struct DeleteServerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerName", required: true, type: .string)
-        ]
-        /// The ID of the server to delete.
-        public let serverName: String
-
-        public init(serverName: String) {
-            self.serverName = serverName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serverName = "ServerName"
-        }
-    }
-
-    public struct DescribeEventsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerEvents", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Contains the response to a DescribeEvents request. 
-        public let serverEvents: [ServerEvent]?
-        /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call DescribeEvents again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur. 
-        public let nextToken: String?
-
-        public init(serverEvents: [ServerEvent]? = nil, nextToken: String? = nil) {
-            self.serverEvents = serverEvents
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serverEvents = "ServerEvents"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct AssociateNodeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NodeAssociationStatusToken", required: false, type: .string)
-        ]
-        /// Contains a token which can be passed to the DescribeNodeAssociationStatus API call to get the status of the association request. 
-        public let nodeAssociationStatusToken: String?
-
-        public init(nodeAssociationStatusToken: String? = nil) {
-            self.nodeAssociationStatusToken = nodeAssociationStatusToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nodeAssociationStatusToken = "NodeAssociationStatusToken"
-        }
-    }
-
-    public struct UpdateServerEngineAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeName", required: true, type: .string), 
-            AWSShapeMember(label: "AttributeValue", required: false, type: .string), 
-            AWSShapeMember(label: "ServerName", required: true, type: .string)
-        ]
-        /// The name of the engine attribute to update. 
-        public let attributeName: String
-        /// The value to set for the attribute. 
-        public let attributeValue: String?
-        /// The name of the server to update. 
-        public let serverName: String
-
-        public init(attributeName: String, attributeValue: String? = nil, serverName: String) {
-            self.attributeName = attributeName
-            self.attributeValue = attributeValue
-            self.serverName = serverName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attributeName = "AttributeName"
-            case attributeValue = "AttributeValue"
-            case serverName = "ServerName"
+            case backup = "Backup"
         }
     }
 
@@ -253,49 +897,167 @@ extension OpsWorksCM {
         }
     }
 
-    public struct DescribeServersResponse: AWSShape {
+    public struct UpdateServerEngineAttributesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Servers", required: false, type: .list), 
+            AWSShapeMember(label: "Server", required: false, type: .structure)
+        ]
+        /// Contains the response to an UpdateServerEngineAttributes request. 
+        public let server: Server?
+
+        public init(server: Server? = nil) {
+            self.server = server
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case server = "Server"
+        }
+    }
+
+    public struct DescribeEventsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServerEvents", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// Contains the response to a DescribeServers request.  For Puppet Server: DescribeServersResponse$Servers$EngineAttributes contains PUPPET_API_CA_CERT. This is the PEM-encoded CA certificate that is used by the Puppet API over TCP port number 8140. The CA certificate is also used to sign node certificates.
-        public let servers: [Server]?
-        /// This is not currently implemented for DescribeServers requests. 
+        /// Contains the response to a DescribeEvents request. 
+        public let serverEvents: [ServerEvent]?
+        /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call DescribeEvents again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur. 
         public let nextToken: String?
 
-        public init(servers: [Server]? = nil, nextToken: String? = nil) {
-            self.servers = servers
+        public init(serverEvents: [ServerEvent]? = nil, nextToken: String? = nil) {
+            self.serverEvents = serverEvents
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case servers = "Servers"
+            case serverEvents = "ServerEvents"
             case nextToken = "NextToken"
         }
     }
 
-    public struct CreateBackupResponse: AWSShape {
+    public struct Server: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Backup", required: false, type: .structure)
+            AWSShapeMember(label: "StatusReason", required: false, type: .string), 
+            AWSShapeMember(label: "ServerArn", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
+            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string), 
+            AWSShapeMember(label: "DisableAutomatedBackup", required: false, type: .boolean), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CloudFormationStackArn", required: false, type: .string), 
+            AWSShapeMember(label: "ServerName", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
+            AWSShapeMember(label: "Engine", required: false, type: .string), 
+            AWSShapeMember(label: "BackupRetentionCount", required: false, type: .integer), 
+            AWSShapeMember(label: "MaintenanceStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "Endpoint", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceProfileArn", required: false, type: .string), 
+            AWSShapeMember(label: "KeyPair", required: false, type: .string), 
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "AssociatePublicIpAddress", required: false, type: .boolean), 
+            AWSShapeMember(label: "EngineModel", required: false, type: .string), 
+            AWSShapeMember(label: "EngineAttributes", required: false, type: .list)
         ]
-        /// Backup created by request.
-        public let backup: Backup?
+        ///  Depending on the server status, this field has either a human-readable message (such as a create or backup error), or an escaped block of JSON (used for health check results). 
+        public let statusReason: String?
+        /// The ARN of the server. 
+        public let serverArn: String?
+        ///  The security group IDs for the server, as specified in the CloudFormation stack. These might not be the same security groups that are shown in the EC2 console. 
+        public let securityGroupIds: [String]?
+        /// The preferred maintenance period specified for the server. 
+        public let preferredMaintenanceWindow: String?
+        /// The preferred backup period specified for the server. 
+        public let preferredBackupWindow: String?
+        /// Disables automated backups. The number of stored backups is dependent on the value of PreferredBackupCount. 
+        public let disableAutomatedBackup: Bool?
+        /// Time stamp of server creation. Example 2016-07-29T13:38:47.520Z 
+        public let createdAt: TimeStamp?
+        /// The ARN of the CloudFormation stack that was used to create the server. 
+        public let cloudFormationStackArn: String?
+        /// The name of the server. 
+        public let serverName: String?
+        ///  The instance type for the server, as specified in the CloudFormation stack. This might not be the same instance type that is shown in the EC2 console. 
+        public let instanceType: String?
+        /// The service role ARN used to create the server. 
+        public let serviceRoleArn: String?
+        ///  The subnet IDs specified in a CreateServer request. 
+        public let subnetIds: [String]?
+        /// The engine type of the server. Valid values in this release include Chef and Puppet. 
+        public let engine: String?
+        /// The number of automated backups to keep. 
+        public let backupRetentionCount: Int32?
+        /// The status of the most recent server maintenance run. Shows SUCCESS or FAILED. 
+        public let maintenanceStatus: MaintenanceStatus?
+        ///  The server's status. This field displays the states of actions in progress, such as creating, running, or backing up the server, as well as the server's health state. 
+        public let status: ServerStatus?
+        ///  A DNS name that can be used to access the engine. Example: myserver-asdfghjkl.us-east-1.opsworks.io 
+        public let endpoint: String?
+        /// The instance profile ARN of the server. 
+        public let instanceProfileArn: String?
+        /// The key pair associated with the server. 
+        public let keyPair: String?
+        /// The engine version of the server. For a Chef server, the valid value for EngineVersion is currently 12. For a Puppet server, the valid value is 2017. 
+        public let engineVersion: String?
+        /// Associate a public IP address with a server that you are launching. 
+        public let associatePublicIpAddress: Bool?
+        /// The engine model of the server. Valid values in this release include Monolithic for Puppet and Single for Chef. 
+        public let engineModel: String?
+        /// The response of a createServer() request returns the master credential to access the server in EngineAttributes. These credentials are not stored by AWS OpsWorks CM; they are returned only as part of the result of createServer().   Attributes returned in a createServer response for Chef     CHEF_PIVOTAL_KEY: A base64-encoded RSA private key that is generated by AWS OpsWorks for Chef Automate. This private key is required to access the Chef API.    CHEF_STARTER_KIT: A base64-encoded ZIP file. The ZIP file contains a Chef starter kit, which includes a README, a configuration file, and the required RSA private key. Save this file, unzip it, and then change to the directory where you've unzipped the file contents. From this directory, you can run Knife commands.    Attributes returned in a createServer response for Puppet     PUPPET_STARTER_KIT: A base64-encoded ZIP file. The ZIP file contains a Puppet starter kit, including a README and a required private key. Save this file, unzip it, and then change to the directory where you've unzipped the file contents.    PUPPET_ADMIN_PASSWORD: An administrator password that you can use to sign in to the Puppet Enterprise console after the server is online.  
+        public let engineAttributes: [EngineAttribute]?
 
-        public init(backup: Backup? = nil) {
-            self.backup = backup
+        public init(statusReason: String? = nil, serverArn: String? = nil, securityGroupIds: [String]? = nil, preferredMaintenanceWindow: String? = nil, preferredBackupWindow: String? = nil, disableAutomatedBackup: Bool? = nil, createdAt: TimeStamp? = nil, cloudFormationStackArn: String? = nil, serverName: String? = nil, instanceType: String? = nil, serviceRoleArn: String? = nil, subnetIds: [String]? = nil, engine: String? = nil, backupRetentionCount: Int32? = nil, maintenanceStatus: MaintenanceStatus? = nil, status: ServerStatus? = nil, endpoint: String? = nil, instanceProfileArn: String? = nil, keyPair: String? = nil, engineVersion: String? = nil, associatePublicIpAddress: Bool? = nil, engineModel: String? = nil, engineAttributes: [EngineAttribute]? = nil) {
+            self.statusReason = statusReason
+            self.serverArn = serverArn
+            self.securityGroupIds = securityGroupIds
+            self.preferredMaintenanceWindow = preferredMaintenanceWindow
+            self.preferredBackupWindow = preferredBackupWindow
+            self.disableAutomatedBackup = disableAutomatedBackup
+            self.createdAt = createdAt
+            self.cloudFormationStackArn = cloudFormationStackArn
+            self.serverName = serverName
+            self.instanceType = instanceType
+            self.serviceRoleArn = serviceRoleArn
+            self.subnetIds = subnetIds
+            self.engine = engine
+            self.backupRetentionCount = backupRetentionCount
+            self.maintenanceStatus = maintenanceStatus
+            self.status = status
+            self.endpoint = endpoint
+            self.instanceProfileArn = instanceProfileArn
+            self.keyPair = keyPair
+            self.engineVersion = engineVersion
+            self.associatePublicIpAddress = associatePublicIpAddress
+            self.engineModel = engineModel
+            self.engineAttributes = engineAttributes
         }
 
         private enum CodingKeys: String, CodingKey {
-            case backup = "Backup"
+            case statusReason = "StatusReason"
+            case serverArn = "ServerArn"
+            case securityGroupIds = "SecurityGroupIds"
+            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case preferredBackupWindow = "PreferredBackupWindow"
+            case disableAutomatedBackup = "DisableAutomatedBackup"
+            case createdAt = "CreatedAt"
+            case cloudFormationStackArn = "CloudFormationStackArn"
+            case serverName = "ServerName"
+            case instanceType = "InstanceType"
+            case serviceRoleArn = "ServiceRoleArn"
+            case subnetIds = "SubnetIds"
+            case engine = "Engine"
+            case backupRetentionCount = "BackupRetentionCount"
+            case maintenanceStatus = "MaintenanceStatus"
+            case status = "Status"
+            case endpoint = "Endpoint"
+            case instanceProfileArn = "InstanceProfileArn"
+            case keyPair = "KeyPair"
+            case engineVersion = "EngineVersion"
+            case associatePublicIpAddress = "AssociatePublicIpAddress"
+            case engineModel = "EngineModel"
+            case engineAttributes = "EngineAttributes"
         }
-    }
-
-    public enum BackupStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
-        case ok = "OK"
-        case failed = "FAILED"
-        case deleting = "DELETING"
-        public var description: String { return self.rawValue }
     }
 
     public struct StartMaintenanceResponse: AWSShape {
@@ -311,768 +1073,6 @@ extension OpsWorksCM {
 
         private enum CodingKeys: String, CodingKey {
             case server = "Server"
-        }
-    }
-
-    public struct DisassociateNodeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EngineAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "NodeName", required: true, type: .string), 
-            AWSShapeMember(label: "ServerName", required: true, type: .string)
-        ]
-        /// Engine attributes that are used for disassociating the node. No attributes are required for Puppet.   Attributes required in a DisassociateNode request for Chef     CHEF_ORGANIZATION: The Chef organization with which the node was associated. By default only one organization named default can exist.   
-        public let engineAttributes: [EngineAttribute]?
-        /// The name of the client node. 
-        public let nodeName: String
-        /// The name of the server from which to disassociate the node. 
-        public let serverName: String
-
-        public init(engineAttributes: [EngineAttribute]? = nil, nodeName: String, serverName: String) {
-            self.engineAttributes = engineAttributes
-            self.nodeName = nodeName
-            self.serverName = serverName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case engineAttributes = "EngineAttributes"
-            case nodeName = "NodeName"
-            case serverName = "ServerName"
-        }
-    }
-
-    public struct RestoreServerResponse: AWSShape {
-
-    }
-
-    public struct DescribeAccountAttributesRequest: AWSShape {
-
-    }
-
-    public struct CreateBackupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "ServerName", required: true, type: .string)
-        ]
-        ///  A user-defined description of the backup. 
-        public let description: String?
-        /// The name of the server that you want to back up. 
-        public let serverName: String
-
-        public init(description: String? = nil, serverName: String) {
-            self.description = description
-            self.serverName = serverName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case description = "Description"
-            case serverName = "ServerName"
-        }
-    }
-
-    public struct CreateServerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServiceRoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "InstanceProfileArn", required: true, type: .string), 
-            AWSShapeMember(label: "Engine", required: false, type: .string), 
-            AWSShapeMember(label: "BackupId", required: false, type: .string), 
-            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
-            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
-            AWSShapeMember(label: "InstanceType", required: true, type: .string), 
-            AWSShapeMember(label: "ServerName", required: true, type: .string), 
-            AWSShapeMember(label: "KeyPair", required: false, type: .string), 
-            AWSShapeMember(label: "EngineModel", required: false, type: .string), 
-            AWSShapeMember(label: "DisableAutomatedBackup", required: false, type: .boolean), 
-            AWSShapeMember(label: "AssociatePublicIpAddress", required: false, type: .boolean), 
-            AWSShapeMember(label: "EngineAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string), 
-            AWSShapeMember(label: "BackupRetentionCount", required: false, type: .integer)
-        ]
-        ///  The service role that the AWS OpsWorks CM service backend uses to work with your account. Although the AWS OpsWorks management console typically creates the service role for you, if you are using the AWS CLI or API commands, run the service-role-creation.yaml AWS CloudFormation template, located at https://s3.amazonaws.com/opsworks-cm-us-east-1-prod-default-assets/misc/opsworks-cm-roles.yaml. This template creates a CloudFormation stack that includes the service role and instance profile that you need. 
-        public let serviceRoleArn: String
-        ///  The ARN of the instance profile that your Amazon EC2 instances use. Although the AWS OpsWorks console typically creates the instance profile for you, if you are using API commands instead, run the service-role-creation.yaml AWS CloudFormation template, located at https://s3.amazonaws.com/opsworks-cm-us-east-1-prod-default-assets/misc/opsworks-cm-roles.yaml. This template creates a CloudFormation stack that includes the instance profile you need. 
-        public let instanceProfileArn: String
-        ///  The configuration management engine to use. Valid values include Chef and Puppet. 
-        public let engine: String?
-        ///  If you specify this field, AWS OpsWorks CM creates the server by using the backup represented by BackupId. 
-        public let backupId: String?
-        ///  The start time for a one-hour period each week during which AWS OpsWorks CM performs maintenance on the instance. Valid values must be specified in the following format: DDD:HH:MM. The specified time is in coordinated universal time (UTC). The default value is a random one-hour period on Tuesday, Wednesday, or Friday. See TimeWindowDefinition for more information.   Example: Mon:08:00, which represents a start time of every Monday at 08:00 UTC. (8:00 a.m.) 
-        public let preferredMaintenanceWindow: String?
-        ///  The major release version of the engine that you want to use. For a Chef server, the valid value for EngineVersion is currently 12. For a Puppet server, the valid value is 2017. 
-        public let engineVersion: String?
-        ///  The IDs of subnets in which to launch the server EC2 instance.   Amazon EC2-Classic customers: This field is required. All servers must run within a VPC. The VPC must have "Auto Assign Public IP" enabled.   EC2-VPC customers: This field is optional. If you do not specify subnet IDs, your EC2 instances are created in a default subnet that is selected by Amazon EC2. If you specify subnet IDs, the VPC must have "Auto Assign Public IP" enabled.  For more information about supported Amazon EC2 platforms, see Supported Platforms.
-        public let subnetIds: [String]?
-        ///  A list of security group IDs to attach to the Amazon EC2 instance. If you add this parameter, the specified security groups must be within the VPC that is specified by SubnetIds.   If you do not specify this parameter, AWS OpsWorks CM creates one new security group that uses TCP ports 22 and 443, open to 0.0.0.0/0 (everyone). 
-        public let securityGroupIds: [String]?
-        ///  The Amazon EC2 instance type to use. For example, m4.large. Recommended instance types include t2.medium and greater, m4.*, or c4.xlarge and greater. 
-        public let instanceType: String
-        ///  The name of the server. The server name must be unique within your AWS account, within each region. Server names must start with a letter; then letters, numbers, or hyphens (-) are allowed, up to a maximum of 40 characters. 
-        public let serverName: String
-        ///  The Amazon EC2 key pair to set for the instance. This parameter is optional; if desired, you may specify this parameter to connect to your instances by using SSH. 
-        public let keyPair: String?
-        ///  The engine model of the server. Valid values in this release include Monolithic for Puppet and Single for Chef. 
-        public let engineModel: String?
-        ///  Enable or disable scheduled backups. Valid values are true or false. The default value is true. 
-        public let disableAutomatedBackup: Bool?
-        ///  Associate a public IP address with a server that you are launching. Valid values are true or false. The default value is true. 
-        public let associatePublicIpAddress: Bool?
-        /// Optional engine attributes on a specified server.   Attributes accepted in a Chef createServer request:     CHEF_PIVOTAL_KEY: A base64-encoded RSA private key that is not stored by AWS OpsWorks for Chef Automate. This private key is required to access the Chef API. When no CHEF_PIVOTAL_KEY is set, one is generated and returned in the response.     CHEF_DELIVERY_ADMIN_PASSWORD: The password for the administrative user in the Chef Automate GUI. The password length is a minimum of eight characters, and a maximum of 32. The password can contain letters, numbers, and special characters (!/@#$%^&amp;+=_). The password must contain at least one lower case letter, one upper case letter, one number, and one special character. When no CHEF_DELIVERY_ADMIN_PASSWORD is set, one is generated and returned in the response.    Attributes accepted in a Puppet createServer request:     PUPPET_ADMIN_PASSWORD: To work with the Puppet Enterprise console, a password must use ASCII characters.  
-        public let engineAttributes: [EngineAttribute]?
-        ///  The start time for a one-hour period during which AWS OpsWorks CM backs up application-level data on your server if automated backups are enabled. Valid values must be specified in one of the following formats:     HH:MM for daily backups    DDD:HH:MM for weekly backups   The specified time is in coordinated universal time (UTC). The default value is a random, daily start time.  Example: 08:00, which represents a daily start time of 08:00 UTC.  Example: Mon:08:00, which represents a start time of every Monday at 08:00 UTC. (8:00 a.m.)
-        public let preferredBackupWindow: String?
-        ///  The number of automated backups that you want to keep. Whenever a new backup is created, AWS OpsWorks CM deletes the oldest backups if this number is exceeded. The default value is 1. 
-        public let backupRetentionCount: Int32?
-
-        public init(serviceRoleArn: String, instanceProfileArn: String, engine: String? = nil, backupId: String? = nil, preferredMaintenanceWindow: String? = nil, engineVersion: String? = nil, subnetIds: [String]? = nil, securityGroupIds: [String]? = nil, instanceType: String, serverName: String, keyPair: String? = nil, engineModel: String? = nil, disableAutomatedBackup: Bool? = nil, associatePublicIpAddress: Bool? = nil, engineAttributes: [EngineAttribute]? = nil, preferredBackupWindow: String? = nil, backupRetentionCount: Int32? = nil) {
-            self.serviceRoleArn = serviceRoleArn
-            self.instanceProfileArn = instanceProfileArn
-            self.engine = engine
-            self.backupId = backupId
-            self.preferredMaintenanceWindow = preferredMaintenanceWindow
-            self.engineVersion = engineVersion
-            self.subnetIds = subnetIds
-            self.securityGroupIds = securityGroupIds
-            self.instanceType = instanceType
-            self.serverName = serverName
-            self.keyPair = keyPair
-            self.engineModel = engineModel
-            self.disableAutomatedBackup = disableAutomatedBackup
-            self.associatePublicIpAddress = associatePublicIpAddress
-            self.engineAttributes = engineAttributes
-            self.preferredBackupWindow = preferredBackupWindow
-            self.backupRetentionCount = backupRetentionCount
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serviceRoleArn = "ServiceRoleArn"
-            case instanceProfileArn = "InstanceProfileArn"
-            case engine = "Engine"
-            case backupId = "BackupId"
-            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
-            case engineVersion = "EngineVersion"
-            case subnetIds = "SubnetIds"
-            case securityGroupIds = "SecurityGroupIds"
-            case instanceType = "InstanceType"
-            case serverName = "ServerName"
-            case keyPair = "KeyPair"
-            case engineModel = "EngineModel"
-            case disableAutomatedBackup = "DisableAutomatedBackup"
-            case associatePublicIpAddress = "AssociatePublicIpAddress"
-            case engineAttributes = "EngineAttributes"
-            case preferredBackupWindow = "PreferredBackupWindow"
-            case backupRetentionCount = "BackupRetentionCount"
-        }
-    }
-
-    public struct DescribeNodeAssociationStatusResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NodeAssociationStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "EngineAttributes", required: false, type: .list)
-        ]
-        /// The status of the association or disassociation request.   Possible values:     SUCCESS: The association or disassociation succeeded.     FAILED: The association or disassociation failed.     IN_PROGRESS: The association or disassociation is still in progress.   
-        public let nodeAssociationStatus: NodeAssociationStatus?
-        /// Attributes specific to the node association. In Puppet, the attibute PUPPET_NODE_CERT contains the signed certificate (the result of the CSR). 
-        public let engineAttributes: [EngineAttribute]?
-
-        public init(nodeAssociationStatus: NodeAssociationStatus? = nil, engineAttributes: [EngineAttribute]? = nil) {
-            self.nodeAssociationStatus = nodeAssociationStatus
-            self.engineAttributes = engineAttributes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nodeAssociationStatus = "NodeAssociationStatus"
-            case engineAttributes = "EngineAttributes"
-        }
-    }
-
-    public struct CreateServerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Server", required: false, type: .structure)
-        ]
-        /// The server that is created by the request. 
-        public let server: Server?
-
-        public init(server: Server? = nil) {
-            self.server = server
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case server = "Server"
-        }
-    }
-
-    public struct ServerEvent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "LogUrl", required: false, type: .string), 
-            AWSShapeMember(label: "ServerName", required: false, type: .string)
-        ]
-        /// The time when the event occurred. 
-        public let createdAt: TimeStamp?
-        /// A human-readable informational or status message.
-        public let message: String?
-        /// The Amazon S3 URL of the event's log file.
-        public let logUrl: String?
-        /// The name of the server on or for which the event occurred. 
-        public let serverName: String?
-
-        public init(createdAt: TimeStamp? = nil, message: String? = nil, logUrl: String? = nil, serverName: String? = nil) {
-            self.createdAt = createdAt
-            self.message = message
-            self.logUrl = logUrl
-            self.serverName = serverName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case createdAt = "CreatedAt"
-            case message = "Message"
-            case logUrl = "LogUrl"
-            case serverName = "ServerName"
-        }
-    }
-
-    public struct DescribeBackupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupId", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "ServerName", required: false, type: .string)
-        ]
-        /// Describes a single backup. 
-        public let backupId: String?
-        /// This is not currently implemented for DescribeBackups requests.
-        public let nextToken: String?
-        /// This is not currently implemented for DescribeBackups requests.
-        public let maxResults: Int32?
-        /// Returns backups for the server with the specified ServerName. 
-        public let serverName: String?
-
-        public init(backupId: String? = nil, nextToken: String? = nil, maxResults: Int32? = nil, serverName: String? = nil) {
-            self.backupId = backupId
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.serverName = serverName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case backupId = "BackupId"
-            case nextToken = "NextToken"
-            case maxResults = "MaxResults"
-            case serverName = "ServerName"
-        }
-    }
-
-    public struct UpdateServerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string), 
-            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "DisableAutomatedBackup", required: false, type: .boolean), 
-            AWSShapeMember(label: "BackupRetentionCount", required: false, type: .integer), 
-            AWSShapeMember(label: "ServerName", required: true, type: .string)
-        ]
-        public let preferredBackupWindow: String?
-        public let preferredMaintenanceWindow: String?
-        /// Setting DisableAutomatedBackup to true disables automated or scheduled backups. Automated backups are enabled by default. 
-        public let disableAutomatedBackup: Bool?
-        /// Sets the number of automated backups that you want to keep. 
-        public let backupRetentionCount: Int32?
-        /// The name of the server to update. 
-        public let serverName: String
-
-        public init(preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, disableAutomatedBackup: Bool? = nil, backupRetentionCount: Int32? = nil, serverName: String) {
-            self.preferredBackupWindow = preferredBackupWindow
-            self.preferredMaintenanceWindow = preferredMaintenanceWindow
-            self.disableAutomatedBackup = disableAutomatedBackup
-            self.backupRetentionCount = backupRetentionCount
-            self.serverName = serverName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case preferredBackupWindow = "PreferredBackupWindow"
-            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
-            case disableAutomatedBackup = "DisableAutomatedBackup"
-            case backupRetentionCount = "BackupRetentionCount"
-            case serverName = "ServerName"
-        }
-    }
-
-    public struct StartMaintenanceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerName", required: true, type: .string), 
-            AWSShapeMember(label: "EngineAttributes", required: false, type: .list)
-        ]
-        /// The name of the server on which to run maintenance. 
-        public let serverName: String
-        /// Engine attributes that are specific to the server on which you want to run maintenance. 
-        public let engineAttributes: [EngineAttribute]?
-
-        public init(serverName: String, engineAttributes: [EngineAttribute]? = nil) {
-            self.serverName = serverName
-            self.engineAttributes = engineAttributes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serverName = "ServerName"
-            case engineAttributes = "EngineAttributes"
-        }
-    }
-
-    public struct DescribeEventsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerName", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The name of the server for which you want to view events.
-        public let serverName: String
-        /// To receive a paginated response, use this parameter to specify the maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results. 
-        public let maxResults: Int32?
-        /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call DescribeEvents again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur. 
-        public let nextToken: String?
-
-        public init(serverName: String, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.serverName = serverName
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serverName = "ServerName"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DeleteBackupResponse: AWSShape {
-
-    }
-
-    public struct ExportServerEngineAttributeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EngineAttribute", required: false, type: .structure), 
-            AWSShapeMember(label: "ServerName", required: false, type: .string)
-        ]
-        /// The requested engine attribute pair with attribute name and value. 
-        public let engineAttribute: EngineAttribute?
-        /// The requested ServerName. 
-        public let serverName: String?
-
-        public init(engineAttribute: EngineAttribute? = nil, serverName: String? = nil) {
-            self.engineAttribute = engineAttribute
-            self.serverName = serverName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case engineAttribute = "EngineAttribute"
-            case serverName = "ServerName"
-        }
-    }
-
-    public enum NodeAssociationStatus: String, CustomStringConvertible, Codable {
-        case success = "SUCCESS"
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteBackupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupId", required: true, type: .string)
-        ]
-        /// The ID of the backup to delete. Run the DescribeBackups command to get a list of backup IDs. Backup IDs are in the format ServerName-yyyyMMddHHmmssSSS. 
-        public let backupId: String
-
-        public init(backupId: String) {
-            self.backupId = backupId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case backupId = "BackupId"
-        }
-    }
-
-    public struct RestoreServerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupId", required: true, type: .string), 
-            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
-            AWSShapeMember(label: "KeyPair", required: false, type: .string), 
-            AWSShapeMember(label: "ServerName", required: true, type: .string)
-        ]
-        ///  The ID of the backup that you want to use to restore a server. 
-        public let backupId: String
-        ///  The type of the instance to create. Valid values must be specified in the following format: ^([cm][34]|t2).* For example, m4.large. Valid values are t2.medium, m4.large, and m4.2xlarge. If you do not specify this parameter, RestoreServer uses the instance type from the specified backup. 
-        public let instanceType: String?
-        ///  The name of the key pair to set on the new EC2 instance. This can be helpful if the administrator no longer has the SSH key. 
-        public let keyPair: String?
-        ///  The name of the server that you want to restore. 
-        public let serverName: String
-
-        public init(backupId: String, instanceType: String? = nil, keyPair: String? = nil, serverName: String) {
-            self.backupId = backupId
-            self.instanceType = instanceType
-            self.keyPair = keyPair
-            self.serverName = serverName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case backupId = "BackupId"
-            case instanceType = "InstanceType"
-            case keyPair = "KeyPair"
-            case serverName = "ServerName"
-        }
-    }
-
-    public enum ServerStatus: String, CustomStringConvertible, Codable {
-        case backingUp = "BACKING_UP"
-        case connectionLost = "CONNECTION_LOST"
-        case creating = "CREATING"
-        case deleting = "DELETING"
-        case modifying = "MODIFYING"
-        case failed = "FAILED"
-        case healthy = "HEALTHY"
-        case running = "RUNNING"
-        case restoring = "RESTORING"
-        case setup = "SETUP"
-        case underMaintenance = "UNDER_MAINTENANCE"
-        case unhealthy = "UNHEALTHY"
-        case terminated = "TERMINATED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct Backup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StatusDescription", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceProfileArn", required: false, type: .string), 
-            AWSShapeMember(label: "Engine", required: false, type: .string), 
-            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "S3DataSize", required: false, type: .integer), 
-            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "S3LogUrl", required: false, type: .string), 
-            AWSShapeMember(label: "S3DataUrl", required: false, type: .string), 
-            AWSShapeMember(label: "ToolsVersion", required: false, type: .string), 
-            AWSShapeMember(label: "BackupType", required: false, type: .enum), 
-            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
-            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
-            AWSShapeMember(label: "BackupArn", required: false, type: .string), 
-            AWSShapeMember(label: "ServerName", required: false, type: .string), 
-            AWSShapeMember(label: "KeyPair", required: false, type: .string), 
-            AWSShapeMember(label: "EngineModel", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "UserArn", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "ServiceRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string), 
-            AWSShapeMember(label: "BackupId", required: false, type: .string)
-        ]
-        ///  An informational message about backup status. 
-        public let statusDescription: String?
-        ///  The EC2 instance profile ARN that is obtained from the server when the backup is created. Because this value is stored, you are not required to provide the InstanceProfileArn again if you restore a backup. 
-        public let instanceProfileArn: String?
-        ///  The engine type that is obtained from the server when the backup is created. 
-        public let engine: String?
-        ///  The preferred maintenance period that is obtained from the server when the backup is created. 
-        public let preferredMaintenanceWindow: String?
-        ///  The engine version that is obtained from the server when the backup is created. 
-        public let engineVersion: String?
-        ///  This field is deprecated and is no longer used. 
-        public let s3DataSize: Int32?
-        ///  The time stamp when the backup was created in the database. Example: 2016-07-29T13:38:47.520Z 
-        public let createdAt: TimeStamp?
-        ///  The Amazon S3 URL of the backup's log file. 
-        public let s3LogUrl: String?
-        ///  This field is deprecated and is no longer used. 
-        public let s3DataUrl: String?
-        ///  The version of AWS OpsWorks CM-specific tools that is obtained from the server when the backup is created. 
-        public let toolsVersion: String?
-        ///  The backup type. Valid values are automated or manual. 
-        public let backupType: BackupType?
-        ///  The security group IDs that are obtained from the server when the backup is created. 
-        public let securityGroupIds: [String]?
-        ///  The instance type that is obtained from the server when the backup is created. 
-        public let instanceType: String?
-        /// The ARN of the backup. 
-        public let backupArn: String?
-        ///  The name of the server from which the backup was made. 
-        public let serverName: String?
-        ///  The key pair that is obtained from the server when the backup is created. 
-        public let keyPair: String?
-        ///  The engine model that is obtained from the server when the backup is created. 
-        public let engineModel: String?
-        ///  The subnet IDs that are obtained from the server when the backup is created. 
-        public let subnetIds: [String]?
-        ///  A user-provided description for a manual backup. This field is empty for automated backups. 
-        public let description: String?
-        ///  The IAM user ARN of the requester for manual backups. This field is empty for automated backups. 
-        public let userArn: String?
-        /// The status of a backup while in progress. 
-        public let status: BackupStatus?
-        ///  The service role ARN that is obtained from the server when the backup is created. 
-        public let serviceRoleArn: String?
-        ///  The preferred backup period that is obtained from the server when the backup is created. 
-        public let preferredBackupWindow: String?
-        ///  The generated ID of the backup. Example: myServerName-yyyyMMddHHmmssSSS 
-        public let backupId: String?
-
-        public init(statusDescription: String? = nil, instanceProfileArn: String? = nil, engine: String? = nil, preferredMaintenanceWindow: String? = nil, engineVersion: String? = nil, s3DataSize: Int32? = nil, createdAt: TimeStamp? = nil, s3LogUrl: String? = nil, s3DataUrl: String? = nil, toolsVersion: String? = nil, backupType: BackupType? = nil, securityGroupIds: [String]? = nil, instanceType: String? = nil, backupArn: String? = nil, serverName: String? = nil, keyPair: String? = nil, engineModel: String? = nil, subnetIds: [String]? = nil, description: String? = nil, userArn: String? = nil, status: BackupStatus? = nil, serviceRoleArn: String? = nil, preferredBackupWindow: String? = nil, backupId: String? = nil) {
-            self.statusDescription = statusDescription
-            self.instanceProfileArn = instanceProfileArn
-            self.engine = engine
-            self.preferredMaintenanceWindow = preferredMaintenanceWindow
-            self.engineVersion = engineVersion
-            self.s3DataSize = s3DataSize
-            self.createdAt = createdAt
-            self.s3LogUrl = s3LogUrl
-            self.s3DataUrl = s3DataUrl
-            self.toolsVersion = toolsVersion
-            self.backupType = backupType
-            self.securityGroupIds = securityGroupIds
-            self.instanceType = instanceType
-            self.backupArn = backupArn
-            self.serverName = serverName
-            self.keyPair = keyPair
-            self.engineModel = engineModel
-            self.subnetIds = subnetIds
-            self.description = description
-            self.userArn = userArn
-            self.status = status
-            self.serviceRoleArn = serviceRoleArn
-            self.preferredBackupWindow = preferredBackupWindow
-            self.backupId = backupId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case statusDescription = "StatusDescription"
-            case instanceProfileArn = "InstanceProfileArn"
-            case engine = "Engine"
-            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
-            case engineVersion = "EngineVersion"
-            case s3DataSize = "S3DataSize"
-            case createdAt = "CreatedAt"
-            case s3LogUrl = "S3LogUrl"
-            case s3DataUrl = "S3DataUrl"
-            case toolsVersion = "ToolsVersion"
-            case backupType = "BackupType"
-            case securityGroupIds = "SecurityGroupIds"
-            case instanceType = "InstanceType"
-            case backupArn = "BackupArn"
-            case serverName = "ServerName"
-            case keyPair = "KeyPair"
-            case engineModel = "EngineModel"
-            case subnetIds = "SubnetIds"
-            case description = "Description"
-            case userArn = "UserArn"
-            case status = "Status"
-            case serviceRoleArn = "ServiceRoleArn"
-            case preferredBackupWindow = "PreferredBackupWindow"
-            case backupId = "BackupId"
-        }
-    }
-
-    public struct Server: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BackupRetentionCount", required: false, type: .integer), 
-            AWSShapeMember(label: "InstanceProfileArn", required: false, type: .string), 
-            AWSShapeMember(label: "Engine", required: false, type: .string), 
-            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
-            AWSShapeMember(label: "Endpoint", required: false, type: .string), 
-            AWSShapeMember(label: "StatusReason", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
-            AWSShapeMember(label: "ServerName", required: false, type: .string), 
-            AWSShapeMember(label: "KeyPair", required: false, type: .string), 
-            AWSShapeMember(label: "EngineModel", required: false, type: .string), 
-            AWSShapeMember(label: "MaintenanceStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "ServerArn", required: false, type: .string), 
-            AWSShapeMember(label: "CloudFormationStackArn", required: false, type: .string), 
-            AWSShapeMember(label: "DisableAutomatedBackup", required: false, type: .boolean), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "ServiceRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "AssociatePublicIpAddress", required: false, type: .boolean), 
-            AWSShapeMember(label: "EngineAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string)
-        ]
-        /// The number of automated backups to keep. 
-        public let backupRetentionCount: Int32?
-        /// The instance profile ARN of the server. 
-        public let instanceProfileArn: String?
-        /// The engine type of the server. Valid values in this release include Chef and Puppet. 
-        public let engine: String?
-        /// The preferred maintenance period specified for the server. 
-        public let preferredMaintenanceWindow: String?
-        /// The engine version of the server. For a Chef server, the valid value for EngineVersion is currently 12. For a Puppet server, the valid value is 2017. 
-        public let engineVersion: String?
-        /// Time stamp of server creation. Example 2016-07-29T13:38:47.520Z 
-        public let createdAt: TimeStamp?
-        ///  The subnet IDs specified in a CreateServer request. 
-        public let subnetIds: [String]?
-        ///  A DNS name that can be used to access the engine. Example: myserver-asdfghjkl.us-east-1.opsworks.io 
-        public let endpoint: String?
-        ///  Depending on the server status, this field has either a human-readable message (such as a create or backup error), or an escaped block of JSON (used for health check results). 
-        public let statusReason: String?
-        ///  The instance type for the server, as specified in the CloudFormation stack. This might not be the same instance type that is shown in the EC2 console. 
-        public let instanceType: String?
-        ///  The security group IDs for the server, as specified in the CloudFormation stack. These might not be the same security groups that are shown in the EC2 console. 
-        public let securityGroupIds: [String]?
-        /// The name of the server. 
-        public let serverName: String?
-        /// The key pair associated with the server. 
-        public let keyPair: String?
-        /// The engine model of the server. Valid values in this release include Monolithic for Puppet and Single for Chef. 
-        public let engineModel: String?
-        /// The status of the most recent server maintenance run. Shows SUCCESS or FAILED. 
-        public let maintenanceStatus: MaintenanceStatus?
-        /// The ARN of the server. 
-        public let serverArn: String?
-        /// The ARN of the CloudFormation stack that was used to create the server. 
-        public let cloudFormationStackArn: String?
-        /// Disables automated backups. The number of stored backups is dependent on the value of PreferredBackupCount. 
-        public let disableAutomatedBackup: Bool?
-        ///  The server's status. This field displays the states of actions in progress, such as creating, running, or backing up the server, as well as the server's health state. 
-        public let status: ServerStatus?
-        /// The service role ARN used to create the server. 
-        public let serviceRoleArn: String?
-        /// Associate a public IP address with a server that you are launching. 
-        public let associatePublicIpAddress: Bool?
-        /// The response of a createServer() request returns the master credential to access the server in EngineAttributes. These credentials are not stored by AWS OpsWorks CM; they are returned only as part of the result of createServer().   Attributes returned in a createServer response for Chef     CHEF_PIVOTAL_KEY: A base64-encoded RSA private key that is generated by AWS OpsWorks for Chef Automate. This private key is required to access the Chef API.    CHEF_STARTER_KIT: A base64-encoded ZIP file. The ZIP file contains a Chef starter kit, which includes a README, a configuration file, and the required RSA private key. Save this file, unzip it, and then change to the directory where you've unzipped the file contents. From this directory, you can run Knife commands.    Attributes returned in a createServer response for Puppet     PUPPET_STARTER_KIT: A base64-encoded ZIP file. The ZIP file contains a Puppet starter kit, including a README and a required private key. Save this file, unzip it, and then change to the directory where you've unzipped the file contents.    PUPPET_ADMIN_PASSWORD: An administrator password that you can use to sign in to the Puppet Enterprise console after the server is online.  
-        public let engineAttributes: [EngineAttribute]?
-        /// The preferred backup period specified for the server. 
-        public let preferredBackupWindow: String?
-
-        public init(backupRetentionCount: Int32? = nil, instanceProfileArn: String? = nil, engine: String? = nil, preferredMaintenanceWindow: String? = nil, engineVersion: String? = nil, createdAt: TimeStamp? = nil, subnetIds: [String]? = nil, endpoint: String? = nil, statusReason: String? = nil, instanceType: String? = nil, securityGroupIds: [String]? = nil, serverName: String? = nil, keyPair: String? = nil, engineModel: String? = nil, maintenanceStatus: MaintenanceStatus? = nil, serverArn: String? = nil, cloudFormationStackArn: String? = nil, disableAutomatedBackup: Bool? = nil, status: ServerStatus? = nil, serviceRoleArn: String? = nil, associatePublicIpAddress: Bool? = nil, engineAttributes: [EngineAttribute]? = nil, preferredBackupWindow: String? = nil) {
-            self.backupRetentionCount = backupRetentionCount
-            self.instanceProfileArn = instanceProfileArn
-            self.engine = engine
-            self.preferredMaintenanceWindow = preferredMaintenanceWindow
-            self.engineVersion = engineVersion
-            self.createdAt = createdAt
-            self.subnetIds = subnetIds
-            self.endpoint = endpoint
-            self.statusReason = statusReason
-            self.instanceType = instanceType
-            self.securityGroupIds = securityGroupIds
-            self.serverName = serverName
-            self.keyPair = keyPair
-            self.engineModel = engineModel
-            self.maintenanceStatus = maintenanceStatus
-            self.serverArn = serverArn
-            self.cloudFormationStackArn = cloudFormationStackArn
-            self.disableAutomatedBackup = disableAutomatedBackup
-            self.status = status
-            self.serviceRoleArn = serviceRoleArn
-            self.associatePublicIpAddress = associatePublicIpAddress
-            self.engineAttributes = engineAttributes
-            self.preferredBackupWindow = preferredBackupWindow
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case backupRetentionCount = "BackupRetentionCount"
-            case instanceProfileArn = "InstanceProfileArn"
-            case engine = "Engine"
-            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
-            case engineVersion = "EngineVersion"
-            case createdAt = "CreatedAt"
-            case subnetIds = "SubnetIds"
-            case endpoint = "Endpoint"
-            case statusReason = "StatusReason"
-            case instanceType = "InstanceType"
-            case securityGroupIds = "SecurityGroupIds"
-            case serverName = "ServerName"
-            case keyPair = "KeyPair"
-            case engineModel = "EngineModel"
-            case maintenanceStatus = "MaintenanceStatus"
-            case serverArn = "ServerArn"
-            case cloudFormationStackArn = "CloudFormationStackArn"
-            case disableAutomatedBackup = "DisableAutomatedBackup"
-            case status = "Status"
-            case serviceRoleArn = "ServiceRoleArn"
-            case associatePublicIpAddress = "AssociatePublicIpAddress"
-            case engineAttributes = "EngineAttributes"
-            case preferredBackupWindow = "PreferredBackupWindow"
-        }
-    }
-
-    public struct DeleteServerResponse: AWSShape {
-
-    }
-
-    public struct EngineAttribute: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// The value of the engine attribute. 
-        public let value: String?
-        /// The name of the engine attribute. 
-        public let name: String?
-
-        public init(value: String? = nil, name: String? = nil) {
-            self.value = value
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case name = "Name"
-        }
-    }
-
-    public enum BackupType: String, CustomStringConvertible, Codable {
-        case automated = "AUTOMATED"
-        case manual = "MANUAL"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeServersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerName", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Describes the server with the specified ServerName.
-        public let serverName: String?
-        /// This is not currently implemented for DescribeServers requests. 
-        public let maxResults: Int32?
-        /// This is not currently implemented for DescribeServers requests. 
-        public let nextToken: String?
-
-        public init(serverName: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.serverName = serverName
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serverName = "ServerName"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DescribeNodeAssociationStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NodeAssociationStatusToken", required: true, type: .string), 
-            AWSShapeMember(label: "ServerName", required: true, type: .string)
-        ]
-        /// The token returned in either the AssociateNodeResponse or the DisassociateNodeResponse. 
-        public let nodeAssociationStatusToken: String
-        /// The name of the server from which to disassociate the node. 
-        public let serverName: String
-
-        public init(nodeAssociationStatusToken: String, serverName: String) {
-            self.nodeAssociationStatusToken = nodeAssociationStatusToken
-            self.serverName = serverName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nodeAssociationStatusToken = "NodeAssociationStatusToken"
-            case serverName = "ServerName"
         }
     }
 

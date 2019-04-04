@@ -11,8 +11,8 @@ public enum ChimeErrorType: AWSErrorType {
     case throttledClientException(message: String?)
     case serviceUnavailableException(message: String?)
     case serviceFailureException(message: String?)
-    case conflictException(message: String?)
     case unprocessableEntityException(message: String?)
+    case conflictException(message: String?)
 }
 
 extension ChimeErrorType {
@@ -36,10 +36,10 @@ extension ChimeErrorType {
             self = .serviceUnavailableException(message: message)
         case "ServiceFailureException":
             self = .serviceFailureException(message: message)
-        case "ConflictException":
-            self = .conflictException(message: message)
         case "UnprocessableEntityException":
             self = .unprocessableEntityException(message: message)
+        case "ConflictException":
+            self = .conflictException(message: message)
         default:
             return nil
         }

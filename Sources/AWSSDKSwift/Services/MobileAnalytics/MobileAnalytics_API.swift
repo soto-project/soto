@@ -2,6 +2,7 @@
 
 import Foundation
 import AWSSDKSwiftCore
+import NIO
 
 /**
 Amazon Mobile Analytics is a service for collecting, visualizing, and understanding app usage data at scale.

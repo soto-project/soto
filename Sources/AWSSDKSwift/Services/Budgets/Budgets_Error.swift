@@ -4,8 +4,8 @@ import AWSSDKSwiftCore
 
 /// Error enum for Budgets
 public enum BudgetsErrorType: AWSErrorType {
-    case internalErrorException(message: String?)
     case invalidParameterException(message: String?)
+    case internalErrorException(message: String?)
     case notFoundException(message: String?)
     case creationLimitExceededException(message: String?)
     case duplicateRecordException(message: String?)
@@ -20,10 +20,10 @@ extension BudgetsErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "InternalErrorException":
-            self = .internalErrorException(message: message)
         case "InvalidParameterException":
             self = .invalidParameterException(message: message)
+        case "InternalErrorException":
+            self = .internalErrorException(message: message)
         case "NotFoundException":
             self = .notFoundException(message: message)
         case "CreationLimitExceededException":

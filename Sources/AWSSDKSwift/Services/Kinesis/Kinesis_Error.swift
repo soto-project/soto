@@ -5,9 +5,9 @@ import AWSSDKSwiftCore
 /// Error enum for Kinesis
 public enum KinesisErrorType: AWSErrorType {
     case resourceNotFoundException(message: String?)
+    case limitExceededException(message: String?)
     case resourceInUseException(message: String?)
     case invalidArgumentException(message: String?)
-    case limitExceededException(message: String?)
     case kMSDisabledException(message: String?)
     case kMSInvalidStateException(message: String?)
     case kMSAccessDeniedException(message: String?)
@@ -28,12 +28,12 @@ extension KinesisErrorType {
         switch errorCode {
         case "ResourceNotFoundException":
             self = .resourceNotFoundException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
         case "ResourceInUseException":
             self = .resourceInUseException(message: message)
         case "InvalidArgumentException":
             self = .invalidArgumentException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
         case "KMSDisabledException":
             self = .kMSDisabledException(message: message)
         case "KMSInvalidStateException":

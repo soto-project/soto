@@ -5,6 +5,261 @@ import AWSSDKSwiftCore
 
 extension EFS {
 
+    public struct UpdateFileSystemRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ThroughputMode", required: false, type: .enum), 
+            AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"), required: true, type: .string), 
+            AWSShapeMember(label: "ProvisionedThroughputInMibps", required: false, type: .double)
+        ]
+        /// (Optional) The throughput mode that you want your file system to use. If you're not updating your throughput mode, you don't need to provide this value in your request.
+        public let throughputMode: ThroughputMode?
+        /// The ID of the file system that you want to update.
+        public let fileSystemId: String
+        /// (Optional) The amount of throughput, in MiB/s, that you want to provision for your file system. If you're not updating the amount of provisioned throughput for your file system, you don't need to provide this value in your request.
+        public let provisionedThroughputInMibps: Double?
+
+        public init(throughputMode: ThroughputMode? = nil, fileSystemId: String, provisionedThroughputInMibps: Double? = nil) {
+            self.throughputMode = throughputMode
+            self.fileSystemId = fileSystemId
+            self.provisionedThroughputInMibps = provisionedThroughputInMibps
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case throughputMode = "ThroughputMode"
+            case fileSystemId = "FileSystemId"
+            case provisionedThroughputInMibps = "ProvisionedThroughputInMibps"
+        }
+    }
+
+    public struct DeleteTagsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"), required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
+        ]
+        /// ID of the file system whose tags you want to delete (String).
+        public let fileSystemId: String
+        /// List of tag keys to delete.
+        public let tagKeys: [String]
+
+        public init(fileSystemId: String, tagKeys: [String]) {
+            self.fileSystemId = fileSystemId
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileSystemId = "FileSystemId"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct CreateTagsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"), required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .list)
+        ]
+        /// ID of the file system whose tags you want to modify (String). This operation modifies the tags only, not the file system.
+        public let fileSystemId: String
+        /// Array of Tag objects to add. Each Tag object is a key-value pair. 
+        public let tags: [Tag]
+
+        public init(fileSystemId: String, tags: [Tag]) {
+            self.fileSystemId = fileSystemId
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileSystemId = "FileSystemId"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateMountTargetRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "IpAddress", required: false, type: .string), 
+            AWSShapeMember(label: "SubnetId", required: true, type: .string), 
+            AWSShapeMember(label: "FileSystemId", required: true, type: .string)
+        ]
+        /// Up to five VPC security group IDs, of the form sg-xxxxxxxx. These must be for the same VPC as subnet specified.
+        public let securityGroups: [String]?
+        /// Valid IPv4 address within the address range of the specified subnet.
+        public let ipAddress: String?
+        /// ID of the subnet to add the mount target in.
+        public let subnetId: String
+        /// ID of the file system for which to create the mount target.
+        public let fileSystemId: String
+
+        public init(securityGroups: [String]? = nil, ipAddress: String? = nil, subnetId: String, fileSystemId: String) {
+            self.securityGroups = securityGroups
+            self.ipAddress = ipAddress
+            self.subnetId = subnetId
+            self.fileSystemId = fileSystemId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityGroups = "SecurityGroups"
+            case ipAddress = "IpAddress"
+            case subnetId = "SubnetId"
+            case fileSystemId = "FileSystemId"
+        }
+    }
+
+    public struct DescribeFileSystemsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
+            AWSShapeMember(label: "FileSystemId", location: .querystring(locationName: "FileSystemId"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .integer), 
+            AWSShapeMember(label: "CreationToken", location: .querystring(locationName: "CreationToken"), required: false, type: .string)
+        ]
+        /// (Optional) Opaque pagination token returned from a previous DescribeFileSystems operation (String). If present, specifies to continue the list from where the returning call had left off. 
+        public let marker: String?
+        /// (Optional) ID of the file system whose description you want to retrieve (String).
+        public let fileSystemId: String?
+        /// (Optional) Specifies the maximum number of file systems to return in the response (integer). This parameter value must be greater than 0. The number of items that Amazon EFS returns is the minimum of the MaxItems parameter specified in the request and the service's internal maximum number of items per page. 
+        public let maxItems: Int32?
+        /// (Optional) Restricts the list to the file system with this creation token (String). You specify a creation token when you create an Amazon EFS file system.
+        public let creationToken: String?
+
+        public init(marker: String? = nil, fileSystemId: String? = nil, maxItems: Int32? = nil, creationToken: String? = nil) {
+            self.marker = marker
+            self.fileSystemId = fileSystemId
+            self.maxItems = maxItems
+            self.creationToken = creationToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case fileSystemId = "FileSystemId"
+            case maxItems = "MaxItems"
+            case creationToken = "CreationToken"
+        }
+    }
+
+    public struct DeleteFileSystemRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"), required: true, type: .string)
+        ]
+        /// ID of the file system you want to delete.
+        public let fileSystemId: String
+
+        public init(fileSystemId: String) {
+            self.fileSystemId = fileSystemId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileSystemId = "FileSystemId"
+        }
+    }
+
+    public struct DescribeFileSystemsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileSystems", required: false, type: .list), 
+            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// Array of file system descriptions.
+        public let fileSystems: [FileSystemDescription]?
+        /// Present if there are more file systems than returned in the response (String). You can use the NextMarker in the subsequent request to fetch the descriptions.
+        public let nextMarker: String?
+        /// Present if provided by caller in the request (String).
+        public let marker: String?
+
+        public init(fileSystems: [FileSystemDescription]? = nil, nextMarker: String? = nil, marker: String? = nil) {
+            self.fileSystems = fileSystems
+            self.nextMarker = nextMarker
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileSystems = "FileSystems"
+            case nextMarker = "NextMarker"
+            case marker = "Marker"
+        }
+    }
+
+    public struct DescribeMountTargetSecurityGroupsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MountTargetId", location: .uri(locationName: "MountTargetId"), required: true, type: .string)
+        ]
+        /// ID of the mount target whose security groups you want to retrieve.
+        public let mountTargetId: String
+
+        public init(mountTargetId: String) {
+            self.mountTargetId = mountTargetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mountTargetId = "MountTargetId"
+        }
+    }
+
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: true, type: .string)
+        ]
+        /// Tag key (String). The key can't start with aws:.
+        public let key: String
+        /// Value of the tag key.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct MountTargetDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileSystemId", required: true, type: .string), 
+            AWSShapeMember(label: "IpAddress", required: false, type: .string), 
+            AWSShapeMember(label: "LifeCycleState", required: true, type: .enum), 
+            AWSShapeMember(label: "SubnetId", required: true, type: .string), 
+            AWSShapeMember(label: "NetworkInterfaceId", required: false, type: .string), 
+            AWSShapeMember(label: "MountTargetId", required: true, type: .string), 
+            AWSShapeMember(label: "OwnerId", required: false, type: .string)
+        ]
+        /// ID of the file system for which the mount target is intended.
+        public let fileSystemId: String
+        /// Address at which the file system may be mounted via the mount target.
+        public let ipAddress: String?
+        /// Lifecycle state of the mount target.
+        public let lifeCycleState: LifeCycleState
+        /// ID of the mount target's subnet.
+        public let subnetId: String
+        /// ID of the network interface that Amazon EFS created when it created the mount target.
+        public let networkInterfaceId: String?
+        /// System-assigned mount target ID.
+        public let mountTargetId: String
+        /// AWS account ID that owns the resource.
+        public let ownerId: String?
+
+        public init(fileSystemId: String, ipAddress: String? = nil, lifeCycleState: LifeCycleState, subnetId: String, networkInterfaceId: String? = nil, mountTargetId: String, ownerId: String? = nil) {
+            self.fileSystemId = fileSystemId
+            self.ipAddress = ipAddress
+            self.lifeCycleState = lifeCycleState
+            self.subnetId = subnetId
+            self.networkInterfaceId = networkInterfaceId
+            self.mountTargetId = mountTargetId
+            self.ownerId = ownerId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileSystemId = "FileSystemId"
+            case ipAddress = "IpAddress"
+            case lifeCycleState = "LifeCycleState"
+            case subnetId = "SubnetId"
+            case networkInterfaceId = "NetworkInterfaceId"
+            case mountTargetId = "MountTargetId"
+            case ownerId = "OwnerId"
+        }
+    }
+
     public struct FileSystemSize: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: true, type: .long), 
@@ -26,75 +281,71 @@ extension EFS {
         }
     }
 
-    public struct DescribeMountTargetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .integer), 
-            AWSShapeMember(label: "FileSystemId", location: .querystring(locationName: "FileSystemId"), required: false, type: .string), 
-            AWSShapeMember(label: "MountTargetId", location: .querystring(locationName: "MountTargetId"), required: false, type: .string)
-        ]
-        /// (Optional) Opaque pagination token returned from a previous DescribeMountTargets operation (String). If present, it specifies to continue the list from where the previous returning call left off.
-        public let marker: String?
-        /// (Optional) Maximum number of mount targets to return in the response. It must be an integer with a value greater than zero.
-        public let maxItems: Int32?
-        /// (Optional) ID of the file system whose mount targets you want to list (String). It must be included in your request if MountTargetId is not included.
-        public let fileSystemId: String?
-        /// (Optional) ID of the mount target that you want to have described (String). It must be included in your request if FileSystemId is not included.
-        public let mountTargetId: String?
+    public enum ThroughputMode: String, CustomStringConvertible, Codable {
+        case bursting = "bursting"
+        case provisioned = "provisioned"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(marker: String? = nil, maxItems: Int32? = nil, fileSystemId: String? = nil, mountTargetId: String? = nil) {
-            self.marker = marker
-            self.maxItems = maxItems
-            self.fileSystemId = fileSystemId
+    public struct ModifyMountTargetSecurityGroupsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MountTargetId", location: .uri(locationName: "MountTargetId"), required: true, type: .string), 
+            AWSShapeMember(label: "SecurityGroups", required: false, type: .list)
+        ]
+        /// ID of the mount target whose security groups you want to modify.
+        public let mountTargetId: String
+        /// Array of up to five VPC security group IDs.
+        public let securityGroups: [String]?
+
+        public init(mountTargetId: String, securityGroups: [String]? = nil) {
             self.mountTargetId = mountTargetId
+            self.securityGroups = securityGroups
         }
 
         private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-            case fileSystemId = "FileSystemId"
             case mountTargetId = "MountTargetId"
+            case securityGroups = "SecurityGroups"
         }
     }
 
     public struct CreateFileSystemRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationToken", required: true, type: .string), 
+            AWSShapeMember(label: "PerformanceMode", required: false, type: .enum), 
             AWSShapeMember(label: "ThroughputMode", required: false, type: .enum), 
+            AWSShapeMember(label: "CreationToken", required: true, type: .string), 
             AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "ProvisionedThroughputInMibps", required: false, type: .double), 
             AWSShapeMember(label: "Encrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "PerformanceMode", required: false, type: .enum)
+            AWSShapeMember(label: "ProvisionedThroughputInMibps", required: false, type: .double)
         ]
-        /// String of up to 64 ASCII characters. Amazon EFS uses this to ensure idempotent creation.
-        public let creationToken: String
-        /// The throughput mode for the file system to be created. There are two throughput modes to choose from for your file system: bursting and provisioned. You can decrease your file system's throughput in Provisioned Throughput mode or change between the throughput modes as long as it’s been more than 24 hours since the last decrease or throughput mode change.
-        public let throughputMode: ThroughputMode?
-        /// The ID of the AWS KMS CMK to be used to protect the encrypted file system. This parameter is only required if you want to use a non-default CMK. If this parameter is not specified, the default CMK for Amazon EFS is used. This ID can be in one of the following formats:   Key ID - A unique identifier of the key, for example, 1234abcd-12ab-34cd-56ef-1234567890ab.   ARN - An Amazon Resource Name (ARN) for the key, for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias - A previously created display name for a key. For example, alias/projectKey1.   Key alias ARN - An ARN for a key alias, for example, arn:aws:kms:us-west-2:444455556666:alias/projectKey1.   If KmsKeyId is specified, the CreateFileSystemRequest$Encrypted parameter must be set to true.
-        public let kmsKeyId: String?
-        /// The throughput, measured in MiB/s, that you want to provision for a file system that you're creating. The limit on throughput is 1024 MiB/s. You can get these limits increased by contacting AWS Support. For more information, see Amazon EFS Limits That You Can Increase in the Amazon EFS User Guide. 
-        public let provisionedThroughputInMibps: Double?
-        /// A Boolean value that, if true, creates an encrypted file system. When creating an encrypted file system, you have the option of specifying a CreateFileSystemRequest$KmsKeyId for an existing AWS Key Management Service (AWS KMS) customer master key (CMK). If you don't specify a CMK, then the default CMK for Amazon EFS, /aws/elasticfilesystem, is used to protect the encrypted file system. 
-        public let encrypted: Bool?
         /// The PerformanceMode of the file system. We recommend generalPurpose performance mode for most file systems. File systems using the maxIO performance mode can scale to higher levels of aggregate throughput and operations per second with a tradeoff of slightly higher latencies for most file operations. This can't be changed after the file system has been created.
         public let performanceMode: PerformanceMode?
+        /// The throughput mode for the file system to be created. There are two throughput modes to choose from for your file system: bursting and provisioned. You can decrease your file system's throughput in Provisioned Throughput mode or change between the throughput modes as long as it’s been more than 24 hours since the last decrease or throughput mode change.
+        public let throughputMode: ThroughputMode?
+        /// String of up to 64 ASCII characters. Amazon EFS uses this to ensure idempotent creation.
+        public let creationToken: String
+        /// The ID of the AWS KMS CMK to be used to protect the encrypted file system. This parameter is only required if you want to use a non-default CMK. If this parameter is not specified, the default CMK for Amazon EFS is used. This ID can be in one of the following formats:   Key ID - A unique identifier of the key, for example, 1234abcd-12ab-34cd-56ef-1234567890ab.   ARN - An Amazon Resource Name (ARN) for the key, for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias - A previously created display name for a key. For example, alias/projectKey1.   Key alias ARN - An ARN for a key alias, for example, arn:aws:kms:us-west-2:444455556666:alias/projectKey1.   If KmsKeyId is specified, the CreateFileSystemRequest$Encrypted parameter must be set to true.
+        public let kmsKeyId: String?
+        /// A Boolean value that, if true, creates an encrypted file system. When creating an encrypted file system, you have the option of specifying a CreateFileSystemRequest$KmsKeyId for an existing AWS Key Management Service (AWS KMS) customer master key (CMK). If you don't specify a CMK, then the default CMK for Amazon EFS, /aws/elasticfilesystem, is used to protect the encrypted file system. 
+        public let encrypted: Bool?
+        /// The throughput, measured in MiB/s, that you want to provision for a file system that you're creating. The limit on throughput is 1024 MiB/s. You can get these limits increased by contacting AWS Support. For more information, see Amazon EFS Limits That You Can Increase in the Amazon EFS User Guide. 
+        public let provisionedThroughputInMibps: Double?
 
-        public init(creationToken: String, throughputMode: ThroughputMode? = nil, kmsKeyId: String? = nil, provisionedThroughputInMibps: Double? = nil, encrypted: Bool? = nil, performanceMode: PerformanceMode? = nil) {
-            self.creationToken = creationToken
-            self.throughputMode = throughputMode
-            self.kmsKeyId = kmsKeyId
-            self.provisionedThroughputInMibps = provisionedThroughputInMibps
-            self.encrypted = encrypted
+        public init(performanceMode: PerformanceMode? = nil, throughputMode: ThroughputMode? = nil, creationToken: String, kmsKeyId: String? = nil, encrypted: Bool? = nil, provisionedThroughputInMibps: Double? = nil) {
             self.performanceMode = performanceMode
+            self.throughputMode = throughputMode
+            self.creationToken = creationToken
+            self.kmsKeyId = kmsKeyId
+            self.encrypted = encrypted
+            self.provisionedThroughputInMibps = provisionedThroughputInMibps
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationToken = "CreationToken"
-            case throughputMode = "ThroughputMode"
-            case kmsKeyId = "KmsKeyId"
-            case provisionedThroughputInMibps = "ProvisionedThroughputInMibps"
-            case encrypted = "Encrypted"
             case performanceMode = "PerformanceMode"
+            case throughputMode = "ThroughputMode"
+            case creationToken = "CreationToken"
+            case kmsKeyId = "KmsKeyId"
+            case encrypted = "Encrypted"
+            case provisionedThroughputInMibps = "ProvisionedThroughputInMibps"
         }
     }
 
@@ -124,71 +375,136 @@ extension EFS {
         }
     }
 
-    public struct DescribeMountTargetSecurityGroupsRequest: AWSShape {
+    public struct FileSystemDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MountTargetId", location: .uri(locationName: "MountTargetId"), required: true, type: .string)
+            AWSShapeMember(label: "NumberOfMountTargets", required: true, type: .integer), 
+            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "Encrypted", required: false, type: .boolean), 
+            AWSShapeMember(label: "LifeCycleState", required: true, type: .enum), 
+            AWSShapeMember(label: "OwnerId", required: true, type: .string), 
+            AWSShapeMember(label: "ProvisionedThroughputInMibps", required: false, type: .double), 
+            AWSShapeMember(label: "CreationToken", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "ThroughputMode", required: false, type: .enum), 
+            AWSShapeMember(label: "PerformanceMode", required: true, type: .enum), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "FileSystemId", required: true, type: .string), 
+            AWSShapeMember(label: "SizeInBytes", required: true, type: .structure)
         ]
-        /// ID of the mount target whose security groups you want to retrieve.
-        public let mountTargetId: String
+        /// Current number of mount targets that the file system has. For more information, see CreateMountTarget.
+        public let numberOfMountTargets: Int32
+        /// Time that the file system was created, in seconds (since 1970-01-01T00:00:00Z).
+        public let creationTime: TimeStamp
+        /// A Boolean value that, if true, indicates that the file system is encrypted.
+        public let encrypted: Bool?
+        /// Lifecycle phase of the file system.
+        public let lifeCycleState: LifeCycleState
+        /// AWS account that created the file system. If the file system was created by an IAM user, the parent account to which the user belongs is the owner.
+        public let ownerId: String
+        /// The throughput, measured in MiB/s, that you want to provision for a file system. The limit on throughput is 1024 MiB/s. You can get these limits increased by contacting AWS Support. For more information, see Amazon EFS Limits That You Can Increase in the Amazon EFS User Guide. 
+        public let provisionedThroughputInMibps: Double?
+        /// Opaque string specified in the request.
+        public let creationToken: String
+        /// You can add tags to a file system, including a Name tag. For more information, see CreateTags. If the file system has a Name tag, Amazon EFS returns the value in this field. 
+        public let name: String?
+        /// The throughput mode for a file system. There are two throughput modes to choose from for your file system: bursting and provisioned. You can decrease your file system's throughput in Provisioned Throughput mode or change between the throughput modes as long as it’s been more than 24 hours since the last decrease or throughput mode change.
+        public let throughputMode: ThroughputMode?
+        /// The PerformanceMode of the file system.
+        public let performanceMode: PerformanceMode
+        /// The ID of an AWS Key Management Service (AWS KMS) customer master key (CMK) that was used to protect the encrypted file system.
+        public let kmsKeyId: String?
+        /// ID of the file system, assigned by Amazon EFS.
+        public let fileSystemId: String
+        /// Latest known metered size (in bytes) of data stored in the file system, in its Value field, and the time at which that size was determined in its Timestamp field. The Timestamp value is the integer number of seconds since 1970-01-01T00:00:00Z. The SizeInBytes value doesn't represent the size of a consistent snapshot of the file system, but it is eventually consistent when there are no writes to the file system. That is, SizeInBytes represents actual size only if the file system is not modified for a period longer than a couple of hours. Otherwise, the value is not the exact size that the file system was at any point in time. 
+        public let sizeInBytes: FileSystemSize
 
-        public init(mountTargetId: String) {
+        public init(numberOfMountTargets: Int32, creationTime: TimeStamp, encrypted: Bool? = nil, lifeCycleState: LifeCycleState, ownerId: String, provisionedThroughputInMibps: Double? = nil, creationToken: String, name: String? = nil, throughputMode: ThroughputMode? = nil, performanceMode: PerformanceMode, kmsKeyId: String? = nil, fileSystemId: String, sizeInBytes: FileSystemSize) {
+            self.numberOfMountTargets = numberOfMountTargets
+            self.creationTime = creationTime
+            self.encrypted = encrypted
+            self.lifeCycleState = lifeCycleState
+            self.ownerId = ownerId
+            self.provisionedThroughputInMibps = provisionedThroughputInMibps
+            self.creationToken = creationToken
+            self.name = name
+            self.throughputMode = throughputMode
+            self.performanceMode = performanceMode
+            self.kmsKeyId = kmsKeyId
+            self.fileSystemId = fileSystemId
+            self.sizeInBytes = sizeInBytes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case numberOfMountTargets = "NumberOfMountTargets"
+            case creationTime = "CreationTime"
+            case encrypted = "Encrypted"
+            case lifeCycleState = "LifeCycleState"
+            case ownerId = "OwnerId"
+            case provisionedThroughputInMibps = "ProvisionedThroughputInMibps"
+            case creationToken = "CreationToken"
+            case name = "Name"
+            case throughputMode = "ThroughputMode"
+            case performanceMode = "PerformanceMode"
+            case kmsKeyId = "KmsKeyId"
+            case fileSystemId = "FileSystemId"
+            case sizeInBytes = "SizeInBytes"
+        }
+    }
+
+    public struct DescribeTagsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
+            AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .integer)
+        ]
+        /// (Optional) Opaque pagination token returned from a previous DescribeTags operation (String). If present, it specifies to continue the list from where the previous call left off.
+        public let marker: String?
+        /// ID of the file system whose tag set you want to retrieve.
+        public let fileSystemId: String
+        /// (Optional) Maximum number of file system tags to return in the response. It must be an integer with a value greater than zero.
+        public let maxItems: Int32?
+
+        public init(marker: String? = nil, fileSystemId: String, maxItems: Int32? = nil) {
+            self.marker = marker
+            self.fileSystemId = fileSystemId
+            self.maxItems = maxItems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case fileSystemId = "FileSystemId"
+            case maxItems = "MaxItems"
+        }
+    }
+
+    public struct DescribeMountTargetsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
+            AWSShapeMember(label: "FileSystemId", location: .querystring(locationName: "FileSystemId"), required: false, type: .string), 
+            AWSShapeMember(label: "MountTargetId", location: .querystring(locationName: "MountTargetId"), required: false, type: .string)
+        ]
+        /// (Optional) Maximum number of mount targets to return in the response. It must be an integer with a value greater than zero.
+        public let maxItems: Int32?
+        /// (Optional) Opaque pagination token returned from a previous DescribeMountTargets operation (String). If present, it specifies to continue the list from where the previous returning call left off.
+        public let marker: String?
+        /// (Optional) ID of the file system whose mount targets you want to list (String). It must be included in your request if MountTargetId is not included.
+        public let fileSystemId: String?
+        /// (Optional) ID of the mount target that you want to have described (String). It must be included in your request if FileSystemId is not included.
+        public let mountTargetId: String?
+
+        public init(maxItems: Int32? = nil, marker: String? = nil, fileSystemId: String? = nil, mountTargetId: String? = nil) {
+            self.maxItems = maxItems
+            self.marker = marker
+            self.fileSystemId = fileSystemId
             self.mountTargetId = mountTargetId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case maxItems = "MaxItems"
+            case marker = "Marker"
+            case fileSystemId = "FileSystemId"
             case mountTargetId = "MountTargetId"
-        }
-    }
-
-    public struct CreateMountTargetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IpAddress", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetId", required: true, type: .string), 
-            AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
-            AWSShapeMember(label: "FileSystemId", required: true, type: .string)
-        ]
-        /// Valid IPv4 address within the address range of the specified subnet.
-        public let ipAddress: String?
-        /// ID of the subnet to add the mount target in.
-        public let subnetId: String
-        /// Up to five VPC security group IDs, of the form sg-xxxxxxxx. These must be for the same VPC as subnet specified.
-        public let securityGroups: [String]?
-        /// ID of the file system for which to create the mount target.
-        public let fileSystemId: String
-
-        public init(ipAddress: String? = nil, subnetId: String, securityGroups: [String]? = nil, fileSystemId: String) {
-            self.ipAddress = ipAddress
-            self.subnetId = subnetId
-            self.securityGroups = securityGroups
-            self.fileSystemId = fileSystemId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ipAddress = "IpAddress"
-            case subnetId = "SubnetId"
-            case securityGroups = "SecurityGroups"
-            case fileSystemId = "FileSystemId"
-        }
-    }
-
-    public struct CreateTagsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: true, type: .list), 
-            AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"), required: true, type: .string)
-        ]
-        /// Array of Tag objects to add. Each Tag object is a key-value pair. 
-        public let tags: [Tag]
-        /// ID of the file system whose tags you want to modify (String). This operation modifies the tags only, not the file system.
-        public let fileSystemId: String
-
-        public init(tags: [Tag], fileSystemId: String) {
-            self.tags = tags
-            self.fileSystemId = fileSystemId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-            case fileSystemId = "FileSystemId"
         }
     }
 
@@ -218,277 +534,9 @@ extension EFS {
         }
     }
 
-    public struct FileSystemDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Encrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "CreationToken", required: true, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "LifeCycleState", required: true, type: .enum), 
-            AWSShapeMember(label: "SizeInBytes", required: true, type: .structure), 
-            AWSShapeMember(label: "ThroughputMode", required: false, type: .enum), 
-            AWSShapeMember(label: "PerformanceMode", required: true, type: .enum), 
-            AWSShapeMember(label: "FileSystemId", required: true, type: .string), 
-            AWSShapeMember(label: "ProvisionedThroughputInMibps", required: false, type: .double), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "NumberOfMountTargets", required: true, type: .integer), 
-            AWSShapeMember(label: "OwnerId", required: true, type: .string)
-        ]
-        /// A Boolean value that, if true, indicates that the file system is encrypted.
-        public let encrypted: Bool?
-        /// Opaque string specified in the request.
-        public let creationToken: String
-        /// Time that the file system was created, in seconds (since 1970-01-01T00:00:00Z).
-        public let creationTime: TimeStamp
-        /// Lifecycle phase of the file system.
-        public let lifeCycleState: LifeCycleState
-        /// Latest known metered size (in bytes) of data stored in the file system, in its Value field, and the time at which that size was determined in its Timestamp field. The Timestamp value is the integer number of seconds since 1970-01-01T00:00:00Z. The SizeInBytes value doesn't represent the size of a consistent snapshot of the file system, but it is eventually consistent when there are no writes to the file system. That is, SizeInBytes represents actual size only if the file system is not modified for a period longer than a couple of hours. Otherwise, the value is not the exact size that the file system was at any point in time. 
-        public let sizeInBytes: FileSystemSize
-        /// The throughput mode for a file system. There are two throughput modes to choose from for your file system: bursting and provisioned. You can decrease your file system's throughput in Provisioned Throughput mode or change between the throughput modes as long as it’s been more than 24 hours since the last decrease or throughput mode change.
-        public let throughputMode: ThroughputMode?
-        /// The PerformanceMode of the file system.
-        public let performanceMode: PerformanceMode
-        /// ID of the file system, assigned by Amazon EFS.
-        public let fileSystemId: String
-        /// The throughput, measured in MiB/s, that you want to provision for a file system. The limit on throughput is 1024 MiB/s. You can get these limits increased by contacting AWS Support. For more information, see Amazon EFS Limits That You Can Increase in the Amazon EFS User Guide. 
-        public let provisionedThroughputInMibps: Double?
-        /// The ID of an AWS Key Management Service (AWS KMS) customer master key (CMK) that was used to protect the encrypted file system.
-        public let kmsKeyId: String?
-        /// You can add tags to a file system, including a Name tag. For more information, see CreateTags. If the file system has a Name tag, Amazon EFS returns the value in this field. 
-        public let name: String?
-        /// Current number of mount targets that the file system has. For more information, see CreateMountTarget.
-        public let numberOfMountTargets: Int32
-        /// AWS account that created the file system. If the file system was created by an IAM user, the parent account to which the user belongs is the owner.
-        public let ownerId: String
-
-        public init(encrypted: Bool? = nil, creationToken: String, creationTime: TimeStamp, lifeCycleState: LifeCycleState, sizeInBytes: FileSystemSize, throughputMode: ThroughputMode? = nil, performanceMode: PerformanceMode, fileSystemId: String, provisionedThroughputInMibps: Double? = nil, kmsKeyId: String? = nil, name: String? = nil, numberOfMountTargets: Int32, ownerId: String) {
-            self.encrypted = encrypted
-            self.creationToken = creationToken
-            self.creationTime = creationTime
-            self.lifeCycleState = lifeCycleState
-            self.sizeInBytes = sizeInBytes
-            self.throughputMode = throughputMode
-            self.performanceMode = performanceMode
-            self.fileSystemId = fileSystemId
-            self.provisionedThroughputInMibps = provisionedThroughputInMibps
-            self.kmsKeyId = kmsKeyId
-            self.name = name
-            self.numberOfMountTargets = numberOfMountTargets
-            self.ownerId = ownerId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case encrypted = "Encrypted"
-            case creationToken = "CreationToken"
-            case creationTime = "CreationTime"
-            case lifeCycleState = "LifeCycleState"
-            case sizeInBytes = "SizeInBytes"
-            case throughputMode = "ThroughputMode"
-            case performanceMode = "PerformanceMode"
-            case fileSystemId = "FileSystemId"
-            case provisionedThroughputInMibps = "ProvisionedThroughputInMibps"
-            case kmsKeyId = "KmsKeyId"
-            case name = "Name"
-            case numberOfMountTargets = "NumberOfMountTargets"
-            case ownerId = "OwnerId"
-        }
-    }
-
-    public struct DescribeFileSystemsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
-            AWSShapeMember(label: "CreationToken", location: .querystring(locationName: "CreationToken"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .integer), 
-            AWSShapeMember(label: "FileSystemId", location: .querystring(locationName: "FileSystemId"), required: false, type: .string)
-        ]
-        /// (Optional) Opaque pagination token returned from a previous DescribeFileSystems operation (String). If present, specifies to continue the list from where the returning call had left off. 
-        public let marker: String?
-        /// (Optional) Restricts the list to the file system with this creation token (String). You specify a creation token when you create an Amazon EFS file system.
-        public let creationToken: String?
-        /// (Optional) Specifies the maximum number of file systems to return in the response (integer). This parameter value must be greater than 0. The number of items that Amazon EFS returns is the minimum of the MaxItems parameter specified in the request and the service's internal maximum number of items per page. 
-        public let maxItems: Int32?
-        /// (Optional) ID of the file system whose description you want to retrieve (String).
-        public let fileSystemId: String?
-
-        public init(marker: String? = nil, creationToken: String? = nil, maxItems: Int32? = nil, fileSystemId: String? = nil) {
-            self.marker = marker
-            self.creationToken = creationToken
-            self.maxItems = maxItems
-            self.fileSystemId = fileSystemId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case creationToken = "CreationToken"
-            case maxItems = "MaxItems"
-            case fileSystemId = "FileSystemId"
-        }
-    }
-
-    public struct ModifyMountTargetSecurityGroupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MountTargetId", location: .uri(locationName: "MountTargetId"), required: true, type: .string), 
-            AWSShapeMember(label: "SecurityGroups", required: false, type: .list)
-        ]
-        /// ID of the mount target whose security groups you want to modify.
-        public let mountTargetId: String
-        /// Array of up to five VPC security group IDs.
-        public let securityGroups: [String]?
-
-        public init(mountTargetId: String, securityGroups: [String]? = nil) {
-            self.mountTargetId = mountTargetId
-            self.securityGroups = securityGroups
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case mountTargetId = "MountTargetId"
-            case securityGroups = "SecurityGroups"
-        }
-    }
-
     public enum PerformanceMode: String, CustomStringConvertible, Codable {
         case generalpurpose = "generalPurpose"
         case maxio = "maxIO"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteFileSystemRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"), required: true, type: .string)
-        ]
-        /// ID of the file system you want to delete.
-        public let fileSystemId: String
-
-        public init(fileSystemId: String) {
-            self.fileSystemId = fileSystemId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fileSystemId = "FileSystemId"
-        }
-    }
-
-    public struct DeleteMountTargetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MountTargetId", location: .uri(locationName: "MountTargetId"), required: true, type: .string)
-        ]
-        /// ID of the mount target to delete (String).
-        public let mountTargetId: String
-
-        public init(mountTargetId: String) {
-            self.mountTargetId = mountTargetId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case mountTargetId = "MountTargetId"
-        }
-    }
-
-    public struct DescribeFileSystemsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "FileSystems", required: false, type: .list), 
-            AWSShapeMember(label: "NextMarker", required: false, type: .string)
-        ]
-        /// Present if provided by caller in the request (String).
-        public let marker: String?
-        /// Array of file system descriptions.
-        public let fileSystems: [FileSystemDescription]?
-        /// Present if there are more file systems than returned in the response (String). You can use the NextMarker in the subsequent request to fetch the descriptions.
-        public let nextMarker: String?
-
-        public init(marker: String? = nil, fileSystems: [FileSystemDescription]? = nil, nextMarker: String? = nil) {
-            self.marker = marker
-            self.fileSystems = fileSystems
-            self.nextMarker = nextMarker
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case fileSystems = "FileSystems"
-            case nextMarker = "NextMarker"
-        }
-    }
-
-    public enum ThroughputMode: String, CustomStringConvertible, Codable {
-        case bursting = "bursting"
-        case provisioned = "provisioned"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct MountTargetDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OwnerId", required: false, type: .string), 
-            AWSShapeMember(label: "LifeCycleState", required: true, type: .enum), 
-            AWSShapeMember(label: "NetworkInterfaceId", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetId", required: true, type: .string), 
-            AWSShapeMember(label: "IpAddress", required: false, type: .string), 
-            AWSShapeMember(label: "MountTargetId", required: true, type: .string), 
-            AWSShapeMember(label: "FileSystemId", required: true, type: .string)
-        ]
-        /// AWS account ID that owns the resource.
-        public let ownerId: String?
-        /// Lifecycle state of the mount target.
-        public let lifeCycleState: LifeCycleState
-        /// ID of the network interface that Amazon EFS created when it created the mount target.
-        public let networkInterfaceId: String?
-        /// ID of the mount target's subnet.
-        public let subnetId: String
-        /// Address at which the file system may be mounted via the mount target.
-        public let ipAddress: String?
-        /// System-assigned mount target ID.
-        public let mountTargetId: String
-        /// ID of the file system for which the mount target is intended.
-        public let fileSystemId: String
-
-        public init(ownerId: String? = nil, lifeCycleState: LifeCycleState, networkInterfaceId: String? = nil, subnetId: String, ipAddress: String? = nil, mountTargetId: String, fileSystemId: String) {
-            self.ownerId = ownerId
-            self.lifeCycleState = lifeCycleState
-            self.networkInterfaceId = networkInterfaceId
-            self.subnetId = subnetId
-            self.ipAddress = ipAddress
-            self.mountTargetId = mountTargetId
-            self.fileSystemId = fileSystemId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ownerId = "OwnerId"
-            case lifeCycleState = "LifeCycleState"
-            case networkInterfaceId = "NetworkInterfaceId"
-            case subnetId = "SubnetId"
-            case ipAddress = "IpAddress"
-            case mountTargetId = "MountTargetId"
-            case fileSystemId = "FileSystemId"
-        }
-    }
-
-    public struct DeleteTagsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagKeys", required: true, type: .list), 
-            AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"), required: true, type: .string)
-        ]
-        /// List of tag keys to delete.
-        public let tagKeys: [String]
-        /// ID of the file system whose tags you want to delete (String).
-        public let fileSystemId: String
-
-        public init(tagKeys: [String], fileSystemId: String) {
-            self.tagKeys = tagKeys
-            self.fileSystemId = fileSystemId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tagKeys = "TagKeys"
-            case fileSystemId = "FileSystemId"
-        }
-    }
-
-    public enum LifeCycleState: String, CustomStringConvertible, Codable {
-        case creating = "creating"
-        case available = "available"
-        case updating = "updating"
-        case deleting = "deleting"
-        case deleted = "deleted"
         public var description: String { return self.rawValue }
     }
 
@@ -508,76 +556,28 @@ extension EFS {
         }
     }
 
-    public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: true, type: .string), 
-            AWSShapeMember(label: "Key", required: true, type: .string)
-        ]
-        /// Value of the tag key.
-        public let value: String
-        /// Tag key (String). The key can't start with aws:.
-        public let key: String
-
-        public init(value: String, key: String) {
-            self.value = value
-            self.key = key
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case key = "Key"
-        }
+    public enum LifeCycleState: String, CustomStringConvertible, Codable {
+        case creating = "creating"
+        case available = "available"
+        case updating = "updating"
+        case deleting = "deleting"
+        case deleted = "deleted"
+        public var description: String { return self.rawValue }
     }
 
-    public struct UpdateFileSystemRequest: AWSShape {
+    public struct DeleteMountTargetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProvisionedThroughputInMibps", required: false, type: .double), 
-            AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"), required: true, type: .string), 
-            AWSShapeMember(label: "ThroughputMode", required: false, type: .enum)
+            AWSShapeMember(label: "MountTargetId", location: .uri(locationName: "MountTargetId"), required: true, type: .string)
         ]
-        /// (Optional) The amount of throughput, in MiB/s, that you want to provision for your file system. If you're not updating the amount of provisioned throughput for your file system, you don't need to provide this value in your request.
-        public let provisionedThroughputInMibps: Double?
-        /// The ID of the file system that you want to update.
-        public let fileSystemId: String
-        /// (Optional) The throughput mode that you want your file system to use. If you're not updating your throughput mode, you don't need to provide this value in your request.
-        public let throughputMode: ThroughputMode?
+        /// ID of the mount target to delete (String).
+        public let mountTargetId: String
 
-        public init(provisionedThroughputInMibps: Double? = nil, fileSystemId: String, throughputMode: ThroughputMode? = nil) {
-            self.provisionedThroughputInMibps = provisionedThroughputInMibps
-            self.fileSystemId = fileSystemId
-            self.throughputMode = throughputMode
+        public init(mountTargetId: String) {
+            self.mountTargetId = mountTargetId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case provisionedThroughputInMibps = "ProvisionedThroughputInMibps"
-            case fileSystemId = "FileSystemId"
-            case throughputMode = "ThroughputMode"
-        }
-    }
-
-    public struct DescribeTagsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
-            AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .integer)
-        ]
-        /// (Optional) Opaque pagination token returned from a previous DescribeTags operation (String). If present, it specifies to continue the list from where the previous call left off.
-        public let marker: String?
-        /// ID of the file system whose tag set you want to retrieve.
-        public let fileSystemId: String
-        /// (Optional) Maximum number of file system tags to return in the response. It must be an integer with a value greater than zero.
-        public let maxItems: Int32?
-
-        public init(marker: String? = nil, fileSystemId: String, maxItems: Int32? = nil) {
-            self.marker = marker
-            self.fileSystemId = fileSystemId
-            self.maxItems = maxItems
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case fileSystemId = "FileSystemId"
-            case maxItems = "MaxItems"
+            case mountTargetId = "MountTargetId"
         }
     }
 

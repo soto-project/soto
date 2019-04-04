@@ -5,188 +5,6 @@ import AWSSDKSwiftCore
 
 extension DAX {
 
-    public struct DeleteParameterGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ParameterGroupName", required: true, type: .string)
-        ]
-        /// The name of the parameter group to delete.
-        public let parameterGroupName: String
-
-        public init(parameterGroupName: String) {
-            self.parameterGroupName = parameterGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case parameterGroupName = "ParameterGroupName"
-        }
-    }
-
-    public struct Node: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ParameterGroupStatus", required: false, type: .string), 
-            AWSShapeMember(label: "NodeStatus", required: false, type: .string), 
-            AWSShapeMember(label: "NodeCreateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Endpoint", required: false, type: .structure), 
-            AWSShapeMember(label: "NodeId", required: false, type: .string), 
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string)
-        ]
-        /// The status of the parameter group associated with this node. For example, in-sync.
-        public let parameterGroupStatus: String?
-        /// The current status of the node. For example: available.
-        public let nodeStatus: String?
-        /// The date and time (in UNIX epoch format) when the node was launched.
-        public let nodeCreateTime: TimeStamp?
-        /// The endpoint for the node, consisting of a DNS name and a port number. Client applications can connect directly to a node endpoint, if desired (as an alternative to allowing DAX client software to intelligently route requests and responses to nodes in the DAX cluster.
-        public let endpoint: Endpoint?
-        /// A system-generated identifier for the node.
-        public let nodeId: String?
-        /// The Availability Zone (AZ) in which the node has been deployed.
-        public let availabilityZone: String?
-
-        public init(parameterGroupStatus: String? = nil, nodeStatus: String? = nil, nodeCreateTime: TimeStamp? = nil, endpoint: Endpoint? = nil, nodeId: String? = nil, availabilityZone: String? = nil) {
-            self.parameterGroupStatus = parameterGroupStatus
-            self.nodeStatus = nodeStatus
-            self.nodeCreateTime = nodeCreateTime
-            self.endpoint = endpoint
-            self.nodeId = nodeId
-            self.availabilityZone = availabilityZone
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case parameterGroupStatus = "ParameterGroupStatus"
-            case nodeStatus = "NodeStatus"
-            case nodeCreateTime = "NodeCreateTime"
-            case endpoint = "Endpoint"
-            case nodeId = "NodeId"
-            case availabilityZone = "AvailabilityZone"
-        }
-    }
-
-    public struct SecurityGroupMembership: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecurityGroupIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string)
-        ]
-        /// The unique ID for this security group.
-        public let securityGroupIdentifier: String?
-        /// The status of this security group.
-        public let status: String?
-
-        public init(securityGroupIdentifier: String? = nil, status: String? = nil) {
-            self.securityGroupIdentifier = securityGroupIdentifier
-            self.status = status
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case securityGroupIdentifier = "SecurityGroupIdentifier"
-            case status = "Status"
-        }
-    }
-
-    public struct DescribeSubnetGroupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "SubnetGroupNames", required: false, type: .list)
-        ]
-        /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
-        public let nextToken: String?
-        /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. The value for MaxResults must be between 20 and 100.
-        public let maxResults: Int32?
-        /// The name of the subnet group.
-        public let subnetGroupNames: [String]?
-
-        public init(nextToken: String? = nil, maxResults: Int32? = nil, subnetGroupNames: [String]? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.subnetGroupNames = subnetGroupNames
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case maxResults = "MaxResults"
-            case subnetGroupNames = "SubnetGroupNames"
-        }
-    }
-
-    public struct DeleteParameterGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeletionMessage", required: false, type: .string)
-        ]
-        /// A user-specified message for this action (i.e., a reason for deleting the parameter group).
-        public let deletionMessage: String?
-
-        public init(deletionMessage: String? = nil) {
-            self.deletionMessage = deletionMessage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deletionMessage = "DeletionMessage"
-        }
-    }
-
-    public struct DescribeParameterGroupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "ParameterGroupNames", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. The value for MaxResults must be between 20 and 100.
-        public let maxResults: Int32?
-        /// The names of the parameter groups.
-        public let parameterGroupNames: [String]?
-        /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
-        public let nextToken: String?
-
-        public init(maxResults: Int32? = nil, parameterGroupNames: [String]? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.parameterGroupNames = parameterGroupNames
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case parameterGroupNames = "ParameterGroupNames"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public enum SSEStatus: String, CustomStringConvertible, Codable {
-        case enabling = "ENABLING"
-        case enabled = "ENABLED"
-        case disabling = "DISABLING"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ParameterNameValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ParameterName", required: false, type: .string), 
-            AWSShapeMember(label: "ParameterValue", required: false, type: .string)
-        ]
-        /// The name of the parameter.
-        public let parameterName: String?
-        /// The value of the parameter.
-        public let parameterValue: String?
-
-        public init(parameterName: String? = nil, parameterValue: String? = nil) {
-            self.parameterName = parameterName
-            self.parameterValue = parameterValue
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case parameterName = "ParameterName"
-            case parameterValue = "ParameterValue"
-        }
-    }
-
-    public enum IsModifiable: String, CustomStringConvertible, Codable {
-        case `true` = "TRUE"
-        case `false` = "FALSE"
-        case conditional = "CONDITIONAL"
-        public var description: String { return self.rawValue }
-    }
-
     public struct UpdateParameterGroupResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ParameterGroup", required: false, type: .structure)
@@ -203,513 +21,169 @@ extension DAX {
         }
     }
 
-    public struct UpdateSubnetGroupRequest: AWSShape {
+    public struct DescribeSubnetGroupsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubnetGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetIds", required: false, type: .list)
+            AWSShapeMember(label: "SubnetGroupNames", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The name of the subnet group.
-        public let subnetGroupName: String
-        /// A description of the subnet group.
-        public let description: String?
-        /// A list of subnet IDs in the subnet group.
-        public let subnetIds: [String]?
-
-        public init(subnetGroupName: String, description: String? = nil, subnetIds: [String]? = nil) {
-            self.subnetGroupName = subnetGroupName
-            self.description = description
-            self.subnetIds = subnetIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case subnetGroupName = "SubnetGroupName"
-            case description = "Description"
-            case subnetIds = "SubnetIds"
-        }
-    }
-
-    public struct DeleteClusterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterName", required: true, type: .string)
-        ]
-        /// The name of the cluster to be deleted.
-        public let clusterName: String
-
-        public init(clusterName: String) {
-            self.clusterName = clusterName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case clusterName = "ClusterName"
-        }
-    }
-
-    public struct SSEDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: false, type: .enum)
-        ]
-        /// The current state of server-side encryption:    ENABLING - Server-side encryption is being enabled.    ENABLED - Server-side encryption is enabled.    DISABLING - Server-side encryption is being disabled.    DISABLED - Server-side encryption is disabled.  
-        public let status: SSEStatus?
-
-        public init(status: SSEStatus? = nil) {
-            self.status = status
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "Status"
-        }
-    }
-
-    public struct DescribeClustersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Clusters", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The descriptions of your DAX clusters, in response to a DescribeClusters request.
-        public let clusters: [Cluster]?
-        /// Provides an identifier to allow retrieval of paginated results.
-        public let nextToken: String?
-
-        public init(clusters: [Cluster]? = nil, nextToken: String? = nil) {
-            self.clusters = clusters
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case clusters = "Clusters"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct Cluster: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "ClusterArn", required: false, type: .string), 
-            AWSShapeMember(label: "TotalNodes", required: false, type: .integer), 
-            AWSShapeMember(label: "ClusterDiscoveryEndpoint", required: false, type: .structure), 
-            AWSShapeMember(label: "SubnetGroup", required: false, type: .string), 
-            AWSShapeMember(label: "NotificationConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "NodeIdsToRemove", required: false, type: .list), 
-            AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
-            AWSShapeMember(label: "NodeType", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "ParameterGroup", required: false, type: .structure), 
-            AWSShapeMember(label: "IamRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "ClusterName", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "ActiveNodes", required: false, type: .integer), 
-            AWSShapeMember(label: "Nodes", required: false, type: .list), 
-            AWSShapeMember(label: "SSEDescription", required: false, type: .structure)
-        ]
-        /// A range of time when maintenance of DAX cluster software will be performed. For example: sun:01:00-sun:09:00. Cluster maintenance normally takes less than 30 minutes, and is performed automatically within the maintenance window.
-        public let preferredMaintenanceWindow: String?
-        /// The Amazon Resource Name (ARN) that uniquely identifies the cluster. 
-        public let clusterArn: String?
-        /// The total number of nodes in the cluster.
-        public let totalNodes: Int32?
-        /// The configuration endpoint for this DAX cluster, consisting of a DNS name and a port number. Client applications can specify this endpoint, rather than an individual node endpoint, and allow the DAX client software to intelligently route requests and responses to nodes in the DAX cluster.
-        public let clusterDiscoveryEndpoint: Endpoint?
-        /// The subnet group where the DAX cluster is running.
-        public let subnetGroup: String?
-        /// Describes a notification topic and its status. Notification topics are used for publishing DAX events to subscribers using Amazon Simple Notification Service (SNS).
-        public let notificationConfiguration: NotificationConfiguration?
-        /// A list of nodes to be removed from the cluster.
-        public let nodeIdsToRemove: [String]?
-        /// A list of security groups, and the status of each, for the nodes in the cluster.
-        public let securityGroups: [SecurityGroupMembership]?
-        /// The node type for the nodes in the cluster. (All nodes in a DAX cluster are of the same type.)
-        public let nodeType: String?
-        /// The description of the cluster.
-        public let description: String?
-        /// The parameter group being used by nodes in the cluster.
-        public let parameterGroup: ParameterGroupStatus?
-        /// A valid Amazon Resource Name (ARN) that identifies an IAM role. At runtime, DAX will assume this role and use the role's permissions to access DynamoDB on your behalf.
-        public let iamRoleArn: String?
-        /// The name of the DAX cluster.
-        public let clusterName: String?
-        /// The current status of the cluster.
-        public let status: String?
-        /// The number of nodes in the cluster that are active (i.e., capable of serving requests).
-        public let activeNodes: Int32?
-        /// A list of nodes that are currently in the cluster.
-        public let nodes: [Node]?
-        /// The description of the server-side encryption status on the specified DAX cluster.
-        public let sSEDescription: SSEDescription?
-
-        public init(preferredMaintenanceWindow: String? = nil, clusterArn: String? = nil, totalNodes: Int32? = nil, clusterDiscoveryEndpoint: Endpoint? = nil, subnetGroup: String? = nil, notificationConfiguration: NotificationConfiguration? = nil, nodeIdsToRemove: [String]? = nil, securityGroups: [SecurityGroupMembership]? = nil, nodeType: String? = nil, description: String? = nil, parameterGroup: ParameterGroupStatus? = nil, iamRoleArn: String? = nil, clusterName: String? = nil, status: String? = nil, activeNodes: Int32? = nil, nodes: [Node]? = nil, sSEDescription: SSEDescription? = nil) {
-            self.preferredMaintenanceWindow = preferredMaintenanceWindow
-            self.clusterArn = clusterArn
-            self.totalNodes = totalNodes
-            self.clusterDiscoveryEndpoint = clusterDiscoveryEndpoint
-            self.subnetGroup = subnetGroup
-            self.notificationConfiguration = notificationConfiguration
-            self.nodeIdsToRemove = nodeIdsToRemove
-            self.securityGroups = securityGroups
-            self.nodeType = nodeType
-            self.description = description
-            self.parameterGroup = parameterGroup
-            self.iamRoleArn = iamRoleArn
-            self.clusterName = clusterName
-            self.status = status
-            self.activeNodes = activeNodes
-            self.nodes = nodes
-            self.sSEDescription = sSEDescription
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
-            case clusterArn = "ClusterArn"
-            case totalNodes = "TotalNodes"
-            case clusterDiscoveryEndpoint = "ClusterDiscoveryEndpoint"
-            case subnetGroup = "SubnetGroup"
-            case notificationConfiguration = "NotificationConfiguration"
-            case nodeIdsToRemove = "NodeIdsToRemove"
-            case securityGroups = "SecurityGroups"
-            case nodeType = "NodeType"
-            case description = "Description"
-            case parameterGroup = "ParameterGroup"
-            case iamRoleArn = "IamRoleArn"
-            case clusterName = "ClusterName"
-            case status = "Status"
-            case activeNodes = "ActiveNodes"
-            case nodes = "Nodes"
-            case sSEDescription = "SSEDescription"
-        }
-    }
-
-    public struct Endpoint: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Address", required: false, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer)
-        ]
-        /// The DNS hostname of the endpoint.
-        public let address: String?
-        /// The port number that applications should use to connect to the endpoint.
-        public let port: Int32?
-
-        public init(address: String? = nil, port: Int32? = nil) {
-            self.address = address
-            self.port = port
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case address = "Address"
-            case port = "Port"
-        }
-    }
-
-    public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "Key", required: false, type: .string)
-        ]
-        /// The value of the tag. Tag values are case-sensitive and can be null. 
-        public let value: String?
-        /// The key for the tag. Tag keys are case sensitive. Every DAX cluster can only have one tag with the same key. If you try to add an existing tag (same key), the existing tag value will be updated to the new value.
-        public let key: String?
-
-        public init(value: String? = nil, key: String? = nil) {
-            self.value = value
-            self.key = key
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case key = "Key"
-        }
-    }
-
-    public struct CreateClusterResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Cluster", required: false, type: .structure)
-        ]
-        /// A description of the DAX cluster that you have created.
-        public let cluster: Cluster?
-
-        public init(cluster: Cluster? = nil) {
-            self.cluster = cluster
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cluster = "Cluster"
-        }
-    }
-
-    public struct DescribeClustersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterNames", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The names of the DAX clusters being described.
-        public let clusterNames: [String]?
-        /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. The value for MaxResults must be between 20 and 100.
-        public let maxResults: Int32?
+        public let subnetGroupNames: [String]?
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
         public let nextToken: String?
+        /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. The value for MaxResults must be between 20 and 100.
+        public let maxResults: Int32?
 
-        public init(clusterNames: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.clusterNames = clusterNames
+        public init(subnetGroupNames: [String]? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.subnetGroupNames = subnetGroupNames
+            self.nextToken = nextToken
             self.maxResults = maxResults
-            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterNames = "ClusterNames"
+            case subnetGroupNames = "SubnetGroupNames"
+            case nextToken = "NextToken"
             case maxResults = "MaxResults"
-            case nextToken = "NextToken"
         }
     }
 
-    public struct SubnetGroup: AWSShape {
+    public struct CreateParameterGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VpcId", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Subnets", required: false, type: .list)
+            AWSShapeMember(label: "ParameterGroupName", required: true, type: .string)
         ]
-        /// The Amazon Virtual Private Cloud identifier (VPC ID) of the subnet group.
-        public let vpcId: String?
-        /// The description of the subnet group.
-        public let description: String?
-        /// The name of the subnet group.
-        public let subnetGroupName: String?
-        /// A list of subnets associated with the subnet group. 
-        public let subnets: [Subnet]?
-
-        public init(vpcId: String? = nil, description: String? = nil, subnetGroupName: String? = nil, subnets: [Subnet]? = nil) {
-            self.vpcId = vpcId
-            self.description = description
-            self.subnetGroupName = subnetGroupName
-            self.subnets = subnets
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case vpcId = "VpcId"
-            case description = "Description"
-            case subnetGroupName = "SubnetGroupName"
-            case subnets = "Subnets"
-        }
-    }
-
-    public struct DecreaseReplicationFactorRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
-            AWSShapeMember(label: "NewReplicationFactor", required: true, type: .integer), 
-            AWSShapeMember(label: "NodeIdsToRemove", required: false, type: .list), 
-            AWSShapeMember(label: "ClusterName", required: true, type: .string)
-        ]
-        /// The Availability Zone(s) from which to remove nodes.
-        public let availabilityZones: [String]?
-        /// The new number of nodes for the DAX cluster.
-        public let newReplicationFactor: Int32
-        /// The unique identifiers of the nodes to be removed from the cluster.
-        public let nodeIdsToRemove: [String]?
-        /// The name of the DAX cluster from which you want to remove nodes.
-        public let clusterName: String
-
-        public init(availabilityZones: [String]? = nil, newReplicationFactor: Int32, nodeIdsToRemove: [String]? = nil, clusterName: String) {
-            self.availabilityZones = availabilityZones
-            self.newReplicationFactor = newReplicationFactor
-            self.nodeIdsToRemove = nodeIdsToRemove
-            self.clusterName = clusterName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case availabilityZones = "AvailabilityZones"
-            case newReplicationFactor = "NewReplicationFactor"
-            case nodeIdsToRemove = "NodeIdsToRemove"
-            case clusterName = "ClusterName"
-        }
-    }
-
-    public struct CreateSubnetGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubnetGroup", required: false, type: .structure)
-        ]
-        /// Represents the output of a CreateSubnetGroup operation.
-        public let subnetGroup: SubnetGroup?
-
-        public init(subnetGroup: SubnetGroup? = nil) {
-            self.subnetGroup = subnetGroup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case subnetGroup = "SubnetGroup"
-        }
-    }
-
-    public struct CreateSubnetGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubnetGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetIds", required: true, type: .list)
-        ]
-        /// A name for the subnet group. This value is stored as a lowercase string. 
-        public let subnetGroupName: String
-        /// A description for the subnet group
-        public let description: String?
-        /// A list of VPC subnet IDs for the subnet group.
-        public let subnetIds: [String]
-
-        public init(subnetGroupName: String, description: String? = nil, subnetIds: [String]) {
-            self.subnetGroupName = subnetGroupName
-            self.description = description
-            self.subnetIds = subnetIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case subnetGroupName = "SubnetGroupName"
-            case description = "Description"
-            case subnetIds = "SubnetIds"
-        }
-    }
-
-    public struct DescribeSubnetGroupsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubnetGroups", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// An array of subnet groups. Each element in the array represents a single subnet group.
-        public let subnetGroups: [SubnetGroup]?
-        /// Provides an identifier to allow retrieval of paginated results.
-        public let nextToken: String?
-
-        public init(subnetGroups: [SubnetGroup]? = nil, nextToken: String? = nil) {
-            self.subnetGroups = subnetGroups
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case subnetGroups = "SubnetGroups"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct Subnet: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubnetAvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetIdentifier", required: false, type: .string)
-        ]
-        /// The Availability Zone (AZ) for subnet subnet.
-        public let subnetAvailabilityZone: String?
-        /// The system-assigned identifier for the subnet.
-        public let subnetIdentifier: String?
-
-        public init(subnetAvailabilityZone: String? = nil, subnetIdentifier: String? = nil) {
-            self.subnetAvailabilityZone = subnetAvailabilityZone
-            self.subnetIdentifier = subnetIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case subnetAvailabilityZone = "SubnetAvailabilityZone"
-            case subnetIdentifier = "SubnetIdentifier"
-        }
-    }
-
-    public struct Event: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "SourceName", required: false, type: .string), 
-            AWSShapeMember(label: "SourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "Date", required: false, type: .timestamp)
-        ]
-        /// A user-defined message associated with the event.
-        public let message: String?
-        /// The source of the event. For example, if the event occurred at the node level, the source would be the node ID.
-        public let sourceName: String?
-        /// Specifies the origin of this event - a cluster, a parameter group, a node ID, etc.
-        public let sourceType: SourceType?
-        /// The date and time when the event occurred.
-        public let date: TimeStamp?
-
-        public init(message: String? = nil, sourceName: String? = nil, sourceType: SourceType? = nil, date: TimeStamp? = nil) {
-            self.message = message
-            self.sourceName = sourceName
-            self.sourceType = sourceType
-            self.date = date
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "Message"
-            case sourceName = "SourceName"
-            case sourceType = "SourceType"
-            case date = "Date"
-        }
-    }
-
-    public struct DeleteSubnetGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubnetGroupName", required: true, type: .string)
-        ]
-        /// The name of the subnet group to delete.
-        public let subnetGroupName: String
-
-        public init(subnetGroupName: String) {
-            self.subnetGroupName = subnetGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case subnetGroupName = "SubnetGroupName"
-        }
-    }
-
-    public struct ParameterGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
-        ]
-        /// The name of the parameter group.
-        public let parameterGroupName: String?
         /// A description of the parameter group.
         public let description: String?
+        /// The name of the parameter group to apply to all of the clusters in this replication group.
+        public let parameterGroupName: String
 
-        public init(parameterGroupName: String? = nil, description: String? = nil) {
-            self.parameterGroupName = parameterGroupName
+        public init(description: String? = nil, parameterGroupName: String) {
             self.description = description
+            self.parameterGroupName = parameterGroupName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case parameterGroupName = "ParameterGroupName"
             case description = "Description"
+            case parameterGroupName = "ParameterGroupName"
         }
     }
 
-    public struct DescribeParametersResponse: AWSShape {
+    public struct DescribeEventsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Parameters", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Events", required: false, type: .list)
         ]
-        /// A list of parameters within a parameter group. Each element in the list represents one parameter.
-        public let parameters: [Parameter]?
         /// Provides an identifier to allow retrieval of paginated results.
         public let nextToken: String?
+        /// An array of events. Each element in the array represents one event.
+        public let events: [Event]?
 
-        public init(parameters: [Parameter]? = nil, nextToken: String? = nil) {
-            self.parameters = parameters
+        public init(nextToken: String? = nil, events: [Event]? = nil) {
             self.nextToken = nextToken
+            self.events = events
         }
 
         private enum CodingKeys: String, CodingKey {
-            case parameters = "Parameters"
             case nextToken = "NextToken"
+            case events = "Events"
         }
     }
 
-    public struct DecreaseReplicationFactorResponse: AWSShape {
+    public struct UntagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Cluster", required: false, type: .structure)
+            AWSShapeMember(label: "ResourceName", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
-        /// A description of the DAX cluster, after you have decreased its replication factor.
-        public let cluster: Cluster?
+        /// The name of the DAX resource from which the tags should be removed.
+        public let resourceName: String
+        /// A list of tag keys. If the DAX cluster has any tags with these keys, then the tags are removed from the cluster.
+        public let tagKeys: [String]
 
-        public init(cluster: Cluster? = nil) {
-            self.cluster = cluster
+        public init(resourceName: String, tagKeys: [String]) {
+            self.resourceName = resourceName
+            self.tagKeys = tagKeys
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster = "Cluster"
+            case resourceName = "ResourceName"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct DeleteSubnetGroupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeletionMessage", required: false, type: .string)
+        ]
+        /// A user-specified message for this action (i.e., a reason for deleting the subnet group).
+        public let deletionMessage: String?
+
+        public init(deletionMessage: String? = nil) {
+            self.deletionMessage = deletionMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deletionMessage = "DeletionMessage"
+        }
+    }
+
+    public struct Parameter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataType", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "ChangeType", required: false, type: .enum), 
+            AWSShapeMember(label: "Source", required: false, type: .string), 
+            AWSShapeMember(label: "ParameterType", required: false, type: .enum), 
+            AWSShapeMember(label: "NodeTypeSpecificValues", required: false, type: .list), 
+            AWSShapeMember(label: "ParameterValue", required: false, type: .string), 
+            AWSShapeMember(label: "AllowedValues", required: false, type: .string), 
+            AWSShapeMember(label: "ParameterName", required: false, type: .string), 
+            AWSShapeMember(label: "IsModifiable", required: false, type: .enum)
+        ]
+        /// The data type of the parameter. For example, integer:
+        public let dataType: String?
+        /// A description of the parameter
+        public let description: String?
+        /// The conditions under which changes to this parameter can be applied. For example, requires-reboot indicates that a new value for this parameter will only take effect if a node is rebooted.
+        public let changeType: ChangeType?
+        /// How the parameter is defined. For example, system denotes a system-defined parameter.
+        public let source: String?
+        /// Determines whether the parameter can be applied to any nodes, or only nodes of a particular type.
+        public let parameterType: ParameterType?
+        /// A list of node types, and specific parameter values for each node.
+        public let nodeTypeSpecificValues: [NodeTypeSpecificValue]?
+        /// The value for the parameter.
+        public let parameterValue: String?
+        /// A range of values within which the parameter can be set.
+        public let allowedValues: String?
+        /// The name of the parameter.
+        public let parameterName: String?
+        /// Whether the customer is allowed to modify the parameter.
+        public let isModifiable: IsModifiable?
+
+        public init(dataType: String? = nil, description: String? = nil, changeType: ChangeType? = nil, source: String? = nil, parameterType: ParameterType? = nil, nodeTypeSpecificValues: [NodeTypeSpecificValue]? = nil, parameterValue: String? = nil, allowedValues: String? = nil, parameterName: String? = nil, isModifiable: IsModifiable? = nil) {
+            self.dataType = dataType
+            self.description = description
+            self.changeType = changeType
+            self.source = source
+            self.parameterType = parameterType
+            self.nodeTypeSpecificValues = nodeTypeSpecificValues
+            self.parameterValue = parameterValue
+            self.allowedValues = allowedValues
+            self.parameterName = parameterName
+            self.isModifiable = isModifiable
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataType = "DataType"
+            case description = "Description"
+            case changeType = "ChangeType"
+            case source = "Source"
+            case parameterType = "ParameterType"
+            case nodeTypeSpecificValues = "NodeTypeSpecificValues"
+            case parameterValue = "ParameterValue"
+            case allowedValues = "AllowedValues"
+            case parameterName = "ParameterName"
+            case isModifiable = "IsModifiable"
         }
     }
 
@@ -750,6 +224,27 @@ extension DAX {
         }
     }
 
+    public struct DescribeClustersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Clusters", required: false, type: .list)
+        ]
+        /// Provides an identifier to allow retrieval of paginated results.
+        public let nextToken: String?
+        /// The descriptions of your DAX clusters, in response to a DescribeClusters request.
+        public let clusters: [Cluster]?
+
+        public init(nextToken: String? = nil, clusters: [Cluster]? = nil) {
+            self.nextToken = nextToken
+            self.clusters = clusters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case clusters = "Clusters"
+        }
+    }
+
     public struct RebootNodeResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
@@ -766,130 +261,109 @@ extension DAX {
         }
     }
 
-    public struct DescribeEventsRequest: AWSShape {
+    public struct UpdateClusterRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceName", required: false, type: .string), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "Duration", required: false, type: .integer), 
-            AWSShapeMember(label: "SourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp)
+            AWSShapeMember(label: "NotificationTopicStatus", required: false, type: .string), 
+            AWSShapeMember(label: "NotificationTopicArn", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
+            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterName", required: true, type: .string), 
+            AWSShapeMember(label: "ParameterGroupName", required: false, type: .string)
         ]
-        /// The identifier of the event source for which events will be returned. If not specified, then all sources are included in the response.
-        public let sourceName: String?
-        /// The beginning of the time interval to retrieve events for, specified in ISO 8601 format.
-        public let startTime: TimeStamp?
-        /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. The value for MaxResults must be between 20 and 100.
-        public let maxResults: Int32?
-        /// The number of minutes' worth of events to retrieve.
-        public let duration: Int32?
-        /// The event source to retrieve events for. If no value is specified, all events are returned.
-        public let sourceType: SourceType?
-        /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
-        public let nextToken: String?
-        /// The end of the time interval for which to retrieve events, specified in ISO 8601 format.
-        public let endTime: TimeStamp?
+        /// The current state of the topic.
+        public let notificationTopicStatus: String?
+        /// The Amazon Resource Name (ARN) that identifies the topic.
+        public let notificationTopicArn: String?
+        /// A description of the changes being made to the cluster.
+        public let description: String?
+        /// A list of user-specified security group IDs to be assigned to each node in the DAX cluster. If this parameter is not specified, DAX assigns the default VPC security group to each node.
+        public let securityGroupIds: [String]?
+        /// A range of time when maintenance of DAX cluster software will be performed. For example: sun:01:00-sun:09:00. Cluster maintenance normally takes less than 30 minutes, and is performed automatically within the maintenance window.
+        public let preferredMaintenanceWindow: String?
+        /// The name of the DAX cluster to be modified.
+        public let clusterName: String
+        /// The name of a parameter group for this cluster.
+        public let parameterGroupName: String?
 
-        public init(sourceName: String? = nil, startTime: TimeStamp? = nil, maxResults: Int32? = nil, duration: Int32? = nil, sourceType: SourceType? = nil, nextToken: String? = nil, endTime: TimeStamp? = nil) {
-            self.sourceName = sourceName
-            self.startTime = startTime
-            self.maxResults = maxResults
-            self.duration = duration
-            self.sourceType = sourceType
-            self.nextToken = nextToken
-            self.endTime = endTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sourceName = "SourceName"
-            case startTime = "StartTime"
-            case maxResults = "MaxResults"
-            case duration = "Duration"
-            case sourceType = "SourceType"
-            case nextToken = "NextToken"
-            case endTime = "EndTime"
-        }
-    }
-
-    public struct ListTagsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceName", required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The name of the DAX resource to which the tags belong.
-        public let resourceName: String
-        /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token.
-        public let nextToken: String?
-
-        public init(resourceName: String, nextToken: String? = nil) {
-            self.resourceName = resourceName
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceName = "ResourceName"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DescribeParametersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Source", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "ParameterGroupName", required: true, type: .string)
-        ]
-        /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
-        public let nextToken: String?
-        /// How the parameter is defined. For example, system denotes a system-defined parameter.
-        public let source: String?
-        /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. The value for MaxResults must be between 20 and 100.
-        public let maxResults: Int32?
-        /// The name of the parameter group.
-        public let parameterGroupName: String
-
-        public init(nextToken: String? = nil, source: String? = nil, maxResults: Int32? = nil, parameterGroupName: String) {
-            self.nextToken = nextToken
-            self.source = source
-            self.maxResults = maxResults
+        public init(notificationTopicStatus: String? = nil, notificationTopicArn: String? = nil, description: String? = nil, securityGroupIds: [String]? = nil, preferredMaintenanceWindow: String? = nil, clusterName: String, parameterGroupName: String? = nil) {
+            self.notificationTopicStatus = notificationTopicStatus
+            self.notificationTopicArn = notificationTopicArn
+            self.description = description
+            self.securityGroupIds = securityGroupIds
+            self.preferredMaintenanceWindow = preferredMaintenanceWindow
+            self.clusterName = clusterName
             self.parameterGroupName = parameterGroupName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case source = "Source"
-            case maxResults = "MaxResults"
+            case notificationTopicStatus = "NotificationTopicStatus"
+            case notificationTopicArn = "NotificationTopicArn"
+            case description = "Description"
+            case securityGroupIds = "SecurityGroupIds"
+            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case clusterName = "ClusterName"
             case parameterGroupName = "ParameterGroupName"
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct Event: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: true, type: .list), 
-            AWSShapeMember(label: "ResourceName", required: true, type: .string)
+            AWSShapeMember(label: "SourceName", required: false, type: .string), 
+            AWSShapeMember(label: "SourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "Date", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Message", required: false, type: .string)
         ]
-        /// The tags to be assigned to the DAX resource. 
-        public let tags: [Tag]
-        /// The name of the DAX resource to which tags should be added.
-        public let resourceName: String
+        /// The source of the event. For example, if the event occurred at the node level, the source would be the node ID.
+        public let sourceName: String?
+        /// Specifies the origin of this event - a cluster, a parameter group, a node ID, etc.
+        public let sourceType: SourceType?
+        /// The date and time when the event occurred.
+        public let date: TimeStamp?
+        /// A user-defined message associated with the event.
+        public let message: String?
 
-        public init(tags: [Tag], resourceName: String) {
-            self.tags = tags
-            self.resourceName = resourceName
+        public init(sourceName: String? = nil, sourceType: SourceType? = nil, date: TimeStamp? = nil, message: String? = nil) {
+            self.sourceName = sourceName
+            self.sourceType = sourceType
+            self.date = date
+            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-            case resourceName = "ResourceName"
+            case sourceName = "SourceName"
+            case sourceType = "SourceType"
+            case date = "Date"
+            case message = "Message"
         }
     }
 
-    public struct UpdateSubnetGroupResponse: AWSShape {
+    public struct RebootNodeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NodeId", required: true, type: .string), 
+            AWSShapeMember(label: "ClusterName", required: true, type: .string)
+        ]
+        /// The system-assigned ID of the node to be rebooted.
+        public let nodeId: String
+        /// The name of the DAX cluster containing the node to be rebooted.
+        public let clusterName: String
+
+        public init(nodeId: String, clusterName: String) {
+            self.nodeId = nodeId
+            self.clusterName = clusterName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nodeId = "NodeId"
+            case clusterName = "ClusterName"
+        }
+    }
+
+    public struct CreateSubnetGroupResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SubnetGroup", required: false, type: .structure)
         ]
-        /// The subnet group that has been modified.
+        /// Represents the output of a CreateSubnetGroup operation.
         public let subnetGroup: SubnetGroup?
 
         public init(subnetGroup: SubnetGroup? = nil) {
@@ -901,45 +375,26 @@ extension DAX {
         }
     }
 
-    public struct UpdateParameterGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ParameterGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "ParameterNameValues", required: true, type: .list)
-        ]
-        /// The name of the parameter group.
-        public let parameterGroupName: String
-        /// An array of name-value pairs for the parameters in the group. Each element in the array represents a single parameter.
-        public let parameterNameValues: [ParameterNameValue]
-
-        public init(parameterGroupName: String, parameterNameValues: [ParameterNameValue]) {
-            self.parameterGroupName = parameterGroupName
-            self.parameterNameValues = parameterNameValues
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case parameterGroupName = "ParameterGroupName"
-            case parameterNameValues = "ParameterNameValues"
-        }
+    public enum IsModifiable: String, CustomStringConvertible, Codable {
+        case `true` = "TRUE"
+        case `false` = "FALSE"
+        case conditional = "CONDITIONAL"
+        public var description: String { return self.rawValue }
     }
 
-    public struct NotificationConfiguration: AWSShape {
+    public struct IncreaseReplicationFactorResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TopicStatus", required: false, type: .string), 
-            AWSShapeMember(label: "TopicArn", required: false, type: .string)
+            AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
-        /// The current state of the topic.
-        public let topicStatus: String?
-        /// The Amazon Resource Name (ARN) that identifies the topic. 
-        public let topicArn: String?
+        /// A description of the DAX cluster. with its new replication factor.
+        public let cluster: Cluster?
 
-        public init(topicStatus: String? = nil, topicArn: String? = nil) {
-            self.topicStatus = topicStatus
-            self.topicArn = topicArn
+        public init(cluster: Cluster? = nil) {
+            self.cluster = cluster
         }
 
         private enum CodingKeys: String, CodingKey {
-            case topicStatus = "TopicStatus"
-            case topicArn = "TopicArn"
+            case cluster = "Cluster"
         }
     }
 
@@ -956,6 +411,72 @@ extension DAX {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceName", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .list)
+        ]
+        /// The name of the DAX resource to which tags should be added.
+        public let resourceName: String
+        /// The tags to be assigned to the DAX resource. 
+        public let tags: [Tag]
+
+        public init(resourceName: String, tags: [Tag]) {
+            self.resourceName = resourceName
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceName = "ResourceName"
+            case tags = "Tags"
+        }
+    }
+
+    public struct DeleteSubnetGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetGroupName", required: true, type: .string)
+        ]
+        /// The name of the subnet group to delete.
+        public let subnetGroupName: String
+
+        public init(subnetGroupName: String) {
+            self.subnetGroupName = subnetGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subnetGroupName = "SubnetGroupName"
+        }
+    }
+
+    public enum SSEStatus: String, CustomStringConvertible, Codable {
+        case enabling = "ENABLING"
+        case enabled = "ENABLED"
+        case disabling = "DISABLING"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DescribeParameterGroupsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParameterGroups", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// An array of parameter groups. Each element in the array represents one parameter group.
+        public let parameterGroups: [ParameterGroup]?
+        /// Provides an identifier to allow retrieval of paginated results.
+        public let nextToken: String?
+
+        public init(parameterGroups: [ParameterGroup]? = nil, nextToken: String? = nil) {
+            self.parameterGroups = parameterGroups
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parameterGroups = "ParameterGroups"
+            case nextToken = "NextToken"
         }
     }
 
@@ -985,56 +506,70 @@ extension DAX {
         }
     }
 
-    public struct CreateParameterGroupRequest: AWSShape {
+    public struct Tag: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ParameterGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
         ]
-        /// The name of the parameter group to apply to all of the clusters in this replication group.
-        public let parameterGroupName: String
-        /// A description of the parameter group.
-        public let description: String?
+        /// The key for the tag. Tag keys are case sensitive. Every DAX cluster can only have one tag with the same key. If you try to add an existing tag (same key), the existing tag value will be updated to the new value.
+        public let key: String?
+        /// The value of the tag. Tag values are case-sensitive and can be null. 
+        public let value: String?
 
-        public init(parameterGroupName: String, description: String? = nil) {
-            self.parameterGroupName = parameterGroupName
-            self.description = description
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
-            case parameterGroupName = "ParameterGroupName"
-            case description = "Description"
+            case key = "Key"
+            case value = "Value"
         }
     }
 
-    public struct SSESpecification: AWSShape {
+    public struct DescribeEventsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: true, type: .boolean)
+            AWSShapeMember(label: "SourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Duration", required: false, type: .integer), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SourceName", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
-        /// Indicates whether server-side encryption is enabled (true) or disabled (false) on the cluster.
-        public let enabled: Bool
+        /// The event source to retrieve events for. If no value is specified, all events are returned.
+        public let sourceType: SourceType?
+        /// The end of the time interval for which to retrieve events, specified in ISO 8601 format.
+        public let endTime: TimeStamp?
+        /// The number of minutes' worth of events to retrieve.
+        public let duration: Int32?
+        /// The beginning of the time interval to retrieve events for, specified in ISO 8601 format.
+        public let startTime: TimeStamp?
+        /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
+        public let nextToken: String?
+        /// The identifier of the event source for which events will be returned. If not specified, then all sources are included in the response.
+        public let sourceName: String?
+        /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. The value for MaxResults must be between 20 and 100.
+        public let maxResults: Int32?
 
-        public init(enabled: Bool) {
-            self.enabled = enabled
+        public init(sourceType: SourceType? = nil, endTime: TimeStamp? = nil, duration: Int32? = nil, startTime: TimeStamp? = nil, nextToken: String? = nil, sourceName: String? = nil, maxResults: Int32? = nil) {
+            self.sourceType = sourceType
+            self.endTime = endTime
+            self.duration = duration
+            self.startTime = startTime
+            self.nextToken = nextToken
+            self.sourceName = sourceName
+            self.maxResults = maxResults
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enabled = "Enabled"
-        }
-    }
-
-    public struct DeleteSubnetGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeletionMessage", required: false, type: .string)
-        ]
-        /// A user-specified message for this action (i.e., a reason for deleting the subnet group).
-        public let deletionMessage: String?
-
-        public init(deletionMessage: String? = nil) {
-            self.deletionMessage = deletionMessage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deletionMessage = "DeletionMessage"
+            case sourceType = "SourceType"
+            case endTime = "EndTime"
+            case duration = "Duration"
+            case startTime = "StartTime"
+            case nextToken = "NextToken"
+            case sourceName = "SourceName"
+            case maxResults = "MaxResults"
         }
     }
 
@@ -1044,67 +579,29 @@ extension DAX {
         public var description: String { return self.rawValue }
     }
 
-    public struct TagResourceResponse: AWSShape {
+    public struct DescribeParameterGroupsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
-        /// The list of tags that are associated with the DAX resource.
-        public let tags: [Tag]?
-
-        public init(tags: [Tag]? = nil) {
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-        }
-    }
-
-    public struct DescribeEventsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Events", required: false, type: .list), 
+            AWSShapeMember(label: "ParameterGroupNames", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// An array of events. Each element in the array represents one event.
-        public let events: [Event]?
-        /// Provides an identifier to allow retrieval of paginated results.
+        /// The names of the parameter groups.
+        public let parameterGroupNames: [String]?
+        /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. The value for MaxResults must be between 20 and 100.
+        public let maxResults: Int32?
+        /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
         public let nextToken: String?
 
-        public init(events: [Event]? = nil, nextToken: String? = nil) {
-            self.events = events
+        public init(parameterGroupNames: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.parameterGroupNames = parameterGroupNames
+            self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case events = "Events"
+            case parameterGroupNames = "ParameterGroupNames"
+            case maxResults = "MaxResults"
             case nextToken = "NextToken"
-        }
-    }
-
-    public enum ParameterType: String, CustomStringConvertible, Codable {
-        case `default` = "DEFAULT"
-        case nodeTypeSpecific = "NODE_TYPE_SPECIFIC"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagKeys", required: true, type: .list), 
-            AWSShapeMember(label: "ResourceName", required: true, type: .string)
-        ]
-        /// A list of tag keys. If the DAX cluster has any tags with these keys, then the tags are removed from the cluster.
-        public let tagKeys: [String]
-        /// The name of the DAX resource from which the tags should be removed.
-        public let resourceName: String
-
-        public init(tagKeys: [String], resourceName: String) {
-            self.tagKeys = tagKeys
-            self.resourceName = resourceName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tagKeys = "TagKeys"
-            case resourceName = "ResourceName"
         }
     }
 
@@ -1134,99 +631,184 @@ extension DAX {
         }
     }
 
-    public struct DescribeDefaultParametersRequest: AWSShape {
+    public struct SSEDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+        /// The current state of server-side encryption:    ENABLING - Server-side encryption is being enabled.    ENABLED - Server-side encryption is enabled.    DISABLING - Server-side encryption is being disabled.    DISABLED - Server-side encryption is disabled.  
+        public let status: SSEStatus?
+
+        public init(status: SSEStatus? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+        }
+    }
+
+    public struct DescribeParametersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "ParameterGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "Source", required: false, type: .string), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. The value for MaxResults must be between 20 and 100.
         public let maxResults: Int32?
+        /// The name of the parameter group.
+        public let parameterGroupName: String
+        /// How the parameter is defined. For example, system denotes a system-defined parameter.
+        public let source: String?
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int32? = nil, parameterGroupName: String, source: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
+            self.parameterGroupName = parameterGroupName
+            self.source = source
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
+            case parameterGroupName = "ParameterGroupName"
+            case source = "Source"
             case nextToken = "NextToken"
         }
     }
 
-    public struct UpdateClusterRequest: AWSShape {
+    public struct DeleteClusterRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NotificationTopicArn", required: false, type: .string), 
-            AWSShapeMember(label: "NotificationTopicStatus", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
-            AWSShapeMember(label: "ClusterName", required: true, type: .string), 
-            AWSShapeMember(label: "ParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) that identifies the topic.
-        public let notificationTopicArn: String?
-        /// The current state of the topic.
-        public let notificationTopicStatus: String?
-        /// A list of user-specified security group IDs to be assigned to each node in the DAX cluster. If this parameter is not specified, DAX assigns the default VPC security group to each node.
-        public let securityGroupIds: [String]?
-        /// The name of the DAX cluster to be modified.
-        public let clusterName: String
-        /// The name of a parameter group for this cluster.
-        public let parameterGroupName: String?
-        /// A description of the changes being made to the cluster.
-        public let description: String?
-        /// A range of time when maintenance of DAX cluster software will be performed. For example: sun:01:00-sun:09:00. Cluster maintenance normally takes less than 30 minutes, and is performed automatically within the maintenance window.
-        public let preferredMaintenanceWindow: String?
-
-        public init(notificationTopicArn: String? = nil, notificationTopicStatus: String? = nil, securityGroupIds: [String]? = nil, clusterName: String, parameterGroupName: String? = nil, description: String? = nil, preferredMaintenanceWindow: String? = nil) {
-            self.notificationTopicArn = notificationTopicArn
-            self.notificationTopicStatus = notificationTopicStatus
-            self.securityGroupIds = securityGroupIds
-            self.clusterName = clusterName
-            self.parameterGroupName = parameterGroupName
-            self.description = description
-            self.preferredMaintenanceWindow = preferredMaintenanceWindow
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case notificationTopicArn = "NotificationTopicArn"
-            case notificationTopicStatus = "NotificationTopicStatus"
-            case securityGroupIds = "SecurityGroupIds"
-            case clusterName = "ClusterName"
-            case parameterGroupName = "ParameterGroupName"
-            case description = "Description"
-            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
-        }
-    }
-
-    public struct RebootNodeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NodeId", required: true, type: .string), 
             AWSShapeMember(label: "ClusterName", required: true, type: .string)
         ]
-        /// The system-assigned ID of the node to be rebooted.
-        public let nodeId: String
-        /// The name of the DAX cluster containing the node to be rebooted.
+        /// The name of the cluster to be deleted.
         public let clusterName: String
 
-        public init(nodeId: String, clusterName: String) {
-            self.nodeId = nodeId
+        public init(clusterName: String) {
             self.clusterName = clusterName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nodeId = "NodeId"
             case clusterName = "ClusterName"
         }
     }
 
-    public struct IncreaseReplicationFactorResponse: AWSShape {
+    public struct DeleteClusterResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
-        /// A description of the DAX cluster. with its new replication factor.
+        /// A description of the DAX cluster that is being deleted.
+        public let cluster: Cluster?
+
+        public init(cluster: Cluster? = nil) {
+            self.cluster = cluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "Cluster"
+        }
+    }
+
+    public struct Node: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Endpoint", required: false, type: .structure), 
+            AWSShapeMember(label: "NodeId", required: false, type: .string), 
+            AWSShapeMember(label: "NodeStatus", required: false, type: .string), 
+            AWSShapeMember(label: "NodeCreateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ParameterGroupStatus", required: false, type: .string), 
+            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string)
+        ]
+        /// The endpoint for the node, consisting of a DNS name and a port number. Client applications can connect directly to a node endpoint, if desired (as an alternative to allowing DAX client software to intelligently route requests and responses to nodes in the DAX cluster.
+        public let endpoint: Endpoint?
+        /// A system-generated identifier for the node.
+        public let nodeId: String?
+        /// The current status of the node. For example: available.
+        public let nodeStatus: String?
+        /// The date and time (in UNIX epoch format) when the node was launched.
+        public let nodeCreateTime: TimeStamp?
+        /// The status of the parameter group associated with this node. For example, in-sync.
+        public let parameterGroupStatus: String?
+        /// The Availability Zone (AZ) in which the node has been deployed.
+        public let availabilityZone: String?
+
+        public init(endpoint: Endpoint? = nil, nodeId: String? = nil, nodeStatus: String? = nil, nodeCreateTime: TimeStamp? = nil, parameterGroupStatus: String? = nil, availabilityZone: String? = nil) {
+            self.endpoint = endpoint
+            self.nodeId = nodeId
+            self.nodeStatus = nodeStatus
+            self.nodeCreateTime = nodeCreateTime
+            self.parameterGroupStatus = parameterGroupStatus
+            self.availabilityZone = availabilityZone
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpoint = "Endpoint"
+            case nodeId = "NodeId"
+            case nodeStatus = "NodeStatus"
+            case nodeCreateTime = "NodeCreateTime"
+            case parameterGroupStatus = "ParameterGroupStatus"
+            case availabilityZone = "AvailabilityZone"
+        }
+    }
+
+    public struct ListTagsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceName", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The name of the DAX resource to which the tags belong.
+        public let resourceName: String
+        /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token.
+        public let nextToken: String?
+
+        public init(resourceName: String, nextToken: String? = nil) {
+            self.resourceName = resourceName
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceName = "ResourceName"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct SSESpecification: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Enabled", required: true, type: .boolean)
+        ]
+        /// Indicates whether server-side encryption is enabled (true) or disabled (false) on the cluster.
+        public let enabled: Bool
+
+        public init(enabled: Bool) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+        }
+    }
+
+    public struct DeleteParameterGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParameterGroupName", required: true, type: .string)
+        ]
+        /// The name of the parameter group to delete.
+        public let parameterGroupName: String
+
+        public init(parameterGroupName: String) {
+            self.parameterGroupName = parameterGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parameterGroupName = "ParameterGroupName"
+        }
+    }
+
+    public struct CreateClusterResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Cluster", required: false, type: .structure)
+        ]
+        /// A description of the DAX cluster that you have created.
         public let cluster: Cluster?
 
         public init(cluster: Cluster? = nil) {
@@ -1243,22 +825,6 @@ extension DAX {
         case parameterGroup = "PARAMETER_GROUP"
         case subnetGroup = "SUBNET_GROUP"
         public var description: String { return self.rawValue }
-    }
-
-    public struct CreateParameterGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ParameterGroup", required: false, type: .structure)
-        ]
-        /// Represents the output of a CreateParameterGroup action.
-        public let parameterGroup: ParameterGroup?
-
-        public init(parameterGroup: ParameterGroup? = nil) {
-            self.parameterGroup = parameterGroup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case parameterGroup = "ParameterGroup"
-        }
     }
 
     public struct NodeTypeSpecificValue: AWSShape {
@@ -1282,64 +848,490 @@ extension DAX {
         }
     }
 
-    public struct Parameter: AWSShape {
+    public struct DescribeClustersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChangeType", required: false, type: .enum), 
-            AWSShapeMember(label: "AllowedValues", required: false, type: .string), 
-            AWSShapeMember(label: "Source", required: false, type: .string), 
-            AWSShapeMember(label: "ParameterName", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "ParameterType", required: false, type: .enum), 
-            AWSShapeMember(label: "IsModifiable", required: false, type: .enum), 
-            AWSShapeMember(label: "ParameterValue", required: false, type: .string), 
-            AWSShapeMember(label: "DataType", required: false, type: .string), 
-            AWSShapeMember(label: "NodeTypeSpecificValues", required: false, type: .list)
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "ClusterNames", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The conditions under which changes to this parameter can be applied. For example, requires-reboot indicates that a new value for this parameter will only take effect if a node is rebooted.
-        public let changeType: ChangeType?
-        /// A range of values within which the parameter can be set.
-        public let allowedValues: String?
-        /// How the parameter is defined. For example, system denotes a system-defined parameter.
-        public let source: String?
-        /// The name of the parameter.
-        public let parameterName: String?
-        /// A description of the parameter
-        public let description: String?
-        /// Determines whether the parameter can be applied to any nodes, or only nodes of a particular type.
-        public let parameterType: ParameterType?
-        /// Whether the customer is allowed to modify the parameter.
-        public let isModifiable: IsModifiable?
-        /// The value for the parameter.
-        public let parameterValue: String?
-        /// The data type of the parameter. For example, integer:
-        public let dataType: String?
-        /// A list of node types, and specific parameter values for each node.
-        public let nodeTypeSpecificValues: [NodeTypeSpecificValue]?
+        /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. The value for MaxResults must be between 20 and 100.
+        public let maxResults: Int32?
+        /// The names of the DAX clusters being described.
+        public let clusterNames: [String]?
+        /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
+        public let nextToken: String?
 
-        public init(changeType: ChangeType? = nil, allowedValues: String? = nil, source: String? = nil, parameterName: String? = nil, description: String? = nil, parameterType: ParameterType? = nil, isModifiable: IsModifiable? = nil, parameterValue: String? = nil, dataType: String? = nil, nodeTypeSpecificValues: [NodeTypeSpecificValue]? = nil) {
-            self.changeType = changeType
-            self.allowedValues = allowedValues
-            self.source = source
-            self.parameterName = parameterName
-            self.description = description
-            self.parameterType = parameterType
-            self.isModifiable = isModifiable
-            self.parameterValue = parameterValue
-            self.dataType = dataType
-            self.nodeTypeSpecificValues = nodeTypeSpecificValues
+        public init(maxResults: Int32? = nil, clusterNames: [String]? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.clusterNames = clusterNames
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case changeType = "ChangeType"
-            case allowedValues = "AllowedValues"
-            case source = "Source"
-            case parameterName = "ParameterName"
+            case maxResults = "MaxResults"
+            case clusterNames = "ClusterNames"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct SubnetGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "Subnets", required: false, type: .list), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
+        ]
+        /// The name of the subnet group.
+        public let subnetGroupName: String?
+        /// A list of subnets associated with the subnet group. 
+        public let subnets: [Subnet]?
+        /// The Amazon Virtual Private Cloud identifier (VPC ID) of the subnet group.
+        public let vpcId: String?
+        /// The description of the subnet group.
+        public let description: String?
+
+        public init(subnetGroupName: String? = nil, subnets: [Subnet]? = nil, vpcId: String? = nil, description: String? = nil) {
+            self.subnetGroupName = subnetGroupName
+            self.subnets = subnets
+            self.vpcId = vpcId
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subnetGroupName = "SubnetGroupName"
+            case subnets = "Subnets"
+            case vpcId = "VpcId"
             case description = "Description"
-            case parameterType = "ParameterType"
-            case isModifiable = "IsModifiable"
+        }
+    }
+
+    public struct ParameterGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParameterGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
+        ]
+        /// The name of the parameter group.
+        public let parameterGroupName: String?
+        /// A description of the parameter group.
+        public let description: String?
+
+        public init(parameterGroupName: String? = nil, description: String? = nil) {
+            self.parameterGroupName = parameterGroupName
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parameterGroupName = "ParameterGroupName"
+            case description = "Description"
+        }
+    }
+
+    public struct UpdateSubnetGroupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetGroup", required: false, type: .structure)
+        ]
+        /// The subnet group that has been modified.
+        public let subnetGroup: SubnetGroup?
+
+        public init(subnetGroup: SubnetGroup? = nil) {
+            self.subnetGroup = subnetGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subnetGroup = "SubnetGroup"
+        }
+    }
+
+    public enum ParameterType: String, CustomStringConvertible, Codable {
+        case `default` = "DEFAULT"
+        case nodeTypeSpecific = "NODE_TYPE_SPECIFIC"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DescribeSubnetGroupsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetGroups", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// An array of subnet groups. Each element in the array represents a single subnet group.
+        public let subnetGroups: [SubnetGroup]?
+        /// Provides an identifier to allow retrieval of paginated results.
+        public let nextToken: String?
+
+        public init(subnetGroups: [SubnetGroup]? = nil, nextToken: String? = nil) {
+            self.subnetGroups = subnetGroups
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subnetGroups = "SubnetGroups"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DeleteParameterGroupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeletionMessage", required: false, type: .string)
+        ]
+        /// A user-specified message for this action (i.e., a reason for deleting the parameter group).
+        public let deletionMessage: String?
+
+        public init(deletionMessage: String? = nil) {
+            self.deletionMessage = deletionMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deletionMessage = "DeletionMessage"
+        }
+    }
+
+    public struct ParameterNameValue: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParameterValue", required: false, type: .string), 
+            AWSShapeMember(label: "ParameterName", required: false, type: .string)
+        ]
+        /// The value of the parameter.
+        public let parameterValue: String?
+        /// The name of the parameter.
+        public let parameterName: String?
+
+        public init(parameterValue: String? = nil, parameterName: String? = nil) {
+            self.parameterValue = parameterValue
+            self.parameterName = parameterName
+        }
+
+        private enum CodingKeys: String, CodingKey {
             case parameterValue = "ParameterValue"
-            case dataType = "DataType"
-            case nodeTypeSpecificValues = "NodeTypeSpecificValues"
+            case parameterName = "ParameterName"
+        }
+    }
+
+    public struct DecreaseReplicationFactorRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
+            AWSShapeMember(label: "NodeIdsToRemove", required: false, type: .list), 
+            AWSShapeMember(label: "ClusterName", required: true, type: .string), 
+            AWSShapeMember(label: "NewReplicationFactor", required: true, type: .integer)
+        ]
+        /// The Availability Zone(s) from which to remove nodes.
+        public let availabilityZones: [String]?
+        /// The unique identifiers of the nodes to be removed from the cluster.
+        public let nodeIdsToRemove: [String]?
+        /// The name of the DAX cluster from which you want to remove nodes.
+        public let clusterName: String
+        /// The new number of nodes for the DAX cluster.
+        public let newReplicationFactor: Int32
+
+        public init(availabilityZones: [String]? = nil, nodeIdsToRemove: [String]? = nil, clusterName: String, newReplicationFactor: Int32) {
+            self.availabilityZones = availabilityZones
+            self.nodeIdsToRemove = nodeIdsToRemove
+            self.clusterName = clusterName
+            self.newReplicationFactor = newReplicationFactor
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZones = "AvailabilityZones"
+            case nodeIdsToRemove = "NodeIdsToRemove"
+            case clusterName = "ClusterName"
+            case newReplicationFactor = "NewReplicationFactor"
+        }
+    }
+
+    public struct CreateParameterGroupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParameterGroup", required: false, type: .structure)
+        ]
+        /// Represents the output of a CreateParameterGroup action.
+        public let parameterGroup: ParameterGroup?
+
+        public init(parameterGroup: ParameterGroup? = nil) {
+            self.parameterGroup = parameterGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parameterGroup = "ParameterGroup"
+        }
+    }
+
+    public struct DescribeDefaultParametersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+        ]
+        /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
+        public let nextToken: String?
+        /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. The value for MaxResults must be between 20 and 100.
+        public let maxResults: Int32?
+
+        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
+        }
+    }
+
+    public struct Endpoint: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Address", required: false, type: .string), 
+            AWSShapeMember(label: "Port", required: false, type: .integer)
+        ]
+        /// The DNS hostname of the endpoint.
+        public let address: String?
+        /// The port number that applications should use to connect to the endpoint.
+        public let port: Int32?
+
+        public init(address: String? = nil, port: Int32? = nil) {
+            self.address = address
+            self.port = port
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case address = "Address"
+            case port = "Port"
+        }
+    }
+
+    public struct UpdateSubnetGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
+            AWSShapeMember(label: "SubnetGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
+        ]
+        /// A list of subnet IDs in the subnet group.
+        public let subnetIds: [String]?
+        /// The name of the subnet group.
+        public let subnetGroupName: String
+        /// A description of the subnet group.
+        public let description: String?
+
+        public init(subnetIds: [String]? = nil, subnetGroupName: String, description: String? = nil) {
+            self.subnetIds = subnetIds
+            self.subnetGroupName = subnetGroupName
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subnetIds = "SubnetIds"
+            case subnetGroupName = "SubnetGroupName"
+            case description = "Description"
+        }
+    }
+
+    public struct CreateClusterRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
+            AWSShapeMember(label: "ClusterName", required: true, type: .string), 
+            AWSShapeMember(label: "IamRoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "NotificationTopicArn", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationFactor", required: true, type: .integer), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "NodeType", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
+            AWSShapeMember(label: "SubnetGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "SSESpecification", required: false, type: .structure), 
+            AWSShapeMember(label: "ParameterGroupName", required: false, type: .string)
+        ]
+        /// The Availability Zones (AZs) in which the cluster nodes will be created. All nodes belonging to the cluster are placed in these Availability Zones. Use this parameter if you want to distribute the nodes across multiple AZs.
+        public let availabilityZones: [String]?
+        /// The cluster identifier. This parameter is stored as a lowercase string.  Constraints:    A name must contain from 1 to 20 alphanumeric characters or hyphens.   The first character must be a letter.   A name cannot end with a hyphen or contain two consecutive hyphens.  
+        public let clusterName: String
+        /// A valid Amazon Resource Name (ARN) that identifies an IAM role. At runtime, DAX will assume this role and use the role's permissions to access DynamoDB on your behalf.
+        public let iamRoleArn: String
+        /// The Amazon Resource Name (ARN) of the Amazon SNS topic to which notifications will be sent.  The Amazon SNS topic owner must be same as the DAX cluster owner. 
+        public let notificationTopicArn: String?
+        /// The number of nodes in the DAX cluster. A replication factor of 1 will create a single-node cluster, without any read replicas. For additional fault tolerance, you can create a multiple node cluster with one or more read replicas. To do this, set ReplicationFactor to 2 or more.  AWS recommends that you have at least two read replicas per cluster. 
+        public let replicationFactor: Int32
+        /// A set of tags to associate with the DAX cluster. 
+        public let tags: [Tag]?
+        /// The compute and memory capacity of the nodes in the cluster.
+        public let nodeType: String
+        /// A description of the cluster.
+        public let description: String?
+        /// Specifies the weekly time range during which maintenance on the DAX cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:05:00-sun:09:00   If you don't specify a preferred maintenance window when you create or modify a cache cluster, DAX assigns a 60-minute maintenance window on a randomly selected day of the week. 
+        public let preferredMaintenanceWindow: String?
+        /// A list of security group IDs to be assigned to each node in the DAX cluster. (Each of the security group ID is system-generated.) If this parameter is not specified, DAX assigns the default VPC security group to each node.
+        public let securityGroupIds: [String]?
+        /// The name of the subnet group to be used for the replication group.  DAX clusters can only run in an Amazon VPC environment. All of the subnets that you specify in a subnet group must exist in the same VPC. 
+        public let subnetGroupName: String?
+        /// Represents the settings used to enable server-side encryption on the cluster.
+        public let sSESpecification: SSESpecification?
+        /// The parameter group to be associated with the DAX cluster.
+        public let parameterGroupName: String?
+
+        public init(availabilityZones: [String]? = nil, clusterName: String, iamRoleArn: String, notificationTopicArn: String? = nil, replicationFactor: Int32, tags: [Tag]? = nil, nodeType: String, description: String? = nil, preferredMaintenanceWindow: String? = nil, securityGroupIds: [String]? = nil, subnetGroupName: String? = nil, sSESpecification: SSESpecification? = nil, parameterGroupName: String? = nil) {
+            self.availabilityZones = availabilityZones
+            self.clusterName = clusterName
+            self.iamRoleArn = iamRoleArn
+            self.notificationTopicArn = notificationTopicArn
+            self.replicationFactor = replicationFactor
+            self.tags = tags
+            self.nodeType = nodeType
+            self.description = description
+            self.preferredMaintenanceWindow = preferredMaintenanceWindow
+            self.securityGroupIds = securityGroupIds
+            self.subnetGroupName = subnetGroupName
+            self.sSESpecification = sSESpecification
+            self.parameterGroupName = parameterGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZones = "AvailabilityZones"
+            case clusterName = "ClusterName"
+            case iamRoleArn = "IamRoleArn"
+            case notificationTopicArn = "NotificationTopicArn"
+            case replicationFactor = "ReplicationFactor"
+            case tags = "Tags"
+            case nodeType = "NodeType"
+            case description = "Description"
+            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case securityGroupIds = "SecurityGroupIds"
+            case subnetGroupName = "SubnetGroupName"
+            case sSESpecification = "SSESpecification"
+            case parameterGroupName = "ParameterGroupName"
+        }
+    }
+
+    public struct SecurityGroupMembership: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SecurityGroupIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .string)
+        ]
+        /// The unique ID for this security group.
+        public let securityGroupIdentifier: String?
+        /// The status of this security group.
+        public let status: String?
+
+        public init(securityGroupIdentifier: String? = nil, status: String? = nil) {
+            self.securityGroupIdentifier = securityGroupIdentifier
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityGroupIdentifier = "SecurityGroupIdentifier"
+            case status = "Status"
+        }
+    }
+
+    public struct Cluster: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParameterGroup", required: false, type: .structure), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "SSEDescription", required: false, type: .structure), 
+            AWSShapeMember(label: "NodeIdsToRemove", required: false, type: .list), 
+            AWSShapeMember(label: "ClusterArn", required: false, type: .string), 
+            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterName", required: false, type: .string), 
+            AWSShapeMember(label: "IamRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "SubnetGroup", required: false, type: .string), 
+            AWSShapeMember(label: "Nodes", required: false, type: .list), 
+            AWSShapeMember(label: "TotalNodes", required: false, type: .integer), 
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "NotificationConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "ActiveNodes", required: false, type: .integer), 
+            AWSShapeMember(label: "NodeType", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterDiscoveryEndpoint", required: false, type: .structure)
+        ]
+        /// The parameter group being used by nodes in the cluster.
+        public let parameterGroup: ParameterGroupStatus?
+        /// The description of the cluster.
+        public let description: String?
+        /// The description of the server-side encryption status on the specified DAX cluster.
+        public let sSEDescription: SSEDescription?
+        /// A list of nodes to be removed from the cluster.
+        public let nodeIdsToRemove: [String]?
+        /// The Amazon Resource Name (ARN) that uniquely identifies the cluster. 
+        public let clusterArn: String?
+        /// A range of time when maintenance of DAX cluster software will be performed. For example: sun:01:00-sun:09:00. Cluster maintenance normally takes less than 30 minutes, and is performed automatically within the maintenance window.
+        public let preferredMaintenanceWindow: String?
+        /// The name of the DAX cluster.
+        public let clusterName: String?
+        /// A valid Amazon Resource Name (ARN) that identifies an IAM role. At runtime, DAX will assume this role and use the role's permissions to access DynamoDB on your behalf.
+        public let iamRoleArn: String?
+        /// The subnet group where the DAX cluster is running.
+        public let subnetGroup: String?
+        /// A list of nodes that are currently in the cluster.
+        public let nodes: [Node]?
+        /// The total number of nodes in the cluster.
+        public let totalNodes: Int32?
+        /// The current status of the cluster.
+        public let status: String?
+        /// A list of security groups, and the status of each, for the nodes in the cluster.
+        public let securityGroups: [SecurityGroupMembership]?
+        /// Describes a notification topic and its status. Notification topics are used for publishing DAX events to subscribers using Amazon Simple Notification Service (SNS).
+        public let notificationConfiguration: NotificationConfiguration?
+        /// The number of nodes in the cluster that are active (i.e., capable of serving requests).
+        public let activeNodes: Int32?
+        /// The node type for the nodes in the cluster. (All nodes in a DAX cluster are of the same type.)
+        public let nodeType: String?
+        /// The configuration endpoint for this DAX cluster, consisting of a DNS name and a port number. Client applications can specify this endpoint, rather than an individual node endpoint, and allow the DAX client software to intelligently route requests and responses to nodes in the DAX cluster.
+        public let clusterDiscoveryEndpoint: Endpoint?
+
+        public init(parameterGroup: ParameterGroupStatus? = nil, description: String? = nil, sSEDescription: SSEDescription? = nil, nodeIdsToRemove: [String]? = nil, clusterArn: String? = nil, preferredMaintenanceWindow: String? = nil, clusterName: String? = nil, iamRoleArn: String? = nil, subnetGroup: String? = nil, nodes: [Node]? = nil, totalNodes: Int32? = nil, status: String? = nil, securityGroups: [SecurityGroupMembership]? = nil, notificationConfiguration: NotificationConfiguration? = nil, activeNodes: Int32? = nil, nodeType: String? = nil, clusterDiscoveryEndpoint: Endpoint? = nil) {
+            self.parameterGroup = parameterGroup
+            self.description = description
+            self.sSEDescription = sSEDescription
+            self.nodeIdsToRemove = nodeIdsToRemove
+            self.clusterArn = clusterArn
+            self.preferredMaintenanceWindow = preferredMaintenanceWindow
+            self.clusterName = clusterName
+            self.iamRoleArn = iamRoleArn
+            self.subnetGroup = subnetGroup
+            self.nodes = nodes
+            self.totalNodes = totalNodes
+            self.status = status
+            self.securityGroups = securityGroups
+            self.notificationConfiguration = notificationConfiguration
+            self.activeNodes = activeNodes
+            self.nodeType = nodeType
+            self.clusterDiscoveryEndpoint = clusterDiscoveryEndpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parameterGroup = "ParameterGroup"
+            case description = "Description"
+            case sSEDescription = "SSEDescription"
+            case nodeIdsToRemove = "NodeIdsToRemove"
+            case clusterArn = "ClusterArn"
+            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case clusterName = "ClusterName"
+            case iamRoleArn = "IamRoleArn"
+            case subnetGroup = "SubnetGroup"
+            case nodes = "Nodes"
+            case totalNodes = "TotalNodes"
+            case status = "Status"
+            case securityGroups = "SecurityGroups"
+            case notificationConfiguration = "NotificationConfiguration"
+            case activeNodes = "ActiveNodes"
+            case nodeType = "NodeType"
+            case clusterDiscoveryEndpoint = "ClusterDiscoveryEndpoint"
+        }
+    }
+
+    public struct NotificationConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TopicStatus", required: false, type: .string), 
+            AWSShapeMember(label: "TopicArn", required: false, type: .string)
+        ]
+        /// The current state of the topic.
+        public let topicStatus: String?
+        /// The Amazon Resource Name (ARN) that identifies the topic. 
+        public let topicArn: String?
+
+        public init(topicStatus: String? = nil, topicArn: String? = nil) {
+            self.topicStatus = topicStatus
+            self.topicArn = topicArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case topicStatus = "TopicStatus"
+            case topicArn = "TopicArn"
         }
     }
 
@@ -1364,108 +1356,74 @@ extension DAX {
         }
     }
 
-    public struct DescribeParameterGroupsResponse: AWSShape {
+    public struct DescribeParametersResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ParameterGroups", required: false, type: .list), 
+            AWSShapeMember(label: "Parameters", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// An array of parameter groups. Each element in the array represents one parameter group.
-        public let parameterGroups: [ParameterGroup]?
+        /// A list of parameters within a parameter group. Each element in the list represents one parameter.
+        public let parameters: [Parameter]?
         /// Provides an identifier to allow retrieval of paginated results.
         public let nextToken: String?
 
-        public init(parameterGroups: [ParameterGroup]? = nil, nextToken: String? = nil) {
-            self.parameterGroups = parameterGroups
+        public init(parameters: [Parameter]? = nil, nextToken: String? = nil) {
+            self.parameters = parameters
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case parameterGroups = "ParameterGroups"
+            case parameters = "Parameters"
             case nextToken = "NextToken"
         }
     }
 
-    public struct CreateClusterRequest: AWSShape {
+    public struct UpdateParameterGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NotificationTopicArn", required: false, type: .string), 
-            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationFactor", required: true, type: .integer), 
-            AWSShapeMember(label: "SSESpecification", required: false, type: .structure), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "SubnetGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
-            AWSShapeMember(label: "NodeType", required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "IamRoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "ClusterName", required: true, type: .string), 
-            AWSShapeMember(label: "ParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list)
+            AWSShapeMember(label: "ParameterGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "ParameterNameValues", required: true, type: .list)
         ]
-        /// The Amazon Resource Name (ARN) of the Amazon SNS topic to which notifications will be sent.  The Amazon SNS topic owner must be same as the DAX cluster owner. 
-        public let notificationTopicArn: String?
-        /// Specifies the weekly time range during which maintenance on the DAX cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:05:00-sun:09:00   If you don't specify a preferred maintenance window when you create or modify a cache cluster, DAX assigns a 60-minute maintenance window on a randomly selected day of the week. 
-        public let preferredMaintenanceWindow: String?
-        /// The number of nodes in the DAX cluster. A replication factor of 1 will create a single-node cluster, without any read replicas. For additional fault tolerance, you can create a multiple node cluster with one or more read replicas. To do this, set ReplicationFactor to 2 or more.  AWS recommends that you have at least two read replicas per cluster. 
-        public let replicationFactor: Int32
-        /// Represents the settings used to enable server-side encryption on the cluster.
-        public let sSESpecification: SSESpecification?
-        /// A set of tags to associate with the DAX cluster. 
-        public let tags: [Tag]?
-        /// The name of the subnet group to be used for the replication group.  DAX clusters can only run in an Amazon VPC environment. All of the subnets that you specify in a subnet group must exist in the same VPC. 
-        public let subnetGroupName: String?
-        /// A list of security group IDs to be assigned to each node in the DAX cluster. (Each of the security group ID is system-generated.) If this parameter is not specified, DAX assigns the default VPC security group to each node.
-        public let securityGroupIds: [String]?
-        /// The compute and memory capacity of the nodes in the cluster.
-        public let nodeType: String
-        /// A description of the cluster.
-        public let description: String?
-        /// A valid Amazon Resource Name (ARN) that identifies an IAM role. At runtime, DAX will assume this role and use the role's permissions to access DynamoDB on your behalf.
-        public let iamRoleArn: String
-        /// The cluster identifier. This parameter is stored as a lowercase string.  Constraints:    A name must contain from 1 to 20 alphanumeric characters or hyphens.   The first character must be a letter.   A name cannot end with a hyphen or contain two consecutive hyphens.  
-        public let clusterName: String
-        /// The parameter group to be associated with the DAX cluster.
-        public let parameterGroupName: String?
-        /// The Availability Zones (AZs) in which the cluster nodes will be created. All nodes belonging to the cluster are placed in these Availability Zones. Use this parameter if you want to distribute the nodes across multiple AZs.
-        public let availabilityZones: [String]?
+        /// The name of the parameter group.
+        public let parameterGroupName: String
+        /// An array of name-value pairs for the parameters in the group. Each element in the array represents a single parameter.
+        public let parameterNameValues: [ParameterNameValue]
 
-        public init(notificationTopicArn: String? = nil, preferredMaintenanceWindow: String? = nil, replicationFactor: Int32, sSESpecification: SSESpecification? = nil, tags: [Tag]? = nil, subnetGroupName: String? = nil, securityGroupIds: [String]? = nil, nodeType: String, description: String? = nil, iamRoleArn: String, clusterName: String, parameterGroupName: String? = nil, availabilityZones: [String]? = nil) {
-            self.notificationTopicArn = notificationTopicArn
-            self.preferredMaintenanceWindow = preferredMaintenanceWindow
-            self.replicationFactor = replicationFactor
-            self.sSESpecification = sSESpecification
-            self.tags = tags
-            self.subnetGroupName = subnetGroupName
-            self.securityGroupIds = securityGroupIds
-            self.nodeType = nodeType
-            self.description = description
-            self.iamRoleArn = iamRoleArn
-            self.clusterName = clusterName
+        public init(parameterGroupName: String, parameterNameValues: [ParameterNameValue]) {
             self.parameterGroupName = parameterGroupName
-            self.availabilityZones = availabilityZones
+            self.parameterNameValues = parameterNameValues
         }
 
         private enum CodingKeys: String, CodingKey {
-            case notificationTopicArn = "NotificationTopicArn"
-            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
-            case replicationFactor = "ReplicationFactor"
-            case sSESpecification = "SSESpecification"
-            case tags = "Tags"
-            case subnetGroupName = "SubnetGroupName"
-            case securityGroupIds = "SecurityGroupIds"
-            case nodeType = "NodeType"
-            case description = "Description"
-            case iamRoleArn = "IamRoleArn"
-            case clusterName = "ClusterName"
             case parameterGroupName = "ParameterGroupName"
-            case availabilityZones = "AvailabilityZones"
+            case parameterNameValues = "ParameterNameValues"
         }
     }
 
-    public struct DeleteClusterResponse: AWSShape {
+    public struct Subnet: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "SubnetAvailabilityZone", required: false, type: .string)
+        ]
+        /// The system-assigned identifier for the subnet.
+        public let subnetIdentifier: String?
+        /// The Availability Zone (AZ) for subnet subnet.
+        public let subnetAvailabilityZone: String?
+
+        public init(subnetIdentifier: String? = nil, subnetAvailabilityZone: String? = nil) {
+            self.subnetIdentifier = subnetIdentifier
+            self.subnetAvailabilityZone = subnetAvailabilityZone
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subnetIdentifier = "SubnetIdentifier"
+            case subnetAvailabilityZone = "SubnetAvailabilityZone"
+        }
+    }
+
+    public struct DecreaseReplicationFactorResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
-        /// A description of the DAX cluster that is being deleted.
+        /// A description of the DAX cluster, after you have decreased its replication factor.
         public let cluster: Cluster?
 
         public init(cluster: Cluster? = nil) {
@@ -1474,6 +1432,48 @@ extension DAX {
 
         private enum CodingKeys: String, CodingKey {
             case cluster = "Cluster"
+        }
+    }
+
+    public struct TagResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+        /// The list of tags that are associated with the DAX resource.
+        public let tags: [Tag]?
+
+        public init(tags: [Tag]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateSubnetGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "SubnetIds", required: true, type: .list), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
+        ]
+        /// A name for the subnet group. This value is stored as a lowercase string. 
+        public let subnetGroupName: String
+        /// A list of VPC subnet IDs for the subnet group.
+        public let subnetIds: [String]
+        /// A description for the subnet group
+        public let description: String?
+
+        public init(subnetGroupName: String, subnetIds: [String], description: String? = nil) {
+            self.subnetGroupName = subnetGroupName
+            self.subnetIds = subnetIds
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subnetGroupName = "SubnetGroupName"
+            case subnetIds = "SubnetIds"
+            case description = "Description"
         }
     }
 

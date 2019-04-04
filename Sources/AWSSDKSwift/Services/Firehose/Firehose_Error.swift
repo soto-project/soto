@@ -8,8 +8,8 @@ public enum FirehoseErrorType: AWSErrorType {
     case resourceInUseException(message: String?)
     case invalidArgumentException(message: String?)
     case limitExceededException(message: String?)
-    case concurrentModificationException(message: String?)
     case serviceUnavailableException(message: String?)
+    case concurrentModificationException(message: String?)
 }
 
 extension FirehoseErrorType {
@@ -27,10 +27,10 @@ extension FirehoseErrorType {
             self = .invalidArgumentException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
-        case "ConcurrentModificationException":
-            self = .concurrentModificationException(message: message)
         case "ServiceUnavailableException":
             self = .serviceUnavailableException(message: message)
+        case "ConcurrentModificationException":
+            self = .concurrentModificationException(message: message)
         default:
             return nil
         }

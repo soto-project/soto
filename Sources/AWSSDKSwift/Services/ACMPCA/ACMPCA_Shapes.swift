@@ -5,37 +5,480 @@ import AWSSDKSwiftCore
 
 extension ACMPCA {
 
+    public struct ImportCertificateAuthorityCertificateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Certificate", required: true, type: .blob), 
+            AWSShapeMember(label: "CertificateChain", required: true, type: .blob), 
+            AWSShapeMember(label: "CertificateAuthorityArn", required: true, type: .string)
+        ]
+        /// The PEM-encoded certificate for your private CA. This must be signed by using your on-premises CA.
+        public let certificate: Data
+        /// A PEM-encoded file that contains all of your certificates, other than the certificate you're importing, chaining up to your root CA. Your on-premises root certificate is the last in the chain, and each certificate in the chain signs the one preceding. 
+        public let certificateChain: Data
+        /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012  
+        public let certificateAuthorityArn: String
+
+        public init(certificate: Data, certificateChain: Data, certificateAuthorityArn: String) {
+            self.certificate = certificate
+            self.certificateChain = certificateChain
+            self.certificateAuthorityArn = certificateAuthorityArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificate = "Certificate"
+            case certificateChain = "CertificateChain"
+            case certificateAuthorityArn = "CertificateAuthorityArn"
+        }
+    }
+
+    public struct ListTagsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+        /// When the list is truncated, this value is present and should be used for the NextToken parameter in a subsequent pagination request. 
+        public let nextToken: String?
+        /// The tags associated with your private CA.
+        public let tags: [Tag]?
+
+        public init(nextToken: String? = nil, tags: [Tag]? = nil) {
+            self.nextToken = nextToken
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case tags = "Tags"
+        }
+    }
+
+    public struct GetCertificateResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Certificate", required: false, type: .string), 
+            AWSShapeMember(label: "CertificateChain", required: false, type: .string)
+        ]
+        /// The base64 PEM-encoded certificate specified by the CertificateArn parameter.
+        public let certificate: String?
+        /// The base64 PEM-encoded certificate chain that chains up to the on-premises root CA certificate that you used to sign your private CA certificate. 
+        public let certificateChain: String?
+
+        public init(certificate: String? = nil, certificateChain: String? = nil) {
+            self.certificate = certificate
+            self.certificateChain = certificateChain
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificate = "Certificate"
+            case certificateChain = "CertificateChain"
+        }
+    }
+
+    public struct ListTagsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "CertificateAuthorityArn", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Use this parameter when paginating results to specify the maximum number of items to return in the response. If additional items exist beyond the number you specify, the NextToken element is sent in the response. Use this NextToken value in a subsequent request to retrieve additional items.
+        public let maxResults: Int32?
+        /// The Amazon Resource Name (ARN) that was returned when you called the CreateCertificateAuthority operation. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012  
+        public let certificateAuthorityArn: String
+        /// Use this parameter when paginating results in a subsequent request after you receive a response with truncated results. Set it to the value of NextToken from the response you just received.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, certificateAuthorityArn: String, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.certificateAuthorityArn = certificateAuthorityArn
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case certificateAuthorityArn = "CertificateAuthorityArn"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCertificateAuthoritiesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "CertificateAuthorities", required: false, type: .list)
+        ]
+        /// When the list is truncated, this value is present and should be used for the NextToken parameter in a subsequent pagination request.
+        public let nextToken: String?
+        /// Summary information about each certificate authority you have created.
+        public let certificateAuthorities: [CertificateAuthority]?
+
+        public init(nextToken: String? = nil, certificateAuthorities: [CertificateAuthority]? = nil) {
+            self.nextToken = nextToken
+            self.certificateAuthorities = certificateAuthorities
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case certificateAuthorities = "CertificateAuthorities"
+        }
+    }
+
+    public struct CertificateAuthority: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RestorableUntil", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Serial", required: false, type: .string), 
+            AWSShapeMember(label: "CertificateAuthorityConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "NotAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "RevocationConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "FailureReason", required: false, type: .enum), 
+            AWSShapeMember(label: "NotBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "LastStateChangeAt", required: false, type: .timestamp)
+        ]
+        /// The period during which a deleted CA can be restored. For more information, see the PermanentDeletionTimeInDays parameter of the DeleteCertificateAuthorityRequest operation. 
+        public let restorableUntil: TimeStamp?
+        /// Serial number of your private CA.
+        public let serial: String?
+        /// Your private CA configuration.
+        public let certificateAuthorityConfiguration: CertificateAuthorityConfiguration?
+        /// Date and time after which your private CA certificate is not valid.
+        public let notAfter: TimeStamp?
+        /// Information about the certificate revocation list (CRL) created and maintained by your private CA. 
+        public let revocationConfiguration: RevocationConfiguration?
+        /// Reason the request to create your private CA failed.
+        public let failureReason: FailureReason?
+        /// Date and time before which your private CA certificate is not valid.
+        public let notBefore: TimeStamp?
+        /// Type of your private CA.
+        public let `type`: CertificateAuthorityType?
+        /// Amazon Resource Name (ARN) for your private certificate authority (CA). The format is  12345678-1234-1234-1234-123456789012 .
+        public let arn: String?
+        /// Date and time at which your private CA was created.
+        public let createdAt: TimeStamp?
+        /// Status of your private CA.
+        public let status: CertificateAuthorityStatus?
+        /// Date and time at which your private CA was last updated.
+        public let lastStateChangeAt: TimeStamp?
+
+        public init(restorableUntil: TimeStamp? = nil, serial: String? = nil, certificateAuthorityConfiguration: CertificateAuthorityConfiguration? = nil, notAfter: TimeStamp? = nil, revocationConfiguration: RevocationConfiguration? = nil, failureReason: FailureReason? = nil, notBefore: TimeStamp? = nil, type: CertificateAuthorityType? = nil, arn: String? = nil, createdAt: TimeStamp? = nil, status: CertificateAuthorityStatus? = nil, lastStateChangeAt: TimeStamp? = nil) {
+            self.restorableUntil = restorableUntil
+            self.serial = serial
+            self.certificateAuthorityConfiguration = certificateAuthorityConfiguration
+            self.notAfter = notAfter
+            self.revocationConfiguration = revocationConfiguration
+            self.failureReason = failureReason
+            self.notBefore = notBefore
+            self.`type` = `type`
+            self.arn = arn
+            self.createdAt = createdAt
+            self.status = status
+            self.lastStateChangeAt = lastStateChangeAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case restorableUntil = "RestorableUntil"
+            case serial = "Serial"
+            case certificateAuthorityConfiguration = "CertificateAuthorityConfiguration"
+            case notAfter = "NotAfter"
+            case revocationConfiguration = "RevocationConfiguration"
+            case failureReason = "FailureReason"
+            case notBefore = "NotBefore"
+            case `type` = "Type"
+            case arn = "Arn"
+            case createdAt = "CreatedAt"
+            case status = "Status"
+            case lastStateChangeAt = "LastStateChangeAt"
+        }
+    }
+
+    public struct DescribeCertificateAuthorityRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateAuthorityArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 . 
+        public let certificateAuthorityArn: String
+
+        public init(certificateAuthorityArn: String) {
+            self.certificateAuthorityArn = certificateAuthorityArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateAuthorityArn = "CertificateAuthorityArn"
+        }
+    }
+
+    public struct CreateCertificateAuthorityAuditReportRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuditReportResponseFormat", required: true, type: .enum), 
+            AWSShapeMember(label: "CertificateAuthorityArn", required: true, type: .string), 
+            AWSShapeMember(label: "S3BucketName", required: true, type: .string)
+        ]
+        /// Format in which to create the report. This can be either JSON or CSV.
+        public let auditReportResponseFormat: AuditReportResponseFormat
+        /// Amazon Resource Name (ARN) of the CA to be audited. This is of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
+        public let certificateAuthorityArn: String
+        /// Name of the S3 bucket that will contain the audit report.
+        public let s3BucketName: String
+
+        public init(auditReportResponseFormat: AuditReportResponseFormat, certificateAuthorityArn: String, s3BucketName: String) {
+            self.auditReportResponseFormat = auditReportResponseFormat
+            self.certificateAuthorityArn = certificateAuthorityArn
+            self.s3BucketName = s3BucketName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case auditReportResponseFormat = "AuditReportResponseFormat"
+            case certificateAuthorityArn = "CertificateAuthorityArn"
+            case s3BucketName = "S3BucketName"
+        }
+    }
+
+    public enum AuditReportStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case success = "SUCCESS"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UntagCertificateAuthorityRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: true, type: .list), 
+            AWSShapeMember(label: "CertificateAuthorityArn", required: true, type: .string)
+        ]
+        /// List of tags to be removed from the CA.
+        public let tags: [Tag]
+        /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012  
+        public let certificateAuthorityArn: String
+
+        public init(tags: [Tag], certificateAuthorityArn: String) {
+            self.tags = tags
+            self.certificateAuthorityArn = certificateAuthorityArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+            case certificateAuthorityArn = "CertificateAuthorityArn"
+        }
+    }
+
     public enum AuditReportResponseFormat: String, CustomStringConvertible, Codable {
         case json = "JSON"
         case csv = "CSV"
         public var description: String { return self.rawValue }
     }
 
-    public struct GetCertificateRequest: AWSShape {
+    public struct DescribeCertificateAuthorityAuditReportRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuditReportId", required: true, type: .string), 
+            AWSShapeMember(label: "CertificateAuthorityArn", required: true, type: .string)
+        ]
+        /// The report ID returned by calling the CreateCertificateAuthorityAuditReport operation.
+        public let auditReportId: String
+        /// The Amazon Resource Name (ARN) of the private CA. This must be of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 . 
+        public let certificateAuthorityArn: String
+
+        public init(auditReportId: String, certificateAuthorityArn: String) {
+            self.auditReportId = auditReportId
+            self.certificateAuthorityArn = certificateAuthorityArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case auditReportId = "AuditReportId"
+            case certificateAuthorityArn = "CertificateAuthorityArn"
+        }
+    }
+
+    public struct TagCertificateAuthorityRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: true, type: .list), 
+            AWSShapeMember(label: "CertificateAuthorityArn", required: true, type: .string)
+        ]
+        /// List of tags to be associated with the CA.
+        public let tags: [Tag]
+        /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012  
+        public let certificateAuthorityArn: String
+
+        public init(tags: [Tag], certificateAuthorityArn: String) {
+            self.tags = tags
+            self.certificateAuthorityArn = certificateAuthorityArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+            case certificateAuthorityArn = "CertificateAuthorityArn"
+        }
+    }
+
+    public struct DeleteCertificateAuthorityRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CertificateAuthorityArn", required: true, type: .string), 
-            AWSShapeMember(label: "CertificateArn", required: true, type: .string)
+            AWSShapeMember(label: "PermanentDeletionTimeInDays", required: false, type: .integer)
         ]
-        /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 . 
+        /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must have the following form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 . 
         public let certificateAuthorityArn: String
-        /// The ARN of the issued certificate. The ARN contains the certificate serial number and must be in the following form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012/certificate/286535153982981100925020015808220737245  
-        public let certificateArn: String
+        /// The number of days to make a CA restorable after it has been deleted. This can be anywhere from 7 to 30 days, with 30 being the default.
+        public let permanentDeletionTimeInDays: Int32?
 
-        public init(certificateAuthorityArn: String, certificateArn: String) {
+        public init(certificateAuthorityArn: String, permanentDeletionTimeInDays: Int32? = nil) {
             self.certificateAuthorityArn = certificateAuthorityArn
-            self.certificateArn = certificateArn
+            self.permanentDeletionTimeInDays = permanentDeletionTimeInDays
         }
 
         private enum CodingKeys: String, CodingKey {
             case certificateAuthorityArn = "CertificateAuthorityArn"
-            case certificateArn = "CertificateArn"
+            case permanentDeletionTimeInDays = "PermanentDeletionTimeInDays"
         }
     }
 
-    public enum FailureReason: String, CustomStringConvertible, Codable {
-        case requestTimedOut = "REQUEST_TIMED_OUT"
-        case unsupportedAlgorithm = "UNSUPPORTED_ALGORITHM"
-        case other = "OTHER"
+    public struct CertificateAuthorityConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SigningAlgorithm", required: true, type: .enum), 
+            AWSShapeMember(label: "KeyAlgorithm", required: true, type: .enum), 
+            AWSShapeMember(label: "Subject", required: true, type: .structure)
+        ]
+        /// Name of the algorithm your private CA uses to sign certificate requests.
+        public let signingAlgorithm: SigningAlgorithm
+        /// Type of the public key algorithm and size, in bits, of the key pair that your key pair creates when it issues a certificate.
+        public let keyAlgorithm: KeyAlgorithm
+        /// Structure that contains X.500 distinguished name information for your private CA.
+        public let subject: ASN1Subject
+
+        public init(signingAlgorithm: SigningAlgorithm, keyAlgorithm: KeyAlgorithm, subject: ASN1Subject) {
+            self.signingAlgorithm = signingAlgorithm
+            self.keyAlgorithm = keyAlgorithm
+            self.subject = subject
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case signingAlgorithm = "SigningAlgorithm"
+            case keyAlgorithm = "KeyAlgorithm"
+            case subject = "Subject"
+        }
+    }
+
+    public struct GetCertificateAuthorityCertificateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateAuthorityArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of your private CA. This is of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 . 
+        public let certificateAuthorityArn: String
+
+        public init(certificateAuthorityArn: String) {
+            self.certificateAuthorityArn = certificateAuthorityArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateAuthorityArn = "CertificateAuthorityArn"
+        }
+    }
+
+    public struct GetCertificateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateArn", required: true, type: .string), 
+            AWSShapeMember(label: "CertificateAuthorityArn", required: true, type: .string)
+        ]
+        /// The ARN of the issued certificate. The ARN contains the certificate serial number and must be in the following form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012/certificate/286535153982981100925020015808220737245  
+        public let certificateArn: String
+        /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 . 
+        public let certificateAuthorityArn: String
+
+        public init(certificateArn: String, certificateAuthorityArn: String) {
+            self.certificateArn = certificateArn
+            self.certificateAuthorityArn = certificateAuthorityArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
+            case certificateAuthorityArn = "CertificateAuthorityArn"
+        }
+    }
+
+    public struct ASN1Subject: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Surname", required: false, type: .string), 
+            AWSShapeMember(label: "Locality", required: false, type: .string), 
+            AWSShapeMember(label: "GenerationQualifier", required: false, type: .string), 
+            AWSShapeMember(label: "SerialNumber", required: false, type: .string), 
+            AWSShapeMember(label: "Title", required: false, type: .string), 
+            AWSShapeMember(label: "Pseudonym", required: false, type: .string), 
+            AWSShapeMember(label: "Initials", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .string), 
+            AWSShapeMember(label: "DistinguishedNameQualifier", required: false, type: .string), 
+            AWSShapeMember(label: "CommonName", required: false, type: .string), 
+            AWSShapeMember(label: "GivenName", required: false, type: .string), 
+            AWSShapeMember(label: "Organization", required: false, type: .string), 
+            AWSShapeMember(label: "Country", required: false, type: .string), 
+            AWSShapeMember(label: "OrganizationalUnit", required: false, type: .string)
+        ]
+        /// Family name. In the US and the UK, for example, the surname of an individual is ordered last. In Asian cultures the surname is typically ordered first.
+        public let surname: String?
+        /// The locality (such as a city or town) in which the certificate subject is located.
+        public let locality: String?
+        /// Typically a qualifier appended to the name of an individual. Examples include Jr. for junior, Sr. for senior, and III for third.
+        public let generationQualifier: String?
+        /// The certificate serial number.
+        public let serialNumber: String?
+        /// A title such as Mr. or Ms., which is pre-pended to the name to refer formally to the certificate subject.
+        public let title: String?
+        /// Typically a shortened version of a longer GivenName. For example, Jonathan is often shortened to John. Elizabeth is often shortened to Beth, Liz, or Eliza.
+        public let pseudonym: String?
+        /// Concatenation that typically contains the first letter of the GivenName, the first letter of the middle name if one exists, and the first letter of the SurName.
+        public let initials: String?
+        /// State in which the subject of the certificate is located.
+        public let state: String?
+        /// Disambiguating information for the certificate subject.
+        public let distinguishedNameQualifier: String?
+        /// Fully qualified domain name (FQDN) associated with the certificate subject.
+        public let commonName: String?
+        /// First name.
+        public let givenName: String?
+        /// Legal name of the organization with which the certificate subject is affiliated. 
+        public let organization: String?
+        /// Two-digit code that specifies the country in which the certificate subject located.
+        public let country: String?
+        /// A subdivision or unit of the organization (such as sales or finance) with which the certificate subject is affiliated.
+        public let organizationalUnit: String?
+
+        public init(surname: String? = nil, locality: String? = nil, generationQualifier: String? = nil, serialNumber: String? = nil, title: String? = nil, pseudonym: String? = nil, initials: String? = nil, state: String? = nil, distinguishedNameQualifier: String? = nil, commonName: String? = nil, givenName: String? = nil, organization: String? = nil, country: String? = nil, organizationalUnit: String? = nil) {
+            self.surname = surname
+            self.locality = locality
+            self.generationQualifier = generationQualifier
+            self.serialNumber = serialNumber
+            self.title = title
+            self.pseudonym = pseudonym
+            self.initials = initials
+            self.state = state
+            self.distinguishedNameQualifier = distinguishedNameQualifier
+            self.commonName = commonName
+            self.givenName = givenName
+            self.organization = organization
+            self.country = country
+            self.organizationalUnit = organizationalUnit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case surname = "Surname"
+            case locality = "Locality"
+            case generationQualifier = "GenerationQualifier"
+            case serialNumber = "SerialNumber"
+            case title = "Title"
+            case pseudonym = "Pseudonym"
+            case initials = "Initials"
+            case state = "State"
+            case distinguishedNameQualifier = "DistinguishedNameQualifier"
+            case commonName = "CommonName"
+            case givenName = "GivenName"
+            case organization = "Organization"
+            case country = "Country"
+            case organizationalUnit = "OrganizationalUnit"
+        }
+    }
+
+    public enum KeyAlgorithm: String, CustomStringConvertible, Codable {
+        case rsa2048 = "RSA_2048"
+        case rsa4096 = "RSA_4096"
+        case ecPrime256V1 = "EC_prime256v1"
+        case ecSecp384R1 = "EC_secp384r1"
         public var description: String { return self.rawValue }
     }
 
@@ -51,290 +494,71 @@ extension ACMPCA {
         public var description: String { return self.rawValue }
     }
 
-    public struct IssueCertificateResponse: AWSShape {
+    public struct CrlConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateArn", required: false, type: .string)
+            AWSShapeMember(label: "CustomCname", required: false, type: .string), 
+            AWSShapeMember(label: "ExpirationInDays", required: false, type: .integer), 
+            AWSShapeMember(label: "S3BucketName", required: false, type: .string), 
+            AWSShapeMember(label: "Enabled", required: true, type: .boolean)
         ]
-        /// The Amazon Resource Name (ARN) of the issued certificate and the certificate serial number. This is of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012/certificate/286535153982981100925020015808220737245  
-        public let certificateArn: String?
+        /// Name inserted into the certificate CRL Distribution Points extension that enables the use of an alias for the CRL distribution point. Use this value if you don't want the name of your S3 bucket to be public.
+        public let customCname: String?
+        /// Number of days until a certificate expires.
+        public let expirationInDays: Int32?
+        /// Name of the S3 bucket that contains the CRL. If you do not provide a value for the CustomCname argument, the name of your S3 bucket is placed into the CRL Distribution Points extension of the issued certificate. You can change the name of your bucket by calling the UpdateCertificateAuthority operation. You must specify a bucket policy that allows ACM PCA to write the CRL to your bucket.
+        public let s3BucketName: String?
+        /// Boolean value that specifies whether certificate revocation lists (CRLs) are enabled. You can use this value to enable certificate revocation for a new CA when you call the CreateCertificateAuthority operation or for an existing CA when you call the UpdateCertificateAuthority operation. 
+        public let enabled: Bool
 
-        public init(certificateArn: String? = nil) {
-            self.certificateArn = certificateArn
+        public init(customCname: String? = nil, expirationInDays: Int32? = nil, s3BucketName: String? = nil, enabled: Bool) {
+            self.customCname = customCname
+            self.expirationInDays = expirationInDays
+            self.s3BucketName = s3BucketName
+            self.enabled = enabled
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateArn = "CertificateArn"
+            case customCname = "CustomCname"
+            case expirationInDays = "ExpirationInDays"
+            case s3BucketName = "S3BucketName"
+            case enabled = "Enabled"
         }
     }
 
-    public struct Validity: AWSShape {
+    public struct Tag: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: true, type: .long), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: true, type: .string)
         ]
-        /// Time period.
-        public let value: Int64
-        /// Specifies whether the Value parameter represents days, months, or years.
-        public let `type`: ValidityPeriodType
+        /// Value of the tag.
+        public let value: String?
+        /// Key (name) of the tag.
+        public let key: String
 
-        public init(value: Int64, type: ValidityPeriodType) {
+        public init(value: String? = nil, key: String) {
             self.value = value
-            self.`type` = `type`
+            self.key = key
         }
 
         private enum CodingKeys: String, CodingKey {
             case value = "Value"
-            case `type` = "Type"
+            case key = "Key"
         }
     }
 
-    public struct CreateCertificateAuthorityAuditReportRequest: AWSShape {
+    public struct GetCertificateAuthorityCsrRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3BucketName", required: true, type: .string), 
-            AWSShapeMember(label: "AuditReportResponseFormat", required: true, type: .enum), 
             AWSShapeMember(label: "CertificateAuthorityArn", required: true, type: .string)
         ]
-        /// Name of the S3 bucket that will contain the audit report.
-        public let s3BucketName: String
-        /// Format in which to create the report. This can be either JSON or CSV.
-        public let auditReportResponseFormat: AuditReportResponseFormat
-        /// Amazon Resource Name (ARN) of the CA to be audited. This is of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
+        /// The Amazon Resource Name (ARN) that was returned when you called the CreateCertificateAuthority operation. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012  
         public let certificateAuthorityArn: String
 
-        public init(s3BucketName: String, auditReportResponseFormat: AuditReportResponseFormat, certificateAuthorityArn: String) {
-            self.s3BucketName = s3BucketName
-            self.auditReportResponseFormat = auditReportResponseFormat
+        public init(certificateAuthorityArn: String) {
             self.certificateAuthorityArn = certificateAuthorityArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3BucketName = "S3BucketName"
-            case auditReportResponseFormat = "AuditReportResponseFormat"
             case certificateAuthorityArn = "CertificateAuthorityArn"
-        }
-    }
-
-    public struct RevocationConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CrlConfiguration", required: false, type: .structure)
-        ]
-        /// Configuration of the certificate revocation list (CRL), if any, maintained by your private CA.
-        public let crlConfiguration: CrlConfiguration?
-
-        public init(crlConfiguration: CrlConfiguration? = nil) {
-            self.crlConfiguration = crlConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case crlConfiguration = "CrlConfiguration"
-        }
-    }
-
-    public struct ASN1Subject: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OrganizationalUnit", required: false, type: .string), 
-            AWSShapeMember(label: "Locality", required: false, type: .string), 
-            AWSShapeMember(label: "SerialNumber", required: false, type: .string), 
-            AWSShapeMember(label: "Title", required: false, type: .string), 
-            AWSShapeMember(label: "GenerationQualifier", required: false, type: .string), 
-            AWSShapeMember(label: "Country", required: false, type: .string), 
-            AWSShapeMember(label: "Surname", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .string), 
-            AWSShapeMember(label: "Initials", required: false, type: .string), 
-            AWSShapeMember(label: "GivenName", required: false, type: .string), 
-            AWSShapeMember(label: "Pseudonym", required: false, type: .string), 
-            AWSShapeMember(label: "CommonName", required: false, type: .string), 
-            AWSShapeMember(label: "DistinguishedNameQualifier", required: false, type: .string), 
-            AWSShapeMember(label: "Organization", required: false, type: .string)
-        ]
-        /// A subdivision or unit of the organization (such as sales or finance) with which the certificate subject is affiliated.
-        public let organizationalUnit: String?
-        /// The locality (such as a city or town) in which the certificate subject is located.
-        public let locality: String?
-        /// The certificate serial number.
-        public let serialNumber: String?
-        /// A title such as Mr. or Ms., which is pre-pended to the name to refer formally to the certificate subject.
-        public let title: String?
-        /// Typically a qualifier appended to the name of an individual. Examples include Jr. for junior, Sr. for senior, and III for third.
-        public let generationQualifier: String?
-        /// Two-digit code that specifies the country in which the certificate subject located.
-        public let country: String?
-        /// Family name. In the US and the UK, for example, the surname of an individual is ordered last. In Asian cultures the surname is typically ordered first.
-        public let surname: String?
-        /// State in which the subject of the certificate is located.
-        public let state: String?
-        /// Concatenation that typically contains the first letter of the GivenName, the first letter of the middle name if one exists, and the first letter of the SurName.
-        public let initials: String?
-        /// First name.
-        public let givenName: String?
-        /// Typically a shortened version of a longer GivenName. For example, Jonathan is often shortened to John. Elizabeth is often shortened to Beth, Liz, or Eliza.
-        public let pseudonym: String?
-        /// Fully qualified domain name (FQDN) associated with the certificate subject.
-        public let commonName: String?
-        /// Disambiguating information for the certificate subject.
-        public let distinguishedNameQualifier: String?
-        /// Legal name of the organization with which the certificate subject is affiliated. 
-        public let organization: String?
-
-        public init(organizationalUnit: String? = nil, locality: String? = nil, serialNumber: String? = nil, title: String? = nil, generationQualifier: String? = nil, country: String? = nil, surname: String? = nil, state: String? = nil, initials: String? = nil, givenName: String? = nil, pseudonym: String? = nil, commonName: String? = nil, distinguishedNameQualifier: String? = nil, organization: String? = nil) {
-            self.organizationalUnit = organizationalUnit
-            self.locality = locality
-            self.serialNumber = serialNumber
-            self.title = title
-            self.generationQualifier = generationQualifier
-            self.country = country
-            self.surname = surname
-            self.state = state
-            self.initials = initials
-            self.givenName = givenName
-            self.pseudonym = pseudonym
-            self.commonName = commonName
-            self.distinguishedNameQualifier = distinguishedNameQualifier
-            self.organization = organization
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case organizationalUnit = "OrganizationalUnit"
-            case locality = "Locality"
-            case serialNumber = "SerialNumber"
-            case title = "Title"
-            case generationQualifier = "GenerationQualifier"
-            case country = "Country"
-            case surname = "Surname"
-            case state = "State"
-            case initials = "Initials"
-            case givenName = "GivenName"
-            case pseudonym = "Pseudonym"
-            case commonName = "CommonName"
-            case distinguishedNameQualifier = "DistinguishedNameQualifier"
-            case organization = "Organization"
-        }
-    }
-
-    public struct ListCertificateAuthoritiesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Use this parameter when paginating results to specify the maximum number of items to return in the response on each page. If additional items exist beyond the number you specify, the NextToken element is sent in the response. Use this NextToken value in a subsequent request to retrieve additional items.
-        public let maxResults: Int32?
-        /// Use this parameter when paginating results in a subsequent request after you receive a response with truncated results. Set it to the value of the NextToken parameter from the response you just received.
-        public let nextToken: String?
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public enum CertificateAuthorityType: String, CustomStringConvertible, Codable {
-        case subordinate = "SUBORDINATE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct IssueCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Validity", required: true, type: .structure), 
-            AWSShapeMember(label: "SigningAlgorithm", required: true, type: .enum), 
-            AWSShapeMember(label: "IdempotencyToken", required: false, type: .string), 
-            AWSShapeMember(label: "Csr", required: true, type: .blob), 
-            AWSShapeMember(label: "CertificateAuthorityArn", required: true, type: .string)
-        ]
-        /// The type of the validity period.
-        public let validity: Validity
-        /// The name of the algorithm that will be used to sign the certificate to be issued.
-        public let signingAlgorithm: SigningAlgorithm
-        /// Custom string that can be used to distinguish between calls to the IssueCertificate operation. Idempotency tokens time out after one hour. Therefore, if you call IssueCertificate multiple times with the same idempotency token within 5 minutes, ACM PCA recognizes that you are requesting only one certificate and will issue only one. If you change the idempotency token for each call, PCA recognizes that you are requesting multiple certificates.
-        public let idempotencyToken: String?
-        /// The certificate signing request (CSR) for the certificate you want to issue. You can use the following OpenSSL command to create the CSR and a 2048 bit RSA private key.   openssl req -new -newkey rsa:2048 -days 365 -keyout private/test_cert_priv_key.pem -out csr/test_cert_.csr  If you have a configuration file, you can use the following OpenSSL command. The usr_cert block in the configuration file contains your X509 version 3 extensions.   openssl req -new -config openssl_rsa.cnf -extensions usr_cert -newkey rsa:2048 -days -365 -keyout private/test_cert_priv_key.pem -out csr/test_cert_.csr 
-        public let csr: Data
-        /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must be of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012  
-        public let certificateAuthorityArn: String
-
-        public init(validity: Validity, signingAlgorithm: SigningAlgorithm, idempotencyToken: String? = nil, csr: Data, certificateAuthorityArn: String) {
-            self.validity = validity
-            self.signingAlgorithm = signingAlgorithm
-            self.idempotencyToken = idempotencyToken
-            self.csr = csr
-            self.certificateAuthorityArn = certificateAuthorityArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case validity = "Validity"
-            case signingAlgorithm = "SigningAlgorithm"
-            case idempotencyToken = "IdempotencyToken"
-            case csr = "Csr"
-            case certificateAuthorityArn = "CertificateAuthorityArn"
-        }
-    }
-
-    public enum AuditReportStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case success = "SUCCESS"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ImportCertificateAuthorityCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificate", required: true, type: .blob), 
-            AWSShapeMember(label: "CertificateAuthorityArn", required: true, type: .string), 
-            AWSShapeMember(label: "CertificateChain", required: true, type: .blob)
-        ]
-        /// The PEM-encoded certificate for your private CA. This must be signed by using your on-premises CA.
-        public let certificate: Data
-        /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012  
-        public let certificateAuthorityArn: String
-        /// A PEM-encoded file that contains all of your certificates, other than the certificate you're importing, chaining up to your root CA. Your on-premises root certificate is the last in the chain, and each certificate in the chain signs the one preceding. 
-        public let certificateChain: Data
-
-        public init(certificate: Data, certificateAuthorityArn: String, certificateChain: Data) {
-            self.certificate = certificate
-            self.certificateAuthorityArn = certificateAuthorityArn
-            self.certificateChain = certificateChain
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificate = "Certificate"
-            case certificateAuthorityArn = "CertificateAuthorityArn"
-            case certificateChain = "CertificateChain"
-        }
-    }
-
-    public struct DescribeCertificateAuthorityResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateAuthority", required: false, type: .structure)
-        ]
-        /// A CertificateAuthority structure that contains information about your private CA.
-        public let certificateAuthority: CertificateAuthority?
-
-        public init(certificateAuthority: CertificateAuthority? = nil) {
-            self.certificateAuthority = certificateAuthority
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificateAuthority = "CertificateAuthority"
-        }
-    }
-
-    public struct GetCertificateAuthorityCsrResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Csr", required: false, type: .string)
-        ]
-        /// The base64 PEM-encoded certificate signing request (CSR) for your private CA certificate.
-        public let csr: String?
-
-        public init(csr: String? = nil) {
-            self.csr = csr
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case csr = "Csr"
         }
     }
 
@@ -364,101 +588,102 @@ extension ACMPCA {
         }
     }
 
-    public struct CreateCertificateAuthorityAuditReportResponse: AWSShape {
+    public struct RevocationConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuditReportId", required: false, type: .string), 
-            AWSShapeMember(label: "S3Key", required: false, type: .string)
+            AWSShapeMember(label: "CrlConfiguration", required: false, type: .structure)
         ]
-        /// An alphanumeric string that contains a report identifier.
-        public let auditReportId: String?
-        /// The key that uniquely identifies the report file in your S3 bucket.
-        public let s3Key: String?
+        /// Configuration of the certificate revocation list (CRL), if any, maintained by your private CA.
+        public let crlConfiguration: CrlConfiguration?
 
-        public init(auditReportId: String? = nil, s3Key: String? = nil) {
-            self.auditReportId = auditReportId
-            self.s3Key = s3Key
+        public init(crlConfiguration: CrlConfiguration? = nil) {
+            self.crlConfiguration = crlConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
-            case auditReportId = "AuditReportId"
-            case s3Key = "S3Key"
+            case crlConfiguration = "CrlConfiguration"
         }
     }
 
-    public struct ListTagsResponse: AWSShape {
+    public struct GetCertificateAuthorityCsrResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "Csr", required: false, type: .string)
         ]
-        /// The tags associated with your private CA.
-        public let tags: [Tag]?
-        /// When the list is truncated, this value is present and should be used for the NextToken parameter in a subsequent pagination request. 
-        public let nextToken: String?
+        /// The base64 PEM-encoded certificate signing request (CSR) for your private CA certificate.
+        public let csr: String?
 
-        public init(tags: [Tag]? = nil, nextToken: String? = nil) {
-            self.tags = tags
-            self.nextToken = nextToken
+        public init(csr: String? = nil) {
+            self.csr = csr
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-            case nextToken = "NextToken"
+            case csr = "Csr"
         }
     }
 
-    public struct CreateCertificateAuthorityRequest: AWSShape {
+    public enum CertificateAuthorityType: String, CustomStringConvertible, Codable {
+        case subordinate = "SUBORDINATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct IssueCertificateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateAuthorityType", required: true, type: .enum), 
-            AWSShapeMember(label: "RevocationConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "CertificateAuthorityArn", required: true, type: .string), 
             AWSShapeMember(label: "IdempotencyToken", required: false, type: .string), 
-            AWSShapeMember(label: "CertificateAuthorityConfiguration", required: true, type: .structure)
+            AWSShapeMember(label: "Validity", required: true, type: .structure), 
+            AWSShapeMember(label: "SigningAlgorithm", required: true, type: .enum), 
+            AWSShapeMember(label: "Csr", required: true, type: .blob)
         ]
-        /// The type of the certificate authority. Currently, this must be SUBORDINATE.
-        public let certificateAuthorityType: CertificateAuthorityType
-        /// Contains a Boolean value that you can use to enable a certification revocation list (CRL) for the CA, the name of the S3 bucket to which ACM PCA will write the CRL, and an optional CNAME alias that you can use to hide the name of your bucket in the CRL Distribution Points extension of your CA certificate. For more information, see the CrlConfiguration structure. 
-        public let revocationConfiguration: RevocationConfiguration?
-        /// Alphanumeric string that can be used to distinguish between calls to CreateCertificateAuthority. Idempotency tokens time out after five minutes. Therefore, if you call CreateCertificateAuthority multiple times with the same idempotency token within a five minute period, ACM PCA recognizes that you are requesting only one certificate. As a result, ACM PCA issues only one. If you change the idempotency token for each call, however, ACM PCA recognizes that you are requesting multiple certificates.
+        /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must be of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012  
+        public let certificateAuthorityArn: String
+        /// Custom string that can be used to distinguish between calls to the IssueCertificate operation. Idempotency tokens time out after one hour. Therefore, if you call IssueCertificate multiple times with the same idempotency token within 5 minutes, ACM PCA recognizes that you are requesting only one certificate and will issue only one. If you change the idempotency token for each call, PCA recognizes that you are requesting multiple certificates.
         public let idempotencyToken: String?
-        /// Name and bit size of the private key algorithm, the name of the signing algorithm, and X.500 certificate subject information.
-        public let certificateAuthorityConfiguration: CertificateAuthorityConfiguration
+        /// The type of the validity period.
+        public let validity: Validity
+        /// The name of the algorithm that will be used to sign the certificate to be issued.
+        public let signingAlgorithm: SigningAlgorithm
+        /// The certificate signing request (CSR) for the certificate you want to issue. You can use the following OpenSSL command to create the CSR and a 2048 bit RSA private key.   openssl req -new -newkey rsa:2048 -days 365 -keyout private/test_cert_priv_key.pem -out csr/test_cert_.csr  If you have a configuration file, you can use the following OpenSSL command. The usr_cert block in the configuration file contains your X509 version 3 extensions.   openssl req -new -config openssl_rsa.cnf -extensions usr_cert -newkey rsa:2048 -days -365 -keyout private/test_cert_priv_key.pem -out csr/test_cert_.csr 
+        public let csr: Data
 
-        public init(certificateAuthorityType: CertificateAuthorityType, revocationConfiguration: RevocationConfiguration? = nil, idempotencyToken: String? = nil, certificateAuthorityConfiguration: CertificateAuthorityConfiguration) {
-            self.certificateAuthorityType = certificateAuthorityType
-            self.revocationConfiguration = revocationConfiguration
+        public init(certificateAuthorityArn: String, idempotencyToken: String? = nil, validity: Validity, signingAlgorithm: SigningAlgorithm, csr: Data) {
+            self.certificateAuthorityArn = certificateAuthorityArn
             self.idempotencyToken = idempotencyToken
-            self.certificateAuthorityConfiguration = certificateAuthorityConfiguration
+            self.validity = validity
+            self.signingAlgorithm = signingAlgorithm
+            self.csr = csr
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateAuthorityType = "CertificateAuthorityType"
-            case revocationConfiguration = "RevocationConfiguration"
+            case certificateAuthorityArn = "CertificateAuthorityArn"
             case idempotencyToken = "IdempotencyToken"
-            case certificateAuthorityConfiguration = "CertificateAuthorityConfiguration"
+            case validity = "Validity"
+            case signingAlgorithm = "SigningAlgorithm"
+            case csr = "Csr"
         }
     }
 
-    public struct UpdateCertificateAuthorityRequest: AWSShape {
+    public enum CertificateAuthorityStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case pendingCertificate = "PENDING_CERTIFICATE"
+        case active = "ACTIVE"
+        case deleted = "DELETED"
+        case disabled = "DISABLED"
+        case expired = "EXPIRED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct RestoreCertificateAuthorityRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "RevocationConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "CertificateAuthorityArn", required: true, type: .string)
         ]
-        /// Status of your private CA.
-        public let status: CertificateAuthorityStatus?
-        /// Revocation information for your private CA.
-        public let revocationConfiguration: RevocationConfiguration?
-        /// Amazon Resource Name (ARN) of the private CA that issued the certificate to be revoked. This must be of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012  
+        /// The Amazon Resource Name (ARN) that was returned when you called the CreateCertificateAuthority operation. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012  
         public let certificateAuthorityArn: String
 
-        public init(status: CertificateAuthorityStatus? = nil, revocationConfiguration: RevocationConfiguration? = nil, certificateAuthorityArn: String) {
-            self.status = status
-            self.revocationConfiguration = revocationConfiguration
+        public init(certificateAuthorityArn: String) {
             self.certificateAuthorityArn = certificateAuthorityArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status = "Status"
-            case revocationConfiguration = "RevocationConfiguration"
             case certificateAuthorityArn = "CertificateAuthorityArn"
         }
     }
@@ -470,48 +695,6 @@ extension ACMPCA {
         case months = "MONTHS"
         case years = "YEARS"
         public var description: String { return self.rawValue }
-    }
-
-    public struct ListCertificateAuthoritiesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateAuthorities", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Summary information about each certificate authority you have created.
-        public let certificateAuthorities: [CertificateAuthority]?
-        /// When the list is truncated, this value is present and should be used for the NextToken parameter in a subsequent pagination request.
-        public let nextToken: String?
-
-        public init(certificateAuthorities: [CertificateAuthority]? = nil, nextToken: String? = nil) {
-            self.certificateAuthorities = certificateAuthorities
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificateAuthorities = "CertificateAuthorities"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct GetCertificateAuthorityCertificateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificate", required: false, type: .string), 
-            AWSShapeMember(label: "CertificateChain", required: false, type: .string)
-        ]
-        /// Base64-encoded certificate authority (CA) certificate.
-        public let certificate: String?
-        /// Base64-encoded certificate chain that includes any intermediate certificates and chains up to root on-premises certificate that you used to sign your private CA certificate. The chain does not include your private CA certificate. 
-        public let certificateChain: String?
-
-        public init(certificate: String? = nil, certificateChain: String? = nil) {
-            self.certificate = certificate
-            self.certificateChain = certificateChain
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificate = "Certificate"
-            case certificateChain = "CertificateChain"
-        }
     }
 
     public struct DescribeCertificateAuthorityAuditReportResponse: AWSShape {
@@ -545,295 +728,6 @@ extension ACMPCA {
         }
     }
 
-    public struct GetCertificateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificate", required: false, type: .string), 
-            AWSShapeMember(label: "CertificateChain", required: false, type: .string)
-        ]
-        /// The base64 PEM-encoded certificate specified by the CertificateArn parameter.
-        public let certificate: String?
-        /// The base64 PEM-encoded certificate chain that chains up to the on-premises root CA certificate that you used to sign your private CA certificate. 
-        public let certificateChain: String?
-
-        public init(certificate: String? = nil, certificateChain: String? = nil) {
-            self.certificate = certificate
-            self.certificateChain = certificateChain
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificate = "Certificate"
-            case certificateChain = "CertificateChain"
-        }
-    }
-
-    public struct RestoreCertificateAuthorityRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateAuthorityArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) that was returned when you called the CreateCertificateAuthority operation. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012  
-        public let certificateAuthorityArn: String
-
-        public init(certificateAuthorityArn: String) {
-            self.certificateAuthorityArn = certificateAuthorityArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificateAuthorityArn = "CertificateAuthorityArn"
-        }
-    }
-
-    public struct DescribeCertificateAuthorityRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateAuthorityArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 . 
-        public let certificateAuthorityArn: String
-
-        public init(certificateAuthorityArn: String) {
-            self.certificateAuthorityArn = certificateAuthorityArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificateAuthorityArn = "CertificateAuthorityArn"
-        }
-    }
-
-    public struct UntagCertificateAuthorityRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: true, type: .list), 
-            AWSShapeMember(label: "CertificateAuthorityArn", required: true, type: .string)
-        ]
-        /// List of tags to be removed from the CA.
-        public let tags: [Tag]
-        /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012  
-        public let certificateAuthorityArn: String
-
-        public init(tags: [Tag], certificateAuthorityArn: String) {
-            self.tags = tags
-            self.certificateAuthorityArn = certificateAuthorityArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-            case certificateAuthorityArn = "CertificateAuthorityArn"
-        }
-    }
-
-    public struct GetCertificateAuthorityCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateAuthorityArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of your private CA. This is of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 . 
-        public let certificateAuthorityArn: String
-
-        public init(certificateAuthorityArn: String) {
-            self.certificateAuthorityArn = certificateAuthorityArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificateAuthorityArn = "CertificateAuthorityArn"
-        }
-    }
-
-    public struct CrlConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomCname", required: false, type: .string), 
-            AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
-            AWSShapeMember(label: "ExpirationInDays", required: false, type: .integer), 
-            AWSShapeMember(label: "S3BucketName", required: false, type: .string)
-        ]
-        /// Name inserted into the certificate CRL Distribution Points extension that enables the use of an alias for the CRL distribution point. Use this value if you don't want the name of your S3 bucket to be public.
-        public let customCname: String?
-        /// Boolean value that specifies whether certificate revocation lists (CRLs) are enabled. You can use this value to enable certificate revocation for a new CA when you call the CreateCertificateAuthority operation or for an existing CA when you call the UpdateCertificateAuthority operation. 
-        public let enabled: Bool
-        /// Number of days until a certificate expires.
-        public let expirationInDays: Int32?
-        /// Name of the S3 bucket that contains the CRL. If you do not provide a value for the CustomCname argument, the name of your S3 bucket is placed into the CRL Distribution Points extension of the issued certificate. You can change the name of your bucket by calling the UpdateCertificateAuthority operation. You must specify a bucket policy that allows ACM PCA to write the CRL to your bucket.
-        public let s3BucketName: String?
-
-        public init(customCname: String? = nil, enabled: Bool, expirationInDays: Int32? = nil, s3BucketName: String? = nil) {
-            self.customCname = customCname
-            self.enabled = enabled
-            self.expirationInDays = expirationInDays
-            self.s3BucketName = s3BucketName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case customCname = "CustomCname"
-            case enabled = "Enabled"
-            case expirationInDays = "ExpirationInDays"
-            case s3BucketName = "S3BucketName"
-        }
-    }
-
-    public struct ListTagsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateAuthorityArn", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) that was returned when you called the CreateCertificateAuthority operation. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012  
-        public let certificateAuthorityArn: String
-        /// Use this parameter when paginating results to specify the maximum number of items to return in the response. If additional items exist beyond the number you specify, the NextToken element is sent in the response. Use this NextToken value in a subsequent request to retrieve additional items.
-        public let maxResults: Int32?
-        /// Use this parameter when paginating results in a subsequent request after you receive a response with truncated results. Set it to the value of NextToken from the response you just received.
-        public let nextToken: String?
-
-        public init(certificateAuthorityArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.certificateAuthorityArn = certificateAuthorityArn
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificateAuthorityArn = "CertificateAuthorityArn"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public enum KeyAlgorithm: String, CustomStringConvertible, Codable {
-        case rsa2048 = "RSA_2048"
-        case rsa4096 = "RSA_4096"
-        case ecPrime256V1 = "EC_prime256v1"
-        case ecSecp384R1 = "EC_secp384r1"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteCertificateAuthorityRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PermanentDeletionTimeInDays", required: false, type: .integer), 
-            AWSShapeMember(label: "CertificateAuthorityArn", required: true, type: .string)
-        ]
-        /// The number of days to make a CA restorable after it has been deleted. This can be anywhere from 7 to 30 days, with 30 being the default.
-        public let permanentDeletionTimeInDays: Int32?
-        /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must have the following form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 . 
-        public let certificateAuthorityArn: String
-
-        public init(permanentDeletionTimeInDays: Int32? = nil, certificateAuthorityArn: String) {
-            self.permanentDeletionTimeInDays = permanentDeletionTimeInDays
-            self.certificateAuthorityArn = certificateAuthorityArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case permanentDeletionTimeInDays = "PermanentDeletionTimeInDays"
-            case certificateAuthorityArn = "CertificateAuthorityArn"
-        }
-    }
-
-    public struct CertificateAuthority: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RevocationConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "NotAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "RestorableUntil", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CertificateAuthorityConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "NotBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Serial", required: false, type: .string), 
-            AWSShapeMember(label: "FailureReason", required: false, type: .enum), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "LastStateChangeAt", required: false, type: .timestamp)
-        ]
-        /// Information about the certificate revocation list (CRL) created and maintained by your private CA. 
-        public let revocationConfiguration: RevocationConfiguration?
-        /// Amazon Resource Name (ARN) for your private certificate authority (CA). The format is  12345678-1234-1234-1234-123456789012 .
-        public let arn: String?
-        /// Date and time at which your private CA was created.
-        public let createdAt: TimeStamp?
-        /// Date and time after which your private CA certificate is not valid.
-        public let notAfter: TimeStamp?
-        /// Status of your private CA.
-        public let status: CertificateAuthorityStatus?
-        /// The period during which a deleted CA can be restored. For more information, see the PermanentDeletionTimeInDays parameter of the DeleteCertificateAuthorityRequest operation. 
-        public let restorableUntil: TimeStamp?
-        /// Your private CA configuration.
-        public let certificateAuthorityConfiguration: CertificateAuthorityConfiguration?
-        /// Date and time before which your private CA certificate is not valid.
-        public let notBefore: TimeStamp?
-        /// Serial number of your private CA.
-        public let serial: String?
-        /// Reason the request to create your private CA failed.
-        public let failureReason: FailureReason?
-        /// Type of your private CA.
-        public let `type`: CertificateAuthorityType?
-        /// Date and time at which your private CA was last updated.
-        public let lastStateChangeAt: TimeStamp?
-
-        public init(revocationConfiguration: RevocationConfiguration? = nil, arn: String? = nil, createdAt: TimeStamp? = nil, notAfter: TimeStamp? = nil, status: CertificateAuthorityStatus? = nil, restorableUntil: TimeStamp? = nil, certificateAuthorityConfiguration: CertificateAuthorityConfiguration? = nil, notBefore: TimeStamp? = nil, serial: String? = nil, failureReason: FailureReason? = nil, type: CertificateAuthorityType? = nil, lastStateChangeAt: TimeStamp? = nil) {
-            self.revocationConfiguration = revocationConfiguration
-            self.arn = arn
-            self.createdAt = createdAt
-            self.notAfter = notAfter
-            self.status = status
-            self.restorableUntil = restorableUntil
-            self.certificateAuthorityConfiguration = certificateAuthorityConfiguration
-            self.notBefore = notBefore
-            self.serial = serial
-            self.failureReason = failureReason
-            self.`type` = `type`
-            self.lastStateChangeAt = lastStateChangeAt
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case revocationConfiguration = "RevocationConfiguration"
-            case arn = "Arn"
-            case createdAt = "CreatedAt"
-            case notAfter = "NotAfter"
-            case status = "Status"
-            case restorableUntil = "RestorableUntil"
-            case certificateAuthorityConfiguration = "CertificateAuthorityConfiguration"
-            case notBefore = "NotBefore"
-            case serial = "Serial"
-            case failureReason = "FailureReason"
-            case `type` = "Type"
-            case lastStateChangeAt = "LastStateChangeAt"
-        }
-    }
-
-    public struct TagCertificateAuthorityRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: true, type: .list), 
-            AWSShapeMember(label: "CertificateAuthorityArn", required: true, type: .string)
-        ]
-        /// List of tags to be associated with the CA.
-        public let tags: [Tag]
-        /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012  
-        public let certificateAuthorityArn: String
-
-        public init(tags: [Tag], certificateAuthorityArn: String) {
-            self.tags = tags
-            self.certificateAuthorityArn = certificateAuthorityArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-            case certificateAuthorityArn = "CertificateAuthorityArn"
-        }
-    }
-
-    public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "Key", required: true, type: .string)
-        ]
-        /// Value of the tag.
-        public let value: String?
-        /// Key (name) of the tag.
-        public let key: String
-
-        public init(value: String? = nil, key: String) {
-            self.value = value
-            self.key = key
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case key = "Key"
-        }
-    }
-
     public struct CreateCertificateAuthorityResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CertificateAuthorityArn", required: false, type: .string)
@@ -850,30 +744,50 @@ extension ACMPCA {
         }
     }
 
-    public enum CertificateAuthorityStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case pendingCertificate = "PENDING_CERTIFICATE"
-        case active = "ACTIVE"
-        case deleted = "DELETED"
-        case disabled = "DISABLED"
-        case expired = "EXPIRED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetCertificateAuthorityCsrRequest: AWSShape {
+    public struct DescribeCertificateAuthorityResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateAuthorityArn", required: true, type: .string)
+            AWSShapeMember(label: "CertificateAuthority", required: false, type: .structure)
         ]
-        /// The Amazon Resource Name (ARN) that was returned when you called the CreateCertificateAuthority operation. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012  
-        public let certificateAuthorityArn: String
+        /// A CertificateAuthority structure that contains information about your private CA.
+        public let certificateAuthority: CertificateAuthority?
 
-        public init(certificateAuthorityArn: String) {
-            self.certificateAuthorityArn = certificateAuthorityArn
+        public init(certificateAuthority: CertificateAuthority? = nil) {
+            self.certificateAuthority = certificateAuthority
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateAuthorityArn = "CertificateAuthorityArn"
+            case certificateAuthority = "CertificateAuthority"
+        }
+    }
+
+    public struct CreateCertificateAuthorityRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateAuthorityConfiguration", required: true, type: .structure), 
+            AWSShapeMember(label: "CertificateAuthorityType", required: true, type: .enum), 
+            AWSShapeMember(label: "RevocationConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "IdempotencyToken", required: false, type: .string)
+        ]
+        /// Name and bit size of the private key algorithm, the name of the signing algorithm, and X.500 certificate subject information.
+        public let certificateAuthorityConfiguration: CertificateAuthorityConfiguration
+        /// The type of the certificate authority. Currently, this must be SUBORDINATE.
+        public let certificateAuthorityType: CertificateAuthorityType
+        /// Contains a Boolean value that you can use to enable a certification revocation list (CRL) for the CA, the name of the S3 bucket to which ACM PCA will write the CRL, and an optional CNAME alias that you can use to hide the name of your bucket in the CRL Distribution Points extension of your CA certificate. For more information, see the CrlConfiguration structure. 
+        public let revocationConfiguration: RevocationConfiguration?
+        /// Alphanumeric string that can be used to distinguish between calls to CreateCertificateAuthority. Idempotency tokens time out after five minutes. Therefore, if you call CreateCertificateAuthority multiple times with the same idempotency token within a five minute period, ACM PCA recognizes that you are requesting only one certificate. As a result, ACM PCA issues only one. If you change the idempotency token for each call, however, ACM PCA recognizes that you are requesting multiple certificates.
+        public let idempotencyToken: String?
+
+        public init(certificateAuthorityConfiguration: CertificateAuthorityConfiguration, certificateAuthorityType: CertificateAuthorityType, revocationConfiguration: RevocationConfiguration? = nil, idempotencyToken: String? = nil) {
+            self.certificateAuthorityConfiguration = certificateAuthorityConfiguration
+            self.certificateAuthorityType = certificateAuthorityType
+            self.revocationConfiguration = revocationConfiguration
+            self.idempotencyToken = idempotencyToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateAuthorityConfiguration = "CertificateAuthorityConfiguration"
+            case certificateAuthorityType = "CertificateAuthorityType"
+            case revocationConfiguration = "RevocationConfiguration"
+            case idempotencyToken = "IdempotencyToken"
         }
     }
 
@@ -887,50 +801,136 @@ extension ACMPCA {
         public var description: String { return self.rawValue }
     }
 
-    public struct CertificateAuthorityConfiguration: AWSShape {
+    public struct GetCertificateAuthorityCertificateResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Subject", required: true, type: .structure), 
-            AWSShapeMember(label: "SigningAlgorithm", required: true, type: .enum), 
-            AWSShapeMember(label: "KeyAlgorithm", required: true, type: .enum)
+            AWSShapeMember(label: "Certificate", required: false, type: .string), 
+            AWSShapeMember(label: "CertificateChain", required: false, type: .string)
         ]
-        /// Structure that contains X.500 distinguished name information for your private CA.
-        public let subject: ASN1Subject
-        /// Name of the algorithm your private CA uses to sign certificate requests.
-        public let signingAlgorithm: SigningAlgorithm
-        /// Type of the public key algorithm and size, in bits, of the key pair that your key pair creates when it issues a certificate.
-        public let keyAlgorithm: KeyAlgorithm
+        /// Base64-encoded certificate authority (CA) certificate.
+        public let certificate: String?
+        /// Base64-encoded certificate chain that includes any intermediate certificates and chains up to root on-premises certificate that you used to sign your private CA certificate. The chain does not include your private CA certificate. 
+        public let certificateChain: String?
 
-        public init(subject: ASN1Subject, signingAlgorithm: SigningAlgorithm, keyAlgorithm: KeyAlgorithm) {
-            self.subject = subject
-            self.signingAlgorithm = signingAlgorithm
-            self.keyAlgorithm = keyAlgorithm
+        public init(certificate: String? = nil, certificateChain: String? = nil) {
+            self.certificate = certificate
+            self.certificateChain = certificateChain
         }
 
         private enum CodingKeys: String, CodingKey {
-            case subject = "Subject"
-            case signingAlgorithm = "SigningAlgorithm"
-            case keyAlgorithm = "KeyAlgorithm"
+            case certificate = "Certificate"
+            case certificateChain = "CertificateChain"
         }
     }
 
-    public struct DescribeCertificateAuthorityAuditReportRequest: AWSShape {
+    public struct UpdateCertificateAuthorityRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuditReportId", required: true, type: .string), 
+            AWSShapeMember(label: "RevocationConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "CertificateAuthorityArn", required: true, type: .string)
         ]
-        /// The report ID returned by calling the CreateCertificateAuthorityAuditReport operation.
-        public let auditReportId: String
-        /// The Amazon Resource Name (ARN) of the private CA. This must be of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 . 
+        /// Revocation information for your private CA.
+        public let revocationConfiguration: RevocationConfiguration?
+        /// Status of your private CA.
+        public let status: CertificateAuthorityStatus?
+        /// Amazon Resource Name (ARN) of the private CA that issued the certificate to be revoked. This must be of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012  
         public let certificateAuthorityArn: String
 
-        public init(auditReportId: String, certificateAuthorityArn: String) {
-            self.auditReportId = auditReportId
+        public init(revocationConfiguration: RevocationConfiguration? = nil, status: CertificateAuthorityStatus? = nil, certificateAuthorityArn: String) {
+            self.revocationConfiguration = revocationConfiguration
+            self.status = status
             self.certificateAuthorityArn = certificateAuthorityArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case auditReportId = "AuditReportId"
+            case revocationConfiguration = "RevocationConfiguration"
+            case status = "Status"
             case certificateAuthorityArn = "CertificateAuthorityArn"
+        }
+    }
+
+    public struct IssueCertificateResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateArn", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the issued certificate and the certificate serial number. This is of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012/certificate/286535153982981100925020015808220737245  
+        public let certificateArn: String?
+
+        public init(certificateArn: String? = nil) {
+            self.certificateArn = certificateArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
+        }
+    }
+
+    public struct CreateCertificateAuthorityAuditReportResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuditReportId", required: false, type: .string), 
+            AWSShapeMember(label: "S3Key", required: false, type: .string)
+        ]
+        /// An alphanumeric string that contains a report identifier.
+        public let auditReportId: String?
+        /// The key that uniquely identifies the report file in your S3 bucket.
+        public let s3Key: String?
+
+        public init(auditReportId: String? = nil, s3Key: String? = nil) {
+            self.auditReportId = auditReportId
+            self.s3Key = s3Key
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case auditReportId = "AuditReportId"
+            case s3Key = "S3Key"
+        }
+    }
+
+    public struct ListCertificateAuthoritiesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+        ]
+        /// Use this parameter when paginating results in a subsequent request after you receive a response with truncated results. Set it to the value of the NextToken parameter from the response you just received.
+        public let nextToken: String?
+        /// Use this parameter when paginating results to specify the maximum number of items to return in the response on each page. If additional items exist beyond the number you specify, the NextToken element is sent in the response. Use this NextToken value in a subsequent request to retrieve additional items.
+        public let maxResults: Int32?
+
+        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
+        }
+    }
+
+    public enum FailureReason: String, CustomStringConvertible, Codable {
+        case requestTimedOut = "REQUEST_TIMED_OUT"
+        case unsupportedAlgorithm = "UNSUPPORTED_ALGORITHM"
+        case other = "OTHER"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Validity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: true, type: .enum), 
+            AWSShapeMember(label: "Value", required: true, type: .long)
+        ]
+        /// Specifies whether the Value parameter represents days, months, or years.
+        public let `type`: ValidityPeriodType
+        /// Time period.
+        public let value: Int64
+
+        public init(type: ValidityPeriodType, value: Int64) {
+            self.`type` = `type`
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case value = "Value"
         }
     }
 

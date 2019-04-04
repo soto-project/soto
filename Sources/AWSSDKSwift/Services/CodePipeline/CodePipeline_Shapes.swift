@@ -5,324 +5,33 @@ import AWSSDKSwiftCore
 
 extension CodePipeline {
 
-    public enum WebhookAuthenticationType: String, CustomStringConvertible, Codable {
-        case githubHmac = "GITHUB_HMAC"
-        case ip = "IP"
-        case unauthenticated = "UNAUTHENTICATED"
+    public struct WebhookAuthConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllowedIPRange", required: false, type: .string), 
+            AWSShapeMember(label: "SecretToken", required: false, type: .string)
+        ]
+        /// The property used to configure acceptance of webhooks within a specific IP range. For IP, only the AllowedIPRange property must be set, and this property must be set to a valid CIDR range.
+        public let allowedIPRange: String?
+        /// The property used to configure GitHub authentication. For GITHUB_HMAC, only the SecretToken property must be set.
+        public let secretToken: String?
+
+        public init(allowedIPRange: String? = nil, secretToken: String? = nil) {
+            self.allowedIPRange = allowedIPRange
+            self.secretToken = secretToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedIPRange = "AllowedIPRange"
+            case secretToken = "SecretToken"
+        }
+    }
+
+    public enum PipelineExecutionStatus: String, CustomStringConvertible, Codable {
+        case inprogress = "InProgress"
+        case succeeded = "Succeeded"
+        case superseded = "Superseded"
+        case failed = "Failed"
         public var description: String { return self.rawValue }
-    }
-
-    public struct DisableStageTransitionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "reason", required: true, type: .string), 
-            AWSShapeMember(label: "stageName", required: true, type: .string), 
-            AWSShapeMember(label: "pipelineName", required: true, type: .string), 
-            AWSShapeMember(label: "transitionType", required: true, type: .enum)
-        ]
-        /// The reason given to the user why a stage is disabled, such as waiting for manual approval or manual tests. This message is displayed in the pipeline console UI.
-        public let reason: String
-        /// The name of the stage where you want to disable the inbound or outbound transition of artifacts.
-        public let stageName: String
-        /// The name of the pipeline in which you want to disable the flow of artifacts from one stage to another.
-        public let pipelineName: String
-        /// Specifies whether artifacts will be prevented from transitioning into the stage and being processed by the actions in that stage (inbound), or prevented from transitioning from the stage after they have been processed by the actions in that stage (outbound).
-        public let transitionType: StageTransitionType
-
-        public init(reason: String, stageName: String, pipelineName: String, transitionType: StageTransitionType) {
-            self.reason = reason
-            self.stageName = stageName
-            self.pipelineName = pipelineName
-            self.transitionType = transitionType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case reason = "reason"
-            case stageName = "stageName"
-            case pipelineName = "pipelineName"
-            case transitionType = "transitionType"
-        }
-    }
-
-    public struct ArtifactRevision: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "created", required: false, type: .timestamp), 
-            AWSShapeMember(label: "revisionChangeIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "revisionSummary", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "revisionId", required: false, type: .string), 
-            AWSShapeMember(label: "revisionUrl", required: false, type: .string)
-        ]
-        /// The date and time when the most recent revision of the artifact was created, in timestamp format.
-        public let created: TimeStamp?
-        /// An additional identifier for a revision, such as a commit date or, for artifacts stored in Amazon S3 buckets, the ETag value.
-        public let revisionChangeIdentifier: String?
-        /// Summary information about the most recent revision of the artifact. For GitHub and AWS CodeCommit repositories, the commit message. For Amazon S3 buckets or actions, the user-provided content of a codepipeline-artifact-revision-summary key specified in the object metadata.
-        public let revisionSummary: String?
-        /// The name of an artifact. This name might be system-generated, such as "MyApp", or might be defined by the user when an action is created.
-        public let name: String?
-        /// The revision ID of the artifact.
-        public let revisionId: String?
-        /// The commit ID for the artifact revision. For artifacts stored in GitHub or AWS CodeCommit repositories, the commit ID is linked to a commit details page.
-        public let revisionUrl: String?
-
-        public init(created: TimeStamp? = nil, revisionChangeIdentifier: String? = nil, revisionSummary: String? = nil, name: String? = nil, revisionId: String? = nil, revisionUrl: String? = nil) {
-            self.created = created
-            self.revisionChangeIdentifier = revisionChangeIdentifier
-            self.revisionSummary = revisionSummary
-            self.name = name
-            self.revisionId = revisionId
-            self.revisionUrl = revisionUrl
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case created = "created"
-            case revisionChangeIdentifier = "revisionChangeIdentifier"
-            case revisionSummary = "revisionSummary"
-            case name = "name"
-            case revisionId = "revisionId"
-            case revisionUrl = "revisionUrl"
-        }
-    }
-
-    public struct FailureDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "type", required: true, type: .enum), 
-            AWSShapeMember(label: "externalExecutionId", required: false, type: .string), 
-            AWSShapeMember(label: "message", required: true, type: .string)
-        ]
-        /// The type of the failure.
-        public let `type`: FailureType
-        /// The external ID of the run of the action that failed.
-        public let externalExecutionId: String?
-        /// The message about the failure.
-        public let message: String
-
-        public init(type: FailureType, externalExecutionId: String? = nil, message: String) {
-            self.`type` = `type`
-            self.externalExecutionId = externalExecutionId
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "type"
-            case externalExecutionId = "externalExecutionId"
-            case message = "message"
-        }
-    }
-
-    public struct ThirdPartyJobData: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "outputArtifacts", required: false, type: .list), 
-            AWSShapeMember(label: "actionConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "actionTypeId", required: false, type: .structure), 
-            AWSShapeMember(label: "continuationToken", required: false, type: .string), 
-            AWSShapeMember(label: "inputArtifacts", required: false, type: .list), 
-            AWSShapeMember(label: "pipelineContext", required: false, type: .structure), 
-            AWSShapeMember(label: "encryptionKey", required: false, type: .structure), 
-            AWSShapeMember(label: "artifactCredentials", required: false, type: .structure)
-        ]
-        /// The name of the artifact that will be the result of the action, if any. This name might be system-generated, such as "MyBuiltApp", or might be defined by the user when the action is created.
-        public let outputArtifacts: [Artifact]?
-        /// Represents information about an action configuration.
-        public let actionConfiguration: ActionConfiguration?
-        /// Represents information about an action type.
-        public let actionTypeId: ActionTypeId?
-        /// A system-generated token, such as a AWS CodeDeploy deployment ID, that a job requires in order to continue the job asynchronously.
-        public let continuationToken: String?
-        /// The name of the artifact that will be worked upon by the action, if any. This name might be system-generated, such as "MyApp", or might be defined by the user when the action is created. The input artifact name must match the name of an output artifact generated by an action in an earlier action or stage of the pipeline.
-        public let inputArtifacts: [Artifact]?
-        /// Represents information about a pipeline to a job worker.
-        public let pipelineContext: PipelineContext?
-        /// The encryption key used to encrypt and decrypt data in the artifact store for the pipeline, such as an AWS Key Management Service (AWS KMS) key. This is optional and might not be present.
-        public let encryptionKey: EncryptionKey?
-        /// Represents an AWS session credentials object. These credentials are temporary credentials that are issued by AWS Secure Token Service (STS). They can be used to access input and output artifacts in the Amazon S3 bucket used to store artifact for the pipeline in AWS CodePipeline. 
-        public let artifactCredentials: AWSSessionCredentials?
-
-        public init(outputArtifacts: [Artifact]? = nil, actionConfiguration: ActionConfiguration? = nil, actionTypeId: ActionTypeId? = nil, continuationToken: String? = nil, inputArtifacts: [Artifact]? = nil, pipelineContext: PipelineContext? = nil, encryptionKey: EncryptionKey? = nil, artifactCredentials: AWSSessionCredentials? = nil) {
-            self.outputArtifacts = outputArtifacts
-            self.actionConfiguration = actionConfiguration
-            self.actionTypeId = actionTypeId
-            self.continuationToken = continuationToken
-            self.inputArtifacts = inputArtifacts
-            self.pipelineContext = pipelineContext
-            self.encryptionKey = encryptionKey
-            self.artifactCredentials = artifactCredentials
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case outputArtifacts = "outputArtifacts"
-            case actionConfiguration = "actionConfiguration"
-            case actionTypeId = "actionTypeId"
-            case continuationToken = "continuationToken"
-            case inputArtifacts = "inputArtifacts"
-            case pipelineContext = "pipelineContext"
-            case encryptionKey = "encryptionKey"
-            case artifactCredentials = "artifactCredentials"
-        }
-    }
-
-    public enum ActionConfigurationPropertyType: String, CustomStringConvertible, Codable {
-        case string = "String"
-        case number = "Number"
-        case boolean = "Boolean"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct JobDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "data", required: false, type: .structure), 
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "accountId", required: false, type: .string)
-        ]
-        /// Represents additional information about a job required for a job worker to complete the job. 
-        public let data: JobData?
-        /// The unique system-generated ID of the job.
-        public let id: String?
-        /// The AWS account ID associated with the job.
-        public let accountId: String?
-
-        public init(data: JobData? = nil, id: String? = nil, accountId: String? = nil) {
-            self.data = data
-            self.id = id
-            self.accountId = accountId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case data = "data"
-            case id = "id"
-            case accountId = "accountId"
-        }
-    }
-
-    public struct AWSSessionCredentials: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "secretAccessKey", required: true, type: .string), 
-            AWSShapeMember(label: "sessionToken", required: true, type: .string), 
-            AWSShapeMember(label: "accessKeyId", required: true, type: .string)
-        ]
-        /// The secret access key for the session.
-        public let secretAccessKey: String
-        /// The token for the session.
-        public let sessionToken: String
-        /// The access key for the session.
-        public let accessKeyId: String
-
-        public init(secretAccessKey: String, sessionToken: String, accessKeyId: String) {
-            self.secretAccessKey = secretAccessKey
-            self.sessionToken = sessionToken
-            self.accessKeyId = accessKeyId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case secretAccessKey = "secretAccessKey"
-            case sessionToken = "sessionToken"
-            case accessKeyId = "accessKeyId"
-        }
-    }
-
-    public struct DeleteCustomActionTypeInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "category", required: true, type: .enum), 
-            AWSShapeMember(label: "version", required: true, type: .string), 
-            AWSShapeMember(label: "provider", required: true, type: .string)
-        ]
-        /// The category of the custom action that you want to delete, such as source or deploy.
-        public let category: ActionCategory
-        /// The version of the custom action to delete.
-        public let version: String
-        /// The provider of the service used in the custom action, such as AWS CodeDeploy.
-        public let provider: String
-
-        public init(category: ActionCategory, version: String, provider: String) {
-            self.category = category
-            self.version = version
-            self.provider = provider
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case category = "category"
-            case version = "version"
-            case provider = "provider"
-        }
-    }
-
-    public struct PipelineMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "created", required: false, type: .timestamp), 
-            AWSShapeMember(label: "pipelineArn", required: false, type: .string), 
-            AWSShapeMember(label: "updated", required: false, type: .timestamp)
-        ]
-        /// The date and time the pipeline was created, in timestamp format.
-        public let created: TimeStamp?
-        /// The Amazon Resource Name (ARN) of the pipeline.
-        public let pipelineArn: String?
-        /// The date and time the pipeline was last updated, in timestamp format.
-        public let updated: TimeStamp?
-
-        public init(created: TimeStamp? = nil, pipelineArn: String? = nil, updated: TimeStamp? = nil) {
-            self.created = created
-            self.pipelineArn = pipelineArn
-            self.updated = updated
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case created = "created"
-            case pipelineArn = "pipelineArn"
-            case updated = "updated"
-        }
-    }
-
-    public struct OutputArtifact: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string)
-        ]
-        /// The name of the output of an artifact, such as "My App". The input artifact of an action must exactly match the output artifact declared in a preceding action, but the input artifact does not have to be the next action in strict sequence from the action that provided the output artifact. Actions in parallel can declare different output artifacts, which are in turn consumed by different following actions. Output artifact names must be unique within a pipeline.
-        public let name: String
-
-        public init(name: String) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-        }
-    }
-
-    public struct GetPipelineInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "version", required: false, type: .integer)
-        ]
-        /// The name of the pipeline for which you want to get information. Pipeline names must be unique under an Amazon Web Services (AWS) user account.
-        public let name: String
-        /// The version number of the pipeline. If you do not specify a version, defaults to the most current version.
-        public let version: Int32?
-
-        public init(name: String, version: Int32? = nil) {
-            self.name = name
-            self.version = version
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case version = "version"
-        }
-    }
-
-    public struct ActionContext: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
-        /// The name of the action within the context of a job.
-        public let name: String?
-
-        public init(name: String? = nil) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-        }
     }
 
     public struct ErrorDetails: AWSShape {
@@ -346,1166 +55,119 @@ extension CodePipeline {
         }
     }
 
-    public struct ListPipelinesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "pipelines", required: false, type: .list)
-        ]
-        /// If the amount of returned information is significantly large, an identifier is also returned which can be used in a subsequent list pipelines call to return the next set of pipelines in the list.
-        public let nextToken: String?
-        /// The list of pipelines.
-        public let pipelines: [PipelineSummary]?
-
-        public init(nextToken: String? = nil, pipelines: [PipelineSummary]? = nil) {
-            self.nextToken = nextToken
-            self.pipelines = pipelines
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case pipelines = "pipelines"
-        }
-    }
-
-    public struct AcknowledgeJobInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobId", required: true, type: .string), 
-            AWSShapeMember(label: "nonce", required: true, type: .string)
-        ]
-        /// The unique system-generated ID of the job for which you want to confirm receipt.
-        public let jobId: String
-        /// A system-generated random number that AWS CodePipeline uses to ensure that the job is being worked on by only one job worker. Get this number from the response of the PollForJobs request that returned this job.
-        public let nonce: String
-
-        public init(jobId: String, nonce: String) {
-            self.jobId = jobId
-            self.nonce = nonce
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobId = "jobId"
-            case nonce = "nonce"
-        }
-    }
-
-    public struct AcknowledgeThirdPartyJobOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
-        /// The status information for the third party job, if any.
-        public let status: JobStatus?
-
-        public init(status: JobStatus? = nil) {
-            self.status = status
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "status"
-        }
-    }
-
-    public struct ListActionTypesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "actionTypes", required: true, type: .list)
-        ]
-        /// If the amount of returned information is significantly large, an identifier is also returned which can be used in a subsequent list action types call to return the next set of action types in the list.
-        public let nextToken: String?
-        /// Provides details of the action types.
-        public let actionTypes: [ActionType]
-
-        public init(nextToken: String? = nil, actionTypes: [ActionType]) {
-            self.nextToken = nextToken
-            self.actionTypes = actionTypes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case actionTypes = "actionTypes"
-        }
-    }
-
-    public struct ArtifactDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "minimumCount", required: true, type: .integer), 
-            AWSShapeMember(label: "maximumCount", required: true, type: .integer)
-        ]
-        /// The minimum number of artifacts allowed for the action type.
-        public let minimumCount: Int32
-        /// The maximum number of artifacts allowed for the action type.
-        public let maximumCount: Int32
-
-        public init(minimumCount: Int32, maximumCount: Int32) {
-            self.minimumCount = minimumCount
-            self.maximumCount = maximumCount
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case minimumCount = "minimumCount"
-            case maximumCount = "maximumCount"
-        }
-    }
-
-    public struct EncryptionKey: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "id", required: true, type: .string), 
-            AWSShapeMember(label: "type", required: true, type: .enum)
-        ]
-        /// The ID used to identify the key. For an AWS KMS key, this is the key ID or key ARN.
-        public let id: String
-        /// The type of encryption key, such as an AWS Key Management Service (AWS KMS) key. When creating or updating a pipeline, the value must be set to 'KMS'.
-        public let `type`: EncryptionKeyType
-
-        public init(id: String, type: EncryptionKeyType) {
-            self.id = id
-            self.`type` = `type`
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "id"
-            case `type` = "type"
-        }
-    }
-
-    public enum ArtifactStoreType: String, CustomStringConvertible, Codable {
-        case s3 = "S3"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListPipelineExecutionsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "pipelineExecutionSummaries", required: false, type: .list)
-        ]
-        /// A token that can be used in the next ListPipelineExecutions call. To view all items in the list, continue to call this operation with each subsequent token until no more nextToken values are returned.
-        public let nextToken: String?
-        /// A list of executions in the history of a pipeline.
-        public let pipelineExecutionSummaries: [PipelineExecutionSummary]?
-
-        public init(nextToken: String? = nil, pipelineExecutionSummaries: [PipelineExecutionSummary]? = nil) {
-            self.nextToken = nextToken
-            self.pipelineExecutionSummaries = pipelineExecutionSummaries
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case pipelineExecutionSummaries = "pipelineExecutionSummaries"
-        }
-    }
-
-    public struct ActionRevision: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "created", required: true, type: .timestamp), 
-            AWSShapeMember(label: "revisionChangeId", required: true, type: .string), 
-            AWSShapeMember(label: "revisionId", required: true, type: .string)
-        ]
-        /// The date and time when the most recent version of the action was created, in timestamp format.
-        public let created: TimeStamp
-        /// The unique identifier of the change that set the state to this revision, for example a deployment ID or timestamp.
-        public let revisionChangeId: String
-        /// The system-generated unique ID that identifies the revision number of the action.
-        public let revisionId: String
-
-        public init(created: TimeStamp, revisionChangeId: String, revisionId: String) {
-            self.created = created
-            self.revisionChangeId = revisionChangeId
-            self.revisionId = revisionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case created = "created"
-            case revisionChangeId = "revisionChangeId"
-            case revisionId = "revisionId"
-        }
-    }
-
-    public struct ListPipelinesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// An identifier that was returned from the previous list pipelines call, which can be used to return the next set of pipelines in the list.
-        public let nextToken: String?
-
-        public init(nextToken: String? = nil) {
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct RegisterWebhookWithThirdPartyOutput: AWSShape {
-
-    }
-
-    public struct PipelineExecution: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "artifactRevisions", required: false, type: .list), 
-            AWSShapeMember(label: "pipelineVersion", required: false, type: .integer), 
-            AWSShapeMember(label: "pipelineExecutionId", required: false, type: .string), 
-            AWSShapeMember(label: "pipelineName", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
-        /// A list of ArtifactRevision objects included in a pipeline execution.
-        public let artifactRevisions: [ArtifactRevision]?
-        /// The version number of the pipeline that was executed.
-        public let pipelineVersion: Int32?
-        /// The ID of the pipeline execution.
-        public let pipelineExecutionId: String?
-        /// The name of the pipeline that was executed.
-        public let pipelineName: String?
-        /// The status of the pipeline execution.   InProgress: The pipeline execution is currently running.   Succeeded: The pipeline execution was completed successfully.    Superseded: While this pipeline execution was waiting for the next stage to be completed, a newer pipeline execution advanced and continued through the pipeline instead.    Failed: The pipeline execution was not completed successfully.  
-        public let status: PipelineExecutionStatus?
-
-        public init(artifactRevisions: [ArtifactRevision]? = nil, pipelineVersion: Int32? = nil, pipelineExecutionId: String? = nil, pipelineName: String? = nil, status: PipelineExecutionStatus? = nil) {
-            self.artifactRevisions = artifactRevisions
-            self.pipelineVersion = pipelineVersion
-            self.pipelineExecutionId = pipelineExecutionId
-            self.pipelineName = pipelineName
-            self.status = status
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case artifactRevisions = "artifactRevisions"
-            case pipelineVersion = "pipelineVersion"
-            case pipelineExecutionId = "pipelineExecutionId"
-            case pipelineName = "pipelineName"
-            case status = "status"
-        }
-    }
-
-    public struct AcknowledgeThirdPartyJobInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobId", required: true, type: .string), 
-            AWSShapeMember(label: "clientToken", required: true, type: .string), 
-            AWSShapeMember(label: "nonce", required: true, type: .string)
-        ]
-        /// The unique system-generated ID of the job.
-        public let jobId: String
-        /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details.
-        public let clientToken: String
-        /// A system-generated random number that AWS CodePipeline uses to ensure that the job is being worked on by only one job worker. Get this number from the response to a GetThirdPartyJobDetails request.
-        public let nonce: String
-
-        public init(jobId: String, clientToken: String, nonce: String) {
-            self.jobId = jobId
-            self.clientToken = clientToken
-            self.nonce = nonce
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobId = "jobId"
-            case clientToken = "clientToken"
-            case nonce = "nonce"
-        }
-    }
-
-    public enum ApprovalStatus: String, CustomStringConvertible, Codable {
-        case approved = "Approved"
-        case rejected = "Rejected"
+    public enum ActionConfigurationPropertyType: String, CustomStringConvertible, Codable {
+        case string = "String"
+        case number = "Number"
+        case boolean = "Boolean"
         public var description: String { return self.rawValue }
     }
 
     public struct GetThirdPartyJobDetailsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobId", required: true, type: .string), 
-            AWSShapeMember(label: "clientToken", required: true, type: .string)
+            AWSShapeMember(label: "clientToken", required: true, type: .string), 
+            AWSShapeMember(label: "jobId", required: true, type: .string)
         ]
-        /// The unique system-generated ID used for identifying the job.
-        public let jobId: String
         /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details.
         public let clientToken: String
+        /// The unique system-generated ID used for identifying the job.
+        public let jobId: String
 
-        public init(jobId: String, clientToken: String) {
-            self.jobId = jobId
+        public init(clientToken: String, jobId: String) {
             self.clientToken = clientToken
+            self.jobId = jobId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId = "jobId"
             case clientToken = "clientToken"
+            case jobId = "jobId"
         }
     }
 
-    public struct PutActionRevisionOutput: AWSShape {
+    public struct ArtifactRevision: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipelineExecutionId", required: false, type: .string), 
-            AWSShapeMember(label: "newRevision", required: false, type: .boolean)
+            AWSShapeMember(label: "revisionUrl", required: false, type: .string), 
+            AWSShapeMember(label: "revisionId", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "revisionSummary", required: false, type: .string), 
+            AWSShapeMember(label: "revisionChangeIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "created", required: false, type: .timestamp)
         ]
-        /// The ID of the current workflow state of the pipeline.
-        public let pipelineExecutionId: String?
-        /// Indicates whether the artifact revision was previously used in an execution of the specified pipeline.
-        public let newRevision: Bool?
-
-        public init(pipelineExecutionId: String? = nil, newRevision: Bool? = nil) {
-            self.pipelineExecutionId = pipelineExecutionId
-            self.newRevision = newRevision
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pipelineExecutionId = "pipelineExecutionId"
-            case newRevision = "newRevision"
-        }
-    }
-
-    public struct GetPipelineStateInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string)
-        ]
-        /// The name of the pipeline about which you want to get information.
-        public let name: String
-
-        public init(name: String) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-        }
-    }
-
-    public struct ListWebhookItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lastTriggered", required: false, type: .timestamp), 
-            AWSShapeMember(label: "url", required: true, type: .string), 
-            AWSShapeMember(label: "errorCode", required: false, type: .string), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "definition", required: true, type: .structure), 
-            AWSShapeMember(label: "errorMessage", required: false, type: .string)
-        ]
-        /// The date and time a webhook was last successfully triggered, in timestamp format.
-        public let lastTriggered: TimeStamp?
-        /// A unique URL generated by CodePipeline. When a POST request is made to this URL, the defined pipeline is started as long as the body of the post request satisfies the defined authentication and filtering conditions. Deleting and re-creating a webhook will make the old URL invalid and generate a new URL.
-        public let url: String
-        /// The number code of the error.
-        public let errorCode: String?
-        /// The Amazon Resource Name (ARN) of the webhook.
-        public let arn: String?
-        /// The detail returned for each webhook, such as the webhook authentication type and filter rules.
-        public let definition: WebhookDefinition
-        /// The text of the error message about the webhook.
-        public let errorMessage: String?
-
-        public init(lastTriggered: TimeStamp? = nil, url: String, errorCode: String? = nil, arn: String? = nil, definition: WebhookDefinition, errorMessage: String? = nil) {
-            self.lastTriggered = lastTriggered
-            self.url = url
-            self.errorCode = errorCode
-            self.arn = arn
-            self.definition = definition
-            self.errorMessage = errorMessage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lastTriggered = "lastTriggered"
-            case url = "url"
-            case errorCode = "errorCode"
-            case arn = "arn"
-            case definition = "definition"
-            case errorMessage = "errorMessage"
-        }
-    }
-
-    public struct CreatePipelineInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipeline", required: true, type: .structure)
-        ]
-        /// Represents the structure of actions and stages to be performed in the pipeline. 
-        public let pipeline: PipelineDeclaration
-
-        public init(pipeline: PipelineDeclaration) {
-            self.pipeline = pipeline
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pipeline = "pipeline"
-        }
-    }
-
-    public struct StartPipelineExecutionOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipelineExecutionId", required: false, type: .string)
-        ]
-        /// The unique system-generated ID of the pipeline execution that was started.
-        public let pipelineExecutionId: String?
-
-        public init(pipelineExecutionId: String? = nil) {
-            self.pipelineExecutionId = pipelineExecutionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pipelineExecutionId = "pipelineExecutionId"
-        }
-    }
-
-    public struct StageContext: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
-        /// The name of the stage.
+        /// The commit ID for the artifact revision. For artifacts stored in GitHub or AWS CodeCommit repositories, the commit ID is linked to a commit details page.
+        public let revisionUrl: String?
+        /// The revision ID of the artifact.
+        public let revisionId: String?
+        /// The name of an artifact. This name might be system-generated, such as "MyApp", or might be defined by the user when an action is created.
         public let name: String?
+        /// Summary information about the most recent revision of the artifact. For GitHub and AWS CodeCommit repositories, the commit message. For Amazon S3 buckets or actions, the user-provided content of a codepipeline-artifact-revision-summary key specified in the object metadata.
+        public let revisionSummary: String?
+        /// An additional identifier for a revision, such as a commit date or, for artifacts stored in Amazon S3 buckets, the ETag value.
+        public let revisionChangeIdentifier: String?
+        /// The date and time when the most recent revision of the artifact was created, in timestamp format.
+        public let created: TimeStamp?
 
-        public init(name: String? = nil) {
+        public init(revisionUrl: String? = nil, revisionId: String? = nil, name: String? = nil, revisionSummary: String? = nil, revisionChangeIdentifier: String? = nil, created: TimeStamp? = nil) {
+            self.revisionUrl = revisionUrl
+            self.revisionId = revisionId
             self.name = name
+            self.revisionSummary = revisionSummary
+            self.revisionChangeIdentifier = revisionChangeIdentifier
+            self.created = created
         }
 
         private enum CodingKeys: String, CodingKey {
+            case revisionUrl = "revisionUrl"
+            case revisionId = "revisionId"
             case name = "name"
+            case revisionSummary = "revisionSummary"
+            case revisionChangeIdentifier = "revisionChangeIdentifier"
+            case created = "created"
         }
     }
 
-    public enum ActionCategory: String, CustomStringConvertible, Codable {
-        case source = "Source"
-        case build = "Build"
-        case deploy = "Deploy"
-        case test = "Test"
-        case invoke = "Invoke"
-        case approval = "Approval"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ThirdPartyJobDetails: AWSShape {
+    public struct GetJobDetailsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "data", required: false, type: .structure), 
-            AWSShapeMember(label: "id", required: false, type: .string), 
-            AWSShapeMember(label: "nonce", required: false, type: .string)
+            AWSShapeMember(label: "jobDetails", required: false, type: .structure)
         ]
-        /// The data to be returned by the third party job worker.
-        public let data: ThirdPartyJobData?
-        /// The identifier used to identify the job details in AWS CodePipeline.
-        public let id: String?
-        /// A system-generated random number that AWS CodePipeline uses to ensure that the job is being worked on by only one job worker. Use this number in an AcknowledgeThirdPartyJob request.
-        public let nonce: String?
+        /// The details of the job.  If AWSSessionCredentials is used, a long-running job can call GetJobDetails again to obtain new credentials. 
+        public let jobDetails: JobDetails?
 
-        public init(data: ThirdPartyJobData? = nil, id: String? = nil, nonce: String? = nil) {
-            self.data = data
-            self.id = id
-            self.nonce = nonce
+        public init(jobDetails: JobDetails? = nil) {
+            self.jobDetails = jobDetails
         }
 
         private enum CodingKeys: String, CodingKey {
-            case data = "data"
-            case id = "id"
-            case nonce = "nonce"
+            case jobDetails = "jobDetails"
         }
     }
 
-    public struct GetPipelineExecutionOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipelineExecution", required: false, type: .structure)
-        ]
-        /// Represents information about the execution of a pipeline.
-        public let pipelineExecution: PipelineExecution?
-
-        public init(pipelineExecution: PipelineExecution? = nil) {
-            self.pipelineExecution = pipelineExecution
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pipelineExecution = "pipelineExecution"
-        }
-    }
-
-    public struct EnableStageTransitionInput: AWSShape {
+    public struct DisableStageTransitionInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "transitionType", required: true, type: .enum), 
             AWSShapeMember(label: "stageName", required: true, type: .string), 
+            AWSShapeMember(label: "reason", required: true, type: .string), 
             AWSShapeMember(label: "pipelineName", required: true, type: .string)
         ]
-        /// Specifies whether artifacts will be allowed to enter the stage and be processed by the actions in that stage (inbound) or whether already-processed artifacts will be allowed to transition to the next stage (outbound).
+        /// Specifies whether artifacts will be prevented from transitioning into the stage and being processed by the actions in that stage (inbound), or prevented from transitioning from the stage after they have been processed by the actions in that stage (outbound).
         public let transitionType: StageTransitionType
-        /// The name of the stage where you want to enable the transition of artifacts, either into the stage (inbound) or from that stage to the next stage (outbound).
+        /// The name of the stage where you want to disable the inbound or outbound transition of artifacts.
         public let stageName: String
-        /// The name of the pipeline in which you want to enable the flow of artifacts from one stage to another.
+        /// The reason given to the user why a stage is disabled, such as waiting for manual approval or manual tests. This message is displayed in the pipeline console UI.
+        public let reason: String
+        /// The name of the pipeline in which you want to disable the flow of artifacts from one stage to another.
         public let pipelineName: String
 
-        public init(transitionType: StageTransitionType, stageName: String, pipelineName: String) {
+        public init(transitionType: StageTransitionType, stageName: String, reason: String, pipelineName: String) {
             self.transitionType = transitionType
             self.stageName = stageName
+            self.reason = reason
             self.pipelineName = pipelineName
         }
 
         private enum CodingKeys: String, CodingKey {
             case transitionType = "transitionType"
             case stageName = "stageName"
+            case reason = "reason"
             case pipelineName = "pipelineName"
-        }
-    }
-
-    public struct ThirdPartyJob: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobId", required: false, type: .string), 
-            AWSShapeMember(label: "clientId", required: false, type: .string)
-        ]
-        /// The identifier used to identify the job in AWS CodePipeline.
-        public let jobId: String?
-        /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details.
-        public let clientId: String?
-
-        public init(jobId: String? = nil, clientId: String? = nil) {
-            self.jobId = jobId
-            self.clientId = clientId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobId = "jobId"
-            case clientId = "clientId"
-        }
-    }
-
-    public struct SourceRevision: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionName", required: true, type: .string), 
-            AWSShapeMember(label: "revisionSummary", required: false, type: .string), 
-            AWSShapeMember(label: "revisionId", required: false, type: .string), 
-            AWSShapeMember(label: "revisionUrl", required: false, type: .string)
-        ]
-        /// The name of the action that processed the revision to the source artifact.
-        public let actionName: String
-        /// Summary information about the most recent revision of the artifact. For GitHub and AWS CodeCommit repositories, the commit message. For Amazon S3 buckets or actions, the user-provided content of a codepipeline-artifact-revision-summary key specified in the object metadata.
-        public let revisionSummary: String?
-        /// The system-generated unique ID that identifies the revision number of the artifact.
-        public let revisionId: String?
-        /// The commit ID for the artifact revision. For artifacts stored in GitHub or AWS CodeCommit repositories, the commit ID is linked to a commit details page.
-        public let revisionUrl: String?
-
-        public init(actionName: String, revisionSummary: String? = nil, revisionId: String? = nil, revisionUrl: String? = nil) {
-            self.actionName = actionName
-            self.revisionSummary = revisionSummary
-            self.revisionId = revisionId
-            self.revisionUrl = revisionUrl
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case actionName = "actionName"
-            case revisionSummary = "revisionSummary"
-            case revisionId = "revisionId"
-            case revisionUrl = "revisionUrl"
-        }
-    }
-
-    public enum BlockerType: String, CustomStringConvertible, Codable {
-        case schedule = "Schedule"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ExecutionDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "summary", required: false, type: .string), 
-            AWSShapeMember(label: "externalExecutionId", required: false, type: .string), 
-            AWSShapeMember(label: "percentComplete", required: false, type: .integer)
-        ]
-        /// The summary of the current status of the actions.
-        public let summary: String?
-        /// The system-generated unique ID of this action used to identify this job worker in any external systems, such as AWS CodeDeploy.
-        public let externalExecutionId: String?
-        /// The percentage of work completed on the action, represented on a scale of zero to one hundred percent.
-        public let percentComplete: Int32?
-
-        public init(summary: String? = nil, externalExecutionId: String? = nil, percentComplete: Int32? = nil) {
-            self.summary = summary
-            self.externalExecutionId = externalExecutionId
-            self.percentComplete = percentComplete
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case summary = "summary"
-            case externalExecutionId = "externalExecutionId"
-            case percentComplete = "percentComplete"
-        }
-    }
-
-    public struct WebhookAuthConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecretToken", required: false, type: .string), 
-            AWSShapeMember(label: "AllowedIPRange", required: false, type: .string)
-        ]
-        /// The property used to configure GitHub authentication. For GITHUB_HMAC, only the SecretToken property must be set.
-        public let secretToken: String?
-        /// The property used to configure acceptance of webhooks within a specific IP range. For IP, only the AllowedIPRange property must be set, and this property must be set to a valid CIDR range.
-        public let allowedIPRange: String?
-
-        public init(secretToken: String? = nil, allowedIPRange: String? = nil) {
-            self.secretToken = secretToken
-            self.allowedIPRange = allowedIPRange
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case secretToken = "SecretToken"
-            case allowedIPRange = "AllowedIPRange"
-        }
-    }
-
-    public struct ActionDeclaration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "outputArtifacts", required: false, type: .list), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string), 
-            AWSShapeMember(label: "actionTypeId", required: true, type: .structure), 
-            AWSShapeMember(label: "runOrder", required: false, type: .integer), 
-            AWSShapeMember(label: "region", required: false, type: .string), 
-            AWSShapeMember(label: "inputArtifacts", required: false, type: .list), 
-            AWSShapeMember(label: "configuration", required: false, type: .map)
-        ]
-        /// The action declaration's name.
-        public let name: String
-        /// The name or ID of the result of the action declaration, such as a test or build artifact.
-        public let outputArtifacts: [OutputArtifact]?
-        /// The ARN of the IAM service role that will perform the declared action. This is assumed through the roleArn for the pipeline.
-        public let roleArn: String?
-        /// The configuration information for the action type.
-        public let actionTypeId: ActionTypeId
-        /// The order in which actions are run.
-        public let runOrder: Int32?
-        /// The action declaration's AWS Region, such as us-east-1.
-        public let region: String?
-        /// The name or ID of the artifact consumed by the action, such as a test or build artifact.
-        public let inputArtifacts: [InputArtifact]?
-        /// The action declaration's configuration.
-        public let configuration: [String: String]?
-
-        public init(name: String, outputArtifacts: [OutputArtifact]? = nil, roleArn: String? = nil, actionTypeId: ActionTypeId, runOrder: Int32? = nil, region: String? = nil, inputArtifacts: [InputArtifact]? = nil, configuration: [String: String]? = nil) {
-            self.name = name
-            self.outputArtifacts = outputArtifacts
-            self.roleArn = roleArn
-            self.actionTypeId = actionTypeId
-            self.runOrder = runOrder
-            self.region = region
-            self.inputArtifacts = inputArtifacts
-            self.configuration = configuration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case outputArtifacts = "outputArtifacts"
-            case roleArn = "roleArn"
-            case actionTypeId = "actionTypeId"
-            case runOrder = "runOrder"
-            case region = "region"
-            case inputArtifacts = "inputArtifacts"
-            case configuration = "configuration"
-        }
-    }
-
-    public struct UpdatePipelineInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipeline", required: true, type: .structure)
-        ]
-        /// The name of the pipeline to be updated.
-        public let pipeline: PipelineDeclaration
-
-        public init(pipeline: PipelineDeclaration) {
-            self.pipeline = pipeline
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pipeline = "pipeline"
-        }
-    }
-
-    public enum EncryptionKeyType: String, CustomStringConvertible, Codable {
-        case kms = "KMS"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum FailureType: String, CustomStringConvertible, Codable {
-        case jobfailed = "JobFailed"
-        case configurationerror = "ConfigurationError"
-        case permissionerror = "PermissionError"
-        case revisionoutofsync = "RevisionOutOfSync"
-        case revisionunavailable = "RevisionUnavailable"
-        case systemunavailable = "SystemUnavailable"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteWebhookOutput: AWSShape {
-
-    }
-
-    public struct ArtifactLocation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "s3Location", required: false, type: .structure), 
-            AWSShapeMember(label: "type", required: false, type: .enum)
-        ]
-        /// The Amazon S3 bucket that contains the artifact.
-        public let s3Location: S3ArtifactLocation?
-        /// The type of artifact in the location.
-        public let `type`: ArtifactLocationType?
-
-        public init(s3Location: S3ArtifactLocation? = nil, type: ArtifactLocationType? = nil) {
-            self.s3Location = s3Location
-            self.`type` = `type`
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case s3Location = "s3Location"
-            case `type` = "type"
-        }
-    }
-
-    public struct ActionConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "configuration", required: false, type: .map)
-        ]
-        /// The configuration data for the action.
-        public let configuration: [String: String]?
-
-        public init(configuration: [String: String]? = nil) {
-            self.configuration = configuration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case configuration = "configuration"
-        }
-    }
-
-    public struct ActionType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "inputArtifactDetails", required: true, type: .structure), 
-            AWSShapeMember(label: "outputArtifactDetails", required: true, type: .structure), 
-            AWSShapeMember(label: "settings", required: false, type: .structure), 
-            AWSShapeMember(label: "actionConfigurationProperties", required: false, type: .list), 
-            AWSShapeMember(label: "id", required: true, type: .structure)
-        ]
-        /// The details of the input artifact for the action, such as its commit ID.
-        public let inputArtifactDetails: ArtifactDetails
-        /// The details of the output artifact of the action, such as its commit ID.
-        public let outputArtifactDetails: ArtifactDetails
-        /// The settings for the action type.
-        public let settings: ActionTypeSettings?
-        /// The configuration properties for the action type.
-        public let actionConfigurationProperties: [ActionConfigurationProperty]?
-        /// Represents information about an action type.
-        public let id: ActionTypeId
-
-        public init(inputArtifactDetails: ArtifactDetails, outputArtifactDetails: ArtifactDetails, settings: ActionTypeSettings? = nil, actionConfigurationProperties: [ActionConfigurationProperty]? = nil, id: ActionTypeId) {
-            self.inputArtifactDetails = inputArtifactDetails
-            self.outputArtifactDetails = outputArtifactDetails
-            self.settings = settings
-            self.actionConfigurationProperties = actionConfigurationProperties
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case inputArtifactDetails = "inputArtifactDetails"
-            case outputArtifactDetails = "outputArtifactDetails"
-            case settings = "settings"
-            case actionConfigurationProperties = "actionConfigurationProperties"
-            case id = "id"
-        }
-    }
-
-    public struct GetPipelineExecutionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipelineExecutionId", required: true, type: .string), 
-            AWSShapeMember(label: "pipelineName", required: true, type: .string)
-        ]
-        /// The ID of the pipeline execution about which you want to get execution details.
-        public let pipelineExecutionId: String
-        /// The name of the pipeline about which you want to get execution details.
-        public let pipelineName: String
-
-        public init(pipelineExecutionId: String, pipelineName: String) {
-            self.pipelineExecutionId = pipelineExecutionId
-            self.pipelineName = pipelineName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pipelineExecutionId = "pipelineExecutionId"
-            case pipelineName = "pipelineName"
-        }
-    }
-
-    public enum JobStatus: String, CustomStringConvertible, Codable {
-        case created = "Created"
-        case queued = "Queued"
-        case dispatched = "Dispatched"
-        case inprogress = "InProgress"
-        case timedout = "TimedOut"
-        case succeeded = "Succeeded"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteWebhookInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string)
-        ]
-        /// The name of the webhook you want to delete.
-        public let name: String
-
-        public init(name: String) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-        }
-    }
-
-    public struct RegisterWebhookWithThirdPartyInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "webhookName", required: false, type: .string)
-        ]
-        /// The name of an existing webhook created with PutWebhook to register with a supported third party. 
-        public let webhookName: String?
-
-        public init(webhookName: String? = nil) {
-            self.webhookName = webhookName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case webhookName = "webhookName"
-        }
-    }
-
-    public struct ActionExecution: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "percentComplete", required: false, type: .integer), 
-            AWSShapeMember(label: "externalExecutionUrl", required: false, type: .string), 
-            AWSShapeMember(label: "token", required: false, type: .string), 
-            AWSShapeMember(label: "lastStatusChange", required: false, type: .timestamp), 
-            AWSShapeMember(label: "externalExecutionId", required: false, type: .string), 
-            AWSShapeMember(label: "errorDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "summary", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedBy", required: false, type: .string)
-        ]
-        /// A percentage of completeness of the action as it runs.
-        public let percentComplete: Int32?
-        /// The URL of a resource external to AWS that will be used when running the action, for example an external repository URL.
-        public let externalExecutionUrl: String?
-        /// The system-generated token used to identify a unique approval request. The token for each open approval request can be obtained using the GetPipelineState command and is used to validate that the approval request corresponding to this token is still valid.
-        public let token: String?
-        /// The last status change of the action.
-        public let lastStatusChange: TimeStamp?
-        /// The external ID of the run of the action.
-        public let externalExecutionId: String?
-        /// The details of an error returned by a URL external to AWS.
-        public let errorDetails: ErrorDetails?
-        /// The status of the action, or for a completed action, the last status of the action.
-        public let status: ActionExecutionStatus?
-        /// A summary of the run of the action.
-        public let summary: String?
-        /// The ARN of the user who last changed the pipeline.
-        public let lastUpdatedBy: String?
-
-        public init(percentComplete: Int32? = nil, externalExecutionUrl: String? = nil, token: String? = nil, lastStatusChange: TimeStamp? = nil, externalExecutionId: String? = nil, errorDetails: ErrorDetails? = nil, status: ActionExecutionStatus? = nil, summary: String? = nil, lastUpdatedBy: String? = nil) {
-            self.percentComplete = percentComplete
-            self.externalExecutionUrl = externalExecutionUrl
-            self.token = token
-            self.lastStatusChange = lastStatusChange
-            self.externalExecutionId = externalExecutionId
-            self.errorDetails = errorDetails
-            self.status = status
-            self.summary = summary
-            self.lastUpdatedBy = lastUpdatedBy
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case percentComplete = "percentComplete"
-            case externalExecutionUrl = "externalExecutionUrl"
-            case token = "token"
-            case lastStatusChange = "lastStatusChange"
-            case externalExecutionId = "externalExecutionId"
-            case errorDetails = "errorDetails"
-            case status = "status"
-            case summary = "summary"
-            case lastUpdatedBy = "lastUpdatedBy"
-        }
-    }
-
-    public enum StageTransitionType: String, CustomStringConvertible, Codable {
-        case inbound = "Inbound"
-        case outbound = "Outbound"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct PollForJobsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "queryParam", required: false, type: .map), 
-            AWSShapeMember(label: "actionTypeId", required: true, type: .structure), 
-            AWSShapeMember(label: "maxBatchSize", required: false, type: .integer)
-        ]
-        /// A map of property names and values. For an action type with no queryable properties, this value must be null or an empty map. For an action type with a queryable property, you must supply that property as a key in the map. Only jobs whose action configuration matches the mapped value will be returned.
-        public let queryParam: [String: String]?
-        /// Represents information about an action type.
-        public let actionTypeId: ActionTypeId
-        /// The maximum number of jobs to return in a poll for jobs call.
-        public let maxBatchSize: Int32?
-
-        public init(queryParam: [String: String]? = nil, actionTypeId: ActionTypeId, maxBatchSize: Int32? = nil) {
-            self.queryParam = queryParam
-            self.actionTypeId = actionTypeId
-            self.maxBatchSize = maxBatchSize
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case queryParam = "queryParam"
-            case actionTypeId = "actionTypeId"
-            case maxBatchSize = "maxBatchSize"
-        }
-    }
-
-    public struct ApprovalResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "summary", required: true, type: .string), 
-            AWSShapeMember(label: "status", required: true, type: .enum)
-        ]
-        /// The summary of the current status of the approval request.
-        public let summary: String
-        /// The response submitted by a reviewer assigned to an approval action request.
-        public let status: ApprovalStatus
-
-        public init(summary: String, status: ApprovalStatus) {
-            self.summary = summary
-            self.status = status
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case summary = "summary"
-            case status = "status"
-        }
-    }
-
-    public struct GetPipelineStateOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "created", required: false, type: .timestamp), 
-            AWSShapeMember(label: "pipelineVersion", required: false, type: .integer), 
-            AWSShapeMember(label: "updated", required: false, type: .timestamp), 
-            AWSShapeMember(label: "pipelineName", required: false, type: .string), 
-            AWSShapeMember(label: "stageStates", required: false, type: .list)
-        ]
-        /// The date and time the pipeline was created, in timestamp format.
-        public let created: TimeStamp?
-        /// The version number of the pipeline.  A newly-created pipeline is always assigned a version number of 1. 
-        public let pipelineVersion: Int32?
-        /// The date and time the pipeline was last updated, in timestamp format.
-        public let updated: TimeStamp?
-        /// The name of the pipeline for which you want to get the state.
-        public let pipelineName: String?
-        /// A list of the pipeline stage output information, including stage name, state, most recent run details, whether the stage is disabled, and other data.
-        public let stageStates: [StageState]?
-
-        public init(created: TimeStamp? = nil, pipelineVersion: Int32? = nil, updated: TimeStamp? = nil, pipelineName: String? = nil, stageStates: [StageState]? = nil) {
-            self.created = created
-            self.pipelineVersion = pipelineVersion
-            self.updated = updated
-            self.pipelineName = pipelineName
-            self.stageStates = stageStates
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case created = "created"
-            case pipelineVersion = "pipelineVersion"
-            case updated = "updated"
-            case pipelineName = "pipelineName"
-            case stageStates = "stageStates"
-        }
-    }
-
-    public struct PipelineSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "created", required: false, type: .timestamp), 
-            AWSShapeMember(label: "updated", required: false, type: .timestamp), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "version", required: false, type: .integer)
-        ]
-        /// The date and time the pipeline was created, in timestamp format.
-        public let created: TimeStamp?
-        /// The date and time of the last update to the pipeline, in timestamp format.
-        public let updated: TimeStamp?
-        /// The name of the pipeline.
-        public let name: String?
-        /// The version number of the pipeline.
-        public let version: Int32?
-
-        public init(created: TimeStamp? = nil, updated: TimeStamp? = nil, name: String? = nil, version: Int32? = nil) {
-            self.created = created
-            self.updated = updated
-            self.name = name
-            self.version = version
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case created = "created"
-            case updated = "updated"
-            case name = "name"
-            case version = "version"
-        }
-    }
-
-    public struct Job: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "data", required: false, type: .structure), 
-            AWSShapeMember(label: "accountId", required: false, type: .string), 
-            AWSShapeMember(label: "nonce", required: false, type: .string), 
-            AWSShapeMember(label: "id", required: false, type: .string)
-        ]
-        /// Additional data about a job.
-        public let data: JobData?
-        /// The ID of the AWS account to use when performing the job.
-        public let accountId: String?
-        /// A system-generated random number that AWS CodePipeline uses to ensure that the job is being worked on by only one job worker. Use this number in an AcknowledgeJob request.
-        public let nonce: String?
-        /// The unique system-generated ID of the job.
-        public let id: String?
-
-        public init(data: JobData? = nil, accountId: String? = nil, nonce: String? = nil, id: String? = nil) {
-            self.data = data
-            self.accountId = accountId
-            self.nonce = nonce
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case data = "data"
-            case accountId = "accountId"
-            case nonce = "nonce"
-            case id = "id"
-        }
-    }
-
-    public struct StartPipelineExecutionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "clientRequestToken", required: false, type: .string)
-        ]
-        /// The name of the pipeline to start.
-        public let name: String
-        /// The system-generated unique ID used to identify a unique execution request.
-        public let clientRequestToken: String?
-
-        public init(name: String, clientRequestToken: String? = nil) {
-            self.name = name
-            self.clientRequestToken = clientRequestToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case clientRequestToken = "clientRequestToken"
-        }
-    }
-
-    public struct RetryStageExecutionOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipelineExecutionId", required: false, type: .string)
-        ]
-        /// The ID of the current workflow execution in the failed stage.
-        public let pipelineExecutionId: String?
-
-        public init(pipelineExecutionId: String? = nil) {
-            self.pipelineExecutionId = pipelineExecutionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pipelineExecutionId = "pipelineExecutionId"
-        }
-    }
-
-    public struct StageExecution: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "status", required: true, type: .enum), 
-            AWSShapeMember(label: "pipelineExecutionId", required: true, type: .string)
-        ]
-        /// The status of the stage, or for a completed stage, the last status of the stage.
-        public let status: StageExecutionStatus
-        /// The ID of the pipeline execution associated with the stage.
-        public let pipelineExecutionId: String
-
-        public init(status: StageExecutionStatus, pipelineExecutionId: String) {
-            self.status = status
-            self.pipelineExecutionId = pipelineExecutionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "status"
-            case pipelineExecutionId = "pipelineExecutionId"
-        }
-    }
-
-    public enum StageExecutionStatus: String, CustomStringConvertible, Codable {
-        case inprogress = "InProgress"
-        case failed = "Failed"
-        case succeeded = "Succeeded"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct WebhookFilterRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "matchEquals", required: false, type: .string), 
-            AWSShapeMember(label: "jsonPath", required: true, type: .string)
-        ]
-        /// The value selected by the JsonPath expression must match what is supplied in the MatchEquals field, otherwise the request will be ignored. Properties from the target action configuration can be included as placeholders in this value by surrounding the action configuration key with curly braces. For example, if the value supplied here is "refs/heads/{Branch}" and the target action has an action configuration property called "Branch" with a value of "master", the MatchEquals value will be evaluated as "refs/heads/master". A list of action configuration properties for built-in action types can be found here: Pipeline Structure Reference Action Requirements.
-        public let matchEquals: String?
-        /// A JsonPath expression that will be applied to the body/payload of the webhook. The value selected by JsonPath expression must match the value specified in the matchEquals field, otherwise the request will be ignored. More information on JsonPath expressions can be found here: https://github.com/json-path/JsonPath.
-        public let jsonPath: String
-
-        public init(matchEquals: String? = nil, jsonPath: String) {
-            self.matchEquals = matchEquals
-            self.jsonPath = jsonPath
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case matchEquals = "matchEquals"
-            case jsonPath = "jsonPath"
-        }
-    }
-
-    public struct TransitionState: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lastChangedBy", required: false, type: .string), 
-            AWSShapeMember(label: "enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "disabledReason", required: false, type: .string), 
-            AWSShapeMember(label: "lastChangedAt", required: false, type: .timestamp)
-        ]
-        /// The ID of the user who last changed the transition state.
-        public let lastChangedBy: String?
-        /// Whether the transition between stages is enabled (true) or disabled (false).
-        public let enabled: Bool?
-        /// The user-specified reason why the transition between two stages of a pipeline was disabled.
-        public let disabledReason: String?
-        /// The timestamp when the transition state was last changed.
-        public let lastChangedAt: TimeStamp?
-
-        public init(lastChangedBy: String? = nil, enabled: Bool? = nil, disabledReason: String? = nil, lastChangedAt: TimeStamp? = nil) {
-            self.lastChangedBy = lastChangedBy
-            self.enabled = enabled
-            self.disabledReason = disabledReason
-            self.lastChangedAt = lastChangedAt
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lastChangedBy = "lastChangedBy"
-            case enabled = "enabled"
-            case disabledReason = "disabledReason"
-            case lastChangedAt = "lastChangedAt"
-        }
-    }
-
-    public struct Artifact: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "revision", required: false, type: .string), 
-            AWSShapeMember(label: "location", required: false, type: .structure)
-        ]
-        /// The artifact's name.
-        public let name: String?
-        /// The artifact's revision ID. Depending on the type of object, this could be a commit ID (GitHub) or a revision ID (Amazon S3).
-        public let revision: String?
-        /// The location of an artifact.
-        public let location: ArtifactLocation?
-
-        public init(name: String? = nil, revision: String? = nil, location: ArtifactLocation? = nil) {
-            self.name = name
-            self.revision = revision
-            self.location = location
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case revision = "revision"
-            case location = "location"
         }
     }
 
@@ -1530,53 +192,6 @@ extension CodePipeline {
         }
     }
 
-    public struct DeregisterWebhookWithThirdPartyInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "webhookName", required: false, type: .string)
-        ]
-        /// The name of the webhook you want to deregister.
-        public let webhookName: String?
-
-        public init(webhookName: String? = nil) {
-            self.webhookName = webhookName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case webhookName = "webhookName"
-        }
-    }
-
-    public struct ActionTypeSettings: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "entityUrlTemplate", required: false, type: .string), 
-            AWSShapeMember(label: "executionUrlTemplate", required: false, type: .string), 
-            AWSShapeMember(label: "thirdPartyConfigurationUrl", required: false, type: .string), 
-            AWSShapeMember(label: "revisionUrlTemplate", required: false, type: .string)
-        ]
-        /// The URL returned to the AWS CodePipeline console that provides a deep link to the resources of the external system, such as the configuration page for an AWS CodeDeploy deployment group. This link is provided as part of the action display within the pipeline.
-        public let entityUrlTemplate: String?
-        /// The URL returned to the AWS CodePipeline console that contains a link to the top-level landing page for the external system, such as console page for AWS CodeDeploy. This link is shown on the pipeline view page in the AWS CodePipeline console and provides a link to the execution entity of the external action.
-        public let executionUrlTemplate: String?
-        /// The URL of a sign-up page where users can sign up for an external service and perform initial configuration of the action provided by that service.
-        public let thirdPartyConfigurationUrl: String?
-        /// The URL returned to the AWS CodePipeline console that contains a link to the page where customers can update or change the configuration of the external action.
-        public let revisionUrlTemplate: String?
-
-        public init(entityUrlTemplate: String? = nil, executionUrlTemplate: String? = nil, thirdPartyConfigurationUrl: String? = nil, revisionUrlTemplate: String? = nil) {
-            self.entityUrlTemplate = entityUrlTemplate
-            self.executionUrlTemplate = executionUrlTemplate
-            self.thirdPartyConfigurationUrl = thirdPartyConfigurationUrl
-            self.revisionUrlTemplate = revisionUrlTemplate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case entityUrlTemplate = "entityUrlTemplate"
-            case executionUrlTemplate = "executionUrlTemplate"
-            case thirdPartyConfigurationUrl = "thirdPartyConfigurationUrl"
-            case revisionUrlTemplate = "revisionUrlTemplate"
-        }
-    }
-
     public enum ActionExecutionStatus: String, CustomStringConvertible, Codable {
         case inprogress = "InProgress"
         case succeeded = "Succeeded"
@@ -1584,505 +199,189 @@ extension CodePipeline {
         public var description: String { return self.rawValue }
     }
 
-    public struct GetJobDetailsInput: AWSShape {
+    public struct WebhookDefinition: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "targetPipeline", required: true, type: .string), 
+            AWSShapeMember(label: "authentication", required: true, type: .enum), 
+            AWSShapeMember(label: "targetAction", required: true, type: .string), 
+            AWSShapeMember(label: "authenticationConfiguration", required: true, type: .structure), 
+            AWSShapeMember(label: "filters", required: true, type: .list), 
+            AWSShapeMember(label: "name", required: true, type: .string)
+        ]
+        /// The name of the pipeline you want to connect to the webhook.
+        public let targetPipeline: String
+        /// Supported options are GITHUB_HMAC, IP and UNAUTHENTICATED.    GITHUB_HMAC implements the authentication scheme described here: https://developer.github.com/webhooks/securing/    IP will reject webhooks trigger requests unless they originate from an IP within the IP range whitelisted in the authentication configuration.    UNAUTHENTICATED will accept all webhook trigger requests regardless of origin.  
+        public let authentication: WebhookAuthenticationType
+        /// The name of the action in a pipeline you want to connect to the webhook. The action must be from the source (first) stage of the pipeline.
+        public let targetAction: String
+        /// Properties that configure the authentication applied to incoming webhook trigger requests. The required properties depend on the authentication type. For GITHUB_HMAC, only the SecretToken property must be set. For IP, only the AllowedIPRange property must be set to a valid CIDR range. For UNAUTHENTICATED, no properties can be set.
+        public let authenticationConfiguration: WebhookAuthConfiguration
+        /// A list of rules applied to the body/payload sent in the POST request to a webhook URL. All defined rules must pass for the request to be accepted and the pipeline started.
+        public let filters: [WebhookFilterRule]
+        /// The name of the webhook.
+        public let name: String
+
+        public init(targetPipeline: String, authentication: WebhookAuthenticationType, targetAction: String, authenticationConfiguration: WebhookAuthConfiguration, filters: [WebhookFilterRule], name: String) {
+            self.targetPipeline = targetPipeline
+            self.authentication = authentication
+            self.targetAction = targetAction
+            self.authenticationConfiguration = authenticationConfiguration
+            self.filters = filters
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetPipeline = "targetPipeline"
+            case authentication = "authentication"
+            case targetAction = "targetAction"
+            case authenticationConfiguration = "authenticationConfiguration"
+            case filters = "filters"
+            case name = "name"
+        }
+    }
+
+    public struct PutThirdPartyJobFailureResultInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clientToken", required: true, type: .string), 
+            AWSShapeMember(label: "failureDetails", required: true, type: .structure), 
             AWSShapeMember(label: "jobId", required: true, type: .string)
         ]
-        /// The unique system-generated ID for the job.
+        /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details.
+        public let clientToken: String
+        /// Represents information about failure details.
+        public let failureDetails: FailureDetails
+        /// The ID of the job that failed. This is the same ID returned from PollForThirdPartyJobs.
         public let jobId: String
 
-        public init(jobId: String) {
+        public init(clientToken: String, failureDetails: FailureDetails, jobId: String) {
+            self.clientToken = clientToken
+            self.failureDetails = failureDetails
             self.jobId = jobId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case failureDetails = "failureDetails"
             case jobId = "jobId"
         }
     }
 
-    public enum ActionOwner: String, CustomStringConvertible, Codable {
-        case aws = "AWS"
-        case thirdparty = "ThirdParty"
-        case custom = "Custom"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct PollForJobsOutput: AWSShape {
+    public struct ExecutionDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobs", required: false, type: .list)
+            AWSShapeMember(label: "summary", required: false, type: .string), 
+            AWSShapeMember(label: "percentComplete", required: false, type: .integer), 
+            AWSShapeMember(label: "externalExecutionId", required: false, type: .string)
         ]
-        /// Information about the jobs to take action on.
-        public let jobs: [Job]?
+        /// The summary of the current status of the actions.
+        public let summary: String?
+        /// The percentage of work completed on the action, represented on a scale of zero to one hundred percent.
+        public let percentComplete: Int32?
+        /// The system-generated unique ID of this action used to identify this job worker in any external systems, such as AWS CodeDeploy.
+        public let externalExecutionId: String?
 
-        public init(jobs: [Job]? = nil) {
-            self.jobs = jobs
+        public init(summary: String? = nil, percentComplete: Int32? = nil, externalExecutionId: String? = nil) {
+            self.summary = summary
+            self.percentComplete = percentComplete
+            self.externalExecutionId = externalExecutionId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobs = "jobs"
-        }
-    }
-
-    public struct UpdatePipelineOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipeline", required: false, type: .structure)
-        ]
-        /// The structure of the updated pipeline.
-        public let pipeline: PipelineDeclaration?
-
-        public init(pipeline: PipelineDeclaration? = nil) {
-            self.pipeline = pipeline
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pipeline = "pipeline"
-        }
-    }
-
-    public struct JobData: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "outputArtifacts", required: false, type: .list), 
-            AWSShapeMember(label: "actionConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "actionTypeId", required: false, type: .structure), 
-            AWSShapeMember(label: "continuationToken", required: false, type: .string), 
-            AWSShapeMember(label: "inputArtifacts", required: false, type: .list), 
-            AWSShapeMember(label: "pipelineContext", required: false, type: .structure), 
-            AWSShapeMember(label: "encryptionKey", required: false, type: .structure), 
-            AWSShapeMember(label: "artifactCredentials", required: false, type: .structure)
-        ]
-        /// The output of the job.
-        public let outputArtifacts: [Artifact]?
-        /// Represents information about an action configuration.
-        public let actionConfiguration: ActionConfiguration?
-        /// Represents information about an action type.
-        public let actionTypeId: ActionTypeId?
-        /// A system-generated token, such as a AWS CodeDeploy deployment ID, that a job requires in order to continue the job asynchronously.
-        public let continuationToken: String?
-        /// The artifact supplied to the job.
-        public let inputArtifacts: [Artifact]?
-        /// Represents information about a pipeline to a job worker.
-        public let pipelineContext: PipelineContext?
-        /// Represents information about the key used to encrypt data in the artifact store, such as an AWS Key Management Service (AWS KMS) key. 
-        public let encryptionKey: EncryptionKey?
-        /// Represents an AWS session credentials object. These credentials are temporary credentials that are issued by AWS Secure Token Service (STS). They can be used to access input and output artifacts in the Amazon S3 bucket used to store artifact for the pipeline in AWS CodePipeline.
-        public let artifactCredentials: AWSSessionCredentials?
-
-        public init(outputArtifacts: [Artifact]? = nil, actionConfiguration: ActionConfiguration? = nil, actionTypeId: ActionTypeId? = nil, continuationToken: String? = nil, inputArtifacts: [Artifact]? = nil, pipelineContext: PipelineContext? = nil, encryptionKey: EncryptionKey? = nil, artifactCredentials: AWSSessionCredentials? = nil) {
-            self.outputArtifacts = outputArtifacts
-            self.actionConfiguration = actionConfiguration
-            self.actionTypeId = actionTypeId
-            self.continuationToken = continuationToken
-            self.inputArtifacts = inputArtifacts
-            self.pipelineContext = pipelineContext
-            self.encryptionKey = encryptionKey
-            self.artifactCredentials = artifactCredentials
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case outputArtifacts = "outputArtifacts"
-            case actionConfiguration = "actionConfiguration"
-            case actionTypeId = "actionTypeId"
-            case continuationToken = "continuationToken"
-            case inputArtifacts = "inputArtifacts"
-            case pipelineContext = "pipelineContext"
-            case encryptionKey = "encryptionKey"
-            case artifactCredentials = "artifactCredentials"
+            case summary = "summary"
+            case percentComplete = "percentComplete"
+            case externalExecutionId = "externalExecutionId"
         }
     }
 
     public struct PutJobSuccessResultInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "jobId", required: true, type: .string), 
-            AWSShapeMember(label: "currentRevision", required: false, type: .structure), 
+            AWSShapeMember(label: "executionDetails", required: false, type: .structure), 
             AWSShapeMember(label: "continuationToken", required: false, type: .string), 
-            AWSShapeMember(label: "executionDetails", required: false, type: .structure)
+            AWSShapeMember(label: "currentRevision", required: false, type: .structure)
         ]
         /// The unique system-generated ID of the job that succeeded. This is the same ID returned from PollForJobs.
         public let jobId: String
-        /// The ID of the current revision of the artifact successfully worked upon by the job.
-        public let currentRevision: CurrentRevision?
-        /// A token generated by a job worker, such as an AWS CodeDeploy deployment ID, that a successful job provides to identify a custom action in progress. Future jobs will use this token in order to identify the running instance of the action. It can be reused to return additional information about the progress of the custom action. When the action is complete, no continuation token should be supplied.
-        public let continuationToken: String?
         /// The execution details of the successful job, such as the actions taken by the job worker.
         public let executionDetails: ExecutionDetails?
+        /// A token generated by a job worker, such as an AWS CodeDeploy deployment ID, that a successful job provides to identify a custom action in progress. Future jobs will use this token in order to identify the running instance of the action. It can be reused to return additional information about the progress of the custom action. When the action is complete, no continuation token should be supplied.
+        public let continuationToken: String?
+        /// The ID of the current revision of the artifact successfully worked upon by the job.
+        public let currentRevision: CurrentRevision?
 
-        public init(jobId: String, currentRevision: CurrentRevision? = nil, continuationToken: String? = nil, executionDetails: ExecutionDetails? = nil) {
+        public init(jobId: String, executionDetails: ExecutionDetails? = nil, continuationToken: String? = nil, currentRevision: CurrentRevision? = nil) {
             self.jobId = jobId
-            self.currentRevision = currentRevision
-            self.continuationToken = continuationToken
             self.executionDetails = executionDetails
+            self.continuationToken = continuationToken
+            self.currentRevision = currentRevision
         }
 
         private enum CodingKeys: String, CodingKey {
             case jobId = "jobId"
-            case currentRevision = "currentRevision"
-            case continuationToken = "continuationToken"
             case executionDetails = "executionDetails"
+            case continuationToken = "continuationToken"
+            case currentRevision = "currentRevision"
         }
     }
 
-    public struct ListPipelineExecutionsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "pipelineName", required: true, type: .string)
-        ]
-        /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value. The available pipeline execution history is limited to the most recent 12 months, based on pipeline execution start times. Default value is 100.
-        public let maxResults: Int32?
-        /// The token that was returned from the previous ListPipelineExecutions call, which can be used to return the next set of pipeline executions in the list.
-        public let nextToken: String?
-        /// The name of the pipeline for which you want to get execution summary information.
-        public let pipelineName: String
+    public struct DeleteWebhookOutput: AWSShape {
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, pipelineName: String) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-            self.pipelineName = pipelineName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case pipelineName = "pipelineName"
-        }
     }
 
-    public struct GetThirdPartyJobDetailsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobDetails", required: false, type: .structure)
-        ]
-        /// The details of the job, including any protected values defined for the job.
-        public let jobDetails: ThirdPartyJobDetails?
-
-        public init(jobDetails: ThirdPartyJobDetails? = nil) {
-            self.jobDetails = jobDetails
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobDetails = "jobDetails"
-        }
-    }
-
-    public struct ActionConfigurationProperty: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "queryable", required: false, type: .boolean), 
-            AWSShapeMember(label: "secret", required: true, type: .boolean), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "type", required: false, type: .enum), 
-            AWSShapeMember(label: "key", required: true, type: .boolean), 
-            AWSShapeMember(label: "required", required: true, type: .boolean), 
-            AWSShapeMember(label: "description", required: false, type: .string)
-        ]
-        /// Indicates that the property will be used in conjunction with PollForJobs. When creating a custom action, an action can have up to one queryable property. If it has one, that property must be both required and not secret. If you create a pipeline with a custom action type, and that custom action contains a queryable property, the value for that configuration property is subject to additional restrictions. The value must be less than or equal to twenty (20) characters. The value can contain only alphanumeric characters, underscores, and hyphens.
-        public let queryable: Bool?
-        /// Whether the configuration property is secret. Secrets are hidden from all calls except for GetJobDetails, GetThirdPartyJobDetails, PollForJobs, and PollForThirdPartyJobs. When updating a pipeline, passing * * * * * without changing any other values of the action will preserve the prior value of the secret.
-        public let secret: Bool
-        /// The name of the action configuration property.
-        public let name: String
-        /// The type of the configuration property.
-        public let `type`: ActionConfigurationPropertyType?
-        /// Whether the configuration property is a key.
-        public let key: Bool
-        /// Whether the configuration property is a required value.
-        public let required: Bool
-        /// The description of the action configuration property that will be displayed to users.
-        public let description: String?
-
-        public init(queryable: Bool? = nil, secret: Bool, name: String, type: ActionConfigurationPropertyType? = nil, key: Bool, required: Bool, description: String? = nil) {
-            self.queryable = queryable
-            self.secret = secret
-            self.name = name
-            self.`type` = `type`
-            self.key = key
-            self.required = required
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case queryable = "queryable"
-            case secret = "secret"
-            case name = "name"
-            case `type` = "type"
-            case key = "key"
-            case required = "required"
-            case description = "description"
-        }
-    }
-
-    public struct PollForThirdPartyJobsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobs", required: false, type: .list)
-        ]
-        /// Information about the jobs to take action on.
-        public let jobs: [ThirdPartyJob]?
-
-        public init(jobs: [ThirdPartyJob]? = nil) {
-            self.jobs = jobs
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobs = "jobs"
-        }
-    }
-
-    public struct InputArtifact: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string)
-        ]
-        /// The name of the artifact to be worked on, for example, "My App". The input artifact of an action must exactly match the output artifact declared in a preceding action, but the input artifact does not have to be the next action in strict sequence from the action that provided the output artifact. Actions in parallel can declare different output artifacts, which are in turn consumed by different following actions.
-        public let name: String
-
-        public init(name: String) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-        }
-    }
-
-    public struct PutThirdPartyJobSuccessResultInput: AWSShape {
+    public struct AcknowledgeThirdPartyJobInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "jobId", required: true, type: .string), 
-            AWSShapeMember(label: "currentRevision", required: false, type: .structure), 
-            AWSShapeMember(label: "continuationToken", required: false, type: .string), 
-            AWSShapeMember(label: "executionDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "nonce", required: true, type: .string), 
             AWSShapeMember(label: "clientToken", required: true, type: .string)
         ]
-        /// The ID of the job that successfully completed. This is the same ID returned from PollForThirdPartyJobs.
+        /// The unique system-generated ID of the job.
         public let jobId: String
-        /// Represents information about a current revision.
-        public let currentRevision: CurrentRevision?
-        /// A token generated by a job worker, such as an AWS CodeDeploy deployment ID, that a successful job provides to identify a partner action in progress. Future jobs will use this token in order to identify the running instance of the action. It can be reused to return additional information about the progress of the partner action. When the action is complete, no continuation token should be supplied.
-        public let continuationToken: String?
-        /// The details of the actions taken and results produced on an artifact as it passes through stages in the pipeline. 
-        public let executionDetails: ExecutionDetails?
+        /// A system-generated random number that AWS CodePipeline uses to ensure that the job is being worked on by only one job worker. Get this number from the response to a GetThirdPartyJobDetails request.
+        public let nonce: String
         /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details.
         public let clientToken: String
 
-        public init(jobId: String, currentRevision: CurrentRevision? = nil, continuationToken: String? = nil, executionDetails: ExecutionDetails? = nil, clientToken: String) {
+        public init(jobId: String, nonce: String, clientToken: String) {
             self.jobId = jobId
-            self.currentRevision = currentRevision
-            self.continuationToken = continuationToken
-            self.executionDetails = executionDetails
+            self.nonce = nonce
             self.clientToken = clientToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case jobId = "jobId"
-            case currentRevision = "currentRevision"
-            case continuationToken = "continuationToken"
-            case executionDetails = "executionDetails"
+            case nonce = "nonce"
             case clientToken = "clientToken"
         }
     }
 
-    public struct PipelineExecutionSummary: AWSShape {
+    public struct StartPipelineExecutionOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lastUpdateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "pipelineExecutionId", required: false, type: .string), 
-            AWSShapeMember(label: "sourceRevisions", required: false, type: .list), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
+            AWSShapeMember(label: "pipelineExecutionId", required: false, type: .string)
         ]
-        /// The date and time of the last change to the pipeline execution, in timestamp format.
-        public let lastUpdateTime: TimeStamp?
-        /// The date and time when the pipeline execution began, in timestamp format.
-        public let startTime: TimeStamp?
-        /// The ID of the pipeline execution.
+        /// The unique system-generated ID of the pipeline execution that was started.
         public let pipelineExecutionId: String?
-        /// A list of the source artifact revisions that initiated a pipeline execution.
-        public let sourceRevisions: [SourceRevision]?
-        /// The status of the pipeline execution.   InProgress: The pipeline execution is currently running.   Succeeded: The pipeline execution was completed successfully.    Superseded: While this pipeline execution was waiting for the next stage to be completed, a newer pipeline execution advanced and continued through the pipeline instead.    Failed: The pipeline execution was not completed successfully.  
-        public let status: PipelineExecutionStatus?
 
-        public init(lastUpdateTime: TimeStamp? = nil, startTime: TimeStamp? = nil, pipelineExecutionId: String? = nil, sourceRevisions: [SourceRevision]? = nil, status: PipelineExecutionStatus? = nil) {
-            self.lastUpdateTime = lastUpdateTime
-            self.startTime = startTime
+        public init(pipelineExecutionId: String? = nil) {
             self.pipelineExecutionId = pipelineExecutionId
-            self.sourceRevisions = sourceRevisions
-            self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lastUpdateTime = "lastUpdateTime"
-            case startTime = "startTime"
             case pipelineExecutionId = "pipelineExecutionId"
-            case sourceRevisions = "sourceRevisions"
-            case status = "status"
         }
     }
 
-    public struct PutWebhookOutput: AWSShape {
+    public struct ListPipelinesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "webhook", required: false, type: .structure)
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
-        /// The detail returned from creating the webhook, such as the webhook name, webhook URL, and webhook ARN.
-        public let webhook: ListWebhookItem?
-
-        public init(webhook: ListWebhookItem? = nil) {
-            self.webhook = webhook
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case webhook = "webhook"
-        }
-    }
-
-    public struct PutApprovalResultInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionName", required: true, type: .string), 
-            AWSShapeMember(label: "stageName", required: true, type: .string), 
-            AWSShapeMember(label: "pipelineName", required: true, type: .string), 
-            AWSShapeMember(label: "token", required: true, type: .string), 
-            AWSShapeMember(label: "result", required: true, type: .structure)
-        ]
-        /// The name of the action for which approval is requested.
-        public let actionName: String
-        /// The name of the stage that contains the action.
-        public let stageName: String
-        /// The name of the pipeline that contains the action. 
-        public let pipelineName: String
-        /// The system-generated token used to identify a unique approval request. The token for each open approval request can be obtained using the GetPipelineState action and is used to validate that the approval request corresponding to this token is still valid.
-        public let token: String
-        /// Represents information about the result of the approval request.
-        public let result: ApprovalResult
-
-        public init(actionName: String, stageName: String, pipelineName: String, token: String, result: ApprovalResult) {
-            self.actionName = actionName
-            self.stageName = stageName
-            self.pipelineName = pipelineName
-            self.token = token
-            self.result = result
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case actionName = "actionName"
-            case stageName = "stageName"
-            case pipelineName = "pipelineName"
-            case token = "token"
-            case result = "result"
-        }
-    }
-
-    public struct CreateCustomActionTypeOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionType", required: true, type: .structure)
-        ]
-        /// Returns information about the details of an action type.
-        public let actionType: ActionType
-
-        public init(actionType: ActionType) {
-            self.actionType = actionType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case actionType = "actionType"
-        }
-    }
-
-    public struct AcknowledgeJobOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "status", required: false, type: .enum)
-        ]
-        /// Whether the job worker has received the specified job.
-        public let status: JobStatus?
-
-        public init(status: JobStatus? = nil) {
-            self.status = status
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "status"
-        }
-    }
-
-    public struct StageDeclaration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "blockers", required: false, type: .list), 
-            AWSShapeMember(label: "actions", required: true, type: .list)
-        ]
-        /// The name of the stage.
-        public let name: String
-        /// Reserved for future use.
-        public let blockers: [BlockerDeclaration]?
-        /// The actions included in a stage.
-        public let actions: [ActionDeclaration]
-
-        public init(name: String, blockers: [BlockerDeclaration]? = nil, actions: [ActionDeclaration]) {
-            self.name = name
-            self.blockers = blockers
-            self.actions = actions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case blockers = "blockers"
-            case actions = "actions"
-        }
-    }
-
-    public struct ListWebhooksOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "webhooks", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The JSON detail returned for each webhook in the list output for the ListWebhooks call.
-        public let webhooks: [ListWebhookItem]?
-        /// If the amount of returned information is significantly large, an identifier is also returned and can be used in a subsequent ListWebhooks call to return the next set of webhooks in the list. 
+        /// An identifier that was returned from the previous list pipelines call, which can be used to return the next set of pipelines in the list.
         public let nextToken: String?
 
-        public init(webhooks: [ListWebhookItem]? = nil, nextToken: String? = nil) {
-            self.webhooks = webhooks
+        public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case webhooks = "webhooks"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct PutApprovalResultOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "approvedAt", required: false, type: .timestamp)
-        ]
-        /// The timestamp showing when the approval or rejection was submitted.
-        public let approvedAt: TimeStamp?
-
-        public init(approvedAt: TimeStamp? = nil) {
-            self.approvedAt = approvedAt
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case approvedAt = "approvedAt"
-        }
-    }
-
-    public struct ArtifactStore: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "type", required: true, type: .enum), 
-            AWSShapeMember(label: "location", required: true, type: .string), 
-            AWSShapeMember(label: "encryptionKey", required: false, type: .structure)
-        ]
-        /// The type of the artifact store, such as S3.
-        public let `type`: ArtifactStoreType
-        /// The Amazon S3 bucket used for storing the artifacts for a pipeline. You can specify the name of an S3 bucket but not a folder within the bucket. A folder to contain the pipeline artifacts is created for you based on the name of the pipeline. You can use any Amazon S3 bucket in the same AWS Region as the pipeline to store your pipeline artifacts.
-        public let location: String
-        /// The encryption key used to encrypt the data in the artifact store, such as an AWS Key Management Service (AWS KMS) key. If this is undefined, the default key for Amazon S3 is used.
-        public let encryptionKey: EncryptionKey?
-
-        public init(type: ArtifactStoreType, location: String, encryptionKey: EncryptionKey? = nil) {
-            self.`type` = `type`
-            self.location = location
-            self.encryptionKey = encryptionKey
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "type"
-            case location = "location"
-            case encryptionKey = "encryptionKey"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2102,44 +401,1900 @@ extension CodePipeline {
         }
     }
 
+    public struct ListActionTypesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "actionOwnerFilter", required: false, type: .enum)
+        ]
+        /// An identifier that was returned from the previous list action types call, which can be used to return the next set of action types in the list.
+        public let nextToken: String?
+        /// Filters the list of action types to those created by a specified entity.
+        public let actionOwnerFilter: ActionOwner?
+
+        public init(nextToken: String? = nil, actionOwnerFilter: ActionOwner? = nil) {
+            self.nextToken = nextToken
+            self.actionOwnerFilter = actionOwnerFilter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case actionOwnerFilter = "actionOwnerFilter"
+        }
+    }
+
+    public struct PipelineExecution: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pipelineVersion", required: false, type: .integer), 
+            AWSShapeMember(label: "artifactRevisions", required: false, type: .list), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "pipelineName", required: false, type: .string), 
+            AWSShapeMember(label: "pipelineExecutionId", required: false, type: .string)
+        ]
+        /// The version number of the pipeline that was executed.
+        public let pipelineVersion: Int32?
+        /// A list of ArtifactRevision objects included in a pipeline execution.
+        public let artifactRevisions: [ArtifactRevision]?
+        /// The status of the pipeline execution.   InProgress: The pipeline execution is currently running.   Succeeded: The pipeline execution was completed successfully.    Superseded: While this pipeline execution was waiting for the next stage to be completed, a newer pipeline execution advanced and continued through the pipeline instead.    Failed: The pipeline execution was not completed successfully.  
+        public let status: PipelineExecutionStatus?
+        /// The name of the pipeline that was executed.
+        public let pipelineName: String?
+        /// The ID of the pipeline execution.
+        public let pipelineExecutionId: String?
+
+        public init(pipelineVersion: Int32? = nil, artifactRevisions: [ArtifactRevision]? = nil, status: PipelineExecutionStatus? = nil, pipelineName: String? = nil, pipelineExecutionId: String? = nil) {
+            self.pipelineVersion = pipelineVersion
+            self.artifactRevisions = artifactRevisions
+            self.status = status
+            self.pipelineName = pipelineName
+            self.pipelineExecutionId = pipelineExecutionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipelineVersion = "pipelineVersion"
+            case artifactRevisions = "artifactRevisions"
+            case status = "status"
+            case pipelineName = "pipelineName"
+            case pipelineExecutionId = "pipelineExecutionId"
+        }
+    }
+
+    public struct StageDeclaration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "actions", required: true, type: .list), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "blockers", required: false, type: .list)
+        ]
+        /// The actions included in a stage.
+        public let actions: [ActionDeclaration]
+        /// The name of the stage.
+        public let name: String
+        /// Reserved for future use.
+        public let blockers: [BlockerDeclaration]?
+
+        public init(actions: [ActionDeclaration], name: String, blockers: [BlockerDeclaration]? = nil) {
+            self.actions = actions
+            self.name = name
+            self.blockers = blockers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "actions"
+            case name = "name"
+            case blockers = "blockers"
+        }
+    }
+
+    public struct PipelineSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "updated", required: false, type: .timestamp), 
+            AWSShapeMember(label: "created", required: false, type: .timestamp), 
+            AWSShapeMember(label: "version", required: false, type: .integer), 
+            AWSShapeMember(label: "name", required: false, type: .string)
+        ]
+        /// The date and time of the last update to the pipeline, in timestamp format.
+        public let updated: TimeStamp?
+        /// The date and time the pipeline was created, in timestamp format.
+        public let created: TimeStamp?
+        /// The version number of the pipeline.
+        public let version: Int32?
+        /// The name of the pipeline.
+        public let name: String?
+
+        public init(updated: TimeStamp? = nil, created: TimeStamp? = nil, version: Int32? = nil, name: String? = nil) {
+            self.updated = updated
+            self.created = created
+            self.version = version
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case updated = "updated"
+            case created = "created"
+            case version = "version"
+            case name = "name"
+        }
+    }
+
+    public struct RetryStageExecutionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "stageName", required: true, type: .string), 
+            AWSShapeMember(label: "pipelineExecutionId", required: true, type: .string), 
+            AWSShapeMember(label: "retryMode", required: true, type: .enum), 
+            AWSShapeMember(label: "pipelineName", required: true, type: .string)
+        ]
+        /// The name of the failed stage to be retried.
+        public let stageName: String
+        /// The ID of the pipeline execution in the failed stage to be retried. Use the GetPipelineState action to retrieve the current pipelineExecutionId of the failed stage
+        public let pipelineExecutionId: String
+        /// The scope of the retry attempt. Currently, the only supported value is FAILED_ACTIONS.
+        public let retryMode: StageRetryMode
+        /// The name of the pipeline that contains the failed stage.
+        public let pipelineName: String
+
+        public init(stageName: String, pipelineExecutionId: String, retryMode: StageRetryMode, pipelineName: String) {
+            self.stageName = stageName
+            self.pipelineExecutionId = pipelineExecutionId
+            self.retryMode = retryMode
+            self.pipelineName = pipelineName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stageName = "stageName"
+            case pipelineExecutionId = "pipelineExecutionId"
+            case retryMode = "retryMode"
+            case pipelineName = "pipelineName"
+        }
+    }
+
+    public struct PutActionRevisionOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pipelineExecutionId", required: false, type: .string), 
+            AWSShapeMember(label: "newRevision", required: false, type: .boolean)
+        ]
+        /// The ID of the current workflow state of the pipeline.
+        public let pipelineExecutionId: String?
+        /// Indicates whether the artifact revision was previously used in an execution of the specified pipeline.
+        public let newRevision: Bool?
+
+        public init(pipelineExecutionId: String? = nil, newRevision: Bool? = nil) {
+            self.pipelineExecutionId = pipelineExecutionId
+            self.newRevision = newRevision
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipelineExecutionId = "pipelineExecutionId"
+            case newRevision = "newRevision"
+        }
+    }
+
+    public struct ActionRevision: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "revisionId", required: true, type: .string), 
+            AWSShapeMember(label: "created", required: true, type: .timestamp), 
+            AWSShapeMember(label: "revisionChangeId", required: true, type: .string)
+        ]
+        /// The system-generated unique ID that identifies the revision number of the action.
+        public let revisionId: String
+        /// The date and time when the most recent version of the action was created, in timestamp format.
+        public let created: TimeStamp
+        /// The unique identifier of the change that set the state to this revision, for example a deployment ID or timestamp.
+        public let revisionChangeId: String
+
+        public init(revisionId: String, created: TimeStamp, revisionChangeId: String) {
+            self.revisionId = revisionId
+            self.created = created
+            self.revisionChangeId = revisionChangeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case revisionId = "revisionId"
+            case created = "created"
+            case revisionChangeId = "revisionChangeId"
+        }
+    }
+
+    public struct GetPipelineOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pipeline", required: false, type: .structure), 
+            AWSShapeMember(label: "metadata", required: false, type: .structure)
+        ]
+        /// Represents the structure of actions and stages to be performed in the pipeline. 
+        public let pipeline: PipelineDeclaration?
+        /// Represents the pipeline metadata information returned as part of the output of a GetPipeline action.
+        public let metadata: PipelineMetadata?
+
+        public init(pipeline: PipelineDeclaration? = nil, metadata: PipelineMetadata? = nil) {
+            self.pipeline = pipeline
+            self.metadata = metadata
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipeline = "pipeline"
+            case metadata = "metadata"
+        }
+    }
+
+    public struct AcknowledgeJobOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: false, type: .enum)
+        ]
+        /// Whether the job worker has received the specified job.
+        public let status: JobStatus?
+
+        public init(status: JobStatus? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+        }
+    }
+
+    public struct S3ArtifactLocation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "bucketName", required: true, type: .string), 
+            AWSShapeMember(label: "objectKey", required: true, type: .string)
+        ]
+        /// The name of the Amazon S3 bucket.
+        public let bucketName: String
+        /// The key of the object in the Amazon S3 bucket, which uniquely identifies the object in the bucket.
+        public let objectKey: String
+
+        public init(bucketName: String, objectKey: String) {
+            self.bucketName = bucketName
+            self.objectKey = objectKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName = "bucketName"
+            case objectKey = "objectKey"
+        }
+    }
+
+    public struct UpdatePipelineInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pipeline", required: true, type: .structure)
+        ]
+        /// The name of the pipeline to be updated.
+        public let pipeline: PipelineDeclaration
+
+        public init(pipeline: PipelineDeclaration) {
+            self.pipeline = pipeline
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipeline = "pipeline"
+        }
+    }
+
+    public struct Artifact: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "revision", required: false, type: .string), 
+            AWSShapeMember(label: "location", required: false, type: .structure), 
+            AWSShapeMember(label: "name", required: false, type: .string)
+        ]
+        /// The artifact's revision ID. Depending on the type of object, this could be a commit ID (GitHub) or a revision ID (Amazon S3).
+        public let revision: String?
+        /// The location of an artifact.
+        public let location: ArtifactLocation?
+        /// The artifact's name.
+        public let name: String?
+
+        public init(revision: String? = nil, location: ArtifactLocation? = nil, name: String? = nil) {
+            self.revision = revision
+            self.location = location
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case revision = "revision"
+            case location = "location"
+            case name = "name"
+        }
+    }
+
+    public struct EncryptionKey: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "id", required: true, type: .string), 
+            AWSShapeMember(label: "type", required: true, type: .enum)
+        ]
+        /// The ID used to identify the key. For an AWS KMS key, this is the key ID or key ARN.
+        public let id: String
+        /// The type of encryption key, such as an AWS Key Management Service (AWS KMS) key. When creating or updating a pipeline, the value must be set to 'KMS'.
+        public let `type`: EncryptionKeyType
+
+        public init(id: String, type: EncryptionKeyType) {
+            self.id = id
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case `type` = "type"
+        }
+    }
+
+    public struct DeregisterWebhookWithThirdPartyOutput: AWSShape {
+
+    }
+
+    public struct AWSSessionCredentials: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "secretAccessKey", required: true, type: .string), 
+            AWSShapeMember(label: "accessKeyId", required: true, type: .string), 
+            AWSShapeMember(label: "sessionToken", required: true, type: .string)
+        ]
+        /// The secret access key for the session.
+        public let secretAccessKey: String
+        /// The access key for the session.
+        public let accessKeyId: String
+        /// The token for the session.
+        public let sessionToken: String
+
+        public init(secretAccessKey: String, accessKeyId: String, sessionToken: String) {
+            self.secretAccessKey = secretAccessKey
+            self.accessKeyId = accessKeyId
+            self.sessionToken = sessionToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case secretAccessKey = "secretAccessKey"
+            case accessKeyId = "accessKeyId"
+            case sessionToken = "sessionToken"
+        }
+    }
+
+    public struct ApprovalResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "summary", required: true, type: .string), 
+            AWSShapeMember(label: "status", required: true, type: .enum)
+        ]
+        /// The summary of the current status of the approval request.
+        public let summary: String
+        /// The response submitted by a reviewer assigned to an approval action request.
+        public let status: ApprovalStatus
+
+        public init(summary: String, status: ApprovalStatus) {
+            self.summary = summary
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case summary = "summary"
+            case status = "status"
+        }
+    }
+
+    public enum WebhookAuthenticationType: String, CustomStringConvertible, Codable {
+        case githubHmac = "GITHUB_HMAC"
+        case ip = "IP"
+        case unauthenticated = "UNAUTHENTICATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct InputArtifact: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string)
+        ]
+        /// The name of the artifact to be worked on, for example, "My App". The input artifact of an action must exactly match the output artifact declared in a preceding action, but the input artifact does not have to be the next action in strict sequence from the action that provided the output artifact. Actions in parallel can declare different output artifacts, which are in turn consumed by different following actions.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
+    public enum JobStatus: String, CustomStringConvertible, Codable {
+        case created = "Created"
+        case queued = "Queued"
+        case dispatched = "Dispatched"
+        case inprogress = "InProgress"
+        case timedout = "TimedOut"
+        case succeeded = "Succeeded"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListActionTypesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "actionTypes", required: true, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// Provides details of the action types.
+        public let actionTypes: [ActionType]
+        /// If the amount of returned information is significantly large, an identifier is also returned which can be used in a subsequent list action types call to return the next set of action types in the list.
+        public let nextToken: String?
+
+        public init(actionTypes: [ActionType], nextToken: String? = nil) {
+            self.actionTypes = actionTypes
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionTypes = "actionTypes"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct PutJobFailureResultInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobId", required: true, type: .string), 
+            AWSShapeMember(label: "failureDetails", required: true, type: .structure)
+        ]
+        /// The unique system-generated ID of the job that failed. This is the same ID returned from PollForJobs.
+        public let jobId: String
+        /// The details about the failure of a job.
+        public let failureDetails: FailureDetails
+
+        public init(jobId: String, failureDetails: FailureDetails) {
+            self.jobId = jobId
+            self.failureDetails = failureDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "jobId"
+            case failureDetails = "failureDetails"
+        }
+    }
+
+    public struct PipelineContext: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "action", required: false, type: .structure), 
+            AWSShapeMember(label: "pipelineName", required: false, type: .string), 
+            AWSShapeMember(label: "stage", required: false, type: .structure)
+        ]
+        /// The context of an action to a job worker within the stage of a pipeline.
+        public let action: ActionContext?
+        /// The name of the pipeline. This is a user-specified value. Pipeline names must be unique across all pipeline names under an Amazon Web Services account.
+        public let pipelineName: String?
+        /// The stage of the pipeline.
+        public let stage: StageContext?
+
+        public init(action: ActionContext? = nil, pipelineName: String? = nil, stage: StageContext? = nil) {
+            self.action = action
+            self.pipelineName = pipelineName
+            self.stage = stage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case pipelineName = "pipelineName"
+            case stage = "stage"
+        }
+    }
+
+    public struct GetPipelineExecutionOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pipelineExecution", required: false, type: .structure)
+        ]
+        /// Represents information about the execution of a pipeline.
+        public let pipelineExecution: PipelineExecution?
+
+        public init(pipelineExecution: PipelineExecution? = nil) {
+            self.pipelineExecution = pipelineExecution
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipelineExecution = "pipelineExecution"
+        }
+    }
+
+    public struct UpdatePipelineOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pipeline", required: false, type: .structure)
+        ]
+        /// The structure of the updated pipeline.
+        public let pipeline: PipelineDeclaration?
+
+        public init(pipeline: PipelineDeclaration? = nil) {
+            self.pipeline = pipeline
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipeline = "pipeline"
+        }
+    }
+
+    public struct StageExecution: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: true, type: .enum), 
+            AWSShapeMember(label: "pipelineExecutionId", required: true, type: .string)
+        ]
+        /// The status of the stage, or for a completed stage, the last status of the stage.
+        public let status: StageExecutionStatus
+        /// The ID of the pipeline execution associated with the stage.
+        public let pipelineExecutionId: String
+
+        public init(status: StageExecutionStatus, pipelineExecutionId: String) {
+            self.status = status
+            self.pipelineExecutionId = pipelineExecutionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case pipelineExecutionId = "pipelineExecutionId"
+        }
+    }
+
     public enum StageRetryMode: String, CustomStringConvertible, Codable {
         case failedActions = "FAILED_ACTIONS"
         public var description: String { return self.rawValue }
     }
 
-    public struct ActionState: AWSShape {
+    public struct ListPipelineExecutionsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionName", required: false, type: .string), 
-            AWSShapeMember(label: "currentRevision", required: false, type: .structure), 
-            AWSShapeMember(label: "latestExecution", required: false, type: .structure), 
-            AWSShapeMember(label: "entityUrl", required: false, type: .string), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "pipelineExecutionSummaries", required: false, type: .list)
+        ]
+        /// A token that can be used in the next ListPipelineExecutions call. To view all items in the list, continue to call this operation with each subsequent token until no more nextToken values are returned.
+        public let nextToken: String?
+        /// A list of executions in the history of a pipeline.
+        public let pipelineExecutionSummaries: [PipelineExecutionSummary]?
+
+        public init(nextToken: String? = nil, pipelineExecutionSummaries: [PipelineExecutionSummary]? = nil) {
+            self.nextToken = nextToken
+            self.pipelineExecutionSummaries = pipelineExecutionSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case pipelineExecutionSummaries = "pipelineExecutionSummaries"
+        }
+    }
+
+    public struct ListPipelinesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "pipelines", required: false, type: .list)
+        ]
+        /// If the amount of returned information is significantly large, an identifier is also returned which can be used in a subsequent list pipelines call to return the next set of pipelines in the list.
+        public let nextToken: String?
+        /// The list of pipelines.
+        public let pipelines: [PipelineSummary]?
+
+        public init(nextToken: String? = nil, pipelines: [PipelineSummary]? = nil) {
+            self.nextToken = nextToken
+            self.pipelines = pipelines
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case pipelines = "pipelines"
+        }
+    }
+
+    public enum ApprovalStatus: String, CustomStringConvertible, Codable {
+        case approved = "Approved"
+        case rejected = "Rejected"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeleteCustomActionTypeInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "category", required: true, type: .enum), 
+            AWSShapeMember(label: "provider", required: true, type: .string), 
+            AWSShapeMember(label: "version", required: true, type: .string)
+        ]
+        /// The category of the custom action that you want to delete, such as source or deploy.
+        public let category: ActionCategory
+        /// The provider of the service used in the custom action, such as AWS CodeDeploy.
+        public let provider: String
+        /// The version of the custom action to delete.
+        public let version: String
+
+        public init(category: ActionCategory, provider: String, version: String) {
+            self.category = category
+            self.provider = provider
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case category = "category"
+            case provider = "provider"
+            case version = "version"
+        }
+    }
+
+    public struct TransitionState: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "lastChangedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "disabledReason", required: false, type: .string), 
+            AWSShapeMember(label: "enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "lastChangedBy", required: false, type: .string)
+        ]
+        /// The timestamp when the transition state was last changed.
+        public let lastChangedAt: TimeStamp?
+        /// The user-specified reason why the transition between two stages of a pipeline was disabled.
+        public let disabledReason: String?
+        /// Whether the transition between stages is enabled (true) or disabled (false).
+        public let enabled: Bool?
+        /// The ID of the user who last changed the transition state.
+        public let lastChangedBy: String?
+
+        public init(lastChangedAt: TimeStamp? = nil, disabledReason: String? = nil, enabled: Bool? = nil, lastChangedBy: String? = nil) {
+            self.lastChangedAt = lastChangedAt
+            self.disabledReason = disabledReason
+            self.enabled = enabled
+            self.lastChangedBy = lastChangedBy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastChangedAt = "lastChangedAt"
+            case disabledReason = "disabledReason"
+            case enabled = "enabled"
+            case lastChangedBy = "lastChangedBy"
+        }
+    }
+
+    public struct ThirdPartyJobDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "data", required: false, type: .structure), 
+            AWSShapeMember(label: "nonce", required: false, type: .string), 
+            AWSShapeMember(label: "id", required: false, type: .string)
+        ]
+        /// The data to be returned by the third party job worker.
+        public let data: ThirdPartyJobData?
+        /// A system-generated random number that AWS CodePipeline uses to ensure that the job is being worked on by only one job worker. Use this number in an AcknowledgeThirdPartyJob request.
+        public let nonce: String?
+        /// The identifier used to identify the job details in AWS CodePipeline.
+        public let id: String?
+
+        public init(data: ThirdPartyJobData? = nil, nonce: String? = nil, id: String? = nil) {
+            self.data = data
+            self.nonce = nonce
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case data = "data"
+            case nonce = "nonce"
+            case id = "id"
+        }
+    }
+
+    public struct ActionConfigurationProperty: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "required", required: true, type: .boolean), 
+            AWSShapeMember(label: "queryable", required: false, type: .boolean), 
+            AWSShapeMember(label: "type", required: false, type: .enum), 
+            AWSShapeMember(label: "key", required: true, type: .boolean), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "secret", required: true, type: .boolean)
+        ]
+        /// The name of the action configuration property.
+        public let name: String
+        /// Whether the configuration property is a required value.
+        public let required: Bool
+        /// Indicates that the property will be used in conjunction with PollForJobs. When creating a custom action, an action can have up to one queryable property. If it has one, that property must be both required and not secret. If you create a pipeline with a custom action type, and that custom action contains a queryable property, the value for that configuration property is subject to additional restrictions. The value must be less than or equal to twenty (20) characters. The value can contain only alphanumeric characters, underscores, and hyphens.
+        public let queryable: Bool?
+        /// The type of the configuration property.
+        public let `type`: ActionConfigurationPropertyType?
+        /// Whether the configuration property is a key.
+        public let key: Bool
+        /// The description of the action configuration property that will be displayed to users.
+        public let description: String?
+        /// Whether the configuration property is secret. Secrets are hidden from all calls except for GetJobDetails, GetThirdPartyJobDetails, PollForJobs, and PollForThirdPartyJobs. When updating a pipeline, passing * * * * * without changing any other values of the action will preserve the prior value of the secret.
+        public let secret: Bool
+
+        public init(name: String, required: Bool, queryable: Bool? = nil, type: ActionConfigurationPropertyType? = nil, key: Bool, description: String? = nil, secret: Bool) {
+            self.name = name
+            self.required = required
+            self.queryable = queryable
+            self.`type` = `type`
+            self.key = key
+            self.description = description
+            self.secret = secret
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case required = "required"
+            case queryable = "queryable"
+            case `type` = "type"
+            case key = "key"
+            case description = "description"
+            case secret = "secret"
+        }
+    }
+
+    public struct PutApprovalResultInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "stageName", required: true, type: .string), 
+            AWSShapeMember(label: "result", required: true, type: .structure), 
+            AWSShapeMember(label: "pipelineName", required: true, type: .string), 
+            AWSShapeMember(label: "token", required: true, type: .string), 
+            AWSShapeMember(label: "actionName", required: true, type: .string)
+        ]
+        /// The name of the stage that contains the action.
+        public let stageName: String
+        /// Represents information about the result of the approval request.
+        public let result: ApprovalResult
+        /// The name of the pipeline that contains the action. 
+        public let pipelineName: String
+        /// The system-generated token used to identify a unique approval request. The token for each open approval request can be obtained using the GetPipelineState action and is used to validate that the approval request corresponding to this token is still valid.
+        public let token: String
+        /// The name of the action for which approval is requested.
+        public let actionName: String
+
+        public init(stageName: String, result: ApprovalResult, pipelineName: String, token: String, actionName: String) {
+            self.stageName = stageName
+            self.result = result
+            self.pipelineName = pipelineName
+            self.token = token
+            self.actionName = actionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stageName = "stageName"
+            case result = "result"
+            case pipelineName = "pipelineName"
+            case token = "token"
+            case actionName = "actionName"
+        }
+    }
+
+    public struct ListWebhookItem: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "definition", required: true, type: .structure), 
+            AWSShapeMember(label: "errorCode", required: false, type: .string), 
+            AWSShapeMember(label: "errorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "lastTriggered", required: false, type: .timestamp), 
+            AWSShapeMember(label: "url", required: true, type: .string)
+        ]
+        /// The detail returned for each webhook, such as the webhook authentication type and filter rules.
+        public let definition: WebhookDefinition
+        /// The number code of the error.
+        public let errorCode: String?
+        /// The text of the error message about the webhook.
+        public let errorMessage: String?
+        /// The Amazon Resource Name (ARN) of the webhook.
+        public let arn: String?
+        /// The date and time a webhook was last successfully triggered, in timestamp format.
+        public let lastTriggered: TimeStamp?
+        /// A unique URL generated by CodePipeline. When a POST request is made to this URL, the defined pipeline is started as long as the body of the post request satisfies the defined authentication and filtering conditions. Deleting and re-creating a webhook will make the old URL invalid and generate a new URL.
+        public let url: String
+
+        public init(definition: WebhookDefinition, errorCode: String? = nil, errorMessage: String? = nil, arn: String? = nil, lastTriggered: TimeStamp? = nil, url: String) {
+            self.definition = definition
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.arn = arn
+            self.lastTriggered = lastTriggered
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case definition = "definition"
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case arn = "arn"
+            case lastTriggered = "lastTriggered"
+            case url = "url"
+        }
+    }
+
+    public struct ArtifactStore: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "location", required: true, type: .string), 
+            AWSShapeMember(label: "type", required: true, type: .enum), 
+            AWSShapeMember(label: "encryptionKey", required: false, type: .structure)
+        ]
+        /// The Amazon S3 bucket used for storing the artifacts for a pipeline. You can specify the name of an S3 bucket but not a folder within the bucket. A folder to contain the pipeline artifacts is created for you based on the name of the pipeline. You can use any Amazon S3 bucket in the same AWS Region as the pipeline to store your pipeline artifacts.
+        public let location: String
+        /// The type of the artifact store, such as S3.
+        public let `type`: ArtifactStoreType
+        /// The encryption key used to encrypt the data in the artifact store, such as an AWS Key Management Service (AWS KMS) key. If this is undefined, the default key for Amazon S3 is used.
+        public let encryptionKey: EncryptionKey?
+
+        public init(location: String, type: ArtifactStoreType, encryptionKey: EncryptionKey? = nil) {
+            self.location = location
+            self.`type` = `type`
+            self.encryptionKey = encryptionKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case location = "location"
+            case `type` = "type"
+            case encryptionKey = "encryptionKey"
+        }
+    }
+
+    public enum EncryptionKeyType: String, CustomStringConvertible, Codable {
+        case kms = "KMS"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeregisterWebhookWithThirdPartyInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "webhookName", required: false, type: .string)
+        ]
+        /// The name of the webhook you want to deregister.
+        public let webhookName: String?
+
+        public init(webhookName: String? = nil) {
+            self.webhookName = webhookName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case webhookName = "webhookName"
+        }
+    }
+
+    public struct ListPipelineExecutionsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "pipelineName", required: true, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer)
+        ]
+        /// The token that was returned from the previous ListPipelineExecutions call, which can be used to return the next set of pipeline executions in the list.
+        public let nextToken: String?
+        /// The name of the pipeline for which you want to get execution summary information.
+        public let pipelineName: String
+        /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value. The available pipeline execution history is limited to the most recent 12 months, based on pipeline execution start times. Default value is 100.
+        public let maxResults: Int32?
+
+        public init(nextToken: String? = nil, pipelineName: String, maxResults: Int32? = nil) {
+            self.nextToken = nextToken
+            self.pipelineName = pipelineName
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case pipelineName = "pipelineName"
+            case maxResults = "maxResults"
+        }
+    }
+
+    public struct ActionTypeId: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "owner", required: true, type: .enum), 
+            AWSShapeMember(label: "provider", required: true, type: .string), 
+            AWSShapeMember(label: "version", required: true, type: .string), 
+            AWSShapeMember(label: "category", required: true, type: .enum)
+        ]
+        /// The creator of the action being called.
+        public let owner: ActionOwner
+        /// The provider of the service being called by the action. Valid providers are determined by the action category. For example, an action in the Deploy category type might have a provider of AWS CodeDeploy, which would be specified as CodeDeploy.
+        public let provider: String
+        /// A string that describes the action version.
+        public let version: String
+        /// A category defines what kind of action can be taken in the stage, and constrains the provider type for the action. Valid categories are limited to one of the values below.
+        public let category: ActionCategory
+
+        public init(owner: ActionOwner, provider: String, version: String, category: ActionCategory) {
+            self.owner = owner
+            self.provider = provider
+            self.version = version
+            self.category = category
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case owner = "owner"
+            case provider = "provider"
+            case version = "version"
+            case category = "category"
+        }
+    }
+
+    public struct GetPipelineInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "version", required: false, type: .integer)
+        ]
+        /// The name of the pipeline for which you want to get information. Pipeline names must be unique under an Amazon Web Services (AWS) user account.
+        public let name: String
+        /// The version number of the pipeline. If you do not specify a version, defaults to the most current version.
+        public let version: Int32?
+
+        public init(name: String, version: Int32? = nil) {
+            self.name = name
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case version = "version"
+        }
+    }
+
+    public struct CreateCustomActionTypeInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "settings", required: false, type: .structure), 
+            AWSShapeMember(label: "category", required: true, type: .enum), 
+            AWSShapeMember(label: "inputArtifactDetails", required: true, type: .structure), 
+            AWSShapeMember(label: "configurationProperties", required: false, type: .list), 
+            AWSShapeMember(label: "outputArtifactDetails", required: true, type: .structure), 
+            AWSShapeMember(label: "provider", required: true, type: .string), 
+            AWSShapeMember(label: "version", required: true, type: .string)
+        ]
+        /// Returns information about the settings for an action type.
+        public let settings: ActionTypeSettings?
+        /// The category of the custom action, such as a build action or a test action.  Although Source and Approval are listed as valid values, they are not currently functional. These values are reserved for future use. 
+        public let category: ActionCategory
+        /// The details of the input artifact for the action, such as its commit ID.
+        public let inputArtifactDetails: ArtifactDetails
+        /// The configuration properties for the custom action.  You can refer to a name in the configuration properties of the custom action within the URL templates by following the format of {Config:name}, as long as the configuration property is both required and not secret. For more information, see Create a Custom Action for a Pipeline. 
+        public let configurationProperties: [ActionConfigurationProperty]?
+        /// The details of the output artifact of the action, such as its commit ID.
+        public let outputArtifactDetails: ArtifactDetails
+        /// The provider of the service used in the custom action, such as AWS CodeDeploy.
+        public let provider: String
+        /// The version identifier of the custom action.
+        public let version: String
+
+        public init(settings: ActionTypeSettings? = nil, category: ActionCategory, inputArtifactDetails: ArtifactDetails, configurationProperties: [ActionConfigurationProperty]? = nil, outputArtifactDetails: ArtifactDetails, provider: String, version: String) {
+            self.settings = settings
+            self.category = category
+            self.inputArtifactDetails = inputArtifactDetails
+            self.configurationProperties = configurationProperties
+            self.outputArtifactDetails = outputArtifactDetails
+            self.provider = provider
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case settings = "settings"
+            case category = "category"
+            case inputArtifactDetails = "inputArtifactDetails"
+            case configurationProperties = "configurationProperties"
+            case outputArtifactDetails = "outputArtifactDetails"
+            case provider = "provider"
+            case version = "version"
+        }
+    }
+
+    public struct FailureDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "message", required: true, type: .string), 
+            AWSShapeMember(label: "type", required: true, type: .enum), 
+            AWSShapeMember(label: "externalExecutionId", required: false, type: .string)
+        ]
+        /// The message about the failure.
+        public let message: String
+        /// The type of the failure.
+        public let `type`: FailureType
+        /// The external ID of the run of the action that failed.
+        public let externalExecutionId: String?
+
+        public init(message: String, type: FailureType, externalExecutionId: String? = nil) {
+            self.message = message
+            self.`type` = `type`
+            self.externalExecutionId = externalExecutionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case `type` = "type"
+            case externalExecutionId = "externalExecutionId"
+        }
+    }
+
+    public enum StageExecutionStatus: String, CustomStringConvertible, Codable {
+        case inprogress = "InProgress"
+        case failed = "Failed"
+        case succeeded = "Succeeded"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetPipelineStateOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pipelineName", required: false, type: .string), 
+            AWSShapeMember(label: "updated", required: false, type: .timestamp), 
+            AWSShapeMember(label: "created", required: false, type: .timestamp), 
+            AWSShapeMember(label: "stageStates", required: false, type: .list), 
+            AWSShapeMember(label: "pipelineVersion", required: false, type: .integer)
+        ]
+        /// The name of the pipeline for which you want to get the state.
+        public let pipelineName: String?
+        /// The date and time the pipeline was last updated, in timestamp format.
+        public let updated: TimeStamp?
+        /// The date and time the pipeline was created, in timestamp format.
+        public let created: TimeStamp?
+        /// A list of the pipeline stage output information, including stage name, state, most recent run details, whether the stage is disabled, and other data.
+        public let stageStates: [StageState]?
+        /// The version number of the pipeline.  A newly-created pipeline is always assigned a version number of 1. 
+        public let pipelineVersion: Int32?
+
+        public init(pipelineName: String? = nil, updated: TimeStamp? = nil, created: TimeStamp? = nil, stageStates: [StageState]? = nil, pipelineVersion: Int32? = nil) {
+            self.pipelineName = pipelineName
+            self.updated = updated
+            self.created = created
+            self.stageStates = stageStates
+            self.pipelineVersion = pipelineVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipelineName = "pipelineName"
+            case updated = "updated"
+            case created = "created"
+            case stageStates = "stageStates"
+            case pipelineVersion = "pipelineVersion"
+        }
+    }
+
+    public struct PutWebhookOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "webhook", required: false, type: .structure)
+        ]
+        /// The detail returned from creating the webhook, such as the webhook name, webhook URL, and webhook ARN.
+        public let webhook: ListWebhookItem?
+
+        public init(webhook: ListWebhookItem? = nil) {
+            self.webhook = webhook
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case webhook = "webhook"
+        }
+    }
+
+    public struct WebhookFilterRule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "matchEquals", required: false, type: .string), 
+            AWSShapeMember(label: "jsonPath", required: true, type: .string)
+        ]
+        /// The value selected by the JsonPath expression must match what is supplied in the MatchEquals field, otherwise the request will be ignored. Properties from the target action configuration can be included as placeholders in this value by surrounding the action configuration key with curly braces. For example, if the value supplied here is "refs/heads/{Branch}" and the target action has an action configuration property called "Branch" with a value of "master", the MatchEquals value will be evaluated as "refs/heads/master". A list of action configuration properties for built-in action types can be found here: Pipeline Structure Reference Action Requirements.
+        public let matchEquals: String?
+        /// A JsonPath expression that will be applied to the body/payload of the webhook. The value selected by JsonPath expression must match the value specified in the matchEquals field, otherwise the request will be ignored. More information on JsonPath expressions can be found here: https://github.com/json-path/JsonPath.
+        public let jsonPath: String
+
+        public init(matchEquals: String? = nil, jsonPath: String) {
+            self.matchEquals = matchEquals
+            self.jsonPath = jsonPath
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case matchEquals = "matchEquals"
+            case jsonPath = "jsonPath"
+        }
+    }
+
+    public struct PutWebhookInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "webhook", required: true, type: .structure)
+        ]
+        /// The detail provided in an input file to create the webhook, such as the webhook name, the pipeline name, and the action name. Give the webhook a unique name which identifies the webhook being defined. You may choose to name the webhook after the pipeline and action it targets so that you can easily recognize what it's used for later.
+        public let webhook: WebhookDefinition
+
+        public init(webhook: WebhookDefinition) {
+            self.webhook = webhook
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case webhook = "webhook"
+        }
+    }
+
+    public struct JobData: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "actionConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "pipelineContext", required: false, type: .structure), 
+            AWSShapeMember(label: "outputArtifacts", required: false, type: .list), 
+            AWSShapeMember(label: "inputArtifacts", required: false, type: .list), 
+            AWSShapeMember(label: "encryptionKey", required: false, type: .structure), 
+            AWSShapeMember(label: "continuationToken", required: false, type: .string), 
+            AWSShapeMember(label: "artifactCredentials", required: false, type: .structure), 
+            AWSShapeMember(label: "actionTypeId", required: false, type: .structure)
+        ]
+        /// Represents information about an action configuration.
+        public let actionConfiguration: ActionConfiguration?
+        /// Represents information about a pipeline to a job worker.
+        public let pipelineContext: PipelineContext?
+        /// The output of the job.
+        public let outputArtifacts: [Artifact]?
+        /// The artifact supplied to the job.
+        public let inputArtifacts: [Artifact]?
+        /// Represents information about the key used to encrypt data in the artifact store, such as an AWS Key Management Service (AWS KMS) key. 
+        public let encryptionKey: EncryptionKey?
+        /// A system-generated token, such as a AWS CodeDeploy deployment ID, that a job requires in order to continue the job asynchronously.
+        public let continuationToken: String?
+        /// Represents an AWS session credentials object. These credentials are temporary credentials that are issued by AWS Secure Token Service (STS). They can be used to access input and output artifacts in the Amazon S3 bucket used to store artifact for the pipeline in AWS CodePipeline.
+        public let artifactCredentials: AWSSessionCredentials?
+        /// Represents information about an action type.
+        public let actionTypeId: ActionTypeId?
+
+        public init(actionConfiguration: ActionConfiguration? = nil, pipelineContext: PipelineContext? = nil, outputArtifacts: [Artifact]? = nil, inputArtifacts: [Artifact]? = nil, encryptionKey: EncryptionKey? = nil, continuationToken: String? = nil, artifactCredentials: AWSSessionCredentials? = nil, actionTypeId: ActionTypeId? = nil) {
+            self.actionConfiguration = actionConfiguration
+            self.pipelineContext = pipelineContext
+            self.outputArtifacts = outputArtifacts
+            self.inputArtifacts = inputArtifacts
+            self.encryptionKey = encryptionKey
+            self.continuationToken = continuationToken
+            self.artifactCredentials = artifactCredentials
+            self.actionTypeId = actionTypeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionConfiguration = "actionConfiguration"
+            case pipelineContext = "pipelineContext"
+            case outputArtifacts = "outputArtifacts"
+            case inputArtifacts = "inputArtifacts"
+            case encryptionKey = "encryptionKey"
+            case continuationToken = "continuationToken"
+            case artifactCredentials = "artifactCredentials"
+            case actionTypeId = "actionTypeId"
+        }
+    }
+
+    public struct CreatePipelineInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pipeline", required: true, type: .structure)
+        ]
+        /// Represents the structure of actions and stages to be performed in the pipeline. 
+        public let pipeline: PipelineDeclaration
+
+        public init(pipeline: PipelineDeclaration) {
+            self.pipeline = pipeline
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipeline = "pipeline"
+        }
+    }
+
+    public struct ActionType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "actionConfigurationProperties", required: false, type: .list), 
+            AWSShapeMember(label: "inputArtifactDetails", required: true, type: .structure), 
+            AWSShapeMember(label: "settings", required: false, type: .structure), 
+            AWSShapeMember(label: "id", required: true, type: .structure), 
+            AWSShapeMember(label: "outputArtifactDetails", required: true, type: .structure)
+        ]
+        /// The configuration properties for the action type.
+        public let actionConfigurationProperties: [ActionConfigurationProperty]?
+        /// The details of the input artifact for the action, such as its commit ID.
+        public let inputArtifactDetails: ArtifactDetails
+        /// The settings for the action type.
+        public let settings: ActionTypeSettings?
+        /// Represents information about an action type.
+        public let id: ActionTypeId
+        /// The details of the output artifact of the action, such as its commit ID.
+        public let outputArtifactDetails: ArtifactDetails
+
+        public init(actionConfigurationProperties: [ActionConfigurationProperty]? = nil, inputArtifactDetails: ArtifactDetails, settings: ActionTypeSettings? = nil, id: ActionTypeId, outputArtifactDetails: ArtifactDetails) {
+            self.actionConfigurationProperties = actionConfigurationProperties
+            self.inputArtifactDetails = inputArtifactDetails
+            self.settings = settings
+            self.id = id
+            self.outputArtifactDetails = outputArtifactDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionConfigurationProperties = "actionConfigurationProperties"
+            case inputArtifactDetails = "inputArtifactDetails"
+            case settings = "settings"
+            case id = "id"
+            case outputArtifactDetails = "outputArtifactDetails"
+        }
+    }
+
+    public struct Job: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "id", required: false, type: .string), 
+            AWSShapeMember(label: "nonce", required: false, type: .string), 
+            AWSShapeMember(label: "accountId", required: false, type: .string), 
+            AWSShapeMember(label: "data", required: false, type: .structure)
+        ]
+        /// The unique system-generated ID of the job.
+        public let id: String?
+        /// A system-generated random number that AWS CodePipeline uses to ensure that the job is being worked on by only one job worker. Use this number in an AcknowledgeJob request.
+        public let nonce: String?
+        /// The ID of the AWS account to use when performing the job.
+        public let accountId: String?
+        /// Additional data about a job.
+        public let data: JobData?
+
+        public init(id: String? = nil, nonce: String? = nil, accountId: String? = nil, data: JobData? = nil) {
+            self.id = id
+            self.nonce = nonce
+            self.accountId = accountId
+            self.data = data
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case nonce = "nonce"
+            case accountId = "accountId"
+            case data = "data"
+        }
+    }
+
+    public struct PollForJobsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxBatchSize", required: false, type: .integer), 
+            AWSShapeMember(label: "actionTypeId", required: true, type: .structure), 
+            AWSShapeMember(label: "queryParam", required: false, type: .map)
+        ]
+        /// The maximum number of jobs to return in a poll for jobs call.
+        public let maxBatchSize: Int32?
+        /// Represents information about an action type.
+        public let actionTypeId: ActionTypeId
+        /// A map of property names and values. For an action type with no queryable properties, this value must be null or an empty map. For an action type with a queryable property, you must supply that property as a key in the map. Only jobs whose action configuration matches the mapped value will be returned.
+        public let queryParam: [String: String]?
+
+        public init(maxBatchSize: Int32? = nil, actionTypeId: ActionTypeId, queryParam: [String: String]? = nil) {
+            self.maxBatchSize = maxBatchSize
+            self.actionTypeId = actionTypeId
+            self.queryParam = queryParam
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxBatchSize = "maxBatchSize"
+            case actionTypeId = "actionTypeId"
+            case queryParam = "queryParam"
+        }
+    }
+
+    public struct ThirdPartyJobData: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "encryptionKey", required: false, type: .structure), 
+            AWSShapeMember(label: "actionConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "actionTypeId", required: false, type: .structure), 
+            AWSShapeMember(label: "outputArtifacts", required: false, type: .list), 
+            AWSShapeMember(label: "pipelineContext", required: false, type: .structure), 
+            AWSShapeMember(label: "inputArtifacts", required: false, type: .list), 
+            AWSShapeMember(label: "continuationToken", required: false, type: .string), 
+            AWSShapeMember(label: "artifactCredentials", required: false, type: .structure)
+        ]
+        /// The encryption key used to encrypt and decrypt data in the artifact store for the pipeline, such as an AWS Key Management Service (AWS KMS) key. This is optional and might not be present.
+        public let encryptionKey: EncryptionKey?
+        /// Represents information about an action configuration.
+        public let actionConfiguration: ActionConfiguration?
+        /// Represents information about an action type.
+        public let actionTypeId: ActionTypeId?
+        /// The name of the artifact that will be the result of the action, if any. This name might be system-generated, such as "MyBuiltApp", or might be defined by the user when the action is created.
+        public let outputArtifacts: [Artifact]?
+        /// Represents information about a pipeline to a job worker.
+        public let pipelineContext: PipelineContext?
+        /// The name of the artifact that will be worked upon by the action, if any. This name might be system-generated, such as "MyApp", or might be defined by the user when the action is created. The input artifact name must match the name of an output artifact generated by an action in an earlier action or stage of the pipeline.
+        public let inputArtifacts: [Artifact]?
+        /// A system-generated token, such as a AWS CodeDeploy deployment ID, that a job requires in order to continue the job asynchronously.
+        public let continuationToken: String?
+        /// Represents an AWS session credentials object. These credentials are temporary credentials that are issued by AWS Secure Token Service (STS). They can be used to access input and output artifacts in the Amazon S3 bucket used to store artifact for the pipeline in AWS CodePipeline. 
+        public let artifactCredentials: AWSSessionCredentials?
+
+        public init(encryptionKey: EncryptionKey? = nil, actionConfiguration: ActionConfiguration? = nil, actionTypeId: ActionTypeId? = nil, outputArtifacts: [Artifact]? = nil, pipelineContext: PipelineContext? = nil, inputArtifacts: [Artifact]? = nil, continuationToken: String? = nil, artifactCredentials: AWSSessionCredentials? = nil) {
+            self.encryptionKey = encryptionKey
+            self.actionConfiguration = actionConfiguration
+            self.actionTypeId = actionTypeId
+            self.outputArtifacts = outputArtifacts
+            self.pipelineContext = pipelineContext
+            self.inputArtifacts = inputArtifacts
+            self.continuationToken = continuationToken
+            self.artifactCredentials = artifactCredentials
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionKey = "encryptionKey"
+            case actionConfiguration = "actionConfiguration"
+            case actionTypeId = "actionTypeId"
+            case outputArtifacts = "outputArtifacts"
+            case pipelineContext = "pipelineContext"
+            case inputArtifacts = "inputArtifacts"
+            case continuationToken = "continuationToken"
+            case artifactCredentials = "artifactCredentials"
+        }
+    }
+
+    public struct ThirdPartyJob: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clientId", required: false, type: .string), 
+            AWSShapeMember(label: "jobId", required: false, type: .string)
+        ]
+        /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details.
+        public let clientId: String?
+        /// The identifier used to identify the job in AWS CodePipeline.
+        public let jobId: String?
+
+        public init(clientId: String? = nil, jobId: String? = nil) {
+            self.clientId = clientId
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientId = "clientId"
+            case jobId = "jobId"
+        }
+    }
+
+    public struct CreatePipelineOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pipeline", required: false, type: .structure)
+        ]
+        /// Represents the structure of actions and stages to be performed in the pipeline. 
+        public let pipeline: PipelineDeclaration?
+
+        public init(pipeline: PipelineDeclaration? = nil) {
+            self.pipeline = pipeline
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipeline = "pipeline"
+        }
+    }
+
+    public struct StageContext: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string)
+        ]
+        /// The name of the stage.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
+    public struct GetThirdPartyJobDetailsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobDetails", required: false, type: .structure)
+        ]
+        /// The details of the job, including any protected values defined for the job.
+        public let jobDetails: ThirdPartyJobDetails?
+
+        public init(jobDetails: ThirdPartyJobDetails? = nil) {
+            self.jobDetails = jobDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobDetails = "jobDetails"
+        }
+    }
+
+    public struct GetPipelineExecutionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pipelineName", required: true, type: .string), 
+            AWSShapeMember(label: "pipelineExecutionId", required: true, type: .string)
+        ]
+        /// The name of the pipeline about which you want to get execution details.
+        public let pipelineName: String
+        /// The ID of the pipeline execution about which you want to get execution details.
+        public let pipelineExecutionId: String
+
+        public init(pipelineName: String, pipelineExecutionId: String) {
+            self.pipelineName = pipelineName
+            self.pipelineExecutionId = pipelineExecutionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipelineName = "pipelineName"
+            case pipelineExecutionId = "pipelineExecutionId"
+        }
+    }
+
+    public struct ActionTypeSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "executionUrlTemplate", required: false, type: .string), 
+            AWSShapeMember(label: "thirdPartyConfigurationUrl", required: false, type: .string), 
+            AWSShapeMember(label: "entityUrlTemplate", required: false, type: .string), 
+            AWSShapeMember(label: "revisionUrlTemplate", required: false, type: .string)
+        ]
+        /// The URL returned to the AWS CodePipeline console that contains a link to the top-level landing page for the external system, such as console page for AWS CodeDeploy. This link is shown on the pipeline view page in the AWS CodePipeline console and provides a link to the execution entity of the external action.
+        public let executionUrlTemplate: String?
+        /// The URL of a sign-up page where users can sign up for an external service and perform initial configuration of the action provided by that service.
+        public let thirdPartyConfigurationUrl: String?
+        /// The URL returned to the AWS CodePipeline console that provides a deep link to the resources of the external system, such as the configuration page for an AWS CodeDeploy deployment group. This link is provided as part of the action display within the pipeline.
+        public let entityUrlTemplate: String?
+        /// The URL returned to the AWS CodePipeline console that contains a link to the page where customers can update or change the configuration of the external action.
+        public let revisionUrlTemplate: String?
+
+        public init(executionUrlTemplate: String? = nil, thirdPartyConfigurationUrl: String? = nil, entityUrlTemplate: String? = nil, revisionUrlTemplate: String? = nil) {
+            self.executionUrlTemplate = executionUrlTemplate
+            self.thirdPartyConfigurationUrl = thirdPartyConfigurationUrl
+            self.entityUrlTemplate = entityUrlTemplate
+            self.revisionUrlTemplate = revisionUrlTemplate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executionUrlTemplate = "executionUrlTemplate"
+            case thirdPartyConfigurationUrl = "thirdPartyConfigurationUrl"
+            case entityUrlTemplate = "entityUrlTemplate"
+            case revisionUrlTemplate = "revisionUrlTemplate"
+        }
+    }
+
+    public struct RetryStageExecutionOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pipelineExecutionId", required: false, type: .string)
+        ]
+        /// The ID of the current workflow execution in the failed stage.
+        public let pipelineExecutionId: String?
+
+        public init(pipelineExecutionId: String? = nil) {
+            self.pipelineExecutionId = pipelineExecutionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipelineExecutionId = "pipelineExecutionId"
+        }
+    }
+
+    public struct RegisterWebhookWithThirdPartyOutput: AWSShape {
+
+    }
+
+    public struct PipelineExecutionSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pipelineExecutionId", required: false, type: .string), 
+            AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "lastUpdateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "sourceRevisions", required: false, type: .list)
+        ]
+        /// The ID of the pipeline execution.
+        public let pipelineExecutionId: String?
+        /// The date and time when the pipeline execution began, in timestamp format.
+        public let startTime: TimeStamp?
+        /// The status of the pipeline execution.   InProgress: The pipeline execution is currently running.   Succeeded: The pipeline execution was completed successfully.    Superseded: While this pipeline execution was waiting for the next stage to be completed, a newer pipeline execution advanced and continued through the pipeline instead.    Failed: The pipeline execution was not completed successfully.  
+        public let status: PipelineExecutionStatus?
+        /// The date and time of the last change to the pipeline execution, in timestamp format.
+        public let lastUpdateTime: TimeStamp?
+        /// A list of the source artifact revisions that initiated a pipeline execution.
+        public let sourceRevisions: [SourceRevision]?
+
+        public init(pipelineExecutionId: String? = nil, startTime: TimeStamp? = nil, status: PipelineExecutionStatus? = nil, lastUpdateTime: TimeStamp? = nil, sourceRevisions: [SourceRevision]? = nil) {
+            self.pipelineExecutionId = pipelineExecutionId
+            self.startTime = startTime
+            self.status = status
+            self.lastUpdateTime = lastUpdateTime
+            self.sourceRevisions = sourceRevisions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipelineExecutionId = "pipelineExecutionId"
+            case startTime = "startTime"
+            case status = "status"
+            case lastUpdateTime = "lastUpdateTime"
+            case sourceRevisions = "sourceRevisions"
+        }
+    }
+
+    public enum ArtifactStoreType: String, CustomStringConvertible, Codable {
+        case s3 = "S3"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct PutActionRevisionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "actionRevision", required: true, type: .structure), 
+            AWSShapeMember(label: "stageName", required: true, type: .string), 
+            AWSShapeMember(label: "pipelineName", required: true, type: .string), 
+            AWSShapeMember(label: "actionName", required: true, type: .string)
+        ]
+        /// Represents information about the version (or revision) of an action.
+        public let actionRevision: ActionRevision
+        /// The name of the stage that contains the action that will act upon the revision.
+        public let stageName: String
+        /// The name of the pipeline that will start processing the revision to the source.
+        public let pipelineName: String
+        /// The name of the action that will process the revision.
+        public let actionName: String
+
+        public init(actionRevision: ActionRevision, stageName: String, pipelineName: String, actionName: String) {
+            self.actionRevision = actionRevision
+            self.stageName = stageName
+            self.pipelineName = pipelineName
+            self.actionName = actionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionRevision = "actionRevision"
+            case stageName = "stageName"
+            case pipelineName = "pipelineName"
+            case actionName = "actionName"
+        }
+    }
+
+    public struct JobDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "id", required: false, type: .string), 
+            AWSShapeMember(label: "accountId", required: false, type: .string), 
+            AWSShapeMember(label: "data", required: false, type: .structure)
+        ]
+        /// The unique system-generated ID of the job.
+        public let id: String?
+        /// The AWS account ID associated with the job.
+        public let accountId: String?
+        /// Represents additional information about a job required for a job worker to complete the job. 
+        public let data: JobData?
+
+        public init(id: String? = nil, accountId: String? = nil, data: JobData? = nil) {
+            self.id = id
+            self.accountId = accountId
+            self.data = data
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case accountId = "accountId"
+            case data = "data"
+        }
+    }
+
+    public enum ActionOwner: String, CustomStringConvertible, Codable {
+        case aws = "AWS"
+        case thirdparty = "ThirdParty"
+        case custom = "Custom"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ArtifactDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maximumCount", required: true, type: .integer), 
+            AWSShapeMember(label: "minimumCount", required: true, type: .integer)
+        ]
+        /// The maximum number of artifacts allowed for the action type.
+        public let maximumCount: Int32
+        /// The minimum number of artifacts allowed for the action type.
+        public let minimumCount: Int32
+
+        public init(maximumCount: Int32, minimumCount: Int32) {
+            self.maximumCount = maximumCount
+            self.minimumCount = minimumCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maximumCount = "maximumCount"
+            case minimumCount = "minimumCount"
+        }
+    }
+
+    public struct GetPipelineStateInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string)
+        ]
+        /// The name of the pipeline about which you want to get information.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
+    public struct GetJobDetailsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobId", required: true, type: .string)
+        ]
+        /// The unique system-generated ID for the job.
+        public let jobId: String
+
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "jobId"
+        }
+    }
+
+    public enum ActionCategory: String, CustomStringConvertible, Codable {
+        case source = "Source"
+        case build = "Build"
+        case deploy = "Deploy"
+        case test = "Test"
+        case invoke = "Invoke"
+        case approval = "Approval"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ArtifactLocationType: String, CustomStringConvertible, Codable {
+        case s3 = "S3"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct SourceRevision: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "actionName", required: true, type: .string), 
+            AWSShapeMember(label: "revisionId", required: false, type: .string), 
+            AWSShapeMember(label: "revisionSummary", required: false, type: .string), 
             AWSShapeMember(label: "revisionUrl", required: false, type: .string)
         ]
-        /// The name of the action.
-        public let actionName: String?
-        /// Represents information about the version (or revision) of an action.
-        public let currentRevision: ActionRevision?
-        /// Represents information about the run of an action.
-        public let latestExecution: ActionExecution?
-        /// A URL link for more information about the state of the action, such as a deployment group details page.
-        public let entityUrl: String?
-        /// A URL link for more information about the revision, such as a commit details page.
+        /// The name of the action that processed the revision to the source artifact.
+        public let actionName: String
+        /// The system-generated unique ID that identifies the revision number of the artifact.
+        public let revisionId: String?
+        /// Summary information about the most recent revision of the artifact. For GitHub and AWS CodeCommit repositories, the commit message. For Amazon S3 buckets or actions, the user-provided content of a codepipeline-artifact-revision-summary key specified in the object metadata.
+        public let revisionSummary: String?
+        /// The commit ID for the artifact revision. For artifacts stored in GitHub or AWS CodeCommit repositories, the commit ID is linked to a commit details page.
         public let revisionUrl: String?
 
-        public init(actionName: String? = nil, currentRevision: ActionRevision? = nil, latestExecution: ActionExecution? = nil, entityUrl: String? = nil, revisionUrl: String? = nil) {
+        public init(actionName: String, revisionId: String? = nil, revisionSummary: String? = nil, revisionUrl: String? = nil) {
             self.actionName = actionName
-            self.currentRevision = currentRevision
-            self.latestExecution = latestExecution
-            self.entityUrl = entityUrl
+            self.revisionId = revisionId
+            self.revisionSummary = revisionSummary
             self.revisionUrl = revisionUrl
         }
 
         private enum CodingKeys: String, CodingKey {
             case actionName = "actionName"
-            case currentRevision = "currentRevision"
-            case latestExecution = "latestExecution"
-            case entityUrl = "entityUrl"
+            case revisionId = "revisionId"
+            case revisionSummary = "revisionSummary"
             case revisionUrl = "revisionUrl"
+        }
+    }
+
+    public struct CreateCustomActionTypeOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "actionType", required: true, type: .structure)
+        ]
+        /// Returns information about the details of an action type.
+        public let actionType: ActionType
+
+        public init(actionType: ActionType) {
+            self.actionType = actionType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionType = "actionType"
+        }
+    }
+
+    public struct PollForThirdPartyJobsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobs", required: false, type: .list)
+        ]
+        /// Information about the jobs to take action on.
+        public let jobs: [ThirdPartyJob]?
+
+        public init(jobs: [ThirdPartyJob]? = nil) {
+            self.jobs = jobs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobs = "jobs"
+        }
+    }
+
+    public struct ListWebhooksOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "webhooks", required: false, type: .list)
+        ]
+        /// If the amount of returned information is significantly large, an identifier is also returned and can be used in a subsequent ListWebhooks call to return the next set of webhooks in the list. 
+        public let nextToken: String?
+        /// The JSON detail returned for each webhook in the list output for the ListWebhooks call.
+        public let webhooks: [ListWebhookItem]?
+
+        public init(nextToken: String? = nil, webhooks: [ListWebhookItem]? = nil) {
+            self.nextToken = nextToken
+            self.webhooks = webhooks
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case webhooks = "webhooks"
+        }
+    }
+
+    public struct StageState: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "inboundTransitionState", required: false, type: .structure), 
+            AWSShapeMember(label: "latestExecution", required: false, type: .structure), 
+            AWSShapeMember(label: "stageName", required: false, type: .string), 
+            AWSShapeMember(label: "actionStates", required: false, type: .list)
+        ]
+        /// The state of the inbound transition, which is either enabled or disabled.
+        public let inboundTransitionState: TransitionState?
+        /// Information about the latest execution in the stage, including its ID and status.
+        public let latestExecution: StageExecution?
+        /// The name of the stage.
+        public let stageName: String?
+        /// The state of the stage.
+        public let actionStates: [ActionState]?
+
+        public init(inboundTransitionState: TransitionState? = nil, latestExecution: StageExecution? = nil, stageName: String? = nil, actionStates: [ActionState]? = nil) {
+            self.inboundTransitionState = inboundTransitionState
+            self.latestExecution = latestExecution
+            self.stageName = stageName
+            self.actionStates = actionStates
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inboundTransitionState = "inboundTransitionState"
+            case latestExecution = "latestExecution"
+            case stageName = "stageName"
+            case actionStates = "actionStates"
+        }
+    }
+
+    public struct ActionConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "configuration", required: false, type: .map)
+        ]
+        /// The configuration data for the action.
+        public let configuration: [String: String]?
+
+        public init(configuration: [String: String]? = nil) {
+            self.configuration = configuration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "configuration"
+        }
+    }
+
+    public struct PutThirdPartyJobSuccessResultInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "executionDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "currentRevision", required: false, type: .structure), 
+            AWSShapeMember(label: "jobId", required: true, type: .string), 
+            AWSShapeMember(label: "continuationToken", required: false, type: .string), 
+            AWSShapeMember(label: "clientToken", required: true, type: .string)
+        ]
+        /// The details of the actions taken and results produced on an artifact as it passes through stages in the pipeline. 
+        public let executionDetails: ExecutionDetails?
+        /// Represents information about a current revision.
+        public let currentRevision: CurrentRevision?
+        /// The ID of the job that successfully completed. This is the same ID returned from PollForThirdPartyJobs.
+        public let jobId: String
+        /// A token generated by a job worker, such as an AWS CodeDeploy deployment ID, that a successful job provides to identify a partner action in progress. Future jobs will use this token in order to identify the running instance of the action. It can be reused to return additional information about the progress of the partner action. When the action is complete, no continuation token should be supplied.
+        public let continuationToken: String?
+        /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details.
+        public let clientToken: String
+
+        public init(executionDetails: ExecutionDetails? = nil, currentRevision: CurrentRevision? = nil, jobId: String, continuationToken: String? = nil, clientToken: String) {
+            self.executionDetails = executionDetails
+            self.currentRevision = currentRevision
+            self.jobId = jobId
+            self.continuationToken = continuationToken
+            self.clientToken = clientToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executionDetails = "executionDetails"
+            case currentRevision = "currentRevision"
+            case jobId = "jobId"
+            case continuationToken = "continuationToken"
+            case clientToken = "clientToken"
+        }
+    }
+
+    public struct PipelineDeclaration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "artifactStore", required: false, type: .structure), 
+            AWSShapeMember(label: "version", required: false, type: .integer), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string), 
+            AWSShapeMember(label: "stages", required: true, type: .list), 
+            AWSShapeMember(label: "artifactStores", required: false, type: .map), 
+            AWSShapeMember(label: "name", required: true, type: .string)
+        ]
+        /// Represents information about the Amazon S3 bucket where artifacts are stored for the pipeline. 
+        public let artifactStore: ArtifactStore?
+        /// The version number of the pipeline. A new pipeline always has a version number of 1. This number is automatically incremented when a pipeline is updated.
+        public let version: Int32?
+        /// The Amazon Resource Name (ARN) for AWS CodePipeline to use to either perform actions with no actionRoleArn, or to use to assume roles for actions with an actionRoleArn.
+        public let roleArn: String
+        /// The stage in which to perform the action.
+        public let stages: [StageDeclaration]
+        /// A mapping of artifactStore objects and their corresponding regions. There must be an artifact store for the pipeline region and for each cross-region action within the pipeline. You can only use either artifactStore or artifactStores, not both. If you create a cross-region action in your pipeline, you must use artifactStores.
+        public let artifactStores: [String: ArtifactStore]?
+        /// The name of the action to be performed.
+        public let name: String
+
+        public init(artifactStore: ArtifactStore? = nil, version: Int32? = nil, roleArn: String, stages: [StageDeclaration], artifactStores: [String: ArtifactStore]? = nil, name: String) {
+            self.artifactStore = artifactStore
+            self.version = version
+            self.roleArn = roleArn
+            self.stages = stages
+            self.artifactStores = artifactStores
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case artifactStore = "artifactStore"
+            case version = "version"
+            case roleArn = "roleArn"
+            case stages = "stages"
+            case artifactStores = "artifactStores"
+            case name = "name"
+        }
+    }
+
+    public struct ArtifactLocation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "type", required: false, type: .enum), 
+            AWSShapeMember(label: "s3Location", required: false, type: .structure)
+        ]
+        /// The type of artifact in the location.
+        public let `type`: ArtifactLocationType?
+        /// The Amazon S3 bucket that contains the artifact.
+        public let s3Location: S3ArtifactLocation?
+
+        public init(type: ArtifactLocationType? = nil, s3Location: S3ArtifactLocation? = nil) {
+            self.`type` = `type`
+            self.s3Location = s3Location
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "type"
+            case s3Location = "s3Location"
+        }
+    }
+
+    public struct PutApprovalResultOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "approvedAt", required: false, type: .timestamp)
+        ]
+        /// The timestamp showing when the approval or rejection was submitted.
+        public let approvedAt: TimeStamp?
+
+        public init(approvedAt: TimeStamp? = nil) {
+            self.approvedAt = approvedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case approvedAt = "approvedAt"
+        }
+    }
+
+    public struct ActionExecution: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "errorDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "externalExecutionUrl", required: false, type: .string), 
+            AWSShapeMember(label: "percentComplete", required: false, type: .integer), 
+            AWSShapeMember(label: "token", required: false, type: .string), 
+            AWSShapeMember(label: "summary", required: false, type: .string), 
+            AWSShapeMember(label: "lastStatusChange", required: false, type: .timestamp), 
+            AWSShapeMember(label: "externalExecutionId", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedBy", required: false, type: .string)
+        ]
+        /// The status of the action, or for a completed action, the last status of the action.
+        public let status: ActionExecutionStatus?
+        /// The details of an error returned by a URL external to AWS.
+        public let errorDetails: ErrorDetails?
+        /// The URL of a resource external to AWS that will be used when running the action, for example an external repository URL.
+        public let externalExecutionUrl: String?
+        /// A percentage of completeness of the action as it runs.
+        public let percentComplete: Int32?
+        /// The system-generated token used to identify a unique approval request. The token for each open approval request can be obtained using the GetPipelineState command and is used to validate that the approval request corresponding to this token is still valid.
+        public let token: String?
+        /// A summary of the run of the action.
+        public let summary: String?
+        /// The last status change of the action.
+        public let lastStatusChange: TimeStamp?
+        /// The external ID of the run of the action.
+        public let externalExecutionId: String?
+        /// The ARN of the user who last changed the pipeline.
+        public let lastUpdatedBy: String?
+
+        public init(status: ActionExecutionStatus? = nil, errorDetails: ErrorDetails? = nil, externalExecutionUrl: String? = nil, percentComplete: Int32? = nil, token: String? = nil, summary: String? = nil, lastStatusChange: TimeStamp? = nil, externalExecutionId: String? = nil, lastUpdatedBy: String? = nil) {
+            self.status = status
+            self.errorDetails = errorDetails
+            self.externalExecutionUrl = externalExecutionUrl
+            self.percentComplete = percentComplete
+            self.token = token
+            self.summary = summary
+            self.lastStatusChange = lastStatusChange
+            self.externalExecutionId = externalExecutionId
+            self.lastUpdatedBy = lastUpdatedBy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case errorDetails = "errorDetails"
+            case externalExecutionUrl = "externalExecutionUrl"
+            case percentComplete = "percentComplete"
+            case token = "token"
+            case summary = "summary"
+            case lastStatusChange = "lastStatusChange"
+            case externalExecutionId = "externalExecutionId"
+            case lastUpdatedBy = "lastUpdatedBy"
         }
     }
 
@@ -2164,307 +2319,316 @@ extension CodePipeline {
         }
     }
 
-    public struct GetPipelineOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "metadata", required: false, type: .structure), 
-            AWSShapeMember(label: "pipeline", required: false, type: .structure)
-        ]
-        /// Represents the pipeline metadata information returned as part of the output of a GetPipeline action.
-        public let metadata: PipelineMetadata?
-        /// Represents the structure of actions and stages to be performed in the pipeline. 
-        public let pipeline: PipelineDeclaration?
-
-        public init(metadata: PipelineMetadata? = nil, pipeline: PipelineDeclaration? = nil) {
-            self.metadata = metadata
-            self.pipeline = pipeline
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case metadata = "metadata"
-            case pipeline = "pipeline"
-        }
-    }
-
-    public struct RetryStageExecutionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "stageName", required: true, type: .string), 
-            AWSShapeMember(label: "pipelineExecutionId", required: true, type: .string), 
-            AWSShapeMember(label: "pipelineName", required: true, type: .string), 
-            AWSShapeMember(label: "retryMode", required: true, type: .enum)
-        ]
-        /// The name of the failed stage to be retried.
-        public let stageName: String
-        /// The ID of the pipeline execution in the failed stage to be retried. Use the GetPipelineState action to retrieve the current pipelineExecutionId of the failed stage
-        public let pipelineExecutionId: String
-        /// The name of the pipeline that contains the failed stage.
-        public let pipelineName: String
-        /// The scope of the retry attempt. Currently, the only supported value is FAILED_ACTIONS.
-        public let retryMode: StageRetryMode
-
-        public init(stageName: String, pipelineExecutionId: String, pipelineName: String, retryMode: StageRetryMode) {
-            self.stageName = stageName
-            self.pipelineExecutionId = pipelineExecutionId
-            self.pipelineName = pipelineName
-            self.retryMode = retryMode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case stageName = "stageName"
-            case pipelineExecutionId = "pipelineExecutionId"
-            case pipelineName = "pipelineName"
-            case retryMode = "retryMode"
-        }
-    }
-
-    public struct PutJobFailureResultInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "failureDetails", required: true, type: .structure), 
-            AWSShapeMember(label: "jobId", required: true, type: .string)
-        ]
-        /// The details about the failure of a job.
-        public let failureDetails: FailureDetails
-        /// The unique system-generated ID of the job that failed. This is the same ID returned from PollForJobs.
-        public let jobId: String
-
-        public init(failureDetails: FailureDetails, jobId: String) {
-            self.failureDetails = failureDetails
-            self.jobId = jobId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case failureDetails = "failureDetails"
-            case jobId = "jobId"
-        }
-    }
-
-    public enum PipelineExecutionStatus: String, CustomStringConvertible, Codable {
-        case inprogress = "InProgress"
-        case succeeded = "Succeeded"
-        case superseded = "Superseded"
-        case failed = "Failed"
+    public enum StageTransitionType: String, CustomStringConvertible, Codable {
+        case inbound = "Inbound"
+        case outbound = "Outbound"
         public var description: String { return self.rawValue }
     }
 
-    public struct PutActionRevisionInput: AWSShape {
+    public struct StartPipelineExecutionInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionName", required: true, type: .string), 
+            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: true, type: .string)
+        ]
+        /// The system-generated unique ID used to identify a unique execution request.
+        public let clientRequestToken: String?
+        /// The name of the pipeline to start.
+        public let name: String
+
+        public init(clientRequestToken: String? = nil, name: String) {
+            self.clientRequestToken = clientRequestToken
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
+            case name = "name"
+        }
+    }
+
+    public struct AcknowledgeThirdPartyJobOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: false, type: .enum)
+        ]
+        /// The status information for the third party job, if any.
+        public let status: JobStatus?
+
+        public init(status: JobStatus? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+        }
+    }
+
+    public enum FailureType: String, CustomStringConvertible, Codable {
+        case jobfailed = "JobFailed"
+        case configurationerror = "ConfigurationError"
+        case permissionerror = "PermissionError"
+        case revisionoutofsync = "RevisionOutOfSync"
+        case revisionunavailable = "RevisionUnavailable"
+        case systemunavailable = "SystemUnavailable"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct EnableStageTransitionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "stageName", required: true, type: .string), 
-            AWSShapeMember(label: "actionRevision", required: true, type: .structure), 
-            AWSShapeMember(label: "pipelineName", required: true, type: .string)
+            AWSShapeMember(label: "pipelineName", required: true, type: .string), 
+            AWSShapeMember(label: "transitionType", required: true, type: .enum)
         ]
-        /// The name of the action that will process the revision.
-        public let actionName: String
-        /// The name of the stage that contains the action that will act upon the revision.
+        /// The name of the stage where you want to enable the transition of artifacts, either into the stage (inbound) or from that stage to the next stage (outbound).
         public let stageName: String
-        /// Represents information about the version (or revision) of an action.
-        public let actionRevision: ActionRevision
-        /// The name of the pipeline that will start processing the revision to the source.
+        /// The name of the pipeline in which you want to enable the flow of artifacts from one stage to another.
         public let pipelineName: String
+        /// Specifies whether artifacts will be allowed to enter the stage and be processed by the actions in that stage (inbound) or whether already-processed artifacts will be allowed to transition to the next stage (outbound).
+        public let transitionType: StageTransitionType
 
-        public init(actionName: String, stageName: String, actionRevision: ActionRevision, pipelineName: String) {
-            self.actionName = actionName
+        public init(stageName: String, pipelineName: String, transitionType: StageTransitionType) {
             self.stageName = stageName
-            self.actionRevision = actionRevision
             self.pipelineName = pipelineName
+            self.transitionType = transitionType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionName = "actionName"
             case stageName = "stageName"
-            case actionRevision = "actionRevision"
             case pipelineName = "pipelineName"
+            case transitionType = "transitionType"
         }
     }
 
-    public struct PipelineDeclaration: AWSShape {
+    public struct RegisterWebhookWithThirdPartyInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "version", required: false, type: .integer), 
-            AWSShapeMember(label: "stages", required: true, type: .list), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "artifactStores", required: false, type: .map), 
-            AWSShapeMember(label: "artifactStore", required: false, type: .structure), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string)
+            AWSShapeMember(label: "webhookName", required: false, type: .string)
         ]
-        /// The version number of the pipeline. A new pipeline always has a version number of 1. This number is automatically incremented when a pipeline is updated.
-        public let version: Int32?
-        /// The stage in which to perform the action.
-        public let stages: [StageDeclaration]
-        /// The name of the action to be performed.
-        public let name: String
-        /// A mapping of artifactStore objects and their corresponding regions. There must be an artifact store for the pipeline region and for each cross-region action within the pipeline. You can only use either artifactStore or artifactStores, not both. If you create a cross-region action in your pipeline, you must use artifactStores.
-        public let artifactStores: [String: ArtifactStore]?
-        /// Represents information about the Amazon S3 bucket where artifacts are stored for the pipeline. 
-        public let artifactStore: ArtifactStore?
-        /// The Amazon Resource Name (ARN) for AWS CodePipeline to use to either perform actions with no actionRoleArn, or to use to assume roles for actions with an actionRoleArn.
-        public let roleArn: String
+        /// The name of an existing webhook created with PutWebhook to register with a supported third party. 
+        public let webhookName: String?
 
-        public init(version: Int32? = nil, stages: [StageDeclaration], name: String, artifactStores: [String: ArtifactStore]? = nil, artifactStore: ArtifactStore? = nil, roleArn: String) {
-            self.version = version
-            self.stages = stages
+        public init(webhookName: String? = nil) {
+            self.webhookName = webhookName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case webhookName = "webhookName"
+        }
+    }
+
+    public struct OutputArtifact: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string)
+        ]
+        /// The name of the output of an artifact, such as "My App". The input artifact of an action must exactly match the output artifact declared in a preceding action, but the input artifact does not have to be the next action in strict sequence from the action that provided the output artifact. Actions in parallel can declare different output artifacts, which are in turn consumed by different following actions. Output artifact names must be unique within a pipeline.
+        public let name: String
+
+        public init(name: String) {
             self.name = name
-            self.artifactStores = artifactStores
-            self.artifactStore = artifactStore
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
+    public enum BlockerType: String, CustomStringConvertible, Codable {
+        case schedule = "Schedule"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ActionDeclaration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "region", required: false, type: .string), 
+            AWSShapeMember(label: "configuration", required: false, type: .map), 
+            AWSShapeMember(label: "actionTypeId", required: true, type: .structure), 
+            AWSShapeMember(label: "outputArtifacts", required: false, type: .list), 
+            AWSShapeMember(label: "inputArtifacts", required: false, type: .list), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "roleArn", required: false, type: .string), 
+            AWSShapeMember(label: "runOrder", required: false, type: .integer)
+        ]
+        /// The action declaration's AWS Region, such as us-east-1.
+        public let region: String?
+        /// The action declaration's configuration.
+        public let configuration: [String: String]?
+        /// The configuration information for the action type.
+        public let actionTypeId: ActionTypeId
+        /// The name or ID of the result of the action declaration, such as a test or build artifact.
+        public let outputArtifacts: [OutputArtifact]?
+        /// The name or ID of the artifact consumed by the action, such as a test or build artifact.
+        public let inputArtifacts: [InputArtifact]?
+        /// The action declaration's name.
+        public let name: String
+        /// The ARN of the IAM service role that will perform the declared action. This is assumed through the roleArn for the pipeline.
+        public let roleArn: String?
+        /// The order in which actions are run.
+        public let runOrder: Int32?
+
+        public init(region: String? = nil, configuration: [String: String]? = nil, actionTypeId: ActionTypeId, outputArtifacts: [OutputArtifact]? = nil, inputArtifacts: [InputArtifact]? = nil, name: String, roleArn: String? = nil, runOrder: Int32? = nil) {
+            self.region = region
+            self.configuration = configuration
+            self.actionTypeId = actionTypeId
+            self.outputArtifacts = outputArtifacts
+            self.inputArtifacts = inputArtifacts
+            self.name = name
             self.roleArn = roleArn
+            self.runOrder = runOrder
         }
 
         private enum CodingKeys: String, CodingKey {
-            case version = "version"
-            case stages = "stages"
+            case region = "region"
+            case configuration = "configuration"
+            case actionTypeId = "actionTypeId"
+            case outputArtifacts = "outputArtifacts"
+            case inputArtifacts = "inputArtifacts"
             case name = "name"
-            case artifactStores = "artifactStores"
-            case artifactStore = "artifactStore"
             case roleArn = "roleArn"
+            case runOrder = "runOrder"
         }
     }
 
-    public struct WebhookDefinition: AWSShape {
+    public struct ActionState: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filters", required: true, type: .list), 
-            AWSShapeMember(label: "authentication", required: true, type: .enum), 
-            AWSShapeMember(label: "targetAction", required: true, type: .string), 
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "authenticationConfiguration", required: true, type: .structure), 
-            AWSShapeMember(label: "targetPipeline", required: true, type: .string)
-        ]
-        /// A list of rules applied to the body/payload sent in the POST request to a webhook URL. All defined rules must pass for the request to be accepted and the pipeline started.
-        public let filters: [WebhookFilterRule]
-        /// Supported options are GITHUB_HMAC, IP and UNAUTHENTICATED.    GITHUB_HMAC implements the authentication scheme described here: https://developer.github.com/webhooks/securing/    IP will reject webhooks trigger requests unless they originate from an IP within the IP range whitelisted in the authentication configuration.    UNAUTHENTICATED will accept all webhook trigger requests regardless of origin.  
-        public let authentication: WebhookAuthenticationType
-        /// The name of the action in a pipeline you want to connect to the webhook. The action must be from the source (first) stage of the pipeline.
-        public let targetAction: String
-        /// The name of the webhook.
-        public let name: String
-        /// Properties that configure the authentication applied to incoming webhook trigger requests. The required properties depend on the authentication type. For GITHUB_HMAC, only the SecretToken property must be set. For IP, only the AllowedIPRange property must be set to a valid CIDR range. For UNAUTHENTICATED, no properties can be set.
-        public let authenticationConfiguration: WebhookAuthConfiguration
-        /// The name of the pipeline you want to connect to the webhook.
-        public let targetPipeline: String
-
-        public init(filters: [WebhookFilterRule], authentication: WebhookAuthenticationType, targetAction: String, name: String, authenticationConfiguration: WebhookAuthConfiguration, targetPipeline: String) {
-            self.filters = filters
-            self.authentication = authentication
-            self.targetAction = targetAction
-            self.name = name
-            self.authenticationConfiguration = authenticationConfiguration
-            self.targetPipeline = targetPipeline
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case filters = "filters"
-            case authentication = "authentication"
-            case targetAction = "targetAction"
-            case name = "name"
-            case authenticationConfiguration = "authenticationConfiguration"
-            case targetPipeline = "targetPipeline"
-        }
-    }
-
-    public struct ListActionTypesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionOwnerFilter", required: false, type: .enum), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// Filters the list of action types to those created by a specified entity.
-        public let actionOwnerFilter: ActionOwner?
-        /// An identifier that was returned from the previous list action types call, which can be used to return the next set of action types in the list.
-        public let nextToken: String?
-
-        public init(actionOwnerFilter: ActionOwner? = nil, nextToken: String? = nil) {
-            self.actionOwnerFilter = actionOwnerFilter
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case actionOwnerFilter = "actionOwnerFilter"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct PipelineContext: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipelineName", required: false, type: .string), 
-            AWSShapeMember(label: "stage", required: false, type: .structure), 
-            AWSShapeMember(label: "action", required: false, type: .structure)
-        ]
-        /// The name of the pipeline. This is a user-specified value. Pipeline names must be unique across all pipeline names under an Amazon Web Services account.
-        public let pipelineName: String?
-        /// The stage of the pipeline.
-        public let stage: StageContext?
-        /// The context of an action to a job worker within the stage of a pipeline.
-        public let action: ActionContext?
-
-        public init(pipelineName: String? = nil, stage: StageContext? = nil, action: ActionContext? = nil) {
-            self.pipelineName = pipelineName
-            self.stage = stage
-            self.action = action
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pipelineName = "pipelineName"
-            case stage = "stage"
-            case action = "action"
-        }
-    }
-
-    public struct StageState: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "stageName", required: false, type: .string), 
-            AWSShapeMember(label: "actionStates", required: false, type: .list), 
+            AWSShapeMember(label: "revisionUrl", required: false, type: .string), 
             AWSShapeMember(label: "latestExecution", required: false, type: .structure), 
-            AWSShapeMember(label: "inboundTransitionState", required: false, type: .structure)
+            AWSShapeMember(label: "currentRevision", required: false, type: .structure), 
+            AWSShapeMember(label: "actionName", required: false, type: .string), 
+            AWSShapeMember(label: "entityUrl", required: false, type: .string)
         ]
-        /// The name of the stage.
-        public let stageName: String?
-        /// The state of the stage.
-        public let actionStates: [ActionState]?
-        /// Information about the latest execution in the stage, including its ID and status.
-        public let latestExecution: StageExecution?
-        /// The state of the inbound transition, which is either enabled or disabled.
-        public let inboundTransitionState: TransitionState?
+        /// A URL link for more information about the revision, such as a commit details page.
+        public let revisionUrl: String?
+        /// Represents information about the run of an action.
+        public let latestExecution: ActionExecution?
+        /// Represents information about the version (or revision) of an action.
+        public let currentRevision: ActionRevision?
+        /// The name of the action.
+        public let actionName: String?
+        /// A URL link for more information about the state of the action, such as a deployment group details page.
+        public let entityUrl: String?
 
-        public init(stageName: String? = nil, actionStates: [ActionState]? = nil, latestExecution: StageExecution? = nil, inboundTransitionState: TransitionState? = nil) {
-            self.stageName = stageName
-            self.actionStates = actionStates
+        public init(revisionUrl: String? = nil, latestExecution: ActionExecution? = nil, currentRevision: ActionRevision? = nil, actionName: String? = nil, entityUrl: String? = nil) {
+            self.revisionUrl = revisionUrl
             self.latestExecution = latestExecution
-            self.inboundTransitionState = inboundTransitionState
+            self.currentRevision = currentRevision
+            self.actionName = actionName
+            self.entityUrl = entityUrl
         }
 
         private enum CodingKeys: String, CodingKey {
-            case stageName = "stageName"
-            case actionStates = "actionStates"
+            case revisionUrl = "revisionUrl"
             case latestExecution = "latestExecution"
-            case inboundTransitionState = "inboundTransitionState"
+            case currentRevision = "currentRevision"
+            case actionName = "actionName"
+            case entityUrl = "entityUrl"
         }
     }
 
-    public struct GetJobDetailsOutput: AWSShape {
+    public struct PollForJobsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobDetails", required: false, type: .structure)
+            AWSShapeMember(label: "jobs", required: false, type: .list)
         ]
-        /// The details of the job.  If AWSSessionCredentials is used, a long-running job can call GetJobDetails again to obtain new credentials. 
-        public let jobDetails: JobDetails?
+        /// Information about the jobs to take action on.
+        public let jobs: [Job]?
 
-        public init(jobDetails: JobDetails? = nil) {
-            self.jobDetails = jobDetails
+        public init(jobs: [Job]? = nil) {
+            self.jobs = jobs
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobDetails = "jobDetails"
+            case jobs = "jobs"
         }
     }
 
-    public struct PutWebhookInput: AWSShape {
+    public struct CurrentRevision: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "webhook", required: true, type: .structure)
+            AWSShapeMember(label: "changeIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "created", required: false, type: .timestamp), 
+            AWSShapeMember(label: "revision", required: true, type: .string), 
+            AWSShapeMember(label: "revisionSummary", required: false, type: .string)
         ]
-        /// The detail provided in an input file to create the webhook, such as the webhook name, the pipeline name, and the action name. Give the webhook a unique name which identifies the webhook being defined. You may choose to name the webhook after the pipeline and action it targets so that you can easily recognize what it's used for later.
-        public let webhook: WebhookDefinition
+        /// The change identifier for the current revision.
+        public let changeIdentifier: String
+        /// The date and time when the most recent revision of the artifact was created, in timestamp format.
+        public let created: TimeStamp?
+        /// The revision ID of the current version of an artifact.
+        public let revision: String
+        /// The summary of the most recent revision of the artifact.
+        public let revisionSummary: String?
 
-        public init(webhook: WebhookDefinition) {
-            self.webhook = webhook
+        public init(changeIdentifier: String, created: TimeStamp? = nil, revision: String, revisionSummary: String? = nil) {
+            self.changeIdentifier = changeIdentifier
+            self.created = created
+            self.revision = revision
+            self.revisionSummary = revisionSummary
         }
 
         private enum CodingKeys: String, CodingKey {
-            case webhook = "webhook"
+            case changeIdentifier = "changeIdentifier"
+            case created = "created"
+            case revision = "revision"
+            case revisionSummary = "revisionSummary"
+        }
+    }
+
+    public struct AcknowledgeJobInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobId", required: true, type: .string), 
+            AWSShapeMember(label: "nonce", required: true, type: .string)
+        ]
+        /// The unique system-generated ID of the job for which you want to confirm receipt.
+        public let jobId: String
+        /// A system-generated random number that AWS CodePipeline uses to ensure that the job is being worked on by only one job worker. Get this number from the response of the PollForJobs request that returned this job.
+        public let nonce: String
+
+        public init(jobId: String, nonce: String) {
+            self.jobId = jobId
+            self.nonce = nonce
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "jobId"
+            case nonce = "nonce"
+        }
+    }
+
+    public struct ActionContext: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string)
+        ]
+        /// The name of the action within the context of a job.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
+    public struct PipelineMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pipelineArn", required: false, type: .string), 
+            AWSShapeMember(label: "updated", required: false, type: .timestamp), 
+            AWSShapeMember(label: "created", required: false, type: .timestamp)
+        ]
+        /// The Amazon Resource Name (ARN) of the pipeline.
+        public let pipelineArn: String?
+        /// The date and time the pipeline was last updated, in timestamp format.
+        public let updated: TimeStamp?
+        /// The date and time the pipeline was created, in timestamp format.
+        public let created: TimeStamp?
+
+        public init(pipelineArn: String? = nil, updated: TimeStamp? = nil, created: TimeStamp? = nil) {
+            self.pipelineArn = pipelineArn
+            self.updated = updated
+            self.created = created
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipelineArn = "pipelineArn"
+            case updated = "updated"
+            case created = "created"
         }
     }
 
@@ -2489,183 +2653,19 @@ extension CodePipeline {
         }
     }
 
-    public struct CurrentRevision: AWSShape {
+    public struct DeleteWebhookInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "created", required: false, type: .timestamp), 
-            AWSShapeMember(label: "revisionSummary", required: false, type: .string), 
-            AWSShapeMember(label: "changeIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "revision", required: true, type: .string)
+            AWSShapeMember(label: "name", required: true, type: .string)
         ]
-        /// The date and time when the most recent revision of the artifact was created, in timestamp format.
-        public let created: TimeStamp?
-        /// The summary of the most recent revision of the artifact.
-        public let revisionSummary: String?
-        /// The change identifier for the current revision.
-        public let changeIdentifier: String
-        /// The revision ID of the current version of an artifact.
-        public let revision: String
+        /// The name of the webhook you want to delete.
+        public let name: String
 
-        public init(created: TimeStamp? = nil, revisionSummary: String? = nil, changeIdentifier: String, revision: String) {
-            self.created = created
-            self.revisionSummary = revisionSummary
-            self.changeIdentifier = changeIdentifier
-            self.revision = revision
+        public init(name: String) {
+            self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case created = "created"
-            case revisionSummary = "revisionSummary"
-            case changeIdentifier = "changeIdentifier"
-            case revision = "revision"
-        }
-    }
-
-    public enum ArtifactLocationType: String, CustomStringConvertible, Codable {
-        case s3 = "S3"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreatePipelineOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pipeline", required: false, type: .structure)
-        ]
-        /// Represents the structure of actions and stages to be performed in the pipeline. 
-        public let pipeline: PipelineDeclaration?
-
-        public init(pipeline: PipelineDeclaration? = nil) {
-            self.pipeline = pipeline
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pipeline = "pipeline"
-        }
-    }
-
-    public struct CreateCustomActionTypeInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "outputArtifactDetails", required: true, type: .structure), 
-            AWSShapeMember(label: "version", required: true, type: .string), 
-            AWSShapeMember(label: "provider", required: true, type: .string), 
-            AWSShapeMember(label: "settings", required: false, type: .structure), 
-            AWSShapeMember(label: "category", required: true, type: .enum), 
-            AWSShapeMember(label: "inputArtifactDetails", required: true, type: .structure), 
-            AWSShapeMember(label: "configurationProperties", required: false, type: .list)
-        ]
-        /// The details of the output artifact of the action, such as its commit ID.
-        public let outputArtifactDetails: ArtifactDetails
-        /// The version identifier of the custom action.
-        public let version: String
-        /// The provider of the service used in the custom action, such as AWS CodeDeploy.
-        public let provider: String
-        /// Returns information about the settings for an action type.
-        public let settings: ActionTypeSettings?
-        /// The category of the custom action, such as a build action or a test action.  Although Source and Approval are listed as valid values, they are not currently functional. These values are reserved for future use. 
-        public let category: ActionCategory
-        /// The details of the input artifact for the action, such as its commit ID.
-        public let inputArtifactDetails: ArtifactDetails
-        /// The configuration properties for the custom action.  You can refer to a name in the configuration properties of the custom action within the URL templates by following the format of {Config:name}, as long as the configuration property is both required and not secret. For more information, see Create a Custom Action for a Pipeline. 
-        public let configurationProperties: [ActionConfigurationProperty]?
-
-        public init(outputArtifactDetails: ArtifactDetails, version: String, provider: String, settings: ActionTypeSettings? = nil, category: ActionCategory, inputArtifactDetails: ArtifactDetails, configurationProperties: [ActionConfigurationProperty]? = nil) {
-            self.outputArtifactDetails = outputArtifactDetails
-            self.version = version
-            self.provider = provider
-            self.settings = settings
-            self.category = category
-            self.inputArtifactDetails = inputArtifactDetails
-            self.configurationProperties = configurationProperties
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case outputArtifactDetails = "outputArtifactDetails"
-            case version = "version"
-            case provider = "provider"
-            case settings = "settings"
-            case category = "category"
-            case inputArtifactDetails = "inputArtifactDetails"
-            case configurationProperties = "configurationProperties"
-        }
-    }
-
-    public struct S3ArtifactLocation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "objectKey", required: true, type: .string), 
-            AWSShapeMember(label: "bucketName", required: true, type: .string)
-        ]
-        /// The key of the object in the Amazon S3 bucket, which uniquely identifies the object in the bucket.
-        public let objectKey: String
-        /// The name of the Amazon S3 bucket.
-        public let bucketName: String
-
-        public init(objectKey: String, bucketName: String) {
-            self.objectKey = objectKey
-            self.bucketName = bucketName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case objectKey = "objectKey"
-            case bucketName = "bucketName"
-        }
-    }
-
-    public struct PutThirdPartyJobFailureResultInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "failureDetails", required: true, type: .structure), 
-            AWSShapeMember(label: "jobId", required: true, type: .string), 
-            AWSShapeMember(label: "clientToken", required: true, type: .string)
-        ]
-        /// Represents information about failure details.
-        public let failureDetails: FailureDetails
-        /// The ID of the job that failed. This is the same ID returned from PollForThirdPartyJobs.
-        public let jobId: String
-        /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details.
-        public let clientToken: String
-
-        public init(failureDetails: FailureDetails, jobId: String, clientToken: String) {
-            self.failureDetails = failureDetails
-            self.jobId = jobId
-            self.clientToken = clientToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case failureDetails = "failureDetails"
-            case jobId = "jobId"
-            case clientToken = "clientToken"
-        }
-    }
-
-    public struct DeregisterWebhookWithThirdPartyOutput: AWSShape {
-
-    }
-
-    public struct ActionTypeId: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "version", required: true, type: .string), 
-            AWSShapeMember(label: "provider", required: true, type: .string), 
-            AWSShapeMember(label: "owner", required: true, type: .enum), 
-            AWSShapeMember(label: "category", required: true, type: .enum)
-        ]
-        /// A string that describes the action version.
-        public let version: String
-        /// The provider of the service being called by the action. Valid providers are determined by the action category. For example, an action in the Deploy category type might have a provider of AWS CodeDeploy, which would be specified as CodeDeploy.
-        public let provider: String
-        /// The creator of the action being called.
-        public let owner: ActionOwner
-        /// A category defines what kind of action can be taken in the stage, and constrains the provider type for the action. Valid categories are limited to one of the values below.
-        public let category: ActionCategory
-
-        public init(version: String, provider: String, owner: ActionOwner, category: ActionCategory) {
-            self.version = version
-            self.provider = provider
-            self.owner = owner
-            self.category = category
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case version = "version"
-            case provider = "provider"
-            case owner = "owner"
-            case category = "category"
+            case name = "name"
         }
     }
 

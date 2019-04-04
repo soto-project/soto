@@ -9,19 +9,18 @@ public enum DAXErrorType: AWSErrorType {
     case subnetQuotaExceededFault(message: String?)
     case invalidSubnet(message: String?)
     case serviceLinkedRoleNotFoundFault(message: String?)
-    case parameterGroupNotFoundFault(message: String?)
-    case invalidParameterValueException(message: String?)
-    case invalidParameterCombinationException(message: String?)
     case parameterGroupQuotaExceededFault(message: String?)
     case parameterGroupAlreadyExistsFault(message: String?)
     case invalidParameterGroupStateFault(message: String?)
+    case invalidParameterValueException(message: String?)
+    case invalidParameterCombinationException(message: String?)
+    case parameterGroupNotFoundFault(message: String?)
+    case subnetGroupInUseFault(message: String?)
+    case subnetGroupNotFoundFault(message: String?)
     case clusterNotFoundFault(message: String?)
     case tagQuotaPerResourceExceeded(message: String?)
     case invalidARNFault(message: String?)
     case invalidClusterStateFault(message: String?)
-    case subnetGroupInUseFault(message: String?)
-    case subnetGroupNotFoundFault(message: String?)
-    case tagNotFoundFault(message: String?)
     case insufficientClusterCapacityFault(message: String?)
     case invalidVPCNetworkStateFault(message: String?)
     case nodeQuotaForClusterExceededFault(message: String?)
@@ -29,6 +28,7 @@ public enum DAXErrorType: AWSErrorType {
     case clusterAlreadyExistsFault(message: String?)
     case clusterQuotaForCustomerExceededFault(message: String?)
     case nodeNotFoundFault(message: String?)
+    case tagNotFoundFault(message: String?)
     case subnetInUse(message: String?)
 }
 
@@ -49,18 +49,22 @@ extension DAXErrorType {
             self = .invalidSubnet(message: message)
         case "ServiceLinkedRoleNotFoundFault":
             self = .serviceLinkedRoleNotFoundFault(message: message)
-        case "ParameterGroupNotFoundFault":
-            self = .parameterGroupNotFoundFault(message: message)
-        case "InvalidParameterValueException":
-            self = .invalidParameterValueException(message: message)
-        case "InvalidParameterCombinationException":
-            self = .invalidParameterCombinationException(message: message)
         case "ParameterGroupQuotaExceededFault":
             self = .parameterGroupQuotaExceededFault(message: message)
         case "ParameterGroupAlreadyExistsFault":
             self = .parameterGroupAlreadyExistsFault(message: message)
         case "InvalidParameterGroupStateFault":
             self = .invalidParameterGroupStateFault(message: message)
+        case "InvalidParameterValueException":
+            self = .invalidParameterValueException(message: message)
+        case "InvalidParameterCombinationException":
+            self = .invalidParameterCombinationException(message: message)
+        case "ParameterGroupNotFoundFault":
+            self = .parameterGroupNotFoundFault(message: message)
+        case "SubnetGroupInUseFault":
+            self = .subnetGroupInUseFault(message: message)
+        case "SubnetGroupNotFoundFault":
+            self = .subnetGroupNotFoundFault(message: message)
         case "ClusterNotFoundFault":
             self = .clusterNotFoundFault(message: message)
         case "TagQuotaPerResourceExceeded":
@@ -69,12 +73,6 @@ extension DAXErrorType {
             self = .invalidARNFault(message: message)
         case "InvalidClusterStateFault":
             self = .invalidClusterStateFault(message: message)
-        case "SubnetGroupInUseFault":
-            self = .subnetGroupInUseFault(message: message)
-        case "SubnetGroupNotFoundFault":
-            self = .subnetGroupNotFoundFault(message: message)
-        case "TagNotFoundFault":
-            self = .tagNotFoundFault(message: message)
         case "InsufficientClusterCapacityFault":
             self = .insufficientClusterCapacityFault(message: message)
         case "InvalidVPCNetworkStateFault":
@@ -89,6 +87,8 @@ extension DAXErrorType {
             self = .clusterQuotaForCustomerExceededFault(message: message)
         case "NodeNotFoundFault":
             self = .nodeNotFoundFault(message: message)
+        case "TagNotFoundFault":
+            self = .tagNotFoundFault(message: message)
         case "SubnetInUse":
             self = .subnetInUse(message: message)
         default:

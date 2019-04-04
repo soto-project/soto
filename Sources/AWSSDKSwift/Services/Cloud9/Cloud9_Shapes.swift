@@ -5,36 +5,30 @@ import AWSSDKSwiftCore
 
 extension Cloud9 {
 
-    public struct ListEnvironmentsRequest: AWSShape {
+    public struct CreateEnvironmentMembershipRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer)
+            AWSShapeMember(label: "permissions", required: true, type: .enum), 
+            AWSShapeMember(label: "userArn", required: true, type: .string), 
+            AWSShapeMember(label: "environmentId", required: true, type: .string)
         ]
-        /// During a previous call, if there are more than 25 items in the list, only the first 25 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
-        public let nextToken: String?
-        /// The maximum number of environments to get identifiers for.
-        public let maxResults: Int32?
+        /// The type of environment member permissions you want to associate with this environment member. Available values include:    read-only: Has read-only access to the environment.    read-write: Has read-write access to the environment.  
+        public let permissions: MemberPermissions
+        /// The Amazon Resource Name (ARN) of the environment member you want to add.
+        public let userArn: String
+        /// The ID of the environment that contains the environment member you want to add.
+        public let environmentId: String
 
-        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
+        public init(permissions: MemberPermissions, userArn: String, environmentId: String) {
+            self.permissions = permissions
+            self.userArn = userArn
+            self.environmentId = environmentId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
+            case permissions = "permissions"
+            case userArn = "userArn"
+            case environmentId = "environmentId"
         }
-    }
-
-    public enum EnvironmentStatus: String, CustomStringConvertible, Codable {
-        case error = "error"
-        case creating = "creating"
-        case connecting = "connecting"
-        case ready = "ready"
-        case stopping = "stopping"
-        case stopped = "stopped"
-        case deleting = "deleting"
-        public var description: String { return self.rawValue }
     }
 
     public enum EnvironmentType: String, CustomStringConvertible, Codable {
@@ -43,268 +37,40 @@ extension Cloud9 {
         public var description: String { return self.rawValue }
     }
 
-    public struct UpdateEnvironmentResult: AWSShape {
-
-    }
-
-    public struct UpdateEnvironmentMembershipResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "membership", required: false, type: .structure)
-        ]
-        /// Information about the environment member whose settings were changed.
-        public let membership: EnvironmentMember?
-
-        public init(membership: EnvironmentMember? = nil) {
-            self.membership = membership
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case membership = "membership"
-        }
-    }
-
-    public struct DeleteEnvironmentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "environmentId", required: true, type: .string)
-        ]
-        /// The ID of the environment to delete.
-        public let environmentId: String
-
-        public init(environmentId: String) {
-            self.environmentId = environmentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case environmentId = "environmentId"
-        }
-    }
-
-    public struct Environment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "type", required: false, type: .enum), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "ownerArn", required: false, type: .string), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "id", required: false, type: .string)
-        ]
-        /// The type of environment. Valid values include the following:    ec2: An Amazon Elastic Compute Cloud (Amazon EC2) instance connects to the environment.    ssh: Your own server connects to the environment.  
-        public let `type`: EnvironmentType?
-        /// The name of the environment.
-        public let name: String?
-        /// The Amazon Resource Name (ARN) of the environment owner.
-        public let ownerArn: String?
-        /// The Amazon Resource Name (ARN) of the environment.
-        public let arn: String?
-        /// The description for the environment.
-        public let description: String?
-        /// The ID of the environment.
-        public let id: String?
-
-        public init(type: EnvironmentType? = nil, name: String? = nil, ownerArn: String? = nil, arn: String? = nil, description: String? = nil, id: String? = nil) {
-            self.`type` = `type`
-            self.name = name
-            self.ownerArn = ownerArn
-            self.arn = arn
-            self.description = description
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "type"
-            case name = "name"
-            case ownerArn = "ownerArn"
-            case arn = "arn"
-            case description = "description"
-            case id = "id"
-        }
-    }
-
-    public struct DescribeEnvironmentStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "environmentId", required: true, type: .string)
-        ]
-        /// The ID of the environment to get status information about.
-        public let environmentId: String
-
-        public init(environmentId: String) {
-            self.environmentId = environmentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case environmentId = "environmentId"
-        }
-    }
-
-    public struct DescribeEnvironmentsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "environments", required: false, type: .list)
-        ]
-        /// Information about the environments that are returned.
-        public let environments: [Environment]?
-
-        public init(environments: [Environment]? = nil) {
-            self.environments = environments
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case environments = "environments"
-        }
-    }
-
-    public struct DeleteEnvironmentMembershipResult: AWSShape {
-
-    }
-
-    public struct DeleteEnvironmentResult: AWSShape {
-
-    }
-
-    public struct CreateEnvironmentMembershipRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "environmentId", required: true, type: .string), 
-            AWSShapeMember(label: "userArn", required: true, type: .string), 
-            AWSShapeMember(label: "permissions", required: true, type: .enum)
-        ]
-        /// The ID of the environment that contains the environment member you want to add.
-        public let environmentId: String
-        /// The Amazon Resource Name (ARN) of the environment member you want to add.
-        public let userArn: String
-        /// The type of environment member permissions you want to associate with this environment member. Available values include:    read-only: Has read-only access to the environment.    read-write: Has read-write access to the environment.  
-        public let permissions: MemberPermissions
-
-        public init(environmentId: String, userArn: String, permissions: MemberPermissions) {
-            self.environmentId = environmentId
-            self.userArn = userArn
-            self.permissions = permissions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case environmentId = "environmentId"
-            case userArn = "userArn"
-            case permissions = "permissions"
-        }
-    }
-
-    public enum Permissions: String, CustomStringConvertible, Codable {
-        case owner = "owner"
-        case readWrite = "read-write"
-        case readOnly = "read-only"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateEnvironmentEC2Request: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "subnetId", required: false, type: .string), 
-            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "automaticStopTimeMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "ownerArn", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "instanceType", required: true, type: .string)
-        ]
-        /// The name of the environment to create. This name is visible to other AWS IAM users in the same AWS account.
-        public let name: String
-        /// The ID of the subnet in Amazon VPC that AWS Cloud9 will use to communicate with the Amazon EC2 instance.
-        public let subnetId: String?
-        /// A unique, case-sensitive string that helps AWS Cloud9 to ensure this operation completes no more than one time. For more information, see Client Tokens in the Amazon EC2 API Reference.
-        public let clientRequestToken: String?
-        /// The number of minutes until the running instance is shut down after the environment has last been used.
-        public let automaticStopTimeMinutes: Int32?
-        /// The Amazon Resource Name (ARN) of the environment owner. This ARN can be the ARN of any AWS IAM principal. If this value is not specified, the ARN defaults to this environment's creator.
-        public let ownerArn: String?
-        /// The description of the environment to create.
-        public let description: String?
-        /// The type of instance to connect to the environment (for example, t2.micro).
-        public let instanceType: String
-
-        public init(name: String, subnetId: String? = nil, clientRequestToken: String? = nil, automaticStopTimeMinutes: Int32? = nil, ownerArn: String? = nil, description: String? = nil, instanceType: String) {
-            self.name = name
-            self.subnetId = subnetId
-            self.clientRequestToken = clientRequestToken
-            self.automaticStopTimeMinutes = automaticStopTimeMinutes
-            self.ownerArn = ownerArn
-            self.description = description
-            self.instanceType = instanceType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case subnetId = "subnetId"
-            case clientRequestToken = "clientRequestToken"
-            case automaticStopTimeMinutes = "automaticStopTimeMinutes"
-            case ownerArn = "ownerArn"
-            case description = "description"
-            case instanceType = "instanceType"
-        }
-    }
-
     public struct DescribeEnvironmentMembershipsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "environmentId", required: false, type: .string), 
-            AWSShapeMember(label: "permissions", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "userArn", required: false, type: .string)
+            AWSShapeMember(label: "userArn", required: false, type: .string), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "permissions", required: false, type: .list), 
+            AWSShapeMember(label: "environmentId", required: false, type: .string)
         ]
-        /// The ID of the environment to get environment member information about.
-        public let environmentId: String?
-        /// The type of environment member permissions to get information about. Available values include:    owner: Owns the environment.    read-only: Has read-only access to the environment.    read-write: Has read-write access to the environment.   If no value is specified, information about all environment members are returned.
-        public let permissions: [Permissions]?
-        /// During a previous call, if there are more than 25 items in the list, only the first 25 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
-        public let nextToken: String?
         /// The maximum number of environment members to get information about.
         public let maxResults: Int32?
         /// The Amazon Resource Name (ARN) of an individual environment member to get information about. If no value is specified, information about all environment members are returned.
         public let userArn: String?
+        /// During a previous call, if there are more than 25 items in the list, only the first 25 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
+        public let nextToken: String?
+        /// The type of environment member permissions to get information about. Available values include:    owner: Owns the environment.    read-only: Has read-only access to the environment.    read-write: Has read-write access to the environment.   If no value is specified, information about all environment members are returned.
+        public let permissions: [Permissions]?
+        /// The ID of the environment to get environment member information about.
+        public let environmentId: String?
 
-        public init(environmentId: String? = nil, permissions: [Permissions]? = nil, nextToken: String? = nil, maxResults: Int32? = nil, userArn: String? = nil) {
-            self.environmentId = environmentId
-            self.permissions = permissions
-            self.nextToken = nextToken
+        public init(maxResults: Int32? = nil, userArn: String? = nil, nextToken: String? = nil, permissions: [Permissions]? = nil, environmentId: String? = nil) {
             self.maxResults = maxResults
             self.userArn = userArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case environmentId = "environmentId"
-            case permissions = "permissions"
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
-            case userArn = "userArn"
-        }
-    }
-
-    public struct UpdateEnvironmentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "environmentId", required: true, type: .string)
-        ]
-        /// A replacement name for the environment.
-        public let name: String?
-        /// Any new or replacement description for the environment.
-        public let description: String?
-        /// The ID of the environment to change settings.
-        public let environmentId: String
-
-        public init(name: String? = nil, description: String? = nil, environmentId: String) {
-            self.name = name
-            self.description = description
+            self.nextToken = nextToken
+            self.permissions = permissions
             self.environmentId = environmentId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case description = "description"
+            case maxResults = "maxResults"
+            case userArn = "userArn"
+            case nextToken = "nextToken"
+            case permissions = "permissions"
             case environmentId = "environmentId"
         }
-    }
-
-    public enum MemberPermissions: String, CustomStringConvertible, Codable {
-        case readWrite = "read-write"
-        case readOnly = "read-only"
-        public var description: String { return self.rawValue }
     }
 
     public struct CreateEnvironmentMembershipResult: AWSShape {
@@ -323,56 +89,86 @@ extension Cloud9 {
         }
     }
 
-    public struct CreateEnvironmentEC2Result: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "environmentId", required: false, type: .string)
-        ]
-        /// The ID of the environment that was created.
-        public let environmentId: String?
-
-        public init(environmentId: String? = nil) {
-            self.environmentId = environmentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case environmentId = "environmentId"
-        }
+    public enum MemberPermissions: String, CustomStringConvertible, Codable {
+        case readWrite = "read-write"
+        case readOnly = "read-only"
+        public var description: String { return self.rawValue }
     }
 
     public struct EnvironmentMember: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "environmentId", required: false, type: .string), 
-            AWSShapeMember(label: "permissions", required: false, type: .enum), 
-            AWSShapeMember(label: "lastAccess", required: false, type: .timestamp), 
             AWSShapeMember(label: "userId", required: false, type: .string), 
-            AWSShapeMember(label: "userArn", required: false, type: .string)
+            AWSShapeMember(label: "environmentId", required: false, type: .string), 
+            AWSShapeMember(label: "userArn", required: false, type: .string), 
+            AWSShapeMember(label: "lastAccess", required: false, type: .timestamp), 
+            AWSShapeMember(label: "permissions", required: false, type: .enum)
         ]
-        /// The ID of the environment for the environment member.
-        public let environmentId: String?
-        /// The type of environment member permissions associated with this environment member. Available values include:    owner: Owns the environment.    read-only: Has read-only access to the environment.    read-write: Has read-write access to the environment.  
-        public let permissions: Permissions?
-        /// The time, expressed in epoch time format, when the environment member last opened the environment.
-        public let lastAccess: TimeStamp?
         /// The user ID in AWS Identity and Access Management (AWS IAM) of the environment member.
         public let userId: String?
+        /// The ID of the environment for the environment member.
+        public let environmentId: String?
         /// The Amazon Resource Name (ARN) of the environment member.
         public let userArn: String?
+        /// The time, expressed in epoch time format, when the environment member last opened the environment.
+        public let lastAccess: TimeStamp?
+        /// The type of environment member permissions associated with this environment member. Available values include:    owner: Owns the environment.    read-only: Has read-only access to the environment.    read-write: Has read-write access to the environment.  
+        public let permissions: Permissions?
 
-        public init(environmentId: String? = nil, permissions: Permissions? = nil, lastAccess: TimeStamp? = nil, userId: String? = nil, userArn: String? = nil) {
-            self.environmentId = environmentId
-            self.permissions = permissions
-            self.lastAccess = lastAccess
+        public init(userId: String? = nil, environmentId: String? = nil, userArn: String? = nil, lastAccess: TimeStamp? = nil, permissions: Permissions? = nil) {
             self.userId = userId
+            self.environmentId = environmentId
             self.userArn = userArn
+            self.lastAccess = lastAccess
+            self.permissions = permissions
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environmentId = "environmentId"
-            case permissions = "permissions"
-            case lastAccess = "lastAccess"
             case userId = "userId"
+            case environmentId = "environmentId"
             case userArn = "userArn"
+            case lastAccess = "lastAccess"
+            case permissions = "permissions"
         }
+    }
+
+    public struct DeleteEnvironmentResult: AWSShape {
+
+    }
+
+    public struct DescribeEnvironmentStatusResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "message", required: false, type: .string)
+        ]
+        /// The status of the environment. Available values include:    connecting: The environment is connecting.    creating: The environment is being created.    deleting: The environment is being deleted.    error: The environment is in an error state.    ready: The environment is ready.    stopped: The environment is stopped.    stopping: The environment is stopping.  
+        public let status: EnvironmentStatus?
+        /// Any informational message about the status of the environment.
+        public let message: String?
+
+        public init(status: EnvironmentStatus? = nil, message: String? = nil) {
+            self.status = status
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case message = "message"
+        }
+    }
+
+    public enum Permissions: String, CustomStringConvertible, Codable {
+        case owner = "owner"
+        case readWrite = "read-write"
+        case readOnly = "read-only"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeleteEnvironmentMembershipResult: AWSShape {
+
+    }
+
+    public struct UpdateEnvironmentResult: AWSShape {
+
     }
 
     public struct DescribeEnvironmentMembershipsResult: AWSShape {
@@ -396,71 +192,206 @@ extension Cloud9 {
         }
     }
 
-    public struct UpdateEnvironmentMembershipRequest: AWSShape {
+    public struct CreateEnvironmentEC2Request: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "environmentId", required: true, type: .string), 
-            AWSShapeMember(label: "userArn", required: true, type: .string), 
-            AWSShapeMember(label: "permissions", required: true, type: .enum)
+            AWSShapeMember(label: "automaticStopTimeMinutes", required: false, type: .integer), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "subnetId", required: false, type: .string), 
+            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "ownerArn", required: false, type: .string), 
+            AWSShapeMember(label: "instanceType", required: true, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string)
         ]
-        /// The ID of the environment for the environment member whose settings you want to change.
-        public let environmentId: String
-        /// The Amazon Resource Name (ARN) of the environment member whose settings you want to change.
-        public let userArn: String
-        /// The replacement type of environment member permissions you want to associate with this environment member. Available values include:    read-only: Has read-only access to the environment.    read-write: Has read-write access to the environment.  
-        public let permissions: MemberPermissions
+        /// The number of minutes until the running instance is shut down after the environment has last been used.
+        public let automaticStopTimeMinutes: Int32?
+        /// The name of the environment to create. This name is visible to other AWS IAM users in the same AWS account.
+        public let name: String
+        /// The ID of the subnet in Amazon VPC that AWS Cloud9 will use to communicate with the Amazon EC2 instance.
+        public let subnetId: String?
+        /// A unique, case-sensitive string that helps AWS Cloud9 to ensure this operation completes no more than one time. For more information, see Client Tokens in the Amazon EC2 API Reference.
+        public let clientRequestToken: String?
+        /// The Amazon Resource Name (ARN) of the environment owner. This ARN can be the ARN of any AWS IAM principal. If this value is not specified, the ARN defaults to this environment's creator.
+        public let ownerArn: String?
+        /// The type of instance to connect to the environment (for example, t2.micro).
+        public let instanceType: String
+        /// The description of the environment to create.
+        public let description: String?
 
-        public init(environmentId: String, userArn: String, permissions: MemberPermissions) {
-            self.environmentId = environmentId
-            self.userArn = userArn
-            self.permissions = permissions
+        public init(automaticStopTimeMinutes: Int32? = nil, name: String, subnetId: String? = nil, clientRequestToken: String? = nil, ownerArn: String? = nil, instanceType: String, description: String? = nil) {
+            self.automaticStopTimeMinutes = automaticStopTimeMinutes
+            self.name = name
+            self.subnetId = subnetId
+            self.clientRequestToken = clientRequestToken
+            self.ownerArn = ownerArn
+            self.instanceType = instanceType
+            self.description = description
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environmentId = "environmentId"
-            case userArn = "userArn"
-            case permissions = "permissions"
+            case automaticStopTimeMinutes = "automaticStopTimeMinutes"
+            case name = "name"
+            case subnetId = "subnetId"
+            case clientRequestToken = "clientRequestToken"
+            case ownerArn = "ownerArn"
+            case instanceType = "instanceType"
+            case description = "description"
         }
     }
 
     public struct ListEnvironmentsResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "environmentIds", required: false, type: .list)
+            AWSShapeMember(label: "environmentIds", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
-        /// If there are more than 25 items in the list, only the first 25 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call.
-        public let nextToken: String?
         /// The list of environment identifiers.
         public let environmentIds: [String]?
+        /// If there are more than 25 items in the list, only the first 25 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call.
+        public let nextToken: String?
 
-        public init(nextToken: String? = nil, environmentIds: [String]? = nil) {
-            self.nextToken = nextToken
+        public init(environmentIds: [String]? = nil, nextToken: String? = nil) {
             self.environmentIds = environmentIds
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
             case environmentIds = "environmentIds"
+            case nextToken = "nextToken"
         }
     }
 
-    public struct DescribeEnvironmentStatusResult: AWSShape {
+    public struct UpdateEnvironmentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "message", required: false, type: .string)
+            AWSShapeMember(label: "environmentId", required: true, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string)
         ]
-        /// The status of the environment. Available values include:    connecting: The environment is connecting.    creating: The environment is being created.    deleting: The environment is being deleted.    error: The environment is in an error state.    ready: The environment is ready.    stopped: The environment is stopped.    stopping: The environment is stopping.  
-        public let status: EnvironmentStatus?
-        /// Any informational message about the status of the environment.
-        public let message: String?
+        /// The ID of the environment to change settings.
+        public let environmentId: String
+        /// Any new or replacement description for the environment.
+        public let description: String?
+        /// A replacement name for the environment.
+        public let name: String?
 
-        public init(status: EnvironmentStatus? = nil, message: String? = nil) {
-            self.status = status
-            self.message = message
+        public init(environmentId: String, description: String? = nil, name: String? = nil) {
+            self.environmentId = environmentId
+            self.description = description
+            self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status = "status"
-            case message = "message"
+            case environmentId = "environmentId"
+            case description = "description"
+            case name = "name"
+        }
+    }
+
+    public struct UpdateEnvironmentMembershipRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "userArn", required: true, type: .string), 
+            AWSShapeMember(label: "environmentId", required: true, type: .string), 
+            AWSShapeMember(label: "permissions", required: true, type: .enum)
+        ]
+        /// The Amazon Resource Name (ARN) of the environment member whose settings you want to change.
+        public let userArn: String
+        /// The ID of the environment for the environment member whose settings you want to change.
+        public let environmentId: String
+        /// The replacement type of environment member permissions you want to associate with this environment member. Available values include:    read-only: Has read-only access to the environment.    read-write: Has read-write access to the environment.  
+        public let permissions: MemberPermissions
+
+        public init(userArn: String, environmentId: String, permissions: MemberPermissions) {
+            self.userArn = userArn
+            self.environmentId = environmentId
+            self.permissions = permissions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userArn = "userArn"
+            case environmentId = "environmentId"
+            case permissions = "permissions"
+        }
+    }
+
+    public struct DeleteEnvironmentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "environmentId", required: true, type: .string)
+        ]
+        /// The ID of the environment to delete.
+        public let environmentId: String
+
+        public init(environmentId: String) {
+            self.environmentId = environmentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case environmentId = "environmentId"
+        }
+    }
+
+    public struct Environment: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ownerArn", required: false, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "id", required: false, type: .string), 
+            AWSShapeMember(label: "type", required: false, type: .enum), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the environment owner.
+        public let ownerArn: String?
+        /// The description for the environment.
+        public let description: String?
+        /// The ID of the environment.
+        public let id: String?
+        /// The type of environment. Valid values include the following:    ec2: An Amazon Elastic Compute Cloud (Amazon EC2) instance connects to the environment.    ssh: Your own server connects to the environment.  
+        public let `type`: EnvironmentType?
+        /// The name of the environment.
+        public let name: String?
+        /// The Amazon Resource Name (ARN) of the environment.
+        public let arn: String?
+
+        public init(ownerArn: String? = nil, description: String? = nil, id: String? = nil, type: EnvironmentType? = nil, name: String? = nil, arn: String? = nil) {
+            self.ownerArn = ownerArn
+            self.description = description
+            self.id = id
+            self.`type` = `type`
+            self.name = name
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ownerArn = "ownerArn"
+            case description = "description"
+            case id = "id"
+            case `type` = "type"
+            case name = "name"
+            case arn = "arn"
+        }
+    }
+
+    public enum EnvironmentStatus: String, CustomStringConvertible, Codable {
+        case error = "error"
+        case creating = "creating"
+        case connecting = "connecting"
+        case ready = "ready"
+        case stopping = "stopping"
+        case stopped = "stopped"
+        case deleting = "deleting"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UpdateEnvironmentMembershipResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "membership", required: false, type: .structure)
+        ]
+        /// Information about the environment member whose settings were changed.
+        public let membership: EnvironmentMember?
+
+        public init(membership: EnvironmentMember? = nil) {
+            self.membership = membership
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case membership = "membership"
         }
     }
 
@@ -485,6 +416,59 @@ extension Cloud9 {
         }
     }
 
+    public struct ListEnvironmentsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer)
+        ]
+        /// During a previous call, if there are more than 25 items in the list, only the first 25 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
+        public let nextToken: String?
+        /// The maximum number of environments to get identifiers for.
+        public let maxResults: Int32?
+
+        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+        }
+    }
+
+    public struct DescribeEnvironmentsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "environments", required: false, type: .list)
+        ]
+        /// Information about the environments that are returned.
+        public let environments: [Environment]?
+
+        public init(environments: [Environment]? = nil) {
+            self.environments = environments
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case environments = "environments"
+        }
+    }
+
+    public struct CreateEnvironmentEC2Result: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "environmentId", required: false, type: .string)
+        ]
+        /// The ID of the environment that was created.
+        public let environmentId: String?
+
+        public init(environmentId: String? = nil) {
+            self.environmentId = environmentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case environmentId = "environmentId"
+        }
+    }
+
     public struct DescribeEnvironmentsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "environmentIds", required: true, type: .list)
@@ -498,6 +482,22 @@ extension Cloud9 {
 
         private enum CodingKeys: String, CodingKey {
             case environmentIds = "environmentIds"
+        }
+    }
+
+    public struct DescribeEnvironmentStatusRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "environmentId", required: true, type: .string)
+        ]
+        /// The ID of the environment to get status information about.
+        public let environmentId: String
+
+        public init(environmentId: String) {
+            self.environmentId = environmentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case environmentId = "environmentId"
         }
     }
 

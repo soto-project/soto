@@ -4,12 +4,12 @@ import AWSSDKSwiftCore
 
 /// Error enum for ResourceGroups
 public enum ResourceGroupsErrorType: AWSErrorType {
+    case unauthorizedException(message: String?)
     case badRequestException(message: String?)
     case forbiddenException(message: String?)
     case methodNotAllowedException(message: String?)
     case tooManyRequestsException(message: String?)
     case internalServerErrorException(message: String?)
-    case unauthorizedException(message: String?)
     case notFoundException(message: String?)
 }
 
@@ -20,6 +20,8 @@ extension ResourceGroupsErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "UnauthorizedException":
+            self = .unauthorizedException(message: message)
         case "BadRequestException":
             self = .badRequestException(message: message)
         case "ForbiddenException":
@@ -30,8 +32,6 @@ extension ResourceGroupsErrorType {
             self = .tooManyRequestsException(message: message)
         case "InternalServerErrorException":
             self = .internalServerErrorException(message: message)
-        case "UnauthorizedException":
-            self = .unauthorizedException(message: message)
         case "NotFoundException":
             self = .notFoundException(message: message)
         default:

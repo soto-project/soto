@@ -10,9 +10,9 @@ public enum MediaConnectErrorType: AWSErrorType {
     case notFoundException(message: String?)
     case serviceUnavailableException(message: String?)
     case tooManyRequestsException(message: String?)
-    case addFlowOutputs420Exception(message: String?)
     case grantFlowEntitlements420Exception(message: String?)
     case createFlow420Exception(message: String?)
+    case addFlowOutputs420Exception(message: String?)
 }
 
 extension MediaConnectErrorType {
@@ -34,12 +34,12 @@ extension MediaConnectErrorType {
             self = .serviceUnavailableException(message: message)
         case "TooManyRequestsException":
             self = .tooManyRequestsException(message: message)
-        case "AddFlowOutputs420Exception":
-            self = .addFlowOutputs420Exception(message: message)
         case "GrantFlowEntitlements420Exception":
             self = .grantFlowEntitlements420Exception(message: message)
         case "CreateFlow420Exception":
             self = .createFlow420Exception(message: message)
+        case "AddFlowOutputs420Exception":
+            self = .addFlowOutputs420Exception(message: message)
         default:
             return nil
         }

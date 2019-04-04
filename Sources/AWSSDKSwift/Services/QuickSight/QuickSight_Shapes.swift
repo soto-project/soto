@@ -5,307 +5,646 @@ import AWSSDKSwiftCore
 
 extension QuickSight {
 
-    public struct CreateGroupMembershipRequest: AWSShape {
+    public struct ListUserGroupsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MemberName", location: .uri(locationName: "MemberName"), required: true, type: .string), 
-            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
+            AWSShapeMember(label: "UserName", location: .uri(locationName: "UserName"), required: true, type: .string), 
             AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "GroupName", location: .uri(locationName: "GroupName"), required: true, type: .string)
+            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max-results"), required: false, type: .integer)
         ]
-        /// The name of the user that you want to add to the group membership.
-        public let memberName: String
+        /// The name of the user that you want to list groups for.
+        public let userName: String
+        /// The AWS Account ID that the user is in. Currently, use the AWS Account ID which contains your Amazon QuickSight account.
+        public let awsAccountId: String
         /// The namespace. Currently, you should set this to default.
         public let namespace: String
-        /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
-        public let awsAccountId: String
-        /// The name of the group that you want to add the user to.
-        public let groupName: String
+        /// A pagination token that can be used in a subsequent request.
+        public let nextToken: String?
+        /// The maximum number of results to return from this request.
+        public let maxResults: Int32?
 
-        public init(memberName: String, namespace: String, awsAccountId: String, groupName: String) {
-            self.memberName = memberName
-            self.namespace = namespace
+        public init(userName: String, awsAccountId: String, namespace: String, nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.userName = userName
             self.awsAccountId = awsAccountId
-            self.groupName = groupName
+            self.namespace = namespace
+            self.nextToken = nextToken
+            self.maxResults = maxResults
         }
 
         private enum CodingKeys: String, CodingKey {
-            case memberName = "MemberName"
-            case namespace = "Namespace"
+            case userName = "UserName"
             case awsAccountId = "AwsAccountId"
-            case groupName = "GroupName"
+            case namespace = "Namespace"
+            case nextToken = "next-token"
+            case maxResults = "max-results"
         }
     }
 
     public struct ListGroupMembershipsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .integer), 
-            AWSShapeMember(label: "GroupMemberList", required: false, type: .list)
+            AWSShapeMember(label: "GroupMemberList", required: false, type: .list), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// A pagination token that can be used in a subsequent request.
-        public let nextToken: String?
-        /// The AWS request ID for this operation.
-        public let requestId: String?
         /// The http status of the request.
         public let status: Int32?
         /// The list of the members of the group.
         public let groupMemberList: [GroupMember]?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// A pagination token that can be used in a subsequent request.
+        public let nextToken: String?
 
-        public init(nextToken: String? = nil, requestId: String? = nil, status: Int32? = nil, groupMemberList: [GroupMember]? = nil) {
-            self.nextToken = nextToken
-            self.requestId = requestId
+        public init(status: Int32? = nil, groupMemberList: [GroupMember]? = nil, requestId: String? = nil, nextToken: String? = nil) {
             self.status = status
             self.groupMemberList = groupMemberList
+            self.requestId = requestId
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case requestId = "RequestId"
             case status = "Status"
             case groupMemberList = "GroupMemberList"
+            case requestId = "RequestId"
+            case nextToken = "NextToken"
         }
     }
 
-    public struct RegisterUserRequest: AWSShape {
+    public struct DeleteGroupMembershipResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserRole", required: true, type: .enum), 
-            AWSShapeMember(label: "Email", required: true, type: .string), 
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "SessionName", required: false, type: .string), 
-            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
-            AWSShapeMember(label: "IdentityType", required: true, type: .enum), 
-            AWSShapeMember(label: "UserName", required: false, type: .string), 
-            AWSShapeMember(label: "IamArn", required: false, type: .string)
+            AWSShapeMember(label: "Status", required: false, type: .integer), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string)
         ]
-        /// The Amazon QuickSight role of the user. The user role can be one of the following:    READER: A user who has read-only access to dashboards.    AUTHOR: A user who can create data sources, data sets, analyses, and dashboards.    ADMIN: A user who is an author, who can also manage Amazon QuickSight settings.  
-        public let userRole: UserRole
-        /// The email address of the user that you want to register.
-        public let email: String
-        /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
-        public let awsAccountId: String
-        /// The name of the session with the assumed IAM role. By using this parameter, you can register multiple users with the same IAM role, provided that each has a different session name. For more information on assuming IAM roles, see  assume-role  in the AWS CLI Reference. 
-        public let sessionName: String?
-        /// The namespace. Currently, you should set this to default.
-        public let namespace: String
-        /// Amazon QuickSight supports several ways of managing the identity of users. This parameter accepts two values:    IAM: A user whose identity maps to an existing IAM user or role.     QUICKSIGHT: A user whose identity is owned and managed internally by Amazon QuickSight.   
-        public let identityType: IdentityType
-        /// The Amazon QuickSight user name that you want to create for the user you are registering.
-        public let userName: String?
-        /// The ARN of the IAM user or role that you are registering with Amazon QuickSight. 
-        public let iamArn: String?
+        /// The http status of the request.
+        public let status: Int32?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
 
-        public init(userRole: UserRole, email: String, awsAccountId: String, sessionName: String? = nil, namespace: String, identityType: IdentityType, userName: String? = nil, iamArn: String? = nil) {
-            self.userRole = userRole
-            self.email = email
-            self.awsAccountId = awsAccountId
-            self.sessionName = sessionName
-            self.namespace = namespace
-            self.identityType = identityType
-            self.userName = userName
-            self.iamArn = iamArn
+        public init(status: Int32? = nil, requestId: String? = nil) {
+            self.status = status
+            self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case userRole = "UserRole"
-            case email = "Email"
-            case awsAccountId = "AwsAccountId"
-            case sessionName = "SessionName"
-            case namespace = "Namespace"
-            case identityType = "IdentityType"
-            case userName = "UserName"
-            case iamArn = "IamArn"
+            case status = "Status"
+            case requestId = "RequestId"
         }
     }
 
-    public struct ListUsersRequest: AWSShape {
+    public struct ListGroupsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string), 
-            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max-results"), required: false, type: .integer), 
             AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max-results"), required: false, type: .integer)
+            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string)
         ]
+        /// The maximum number of results to return.
+        public let maxResults: Int32?
+        /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
+        public let awsAccountId: String
+        /// The namespace. Currently, you should set this to default.
+        public let namespace: String
         /// A pagination token that can be used in a subsequent request.
         public let nextToken: String?
-        /// The namespace. Currently, you should set this to default.
-        public let namespace: String
-        /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
-        public let awsAccountId: String
-        /// The maximum number of results to return from this request.
-        public let maxResults: Int32?
 
-        public init(nextToken: String? = nil, namespace: String, awsAccountId: String, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.namespace = namespace
-            self.awsAccountId = awsAccountId
+        public init(maxResults: Int32? = nil, awsAccountId: String, namespace: String, nextToken: String? = nil) {
             self.maxResults = maxResults
+            self.awsAccountId = awsAccountId
+            self.namespace = namespace
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "next-token"
-            case namespace = "Namespace"
-            case awsAccountId = "AwsAccountId"
             case maxResults = "max-results"
+            case awsAccountId = "AwsAccountId"
+            case namespace = "Namespace"
+            case nextToken = "next-token"
         }
     }
 
-    public struct ListUserGroupsRequest: AWSShape {
+    public struct DeleteGroupResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string), 
-            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
-            AWSShapeMember(label: "UserName", location: .uri(locationName: "UserName"), required: true, type: .string), 
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max-results"), required: false, type: .integer)
+            AWSShapeMember(label: "Status", required: false, type: .integer), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string)
         ]
-        /// A pagination token that can be used in a subsequent request.
-        public let nextToken: String?
-        /// The namespace. Currently, you should set this to default.
-        public let namespace: String
-        /// The name of the user that you want to list groups for.
-        public let userName: String
-        /// The AWS Account ID that the user is in. Currently, use the AWS Account ID which contains your Amazon QuickSight account.
-        public let awsAccountId: String
-        /// The maximum number of results to return from this request.
-        public let maxResults: Int32?
+        /// The http status of the request.
+        public let status: Int32?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
 
-        public init(nextToken: String? = nil, namespace: String, userName: String, awsAccountId: String, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.namespace = namespace
-            self.userName = userName
-            self.awsAccountId = awsAccountId
-            self.maxResults = maxResults
+        public init(status: Int32? = nil, requestId: String? = nil) {
+            self.status = status
+            self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "next-token"
-            case namespace = "Namespace"
-            case userName = "UserName"
-            case awsAccountId = "AwsAccountId"
-            case maxResults = "max-results"
+            case status = "Status"
+            case requestId = "RequestId"
         }
     }
 
     public struct DeleteGroupMembershipRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MemberName", location: .uri(locationName: "MemberName"), required: true, type: .string), 
-            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
             AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
             AWSShapeMember(label: "GroupName", location: .uri(locationName: "GroupName"), required: true, type: .string)
         ]
         /// The name of the user that you want to delete from the group membership.
         public let memberName: String
-        /// The namespace. Currently, you should set this to default.
-        public let namespace: String
         /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
         public let awsAccountId: String
+        /// The namespace. Currently, you should set this to default.
+        public let namespace: String
         /// The name of the group that you want to delete the user from.
         public let groupName: String
 
-        public init(memberName: String, namespace: String, awsAccountId: String, groupName: String) {
+        public init(memberName: String, awsAccountId: String, namespace: String, groupName: String) {
             self.memberName = memberName
-            self.namespace = namespace
             self.awsAccountId = awsAccountId
+            self.namespace = namespace
             self.groupName = groupName
         }
 
         private enum CodingKeys: String, CodingKey {
             case memberName = "MemberName"
-            case namespace = "Namespace"
             case awsAccountId = "AwsAccountId"
+            case namespace = "Namespace"
             case groupName = "GroupName"
         }
     }
 
-    public struct DescribeGroupRequest: AWSShape {
+    public struct CreateGroupMembershipRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupName", location: .uri(locationName: "GroupName"), required: true, type: .string), 
+            AWSShapeMember(label: "MemberName", location: .uri(locationName: "MemberName"), required: true, type: .string), 
             AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string)
+            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
+            AWSShapeMember(label: "GroupName", location: .uri(locationName: "GroupName"), required: true, type: .string)
         ]
-        /// The name of the group that you want to describe.
-        public let groupName: String
+        /// The name of the user that you want to add to the group membership.
+        public let memberName: String
         /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
         public let awsAccountId: String
         /// The namespace. Currently, you should set this to default.
         public let namespace: String
+        /// The name of the group that you want to add the user to.
+        public let groupName: String
 
-        public init(groupName: String, awsAccountId: String, namespace: String) {
-            self.groupName = groupName
+        public init(memberName: String, awsAccountId: String, namespace: String, groupName: String) {
+            self.memberName = memberName
             self.awsAccountId = awsAccountId
             self.namespace = namespace
+            self.groupName = groupName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groupName = "GroupName"
+            case memberName = "MemberName"
             case awsAccountId = "AwsAccountId"
             case namespace = "Namespace"
+            case groupName = "GroupName"
         }
     }
 
-    public struct CreateGroupMembershipResponse: AWSShape {
+    public struct DeleteUserResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupMember", required: false, type: .structure), 
             AWSShapeMember(label: "Status", required: false, type: .integer), 
             AWSShapeMember(label: "RequestId", required: false, type: .string)
         ]
-        /// The group member.
-        public let groupMember: GroupMember?
         /// The http status of the request.
         public let status: Int32?
         /// The AWS request ID for this operation.
         public let requestId: String?
 
-        public init(groupMember: GroupMember? = nil, status: Int32? = nil, requestId: String? = nil) {
-            self.groupMember = groupMember
+        public init(status: Int32? = nil, requestId: String? = nil) {
             self.status = status
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groupMember = "GroupMember"
             case status = "Status"
             case requestId = "RequestId"
         }
     }
 
-    public struct GetDashboardEmbedUrlRequest: AWSShape {
+    public struct ListUserGroupsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResetDisabled", location: .querystring(locationName: "reset-disabled"), required: false, type: .boolean), 
-            AWSShapeMember(label: "UndoRedoDisabled", location: .querystring(locationName: "undo-redo-disabled"), required: false, type: .boolean), 
-            AWSShapeMember(label: "SessionLifetimeInMinutes", location: .querystring(locationName: "session-lifetime"), required: false, type: .long), 
-            AWSShapeMember(label: "IdentityType", location: .querystring(locationName: "creds-type"), required: true, type: .enum), 
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "DashboardId", location: .uri(locationName: "DashboardId"), required: true, type: .string)
+            AWSShapeMember(label: "Status", required: false, type: .integer), 
+            AWSShapeMember(label: "GroupList", required: false, type: .list), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// Remove the reset button on embedded dashboard. The default is FALSE, which allows the reset button.
-        public let resetDisabled: Bool?
-        /// Remove the undo/redo button on embedded dashboard. The default is FALSE, which enables the undo/redo button.
-        public let undoRedoDisabled: Bool?
-        /// How many minutes the session is valid. The session lifetime must be between 15 and 600 minutes.
-        public let sessionLifetimeInMinutes: Int64?
-        /// The authentication method the user uses to sign in (IAM or QUICKSIGHT).
-        public let identityType: IdentityType
-        /// AWS account ID that contains the dashboard you are embedding.
-        public let awsAccountId: String
-        /// The ID for the dashboard, also added to IAM policy
-        public let dashboardId: String
+        /// The http status of the request.
+        public let status: Int32?
+        /// The list of groups the user is a member of.
+        public let groupList: [Group]?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// A pagination token that can be used in a subsequent request.
+        public let nextToken: String?
 
-        public init(resetDisabled: Bool? = nil, undoRedoDisabled: Bool? = nil, sessionLifetimeInMinutes: Int64? = nil, identityType: IdentityType, awsAccountId: String, dashboardId: String) {
-            self.resetDisabled = resetDisabled
-            self.undoRedoDisabled = undoRedoDisabled
-            self.sessionLifetimeInMinutes = sessionLifetimeInMinutes
-            self.identityType = identityType
-            self.awsAccountId = awsAccountId
-            self.dashboardId = dashboardId
+        public init(status: Int32? = nil, groupList: [Group]? = nil, requestId: String? = nil, nextToken: String? = nil) {
+            self.status = status
+            self.groupList = groupList
+            self.requestId = requestId
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resetDisabled = "reset-disabled"
-            case undoRedoDisabled = "undo-redo-disabled"
-            case sessionLifetimeInMinutes = "session-lifetime"
-            case identityType = "creds-type"
+            case status = "Status"
+            case groupList = "GroupList"
+            case requestId = "RequestId"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DeleteGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
+            AWSShapeMember(label: "GroupName", location: .uri(locationName: "GroupName"), required: true, type: .string)
+        ]
+        /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
+        public let awsAccountId: String
+        /// The namespace. Currently, you should set this to default.
+        public let namespace: String
+        /// The name of the group that you want to delete.
+        public let groupName: String
+
+        public init(awsAccountId: String, namespace: String, groupName: String) {
+            self.awsAccountId = awsAccountId
+            self.namespace = namespace
+            self.groupName = groupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
             case awsAccountId = "AwsAccountId"
+            case namespace = "Namespace"
+            case groupName = "GroupName"
+        }
+    }
+
+    public struct ListUsersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max-results"), required: false, type: .integer), 
+            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string)
+        ]
+        /// A pagination token that can be used in a subsequent request.
+        public let nextToken: String?
+        /// The maximum number of results to return from this request.
+        public let maxResults: Int32?
+        /// The namespace. Currently, you should set this to default.
+        public let namespace: String
+        /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
+        public let awsAccountId: String
+
+        public init(nextToken: String? = nil, maxResults: Int32? = nil, namespace: String, awsAccountId: String) {
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+            self.namespace = namespace
+            self.awsAccountId = awsAccountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "next-token"
+            case maxResults = "max-results"
+            case namespace = "Namespace"
+            case awsAccountId = "AwsAccountId"
+        }
+    }
+
+    public struct Group: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "GroupName", required: false, type: .string)
+        ]
+        /// The group description.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) for the group.
+        public let arn: String?
+        /// The name of the group.
+        public let groupName: String?
+
+        public init(description: String? = nil, arn: String? = nil, groupName: String? = nil) {
+            self.description = description
+            self.arn = arn
+            self.groupName = groupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case arn = "Arn"
+            case groupName = "GroupName"
+        }
+    }
+
+    public enum ExceptionResourceType: String, CustomStringConvertible, Codable {
+        case user = "USER"
+        case group = "GROUP"
+        case namespace = "NAMESPACE"
+        case dataSource = "DATA_SOURCE"
+        case dataSet = "DATA_SET"
+        case vpcConnection = "VPC_CONNECTION"
+        case ingestion = "INGESTION"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DescribeUserResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .integer), 
+            AWSShapeMember(label: "User", required: false, type: .structure), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string)
+        ]
+        /// The http status of the request.
+        public let status: Int32?
+        /// The user name.
+        public let user: User?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+
+        public init(status: Int32? = nil, user: User? = nil, requestId: String? = nil) {
+            self.status = status
+            self.user = user
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case user = "User"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct DescribeUserRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "UserName", location: .uri(locationName: "UserName"), required: true, type: .string)
+        ]
+        /// The namespace. Currently, you should set this to default.
+        public let namespace: String
+        /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
+        public let awsAccountId: String
+        /// The name of the user that you want to describe.
+        public let userName: String
+
+        public init(namespace: String, awsAccountId: String, userName: String) {
+            self.namespace = namespace
+            self.awsAccountId = awsAccountId
+            self.userName = userName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case namespace = "Namespace"
+            case awsAccountId = "AwsAccountId"
+            case userName = "UserName"
+        }
+    }
+
+    public struct DeleteUserRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
+            AWSShapeMember(label: "UserName", location: .uri(locationName: "UserName"), required: true, type: .string), 
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string)
+        ]
+        /// The namespace. Currently, you should set this to default.
+        public let namespace: String
+        /// The name of the user that you want to delete.
+        public let userName: String
+        /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
+        public let awsAccountId: String
+
+        public init(namespace: String, userName: String, awsAccountId: String) {
+            self.namespace = namespace
+            self.userName = userName
+            self.awsAccountId = awsAccountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case namespace = "Namespace"
+            case userName = "UserName"
+            case awsAccountId = "AwsAccountId"
+        }
+    }
+
+    public struct RegisterUserRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Email", required: true, type: .string), 
+            AWSShapeMember(label: "IdentityType", required: true, type: .enum), 
+            AWSShapeMember(label: "IamArn", required: false, type: .string), 
+            AWSShapeMember(label: "UserName", required: false, type: .string), 
+            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "UserRole", required: true, type: .enum), 
+            AWSShapeMember(label: "SessionName", required: false, type: .string)
+        ]
+        /// The email address of the user that you want to register.
+        public let email: String
+        /// Amazon QuickSight supports several ways of managing the identity of users. This parameter accepts two values:    IAM: A user whose identity maps to an existing IAM user or role.     QUICKSIGHT: A user whose identity is owned and managed internally by Amazon QuickSight.   
+        public let identityType: IdentityType
+        /// The ARN of the IAM user or role that you are registering with Amazon QuickSight. 
+        public let iamArn: String?
+        /// The Amazon QuickSight user name that you want to create for the user you are registering.
+        public let userName: String?
+        /// The namespace. Currently, you should set this to default.
+        public let namespace: String
+        /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
+        public let awsAccountId: String
+        /// The Amazon QuickSight role of the user. The user role can be one of the following:    READER: A user who has read-only access to dashboards.    AUTHOR: A user who can create data sources, data sets, analyses, and dashboards.    ADMIN: A user who is an author, who can also manage Amazon QuickSight settings.  
+        public let userRole: UserRole
+        /// The name of the session with the assumed IAM role. By using this parameter, you can register multiple users with the same IAM role, provided that each has a different session name. For more information on assuming IAM roles, see  assume-role  in the AWS CLI Reference. 
+        public let sessionName: String?
+
+        public init(email: String, identityType: IdentityType, iamArn: String? = nil, userName: String? = nil, namespace: String, awsAccountId: String, userRole: UserRole, sessionName: String? = nil) {
+            self.email = email
+            self.identityType = identityType
+            self.iamArn = iamArn
+            self.userName = userName
+            self.namespace = namespace
+            self.awsAccountId = awsAccountId
+            self.userRole = userRole
+            self.sessionName = sessionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case email = "Email"
+            case identityType = "IdentityType"
+            case iamArn = "IamArn"
+            case userName = "UserName"
+            case namespace = "Namespace"
+            case awsAccountId = "AwsAccountId"
+            case userRole = "UserRole"
+            case sessionName = "SessionName"
+        }
+    }
+
+    public struct RegisterUserResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "User", required: false, type: .structure), 
+            AWSShapeMember(label: "Status", required: false, type: .integer)
+        ]
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The user name.
+        public let user: User?
+        /// The http status of the request.
+        public let status: Int32?
+
+        public init(requestId: String? = nil, user: User? = nil, status: Int32? = nil) {
+            self.requestId = requestId
+            self.user = user
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+            case user = "User"
+            case status = "Status"
+        }
+    }
+
+    public struct GroupMember: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MemberName", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string)
+        ]
+        /// The name of the group member (user).
+        public let memberName: String?
+        /// The Amazon Resource Name (ARN) for the group member (user).
+        public let arn: String?
+
+        public init(memberName: String? = nil, arn: String? = nil) {
+            self.memberName = memberName
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case memberName = "MemberName"
+            case arn = "Arn"
+        }
+    }
+
+    public struct UpdateUserResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer), 
+            AWSShapeMember(label: "User", required: false, type: .structure)
+        ]
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The http status of the request.
+        public let status: Int32?
+        /// The Amazon QuickSight user.
+        public let user: User?
+
+        public init(requestId: String? = nil, status: Int32? = nil, user: User? = nil) {
+            self.requestId = requestId
+            self.status = status
+            self.user = user
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+            case status = "Status"
+            case user = "User"
+        }
+    }
+
+    public struct GetDashboardEmbedUrlResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .integer), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "EmbedUrl", required: false, type: .string)
+        ]
+        /// The http status of the request.
+        public let status: Int32?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// Call the GetDashboardEmbedUrl API to get the URL that you can embed in your dashboard. This URL is valid for 5 minutes, and the resulting session is valid for 10 hours. The API provides the URL with an auth_code that enables a single-signon session. 
+        public let embedUrl: String?
+
+        public init(status: Int32? = nil, requestId: String? = nil, embedUrl: String? = nil) {
+            self.status = status
+            self.requestId = requestId
+            self.embedUrl = embedUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case requestId = "RequestId"
+            case embedUrl = "EmbedUrl"
+        }
+    }
+
+    public struct UpdateGroupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer), 
+            AWSShapeMember(label: "Group", required: false, type: .structure)
+        ]
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The http status of the request.
+        public let status: Int32?
+        /// The name of the group.
+        public let group: Group?
+
+        public init(requestId: String? = nil, status: Int32? = nil, group: Group? = nil) {
+            self.requestId = requestId
+            self.status = status
+            self.group = group
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+            case status = "Status"
+            case group = "Group"
+        }
+    }
+
+    public struct GetDashboardEmbedUrlRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "IdentityType", location: .querystring(locationName: "creds-type"), required: true, type: .enum), 
+            AWSShapeMember(label: "DashboardId", location: .uri(locationName: "DashboardId"), required: true, type: .string), 
+            AWSShapeMember(label: "UndoRedoDisabled", location: .querystring(locationName: "undo-redo-disabled"), required: false, type: .boolean), 
+            AWSShapeMember(label: "ResetDisabled", location: .querystring(locationName: "reset-disabled"), required: false, type: .boolean), 
+            AWSShapeMember(label: "SessionLifetimeInMinutes", location: .querystring(locationName: "session-lifetime"), required: false, type: .long)
+        ]
+        /// AWS account ID that contains the dashboard you are embedding.
+        public let awsAccountId: String
+        /// The authentication method the user uses to sign in (IAM or QUICKSIGHT).
+        public let identityType: IdentityType
+        /// The ID for the dashboard, also added to IAM policy
+        public let dashboardId: String
+        /// Remove the undo/redo button on embedded dashboard. The default is FALSE, which enables the undo/redo button.
+        public let undoRedoDisabled: Bool?
+        /// Remove the reset button on embedded dashboard. The default is FALSE, which allows the reset button.
+        public let resetDisabled: Bool?
+        /// How many minutes the session is valid. The session lifetime must be between 15 and 600 minutes.
+        public let sessionLifetimeInMinutes: Int64?
+
+        public init(awsAccountId: String, identityType: IdentityType, dashboardId: String, undoRedoDisabled: Bool? = nil, resetDisabled: Bool? = nil, sessionLifetimeInMinutes: Int64? = nil) {
+            self.awsAccountId = awsAccountId
+            self.identityType = identityType
+            self.dashboardId = dashboardId
+            self.undoRedoDisabled = undoRedoDisabled
+            self.resetDisabled = resetDisabled
+            self.sessionLifetimeInMinutes = sessionLifetimeInMinutes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case identityType = "creds-type"
             case dashboardId = "DashboardId"
+            case undoRedoDisabled = "undo-redo-disabled"
+            case resetDisabled = "reset-disabled"
+            case sessionLifetimeInMinutes = "session-lifetime"
         }
     }
 
@@ -335,646 +674,34 @@ extension QuickSight {
         }
     }
 
-    public struct CreateGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "GroupName", required: true, type: .string)
-        ]
-        /// The namespace. Currently, you should set this to default.
-        public let namespace: String
-        /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
-        public let awsAccountId: String
-        /// A description for the group that you want to create.
-        public let description: String?
-        /// A name for the group that you want to create.
-        public let groupName: String
-
-        public init(namespace: String, awsAccountId: String, description: String? = nil, groupName: String) {
-            self.namespace = namespace
-            self.awsAccountId = awsAccountId
-            self.description = description
-            self.groupName = groupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case namespace = "Namespace"
-            case awsAccountId = "AwsAccountId"
-            case description = "Description"
-            case groupName = "GroupName"
-        }
-    }
-
-    public struct User: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Email", required: false, type: .string), 
-            AWSShapeMember(label: "Role", required: false, type: .enum), 
-            AWSShapeMember(label: "UserName", required: false, type: .string), 
-            AWSShapeMember(label: "IdentityType", required: false, type: .enum), 
-            AWSShapeMember(label: "Active", required: false, type: .boolean)
-        ]
-        /// The Amazon Resource Name (ARN) for the user.
-        public let arn: String?
-        /// The user's email address.
-        public let email: String?
-        /// The Amazon QuickSight role for the user.
-        public let role: UserRole?
-        /// The user's user name.
-        public let userName: String?
-        /// The type of identity authentication used by the user.
-        public let identityType: IdentityType?
-        /// Active status of user. When you create an Amazon QuickSight user that’s not an IAM user or an AD user, that user is inactive until they sign in and provide a password
-        public let active: Bool?
-
-        public init(arn: String? = nil, email: String? = nil, role: UserRole? = nil, userName: String? = nil, identityType: IdentityType? = nil, active: Bool? = nil) {
-            self.arn = arn
-            self.email = email
-            self.role = role
-            self.userName = userName
-            self.identityType = identityType
-            self.active = active
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
-            case email = "Email"
-            case role = "Role"
-            case userName = "UserName"
-            case identityType = "IdentityType"
-            case active = "Active"
-        }
-    }
-
-    public struct GroupMember: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "MemberName", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) for the group member (user).
-        public let arn: String?
-        /// The name of the group member (user).
-        public let memberName: String?
-
-        public init(arn: String? = nil, memberName: String? = nil) {
-            self.arn = arn
-            self.memberName = memberName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
-            case memberName = "MemberName"
-        }
-    }
-
-    public struct UpdateGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: false, type: .integer), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Group", required: false, type: .structure)
-        ]
-        /// The http status of the request.
-        public let status: Int32?
-        /// The AWS request ID for this operation.
-        public let requestId: String?
-        /// The name of the group.
-        public let group: Group?
-
-        public init(status: Int32? = nil, requestId: String? = nil, group: Group? = nil) {
-            self.status = status
-            self.requestId = requestId
-            self.group = group
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "Status"
-            case requestId = "RequestId"
-            case group = "Group"
-        }
-    }
-
-    public struct DeleteUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserName", location: .uri(locationName: "UserName"), required: true, type: .string), 
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string)
-        ]
-        /// The name of the user that you want to delete.
-        public let userName: String
-        /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
-        public let awsAccountId: String
-        /// The namespace. Currently, you should set this to default.
-        public let namespace: String
-
-        public init(userName: String, awsAccountId: String, namespace: String) {
-            self.userName = userName
-            self.awsAccountId = awsAccountId
-            self.namespace = namespace
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userName = "UserName"
-            case awsAccountId = "AwsAccountId"
-            case namespace = "Namespace"
-        }
-    }
-
-    public struct RegisterUserResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: false, type: .integer), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "User", required: false, type: .structure)
-        ]
-        /// The http status of the request.
-        public let status: Int32?
-        /// The AWS request ID for this operation.
-        public let requestId: String?
-        /// The user name.
-        public let user: User?
-
-        public init(status: Int32? = nil, requestId: String? = nil, user: User? = nil) {
-            self.status = status
-            self.requestId = requestId
-            self.user = user
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "Status"
-            case requestId = "RequestId"
-            case user = "User"
-        }
-    }
-
-    public struct ListGroupMembershipsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string), 
-            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max-results"), required: false, type: .integer), 
-            AWSShapeMember(label: "GroupName", location: .uri(locationName: "GroupName"), required: true, type: .string)
-        ]
-        /// A pagination token that can be used in a subsequent request.
-        public let nextToken: String?
-        /// The namespace. Currently, you should set this to default.
-        public let namespace: String
-        /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
-        public let awsAccountId: String
-        /// The maximum number of results to return from this request.
-        public let maxResults: Int32?
-        /// The name of the group that you want to see a membership list of.
-        public let groupName: String
-
-        public init(nextToken: String? = nil, namespace: String, awsAccountId: String, maxResults: Int32? = nil, groupName: String) {
-            self.nextToken = nextToken
-            self.namespace = namespace
-            self.awsAccountId = awsAccountId
-            self.maxResults = maxResults
-            self.groupName = groupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "next-token"
-            case namespace = "Namespace"
-            case awsAccountId = "AwsAccountId"
-            case maxResults = "max-results"
-            case groupName = "GroupName"
-        }
-    }
-
-    public struct DescribeUserResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: false, type: .integer), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "User", required: false, type: .structure)
-        ]
-        /// The http status of the request.
-        public let status: Int32?
-        /// The AWS request ID for this operation.
-        public let requestId: String?
-        /// The user name.
-        public let user: User?
-
-        public init(status: Int32? = nil, requestId: String? = nil, user: User? = nil) {
-            self.status = status
-            self.requestId = requestId
-            self.user = user
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "Status"
-            case requestId = "RequestId"
-            case user = "User"
-        }
-    }
-
-    public struct UpdateUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Role", required: true, type: .enum), 
-            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
-            AWSShapeMember(label: "UserName", location: .uri(locationName: "UserName"), required: true, type: .string), 
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "Email", required: true, type: .string)
-        ]
-        /// The Amazon QuickSight role of the user. The user role can be one of the following:    READER: A user who has read-only access to dashboards.    AUTHOR: A user who can create data sources, data sets, analyses, and dashboards.    ADMIN: A user who is an author, who can also manage Amazon QuickSight settings.  
-        public let role: UserRole
-        /// The namespace. Currently, you should set this to default.
-        public let namespace: String
-        /// The Amazon QuickSight user name that you want to update.
-        public let userName: String
-        /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
-        public let awsAccountId: String
-        /// The email address of the user that you want to update.
-        public let email: String
-
-        public init(role: UserRole, namespace: String, userName: String, awsAccountId: String, email: String) {
-            self.role = role
-            self.namespace = namespace
-            self.userName = userName
-            self.awsAccountId = awsAccountId
-            self.email = email
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case role = "Role"
-            case namespace = "Namespace"
-            case userName = "UserName"
-            case awsAccountId = "AwsAccountId"
-            case email = "Email"
-        }
-    }
-
-    public struct GetDashboardEmbedUrlResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EmbedUrl", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string)
-        ]
-        /// Call the GetDashboardEmbedUrl API to get the URL that you can embed in your dashboard. This URL is valid for 5 minutes, and the resulting session is valid for 10 hours. The API provides the URL with an auth_code that enables a single-signon session. 
-        public let embedUrl: String?
-        /// The http status of the request.
-        public let status: Int32?
-        /// The AWS request ID for this operation.
-        public let requestId: String?
-
-        public init(embedUrl: String? = nil, status: Int32? = nil, requestId: String? = nil) {
-            self.embedUrl = embedUrl
-            self.status = status
-            self.requestId = requestId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case embedUrl = "EmbedUrl"
-            case status = "Status"
-            case requestId = "RequestId"
-        }
-    }
-
-    public struct UpdateUserResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: false, type: .integer), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "User", required: false, type: .structure)
-        ]
-        /// The http status of the request.
-        public let status: Int32?
-        /// The AWS request ID for this operation.
-        public let requestId: String?
-        /// The Amazon QuickSight user.
-        public let user: User?
-
-        public init(status: Int32? = nil, requestId: String? = nil, user: User? = nil) {
-            self.status = status
-            self.requestId = requestId
-            self.user = user
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "Status"
-            case requestId = "RequestId"
-            case user = "User"
-        }
-    }
-
-    public struct ListUserGroupsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
-        /// The list of groups the user is a member of.
-        public let groupList: [Group]?
-        /// A pagination token that can be used in a subsequent request.
-        public let nextToken: String?
-        /// The AWS request ID for this operation.
-        public let requestId: String?
-        /// The http status of the request.
-        public let status: Int32?
-
-        public init(groupList: [Group]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int32? = nil) {
-            self.groupList = groupList
-            self.nextToken = nextToken
-            self.requestId = requestId
-            self.status = status
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groupList = "GroupList"
-            case nextToken = "NextToken"
-            case requestId = "RequestId"
-            case status = "Status"
-        }
-    }
-
-    public struct DeleteGroupMembershipResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: false, type: .integer), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string)
-        ]
-        /// The http status of the request.
-        public let status: Int32?
-        /// The AWS request ID for this operation.
-        public let requestId: String?
-
-        public init(status: Int32? = nil, requestId: String? = nil) {
-            self.status = status
-            self.requestId = requestId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "Status"
-            case requestId = "RequestId"
-        }
-    }
-
-    public struct UpdateGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "GroupName", location: .uri(locationName: "GroupName"), required: true, type: .string)
-        ]
-        /// The namespace. Currently, you should set this to default.
-        public let namespace: String
-        /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
-        public let awsAccountId: String
-        /// The description for the group that you want to update.
-        public let description: String?
-        /// The name of the group that you want to update.
-        public let groupName: String
-
-        public init(namespace: String, awsAccountId: String, description: String? = nil, groupName: String) {
-            self.namespace = namespace
-            self.awsAccountId = awsAccountId
-            self.description = description
-            self.groupName = groupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case namespace = "Namespace"
-            case awsAccountId = "AwsAccountId"
-            case description = "Description"
-            case groupName = "GroupName"
-        }
-    }
-
-    public enum IdentityType: String, CustomStringConvertible, Codable {
-        case iam = "IAM"
-        case quicksight = "QUICKSIGHT"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListGroupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string), 
-            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max-results"), required: false, type: .integer)
-        ]
-        /// A pagination token that can be used in a subsequent request.
-        public let nextToken: String?
-        /// The namespace. Currently, you should set this to default.
-        public let namespace: String
-        /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
-        public let awsAccountId: String
-        /// The maximum number of results to return.
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, namespace: String, awsAccountId: String, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.namespace = namespace
-            self.awsAccountId = awsAccountId
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "next-token"
-            case namespace = "Namespace"
-            case awsAccountId = "AwsAccountId"
-            case maxResults = "max-results"
-        }
-    }
-
-    public struct DeleteGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupName", location: .uri(locationName: "GroupName"), required: true, type: .string), 
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string)
-        ]
-        /// The name of the group that you want to delete.
-        public let groupName: String
-        /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
-        public let awsAccountId: String
-        /// The namespace. Currently, you should set this to default.
-        public let namespace: String
-
-        public init(groupName: String, awsAccountId: String, namespace: String) {
-            self.groupName = groupName
-            self.awsAccountId = awsAccountId
-            self.namespace = namespace
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groupName = "GroupName"
-            case awsAccountId = "AwsAccountId"
-            case namespace = "Namespace"
-        }
-    }
-
-    public enum ExceptionResourceType: String, CustomStringConvertible, Codable {
-        case user = "USER"
-        case group = "GROUP"
-        case namespace = "NAMESPACE"
-        case dataSource = "DATA_SOURCE"
-        case dataSet = "DATA_SET"
-        case vpcConnection = "VPC_CONNECTION"
-        case ingestion = "INGESTION"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct Group: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "GroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) for the group.
-        public let arn: String?
-        /// The name of the group.
-        public let groupName: String?
-        /// The group description.
-        public let description: String?
-
-        public init(arn: String? = nil, groupName: String? = nil, description: String? = nil) {
-            self.arn = arn
-            self.groupName = groupName
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
-            case groupName = "GroupName"
-            case description = "Description"
-        }
-    }
-
-    public struct ListGroupsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer)
-        ]
-        /// The list of the groups.
-        public let groupList: [Group]?
-        /// A pagination token that can be used in a subsequent request.
-        public let nextToken: String?
-        /// The AWS request ID for this operation.
-        public let requestId: String?
-        /// The http status of the request.
-        public let status: Int32?
-
-        public init(groupList: [Group]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int32? = nil) {
-            self.groupList = groupList
-            self.nextToken = nextToken
-            self.requestId = requestId
-            self.status = status
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groupList = "GroupList"
-            case nextToken = "NextToken"
-            case requestId = "RequestId"
-            case status = "Status"
-        }
-    }
-
-    public enum UserRole: String, CustomStringConvertible, Codable {
-        case admin = "ADMIN"
-        case author = "AUTHOR"
-        case reader = "READER"
-        case restrictedAuthor = "RESTRICTED_AUTHOR"
-        case restrictedReader = "RESTRICTED_READER"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ListUsersResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserList", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .integer), 
-            AWSShapeMember(label: "UserList", required: false, type: .list)
+            AWSShapeMember(label: "Status", required: false, type: .integer)
         ]
+        /// The list of users.
+        public let userList: [User]?
         /// A pagination token that can be used in a subsequent request.
         public let nextToken: String?
         /// The AWS request ID for this operation.
         public let requestId: String?
         /// The http status of the request.
         public let status: Int32?
-        /// The list of users.
-        public let userList: [User]?
 
-        public init(nextToken: String? = nil, requestId: String? = nil, status: Int32? = nil, userList: [User]? = nil) {
+        public init(userList: [User]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int32? = nil) {
+            self.userList = userList
             self.nextToken = nextToken
             self.requestId = requestId
             self.status = status
-            self.userList = userList
         }
 
         private enum CodingKeys: String, CodingKey {
+            case userList = "UserList"
             case nextToken = "NextToken"
             case requestId = "RequestId"
             case status = "Status"
-            case userList = "UserList"
-        }
-    }
-
-    public struct DeleteUserResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: false, type: .integer), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string)
-        ]
-        /// The http status of the request.
-        public let status: Int32?
-        /// The AWS request ID for this operation.
-        public let requestId: String?
-
-        public init(status: Int32? = nil, requestId: String? = nil) {
-            self.status = status
-            self.requestId = requestId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "Status"
-            case requestId = "RequestId"
-        }
-    }
-
-    public struct DescribeUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserName", location: .uri(locationName: "UserName"), required: true, type: .string), 
-            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
-            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string)
-        ]
-        /// The name of the user that you want to describe.
-        public let userName: String
-        /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
-        public let awsAccountId: String
-        /// The namespace. Currently, you should set this to default.
-        public let namespace: String
-
-        public init(userName: String, awsAccountId: String, namespace: String) {
-            self.userName = userName
-            self.awsAccountId = awsAccountId
-            self.namespace = namespace
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userName = "UserName"
-            case awsAccountId = "AwsAccountId"
-            case namespace = "Namespace"
-        }
-    }
-
-    public struct DeleteGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: false, type: .integer), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string)
-        ]
-        /// The http status of the request.
-        public let status: Int32?
-        /// The AWS request ID for this operation.
-        public let requestId: String?
-
-        public init(status: Int32? = nil, requestId: String? = nil) {
-            self.status = status
-            self.requestId = requestId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "Status"
-            case requestId = "RequestId"
         }
     }
 
@@ -1001,6 +728,279 @@ extension QuickSight {
             case status = "Status"
             case requestId = "RequestId"
             case group = "Group"
+        }
+    }
+
+    public struct CreateGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "GroupName", required: true, type: .string), 
+            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
+        ]
+        /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
+        public let awsAccountId: String
+        /// A name for the group that you want to create.
+        public let groupName: String
+        /// The namespace. Currently, you should set this to default.
+        public let namespace: String
+        /// A description for the group that you want to create.
+        public let description: String?
+
+        public init(awsAccountId: String, groupName: String, namespace: String, description: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.groupName = groupName
+            self.namespace = namespace
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case groupName = "GroupName"
+            case namespace = "Namespace"
+            case description = "Description"
+        }
+    }
+
+    public enum IdentityType: String, CustomStringConvertible, Codable {
+        case iam = "IAM"
+        case quicksight = "QUICKSIGHT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UserRole: String, CustomStringConvertible, Codable {
+        case admin = "ADMIN"
+        case author = "AUTHOR"
+        case reader = "READER"
+        case restrictedAuthor = "RESTRICTED_AUTHOR"
+        case restrictedReader = "RESTRICTED_READER"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CreateGroupMembershipResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer), 
+            AWSShapeMember(label: "GroupMember", required: false, type: .structure)
+        ]
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The http status of the request.
+        public let status: Int32?
+        /// The group member.
+        public let groupMember: GroupMember?
+
+        public init(requestId: String? = nil, status: Int32? = nil, groupMember: GroupMember? = nil) {
+            self.requestId = requestId
+            self.status = status
+            self.groupMember = groupMember
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+            case status = "Status"
+            case groupMember = "GroupMember"
+        }
+    }
+
+    public struct ListGroupMembershipsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max-results"), required: false, type: .integer), 
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "GroupName", location: .uri(locationName: "GroupName"), required: true, type: .string)
+        ]
+        /// The namespace. Currently, you should set this to default.
+        public let namespace: String
+        /// A pagination token that can be used in a subsequent request.
+        public let nextToken: String?
+        /// The maximum number of results to return from this request.
+        public let maxResults: Int32?
+        /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
+        public let awsAccountId: String
+        /// The name of the group that you want to see a membership list of.
+        public let groupName: String
+
+        public init(namespace: String, nextToken: String? = nil, maxResults: Int32? = nil, awsAccountId: String, groupName: String) {
+            self.namespace = namespace
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+            self.awsAccountId = awsAccountId
+            self.groupName = groupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case namespace = "Namespace"
+            case nextToken = "next-token"
+            case maxResults = "max-results"
+            case awsAccountId = "AwsAccountId"
+            case groupName = "GroupName"
+        }
+    }
+
+    public struct ListGroupsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "GroupList", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer)
+        ]
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The list of the groups.
+        public let groupList: [Group]?
+        /// A pagination token that can be used in a subsequent request.
+        public let nextToken: String?
+        /// The http status of the request.
+        public let status: Int32?
+
+        public init(requestId: String? = nil, groupList: [Group]? = nil, nextToken: String? = nil, status: Int32? = nil) {
+            self.requestId = requestId
+            self.groupList = groupList
+            self.nextToken = nextToken
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+            case groupList = "GroupList"
+            case nextToken = "NextToken"
+            case status = "Status"
+        }
+    }
+
+    public struct User: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Role", required: false, type: .enum), 
+            AWSShapeMember(label: "Email", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "IdentityType", required: false, type: .enum), 
+            AWSShapeMember(label: "Active", required: false, type: .boolean), 
+            AWSShapeMember(label: "UserName", required: false, type: .string)
+        ]
+        /// The Amazon QuickSight role for the user.
+        public let role: UserRole?
+        /// The user's email address.
+        public let email: String?
+        /// The Amazon Resource Name (ARN) for the user.
+        public let arn: String?
+        /// The type of identity authentication used by the user.
+        public let identityType: IdentityType?
+        /// Active status of user. When you create an Amazon QuickSight user that’s not an IAM user or an AD user, that user is inactive until they sign in and provide a password
+        public let active: Bool?
+        /// The user's user name.
+        public let userName: String?
+
+        public init(role: UserRole? = nil, email: String? = nil, arn: String? = nil, identityType: IdentityType? = nil, active: Bool? = nil, userName: String? = nil) {
+            self.role = role
+            self.email = email
+            self.arn = arn
+            self.identityType = identityType
+            self.active = active
+            self.userName = userName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case role = "Role"
+            case email = "Email"
+            case arn = "Arn"
+            case identityType = "IdentityType"
+            case active = "Active"
+            case userName = "UserName"
+        }
+    }
+
+    public struct DescribeGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupName", location: .uri(locationName: "GroupName"), required: true, type: .string), 
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string)
+        ]
+        /// The name of the group that you want to describe.
+        public let groupName: String
+        /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
+        public let awsAccountId: String
+        /// The namespace. Currently, you should set this to default.
+        public let namespace: String
+
+        public init(groupName: String, awsAccountId: String, namespace: String) {
+            self.groupName = groupName
+            self.awsAccountId = awsAccountId
+            self.namespace = namespace
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupName = "GroupName"
+            case awsAccountId = "AwsAccountId"
+            case namespace = "Namespace"
+        }
+    }
+
+    public struct UpdateGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "GroupName", location: .uri(locationName: "GroupName"), required: true, type: .string), 
+            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string)
+        ]
+        /// The description for the group that you want to update.
+        public let description: String?
+        /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
+        public let awsAccountId: String
+        /// The name of the group that you want to update.
+        public let groupName: String
+        /// The namespace. Currently, you should set this to default.
+        public let namespace: String
+
+        public init(description: String? = nil, awsAccountId: String, groupName: String, namespace: String) {
+            self.description = description
+            self.awsAccountId = awsAccountId
+            self.groupName = groupName
+            self.namespace = namespace
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case awsAccountId = "AwsAccountId"
+            case groupName = "GroupName"
+            case namespace = "Namespace"
+        }
+    }
+
+    public struct UpdateUserRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
+            AWSShapeMember(label: "UserName", location: .uri(locationName: "UserName"), required: true, type: .string), 
+            AWSShapeMember(label: "Email", required: true, type: .string), 
+            AWSShapeMember(label: "Role", required: true, type: .enum)
+        ]
+        /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
+        public let awsAccountId: String
+        /// The namespace. Currently, you should set this to default.
+        public let namespace: String
+        /// The Amazon QuickSight user name that you want to update.
+        public let userName: String
+        /// The email address of the user that you want to update.
+        public let email: String
+        /// The Amazon QuickSight role of the user. The user role can be one of the following:    READER: A user who has read-only access to dashboards.    AUTHOR: A user who can create data sources, data sets, analyses, and dashboards.    ADMIN: A user who is an author, who can also manage Amazon QuickSight settings.  
+        public let role: UserRole
+
+        public init(awsAccountId: String, namespace: String, userName: String, email: String, role: UserRole) {
+            self.awsAccountId = awsAccountId
+            self.namespace = namespace
+            self.userName = userName
+            self.email = email
+            self.role = role
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case namespace = "Namespace"
+            case userName = "UserName"
+            case email = "Email"
+            case role = "Role"
         }
     }
 

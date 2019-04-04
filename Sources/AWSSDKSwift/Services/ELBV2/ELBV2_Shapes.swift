@@ -5,42 +5,201 @@ import AWSSDKSwiftCore
 
 extension ELBV2 {
 
-    public struct DescribeLoadBalancersInput: AWSShape {
+    public struct SetIpAddressTypeOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
-            AWSShapeMember(label: "LoadBalancerArns", required: false, type: .list), 
-            AWSShapeMember(label: "Names", required: false, type: .list)
+            AWSShapeMember(label: "IpAddressType", required: false, type: .enum)
         ]
-        /// The marker for the next set of results. (You received this marker from a previous call.)
-        public let marker: String?
-        /// The maximum number of results to return with this call.
-        public let pageSize: Int32?
-        /// The Amazon Resource Names (ARN) of the load balancers. You can specify up to 20 load balancers in a single call.
-        public let loadBalancerArns: [String]?
-        /// The names of the load balancers.
-        public let names: [String]?
+        /// The IP address type.
+        public let ipAddressType: IpAddressType?
 
-        public init(marker: String? = nil, pageSize: Int32? = nil, loadBalancerArns: [String]? = nil, names: [String]? = nil) {
-            self.marker = marker
-            self.pageSize = pageSize
-            self.loadBalancerArns = loadBalancerArns
-            self.names = names
+        public init(ipAddressType: IpAddressType? = nil) {
+            self.ipAddressType = ipAddressType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case pageSize = "PageSize"
-            case loadBalancerArns = "LoadBalancerArns"
-            case names = "Names"
+            case ipAddressType = "IpAddressType"
         }
     }
 
-    public enum TargetTypeEnum: String, CustomStringConvertible, Codable {
-        case instance = "instance"
-        case ip = "ip"
-        case lambda = "lambda"
+    public struct ModifyRuleOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Rules", required: false, type: .list)
+        ]
+        /// Information about the modified rule.
+        public let rules: [Rule]?
+
+        public init(rules: [Rule]? = nil) {
+            self.rules = rules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rules = "Rules"
+        }
+    }
+
+    public struct FixedResponseActionConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MessageBody", required: false, type: .string), 
+            AWSShapeMember(label: "ContentType", required: false, type: .string), 
+            AWSShapeMember(label: "StatusCode", required: true, type: .string)
+        ]
+        /// The message.
+        public let messageBody: String?
+        /// The content type. Valid Values: text/plain | text/css | text/html | application/javascript | application/json
+        public let contentType: String?
+        /// The HTTP response code (2XX, 4XX, or 5XX).
+        public let statusCode: String
+
+        public init(messageBody: String? = nil, contentType: String? = nil, statusCode: String) {
+            self.messageBody = messageBody
+            self.contentType = contentType
+            self.statusCode = statusCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case messageBody = "MessageBody"
+            case contentType = "ContentType"
+            case statusCode = "StatusCode"
+        }
+    }
+
+    public struct DescribeLoadBalancerAttributesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attributes", required: false, type: .list)
+        ]
+        /// Information about the load balancer attributes.
+        public let attributes: [LoadBalancerAttribute]?
+
+        public init(attributes: [LoadBalancerAttribute]? = nil) {
+            self.attributes = attributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+        }
+    }
+
+    public struct DeregisterTargetsOutput: AWSShape {
+
+    }
+
+    public enum LoadBalancerTypeEnum: String, CustomStringConvertible, Codable {
+        case application = "application"
+        case network = "network"
         public var description: String { return self.rawValue }
+    }
+
+    public struct Matcher: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HttpCode", required: true, type: .string)
+        ]
+        /// The HTTP codes. For Application Load Balancers, you can specify values between 200 and 499, and the default value is 200. You can specify multiple values (for example, "200,202") or a range of values (for example, "200-299"). For Network Load Balancers, this is 200–399.
+        public let httpCode: String
+
+        public init(httpCode: String) {
+            self.httpCode = httpCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case httpCode = "HttpCode"
+        }
+    }
+
+    public struct CreateTargetGroupInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "HealthCheckPort", required: false, type: .string), 
+            AWSShapeMember(label: "HealthyThresholdCount", required: false, type: .integer), 
+            AWSShapeMember(label: "UnhealthyThresholdCount", required: false, type: .integer), 
+            AWSShapeMember(label: "HealthCheckTimeoutSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "Port", required: false, type: .integer), 
+            AWSShapeMember(label: "Matcher", required: false, type: .structure), 
+            AWSShapeMember(label: "HealthCheckIntervalSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string), 
+            AWSShapeMember(label: "HealthCheckEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "Protocol", required: false, type: .enum), 
+            AWSShapeMember(label: "HealthCheckPath", required: false, type: .string), 
+            AWSShapeMember(label: "TargetType", required: false, type: .enum), 
+            AWSShapeMember(label: "HealthCheckProtocol", required: false, type: .enum)
+        ]
+        /// The name of the target group. This name must be unique per region per account, can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, and must not begin or end with a hyphen.
+        public let name: String
+        /// The port the load balancer uses when performing health checks on targets. The default is traffic-port, which is the port on which each target receives traffic from the load balancer.
+        public let healthCheckPort: String?
+        /// The number of consecutive health checks successes required before considering an unhealthy target healthy. For Application Load Balancers, the default is 5. For Network Load Balancers, the default is 3.
+        public let healthyThresholdCount: Int32?
+        /// The number of consecutive health check failures required before considering a target unhealthy. For Application Load Balancers, the default is 2. For Network Load Balancers, this value must be the same as the healthy threshold count.
+        public let unhealthyThresholdCount: Int32?
+        /// The amount of time, in seconds, during which no response from a target means a failed health check. For Application Load Balancers, the range is 2–120 seconds and the default is 5 seconds if the target type is instance or ip and 30 seconds if the target type is lambda. For Network Load Balancers, this is 10 seconds for TCP and HTTPS health checks and 6 seconds for HTTP health checks.
+        public let healthCheckTimeoutSeconds: Int32?
+        /// The port on which the targets receive traffic. This port is used unless you specify a port override when registering the target. If the target is a Lambda function, this parameter does not apply.
+        public let port: Int32?
+        /// [HTTP/HTTPS health checks] The HTTP codes to use when checking for a successful response from a target.
+        public let matcher: Matcher?
+        /// The approximate amount of time, in seconds, between health checks of an individual target. For Application Load Balancers, the range is 5–300 seconds. For Network Load Balancers, the supported values are 10 or 30 seconds. If the target type is instance or ip, the default is 30 seconds. If the target type is lambda, the default is 35 seconds.
+        public let healthCheckIntervalSeconds: Int32?
+        /// The identifier of the virtual private cloud (VPC). If the target is a Lambda function, this parameter does not apply.
+        public let vpcId: String?
+        /// Indicates whether health checks are enabled. If the target type is instance or ip, the default is true. If the target type is lambda, the default is false.
+        public let healthCheckEnabled: Bool?
+        /// The protocol to use for routing traffic to the targets. For Application Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers, the supported protocol is TCP. If the target is a Lambda function, this parameter does not apply.
+        public let `protocol`: ProtocolEnum?
+        /// [HTTP/HTTPS health checks] The ping path that is the destination on the targets for health checks. The default is /.
+        public let healthCheckPath: String?
+        /// The type of target that you must specify when registering targets with this target group. You can't specify targets for a target group using more than one target type.    instance - Targets are specified by instance ID. This is the default value.    ip - Targets are specified by IP address. You can specify IP addresses from the subnets of the virtual private cloud (VPC) for the target group, the RFC 1918 range (10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16), and the RFC 6598 range (100.64.0.0/10). You can't specify publicly routable IP addresses.    lambda - The target groups contains a single Lambda function.  
+        public let targetType: TargetTypeEnum?
+        /// The protocol the load balancer uses when performing health checks on targets. The TCP protocol is supported only if the protocol of the target group is TCP. For Application Load Balancers, the default is HTTP. For Network Load Balancers, the default is TCP.
+        public let healthCheckProtocol: ProtocolEnum?
+
+        public init(name: String, healthCheckPort: String? = nil, healthyThresholdCount: Int32? = nil, unhealthyThresholdCount: Int32? = nil, healthCheckTimeoutSeconds: Int32? = nil, port: Int32? = nil, matcher: Matcher? = nil, healthCheckIntervalSeconds: Int32? = nil, vpcId: String? = nil, healthCheckEnabled: Bool? = nil, protocol: ProtocolEnum? = nil, healthCheckPath: String? = nil, targetType: TargetTypeEnum? = nil, healthCheckProtocol: ProtocolEnum? = nil) {
+            self.name = name
+            self.healthCheckPort = healthCheckPort
+            self.healthyThresholdCount = healthyThresholdCount
+            self.unhealthyThresholdCount = unhealthyThresholdCount
+            self.healthCheckTimeoutSeconds = healthCheckTimeoutSeconds
+            self.port = port
+            self.matcher = matcher
+            self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
+            self.vpcId = vpcId
+            self.healthCheckEnabled = healthCheckEnabled
+            self.`protocol` = `protocol`
+            self.healthCheckPath = healthCheckPath
+            self.targetType = targetType
+            self.healthCheckProtocol = healthCheckProtocol
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case healthCheckPort = "HealthCheckPort"
+            case healthyThresholdCount = "HealthyThresholdCount"
+            case unhealthyThresholdCount = "UnhealthyThresholdCount"
+            case healthCheckTimeoutSeconds = "HealthCheckTimeoutSeconds"
+            case port = "Port"
+            case matcher = "Matcher"
+            case healthCheckIntervalSeconds = "HealthCheckIntervalSeconds"
+            case vpcId = "VpcId"
+            case healthCheckEnabled = "HealthCheckEnabled"
+            case `protocol` = "Protocol"
+            case healthCheckPath = "HealthCheckPath"
+            case targetType = "TargetType"
+            case healthCheckProtocol = "HealthCheckProtocol"
+        }
+    }
+
+    public struct SetRulePrioritiesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RulePriorities", required: true, type: .list)
+        ]
+        /// The rule priorities.
+        public let rulePriorities: [RulePriorityPair]
+
+        public init(rulePriorities: [RulePriorityPair]) {
+            self.rulePriorities = rulePriorities
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rulePriorities = "RulePriorities"
+        }
     }
 
     public enum LoadBalancerStateEnum: String, CustomStringConvertible, Codable {
@@ -51,70 +210,635 @@ extension ELBV2 {
         public var description: String { return self.rawValue }
     }
 
-    public struct DescribeSSLPoliciesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SslPolicies", required: false, type: .list), 
-            AWSShapeMember(label: "NextMarker", required: false, type: .string)
-        ]
-        /// Information about the policies.
-        public let sslPolicies: [SslPolicy]?
-        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
-        public let nextMarker: String?
+    public struct DeleteLoadBalancerOutput: AWSShape {
 
-        public init(sslPolicies: [SslPolicy]? = nil, nextMarker: String? = nil) {
-            self.sslPolicies = sslPolicies
-            self.nextMarker = nextMarker
+    }
+
+    public struct RuleCondition: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HttpRequestMethodConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "Field", required: false, type: .string), 
+            AWSShapeMember(label: "HostHeaderConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "QueryStringConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "Values", required: false, type: .list), 
+            AWSShapeMember(label: "PathPatternConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "HttpHeaderConfig", required: false, type: .structure)
+        ]
+        public let httpRequestMethodConfig: HttpRequestMethodConditionConfig?
+        /// The name of the field. The possible values are host-header and path-pattern.
+        public let field: String?
+        public let hostHeaderConfig: HostHeaderConditionConfig?
+        public let queryStringConfig: QueryStringConditionConfig?
+        /// The condition value. If the field name is host-header, you can specify a single host name (for example, my.example.com). A host name is case insensitive, can be up to 128 characters in length, and can contain any of the following characters. You can include up to three wildcard characters.   A-Z, a-z, 0-9   - .   * (matches 0 or more characters)   ? (matches exactly 1 character)   If the field name is path-pattern, you can specify a single path pattern (for example, /img/*). A path pattern is case-sensitive, can be up to 128 characters in length, and can contain any of the following characters. You can include up to three wildcard characters.   A-Z, a-z, 0-9   _ - . $ / ~ " ' @ : +   &amp; (using &amp;amp;)   * (matches 0 or more characters)   ? (matches exactly 1 character)  
+        public let values: [String]?
+        public let pathPatternConfig: PathPatternConditionConfig?
+        public let httpHeaderConfig: HttpHeaderConditionConfig?
+
+        public init(httpRequestMethodConfig: HttpRequestMethodConditionConfig? = nil, field: String? = nil, hostHeaderConfig: HostHeaderConditionConfig? = nil, queryStringConfig: QueryStringConditionConfig? = nil, values: [String]? = nil, pathPatternConfig: PathPatternConditionConfig? = nil, httpHeaderConfig: HttpHeaderConditionConfig? = nil) {
+            self.httpRequestMethodConfig = httpRequestMethodConfig
+            self.field = field
+            self.hostHeaderConfig = hostHeaderConfig
+            self.queryStringConfig = queryStringConfig
+            self.values = values
+            self.pathPatternConfig = pathPatternConfig
+            self.httpHeaderConfig = httpHeaderConfig
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sslPolicies = "SslPolicies"
-            case nextMarker = "NextMarker"
+            case httpRequestMethodConfig = "HttpRequestMethodConfig"
+            case field = "Field"
+            case hostHeaderConfig = "HostHeaderConfig"
+            case queryStringConfig = "QueryStringConfig"
+            case values = "Values"
+            case pathPatternConfig = "PathPatternConfig"
+            case httpHeaderConfig = "HttpHeaderConfig"
+        }
+    }
+
+    public struct AddTagsOutput: AWSShape {
+
+    }
+
+    public struct DescribeAccountLimitsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// The maximum number of results to return with this call.
+        public let pageSize: Int32?
+        /// The marker for the next set of results. (You received this marker from a previous call.)
+        public let marker: String?
+
+        public init(pageSize: Int32? = nil, marker: String? = nil) {
+            self.pageSize = pageSize
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pageSize = "PageSize"
+            case marker = "Marker"
+        }
+    }
+
+    public struct DescribeSSLPoliciesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "Names", required: false, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// The maximum number of results to return with this call.
+        public let pageSize: Int32?
+        /// The names of the policies.
+        public let names: [String]?
+        /// The marker for the next set of results. (You received this marker from a previous call.)
+        public let marker: String?
+
+        public init(pageSize: Int32? = nil, names: [String]? = nil, marker: String? = nil) {
+            self.pageSize = pageSize
+            self.names = names
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pageSize = "PageSize"
+            case names = "Names"
+            case marker = "Marker"
+        }
+    }
+
+    public struct DeregisterTargetsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Targets", required: true, type: .list), 
+            AWSShapeMember(label: "TargetGroupArn", required: true, type: .string)
+        ]
+        /// The targets. If you specified a port override when you registered a target, you must specify both the target ID and the port when you deregister it.
+        public let targets: [TargetDescription]
+        /// The Amazon Resource Name (ARN) of the target group.
+        public let targetGroupArn: String
+
+        public init(targets: [TargetDescription], targetGroupArn: String) {
+            self.targets = targets
+            self.targetGroupArn = targetGroupArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targets = "Targets"
+            case targetGroupArn = "TargetGroupArn"
         }
     }
 
     public struct Listener: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ListenerArn", required: false, type: .string), 
+            AWSShapeMember(label: "Protocol", required: false, type: .enum), 
+            AWSShapeMember(label: "LoadBalancerArn", required: false, type: .string), 
+            AWSShapeMember(label: "Certificates", required: false, type: .list), 
             AWSShapeMember(label: "SslPolicy", required: false, type: .string), 
             AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "LoadBalancerArn", required: false, type: .string), 
-            AWSShapeMember(label: "Protocol", required: false, type: .enum), 
-            AWSShapeMember(label: "DefaultActions", required: false, type: .list), 
-            AWSShapeMember(label: "Certificates", required: false, type: .list)
+            AWSShapeMember(label: "ListenerArn", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultActions", required: false, type: .list)
         ]
-        /// The Amazon Resource Name (ARN) of the listener.
-        public let listenerArn: String?
+        /// The protocol for connections from clients to the load balancer.
+        public let `protocol`: ProtocolEnum?
+        /// The Amazon Resource Name (ARN) of the load balancer.
+        public let loadBalancerArn: String?
+        /// The SSL server certificate. You must provide a certificate if the protocol is HTTPS.
+        public let certificates: [Certificate]?
         /// The security policy that defines which ciphers and protocols are supported. The default is the current predefined security policy.
         public let sslPolicy: String?
         /// The port on which the load balancer is listening.
         public let port: Int32?
-        /// The Amazon Resource Name (ARN) of the load balancer.
-        public let loadBalancerArn: String?
-        /// The protocol for connections from clients to the load balancer.
-        public let `protocol`: ProtocolEnum?
+        /// The Amazon Resource Name (ARN) of the listener.
+        public let listenerArn: String?
         /// The default actions for the listener.
         public let defaultActions: [Action]?
-        /// The SSL server certificate. You must provide a certificate if the protocol is HTTPS.
-        public let certificates: [Certificate]?
 
-        public init(listenerArn: String? = nil, sslPolicy: String? = nil, port: Int32? = nil, loadBalancerArn: String? = nil, protocol: ProtocolEnum? = nil, defaultActions: [Action]? = nil, certificates: [Certificate]? = nil) {
-            self.listenerArn = listenerArn
+        public init(protocol: ProtocolEnum? = nil, loadBalancerArn: String? = nil, certificates: [Certificate]? = nil, sslPolicy: String? = nil, port: Int32? = nil, listenerArn: String? = nil, defaultActions: [Action]? = nil) {
+            self.`protocol` = `protocol`
+            self.loadBalancerArn = loadBalancerArn
+            self.certificates = certificates
             self.sslPolicy = sslPolicy
             self.port = port
-            self.loadBalancerArn = loadBalancerArn
-            self.`protocol` = `protocol`
+            self.listenerArn = listenerArn
             self.defaultActions = defaultActions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `protocol` = "Protocol"
+            case loadBalancerArn = "LoadBalancerArn"
+            case certificates = "Certificates"
+            case sslPolicy = "SslPolicy"
+            case port = "Port"
+            case listenerArn = "ListenerArn"
+            case defaultActions = "DefaultActions"
+        }
+    }
+
+    public struct ModifyTargetGroupInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HealthCheckPort", required: false, type: .string), 
+            AWSShapeMember(label: "HealthyThresholdCount", required: false, type: .integer), 
+            AWSShapeMember(label: "HealthCheckTimeoutSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "HealthCheckIntervalSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "HealthCheckPath", required: false, type: .string), 
+            AWSShapeMember(label: "Matcher", required: false, type: .structure), 
+            AWSShapeMember(label: "HealthCheckProtocol", required: false, type: .enum), 
+            AWSShapeMember(label: "TargetGroupArn", required: true, type: .string), 
+            AWSShapeMember(label: "UnhealthyThresholdCount", required: false, type: .integer), 
+            AWSShapeMember(label: "HealthCheckEnabled", required: false, type: .boolean)
+        ]
+        /// The port the load balancer uses when performing health checks on targets.
+        public let healthCheckPort: String?
+        /// The number of consecutive health checks successes required before considering an unhealthy target healthy.
+        public let healthyThresholdCount: Int32?
+        /// [HTTP/HTTPS health checks] The amount of time, in seconds, during which no response means a failed health check. If the protocol of the target group is TCP, you can't modify this setting.
+        public let healthCheckTimeoutSeconds: Int32?
+        /// The approximate amount of time, in seconds, between health checks of an individual target. For Application Load Balancers, the range is 5–300 seconds. For Network Load Balancers, the supported values are 10 or 30 seconds. If the protocol of the target group is TCP, you can't modify this setting.
+        public let healthCheckIntervalSeconds: Int32?
+        /// [HTTP/HTTPS health checks] The ping path that is the destination for the health check request.
+        public let healthCheckPath: String?
+        /// [HTTP/HTTPS health checks] The HTTP codes to use when checking for a successful response from a target. If the protocol of the target group is TCP, you can't modify this setting.
+        public let matcher: Matcher?
+        /// The protocol the load balancer uses when performing health checks on targets. The TCP protocol is supported only if the protocol of the target group is TCP. If the protocol of the target group is TCP, you can't modify this setting.
+        public let healthCheckProtocol: ProtocolEnum?
+        /// The Amazon Resource Name (ARN) of the target group.
+        public let targetGroupArn: String
+        /// The number of consecutive health check failures required before considering the target unhealthy. For Network Load Balancers, this value must be the same as the healthy threshold count.
+        public let unhealthyThresholdCount: Int32?
+        /// Indicates whether health checks are enabled.
+        public let healthCheckEnabled: Bool?
+
+        public init(healthCheckPort: String? = nil, healthyThresholdCount: Int32? = nil, healthCheckTimeoutSeconds: Int32? = nil, healthCheckIntervalSeconds: Int32? = nil, healthCheckPath: String? = nil, matcher: Matcher? = nil, healthCheckProtocol: ProtocolEnum? = nil, targetGroupArn: String, unhealthyThresholdCount: Int32? = nil, healthCheckEnabled: Bool? = nil) {
+            self.healthCheckPort = healthCheckPort
+            self.healthyThresholdCount = healthyThresholdCount
+            self.healthCheckTimeoutSeconds = healthCheckTimeoutSeconds
+            self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
+            self.healthCheckPath = healthCheckPath
+            self.matcher = matcher
+            self.healthCheckProtocol = healthCheckProtocol
+            self.targetGroupArn = targetGroupArn
+            self.unhealthyThresholdCount = unhealthyThresholdCount
+            self.healthCheckEnabled = healthCheckEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case healthCheckPort = "HealthCheckPort"
+            case healthyThresholdCount = "HealthyThresholdCount"
+            case healthCheckTimeoutSeconds = "HealthCheckTimeoutSeconds"
+            case healthCheckIntervalSeconds = "HealthCheckIntervalSeconds"
+            case healthCheckPath = "HealthCheckPath"
+            case matcher = "Matcher"
+            case healthCheckProtocol = "HealthCheckProtocol"
+            case targetGroupArn = "TargetGroupArn"
+            case unhealthyThresholdCount = "UnhealthyThresholdCount"
+            case healthCheckEnabled = "HealthCheckEnabled"
+        }
+    }
+
+    public struct SubnetMapping: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
+            AWSShapeMember(label: "StaticIp", required: false, type: .boolean), 
+            AWSShapeMember(label: "AllocationId", required: false, type: .string)
+        ]
+        /// The ID of the subnet.
+        public let subnetId: String?
+        public let staticIp: Bool?
+        /// [Network Load Balancers] The allocation ID of the Elastic IP address.
+        public let allocationId: String?
+
+        public init(subnetId: String? = nil, staticIp: Bool? = nil, allocationId: String? = nil) {
+            self.subnetId = subnetId
+            self.staticIp = staticIp
+            self.allocationId = allocationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subnetId = "SubnetId"
+            case staticIp = "StaticIp"
+            case allocationId = "AllocationId"
+        }
+    }
+
+    public struct RemoveTagsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagKeys", required: true, type: .list), 
+            AWSShapeMember(label: "ResourceArns", required: true, type: .list)
+        ]
+        /// The tag keys for the tags to remove.
+        public let tagKeys: [String]
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let resourceArns: [String]
+
+        public init(tagKeys: [String], resourceArns: [String]) {
+            self.tagKeys = tagKeys
+            self.resourceArns = resourceArns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagKeys = "TagKeys"
+            case resourceArns = "ResourceArns"
+        }
+    }
+
+    public enum ActionTypeEnum: String, CustomStringConvertible, Codable {
+        case forward = "forward"
+        case authenticateOidc = "authenticate-oidc"
+        case redirect = "redirect"
+        case authenticateCognito = "authenticate-cognito"
+        case fixedResponse = "fixed-response"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct HttpRequestMethodConditionConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Values", required: false, type: .list)
+        ]
+        public let values: [HttpRequestMethodEnum]?
+
+        public init(values: [HttpRequestMethodEnum]? = nil) {
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case values = "Values"
+        }
+    }
+
+    public struct SetSecurityGroupsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list)
+        ]
+        /// The IDs of the security groups associated with the load balancer.
+        public let securityGroupIds: [String]?
+
+        public init(securityGroupIds: [String]? = nil) {
+            self.securityGroupIds = securityGroupIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityGroupIds = "SecurityGroupIds"
+        }
+    }
+
+    public struct CreateRuleOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Rules", required: false, type: .list)
+        ]
+        /// Information about the rule.
+        public let rules: [Rule]?
+
+        public init(rules: [Rule]? = nil) {
+            self.rules = rules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rules = "Rules"
+        }
+    }
+
+    public struct RegisterTargetsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Targets", required: true, type: .list), 
+            AWSShapeMember(label: "TargetGroupArn", required: true, type: .string)
+        ]
+        /// The targets. To register a target by instance ID, specify the instance ID. To register a target by IP address, specify the IP address. To register a Lambda function, specify the ARN of the Lambda function.
+        public let targets: [TargetDescription]
+        /// The Amazon Resource Name (ARN) of the target group.
+        public let targetGroupArn: String
+
+        public init(targets: [TargetDescription], targetGroupArn: String) {
+            self.targets = targets
+            self.targetGroupArn = targetGroupArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targets = "Targets"
+            case targetGroupArn = "TargetGroupArn"
+        }
+    }
+
+    public struct DescribeTargetHealthOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetHealthDescriptions", required: false, type: .list)
+        ]
+        /// Information about the health of the targets.
+        public let targetHealthDescriptions: [TargetHealthDescription]?
+
+        public init(targetHealthDescriptions: [TargetHealthDescription]? = nil) {
+            self.targetHealthDescriptions = targetHealthDescriptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetHealthDescriptions = "TargetHealthDescriptions"
+        }
+    }
+
+    public struct RemoveListenerCertificatesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ListenerArn", required: true, type: .string), 
+            AWSShapeMember(label: "Certificates", required: true, type: .list)
+        ]
+        /// The Amazon Resource Name (ARN) of the listener.
+        public let listenerArn: String
+        /// The certificate to remove. You can specify one certificate per call. Set CertificateArn to the certificate ARN but do not set IsDefault.
+        public let certificates: [Certificate]
+
+        public init(listenerArn: String, certificates: [Certificate]) {
+            self.listenerArn = listenerArn
             self.certificates = certificates
         }
 
         private enum CodingKeys: String, CodingKey {
             case listenerArn = "ListenerArn"
-            case sslPolicy = "SslPolicy"
-            case port = "Port"
-            case loadBalancerArn = "LoadBalancerArn"
-            case `protocol` = "Protocol"
-            case defaultActions = "DefaultActions"
             case certificates = "Certificates"
+        }
+    }
+
+    public enum RedirectActionStatusCodeEnum: String, CustomStringConvertible, Codable {
+        case http301 = "HTTP_301"
+        case http302 = "HTTP_302"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AuthenticateOidcActionConditionalBehaviorEnum: String, CustomStringConvertible, Codable {
+        case deny = "deny"
+        case allow = "allow"
+        case authenticate = "authenticate"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ModifyTargetGroupAttributesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attributes", required: true, type: .list), 
+            AWSShapeMember(label: "TargetGroupArn", required: true, type: .string)
+        ]
+        /// The attributes.
+        public let attributes: [TargetGroupAttribute]
+        /// The Amazon Resource Name (ARN) of the target group.
+        public let targetGroupArn: String
+
+        public init(attributes: [TargetGroupAttribute], targetGroupArn: String) {
+            self.attributes = attributes
+            self.targetGroupArn = targetGroupArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+            case targetGroupArn = "TargetGroupArn"
+        }
+    }
+
+    public struct DescribeRulesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "ListenerArn", required: false, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "RuleArns", required: false, type: .list)
+        ]
+        /// The maximum number of results to return with this call.
+        public let pageSize: Int32?
+        /// The Amazon Resource Name (ARN) of the listener.
+        public let listenerArn: String?
+        /// The marker for the next set of results. (You received this marker from a previous call.)
+        public let marker: String?
+        /// The Amazon Resource Names (ARN) of the rules.
+        public let ruleArns: [String]?
+
+        public init(pageSize: Int32? = nil, listenerArn: String? = nil, marker: String? = nil, ruleArns: [String]? = nil) {
+            self.pageSize = pageSize
+            self.listenerArn = listenerArn
+            self.marker = marker
+            self.ruleArns = ruleArns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pageSize = "PageSize"
+            case listenerArn = "ListenerArn"
+            case marker = "Marker"
+            case ruleArns = "RuleArns"
+        }
+    }
+
+    public struct DescribeTargetGroupsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
+            AWSShapeMember(label: "TargetGroups", required: false, type: .list)
+        ]
+        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
+        public let nextMarker: String?
+        /// Information about the target groups.
+        public let targetGroups: [TargetGroup]?
+
+        public init(nextMarker: String? = nil, targetGroups: [TargetGroup]? = nil) {
+            self.nextMarker = nextMarker
+            self.targetGroups = targetGroups
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextMarker = "NextMarker"
+            case targetGroups = "TargetGroups"
+        }
+    }
+
+    public struct RemoveTagsOutput: AWSShape {
+
+    }
+
+    public struct DeleteRuleOutput: AWSShape {
+
+    }
+
+    public struct DescribeProvisionedCapacityInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerArn", required: true, type: .string)
+        ]
+        public let loadBalancerArn: String
+
+        public init(loadBalancerArn: String) {
+            self.loadBalancerArn = loadBalancerArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerArn = "LoadBalancerArn"
+        }
+    }
+
+    public struct AddListenerCertificatesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ListenerArn", required: true, type: .string), 
+            AWSShapeMember(label: "Certificates", required: true, type: .list)
+        ]
+        /// The Amazon Resource Name (ARN) of the listener.
+        public let listenerArn: String
+        /// The certificate to add. You can specify one certificate per call. Set CertificateArn to the certificate ARN but do not set IsDefault.
+        public let certificates: [Certificate]
+
+        public init(listenerArn: String, certificates: [Certificate]) {
+            self.listenerArn = listenerArn
+            self.certificates = certificates
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case listenerArn = "ListenerArn"
+            case certificates = "Certificates"
+        }
+    }
+
+    public struct CreateLoadBalancerInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Scheme", required: false, type: .enum), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "IpAddressType", required: false, type: .enum), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "Subnets", required: false, type: .list), 
+            AWSShapeMember(label: "SubnetMappings", required: false, type: .list)
+        ]
+        /// The nodes of an Internet-facing load balancer have public IP addresses. The DNS name of an Internet-facing load balancer is publicly resolvable to the public IP addresses of the nodes. Therefore, Internet-facing load balancers can route requests from clients over the internet. The nodes of an internal load balancer have only private IP addresses. The DNS name of an internal load balancer is publicly resolvable to the private IP addresses of the nodes. Therefore, internal load balancers can only route requests from clients with access to the VPC for the load balancer. The default is an Internet-facing load balancer.
+        public let scheme: LoadBalancerSchemeEnum?
+        /// The type of load balancer. The default is application.
+        public let `type`: LoadBalancerTypeEnum?
+        /// [Application Load Balancers] The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). Internal load balancers must use ipv4.
+        public let ipAddressType: IpAddressType?
+        /// One or more tags to assign to the load balancer.
+        public let tags: [Tag]?
+        /// The name of the load balancer. This name must be unique per region per account, can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, must not begin or end with a hyphen, and must not begin with "internal-".
+        public let name: String
+        /// [Application Load Balancers] The IDs of the security groups for the load balancer.
+        public let securityGroups: [String]?
+        /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones.
+        public let subnets: [String]?
+        /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You cannot specify Elastic IP addresses for your subnets. [Network Load Balancers] You can specify subnets from one or more Availability Zones. You can specify one Elastic IP address per subnet.
+        public let subnetMappings: [SubnetMapping]?
+
+        public init(scheme: LoadBalancerSchemeEnum? = nil, type: LoadBalancerTypeEnum? = nil, ipAddressType: IpAddressType? = nil, tags: [Tag]? = nil, name: String, securityGroups: [String]? = nil, subnets: [String]? = nil, subnetMappings: [SubnetMapping]? = nil) {
+            self.scheme = scheme
+            self.`type` = `type`
+            self.ipAddressType = ipAddressType
+            self.tags = tags
+            self.name = name
+            self.securityGroups = securityGroups
+            self.subnets = subnets
+            self.subnetMappings = subnetMappings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scheme = "Scheme"
+            case `type` = "Type"
+            case ipAddressType = "IpAddressType"
+            case tags = "Tags"
+            case name = "Name"
+            case securityGroups = "SecurityGroups"
+            case subnets = "Subnets"
+            case subnetMappings = "SubnetMappings"
+        }
+    }
+
+    public struct CreateRuleInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Actions", required: true, type: .list), 
+            AWSShapeMember(label: "Conditions", required: true, type: .list), 
+            AWSShapeMember(label: "Priority", required: true, type: .integer), 
+            AWSShapeMember(label: "ListenerArn", required: true, type: .string)
+        ]
+        /// The actions. Each rule must include exactly one of the following types of actions: forward, fixed-response, or redirect. If the action type is forward, you specify a target group. The protocol of the target group must be HTTP or HTTPS for an Application Load Balancer or TCP for a Network Load Balancer. [HTTPS listener] If the action type is authenticate-oidc, you authenticate users through an identity provider that is OpenID Connect (OIDC) compliant. [HTTPS listener] If the action type is authenticate-cognito, you authenticate users through the user pools supported by Amazon Cognito. [Application Load Balancer] If the action type is redirect, you redirect specified client requests from one URL to another. [Application Load Balancer] If the action type is fixed-response, you drop specified client requests and return a custom HTTP response.
+        public let actions: [Action]
+        /// The conditions. Each condition specifies a field name and a single value. If the field name is host-header, you can specify a single host name (for example, my.example.com). A host name is case insensitive, can be up to 128 characters in length, and can contain any of the following characters. You can include up to three wildcard characters.   A-Z, a-z, 0-9   - .   * (matches 0 or more characters)   ? (matches exactly 1 character)   If the field name is path-pattern, you can specify a single path pattern. A path pattern is case-sensitive, can be up to 128 characters in length, and can contain any of the following characters. You can include up to three wildcard characters.   A-Z, a-z, 0-9   _ - . $ / ~ " ' @ : +   &amp; (using &amp;amp;)   * (matches 0 or more characters)   ? (matches exactly 1 character)  
+        public let conditions: [RuleCondition]
+        /// The rule priority. A listener can't have multiple rules with the same priority.
+        public let priority: Int32
+        /// The Amazon Resource Name (ARN) of the listener.
+        public let listenerArn: String
+
+        public init(actions: [Action], conditions: [RuleCondition], priority: Int32, listenerArn: String) {
+            self.actions = actions
+            self.conditions = conditions
+            self.priority = priority
+            self.listenerArn = listenerArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case conditions = "Conditions"
+            case priority = "Priority"
+            case listenerArn = "ListenerArn"
+        }
+    }
+
+    public struct Rule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Priority", required: false, type: .string), 
+            AWSShapeMember(label: "Conditions", required: false, type: .list), 
+            AWSShapeMember(label: "RuleArn", required: false, type: .string), 
+            AWSShapeMember(label: "IsDefault", required: false, type: .boolean), 
+            AWSShapeMember(label: "Actions", required: false, type: .list)
+        ]
+        /// The priority.
+        public let priority: String?
+        /// The conditions.
+        public let conditions: [RuleCondition]?
+        /// The Amazon Resource Name (ARN) of the rule.
+        public let ruleArn: String?
+        /// Indicates whether this is the default rule.
+        public let isDefault: Bool?
+        /// The actions.
+        public let actions: [Action]?
+
+        public init(priority: String? = nil, conditions: [RuleCondition]? = nil, ruleArn: String? = nil, isDefault: Bool? = nil, actions: [Action]? = nil) {
+            self.priority = priority
+            self.conditions = conditions
+            self.ruleArn = ruleArn
+            self.isDefault = isDefault
+            self.actions = actions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case priority = "Priority"
+            case conditions = "Conditions"
+            case ruleArn = "RuleArn"
+            case isDefault = "IsDefault"
+            case actions = "Actions"
         }
     }
 
@@ -130,338 +854,6 @@ extension ELBV2 {
 
         private enum CodingKeys: String, CodingKey {
             case provisionedCapacity = "ProvisionedCapacity"
-        }
-    }
-
-    public struct TargetGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HealthCheckPath", required: false, type: .string), 
-            AWSShapeMember(label: "TargetGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "HealthyThresholdCount", required: false, type: .integer), 
-            AWSShapeMember(label: "HealthCheckIntervalSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "HealthCheckEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "LoadBalancerArns", required: false, type: .list), 
-            AWSShapeMember(label: "TargetGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Matcher", required: false, type: .structure), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string), 
-            AWSShapeMember(label: "Protocol", required: false, type: .enum), 
-            AWSShapeMember(label: "UnhealthyThresholdCount", required: false, type: .integer), 
-            AWSShapeMember(label: "HealthCheckTimeoutSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "HealthCheckProtocol", required: false, type: .enum), 
-            AWSShapeMember(label: "TargetType", required: false, type: .enum), 
-            AWSShapeMember(label: "HealthCheckPort", required: false, type: .string)
-        ]
-        /// The destination for the health check request.
-        public let healthCheckPath: String?
-        /// The Amazon Resource Name (ARN) of the target group.
-        public let targetGroupArn: String?
-        /// The number of consecutive health checks successes required before considering an unhealthy target healthy.
-        public let healthyThresholdCount: Int32?
-        /// The approximate amount of time, in seconds, between health checks of an individual target.
-        public let healthCheckIntervalSeconds: Int32?
-        /// Indicates whether health checks are enabled.
-        public let healthCheckEnabled: Bool?
-        /// The Amazon Resource Names (ARN) of the load balancers that route traffic to this target group.
-        public let loadBalancerArns: [String]?
-        /// The name of the target group.
-        public let targetGroupName: String?
-        /// The HTTP codes to use when checking for a successful response from a target.
-        public let matcher: Matcher?
-        /// The port on which the targets are listening.
-        public let port: Int32?
-        /// The ID of the VPC for the targets.
-        public let vpcId: String?
-        /// The protocol to use for routing traffic to the targets.
-        public let `protocol`: ProtocolEnum?
-        /// The number of consecutive health check failures required before considering the target unhealthy.
-        public let unhealthyThresholdCount: Int32?
-        /// The amount of time, in seconds, during which no response means a failed health check.
-        public let healthCheckTimeoutSeconds: Int32?
-        /// The protocol to use to connect with the target.
-        public let healthCheckProtocol: ProtocolEnum?
-        /// The type of target that you must specify when registering targets with this target group. The possible values are instance (targets are specified by instance ID) or ip (targets are specified by IP address).
-        public let targetType: TargetTypeEnum?
-        /// The port to use to connect with the target.
-        public let healthCheckPort: String?
-
-        public init(healthCheckPath: String? = nil, targetGroupArn: String? = nil, healthyThresholdCount: Int32? = nil, healthCheckIntervalSeconds: Int32? = nil, healthCheckEnabled: Bool? = nil, loadBalancerArns: [String]? = nil, targetGroupName: String? = nil, matcher: Matcher? = nil, port: Int32? = nil, vpcId: String? = nil, protocol: ProtocolEnum? = nil, unhealthyThresholdCount: Int32? = nil, healthCheckTimeoutSeconds: Int32? = nil, healthCheckProtocol: ProtocolEnum? = nil, targetType: TargetTypeEnum? = nil, healthCheckPort: String? = nil) {
-            self.healthCheckPath = healthCheckPath
-            self.targetGroupArn = targetGroupArn
-            self.healthyThresholdCount = healthyThresholdCount
-            self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
-            self.healthCheckEnabled = healthCheckEnabled
-            self.loadBalancerArns = loadBalancerArns
-            self.targetGroupName = targetGroupName
-            self.matcher = matcher
-            self.port = port
-            self.vpcId = vpcId
-            self.`protocol` = `protocol`
-            self.unhealthyThresholdCount = unhealthyThresholdCount
-            self.healthCheckTimeoutSeconds = healthCheckTimeoutSeconds
-            self.healthCheckProtocol = healthCheckProtocol
-            self.targetType = targetType
-            self.healthCheckPort = healthCheckPort
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case healthCheckPath = "HealthCheckPath"
-            case targetGroupArn = "TargetGroupArn"
-            case healthyThresholdCount = "HealthyThresholdCount"
-            case healthCheckIntervalSeconds = "HealthCheckIntervalSeconds"
-            case healthCheckEnabled = "HealthCheckEnabled"
-            case loadBalancerArns = "LoadBalancerArns"
-            case targetGroupName = "TargetGroupName"
-            case matcher = "Matcher"
-            case port = "Port"
-            case vpcId = "VpcId"
-            case `protocol` = "Protocol"
-            case unhealthyThresholdCount = "UnhealthyThresholdCount"
-            case healthCheckTimeoutSeconds = "HealthCheckTimeoutSeconds"
-            case healthCheckProtocol = "HealthCheckProtocol"
-            case targetType = "TargetType"
-            case healthCheckPort = "HealthCheckPort"
-        }
-    }
-
-    public struct DescribeTargetGroupAttributesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetGroupArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the target group.
-        public let targetGroupArn: String
-
-        public init(targetGroupArn: String) {
-            self.targetGroupArn = targetGroupArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case targetGroupArn = "TargetGroupArn"
-        }
-    }
-
-    public struct TargetHealthDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Target", required: false, type: .structure), 
-            AWSShapeMember(label: "TargetHealth", required: false, type: .structure), 
-            AWSShapeMember(label: "HealthCheckPort", required: false, type: .string)
-        ]
-        /// The description of the target.
-        public let target: TargetDescription?
-        /// The health information for the target.
-        public let targetHealth: TargetHealth?
-        /// The port to use to connect with the target.
-        public let healthCheckPort: String?
-
-        public init(target: TargetDescription? = nil, targetHealth: TargetHealth? = nil, healthCheckPort: String? = nil) {
-            self.target = target
-            self.targetHealth = targetHealth
-            self.healthCheckPort = healthCheckPort
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case target = "Target"
-            case targetHealth = "TargetHealth"
-            case healthCheckPort = "HealthCheckPort"
-        }
-    }
-
-    public struct Action: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Order", required: false, type: .integer), 
-            AWSShapeMember(label: "FixedResponseConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "AuthenticateCognitoConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "AuthenticateOidcConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "Type", required: true, type: .enum), 
-            AWSShapeMember(label: "RedirectConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "TargetGroupArn", required: false, type: .string)
-        ]
-        /// The order for the action. This value is required for rules with multiple actions. The action with the lowest value for order is performed first. The final action to be performed must be a forward or a fixed-response action.
-        public let order: Int32?
-        /// [Application Load Balancer] Information for creating an action that returns a custom HTTP response. Specify only when Type is fixed-response.
-        public let fixedResponseConfig: FixedResponseActionConfig?
-        /// [HTTPS listener] Information for using Amazon Cognito to authenticate users. Specify only when Type is authenticate-cognito.
-        public let authenticateCognitoConfig: AuthenticateCognitoActionConfig?
-        /// [HTTPS listener] Information about an identity provider that is compliant with OpenID Connect (OIDC). Specify only when Type is authenticate-oidc.
-        public let authenticateOidcConfig: AuthenticateOidcActionConfig?
-        /// The type of action. Each rule must include exactly one of the following types of actions: forward, fixed-response, or redirect.
-        public let `type`: ActionTypeEnum
-        /// [Application Load Balancer] Information for creating a redirect action. Specify only when Type is redirect.
-        public let redirectConfig: RedirectActionConfig?
-        /// The Amazon Resource Name (ARN) of the target group. Specify only when Type is forward.
-        public let targetGroupArn: String?
-
-        public init(order: Int32? = nil, fixedResponseConfig: FixedResponseActionConfig? = nil, authenticateCognitoConfig: AuthenticateCognitoActionConfig? = nil, authenticateOidcConfig: AuthenticateOidcActionConfig? = nil, type: ActionTypeEnum, redirectConfig: RedirectActionConfig? = nil, targetGroupArn: String? = nil) {
-            self.order = order
-            self.fixedResponseConfig = fixedResponseConfig
-            self.authenticateCognitoConfig = authenticateCognitoConfig
-            self.authenticateOidcConfig = authenticateOidcConfig
-            self.`type` = `type`
-            self.redirectConfig = redirectConfig
-            self.targetGroupArn = targetGroupArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case order = "Order"
-            case fixedResponseConfig = "FixedResponseConfig"
-            case authenticateCognitoConfig = "AuthenticateCognitoConfig"
-            case authenticateOidcConfig = "AuthenticateOidcConfig"
-            case `type` = "Type"
-            case redirectConfig = "RedirectConfig"
-            case targetGroupArn = "TargetGroupArn"
-        }
-    }
-
-    public struct TargetGroupAttribute: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "Key", required: false, type: .string)
-        ]
-        /// The value of the attribute.
-        public let value: String?
-        /// The name of the attribute. The following attribute is supported by both Application Load Balancers and Network Load Balancers:    deregistration_delay.timeout_seconds - The amount of time, in seconds, for Elastic Load Balancing to wait before changing the state of a deregistering target from draining to unused. The range is 0-3600 seconds. The default value is 300 seconds. If the target is a Lambda function, this attribute is not supported.   The following attributes are supported by Application Load Balancers if the target is not a Lambda function:    slow_start.duration_seconds - The time period, in seconds, during which a newly registered target receives a linearly increasing share of the traffic to the target group. After this time period ends, the target receives its full share of traffic. The range is 30-900 seconds (15 minutes). Slow start mode is disabled by default.    stickiness.enabled - Indicates whether sticky sessions are enabled. The value is true or false. The default is false.    stickiness.type - The type of sticky sessions. The possible value is lb_cookie.    stickiness.lb_cookie.duration_seconds - The time period, in seconds, during which requests from a client should be routed to the same target. After this time period expires, the load balancer-generated cookie is considered stale. The range is 1 second to 1 week (604800 seconds). The default value is 1 day (86400 seconds).   The following attribute is supported only if the target is a Lambda function.    lambda.multi_value_headers.enabled - Indicates whether the request and response headers exchanged between the load balancer and the Lambda function include arrays of values or strings. The value is true or false. The default is false. If the value is false and the request contains a duplicate header field name or query parameter key, the load balancer uses the last value sent by the client.   The following attribute is supported only by Network Load Balancers:    proxy_protocol_v2.enabled - Indicates whether Proxy Protocol version 2 is enabled. The value is true or false. The default is false.  
-        public let key: String?
-
-        public init(value: String? = nil, key: String? = nil) {
-            self.value = value
-            self.key = key
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case key = "Key"
-        }
-    }
-
-    public struct HttpHeaderConditionConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Values", required: false, type: .list), 
-            AWSShapeMember(label: "HttpHeaderName", required: false, type: .string)
-        ]
-        public let values: [String]?
-        public let httpHeaderName: String?
-
-        public init(values: [String]? = nil, httpHeaderName: String? = nil) {
-            self.values = values
-            self.httpHeaderName = httpHeaderName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case values = "Values"
-            case httpHeaderName = "HttpHeaderName"
-        }
-    }
-
-    public struct AddListenerCertificatesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificates", required: true, type: .list), 
-            AWSShapeMember(label: "ListenerArn", required: true, type: .string)
-        ]
-        /// The certificate to add. You can specify one certificate per call. Set CertificateArn to the certificate ARN but do not set IsDefault.
-        public let certificates: [Certificate]
-        /// The Amazon Resource Name (ARN) of the listener.
-        public let listenerArn: String
-
-        public init(certificates: [Certificate], listenerArn: String) {
-            self.certificates = certificates
-            self.listenerArn = listenerArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificates = "Certificates"
-            case listenerArn = "ListenerArn"
-        }
-    }
-
-    public struct CreateTargetGroupOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetGroups", required: false, type: .list)
-        ]
-        /// Information about the target group.
-        public let targetGroups: [TargetGroup]?
-
-        public init(targetGroups: [TargetGroup]? = nil) {
-            self.targetGroups = targetGroups
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case targetGroups = "TargetGroups"
-        }
-    }
-
-    public enum LoadBalancerSchemeEnum: String, CustomStringConvertible, Codable {
-        case internetFacing = "internet-facing"
-        case `internal` = "internal"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct AuthenticateOidcActionConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UseExistingClientSecret", required: false, type: .boolean), 
-            AWSShapeMember(label: "ClientId", required: true, type: .string), 
-            AWSShapeMember(label: "SessionCookieName", required: false, type: .string), 
-            AWSShapeMember(label: "OnUnauthenticatedRequest", required: false, type: .enum), 
-            AWSShapeMember(label: "Issuer", required: true, type: .string), 
-            AWSShapeMember(label: "SessionTimeout", required: false, type: .long), 
-            AWSShapeMember(label: "UserInfoEndpoint", required: true, type: .string), 
-            AWSShapeMember(label: "TokenEndpoint", required: true, type: .string), 
-            AWSShapeMember(label: "Scope", required: false, type: .string), 
-            AWSShapeMember(label: "AuthorizationEndpoint", required: true, type: .string), 
-            AWSShapeMember(label: "AuthenticationRequestExtraParams", required: false, type: .map), 
-            AWSShapeMember(label: "ClientSecret", required: false, type: .string)
-        ]
-        public let useExistingClientSecret: Bool?
-        /// The OAuth 2.0 client identifier.
-        public let clientId: String
-        /// The name of the cookie used to maintain session information. The default is AWSELBAuthSessionCookie.
-        public let sessionCookieName: String?
-        /// The behavior if the user is not authenticated. The following are possible values:   deny - Return an HTTP 401 Unauthorized error.   allow - Allow the request to be forwarded to the target.   authenticate - Redirect the request to the IdP authorization endpoint. This is the default value.  
-        public let onUnauthenticatedRequest: AuthenticateOidcActionConditionalBehaviorEnum?
-        /// The OIDC issuer identifier of the IdP. This must be a full URL, including the HTTPS protocol, the domain, and the path.
-        public let issuer: String
-        /// The maximum duration of the authentication session, in seconds. The default is 604800 seconds (7 days).
-        public let sessionTimeout: Int64?
-        /// The user info endpoint of the IdP. This must be a full URL, including the HTTPS protocol, the domain, and the path.
-        public let userInfoEndpoint: String
-        /// The token endpoint of the IdP. This must be a full URL, including the HTTPS protocol, the domain, and the path.
-        public let tokenEndpoint: String
-        /// The set of user claims to be requested from the IdP. The default is openid. To verify which scope values your IdP supports and how to separate multiple values, see the documentation for your IdP.
-        public let scope: String?
-        /// The authorization endpoint of the IdP. This must be a full URL, including the HTTPS protocol, the domain, and the path.
-        public let authorizationEndpoint: String
-        /// The query parameters (up to 10) to include in the redirect request to the authorization endpoint.
-        public let authenticationRequestExtraParams: [String: String]?
-        /// The OAuth 2.0 client secret.
-        public let clientSecret: String?
-
-        public init(useExistingClientSecret: Bool? = nil, clientId: String, sessionCookieName: String? = nil, onUnauthenticatedRequest: AuthenticateOidcActionConditionalBehaviorEnum? = nil, issuer: String, sessionTimeout: Int64? = nil, userInfoEndpoint: String, tokenEndpoint: String, scope: String? = nil, authorizationEndpoint: String, authenticationRequestExtraParams: [String: String]? = nil, clientSecret: String? = nil) {
-            self.useExistingClientSecret = useExistingClientSecret
-            self.clientId = clientId
-            self.sessionCookieName = sessionCookieName
-            self.onUnauthenticatedRequest = onUnauthenticatedRequest
-            self.issuer = issuer
-            self.sessionTimeout = sessionTimeout
-            self.userInfoEndpoint = userInfoEndpoint
-            self.tokenEndpoint = tokenEndpoint
-            self.scope = scope
-            self.authorizationEndpoint = authorizationEndpoint
-            self.authenticationRequestExtraParams = authenticationRequestExtraParams
-            self.clientSecret = clientSecret
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case useExistingClientSecret = "UseExistingClientSecret"
-            case clientId = "ClientId"
-            case sessionCookieName = "SessionCookieName"
-            case onUnauthenticatedRequest = "OnUnauthenticatedRequest"
-            case issuer = "Issuer"
-            case sessionTimeout = "SessionTimeout"
-            case userInfoEndpoint = "UserInfoEndpoint"
-            case tokenEndpoint = "TokenEndpoint"
-            case scope = "Scope"
-            case authorizationEndpoint = "AuthorizationEndpoint"
-            case authenticationRequestExtraParams = "AuthenticationRequestExtraParams"
-            case clientSecret = "ClientSecret"
         }
     }
 
@@ -481,6 +873,10 @@ extension ELBV2 {
         }
     }
 
+    public struct DeleteTargetGroupOutput: AWSShape {
+
+    }
+
     public struct ModifyListenerOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Listeners", required: false, type: .list)
@@ -497,31 +893,20 @@ extension ELBV2 {
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct ModifyLoadBalancerAttributesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "Key", required: true, type: .string)
+            AWSShapeMember(label: "Attributes", required: false, type: .list)
         ]
-        /// The value of the tag.
-        public let value: String?
-        /// The key of the tag.
-        public let key: String
+        /// Information about the load balancer attributes.
+        public let attributes: [LoadBalancerAttribute]?
 
-        public init(value: String? = nil, key: String) {
-            self.value = value
-            self.key = key
+        public init(attributes: [LoadBalancerAttribute]? = nil) {
+            self.attributes = attributes
         }
 
         private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case key = "Key"
+            case attributes = "Attributes"
         }
-    }
-
-    public enum IpAddressType: String, CustomStringConvertible, Codable {
-        case ipv4 = "ipv4"
-        case dualstack = "dualstack"
-        public var description: String { return self.rawValue }
     }
 
     public struct DeleteTargetGroupInput: AWSShape {
@@ -540,474 +925,512 @@ extension ELBV2 {
         }
     }
 
-    public struct AuthenticateCognitoActionConfig: AWSShape {
+    public struct CreateTargetGroupOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SessionCookieName", required: false, type: .string), 
-            AWSShapeMember(label: "OnUnauthenticatedRequest", required: false, type: .enum), 
-            AWSShapeMember(label: "SessionTimeout", required: false, type: .long), 
-            AWSShapeMember(label: "UserPoolDomain", required: true, type: .string), 
-            AWSShapeMember(label: "UserPoolArn", required: true, type: .string), 
-            AWSShapeMember(label: "Scope", required: false, type: .string), 
-            AWSShapeMember(label: "AuthenticationRequestExtraParams", required: false, type: .map), 
-            AWSShapeMember(label: "UserPoolClientId", required: true, type: .string)
+            AWSShapeMember(label: "TargetGroups", required: false, type: .list)
         ]
-        /// The name of the cookie used to maintain session information. The default is AWSELBAuthSessionCookie.
-        public let sessionCookieName: String?
-        /// The behavior if the user is not authenticated. The following are possible values:   deny - Return an HTTP 401 Unauthorized error.   allow - Allow the request to be forwarded to the target.   authenticate - Redirect the request to the IdP authorization endpoint. This is the default value.  
-        public let onUnauthenticatedRequest: AuthenticateCognitoActionConditionalBehaviorEnum?
-        /// The maximum duration of the authentication session, in seconds. The default is 604800 seconds (7 days).
-        public let sessionTimeout: Int64?
-        /// The domain prefix or fully-qualified domain name of the Amazon Cognito user pool.
-        public let userPoolDomain: String
-        /// The Amazon Resource Name (ARN) of the Amazon Cognito user pool.
-        public let userPoolArn: String
-        /// The set of user claims to be requested from the IdP. The default is openid. To verify which scope values your IdP supports and how to separate multiple values, see the documentation for your IdP.
-        public let scope: String?
-        /// The query parameters (up to 10) to include in the redirect request to the authorization endpoint.
-        public let authenticationRequestExtraParams: [String: String]?
-        /// The ID of the Amazon Cognito user pool client.
-        public let userPoolClientId: String
-
-        public init(sessionCookieName: String? = nil, onUnauthenticatedRequest: AuthenticateCognitoActionConditionalBehaviorEnum? = nil, sessionTimeout: Int64? = nil, userPoolDomain: String, userPoolArn: String, scope: String? = nil, authenticationRequestExtraParams: [String: String]? = nil, userPoolClientId: String) {
-            self.sessionCookieName = sessionCookieName
-            self.onUnauthenticatedRequest = onUnauthenticatedRequest
-            self.sessionTimeout = sessionTimeout
-            self.userPoolDomain = userPoolDomain
-            self.userPoolArn = userPoolArn
-            self.scope = scope
-            self.authenticationRequestExtraParams = authenticationRequestExtraParams
-            self.userPoolClientId = userPoolClientId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sessionCookieName = "SessionCookieName"
-            case onUnauthenticatedRequest = "OnUnauthenticatedRequest"
-            case sessionTimeout = "SessionTimeout"
-            case userPoolDomain = "UserPoolDomain"
-            case userPoolArn = "UserPoolArn"
-            case scope = "Scope"
-            case authenticationRequestExtraParams = "AuthenticationRequestExtraParams"
-            case userPoolClientId = "UserPoolClientId"
-        }
-    }
-
-    public struct DescribeTagsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArns", required: true, type: .list)
-        ]
-        /// The Amazon Resource Names (ARN) of the resources.
-        public let resourceArns: [String]
-
-        public init(resourceArns: [String]) {
-            self.resourceArns = resourceArns
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceArns = "ResourceArns"
-        }
-    }
-
-    public struct AvailabilityZone: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
-            AWSShapeMember(label: "StaticIp", required: false, type: .boolean), 
-            AWSShapeMember(label: "ZoneName", required: false, type: .string), 
-            AWSShapeMember(label: "LoadBalancerAddresses", required: false, type: .list)
-        ]
-        /// The ID of the subnet.
-        public let subnetId: String?
-        public let staticIp: Bool?
-        /// The name of the Availability Zone.
-        public let zoneName: String?
-        /// [Network Load Balancers] The static IP address.
-        public let loadBalancerAddresses: [LoadBalancerAddress]?
-
-        public init(subnetId: String? = nil, staticIp: Bool? = nil, zoneName: String? = nil, loadBalancerAddresses: [LoadBalancerAddress]? = nil) {
-            self.subnetId = subnetId
-            self.staticIp = staticIp
-            self.zoneName = zoneName
-            self.loadBalancerAddresses = loadBalancerAddresses
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case subnetId = "SubnetId"
-            case staticIp = "StaticIp"
-            case zoneName = "ZoneName"
-            case loadBalancerAddresses = "LoadBalancerAddresses"
-        }
-    }
-
-    public enum TargetHealthReasonEnum: String, CustomStringConvertible, Codable {
-        case elbRegistrationinprogress = "Elb.RegistrationInProgress"
-        case elbInitialhealthchecking = "Elb.InitialHealthChecking"
-        case targetResponsecodemismatch = "Target.ResponseCodeMismatch"
-        case targetTimeout = "Target.Timeout"
-        case targetFailedhealthchecks = "Target.FailedHealthChecks"
-        case targetNotregistered = "Target.NotRegistered"
-        case targetNotinuse = "Target.NotInUse"
-        case targetDeregistrationinprogress = "Target.DeregistrationInProgress"
-        case targetInvalidstate = "Target.InvalidState"
-        case targetIpunusable = "Target.IpUnusable"
-        case targetHealthcheckdisabled = "Target.HealthCheckDisabled"
-        case elbInternalerror = "Elb.InternalError"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ProvisionedCapacityStatus: String, CustomStringConvertible, Codable {
-        case disabled = "disabled"
-        case pending = "pending"
-        case provisioned = "provisioned"
-        case preWarmed = "pre-warmed"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct TargetHealth: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "Reason", required: false, type: .enum), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
-        ]
-        /// The state of the target.
-        public let state: TargetHealthStateEnum?
-        /// The reason code. If the target state is healthy, a reason code is not provided. If the target state is initial, the reason code can be one of the following values:    Elb.RegistrationInProgress - The target is in the process of being registered with the load balancer.    Elb.InitialHealthChecking - The load balancer is still sending the target the minimum number of health checks required to determine its health status.   If the target state is unhealthy, the reason code can be one of the following values:    Target.ResponseCodeMismatch - The health checks did not return an expected HTTP code.    Target.Timeout - The health check requests timed out.    Target.FailedHealthChecks - The health checks failed because the connection to the target timed out, the target response was malformed, or the target failed the health check for an unknown reason.    Elb.InternalError - The health checks failed due to an internal error.   If the target state is unused, the reason code can be one of the following values:    Target.NotRegistered - The target is not registered with the target group.    Target.NotInUse - The target group is not used by any load balancer or the target is in an Availability Zone that is not enabled for its load balancer.    Target.IpUnusable - The target IP address is reserved for use by a load balancer.    Target.InvalidState - The target is in the stopped or terminated state.   If the target state is draining, the reason code can be the following value:    Target.DeregistrationInProgress - The target is in the process of being deregistered and the deregistration delay period has not expired.   If the target state is unavailable, the reason code can be the following value:    Target.HealthCheckDisabled - Health checks are disabled for the target group.  
-        public let reason: TargetHealthReasonEnum?
-        /// A description of the target health that provides additional details. If the state is healthy, a description is not provided.
-        public let description: String?
-
-        public init(state: TargetHealthStateEnum? = nil, reason: TargetHealthReasonEnum? = nil, description: String? = nil) {
-            self.state = state
-            self.reason = reason
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case state = "State"
-            case reason = "Reason"
-            case description = "Description"
-        }
-    }
-
-    public struct RemoveListenerCertificatesOutput: AWSShape {
-
-    }
-
-    public struct CreateTargetGroupInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HealthCheckPath", required: false, type: .string), 
-            AWSShapeMember(label: "HealthyThresholdCount", required: false, type: .integer), 
-            AWSShapeMember(label: "HealthCheckIntervalSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "HealthCheckEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "Matcher", required: false, type: .structure), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string), 
-            AWSShapeMember(label: "Protocol", required: false, type: .enum), 
-            AWSShapeMember(label: "UnhealthyThresholdCount", required: false, type: .integer), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "HealthCheckTimeoutSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "HealthCheckProtocol", required: false, type: .enum), 
-            AWSShapeMember(label: "TargetType", required: false, type: .enum), 
-            AWSShapeMember(label: "HealthCheckPort", required: false, type: .string)
-        ]
-        /// [HTTP/HTTPS health checks] The ping path that is the destination on the targets for health checks. The default is /.
-        public let healthCheckPath: String?
-        /// The number of consecutive health checks successes required before considering an unhealthy target healthy. For Application Load Balancers, the default is 5. For Network Load Balancers, the default is 3.
-        public let healthyThresholdCount: Int32?
-        /// The approximate amount of time, in seconds, between health checks of an individual target. For Application Load Balancers, the range is 5–300 seconds. For Network Load Balancers, the supported values are 10 or 30 seconds. If the target type is instance or ip, the default is 30 seconds. If the target type is lambda, the default is 35 seconds.
-        public let healthCheckIntervalSeconds: Int32?
-        /// Indicates whether health checks are enabled. If the target type is instance or ip, the default is true. If the target type is lambda, the default is false.
-        public let healthCheckEnabled: Bool?
-        /// [HTTP/HTTPS health checks] The HTTP codes to use when checking for a successful response from a target.
-        public let matcher: Matcher?
-        /// The port on which the targets receive traffic. This port is used unless you specify a port override when registering the target. If the target is a Lambda function, this parameter does not apply.
-        public let port: Int32?
-        /// The identifier of the virtual private cloud (VPC). If the target is a Lambda function, this parameter does not apply.
-        public let vpcId: String?
-        /// The protocol to use for routing traffic to the targets. For Application Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers, the supported protocol is TCP. If the target is a Lambda function, this parameter does not apply.
-        public let `protocol`: ProtocolEnum?
-        /// The number of consecutive health check failures required before considering a target unhealthy. For Application Load Balancers, the default is 2. For Network Load Balancers, this value must be the same as the healthy threshold count.
-        public let unhealthyThresholdCount: Int32?
-        /// The name of the target group. This name must be unique per region per account, can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, and must not begin or end with a hyphen.
-        public let name: String
-        /// The amount of time, in seconds, during which no response from a target means a failed health check. For Application Load Balancers, the range is 2–120 seconds and the default is 5 seconds if the target type is instance or ip and 30 seconds if the target type is lambda. For Network Load Balancers, this is 10 seconds for TCP and HTTPS health checks and 6 seconds for HTTP health checks.
-        public let healthCheckTimeoutSeconds: Int32?
-        /// The protocol the load balancer uses when performing health checks on targets. The TCP protocol is supported only if the protocol of the target group is TCP. For Application Load Balancers, the default is HTTP. For Network Load Balancers, the default is TCP.
-        public let healthCheckProtocol: ProtocolEnum?
-        /// The type of target that you must specify when registering targets with this target group. You can't specify targets for a target group using more than one target type.    instance - Targets are specified by instance ID. This is the default value.    ip - Targets are specified by IP address. You can specify IP addresses from the subnets of the virtual private cloud (VPC) for the target group, the RFC 1918 range (10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16), and the RFC 6598 range (100.64.0.0/10). You can't specify publicly routable IP addresses.    lambda - The target groups contains a single Lambda function.  
-        public let targetType: TargetTypeEnum?
-        /// The port the load balancer uses when performing health checks on targets. The default is traffic-port, which is the port on which each target receives traffic from the load balancer.
-        public let healthCheckPort: String?
-
-        public init(healthCheckPath: String? = nil, healthyThresholdCount: Int32? = nil, healthCheckIntervalSeconds: Int32? = nil, healthCheckEnabled: Bool? = nil, matcher: Matcher? = nil, port: Int32? = nil, vpcId: String? = nil, protocol: ProtocolEnum? = nil, unhealthyThresholdCount: Int32? = nil, name: String, healthCheckTimeoutSeconds: Int32? = nil, healthCheckProtocol: ProtocolEnum? = nil, targetType: TargetTypeEnum? = nil, healthCheckPort: String? = nil) {
-            self.healthCheckPath = healthCheckPath
-            self.healthyThresholdCount = healthyThresholdCount
-            self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
-            self.healthCheckEnabled = healthCheckEnabled
-            self.matcher = matcher
-            self.port = port
-            self.vpcId = vpcId
-            self.`protocol` = `protocol`
-            self.unhealthyThresholdCount = unhealthyThresholdCount
-            self.name = name
-            self.healthCheckTimeoutSeconds = healthCheckTimeoutSeconds
-            self.healthCheckProtocol = healthCheckProtocol
-            self.targetType = targetType
-            self.healthCheckPort = healthCheckPort
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case healthCheckPath = "HealthCheckPath"
-            case healthyThresholdCount = "HealthyThresholdCount"
-            case healthCheckIntervalSeconds = "HealthCheckIntervalSeconds"
-            case healthCheckEnabled = "HealthCheckEnabled"
-            case matcher = "Matcher"
-            case port = "Port"
-            case vpcId = "VpcId"
-            case `protocol` = "Protocol"
-            case unhealthyThresholdCount = "UnhealthyThresholdCount"
-            case name = "Name"
-            case healthCheckTimeoutSeconds = "HealthCheckTimeoutSeconds"
-            case healthCheckProtocol = "HealthCheckProtocol"
-            case targetType = "TargetType"
-            case healthCheckPort = "HealthCheckPort"
-        }
-    }
-
-    public struct Cipher: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Priority", required: false, type: .integer), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// The priority of the cipher.
-        public let priority: Int32?
-        /// The name of the cipher.
-        public let name: String?
-
-        public init(priority: Int32? = nil, name: String? = nil) {
-            self.priority = priority
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case priority = "Priority"
-            case name = "Name"
-        }
-    }
-
-    public struct LoadBalancerAddress: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IpAddress", required: false, type: .string), 
-            AWSShapeMember(label: "AllocationId", required: false, type: .string)
-        ]
-        /// The static IP address.
-        public let ipAddress: String?
-        /// [Network Load Balancers] The allocation ID of the Elastic IP address.
-        public let allocationId: String?
-
-        public init(ipAddress: String? = nil, allocationId: String? = nil) {
-            self.ipAddress = ipAddress
-            self.allocationId = allocationId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ipAddress = "IpAddress"
-            case allocationId = "AllocationId"
-        }
-    }
-
-    public struct DescribeLoadBalancersOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
-            AWSShapeMember(label: "LoadBalancers", required: false, type: .list)
-        ]
-        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
-        public let nextMarker: String?
-        /// Information about the load balancers.
-        public let loadBalancers: [LoadBalancer]?
-
-        public init(nextMarker: String? = nil, loadBalancers: [LoadBalancer]? = nil) {
-            self.nextMarker = nextMarker
-            self.loadBalancers = loadBalancers
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextMarker = "NextMarker"
-            case loadBalancers = "LoadBalancers"
-        }
-    }
-
-    public struct SetSubnetsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Subnets", required: false, type: .list), 
-            AWSShapeMember(label: "SubnetMappings", required: false, type: .list), 
-            AWSShapeMember(label: "LoadBalancerArn", required: true, type: .string)
-        ]
-        /// The IDs of the public subnets. You must specify subnets from at least two Availability Zones. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings.
-        public let subnets: [String]?
-        /// The IDs of the public subnets. You must specify subnets from at least two Availability Zones. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. You cannot specify Elastic IP addresses for your subnets.
-        public let subnetMappings: [SubnetMapping]?
-        /// The Amazon Resource Name (ARN) of the load balancer.
-        public let loadBalancerArn: String
-
-        public init(subnets: [String]? = nil, subnetMappings: [SubnetMapping]? = nil, loadBalancerArn: String) {
-            self.subnets = subnets
-            self.subnetMappings = subnetMappings
-            self.loadBalancerArn = loadBalancerArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case subnets = "Subnets"
-            case subnetMappings = "SubnetMappings"
-            case loadBalancerArn = "LoadBalancerArn"
-        }
-    }
-
-    public struct DeregisterTargetsOutput: AWSShape {
-
-    }
-
-    public struct DescribeListenerCertificatesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
-            AWSShapeMember(label: "ListenerArn", required: true, type: .string)
-        ]
-        /// The marker for the next set of results. (You received this marker from a previous call.)
-        public let marker: String?
-        /// The maximum number of results to return with this call.
-        public let pageSize: Int32?
-        /// The Amazon Resource Names (ARN) of the listener.
-        public let listenerArn: String
-
-        public init(marker: String? = nil, pageSize: Int32? = nil, listenerArn: String) {
-            self.marker = marker
-            self.pageSize = pageSize
-            self.listenerArn = listenerArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case pageSize = "PageSize"
-            case listenerArn = "ListenerArn"
-        }
-    }
-
-    public struct CreateRuleInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Conditions", required: true, type: .list), 
-            AWSShapeMember(label: "ListenerArn", required: true, type: .string), 
-            AWSShapeMember(label: "Priority", required: true, type: .integer), 
-            AWSShapeMember(label: "Actions", required: true, type: .list)
-        ]
-        /// The conditions. Each condition specifies a field name and a single value. If the field name is host-header, you can specify a single host name (for example, my.example.com). A host name is case insensitive, can be up to 128 characters in length, and can contain any of the following characters. You can include up to three wildcard characters.   A-Z, a-z, 0-9   - .   * (matches 0 or more characters)   ? (matches exactly 1 character)   If the field name is path-pattern, you can specify a single path pattern. A path pattern is case-sensitive, can be up to 128 characters in length, and can contain any of the following characters. You can include up to three wildcard characters.   A-Z, a-z, 0-9   _ - . $ / ~ " ' @ : +   &amp; (using &amp;amp;)   * (matches 0 or more characters)   ? (matches exactly 1 character)  
-        public let conditions: [RuleCondition]
-        /// The Amazon Resource Name (ARN) of the listener.
-        public let listenerArn: String
-        /// The rule priority. A listener can't have multiple rules with the same priority.
-        public let priority: Int32
-        /// The actions. Each rule must include exactly one of the following types of actions: forward, fixed-response, or redirect. If the action type is forward, you specify a target group. The protocol of the target group must be HTTP or HTTPS for an Application Load Balancer or TCP for a Network Load Balancer. [HTTPS listener] If the action type is authenticate-oidc, you authenticate users through an identity provider that is OpenID Connect (OIDC) compliant. [HTTPS listener] If the action type is authenticate-cognito, you authenticate users through the user pools supported by Amazon Cognito. [Application Load Balancer] If the action type is redirect, you redirect specified client requests from one URL to another. [Application Load Balancer] If the action type is fixed-response, you drop specified client requests and return a custom HTTP response.
-        public let actions: [Action]
-
-        public init(conditions: [RuleCondition], listenerArn: String, priority: Int32, actions: [Action]) {
-            self.conditions = conditions
-            self.listenerArn = listenerArn
-            self.priority = priority
-            self.actions = actions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case conditions = "Conditions"
-            case listenerArn = "ListenerArn"
-            case priority = "Priority"
-            case actions = "Actions"
-        }
-    }
-
-    public struct DescribeTargetGroupsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetGroups", required: false, type: .list), 
-            AWSShapeMember(label: "NextMarker", required: false, type: .string)
-        ]
-        /// Information about the target groups.
+        /// Information about the target group.
         public let targetGroups: [TargetGroup]?
-        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
-        public let nextMarker: String?
 
-        public init(targetGroups: [TargetGroup]? = nil, nextMarker: String? = nil) {
+        public init(targetGroups: [TargetGroup]? = nil) {
             self.targetGroups = targetGroups
-            self.nextMarker = nextMarker
         }
 
         private enum CodingKeys: String, CodingKey {
             case targetGroups = "TargetGroups"
-            case nextMarker = "NextMarker"
         }
     }
 
-    public struct DeleteListenerOutput: AWSShape {
+    public struct AddTagsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: true, type: .list), 
+            AWSShapeMember(label: "ResourceArns", required: true, type: .list)
+        ]
+        /// The tags. Each resource can have a maximum of 10 tags.
+        public let tags: [Tag]
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let resourceArns: [String]
 
+        public init(tags: [Tag], resourceArns: [String]) {
+            self.tags = tags
+            self.resourceArns = resourceArns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+            case resourceArns = "ResourceArns"
+        }
     }
 
-    public struct DescribeSSLPoliciesInput: AWSShape {
+    public enum HttpRequestMethodEnum: String, CustomStringConvertible, Codable {
+        case get = "GET"
+        case head = "HEAD"
+        case post = "POST"
+        case put = "PUT"
+        case delete = "DELETE"
+        case connect = "CONNECT"
+        case options = "OPTIONS"
+        case trace = "TRACE"
+        case patch = "PATCH"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ModifyListenerInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Names", required: false, type: .list), 
+            AWSShapeMember(label: "Port", required: false, type: .integer), 
+            AWSShapeMember(label: "ListenerArn", required: true, type: .string), 
+            AWSShapeMember(label: "Protocol", required: false, type: .enum), 
+            AWSShapeMember(label: "SslPolicy", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultActions", required: false, type: .list), 
+            AWSShapeMember(label: "Certificates", required: false, type: .list)
+        ]
+        /// The port for connections from clients to the load balancer.
+        public let port: Int32?
+        /// The Amazon Resource Name (ARN) of the listener.
+        public let listenerArn: String
+        /// The protocol for connections from clients to the load balancer. Application Load Balancers support HTTP and HTTPS and Network Load Balancers support TCP.
+        public let `protocol`: ProtocolEnum?
+        /// [HTTPS listeners] The security policy that defines which protocols and ciphers are supported. For more information, see Security Policies in the Application Load Balancers Guide.
+        public let sslPolicy: String?
+        /// The actions for the default rule. The rule must include one forward action or one or more fixed-response actions. If the action type is forward, you specify a target group. The protocol of the target group must be HTTP or HTTPS for an Application Load Balancer or TCP for a Network Load Balancer. [HTTPS listener] If the action type is authenticate-oidc, you authenticate users through an identity provider that is OpenID Connect (OIDC) compliant. [HTTPS listener] If the action type is authenticate-cognito, you authenticate users through the user pools supported by Amazon Cognito. [Application Load Balancer] If the action type is redirect, you redirect specified client requests from one URL to another. [Application Load Balancer] If the action type is fixed-response, you drop specified client requests and return a custom HTTP response.
+        public let defaultActions: [Action]?
+        /// [HTTPS listeners] The default SSL server certificate. You must provide exactly one certificate. Set CertificateArn to the certificate ARN but do not set IsDefault. To create a certificate list, use AddListenerCertificates.
+        public let certificates: [Certificate]?
+
+        public init(port: Int32? = nil, listenerArn: String, protocol: ProtocolEnum? = nil, sslPolicy: String? = nil, defaultActions: [Action]? = nil, certificates: [Certificate]? = nil) {
+            self.port = port
+            self.listenerArn = listenerArn
+            self.`protocol` = `protocol`
+            self.sslPolicy = sslPolicy
+            self.defaultActions = defaultActions
+            self.certificates = certificates
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case port = "Port"
+            case listenerArn = "ListenerArn"
+            case `protocol` = "Protocol"
+            case sslPolicy = "SslPolicy"
+            case defaultActions = "DefaultActions"
+            case certificates = "Certificates"
+        }
+    }
+
+    public struct Action: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: true, type: .enum), 
+            AWSShapeMember(label: "AuthenticateOidcConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "RedirectConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "FixedResponseConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "TargetGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "AuthenticateCognitoConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "Order", required: false, type: .integer)
+        ]
+        /// The type of action. Each rule must include exactly one of the following types of actions: forward, fixed-response, or redirect.
+        public let `type`: ActionTypeEnum
+        /// [HTTPS listener] Information about an identity provider that is compliant with OpenID Connect (OIDC). Specify only when Type is authenticate-oidc.
+        public let authenticateOidcConfig: AuthenticateOidcActionConfig?
+        /// [Application Load Balancer] Information for creating a redirect action. Specify only when Type is redirect.
+        public let redirectConfig: RedirectActionConfig?
+        /// [Application Load Balancer] Information for creating an action that returns a custom HTTP response. Specify only when Type is fixed-response.
+        public let fixedResponseConfig: FixedResponseActionConfig?
+        /// The Amazon Resource Name (ARN) of the target group. Specify only when Type is forward.
+        public let targetGroupArn: String?
+        /// [HTTPS listener] Information for using Amazon Cognito to authenticate users. Specify only when Type is authenticate-cognito.
+        public let authenticateCognitoConfig: AuthenticateCognitoActionConfig?
+        /// The order for the action. This value is required for rules with multiple actions. The action with the lowest value for order is performed first. The final action to be performed must be a forward or a fixed-response action.
+        public let order: Int32?
+
+        public init(type: ActionTypeEnum, authenticateOidcConfig: AuthenticateOidcActionConfig? = nil, redirectConfig: RedirectActionConfig? = nil, fixedResponseConfig: FixedResponseActionConfig? = nil, targetGroupArn: String? = nil, authenticateCognitoConfig: AuthenticateCognitoActionConfig? = nil, order: Int32? = nil) {
+            self.`type` = `type`
+            self.authenticateOidcConfig = authenticateOidcConfig
+            self.redirectConfig = redirectConfig
+            self.fixedResponseConfig = fixedResponseConfig
+            self.targetGroupArn = targetGroupArn
+            self.authenticateCognitoConfig = authenticateCognitoConfig
+            self.order = order
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case authenticateOidcConfig = "AuthenticateOidcConfig"
+            case redirectConfig = "RedirectConfig"
+            case fixedResponseConfig = "FixedResponseConfig"
+            case targetGroupArn = "TargetGroupArn"
+            case authenticateCognitoConfig = "AuthenticateCognitoConfig"
+            case order = "Order"
+        }
+    }
+
+    public struct TargetDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Port", required: false, type: .integer), 
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string)
+        ]
+        /// The port on which the target is listening.
+        public let port: Int32?
+        /// The ID of the target. If the target type of the target group is instance, specify an instance ID. If the target type is ip, specify an IP address. If the target type is lambda, specify the ARN of the Lambda function.
+        public let id: String
+        /// An Availability Zone or all. This determines whether the target receives traffic from the load balancer nodes in the specified Availability Zone or from all enabled Availability Zones for the load balancer. This parameter is not supported if the target type of the target group is instance. If the target type is ip and the IP address is in a subnet of the VPC for the target group, the Availability Zone is automatically detected and this parameter is optional. If the IP address is outside the VPC, this parameter is required. With an Application Load Balancer, if the target type is ip and the IP address is outside the VPC for the target group, the only supported value is all. If the target type is lambda, this parameter is optional and the only supported value is all.
+        public let availabilityZone: String?
+
+        public init(port: Int32? = nil, id: String, availabilityZone: String? = nil) {
+            self.port = port
+            self.id = id
+            self.availabilityZone = availabilityZone
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case port = "Port"
+            case id = "Id"
+            case availabilityZone = "AvailabilityZone"
+        }
+    }
+
+    public struct DescribeTargetGroupAttributesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetGroupArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the target group.
+        public let targetGroupArn: String
+
+        public init(targetGroupArn: String) {
+            self.targetGroupArn = targetGroupArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetGroupArn = "TargetGroupArn"
+        }
+    }
+
+    public struct PathPatternConditionConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Values", required: false, type: .list)
+        ]
+        public let values: [String]?
+
+        public init(values: [String]? = nil) {
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case values = "Values"
+        }
+    }
+
+    public struct AddListenerCertificatesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Certificates", required: false, type: .list)
+        ]
+        /// Information about the certificates.
+        public let certificates: [Certificate]?
+
+        public init(certificates: [Certificate]? = nil) {
+            self.certificates = certificates
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificates = "Certificates"
+        }
+    }
+
+    public struct Limit: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Max", required: false, type: .string)
+        ]
+        /// The name of the limit. The possible values are:   application-load-balancers   listeners-per-application-load-balancer   listeners-per-network-load-balancer   network-load-balancers   rules-per-application-load-balancer   target-groups   targets-per-application-load-balancer   targets-per-availability-zone-per-network-load-balancer   targets-per-network-load-balancer  
+        public let name: String?
+        /// The maximum value of the limit.
+        public let max: String?
+
+        public init(name: String? = nil, max: String? = nil) {
+            self.name = name
+            self.max = max
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case max = "Max"
+        }
+    }
+
+    public struct HostHeaderConditionConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Values", required: false, type: .list)
+        ]
+        public let values: [String]?
+
+        public init(values: [String]? = nil) {
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case values = "Values"
+        }
+    }
+
+    public struct TargetGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetType", required: false, type: .enum), 
+            AWSShapeMember(label: "HealthCheckEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "UnhealthyThresholdCount", required: false, type: .integer), 
+            AWSShapeMember(label: "TargetGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "HealthyThresholdCount", required: false, type: .integer), 
+            AWSShapeMember(label: "HealthCheckIntervalSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "HealthCheckTimeoutSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "Matcher", required: false, type: .structure), 
+            AWSShapeMember(label: "Protocol", required: false, type: .enum), 
+            AWSShapeMember(label: "HealthCheckPort", required: false, type: .string), 
+            AWSShapeMember(label: "LoadBalancerArns", required: false, type: .list), 
+            AWSShapeMember(label: "TargetGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "HealthCheckPath", required: false, type: .string), 
+            AWSShapeMember(label: "HealthCheckProtocol", required: false, type: .enum), 
+            AWSShapeMember(label: "Port", required: false, type: .integer), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string)
+        ]
+        /// The type of target that you must specify when registering targets with this target group. The possible values are instance (targets are specified by instance ID) or ip (targets are specified by IP address).
+        public let targetType: TargetTypeEnum?
+        /// Indicates whether health checks are enabled.
+        public let healthCheckEnabled: Bool?
+        /// The number of consecutive health check failures required before considering the target unhealthy.
+        public let unhealthyThresholdCount: Int32?
+        /// The Amazon Resource Name (ARN) of the target group.
+        public let targetGroupArn: String?
+        /// The number of consecutive health checks successes required before considering an unhealthy target healthy.
+        public let healthyThresholdCount: Int32?
+        /// The approximate amount of time, in seconds, between health checks of an individual target.
+        public let healthCheckIntervalSeconds: Int32?
+        /// The amount of time, in seconds, during which no response means a failed health check.
+        public let healthCheckTimeoutSeconds: Int32?
+        /// The HTTP codes to use when checking for a successful response from a target.
+        public let matcher: Matcher?
+        /// The protocol to use for routing traffic to the targets.
+        public let `protocol`: ProtocolEnum?
+        /// The port to use to connect with the target.
+        public let healthCheckPort: String?
+        /// The Amazon Resource Names (ARN) of the load balancers that route traffic to this target group.
+        public let loadBalancerArns: [String]?
+        /// The name of the target group.
+        public let targetGroupName: String?
+        /// The destination for the health check request.
+        public let healthCheckPath: String?
+        /// The protocol to use to connect with the target.
+        public let healthCheckProtocol: ProtocolEnum?
+        /// The port on which the targets are listening.
+        public let port: Int32?
+        /// The ID of the VPC for the targets.
+        public let vpcId: String?
+
+        public init(targetType: TargetTypeEnum? = nil, healthCheckEnabled: Bool? = nil, unhealthyThresholdCount: Int32? = nil, targetGroupArn: String? = nil, healthyThresholdCount: Int32? = nil, healthCheckIntervalSeconds: Int32? = nil, healthCheckTimeoutSeconds: Int32? = nil, matcher: Matcher? = nil, protocol: ProtocolEnum? = nil, healthCheckPort: String? = nil, loadBalancerArns: [String]? = nil, targetGroupName: String? = nil, healthCheckPath: String? = nil, healthCheckProtocol: ProtocolEnum? = nil, port: Int32? = nil, vpcId: String? = nil) {
+            self.targetType = targetType
+            self.healthCheckEnabled = healthCheckEnabled
+            self.unhealthyThresholdCount = unhealthyThresholdCount
+            self.targetGroupArn = targetGroupArn
+            self.healthyThresholdCount = healthyThresholdCount
+            self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
+            self.healthCheckTimeoutSeconds = healthCheckTimeoutSeconds
+            self.matcher = matcher
+            self.`protocol` = `protocol`
+            self.healthCheckPort = healthCheckPort
+            self.loadBalancerArns = loadBalancerArns
+            self.targetGroupName = targetGroupName
+            self.healthCheckPath = healthCheckPath
+            self.healthCheckProtocol = healthCheckProtocol
+            self.port = port
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetType = "TargetType"
+            case healthCheckEnabled = "HealthCheckEnabled"
+            case unhealthyThresholdCount = "UnhealthyThresholdCount"
+            case targetGroupArn = "TargetGroupArn"
+            case healthyThresholdCount = "HealthyThresholdCount"
+            case healthCheckIntervalSeconds = "HealthCheckIntervalSeconds"
+            case healthCheckTimeoutSeconds = "HealthCheckTimeoutSeconds"
+            case matcher = "Matcher"
+            case `protocol` = "Protocol"
+            case healthCheckPort = "HealthCheckPort"
+            case loadBalancerArns = "LoadBalancerArns"
+            case targetGroupName = "TargetGroupName"
+            case healthCheckPath = "HealthCheckPath"
+            case healthCheckProtocol = "HealthCheckProtocol"
+            case port = "Port"
+            case vpcId = "VpcId"
+        }
+    }
+
+    public struct DescribeListenersInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerArn", required: false, type: .string), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "ListenerArns", required: false, type: .list), 
             AWSShapeMember(label: "PageSize", required: false, type: .integer)
         ]
-        /// The names of the policies.
-        public let names: [String]?
+        /// The Amazon Resource Name (ARN) of the load balancer.
+        public let loadBalancerArn: String?
         /// The marker for the next set of results. (You received this marker from a previous call.)
         public let marker: String?
+        /// The Amazon Resource Names (ARN) of the listeners.
+        public let listenerArns: [String]?
         /// The maximum number of results to return with this call.
         public let pageSize: Int32?
 
-        public init(names: [String]? = nil, marker: String? = nil, pageSize: Int32? = nil) {
-            self.names = names
+        public init(loadBalancerArn: String? = nil, marker: String? = nil, listenerArns: [String]? = nil, pageSize: Int32? = nil) {
+            self.loadBalancerArn = loadBalancerArn
             self.marker = marker
+            self.listenerArns = listenerArns
             self.pageSize = pageSize
         }
 
         private enum CodingKeys: String, CodingKey {
-            case names = "Names"
+            case loadBalancerArn = "LoadBalancerArn"
             case marker = "Marker"
+            case listenerArns = "ListenerArns"
             case pageSize = "PageSize"
         }
     }
 
-    public enum LoadBalancerTypeEnum: String, CustomStringConvertible, Codable {
-        case application = "application"
-        case network = "network"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateLoadBalancerOutput: AWSShape {
+    public struct SetSecurityGroupsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoadBalancers", required: false, type: .list)
+            AWSShapeMember(label: "LoadBalancerArn", required: true, type: .string), 
+            AWSShapeMember(label: "SecurityGroups", required: true, type: .list)
         ]
-        /// Information about the load balancer.
-        public let loadBalancers: [LoadBalancer]?
+        /// The Amazon Resource Name (ARN) of the load balancer.
+        public let loadBalancerArn: String
+        /// The IDs of the security groups.
+        public let securityGroups: [String]
 
-        public init(loadBalancers: [LoadBalancer]? = nil) {
-            self.loadBalancers = loadBalancers
+        public init(loadBalancerArn: String, securityGroups: [String]) {
+            self.loadBalancerArn = loadBalancerArn
+            self.securityGroups = securityGroups
         }
 
         private enum CodingKeys: String, CodingKey {
-            case loadBalancers = "LoadBalancers"
+            case loadBalancerArn = "LoadBalancerArn"
+            case securityGroups = "SecurityGroups"
         }
     }
 
-    public struct DeleteTargetGroupOutput: AWSShape {
+    public struct DescribeTargetHealthInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Targets", required: false, type: .list), 
+            AWSShapeMember(label: "TargetGroupArn", required: true, type: .string)
+        ]
+        /// The targets.
+        public let targets: [TargetDescription]?
+        /// The Amazon Resource Name (ARN) of the target group.
+        public let targetGroupArn: String
 
+        public init(targets: [TargetDescription]? = nil, targetGroupArn: String) {
+            self.targets = targets
+            self.targetGroupArn = targetGroupArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targets = "Targets"
+            case targetGroupArn = "TargetGroupArn"
+        }
     }
 
-    public struct DeleteLoadBalancerOutput: AWSShape {
+    public struct RedirectActionConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Port", required: false, type: .string), 
+            AWSShapeMember(label: "Host", required: false, type: .string), 
+            AWSShapeMember(label: "Protocol", required: false, type: .string), 
+            AWSShapeMember(label: "Path", required: false, type: .string), 
+            AWSShapeMember(label: "StatusCode", required: true, type: .enum), 
+            AWSShapeMember(label: "Query", required: false, type: .string)
+        ]
+        /// The port. You can specify a value from 1 to 65535 or #{port}.
+        public let port: String?
+        /// The hostname. This component is not percent-encoded. The hostname can contain #{host}.
+        public let host: String?
+        /// The protocol. You can specify HTTP, HTTPS, or #{protocol}. You can redirect HTTP to HTTP, HTTP to HTTPS, and HTTPS to HTTPS. You cannot redirect HTTPS to HTTP.
+        public let `protocol`: String?
+        /// The absolute path, starting with the leading "/". This component is not percent-encoded. The path can contain #{host}, #{path}, and #{port}.
+        public let path: String?
+        /// The HTTP redirect code. The redirect is either permanent (HTTP 301) or temporary (HTTP 302).
+        public let statusCode: RedirectActionStatusCodeEnum
+        /// The query parameters, URL-encoded when necessary, but not percent-encoded. Do not include the leading "?", as it is automatically added. You can specify any of the reserved keywords.
+        public let query: String?
 
+        public init(port: String? = nil, host: String? = nil, protocol: String? = nil, path: String? = nil, statusCode: RedirectActionStatusCodeEnum, query: String? = nil) {
+            self.port = port
+            self.host = host
+            self.`protocol` = `protocol`
+            self.path = path
+            self.statusCode = statusCode
+            self.query = query
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case port = "Port"
+            case host = "Host"
+            case `protocol` = "Protocol"
+            case path = "Path"
+            case statusCode = "StatusCode"
+            case query = "Query"
+        }
     }
 
-    public enum AuthenticateOidcActionConditionalBehaviorEnum: String, CustomStringConvertible, Codable {
-        case deny = "deny"
-        case allow = "allow"
-        case authenticate = "authenticate"
+    public enum ProtocolEnum: String, CustomStringConvertible, Codable {
+        case http = "HTTP"
+        case https = "HTTPS"
+        case tcp = "TCP"
+        case tls = "TLS"
+        case udp = "UDP"
         public var description: String { return self.rawValue }
+    }
+
+    public enum TargetTypeEnum: String, CustomStringConvertible, Codable {
+        case instance = "instance"
+        case ip = "ip"
+        case lambda = "lambda"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CreateListenerInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerArn", required: true, type: .string), 
+            AWSShapeMember(label: "Certificates", required: false, type: .list), 
+            AWSShapeMember(label: "Protocol", required: true, type: .enum), 
+            AWSShapeMember(label: "SslPolicy", required: false, type: .string), 
+            AWSShapeMember(label: "Port", required: true, type: .integer), 
+            AWSShapeMember(label: "DefaultActions", required: true, type: .list)
+        ]
+        /// The Amazon Resource Name (ARN) of the load balancer.
+        public let loadBalancerArn: String
+        /// [HTTPS listeners] The default SSL server certificate. You must provide exactly one certificate. Set CertificateArn to the certificate ARN but do not set IsDefault. To create a certificate list, use AddListenerCertificates.
+        public let certificates: [Certificate]?
+        /// The protocol for connections from clients to the load balancer. For Application Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers, the supported protocol is TCP.
+        public let `protocol`: ProtocolEnum
+        /// [HTTPS listeners] The security policy that defines which ciphers and protocols are supported. The default is the current predefined security policy.
+        public let sslPolicy: String?
+        /// The port on which the load balancer is listening.
+        public let port: Int32
+        /// The actions for the default rule. The rule must include one forward action or one or more fixed-response actions. If the action type is forward, you specify a target group. The protocol of the target group must be HTTP or HTTPS for an Application Load Balancer or TCP for a Network Load Balancer. [HTTPS listener] If the action type is authenticate-oidc, you authenticate users through an identity provider that is OpenID Connect (OIDC) compliant. [HTTPS listener] If the action type is authenticate-cognito, you authenticate users through the user pools supported by Amazon Cognito. [Application Load Balancer] If the action type is redirect, you redirect specified client requests from one URL to another. [Application Load Balancer] If the action type is fixed-response, you drop specified client requests and return a custom HTTP response.
+        public let defaultActions: [Action]
+
+        public init(loadBalancerArn: String, certificates: [Certificate]? = nil, protocol: ProtocolEnum, sslPolicy: String? = nil, port: Int32, defaultActions: [Action]) {
+            self.loadBalancerArn = loadBalancerArn
+            self.certificates = certificates
+            self.`protocol` = `protocol`
+            self.sslPolicy = sslPolicy
+            self.port = port
+            self.defaultActions = defaultActions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerArn = "LoadBalancerArn"
+            case certificates = "Certificates"
+            case `protocol` = "Protocol"
+            case sslPolicy = "SslPolicy"
+            case port = "Port"
+            case defaultActions = "DefaultActions"
+        }
     }
 
     public struct DeleteLoadBalancerInput: AWSShape {
@@ -1026,37 +1449,64 @@ extension ELBV2 {
         }
     }
 
-    public enum HttpRequestMethodEnum: String, CustomStringConvertible, Codable {
-        case get = "GET"
-        case head = "HEAD"
-        case post = "POST"
-        case put = "PUT"
-        case delete = "DELETE"
-        case connect = "CONNECT"
-        case options = "OPTIONS"
-        case trace = "TRACE"
-        case patch = "PATCH"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct RulePriorityPair: AWSShape {
+    public struct DescribeTargetGroupAttributesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Priority", required: false, type: .integer), 
-            AWSShapeMember(label: "RuleArn", required: false, type: .string)
+            AWSShapeMember(label: "Attributes", required: false, type: .list)
         ]
-        /// The rule priority.
-        public let priority: Int32?
-        /// The Amazon Resource Name (ARN) of the rule.
-        public let ruleArn: String?
+        /// Information about the target group attributes
+        public let attributes: [TargetGroupAttribute]?
 
-        public init(priority: Int32? = nil, ruleArn: String? = nil) {
-            self.priority = priority
-            self.ruleArn = ruleArn
+        public init(attributes: [TargetGroupAttribute]? = nil) {
+            self.attributes = attributes
         }
 
         private enum CodingKeys: String, CodingKey {
-            case priority = "Priority"
-            case ruleArn = "RuleArn"
+            case attributes = "Attributes"
+        }
+    }
+
+    public struct SslPolicy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Ciphers", required: false, type: .list), 
+            AWSShapeMember(label: "SslProtocols", required: false, type: .list)
+        ]
+        /// The name of the policy.
+        public let name: String?
+        /// The ciphers.
+        public let ciphers: [Cipher]?
+        /// The protocols.
+        public let sslProtocols: [String]?
+
+        public init(name: String? = nil, ciphers: [Cipher]? = nil, sslProtocols: [String]? = nil) {
+            self.name = name
+            self.ciphers = ciphers
+            self.sslProtocols = sslProtocols
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case ciphers = "Ciphers"
+            case sslProtocols = "SslProtocols"
+        }
+    }
+
+    public struct HttpHeaderConditionConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HttpHeaderName", required: false, type: .string), 
+            AWSShapeMember(label: "Values", required: false, type: .list)
+        ]
+        public let httpHeaderName: String?
+        public let values: [String]?
+
+        public init(httpHeaderName: String? = nil, values: [String]? = nil) {
+            self.httpHeaderName = httpHeaderName
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case httpHeaderName = "HttpHeaderName"
+            case values = "Values"
         }
     }
 
@@ -1081,6 +1531,69 @@ extension ELBV2 {
         }
     }
 
+    public struct DescribeLoadBalancersOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancers", required: false, type: .list), 
+            AWSShapeMember(label: "NextMarker", required: false, type: .string)
+        ]
+        /// Information about the load balancers.
+        public let loadBalancers: [LoadBalancer]?
+        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
+        public let nextMarker: String?
+
+        public init(loadBalancers: [LoadBalancer]? = nil, nextMarker: String? = nil) {
+            self.loadBalancers = loadBalancers
+            self.nextMarker = nextMarker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancers = "LoadBalancers"
+            case nextMarker = "NextMarker"
+        }
+    }
+
+    public struct RulePriorityPair: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Priority", required: false, type: .integer), 
+            AWSShapeMember(label: "RuleArn", required: false, type: .string)
+        ]
+        /// The rule priority.
+        public let priority: Int32?
+        /// The Amazon Resource Name (ARN) of the rule.
+        public let ruleArn: String?
+
+        public init(priority: Int32? = nil, ruleArn: String? = nil) {
+            self.priority = priority
+            self.ruleArn = ruleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case priority = "Priority"
+            case ruleArn = "RuleArn"
+        }
+    }
+
+    public struct DescribeAccountLimitsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Limits", required: false, type: .list), 
+            AWSShapeMember(label: "NextMarker", required: false, type: .string)
+        ]
+        /// Information about the limits.
+        public let limits: [Limit]?
+        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
+        public let nextMarker: String?
+
+        public init(limits: [Limit]? = nil, nextMarker: String? = nil) {
+            self.limits = limits
+            self.nextMarker = nextMarker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limits = "Limits"
+            case nextMarker = "NextMarker"
+        }
+    }
+
     public struct DescribeListenersOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Listeners", required: false, type: .list), 
@@ -1102,6 +1615,580 @@ extension ELBV2 {
         }
     }
 
+    public struct ModifyLoadBalancerAttributesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerArn", required: true, type: .string), 
+            AWSShapeMember(label: "Attributes", required: true, type: .list)
+        ]
+        /// The Amazon Resource Name (ARN) of the load balancer.
+        public let loadBalancerArn: String
+        /// The load balancer attributes.
+        public let attributes: [LoadBalancerAttribute]
+
+        public init(loadBalancerArn: String, attributes: [LoadBalancerAttribute]) {
+            self.loadBalancerArn = loadBalancerArn
+            self.attributes = attributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerArn = "LoadBalancerArn"
+            case attributes = "Attributes"
+        }
+    }
+
+    public struct TargetHealth: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Reason", required: false, type: .enum), 
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
+        ]
+        /// The reason code. If the target state is healthy, a reason code is not provided. If the target state is initial, the reason code can be one of the following values:    Elb.RegistrationInProgress - The target is in the process of being registered with the load balancer.    Elb.InitialHealthChecking - The load balancer is still sending the target the minimum number of health checks required to determine its health status.   If the target state is unhealthy, the reason code can be one of the following values:    Target.ResponseCodeMismatch - The health checks did not return an expected HTTP code.    Target.Timeout - The health check requests timed out.    Target.FailedHealthChecks - The health checks failed because the connection to the target timed out, the target response was malformed, or the target failed the health check for an unknown reason.    Elb.InternalError - The health checks failed due to an internal error.   If the target state is unused, the reason code can be one of the following values:    Target.NotRegistered - The target is not registered with the target group.    Target.NotInUse - The target group is not used by any load balancer or the target is in an Availability Zone that is not enabled for its load balancer.    Target.IpUnusable - The target IP address is reserved for use by a load balancer.    Target.InvalidState - The target is in the stopped or terminated state.   If the target state is draining, the reason code can be the following value:    Target.DeregistrationInProgress - The target is in the process of being deregistered and the deregistration delay period has not expired.   If the target state is unavailable, the reason code can be the following value:    Target.HealthCheckDisabled - Health checks are disabled for the target group.  
+        public let reason: TargetHealthReasonEnum?
+        /// The state of the target.
+        public let state: TargetHealthStateEnum?
+        /// A description of the target health that provides additional details. If the state is healthy, a description is not provided.
+        public let description: String?
+
+        public init(reason: TargetHealthReasonEnum? = nil, state: TargetHealthStateEnum? = nil, description: String? = nil) {
+            self.reason = reason
+            self.state = state
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reason = "Reason"
+            case state = "State"
+            case description = "Description"
+        }
+    }
+
+    public struct TargetHealthDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetHealth", required: false, type: .structure), 
+            AWSShapeMember(label: "HealthCheckPort", required: false, type: .string), 
+            AWSShapeMember(label: "Target", required: false, type: .structure)
+        ]
+        /// The health information for the target.
+        public let targetHealth: TargetHealth?
+        /// The port to use to connect with the target.
+        public let healthCheckPort: String?
+        /// The description of the target.
+        public let target: TargetDescription?
+
+        public init(targetHealth: TargetHealth? = nil, healthCheckPort: String? = nil, target: TargetDescription? = nil) {
+            self.targetHealth = targetHealth
+            self.healthCheckPort = healthCheckPort
+            self.target = target
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetHealth = "TargetHealth"
+            case healthCheckPort = "HealthCheckPort"
+            case target = "Target"
+        }
+    }
+
+    public struct SetSubnetsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetMappings", required: false, type: .list), 
+            AWSShapeMember(label: "Subnets", required: false, type: .list), 
+            AWSShapeMember(label: "LoadBalancerArn", required: true, type: .string)
+        ]
+        /// The IDs of the public subnets. You must specify subnets from at least two Availability Zones. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. You cannot specify Elastic IP addresses for your subnets.
+        public let subnetMappings: [SubnetMapping]?
+        /// The IDs of the public subnets. You must specify subnets from at least two Availability Zones. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings.
+        public let subnets: [String]?
+        /// The Amazon Resource Name (ARN) of the load balancer.
+        public let loadBalancerArn: String
+
+        public init(subnetMappings: [SubnetMapping]? = nil, subnets: [String]? = nil, loadBalancerArn: String) {
+            self.subnetMappings = subnetMappings
+            self.subnets = subnets
+            self.loadBalancerArn = loadBalancerArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subnetMappings = "SubnetMappings"
+            case subnets = "Subnets"
+            case loadBalancerArn = "LoadBalancerArn"
+        }
+    }
+
+    public struct RegisterTargetsOutput: AWSShape {
+
+    }
+
+    public struct AvailabilityZone: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ZoneName", required: false, type: .string), 
+            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
+            AWSShapeMember(label: "LoadBalancerAddresses", required: false, type: .list), 
+            AWSShapeMember(label: "StaticIp", required: false, type: .boolean)
+        ]
+        /// The name of the Availability Zone.
+        public let zoneName: String?
+        /// The ID of the subnet.
+        public let subnetId: String?
+        /// [Network Load Balancers] The static IP address.
+        public let loadBalancerAddresses: [LoadBalancerAddress]?
+        public let staticIp: Bool?
+
+        public init(zoneName: String? = nil, subnetId: String? = nil, loadBalancerAddresses: [LoadBalancerAddress]? = nil, staticIp: Bool? = nil) {
+            self.zoneName = zoneName
+            self.subnetId = subnetId
+            self.loadBalancerAddresses = loadBalancerAddresses
+            self.staticIp = staticIp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case zoneName = "ZoneName"
+            case subnetId = "SubnetId"
+            case loadBalancerAddresses = "LoadBalancerAddresses"
+            case staticIp = "StaticIp"
+        }
+    }
+
+    public struct CreateListenerOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Listeners", required: false, type: .list)
+        ]
+        /// Information about the listener.
+        public let listeners: [Listener]?
+
+        public init(listeners: [Listener]? = nil) {
+            self.listeners = listeners
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case listeners = "Listeners"
+        }
+    }
+
+    public struct QueryStringConditionConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Values", required: false, type: .list)
+        ]
+        public let values: [String]?
+
+        public init(values: [String]? = nil) {
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case values = "Values"
+        }
+    }
+
+    public struct AuthenticateCognitoActionConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SessionCookieName", required: false, type: .string), 
+            AWSShapeMember(label: "OnUnauthenticatedRequest", required: false, type: .enum), 
+            AWSShapeMember(label: "AuthenticationRequestExtraParams", required: false, type: .map), 
+            AWSShapeMember(label: "Scope", required: false, type: .string), 
+            AWSShapeMember(label: "UserPoolDomain", required: true, type: .string), 
+            AWSShapeMember(label: "UserPoolArn", required: true, type: .string), 
+            AWSShapeMember(label: "UserPoolClientId", required: true, type: .string), 
+            AWSShapeMember(label: "SessionTimeout", required: false, type: .long)
+        ]
+        /// The name of the cookie used to maintain session information. The default is AWSELBAuthSessionCookie.
+        public let sessionCookieName: String?
+        /// The behavior if the user is not authenticated. The following are possible values:   deny - Return an HTTP 401 Unauthorized error.   allow - Allow the request to be forwarded to the target.   authenticate - Redirect the request to the IdP authorization endpoint. This is the default value.  
+        public let onUnauthenticatedRequest: AuthenticateCognitoActionConditionalBehaviorEnum?
+        /// The query parameters (up to 10) to include in the redirect request to the authorization endpoint.
+        public let authenticationRequestExtraParams: [String: String]?
+        /// The set of user claims to be requested from the IdP. The default is openid. To verify which scope values your IdP supports and how to separate multiple values, see the documentation for your IdP.
+        public let scope: String?
+        /// The domain prefix or fully-qualified domain name of the Amazon Cognito user pool.
+        public let userPoolDomain: String
+        /// The Amazon Resource Name (ARN) of the Amazon Cognito user pool.
+        public let userPoolArn: String
+        /// The ID of the Amazon Cognito user pool client.
+        public let userPoolClientId: String
+        /// The maximum duration of the authentication session, in seconds. The default is 604800 seconds (7 days).
+        public let sessionTimeout: Int64?
+
+        public init(sessionCookieName: String? = nil, onUnauthenticatedRequest: AuthenticateCognitoActionConditionalBehaviorEnum? = nil, authenticationRequestExtraParams: [String: String]? = nil, scope: String? = nil, userPoolDomain: String, userPoolArn: String, userPoolClientId: String, sessionTimeout: Int64? = nil) {
+            self.sessionCookieName = sessionCookieName
+            self.onUnauthenticatedRequest = onUnauthenticatedRequest
+            self.authenticationRequestExtraParams = authenticationRequestExtraParams
+            self.scope = scope
+            self.userPoolDomain = userPoolDomain
+            self.userPoolArn = userPoolArn
+            self.userPoolClientId = userPoolClientId
+            self.sessionTimeout = sessionTimeout
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sessionCookieName = "SessionCookieName"
+            case onUnauthenticatedRequest = "OnUnauthenticatedRequest"
+            case authenticationRequestExtraParams = "AuthenticationRequestExtraParams"
+            case scope = "Scope"
+            case userPoolDomain = "UserPoolDomain"
+            case userPoolArn = "UserPoolArn"
+            case userPoolClientId = "UserPoolClientId"
+            case sessionTimeout = "SessionTimeout"
+        }
+    }
+
+    public struct CreateLoadBalancerOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancers", required: false, type: .list)
+        ]
+        /// Information about the load balancer.
+        public let loadBalancers: [LoadBalancer]?
+
+        public init(loadBalancers: [LoadBalancer]? = nil) {
+            self.loadBalancers = loadBalancers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancers = "LoadBalancers"
+        }
+    }
+
+    public struct TagDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceArn", required: false, type: .string)
+        ]
+        /// Information about the tags.
+        public let tags: [Tag]?
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let resourceArn: String?
+
+        public init(tags: [Tag]? = nil, resourceArn: String? = nil) {
+            self.tags = tags
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct LoadBalancer: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
+            AWSShapeMember(label: "LoadBalancerName", required: false, type: .string), 
+            AWSShapeMember(label: "LoadBalancerArn", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "DNSName", required: false, type: .string), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string), 
+            AWSShapeMember(label: "CanonicalHostedZoneId", required: false, type: .string), 
+            AWSShapeMember(label: "Scheme", required: false, type: .enum), 
+            AWSShapeMember(label: "IpAddressType", required: false, type: .enum), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "State", required: false, type: .structure)
+        ]
+        /// The Availability Zones for the load balancer.
+        public let availabilityZones: [AvailabilityZone]?
+        /// The name of the load balancer.
+        public let loadBalancerName: String?
+        /// The Amazon Resource Name (ARN) of the load balancer.
+        public let loadBalancerArn: String?
+        /// The IDs of the security groups for the load balancer.
+        public let securityGroups: [String]?
+        /// The public DNS name of the load balancer.
+        public let dNSName: String?
+        /// The ID of the VPC for the load balancer.
+        public let vpcId: String?
+        /// The ID of the Amazon Route 53 hosted zone associated with the load balancer.
+        public let canonicalHostedZoneId: String?
+        /// The nodes of an Internet-facing load balancer have public IP addresses. The DNS name of an Internet-facing load balancer is publicly resolvable to the public IP addresses of the nodes. Therefore, Internet-facing load balancers can route requests from clients over the internet. The nodes of an internal load balancer have only private IP addresses. The DNS name of an internal load balancer is publicly resolvable to the private IP addresses of the nodes. Therefore, internal load balancers can only route requests from clients with access to the VPC for the load balancer.
+        public let scheme: LoadBalancerSchemeEnum?
+        /// The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses).
+        public let ipAddressType: IpAddressType?
+        /// The type of load balancer.
+        public let `type`: LoadBalancerTypeEnum?
+        /// The date and time the load balancer was created.
+        public let createdTime: TimeStamp?
+        /// The state of the load balancer.
+        public let state: LoadBalancerState?
+
+        public init(availabilityZones: [AvailabilityZone]? = nil, loadBalancerName: String? = nil, loadBalancerArn: String? = nil, securityGroups: [String]? = nil, dNSName: String? = nil, vpcId: String? = nil, canonicalHostedZoneId: String? = nil, scheme: LoadBalancerSchemeEnum? = nil, ipAddressType: IpAddressType? = nil, type: LoadBalancerTypeEnum? = nil, createdTime: TimeStamp? = nil, state: LoadBalancerState? = nil) {
+            self.availabilityZones = availabilityZones
+            self.loadBalancerName = loadBalancerName
+            self.loadBalancerArn = loadBalancerArn
+            self.securityGroups = securityGroups
+            self.dNSName = dNSName
+            self.vpcId = vpcId
+            self.canonicalHostedZoneId = canonicalHostedZoneId
+            self.scheme = scheme
+            self.ipAddressType = ipAddressType
+            self.`type` = `type`
+            self.createdTime = createdTime
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZones = "AvailabilityZones"
+            case loadBalancerName = "LoadBalancerName"
+            case loadBalancerArn = "LoadBalancerArn"
+            case securityGroups = "SecurityGroups"
+            case dNSName = "DNSName"
+            case vpcId = "VpcId"
+            case canonicalHostedZoneId = "CanonicalHostedZoneId"
+            case scheme = "Scheme"
+            case ipAddressType = "IpAddressType"
+            case `type` = "Type"
+            case createdTime = "CreatedTime"
+            case state = "State"
+        }
+    }
+
+    public struct DescribeTagsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArns", required: true, type: .list)
+        ]
+        /// The Amazon Resource Names (ARN) of the resources.
+        public let resourceArns: [String]
+
+        public init(resourceArns: [String]) {
+            self.resourceArns = resourceArns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArns = "ResourceArns"
+        }
+    }
+
+    public struct DescribeRulesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Rules", required: false, type: .list), 
+            AWSShapeMember(label: "NextMarker", required: false, type: .string)
+        ]
+        /// Information about the rules.
+        public let rules: [Rule]?
+        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
+        public let nextMarker: String?
+
+        public init(rules: [Rule]? = nil, nextMarker: String? = nil) {
+            self.rules = rules
+            self.nextMarker = nextMarker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rules = "Rules"
+            case nextMarker = "NextMarker"
+        }
+    }
+
+    public struct ModifyRuleInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Actions", required: false, type: .list), 
+            AWSShapeMember(label: "Conditions", required: false, type: .list), 
+            AWSShapeMember(label: "RuleArn", required: true, type: .string)
+        ]
+        /// The actions. If the action type is forward, you specify a target group. The protocol of the target group must be HTTP or HTTPS for an Application Load Balancer or TCP for a Network Load Balancer. [HTTPS listener] If the action type is authenticate-oidc, you authenticate users through an identity provider that is OpenID Connect (OIDC) compliant. [HTTPS listener] If the action type is authenticate-cognito, you authenticate users through the user pools supported by Amazon Cognito. [Application Load Balancer] If the action type is redirect, you redirect specified client requests from one URL to another. [Application Load Balancer] If the action type is fixed-response, you drop specified client requests and return a custom HTTP response.
+        public let actions: [Action]?
+        /// The conditions. Each condition specifies a field name and a single value. If the field name is host-header, you can specify a single host name (for example, my.example.com). A host name is case insensitive, can be up to 128 characters in length, and can contain any of the following characters. You can include up to three wildcard characters.   A-Z, a-z, 0-9   - .   * (matches 0 or more characters)   ? (matches exactly 1 character)   If the field name is path-pattern, you can specify a single path pattern. A path pattern is case-sensitive, can be up to 128 characters in length, and can contain any of the following characters. You can include up to three wildcard characters.   A-Z, a-z, 0-9   _ - . $ / ~ " ' @ : +   &amp; (using &amp;amp;)   * (matches 0 or more characters)   ? (matches exactly 1 character)  
+        public let conditions: [RuleCondition]?
+        /// The Amazon Resource Name (ARN) of the rule.
+        public let ruleArn: String
+
+        public init(actions: [Action]? = nil, conditions: [RuleCondition]? = nil, ruleArn: String) {
+            self.actions = actions
+            self.conditions = conditions
+            self.ruleArn = ruleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case conditions = "Conditions"
+            case ruleArn = "RuleArn"
+        }
+    }
+
+    public enum TargetHealthReasonEnum: String, CustomStringConvertible, Codable {
+        case elbRegistrationinprogress = "Elb.RegistrationInProgress"
+        case elbInitialhealthchecking = "Elb.InitialHealthChecking"
+        case targetResponsecodemismatch = "Target.ResponseCodeMismatch"
+        case targetTimeout = "Target.Timeout"
+        case targetFailedhealthchecks = "Target.FailedHealthChecks"
+        case targetNotregistered = "Target.NotRegistered"
+        case targetNotinuse = "Target.NotInUse"
+        case targetDeregistrationinprogress = "Target.DeregistrationInProgress"
+        case targetInvalidstate = "Target.InvalidState"
+        case targetIpunusable = "Target.IpUnusable"
+        case targetHealthcheckdisabled = "Target.HealthCheckDisabled"
+        case elbInternalerror = "Elb.InternalError"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct SetSubnetsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list)
+        ]
+        /// Information about the subnet and Availability Zone.
+        public let availabilityZones: [AvailabilityZone]?
+
+        public init(availabilityZones: [AvailabilityZone]? = nil) {
+            self.availabilityZones = availabilityZones
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZones = "AvailabilityZones"
+        }
+    }
+
+    public struct Cipher: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Priority", required: false, type: .integer), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// The priority of the cipher.
+        public let priority: Int32?
+        /// The name of the cipher.
+        public let name: String?
+
+        public init(priority: Int32? = nil, name: String? = nil) {
+            self.priority = priority
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case priority = "Priority"
+            case name = "Name"
+        }
+    }
+
+    public struct DescribeListenerCertificatesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
+            AWSShapeMember(label: "Certificates", required: false, type: .list)
+        ]
+        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
+        public let nextMarker: String?
+        /// Information about the certificates.
+        public let certificates: [Certificate]?
+
+        public init(nextMarker: String? = nil, certificates: [Certificate]? = nil) {
+            self.nextMarker = nextMarker
+            self.certificates = certificates
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextMarker = "NextMarker"
+            case certificates = "Certificates"
+        }
+    }
+
+    public enum IpAddressType: String, CustomStringConvertible, Codable {
+        case ipv4 = "ipv4"
+        case dualstack = "dualstack"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TargetHealthStateEnum: String, CustomStringConvertible, Codable {
+        case initial = "initial"
+        case healthy = "healthy"
+        case unhealthy = "unhealthy"
+        case unused = "unused"
+        case draining = "draining"
+        case unavailable = "unavailable"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct LoadBalancerState: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Reason", required: false, type: .string), 
+            AWSShapeMember(label: "Code", required: false, type: .enum)
+        ]
+        /// A description of the state.
+        public let reason: String?
+        /// The state code. The initial state of the load balancer is provisioning. After the load balancer is fully set up and ready to route traffic, its state is active. If the load balancer could not be set up, its state is failed.
+        public let code: LoadBalancerStateEnum?
+
+        public init(reason: String? = nil, code: LoadBalancerStateEnum? = nil) {
+            self.reason = reason
+            self.code = code
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reason = "Reason"
+            case code = "Code"
+        }
+    }
+
+    public struct ModifyProvisionedCapacityInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerArn", required: true, type: .string), 
+            AWSShapeMember(label: "MinimumLBCapacityUnits", required: true, type: .integer)
+        ]
+        public let loadBalancerArn: String
+        public let minimumLBCapacityUnits: Int32
+
+        public init(loadBalancerArn: String, minimumLBCapacityUnits: Int32) {
+            self.loadBalancerArn = loadBalancerArn
+            self.minimumLBCapacityUnits = minimumLBCapacityUnits
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerArn = "LoadBalancerArn"
+            case minimumLBCapacityUnits = "MinimumLBCapacityUnits"
+        }
+    }
+
+    public struct LoadBalancerAddress: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllocationId", required: false, type: .string), 
+            AWSShapeMember(label: "IpAddress", required: false, type: .string)
+        ]
+        /// [Network Load Balancers] The allocation ID of the Elastic IP address.
+        public let allocationId: String?
+        /// The static IP address.
+        public let ipAddress: String?
+
+        public init(allocationId: String? = nil, ipAddress: String? = nil) {
+            self.allocationId = allocationId
+            self.ipAddress = ipAddress
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allocationId = "AllocationId"
+            case ipAddress = "IpAddress"
+        }
+    }
+
+    public struct TargetGroupAttribute: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+        /// The name of the attribute. The following attribute is supported by both Application Load Balancers and Network Load Balancers:    deregistration_delay.timeout_seconds - The amount of time, in seconds, for Elastic Load Balancing to wait before changing the state of a deregistering target from draining to unused. The range is 0-3600 seconds. The default value is 300 seconds. If the target is a Lambda function, this attribute is not supported.   The following attributes are supported by Application Load Balancers if the target is not a Lambda function:    slow_start.duration_seconds - The time period, in seconds, during which a newly registered target receives a linearly increasing share of the traffic to the target group. After this time period ends, the target receives its full share of traffic. The range is 30-900 seconds (15 minutes). Slow start mode is disabled by default.    stickiness.enabled - Indicates whether sticky sessions are enabled. The value is true or false. The default is false.    stickiness.type - The type of sticky sessions. The possible value is lb_cookie.    stickiness.lb_cookie.duration_seconds - The time period, in seconds, during which requests from a client should be routed to the same target. After this time period expires, the load balancer-generated cookie is considered stale. The range is 1 second to 1 week (604800 seconds). The default value is 1 day (86400 seconds).   The following attribute is supported only if the target is a Lambda function.    lambda.multi_value_headers.enabled - Indicates whether the request and response headers exchanged between the load balancer and the Lambda function include arrays of values or strings. The value is true or false. The default is false. If the value is false and the request contains a duplicate header field name or query parameter key, the load balancer uses the last value sent by the client.   The following attribute is supported only by Network Load Balancers:    proxy_protocol_v2.enabled - Indicates whether Proxy Protocol version 2 is enabled. The value is true or false. The default is false.  
+        public let key: String?
+        /// The value of the attribute.
+        public let value: String?
+
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct SetRulePrioritiesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Rules", required: false, type: .list)
+        ]
+        /// Information about the rules.
+        public let rules: [Rule]?
+
+        public init(rules: [Rule]? = nil) {
+            self.rules = rules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rules = "Rules"
+        }
+    }
+
     public struct DescribeTagsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TagDescriptions", required: false, type: .list)
@@ -1118,107 +2205,150 @@ extension ELBV2 {
         }
     }
 
-    public struct TargetDescription: AWSShape {
+    public struct LoadBalancerAttribute: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: true, type: .string)
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string)
         ]
-        /// The port on which the target is listening.
-        public let port: Int32?
-        /// An Availability Zone or all. This determines whether the target receives traffic from the load balancer nodes in the specified Availability Zone or from all enabled Availability Zones for the load balancer. This parameter is not supported if the target type of the target group is instance. If the target type is ip and the IP address is in a subnet of the VPC for the target group, the Availability Zone is automatically detected and this parameter is optional. If the IP address is outside the VPC, this parameter is required. With an Application Load Balancer, if the target type is ip and the IP address is outside the VPC for the target group, the only supported value is all. If the target type is lambda, this parameter is optional and the only supported value is all.
-        public let availabilityZone: String?
-        /// The ID of the target. If the target type of the target group is instance, specify an instance ID. If the target type is ip, specify an IP address. If the target type is lambda, specify the ARN of the Lambda function.
-        public let id: String
+        /// The value of the attribute.
+        public let value: String?
+        /// The name of the attribute. The following attributes are supported by both Application Load Balancers and Network Load Balancers:    deletion_protection.enabled - Indicates whether deletion protection is enabled. The value is true or false. The default is false.   The following attributes are supported by only Application Load Balancers:    access_logs.s3.enabled - Indicates whether access logs are enabled. The value is true or false. The default is false.    access_logs.s3.bucket - The name of the S3 bucket for the access logs. This attribute is required if access logs are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permissions to write to the bucket.    access_logs.s3.prefix - The prefix for the location in the S3 bucket for the access logs.    idle_timeout.timeout_seconds - The idle timeout value, in seconds. The valid range is 1-4000 seconds. The default is 60 seconds.    routing.http2.enabled - Indicates whether HTTP/2 is enabled. The value is true or false. The default is true.   The following attributes are supported by only Network Load Balancers:    load_balancing.cross_zone.enabled - Indicates whether cross-zone load balancing is enabled. The value is true or false. The default is false.  
+        public let key: String?
 
-        public init(port: Int32? = nil, availabilityZone: String? = nil, id: String) {
-            self.port = port
-            self.availabilityZone = availabilityZone
-            self.id = id
+        public init(value: String? = nil, key: String? = nil) {
+            self.value = value
+            self.key = key
         }
 
         private enum CodingKeys: String, CodingKey {
-            case port = "Port"
-            case availabilityZone = "AvailabilityZone"
-            case id = "Id"
+            case value = "Value"
+            case key = "Key"
         }
     }
 
-    public enum AuthenticateCognitoActionConditionalBehaviorEnum: String, CustomStringConvertible, Codable {
-        case deny = "deny"
-        case allow = "allow"
-        case authenticate = "authenticate"
+    public struct DescribeListenerCertificatesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ListenerArn", required: true, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "PageSize", required: false, type: .integer)
+        ]
+        /// The Amazon Resource Names (ARN) of the listener.
+        public let listenerArn: String
+        /// The marker for the next set of results. (You received this marker from a previous call.)
+        public let marker: String?
+        /// The maximum number of results to return with this call.
+        public let pageSize: Int32?
+
+        public init(listenerArn: String, marker: String? = nil, pageSize: Int32? = nil) {
+            self.listenerArn = listenerArn
+            self.marker = marker
+            self.pageSize = pageSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case listenerArn = "ListenerArn"
+            case marker = "Marker"
+            case pageSize = "PageSize"
+        }
+    }
+
+    public enum LoadBalancerSchemeEnum: String, CustomStringConvertible, Codable {
+        case internetFacing = "internet-facing"
+        case `internal` = "internal"
         public var description: String { return self.rawValue }
     }
 
-    public struct LoadBalancer: AWSShape {
+    public struct DescribeLoadBalancersInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Scheme", required: false, type: .enum), 
-            AWSShapeMember(label: "LoadBalancerName", required: false, type: .string), 
-            AWSShapeMember(label: "DNSName", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LoadBalancerArn", required: false, type: .string), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
-            AWSShapeMember(label: "IpAddressType", required: false, type: .enum), 
-            AWSShapeMember(label: "State", required: false, type: .structure), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
-            AWSShapeMember(label: "CanonicalHostedZoneId", required: false, type: .string)
+            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "Names", required: false, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "LoadBalancerArns", required: false, type: .list)
         ]
-        /// The nodes of an Internet-facing load balancer have public IP addresses. The DNS name of an Internet-facing load balancer is publicly resolvable to the public IP addresses of the nodes. Therefore, Internet-facing load balancers can route requests from clients over the internet. The nodes of an internal load balancer have only private IP addresses. The DNS name of an internal load balancer is publicly resolvable to the private IP addresses of the nodes. Therefore, internal load balancers can only route requests from clients with access to the VPC for the load balancer.
-        public let scheme: LoadBalancerSchemeEnum?
-        /// The name of the load balancer.
-        public let loadBalancerName: String?
-        /// The public DNS name of the load balancer.
-        public let dNSName: String?
-        /// The date and time the load balancer was created.
-        public let createdTime: TimeStamp?
-        /// The Amazon Resource Name (ARN) of the load balancer.
-        public let loadBalancerArn: String?
-        /// The ID of the VPC for the load balancer.
-        public let vpcId: String?
-        /// The IDs of the security groups for the load balancer.
-        public let securityGroups: [String]?
-        /// The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses).
-        public let ipAddressType: IpAddressType?
-        /// The state of the load balancer.
-        public let state: LoadBalancerState?
-        /// The type of load balancer.
-        public let `type`: LoadBalancerTypeEnum?
-        /// The Availability Zones for the load balancer.
-        public let availabilityZones: [AvailabilityZone]?
-        /// The ID of the Amazon Route 53 hosted zone associated with the load balancer.
-        public let canonicalHostedZoneId: String?
+        /// The maximum number of results to return with this call.
+        public let pageSize: Int32?
+        /// The names of the load balancers.
+        public let names: [String]?
+        /// The marker for the next set of results. (You received this marker from a previous call.)
+        public let marker: String?
+        /// The Amazon Resource Names (ARN) of the load balancers. You can specify up to 20 load balancers in a single call.
+        public let loadBalancerArns: [String]?
 
-        public init(scheme: LoadBalancerSchemeEnum? = nil, loadBalancerName: String? = nil, dNSName: String? = nil, createdTime: TimeStamp? = nil, loadBalancerArn: String? = nil, vpcId: String? = nil, securityGroups: [String]? = nil, ipAddressType: IpAddressType? = nil, state: LoadBalancerState? = nil, type: LoadBalancerTypeEnum? = nil, availabilityZones: [AvailabilityZone]? = nil, canonicalHostedZoneId: String? = nil) {
-            self.scheme = scheme
-            self.loadBalancerName = loadBalancerName
-            self.dNSName = dNSName
-            self.createdTime = createdTime
-            self.loadBalancerArn = loadBalancerArn
-            self.vpcId = vpcId
-            self.securityGroups = securityGroups
-            self.ipAddressType = ipAddressType
-            self.state = state
-            self.`type` = `type`
-            self.availabilityZones = availabilityZones
-            self.canonicalHostedZoneId = canonicalHostedZoneId
+        public init(pageSize: Int32? = nil, names: [String]? = nil, marker: String? = nil, loadBalancerArns: [String]? = nil) {
+            self.pageSize = pageSize
+            self.names = names
+            self.marker = marker
+            self.loadBalancerArns = loadBalancerArns
         }
 
         private enum CodingKeys: String, CodingKey {
-            case scheme = "Scheme"
-            case loadBalancerName = "LoadBalancerName"
-            case dNSName = "DNSName"
-            case createdTime = "CreatedTime"
+            case pageSize = "PageSize"
+            case names = "Names"
+            case marker = "Marker"
+            case loadBalancerArns = "LoadBalancerArns"
+        }
+    }
+
+    public struct DeleteListenerOutput: AWSShape {
+
+    }
+
+    public struct DescribeLoadBalancerAttributesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the load balancer.
+        public let loadBalancerArn: String
+
+        public init(loadBalancerArn: String) {
+            self.loadBalancerArn = loadBalancerArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
             case loadBalancerArn = "LoadBalancerArn"
-            case vpcId = "VpcId"
-            case securityGroups = "SecurityGroups"
-            case ipAddressType = "IpAddressType"
-            case state = "State"
-            case `type` = "Type"
-            case availabilityZones = "AvailabilityZones"
-            case canonicalHostedZoneId = "CanonicalHostedZoneId"
+        }
+    }
+
+    public struct ModifyTargetGroupOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetGroups", required: false, type: .list)
+        ]
+        /// Information about the modified target group.
+        public let targetGroups: [TargetGroup]?
+
+        public init(targetGroups: [TargetGroup]? = nil) {
+            self.targetGroups = targetGroups
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetGroups = "TargetGroups"
+        }
+    }
+
+    public struct ProvisionedCapacity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "DecreasesRemaining", required: false, type: .integer), 
+            AWSShapeMember(label: "MinimumLBCapacityUnits", required: false, type: .integer)
+        ]
+        public let lastModifiedTime: TimeStamp?
+        public let status: ProvisionedCapacityStatus?
+        public let decreasesRemaining: Int32?
+        public let minimumLBCapacityUnits: Int32?
+
+        public init(lastModifiedTime: TimeStamp? = nil, status: ProvisionedCapacityStatus? = nil, decreasesRemaining: Int32? = nil, minimumLBCapacityUnits: Int32? = nil) {
+            self.lastModifiedTime = lastModifiedTime
+            self.status = status
+            self.decreasesRemaining = decreasesRemaining
+            self.minimumLBCapacityUnits = minimumLBCapacityUnits
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastModifiedTime = "LastModifiedTime"
+            case status = "Status"
+            case decreasesRemaining = "DecreasesRemaining"
+            case minimumLBCapacityUnits = "MinimumLBCapacityUnits"
         }
     }
 
@@ -1253,404 +2383,25 @@ extension ELBV2 {
         }
     }
 
-    public struct RemoveTagsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagKeys", required: true, type: .list), 
-            AWSShapeMember(label: "ResourceArns", required: true, type: .list)
-        ]
-        /// The tag keys for the tags to remove.
-        public let tagKeys: [String]
-        /// The Amazon Resource Name (ARN) of the resource.
-        public let resourceArns: [String]
-
-        public init(tagKeys: [String], resourceArns: [String]) {
-            self.tagKeys = tagKeys
-            self.resourceArns = resourceArns
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tagKeys = "TagKeys"
-            case resourceArns = "ResourceArns"
-        }
+    public enum ProvisionedCapacityStatus: String, CustomStringConvertible, Codable {
+        case disabled = "disabled"
+        case pending = "pending"
+        case provisioned = "provisioned"
+        case preWarmed = "pre-warmed"
+        public var description: String { return self.rawValue }
     }
 
-    public struct DescribeLoadBalancerAttributesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .list)
-        ]
-        /// Information about the load balancer attributes.
-        public let attributes: [LoadBalancerAttribute]?
-
-        public init(attributes: [LoadBalancerAttribute]? = nil) {
-            self.attributes = attributes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attributes = "Attributes"
-        }
-    }
-
-    public struct RedirectActionConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Port", required: false, type: .string), 
-            AWSShapeMember(label: "Host", required: false, type: .string), 
-            AWSShapeMember(label: "Query", required: false, type: .string), 
-            AWSShapeMember(label: "Protocol", required: false, type: .string), 
-            AWSShapeMember(label: "StatusCode", required: true, type: .enum), 
-            AWSShapeMember(label: "Path", required: false, type: .string)
-        ]
-        /// The port. You can specify a value from 1 to 65535 or #{port}.
-        public let port: String?
-        /// The hostname. This component is not percent-encoded. The hostname can contain #{host}.
-        public let host: String?
-        /// The query parameters, URL-encoded when necessary, but not percent-encoded. Do not include the leading "?", as it is automatically added. You can specify any of the reserved keywords.
-        public let query: String?
-        /// The protocol. You can specify HTTP, HTTPS, or #{protocol}. You can redirect HTTP to HTTP, HTTP to HTTPS, and HTTPS to HTTPS. You cannot redirect HTTPS to HTTP.
-        public let `protocol`: String?
-        /// The HTTP redirect code. The redirect is either permanent (HTTP 301) or temporary (HTTP 302).
-        public let statusCode: RedirectActionStatusCodeEnum
-        /// The absolute path, starting with the leading "/". This component is not percent-encoded. The path can contain #{host}, #{path}, and #{port}.
-        public let path: String?
-
-        public init(port: String? = nil, host: String? = nil, query: String? = nil, protocol: String? = nil, statusCode: RedirectActionStatusCodeEnum, path: String? = nil) {
-            self.port = port
-            self.host = host
-            self.query = query
-            self.`protocol` = `protocol`
-            self.statusCode = statusCode
-            self.path = path
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case port = "Port"
-            case host = "Host"
-            case query = "Query"
-            case `protocol` = "Protocol"
-            case statusCode = "StatusCode"
-            case path = "Path"
-        }
-    }
-
-    public struct ModifyLoadBalancerAttributesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .list)
-        ]
-        /// Information about the load balancer attributes.
-        public let attributes: [LoadBalancerAttribute]?
-
-        public init(attributes: [LoadBalancerAttribute]? = nil) {
-            self.attributes = attributes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attributes = "Attributes"
-        }
-    }
-
-    public struct RuleCondition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "QueryStringConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "HttpRequestMethodConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "HttpHeaderConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "Field", required: false, type: .string), 
-            AWSShapeMember(label: "HostHeaderConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "PathPatternConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "Values", required: false, type: .list)
-        ]
-        public let queryStringConfig: QueryStringConditionConfig?
-        public let httpRequestMethodConfig: HttpRequestMethodConditionConfig?
-        public let httpHeaderConfig: HttpHeaderConditionConfig?
-        /// The name of the field. The possible values are host-header and path-pattern.
-        public let field: String?
-        public let hostHeaderConfig: HostHeaderConditionConfig?
-        public let pathPatternConfig: PathPatternConditionConfig?
-        /// The condition value. If the field name is host-header, you can specify a single host name (for example, my.example.com). A host name is case insensitive, can be up to 128 characters in length, and can contain any of the following characters. You can include up to three wildcard characters.   A-Z, a-z, 0-9   - .   * (matches 0 or more characters)   ? (matches exactly 1 character)   If the field name is path-pattern, you can specify a single path pattern (for example, /img/*). A path pattern is case-sensitive, can be up to 128 characters in length, and can contain any of the following characters. You can include up to three wildcard characters.   A-Z, a-z, 0-9   _ - . $ / ~ " ' @ : +   &amp; (using &amp;amp;)   * (matches 0 or more characters)   ? (matches exactly 1 character)  
-        public let values: [String]?
-
-        public init(queryStringConfig: QueryStringConditionConfig? = nil, httpRequestMethodConfig: HttpRequestMethodConditionConfig? = nil, httpHeaderConfig: HttpHeaderConditionConfig? = nil, field: String? = nil, hostHeaderConfig: HostHeaderConditionConfig? = nil, pathPatternConfig: PathPatternConditionConfig? = nil, values: [String]? = nil) {
-            self.queryStringConfig = queryStringConfig
-            self.httpRequestMethodConfig = httpRequestMethodConfig
-            self.httpHeaderConfig = httpHeaderConfig
-            self.field = field
-            self.hostHeaderConfig = hostHeaderConfig
-            self.pathPatternConfig = pathPatternConfig
-            self.values = values
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case queryStringConfig = "QueryStringConfig"
-            case httpRequestMethodConfig = "HttpRequestMethodConfig"
-            case httpHeaderConfig = "HttpHeaderConfig"
-            case field = "Field"
-            case hostHeaderConfig = "HostHeaderConfig"
-            case pathPatternConfig = "PathPatternConfig"
-            case values = "Values"
-        }
-    }
-
-    public struct ProvisionedCapacity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DecreasesRemaining", required: false, type: .integer), 
-            AWSShapeMember(label: "MinimumLBCapacityUnits", required: false, type: .integer), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp)
-        ]
-        public let decreasesRemaining: Int32?
-        public let minimumLBCapacityUnits: Int32?
-        public let status: ProvisionedCapacityStatus?
-        public let lastModifiedTime: TimeStamp?
-
-        public init(decreasesRemaining: Int32? = nil, minimumLBCapacityUnits: Int32? = nil, status: ProvisionedCapacityStatus? = nil, lastModifiedTime: TimeStamp? = nil) {
-            self.decreasesRemaining = decreasesRemaining
-            self.minimumLBCapacityUnits = minimumLBCapacityUnits
-            self.status = status
-            self.lastModifiedTime = lastModifiedTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case decreasesRemaining = "DecreasesRemaining"
-            case minimumLBCapacityUnits = "MinimumLBCapacityUnits"
-            case status = "Status"
-            case lastModifiedTime = "LastModifiedTime"
-        }
-    }
-
-    public struct DescribeListenerCertificatesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificates", required: false, type: .list), 
-            AWSShapeMember(label: "NextMarker", required: false, type: .string)
-        ]
-        /// Information about the certificates.
-        public let certificates: [Certificate]?
-        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
-        public let nextMarker: String?
-
-        public init(certificates: [Certificate]? = nil, nextMarker: String? = nil) {
-            self.certificates = certificates
-            self.nextMarker = nextMarker
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificates = "Certificates"
-            case nextMarker = "NextMarker"
-        }
-    }
-
-    public struct ModifyRuleInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Actions", required: false, type: .list), 
-            AWSShapeMember(label: "Conditions", required: false, type: .list), 
-            AWSShapeMember(label: "RuleArn", required: true, type: .string)
-        ]
-        /// The actions. If the action type is forward, you specify a target group. The protocol of the target group must be HTTP or HTTPS for an Application Load Balancer or TCP for a Network Load Balancer. [HTTPS listener] If the action type is authenticate-oidc, you authenticate users through an identity provider that is OpenID Connect (OIDC) compliant. [HTTPS listener] If the action type is authenticate-cognito, you authenticate users through the user pools supported by Amazon Cognito. [Application Load Balancer] If the action type is redirect, you redirect specified client requests from one URL to another. [Application Load Balancer] If the action type is fixed-response, you drop specified client requests and return a custom HTTP response.
-        public let actions: [Action]?
-        /// The conditions. Each condition specifies a field name and a single value. If the field name is host-header, you can specify a single host name (for example, my.example.com). A host name is case insensitive, can be up to 128 characters in length, and can contain any of the following characters. You can include up to three wildcard characters.   A-Z, a-z, 0-9   - .   * (matches 0 or more characters)   ? (matches exactly 1 character)   If the field name is path-pattern, you can specify a single path pattern. A path pattern is case-sensitive, can be up to 128 characters in length, and can contain any of the following characters. You can include up to three wildcard characters.   A-Z, a-z, 0-9   _ - . $ / ~ " ' @ : +   &amp; (using &amp;amp;)   * (matches 0 or more characters)   ? (matches exactly 1 character)  
-        public let conditions: [RuleCondition]?
-        /// The Amazon Resource Name (ARN) of the rule.
-        public let ruleArn: String
-
-        public init(actions: [Action]? = nil, conditions: [RuleCondition]? = nil, ruleArn: String) {
-            self.actions = actions
-            self.conditions = conditions
-            self.ruleArn = ruleArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case actions = "Actions"
-            case conditions = "Conditions"
-            case ruleArn = "RuleArn"
-        }
-    }
-
-    public struct SetRulePrioritiesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Rules", required: false, type: .list)
-        ]
-        /// Information about the rules.
-        public let rules: [Rule]?
-
-        public init(rules: [Rule]? = nil) {
-            self.rules = rules
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case rules = "Rules"
-        }
-    }
-
-    public struct DescribeAccountLimitsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "PageSize", required: false, type: .integer)
-        ]
-        /// The marker for the next set of results. (You received this marker from a previous call.)
-        public let marker: String?
-        /// The maximum number of results to return with this call.
-        public let pageSize: Int32?
-
-        public init(marker: String? = nil, pageSize: Int32? = nil) {
-            self.marker = marker
-            self.pageSize = pageSize
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case pageSize = "PageSize"
-        }
-    }
-
-    public struct ModifyRuleOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Rules", required: false, type: .list)
-        ]
-        /// Information about the modified rule.
-        public let rules: [Rule]?
-
-        public init(rules: [Rule]? = nil) {
-            self.rules = rules
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case rules = "Rules"
-        }
-    }
-
-    public struct SslPolicy: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SslProtocols", required: false, type: .list), 
-            AWSShapeMember(label: "Ciphers", required: false, type: .list), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// The protocols.
-        public let sslProtocols: [String]?
-        /// The ciphers.
-        public let ciphers: [Cipher]?
-        /// The name of the policy.
-        public let name: String?
-
-        public init(sslProtocols: [String]? = nil, ciphers: [Cipher]? = nil, name: String? = nil) {
-            self.sslProtocols = sslProtocols
-            self.ciphers = ciphers
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sslProtocols = "SslProtocols"
-            case ciphers = "Ciphers"
-            case name = "Name"
-        }
-    }
-
-    public struct DeregisterTargetsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetGroupArn", required: true, type: .string), 
-            AWSShapeMember(label: "Targets", required: true, type: .list)
-        ]
-        /// The Amazon Resource Name (ARN) of the target group.
-        public let targetGroupArn: String
-        /// The targets. If you specified a port override when you registered a target, you must specify both the target ID and the port when you deregister it.
-        public let targets: [TargetDescription]
-
-        public init(targetGroupArn: String, targets: [TargetDescription]) {
-            self.targetGroupArn = targetGroupArn
-            self.targets = targets
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case targetGroupArn = "TargetGroupArn"
-            case targets = "Targets"
-        }
-    }
-
-    public struct Certificate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IsDefault", required: false, type: .boolean), 
-            AWSShapeMember(label: "CertificateArn", required: false, type: .string)
-        ]
-        /// Indicates whether the certificate is the default certificate. Do not set IsDefault when specifying a certificate as an input parameter.
-        public let isDefault: Bool?
-        /// The Amazon Resource Name (ARN) of the certificate.
-        public let certificateArn: String?
-
-        public init(isDefault: Bool? = nil, certificateArn: String? = nil) {
-            self.isDefault = isDefault
-            self.certificateArn = certificateArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case isDefault = "IsDefault"
-            case certificateArn = "CertificateArn"
-        }
-    }
-
-    public struct FixedResponseActionConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MessageBody", required: false, type: .string), 
-            AWSShapeMember(label: "StatusCode", required: true, type: .string), 
-            AWSShapeMember(label: "ContentType", required: false, type: .string)
-        ]
-        /// The message.
-        public let messageBody: String?
-        /// The HTTP response code (2XX, 4XX, or 5XX).
-        public let statusCode: String
-        /// The content type. Valid Values: text/plain | text/css | text/html | application/javascript | application/json
-        public let contentType: String?
-
-        public init(messageBody: String? = nil, statusCode: String, contentType: String? = nil) {
-            self.messageBody = messageBody
-            self.statusCode = statusCode
-            self.contentType = contentType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case messageBody = "MessageBody"
-            case statusCode = "StatusCode"
-            case contentType = "ContentType"
-        }
-    }
-
-    public struct DescribeProvisionedCapacityInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoadBalancerArn", required: true, type: .string)
-        ]
-        public let loadBalancerArn: String
-
-        public init(loadBalancerArn: String) {
-            self.loadBalancerArn = loadBalancerArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case loadBalancerArn = "LoadBalancerArn"
-        }
-    }
-
-    public struct DescribeTargetGroupAttributesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Attributes", required: false, type: .list)
-        ]
-        /// Information about the target group attributes
-        public let attributes: [TargetGroupAttribute]?
-
-        public init(attributes: [TargetGroupAttribute]? = nil) {
-            self.attributes = attributes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attributes = "Attributes"
-        }
-    }
-
-    public struct LoadBalancerAttribute: AWSShape {
+    public struct Tag: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "Key", required: false, type: .string)
+            AWSShapeMember(label: "Key", required: true, type: .string)
         ]
-        /// The value of the attribute.
+        /// The value of the tag.
         public let value: String?
-        /// The name of the attribute. The following attributes are supported by both Application Load Balancers and Network Load Balancers:    deletion_protection.enabled - Indicates whether deletion protection is enabled. The value is true or false. The default is false.   The following attributes are supported by only Application Load Balancers:    access_logs.s3.enabled - Indicates whether access logs are enabled. The value is true or false. The default is false.    access_logs.s3.bucket - The name of the S3 bucket for the access logs. This attribute is required if access logs are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permissions to write to the bucket.    access_logs.s3.prefix - The prefix for the location in the S3 bucket for the access logs.    idle_timeout.timeout_seconds - The idle timeout value, in seconds. The valid range is 1-4000 seconds. The default is 60 seconds.    routing.http2.enabled - Indicates whether HTTP/2 is enabled. The value is true or false. The default is true.   The following attributes are supported by only Network Load Balancers:    load_balancing.cross_zone.enabled - Indicates whether cross-zone load balancing is enabled. The value is true or false. The default is false.  
-        public let key: String?
+        /// The key of the tag.
+        public let key: String
 
-        public init(value: String? = nil, key: String? = nil) {
+        public init(value: String? = nil, key: String) {
             self.value = value
             self.key = key
         }
@@ -1661,307 +2412,52 @@ extension ELBV2 {
         }
     }
 
-    public struct HttpRequestMethodConditionConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Values", required: false, type: .list)
-        ]
-        public let values: [HttpRequestMethodEnum]?
-
-        public init(values: [HttpRequestMethodEnum]? = nil) {
-            self.values = values
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case values = "Values"
-        }
-    }
-
-    public struct DescribeAccountLimitsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limits", required: false, type: .list), 
-            AWSShapeMember(label: "NextMarker", required: false, type: .string)
-        ]
-        /// Information about the limits.
-        public let limits: [Limit]?
-        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
-        public let nextMarker: String?
-
-        public init(limits: [Limit]? = nil, nextMarker: String? = nil) {
-            self.limits = limits
-            self.nextMarker = nextMarker
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case limits = "Limits"
-            case nextMarker = "NextMarker"
-        }
-    }
-
-    public struct Matcher: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HttpCode", required: true, type: .string)
-        ]
-        /// The HTTP codes. For Application Load Balancers, you can specify values between 200 and 499, and the default value is 200. You can specify multiple values (for example, "200,202") or a range of values (for example, "200-299"). For Network Load Balancers, this is 200–399.
-        public let httpCode: String
-
-        public init(httpCode: String) {
-            self.httpCode = httpCode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case httpCode = "HttpCode"
-        }
-    }
-
-    public struct RegisterTargetsOutput: AWSShape {
-
-    }
-
-    public enum RedirectActionStatusCodeEnum: String, CustomStringConvertible, Codable {
-        case http301 = "HTTP_301"
-        case http302 = "HTTP_302"
+    public enum AuthenticateCognitoActionConditionalBehaviorEnum: String, CustomStringConvertible, Codable {
+        case deny = "deny"
+        case allow = "allow"
+        case authenticate = "authenticate"
         public var description: String { return self.rawValue }
     }
 
-    public struct RemoveTagsOutput: AWSShape {
-
-    }
-
-    public struct ModifyTargetGroupAttributesInput: AWSShape {
+    public struct DescribeSSLPoliciesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetGroupArn", required: true, type: .string), 
-            AWSShapeMember(label: "Attributes", required: true, type: .list)
+            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
+            AWSShapeMember(label: "SslPolicies", required: false, type: .list)
         ]
-        /// The Amazon Resource Name (ARN) of the target group.
-        public let targetGroupArn: String
-        /// The attributes.
-        public let attributes: [TargetGroupAttribute]
+        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
+        public let nextMarker: String?
+        /// Information about the policies.
+        public let sslPolicies: [SslPolicy]?
 
-        public init(targetGroupArn: String, attributes: [TargetGroupAttribute]) {
-            self.targetGroupArn = targetGroupArn
-            self.attributes = attributes
+        public init(nextMarker: String? = nil, sslPolicies: [SslPolicy]? = nil) {
+            self.nextMarker = nextMarker
+            self.sslPolicies = sslPolicies
         }
 
         private enum CodingKeys: String, CodingKey {
-            case targetGroupArn = "TargetGroupArn"
-            case attributes = "Attributes"
+            case nextMarker = "NextMarker"
+            case sslPolicies = "SslPolicies"
         }
     }
 
-    public struct DescribeLoadBalancerAttributesInput: AWSShape {
+    public struct Certificate: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoadBalancerArn", required: true, type: .string)
+            AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
+            AWSShapeMember(label: "IsDefault", required: false, type: .boolean)
         ]
-        /// The Amazon Resource Name (ARN) of the load balancer.
-        public let loadBalancerArn: String
-
-        public init(loadBalancerArn: String) {
-            self.loadBalancerArn = loadBalancerArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case loadBalancerArn = "LoadBalancerArn"
-        }
-    }
-
-    public struct CreateLoadBalancerInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Scheme", required: false, type: .enum), 
-            AWSShapeMember(label: "SubnetMappings", required: false, type: .list), 
-            AWSShapeMember(label: "Subnets", required: false, type: .list), 
-            AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
-            AWSShapeMember(label: "IpAddressType", required: false, type: .enum), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
-        ]
-        /// The nodes of an Internet-facing load balancer have public IP addresses. The DNS name of an Internet-facing load balancer is publicly resolvable to the public IP addresses of the nodes. Therefore, Internet-facing load balancers can route requests from clients over the internet. The nodes of an internal load balancer have only private IP addresses. The DNS name of an internal load balancer is publicly resolvable to the private IP addresses of the nodes. Therefore, internal load balancers can only route requests from clients with access to the VPC for the load balancer. The default is an Internet-facing load balancer.
-        public let scheme: LoadBalancerSchemeEnum?
-        /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You cannot specify Elastic IP addresses for your subnets. [Network Load Balancers] You can specify subnets from one or more Availability Zones. You can specify one Elastic IP address per subnet.
-        public let subnetMappings: [SubnetMapping]?
-        /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones.
-        public let subnets: [String]?
-        /// [Application Load Balancers] The IDs of the security groups for the load balancer.
-        public let securityGroups: [String]?
-        /// [Application Load Balancers] The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). Internal load balancers must use ipv4.
-        public let ipAddressType: IpAddressType?
-        /// The type of load balancer. The default is application.
-        public let `type`: LoadBalancerTypeEnum?
-        /// The name of the load balancer. This name must be unique per region per account, can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, must not begin or end with a hyphen, and must not begin with "internal-".
-        public let name: String
-        /// One or more tags to assign to the load balancer.
-        public let tags: [Tag]?
-
-        public init(scheme: LoadBalancerSchemeEnum? = nil, subnetMappings: [SubnetMapping]? = nil, subnets: [String]? = nil, securityGroups: [String]? = nil, ipAddressType: IpAddressType? = nil, type: LoadBalancerTypeEnum? = nil, name: String, tags: [Tag]? = nil) {
-            self.scheme = scheme
-            self.subnetMappings = subnetMappings
-            self.subnets = subnets
-            self.securityGroups = securityGroups
-            self.ipAddressType = ipAddressType
-            self.`type` = `type`
-            self.name = name
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case scheme = "Scheme"
-            case subnetMappings = "SubnetMappings"
-            case subnets = "Subnets"
-            case securityGroups = "SecurityGroups"
-            case ipAddressType = "IpAddressType"
-            case `type` = "Type"
-            case name = "Name"
-            case tags = "Tags"
-        }
-    }
-
-    public struct DescribeTargetHealthInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetGroupArn", required: true, type: .string), 
-            AWSShapeMember(label: "Targets", required: false, type: .list)
-        ]
-        /// The Amazon Resource Name (ARN) of the target group.
-        public let targetGroupArn: String
-        /// The targets.
-        public let targets: [TargetDescription]?
-
-        public init(targetGroupArn: String, targets: [TargetDescription]? = nil) {
-            self.targetGroupArn = targetGroupArn
-            self.targets = targets
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case targetGroupArn = "TargetGroupArn"
-            case targets = "Targets"
-        }
-    }
-
-    public struct LoadBalancerState: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", required: false, type: .enum), 
-            AWSShapeMember(label: "Reason", required: false, type: .string)
-        ]
-        /// The state code. The initial state of the load balancer is provisioning. After the load balancer is fully set up and ready to route traffic, its state is active. If the load balancer could not be set up, its state is failed.
-        public let code: LoadBalancerStateEnum?
-        /// A description of the state.
-        public let reason: String?
-
-        public init(code: LoadBalancerStateEnum? = nil, reason: String? = nil) {
-            self.code = code
-            self.reason = reason
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case code = "Code"
-            case reason = "Reason"
-        }
-    }
-
-    public struct DescribeListenersInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
-            AWSShapeMember(label: "LoadBalancerArn", required: false, type: .string), 
-            AWSShapeMember(label: "ListenerArns", required: false, type: .list)
-        ]
-        /// The marker for the next set of results. (You received this marker from a previous call.)
-        public let marker: String?
-        /// The maximum number of results to return with this call.
-        public let pageSize: Int32?
-        /// The Amazon Resource Name (ARN) of the load balancer.
-        public let loadBalancerArn: String?
-        /// The Amazon Resource Names (ARN) of the listeners.
-        public let listenerArns: [String]?
-
-        public init(marker: String? = nil, pageSize: Int32? = nil, loadBalancerArn: String? = nil, listenerArns: [String]? = nil) {
-            self.marker = marker
-            self.pageSize = pageSize
-            self.loadBalancerArn = loadBalancerArn
-            self.listenerArns = listenerArns
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case pageSize = "PageSize"
-            case loadBalancerArn = "LoadBalancerArn"
-            case listenerArns = "ListenerArns"
-        }
-    }
-
-    public struct SubnetMapping: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StaticIp", required: false, type: .boolean), 
-            AWSShapeMember(label: "AllocationId", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetId", required: false, type: .string)
-        ]
-        public let staticIp: Bool?
-        /// [Network Load Balancers] The allocation ID of the Elastic IP address.
-        public let allocationId: String?
-        /// The ID of the subnet.
-        public let subnetId: String?
-
-        public init(staticIp: Bool? = nil, allocationId: String? = nil, subnetId: String? = nil) {
-            self.staticIp = staticIp
-            self.allocationId = allocationId
-            self.subnetId = subnetId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case staticIp = "StaticIp"
-            case allocationId = "AllocationId"
-            case subnetId = "SubnetId"
-        }
-    }
-
-    public struct Rule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Conditions", required: false, type: .list), 
-            AWSShapeMember(label: "IsDefault", required: false, type: .boolean), 
-            AWSShapeMember(label: "Priority", required: false, type: .string), 
-            AWSShapeMember(label: "RuleArn", required: false, type: .string), 
-            AWSShapeMember(label: "Actions", required: false, type: .list)
-        ]
-        /// The conditions.
-        public let conditions: [RuleCondition]?
-        /// Indicates whether this is the default rule.
+        /// The Amazon Resource Name (ARN) of the certificate.
+        public let certificateArn: String?
+        /// Indicates whether the certificate is the default certificate. Do not set IsDefault when specifying a certificate as an input parameter.
         public let isDefault: Bool?
-        /// The priority.
-        public let priority: String?
-        /// The Amazon Resource Name (ARN) of the rule.
-        public let ruleArn: String?
-        /// The actions.
-        public let actions: [Action]?
 
-        public init(conditions: [RuleCondition]? = nil, isDefault: Bool? = nil, priority: String? = nil, ruleArn: String? = nil, actions: [Action]? = nil) {
-            self.conditions = conditions
+        public init(certificateArn: String? = nil, isDefault: Bool? = nil) {
+            self.certificateArn = certificateArn
             self.isDefault = isDefault
-            self.priority = priority
-            self.ruleArn = ruleArn
-            self.actions = actions
         }
 
         private enum CodingKeys: String, CodingKey {
-            case conditions = "Conditions"
+            case certificateArn = "CertificateArn"
             case isDefault = "IsDefault"
-            case priority = "Priority"
-            case ruleArn = "RuleArn"
-            case actions = "Actions"
-        }
-    }
-
-    public struct SetSubnetsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list)
-        ]
-        /// Information about the subnet and Availability Zone.
-        public let availabilityZones: [AvailabilityZone]?
-
-        public init(availabilityZones: [AvailabilityZone]? = nil) {
-            self.availabilityZones = availabilityZones
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case availabilityZones = "AvailabilityZones"
         }
     }
 
@@ -1981,610 +2477,114 @@ extension ELBV2 {
         }
     }
 
-    public struct AddTagsOutput: AWSShape {
-
-    }
-
-    public struct CreateRuleOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Rules", required: false, type: .list)
-        ]
-        /// Information about the rule.
-        public let rules: [Rule]?
-
-        public init(rules: [Rule]? = nil) {
-            self.rules = rules
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case rules = "Rules"
-        }
-    }
-
-    public struct DescribeRulesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Rules", required: false, type: .list), 
-            AWSShapeMember(label: "NextMarker", required: false, type: .string)
-        ]
-        /// Information about the rules.
-        public let rules: [Rule]?
-        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
-        public let nextMarker: String?
-
-        public init(rules: [Rule]? = nil, nextMarker: String? = nil) {
-            self.rules = rules
-            self.nextMarker = nextMarker
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case rules = "Rules"
-            case nextMarker = "NextMarker"
-        }
-    }
-
-    public struct PathPatternConditionConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Values", required: false, type: .list)
-        ]
-        public let values: [String]?
-
-        public init(values: [String]? = nil) {
-            self.values = values
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case values = "Values"
-        }
-    }
-
-    public struct SetSecurityGroupsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoadBalancerArn", required: true, type: .string), 
-            AWSShapeMember(label: "SecurityGroups", required: true, type: .list)
-        ]
-        /// The Amazon Resource Name (ARN) of the load balancer.
-        public let loadBalancerArn: String
-        /// The IDs of the security groups.
-        public let securityGroups: [String]
-
-        public init(loadBalancerArn: String, securityGroups: [String]) {
-            self.loadBalancerArn = loadBalancerArn
-            self.securityGroups = securityGroups
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case loadBalancerArn = "LoadBalancerArn"
-            case securityGroups = "SecurityGroups"
-        }
-    }
-
-    public struct TagDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceArn", required: false, type: .string)
-        ]
-        /// Information about the tags.
-        public let tags: [Tag]?
-        /// The Amazon Resource Name (ARN) of the resource.
-        public let resourceArn: String?
-
-        public init(tags: [Tag]? = nil, resourceArn: String? = nil) {
-            self.tags = tags
-            self.resourceArn = resourceArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-            case resourceArn = "ResourceArn"
-        }
-    }
-
-    public struct AddListenerCertificatesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificates", required: false, type: .list)
-        ]
-        /// Information about the certificates.
-        public let certificates: [Certificate]?
-
-        public init(certificates: [Certificate]? = nil) {
-            self.certificates = certificates
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificates = "Certificates"
-        }
-    }
-
-    public struct QueryStringConditionConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Values", required: false, type: .list)
-        ]
-        public let values: [String]?
-
-        public init(values: [String]? = nil) {
-            self.values = values
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case values = "Values"
-        }
-    }
-
-    public struct ModifyTargetGroupOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetGroups", required: false, type: .list)
-        ]
-        /// Information about the modified target group.
-        public let targetGroups: [TargetGroup]?
-
-        public init(targetGroups: [TargetGroup]? = nil) {
-            self.targetGroups = targetGroups
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case targetGroups = "TargetGroups"
-        }
-    }
-
-    public enum ActionTypeEnum: String, CustomStringConvertible, Codable {
-        case forward = "forward"
-        case authenticateOidc = "authenticate-oidc"
-        case redirect = "redirect"
-        case authenticateCognito = "authenticate-cognito"
-        case fixedResponse = "fixed-response"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct SetSecurityGroupsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list)
-        ]
-        /// The IDs of the security groups associated with the load balancer.
-        public let securityGroupIds: [String]?
-
-        public init(securityGroupIds: [String]? = nil) {
-            self.securityGroupIds = securityGroupIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case securityGroupIds = "SecurityGroupIds"
-        }
-    }
-
-    public struct HostHeaderConditionConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Values", required: false, type: .list)
-        ]
-        public let values: [String]?
-
-        public init(values: [String]? = nil) {
-            self.values = values
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case values = "Values"
-        }
-    }
-
-    public struct ModifyListenerInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ListenerArn", required: true, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "Certificates", required: false, type: .list), 
-            AWSShapeMember(label: "SslPolicy", required: false, type: .string), 
-            AWSShapeMember(label: "Protocol", required: false, type: .enum), 
-            AWSShapeMember(label: "DefaultActions", required: false, type: .list)
-        ]
-        /// The Amazon Resource Name (ARN) of the listener.
-        public let listenerArn: String
-        /// The port for connections from clients to the load balancer.
-        public let port: Int32?
-        /// [HTTPS listeners] The default SSL server certificate. You must provide exactly one certificate. Set CertificateArn to the certificate ARN but do not set IsDefault. To create a certificate list, use AddListenerCertificates.
-        public let certificates: [Certificate]?
-        /// [HTTPS listeners] The security policy that defines which protocols and ciphers are supported. For more information, see Security Policies in the Application Load Balancers Guide.
-        public let sslPolicy: String?
-        /// The protocol for connections from clients to the load balancer. Application Load Balancers support HTTP and HTTPS and Network Load Balancers support TCP.
-        public let `protocol`: ProtocolEnum?
-        /// The actions for the default rule. The rule must include one forward action or one or more fixed-response actions. If the action type is forward, you specify a target group. The protocol of the target group must be HTTP or HTTPS for an Application Load Balancer or TCP for a Network Load Balancer. [HTTPS listener] If the action type is authenticate-oidc, you authenticate users through an identity provider that is OpenID Connect (OIDC) compliant. [HTTPS listener] If the action type is authenticate-cognito, you authenticate users through the user pools supported by Amazon Cognito. [Application Load Balancer] If the action type is redirect, you redirect specified client requests from one URL to another. [Application Load Balancer] If the action type is fixed-response, you drop specified client requests and return a custom HTTP response.
-        public let defaultActions: [Action]?
-
-        public init(listenerArn: String, port: Int32? = nil, certificates: [Certificate]? = nil, sslPolicy: String? = nil, protocol: ProtocolEnum? = nil, defaultActions: [Action]? = nil) {
-            self.listenerArn = listenerArn
-            self.port = port
-            self.certificates = certificates
-            self.sslPolicy = sslPolicy
-            self.`protocol` = `protocol`
-            self.defaultActions = defaultActions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case listenerArn = "ListenerArn"
-            case port = "Port"
-            case certificates = "Certificates"
-            case sslPolicy = "SslPolicy"
-            case `protocol` = "Protocol"
-            case defaultActions = "DefaultActions"
-        }
-    }
-
-    public struct DeleteRuleOutput: AWSShape {
-
-    }
-
-    public struct ModifyLoadBalancerAttributesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoadBalancerArn", required: true, type: .string), 
-            AWSShapeMember(label: "Attributes", required: true, type: .list)
-        ]
-        /// The Amazon Resource Name (ARN) of the load balancer.
-        public let loadBalancerArn: String
-        /// The load balancer attributes.
-        public let attributes: [LoadBalancerAttribute]
-
-        public init(loadBalancerArn: String, attributes: [LoadBalancerAttribute]) {
-            self.loadBalancerArn = loadBalancerArn
-            self.attributes = attributes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case loadBalancerArn = "LoadBalancerArn"
-            case attributes = "Attributes"
-        }
-    }
-
-    public struct RemoveListenerCertificatesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificates", required: true, type: .list), 
-            AWSShapeMember(label: "ListenerArn", required: true, type: .string)
-        ]
-        /// The certificate to remove. You can specify one certificate per call. Set CertificateArn to the certificate ARN but do not set IsDefault.
-        public let certificates: [Certificate]
-        /// The Amazon Resource Name (ARN) of the listener.
-        public let listenerArn: String
-
-        public init(certificates: [Certificate], listenerArn: String) {
-            self.certificates = certificates
-            self.listenerArn = listenerArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificates = "Certificates"
-            case listenerArn = "ListenerArn"
-        }
-    }
-
-    public enum TargetHealthStateEnum: String, CustomStringConvertible, Codable {
-        case initial = "initial"
-        case healthy = "healthy"
-        case unhealthy = "unhealthy"
-        case unused = "unused"
-        case draining = "draining"
-        case unavailable = "unavailable"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ProtocolEnum: String, CustomStringConvertible, Codable {
-        case http = "HTTP"
-        case https = "HTTPS"
-        case tcp = "TCP"
-        case tls = "TLS"
-        case udp = "UDP"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct AddTagsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: true, type: .list), 
-            AWSShapeMember(label: "ResourceArns", required: true, type: .list)
-        ]
-        /// The tags. Each resource can have a maximum of 10 tags.
-        public let tags: [Tag]
-        /// The Amazon Resource Name (ARN) of the resource.
-        public let resourceArns: [String]
-
-        public init(tags: [Tag], resourceArns: [String]) {
-            self.tags = tags
-            self.resourceArns = resourceArns
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-            case resourceArns = "ResourceArns"
-        }
-    }
-
-    public struct SetIpAddressTypeOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IpAddressType", required: false, type: .enum)
-        ]
-        /// The IP address type.
-        public let ipAddressType: IpAddressType?
-
-        public init(ipAddressType: IpAddressType? = nil) {
-            self.ipAddressType = ipAddressType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ipAddressType = "IpAddressType"
-        }
-    }
-
-    public struct DescribeRulesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
-            AWSShapeMember(label: "ListenerArn", required: false, type: .string), 
-            AWSShapeMember(label: "RuleArns", required: false, type: .list)
-        ]
-        /// The marker for the next set of results. (You received this marker from a previous call.)
-        public let marker: String?
-        /// The maximum number of results to return with this call.
-        public let pageSize: Int32?
-        /// The Amazon Resource Name (ARN) of the listener.
-        public let listenerArn: String?
-        /// The Amazon Resource Names (ARN) of the rules.
-        public let ruleArns: [String]?
-
-        public init(marker: String? = nil, pageSize: Int32? = nil, listenerArn: String? = nil, ruleArns: [String]? = nil) {
-            self.marker = marker
-            self.pageSize = pageSize
-            self.listenerArn = listenerArn
-            self.ruleArns = ruleArns
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case pageSize = "PageSize"
-            case listenerArn = "ListenerArn"
-            case ruleArns = "RuleArns"
-        }
-    }
-
-    public struct Limit: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Max", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// The maximum value of the limit.
-        public let max: String?
-        /// The name of the limit. The possible values are:   application-load-balancers   listeners-per-application-load-balancer   listeners-per-network-load-balancer   network-load-balancers   rules-per-application-load-balancer   target-groups   targets-per-application-load-balancer   targets-per-availability-zone-per-network-load-balancer   targets-per-network-load-balancer  
-        public let name: String?
-
-        public init(max: String? = nil, name: String? = nil) {
-            self.max = max
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case max = "Max"
-            case name = "Name"
-        }
-    }
-
-    public struct RegisterTargetsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetGroupArn", required: true, type: .string), 
-            AWSShapeMember(label: "Targets", required: true, type: .list)
-        ]
-        /// The Amazon Resource Name (ARN) of the target group.
-        public let targetGroupArn: String
-        /// The targets. To register a target by instance ID, specify the instance ID. To register a target by IP address, specify the IP address. To register a Lambda function, specify the ARN of the Lambda function.
-        public let targets: [TargetDescription]
-
-        public init(targetGroupArn: String, targets: [TargetDescription]) {
-            self.targetGroupArn = targetGroupArn
-            self.targets = targets
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case targetGroupArn = "TargetGroupArn"
-            case targets = "Targets"
-        }
-    }
-
-    public struct ModifyTargetGroupInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HealthCheckEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "HealthCheckProtocol", required: false, type: .enum), 
-            AWSShapeMember(label: "HealthCheckTimeoutSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "HealthyThresholdCount", required: false, type: .integer), 
-            AWSShapeMember(label: "UnhealthyThresholdCount", required: false, type: .integer), 
-            AWSShapeMember(label: "HealthCheckPort", required: false, type: .string), 
-            AWSShapeMember(label: "HealthCheckPath", required: false, type: .string), 
-            AWSShapeMember(label: "HealthCheckIntervalSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "Matcher", required: false, type: .structure), 
-            AWSShapeMember(label: "TargetGroupArn", required: true, type: .string)
-        ]
-        /// Indicates whether health checks are enabled.
-        public let healthCheckEnabled: Bool?
-        /// The protocol the load balancer uses when performing health checks on targets. The TCP protocol is supported only if the protocol of the target group is TCP. If the protocol of the target group is TCP, you can't modify this setting.
-        public let healthCheckProtocol: ProtocolEnum?
-        /// [HTTP/HTTPS health checks] The amount of time, in seconds, during which no response means a failed health check. If the protocol of the target group is TCP, you can't modify this setting.
-        public let healthCheckTimeoutSeconds: Int32?
-        /// The number of consecutive health checks successes required before considering an unhealthy target healthy.
-        public let healthyThresholdCount: Int32?
-        /// The number of consecutive health check failures required before considering the target unhealthy. For Network Load Balancers, this value must be the same as the healthy threshold count.
-        public let unhealthyThresholdCount: Int32?
-        /// The port the load balancer uses when performing health checks on targets.
-        public let healthCheckPort: String?
-        /// [HTTP/HTTPS health checks] The ping path that is the destination for the health check request.
-        public let healthCheckPath: String?
-        /// The approximate amount of time, in seconds, between health checks of an individual target. For Application Load Balancers, the range is 5–300 seconds. For Network Load Balancers, the supported values are 10 or 30 seconds. If the protocol of the target group is TCP, you can't modify this setting.
-        public let healthCheckIntervalSeconds: Int32?
-        /// [HTTP/HTTPS health checks] The HTTP codes to use when checking for a successful response from a target. If the protocol of the target group is TCP, you can't modify this setting.
-        public let matcher: Matcher?
-        /// The Amazon Resource Name (ARN) of the target group.
-        public let targetGroupArn: String
-
-        public init(healthCheckEnabled: Bool? = nil, healthCheckProtocol: ProtocolEnum? = nil, healthCheckTimeoutSeconds: Int32? = nil, healthyThresholdCount: Int32? = nil, unhealthyThresholdCount: Int32? = nil, healthCheckPort: String? = nil, healthCheckPath: String? = nil, healthCheckIntervalSeconds: Int32? = nil, matcher: Matcher? = nil, targetGroupArn: String) {
-            self.healthCheckEnabled = healthCheckEnabled
-            self.healthCheckProtocol = healthCheckProtocol
-            self.healthCheckTimeoutSeconds = healthCheckTimeoutSeconds
-            self.healthyThresholdCount = healthyThresholdCount
-            self.unhealthyThresholdCount = unhealthyThresholdCount
-            self.healthCheckPort = healthCheckPort
-            self.healthCheckPath = healthCheckPath
-            self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
-            self.matcher = matcher
-            self.targetGroupArn = targetGroupArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case healthCheckEnabled = "HealthCheckEnabled"
-            case healthCheckProtocol = "HealthCheckProtocol"
-            case healthCheckTimeoutSeconds = "HealthCheckTimeoutSeconds"
-            case healthyThresholdCount = "HealthyThresholdCount"
-            case unhealthyThresholdCount = "UnhealthyThresholdCount"
-            case healthCheckPort = "HealthCheckPort"
-            case healthCheckPath = "HealthCheckPath"
-            case healthCheckIntervalSeconds = "HealthCheckIntervalSeconds"
-            case matcher = "Matcher"
-            case targetGroupArn = "TargetGroupArn"
-        }
-    }
-
-    public struct CreateListenerOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Listeners", required: false, type: .list)
-        ]
-        /// Information about the listener.
-        public let listeners: [Listener]?
-
-        public init(listeners: [Listener]? = nil) {
-            self.listeners = listeners
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case listeners = "Listeners"
-        }
-    }
-
-    public struct CreateListenerInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Port", required: true, type: .integer), 
-            AWSShapeMember(label: "LoadBalancerArn", required: true, type: .string), 
-            AWSShapeMember(label: "Certificates", required: false, type: .list), 
-            AWSShapeMember(label: "SslPolicy", required: false, type: .string), 
-            AWSShapeMember(label: "Protocol", required: true, type: .enum), 
-            AWSShapeMember(label: "DefaultActions", required: true, type: .list)
-        ]
-        /// The port on which the load balancer is listening.
-        public let port: Int32
-        /// The Amazon Resource Name (ARN) of the load balancer.
-        public let loadBalancerArn: String
-        /// [HTTPS listeners] The default SSL server certificate. You must provide exactly one certificate. Set CertificateArn to the certificate ARN but do not set IsDefault. To create a certificate list, use AddListenerCertificates.
-        public let certificates: [Certificate]?
-        /// [HTTPS listeners] The security policy that defines which ciphers and protocols are supported. The default is the current predefined security policy.
-        public let sslPolicy: String?
-        /// The protocol for connections from clients to the load balancer. For Application Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers, the supported protocol is TCP.
-        public let `protocol`: ProtocolEnum
-        /// The actions for the default rule. The rule must include one forward action or one or more fixed-response actions. If the action type is forward, you specify a target group. The protocol of the target group must be HTTP or HTTPS for an Application Load Balancer or TCP for a Network Load Balancer. [HTTPS listener] If the action type is authenticate-oidc, you authenticate users through an identity provider that is OpenID Connect (OIDC) compliant. [HTTPS listener] If the action type is authenticate-cognito, you authenticate users through the user pools supported by Amazon Cognito. [Application Load Balancer] If the action type is redirect, you redirect specified client requests from one URL to another. [Application Load Balancer] If the action type is fixed-response, you drop specified client requests and return a custom HTTP response.
-        public let defaultActions: [Action]
-
-        public init(port: Int32, loadBalancerArn: String, certificates: [Certificate]? = nil, sslPolicy: String? = nil, protocol: ProtocolEnum, defaultActions: [Action]) {
-            self.port = port
-            self.loadBalancerArn = loadBalancerArn
-            self.certificates = certificates
-            self.sslPolicy = sslPolicy
-            self.`protocol` = `protocol`
-            self.defaultActions = defaultActions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case port = "Port"
-            case loadBalancerArn = "LoadBalancerArn"
-            case certificates = "Certificates"
-            case sslPolicy = "SslPolicy"
-            case `protocol` = "Protocol"
-            case defaultActions = "DefaultActions"
-        }
-    }
-
-    public struct DescribeTargetHealthOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetHealthDescriptions", required: false, type: .list)
-        ]
-        /// Information about the health of the targets.
-        public let targetHealthDescriptions: [TargetHealthDescription]?
-
-        public init(targetHealthDescriptions: [TargetHealthDescription]? = nil) {
-            self.targetHealthDescriptions = targetHealthDescriptions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case targetHealthDescriptions = "TargetHealthDescriptions"
-        }
-    }
-
-    public struct SetRulePrioritiesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RulePriorities", required: true, type: .list)
-        ]
-        /// The rule priorities.
-        public let rulePriorities: [RulePriorityPair]
-
-        public init(rulePriorities: [RulePriorityPair]) {
-            self.rulePriorities = rulePriorities
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case rulePriorities = "RulePriorities"
-        }
-    }
-
-    public struct ModifyProvisionedCapacityInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoadBalancerArn", required: true, type: .string), 
-            AWSShapeMember(label: "MinimumLBCapacityUnits", required: true, type: .integer)
-        ]
-        public let loadBalancerArn: String
-        public let minimumLBCapacityUnits: Int32
-
-        public init(loadBalancerArn: String, minimumLBCapacityUnits: Int32) {
-            self.loadBalancerArn = loadBalancerArn
-            self.minimumLBCapacityUnits = minimumLBCapacityUnits
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case loadBalancerArn = "LoadBalancerArn"
-            case minimumLBCapacityUnits = "MinimumLBCapacityUnits"
-        }
-    }
-
     public struct DescribeTargetGroupsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
             AWSShapeMember(label: "LoadBalancerArn", required: false, type: .string), 
+            AWSShapeMember(label: "Names", required: false, type: .list), 
             AWSShapeMember(label: "TargetGroupArns", required: false, type: .list), 
-            AWSShapeMember(label: "Names", required: false, type: .list)
+            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
-        /// The marker for the next set of results. (You received this marker from a previous call.)
-        public let marker: String?
-        /// The maximum number of results to return with this call.
-        public let pageSize: Int32?
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String?
-        /// The Amazon Resource Names (ARN) of the target groups.
-        public let targetGroupArns: [String]?
         /// The names of the target groups.
         public let names: [String]?
+        /// The Amazon Resource Names (ARN) of the target groups.
+        public let targetGroupArns: [String]?
+        /// The maximum number of results to return with this call.
+        public let pageSize: Int32?
+        /// The marker for the next set of results. (You received this marker from a previous call.)
+        public let marker: String?
 
-        public init(marker: String? = nil, pageSize: Int32? = nil, loadBalancerArn: String? = nil, targetGroupArns: [String]? = nil, names: [String]? = nil) {
-            self.marker = marker
-            self.pageSize = pageSize
+        public init(loadBalancerArn: String? = nil, names: [String]? = nil, targetGroupArns: [String]? = nil, pageSize: Int32? = nil, marker: String? = nil) {
             self.loadBalancerArn = loadBalancerArn
-            self.targetGroupArns = targetGroupArns
             self.names = names
+            self.targetGroupArns = targetGroupArns
+            self.pageSize = pageSize
+            self.marker = marker
         }
 
         private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case pageSize = "PageSize"
             case loadBalancerArn = "LoadBalancerArn"
-            case targetGroupArns = "TargetGroupArns"
             case names = "Names"
+            case targetGroupArns = "TargetGroupArns"
+            case pageSize = "PageSize"
+            case marker = "Marker"
         }
+    }
+
+    public struct AuthenticateOidcActionConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientId", required: true, type: .string), 
+            AWSShapeMember(label: "SessionCookieName", required: false, type: .string), 
+            AWSShapeMember(label: "OnUnauthenticatedRequest", required: false, type: .enum), 
+            AWSShapeMember(label: "UseExistingClientSecret", required: false, type: .boolean), 
+            AWSShapeMember(label: "UserInfoEndpoint", required: true, type: .string), 
+            AWSShapeMember(label: "AuthorizationEndpoint", required: true, type: .string), 
+            AWSShapeMember(label: "TokenEndpoint", required: true, type: .string), 
+            AWSShapeMember(label: "ClientSecret", required: false, type: .string), 
+            AWSShapeMember(label: "AuthenticationRequestExtraParams", required: false, type: .map), 
+            AWSShapeMember(label: "Issuer", required: true, type: .string), 
+            AWSShapeMember(label: "Scope", required: false, type: .string), 
+            AWSShapeMember(label: "SessionTimeout", required: false, type: .long)
+        ]
+        /// The OAuth 2.0 client identifier.
+        public let clientId: String
+        /// The name of the cookie used to maintain session information. The default is AWSELBAuthSessionCookie.
+        public let sessionCookieName: String?
+        /// The behavior if the user is not authenticated. The following are possible values:   deny - Return an HTTP 401 Unauthorized error.   allow - Allow the request to be forwarded to the target.   authenticate - Redirect the request to the IdP authorization endpoint. This is the default value.  
+        public let onUnauthenticatedRequest: AuthenticateOidcActionConditionalBehaviorEnum?
+        public let useExistingClientSecret: Bool?
+        /// The user info endpoint of the IdP. This must be a full URL, including the HTTPS protocol, the domain, and the path.
+        public let userInfoEndpoint: String
+        /// The authorization endpoint of the IdP. This must be a full URL, including the HTTPS protocol, the domain, and the path.
+        public let authorizationEndpoint: String
+        /// The token endpoint of the IdP. This must be a full URL, including the HTTPS protocol, the domain, and the path.
+        public let tokenEndpoint: String
+        /// The OAuth 2.0 client secret.
+        public let clientSecret: String?
+        /// The query parameters (up to 10) to include in the redirect request to the authorization endpoint.
+        public let authenticationRequestExtraParams: [String: String]?
+        /// The OIDC issuer identifier of the IdP. This must be a full URL, including the HTTPS protocol, the domain, and the path.
+        public let issuer: String
+        /// The set of user claims to be requested from the IdP. The default is openid. To verify which scope values your IdP supports and how to separate multiple values, see the documentation for your IdP.
+        public let scope: String?
+        /// The maximum duration of the authentication session, in seconds. The default is 604800 seconds (7 days).
+        public let sessionTimeout: Int64?
+
+        public init(clientId: String, sessionCookieName: String? = nil, onUnauthenticatedRequest: AuthenticateOidcActionConditionalBehaviorEnum? = nil, useExistingClientSecret: Bool? = nil, userInfoEndpoint: String, authorizationEndpoint: String, tokenEndpoint: String, clientSecret: String? = nil, authenticationRequestExtraParams: [String: String]? = nil, issuer: String, scope: String? = nil, sessionTimeout: Int64? = nil) {
+            self.clientId = clientId
+            self.sessionCookieName = sessionCookieName
+            self.onUnauthenticatedRequest = onUnauthenticatedRequest
+            self.useExistingClientSecret = useExistingClientSecret
+            self.userInfoEndpoint = userInfoEndpoint
+            self.authorizationEndpoint = authorizationEndpoint
+            self.tokenEndpoint = tokenEndpoint
+            self.clientSecret = clientSecret
+            self.authenticationRequestExtraParams = authenticationRequestExtraParams
+            self.issuer = issuer
+            self.scope = scope
+            self.sessionTimeout = sessionTimeout
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientId = "ClientId"
+            case sessionCookieName = "SessionCookieName"
+            case onUnauthenticatedRequest = "OnUnauthenticatedRequest"
+            case useExistingClientSecret = "UseExistingClientSecret"
+            case userInfoEndpoint = "UserInfoEndpoint"
+            case authorizationEndpoint = "AuthorizationEndpoint"
+            case tokenEndpoint = "TokenEndpoint"
+            case clientSecret = "ClientSecret"
+            case authenticationRequestExtraParams = "AuthenticationRequestExtraParams"
+            case issuer = "Issuer"
+            case scope = "Scope"
+            case sessionTimeout = "SessionTimeout"
+        }
+    }
+
+    public struct RemoveListenerCertificatesOutput: AWSShape {
+
     }
 
 }

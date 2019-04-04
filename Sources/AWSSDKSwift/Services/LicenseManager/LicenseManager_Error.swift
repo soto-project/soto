@@ -5,15 +5,15 @@ import AWSSDKSwiftCore
 /// Error enum for LicenseManager
 public enum LicenseManagerErrorType: AWSErrorType {
     case invalidParameterValueException(message: String?)
-    case filterLimitExceededException(message: String?)
     case serverInternalException(message: String?)
     case authorizationException(message: String?)
     case accessDeniedException(message: String?)
     case rateLimitExceededException(message: String?)
-    case resourceLimitExceededException(message: String?)
+    case filterLimitExceededException(message: String?)
+    case failedDependencyException(message: String?)
     case invalidResourceStateException(message: String?)
     case licenseUsageException(message: String?)
-    case failedDependencyException(message: String?)
+    case resourceLimitExceededException(message: String?)
 }
 
 extension LicenseManagerErrorType {
@@ -25,8 +25,6 @@ extension LicenseManagerErrorType {
         switch errorCode {
         case "InvalidParameterValueException":
             self = .invalidParameterValueException(message: message)
-        case "FilterLimitExceededException":
-            self = .filterLimitExceededException(message: message)
         case "ServerInternalException":
             self = .serverInternalException(message: message)
         case "AuthorizationException":
@@ -35,14 +33,16 @@ extension LicenseManagerErrorType {
             self = .accessDeniedException(message: message)
         case "RateLimitExceededException":
             self = .rateLimitExceededException(message: message)
-        case "ResourceLimitExceededException":
-            self = .resourceLimitExceededException(message: message)
+        case "FilterLimitExceededException":
+            self = .filterLimitExceededException(message: message)
+        case "FailedDependencyException":
+            self = .failedDependencyException(message: message)
         case "InvalidResourceStateException":
             self = .invalidResourceStateException(message: message)
         case "LicenseUsageException":
             self = .licenseUsageException(message: message)
-        case "FailedDependencyException":
-            self = .failedDependencyException(message: message)
+        case "ResourceLimitExceededException":
+            self = .resourceLimitExceededException(message: message)
         default:
             return nil
         }

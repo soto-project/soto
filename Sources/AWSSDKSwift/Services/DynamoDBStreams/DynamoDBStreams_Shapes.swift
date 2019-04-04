@@ -5,6 +5,71 @@ import AWSSDKSwiftCore
 
 extension DynamoDBStreams {
 
+    public struct GetShardIteratorInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ShardId", required: true, type: .string), 
+            AWSShapeMember(label: "SequenceNumber", required: false, type: .string), 
+            AWSShapeMember(label: "StreamArn", required: true, type: .string), 
+            AWSShapeMember(label: "ShardIteratorType", required: true, type: .enum)
+        ]
+        /// The identifier of the shard. The iterator will be returned for this shard ID.
+        public let shardId: String
+        /// The sequence number of a stream record in the shard from which to start reading.
+        public let sequenceNumber: String?
+        /// The Amazon Resource Name (ARN) for the stream.
+        public let streamArn: String
+        /// Determines how the shard iterator is used to start reading stream records from the shard:    AT_SEQUENCE_NUMBER - Start reading exactly from the position denoted by a specific sequence number.    AFTER_SEQUENCE_NUMBER - Start reading right after the position denoted by a specific sequence number.    TRIM_HORIZON - Start reading at the last (untrimmed) stream record, which is the oldest record in the shard. In DynamoDB Streams, there is a 24 hour limit on data retention. Stream records whose age exceeds this limit are subject to removal (trimming) from the stream.    LATEST - Start reading just after the most recent stream record in the shard, so that you always read the most recent data in the shard.  
+        public let shardIteratorType: ShardIteratorType
+
+        public init(shardId: String, sequenceNumber: String? = nil, streamArn: String, shardIteratorType: ShardIteratorType) {
+            self.shardId = shardId
+            self.sequenceNumber = sequenceNumber
+            self.streamArn = streamArn
+            self.shardIteratorType = shardIteratorType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case shardId = "ShardId"
+            case sequenceNumber = "SequenceNumber"
+            case streamArn = "StreamArn"
+            case shardIteratorType = "ShardIteratorType"
+        }
+    }
+
+    public enum StreamStatus: String, CustomStringConvertible, Codable {
+        case enabling = "ENABLING"
+        case enabled = "ENABLED"
+        case disabling = "DISABLING"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListStreamsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExclusiveStartStreamArn", required: false, type: .string), 
+            AWSShapeMember(label: "TableName", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
+        ]
+        /// The ARN (Amazon Resource Name) of the first item that this operation will evaluate. Use the value that was returned for LastEvaluatedStreamArn in the previous operation. 
+        public let exclusiveStartStreamArn: String?
+        /// If this parameter is provided, then only the streams associated with this table name are returned.
+        public let tableName: String?
+        /// The maximum number of streams to return. The upper limit is 100.
+        public let limit: Int32?
+
+        public init(exclusiveStartStreamArn: String? = nil, tableName: String? = nil, limit: Int32? = nil) {
+            self.exclusiveStartStreamArn = exclusiveStartStreamArn
+            self.tableName = tableName
+            self.limit = limit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exclusiveStartStreamArn = "ExclusiveStartStreamArn"
+            case tableName = "TableName"
+            case limit = "Limit"
+        }
+    }
+
     public enum StreamViewType: String, CustomStringConvertible, Codable {
         case newImage = "NEW_IMAGE"
         case oldImage = "OLD_IMAGE"
@@ -41,231 +106,369 @@ extension DynamoDBStreams {
 
     public struct StreamRecord: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NewImage", required: false, type: .map), 
-            AWSShapeMember(label: "Keys", required: false, type: .map), 
+            AWSShapeMember(label: "StreamViewType", required: false, type: .enum), 
             AWSShapeMember(label: "OldImage", required: false, type: .map), 
+            AWSShapeMember(label: "ApproximateCreationDateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "SequenceNumber", required: false, type: .string), 
             AWSShapeMember(label: "SizeBytes", required: false, type: .long), 
-            AWSShapeMember(label: "ApproximateCreationDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "StreamViewType", required: false, type: .enum)
+            AWSShapeMember(label: "NewImage", required: false, type: .map), 
+            AWSShapeMember(label: "Keys", required: false, type: .map)
         ]
-        /// The item in the DynamoDB table as it appeared after it was modified.
-        public let newImage: [String: AttributeValue]?
-        /// The primary key attribute(s) for the DynamoDB item that was modified.
-        public let keys: [String: AttributeValue]?
+        /// The type of data from the modified DynamoDB item that was captured in this stream record:    KEYS_ONLY - only the key attributes of the modified item.    NEW_IMAGE - the entire item, as it appeared after it was modified.    OLD_IMAGE - the entire item, as it appeared before it was modified.    NEW_AND_OLD_IMAGES - both the new and the old item images of the item.  
+        public let streamViewType: StreamViewType?
         /// The item in the DynamoDB table as it appeared before it was modified.
         public let oldImage: [String: AttributeValue]?
+        /// The approximate date and time when the stream record was created, in UNIX epoch time format.
+        public let approximateCreationDateTime: TimeStamp?
         /// The sequence number of the stream record.
         public let sequenceNumber: String?
         /// The size of the stream record, in bytes.
         public let sizeBytes: Int64?
-        /// The approximate date and time when the stream record was created, in UNIX epoch time format.
-        public let approximateCreationDateTime: TimeStamp?
-        /// The type of data from the modified DynamoDB item that was captured in this stream record:    KEYS_ONLY - only the key attributes of the modified item.    NEW_IMAGE - the entire item, as it appeared after it was modified.    OLD_IMAGE - the entire item, as it appeared before it was modified.    NEW_AND_OLD_IMAGES - both the new and the old item images of the item.  
-        public let streamViewType: StreamViewType?
+        /// The item in the DynamoDB table as it appeared after it was modified.
+        public let newImage: [String: AttributeValue]?
+        /// The primary key attribute(s) for the DynamoDB item that was modified.
+        public let keys: [String: AttributeValue]?
 
-        public init(newImage: [String: AttributeValue]? = nil, keys: [String: AttributeValue]? = nil, oldImage: [String: AttributeValue]? = nil, sequenceNumber: String? = nil, sizeBytes: Int64? = nil, approximateCreationDateTime: TimeStamp? = nil, streamViewType: StreamViewType? = nil) {
-            self.newImage = newImage
-            self.keys = keys
+        public init(streamViewType: StreamViewType? = nil, oldImage: [String: AttributeValue]? = nil, approximateCreationDateTime: TimeStamp? = nil, sequenceNumber: String? = nil, sizeBytes: Int64? = nil, newImage: [String: AttributeValue]? = nil, keys: [String: AttributeValue]? = nil) {
+            self.streamViewType = streamViewType
             self.oldImage = oldImage
+            self.approximateCreationDateTime = approximateCreationDateTime
             self.sequenceNumber = sequenceNumber
             self.sizeBytes = sizeBytes
-            self.approximateCreationDateTime = approximateCreationDateTime
-            self.streamViewType = streamViewType
+            self.newImage = newImage
+            self.keys = keys
         }
 
         private enum CodingKeys: String, CodingKey {
-            case newImage = "NewImage"
-            case keys = "Keys"
+            case streamViewType = "StreamViewType"
             case oldImage = "OldImage"
+            case approximateCreationDateTime = "ApproximateCreationDateTime"
             case sequenceNumber = "SequenceNumber"
             case sizeBytes = "SizeBytes"
-            case approximateCreationDateTime = "ApproximateCreationDateTime"
-            case streamViewType = "StreamViewType"
+            case newImage = "NewImage"
+            case keys = "Keys"
         }
     }
 
-    public enum ShardIteratorType: String, CustomStringConvertible, Codable {
-        case trimHorizon = "TRIM_HORIZON"
-        case latest = "LATEST"
-        case atSequenceNumber = "AT_SEQUENCE_NUMBER"
-        case afterSequenceNumber = "AFTER_SEQUENCE_NUMBER"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListStreamsInput: AWSShape {
+    public struct GetShardIteratorOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "ExclusiveStartStreamArn", required: false, type: .string), 
-            AWSShapeMember(label: "TableName", required: false, type: .string)
+            AWSShapeMember(label: "ShardIterator", required: false, type: .string)
         ]
-        /// The maximum number of streams to return. The upper limit is 100.
-        public let limit: Int32?
-        /// The ARN (Amazon Resource Name) of the first item that this operation will evaluate. Use the value that was returned for LastEvaluatedStreamArn in the previous operation. 
-        public let exclusiveStartStreamArn: String?
-        /// If this parameter is provided, then only the streams associated with this table name are returned.
-        public let tableName: String?
+        /// The position in the shard from which to start reading stream records sequentially. A shard iterator specifies this position using the sequence number of a stream record in a shard.
+        public let shardIterator: String?
 
-        public init(limit: Int32? = nil, exclusiveStartStreamArn: String? = nil, tableName: String? = nil) {
-            self.limit = limit
-            self.exclusiveStartStreamArn = exclusiveStartStreamArn
-            self.tableName = tableName
+        public init(shardIterator: String? = nil) {
+            self.shardIterator = shardIterator
         }
 
         private enum CodingKeys: String, CodingKey {
-            case limit = "Limit"
-            case exclusiveStartStreamArn = "ExclusiveStartStreamArn"
-            case tableName = "TableName"
+            case shardIterator = "ShardIterator"
         }
     }
 
-    public struct StreamDescription: AWSShape {
+    public struct Record: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StreamArn", required: false, type: .string), 
-            AWSShapeMember(label: "StreamLabel", required: false, type: .string), 
-            AWSShapeMember(label: "Shards", required: false, type: .list), 
-            AWSShapeMember(label: "LastEvaluatedShardId", required: false, type: .string), 
-            AWSShapeMember(label: "StreamStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "TableName", required: false, type: .string), 
-            AWSShapeMember(label: "CreationRequestDateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "KeySchema", required: false, type: .list), 
-            AWSShapeMember(label: "StreamViewType", required: false, type: .enum)
+            AWSShapeMember(label: "eventName", required: false, type: .enum), 
+            AWSShapeMember(label: "eventID", required: false, type: .string), 
+            AWSShapeMember(label: "awsRegion", required: false, type: .string), 
+            AWSShapeMember(label: "eventSource", required: false, type: .string), 
+            AWSShapeMember(label: "dynamodb", required: false, type: .structure), 
+            AWSShapeMember(label: "userIdentity", required: false, type: .structure), 
+            AWSShapeMember(label: "eventVersion", required: false, type: .string)
         ]
-        /// The Amazon Resource Name (ARN) for the stream.
-        public let streamArn: String?
-        /// A timestamp, in ISO 8601 format, for this stream. Note that LatestStreamLabel is not a unique identifier for the stream, because it is possible that a stream from another table might have the same timestamp. However, the combination of the following three elements is guaranteed to be unique:   the AWS customer ID.   the table name   the StreamLabel   
-        public let streamLabel: String?
-        /// The shards that comprise the stream.
-        public let shards: [Shard]?
-        /// The shard ID of the item where the operation stopped, inclusive of the previous result set. Use this value to start a new operation, excluding this value in the new request. If LastEvaluatedShardId is empty, then the "last page" of results has been processed and there is currently no more data to be retrieved. If LastEvaluatedShardId is not empty, it does not necessarily mean that there is more data in the result set. The only way to know when you have reached the end of the result set is when LastEvaluatedShardId is empty.
-        public let lastEvaluatedShardId: String?
-        /// Indicates the current status of the stream:    ENABLING - Streams is currently being enabled on the DynamoDB table.    ENABLED - the stream is enabled.    DISABLING - Streams is currently being disabled on the DynamoDB table.    DISABLED - the stream is disabled.  
-        public let streamStatus: StreamStatus?
-        /// The DynamoDB table with which the stream is associated.
-        public let tableName: String?
-        /// The date and time when the request to create this stream was issued.
-        public let creationRequestDateTime: TimeStamp?
-        /// The key attribute(s) of the stream's DynamoDB table.
-        public let keySchema: [KeySchemaElement]?
-        /// Indicates the format of the records within this stream:    KEYS_ONLY - only the key attributes of items that were modified in the DynamoDB table.    NEW_IMAGE - entire items from the table, as they appeared after they were modified.    OLD_IMAGE - entire items from the table, as they appeared before they were modified.    NEW_AND_OLD_IMAGES - both the new and the old images of the items from the table.  
-        public let streamViewType: StreamViewType?
+        /// The type of data modification that was performed on the DynamoDB table:    INSERT - a new item was added to the table.    MODIFY - one or more of an existing item's attributes were modified.    REMOVE - the item was deleted from the table  
+        public let eventName: OperationType?
+        /// A globally unique identifier for the event that was recorded in this stream record.
+        public let eventID: String?
+        /// The region in which the GetRecords request was received.
+        public let awsRegion: String?
+        /// The AWS service from which the stream record originated. For DynamoDB Streams, this is aws:dynamodb.
+        public let eventSource: String?
+        /// The main body of the stream record, containing all of the DynamoDB-specific fields.
+        public let dynamodb: StreamRecord?
+        /// Items that are deleted by the Time to Live process after expiration have the following fields:    Records[].userIdentity.type "Service"   Records[].userIdentity.principalId "dynamodb.amazonaws.com"  
+        public let userIdentity: Identity?
+        /// The version number of the stream record format. This number is updated whenever the structure of Record is modified. Client applications must not assume that eventVersion will remain at a particular value, as this number is subject to change at any time. In general, eventVersion will only increase as the low-level DynamoDB Streams API evolves.
+        public let eventVersion: String?
 
-        public init(streamArn: String? = nil, streamLabel: String? = nil, shards: [Shard]? = nil, lastEvaluatedShardId: String? = nil, streamStatus: StreamStatus? = nil, tableName: String? = nil, creationRequestDateTime: TimeStamp? = nil, keySchema: [KeySchemaElement]? = nil, streamViewType: StreamViewType? = nil) {
-            self.streamArn = streamArn
-            self.streamLabel = streamLabel
-            self.shards = shards
-            self.lastEvaluatedShardId = lastEvaluatedShardId
-            self.streamStatus = streamStatus
-            self.tableName = tableName
-            self.creationRequestDateTime = creationRequestDateTime
-            self.keySchema = keySchema
-            self.streamViewType = streamViewType
+        public init(eventName: OperationType? = nil, eventID: String? = nil, awsRegion: String? = nil, eventSource: String? = nil, dynamodb: StreamRecord? = nil, userIdentity: Identity? = nil, eventVersion: String? = nil) {
+            self.eventName = eventName
+            self.eventID = eventID
+            self.awsRegion = awsRegion
+            self.eventSource = eventSource
+            self.dynamodb = dynamodb
+            self.userIdentity = userIdentity
+            self.eventVersion = eventVersion
         }
 
         private enum CodingKeys: String, CodingKey {
-            case streamArn = "StreamArn"
-            case streamLabel = "StreamLabel"
-            case shards = "Shards"
-            case lastEvaluatedShardId = "LastEvaluatedShardId"
-            case streamStatus = "StreamStatus"
-            case tableName = "TableName"
-            case creationRequestDateTime = "CreationRequestDateTime"
-            case keySchema = "KeySchema"
-            case streamViewType = "StreamViewType"
-        }
-    }
-
-    public struct KeySchemaElement: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KeyType", required: true, type: .enum), 
-            AWSShapeMember(label: "AttributeName", required: true, type: .string)
-        ]
-        /// The attribute data, consisting of the data type and the attribute value itself.
-        public let keyType: KeyType
-        /// The name of a key attribute.
-        public let attributeName: String
-
-        public init(keyType: KeyType, attributeName: String) {
-            self.keyType = keyType
-            self.attributeName = attributeName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case keyType = "KeyType"
-            case attributeName = "AttributeName"
-        }
-    }
-
-    public struct Stream: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StreamLabel", required: false, type: .string), 
-            AWSShapeMember(label: "TableName", required: false, type: .string), 
-            AWSShapeMember(label: "StreamArn", required: false, type: .string)
-        ]
-        /// A timestamp, in ISO 8601 format, for this stream. Note that LatestStreamLabel is not a unique identifier for the stream, because it is possible that a stream from another table might have the same timestamp. However, the combination of the following three elements is guaranteed to be unique:   the AWS customer ID.   the table name   the StreamLabel   
-        public let streamLabel: String?
-        /// The DynamoDB table with which the stream is associated.
-        public let tableName: String?
-        /// The Amazon Resource Name (ARN) for the stream.
-        public let streamArn: String?
-
-        public init(streamLabel: String? = nil, tableName: String? = nil, streamArn: String? = nil) {
-            self.streamLabel = streamLabel
-            self.tableName = tableName
-            self.streamArn = streamArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case streamLabel = "StreamLabel"
-            case tableName = "TableName"
-            case streamArn = "StreamArn"
+            case eventName = "eventName"
+            case eventID = "eventID"
+            case awsRegion = "awsRegion"
+            case eventSource = "eventSource"
+            case dynamodb = "dynamodb"
+            case userIdentity = "userIdentity"
+            case eventVersion = "eventVersion"
         }
     }
 
     public struct Shard: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ParentShardId", required: false, type: .string), 
-            AWSShapeMember(label: "ShardId", required: false, type: .string), 
-            AWSShapeMember(label: "SequenceNumberRange", required: false, type: .structure)
+            AWSShapeMember(label: "SequenceNumberRange", required: false, type: .structure), 
+            AWSShapeMember(label: "ShardId", required: false, type: .string)
         ]
         /// The shard ID of the current shard's parent.
         public let parentShardId: String?
-        /// The system-generated identifier for this shard.
-        public let shardId: String?
         /// The range of possible sequence numbers for the shard.
         public let sequenceNumberRange: SequenceNumberRange?
+        /// The system-generated identifier for this shard.
+        public let shardId: String?
 
-        public init(parentShardId: String? = nil, shardId: String? = nil, sequenceNumberRange: SequenceNumberRange? = nil) {
+        public init(parentShardId: String? = nil, sequenceNumberRange: SequenceNumberRange? = nil, shardId: String? = nil) {
             self.parentShardId = parentShardId
-            self.shardId = shardId
             self.sequenceNumberRange = sequenceNumberRange
+            self.shardId = shardId
         }
 
         private enum CodingKeys: String, CodingKey {
             case parentShardId = "ParentShardId"
-            case shardId = "ShardId"
             case sequenceNumberRange = "SequenceNumberRange"
+            case shardId = "ShardId"
+        }
+    }
+
+    public struct GetRecordsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ShardIterator", required: true, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
+        ]
+        /// A shard iterator that was retrieved from a previous GetShardIterator operation. This iterator can be used to access the stream records in this shard.
+        public let shardIterator: String
+        /// The maximum number of records to return from the shard. The upper limit is 1000.
+        public let limit: Int32?
+
+        public init(shardIterator: String, limit: Int32? = nil) {
+            self.shardIterator = shardIterator
+            self.limit = limit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case shardIterator = "ShardIterator"
+            case limit = "Limit"
+        }
+    }
+
+    public struct Identity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .string), 
+            AWSShapeMember(label: "PrincipalId", required: false, type: .string)
+        ]
+        /// The type of the identity. For Time To Live, the type is "Service".
+        public let `type`: String?
+        /// A unique identifier for the entity that made the call. For Time To Live, the principalId is "dynamodb.amazonaws.com".
+        public let principalId: String?
+
+        public init(type: String? = nil, principalId: String? = nil) {
+            self.`type` = `type`
+            self.principalId = principalId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case principalId = "PrincipalId"
         }
     }
 
     public struct SequenceNumberRange: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StartingSequenceNumber", required: false, type: .string), 
-            AWSShapeMember(label: "EndingSequenceNumber", required: false, type: .string)
+            AWSShapeMember(label: "EndingSequenceNumber", required: false, type: .string), 
+            AWSShapeMember(label: "StartingSequenceNumber", required: false, type: .string)
         ]
-        /// The first sequence number.
-        public let startingSequenceNumber: String?
         /// The last sequence number.
         public let endingSequenceNumber: String?
+        /// The first sequence number.
+        public let startingSequenceNumber: String?
 
-        public init(startingSequenceNumber: String? = nil, endingSequenceNumber: String? = nil) {
-            self.startingSequenceNumber = startingSequenceNumber
+        public init(endingSequenceNumber: String? = nil, startingSequenceNumber: String? = nil) {
             self.endingSequenceNumber = endingSequenceNumber
+            self.startingSequenceNumber = startingSequenceNumber
         }
 
         private enum CodingKeys: String, CodingKey {
-            case startingSequenceNumber = "StartingSequenceNumber"
             case endingSequenceNumber = "EndingSequenceNumber"
+            case startingSequenceNumber = "StartingSequenceNumber"
+        }
+    }
+
+    public struct KeySchemaElement: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeName", required: true, type: .string), 
+            AWSShapeMember(label: "KeyType", required: true, type: .enum)
+        ]
+        /// The name of a key attribute.
+        public let attributeName: String
+        /// The attribute data, consisting of the data type and the attribute value itself.
+        public let keyType: KeyType
+
+        public init(attributeName: String, keyType: KeyType) {
+            self.attributeName = attributeName
+            self.keyType = keyType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case keyType = "KeyType"
+        }
+    }
+
+    public struct StreamDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationRequestDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "StreamStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "TableName", required: false, type: .string), 
+            AWSShapeMember(label: "StreamArn", required: false, type: .string), 
+            AWSShapeMember(label: "LastEvaluatedShardId", required: false, type: .string), 
+            AWSShapeMember(label: "StreamViewType", required: false, type: .enum), 
+            AWSShapeMember(label: "Shards", required: false, type: .list), 
+            AWSShapeMember(label: "KeySchema", required: false, type: .list), 
+            AWSShapeMember(label: "StreamLabel", required: false, type: .string)
+        ]
+        /// The date and time when the request to create this stream was issued.
+        public let creationRequestDateTime: TimeStamp?
+        /// Indicates the current status of the stream:    ENABLING - Streams is currently being enabled on the DynamoDB table.    ENABLED - the stream is enabled.    DISABLING - Streams is currently being disabled on the DynamoDB table.    DISABLED - the stream is disabled.  
+        public let streamStatus: StreamStatus?
+        /// The DynamoDB table with which the stream is associated.
+        public let tableName: String?
+        /// The Amazon Resource Name (ARN) for the stream.
+        public let streamArn: String?
+        /// The shard ID of the item where the operation stopped, inclusive of the previous result set. Use this value to start a new operation, excluding this value in the new request. If LastEvaluatedShardId is empty, then the "last page" of results has been processed and there is currently no more data to be retrieved. If LastEvaluatedShardId is not empty, it does not necessarily mean that there is more data in the result set. The only way to know when you have reached the end of the result set is when LastEvaluatedShardId is empty.
+        public let lastEvaluatedShardId: String?
+        /// Indicates the format of the records within this stream:    KEYS_ONLY - only the key attributes of items that were modified in the DynamoDB table.    NEW_IMAGE - entire items from the table, as they appeared after they were modified.    OLD_IMAGE - entire items from the table, as they appeared before they were modified.    NEW_AND_OLD_IMAGES - both the new and the old images of the items from the table.  
+        public let streamViewType: StreamViewType?
+        /// The shards that comprise the stream.
+        public let shards: [Shard]?
+        /// The key attribute(s) of the stream's DynamoDB table.
+        public let keySchema: [KeySchemaElement]?
+        /// A timestamp, in ISO 8601 format, for this stream. Note that LatestStreamLabel is not a unique identifier for the stream, because it is possible that a stream from another table might have the same timestamp. However, the combination of the following three elements is guaranteed to be unique:   the AWS customer ID.   the table name   the StreamLabel   
+        public let streamLabel: String?
+
+        public init(creationRequestDateTime: TimeStamp? = nil, streamStatus: StreamStatus? = nil, tableName: String? = nil, streamArn: String? = nil, lastEvaluatedShardId: String? = nil, streamViewType: StreamViewType? = nil, shards: [Shard]? = nil, keySchema: [KeySchemaElement]? = nil, streamLabel: String? = nil) {
+            self.creationRequestDateTime = creationRequestDateTime
+            self.streamStatus = streamStatus
+            self.tableName = tableName
+            self.streamArn = streamArn
+            self.lastEvaluatedShardId = lastEvaluatedShardId
+            self.streamViewType = streamViewType
+            self.shards = shards
+            self.keySchema = keySchema
+            self.streamLabel = streamLabel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationRequestDateTime = "CreationRequestDateTime"
+            case streamStatus = "StreamStatus"
+            case tableName = "TableName"
+            case streamArn = "StreamArn"
+            case lastEvaluatedShardId = "LastEvaluatedShardId"
+            case streamViewType = "StreamViewType"
+            case shards = "Shards"
+            case keySchema = "KeySchema"
+            case streamLabel = "StreamLabel"
+        }
+    }
+
+    public class AttributeValue: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "M", required: false, type: .map), 
+            AWSShapeMember(label: "N", required: false, type: .string), 
+            AWSShapeMember(label: "BS", required: false, type: .list), 
+            AWSShapeMember(label: "NS", required: false, type: .list), 
+            AWSShapeMember(label: "S", required: false, type: .string), 
+            AWSShapeMember(label: "SS", required: false, type: .list), 
+            AWSShapeMember(label: "NULL", required: false, type: .boolean), 
+            AWSShapeMember(label: "L", required: false, type: .list), 
+            AWSShapeMember(label: "B", required: false, type: .blob), 
+            AWSShapeMember(label: "BOOL", required: false, type: .boolean)
+        ]
+        /// A Map data type.
+        public let m: [String: AttributeValue]?
+        /// A Number data type.
+        public let n: String?
+        /// A Binary Set data type.
+        public let bs: [Data]?
+        /// A Number Set data type.
+        public let ns: [String]?
+        /// A String data type.
+        public let s: String?
+        /// A String Set data type.
+        public let ss: [String]?
+        /// A Null data type.
+        public let null: Bool?
+        /// A List data type.
+        public let l: [AttributeValue]?
+        /// A Binary data type.
+        public let b: Data?
+        /// A Boolean data type.
+        public let bool: Bool?
+
+        public init(m: [String: AttributeValue]? = nil, n: String? = nil, bs: [Data]? = nil, ns: [String]? = nil, s: String? = nil, ss: [String]? = nil, null: Bool? = nil, l: [AttributeValue]? = nil, b: Data? = nil, bool: Bool? = nil) {
+            self.m = m
+            self.n = n
+            self.bs = bs
+            self.ns = ns
+            self.s = s
+            self.ss = ss
+            self.null = null
+            self.l = l
+            self.b = b
+            self.bool = bool
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case m = "M"
+            case n = "N"
+            case bs = "BS"
+            case ns = "NS"
+            case s = "S"
+            case ss = "SS"
+            case null = "NULL"
+            case l = "L"
+            case b = "B"
+            case bool = "BOOL"
+        }
+    }
+
+    public enum OperationType: String, CustomStringConvertible, Codable {
+        case insert = "INSERT"
+        case modify = "MODIFY"
+        case remove = "REMOVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Stream: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StreamArn", required: false, type: .string), 
+            AWSShapeMember(label: "StreamLabel", required: false, type: .string), 
+            AWSShapeMember(label: "TableName", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) for the stream.
+        public let streamArn: String?
+        /// A timestamp, in ISO 8601 format, for this stream. Note that LatestStreamLabel is not a unique identifier for the stream, because it is possible that a stream from another table might have the same timestamp. However, the combination of the following three elements is guaranteed to be unique:   the AWS customer ID.   the table name   the StreamLabel   
+        public let streamLabel: String?
+        /// The DynamoDB table with which the stream is associated.
+        public let tableName: String?
+
+        public init(streamArn: String? = nil, streamLabel: String? = nil, tableName: String? = nil) {
+            self.streamArn = streamArn
+            self.streamLabel = streamLabel
+            self.tableName = tableName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamArn = "StreamArn"
+            case streamLabel = "StreamLabel"
+            case tableName = "TableName"
         }
     }
 
@@ -290,147 +493,38 @@ extension DynamoDBStreams {
         }
     }
 
-    public struct Record: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "userIdentity", required: false, type: .structure), 
-            AWSShapeMember(label: "eventVersion", required: false, type: .string), 
-            AWSShapeMember(label: "dynamodb", required: false, type: .structure), 
-            AWSShapeMember(label: "eventSource", required: false, type: .string), 
-            AWSShapeMember(label: "eventID", required: false, type: .string), 
-            AWSShapeMember(label: "eventName", required: false, type: .enum), 
-            AWSShapeMember(label: "awsRegion", required: false, type: .string)
-        ]
-        /// Items that are deleted by the Time to Live process after expiration have the following fields:    Records[].userIdentity.type "Service"   Records[].userIdentity.principalId "dynamodb.amazonaws.com"  
-        public let userIdentity: Identity?
-        /// The version number of the stream record format. This number is updated whenever the structure of Record is modified. Client applications must not assume that eventVersion will remain at a particular value, as this number is subject to change at any time. In general, eventVersion will only increase as the low-level DynamoDB Streams API evolves.
-        public let eventVersion: String?
-        /// The main body of the stream record, containing all of the DynamoDB-specific fields.
-        public let dynamodb: StreamRecord?
-        /// The AWS service from which the stream record originated. For DynamoDB Streams, this is aws:dynamodb.
-        public let eventSource: String?
-        /// A globally unique identifier for the event that was recorded in this stream record.
-        public let eventID: String?
-        /// The type of data modification that was performed on the DynamoDB table:    INSERT - a new item was added to the table.    MODIFY - one or more of an existing item's attributes were modified.    REMOVE - the item was deleted from the table  
-        public let eventName: OperationType?
-        /// The region in which the GetRecords request was received.
-        public let awsRegion: String?
+    public enum KeyType: String, CustomStringConvertible, Codable {
+        case hash = "HASH"
+        case range = "RANGE"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(userIdentity: Identity? = nil, eventVersion: String? = nil, dynamodb: StreamRecord? = nil, eventSource: String? = nil, eventID: String? = nil, eventName: OperationType? = nil, awsRegion: String? = nil) {
-            self.userIdentity = userIdentity
-            self.eventVersion = eventVersion
-            self.dynamodb = dynamodb
-            self.eventSource = eventSource
-            self.eventID = eventID
-            self.eventName = eventName
-            self.awsRegion = awsRegion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userIdentity = "userIdentity"
-            case eventVersion = "eventVersion"
-            case dynamodb = "dynamodb"
-            case eventSource = "eventSource"
-            case eventID = "eventID"
-            case eventName = "eventName"
-            case awsRegion = "awsRegion"
-        }
+    public enum ShardIteratorType: String, CustomStringConvertible, Codable {
+        case trimHorizon = "TRIM_HORIZON"
+        case latest = "LATEST"
+        case atSequenceNumber = "AT_SEQUENCE_NUMBER"
+        case afterSequenceNumber = "AFTER_SEQUENCE_NUMBER"
+        public var description: String { return self.rawValue }
     }
 
     public struct ListStreamsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LastEvaluatedStreamArn", required: false, type: .string), 
-            AWSShapeMember(label: "Streams", required: false, type: .list)
+            AWSShapeMember(label: "Streams", required: false, type: .list), 
+            AWSShapeMember(label: "LastEvaluatedStreamArn", required: false, type: .string)
         ]
-        /// The stream ARN of the item where the operation stopped, inclusive of the previous result set. Use this value to start a new operation, excluding this value in the new request. If LastEvaluatedStreamArn is empty, then the "last page" of results has been processed and there is no more data to be retrieved. If LastEvaluatedStreamArn is not empty, it does not necessarily mean that there is more data in the result set. The only way to know when you have reached the end of the result set is when LastEvaluatedStreamArn is empty.
-        public let lastEvaluatedStreamArn: String?
         /// A list of stream descriptors associated with the current account and endpoint.
         public let streams: [Stream]?
+        /// The stream ARN of the item where the operation stopped, inclusive of the previous result set. Use this value to start a new operation, excluding this value in the new request. If LastEvaluatedStreamArn is empty, then the "last page" of results has been processed and there is no more data to be retrieved. If LastEvaluatedStreamArn is not empty, it does not necessarily mean that there is more data in the result set. The only way to know when you have reached the end of the result set is when LastEvaluatedStreamArn is empty.
+        public let lastEvaluatedStreamArn: String?
 
-        public init(lastEvaluatedStreamArn: String? = nil, streams: [Stream]? = nil) {
-            self.lastEvaluatedStreamArn = lastEvaluatedStreamArn
+        public init(streams: [Stream]? = nil, lastEvaluatedStreamArn: String? = nil) {
             self.streams = streams
+            self.lastEvaluatedStreamArn = lastEvaluatedStreamArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lastEvaluatedStreamArn = "LastEvaluatedStreamArn"
             case streams = "Streams"
-        }
-    }
-
-    public class AttributeValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NULL", required: false, type: .boolean), 
-            AWSShapeMember(label: "SS", required: false, type: .list), 
-            AWSShapeMember(label: "BOOL", required: false, type: .boolean), 
-            AWSShapeMember(label: "B", required: false, type: .blob), 
-            AWSShapeMember(label: "M", required: false, type: .map), 
-            AWSShapeMember(label: "N", required: false, type: .string), 
-            AWSShapeMember(label: "BS", required: false, type: .list), 
-            AWSShapeMember(label: "NS", required: false, type: .list), 
-            AWSShapeMember(label: "S", required: false, type: .string), 
-            AWSShapeMember(label: "L", required: false, type: .list)
-        ]
-        /// A Null data type.
-        public let null: Bool?
-        /// A String Set data type.
-        public let ss: [String]?
-        /// A Boolean data type.
-        public let bool: Bool?
-        /// A Binary data type.
-        public let b: Data?
-        /// A Map data type.
-        public let m: [String: AttributeValue]?
-        /// A Number data type.
-        public let n: String?
-        /// A Binary Set data type.
-        public let bs: [Data]?
-        /// A Number Set data type.
-        public let ns: [String]?
-        /// A String data type.
-        public let s: String?
-        /// A List data type.
-        public let l: [AttributeValue]?
-
-        public init(null: Bool? = nil, ss: [String]? = nil, bool: Bool? = nil, b: Data? = nil, m: [String: AttributeValue]? = nil, n: String? = nil, bs: [Data]? = nil, ns: [String]? = nil, s: String? = nil, l: [AttributeValue]? = nil) {
-            self.null = null
-            self.ss = ss
-            self.bool = bool
-            self.b = b
-            self.m = m
-            self.n = n
-            self.bs = bs
-            self.ns = ns
-            self.s = s
-            self.l = l
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case null = "NULL"
-            case ss = "SS"
-            case bool = "BOOL"
-            case b = "B"
-            case m = "M"
-            case n = "N"
-            case bs = "BS"
-            case ns = "NS"
-            case s = "S"
-            case l = "L"
-        }
-    }
-
-    public struct GetShardIteratorOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ShardIterator", required: false, type: .string)
-        ]
-        /// The position in the shard from which to start reading stream records sequentially. A shard iterator specifies this position using the sequence number of a stream record in a shard.
-        public let shardIterator: String?
-
-        public init(shardIterator: String? = nil) {
-            self.shardIterator = shardIterator
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case shardIterator = "ShardIterator"
+            case lastEvaluatedStreamArn = "LastEvaluatedStreamArn"
         }
     }
 
@@ -448,100 +542,6 @@ extension DynamoDBStreams {
         private enum CodingKeys: String, CodingKey {
             case streamDescription = "StreamDescription"
         }
-    }
-
-    public enum StreamStatus: String, CustomStringConvertible, Codable {
-        case enabling = "ENABLING"
-        case enabled = "ENABLED"
-        case disabling = "DISABLING"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct Identity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PrincipalId", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .string)
-        ]
-        /// A unique identifier for the entity that made the call. For Time To Live, the principalId is "dynamodb.amazonaws.com".
-        public let principalId: String?
-        /// The type of the identity. For Time To Live, the type is "Service".
-        public let `type`: String?
-
-        public init(principalId: String? = nil, type: String? = nil) {
-            self.principalId = principalId
-            self.`type` = `type`
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case principalId = "PrincipalId"
-            case `type` = "Type"
-        }
-    }
-
-    public struct GetShardIteratorInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ShardId", required: true, type: .string), 
-            AWSShapeMember(label: "StreamArn", required: true, type: .string), 
-            AWSShapeMember(label: "ShardIteratorType", required: true, type: .enum), 
-            AWSShapeMember(label: "SequenceNumber", required: false, type: .string)
-        ]
-        /// The identifier of the shard. The iterator will be returned for this shard ID.
-        public let shardId: String
-        /// The Amazon Resource Name (ARN) for the stream.
-        public let streamArn: String
-        /// Determines how the shard iterator is used to start reading stream records from the shard:    AT_SEQUENCE_NUMBER - Start reading exactly from the position denoted by a specific sequence number.    AFTER_SEQUENCE_NUMBER - Start reading right after the position denoted by a specific sequence number.    TRIM_HORIZON - Start reading at the last (untrimmed) stream record, which is the oldest record in the shard. In DynamoDB Streams, there is a 24 hour limit on data retention. Stream records whose age exceeds this limit are subject to removal (trimming) from the stream.    LATEST - Start reading just after the most recent stream record in the shard, so that you always read the most recent data in the shard.  
-        public let shardIteratorType: ShardIteratorType
-        /// The sequence number of a stream record in the shard from which to start reading.
-        public let sequenceNumber: String?
-
-        public init(shardId: String, streamArn: String, shardIteratorType: ShardIteratorType, sequenceNumber: String? = nil) {
-            self.shardId = shardId
-            self.streamArn = streamArn
-            self.shardIteratorType = shardIteratorType
-            self.sequenceNumber = sequenceNumber
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case shardId = "ShardId"
-            case streamArn = "StreamArn"
-            case shardIteratorType = "ShardIteratorType"
-            case sequenceNumber = "SequenceNumber"
-        }
-    }
-
-    public struct GetRecordsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "ShardIterator", required: true, type: .string)
-        ]
-        /// The maximum number of records to return from the shard. The upper limit is 1000.
-        public let limit: Int32?
-        /// A shard iterator that was retrieved from a previous GetShardIterator operation. This iterator can be used to access the stream records in this shard.
-        public let shardIterator: String
-
-        public init(limit: Int32? = nil, shardIterator: String) {
-            self.limit = limit
-            self.shardIterator = shardIterator
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case limit = "Limit"
-            case shardIterator = "ShardIterator"
-        }
-    }
-
-    public enum KeyType: String, CustomStringConvertible, Codable {
-        case hash = "HASH"
-        case range = "RANGE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum OperationType: String, CustomStringConvertible, Codable {
-        case insert = "INSERT"
-        case modify = "MODIFY"
-        case remove = "REMOVE"
-        public var description: String { return self.rawValue }
     }
 
 }

@@ -5,348 +5,221 @@ import AWSSDKSwiftCore
 
 extension Comprehend {
 
-    public struct Entity: AWSShape {
+    public struct DominantLanguageDetectionJobProperties: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "BeginOffset", required: false, type: .integer), 
-            AWSShapeMember(label: "Text", required: false, type: .string), 
-            AWSShapeMember(label: "EndOffset", required: false, type: .integer), 
-            AWSShapeMember(label: "Score", required: false, type: .float)
-        ]
-        /// The entity's type.
-        public let `type`: EntityType?
-        /// A character offset in the input text that shows where the entity begins (the first character is at position 0). The offset returns the position of each UTF-8 code point in the string. A code point is the abstract character from a particular graphical representation. For example, a multi-byte UTF-8 character maps to a single code point.
-        public let beginOffset: Int32?
-        /// The text of the entity.
-        public let text: String?
-        /// A character offset in the input text that shows where the entity ends. The offset returns the position of each UTF-8 code point in the string. A code point is the abstract character from a particular graphical representation. For example, a multi-byte UTF-8 character maps to a single code point. 
-        public let endOffset: Int32?
-        /// The level of confidence that Amazon Comprehend has in the accuracy of the detection.
-        public let score: Float?
-
-        public init(type: EntityType? = nil, beginOffset: Int32? = nil, text: String? = nil, endOffset: Int32? = nil, score: Float? = nil) {
-            self.`type` = `type`
-            self.beginOffset = beginOffset
-            self.text = text
-            self.endOffset = endOffset
-            self.score = score
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
-            case beginOffset = "BeginOffset"
-            case text = "Text"
-            case endOffset = "EndOffset"
-            case score = "Score"
-        }
-    }
-
-    public struct EntityTypesListItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", required: true, type: .string)
-        ]
-        /// Entity type of an item on an entity type list.
-        public let `type`: String
-
-        public init(type: String) {
-            self.`type` = `type`
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
-        }
-    }
-
-    public struct ListDocumentClassifiersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DocumentClassifierPropertiesList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// A list containing the properties of each job returned.
-        public let documentClassifierPropertiesList: [DocumentClassifierProperties]?
-        /// Identifies the next page of results to return.
-        public let nextToken: String?
-
-        public init(documentClassifierPropertiesList: [DocumentClassifierProperties]? = nil, nextToken: String? = nil) {
-            self.documentClassifierPropertiesList = documentClassifierPropertiesList
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case documentClassifierPropertiesList = "DocumentClassifierPropertiesList"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DescribeEntityRecognizerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EntityRecognizerArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) that identifies the entity recognizer.
-        public let entityRecognizerArn: String
-
-        public init(entityRecognizerArn: String) {
-            self.entityRecognizerArn = entityRecognizerArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case entityRecognizerArn = "EntityRecognizerArn"
-        }
-    }
-
-    public struct StartDominantLanguageDetectionJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobId", required: false, type: .string), 
-            AWSShapeMember(label: "JobStatus", required: false, type: .enum)
-        ]
-        /// The identifier generated for the job. To get the status of a job, use this identifier with the operation.
-        public let jobId: String?
-        /// The status of the job.    SUBMITTED - The job has been received and is queued for processing.   IN_PROGRESS - Amazon Comprehend is processing the job.   COMPLETED - The job was successfully completed and the output is available.   FAILED - The job did not complete. To get details, use the operation.  
-        public let jobStatus: JobStatus?
-
-        public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
-            self.jobId = jobId
-            self.jobStatus = jobStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobId = "JobId"
-            case jobStatus = "JobStatus"
-        }
-    }
-
-    public struct SentimentDetectionJobFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "OutputDataConfig", required: false, type: .structure), 
             AWSShapeMember(label: "JobName", required: false, type: .string), 
-            AWSShapeMember(label: "SubmitTimeAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SubmitTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "InputDataConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "DataAccessRoleArn", required: false, type: .string), 
             AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "SubmitTimeBefore", required: false, type: .timestamp)
-        ]
-        /// Filters on the name of the job.
-        public let jobName: String?
-        /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted after the specified time. Jobs are returned in descending order, newest to oldest.
-        public let submitTimeAfter: TimeStamp?
-        /// Filters the list of jobs based on job status. Returns only jobs with the specified status.
-        public let jobStatus: JobStatus?
-        /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest.
-        public let submitTimeBefore: TimeStamp?
-
-        public init(jobName: String? = nil, submitTimeAfter: TimeStamp? = nil, jobStatus: JobStatus? = nil, submitTimeBefore: TimeStamp? = nil) {
-            self.jobName = jobName
-            self.submitTimeAfter = submitTimeAfter
-            self.jobStatus = jobStatus
-            self.submitTimeBefore = submitTimeBefore
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobName = "JobName"
-            case submitTimeAfter = "SubmitTimeAfter"
-            case jobStatus = "JobStatus"
-            case submitTimeBefore = "SubmitTimeBefore"
-        }
-    }
-
-    public struct StartDocumentClassificationJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobId", required: false, type: .string), 
-            AWSShapeMember(label: "JobStatus", required: false, type: .enum)
+            AWSShapeMember(label: "Message", required: false, type: .string)
         ]
-        /// The identifier generated for the job. To get the status of the job, use this identifier with the operation.
+        /// The time that the dominant language detection job completed.
+        public let endTime: TimeStamp?
+        /// The output data configuration that you supplied when you created the dominant language detection job.
+        public let outputDataConfig: OutputDataConfig?
+        /// The name that you assigned to the dominant language detection job.
+        public let jobName: String?
+        /// The time that the dominant language detection job was submitted for processing.
+        public let submitTime: TimeStamp?
+        /// The input data configuration that you supplied when you created the dominant language detection job.
+        public let inputDataConfig: InputDataConfig?
+        /// The Amazon Resource Name (ARN) that gives Amazon Comprehend read access to your input data.
+        public let dataAccessRoleArn: String?
+        /// The current status of the dominant language detection job. If the status is FAILED, the Message field shows the reason for the failure.
+        public let jobStatus: JobStatus?
+        /// The identifier assigned to the dominant language detection job.
         public let jobId: String?
-        /// The status of the job:   SUBMITTED - The job has been received and queued for processing.   IN_PROGRESS - Amazon Comprehend is processing the job.   COMPLETED - The job was successfully completed and the output is available.   FAILED - The job did not complete. For details, use the operation.   STOP_REQUESTED - Amazon Comprehend has received a stop request for the job and is processing the request.   STOPPED - The job was successfully stopped without completing.  
-        public let jobStatus: JobStatus?
+        /// A description for the status of a job.
+        public let message: String?
 
-        public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
-            self.jobId = jobId
-            self.jobStatus = jobStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobId = "JobId"
-            case jobStatus = "JobStatus"
-        }
-    }
-
-    public struct ListEntitiesDetectionJobsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Filters the jobs that are returned. You can filter jobs on their name, status, or the date and time that they were submitted. You can only set one filter at a time.
-        public let filter: EntitiesDetectionJobFilter?
-        /// The maximum number of results to return in each page. The default is 100.
-        public let maxResults: Int32?
-        /// Identifies the next page of results to return.
-        public let nextToken: String?
-
-        public init(filter: EntitiesDetectionJobFilter? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.filter = filter
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case filter = "Filter"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct KeyPhrasesDetectionJobFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobName", required: false, type: .string), 
-            AWSShapeMember(label: "SubmitTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "SubmitTimeBefore", required: false, type: .timestamp)
-        ]
-        /// Filters on the name of the job.
-        public let jobName: String?
-        /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted after the specified time. Jobs are returned in descending order, newest to oldest.
-        public let submitTimeAfter: TimeStamp?
-        /// Filters the list of jobs based on job status. Returns only jobs with the specified status.
-        public let jobStatus: JobStatus?
-        /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest.
-        public let submitTimeBefore: TimeStamp?
-
-        public init(jobName: String? = nil, submitTimeAfter: TimeStamp? = nil, jobStatus: JobStatus? = nil, submitTimeBefore: TimeStamp? = nil) {
-            self.jobName = jobName
-            self.submitTimeAfter = submitTimeAfter
-            self.jobStatus = jobStatus
-            self.submitTimeBefore = submitTimeBefore
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobName = "JobName"
-            case submitTimeAfter = "SubmitTimeAfter"
-            case jobStatus = "JobStatus"
-            case submitTimeBefore = "SubmitTimeBefore"
-        }
-    }
-
-    public struct StartDominantLanguageDetectionJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OutputDataConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "JobName", required: false, type: .string), 
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "DataAccessRoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "InputDataConfig", required: true, type: .structure)
-        ]
-        /// Specifies where to send the output files.
-        public let outputDataConfig: OutputDataConfig
-        /// An identifier for the job.
-        public let jobName: String?
-        /// A unique identifier for the request. If you do not set the client request token, Amazon Comprehend generates one.
-        public let clientRequestToken: String?
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data. For more information, see https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions.
-        public let dataAccessRoleArn: String
-        /// Specifies the format and location of the input data for the job.
-        public let inputDataConfig: InputDataConfig
-
-        public init(outputDataConfig: OutputDataConfig, jobName: String? = nil, clientRequestToken: String? = nil, dataAccessRoleArn: String, inputDataConfig: InputDataConfig) {
+        public init(endTime: TimeStamp? = nil, outputDataConfig: OutputDataConfig? = nil, jobName: String? = nil, submitTime: TimeStamp? = nil, inputDataConfig: InputDataConfig? = nil, dataAccessRoleArn: String? = nil, jobStatus: JobStatus? = nil, jobId: String? = nil, message: String? = nil) {
+            self.endTime = endTime
             self.outputDataConfig = outputDataConfig
             self.jobName = jobName
-            self.clientRequestToken = clientRequestToken
-            self.dataAccessRoleArn = dataAccessRoleArn
+            self.submitTime = submitTime
             self.inputDataConfig = inputDataConfig
+            self.dataAccessRoleArn = dataAccessRoleArn
+            self.jobStatus = jobStatus
+            self.jobId = jobId
+            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
             case outputDataConfig = "OutputDataConfig"
             case jobName = "JobName"
-            case clientRequestToken = "ClientRequestToken"
-            case dataAccessRoleArn = "DataAccessRoleArn"
+            case submitTime = "SubmitTime"
             case inputDataConfig = "InputDataConfig"
-        }
-    }
-
-    public struct DescribeEntitiesDetectionJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobId", required: true, type: .string)
-        ]
-        /// The identifier that Amazon Comprehend generated for the job. The operation returns this identifier in its response.
-        public let jobId: String
-
-        public init(jobId: String) {
-            self.jobId = jobId
-        }
-
-        private enum CodingKeys: String, CodingKey {
+            case dataAccessRoleArn = "DataAccessRoleArn"
+            case jobStatus = "JobStatus"
             case jobId = "JobId"
+            case message = "Message"
         }
     }
 
-    public enum EntityType: String, CustomStringConvertible, Codable {
-        case person = "PERSON"
-        case location = "LOCATION"
-        case organization = "ORGANIZATION"
-        case commercialItem = "COMMERCIAL_ITEM"
-        case event = "EVENT"
-        case date = "DATE"
-        case quantity = "QUANTITY"
-        case title = "TITLE"
-        case other = "OTHER"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct BatchDetectEntitiesRequest: AWSShape {
+    public struct SentimentDetectionJobProperties: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LanguageCode", required: true, type: .enum), 
-            AWSShapeMember(label: "TextList", required: true, type: .list)
+            AWSShapeMember(label: "InputDataConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "OutputDataConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "DataAccessRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "JobName", required: false, type: .string), 
+            AWSShapeMember(label: "LanguageCode", required: false, type: .enum), 
+            AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "JobId", required: false, type: .string), 
+            AWSShapeMember(label: "SubmitTime", required: false, type: .timestamp)
         ]
-        /// The language of the input documents. You can specify English ("en") or Spanish ("es"). All documents must be in the same language.
-        public let languageCode: LanguageCode
-        /// A list containing the text of the input documents. The list can contain a maximum of 25 documents. Each document must contain fewer than 5,000 bytes of UTF-8 encoded characters.
-        public let textList: [String]
+        /// The input data configuration that you supplied when you created the sentiment detection job.
+        public let inputDataConfig: InputDataConfig?
+        /// The time that the sentiment detection job ended.
+        public let endTime: TimeStamp?
+        /// The output data configuration that you supplied when you created the sentiment detection job.
+        public let outputDataConfig: OutputDataConfig?
+        /// A description of the status of a job.
+        public let message: String?
+        /// The Amazon Resource Name (ARN) that gives Amazon Comprehend read access to your input data.
+        public let dataAccessRoleArn: String?
+        /// The name that you assigned to the sentiment detection job
+        public let jobName: String?
+        /// The language code of the input documents.
+        public let languageCode: LanguageCode?
+        /// The current status of the sentiment detection job. If the status is FAILED, the Messages field shows the reason for the failure.
+        public let jobStatus: JobStatus?
+        /// The identifier assigned to the sentiment detection job.
+        public let jobId: String?
+        /// The time that the sentiment detection job was submitted for processing.
+        public let submitTime: TimeStamp?
 
-        public init(languageCode: LanguageCode, textList: [String]) {
+        public init(inputDataConfig: InputDataConfig? = nil, endTime: TimeStamp? = nil, outputDataConfig: OutputDataConfig? = nil, message: String? = nil, dataAccessRoleArn: String? = nil, jobName: String? = nil, languageCode: LanguageCode? = nil, jobStatus: JobStatus? = nil, jobId: String? = nil, submitTime: TimeStamp? = nil) {
+            self.inputDataConfig = inputDataConfig
+            self.endTime = endTime
+            self.outputDataConfig = outputDataConfig
+            self.message = message
+            self.dataAccessRoleArn = dataAccessRoleArn
+            self.jobName = jobName
             self.languageCode = languageCode
-            self.textList = textList
+            self.jobStatus = jobStatus
+            self.jobId = jobId
+            self.submitTime = submitTime
         }
 
         private enum CodingKeys: String, CodingKey {
+            case inputDataConfig = "InputDataConfig"
+            case endTime = "EndTime"
+            case outputDataConfig = "OutputDataConfig"
+            case message = "Message"
+            case dataAccessRoleArn = "DataAccessRoleArn"
+            case jobName = "JobName"
             case languageCode = "LanguageCode"
-            case textList = "TextList"
+            case jobStatus = "JobStatus"
+            case jobId = "JobId"
+            case submitTime = "SubmitTime"
         }
     }
 
-    public struct DescribeSentimentDetectionJobRequest: AWSShape {
+    public struct CreateDocumentClassifierResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobId", required: true, type: .string)
+            AWSShapeMember(label: "DocumentClassifierArn", required: false, type: .string)
         ]
-        /// The identifier that Amazon Comprehend generated for the job. The operation returns this identifier in its response.
-        public let jobId: String
+        /// The Amazon Resource Name (ARN) that identifies the document classifier.
+        public let documentClassifierArn: String?
 
-        public init(jobId: String) {
-            self.jobId = jobId
+        public init(documentClassifierArn: String? = nil) {
+            self.documentClassifierArn = documentClassifierArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId = "JobId"
+            case documentClassifierArn = "DocumentClassifierArn"
         }
     }
 
-    public struct DescribeKeyPhrasesDetectionJobRequest: AWSShape {
+    public struct TopicsDetectionJobFilter: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobId", required: true, type: .string)
+            AWSShapeMember(label: "SubmitTimeBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SubmitTimeAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "JobName", required: false, type: .string)
         ]
-        /// The identifier that Amazon Comprehend generated for the job. The operation returns this identifier in its response.
-        public let jobId: String
+        /// Filters the list of jobs based on the time that the job was submitted for processing. Only returns jobs submitted before the specified time. Jobs are returned in descending order, newest to oldest.
+        public let submitTimeBefore: TimeStamp?
+        /// Filters the list of jobs based on the time that the job was submitted for processing. Only returns jobs submitted after the specified time. Jobs are returned in ascending order, oldest to newest.
+        public let submitTimeAfter: TimeStamp?
+        /// Filters the list of topic detection jobs based on job status. Returns only jobs with the specified status.
+        public let jobStatus: JobStatus?
+        public let jobName: String?
 
-        public init(jobId: String) {
-            self.jobId = jobId
+        public init(submitTimeBefore: TimeStamp? = nil, submitTimeAfter: TimeStamp? = nil, jobStatus: JobStatus? = nil, jobName: String? = nil) {
+            self.submitTimeBefore = submitTimeBefore
+            self.submitTimeAfter = submitTimeAfter
+            self.jobStatus = jobStatus
+            self.jobName = jobName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId = "JobId"
+            case submitTimeBefore = "SubmitTimeBefore"
+            case submitTimeAfter = "SubmitTimeAfter"
+            case jobStatus = "JobStatus"
+            case jobName = "JobName"
         }
     }
 
-    public struct EntityRecognizerAnnotations: AWSShape {
+    public struct ListEntityRecognizersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EntityRecognizerPropertiesList", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The list of properties of an entity recognizer.
+        public let entityRecognizerPropertiesList: [EntityRecognizerProperties]?
+        /// Identifies the next page of results to return.
+        public let nextToken: String?
+
+        public init(entityRecognizerPropertiesList: [EntityRecognizerProperties]? = nil, nextToken: String? = nil) {
+            self.entityRecognizerPropertiesList = entityRecognizerPropertiesList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityRecognizerPropertiesList = "EntityRecognizerPropertiesList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DocumentClassifierFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubmitTimeAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "SubmitTimeBefore", required: false, type: .timestamp)
+        ]
+        /// Filters the list of classifiers based on the time that the classifier was submitted for processing. Returns only classifiers submitted after the specified time. Classifiers are returned in descending order, newest to oldest.
+        public let submitTimeAfter: TimeStamp?
+        /// Filters the list of classifiers based on status. 
+        public let status: ModelStatus?
+        /// Filters the list of classifiers based on the time that the classifier was submitted for processing. Returns only classifiers submitted before the specified time. Classifiers are returned in ascending order, oldest to newest.
+        public let submitTimeBefore: TimeStamp?
+
+        public init(submitTimeAfter: TimeStamp? = nil, status: ModelStatus? = nil, submitTimeBefore: TimeStamp? = nil) {
+            self.submitTimeAfter = submitTimeAfter
+            self.status = status
+            self.submitTimeBefore = submitTimeBefore
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case submitTimeAfter = "SubmitTimeAfter"
+            case status = "Status"
+            case submitTimeBefore = "SubmitTimeBefore"
+        }
+    }
+
+    public struct EntityRecognizerDocuments: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "S3Uri", required: true, type: .string)
         ]
-        ///  Specifies the Amazon S3 location where the annotations for an entity recognizer are located. The URI must be in the same region as the API endpoint that you are calling.
+        ///  Specifies the Amazon S3 location where the training documents for an entity recognizer are located. The URI must be in the same region as the API endpoint that you are calling.
         public let s3Uri: String
 
         public init(s3Uri: String) {
@@ -358,144 +231,122 @@ extension Comprehend {
         }
     }
 
-    public struct DescribeDominantLanguageDetectionJobRequest: AWSShape {
+    public struct EntityRecognizerEntityList: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobId", required: true, type: .string)
+            AWSShapeMember(label: "S3Uri", required: true, type: .string)
         ]
-        /// The identifier that Amazon Comprehend generated for the job. The operation returns this identifier in its response.
-        public let jobId: String
+        /// Specifies the Amazon S3 location where the entity list is located. The URI must be in the same region as the API endpoint that you are calling.
+        public let s3Uri: String
 
-        public init(jobId: String) {
-            self.jobId = jobId
+        public init(s3Uri: String) {
+            self.s3Uri = s3Uri
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId = "JobId"
+            case s3Uri = "S3Uri"
         }
     }
 
-    public struct ListEntityRecognizersRequest: AWSShape {
+    public struct StartKeyPhrasesDetectionJobResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "JobId", required: false, type: .string)
         ]
-        /// Filters the list of entities returned. You can filter on Status, SubmitTimeBefore, or SubmitTimeAfter. You can only set one filter at a time.
-        public let filter: EntityRecognizerFilter?
-        ///  The maximum number of results to return on each page. The default is 100.
-        public let maxResults: Int32?
-        /// Identifies the next page of results to return.
-        public let nextToken: String?
-
-        public init(filter: EntityRecognizerFilter? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.filter = filter
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case filter = "Filter"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct EntityRecognizerMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NumberOfTrainedDocuments", required: false, type: .integer), 
-            AWSShapeMember(label: "EvaluationMetrics", required: false, type: .structure), 
-            AWSShapeMember(label: "NumberOfTestDocuments", required: false, type: .integer), 
-            AWSShapeMember(label: "EntityTypes", required: false, type: .list)
-        ]
-        ///  The number of documents in the input data that were used to train the entity recognizer. Typically this is 80 to 90 percent of the input documents.
-        public let numberOfTrainedDocuments: Int32?
-        ///  Detailed information about the accuracy of an entity recognizer.
-        public let evaluationMetrics: EntityRecognizerEvaluationMetrics?
-        ///  The number of documents in the input data that were used to test the entity recognizer. Typically this is 10 to 20 percent of the input documents.
-        public let numberOfTestDocuments: Int32?
-        /// Entity types from the metadata of an entity recognizer.
-        public let entityTypes: [EntityRecognizerMetadataEntityTypesListItem]?
-
-        public init(numberOfTrainedDocuments: Int32? = nil, evaluationMetrics: EntityRecognizerEvaluationMetrics? = nil, numberOfTestDocuments: Int32? = nil, entityTypes: [EntityRecognizerMetadataEntityTypesListItem]? = nil) {
-            self.numberOfTrainedDocuments = numberOfTrainedDocuments
-            self.evaluationMetrics = evaluationMetrics
-            self.numberOfTestDocuments = numberOfTestDocuments
-            self.entityTypes = entityTypes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case numberOfTrainedDocuments = "NumberOfTrainedDocuments"
-            case evaluationMetrics = "EvaluationMetrics"
-            case numberOfTestDocuments = "NumberOfTestDocuments"
-            case entityTypes = "EntityTypes"
-        }
-    }
-
-    public struct EntityRecognizerEvaluationMetrics: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Precision", required: false, type: .double), 
-            AWSShapeMember(label: "Recall", required: false, type: .double), 
-            AWSShapeMember(label: "F1Score", required: false, type: .double)
-        ]
-        /// A measure of the usefulness of the recognizer results in the test data. High precision means that the recognizer returned substantially more relevant results than irrelevant ones. 
-        public let precision: Double?
-        /// A measure of how complete the recognizer results are for the test data. High recall means that the recognizer returned most of the relevant results.
-        public let recall: Double?
-        /// A measure of how accurate the recognizer results are for the test data. It is derived from the Precision and Recall values. The F1Score is the harmonic average of the two scores. The highest score is 1, and the worst score is 0. 
-        public let f1Score: Double?
-
-        public init(precision: Double? = nil, recall: Double? = nil, f1Score: Double? = nil) {
-            self.precision = precision
-            self.recall = recall
-            self.f1Score = f1Score
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case precision = "Precision"
-            case recall = "Recall"
-            case f1Score = "F1Score"
-        }
-    }
-
-    public struct BatchDetectSyntaxResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorList", required: true, type: .list), 
-            AWSShapeMember(label: "ResultList", required: true, type: .list)
-        ]
-        /// A list containing one object for each document that contained an error. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If there are no errors in the batch, the ErrorList is empty.
-        public let errorList: [BatchItemError]
-        /// A list of objects containing the results of the operation. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If all of the documents contain an error, the ResultList is empty.
-        public let resultList: [BatchDetectSyntaxItemResult]
-
-        public init(errorList: [BatchItemError], resultList: [BatchDetectSyntaxItemResult]) {
-            self.errorList = errorList
-            self.resultList = resultList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorList = "ErrorList"
-            case resultList = "ResultList"
-        }
-    }
-
-    public struct StartEntitiesDetectionJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobId", required: false, type: .string), 
-            AWSShapeMember(label: "JobStatus", required: false, type: .enum)
-        ]
-        /// The identifier generated for the job. To get the status of job, use this identifier with the operation.
-        public let jobId: String?
-        /// The status of the job.    SUBMITTED - The job has been received and is queued for processing.   IN_PROGRESS - Amazon Comprehend is processing the job.   COMPLETED - The job was successfully completed and the output is available.   FAILED - The job did not complete. To get details, use the operation.   STOP_REQUESTED - Amazon Comprehend has received a stop request for the job and is processing the request.   STOPPED - The job was successfully stopped without completing.  
+        /// The status of the job.    SUBMITTED - The job has been received and is queued for processing.   IN_PROGRESS - Amazon Comprehend is processing the job.   COMPLETED - The job was successfully completed and the output is available.   FAILED - The job did not complete. To get details, use the operation.  
         public let jobStatus: JobStatus?
+        /// The identifier generated for the job. To get the status of a job, use this identifier with the operation.
+        public let jobId: String?
 
-        public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
-            self.jobId = jobId
+        public init(jobStatus: JobStatus? = nil, jobId: String? = nil) {
             self.jobStatus = jobStatus
+            self.jobId = jobId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId = "JobId"
             case jobStatus = "JobStatus"
+            case jobId = "JobId"
+        }
+    }
+
+    public struct BatchDetectEntitiesItemResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Index", required: false, type: .integer), 
+            AWSShapeMember(label: "Entities", required: false, type: .list)
+        ]
+        /// The zero-based index of the document in the input list.
+        public let index: Int32?
+        /// One or more Entity objects, one for each entity detected in the document.
+        public let entities: [Entity]?
+
+        public init(index: Int32? = nil, entities: [Entity]? = nil) {
+            self.index = index
+            self.entities = entities
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case index = "Index"
+            case entities = "Entities"
+        }
+    }
+
+    public struct KeyPhrasesDetectionJobProperties: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LanguageCode", required: false, type: .enum), 
+            AWSShapeMember(label: "DataAccessRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "OutputDataConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "JobId", required: false, type: .string), 
+            AWSShapeMember(label: "JobName", required: false, type: .string), 
+            AWSShapeMember(label: "SubmitTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "InputDataConfig", required: false, type: .structure)
+        ]
+        /// The language code of the input documents.
+        public let languageCode: LanguageCode?
+        /// The Amazon Resource Name (ARN) that gives Amazon Comprehend read access to your input data.
+        public let dataAccessRoleArn: String?
+        /// The time that the key phrases detection job completed.
+        public let endTime: TimeStamp?
+        /// The current status of the key phrases detection job. If the status is FAILED, the Message field shows the reason for the failure.
+        public let jobStatus: JobStatus?
+        /// A description of the status of a job.
+        public let message: String?
+        /// The output data configuration that you supplied when you created the key phrases detection job.
+        public let outputDataConfig: OutputDataConfig?
+        /// The identifier assigned to the key phrases detection job.
+        public let jobId: String?
+        /// The name that you assigned the key phrases detection job.
+        public let jobName: String?
+        /// The time that the key phrases detection job was submitted for processing.
+        public let submitTime: TimeStamp?
+        /// The input data configuration that you supplied when you created the key phrases detection job.
+        public let inputDataConfig: InputDataConfig?
+
+        public init(languageCode: LanguageCode? = nil, dataAccessRoleArn: String? = nil, endTime: TimeStamp? = nil, jobStatus: JobStatus? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, submitTime: TimeStamp? = nil, inputDataConfig: InputDataConfig? = nil) {
+            self.languageCode = languageCode
+            self.dataAccessRoleArn = dataAccessRoleArn
+            self.endTime = endTime
+            self.jobStatus = jobStatus
+            self.message = message
+            self.outputDataConfig = outputDataConfig
+            self.jobId = jobId
+            self.jobName = jobName
+            self.submitTime = submitTime
+            self.inputDataConfig = inputDataConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case languageCode = "LanguageCode"
+            case dataAccessRoleArn = "DataAccessRoleArn"
+            case endTime = "EndTime"
+            case jobStatus = "JobStatus"
+            case message = "Message"
+            case outputDataConfig = "OutputDataConfig"
+            case jobId = "JobId"
+            case jobName = "JobName"
+            case submitTime = "SubmitTime"
+            case inputDataConfig = "InputDataConfig"
         }
     }
 
@@ -541,888 +392,111 @@ extension Comprehend {
         }
     }
 
-    public struct CreateEntityRecognizerRequest: AWSShape {
+    public enum LanguageCode: String, CustomStringConvertible, Codable {
+        case en = "en"
+        case es = "es"
+        case fr = "fr"
+        case de = "de"
+        case it = "it"
+        case pt = "pt"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListDocumentClassifiersResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RecognizerName", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "DocumentClassifierPropertiesList", required: false, type: .list)
+        ]
+        /// Identifies the next page of results to return.
+        public let nextToken: String?
+        /// A list containing the properties of each job returned.
+        public let documentClassifierPropertiesList: [DocumentClassifierProperties]?
+
+        public init(nextToken: String? = nil, documentClassifierPropertiesList: [DocumentClassifierProperties]? = nil) {
+            self.nextToken = nextToken
+            self.documentClassifierPropertiesList = documentClassifierPropertiesList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case documentClassifierPropertiesList = "DocumentClassifierPropertiesList"
+        }
+    }
+
+    public struct BatchDetectKeyPhrasesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LanguageCode", required: true, type: .enum), 
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "DataAccessRoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "InputDataConfig", required: true, type: .structure)
+            AWSShapeMember(label: "TextList", required: true, type: .list)
         ]
-        /// The name given to the newly created recognizer. Recognizer names can be a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores (_) are allowed. The name must be unique in the account/region.
-        public let recognizerName: String
-        ///  The language of the input documents. All documents must be in the same language. Only English ("en") is currently supported. 
+        /// The language of the input documents. You can specify English ("en") or Spanish ("es"). All documents must be in the same language.
         public let languageCode: LanguageCode
-        ///  A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
-        public let clientRequestToken: String?
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Management (IAM) role that grants Amazon Comprehend read access to your input data.
-        public let dataAccessRoleArn: String
-        /// Specifies the format and location of the input data. The S3 bucket containing the input data must be located in the same region as the entity recognizer being created. 
-        public let inputDataConfig: EntityRecognizerInputDataConfig
+        /// A list containing the text of the input documents. The list can contain a maximum of 25 documents. Each document must contain fewer that 5,000 bytes of UTF-8 encoded characters.
+        public let textList: [String]
 
-        public init(recognizerName: String, languageCode: LanguageCode, clientRequestToken: String? = nil, dataAccessRoleArn: String, inputDataConfig: EntityRecognizerInputDataConfig) {
-            self.recognizerName = recognizerName
+        public init(languageCode: LanguageCode, textList: [String]) {
             self.languageCode = languageCode
-            self.clientRequestToken = clientRequestToken
-            self.dataAccessRoleArn = dataAccessRoleArn
-            self.inputDataConfig = inputDataConfig
+            self.textList = textList
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recognizerName = "RecognizerName"
             case languageCode = "LanguageCode"
-            case clientRequestToken = "ClientRequestToken"
-            case dataAccessRoleArn = "DataAccessRoleArn"
-            case inputDataConfig = "InputDataConfig"
+            case textList = "TextList"
         }
     }
 
-    public struct StartKeyPhrasesDetectionJobResponse: AWSShape {
+    public struct DescribeTopicsDetectionJobResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobId", required: false, type: .string), 
-            AWSShapeMember(label: "JobStatus", required: false, type: .enum)
+            AWSShapeMember(label: "TopicsDetectionJobProperties", required: false, type: .structure)
         ]
-        /// The identifier generated for the job. To get the status of a job, use this identifier with the operation.
-        public let jobId: String?
-        /// The status of the job.    SUBMITTED - The job has been received and is queued for processing.   IN_PROGRESS - Amazon Comprehend is processing the job.   COMPLETED - The job was successfully completed and the output is available.   FAILED - The job did not complete. To get details, use the operation.  
-        public let jobStatus: JobStatus?
+        /// The list of properties for the requested job.
+        public let topicsDetectionJobProperties: TopicsDetectionJobProperties?
 
-        public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
-            self.jobId = jobId
-            self.jobStatus = jobStatus
+        public init(topicsDetectionJobProperties: TopicsDetectionJobProperties? = nil) {
+            self.topicsDetectionJobProperties = topicsDetectionJobProperties
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId = "JobId"
-            case jobStatus = "JobStatus"
+            case topicsDetectionJobProperties = "TopicsDetectionJobProperties"
         }
     }
 
-    public struct DetectSyntaxResponse: AWSShape {
+    public struct EntityRecognizerEvaluationMetrics: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SyntaxTokens", required: false, type: .list)
+            AWSShapeMember(label: "Recall", required: false, type: .double), 
+            AWSShapeMember(label: "F1Score", required: false, type: .double), 
+            AWSShapeMember(label: "Precision", required: false, type: .double)
         ]
-        /// A collection of syntax tokens describing the text. For each token, the response provides the text, the token type, where the text begins and ends, and the level of confidence that Amazon Comprehend has that the token is correct. For a list of token types, see how-syntax.
-        public let syntaxTokens: [SyntaxToken]?
+        /// A measure of how complete the recognizer results are for the test data. High recall means that the recognizer returned most of the relevant results.
+        public let recall: Double?
+        /// A measure of how accurate the recognizer results are for the test data. It is derived from the Precision and Recall values. The F1Score is the harmonic average of the two scores. The highest score is 1, and the worst score is 0. 
+        public let f1Score: Double?
+        /// A measure of the usefulness of the recognizer results in the test data. High precision means that the recognizer returned substantially more relevant results than irrelevant ones. 
+        public let precision: Double?
 
-        public init(syntaxTokens: [SyntaxToken]? = nil) {
-            self.syntaxTokens = syntaxTokens
+        public init(recall: Double? = nil, f1Score: Double? = nil, precision: Double? = nil) {
+            self.recall = recall
+            self.f1Score = f1Score
+            self.precision = precision
         }
 
         private enum CodingKeys: String, CodingKey {
-            case syntaxTokens = "SyntaxTokens"
+            case recall = "Recall"
+            case f1Score = "F1Score"
+            case precision = "Precision"
         }
     }
 
-    public struct StopSentimentDetectionJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobId", required: false, type: .string), 
-            AWSShapeMember(label: "JobStatus", required: false, type: .enum)
-        ]
-        /// The identifier of the sentiment detection job to stop.
-        public let jobId: String?
-        /// Either STOP_REQUESTED if the job is currently running, or STOPPED if the job was previously stopped with the StopSentimentDetectionJob operation.
-        public let jobStatus: JobStatus?
-
-        public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
-            self.jobId = jobId
-            self.jobStatus = jobStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobId = "JobId"
-            case jobStatus = "JobStatus"
-        }
-    }
-
-    public struct StopKeyPhrasesDetectionJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobId", required: false, type: .string), 
-            AWSShapeMember(label: "JobStatus", required: false, type: .enum)
-        ]
-        /// The identifier of the key phrases detection job to stop.
-        public let jobId: String?
-        /// Either STOP_REQUESTED if the job is currently running, or STOPPED if the job was previously stopped with the StopKeyPhrasesDetectionJob operation.
-        public let jobStatus: JobStatus?
-
-        public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
-            self.jobId = jobId
-            self.jobStatus = jobStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobId = "JobId"
-            case jobStatus = "JobStatus"
-        }
-    }
-
-    public struct DetectEntitiesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Entities", required: false, type: .list)
-        ]
-        /// A collection of entities identified in the input text. For each entity, the response provides the entity text, entity type, where the entity text begins and ends, and the level of confidence that Amazon Comprehend has in the detection. For a list of entity types, see how-entities. 
-        public let entities: [Entity]?
-
-        public init(entities: [Entity]? = nil) {
-            self.entities = entities
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case entities = "Entities"
-        }
-    }
-
-    public struct BatchDetectEntitiesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorList", required: true, type: .list), 
-            AWSShapeMember(label: "ResultList", required: true, type: .list)
-        ]
-        /// A list containing one object for each document that contained an error. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If there are no errors in the batch, the ErrorList is empty.
-        public let errorList: [BatchItemError]
-        /// A list of objects containing the results of the operation. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If all of the documents contain an error, the ResultList is empty.
-        public let resultList: [BatchDetectEntitiesItemResult]
-
-        public init(errorList: [BatchItemError], resultList: [BatchDetectEntitiesItemResult]) {
-            self.errorList = errorList
-            self.resultList = resultList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorList = "ErrorList"
-            case resultList = "ResultList"
-        }
-    }
-
-    public struct DescribeEntityRecognizerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EntityRecognizerProperties", required: false, type: .structure)
-        ]
-        /// Describes information associated with an entity recognizer.
-        public let entityRecognizerProperties: EntityRecognizerProperties?
-
-        public init(entityRecognizerProperties: EntityRecognizerProperties? = nil) {
-            self.entityRecognizerProperties = entityRecognizerProperties
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case entityRecognizerProperties = "EntityRecognizerProperties"
-        }
-    }
-
-    public struct TopicsDetectionJobProperties: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobName", required: false, type: .string), 
-            AWSShapeMember(label: "OutputDataConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "SubmitTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "InputDataConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "JobId", required: false, type: .string), 
-            AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "NumberOfTopics", required: false, type: .integer)
-        ]
-        /// The name of the topic detection job.
-        public let jobName: String?
-        /// The output data configuration supplied when you created the topic detection job.
-        public let outputDataConfig: OutputDataConfig?
-        /// The time that the topic detection job was submitted for processing.
-        public let submitTime: TimeStamp?
-        /// A description for the status of a job.
-        public let message: String?
-        /// The time that the topic detection job was completed.
-        public let endTime: TimeStamp?
-        /// The input data configuration supplied when you created the topic detection job.
-        public let inputDataConfig: InputDataConfig?
-        /// The identifier assigned to the topic detection job.
-        public let jobId: String?
-        /// The current status of the topic detection job. If the status is Failed, the reason for the failure is shown in the Message field.
-        public let jobStatus: JobStatus?
-        /// The number of topics to detect supplied when you created the topic detection job. The default is 10. 
-        public let numberOfTopics: Int32?
-
-        public init(jobName: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: TimeStamp? = nil, message: String? = nil, endTime: TimeStamp? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil, numberOfTopics: Int32? = nil) {
-            self.jobName = jobName
-            self.outputDataConfig = outputDataConfig
-            self.submitTime = submitTime
-            self.message = message
-            self.endTime = endTime
-            self.inputDataConfig = inputDataConfig
-            self.jobId = jobId
-            self.jobStatus = jobStatus
-            self.numberOfTopics = numberOfTopics
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobName = "JobName"
-            case outputDataConfig = "OutputDataConfig"
-            case submitTime = "SubmitTime"
-            case message = "Message"
-            case endTime = "EndTime"
-            case inputDataConfig = "InputDataConfig"
-            case jobId = "JobId"
-            case jobStatus = "JobStatus"
-            case numberOfTopics = "NumberOfTopics"
-        }
-    }
-
-    public struct ListTopicsDetectionJobsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TopicsDetectionJobPropertiesList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// A list containing the properties of each job that is returned.
-        public let topicsDetectionJobPropertiesList: [TopicsDetectionJobProperties]?
-        /// Identifies the next page of results to return.
-        public let nextToken: String?
-
-        public init(topicsDetectionJobPropertiesList: [TopicsDetectionJobProperties]? = nil, nextToken: String? = nil) {
-            self.topicsDetectionJobPropertiesList = topicsDetectionJobPropertiesList
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case topicsDetectionJobPropertiesList = "TopicsDetectionJobPropertiesList"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DocumentClassifierProperties: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrainingStartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "DataAccessRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "TrainingEndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DocumentClassifierArn", required: false, type: .string), 
-            AWSShapeMember(label: "SubmitTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ClassifierMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "InputDataConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "LanguageCode", required: false, type: .enum)
-        ]
-        /// Indicates the time when the training starts on documentation classifiers. You are billed for the time interval between this time and the value of TrainingEndTime. 
-        public let trainingStartTime: TimeStamp?
-        /// The status of the document classifier. The the status is TRAINED the classifier is ready to use. If the status is FAILED you can see additional information about why the classifier wasn't trained in the Message field.
-        public let status: ModelStatus?
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Management (IAM) role that grants Amazon Comprehend read access to your input data.
-        public let dataAccessRoleArn: String?
-        /// The time that training of the document classifier was completed. Indicates the time when the training completes on documentation classifiers. You are billed for the time interval between this time and the value of TrainingStartTime.
-        public let trainingEndTime: TimeStamp?
-        /// The Amazon Resource Name (ARN) that identifies the document classifier.
-        public let documentClassifierArn: String?
-        /// The time that the document classifier was submitted for training.
-        public let submitTime: TimeStamp?
-        /// Information about the document classifier, including the number of documents used for training the classifier, the number of documents used for test the classifier, and an accuracy rating.
-        public let classifierMetadata: ClassifierMetadata?
-        /// The time that training the document classifier completed.
-        public let endTime: TimeStamp?
-        /// The input data configuration that you supplied when you created the document classifier for training.
-        public let inputDataConfig: DocumentClassifierInputDataConfig?
-        /// Additional information about the status of the classifier.
-        public let message: String?
-        /// The language code for the language of the documents that the classifier was trained on.
-        public let languageCode: LanguageCode?
-
-        public init(trainingStartTime: TimeStamp? = nil, status: ModelStatus? = nil, dataAccessRoleArn: String? = nil, trainingEndTime: TimeStamp? = nil, documentClassifierArn: String? = nil, submitTime: TimeStamp? = nil, classifierMetadata: ClassifierMetadata? = nil, endTime: TimeStamp? = nil, inputDataConfig: DocumentClassifierInputDataConfig? = nil, message: String? = nil, languageCode: LanguageCode? = nil) {
-            self.trainingStartTime = trainingStartTime
-            self.status = status
-            self.dataAccessRoleArn = dataAccessRoleArn
-            self.trainingEndTime = trainingEndTime
-            self.documentClassifierArn = documentClassifierArn
-            self.submitTime = submitTime
-            self.classifierMetadata = classifierMetadata
-            self.endTime = endTime
-            self.inputDataConfig = inputDataConfig
-            self.message = message
-            self.languageCode = languageCode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case trainingStartTime = "TrainingStartTime"
-            case status = "Status"
-            case dataAccessRoleArn = "DataAccessRoleArn"
-            case trainingEndTime = "TrainingEndTime"
-            case documentClassifierArn = "DocumentClassifierArn"
-            case submitTime = "SubmitTime"
-            case classifierMetadata = "ClassifierMetadata"
-            case endTime = "EndTime"
-            case inputDataConfig = "InputDataConfig"
-            case message = "Message"
-            case languageCode = "LanguageCode"
-        }
-    }
-
-    public struct StopEntitiesDetectionJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobId", required: false, type: .string), 
-            AWSShapeMember(label: "JobStatus", required: false, type: .enum)
-        ]
-        /// The identifier of the entities detection job to stop.
-        public let jobId: String?
-        /// Either STOP_REQUESTED if the job is currently running, or STOPPED if the job was previously stopped with the StopEntitiesDetectionJob operation.
-        public let jobStatus: JobStatus?
-
-        public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
-            self.jobId = jobId
-            self.jobStatus = jobStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobId = "JobId"
-            case jobStatus = "JobStatus"
-        }
-    }
-
-    public struct DescribeDocumentClassifierRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DocumentClassifierArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) that identifies the document classifier. The operation returns this identifier in its response.
-        public let documentClassifierArn: String
-
-        public init(documentClassifierArn: String) {
-            self.documentClassifierArn = documentClassifierArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case documentClassifierArn = "DocumentClassifierArn"
-        }
-    }
-
-    public enum PartOfSpeechTagType: String, CustomStringConvertible, Codable {
-        case adj = "ADJ"
-        case adp = "ADP"
-        case adv = "ADV"
-        case aux = "AUX"
-        case conj = "CONJ"
-        case cconj = "CCONJ"
-        case det = "DET"
-        case intj = "INTJ"
-        case noun = "NOUN"
-        case num = "NUM"
-        case o = "O"
-        case part = "PART"
-        case pron = "PRON"
-        case propn = "PROPN"
-        case punct = "PUNCT"
-        case sconj = "SCONJ"
-        case sym = "SYM"
-        case verb = "VERB"
+    public enum InputFormat: String, CustomStringConvertible, Codable {
+        case oneDocPerFile = "ONE_DOC_PER_FILE"
+        case oneDocPerLine = "ONE_DOC_PER_LINE"
         public var description: String { return self.rawValue }
     }
 
-    public struct BatchDetectSyntaxItemResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Index", required: false, type: .integer), 
-            AWSShapeMember(label: "SyntaxTokens", required: false, type: .list)
-        ]
-        /// The zero-based index of the document in the input list.
-        public let index: Int32?
-        /// The syntax tokens for the words in the document, one token for each word.
-        public let syntaxTokens: [SyntaxToken]?
-
-        public init(index: Int32? = nil, syntaxTokens: [SyntaxToken]? = nil) {
-            self.index = index
-            self.syntaxTokens = syntaxTokens
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case index = "Index"
-            case syntaxTokens = "SyntaxTokens"
-        }
-    }
-
-    public struct DescribeDocumentClassifierResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DocumentClassifierProperties", required: false, type: .structure)
-        ]
-        /// An object that contains the properties associated with a document classifier.
-        public let documentClassifierProperties: DocumentClassifierProperties?
-
-        public init(documentClassifierProperties: DocumentClassifierProperties? = nil) {
-            self.documentClassifierProperties = documentClassifierProperties
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case documentClassifierProperties = "DocumentClassifierProperties"
-        }
-    }
-
-    public struct KeyPhrasesDetectionJobProperties: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobName", required: false, type: .string), 
-            AWSShapeMember(label: "OutputDataConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "DataAccessRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "SubmitTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "InputDataConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "JobId", required: false, type: .string), 
-            AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "LanguageCode", required: false, type: .enum)
-        ]
-        /// The name that you assigned the key phrases detection job.
-        public let jobName: String?
-        /// The output data configuration that you supplied when you created the key phrases detection job.
-        public let outputDataConfig: OutputDataConfig?
-        /// The Amazon Resource Name (ARN) that gives Amazon Comprehend read access to your input data.
-        public let dataAccessRoleArn: String?
-        /// The time that the key phrases detection job was submitted for processing.
-        public let submitTime: TimeStamp?
-        /// The time that the key phrases detection job completed.
-        public let endTime: TimeStamp?
-        /// The input data configuration that you supplied when you created the key phrases detection job.
-        public let inputDataConfig: InputDataConfig?
-        /// A description of the status of a job.
-        public let message: String?
-        /// The identifier assigned to the key phrases detection job.
-        public let jobId: String?
-        /// The current status of the key phrases detection job. If the status is FAILED, the Message field shows the reason for the failure.
-        public let jobStatus: JobStatus?
-        /// The language code of the input documents.
-        public let languageCode: LanguageCode?
-
-        public init(jobName: String? = nil, outputDataConfig: OutputDataConfig? = nil, dataAccessRoleArn: String? = nil, submitTime: TimeStamp? = nil, endTime: TimeStamp? = nil, inputDataConfig: InputDataConfig? = nil, message: String? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil, languageCode: LanguageCode? = nil) {
-            self.jobName = jobName
-            self.outputDataConfig = outputDataConfig
-            self.dataAccessRoleArn = dataAccessRoleArn
-            self.submitTime = submitTime
-            self.endTime = endTime
-            self.inputDataConfig = inputDataConfig
-            self.message = message
-            self.jobId = jobId
-            self.jobStatus = jobStatus
-            self.languageCode = languageCode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobName = "JobName"
-            case outputDataConfig = "OutputDataConfig"
-            case dataAccessRoleArn = "DataAccessRoleArn"
-            case submitTime = "SubmitTime"
-            case endTime = "EndTime"
-            case inputDataConfig = "InputDataConfig"
-            case message = "Message"
-            case jobId = "JobId"
-            case jobStatus = "JobStatus"
-            case languageCode = "LanguageCode"
-        }
-    }
-
-    public struct BatchItemError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "Index", required: false, type: .integer), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string)
-        ]
-        /// The numeric error code of the error.
-        public let errorCode: String?
-        /// The zero-based index of the document in the input list.
-        public let index: Int32?
-        /// A text description of the error.
-        public let errorMessage: String?
-
-        public init(errorCode: String? = nil, index: Int32? = nil, errorMessage: String? = nil) {
-            self.errorCode = errorCode
-            self.index = index
-            self.errorMessage = errorMessage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case index = "Index"
-            case errorMessage = "ErrorMessage"
-        }
-    }
-
-    public struct DescribeSentimentDetectionJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SentimentDetectionJobProperties", required: false, type: .structure)
-        ]
-        /// An object that contains the properties associated with a sentiment detection job.
-        public let sentimentDetectionJobProperties: SentimentDetectionJobProperties?
-
-        public init(sentimentDetectionJobProperties: SentimentDetectionJobProperties? = nil) {
-            self.sentimentDetectionJobProperties = sentimentDetectionJobProperties
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sentimentDetectionJobProperties = "SentimentDetectionJobProperties"
-        }
-    }
-
-    public enum JobStatus: String, CustomStringConvertible, Codable {
-        case submitted = "SUBMITTED"
-        case inProgress = "IN_PROGRESS"
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        case stopRequested = "STOP_REQUESTED"
-        case stopped = "STOPPED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct EntityRecognizerFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubmitTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "SubmitTimeBefore", required: false, type: .timestamp)
-        ]
-        /// Filters the list of entities based on the time that the list was submitted for processing. Returns only jobs submitted after the specified time. Jobs are returned in ascending order, oldest to newest.
-        public let submitTimeAfter: TimeStamp?
-        /// The status of an entity recognizer.
-        public let status: ModelStatus?
-        /// Filters the list of entities based on the time that the list was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in descending order, newest to oldest.
-        public let submitTimeBefore: TimeStamp?
-
-        public init(submitTimeAfter: TimeStamp? = nil, status: ModelStatus? = nil, submitTimeBefore: TimeStamp? = nil) {
-            self.submitTimeAfter = submitTimeAfter
-            self.status = status
-            self.submitTimeBefore = submitTimeBefore
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case submitTimeAfter = "SubmitTimeAfter"
-            case status = "Status"
-            case submitTimeBefore = "SubmitTimeBefore"
-        }
-    }
-
-    public struct PartOfSpeechTag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Score", required: false, type: .float), 
-            AWSShapeMember(label: "Tag", required: false, type: .enum)
-        ]
-        /// The confidence that Amazon Comprehend has that the part of speech was correctly identified.
-        public let score: Float?
-        /// Identifies the part of speech that the token represents.
-        public let tag: PartOfSpeechTagType?
-
-        public init(score: Float? = nil, tag: PartOfSpeechTagType? = nil) {
-            self.score = score
-            self.tag = tag
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case score = "Score"
-            case tag = "Tag"
-        }
-    }
-
-    public struct StartEntitiesDetectionJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobName", required: false, type: .string), 
-            AWSShapeMember(label: "OutputDataConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "EntityRecognizerArn", required: false, type: .string), 
-            AWSShapeMember(label: "DataAccessRoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "InputDataConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "LanguageCode", required: true, type: .enum)
-        ]
-        /// The identifier of the job.
-        public let jobName: String?
-        /// Specifies where to send the output files.
-        public let outputDataConfig: OutputDataConfig
-        /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
-        public let clientRequestToken: String?
-        /// The Amazon Resource Name (ARN) that identifies the specific entity recognizer to be used by the StartEntitiesDetectionJob. This ARN is optional and is only used for a custom entity recognition job.
-        public let entityRecognizerArn: String?
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data. For more information, see https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions.
-        public let dataAccessRoleArn: String
-        /// Specifies the format and location of the input data for the job.
-        public let inputDataConfig: InputDataConfig
-        /// The language of the input documents. All documents must be in the same language. You can specify any of the languages supported by Amazon Comprehend: English ("en"), Spanish ("es"), French ("fr"), German ("de"), Italian ("it"), or Portuguese ("pt"). If custom entities recognition is used, this parameter is ignored and the language used for training the model is used instead.
-        public let languageCode: LanguageCode
-
-        public init(jobName: String? = nil, outputDataConfig: OutputDataConfig, clientRequestToken: String? = nil, entityRecognizerArn: String? = nil, dataAccessRoleArn: String, inputDataConfig: InputDataConfig, languageCode: LanguageCode) {
-            self.jobName = jobName
-            self.outputDataConfig = outputDataConfig
-            self.clientRequestToken = clientRequestToken
-            self.entityRecognizerArn = entityRecognizerArn
-            self.dataAccessRoleArn = dataAccessRoleArn
-            self.inputDataConfig = inputDataConfig
-            self.languageCode = languageCode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobName = "JobName"
-            case outputDataConfig = "OutputDataConfig"
-            case clientRequestToken = "ClientRequestToken"
-            case entityRecognizerArn = "EntityRecognizerArn"
-            case dataAccessRoleArn = "DataAccessRoleArn"
-            case inputDataConfig = "InputDataConfig"
-            case languageCode = "LanguageCode"
-        }
-    }
-
-    public struct SyntaxToken: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndOffset", required: false, type: .integer), 
-            AWSShapeMember(label: "BeginOffset", required: false, type: .integer), 
-            AWSShapeMember(label: "Text", required: false, type: .string), 
-            AWSShapeMember(label: "PartOfSpeech", required: false, type: .structure), 
-            AWSShapeMember(label: "TokenId", required: false, type: .integer)
-        ]
-        /// The zero-based offset from the beginning of the source text to the last character in the word.
-        public let endOffset: Int32?
-        /// The zero-based offset from the beginning of the source text to the first character in the word.
-        public let beginOffset: Int32?
-        /// The word that was recognized in the source text.
-        public let text: String?
-        /// Provides the part of speech label and the confidence level that Amazon Comprehend has that the part of speech was correctly identified. For more information, see how-syntax.
-        public let partOfSpeech: PartOfSpeechTag?
-        /// A unique identifier for a token.
-        public let tokenId: Int32?
-
-        public init(endOffset: Int32? = nil, beginOffset: Int32? = nil, text: String? = nil, partOfSpeech: PartOfSpeechTag? = nil, tokenId: Int32? = nil) {
-            self.endOffset = endOffset
-            self.beginOffset = beginOffset
-            self.text = text
-            self.partOfSpeech = partOfSpeech
-            self.tokenId = tokenId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case endOffset = "EndOffset"
-            case beginOffset = "BeginOffset"
-            case text = "Text"
-            case partOfSpeech = "PartOfSpeech"
-            case tokenId = "TokenId"
-        }
-    }
-
-    public struct ListEntitiesDetectionJobsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EntitiesDetectionJobPropertiesList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// A list containing the properties of each job that is returned.
-        public let entitiesDetectionJobPropertiesList: [EntitiesDetectionJobProperties]?
-        /// Identifies the next page of results to return.
-        public let nextToken: String?
-
-        public init(entitiesDetectionJobPropertiesList: [EntitiesDetectionJobProperties]? = nil, nextToken: String? = nil) {
-            self.entitiesDetectionJobPropertiesList = entitiesDetectionJobPropertiesList
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case entitiesDetectionJobPropertiesList = "EntitiesDetectionJobPropertiesList"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct ListSentimentDetectionJobsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Filters the jobs that are returned. You can filter jobs on their name, status, or the date and time that they were submitted. You can only set one filter at a time.
-        public let filter: SentimentDetectionJobFilter?
-        /// The maximum number of results to return in each page. The default is 100.
-        public let maxResults: Int32?
-        /// Identifies the next page of results to return.
-        public let nextToken: String?
-
-        public init(filter: SentimentDetectionJobFilter? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.filter = filter
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case filter = "Filter"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct StartSentimentDetectionJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobId", required: false, type: .string), 
-            AWSShapeMember(label: "JobStatus", required: false, type: .enum)
-        ]
-        /// The identifier generated for the job. To get the status of a job, use this identifier with the operation.
-        public let jobId: String?
-        /// The status of the job.    SUBMITTED - The job has been received and is queued for processing.   IN_PROGRESS - Amazon Comprehend is processing the job.   COMPLETED - The job was successfully completed and the output is available.   FAILED - The job did not complete. To get details, use the operation.  
-        public let jobStatus: JobStatus?
-
-        public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
-            self.jobId = jobId
-            self.jobStatus = jobStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobId = "JobId"
-            case jobStatus = "JobStatus"
-        }
-    }
-
-    public struct EntitiesDetectionJobFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobName", required: false, type: .string), 
-            AWSShapeMember(label: "SubmitTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "SubmitTimeBefore", required: false, type: .timestamp)
-        ]
-        /// Filters on the name of the job.
-        public let jobName: String?
-        /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted after the specified time. Jobs are returned in descending order, newest to oldest.
-        public let submitTimeAfter: TimeStamp?
-        /// Filters the list of jobs based on job status. Returns only jobs with the specified status.
-        public let jobStatus: JobStatus?
-        /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest.
-        public let submitTimeBefore: TimeStamp?
-
-        public init(jobName: String? = nil, submitTimeAfter: TimeStamp? = nil, jobStatus: JobStatus? = nil, submitTimeBefore: TimeStamp? = nil) {
-            self.jobName = jobName
-            self.submitTimeAfter = submitTimeAfter
-            self.jobStatus = jobStatus
-            self.submitTimeBefore = submitTimeBefore
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobName = "JobName"
-            case submitTimeAfter = "SubmitTimeAfter"
-            case jobStatus = "JobStatus"
-            case submitTimeBefore = "SubmitTimeBefore"
-        }
-    }
-
-    public struct BatchDetectDominantLanguageItemResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Languages", required: false, type: .list), 
-            AWSShapeMember(label: "Index", required: false, type: .integer)
-        ]
-        /// One or more DominantLanguage objects describing the dominant languages in the document.
-        public let languages: [DominantLanguage]?
-        /// The zero-based index of the document in the input list.
-        public let index: Int32?
-
-        public init(languages: [DominantLanguage]? = nil, index: Int32? = nil) {
-            self.languages = languages
-            self.index = index
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case languages = "Languages"
-            case index = "Index"
-        }
-    }
-
-    public struct EntityRecognizerProperties: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrainingStartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "EntityRecognizerArn", required: false, type: .string), 
-            AWSShapeMember(label: "DataAccessRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "TrainingEndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "SubmitTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "RecognizerMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "InputDataConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "LanguageCode", required: false, type: .enum)
-        ]
-        /// The time that training of the entity recognizer started.
-        public let trainingStartTime: TimeStamp?
-        /// Provides the status of the entity recognizer.
-        public let status: ModelStatus?
-        /// The Amazon Resource Name (ARN) that identifies the entity recognizer.
-        public let entityRecognizerArn: String?
-        ///  The Amazon Resource Name (ARN) of the AWS Identity and Management (IAM) role that grants Amazon Comprehend read access to your input data.
-        public let dataAccessRoleArn: String?
-        /// The time that training of the entity recognizer was completed.
-        public let trainingEndTime: TimeStamp?
-        /// The time that the recognizer was submitted for processing.
-        public let submitTime: TimeStamp?
-        ///  A description of the status of the recognizer.
-        public let message: String?
-        /// The time that the recognizer creation completed.
-        public let endTime: TimeStamp?
-        ///  Provides information about an entity recognizer.
-        public let recognizerMetadata: EntityRecognizerMetadata?
-        /// The input data properties of an entity recognizer.
-        public let inputDataConfig: EntityRecognizerInputDataConfig?
-        ///  The language of the input documents. All documents must be in the same language. Only English ("en") is currently supported.
-        public let languageCode: LanguageCode?
-
-        public init(trainingStartTime: TimeStamp? = nil, status: ModelStatus? = nil, entityRecognizerArn: String? = nil, dataAccessRoleArn: String? = nil, trainingEndTime: TimeStamp? = nil, submitTime: TimeStamp? = nil, message: String? = nil, endTime: TimeStamp? = nil, recognizerMetadata: EntityRecognizerMetadata? = nil, inputDataConfig: EntityRecognizerInputDataConfig? = nil, languageCode: LanguageCode? = nil) {
-            self.trainingStartTime = trainingStartTime
-            self.status = status
-            self.entityRecognizerArn = entityRecognizerArn
-            self.dataAccessRoleArn = dataAccessRoleArn
-            self.trainingEndTime = trainingEndTime
-            self.submitTime = submitTime
-            self.message = message
-            self.endTime = endTime
-            self.recognizerMetadata = recognizerMetadata
-            self.inputDataConfig = inputDataConfig
-            self.languageCode = languageCode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case trainingStartTime = "TrainingStartTime"
-            case status = "Status"
-            case entityRecognizerArn = "EntityRecognizerArn"
-            case dataAccessRoleArn = "DataAccessRoleArn"
-            case trainingEndTime = "TrainingEndTime"
-            case submitTime = "SubmitTime"
-            case message = "Message"
-            case endTime = "EndTime"
-            case recognizerMetadata = "RecognizerMetadata"
-            case inputDataConfig = "InputDataConfig"
-            case languageCode = "LanguageCode"
-        }
-    }
-
-    public struct DescribeKeyPhrasesDetectionJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KeyPhrasesDetectionJobProperties", required: false, type: .structure)
-        ]
-        /// An object that contains the properties associated with a key phrases detection job. 
-        public let keyPhrasesDetectionJobProperties: KeyPhrasesDetectionJobProperties?
-
-        public init(keyPhrasesDetectionJobProperties: KeyPhrasesDetectionJobProperties? = nil) {
-            self.keyPhrasesDetectionJobProperties = keyPhrasesDetectionJobProperties
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case keyPhrasesDetectionJobProperties = "KeyPhrasesDetectionJobProperties"
-        }
-    }
-
-    public struct ListDominantLanguageDetectionJobsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Filters that jobs that are returned. You can filter jobs on their name, status, or the date and time that they were submitted. You can only set one filter at a time.
-        public let filter: DominantLanguageDetectionJobFilter?
-        /// The maximum number of results to return in each page. The default is 100.
-        public let maxResults: Int32?
-        /// Identifies the next page of results to return.
-        public let nextToken: String?
-
-        public init(filter: DominantLanguageDetectionJobFilter? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.filter = filter
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case filter = "Filter"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct StopSentimentDetectionJobRequest: AWSShape {
+    public struct StopEntitiesDetectionJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobId", required: true, type: .string)
         ]
-        /// The identifier of the sentiment detection job to stop.
+        /// The identifier of the entities detection job to stop.
         public let jobId: String
 
         public init(jobId: String) {
@@ -1434,34 +508,19 @@ extension Comprehend {
         }
     }
 
-    public enum LanguageCode: String, CustomStringConvertible, Codable {
-        case en = "en"
-        case es = "es"
-        case fr = "fr"
-        case de = "de"
-        case it = "it"
-        case pt = "pt"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct StartTopicsDetectionJobResponse: AWSShape {
+    public struct DescribeDocumentClassificationJobResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobId", required: false, type: .string), 
-            AWSShapeMember(label: "JobStatus", required: false, type: .enum)
+            AWSShapeMember(label: "DocumentClassificationJobProperties", required: false, type: .structure)
         ]
-        /// The identifier generated for the job. To get the status of the job, use this identifier with the DescribeTopicDetectionJob operation.
-        public let jobId: String?
-        /// The status of the job:    SUBMITTED - The job has been received and is queued for processing.   IN_PROGRESS - Amazon Comprehend is processing the job.   COMPLETED - The job was successfully completed and the output is available.   FAILED - The job did not complete. To get details, use the DescribeTopicDetectionJob operation.  
-        public let jobStatus: JobStatus?
+        /// An object that describes the properties associated with the document classification job.
+        public let documentClassificationJobProperties: DocumentClassificationJobProperties?
 
-        public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
-            self.jobId = jobId
-            self.jobStatus = jobStatus
+        public init(documentClassificationJobProperties: DocumentClassificationJobProperties? = nil) {
+            self.documentClassificationJobProperties = documentClassificationJobProperties
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId = "JobId"
-            case jobStatus = "JobStatus"
+            case documentClassificationJobProperties = "DocumentClassificationJobProperties"
         }
     }
 
@@ -1481,163 +540,41 @@ extension Comprehend {
         }
     }
 
-    public struct DeleteDocumentClassifierRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DocumentClassifierArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) that identifies the document classifier. 
-        public let documentClassifierArn: String
+    public enum ModelStatus: String, CustomStringConvertible, Codable {
+        case submitted = "SUBMITTED"
+        case training = "TRAINING"
+        case deleting = "DELETING"
+        case inError = "IN_ERROR"
+        case trained = "TRAINED"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(documentClassifierArn: String) {
-            self.documentClassifierArn = documentClassifierArn
+    public struct BatchDetectKeyPhrasesItemResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Index", required: false, type: .integer), 
+            AWSShapeMember(label: "KeyPhrases", required: false, type: .list)
+        ]
+        /// The zero-based index of the document in the input list.
+        public let index: Int32?
+        /// One or more KeyPhrase objects, one for each key phrase detected in the document.
+        public let keyPhrases: [KeyPhrase]?
+
+        public init(index: Int32? = nil, keyPhrases: [KeyPhrase]? = nil) {
+            self.index = index
+            self.keyPhrases = keyPhrases
         }
 
         private enum CodingKeys: String, CodingKey {
-            case documentClassifierArn = "DocumentClassifierArn"
+            case index = "Index"
+            case keyPhrases = "KeyPhrases"
         }
     }
 
-    public struct DetectEntitiesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LanguageCode", required: true, type: .enum), 
-            AWSShapeMember(label: "Text", required: true, type: .string)
-        ]
-        /// The language of the input documents. You can specify English ("en") or Spanish ("es"). All documents must be in the same language.
-        public let languageCode: LanguageCode
-        /// A UTF-8 text string. Each string must contain fewer that 5,000 bytes of UTF-8 encoded characters.
-        public let text: String
-
-        public init(languageCode: LanguageCode, text: String) {
-            self.languageCode = languageCode
-            self.text = text
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case languageCode = "LanguageCode"
-            case text = "Text"
-        }
-    }
-
-    public struct DescribeTopicsDetectionJobRequest: AWSShape {
+    public struct DescribeKeyPhrasesDetectionJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobId", required: true, type: .string)
         ]
-        /// The identifier assigned by the user to the detection job.
-        public let jobId: String
-
-        public init(jobId: String) {
-            self.jobId = jobId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobId = "JobId"
-        }
-    }
-
-    public struct EntityRecognizerMetadataEntityTypesListItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", required: false, type: .string)
-        ]
-        /// Type of entity from the list of entity types in the metadata of an entity recognizer. 
-        public let `type`: String?
-
-        public init(type: String? = nil) {
-            self.`type` = `type`
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
-        }
-    }
-
-    public struct DominantLanguage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LanguageCode", required: false, type: .string), 
-            AWSShapeMember(label: "Score", required: false, type: .float)
-        ]
-        /// The RFC 5646 language code for the dominant language. For more information about RFC 5646, see Tags for Identifying Languages on the IETF Tools web site.
-        public let languageCode: String?
-        /// The level of confidence that Amazon Comprehend has in the accuracy of the detection.
-        public let score: Float?
-
-        public init(languageCode: String? = nil, score: Float? = nil) {
-            self.languageCode = languageCode
-            self.score = score
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case languageCode = "LanguageCode"
-            case score = "Score"
-        }
-    }
-
-    public struct KeyPhrase: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BeginOffset", required: false, type: .integer), 
-            AWSShapeMember(label: "Text", required: false, type: .string), 
-            AWSShapeMember(label: "EndOffset", required: false, type: .integer), 
-            AWSShapeMember(label: "Score", required: false, type: .float)
-        ]
-        /// A character offset in the input text that shows where the key phrase begins (the first character is at position 0). The offset returns the position of each UTF-8 code point in the string. A code point is the abstract character from a particular graphical representation. For example, a multi-byte UTF-8 character maps to a single code point.
-        public let beginOffset: Int32?
-        /// The text of a key noun phrase.
-        public let text: String?
-        /// A character offset in the input text where the key phrase ends. The offset returns the position of each UTF-8 code point in the string. A code point is the abstract character from a particular graphical representation. For example, a multi-byte UTF-8 character maps to a single code point.
-        public let endOffset: Int32?
-        /// The level of confidence that Amazon Comprehend has in the accuracy of the detection.
-        public let score: Float?
-
-        public init(beginOffset: Int32? = nil, text: String? = nil, endOffset: Int32? = nil, score: Float? = nil) {
-            self.beginOffset = beginOffset
-            self.text = text
-            self.endOffset = endOffset
-            self.score = score
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case beginOffset = "BeginOffset"
-            case text = "Text"
-            case endOffset = "EndOffset"
-            case score = "Score"
-        }
-    }
-
-    public struct DocumentClassificationJobFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobName", required: false, type: .string), 
-            AWSShapeMember(label: "SubmitTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "SubmitTimeBefore", required: false, type: .timestamp)
-        ]
-        /// Filters on the name of the job.
-        public let jobName: String?
-        /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in descending order, newest to oldest.
-        public let submitTimeAfter: TimeStamp?
-        /// Filters the list based on job status. Returns only jobs with the specified status.
-        public let jobStatus: JobStatus?
-        /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted after the specified time. Jobs are returned in ascending order, oldest to newest.
-        public let submitTimeBefore: TimeStamp?
-
-        public init(jobName: String? = nil, submitTimeAfter: TimeStamp? = nil, jobStatus: JobStatus? = nil, submitTimeBefore: TimeStamp? = nil) {
-            self.jobName = jobName
-            self.submitTimeAfter = submitTimeAfter
-            self.jobStatus = jobStatus
-            self.submitTimeBefore = submitTimeBefore
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobName = "JobName"
-            case submitTimeAfter = "SubmitTimeAfter"
-            case jobStatus = "JobStatus"
-            case submitTimeBefore = "SubmitTimeBefore"
-        }
-    }
-
-    public struct StopEntitiesDetectionJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobId", required: true, type: .string)
-        ]
-        /// The identifier of the entities detection job to stop.
+        /// The identifier that Amazon Comprehend generated for the job. The operation returns this identifier in its response.
         public let jobId: String
 
         public init(jobId: String) {
@@ -1670,153 +607,96 @@ extension Comprehend {
         }
     }
 
-    public struct BatchDetectSentimentResponse: AWSShape {
+    public struct DescribeDocumentClassifierResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorList", required: true, type: .list), 
-            AWSShapeMember(label: "ResultList", required: true, type: .list)
+            AWSShapeMember(label: "DocumentClassifierProperties", required: false, type: .structure)
         ]
-        /// A list containing one object for each document that contained an error. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If there are no errors in the batch, the ErrorList is empty.
-        public let errorList: [BatchItemError]
-        /// A list of objects containing the results of the operation. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If all of the documents contain an error, the ResultList is empty.
-        public let resultList: [BatchDetectSentimentItemResult]
+        /// An object that contains the properties associated with a document classifier.
+        public let documentClassifierProperties: DocumentClassifierProperties?
 
-        public init(errorList: [BatchItemError], resultList: [BatchDetectSentimentItemResult]) {
-            self.errorList = errorList
-            self.resultList = resultList
+        public init(documentClassifierProperties: DocumentClassifierProperties? = nil) {
+            self.documentClassifierProperties = documentClassifierProperties
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorList = "ErrorList"
-            case resultList = "ResultList"
+            case documentClassifierProperties = "DocumentClassifierProperties"
         }
     }
 
-    public struct ListDocumentClassifiersRequest: AWSShape {
+    public struct DescribeDocumentClassifierRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "DocumentClassifierArn", required: true, type: .string)
         ]
-        /// Filters the jobs that are returned. You can filter jobs on their name, status, or the date and time that they were submitted. You can only set one filter at a time.
-        public let filter: DocumentClassifierFilter?
-        /// The maximum number of results to return in each page. The default is 100.
-        public let maxResults: Int32?
-        /// Identifies the next page of results to return.
-        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) that identifies the document classifier. The operation returns this identifier in its response.
+        public let documentClassifierArn: String
 
-        public init(filter: DocumentClassifierFilter? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.filter = filter
-            self.maxResults = maxResults
-            self.nextToken = nextToken
+        public init(documentClassifierArn: String) {
+            self.documentClassifierArn = documentClassifierArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter = "Filter"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
+            case documentClassifierArn = "DocumentClassifierArn"
         }
     }
 
-    public struct TopicsDetectionJobFilter: AWSShape {
+    public struct DocumentClassificationJobProperties: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobName", required: false, type: .string), 
-            AWSShapeMember(label: "SubmitTimeAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DataAccessRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "SubmitTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "JobId", required: false, type: .string), 
+            AWSShapeMember(label: "DocumentClassifierArn", required: false, type: .string), 
+            AWSShapeMember(label: "OutputDataConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "InputDataConfig", required: false, type: .structure), 
             AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "SubmitTimeBefore", required: false, type: .timestamp)
+            AWSShapeMember(label: "JobName", required: false, type: .string), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Message", required: false, type: .string)
         ]
-        public let jobName: String?
-        /// Filters the list of jobs based on the time that the job was submitted for processing. Only returns jobs submitted after the specified time. Jobs are returned in ascending order, oldest to newest.
-        public let submitTimeAfter: TimeStamp?
-        /// Filters the list of topic detection jobs based on job status. Returns only jobs with the specified status.
+        /// The Amazon Resource Name (ARN) of the AWS identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
+        public let dataAccessRoleArn: String?
+        /// The time that the document classification job was submitted for processing.
+        public let submitTime: TimeStamp?
+        /// The identifier assigned to the document classification job.
+        public let jobId: String?
+        /// The Amazon Resource Name (ARN) that identifies the document classifier. 
+        public let documentClassifierArn: String?
+        /// The output data configuration that you supplied when you created the document classification job.
+        public let outputDataConfig: OutputDataConfig?
+        /// The input data configuration that you supplied when you created the document classification job.
+        public let inputDataConfig: InputDataConfig?
+        /// The current status of the document classification job. If the status is FAILED, the Message field shows the reason for the failure.
         public let jobStatus: JobStatus?
-        /// Filters the list of jobs based on the time that the job was submitted for processing. Only returns jobs submitted before the specified time. Jobs are returned in descending order, newest to oldest.
-        public let submitTimeBefore: TimeStamp?
+        /// The name that you assigned to the document classification job.
+        public let jobName: String?
+        /// The time that the document classification job completed.
+        public let endTime: TimeStamp?
+        /// A description of the status of the job.
+        public let message: String?
 
-        public init(jobName: String? = nil, submitTimeAfter: TimeStamp? = nil, jobStatus: JobStatus? = nil, submitTimeBefore: TimeStamp? = nil) {
-            self.jobName = jobName
-            self.submitTimeAfter = submitTimeAfter
+        public init(dataAccessRoleArn: String? = nil, submitTime: TimeStamp? = nil, jobId: String? = nil, documentClassifierArn: String? = nil, outputDataConfig: OutputDataConfig? = nil, inputDataConfig: InputDataConfig? = nil, jobStatus: JobStatus? = nil, jobName: String? = nil, endTime: TimeStamp? = nil, message: String? = nil) {
+            self.dataAccessRoleArn = dataAccessRoleArn
+            self.submitTime = submitTime
+            self.jobId = jobId
+            self.documentClassifierArn = documentClassifierArn
+            self.outputDataConfig = outputDataConfig
+            self.inputDataConfig = inputDataConfig
             self.jobStatus = jobStatus
-            self.submitTimeBefore = submitTimeBefore
+            self.jobName = jobName
+            self.endTime = endTime
+            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobName = "JobName"
-            case submitTimeAfter = "SubmitTimeAfter"
+            case dataAccessRoleArn = "DataAccessRoleArn"
+            case submitTime = "SubmitTime"
+            case jobId = "JobId"
+            case documentClassifierArn = "DocumentClassifierArn"
+            case outputDataConfig = "OutputDataConfig"
+            case inputDataConfig = "InputDataConfig"
             case jobStatus = "JobStatus"
-            case submitTimeBefore = "SubmitTimeBefore"
-        }
-    }
-
-    public struct ListEntityRecognizersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EntityRecognizerPropertiesList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The list of properties of an entity recognizer.
-        public let entityRecognizerPropertiesList: [EntityRecognizerProperties]?
-        /// Identifies the next page of results to return.
-        public let nextToken: String?
-
-        public init(entityRecognizerPropertiesList: [EntityRecognizerProperties]? = nil, nextToken: String? = nil) {
-            self.entityRecognizerPropertiesList = entityRecognizerPropertiesList
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case entityRecognizerPropertiesList = "EntityRecognizerPropertiesList"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct BatchDetectSentimentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LanguageCode", required: true, type: .enum), 
-            AWSShapeMember(label: "TextList", required: true, type: .list)
-        ]
-        /// The language of the input documents. You can specify English ("en") or Spanish ("es"). All documents must be in the same language.
-        public let languageCode: LanguageCode
-        /// A list containing the text of the input documents. The list can contain a maximum of 25 documents. Each document must contain fewer that 5,000 bytes of UTF-8 encoded characters.
-        public let textList: [String]
-
-        public init(languageCode: LanguageCode, textList: [String]) {
-            self.languageCode = languageCode
-            self.textList = textList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case languageCode = "LanguageCode"
-            case textList = "TextList"
-        }
-    }
-
-    public struct SentimentScore: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Negative", required: false, type: .float), 
-            AWSShapeMember(label: "Neutral", required: false, type: .float), 
-            AWSShapeMember(label: "Mixed", required: false, type: .float), 
-            AWSShapeMember(label: "Positive", required: false, type: .float)
-        ]
-        /// The level of confidence that Amazon Comprehend has in the accuracy of its detection of the NEGATIVE sentiment.
-        public let negative: Float?
-        /// The level of confidence that Amazon Comprehend has in the accuracy of its detection of the NEUTRAL sentiment.
-        public let neutral: Float?
-        /// The level of confidence that Amazon Comprehend has in the accuracy of its detection of the MIXED sentiment.
-        public let mixed: Float?
-        /// The level of confidence that Amazon Comprehend has in the accuracy of its detection of the POSITIVE sentiment.
-        public let positive: Float?
-
-        public init(negative: Float? = nil, neutral: Float? = nil, mixed: Float? = nil, positive: Float? = nil) {
-            self.negative = negative
-            self.neutral = neutral
-            self.mixed = mixed
-            self.positive = positive
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case negative = "Negative"
-            case neutral = "Neutral"
-            case mixed = "Mixed"
-            case positive = "Positive"
+            case jobName = "JobName"
+            case endTime = "EndTime"
+            case message = "Message"
         }
     }
 
@@ -1841,321 +721,49 @@ extension Comprehend {
         }
     }
 
-    public struct ListKeyPhrasesDetectionJobsResponse: AWSShape {
+    public struct StartEntitiesDetectionJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KeyPhrasesDetectionJobPropertiesList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// A list containing the properties of each job that is returned.
-        public let keyPhrasesDetectionJobPropertiesList: [KeyPhrasesDetectionJobProperties]?
-        /// Identifies the next page of results to return.
-        public let nextToken: String?
-
-        public init(keyPhrasesDetectionJobPropertiesList: [KeyPhrasesDetectionJobProperties]? = nil, nextToken: String? = nil) {
-            self.keyPhrasesDetectionJobPropertiesList = keyPhrasesDetectionJobPropertiesList
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case keyPhrasesDetectionJobPropertiesList = "KeyPhrasesDetectionJobPropertiesList"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct StartDocumentClassificationJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OutputDataConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "JobName", required: false, type: .string), 
             AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "DocumentClassifierArn", required: true, type: .string), 
+            AWSShapeMember(label: "EntityRecognizerArn", required: false, type: .string), 
+            AWSShapeMember(label: "JobName", required: false, type: .string), 
+            AWSShapeMember(label: "OutputDataConfig", required: true, type: .structure), 
             AWSShapeMember(label: "InputDataConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "LanguageCode", required: true, type: .enum), 
             AWSShapeMember(label: "DataAccessRoleArn", required: true, type: .string)
         ]
+        /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
+        public let clientRequestToken: String?
+        /// The Amazon Resource Name (ARN) that identifies the specific entity recognizer to be used by the StartEntitiesDetectionJob. This ARN is optional and is only used for a custom entity recognition job.
+        public let entityRecognizerArn: String?
+        /// The identifier of the job.
+        public let jobName: String?
         /// Specifies where to send the output files.
         public let outputDataConfig: OutputDataConfig
-        /// The identifier of the job.
-        public let jobName: String?
-        /// A unique identifier for the request. If you do not set the client request token, Amazon Comprehend generates one.
-        public let clientRequestToken: String?
-        /// The Amazon Resource Name (ARN) of the document classifier to use to process the job.
-        public let documentClassifierArn: String
         /// Specifies the format and location of the input data for the job.
         public let inputDataConfig: InputDataConfig
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
-        public let dataAccessRoleArn: String
-
-        public init(outputDataConfig: OutputDataConfig, jobName: String? = nil, clientRequestToken: String? = nil, documentClassifierArn: String, inputDataConfig: InputDataConfig, dataAccessRoleArn: String) {
-            self.outputDataConfig = outputDataConfig
-            self.jobName = jobName
-            self.clientRequestToken = clientRequestToken
-            self.documentClassifierArn = documentClassifierArn
-            self.inputDataConfig = inputDataConfig
-            self.dataAccessRoleArn = dataAccessRoleArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case outputDataConfig = "OutputDataConfig"
-            case jobName = "JobName"
-            case clientRequestToken = "ClientRequestToken"
-            case documentClassifierArn = "DocumentClassifierArn"
-            case inputDataConfig = "InputDataConfig"
-            case dataAccessRoleArn = "DataAccessRoleArn"
-        }
-    }
-
-    public enum SentimentType: String, CustomStringConvertible, Codable {
-        case positive = "POSITIVE"
-        case negative = "NEGATIVE"
-        case neutral = "NEUTRAL"
-        case mixed = "MIXED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct EntityRecognizerEntityList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3Uri", required: true, type: .string)
-        ]
-        /// Specifies the Amazon S3 location where the entity list is located. The URI must be in the same region as the API endpoint that you are calling.
-        public let s3Uri: String
-
-        public init(s3Uri: String) {
-            self.s3Uri = s3Uri
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case s3Uri = "S3Uri"
-        }
-    }
-
-    public struct CreateEntityRecognizerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EntityRecognizerArn", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) that identifies the entity recognizer.
-        public let entityRecognizerArn: String?
-
-        public init(entityRecognizerArn: String? = nil) {
-            self.entityRecognizerArn = entityRecognizerArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case entityRecognizerArn = "EntityRecognizerArn"
-        }
-    }
-
-    public struct DocumentClassificationJobProperties: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobName", required: false, type: .string), 
-            AWSShapeMember(label: "OutputDataConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "DataAccessRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "SubmitTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DocumentClassifierArn", required: false, type: .string), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "InputDataConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "JobId", required: false, type: .string), 
-            AWSShapeMember(label: "JobStatus", required: false, type: .enum)
-        ]
-        /// The name that you assigned to the document classification job.
-        public let jobName: String?
-        /// The output data configuration that you supplied when you created the document classification job.
-        public let outputDataConfig: OutputDataConfig?
-        /// The Amazon Resource Name (ARN) of the AWS identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
-        public let dataAccessRoleArn: String?
-        /// The time that the document classification job was submitted for processing.
-        public let submitTime: TimeStamp?
-        /// The Amazon Resource Name (ARN) that identifies the document classifier. 
-        public let documentClassifierArn: String?
-        /// The time that the document classification job completed.
-        public let endTime: TimeStamp?
-        /// The input data configuration that you supplied when you created the document classification job.
-        public let inputDataConfig: InputDataConfig?
-        /// A description of the status of the job.
-        public let message: String?
-        /// The identifier assigned to the document classification job.
-        public let jobId: String?
-        /// The current status of the document classification job. If the status is FAILED, the Message field shows the reason for the failure.
-        public let jobStatus: JobStatus?
-
-        public init(jobName: String? = nil, outputDataConfig: OutputDataConfig? = nil, dataAccessRoleArn: String? = nil, submitTime: TimeStamp? = nil, documentClassifierArn: String? = nil, endTime: TimeStamp? = nil, inputDataConfig: InputDataConfig? = nil, message: String? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil) {
-            self.jobName = jobName
-            self.outputDataConfig = outputDataConfig
-            self.dataAccessRoleArn = dataAccessRoleArn
-            self.submitTime = submitTime
-            self.documentClassifierArn = documentClassifierArn
-            self.endTime = endTime
-            self.inputDataConfig = inputDataConfig
-            self.message = message
-            self.jobId = jobId
-            self.jobStatus = jobStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobName = "JobName"
-            case outputDataConfig = "OutputDataConfig"
-            case dataAccessRoleArn = "DataAccessRoleArn"
-            case submitTime = "SubmitTime"
-            case documentClassifierArn = "DocumentClassifierArn"
-            case endTime = "EndTime"
-            case inputDataConfig = "InputDataConfig"
-            case message = "Message"
-            case jobId = "JobId"
-            case jobStatus = "JobStatus"
-        }
-    }
-
-    public struct StartTopicsDetectionJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OutputDataConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "NumberOfTopics", required: false, type: .integer), 
-            AWSShapeMember(label: "JobName", required: false, type: .string), 
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "DataAccessRoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "InputDataConfig", required: true, type: .structure)
-        ]
-        /// Specifies where to send the output files. The output is a compressed archive with two files, topic-terms.csv that lists the terms associated with each topic, and doc-topics.csv that lists the documents associated with each topic
-        public let outputDataConfig: OutputDataConfig
-        /// The number of topics to detect.
-        public let numberOfTopics: Int32?
-        /// The identifier of the job.
-        public let jobName: String?
-        /// A unique identifier for the request. If you do not set the client request token, Amazon Comprehend generates one.
-        public let clientRequestToken: String?
+        /// The language of the input documents. All documents must be in the same language. You can specify any of the languages supported by Amazon Comprehend: English ("en"), Spanish ("es"), French ("fr"), German ("de"), Italian ("it"), or Portuguese ("pt"). If custom entities recognition is used, this parameter is ignored and the language used for training the model is used instead.
+        public let languageCode: LanguageCode
         /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data. For more information, see https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions.
         public let dataAccessRoleArn: String
-        /// Specifies the format and location of the input data for the job.
-        public let inputDataConfig: InputDataConfig
 
-        public init(outputDataConfig: OutputDataConfig, numberOfTopics: Int32? = nil, jobName: String? = nil, clientRequestToken: String? = nil, dataAccessRoleArn: String, inputDataConfig: InputDataConfig) {
-            self.outputDataConfig = outputDataConfig
-            self.numberOfTopics = numberOfTopics
-            self.jobName = jobName
+        public init(clientRequestToken: String? = nil, entityRecognizerArn: String? = nil, jobName: String? = nil, outputDataConfig: OutputDataConfig, inputDataConfig: InputDataConfig, languageCode: LanguageCode, dataAccessRoleArn: String) {
             self.clientRequestToken = clientRequestToken
-            self.dataAccessRoleArn = dataAccessRoleArn
-            self.inputDataConfig = inputDataConfig
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case outputDataConfig = "OutputDataConfig"
-            case numberOfTopics = "NumberOfTopics"
-            case jobName = "JobName"
-            case clientRequestToken = "ClientRequestToken"
-            case dataAccessRoleArn = "DataAccessRoleArn"
-            case inputDataConfig = "InputDataConfig"
-        }
-    }
-
-    public struct CreateDocumentClassifierResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DocumentClassifierArn", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) that identifies the document classifier.
-        public let documentClassifierArn: String?
-
-        public init(documentClassifierArn: String? = nil) {
-            self.documentClassifierArn = documentClassifierArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case documentClassifierArn = "DocumentClassifierArn"
-        }
-    }
-
-    public struct DetectDominantLanguageResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Languages", required: false, type: .list)
-        ]
-        /// The languages that Amazon Comprehend detected in the input text. For each language, the response returns the RFC 5646 language code and the level of confidence that Amazon Comprehend has in the accuracy of its inference. For more information about RFC 5646, see Tags for Identifying Languages on the IETF Tools web site.
-        public let languages: [DominantLanguage]?
-
-        public init(languages: [DominantLanguage]? = nil) {
-            self.languages = languages
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case languages = "Languages"
-        }
-    }
-
-    public struct DominantLanguageDetectionJobFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobName", required: false, type: .string), 
-            AWSShapeMember(label: "SubmitTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "SubmitTimeBefore", required: false, type: .timestamp)
-        ]
-        /// Filters on the name of the job.
-        public let jobName: String?
-        /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted after the specified time. Jobs are returned in descending order, newest to oldest.
-        public let submitTimeAfter: TimeStamp?
-        /// Filters the list of jobs based on job status. Returns only jobs with the specified status.
-        public let jobStatus: JobStatus?
-        /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest.
-        public let submitTimeBefore: TimeStamp?
-
-        public init(jobName: String? = nil, submitTimeAfter: TimeStamp? = nil, jobStatus: JobStatus? = nil, submitTimeBefore: TimeStamp? = nil) {
+            self.entityRecognizerArn = entityRecognizerArn
             self.jobName = jobName
-            self.submitTimeAfter = submitTimeAfter
-            self.jobStatus = jobStatus
-            self.submitTimeBefore = submitTimeBefore
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobName = "JobName"
-            case submitTimeAfter = "SubmitTimeAfter"
-            case jobStatus = "JobStatus"
-            case submitTimeBefore = "SubmitTimeBefore"
-        }
-    }
-
-    public struct DetectKeyPhrasesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LanguageCode", required: true, type: .enum), 
-            AWSShapeMember(label: "Text", required: true, type: .string)
-        ]
-        /// The language of the input documents. You can specify English ("en") or Spanish ("es"). All documents must be in the same language.
-        public let languageCode: LanguageCode
-        /// A UTF-8 text string. Each string must contain fewer that 5,000 bytes of UTF-8 encoded characters.
-        public let text: String
-
-        public init(languageCode: LanguageCode, text: String) {
+            self.outputDataConfig = outputDataConfig
+            self.inputDataConfig = inputDataConfig
             self.languageCode = languageCode
-            self.text = text
+            self.dataAccessRoleArn = dataAccessRoleArn
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case entityRecognizerArn = "EntityRecognizerArn"
+            case jobName = "JobName"
+            case outputDataConfig = "OutputDataConfig"
+            case inputDataConfig = "InputDataConfig"
             case languageCode = "LanguageCode"
-            case text = "Text"
-        }
-    }
-
-    public struct DeleteEntityRecognizerResponse: AWSShape {
-
-    }
-
-    public struct ListTopicsDetectionJobsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Filters the jobs that are returned. Jobs can be filtered on their name, status, or the date and time that they were submitted. You can set only one filter at a time.
-        public let filter: TopicsDetectionJobFilter?
-        /// The maximum number of results to return in each page. The default is 100.
-        public let maxResults: Int32?
-        /// Identifies the next page of results to return.
-        public let nextToken: String?
-
-        public init(filter: TopicsDetectionJobFilter? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.filter = filter
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case filter = "Filter"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
+            case dataAccessRoleArn = "DataAccessRoleArn"
         }
     }
 
@@ -2175,226 +783,76 @@ extension Comprehend {
         }
     }
 
-    public struct SentimentDetectionJobProperties: AWSShape {
+    public struct ListEntitiesDetectionJobsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "EntitiesDetectionJobPropertiesList", required: false, type: .list)
+        ]
+        /// Identifies the next page of results to return.
+        public let nextToken: String?
+        /// A list containing the properties of each job that is returned.
+        public let entitiesDetectionJobPropertiesList: [EntitiesDetectionJobProperties]?
+
+        public init(nextToken: String? = nil, entitiesDetectionJobPropertiesList: [EntitiesDetectionJobProperties]? = nil) {
+            self.nextToken = nextToken
+            self.entitiesDetectionJobPropertiesList = entitiesDetectionJobPropertiesList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case entitiesDetectionJobPropertiesList = "EntitiesDetectionJobPropertiesList"
+        }
+    }
+
+    public struct StopSentimentDetectionJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "JobId", required: false, type: .string)
+        ]
+        /// Either STOP_REQUESTED if the job is currently running, or STOPPED if the job was previously stopped with the StopSentimentDetectionJob operation.
+        public let jobStatus: JobStatus?
+        /// The identifier of the sentiment detection job to stop.
+        public let jobId: String?
+
+        public init(jobStatus: JobStatus? = nil, jobId: String? = nil) {
+            self.jobStatus = jobStatus
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobStatus = "JobStatus"
+            case jobId = "JobId"
+        }
+    }
+
+    public struct EntitiesDetectionJobFilter: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobName", required: false, type: .string), 
-            AWSShapeMember(label: "OutputDataConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "DataAccessRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "SubmitTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "InputDataConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "JobId", required: false, type: .string), 
-            AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "LanguageCode", required: false, type: .enum)
+            AWSShapeMember(label: "SubmitTimeAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SubmitTimeBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "JobStatus", required: false, type: .enum)
         ]
-        /// The name that you assigned to the sentiment detection job
+        /// Filters on the name of the job.
         public let jobName: String?
-        /// The output data configuration that you supplied when you created the sentiment detection job.
-        public let outputDataConfig: OutputDataConfig?
-        /// The Amazon Resource Name (ARN) that gives Amazon Comprehend read access to your input data.
-        public let dataAccessRoleArn: String?
-        /// The time that the sentiment detection job was submitted for processing.
-        public let submitTime: TimeStamp?
-        /// The time that the sentiment detection job ended.
-        public let endTime: TimeStamp?
-        /// The input data configuration that you supplied when you created the sentiment detection job.
-        public let inputDataConfig: InputDataConfig?
-        /// A description of the status of a job.
-        public let message: String?
-        /// The identifier assigned to the sentiment detection job.
-        public let jobId: String?
-        /// The current status of the sentiment detection job. If the status is FAILED, the Messages field shows the reason for the failure.
+        /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted after the specified time. Jobs are returned in descending order, newest to oldest.
+        public let submitTimeAfter: TimeStamp?
+        /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest.
+        public let submitTimeBefore: TimeStamp?
+        /// Filters the list of jobs based on job status. Returns only jobs with the specified status.
         public let jobStatus: JobStatus?
-        /// The language code of the input documents.
-        public let languageCode: LanguageCode?
 
-        public init(jobName: String? = nil, outputDataConfig: OutputDataConfig? = nil, dataAccessRoleArn: String? = nil, submitTime: TimeStamp? = nil, endTime: TimeStamp? = nil, inputDataConfig: InputDataConfig? = nil, message: String? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil, languageCode: LanguageCode? = nil) {
+        public init(jobName: String? = nil, submitTimeAfter: TimeStamp? = nil, submitTimeBefore: TimeStamp? = nil, jobStatus: JobStatus? = nil) {
             self.jobName = jobName
-            self.outputDataConfig = outputDataConfig
-            self.dataAccessRoleArn = dataAccessRoleArn
-            self.submitTime = submitTime
-            self.endTime = endTime
-            self.inputDataConfig = inputDataConfig
-            self.message = message
-            self.jobId = jobId
+            self.submitTimeAfter = submitTimeAfter
+            self.submitTimeBefore = submitTimeBefore
             self.jobStatus = jobStatus
-            self.languageCode = languageCode
         }
 
         private enum CodingKeys: String, CodingKey {
             case jobName = "JobName"
-            case outputDataConfig = "OutputDataConfig"
-            case dataAccessRoleArn = "DataAccessRoleArn"
-            case submitTime = "SubmitTime"
-            case endTime = "EndTime"
-            case inputDataConfig = "InputDataConfig"
-            case message = "Message"
-            case jobId = "JobId"
-            case jobStatus = "JobStatus"
-            case languageCode = "LanguageCode"
-        }
-    }
-
-    public struct BatchDetectKeyPhrasesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorList", required: true, type: .list), 
-            AWSShapeMember(label: "ResultList", required: true, type: .list)
-        ]
-        /// A list containing one object for each document that contained an error. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If there are no errors in the batch, the ErrorList is empty.
-        public let errorList: [BatchItemError]
-        /// A list of objects containing the results of the operation. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If all of the documents contain an error, the ResultList is empty.
-        public let resultList: [BatchDetectKeyPhrasesItemResult]
-
-        public init(errorList: [BatchItemError], resultList: [BatchDetectKeyPhrasesItemResult]) {
-            self.errorList = errorList
-            self.resultList = resultList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorList = "ErrorList"
-            case resultList = "ResultList"
-        }
-    }
-
-    public struct ListKeyPhrasesDetectionJobsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Filters the jobs that are returned. You can filter jobs on their name, status, or the date and time that they were submitted. You can only set one filter at a time.
-        public let filter: KeyPhrasesDetectionJobFilter?
-        /// The maximum number of results to return in each page. The default is 100.
-        public let maxResults: Int32?
-        /// Identifies the next page of results to return.
-        public let nextToken: String?
-
-        public init(filter: KeyPhrasesDetectionJobFilter? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.filter = filter
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case filter = "Filter"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DocumentClassifierFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubmitTimeAfter", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "SubmitTimeBefore", required: false, type: .timestamp)
-        ]
-        /// Filters the list of classifiers based on the time that the classifier was submitted for processing. Returns only classifiers submitted after the specified time. Classifiers are returned in descending order, newest to oldest.
-        public let submitTimeAfter: TimeStamp?
-        /// Filters the list of classifiers based on status. 
-        public let status: ModelStatus?
-        /// Filters the list of classifiers based on the time that the classifier was submitted for processing. Returns only classifiers submitted before the specified time. Classifiers are returned in ascending order, oldest to newest.
-        public let submitTimeBefore: TimeStamp?
-
-        public init(submitTimeAfter: TimeStamp? = nil, status: ModelStatus? = nil, submitTimeBefore: TimeStamp? = nil) {
-            self.submitTimeAfter = submitTimeAfter
-            self.status = status
-            self.submitTimeBefore = submitTimeBefore
-        }
-
-        private enum CodingKeys: String, CodingKey {
             case submitTimeAfter = "SubmitTimeAfter"
-            case status = "Status"
             case submitTimeBefore = "SubmitTimeBefore"
-        }
-    }
-
-    public struct CreateDocumentClassifierRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DocumentClassifierName", required: true, type: .string), 
-            AWSShapeMember(label: "LanguageCode", required: true, type: .enum), 
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "InputDataConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "DataAccessRoleArn", required: true, type: .string)
-        ]
-        /// The name of the document classifier.
-        public let documentClassifierName: String
-        /// The language of the input documents. You can specify English ("en") or Spanish ("es"). All documents must be in the same language.
-        public let languageCode: LanguageCode
-        /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
-        public let clientRequestToken: String?
-        /// Specifies the format and location of the input data for the job.
-        public let inputDataConfig: DocumentClassifierInputDataConfig
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Management (IAM) role that grants Amazon Comprehend read access to your input data.
-        public let dataAccessRoleArn: String
-
-        public init(documentClassifierName: String, languageCode: LanguageCode, clientRequestToken: String? = nil, inputDataConfig: DocumentClassifierInputDataConfig, dataAccessRoleArn: String) {
-            self.documentClassifierName = documentClassifierName
-            self.languageCode = languageCode
-            self.clientRequestToken = clientRequestToken
-            self.inputDataConfig = inputDataConfig
-            self.dataAccessRoleArn = dataAccessRoleArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case documentClassifierName = "DocumentClassifierName"
-            case languageCode = "LanguageCode"
-            case clientRequestToken = "ClientRequestToken"
-            case inputDataConfig = "InputDataConfig"
-            case dataAccessRoleArn = "DataAccessRoleArn"
-        }
-    }
-
-    public struct BatchDetectDominantLanguageRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TextList", required: true, type: .list)
-        ]
-        /// A list containing the text of the input documents. The list can contain a maximum of 25 documents. Each document should contain at least 20 characters and must contain fewer than 5,000 bytes of UTF-8 encoded characters.
-        public let textList: [String]
-
-        public init(textList: [String]) {
-            self.textList = textList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case textList = "TextList"
-        }
-    }
-
-    public struct BatchDetectKeyPhrasesItemResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Index", required: false, type: .integer), 
-            AWSShapeMember(label: "KeyPhrases", required: false, type: .list)
-        ]
-        /// The zero-based index of the document in the input list.
-        public let index: Int32?
-        /// One or more KeyPhrase objects, one for each key phrase detected in the document.
-        public let keyPhrases: [KeyPhrase]?
-
-        public init(index: Int32? = nil, keyPhrases: [KeyPhrase]? = nil) {
-            self.index = index
-            self.keyPhrases = keyPhrases
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case index = "Index"
-            case keyPhrases = "KeyPhrases"
-        }
-    }
-
-    public struct DescribeTopicsDetectionJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TopicsDetectionJobProperties", required: false, type: .structure)
-        ]
-        /// The list of properties for the requested job.
-        public let topicsDetectionJobProperties: TopicsDetectionJobProperties?
-
-        public init(topicsDetectionJobProperties: TopicsDetectionJobProperties? = nil) {
-            self.topicsDetectionJobProperties = topicsDetectionJobProperties
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case topicsDetectionJobProperties = "TopicsDetectionJobProperties"
+            case jobStatus = "JobStatus"
         }
     }
 
@@ -2414,7 +872,39 @@ extension Comprehend {
         }
     }
 
-    public struct DeleteEntityRecognizerRequest: AWSShape {
+    public struct DetectSyntaxResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SyntaxTokens", required: false, type: .list)
+        ]
+        /// A collection of syntax tokens describing the text. For each token, the response provides the text, the token type, where the text begins and ends, and the level of confidence that Amazon Comprehend has that the token is correct. For a list of token types, see how-syntax.
+        public let syntaxTokens: [SyntaxToken]?
+
+        public init(syntaxTokens: [SyntaxToken]? = nil) {
+            self.syntaxTokens = syntaxTokens
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case syntaxTokens = "SyntaxTokens"
+        }
+    }
+
+    public struct DescribeEntitiesDetectionJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: true, type: .string)
+        ]
+        /// The identifier that Amazon Comprehend generated for the job. The operation returns this identifier in its response.
+        public let jobId: String
+
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct DescribeEntityRecognizerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EntityRecognizerArn", required: true, type: .string)
         ]
@@ -2430,42 +920,1108 @@ extension Comprehend {
         }
     }
 
-    public struct ClassifierMetadata: AWSShape {
+    public struct BatchDetectSentimentItemResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NumberOfTrainedDocuments", required: false, type: .integer), 
-            AWSShapeMember(label: "EvaluationMetrics", required: false, type: .structure), 
-            AWSShapeMember(label: "NumberOfTestDocuments", required: false, type: .integer), 
-            AWSShapeMember(label: "NumberOfLabels", required: false, type: .integer)
+            AWSShapeMember(label: "Index", required: false, type: .integer), 
+            AWSShapeMember(label: "Sentiment", required: false, type: .enum), 
+            AWSShapeMember(label: "SentimentScore", required: false, type: .structure)
         ]
-        /// The number of documents in the input data that were used to train the classifier. Typically this is 80 to 90 percent of the input documents.
-        public let numberOfTrainedDocuments: Int32?
-        ///  Describes the result metrics for the test data associated with an documentation classifier.
-        public let evaluationMetrics: ClassifierEvaluationMetrics?
-        /// The number of documents in the input data that were used to test the classifier. Typically this is 10 to 20 percent of the input documents.
-        public let numberOfTestDocuments: Int32?
-        /// The number of labels in the input data. 
-        public let numberOfLabels: Int32?
+        /// The zero-based index of the document in the input list.
+        public let index: Int32?
+        /// The sentiment detected in the document.
+        public let sentiment: SentimentType?
+        /// The level of confidence that Amazon Comprehend has in the accuracy of its sentiment detection.
+        public let sentimentScore: SentimentScore?
 
-        public init(numberOfTrainedDocuments: Int32? = nil, evaluationMetrics: ClassifierEvaluationMetrics? = nil, numberOfTestDocuments: Int32? = nil, numberOfLabels: Int32? = nil) {
-            self.numberOfTrainedDocuments = numberOfTrainedDocuments
-            self.evaluationMetrics = evaluationMetrics
-            self.numberOfTestDocuments = numberOfTestDocuments
-            self.numberOfLabels = numberOfLabels
+        public init(index: Int32? = nil, sentiment: SentimentType? = nil, sentimentScore: SentimentScore? = nil) {
+            self.index = index
+            self.sentiment = sentiment
+            self.sentimentScore = sentimentScore
         }
 
         private enum CodingKeys: String, CodingKey {
-            case numberOfTrainedDocuments = "NumberOfTrainedDocuments"
-            case evaluationMetrics = "EvaluationMetrics"
-            case numberOfTestDocuments = "NumberOfTestDocuments"
-            case numberOfLabels = "NumberOfLabels"
+            case index = "Index"
+            case sentiment = "Sentiment"
+            case sentimentScore = "SentimentScore"
         }
     }
 
-    public struct StopDominantLanguageDetectionJobRequest: AWSShape {
+    public struct BatchDetectSyntaxItemResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Index", required: false, type: .integer), 
+            AWSShapeMember(label: "SyntaxTokens", required: false, type: .list)
+        ]
+        /// The zero-based index of the document in the input list.
+        public let index: Int32?
+        /// The syntax tokens for the words in the document, one token for each word.
+        public let syntaxTokens: [SyntaxToken]?
+
+        public init(index: Int32? = nil, syntaxTokens: [SyntaxToken]? = nil) {
+            self.index = index
+            self.syntaxTokens = syntaxTokens
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case index = "Index"
+            case syntaxTokens = "SyntaxTokens"
+        }
+    }
+
+    public struct ListKeyPhrasesDetectionJobsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "KeyPhrasesDetectionJobPropertiesList", required: false, type: .list)
+        ]
+        /// Identifies the next page of results to return.
+        public let nextToken: String?
+        /// A list containing the properties of each job that is returned.
+        public let keyPhrasesDetectionJobPropertiesList: [KeyPhrasesDetectionJobProperties]?
+
+        public init(nextToken: String? = nil, keyPhrasesDetectionJobPropertiesList: [KeyPhrasesDetectionJobProperties]? = nil) {
+            self.nextToken = nextToken
+            self.keyPhrasesDetectionJobPropertiesList = keyPhrasesDetectionJobPropertiesList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case keyPhrasesDetectionJobPropertiesList = "KeyPhrasesDetectionJobPropertiesList"
+        }
+    }
+
+    public struct EntityRecognizerMetadataEntityTypesListItem: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .string)
+        ]
+        /// Type of entity from the list of entity types in the metadata of an entity recognizer. 
+        public let `type`: String?
+
+        public init(type: String? = nil) {
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+        }
+    }
+
+    public struct TopicsDetectionJobProperties: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "NumberOfTopics", required: false, type: .integer), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "SubmitTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "JobName", required: false, type: .string), 
+            AWSShapeMember(label: "JobId", required: false, type: .string), 
+            AWSShapeMember(label: "OutputDataConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "InputDataConfig", required: false, type: .structure)
+        ]
+        /// The current status of the topic detection job. If the status is Failed, the reason for the failure is shown in the Message field.
+        public let jobStatus: JobStatus?
+        /// The time that the topic detection job was completed.
+        public let endTime: TimeStamp?
+        /// The number of topics to detect supplied when you created the topic detection job. The default is 10. 
+        public let numberOfTopics: Int32?
+        /// A description for the status of a job.
+        public let message: String?
+        /// The time that the topic detection job was submitted for processing.
+        public let submitTime: TimeStamp?
+        /// The name of the topic detection job.
+        public let jobName: String?
+        /// The identifier assigned to the topic detection job.
+        public let jobId: String?
+        /// The output data configuration supplied when you created the topic detection job.
+        public let outputDataConfig: OutputDataConfig?
+        /// The input data configuration supplied when you created the topic detection job.
+        public let inputDataConfig: InputDataConfig?
+
+        public init(jobStatus: JobStatus? = nil, endTime: TimeStamp? = nil, numberOfTopics: Int32? = nil, message: String? = nil, submitTime: TimeStamp? = nil, jobName: String? = nil, jobId: String? = nil, outputDataConfig: OutputDataConfig? = nil, inputDataConfig: InputDataConfig? = nil) {
+            self.jobStatus = jobStatus
+            self.endTime = endTime
+            self.numberOfTopics = numberOfTopics
+            self.message = message
+            self.submitTime = submitTime
+            self.jobName = jobName
+            self.jobId = jobId
+            self.outputDataConfig = outputDataConfig
+            self.inputDataConfig = inputDataConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobStatus = "JobStatus"
+            case endTime = "EndTime"
+            case numberOfTopics = "NumberOfTopics"
+            case message = "Message"
+            case submitTime = "SubmitTime"
+            case jobName = "JobName"
+            case jobId = "JobId"
+            case outputDataConfig = "OutputDataConfig"
+            case inputDataConfig = "InputDataConfig"
+        }
+    }
+
+    public struct EntityRecognizerFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "SubmitTimeBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SubmitTimeAfter", required: false, type: .timestamp)
+        ]
+        /// The status of an entity recognizer.
+        public let status: ModelStatus?
+        /// Filters the list of entities based on the time that the list was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in descending order, newest to oldest.
+        public let submitTimeBefore: TimeStamp?
+        /// Filters the list of entities based on the time that the list was submitted for processing. Returns only jobs submitted after the specified time. Jobs are returned in ascending order, oldest to newest.
+        public let submitTimeAfter: TimeStamp?
+
+        public init(status: ModelStatus? = nil, submitTimeBefore: TimeStamp? = nil, submitTimeAfter: TimeStamp? = nil) {
+            self.status = status
+            self.submitTimeBefore = submitTimeBefore
+            self.submitTimeAfter = submitTimeAfter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case submitTimeBefore = "SubmitTimeBefore"
+            case submitTimeAfter = "SubmitTimeAfter"
+        }
+    }
+
+    public enum SyntaxLanguageCode: String, CustomStringConvertible, Codable {
+        case en = "en"
+        case es = "es"
+        case fr = "fr"
+        case de = "de"
+        case it = "it"
+        case pt = "pt"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct BatchDetectSentimentResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorList", required: true, type: .list), 
+            AWSShapeMember(label: "ResultList", required: true, type: .list)
+        ]
+        /// A list containing one object for each document that contained an error. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If there are no errors in the batch, the ErrorList is empty.
+        public let errorList: [BatchItemError]
+        /// A list of objects containing the results of the operation. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If all of the documents contain an error, the ResultList is empty.
+        public let resultList: [BatchDetectSentimentItemResult]
+
+        public init(errorList: [BatchItemError], resultList: [BatchDetectSentimentItemResult]) {
+            self.errorList = errorList
+            self.resultList = resultList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorList = "ErrorList"
+            case resultList = "ResultList"
+        }
+    }
+
+    public struct DescribeEntityRecognizerResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EntityRecognizerProperties", required: false, type: .structure)
+        ]
+        /// Describes information associated with an entity recognizer.
+        public let entityRecognizerProperties: EntityRecognizerProperties?
+
+        public init(entityRecognizerProperties: EntityRecognizerProperties? = nil) {
+            self.entityRecognizerProperties = entityRecognizerProperties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityRecognizerProperties = "EntityRecognizerProperties"
+        }
+    }
+
+    public struct DescribeSentimentDetectionJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SentimentDetectionJobProperties", required: false, type: .structure)
+        ]
+        /// An object that contains the properties associated with a sentiment detection job.
+        public let sentimentDetectionJobProperties: SentimentDetectionJobProperties?
+
+        public init(sentimentDetectionJobProperties: SentimentDetectionJobProperties? = nil) {
+            self.sentimentDetectionJobProperties = sentimentDetectionJobProperties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sentimentDetectionJobProperties = "SentimentDetectionJobProperties"
+        }
+    }
+
+    public struct StartDominantLanguageDetectionJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataAccessRoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "InputDataConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "OutputDataConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "JobName", required: false, type: .string), 
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data. For more information, see https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions.
+        public let dataAccessRoleArn: String
+        /// Specifies the format and location of the input data for the job.
+        public let inputDataConfig: InputDataConfig
+        /// Specifies where to send the output files.
+        public let outputDataConfig: OutputDataConfig
+        /// An identifier for the job.
+        public let jobName: String?
+        /// A unique identifier for the request. If you do not set the client request token, Amazon Comprehend generates one.
+        public let clientRequestToken: String?
+
+        public init(dataAccessRoleArn: String, inputDataConfig: InputDataConfig, outputDataConfig: OutputDataConfig, jobName: String? = nil, clientRequestToken: String? = nil) {
+            self.dataAccessRoleArn = dataAccessRoleArn
+            self.inputDataConfig = inputDataConfig
+            self.outputDataConfig = outputDataConfig
+            self.jobName = jobName
+            self.clientRequestToken = clientRequestToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataAccessRoleArn = "DataAccessRoleArn"
+            case inputDataConfig = "InputDataConfig"
+            case outputDataConfig = "OutputDataConfig"
+            case jobName = "JobName"
+            case clientRequestToken = "ClientRequestToken"
+        }
+    }
+
+    public struct StopKeyPhrasesDetectionJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "JobId", required: false, type: .string)
+        ]
+        /// Either STOP_REQUESTED if the job is currently running, or STOPPED if the job was previously stopped with the StopKeyPhrasesDetectionJob operation.
+        public let jobStatus: JobStatus?
+        /// The identifier of the key phrases detection job to stop.
+        public let jobId: String?
+
+        public init(jobStatus: JobStatus? = nil, jobId: String? = nil) {
+            self.jobStatus = jobStatus
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobStatus = "JobStatus"
+            case jobId = "JobId"
+        }
+    }
+
+    public struct Entity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BeginOffset", required: false, type: .integer), 
+            AWSShapeMember(label: "EndOffset", required: false, type: .integer), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Score", required: false, type: .float), 
+            AWSShapeMember(label: "Text", required: false, type: .string)
+        ]
+        /// A character offset in the input text that shows where the entity begins (the first character is at position 0). The offset returns the position of each UTF-8 code point in the string. A code point is the abstract character from a particular graphical representation. For example, a multi-byte UTF-8 character maps to a single code point.
+        public let beginOffset: Int32?
+        /// A character offset in the input text that shows where the entity ends. The offset returns the position of each UTF-8 code point in the string. A code point is the abstract character from a particular graphical representation. For example, a multi-byte UTF-8 character maps to a single code point. 
+        public let endOffset: Int32?
+        /// The entity's type.
+        public let `type`: EntityType?
+        /// The level of confidence that Amazon Comprehend has in the accuracy of the detection.
+        public let score: Float?
+        /// The text of the entity.
+        public let text: String?
+
+        public init(beginOffset: Int32? = nil, endOffset: Int32? = nil, type: EntityType? = nil, score: Float? = nil, text: String? = nil) {
+            self.beginOffset = beginOffset
+            self.endOffset = endOffset
+            self.`type` = `type`
+            self.score = score
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case beginOffset = "BeginOffset"
+            case endOffset = "EndOffset"
+            case `type` = "Type"
+            case score = "Score"
+            case text = "Text"
+        }
+    }
+
+    public struct StartDominantLanguageDetectionJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "JobId", required: false, type: .string)
+        ]
+        /// The status of the job.    SUBMITTED - The job has been received and is queued for processing.   IN_PROGRESS - Amazon Comprehend is processing the job.   COMPLETED - The job was successfully completed and the output is available.   FAILED - The job did not complete. To get details, use the operation.  
+        public let jobStatus: JobStatus?
+        /// The identifier generated for the job. To get the status of a job, use this identifier with the operation.
+        public let jobId: String?
+
+        public init(jobStatus: JobStatus? = nil, jobId: String? = nil) {
+            self.jobStatus = jobStatus
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobStatus = "JobStatus"
+            case jobId = "JobId"
+        }
+    }
+
+    public struct DescribeTopicsDetectionJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobId", required: true, type: .string)
         ]
+        /// The identifier assigned by the user to the detection job.
+        public let jobId: String
+
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct DocumentClassifierProperties: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubmitTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LanguageCode", required: false, type: .enum), 
+            AWSShapeMember(label: "TrainingStartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DocumentClassifierArn", required: false, type: .string), 
+            AWSShapeMember(label: "ClassifierMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "DataAccessRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "TrainingEndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "InputDataConfig", required: false, type: .structure)
+        ]
+        /// The time that the document classifier was submitted for training.
+        public let submitTime: TimeStamp?
+        /// The status of the document classifier. The the status is TRAINED the classifier is ready to use. If the status is FAILED you can see additional information about why the classifier wasn't trained in the Message field.
+        public let status: ModelStatus?
+        /// The time that training the document classifier completed.
+        public let endTime: TimeStamp?
+        /// The language code for the language of the documents that the classifier was trained on.
+        public let languageCode: LanguageCode?
+        /// Indicates the time when the training starts on documentation classifiers. You are billed for the time interval between this time and the value of TrainingEndTime. 
+        public let trainingStartTime: TimeStamp?
+        /// The Amazon Resource Name (ARN) that identifies the document classifier.
+        public let documentClassifierArn: String?
+        /// Information about the document classifier, including the number of documents used for training the classifier, the number of documents used for test the classifier, and an accuracy rating.
+        public let classifierMetadata: ClassifierMetadata?
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Management (IAM) role that grants Amazon Comprehend read access to your input data.
+        public let dataAccessRoleArn: String?
+        /// The time that training of the document classifier was completed. Indicates the time when the training completes on documentation classifiers. You are billed for the time interval between this time and the value of TrainingStartTime.
+        public let trainingEndTime: TimeStamp?
+        /// Additional information about the status of the classifier.
+        public let message: String?
+        /// The input data configuration that you supplied when you created the document classifier for training.
+        public let inputDataConfig: DocumentClassifierInputDataConfig?
+
+        public init(submitTime: TimeStamp? = nil, status: ModelStatus? = nil, endTime: TimeStamp? = nil, languageCode: LanguageCode? = nil, trainingStartTime: TimeStamp? = nil, documentClassifierArn: String? = nil, classifierMetadata: ClassifierMetadata? = nil, dataAccessRoleArn: String? = nil, trainingEndTime: TimeStamp? = nil, message: String? = nil, inputDataConfig: DocumentClassifierInputDataConfig? = nil) {
+            self.submitTime = submitTime
+            self.status = status
+            self.endTime = endTime
+            self.languageCode = languageCode
+            self.trainingStartTime = trainingStartTime
+            self.documentClassifierArn = documentClassifierArn
+            self.classifierMetadata = classifierMetadata
+            self.dataAccessRoleArn = dataAccessRoleArn
+            self.trainingEndTime = trainingEndTime
+            self.message = message
+            self.inputDataConfig = inputDataConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case submitTime = "SubmitTime"
+            case status = "Status"
+            case endTime = "EndTime"
+            case languageCode = "LanguageCode"
+            case trainingStartTime = "TrainingStartTime"
+            case documentClassifierArn = "DocumentClassifierArn"
+            case classifierMetadata = "ClassifierMetadata"
+            case dataAccessRoleArn = "DataAccessRoleArn"
+            case trainingEndTime = "TrainingEndTime"
+            case message = "Message"
+            case inputDataConfig = "InputDataConfig"
+        }
+    }
+
+    public struct StartSentimentDetectionJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataAccessRoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "LanguageCode", required: true, type: .enum), 
+            AWSShapeMember(label: "InputDataConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "OutputDataConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "JobName", required: false, type: .string), 
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data. For more information, see https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions.
+        public let dataAccessRoleArn: String
+        /// The language of the input documents. You can specify English ("en") or Spanish ("es"). All documents must be in the same language.
+        public let languageCode: LanguageCode
+        /// Specifies the format and location of the input data for the job.
+        public let inputDataConfig: InputDataConfig
+        /// Specifies where to send the output files. 
+        public let outputDataConfig: OutputDataConfig
+        /// The identifier of the job.
+        public let jobName: String?
+        /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
+        public let clientRequestToken: String?
+
+        public init(dataAccessRoleArn: String, languageCode: LanguageCode, inputDataConfig: InputDataConfig, outputDataConfig: OutputDataConfig, jobName: String? = nil, clientRequestToken: String? = nil) {
+            self.dataAccessRoleArn = dataAccessRoleArn
+            self.languageCode = languageCode
+            self.inputDataConfig = inputDataConfig
+            self.outputDataConfig = outputDataConfig
+            self.jobName = jobName
+            self.clientRequestToken = clientRequestToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataAccessRoleArn = "DataAccessRoleArn"
+            case languageCode = "LanguageCode"
+            case inputDataConfig = "InputDataConfig"
+            case outputDataConfig = "OutputDataConfig"
+            case jobName = "JobName"
+            case clientRequestToken = "ClientRequestToken"
+        }
+    }
+
+    public struct BatchDetectSyntaxResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorList", required: true, type: .list), 
+            AWSShapeMember(label: "ResultList", required: true, type: .list)
+        ]
+        /// A list containing one object for each document that contained an error. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If there are no errors in the batch, the ErrorList is empty.
+        public let errorList: [BatchItemError]
+        /// A list of objects containing the results of the operation. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If all of the documents contain an error, the ResultList is empty.
+        public let resultList: [BatchDetectSyntaxItemResult]
+
+        public init(errorList: [BatchItemError], resultList: [BatchDetectSyntaxItemResult]) {
+            self.errorList = errorList
+            self.resultList = resultList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorList = "ErrorList"
+            case resultList = "ResultList"
+        }
+    }
+
+    public struct ListDocumentClassifiersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The maximum number of results to return in each page. The default is 100.
+        public let maxResults: Int32?
+        /// Filters the jobs that are returned. You can filter jobs on their name, status, or the date and time that they were submitted. You can only set one filter at a time.
+        public let filter: DocumentClassifierFilter?
+        /// Identifies the next page of results to return.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, filter: DocumentClassifierFilter? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.filter = filter
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case filter = "Filter"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DetectKeyPhrasesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Text", required: true, type: .string), 
+            AWSShapeMember(label: "LanguageCode", required: true, type: .enum)
+        ]
+        /// A UTF-8 text string. Each string must contain fewer that 5,000 bytes of UTF-8 encoded characters.
+        public let text: String
+        /// The language of the input documents. You can specify English ("en") or Spanish ("es"). All documents must be in the same language.
+        public let languageCode: LanguageCode
+
+        public init(text: String, languageCode: LanguageCode) {
+            self.text = text
+            self.languageCode = languageCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "Text"
+            case languageCode = "LanguageCode"
+        }
+    }
+
+    public struct BatchDetectDominantLanguageRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TextList", required: true, type: .list)
+        ]
+        /// A list containing the text of the input documents. The list can contain a maximum of 25 documents. Each document should contain at least 20 characters and must contain fewer than 5,000 bytes of UTF-8 encoded characters.
+        public let textList: [String]
+
+        public init(textList: [String]) {
+            self.textList = textList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case textList = "TextList"
+        }
+    }
+
+    public struct ListDominantLanguageDetectionJobsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DominantLanguageDetectionJobPropertiesList", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// A list containing the properties of each job that is returned.
+        public let dominantLanguageDetectionJobPropertiesList: [DominantLanguageDetectionJobProperties]?
+        /// Identifies the next page of results to return.
+        public let nextToken: String?
+
+        public init(dominantLanguageDetectionJobPropertiesList: [DominantLanguageDetectionJobProperties]? = nil, nextToken: String? = nil) {
+            self.dominantLanguageDetectionJobPropertiesList = dominantLanguageDetectionJobPropertiesList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dominantLanguageDetectionJobPropertiesList = "DominantLanguageDetectionJobPropertiesList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct CreateDocumentClassifierRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DocumentClassifierName", required: true, type: .string), 
+            AWSShapeMember(label: "InputDataConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "DataAccessRoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "LanguageCode", required: true, type: .enum)
+        ]
+        /// The name of the document classifier.
+        public let documentClassifierName: String
+        /// Specifies the format and location of the input data for the job.
+        public let inputDataConfig: DocumentClassifierInputDataConfig
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Management (IAM) role that grants Amazon Comprehend read access to your input data.
+        public let dataAccessRoleArn: String
+        /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
+        public let clientRequestToken: String?
+        /// The language of the input documents. You can specify English ("en") or Spanish ("es"). All documents must be in the same language.
+        public let languageCode: LanguageCode
+
+        public init(documentClassifierName: String, inputDataConfig: DocumentClassifierInputDataConfig, dataAccessRoleArn: String, clientRequestToken: String? = nil, languageCode: LanguageCode) {
+            self.documentClassifierName = documentClassifierName
+            self.inputDataConfig = inputDataConfig
+            self.dataAccessRoleArn = dataAccessRoleArn
+            self.clientRequestToken = clientRequestToken
+            self.languageCode = languageCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentClassifierName = "DocumentClassifierName"
+            case inputDataConfig = "InputDataConfig"
+            case dataAccessRoleArn = "DataAccessRoleArn"
+            case clientRequestToken = "ClientRequestToken"
+            case languageCode = "LanguageCode"
+        }
+    }
+
+    public struct PartOfSpeechTag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tag", required: false, type: .enum), 
+            AWSShapeMember(label: "Score", required: false, type: .float)
+        ]
+        /// Identifies the part of speech that the token represents.
+        public let tag: PartOfSpeechTagType?
+        /// The confidence that Amazon Comprehend has that the part of speech was correctly identified.
+        public let score: Float?
+
+        public init(tag: PartOfSpeechTagType? = nil, score: Float? = nil) {
+            self.tag = tag
+            self.score = score
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tag = "Tag"
+            case score = "Score"
+        }
+    }
+
+    public struct DescribeEntitiesDetectionJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EntitiesDetectionJobProperties", required: false, type: .structure)
+        ]
+        /// An object that contains the properties associated with an entities detection job.
+        public let entitiesDetectionJobProperties: EntitiesDetectionJobProperties?
+
+        public init(entitiesDetectionJobProperties: EntitiesDetectionJobProperties? = nil) {
+            self.entitiesDetectionJobProperties = entitiesDetectionJobProperties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entitiesDetectionJobProperties = "EntitiesDetectionJobProperties"
+        }
+    }
+
+    public struct DeleteDocumentClassifierRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DocumentClassifierArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) that identifies the document classifier. 
+        public let documentClassifierArn: String
+
+        public init(documentClassifierArn: String) {
+            self.documentClassifierArn = documentClassifierArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentClassifierArn = "DocumentClassifierArn"
+        }
+    }
+
+    public struct CreateEntityRecognizerResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EntityRecognizerArn", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) that identifies the entity recognizer.
+        public let entityRecognizerArn: String?
+
+        public init(entityRecognizerArn: String? = nil) {
+            self.entityRecognizerArn = entityRecognizerArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityRecognizerArn = "EntityRecognizerArn"
+        }
+    }
+
+    public struct DetectKeyPhrasesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeyPhrases", required: false, type: .list)
+        ]
+        /// A collection of key phrases that Amazon Comprehend identified in the input text. For each key phrase, the response provides the text of the key phrase, where the key phrase begins and ends, and the level of confidence that Amazon Comprehend has in the accuracy of the detection. 
+        public let keyPhrases: [KeyPhrase]?
+
+        public init(keyPhrases: [KeyPhrase]? = nil) {
+            self.keyPhrases = keyPhrases
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyPhrases = "KeyPhrases"
+        }
+    }
+
+    public struct EntityTypesListItem: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: true, type: .string)
+        ]
+        /// Entity type of an item on an entity type list.
+        public let `type`: String
+
+        public init(type: String) {
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+        }
+    }
+
+    public struct ListKeyPhrasesDetectionJobsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+        ]
+        /// Filters the jobs that are returned. You can filter jobs on their name, status, or the date and time that they were submitted. You can only set one filter at a time.
+        public let filter: KeyPhrasesDetectionJobFilter?
+        /// Identifies the next page of results to return.
+        public let nextToken: String?
+        /// The maximum number of results to return in each page. The default is 100.
+        public let maxResults: Int32?
+
+        public init(filter: KeyPhrasesDetectionJobFilter? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.filter = filter
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
+        }
+    }
+
+    public struct BatchDetectEntitiesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorList", required: true, type: .list), 
+            AWSShapeMember(label: "ResultList", required: true, type: .list)
+        ]
+        /// A list containing one object for each document that contained an error. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If there are no errors in the batch, the ErrorList is empty.
+        public let errorList: [BatchItemError]
+        /// A list of objects containing the results of the operation. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If all of the documents contain an error, the ResultList is empty.
+        public let resultList: [BatchDetectEntitiesItemResult]
+
+        public init(errorList: [BatchItemError], resultList: [BatchDetectEntitiesItemResult]) {
+            self.errorList = errorList
+            self.resultList = resultList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorList = "ErrorList"
+            case resultList = "ResultList"
+        }
+    }
+
+    public struct ListDominantLanguageDetectionJobsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Filters that jobs that are returned. You can filter jobs on their name, status, or the date and time that they were submitted. You can only set one filter at a time.
+        public let filter: DominantLanguageDetectionJobFilter?
+        /// The maximum number of results to return in each page. The default is 100.
+        public let maxResults: Int32?
+        /// Identifies the next page of results to return.
+        public let nextToken: String?
+
+        public init(filter: DominantLanguageDetectionJobFilter? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct EntityRecognizerProperties: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrainingStartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EntityRecognizerArn", required: false, type: .string), 
+            AWSShapeMember(label: "InputDataConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "SubmitTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TrainingEndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DataAccessRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "LanguageCode", required: false, type: .enum), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "RecognizerMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+        /// The time that training of the entity recognizer started.
+        public let trainingStartTime: TimeStamp?
+        /// The Amazon Resource Name (ARN) that identifies the entity recognizer.
+        public let entityRecognizerArn: String?
+        /// The input data properties of an entity recognizer.
+        public let inputDataConfig: EntityRecognizerInputDataConfig?
+        /// The time that the recognizer was submitted for processing.
+        public let submitTime: TimeStamp?
+        /// The time that training of the entity recognizer was completed.
+        public let trainingEndTime: TimeStamp?
+        ///  The Amazon Resource Name (ARN) of the AWS Identity and Management (IAM) role that grants Amazon Comprehend read access to your input data.
+        public let dataAccessRoleArn: String?
+        ///  A description of the status of the recognizer.
+        public let message: String?
+        ///  The language of the input documents. All documents must be in the same language. Only English ("en") is currently supported.
+        public let languageCode: LanguageCode?
+        /// The time that the recognizer creation completed.
+        public let endTime: TimeStamp?
+        ///  Provides information about an entity recognizer.
+        public let recognizerMetadata: EntityRecognizerMetadata?
+        /// Provides the status of the entity recognizer.
+        public let status: ModelStatus?
+
+        public init(trainingStartTime: TimeStamp? = nil, entityRecognizerArn: String? = nil, inputDataConfig: EntityRecognizerInputDataConfig? = nil, submitTime: TimeStamp? = nil, trainingEndTime: TimeStamp? = nil, dataAccessRoleArn: String? = nil, message: String? = nil, languageCode: LanguageCode? = nil, endTime: TimeStamp? = nil, recognizerMetadata: EntityRecognizerMetadata? = nil, status: ModelStatus? = nil) {
+            self.trainingStartTime = trainingStartTime
+            self.entityRecognizerArn = entityRecognizerArn
+            self.inputDataConfig = inputDataConfig
+            self.submitTime = submitTime
+            self.trainingEndTime = trainingEndTime
+            self.dataAccessRoleArn = dataAccessRoleArn
+            self.message = message
+            self.languageCode = languageCode
+            self.endTime = endTime
+            self.recognizerMetadata = recognizerMetadata
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trainingStartTime = "TrainingStartTime"
+            case entityRecognizerArn = "EntityRecognizerArn"
+            case inputDataConfig = "InputDataConfig"
+            case submitTime = "SubmitTime"
+            case trainingEndTime = "TrainingEndTime"
+            case dataAccessRoleArn = "DataAccessRoleArn"
+            case message = "Message"
+            case languageCode = "LanguageCode"
+            case endTime = "EndTime"
+            case recognizerMetadata = "RecognizerMetadata"
+            case status = "Status"
+        }
+    }
+
+    public struct ListTopicsDetectionJobsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The maximum number of results to return in each page. The default is 100.
+        public let maxResults: Int32?
+        /// Filters the jobs that are returned. Jobs can be filtered on their name, status, or the date and time that they were submitted. You can set only one filter at a time.
+        public let filter: TopicsDetectionJobFilter?
+        /// Identifies the next page of results to return.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, filter: TopicsDetectionJobFilter? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.filter = filter
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case filter = "Filter"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct StopDominantLanguageDetectionJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: false, type: .string), 
+            AWSShapeMember(label: "JobStatus", required: false, type: .enum)
+        ]
         /// The identifier of the dominant language detection job to stop.
+        public let jobId: String?
+        /// Either STOP_REQUESTED if the job is currently running, or STOPPED if the job was previously stopped with the StopDominantLanguageDetectionJob operation.
+        public let jobStatus: JobStatus?
+
+        public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
+            self.jobId = jobId
+            self.jobStatus = jobStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+            case jobStatus = "JobStatus"
+        }
+    }
+
+    public struct EntityRecognizerAnnotations: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3Uri", required: true, type: .string)
+        ]
+        ///  Specifies the Amazon S3 location where the annotations for an entity recognizer are located. The URI must be in the same region as the API endpoint that you are calling.
+        public let s3Uri: String
+
+        public init(s3Uri: String) {
+            self.s3Uri = s3Uri
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Uri = "S3Uri"
+        }
+    }
+
+    public struct ClassifierEvaluationMetrics: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Accuracy", required: false, type: .double), 
+            AWSShapeMember(label: "Precision", required: false, type: .double), 
+            AWSShapeMember(label: "F1Score", required: false, type: .double), 
+            AWSShapeMember(label: "Recall", required: false, type: .double)
+        ]
+        /// The fraction of the labels that were correct recognized. It is computed by dividing the number of labels in the test documents that were correctly recognized by the total number of labels in the test documents.
+        public let accuracy: Double?
+        /// A measure of the usefulness of the classifier results in the test data. High precision means that the classifier returned substantially more relevant results than irrelevant ones.
+        public let precision: Double?
+        /// A measure of how accurate the classifier results are for the test data. It is derived from the Precision and Recall values. The F1Score is the harmonic average of the two scores. The highest score is 1, and the worst score is 0. 
+        public let f1Score: Double?
+        /// A measure of how complete the classifier results are for the test data. High recall means that the classifier returned most of the relevant results. 
+        public let recall: Double?
+
+        public init(accuracy: Double? = nil, precision: Double? = nil, f1Score: Double? = nil, recall: Double? = nil) {
+            self.accuracy = accuracy
+            self.precision = precision
+            self.f1Score = f1Score
+            self.recall = recall
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accuracy = "Accuracy"
+            case precision = "Precision"
+            case f1Score = "F1Score"
+            case recall = "Recall"
+        }
+    }
+
+    public struct DetectDominantLanguageResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Languages", required: false, type: .list)
+        ]
+        /// The languages that Amazon Comprehend detected in the input text. For each language, the response returns the RFC 5646 language code and the level of confidence that Amazon Comprehend has in the accuracy of its inference. For more information about RFC 5646, see Tags for Identifying Languages on the IETF Tools web site.
+        public let languages: [DominantLanguage]?
+
+        public init(languages: [DominantLanguage]? = nil) {
+            self.languages = languages
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case languages = "Languages"
+        }
+    }
+
+    public struct DominantLanguage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LanguageCode", required: false, type: .string), 
+            AWSShapeMember(label: "Score", required: false, type: .float)
+        ]
+        /// The RFC 5646 language code for the dominant language. For more information about RFC 5646, see Tags for Identifying Languages on the IETF Tools web site.
+        public let languageCode: String?
+        /// The level of confidence that Amazon Comprehend has in the accuracy of the detection.
+        public let score: Float?
+
+        public init(languageCode: String? = nil, score: Float? = nil) {
+            self.languageCode = languageCode
+            self.score = score
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case languageCode = "LanguageCode"
+            case score = "Score"
+        }
+    }
+
+    public struct StartTopicsDetectionJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataAccessRoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "OutputDataConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "NumberOfTopics", required: false, type: .integer), 
+            AWSShapeMember(label: "JobName", required: false, type: .string), 
+            AWSShapeMember(label: "InputDataConfig", required: true, type: .structure)
+        ]
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data. For more information, see https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions.
+        public let dataAccessRoleArn: String
+        /// A unique identifier for the request. If you do not set the client request token, Amazon Comprehend generates one.
+        public let clientRequestToken: String?
+        /// Specifies where to send the output files. The output is a compressed archive with two files, topic-terms.csv that lists the terms associated with each topic, and doc-topics.csv that lists the documents associated with each topic
+        public let outputDataConfig: OutputDataConfig
+        /// The number of topics to detect.
+        public let numberOfTopics: Int32?
+        /// The identifier of the job.
+        public let jobName: String?
+        /// Specifies the format and location of the input data for the job.
+        public let inputDataConfig: InputDataConfig
+
+        public init(dataAccessRoleArn: String, clientRequestToken: String? = nil, outputDataConfig: OutputDataConfig, numberOfTopics: Int32? = nil, jobName: String? = nil, inputDataConfig: InputDataConfig) {
+            self.dataAccessRoleArn = dataAccessRoleArn
+            self.clientRequestToken = clientRequestToken
+            self.outputDataConfig = outputDataConfig
+            self.numberOfTopics = numberOfTopics
+            self.jobName = jobName
+            self.inputDataConfig = inputDataConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataAccessRoleArn = "DataAccessRoleArn"
+            case clientRequestToken = "ClientRequestToken"
+            case outputDataConfig = "OutputDataConfig"
+            case numberOfTopics = "NumberOfTopics"
+            case jobName = "JobName"
+            case inputDataConfig = "InputDataConfig"
+        }
+    }
+
+    public struct StopSentimentDetectionJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: true, type: .string)
+        ]
+        /// The identifier of the sentiment detection job to stop.
+        public let jobId: String
+
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct ListDocumentClassificationJobsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DocumentClassificationJobPropertiesList", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// A list containing the properties of each job returned.
+        public let documentClassificationJobPropertiesList: [DocumentClassificationJobProperties]?
+        /// Identifies the next page of results to return.
+        public let nextToken: String?
+
+        public init(documentClassificationJobPropertiesList: [DocumentClassificationJobProperties]? = nil, nextToken: String? = nil) {
+            self.documentClassificationJobPropertiesList = documentClassificationJobPropertiesList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentClassificationJobPropertiesList = "DocumentClassificationJobPropertiesList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct StartDocumentClassificationJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DocumentClassifierArn", required: true, type: .string), 
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "JobName", required: false, type: .string), 
+            AWSShapeMember(label: "OutputDataConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "InputDataConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "DataAccessRoleArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the document classifier to use to process the job.
+        public let documentClassifierArn: String
+        /// A unique identifier for the request. If you do not set the client request token, Amazon Comprehend generates one.
+        public let clientRequestToken: String?
+        /// The identifier of the job.
+        public let jobName: String?
+        /// Specifies where to send the output files.
+        public let outputDataConfig: OutputDataConfig
+        /// Specifies the format and location of the input data for the job.
+        public let inputDataConfig: InputDataConfig
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
+        public let dataAccessRoleArn: String
+
+        public init(documentClassifierArn: String, clientRequestToken: String? = nil, jobName: String? = nil, outputDataConfig: OutputDataConfig, inputDataConfig: InputDataConfig, dataAccessRoleArn: String) {
+            self.documentClassifierArn = documentClassifierArn
+            self.clientRequestToken = clientRequestToken
+            self.jobName = jobName
+            self.outputDataConfig = outputDataConfig
+            self.inputDataConfig = inputDataConfig
+            self.dataAccessRoleArn = dataAccessRoleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentClassifierArn = "DocumentClassifierArn"
+            case clientRequestToken = "ClientRequestToken"
+            case jobName = "JobName"
+            case outputDataConfig = "OutputDataConfig"
+            case inputDataConfig = "InputDataConfig"
+            case dataAccessRoleArn = "DataAccessRoleArn"
+        }
+    }
+
+    public struct DescribeDominantLanguageDetectionJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: true, type: .string)
+        ]
+        /// The identifier that Amazon Comprehend generated for the job. The operation returns this identifier in its response.
         public let jobId: String
 
         public init(jobId: String) {
@@ -2493,38 +2049,136 @@ extension Comprehend {
         }
     }
 
-    public struct BatchDetectEntitiesItemResult: AWSShape {
+    public struct DocumentClassificationJobFilter: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Index", required: false, type: .integer), 
-            AWSShapeMember(label: "Entities", required: false, type: .list)
+            AWSShapeMember(label: "SubmitTimeAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "JobName", required: false, type: .string), 
+            AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "SubmitTimeBefore", required: false, type: .timestamp)
         ]
-        /// The zero-based index of the document in the input list.
-        public let index: Int32?
-        /// One or more Entity objects, one for each entity detected in the document.
-        public let entities: [Entity]?
+        /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in descending order, newest to oldest.
+        public let submitTimeAfter: TimeStamp?
+        /// Filters on the name of the job.
+        public let jobName: String?
+        /// Filters the list based on job status. Returns only jobs with the specified status.
+        public let jobStatus: JobStatus?
+        /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted after the specified time. Jobs are returned in ascending order, oldest to newest.
+        public let submitTimeBefore: TimeStamp?
 
-        public init(index: Int32? = nil, entities: [Entity]? = nil) {
-            self.index = index
-            self.entities = entities
+        public init(submitTimeAfter: TimeStamp? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, submitTimeBefore: TimeStamp? = nil) {
+            self.submitTimeAfter = submitTimeAfter
+            self.jobName = jobName
+            self.jobStatus = jobStatus
+            self.submitTimeBefore = submitTimeBefore
         }
 
         private enum CodingKeys: String, CodingKey {
-            case index = "Index"
-            case entities = "Entities"
+            case submitTimeAfter = "SubmitTimeAfter"
+            case jobName = "JobName"
+            case jobStatus = "JobStatus"
+            case submitTimeBefore = "SubmitTimeBefore"
         }
     }
 
-    public struct BatchDetectSyntaxRequest: AWSShape {
+    public struct SentimentScore: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Neutral", required: false, type: .float), 
+            AWSShapeMember(label: "Negative", required: false, type: .float), 
+            AWSShapeMember(label: "Positive", required: false, type: .float), 
+            AWSShapeMember(label: "Mixed", required: false, type: .float)
+        ]
+        /// The level of confidence that Amazon Comprehend has in the accuracy of its detection of the NEUTRAL sentiment.
+        public let neutral: Float?
+        /// The level of confidence that Amazon Comprehend has in the accuracy of its detection of the NEGATIVE sentiment.
+        public let negative: Float?
+        /// The level of confidence that Amazon Comprehend has in the accuracy of its detection of the POSITIVE sentiment.
+        public let positive: Float?
+        /// The level of confidence that Amazon Comprehend has in the accuracy of its detection of the MIXED sentiment.
+        public let mixed: Float?
+
+        public init(neutral: Float? = nil, negative: Float? = nil, positive: Float? = nil, mixed: Float? = nil) {
+            self.neutral = neutral
+            self.negative = negative
+            self.positive = positive
+            self.mixed = mixed
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case neutral = "Neutral"
+            case negative = "Negative"
+            case positive = "Positive"
+            case mixed = "Mixed"
+        }
+    }
+
+    public struct StartEntitiesDetectionJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "JobId", required: false, type: .string)
+        ]
+        /// The status of the job.    SUBMITTED - The job has been received and is queued for processing.   IN_PROGRESS - Amazon Comprehend is processing the job.   COMPLETED - The job was successfully completed and the output is available.   FAILED - The job did not complete. To get details, use the operation.   STOP_REQUESTED - Amazon Comprehend has received a stop request for the job and is processing the request.   STOPPED - The job was successfully stopped without completing.  
+        public let jobStatus: JobStatus?
+        /// The identifier generated for the job. To get the status of job, use this identifier with the operation.
+        public let jobId: String?
+
+        public init(jobStatus: JobStatus? = nil, jobId: String? = nil) {
+            self.jobStatus = jobStatus
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobStatus = "JobStatus"
+            case jobId = "JobId"
+        }
+    }
+
+    public struct CreateEntityRecognizerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InputDataConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "LanguageCode", required: true, type: .enum), 
+            AWSShapeMember(label: "RecognizerName", required: true, type: .string), 
+            AWSShapeMember(label: "DataAccessRoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string)
+        ]
+        /// Specifies the format and location of the input data. The S3 bucket containing the input data must be located in the same region as the entity recognizer being created. 
+        public let inputDataConfig: EntityRecognizerInputDataConfig
+        ///  The language of the input documents. All documents must be in the same language. Only English ("en") is currently supported. 
+        public let languageCode: LanguageCode
+        /// The name given to the newly created recognizer. Recognizer names can be a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores (_) are allowed. The name must be unique in the account/region.
+        public let recognizerName: String
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Management (IAM) role that grants Amazon Comprehend read access to your input data.
+        public let dataAccessRoleArn: String
+        ///  A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
+        public let clientRequestToken: String?
+
+        public init(inputDataConfig: EntityRecognizerInputDataConfig, languageCode: LanguageCode, recognizerName: String, dataAccessRoleArn: String, clientRequestToken: String? = nil) {
+            self.inputDataConfig = inputDataConfig
+            self.languageCode = languageCode
+            self.recognizerName = recognizerName
+            self.dataAccessRoleArn = dataAccessRoleArn
+            self.clientRequestToken = clientRequestToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputDataConfig = "InputDataConfig"
+            case languageCode = "LanguageCode"
+            case recognizerName = "RecognizerName"
+            case dataAccessRoleArn = "DataAccessRoleArn"
+            case clientRequestToken = "ClientRequestToken"
+        }
+    }
+
+    public struct BatchDetectSentimentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LanguageCode", required: true, type: .enum), 
             AWSShapeMember(label: "TextList", required: true, type: .list)
         ]
         /// The language of the input documents. You can specify English ("en") or Spanish ("es"). All documents must be in the same language.
-        public let languageCode: SyntaxLanguageCode
+        public let languageCode: LanguageCode
         /// A list containing the text of the input documents. The list can contain a maximum of 25 documents. Each document must contain fewer that 5,000 bytes of UTF-8 encoded characters.
         public let textList: [String]
 
-        public init(languageCode: SyntaxLanguageCode, textList: [String]) {
+        public init(languageCode: LanguageCode, textList: [String]) {
             self.languageCode = languageCode
             self.textList = textList
         }
@@ -2535,23 +2189,148 @@ extension Comprehend {
         }
     }
 
-    public struct ListSentimentDetectionJobsResponse: AWSShape {
+    public struct BatchDetectDominantLanguageItemResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SentimentDetectionJobPropertiesList", required: false, type: .list), 
+            AWSShapeMember(label: "Index", required: false, type: .integer), 
+            AWSShapeMember(label: "Languages", required: false, type: .list)
+        ]
+        /// The zero-based index of the document in the input list.
+        public let index: Int32?
+        /// One or more DominantLanguage objects describing the dominant languages in the document.
+        public let languages: [DominantLanguage]?
+
+        public init(index: Int32? = nil, languages: [DominantLanguage]? = nil) {
+            self.index = index
+            self.languages = languages
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case index = "Index"
+            case languages = "Languages"
+        }
+    }
+
+    public enum SentimentType: String, CustomStringConvertible, Codable {
+        case positive = "POSITIVE"
+        case negative = "NEGATIVE"
+        case neutral = "NEUTRAL"
+        case mixed = "MIXED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct StartDocumentClassificationJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: false, type: .string), 
+            AWSShapeMember(label: "JobStatus", required: false, type: .enum)
+        ]
+        /// The identifier generated for the job. To get the status of the job, use this identifier with the operation.
+        public let jobId: String?
+        /// The status of the job:   SUBMITTED - The job has been received and queued for processing.   IN_PROGRESS - Amazon Comprehend is processing the job.   COMPLETED - The job was successfully completed and the output is available.   FAILED - The job did not complete. For details, use the operation.   STOP_REQUESTED - Amazon Comprehend has received a stop request for the job and is processing the request.   STOPPED - The job was successfully stopped without completing.  
+        public let jobStatus: JobStatus?
+
+        public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
+            self.jobId = jobId
+            self.jobStatus = jobStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+            case jobStatus = "JobStatus"
+        }
+    }
+
+    public struct EntityRecognizerMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NumberOfTestDocuments", required: false, type: .integer), 
+            AWSShapeMember(label: "EvaluationMetrics", required: false, type: .structure), 
+            AWSShapeMember(label: "NumberOfTrainedDocuments", required: false, type: .integer), 
+            AWSShapeMember(label: "EntityTypes", required: false, type: .list)
+        ]
+        ///  The number of documents in the input data that were used to test the entity recognizer. Typically this is 10 to 20 percent of the input documents.
+        public let numberOfTestDocuments: Int32?
+        ///  Detailed information about the accuracy of an entity recognizer.
+        public let evaluationMetrics: EntityRecognizerEvaluationMetrics?
+        ///  The number of documents in the input data that were used to train the entity recognizer. Typically this is 80 to 90 percent of the input documents.
+        public let numberOfTrainedDocuments: Int32?
+        /// Entity types from the metadata of an entity recognizer.
+        public let entityTypes: [EntityRecognizerMetadataEntityTypesListItem]?
+
+        public init(numberOfTestDocuments: Int32? = nil, evaluationMetrics: EntityRecognizerEvaluationMetrics? = nil, numberOfTrainedDocuments: Int32? = nil, entityTypes: [EntityRecognizerMetadataEntityTypesListItem]? = nil) {
+            self.numberOfTestDocuments = numberOfTestDocuments
+            self.evaluationMetrics = evaluationMetrics
+            self.numberOfTrainedDocuments = numberOfTrainedDocuments
+            self.entityTypes = entityTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case numberOfTestDocuments = "NumberOfTestDocuments"
+            case evaluationMetrics = "EvaluationMetrics"
+            case numberOfTrainedDocuments = "NumberOfTrainedDocuments"
+            case entityTypes = "EntityTypes"
+        }
+    }
+
+    public struct StartTopicsDetectionJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "JobId", required: false, type: .string)
+        ]
+        /// The status of the job:    SUBMITTED - The job has been received and is queued for processing.   IN_PROGRESS - Amazon Comprehend is processing the job.   COMPLETED - The job was successfully completed and the output is available.   FAILED - The job did not complete. To get details, use the DescribeTopicDetectionJob operation.  
+        public let jobStatus: JobStatus?
+        /// The identifier generated for the job. To get the status of the job, use this identifier with the DescribeTopicDetectionJob operation.
+        public let jobId: String?
+
+        public init(jobStatus: JobStatus? = nil, jobId: String? = nil) {
+            self.jobStatus = jobStatus
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobStatus = "JobStatus"
+            case jobId = "JobId"
+        }
+    }
+
+    public enum JobStatus: String, CustomStringConvertible, Codable {
+        case submitted = "SUBMITTED"
+        case inProgress = "IN_PROGRESS"
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case stopRequested = "STOP_REQUESTED"
+        case stopped = "STOPPED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EntityType: String, CustomStringConvertible, Codable {
+        case person = "PERSON"
+        case location = "LOCATION"
+        case organization = "ORGANIZATION"
+        case commercialItem = "COMMERCIAL_ITEM"
+        case event = "EVENT"
+        case date = "DATE"
+        case quantity = "QUANTITY"
+        case title = "TITLE"
+        case other = "OTHER"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListTopicsDetectionJobsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TopicsDetectionJobPropertiesList", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// A list containing the properties of each job that is returned.
-        public let sentimentDetectionJobPropertiesList: [SentimentDetectionJobProperties]?
+        public let topicsDetectionJobPropertiesList: [TopicsDetectionJobProperties]?
         /// Identifies the next page of results to return.
         public let nextToken: String?
 
-        public init(sentimentDetectionJobPropertiesList: [SentimentDetectionJobProperties]? = nil, nextToken: String? = nil) {
-            self.sentimentDetectionJobPropertiesList = sentimentDetectionJobPropertiesList
+        public init(topicsDetectionJobPropertiesList: [TopicsDetectionJobProperties]? = nil, nextToken: String? = nil) {
+            self.topicsDetectionJobPropertiesList = topicsDetectionJobPropertiesList
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sentimentDetectionJobPropertiesList = "SentimentDetectionJobPropertiesList"
+            case topicsDetectionJobPropertiesList = "TopicsDetectionJobPropertiesList"
             case nextToken = "NextToken"
         }
     }
@@ -2577,149 +2356,410 @@ extension Comprehend {
         }
     }
 
-    public struct ListDocumentClassificationJobsResponse: AWSShape {
+    public struct StartSentimentDetectionJobResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DocumentClassificationJobPropertiesList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "JobId", required: false, type: .string), 
+            AWSShapeMember(label: "JobStatus", required: false, type: .enum)
         ]
-        /// A list containing the properties of each job returned.
-        public let documentClassificationJobPropertiesList: [DocumentClassificationJobProperties]?
-        /// Identifies the next page of results to return.
-        public let nextToken: String?
+        /// The identifier generated for the job. To get the status of a job, use this identifier with the operation.
+        public let jobId: String?
+        /// The status of the job.    SUBMITTED - The job has been received and is queued for processing.   IN_PROGRESS - Amazon Comprehend is processing the job.   COMPLETED - The job was successfully completed and the output is available.   FAILED - The job did not complete. To get details, use the operation.  
+        public let jobStatus: JobStatus?
 
-        public init(documentClassificationJobPropertiesList: [DocumentClassificationJobProperties]? = nil, nextToken: String? = nil) {
-            self.documentClassificationJobPropertiesList = documentClassificationJobPropertiesList
-            self.nextToken = nextToken
+        public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
+            self.jobId = jobId
+            self.jobStatus = jobStatus
         }
 
         private enum CodingKeys: String, CodingKey {
-            case documentClassificationJobPropertiesList = "DocumentClassificationJobPropertiesList"
-            case nextToken = "NextToken"
+            case jobId = "JobId"
+            case jobStatus = "JobStatus"
         }
     }
 
-    public struct ClassifierEvaluationMetrics: AWSShape {
+    public struct DeleteEntityRecognizerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Recall", required: false, type: .double), 
-            AWSShapeMember(label: "Accuracy", required: false, type: .double), 
-            AWSShapeMember(label: "F1Score", required: false, type: .double), 
-            AWSShapeMember(label: "Precision", required: false, type: .double)
+            AWSShapeMember(label: "EntityRecognizerArn", required: true, type: .string)
         ]
-        /// A measure of how complete the classifier results are for the test data. High recall means that the classifier returned most of the relevant results. 
-        public let recall: Double?
-        /// The fraction of the labels that were correct recognized. It is computed by dividing the number of labels in the test documents that were correctly recognized by the total number of labels in the test documents.
-        public let accuracy: Double?
-        /// A measure of how accurate the classifier results are for the test data. It is derived from the Precision and Recall values. The F1Score is the harmonic average of the two scores. The highest score is 1, and the worst score is 0. 
-        public let f1Score: Double?
-        /// A measure of the usefulness of the classifier results in the test data. High precision means that the classifier returned substantially more relevant results than irrelevant ones.
-        public let precision: Double?
+        /// The Amazon Resource Name (ARN) that identifies the entity recognizer.
+        public let entityRecognizerArn: String
 
-        public init(recall: Double? = nil, accuracy: Double? = nil, f1Score: Double? = nil, precision: Double? = nil) {
-            self.recall = recall
-            self.accuracy = accuracy
-            self.f1Score = f1Score
-            self.precision = precision
+        public init(entityRecognizerArn: String) {
+            self.entityRecognizerArn = entityRecognizerArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recall = "Recall"
-            case accuracy = "Accuracy"
-            case f1Score = "F1Score"
-            case precision = "Precision"
+            case entityRecognizerArn = "EntityRecognizerArn"
         }
     }
 
-    public struct BatchDetectKeyPhrasesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LanguageCode", required: true, type: .enum), 
-            AWSShapeMember(label: "TextList", required: true, type: .list)
-        ]
-        /// The language of the input documents. You can specify English ("en") or Spanish ("es"). All documents must be in the same language.
-        public let languageCode: LanguageCode
-        /// A list containing the text of the input documents. The list can contain a maximum of 25 documents. Each document must contain fewer that 5,000 bytes of UTF-8 encoded characters.
-        public let textList: [String]
+    public struct DeleteEntityRecognizerResponse: AWSShape {
 
-        public init(languageCode: LanguageCode, textList: [String]) {
-            self.languageCode = languageCode
-            self.textList = textList
+    }
+
+    public struct SentimentDetectionJobFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "SubmitTimeBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SubmitTimeAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "JobName", required: false, type: .string)
+        ]
+        /// Filters the list of jobs based on job status. Returns only jobs with the specified status.
+        public let jobStatus: JobStatus?
+        /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest.
+        public let submitTimeBefore: TimeStamp?
+        /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted after the specified time. Jobs are returned in descending order, newest to oldest.
+        public let submitTimeAfter: TimeStamp?
+        /// Filters on the name of the job.
+        public let jobName: String?
+
+        public init(jobStatus: JobStatus? = nil, submitTimeBefore: TimeStamp? = nil, submitTimeAfter: TimeStamp? = nil, jobName: String? = nil) {
+            self.jobStatus = jobStatus
+            self.submitTimeBefore = submitTimeBefore
+            self.submitTimeAfter = submitTimeAfter
+            self.jobName = jobName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case languageCode = "LanguageCode"
-            case textList = "TextList"
+            case jobStatus = "JobStatus"
+            case submitTimeBefore = "SubmitTimeBefore"
+            case submitTimeAfter = "SubmitTimeAfter"
+            case jobName = "JobName"
         }
     }
 
-    public struct EntityRecognizerDocuments: AWSShape {
+    public struct InputDataConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3Uri", required: true, type: .string)
+            AWSShapeMember(label: "S3Uri", required: true, type: .string), 
+            AWSShapeMember(label: "InputFormat", required: false, type: .enum)
         ]
-        ///  Specifies the Amazon S3 location where the training documents for an entity recognizer are located. The URI must be in the same region as the API endpoint that you are calling.
+        /// The Amazon S3 URI for the input data. The URI must be in same region as the API endpoint that you are calling. The URI can point to a single input file or it can provide the prefix for a collection of data files.  For example, if you use the URI S3://bucketName/prefix, if the prefix is a single file, Amazon Comprehend uses that file as input. If more than one file begins with the prefix, Amazon Comprehend uses all of them as input.
         public let s3Uri: String
+        /// Specifies how the text in an input file should be processed:    ONE_DOC_PER_FILE - Each file is considered a separate document. Use this option when you are processing large documents, such as newspaper articles or scientific papers.    ONE_DOC_PER_LINE - Each line in a file is considered a separate document. Use this option when you are processing many short documents, such as text messages.  
+        public let inputFormat: InputFormat?
 
-        public init(s3Uri: String) {
+        public init(s3Uri: String, inputFormat: InputFormat? = nil) {
             self.s3Uri = s3Uri
+            self.inputFormat = inputFormat
         }
 
         private enum CodingKeys: String, CodingKey {
             case s3Uri = "S3Uri"
+            case inputFormat = "InputFormat"
         }
     }
 
-    public struct BatchDetectSentimentItemResult: AWSShape {
+    public struct DominantLanguageDetectionJobFilter: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Index", required: false, type: .integer), 
-            AWSShapeMember(label: "SentimentScore", required: false, type: .structure), 
-            AWSShapeMember(label: "Sentiment", required: false, type: .enum)
+            AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "SubmitTimeAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SubmitTimeBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "JobName", required: false, type: .string)
         ]
-        /// The zero-based index of the document in the input list.
-        public let index: Int32?
-        /// The level of confidence that Amazon Comprehend has in the accuracy of its sentiment detection.
-        public let sentimentScore: SentimentScore?
-        /// The sentiment detected in the document.
-        public let sentiment: SentimentType?
+        /// Filters the list of jobs based on job status. Returns only jobs with the specified status.
+        public let jobStatus: JobStatus?
+        /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted after the specified time. Jobs are returned in descending order, newest to oldest.
+        public let submitTimeAfter: TimeStamp?
+        /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest.
+        public let submitTimeBefore: TimeStamp?
+        /// Filters on the name of the job.
+        public let jobName: String?
 
-        public init(index: Int32? = nil, sentimentScore: SentimentScore? = nil, sentiment: SentimentType? = nil) {
-            self.index = index
-            self.sentimentScore = sentimentScore
-            self.sentiment = sentiment
+        public init(jobStatus: JobStatus? = nil, submitTimeAfter: TimeStamp? = nil, submitTimeBefore: TimeStamp? = nil, jobName: String? = nil) {
+            self.jobStatus = jobStatus
+            self.submitTimeAfter = submitTimeAfter
+            self.submitTimeBefore = submitTimeBefore
+            self.jobName = jobName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case index = "Index"
-            case sentimentScore = "SentimentScore"
-            case sentiment = "Sentiment"
+            case jobStatus = "JobStatus"
+            case submitTimeAfter = "SubmitTimeAfter"
+            case submitTimeBefore = "SubmitTimeBefore"
+            case jobName = "JobName"
+        }
+    }
+
+    public struct SyntaxToken: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BeginOffset", required: false, type: .integer), 
+            AWSShapeMember(label: "Text", required: false, type: .string), 
+            AWSShapeMember(label: "PartOfSpeech", required: false, type: .structure), 
+            AWSShapeMember(label: "TokenId", required: false, type: .integer), 
+            AWSShapeMember(label: "EndOffset", required: false, type: .integer)
+        ]
+        /// The zero-based offset from the beginning of the source text to the first character in the word.
+        public let beginOffset: Int32?
+        /// The word that was recognized in the source text.
+        public let text: String?
+        /// Provides the part of speech label and the confidence level that Amazon Comprehend has that the part of speech was correctly identified. For more information, see how-syntax.
+        public let partOfSpeech: PartOfSpeechTag?
+        /// A unique identifier for a token.
+        public let tokenId: Int32?
+        /// The zero-based offset from the beginning of the source text to the last character in the word.
+        public let endOffset: Int32?
+
+        public init(beginOffset: Int32? = nil, text: String? = nil, partOfSpeech: PartOfSpeechTag? = nil, tokenId: Int32? = nil, endOffset: Int32? = nil) {
+            self.beginOffset = beginOffset
+            self.text = text
+            self.partOfSpeech = partOfSpeech
+            self.tokenId = tokenId
+            self.endOffset = endOffset
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case beginOffset = "BeginOffset"
+            case text = "Text"
+            case partOfSpeech = "PartOfSpeech"
+            case tokenId = "TokenId"
+            case endOffset = "EndOffset"
+        }
+    }
+
+    public struct DetectEntitiesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Entities", required: false, type: .list)
+        ]
+        /// A collection of entities identified in the input text. For each entity, the response provides the entity text, entity type, where the entity text begins and ends, and the level of confidence that Amazon Comprehend has in the detection. For a list of entity types, see how-entities. 
+        public let entities: [Entity]?
+
+        public init(entities: [Entity]? = nil) {
+            self.entities = entities
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entities = "Entities"
+        }
+    }
+
+    public struct StopEntitiesDetectionJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: false, type: .string), 
+            AWSShapeMember(label: "JobStatus", required: false, type: .enum)
+        ]
+        /// The identifier of the entities detection job to stop.
+        public let jobId: String?
+        /// Either STOP_REQUESTED if the job is currently running, or STOPPED if the job was previously stopped with the StopEntitiesDetectionJob operation.
+        public let jobStatus: JobStatus?
+
+        public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
+            self.jobId = jobId
+            self.jobStatus = jobStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+            case jobStatus = "JobStatus"
+        }
+    }
+
+    public struct DescribeKeyPhrasesDetectionJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeyPhrasesDetectionJobProperties", required: false, type: .structure)
+        ]
+        /// An object that contains the properties associated with a key phrases detection job. 
+        public let keyPhrasesDetectionJobProperties: KeyPhrasesDetectionJobProperties?
+
+        public init(keyPhrasesDetectionJobProperties: KeyPhrasesDetectionJobProperties? = nil) {
+            self.keyPhrasesDetectionJobProperties = keyPhrasesDetectionJobProperties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyPhrasesDetectionJobProperties = "KeyPhrasesDetectionJobProperties"
+        }
+    }
+
+    public struct BatchDetectKeyPhrasesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorList", required: true, type: .list), 
+            AWSShapeMember(label: "ResultList", required: true, type: .list)
+        ]
+        /// A list containing one object for each document that contained an error. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If there are no errors in the batch, the ErrorList is empty.
+        public let errorList: [BatchItemError]
+        /// A list of objects containing the results of the operation. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If all of the documents contain an error, the ResultList is empty.
+        public let resultList: [BatchDetectKeyPhrasesItemResult]
+
+        public init(errorList: [BatchItemError], resultList: [BatchDetectKeyPhrasesItemResult]) {
+            self.errorList = errorList
+            self.resultList = resultList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorList = "ErrorList"
+            case resultList = "ResultList"
+        }
+    }
+
+    public struct DetectEntitiesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Text", required: true, type: .string), 
+            AWSShapeMember(label: "LanguageCode", required: true, type: .enum)
+        ]
+        /// A UTF-8 text string. Each string must contain fewer that 5,000 bytes of UTF-8 encoded characters.
+        public let text: String
+        /// The language of the input documents. You can specify English ("en") or Spanish ("es"). All documents must be in the same language.
+        public let languageCode: LanguageCode
+
+        public init(text: String, languageCode: LanguageCode) {
+            self.text = text
+            self.languageCode = languageCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "Text"
+            case languageCode = "LanguageCode"
         }
     }
 
     public struct EntityRecognizerInputDataConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EntityList", required: false, type: .structure), 
-            AWSShapeMember(label: "Documents", required: true, type: .structure), 
             AWSShapeMember(label: "EntityTypes", required: true, type: .list), 
+            AWSShapeMember(label: "Documents", required: true, type: .structure), 
             AWSShapeMember(label: "Annotations", required: false, type: .structure)
         ]
         /// S3 location of the entity list for an entity recognizer.
         public let entityList: EntityRecognizerEntityList?
-        /// S3 location of the documents folder for an entity recognizer
-        public let documents: EntityRecognizerDocuments
         /// The entity types in the input data for an entity recognizer.
         public let entityTypes: [EntityTypesListItem]
+        /// S3 location of the documents folder for an entity recognizer
+        public let documents: EntityRecognizerDocuments
         /// S3 location of the annotations file for an entity recognizer.
         public let annotations: EntityRecognizerAnnotations?
 
-        public init(entityList: EntityRecognizerEntityList? = nil, documents: EntityRecognizerDocuments, entityTypes: [EntityTypesListItem], annotations: EntityRecognizerAnnotations? = nil) {
+        public init(entityList: EntityRecognizerEntityList? = nil, entityTypes: [EntityTypesListItem], documents: EntityRecognizerDocuments, annotations: EntityRecognizerAnnotations? = nil) {
             self.entityList = entityList
-            self.documents = documents
             self.entityTypes = entityTypes
+            self.documents = documents
             self.annotations = annotations
         }
 
         private enum CodingKeys: String, CodingKey {
             case entityList = "EntityList"
-            case documents = "Documents"
             case entityTypes = "EntityTypes"
+            case documents = "Documents"
             case annotations = "Annotations"
+        }
+    }
+
+    public struct StartKeyPhrasesDetectionJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InputDataConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "JobName", required: false, type: .string), 
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "DataAccessRoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "OutputDataConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "LanguageCode", required: true, type: .enum)
+        ]
+        /// Specifies the format and location of the input data for the job.
+        public let inputDataConfig: InputDataConfig
+        /// The identifier of the job.
+        public let jobName: String?
+        /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
+        public let clientRequestToken: String?
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data. For more information, see https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions.
+        public let dataAccessRoleArn: String
+        /// Specifies where to send the output files.
+        public let outputDataConfig: OutputDataConfig
+        /// The language of the input documents. You can specify English ("en") or Spanish ("es"). All documents must be in the same language.
+        public let languageCode: LanguageCode
+
+        public init(inputDataConfig: InputDataConfig, jobName: String? = nil, clientRequestToken: String? = nil, dataAccessRoleArn: String, outputDataConfig: OutputDataConfig, languageCode: LanguageCode) {
+            self.inputDataConfig = inputDataConfig
+            self.jobName = jobName
+            self.clientRequestToken = clientRequestToken
+            self.dataAccessRoleArn = dataAccessRoleArn
+            self.outputDataConfig = outputDataConfig
+            self.languageCode = languageCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputDataConfig = "InputDataConfig"
+            case jobName = "JobName"
+            case clientRequestToken = "ClientRequestToken"
+            case dataAccessRoleArn = "DataAccessRoleArn"
+            case outputDataConfig = "OutputDataConfig"
+            case languageCode = "LanguageCode"
+        }
+    }
+
+    public enum PartOfSpeechTagType: String, CustomStringConvertible, Codable {
+        case adj = "ADJ"
+        case adp = "ADP"
+        case adv = "ADV"
+        case aux = "AUX"
+        case conj = "CONJ"
+        case cconj = "CCONJ"
+        case det = "DET"
+        case intj = "INTJ"
+        case noun = "NOUN"
+        case num = "NUM"
+        case o = "O"
+        case part = "PART"
+        case pron = "PRON"
+        case propn = "PROPN"
+        case punct = "PUNCT"
+        case sconj = "SCONJ"
+        case sym = "SYM"
+        case verb = "VERB"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DescribeSentimentDetectionJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: true, type: .string)
+        ]
+        /// The identifier that Amazon Comprehend generated for the job. The operation returns this identifier in its response.
+        public let jobId: String
+
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct BatchItemError: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "Index", required: false, type: .integer), 
+            AWSShapeMember(label: "ErrorCode", required: false, type: .string)
+        ]
+        /// A text description of the error.
+        public let errorMessage: String?
+        /// The zero-based index of the document in the input list.
+        public let index: Int32?
+        /// The numeric error code of the error.
+        public let errorCode: String?
+
+        public init(errorMessage: String? = nil, index: Int32? = nil, errorCode: String? = nil) {
+            self.errorMessage = errorMessage
+            self.index = index
+            self.errorCode = errorCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "ErrorMessage"
+            case index = "Index"
+            case errorCode = "ErrorCode"
+        }
+    }
+
+    public struct StopDominantLanguageDetectionJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: true, type: .string)
+        ]
+        /// The identifier of the dominant language detection job to stop.
+        public let jobId: String
+
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
         }
     }
 
@@ -2744,6 +2784,289 @@ extension Comprehend {
         }
     }
 
+    public struct KeyPhrasesDetectionJobFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubmitTimeAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "JobName", required: false, type: .string), 
+            AWSShapeMember(label: "SubmitTimeBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "JobStatus", required: false, type: .enum)
+        ]
+        /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted after the specified time. Jobs are returned in descending order, newest to oldest.
+        public let submitTimeAfter: TimeStamp?
+        /// Filters on the name of the job.
+        public let jobName: String?
+        /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest.
+        public let submitTimeBefore: TimeStamp?
+        /// Filters the list of jobs based on job status. Returns only jobs with the specified status.
+        public let jobStatus: JobStatus?
+
+        public init(submitTimeAfter: TimeStamp? = nil, jobName: String? = nil, submitTimeBefore: TimeStamp? = nil, jobStatus: JobStatus? = nil) {
+            self.submitTimeAfter = submitTimeAfter
+            self.jobName = jobName
+            self.submitTimeBefore = submitTimeBefore
+            self.jobStatus = jobStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case submitTimeAfter = "SubmitTimeAfter"
+            case jobName = "JobName"
+            case submitTimeBefore = "SubmitTimeBefore"
+            case jobStatus = "JobStatus"
+        }
+    }
+
+    public struct ListSentimentDetectionJobsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Filters the jobs that are returned. You can filter jobs on their name, status, or the date and time that they were submitted. You can only set one filter at a time.
+        public let filter: SentimentDetectionJobFilter?
+        /// The maximum number of results to return in each page. The default is 100.
+        public let maxResults: Int32?
+        /// Identifies the next page of results to return.
+        public let nextToken: String?
+
+        public init(filter: SentimentDetectionJobFilter? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct BatchDetectSyntaxRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LanguageCode", required: true, type: .enum), 
+            AWSShapeMember(label: "TextList", required: true, type: .list)
+        ]
+        /// The language of the input documents. You can specify English ("en") or Spanish ("es"). All documents must be in the same language.
+        public let languageCode: SyntaxLanguageCode
+        /// A list containing the text of the input documents. The list can contain a maximum of 25 documents. Each document must contain fewer that 5,000 bytes of UTF-8 encoded characters.
+        public let textList: [String]
+
+        public init(languageCode: SyntaxLanguageCode, textList: [String]) {
+            self.languageCode = languageCode
+            self.textList = textList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case languageCode = "LanguageCode"
+            case textList = "TextList"
+        }
+    }
+
+    public struct EntitiesDetectionJobProperties: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LanguageCode", required: false, type: .enum), 
+            AWSShapeMember(label: "JobId", required: false, type: .string), 
+            AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "JobName", required: false, type: .string), 
+            AWSShapeMember(label: "EntityRecognizerArn", required: false, type: .string), 
+            AWSShapeMember(label: "DataAccessRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "InputDataConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "OutputDataConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SubmitTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Message", required: false, type: .string)
+        ]
+        /// The language code of the input documents.
+        public let languageCode: LanguageCode?
+        /// The identifier assigned to the entities detection job.
+        public let jobId: String?
+        /// The current status of the entities detection job. If the status is FAILED, the Message field shows the reason for the failure.
+        public let jobStatus: JobStatus?
+        /// The name that you assigned the entities detection job.
+        public let jobName: String?
+        /// The Amazon Resource Name (ARN) that identifies the entity recognizer.
+        public let entityRecognizerArn: String?
+        /// The Amazon Resource Name (ARN) that gives Amazon Comprehend read access to your input data.
+        public let dataAccessRoleArn: String?
+        /// The input data configuration that you supplied when you created the entities detection job.
+        public let inputDataConfig: InputDataConfig?
+        /// The output data configuration that you supplied when you created the entities detection job. 
+        public let outputDataConfig: OutputDataConfig?
+        /// The time that the entities detection job completed
+        public let endTime: TimeStamp?
+        /// The time that the entities detection job was submitted for processing.
+        public let submitTime: TimeStamp?
+        /// A description of the status of a job.
+        public let message: String?
+
+        public init(languageCode: LanguageCode? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil, jobName: String? = nil, entityRecognizerArn: String? = nil, dataAccessRoleArn: String? = nil, inputDataConfig: InputDataConfig? = nil, outputDataConfig: OutputDataConfig? = nil, endTime: TimeStamp? = nil, submitTime: TimeStamp? = nil, message: String? = nil) {
+            self.languageCode = languageCode
+            self.jobId = jobId
+            self.jobStatus = jobStatus
+            self.jobName = jobName
+            self.entityRecognizerArn = entityRecognizerArn
+            self.dataAccessRoleArn = dataAccessRoleArn
+            self.inputDataConfig = inputDataConfig
+            self.outputDataConfig = outputDataConfig
+            self.endTime = endTime
+            self.submitTime = submitTime
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case languageCode = "LanguageCode"
+            case jobId = "JobId"
+            case jobStatus = "JobStatus"
+            case jobName = "JobName"
+            case entityRecognizerArn = "EntityRecognizerArn"
+            case dataAccessRoleArn = "DataAccessRoleArn"
+            case inputDataConfig = "InputDataConfig"
+            case outputDataConfig = "OutputDataConfig"
+            case endTime = "EndTime"
+            case submitTime = "SubmitTime"
+            case message = "Message"
+        }
+    }
+
+    public struct ListEntitiesDetectionJobsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Filter", required: false, type: .structure)
+        ]
+        /// The maximum number of results to return in each page. The default is 100.
+        public let maxResults: Int32?
+        /// Identifies the next page of results to return.
+        public let nextToken: String?
+        /// Filters the jobs that are returned. You can filter jobs on their name, status, or the date and time that they were submitted. You can only set one filter at a time.
+        public let filter: EntitiesDetectionJobFilter?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, filter: EntitiesDetectionJobFilter? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.filter = filter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case filter = "Filter"
+        }
+    }
+
+    public struct ListEntityRecognizersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+        ]
+        /// Identifies the next page of results to return.
+        public let nextToken: String?
+        /// Filters the list of entities returned. You can filter on Status, SubmitTimeBefore, or SubmitTimeAfter. You can only set one filter at a time.
+        public let filter: EntityRecognizerFilter?
+        ///  The maximum number of results to return on each page. The default is 100.
+        public let maxResults: Int32?
+
+        public init(nextToken: String? = nil, filter: EntityRecognizerFilter? = nil, maxResults: Int32? = nil) {
+            self.nextToken = nextToken
+            self.filter = filter
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case filter = "Filter"
+            case maxResults = "MaxResults"
+        }
+    }
+
+    public struct DeleteDocumentClassifierResponse: AWSShape {
+
+    }
+
+    public struct ClassifierMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EvaluationMetrics", required: false, type: .structure), 
+            AWSShapeMember(label: "NumberOfLabels", required: false, type: .integer), 
+            AWSShapeMember(label: "NumberOfTrainedDocuments", required: false, type: .integer), 
+            AWSShapeMember(label: "NumberOfTestDocuments", required: false, type: .integer)
+        ]
+        ///  Describes the result metrics for the test data associated with an documentation classifier.
+        public let evaluationMetrics: ClassifierEvaluationMetrics?
+        /// The number of labels in the input data. 
+        public let numberOfLabels: Int32?
+        /// The number of documents in the input data that were used to train the classifier. Typically this is 80 to 90 percent of the input documents.
+        public let numberOfTrainedDocuments: Int32?
+        /// The number of documents in the input data that were used to test the classifier. Typically this is 10 to 20 percent of the input documents.
+        public let numberOfTestDocuments: Int32?
+
+        public init(evaluationMetrics: ClassifierEvaluationMetrics? = nil, numberOfLabels: Int32? = nil, numberOfTrainedDocuments: Int32? = nil, numberOfTestDocuments: Int32? = nil) {
+            self.evaluationMetrics = evaluationMetrics
+            self.numberOfLabels = numberOfLabels
+            self.numberOfTrainedDocuments = numberOfTrainedDocuments
+            self.numberOfTestDocuments = numberOfTestDocuments
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case evaluationMetrics = "EvaluationMetrics"
+            case numberOfLabels = "NumberOfLabels"
+            case numberOfTrainedDocuments = "NumberOfTrainedDocuments"
+            case numberOfTestDocuments = "NumberOfTestDocuments"
+        }
+    }
+
+    public struct KeyPhrase: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Score", required: false, type: .float), 
+            AWSShapeMember(label: "BeginOffset", required: false, type: .integer), 
+            AWSShapeMember(label: "EndOffset", required: false, type: .integer), 
+            AWSShapeMember(label: "Text", required: false, type: .string)
+        ]
+        /// The level of confidence that Amazon Comprehend has in the accuracy of the detection.
+        public let score: Float?
+        /// A character offset in the input text that shows where the key phrase begins (the first character is at position 0). The offset returns the position of each UTF-8 code point in the string. A code point is the abstract character from a particular graphical representation. For example, a multi-byte UTF-8 character maps to a single code point.
+        public let beginOffset: Int32?
+        /// A character offset in the input text where the key phrase ends. The offset returns the position of each UTF-8 code point in the string. A code point is the abstract character from a particular graphical representation. For example, a multi-byte UTF-8 character maps to a single code point.
+        public let endOffset: Int32?
+        /// The text of a key noun phrase.
+        public let text: String?
+
+        public init(score: Float? = nil, beginOffset: Int32? = nil, endOffset: Int32? = nil, text: String? = nil) {
+            self.score = score
+            self.beginOffset = beginOffset
+            self.endOffset = endOffset
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case score = "Score"
+            case beginOffset = "BeginOffset"
+            case endOffset = "EndOffset"
+            case text = "Text"
+        }
+    }
+
+    public struct ListSentimentDetectionJobsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SentimentDetectionJobPropertiesList", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// A list containing the properties of each job that is returned.
+        public let sentimentDetectionJobPropertiesList: [SentimentDetectionJobProperties]?
+        /// Identifies the next page of results to return.
+        public let nextToken: String?
+
+        public init(sentimentDetectionJobPropertiesList: [SentimentDetectionJobProperties]? = nil, nextToken: String? = nil) {
+            self.sentimentDetectionJobPropertiesList = sentimentDetectionJobPropertiesList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sentimentDetectionJobPropertiesList = "SentimentDetectionJobPropertiesList"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct StopKeyPhrasesDetectionJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobId", required: true, type: .string)
@@ -2760,347 +3083,24 @@ extension Comprehend {
         }
     }
 
-    public struct StartKeyPhrasesDetectionJobRequest: AWSShape {
+    public struct BatchDetectEntitiesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OutputDataConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "JobName", required: false, type: .string), 
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
             AWSShapeMember(label: "LanguageCode", required: true, type: .enum), 
-            AWSShapeMember(label: "InputDataConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "DataAccessRoleArn", required: true, type: .string)
+            AWSShapeMember(label: "TextList", required: true, type: .list)
         ]
-        /// Specifies where to send the output files.
-        public let outputDataConfig: OutputDataConfig
-        /// The identifier of the job.
-        public let jobName: String?
-        /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
-        public let clientRequestToken: String?
         /// The language of the input documents. You can specify English ("en") or Spanish ("es"). All documents must be in the same language.
         public let languageCode: LanguageCode
-        /// Specifies the format and location of the input data for the job.
-        public let inputDataConfig: InputDataConfig
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data. For more information, see https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions.
-        public let dataAccessRoleArn: String
+        /// A list containing the text of the input documents. The list can contain a maximum of 25 documents. Each document must contain fewer than 5,000 bytes of UTF-8 encoded characters.
+        public let textList: [String]
 
-        public init(outputDataConfig: OutputDataConfig, jobName: String? = nil, clientRequestToken: String? = nil, languageCode: LanguageCode, inputDataConfig: InputDataConfig, dataAccessRoleArn: String) {
-            self.outputDataConfig = outputDataConfig
-            self.jobName = jobName
-            self.clientRequestToken = clientRequestToken
+        public init(languageCode: LanguageCode, textList: [String]) {
             self.languageCode = languageCode
-            self.inputDataConfig = inputDataConfig
-            self.dataAccessRoleArn = dataAccessRoleArn
+            self.textList = textList
         }
 
         private enum CodingKeys: String, CodingKey {
-            case outputDataConfig = "OutputDataConfig"
-            case jobName = "JobName"
-            case clientRequestToken = "ClientRequestToken"
             case languageCode = "LanguageCode"
-            case inputDataConfig = "InputDataConfig"
-            case dataAccessRoleArn = "DataAccessRoleArn"
-        }
-    }
-
-    public struct StopDominantLanguageDetectionJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobId", required: false, type: .string), 
-            AWSShapeMember(label: "JobStatus", required: false, type: .enum)
-        ]
-        /// The identifier of the dominant language detection job to stop.
-        public let jobId: String?
-        /// Either STOP_REQUESTED if the job is currently running, or STOPPED if the job was previously stopped with the StopDominantLanguageDetectionJob operation.
-        public let jobStatus: JobStatus?
-
-        public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
-            self.jobId = jobId
-            self.jobStatus = jobStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobId = "JobId"
-            case jobStatus = "JobStatus"
-        }
-    }
-
-    public struct DescribeEntitiesDetectionJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EntitiesDetectionJobProperties", required: false, type: .structure)
-        ]
-        /// An object that contains the properties associated with an entities detection job.
-        public let entitiesDetectionJobProperties: EntitiesDetectionJobProperties?
-
-        public init(entitiesDetectionJobProperties: EntitiesDetectionJobProperties? = nil) {
-            self.entitiesDetectionJobProperties = entitiesDetectionJobProperties
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case entitiesDetectionJobProperties = "EntitiesDetectionJobProperties"
-        }
-    }
-
-    public enum SyntaxLanguageCode: String, CustomStringConvertible, Codable {
-        case en = "en"
-        case es = "es"
-        case fr = "fr"
-        case de = "de"
-        case it = "it"
-        case pt = "pt"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct EntitiesDetectionJobProperties: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobName", required: false, type: .string), 
-            AWSShapeMember(label: "OutputDataConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "EntityRecognizerArn", required: false, type: .string), 
-            AWSShapeMember(label: "DataAccessRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "SubmitTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "InputDataConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "JobId", required: false, type: .string), 
-            AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "LanguageCode", required: false, type: .enum)
-        ]
-        /// The name that you assigned the entities detection job.
-        public let jobName: String?
-        /// The output data configuration that you supplied when you created the entities detection job. 
-        public let outputDataConfig: OutputDataConfig?
-        /// The Amazon Resource Name (ARN) that identifies the entity recognizer.
-        public let entityRecognizerArn: String?
-        /// The Amazon Resource Name (ARN) that gives Amazon Comprehend read access to your input data.
-        public let dataAccessRoleArn: String?
-        /// The time that the entities detection job was submitted for processing.
-        public let submitTime: TimeStamp?
-        /// The time that the entities detection job completed
-        public let endTime: TimeStamp?
-        /// The input data configuration that you supplied when you created the entities detection job.
-        public let inputDataConfig: InputDataConfig?
-        /// A description of the status of a job.
-        public let message: String?
-        /// The identifier assigned to the entities detection job.
-        public let jobId: String?
-        /// The current status of the entities detection job. If the status is FAILED, the Message field shows the reason for the failure.
-        public let jobStatus: JobStatus?
-        /// The language code of the input documents.
-        public let languageCode: LanguageCode?
-
-        public init(jobName: String? = nil, outputDataConfig: OutputDataConfig? = nil, entityRecognizerArn: String? = nil, dataAccessRoleArn: String? = nil, submitTime: TimeStamp? = nil, endTime: TimeStamp? = nil, inputDataConfig: InputDataConfig? = nil, message: String? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil, languageCode: LanguageCode? = nil) {
-            self.jobName = jobName
-            self.outputDataConfig = outputDataConfig
-            self.entityRecognizerArn = entityRecognizerArn
-            self.dataAccessRoleArn = dataAccessRoleArn
-            self.submitTime = submitTime
-            self.endTime = endTime
-            self.inputDataConfig = inputDataConfig
-            self.message = message
-            self.jobId = jobId
-            self.jobStatus = jobStatus
-            self.languageCode = languageCode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobName = "JobName"
-            case outputDataConfig = "OutputDataConfig"
-            case entityRecognizerArn = "EntityRecognizerArn"
-            case dataAccessRoleArn = "DataAccessRoleArn"
-            case submitTime = "SubmitTime"
-            case endTime = "EndTime"
-            case inputDataConfig = "InputDataConfig"
-            case message = "Message"
-            case jobId = "JobId"
-            case jobStatus = "JobStatus"
-            case languageCode = "LanguageCode"
-        }
-    }
-
-    public struct DeleteDocumentClassifierResponse: AWSShape {
-
-    }
-
-    public struct InputDataConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3Uri", required: true, type: .string), 
-            AWSShapeMember(label: "InputFormat", required: false, type: .enum)
-        ]
-        /// The Amazon S3 URI for the input data. The URI must be in same region as the API endpoint that you are calling. The URI can point to a single input file or it can provide the prefix for a collection of data files.  For example, if you use the URI S3://bucketName/prefix, if the prefix is a single file, Amazon Comprehend uses that file as input. If more than one file begins with the prefix, Amazon Comprehend uses all of them as input.
-        public let s3Uri: String
-        /// Specifies how the text in an input file should be processed:    ONE_DOC_PER_FILE - Each file is considered a separate document. Use this option when you are processing large documents, such as newspaper articles or scientific papers.    ONE_DOC_PER_LINE - Each line in a file is considered a separate document. Use this option when you are processing many short documents, such as text messages.  
-        public let inputFormat: InputFormat?
-
-        public init(s3Uri: String, inputFormat: InputFormat? = nil) {
-            self.s3Uri = s3Uri
-            self.inputFormat = inputFormat
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case s3Uri = "S3Uri"
-            case inputFormat = "InputFormat"
-        }
-    }
-
-    public enum InputFormat: String, CustomStringConvertible, Codable {
-        case oneDocPerFile = "ONE_DOC_PER_FILE"
-        case oneDocPerLine = "ONE_DOC_PER_LINE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct StartSentimentDetectionJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OutputDataConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "JobName", required: false, type: .string), 
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "LanguageCode", required: true, type: .enum), 
-            AWSShapeMember(label: "InputDataConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "DataAccessRoleArn", required: true, type: .string)
-        ]
-        /// Specifies where to send the output files. 
-        public let outputDataConfig: OutputDataConfig
-        /// The identifier of the job.
-        public let jobName: String?
-        /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
-        public let clientRequestToken: String?
-        /// The language of the input documents. You can specify English ("en") or Spanish ("es"). All documents must be in the same language.
-        public let languageCode: LanguageCode
-        /// Specifies the format and location of the input data for the job.
-        public let inputDataConfig: InputDataConfig
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data. For more information, see https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions.
-        public let dataAccessRoleArn: String
-
-        public init(outputDataConfig: OutputDataConfig, jobName: String? = nil, clientRequestToken: String? = nil, languageCode: LanguageCode, inputDataConfig: InputDataConfig, dataAccessRoleArn: String) {
-            self.outputDataConfig = outputDataConfig
-            self.jobName = jobName
-            self.clientRequestToken = clientRequestToken
-            self.languageCode = languageCode
-            self.inputDataConfig = inputDataConfig
-            self.dataAccessRoleArn = dataAccessRoleArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case outputDataConfig = "OutputDataConfig"
-            case jobName = "JobName"
-            case clientRequestToken = "ClientRequestToken"
-            case languageCode = "LanguageCode"
-            case inputDataConfig = "InputDataConfig"
-            case dataAccessRoleArn = "DataAccessRoleArn"
-        }
-    }
-
-    public struct DescribeDocumentClassificationJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DocumentClassificationJobProperties", required: false, type: .structure)
-        ]
-        /// An object that describes the properties associated with the document classification job.
-        public let documentClassificationJobProperties: DocumentClassificationJobProperties?
-
-        public init(documentClassificationJobProperties: DocumentClassificationJobProperties? = nil) {
-            self.documentClassificationJobProperties = documentClassificationJobProperties
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case documentClassificationJobProperties = "DocumentClassificationJobProperties"
-        }
-    }
-
-    public struct DominantLanguageDetectionJobProperties: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobName", required: false, type: .string), 
-            AWSShapeMember(label: "OutputDataConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "DataAccessRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "SubmitTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "InputDataConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "JobId", required: false, type: .string), 
-            AWSShapeMember(label: "JobStatus", required: false, type: .enum)
-        ]
-        /// The name that you assigned to the dominant language detection job.
-        public let jobName: String?
-        /// The output data configuration that you supplied when you created the dominant language detection job.
-        public let outputDataConfig: OutputDataConfig?
-        /// The Amazon Resource Name (ARN) that gives Amazon Comprehend read access to your input data.
-        public let dataAccessRoleArn: String?
-        /// The time that the dominant language detection job was submitted for processing.
-        public let submitTime: TimeStamp?
-        /// The time that the dominant language detection job completed.
-        public let endTime: TimeStamp?
-        /// The input data configuration that you supplied when you created the dominant language detection job.
-        public let inputDataConfig: InputDataConfig?
-        /// A description for the status of a job.
-        public let message: String?
-        /// The identifier assigned to the dominant language detection job.
-        public let jobId: String?
-        /// The current status of the dominant language detection job. If the status is FAILED, the Message field shows the reason for the failure.
-        public let jobStatus: JobStatus?
-
-        public init(jobName: String? = nil, outputDataConfig: OutputDataConfig? = nil, dataAccessRoleArn: String? = nil, submitTime: TimeStamp? = nil, endTime: TimeStamp? = nil, inputDataConfig: InputDataConfig? = nil, message: String? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil) {
-            self.jobName = jobName
-            self.outputDataConfig = outputDataConfig
-            self.dataAccessRoleArn = dataAccessRoleArn
-            self.submitTime = submitTime
-            self.endTime = endTime
-            self.inputDataConfig = inputDataConfig
-            self.message = message
-            self.jobId = jobId
-            self.jobStatus = jobStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobName = "JobName"
-            case outputDataConfig = "OutputDataConfig"
-            case dataAccessRoleArn = "DataAccessRoleArn"
-            case submitTime = "SubmitTime"
-            case endTime = "EndTime"
-            case inputDataConfig = "InputDataConfig"
-            case message = "Message"
-            case jobId = "JobId"
-            case jobStatus = "JobStatus"
-        }
-    }
-
-    public struct DetectKeyPhrasesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KeyPhrases", required: false, type: .list)
-        ]
-        /// A collection of key phrases that Amazon Comprehend identified in the input text. For each key phrase, the response provides the text of the key phrase, where the key phrase begins and ends, and the level of confidence that Amazon Comprehend has in the accuracy of the detection. 
-        public let keyPhrases: [KeyPhrase]?
-
-        public init(keyPhrases: [KeyPhrase]? = nil) {
-            self.keyPhrases = keyPhrases
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case keyPhrases = "KeyPhrases"
-        }
-    }
-
-    public enum ModelStatus: String, CustomStringConvertible, Codable {
-        case submitted = "SUBMITTED"
-        case training = "TRAINING"
-        case deleting = "DELETING"
-        case inError = "IN_ERROR"
-        case trained = "TRAINED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListDominantLanguageDetectionJobsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DominantLanguageDetectionJobPropertiesList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// A list containing the properties of each job that is returned.
-        public let dominantLanguageDetectionJobPropertiesList: [DominantLanguageDetectionJobProperties]?
-        /// Identifies the next page of results to return.
-        public let nextToken: String?
-
-        public init(dominantLanguageDetectionJobPropertiesList: [DominantLanguageDetectionJobProperties]? = nil, nextToken: String? = nil) {
-            self.dominantLanguageDetectionJobPropertiesList = dominantLanguageDetectionJobPropertiesList
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dominantLanguageDetectionJobPropertiesList = "DominantLanguageDetectionJobPropertiesList"
-            case nextToken = "NextToken"
+            case textList = "TextList"
         }
     }
 

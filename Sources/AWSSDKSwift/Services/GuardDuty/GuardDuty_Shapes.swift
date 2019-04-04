@@ -5,209 +5,203 @@ import AWSSDKSwiftCore
 
 extension GuardDuty {
 
-    public struct UpdateIPSetRequest: AWSShape {
+    public struct ArchiveFindingsResponse: AWSShape {
+
+    }
+
+    public struct IamInstanceProfile: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Location", location: .body(locationName: "location"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "Activate", location: .body(locationName: "activate"), required: false, type: .boolean), 
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string)
+        ]
+        /// AWS EC2 instance profile ID.
+        public let id: String?
+        /// AWS EC2 instance profile ARN.
+        public let arn: String?
+
+        public init(id: String? = nil, arn: String? = nil) {
+            self.id = id
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case arn = "arn"
+        }
+    }
+
+    public struct ListFiltersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string), 
-            AWSShapeMember(label: "IpSetId", location: .uri(locationName: "ipSetId"), required: true, type: .string)
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
         ]
-        /// The updated URI of the file that contains the IPSet. For example (https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key).
-        public let location: String?
-        /// The unique ID that specifies the IPSet that you want to update.
-        public let name: String?
-        /// The updated boolean value that specifies whether the IPSet is active or not.
-        public let activate: Bool?
         public let detectorId: String
-        public let ipSetId: String
+        public let nextToken: String?
+        public let maxResults: Int32?
 
-        public init(location: String? = nil, name: String? = nil, activate: Bool? = nil, detectorId: String, ipSetId: String) {
-            self.location = location
-            self.name = name
-            self.activate = activate
+        public init(detectorId: String, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.detectorId = detectorId
-            self.ipSetId = ipSetId
+            self.nextToken = nextToken
+            self.maxResults = maxResults
         }
 
         private enum CodingKeys: String, CodingKey {
-            case location = "location"
-            case name = "name"
-            case activate = "activate"
             case detectorId = "detectorId"
-            case ipSetId = "ipSetId"
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
         }
     }
 
-    public struct DeleteFilterRequest: AWSShape {
+    public struct DisassociateMembersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FilterName", location: .uri(locationName: "filterName"), required: true, type: .string), 
+            AWSShapeMember(label: "AccountIds", location: .body(locationName: "accountIds"), required: true, type: .list), 
             AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string)
         ]
-        public let filterName: String
+        /// A list of account IDs of the GuardDuty member accounts that you want to disassociate from master.
+        public let accountIds: [String]
         public let detectorId: String
 
-        public init(filterName: String, detectorId: String) {
-            self.filterName = filterName
+        public init(accountIds: [String], detectorId: String) {
+            self.accountIds = accountIds
             self.detectorId = detectorId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filterName = "filterName"
+            case accountIds = "accountIds"
             case detectorId = "detectorId"
         }
     }
 
-    public struct DeleteThreatIntelSetRequest: AWSShape {
+    public struct InviteMembersResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ThreatIntelSetId", location: .uri(locationName: "threatIntelSetId"), required: true, type: .string), 
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string)
+            AWSShapeMember(label: "UnprocessedAccounts", location: .body(locationName: "unprocessedAccounts"), required: false, type: .list)
         ]
-        public let threatIntelSetId: String
-        public let detectorId: String
+        /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
+        public let unprocessedAccounts: [UnprocessedAccount]?
 
-        public init(threatIntelSetId: String, detectorId: String) {
+        public init(unprocessedAccounts: [UnprocessedAccount]? = nil) {
+            self.unprocessedAccounts = unprocessedAccounts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case unprocessedAccounts = "unprocessedAccounts"
+        }
+    }
+
+    public struct GetMasterAccountResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Master", location: .body(locationName: "master"), required: false, type: .structure)
+        ]
+        public let master: Master?
+
+        public init(master: Master? = nil) {
+            self.master = master
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case master = "master"
+        }
+    }
+
+    public struct CreateThreatIntelSetResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ThreatIntelSetId", location: .body(locationName: "threatIntelSetId"), required: false, type: .string)
+        ]
+        public let threatIntelSetId: String?
+
+        public init(threatIntelSetId: String? = nil) {
             self.threatIntelSetId = threatIntelSetId
-            self.detectorId = detectorId
         }
 
         private enum CodingKeys: String, CodingKey {
             case threatIntelSetId = "threatIntelSetId"
-            case detectorId = "detectorId"
         }
     }
 
-    public struct ErrorResponse: AWSShape {
+    public struct Finding: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string), 
-            AWSShapeMember(label: "Type", location: .body(locationName: "__type"), required: false, type: .string)
+            AWSShapeMember(label: "UpdatedAt", location: .body(locationName: "updatedAt"), required: true, type: .string), 
+            AWSShapeMember(label: "Severity", location: .body(locationName: "severity"), required: true, type: .double), 
+            AWSShapeMember(label: "Service", location: .body(locationName: "service"), required: false, type: .structure), 
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: true, type: .string), 
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: true, type: .string), 
+            AWSShapeMember(label: "Title", location: .body(locationName: "title"), required: false, type: .string), 
+            AWSShapeMember(label: "Resource", location: .body(locationName: "resource"), required: true, type: .structure), 
+            AWSShapeMember(label: "AccountId", location: .body(locationName: "accountId"), required: true, type: .string), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "Partition", location: .body(locationName: "partition"), required: false, type: .string), 
+            AWSShapeMember(label: "SchemaVersion", location: .body(locationName: "schemaVersion"), required: true, type: .string), 
+            AWSShapeMember(label: "Region", location: .body(locationName: "region"), required: true, type: .string), 
+            AWSShapeMember(label: "CreatedAt", location: .body(locationName: "createdAt"), required: true, type: .string), 
+            AWSShapeMember(label: "Type", location: .body(locationName: "type"), required: true, type: .string), 
+            AWSShapeMember(label: "Confidence", location: .body(locationName: "confidence"), required: false, type: .double)
         ]
-        /// The error message.
-        public let message: String?
-        /// The error type.
-        public let `type`: String?
+        /// The time stamp at which a finding was last updated.
+        public let updatedAt: String
+        /// The severity of a finding.
+        public let severity: Double
+        /// Additional information assigned to the generated finding by GuardDuty.
+        public let service: Service?
+        /// The identifier that corresponds to a finding described by the action.
+        public let id: String
+        /// The ARN of a finding described by the action.
+        public let arn: String
+        /// The title of a finding.
+        public let title: String?
+        /// The AWS resource associated with the activity that prompted GuardDuty to generate a finding.
+        public let resource: Resource
+        /// AWS account ID where the activity occurred that prompted GuardDuty to generate a finding.
+        public let accountId: String
+        /// The description of a finding.
+        public let description: String?
+        /// The AWS resource partition.
+        public let partition: String?
+        /// Findings' schema version.
+        public let schemaVersion: String
+        /// The AWS region where the activity occurred that prompted GuardDuty to generate a finding.
+        public let region: String
+        /// The time stamp at which a finding was generated.
+        public let createdAt: String
+        /// The type of a finding described by the action.
+        public let `type`: String
+        /// The confidence level of a finding.
+        public let confidence: Double?
 
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(updatedAt: String, severity: Double, service: Service? = nil, id: String, arn: String, title: String? = nil, resource: Resource, accountId: String, description: String? = nil, partition: String? = nil, schemaVersion: String, region: String, createdAt: String, type: String, confidence: Double? = nil) {
+            self.updatedAt = updatedAt
+            self.severity = severity
+            self.service = service
+            self.id = id
+            self.arn = arn
+            self.title = title
+            self.resource = resource
+            self.accountId = accountId
+            self.description = description
+            self.partition = partition
+            self.schemaVersion = schemaVersion
+            self.region = region
+            self.createdAt = createdAt
             self.`type` = `type`
+            self.confidence = confidence
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
-            case `type` = "__type"
-        }
-    }
-
-    public struct Condition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Lt", location: .body(locationName: "lt"), required: false, type: .integer), 
-            AWSShapeMember(label: "Gt", location: .body(locationName: "gt"), required: false, type: .integer), 
-            AWSShapeMember(label: "Neq", location: .body(locationName: "neq"), required: false, type: .list), 
-            AWSShapeMember(label: "Eq", location: .body(locationName: "eq"), required: false, type: .list), 
-            AWSShapeMember(label: "Lte", location: .body(locationName: "lte"), required: false, type: .integer), 
-            AWSShapeMember(label: "Gte", location: .body(locationName: "gte"), required: false, type: .integer)
-        ]
-        /// Represents the less than condition to be applied to a single field when querying for findings.
-        public let lt: Int32?
-        /// Represents the greater than condition to be applied to a single field when querying for findings.
-        public let gt: Int32?
-        /// Represents the not equal condition to be applied to a single field when querying for findings.
-        public let neq: [String]?
-        /// Represents the equal condition to be applied to a single field when querying for findings.
-        public let eq: [String]?
-        /// Represents the less than equal condition to be applied to a single field when querying for findings.
-        public let lte: Int32?
-        /// Represents the greater than equal condition to be applied to a single field when querying for findings.
-        public let gte: Int32?
-
-        public init(lt: Int32? = nil, gt: Int32? = nil, neq: [String]? = nil, eq: [String]? = nil, lte: Int32? = nil, gte: Int32? = nil) {
-            self.lt = lt
-            self.gt = gt
-            self.neq = neq
-            self.eq = eq
-            self.lte = lte
-            self.gte = gte
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lt = "lt"
-            case gt = "gt"
-            case neq = "neq"
-            case eq = "eq"
-            case lte = "lte"
-            case gte = "gte"
-        }
-    }
-
-    public struct Country: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CountryName", location: .body(locationName: "countryName"), required: false, type: .string), 
-            AWSShapeMember(label: "CountryCode", location: .body(locationName: "countryCode"), required: false, type: .string)
-        ]
-        /// Country name of the remote IP address.
-        public let countryName: String?
-        /// Country code of the remote IP address.
-        public let countryCode: String?
-
-        public init(countryName: String? = nil, countryCode: String? = nil) {
-            self.countryName = countryName
-            self.countryCode = countryCode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case countryName = "countryName"
-            case countryCode = "countryCode"
-        }
-    }
-
-    public struct City: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CityName", location: .body(locationName: "cityName"), required: false, type: .string)
-        ]
-        /// City name of the remote IP address.
-        public let cityName: String?
-
-        public init(cityName: String? = nil) {
-            self.cityName = cityName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cityName = "cityName"
-        }
-    }
-
-    public struct UpdateFindingsFeedbackResponse: AWSShape {
-
-    }
-
-    public struct GetIPSetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: false, type: .enum), 
-            AWSShapeMember(label: "Format", location: .body(locationName: "format"), required: false, type: .enum), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "Location", location: .body(locationName: "location"), required: false, type: .string)
-        ]
-        /// The status of ipSet file uploaded.
-        public let status: IpSetStatus?
-        /// The format of the file that contains the IPSet.
-        public let format: IpSetFormat?
-        /// The user friendly name to identify the IPSet. This name is displayed in all findings that are triggered by activity that involves IP addresses included in this IPSet.
-        public let name: String?
-        /// The URI of the file that contains the IPSet. For example (https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key)
-        public let location: String?
-
-        public init(status: IpSetStatus? = nil, format: IpSetFormat? = nil, name: String? = nil, location: String? = nil) {
-            self.status = status
-            self.format = format
-            self.name = name
-            self.location = location
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "status"
-            case format = "format"
-            case name = "name"
-            case location = "location"
+            case updatedAt = "updatedAt"
+            case severity = "severity"
+            case service = "service"
+            case id = "id"
+            case arn = "arn"
+            case title = "title"
+            case resource = "resource"
+            case accountId = "accountId"
+            case description = "description"
+            case partition = "partition"
+            case schemaVersion = "schemaVersion"
+            case region = "region"
+            case createdAt = "createdAt"
+            case `type` = "type"
+            case confidence = "confidence"
         }
     }
 
@@ -232,38 +226,7 @@ extension GuardDuty {
         }
     }
 
-    public struct ArchiveFindingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FindingIds", location: .body(locationName: "findingIds"), required: true, type: .list), 
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string)
-        ]
-        /// IDs of the findings that you want to archive.
-        public let findingIds: [String]
-        public let detectorId: String
-
-        public init(findingIds: [String], detectorId: String) {
-            self.findingIds = findingIds
-            self.detectorId = detectorId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case findingIds = "findingIds"
-            case detectorId = "detectorId"
-        }
-    }
-
-    public enum IpSetStatus: String, CustomStringConvertible, Codable {
-        case inactive = "INACTIVE"
-        case activating = "ACTIVATING"
-        case active = "ACTIVE"
-        case deactivating = "DEACTIVATING"
-        case error = "ERROR"
-        case deletePending = "DELETE_PENDING"
-        case deleted = "DELETED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeclineInvitationsResponse: AWSShape {
+    public struct DeleteMembersResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UnprocessedAccounts", location: .body(locationName: "unprocessedAccounts"), required: false, type: .list)
         ]
@@ -279,196 +242,59 @@ extension GuardDuty {
         }
     }
 
-    public struct UnarchiveFindingsResponse: AWSShape {
-
-    }
-
-    public struct CreateIPSetRequest: AWSShape {
+    public struct Service: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Format", location: .body(locationName: "format"), required: true, type: .enum), 
-            AWSShapeMember(label: "Location", location: .body(locationName: "location"), required: true, type: .string), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "Activate", location: .body(locationName: "activate"), required: true, type: .boolean), 
-            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken"), required: false, type: .string), 
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string)
-        ]
-        /// The format of the file that contains the IPSet.
-        public let format: IpSetFormat
-        /// The URI of the file that contains the IPSet. For example (https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key)
-        public let location: String
-        /// The user friendly name to identify the IPSet. This name is displayed in all findings that are triggered by activity that involves IP addresses included in this IPSet.
-        public let name: String
-        /// A boolean value that indicates whether GuardDuty is to start using the uploaded IPSet.
-        public let activate: Bool
-        /// The idempotency token for the create request.
-        public let clientToken: String?
-        public let detectorId: String
-
-        public init(format: IpSetFormat, location: String, name: String, activate: Bool, clientToken: String? = nil, detectorId: String) {
-            self.format = format
-            self.location = location
-            self.name = name
-            self.activate = activate
-            self.clientToken = clientToken
-            self.detectorId = detectorId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case format = "format"
-            case location = "location"
-            case name = "name"
-            case activate = "activate"
-            case clientToken = "clientToken"
-            case detectorId = "detectorId"
-        }
-    }
-
-    public struct StartMonitoringMembersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UnprocessedAccounts", location: .body(locationName: "unprocessedAccounts"), required: false, type: .list)
-        ]
-        /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
-        public let unprocessedAccounts: [UnprocessedAccount]?
-
-        public init(unprocessedAccounts: [UnprocessedAccount]? = nil) {
-            self.unprocessedAccounts = unprocessedAccounts
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case unprocessedAccounts = "unprocessedAccounts"
-        }
-    }
-
-    public struct FindingStatistics: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CountBySeverity", location: .body(locationName: "countBySeverity"), required: false, type: .map)
-        ]
-        /// Represents a map of severity to count statistic for a set of findings
-        public let countBySeverity: [String: Int32]?
-
-        public init(countBySeverity: [String: Int32]? = nil) {
-            self.countBySeverity = countBySeverity
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case countBySeverity = "countBySeverity"
-        }
-    }
-
-    public struct Member: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Email", location: .body(locationName: "email"), required: true, type: .string), 
-            AWSShapeMember(label: "DetectorId", location: .body(locationName: "detectorId"), required: false, type: .string), 
-            AWSShapeMember(label: "UpdatedAt", location: .body(locationName: "updatedAt"), required: true, type: .string), 
-            AWSShapeMember(label: "MasterId", location: .body(locationName: "masterId"), required: true, type: .string), 
-            AWSShapeMember(label: "AccountId", location: .body(locationName: "accountId"), required: true, type: .string), 
-            AWSShapeMember(label: "InvitedAt", location: .body(locationName: "invitedAt"), required: false, type: .string), 
-            AWSShapeMember(label: "RelationshipStatus", location: .body(locationName: "relationshipStatus"), required: true, type: .string)
-        ]
-        /// Member account's email address.
-        public let email: String
-        public let detectorId: String?
-        public let updatedAt: String
-        public let masterId: String
-        public let accountId: String
-        /// Timestamp at which the invitation was sent
-        public let invitedAt: String?
-        /// The status of the relationship between the member and the master.
-        public let relationshipStatus: String
-
-        public init(email: String, detectorId: String? = nil, updatedAt: String, masterId: String, accountId: String, invitedAt: String? = nil, relationshipStatus: String) {
-            self.email = email
-            self.detectorId = detectorId
-            self.updatedAt = updatedAt
-            self.masterId = masterId
-            self.accountId = accountId
-            self.invitedAt = invitedAt
-            self.relationshipStatus = relationshipStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case email = "email"
-            case detectorId = "detectorId"
-            case updatedAt = "updatedAt"
-            case masterId = "masterId"
-            case accountId = "accountId"
-            case invitedAt = "invitedAt"
-            case relationshipStatus = "relationshipStatus"
-        }
-    }
-
-    public struct AwsApiCallAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Api", location: .body(locationName: "api"), required: false, type: .string), 
+            AWSShapeMember(label: "Action", location: .body(locationName: "action"), required: false, type: .structure), 
+            AWSShapeMember(label: "ResourceRole", location: .body(locationName: "resourceRole"), required: false, type: .string), 
             AWSShapeMember(label: "ServiceName", location: .body(locationName: "serviceName"), required: false, type: .string), 
-            AWSShapeMember(label: "DomainDetails", location: .body(locationName: "domainDetails"), required: false, type: .structure), 
-            AWSShapeMember(label: "CallerType", location: .body(locationName: "callerType"), required: false, type: .string), 
-            AWSShapeMember(label: "RemoteIpDetails", location: .body(locationName: "remoteIpDetails"), required: false, type: .structure)
+            AWSShapeMember(label: "EventFirstSeen", location: .body(locationName: "eventFirstSeen"), required: false, type: .string), 
+            AWSShapeMember(label: "Count", location: .body(locationName: "count"), required: false, type: .integer), 
+            AWSShapeMember(label: "UserFeedback", location: .body(locationName: "userFeedback"), required: false, type: .string), 
+            AWSShapeMember(label: "EventLastSeen", location: .body(locationName: "eventLastSeen"), required: false, type: .string), 
+            AWSShapeMember(label: "Archived", location: .body(locationName: "archived"), required: false, type: .boolean), 
+            AWSShapeMember(label: "DetectorId", location: .body(locationName: "detectorId"), required: false, type: .string)
         ]
-        /// AWS API name.
-        public let api: String?
-        /// AWS service name whose API was invoked.
+        /// Information about the activity described in a finding.
+        public let action: Action?
+        /// Resource role information for this finding.
+        public let resourceRole: String?
+        /// The name of the AWS service (GuardDuty) that generated a finding.
         public let serviceName: String?
-        /// Domain information for the AWS API call.
-        public let domainDetails: DomainDetails?
-        /// AWS API caller type.
-        public let callerType: String?
-        /// Remote IP information of the connection.
-        public let remoteIpDetails: RemoteIpDetails?
+        /// First seen timestamp of the activity that prompted GuardDuty to generate this finding.
+        public let eventFirstSeen: String?
+        /// Total count of the occurrences of this finding type.
+        public let count: Int32?
+        /// Feedback left about the finding.
+        public let userFeedback: String?
+        /// Last seen timestamp of the activity that prompted GuardDuty to generate this finding.
+        public let eventLastSeen: String?
+        /// Indicates whether this finding is archived.
+        public let archived: Bool?
+        /// Detector ID for the GuardDuty service.
+        public let detectorId: String?
 
-        public init(api: String? = nil, serviceName: String? = nil, domainDetails: DomainDetails? = nil, callerType: String? = nil, remoteIpDetails: RemoteIpDetails? = nil) {
-            self.api = api
+        public init(action: Action? = nil, resourceRole: String? = nil, serviceName: String? = nil, eventFirstSeen: String? = nil, count: Int32? = nil, userFeedback: String? = nil, eventLastSeen: String? = nil, archived: Bool? = nil, detectorId: String? = nil) {
+            self.action = action
+            self.resourceRole = resourceRole
             self.serviceName = serviceName
-            self.domainDetails = domainDetails
-            self.callerType = callerType
-            self.remoteIpDetails = remoteIpDetails
+            self.eventFirstSeen = eventFirstSeen
+            self.count = count
+            self.userFeedback = userFeedback
+            self.eventLastSeen = eventLastSeen
+            self.archived = archived
+            self.detectorId = detectorId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case api = "api"
+            case action = "action"
+            case resourceRole = "resourceRole"
             case serviceName = "serviceName"
-            case domainDetails = "domainDetails"
-            case callerType = "callerType"
-            case remoteIpDetails = "remoteIpDetails"
-        }
-    }
-
-    public struct ListDetectorsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorIds", location: .body(locationName: "detectorIds"), required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
-        ]
-        public let detectorIds: [String]?
-        public let nextToken: String?
-
-        public init(detectorIds: [String]? = nil, nextToken: String? = nil) {
-            self.detectorIds = detectorIds
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case detectorIds = "detectorIds"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct DeleteFilterResponse: AWSShape {
-
-    }
-
-    public struct DeleteInvitationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UnprocessedAccounts", location: .body(locationName: "unprocessedAccounts"), required: false, type: .list)
-        ]
-        /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
-        public let unprocessedAccounts: [UnprocessedAccount]?
-
-        public init(unprocessedAccounts: [UnprocessedAccount]? = nil) {
-            self.unprocessedAccounts = unprocessedAccounts
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case unprocessedAccounts = "unprocessedAccounts"
+            case eventFirstSeen = "eventFirstSeen"
+            case count = "count"
+            case userFeedback = "userFeedback"
+            case eventLastSeen = "eventLastSeen"
+            case archived = "archived"
+            case detectorId = "detectorId"
         }
     }
 
@@ -491,23 +317,131 @@ extension GuardDuty {
         }
     }
 
-    public struct CreateDetectorResponse: AWSShape {
+    public struct StopMonitoringMembersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .body(locationName: "detectorId"), required: false, type: .string)
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string), 
+            AWSShapeMember(label: "AccountIds", location: .body(locationName: "accountIds"), required: true, type: .list)
         ]
-        /// The unique ID of the created detector.
-        public let detectorId: String?
+        public let detectorId: String
+        /// A list of account IDs of the GuardDuty member accounts whose findings you want the master account to stop monitoring.
+        public let accountIds: [String]
 
-        public init(detectorId: String? = nil) {
+        public init(detectorId: String, accountIds: [String]) {
             self.detectorId = detectorId
+            self.accountIds = accountIds
         }
 
         private enum CodingKeys: String, CodingKey {
             case detectorId = "detectorId"
+            case accountIds = "accountIds"
         }
     }
 
-    public struct DeleteDetectorRequest: AWSShape {
+    public struct ListMembersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "Members", location: .body(locationName: "members"), required: false, type: .list)
+        ]
+        public let nextToken: String?
+        public let members: [Member]?
+
+        public init(nextToken: String? = nil, members: [Member]? = nil) {
+            self.nextToken = nextToken
+            self.members = members
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case members = "members"
+        }
+    }
+
+    public enum ThreatIntelSetStatus: String, CustomStringConvertible, Codable {
+        case inactive = "INACTIVE"
+        case activating = "ACTIVATING"
+        case active = "ACTIVE"
+        case deactivating = "DEACTIVATING"
+        case error = "ERROR"
+        case deletePending = "DELETE_PENDING"
+        case deleted = "DELETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListDetectorsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+        public let maxResults: Int32?
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DeleteThreatIntelSetResponse: AWSShape {
+
+    }
+
+    public struct CreateMembersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountDetails", location: .body(locationName: "accountDetails"), required: true, type: .list), 
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string)
+        ]
+        /// A list of account ID and email address pairs of the accounts that you want to associate with the master GuardDuty account.
+        public let accountDetails: [AccountDetail]
+        public let detectorId: String
+
+        public init(accountDetails: [AccountDetail], detectorId: String) {
+            self.accountDetails = accountDetails
+            self.detectorId = detectorId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountDetails = "accountDetails"
+            case detectorId = "detectorId"
+        }
+    }
+
+    public struct SecurityGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupId", location: .body(locationName: "groupId"), required: false, type: .string), 
+            AWSShapeMember(label: "GroupName", location: .body(locationName: "groupName"), required: false, type: .string)
+        ]
+        /// EC2 instance's security group ID.
+        public let groupId: String?
+        /// EC2 instance's security group name.
+        public let groupName: String?
+
+        public init(groupId: String? = nil, groupName: String? = nil) {
+            self.groupId = groupId
+            self.groupName = groupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupId = "groupId"
+            case groupName = "groupName"
+        }
+    }
+
+    public enum ThreatIntelSetFormat: String, CustomStringConvertible, Codable {
+        case txt = "TXT"
+        case stix = "STIX"
+        case otxCsv = "OTX_CSV"
+        case alienVault = "ALIEN_VAULT"
+        case proofPoint = "PROOF_POINT"
+        case fireEye = "FIRE_EYE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetDetectorRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string)
         ]
@@ -522,22 +456,7 @@ extension GuardDuty {
         }
     }
 
-    public struct GetMasterAccountRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string)
-        ]
-        public let detectorId: String
-
-        public init(detectorId: String) {
-            self.detectorId = detectorId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case detectorId = "detectorId"
-        }
-    }
-
-    public struct InviteMembersResponse: AWSShape {
+    public struct DeleteInvitationsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UnprocessedAccounts", location: .body(locationName: "unprocessedAccounts"), required: false, type: .list)
         ]
@@ -553,174 +472,14 @@ extension GuardDuty {
         }
     }
 
-    public struct GetThreatIntelSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ThreatIntelSetId", location: .uri(locationName: "threatIntelSetId"), required: true, type: .string), 
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string)
-        ]
-        public let threatIntelSetId: String
-        public let detectorId: String
-
-        public init(threatIntelSetId: String, detectorId: String) {
-            self.threatIntelSetId = threatIntelSetId
-            self.detectorId = detectorId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case threatIntelSetId = "threatIntelSetId"
-            case detectorId = "detectorId"
-        }
-    }
-
-    public struct IamInstanceProfile: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string)
-        ]
-        /// AWS EC2 instance profile ARN.
-        public let arn: String?
-        /// AWS EC2 instance profile ID.
-        public let id: String?
-
-        public init(arn: String? = nil, id: String? = nil) {
-            self.arn = arn
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
-            case id = "id"
-        }
-    }
-
-    public struct ListFiltersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FilterNames", location: .body(locationName: "filterNames"), required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
-        ]
-        public let filterNames: [String]?
-        public let nextToken: String?
-
-        public init(filterNames: [String]? = nil, nextToken: String? = nil) {
-            self.filterNames = filterNames
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case filterNames = "filterNames"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct CreateFilterResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string)
-        ]
-        /// The name of the successfully created filter.
-        public let name: String?
-
-        public init(name: String? = nil) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-        }
-    }
-
-    public struct GetMasterAccountResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Master", location: .body(locationName: "master"), required: false, type: .structure)
-        ]
-        public let master: Master?
-
-        public init(master: Master? = nil) {
-            self.master = master
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case master = "master"
-        }
-    }
-
-    public struct InstanceDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceState", location: .body(locationName: "instanceState"), required: false, type: .string), 
-            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone"), required: false, type: .string), 
-            AWSShapeMember(label: "NetworkInterfaces", location: .body(locationName: "networkInterfaces"), required: false, type: .list), 
-            AWSShapeMember(label: "InstanceId", location: .body(locationName: "instanceId"), required: false, type: .string), 
-            AWSShapeMember(label: "IamInstanceProfile", location: .body(locationName: "iamInstanceProfile"), required: false, type: .structure), 
-            AWSShapeMember(label: "LaunchTime", location: .body(locationName: "launchTime"), required: false, type: .string), 
-            AWSShapeMember(label: "ImageId", location: .body(locationName: "imageId"), required: false, type: .string), 
-            AWSShapeMember(label: "Platform", location: .body(locationName: "platform"), required: false, type: .string), 
-            AWSShapeMember(label: "ProductCodes", location: .body(locationName: "productCodes"), required: false, type: .list), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .list), 
-            AWSShapeMember(label: "ImageDescription", location: .body(locationName: "imageDescription"), required: false, type: .string), 
-            AWSShapeMember(label: "InstanceType", location: .body(locationName: "instanceType"), required: false, type: .string)
-        ]
-        /// The state of the EC2 instance.
-        public let instanceState: String?
-        /// The availability zone of the EC2 instance.
-        public let availabilityZone: String?
-        /// The network interface information of the EC2 instance.
-        public let networkInterfaces: [NetworkInterface]?
-        /// The ID of the EC2 instance.
-        public let instanceId: String?
-        public let iamInstanceProfile: IamInstanceProfile?
-        /// The launch time of the EC2 instance.
-        public let launchTime: String?
-        /// The image ID of the EC2 instance.
-        public let imageId: String?
-        /// The platform of the EC2 instance.
-        public let platform: String?
-        /// The product code of the EC2 instance.
-        public let productCodes: [ProductCode]?
-        /// The tags of the EC2 instance.
-        public let tags: [Tag]?
-        /// The image description of the EC2 instance.
-        public let imageDescription: String?
-        /// The type of the EC2 instance.
-        public let instanceType: String?
-
-        public init(instanceState: String? = nil, availabilityZone: String? = nil, networkInterfaces: [NetworkInterface]? = nil, instanceId: String? = nil, iamInstanceProfile: IamInstanceProfile? = nil, launchTime: String? = nil, imageId: String? = nil, platform: String? = nil, productCodes: [ProductCode]? = nil, tags: [Tag]? = nil, imageDescription: String? = nil, instanceType: String? = nil) {
-            self.instanceState = instanceState
-            self.availabilityZone = availabilityZone
-            self.networkInterfaces = networkInterfaces
-            self.instanceId = instanceId
-            self.iamInstanceProfile = iamInstanceProfile
-            self.launchTime = launchTime
-            self.imageId = imageId
-            self.platform = platform
-            self.productCodes = productCodes
-            self.tags = tags
-            self.imageDescription = imageDescription
-            self.instanceType = instanceType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceState = "instanceState"
-            case availabilityZone = "availabilityZone"
-            case networkInterfaces = "networkInterfaces"
-            case instanceId = "instanceId"
-            case iamInstanceProfile = "iamInstanceProfile"
-            case launchTime = "launchTime"
-            case imageId = "imageId"
-            case platform = "platform"
-            case productCodes = "productCodes"
-            case tags = "tags"
-            case imageDescription = "imageDescription"
-            case instanceType = "instanceType"
-        }
-    }
-
-    public enum IpSetFormat: String, CustomStringConvertible, Codable {
-        case txt = "TXT"
-        case stix = "STIX"
-        case otxCsv = "OTX_CSV"
-        case alienVault = "ALIEN_VAULT"
-        case proofPoint = "PROOF_POINT"
-        case fireEye = "FIRE_EYE"
+    public enum DetectorStatus: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
         public var description: String { return self.rawValue }
+    }
+
+    public struct DeleteFilterResponse: AWSShape {
+
     }
 
     public struct Tag: AWSShape {
@@ -744,512 +503,82 @@ extension GuardDuty {
         }
     }
 
-    public struct DnsRequestAction: AWSShape {
+    public struct Master: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Domain", location: .body(locationName: "domain"), required: false, type: .string)
+            AWSShapeMember(label: "InvitationId", location: .body(locationName: "invitationId"), required: false, type: .string), 
+            AWSShapeMember(label: "AccountId", location: .body(locationName: "accountId"), required: false, type: .string), 
+            AWSShapeMember(label: "RelationshipStatus", location: .body(locationName: "relationshipStatus"), required: false, type: .string), 
+            AWSShapeMember(label: "InvitedAt", location: .body(locationName: "invitedAt"), required: false, type: .string)
         ]
-        /// Domain information for the DNS request.
-        public let domain: String?
+        /// This value is used to validate the master account to the member account.
+        public let invitationId: String?
+        /// Master account ID
+        public let accountId: String?
+        /// The status of the relationship between the master and member accounts.
+        public let relationshipStatus: String?
+        /// Timestamp at which the invitation was sent
+        public let invitedAt: String?
 
-        public init(domain: String? = nil) {
-            self.domain = domain
+        public init(invitationId: String? = nil, accountId: String? = nil, relationshipStatus: String? = nil, invitedAt: String? = nil) {
+            self.invitationId = invitationId
+            self.accountId = accountId
+            self.relationshipStatus = relationshipStatus
+            self.invitedAt = invitedAt
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domain = "domain"
+            case invitationId = "invitationId"
+            case accountId = "accountId"
+            case relationshipStatus = "relationshipStatus"
+            case invitedAt = "invitedAt"
         }
     }
 
-    public struct CreateIPSetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IpSetId", location: .body(locationName: "ipSetId"), required: false, type: .string)
-        ]
-        public let ipSetId: String?
+    public struct DeleteDetectorResponse: AWSShape {
 
-        public init(ipSetId: String? = nil) {
-            self.ipSetId = ipSetId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ipSetId = "ipSetId"
-        }
     }
 
     public struct RemotePortDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PortName", location: .body(locationName: "portName"), required: false, type: .string), 
-            AWSShapeMember(label: "Port", location: .body(locationName: "port"), required: false, type: .integer)
+            AWSShapeMember(label: "Port", location: .body(locationName: "port"), required: false, type: .integer), 
+            AWSShapeMember(label: "PortName", location: .body(locationName: "portName"), required: false, type: .string)
         ]
-        /// Port name of the remote connection.
-        public let portName: String?
         /// Port number of the remote connection.
         public let port: Int32?
+        /// Port name of the remote connection.
+        public let portName: String?
 
-        public init(portName: String? = nil, port: Int32? = nil) {
-            self.portName = portName
+        public init(port: Int32? = nil, portName: String? = nil) {
             self.port = port
+            self.portName = portName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case portName = "portName"
             case port = "port"
+            case portName = "portName"
         }
     }
 
-    public struct SortCriteria: AWSShape {
+    public struct ListIPSetsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeName", location: .body(locationName: "attributeName"), required: false, type: .string), 
-            AWSShapeMember(label: "OrderBy", location: .body(locationName: "orderBy"), required: false, type: .enum)
-        ]
-        /// Represents the finding attribute (for example, accountId) by which to sort findings.
-        public let attributeName: String?
-        /// Order by which the sorted findings are to be displayed.
-        public let orderBy: OrderBy?
-
-        public init(attributeName: String? = nil, orderBy: OrderBy? = nil) {
-            self.attributeName = attributeName
-            self.orderBy = orderBy
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attributeName = "attributeName"
-            case orderBy = "orderBy"
-        }
-    }
-
-    public enum ThreatIntelSetStatus: String, CustomStringConvertible, Codable {
-        case inactive = "INACTIVE"
-        case activating = "ACTIVATING"
-        case active = "ACTIVE"
-        case deactivating = "DEACTIVATING"
-        case error = "ERROR"
-        case deletePending = "DELETE_PENDING"
-        case deleted = "DELETED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetMembersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UnprocessedAccounts", location: .body(locationName: "unprocessedAccounts"), required: false, type: .list), 
-            AWSShapeMember(label: "Members", location: .body(locationName: "members"), required: false, type: .list)
-        ]
-        /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
-        public let unprocessedAccounts: [UnprocessedAccount]?
-        public let members: [Member]?
-
-        public init(unprocessedAccounts: [UnprocessedAccount]? = nil, members: [Member]? = nil) {
-            self.unprocessedAccounts = unprocessedAccounts
-            self.members = members
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case unprocessedAccounts = "unprocessedAccounts"
-            case members = "members"
-        }
-    }
-
-    public struct UpdateDetectorResponse: AWSShape {
-
-    }
-
-    public struct CreateThreatIntelSetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ThreatIntelSetId", location: .body(locationName: "threatIntelSetId"), required: false, type: .string)
-        ]
-        public let threatIntelSetId: String?
-
-        public init(threatIntelSetId: String? = nil) {
-            self.threatIntelSetId = threatIntelSetId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case threatIntelSetId = "threatIntelSetId"
-        }
-    }
-
-    public struct CreateFilterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken"), required: false, type: .string), 
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string), 
-            AWSShapeMember(label: "Rank", location: .body(locationName: "rank"), required: false, type: .integer), 
-            AWSShapeMember(label: "Action", location: .body(locationName: "action"), required: false, type: .enum), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "FindingCriteria", location: .body(locationName: "findingCriteria"), required: true, type: .structure), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string)
-        ]
-        /// The idempotency token for the create request.
-        public let clientToken: String?
-        public let detectorId: String
-        /// Specifies the position of the filter in the list of current filters. Also specifies the order in which this filter is applied to the findings.
-        public let rank: Int32?
-        /// Specifies the action that is to be applied to the findings that match the filter.
-        public let action: FilterAction?
-        /// The description of the filter.
-        public let description: String?
-        /// Represents the criteria to be used in the filter for querying findings.
-        public let findingCriteria: FindingCriteria
-        /// The name of the filter.
-        public let name: String
-
-        public init(clientToken: String? = nil, detectorId: String, rank: Int32? = nil, action: FilterAction? = nil, description: String? = nil, findingCriteria: FindingCriteria, name: String) {
-            self.clientToken = clientToken
-            self.detectorId = detectorId
-            self.rank = rank
-            self.action = action
-            self.description = description
-            self.findingCriteria = findingCriteria
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case clientToken = "clientToken"
-            case detectorId = "detectorId"
-            case rank = "rank"
-            case action = "action"
-            case description = "description"
-            case findingCriteria = "findingCriteria"
-            case name = "name"
-        }
-    }
-
-    public struct ListMembersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "OnlyAssociated", location: .querystring(locationName: "onlyAssociated"), required: false, type: .string), 
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string)
-        ]
-        public let nextToken: String?
-        public let maxResults: Int32?
-        public let onlyAssociated: String?
-        public let detectorId: String
-
-        public init(nextToken: String? = nil, maxResults: Int32? = nil, onlyAssociated: String? = nil, detectorId: String) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.onlyAssociated = onlyAssociated
-            self.detectorId = detectorId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
-            case onlyAssociated = "onlyAssociated"
-            case detectorId = "detectorId"
-        }
-    }
-
-    public struct Organization: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Asn", location: .body(locationName: "asn"), required: false, type: .string), 
-            AWSShapeMember(label: "Org", location: .body(locationName: "org"), required: false, type: .string), 
-            AWSShapeMember(label: "Isp", location: .body(locationName: "isp"), required: false, type: .string), 
-            AWSShapeMember(label: "AsnOrg", location: .body(locationName: "asnOrg"), required: false, type: .string)
-        ]
-        /// Autonomous system number of the internet provider of the remote IP address.
-        public let asn: String?
-        /// Name of the internet provider.
-        public let org: String?
-        /// ISP information for the internet provider.
-        public let isp: String?
-        /// Organization that registered this ASN.
-        public let asnOrg: String?
-
-        public init(asn: String? = nil, org: String? = nil, isp: String? = nil, asnOrg: String? = nil) {
-            self.asn = asn
-            self.org = org
-            self.isp = isp
-            self.asnOrg = asnOrg
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case asn = "asn"
-            case org = "org"
-            case isp = "isp"
-            case asnOrg = "asnOrg"
-        }
-    }
-
-    public struct CreateDetectorRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enable", location: .body(locationName: "enable"), required: true, type: .boolean), 
-            AWSShapeMember(label: "FindingPublishingFrequency", location: .body(locationName: "findingPublishingFrequency"), required: false, type: .enum), 
-            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken"), required: false, type: .string)
-        ]
-        /// A boolean value that specifies whether the detector is to be enabled.
-        public let enable: Bool
-        /// A enum value that specifies how frequently customer got Finding updates published.
-        public let findingPublishingFrequency: FindingPublishingFrequency?
-        /// The idempotency token for the create request.
-        public let clientToken: String?
-
-        public init(enable: Bool, findingPublishingFrequency: FindingPublishingFrequency? = nil, clientToken: String? = nil) {
-            self.enable = enable
-            self.findingPublishingFrequency = findingPublishingFrequency
-            self.clientToken = clientToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case enable = "enable"
-            case findingPublishingFrequency = "findingPublishingFrequency"
-            case clientToken = "clientToken"
-        }
-    }
-
-    public struct StopMonitoringMembersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountIds", location: .body(locationName: "accountIds"), required: true, type: .list), 
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string)
-        ]
-        /// A list of account IDs of the GuardDuty member accounts whose findings you want the master account to stop monitoring.
-        public let accountIds: [String]
-        public let detectorId: String
-
-        public init(accountIds: [String], detectorId: String) {
-            self.accountIds = accountIds
-            self.detectorId = detectorId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accountIds = "accountIds"
-            case detectorId = "detectorId"
-        }
-    }
-
-    public enum OrderBy: String, CustomStringConvertible, Codable {
-        case asc = "ASC"
-        case desc = "DESC"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DisassociateFromMasterAccountRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string)
-        ]
-        public let detectorId: String
-
-        public init(detectorId: String) {
-            self.detectorId = detectorId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case detectorId = "detectorId"
-        }
-    }
-
-    public struct AccountDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", location: .body(locationName: "accountId"), required: true, type: .string), 
-            AWSShapeMember(label: "Email", location: .body(locationName: "email"), required: true, type: .string)
-        ]
-        /// Member account ID.
-        public let accountId: String
-        /// Member account's email address.
-        public let email: String
-
-        public init(accountId: String, email: String) {
-            self.accountId = accountId
-            self.email = email
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case email = "email"
-        }
-    }
-
-    public struct NetworkInterface: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PublicIp", location: .body(locationName: "publicIp"), required: false, type: .string), 
-            AWSShapeMember(label: "PrivateIpAddresses", location: .body(locationName: "privateIpAddresses"), required: false, type: .list), 
-            AWSShapeMember(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId"), required: false, type: .string), 
-            AWSShapeMember(label: "SubnetId", location: .body(locationName: "subnetId"), required: false, type: .string), 
-            AWSShapeMember(label: "PrivateDnsName", location: .body(locationName: "privateDnsName"), required: false, type: .string), 
-            AWSShapeMember(label: "PublicDnsName", location: .body(locationName: "publicDnsName"), required: false, type: .string), 
-            AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "securityGroups"), required: false, type: .list), 
-            AWSShapeMember(label: "Ipv6Addresses", location: .body(locationName: "ipv6Addresses"), required: false, type: .list), 
-            AWSShapeMember(label: "PrivateIpAddress", location: .body(locationName: "privateIpAddress"), required: false, type: .string), 
-            AWSShapeMember(label: "VpcId", location: .body(locationName: "vpcId"), required: false, type: .string)
-        ]
-        /// Public IP address of the EC2 instance.
-        public let publicIp: String?
-        /// Other private IP address information of the EC2 instance.
-        public let privateIpAddresses: [PrivateIpAddressDetails]?
-        /// The ID of the network interface
-        public let networkInterfaceId: String?
-        /// The subnet ID of the EC2 instance.
-        public let subnetId: String?
-        /// Private DNS name of the EC2 instance.
-        public let privateDnsName: String?
-        /// Public DNS name of the EC2 instance.
-        public let publicDnsName: String?
-        /// Security groups associated with the EC2 instance.
-        public let securityGroups: [SecurityGroup]?
-        /// A list of EC2 instance IPv6 address information.
-        public let ipv6Addresses: [String]?
-        /// Private IP address of the EC2 instance.
-        public let privateIpAddress: String?
-        /// The VPC ID of the EC2 instance.
-        public let vpcId: String?
-
-        public init(publicIp: String? = nil, privateIpAddresses: [PrivateIpAddressDetails]? = nil, networkInterfaceId: String? = nil, subnetId: String? = nil, privateDnsName: String? = nil, publicDnsName: String? = nil, securityGroups: [SecurityGroup]? = nil, ipv6Addresses: [String]? = nil, privateIpAddress: String? = nil, vpcId: String? = nil) {
-            self.publicIp = publicIp
-            self.privateIpAddresses = privateIpAddresses
-            self.networkInterfaceId = networkInterfaceId
-            self.subnetId = subnetId
-            self.privateDnsName = privateDnsName
-            self.publicDnsName = publicDnsName
-            self.securityGroups = securityGroups
-            self.ipv6Addresses = ipv6Addresses
-            self.privateIpAddress = privateIpAddress
-            self.vpcId = vpcId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case publicIp = "publicIp"
-            case privateIpAddresses = "privateIpAddresses"
-            case networkInterfaceId = "networkInterfaceId"
-            case subnetId = "subnetId"
-            case privateDnsName = "privateDnsName"
-            case publicDnsName = "publicDnsName"
-            case securityGroups = "securityGroups"
-            case ipv6Addresses = "ipv6Addresses"
-            case privateIpAddress = "privateIpAddress"
-            case vpcId = "vpcId"
-        }
-    }
-
-    public struct ListIPSetsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IpSetIds", location: .body(locationName: "ipSetIds"), required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
-        ]
-        public let ipSetIds: [String]?
-        public let nextToken: String?
-
-        public init(ipSetIds: [String]? = nil, nextToken: String? = nil) {
-            self.ipSetIds = ipSetIds
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ipSetIds = "ipSetIds"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct DeleteThreatIntelSetResponse: AWSShape {
-
-    }
-
-    public struct UpdateDetectorRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enable", location: .body(locationName: "enable"), required: false, type: .boolean), 
-            AWSShapeMember(label: "FindingPublishingFrequency", location: .body(locationName: "findingPublishingFrequency"), required: false, type: .enum), 
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string)
-        ]
-        /// Updated boolean value for the detector that specifies whether the detector is enabled.
-        public let enable: Bool?
-        /// A enum value that specifies how frequently customer got Finding updates published.
-        public let findingPublishingFrequency: FindingPublishingFrequency?
-        public let detectorId: String
-
-        public init(enable: Bool? = nil, findingPublishingFrequency: FindingPublishingFrequency? = nil, detectorId: String) {
-            self.enable = enable
-            self.findingPublishingFrequency = findingPublishingFrequency
-            self.detectorId = detectorId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case enable = "enable"
-            case findingPublishingFrequency = "findingPublishingFrequency"
-            case detectorId = "detectorId"
-        }
-    }
-
-    public struct GetDetectorRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string)
-        ]
-        public let detectorId: String
-
-        public init(detectorId: String) {
-            self.detectorId = detectorId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case detectorId = "detectorId"
-        }
-    }
-
-    public enum FilterAction: String, CustomStringConvertible, Codable {
-        case noop = "NOOP"
-        case archive = "ARCHIVE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct UpdateThreatIntelSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ThreatIntelSetId", location: .uri(locationName: "threatIntelSetId"), required: true, type: .string), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "Activate", location: .body(locationName: "activate"), required: false, type: .boolean), 
             AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string), 
-            AWSShapeMember(label: "Location", location: .body(locationName: "location"), required: false, type: .string)
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
-        public let threatIntelSetId: String
-        /// The unique ID that specifies the ThreatIntelSet that you want to update.
-        public let name: String?
-        /// The updated boolean value that specifies whether the ThreateIntelSet is active or not.
-        public let activate: Bool?
+        public let maxResults: Int32?
         public let detectorId: String
-        /// The updated URI of the file that contains the ThreateIntelSet. For example (https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key)
-        public let location: String?
+        public let nextToken: String?
 
-        public init(threatIntelSetId: String, name: String? = nil, activate: Bool? = nil, detectorId: String, location: String? = nil) {
-            self.threatIntelSetId = threatIntelSetId
-            self.name = name
-            self.activate = activate
+        public init(maxResults: Int32? = nil, detectorId: String, nextToken: String? = nil) {
+            self.maxResults = maxResults
             self.detectorId = detectorId
-            self.location = location
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case threatIntelSetId = "threatIntelSetId"
-            case name = "name"
-            case activate = "activate"
+            case maxResults = "maxResults"
             case detectorId = "detectorId"
-            case location = "location"
-        }
-    }
-
-    public struct Master: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InvitedAt", location: .body(locationName: "invitedAt"), required: false, type: .string), 
-            AWSShapeMember(label: "InvitationId", location: .body(locationName: "invitationId"), required: false, type: .string), 
-            AWSShapeMember(label: "RelationshipStatus", location: .body(locationName: "relationshipStatus"), required: false, type: .string), 
-            AWSShapeMember(label: "AccountId", location: .body(locationName: "accountId"), required: false, type: .string)
-        ]
-        /// Timestamp at which the invitation was sent
-        public let invitedAt: String?
-        /// This value is used to validate the master account to the member account.
-        public let invitationId: String?
-        /// The status of the relationship between the master and member accounts.
-        public let relationshipStatus: String?
-        /// Master account ID
-        public let accountId: String?
-
-        public init(invitedAt: String? = nil, invitationId: String? = nil, relationshipStatus: String? = nil, accountId: String? = nil) {
-            self.invitedAt = invitedAt
-            self.invitationId = invitationId
-            self.relationshipStatus = relationshipStatus
-            self.accountId = accountId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case invitedAt = "invitedAt"
-            case invitationId = "invitationId"
-            case relationshipStatus = "relationshipStatus"
-            case accountId = "accountId"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1284,37 +613,6 @@ extension GuardDuty {
         }
     }
 
-    public struct GetFindingsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Findings", location: .body(locationName: "findings"), required: false, type: .list)
-        ]
-        public let findings: [Finding]?
-
-        public init(findings: [Finding]? = nil) {
-            self.findings = findings
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case findings = "findings"
-        }
-    }
-
-    public struct CreateMembersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UnprocessedAccounts", location: .body(locationName: "unprocessedAccounts"), required: false, type: .list)
-        ]
-        /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
-        public let unprocessedAccounts: [UnprocessedAccount]?
-
-        public init(unprocessedAccounts: [UnprocessedAccount]? = nil) {
-            self.unprocessedAccounts = unprocessedAccounts
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case unprocessedAccounts = "unprocessedAccounts"
-        }
-    }
-
     public struct CreateSampleFindingsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FindingTypes", location: .body(locationName: "findingTypes"), required: false, type: .list), 
@@ -1335,51 +633,1387 @@ extension GuardDuty {
         }
     }
 
-    public struct ArchiveFindingsResponse: AWSShape {
+    public struct FindingStatistics: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CountBySeverity", location: .body(locationName: "countBySeverity"), required: false, type: .map)
+        ]
+        /// Represents a map of severity to count statistic for a set of findings
+        public let countBySeverity: [String: Int32]?
 
+        public init(countBySeverity: [String: Int32]? = nil) {
+            self.countBySeverity = countBySeverity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case countBySeverity = "countBySeverity"
+        }
+    }
+
+    public struct GetMembersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountIds", location: .body(locationName: "accountIds"), required: true, type: .list), 
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string)
+        ]
+        /// A list of account IDs of the GuardDuty member accounts that you want to describe.
+        public let accountIds: [String]
+        public let detectorId: String
+
+        public init(accountIds: [String], detectorId: String) {
+            self.accountIds = accountIds
+            self.detectorId = detectorId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountIds = "accountIds"
+            case detectorId = "detectorId"
+        }
+    }
+
+    public struct StartMonitoringMembersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string), 
+            AWSShapeMember(label: "AccountIds", location: .body(locationName: "accountIds"), required: true, type: .list)
+        ]
+        public let detectorId: String
+        /// A list of account IDs of the GuardDuty member accounts whose findings you want the master account to monitor.
+        public let accountIds: [String]
+
+        public init(detectorId: String, accountIds: [String]) {
+            self.detectorId = detectorId
+            self.accountIds = accountIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detectorId = "detectorId"
+            case accountIds = "accountIds"
+        }
+    }
+
+    public struct CreateMembersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UnprocessedAccounts", location: .body(locationName: "unprocessedAccounts"), required: false, type: .list)
+        ]
+        /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
+        public let unprocessedAccounts: [UnprocessedAccount]?
+
+        public init(unprocessedAccounts: [UnprocessedAccount]? = nil) {
+            self.unprocessedAccounts = unprocessedAccounts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case unprocessedAccounts = "unprocessedAccounts"
+        }
+    }
+
+    public struct GetIPSetRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string), 
+            AWSShapeMember(label: "IpSetId", location: .uri(locationName: "ipSetId"), required: true, type: .string)
+        ]
+        public let detectorId: String
+        public let ipSetId: String
+
+        public init(detectorId: String, ipSetId: String) {
+            self.detectorId = detectorId
+            self.ipSetId = ipSetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detectorId = "detectorId"
+            case ipSetId = "ipSetId"
+        }
     }
 
     public struct DomainDetails: AWSShape {
 
     }
 
-    public struct CreateThreatIntelSetRequest: AWSShape {
+    public struct NetworkConnectionAction: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Format", location: .body(locationName: "format"), required: true, type: .enum), 
-            AWSShapeMember(label: "Location", location: .body(locationName: "location"), required: true, type: .string), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
-            AWSShapeMember(label: "Activate", location: .body(locationName: "activate"), required: true, type: .boolean), 
-            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken"), required: false, type: .string), 
+            AWSShapeMember(label: "RemotePortDetails", location: .body(locationName: "remotePortDetails"), required: false, type: .structure), 
+            AWSShapeMember(label: "Protocol", location: .body(locationName: "protocol"), required: false, type: .string), 
+            AWSShapeMember(label: "RemoteIpDetails", location: .body(locationName: "remoteIpDetails"), required: false, type: .structure), 
+            AWSShapeMember(label: "Blocked", location: .body(locationName: "blocked"), required: false, type: .boolean), 
+            AWSShapeMember(label: "LocalPortDetails", location: .body(locationName: "localPortDetails"), required: false, type: .structure), 
+            AWSShapeMember(label: "ConnectionDirection", location: .body(locationName: "connectionDirection"), required: false, type: .string)
+        ]
+        /// Remote port information of the connection.
+        public let remotePortDetails: RemotePortDetails?
+        /// Network connection protocol.
+        public let `protocol`: String?
+        /// Remote IP information of the connection.
+        public let remoteIpDetails: RemoteIpDetails?
+        /// Network connection blocked information.
+        public let blocked: Bool?
+        /// Local port information of the connection.
+        public let localPortDetails: LocalPortDetails?
+        /// Network connection direction.
+        public let connectionDirection: String?
+
+        public init(remotePortDetails: RemotePortDetails? = nil, protocol: String? = nil, remoteIpDetails: RemoteIpDetails? = nil, blocked: Bool? = nil, localPortDetails: LocalPortDetails? = nil, connectionDirection: String? = nil) {
+            self.remotePortDetails = remotePortDetails
+            self.`protocol` = `protocol`
+            self.remoteIpDetails = remoteIpDetails
+            self.blocked = blocked
+            self.localPortDetails = localPortDetails
+            self.connectionDirection = connectionDirection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case remotePortDetails = "remotePortDetails"
+            case `protocol` = "protocol"
+            case remoteIpDetails = "remoteIpDetails"
+            case blocked = "blocked"
+            case localPortDetails = "localPortDetails"
+            case connectionDirection = "connectionDirection"
+        }
+    }
+
+    public struct DisassociateFromMasterAccountResponse: AWSShape {
+
+    }
+
+    public enum OrderBy: String, CustomStringConvertible, Codable {
+        case asc = "ASC"
+        case desc = "DESC"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListInvitationsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Invitations", location: .body(locationName: "invitations"), required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+        ]
+        public let invitations: [Invitation]?
+        public let nextToken: String?
+
+        public init(invitations: [Invitation]? = nil, nextToken: String? = nil) {
+            self.invitations = invitations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invitations = "invitations"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct GetThreatIntelSetRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ThreatIntelSetId", location: .uri(locationName: "threatIntelSetId"), required: true, type: .string), 
             AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string)
         ]
-        /// The format of the file that contains the ThreatIntelSet.
-        public let format: ThreatIntelSetFormat
-        /// The URI of the file that contains the ThreatIntelSet. For example (https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key).
-        public let location: String
-        /// A user-friendly ThreatIntelSet name that is displayed in all finding generated by activity that involves IP addresses included in this ThreatIntelSet.
-        public let name: String
-        /// A boolean value that indicates whether GuardDuty is to start using the uploaded ThreatIntelSet.
-        public let activate: Bool
-        /// The idempotency token for the create request.
-        public let clientToken: String?
+        public let threatIntelSetId: String
         public let detectorId: String
 
-        public init(format: ThreatIntelSetFormat, location: String, name: String, activate: Bool, clientToken: String? = nil, detectorId: String) {
-            self.format = format
-            self.location = location
-            self.name = name
-            self.activate = activate
-            self.clientToken = clientToken
+        public init(threatIntelSetId: String, detectorId: String) {
+            self.threatIntelSetId = threatIntelSetId
             self.detectorId = detectorId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case format = "format"
-            case location = "location"
-            case name = "name"
-            case activate = "activate"
+            case threatIntelSetId = "threatIntelSetId"
+            case detectorId = "detectorId"
+        }
+    }
+
+    public struct ProductCode: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProductType", location: .body(locationName: "productType"), required: false, type: .string), 
+            AWSShapeMember(label: "Code", location: .body(locationName: "code"), required: false, type: .string)
+        ]
+        /// Product code type.
+        public let productType: String?
+        /// Product code information.
+        public let code: String?
+
+        public init(productType: String? = nil, code: String? = nil) {
+            self.productType = productType
+            self.code = code
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case productType = "productType"
+            case code = "code"
+        }
+    }
+
+    public struct DeclineInvitationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountIds", location: .body(locationName: "accountIds"), required: true, type: .list)
+        ]
+        /// A list of account IDs of the AWS accounts that sent invitations to the current member account that you want to decline invitations from.
+        public let accountIds: [String]
+
+        public init(accountIds: [String]) {
+            self.accountIds = accountIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountIds = "accountIds"
+        }
+    }
+
+    public enum IpSetFormat: String, CustomStringConvertible, Codable {
+        case txt = "TXT"
+        case stix = "STIX"
+        case otxCsv = "OTX_CSV"
+        case alienVault = "ALIEN_VAULT"
+        case proofPoint = "PROOF_POINT"
+        case fireEye = "FIRE_EYE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListDetectorsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "DetectorIds", location: .body(locationName: "detectorIds"), required: false, type: .list)
+        ]
+        public let nextToken: String?
+        public let detectorIds: [String]?
+
+        public init(nextToken: String? = nil, detectorIds: [String]? = nil) {
+            self.nextToken = nextToken
+            self.detectorIds = detectorIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case detectorIds = "detectorIds"
+        }
+    }
+
+    public struct AcceptInvitationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string), 
+            AWSShapeMember(label: "MasterId", location: .body(locationName: "masterId"), required: true, type: .string), 
+            AWSShapeMember(label: "InvitationId", location: .body(locationName: "invitationId"), required: true, type: .string)
+        ]
+        public let detectorId: String
+        /// The account ID of the master GuardDuty account whose invitation you're accepting.
+        public let masterId: String
+        /// This value is used to validate the master account to the member account.
+        public let invitationId: String
+
+        public init(detectorId: String, masterId: String, invitationId: String) {
+            self.detectorId = detectorId
+            self.masterId = masterId
+            self.invitationId = invitationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detectorId = "detectorId"
+            case masterId = "masterId"
+            case invitationId = "invitationId"
+        }
+    }
+
+    public struct UpdateFindingsFeedbackRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string), 
+            AWSShapeMember(label: "FindingIds", location: .body(locationName: "findingIds"), required: true, type: .list), 
+            AWSShapeMember(label: "Comments", location: .body(locationName: "comments"), required: false, type: .string), 
+            AWSShapeMember(label: "Feedback", location: .body(locationName: "feedback"), required: true, type: .enum)
+        ]
+        public let detectorId: String
+        /// IDs of the findings that you want to mark as useful or not useful.
+        public let findingIds: [String]
+        /// Additional feedback about the GuardDuty findings.
+        public let comments: String?
+        /// Valid values: USEFUL | NOT_USEFUL
+        public let feedback: Feedback
+
+        public init(detectorId: String, findingIds: [String], comments: String? = nil, feedback: Feedback) {
+            self.detectorId = detectorId
+            self.findingIds = findingIds
+            self.comments = comments
+            self.feedback = feedback
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detectorId = "detectorId"
+            case findingIds = "findingIds"
+            case comments = "comments"
+            case feedback = "feedback"
+        }
+    }
+
+    public struct StartMonitoringMembersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UnprocessedAccounts", location: .body(locationName: "unprocessedAccounts"), required: false, type: .list)
+        ]
+        /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
+        public let unprocessedAccounts: [UnprocessedAccount]?
+
+        public init(unprocessedAccounts: [UnprocessedAccount]? = nil) {
+            self.unprocessedAccounts = unprocessedAccounts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case unprocessedAccounts = "unprocessedAccounts"
+        }
+    }
+
+    public struct UpdateFindingsFeedbackResponse: AWSShape {
+
+    }
+
+    public struct GetDetectorResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UpdatedAt", location: .body(locationName: "updatedAt"), required: false, type: .string), 
+            AWSShapeMember(label: "FindingPublishingFrequency", location: .body(locationName: "findingPublishingFrequency"), required: false, type: .enum), 
+            AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: false, type: .enum), 
+            AWSShapeMember(label: "ServiceRole", location: .body(locationName: "serviceRole"), required: false, type: .string), 
+            AWSShapeMember(label: "CreatedAt", location: .body(locationName: "createdAt"), required: false, type: .string)
+        ]
+        public let updatedAt: String?
+        public let findingPublishingFrequency: FindingPublishingFrequency?
+        public let status: DetectorStatus?
+        public let serviceRole: String?
+        public let createdAt: String?
+
+        public init(updatedAt: String? = nil, findingPublishingFrequency: FindingPublishingFrequency? = nil, status: DetectorStatus? = nil, serviceRole: String? = nil, createdAt: String? = nil) {
+            self.updatedAt = updatedAt
+            self.findingPublishingFrequency = findingPublishingFrequency
+            self.status = status
+            self.serviceRole = serviceRole
+            self.createdAt = createdAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case updatedAt = "updatedAt"
+            case findingPublishingFrequency = "findingPublishingFrequency"
+            case status = "status"
+            case serviceRole = "serviceRole"
+            case createdAt = "createdAt"
+        }
+    }
+
+    public struct CreateDetectorResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DetectorId", location: .body(locationName: "detectorId"), required: false, type: .string)
+        ]
+        /// The unique ID of the created detector.
+        public let detectorId: String?
+
+        public init(detectorId: String? = nil) {
+            self.detectorId = detectorId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detectorId = "detectorId"
+        }
+    }
+
+    public enum FindingPublishingFrequency: String, CustomStringConvertible, Codable {
+        case fifteenMinutes = "FIFTEEN_MINUTES"
+        case oneHour = "ONE_HOUR"
+        case sixHours = "SIX_HOURS"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeleteIPSetResponse: AWSShape {
+
+    }
+
+    public struct UnprocessedAccount: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Result", location: .body(locationName: "result"), required: true, type: .string), 
+            AWSShapeMember(label: "AccountId", location: .body(locationName: "accountId"), required: true, type: .string)
+        ]
+        /// A reason why the account hasn't been processed.
+        public let result: String
+        /// AWS Account ID.
+        public let accountId: String
+
+        public init(result: String, accountId: String) {
+            self.result = result
+            self.accountId = accountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case result = "result"
+            case accountId = "accountId"
+        }
+    }
+
+    public struct UpdateFilterRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Rank", location: .body(locationName: "rank"), required: false, type: .integer), 
+            AWSShapeMember(label: "FindingCriteria", location: .body(locationName: "findingCriteria"), required: false, type: .structure), 
+            AWSShapeMember(label: "Action", location: .body(locationName: "action"), required: false, type: .enum), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string), 
+            AWSShapeMember(label: "FilterName", location: .uri(locationName: "filterName"), required: true, type: .string)
+        ]
+        /// Specifies the position of the filter in the list of current filters. Also specifies the order in which this filter is applied to the findings.
+        public let rank: Int32?
+        /// Represents the criteria to be used in the filter for querying findings.
+        public let findingCriteria: FindingCriteria?
+        /// Specifies the action that is to be applied to the findings that match the filter.
+        public let action: FilterAction?
+        /// The description of the filter.
+        public let description: String?
+        public let detectorId: String
+        public let filterName: String
+
+        public init(rank: Int32? = nil, findingCriteria: FindingCriteria? = nil, action: FilterAction? = nil, description: String? = nil, detectorId: String, filterName: String) {
+            self.rank = rank
+            self.findingCriteria = findingCriteria
+            self.action = action
+            self.description = description
+            self.detectorId = detectorId
+            self.filterName = filterName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rank = "rank"
+            case findingCriteria = "findingCriteria"
+            case action = "action"
+            case description = "description"
+            case detectorId = "detectorId"
+            case filterName = "filterName"
+        }
+    }
+
+    public struct GetFindingsStatisticsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FindingStatistics", location: .body(locationName: "findingStatistics"), required: false, type: .structure)
+        ]
+        /// Finding statistics object.
+        public let findingStatistics: FindingStatistics?
+
+        public init(findingStatistics: FindingStatistics? = nil) {
+            self.findingStatistics = findingStatistics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findingStatistics = "findingStatistics"
+        }
+    }
+
+    public struct Action: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActionType", location: .body(locationName: "actionType"), required: false, type: .string), 
+            AWSShapeMember(label: "DnsRequestAction", location: .body(locationName: "dnsRequestAction"), required: false, type: .structure), 
+            AWSShapeMember(label: "PortProbeAction", location: .body(locationName: "portProbeAction"), required: false, type: .structure), 
+            AWSShapeMember(label: "NetworkConnectionAction", location: .body(locationName: "networkConnectionAction"), required: false, type: .structure), 
+            AWSShapeMember(label: "AwsApiCallAction", location: .body(locationName: "awsApiCallAction"), required: false, type: .structure)
+        ]
+        /// GuardDuty Finding activity type.
+        public let actionType: String?
+        /// Information about the DNS_REQUEST action described in this finding.
+        public let dnsRequestAction: DnsRequestAction?
+        /// Information about the PORT_PROBE action described in this finding.
+        public let portProbeAction: PortProbeAction?
+        /// Information about the NETWORK_CONNECTION action described in this finding.
+        public let networkConnectionAction: NetworkConnectionAction?
+        /// Information about the AWS_API_CALL action described in this finding.
+        public let awsApiCallAction: AwsApiCallAction?
+
+        public init(actionType: String? = nil, dnsRequestAction: DnsRequestAction? = nil, portProbeAction: PortProbeAction? = nil, networkConnectionAction: NetworkConnectionAction? = nil, awsApiCallAction: AwsApiCallAction? = nil) {
+            self.actionType = actionType
+            self.dnsRequestAction = dnsRequestAction
+            self.portProbeAction = portProbeAction
+            self.networkConnectionAction = networkConnectionAction
+            self.awsApiCallAction = awsApiCallAction
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionType = "actionType"
+            case dnsRequestAction = "dnsRequestAction"
+            case portProbeAction = "portProbeAction"
+            case networkConnectionAction = "networkConnectionAction"
+            case awsApiCallAction = "awsApiCallAction"
+        }
+    }
+
+    public struct ErrorResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", location: .body(locationName: "__type"), required: false, type: .string), 
+            AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
+        ]
+        /// The error type.
+        public let `type`: String?
+        /// The error message.
+        public let message: String?
+
+        public init(type: String? = nil, message: String? = nil) {
+            self.`type` = `type`
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "__type"
+            case message = "message"
+        }
+    }
+
+    public struct CreateSampleFindingsResponse: AWSShape {
+
+    }
+
+    public struct CreateThreatIntelSetRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken"), required: false, type: .string), 
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "Format", location: .body(locationName: "format"), required: true, type: .enum), 
+            AWSShapeMember(label: "Activate", location: .body(locationName: "activate"), required: true, type: .boolean), 
+            AWSShapeMember(label: "Location", location: .body(locationName: "location"), required: true, type: .string)
+        ]
+        /// The idempotency token for the create request.
+        public let clientToken: String?
+        public let detectorId: String
+        /// A user-friendly ThreatIntelSet name that is displayed in all finding generated by activity that involves IP addresses included in this ThreatIntelSet.
+        public let name: String
+        /// The format of the file that contains the ThreatIntelSet.
+        public let format: ThreatIntelSetFormat
+        /// A boolean value that indicates whether GuardDuty is to start using the uploaded ThreatIntelSet.
+        public let activate: Bool
+        /// The URI of the file that contains the ThreatIntelSet. For example (https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key).
+        public let location: String
+
+        public init(clientToken: String? = nil, detectorId: String, name: String, format: ThreatIntelSetFormat, activate: Bool, location: String) {
+            self.clientToken = clientToken
+            self.detectorId = detectorId
+            self.name = name
+            self.format = format
+            self.activate = activate
+            self.location = location
+        }
+
+        private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case detectorId = "detectorId"
+            case name = "name"
+            case format = "format"
+            case activate = "activate"
+            case location = "location"
+        }
+    }
+
+    public struct AwsApiCallAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainDetails", location: .body(locationName: "domainDetails"), required: false, type: .structure), 
+            AWSShapeMember(label: "RemoteIpDetails", location: .body(locationName: "remoteIpDetails"), required: false, type: .structure), 
+            AWSShapeMember(label: "Api", location: .body(locationName: "api"), required: false, type: .string), 
+            AWSShapeMember(label: "CallerType", location: .body(locationName: "callerType"), required: false, type: .string), 
+            AWSShapeMember(label: "ServiceName", location: .body(locationName: "serviceName"), required: false, type: .string)
+        ]
+        /// Domain information for the AWS API call.
+        public let domainDetails: DomainDetails?
+        /// Remote IP information of the connection.
+        public let remoteIpDetails: RemoteIpDetails?
+        /// AWS API name.
+        public let api: String?
+        /// AWS API caller type.
+        public let callerType: String?
+        /// AWS service name whose API was invoked.
+        public let serviceName: String?
+
+        public init(domainDetails: DomainDetails? = nil, remoteIpDetails: RemoteIpDetails? = nil, api: String? = nil, callerType: String? = nil, serviceName: String? = nil) {
+            self.domainDetails = domainDetails
+            self.remoteIpDetails = remoteIpDetails
+            self.api = api
+            self.callerType = callerType
+            self.serviceName = serviceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainDetails = "domainDetails"
+            case remoteIpDetails = "remoteIpDetails"
+            case api = "api"
+            case callerType = "callerType"
+            case serviceName = "serviceName"
+        }
+    }
+
+    public struct GetFindingsStatisticsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FindingCriteria", location: .body(locationName: "findingCriteria"), required: false, type: .structure), 
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string), 
+            AWSShapeMember(label: "FindingStatisticTypes", location: .body(locationName: "findingStatisticTypes"), required: true, type: .list)
+        ]
+        /// Represents the criteria used for querying findings.
+        public let findingCriteria: FindingCriteria?
+        public let detectorId: String
+        /// Types of finding statistics to retrieve.
+        public let findingStatisticTypes: [FindingStatisticType]
+
+        public init(findingCriteria: FindingCriteria? = nil, detectorId: String, findingStatisticTypes: [FindingStatisticType]) {
+            self.findingCriteria = findingCriteria
+            self.detectorId = detectorId
+            self.findingStatisticTypes = findingStatisticTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findingCriteria = "findingCriteria"
+            case detectorId = "detectorId"
+            case findingStatisticTypes = "findingStatisticTypes"
+        }
+    }
+
+    public struct AccountDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", location: .body(locationName: "accountId"), required: true, type: .string), 
+            AWSShapeMember(label: "Email", location: .body(locationName: "email"), required: true, type: .string)
+        ]
+        /// Member account ID.
+        public let accountId: String
+        /// Member account's email address.
+        public let email: String
+
+        public init(accountId: String, email: String) {
+            self.accountId = accountId
+            self.email = email
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case email = "email"
+        }
+    }
+
+    public struct CreateFilterResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string)
+        ]
+        /// The name of the successfully created filter.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
+    public struct Invitation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RelationshipStatus", location: .body(locationName: "relationshipStatus"), required: false, type: .string), 
+            AWSShapeMember(label: "AccountId", location: .body(locationName: "accountId"), required: false, type: .string), 
+            AWSShapeMember(label: "InvitationId", location: .body(locationName: "invitationId"), required: false, type: .string), 
+            AWSShapeMember(label: "InvitedAt", location: .body(locationName: "invitedAt"), required: false, type: .string)
+        ]
+        /// The status of the relationship between the inviter and invitee accounts.
+        public let relationshipStatus: String?
+        /// Inviter account ID
+        public let accountId: String?
+        /// This value is used to validate the inviter account to the member account.
+        public let invitationId: String?
+        /// Timestamp at which the invitation was sent
+        public let invitedAt: String?
+
+        public init(relationshipStatus: String? = nil, accountId: String? = nil, invitationId: String? = nil, invitedAt: String? = nil) {
+            self.relationshipStatus = relationshipStatus
+            self.accountId = accountId
+            self.invitationId = invitationId
+            self.invitedAt = invitedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case relationshipStatus = "relationshipStatus"
+            case accountId = "accountId"
+            case invitationId = "invitationId"
+            case invitedAt = "invitedAt"
+        }
+    }
+
+    public struct GetFindingsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Findings", location: .body(locationName: "findings"), required: false, type: .list)
+        ]
+        public let findings: [Finding]?
+
+        public init(findings: [Finding]? = nil) {
+            self.findings = findings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findings = "findings"
+        }
+    }
+
+    public struct Member: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InvitedAt", location: .body(locationName: "invitedAt"), required: false, type: .string), 
+            AWSShapeMember(label: "RelationshipStatus", location: .body(locationName: "relationshipStatus"), required: true, type: .string), 
+            AWSShapeMember(label: "UpdatedAt", location: .body(locationName: "updatedAt"), required: true, type: .string), 
+            AWSShapeMember(label: "MasterId", location: .body(locationName: "masterId"), required: true, type: .string), 
+            AWSShapeMember(label: "AccountId", location: .body(locationName: "accountId"), required: true, type: .string), 
+            AWSShapeMember(label: "DetectorId", location: .body(locationName: "detectorId"), required: false, type: .string), 
+            AWSShapeMember(label: "Email", location: .body(locationName: "email"), required: true, type: .string)
+        ]
+        /// Timestamp at which the invitation was sent
+        public let invitedAt: String?
+        /// The status of the relationship between the member and the master.
+        public let relationshipStatus: String
+        public let updatedAt: String
+        public let masterId: String
+        public let accountId: String
+        public let detectorId: String?
+        /// Member account's email address.
+        public let email: String
+
+        public init(invitedAt: String? = nil, relationshipStatus: String, updatedAt: String, masterId: String, accountId: String, detectorId: String? = nil, email: String) {
+            self.invitedAt = invitedAt
+            self.relationshipStatus = relationshipStatus
+            self.updatedAt = updatedAt
+            self.masterId = masterId
+            self.accountId = accountId
+            self.detectorId = detectorId
+            self.email = email
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invitedAt = "invitedAt"
+            case relationshipStatus = "relationshipStatus"
+            case updatedAt = "updatedAt"
+            case masterId = "masterId"
+            case accountId = "accountId"
+            case detectorId = "detectorId"
+            case email = "email"
+        }
+    }
+
+    public struct UpdateDetectorResponse: AWSShape {
+
+    }
+
+    public struct UpdateThreatIntelSetResponse: AWSShape {
+
+    }
+
+    public struct DeleteMembersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string), 
+            AWSShapeMember(label: "AccountIds", location: .body(locationName: "accountIds"), required: true, type: .list)
+        ]
+        public let detectorId: String
+        /// A list of account IDs of the GuardDuty member accounts that you want to delete.
+        public let accountIds: [String]
+
+        public init(detectorId: String, accountIds: [String]) {
+            self.detectorId = detectorId
+            self.accountIds = accountIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detectorId = "detectorId"
+            case accountIds = "accountIds"
+        }
+    }
+
+    public struct InviteMembersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string), 
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string), 
+            AWSShapeMember(label: "AccountIds", location: .body(locationName: "accountIds"), required: true, type: .list), 
+            AWSShapeMember(label: "DisableEmailNotification", location: .body(locationName: "disableEmailNotification"), required: false, type: .boolean)
+        ]
+        /// The invitation message that you want to send to the accounts that you’re inviting to GuardDuty as members.
+        public let message: String?
+        public let detectorId: String
+        /// A list of account IDs of the accounts that you want to invite to GuardDuty as members.
+        public let accountIds: [String]
+        /// A boolean value that specifies whether you want to disable email notification to the accounts that you’re inviting to GuardDuty as members.
+        public let disableEmailNotification: Bool?
+
+        public init(message: String? = nil, detectorId: String, accountIds: [String], disableEmailNotification: Bool? = nil) {
+            self.message = message
+            self.detectorId = detectorId
+            self.accountIds = accountIds
+            self.disableEmailNotification = disableEmailNotification
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case detectorId = "detectorId"
+            case accountIds = "accountIds"
+            case disableEmailNotification = "disableEmailNotification"
+        }
+    }
+
+    public struct DisassociateFromMasterAccountRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string)
+        ]
+        public let detectorId: String
+
+        public init(detectorId: String) {
+            self.detectorId = detectorId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detectorId = "detectorId"
+        }
+    }
+
+    public struct ListInvitationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
+        ]
+        public let nextToken: String?
+        public let maxResults: Int32?
+
+        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+        }
+    }
+
+    public struct ListFiltersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FilterNames", location: .body(locationName: "filterNames"), required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+        ]
+        public let filterNames: [String]?
+        public let nextToken: String?
+
+        public init(filterNames: [String]? = nil, nextToken: String? = nil) {
+            self.filterNames = filterNames
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filterNames = "filterNames"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct SortCriteria: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrderBy", location: .body(locationName: "orderBy"), required: false, type: .enum), 
+            AWSShapeMember(label: "AttributeName", location: .body(locationName: "attributeName"), required: false, type: .string)
+        ]
+        /// Order by which the sorted findings are to be displayed.
+        public let orderBy: OrderBy?
+        /// Represents the finding attribute (for example, accountId) by which to sort findings.
+        public let attributeName: String?
+
+        public init(orderBy: OrderBy? = nil, attributeName: String? = nil) {
+            self.orderBy = orderBy
+            self.attributeName = attributeName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case orderBy = "orderBy"
+            case attributeName = "attributeName"
+        }
+    }
+
+    public struct PortProbeAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PortProbeDetails", location: .body(locationName: "portProbeDetails"), required: false, type: .list), 
+            AWSShapeMember(label: "Blocked", location: .body(locationName: "blocked"), required: false, type: .boolean)
+        ]
+        /// A list of port probe details objects.
+        public let portProbeDetails: [PortProbeDetail]?
+        /// Port probe blocked information.
+        public let blocked: Bool?
+
+        public init(portProbeDetails: [PortProbeDetail]? = nil, blocked: Bool? = nil) {
+            self.portProbeDetails = portProbeDetails
+            self.blocked = blocked
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case portProbeDetails = "portProbeDetails"
+            case blocked = "blocked"
+        }
+    }
+
+    public enum FindingStatisticType: String, CustomStringConvertible, Codable {
+        case countBySeverity = "COUNT_BY_SEVERITY"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CreateDetectorRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken"), required: false, type: .string), 
+            AWSShapeMember(label: "FindingPublishingFrequency", location: .body(locationName: "findingPublishingFrequency"), required: false, type: .enum), 
+            AWSShapeMember(label: "Enable", location: .body(locationName: "enable"), required: true, type: .boolean)
+        ]
+        /// The idempotency token for the create request.
+        public let clientToken: String?
+        /// A enum value that specifies how frequently customer got Finding updates published.
+        public let findingPublishingFrequency: FindingPublishingFrequency?
+        /// A boolean value that specifies whether the detector is to be enabled.
+        public let enable: Bool
+
+        public init(clientToken: String? = nil, findingPublishingFrequency: FindingPublishingFrequency? = nil, enable: Bool) {
+            self.clientToken = clientToken
+            self.findingPublishingFrequency = findingPublishingFrequency
+            self.enable = enable
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case findingPublishingFrequency = "findingPublishingFrequency"
+            case enable = "enable"
+        }
+    }
+
+    public struct GetMasterAccountRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string)
+        ]
+        public let detectorId: String
+
+        public init(detectorId: String) {
+            self.detectorId = detectorId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detectorId = "detectorId"
+        }
+    }
+
+    public struct ListThreatIntelSetsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string)
+        ]
+        public let maxResults: Int32?
+        public let nextToken: String?
+        public let detectorId: String
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, detectorId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.detectorId = detectorId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case detectorId = "detectorId"
+        }
+    }
+
+    public struct Organization: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Isp", location: .body(locationName: "isp"), required: false, type: .string), 
+            AWSShapeMember(label: "Asn", location: .body(locationName: "asn"), required: false, type: .string), 
+            AWSShapeMember(label: "Org", location: .body(locationName: "org"), required: false, type: .string), 
+            AWSShapeMember(label: "AsnOrg", location: .body(locationName: "asnOrg"), required: false, type: .string)
+        ]
+        /// ISP information for the internet provider.
+        public let isp: String?
+        /// Autonomous system number of the internet provider of the remote IP address.
+        public let asn: String?
+        /// Name of the internet provider.
+        public let org: String?
+        /// Organization that registered this ASN.
+        public let asnOrg: String?
+
+        public init(isp: String? = nil, asn: String? = nil, org: String? = nil, asnOrg: String? = nil) {
+            self.isp = isp
+            self.asn = asn
+            self.org = org
+            self.asnOrg = asnOrg
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isp = "isp"
+            case asn = "asn"
+            case org = "org"
+            case asnOrg = "asnOrg"
+        }
+    }
+
+    public enum Feedback: String, CustomStringConvertible, Codable {
+        case useful = "USEFUL"
+        case notUseful = "NOT_USEFUL"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetIPSetResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Location", location: .body(locationName: "location"), required: false, type: .string), 
+            AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: false, type: .enum), 
+            AWSShapeMember(label: "Format", location: .body(locationName: "format"), required: false, type: .enum), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string)
+        ]
+        /// The URI of the file that contains the IPSet. For example (https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key)
+        public let location: String?
+        /// The status of ipSet file uploaded.
+        public let status: IpSetStatus?
+        /// The format of the file that contains the IPSet.
+        public let format: IpSetFormat?
+        /// The user friendly name to identify the IPSet. This name is displayed in all findings that are triggered by activity that involves IP addresses included in this IPSet.
+        public let name: String?
+
+        public init(location: String? = nil, status: IpSetStatus? = nil, format: IpSetFormat? = nil, name: String? = nil) {
+            self.location = location
+            self.status = status
+            self.format = format
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case location = "location"
+            case status = "status"
+            case format = "format"
+            case name = "name"
+        }
+    }
+
+    public struct LocalPortDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Port", location: .body(locationName: "port"), required: false, type: .integer), 
+            AWSShapeMember(label: "PortName", location: .body(locationName: "portName"), required: false, type: .string)
+        ]
+        /// Port number of the local connection.
+        public let port: Int32?
+        /// Port name of the local connection.
+        public let portName: String?
+
+        public init(port: Int32? = nil, portName: String? = nil) {
+            self.port = port
+            self.portName = portName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case port = "port"
+            case portName = "portName"
+        }
+    }
+
+    public struct GetInvitationsCountRequest: AWSShape {
+
+    }
+
+    public struct ListFindingsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "FindingIds", location: .body(locationName: "findingIds"), required: false, type: .list)
+        ]
+        public let nextToken: String?
+        public let findingIds: [String]?
+
+        public init(nextToken: String? = nil, findingIds: [String]? = nil) {
+            self.nextToken = nextToken
+            self.findingIds = findingIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case findingIds = "findingIds"
+        }
+    }
+
+    public struct ListFindingsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string), 
+            AWSShapeMember(label: "SortCriteria", location: .body(locationName: "sortCriteria"), required: false, type: .structure), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "FindingCriteria", location: .body(locationName: "findingCriteria"), required: false, type: .structure), 
+            AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer)
+        ]
+        public let detectorId: String
+        /// Represents the criteria used for sorting findings.
+        public let sortCriteria: SortCriteria?
+        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListFindings action. For subsequent calls to the action fill nextToken in the request with the value of nextToken from the previous response to continue listing data.
+        public let nextToken: String?
+        /// Represents the criteria used for querying findings.
+        public let findingCriteria: FindingCriteria?
+        /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
+        public let maxResults: Int32?
+
+        public init(detectorId: String, sortCriteria: SortCriteria? = nil, nextToken: String? = nil, findingCriteria: FindingCriteria? = nil, maxResults: Int32? = nil) {
+            self.detectorId = detectorId
+            self.sortCriteria = sortCriteria
+            self.nextToken = nextToken
+            self.findingCriteria = findingCriteria
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detectorId = "detectorId"
+            case sortCriteria = "sortCriteria"
+            case nextToken = "nextToken"
+            case findingCriteria = "findingCriteria"
+            case maxResults = "maxResults"
+        }
+    }
+
+    public struct ListIPSetsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "IpSetIds", location: .body(locationName: "ipSetIds"), required: false, type: .list)
+        ]
+        public let nextToken: String?
+        public let ipSetIds: [String]?
+
+        public init(nextToken: String? = nil, ipSetIds: [String]? = nil) {
+            self.nextToken = nextToken
+            self.ipSetIds = ipSetIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case ipSetIds = "ipSetIds"
+        }
+    }
+
+    public struct FindingCriteria: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Criterion", location: .body(locationName: "criterion"), required: false, type: .map)
+        ]
+        /// Represents a map of finding properties that match specified conditions and values when querying findings.
+        public let criterion: [String: Condition]?
+
+        public init(criterion: [String: Condition]? = nil) {
+            self.criterion = criterion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case criterion = "criterion"
+        }
+    }
+
+    public struct RemoteIpDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "City", location: .body(locationName: "city"), required: false, type: .structure), 
+            AWSShapeMember(label: "Country", location: .body(locationName: "country"), required: false, type: .structure), 
+            AWSShapeMember(label: "GeoLocation", location: .body(locationName: "geoLocation"), required: false, type: .structure), 
+            AWSShapeMember(label: "IpAddressV4", location: .body(locationName: "ipAddressV4"), required: false, type: .string), 
+            AWSShapeMember(label: "Organization", location: .body(locationName: "organization"), required: false, type: .structure)
+        ]
+        /// City information of the remote IP address.
+        public let city: City?
+        /// Country code of the remote IP address.
+        public let country: Country?
+        /// Location information of the remote IP address.
+        public let geoLocation: GeoLocation?
+        /// IPV4 remote address of the connection.
+        public let ipAddressV4: String?
+        /// ISP Organization information of the remote IP address.
+        public let organization: Organization?
+
+        public init(city: City? = nil, country: Country? = nil, geoLocation: GeoLocation? = nil, ipAddressV4: String? = nil, organization: Organization? = nil) {
+            self.city = city
+            self.country = country
+            self.geoLocation = geoLocation
+            self.ipAddressV4 = ipAddressV4
+            self.organization = organization
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case city = "city"
+            case country = "country"
+            case geoLocation = "geoLocation"
+            case ipAddressV4 = "ipAddressV4"
+            case organization = "organization"
+        }
+    }
+
+    public enum FilterAction: String, CustomStringConvertible, Codable {
+        case noop = "NOOP"
+        case archive = "ARCHIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GeoLocation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Lon", location: .body(locationName: "lon"), required: false, type: .double), 
+            AWSShapeMember(label: "Lat", location: .body(locationName: "lat"), required: false, type: .double)
+        ]
+        /// Longitude information of remote IP address.
+        public let lon: Double?
+        /// Latitude information of remote IP address.
+        public let lat: Double?
+
+        public init(lon: Double? = nil, lat: Double? = nil) {
+            self.lon = lon
+            self.lat = lat
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lon = "lon"
+            case lat = "lat"
+        }
+    }
+
+    public struct CreateFilterRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken"), required: false, type: .string), 
+            AWSShapeMember(label: "FindingCriteria", location: .body(locationName: "findingCriteria"), required: true, type: .structure), 
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string), 
+            AWSShapeMember(label: "Rank", location: .body(locationName: "rank"), required: false, type: .integer), 
+            AWSShapeMember(label: "Action", location: .body(locationName: "action"), required: false, type: .enum), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string)
+        ]
+        /// The description of the filter.
+        public let description: String?
+        /// The idempotency token for the create request.
+        public let clientToken: String?
+        /// Represents the criteria to be used in the filter for querying findings.
+        public let findingCriteria: FindingCriteria
+        public let detectorId: String
+        /// Specifies the position of the filter in the list of current filters. Also specifies the order in which this filter is applied to the findings.
+        public let rank: Int32?
+        /// Specifies the action that is to be applied to the findings that match the filter.
+        public let action: FilterAction?
+        /// The name of the filter.
+        public let name: String
+
+        public init(description: String? = nil, clientToken: String? = nil, findingCriteria: FindingCriteria, detectorId: String, rank: Int32? = nil, action: FilterAction? = nil, name: String) {
+            self.description = description
+            self.clientToken = clientToken
+            self.findingCriteria = findingCriteria
+            self.detectorId = detectorId
+            self.rank = rank
+            self.action = action
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case clientToken = "clientToken"
+            case findingCriteria = "findingCriteria"
+            case detectorId = "detectorId"
+            case rank = "rank"
+            case action = "action"
+            case name = "name"
+        }
+    }
+
+    public struct AccessKeyDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserType", location: .body(locationName: "userType"), required: false, type: .string), 
+            AWSShapeMember(label: "AccessKeyId", location: .body(locationName: "accessKeyId"), required: false, type: .string), 
+            AWSShapeMember(label: "UserName", location: .body(locationName: "userName"), required: false, type: .string), 
+            AWSShapeMember(label: "PrincipalId", location: .body(locationName: "principalId"), required: false, type: .string)
+        ]
+        /// The type of the user.
+        public let userType: String?
+        /// Access key ID of the user.
+        public let accessKeyId: String?
+        /// The name of the user.
+        public let userName: String?
+        /// The principal ID of the user.
+        public let principalId: String?
+
+        public init(userType: String? = nil, accessKeyId: String? = nil, userName: String? = nil, principalId: String? = nil) {
+            self.userType = userType
+            self.accessKeyId = accessKeyId
+            self.userName = userName
+            self.principalId = principalId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userType = "userType"
+            case accessKeyId = "accessKeyId"
+            case userName = "userName"
+            case principalId = "principalId"
+        }
+    }
+
+    public struct UpdateDetectorRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string), 
+            AWSShapeMember(label: "FindingPublishingFrequency", location: .body(locationName: "findingPublishingFrequency"), required: false, type: .enum), 
+            AWSShapeMember(label: "Enable", location: .body(locationName: "enable"), required: false, type: .boolean)
+        ]
+        public let detectorId: String
+        /// A enum value that specifies how frequently customer got Finding updates published.
+        public let findingPublishingFrequency: FindingPublishingFrequency?
+        /// Updated boolean value for the detector that specifies whether the detector is enabled.
+        public let enable: Bool?
+
+        public init(detectorId: String, findingPublishingFrequency: FindingPublishingFrequency? = nil, enable: Bool? = nil) {
+            self.detectorId = detectorId
+            self.findingPublishingFrequency = findingPublishingFrequency
+            self.enable = enable
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detectorId = "detectorId"
+            case findingPublishingFrequency = "findingPublishingFrequency"
+            case enable = "enable"
+        }
+    }
+
+    public struct InstanceDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceState", location: .body(locationName: "instanceState"), required: false, type: .string), 
+            AWSShapeMember(label: "ImageDescription", location: .body(locationName: "imageDescription"), required: false, type: .string), 
+            AWSShapeMember(label: "LaunchTime", location: .body(locationName: "launchTime"), required: false, type: .string), 
+            AWSShapeMember(label: "InstanceId", location: .body(locationName: "instanceId"), required: false, type: .string), 
+            AWSShapeMember(label: "Platform", location: .body(locationName: "platform"), required: false, type: .string), 
+            AWSShapeMember(label: "IamInstanceProfile", location: .body(locationName: "iamInstanceProfile"), required: false, type: .structure), 
+            AWSShapeMember(label: "InstanceType", location: .body(locationName: "instanceType"), required: false, type: .string), 
+            AWSShapeMember(label: "ProductCodes", location: .body(locationName: "productCodes"), required: false, type: .list), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .list), 
+            AWSShapeMember(label: "AvailabilityZone", location: .body(locationName: "availabilityZone"), required: false, type: .string), 
+            AWSShapeMember(label: "ImageId", location: .body(locationName: "imageId"), required: false, type: .string), 
+            AWSShapeMember(label: "NetworkInterfaces", location: .body(locationName: "networkInterfaces"), required: false, type: .list)
+        ]
+        /// The state of the EC2 instance.
+        public let instanceState: String?
+        /// The image description of the EC2 instance.
+        public let imageDescription: String?
+        /// The launch time of the EC2 instance.
+        public let launchTime: String?
+        /// The ID of the EC2 instance.
+        public let instanceId: String?
+        /// The platform of the EC2 instance.
+        public let platform: String?
+        public let iamInstanceProfile: IamInstanceProfile?
+        /// The type of the EC2 instance.
+        public let instanceType: String?
+        /// The product code of the EC2 instance.
+        public let productCodes: [ProductCode]?
+        /// The tags of the EC2 instance.
+        public let tags: [Tag]?
+        /// The availability zone of the EC2 instance.
+        public let availabilityZone: String?
+        /// The image ID of the EC2 instance.
+        public let imageId: String?
+        /// The network interface information of the EC2 instance.
+        public let networkInterfaces: [NetworkInterface]?
+
+        public init(instanceState: String? = nil, imageDescription: String? = nil, launchTime: String? = nil, instanceId: String? = nil, platform: String? = nil, iamInstanceProfile: IamInstanceProfile? = nil, instanceType: String? = nil, productCodes: [ProductCode]? = nil, tags: [Tag]? = nil, availabilityZone: String? = nil, imageId: String? = nil, networkInterfaces: [NetworkInterface]? = nil) {
+            self.instanceState = instanceState
+            self.imageDescription = imageDescription
+            self.launchTime = launchTime
+            self.instanceId = instanceId
+            self.platform = platform
+            self.iamInstanceProfile = iamInstanceProfile
+            self.instanceType = instanceType
+            self.productCodes = productCodes
+            self.tags = tags
+            self.availabilityZone = availabilityZone
+            self.imageId = imageId
+            self.networkInterfaces = networkInterfaces
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceState = "instanceState"
+            case imageDescription = "imageDescription"
+            case launchTime = "launchTime"
+            case instanceId = "instanceId"
+            case platform = "platform"
+            case iamInstanceProfile = "iamInstanceProfile"
+            case instanceType = "instanceType"
+            case productCodes = "productCodes"
+            case tags = "tags"
+            case availabilityZone = "availabilityZone"
+            case imageId = "imageId"
+            case networkInterfaces = "networkInterfaces"
         }
     }
 
@@ -1402,41 +2036,23 @@ extension GuardDuty {
         }
     }
 
-    public enum Feedback: String, CustomStringConvertible, Codable {
-        case useful = "USEFUL"
-        case notUseful = "NOT_USEFUL"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DisassociateMembersResponse: AWSShape {
+    public struct UnarchiveFindingsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UnprocessedAccounts", location: .body(locationName: "unprocessedAccounts"), required: false, type: .list)
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string), 
+            AWSShapeMember(label: "FindingIds", location: .body(locationName: "findingIds"), required: true, type: .list)
         ]
-        /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
-        public let unprocessedAccounts: [UnprocessedAccount]?
+        public let detectorId: String
+        /// IDs of the findings that you want to unarchive.
+        public let findingIds: [String]
 
-        public init(unprocessedAccounts: [UnprocessedAccount]? = nil) {
-            self.unprocessedAccounts = unprocessedAccounts
+        public init(detectorId: String, findingIds: [String]) {
+            self.detectorId = detectorId
+            self.findingIds = findingIds
         }
 
         private enum CodingKeys: String, CodingKey {
-            case unprocessedAccounts = "unprocessedAccounts"
-        }
-    }
-
-    public struct GetInvitationsCountResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InvitationsCount", location: .body(locationName: "invitationsCount"), required: false, type: .integer)
-        ]
-        /// The number of received invitations.
-        public let invitationsCount: Int32?
-
-        public init(invitationsCount: Int32? = nil) {
-            self.invitationsCount = invitationsCount
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case invitationsCount = "invitationsCount"
+            case detectorId = "detectorId"
+            case findingIds = "findingIds"
         }
     }
 
@@ -1464,263 +2080,82 @@ extension GuardDuty {
         }
     }
 
-    public struct UpdateThreatIntelSetResponse: AWSShape {
-
-    }
-
-    public struct DeleteMembersRequest: AWSShape {
+    public struct CreateIPSetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountIds", location: .body(locationName: "accountIds"), required: true, type: .list), 
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string)
-        ]
-        /// A list of account IDs of the GuardDuty member accounts that you want to delete.
-        public let accountIds: [String]
-        public let detectorId: String
-
-        public init(accountIds: [String], detectorId: String) {
-            self.accountIds = accountIds
-            self.detectorId = detectorId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accountIds = "accountIds"
-            case detectorId = "detectorId"
-        }
-    }
-
-    public struct DisassociateMembersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountIds", location: .body(locationName: "accountIds"), required: true, type: .list), 
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string)
-        ]
-        /// A list of account IDs of the GuardDuty member accounts that you want to disassociate from master.
-        public let accountIds: [String]
-        public let detectorId: String
-
-        public init(accountIds: [String], detectorId: String) {
-            self.accountIds = accountIds
-            self.detectorId = detectorId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accountIds = "accountIds"
-            case detectorId = "detectorId"
-        }
-    }
-
-    public struct GeoLocation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Lat", location: .body(locationName: "lat"), required: false, type: .double), 
-            AWSShapeMember(label: "Lon", location: .body(locationName: "lon"), required: false, type: .double)
-        ]
-        /// Latitude information of remote IP address.
-        public let lat: Double?
-        /// Longitude information of remote IP address.
-        public let lon: Double?
-
-        public init(lat: Double? = nil, lon: Double? = nil) {
-            self.lat = lat
-            self.lon = lon
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lat = "lat"
-            case lon = "lon"
-        }
-    }
-
-    public struct DeclineInvitationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountIds", location: .body(locationName: "accountIds"), required: true, type: .list)
-        ]
-        /// A list of account IDs of the AWS accounts that sent invitations to the current member account that you want to decline invitations from.
-        public let accountIds: [String]
-
-        public init(accountIds: [String]) {
-            self.accountIds = accountIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accountIds = "accountIds"
-        }
-    }
-
-    public struct ListDetectorsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
-        ]
-        public let maxResults: Int32?
-        public let nextToken: String?
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct ListFindingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "ClientToken", location: .body(locationName: "clientToken"), required: false, type: .string), 
             AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "FindingCriteria", location: .body(locationName: "findingCriteria"), required: false, type: .structure), 
-            AWSShapeMember(label: "SortCriteria", location: .body(locationName: "sortCriteria"), required: false, type: .structure)
+            AWSShapeMember(label: "Location", location: .body(locationName: "location"), required: true, type: .string), 
+            AWSShapeMember(label: "Activate", location: .body(locationName: "activate"), required: true, type: .boolean), 
+            AWSShapeMember(label: "Format", location: .body(locationName: "format"), required: true, type: .enum)
         ]
-        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListFindings action. For subsequent calls to the action fill nextToken in the request with the value of nextToken from the previous response to continue listing data.
-        public let nextToken: String?
+        /// The user friendly name to identify the IPSet. This name is displayed in all findings that are triggered by activity that involves IP addresses included in this IPSet.
+        public let name: String
+        /// The idempotency token for the create request.
+        public let clientToken: String?
         public let detectorId: String
-        /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
-        public let maxResults: Int32?
-        /// Represents the criteria used for querying findings.
-        public let findingCriteria: FindingCriteria?
-        /// Represents the criteria used for sorting findings.
-        public let sortCriteria: SortCriteria?
+        /// The URI of the file that contains the IPSet. For example (https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key)
+        public let location: String
+        /// A boolean value that indicates whether GuardDuty is to start using the uploaded IPSet.
+        public let activate: Bool
+        /// The format of the file that contains the IPSet.
+        public let format: IpSetFormat
 
-        public init(nextToken: String? = nil, detectorId: String, maxResults: Int32? = nil, findingCriteria: FindingCriteria? = nil, sortCriteria: SortCriteria? = nil) {
-            self.nextToken = nextToken
+        public init(name: String, clientToken: String? = nil, detectorId: String, location: String, activate: Bool, format: IpSetFormat) {
+            self.name = name
+            self.clientToken = clientToken
             self.detectorId = detectorId
-            self.maxResults = maxResults
-            self.findingCriteria = findingCriteria
-            self.sortCriteria = sortCriteria
+            self.location = location
+            self.activate = activate
+            self.format = format
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
+            case name = "name"
+            case clientToken = "clientToken"
             case detectorId = "detectorId"
-            case maxResults = "maxResults"
-            case findingCriteria = "findingCriteria"
-            case sortCriteria = "sortCriteria"
+            case location = "location"
+            case activate = "activate"
+            case format = "format"
         }
     }
 
-    public struct GetFindingsStatisticsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FindingStatistics", location: .body(locationName: "findingStatistics"), required: false, type: .structure)
-        ]
-        /// Finding statistics object.
-        public let findingStatistics: FindingStatistics?
-
-        public init(findingStatistics: FindingStatistics? = nil) {
-            self.findingStatistics = findingStatistics
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case findingStatistics = "findingStatistics"
-        }
+    public enum IpSetStatus: String, CustomStringConvertible, Codable {
+        case inactive = "INACTIVE"
+        case activating = "ACTIVATING"
+        case active = "ACTIVE"
+        case deactivating = "DEACTIVATING"
+        case error = "ERROR"
+        case deletePending = "DELETE_PENDING"
+        case deleted = "DELETED"
+        public var description: String { return self.rawValue }
     }
 
-    public struct ListFindingsResponse: AWSShape {
+    public struct ArchiveFindingsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FindingIds", location: .body(locationName: "findingIds"), required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "FindingIds", location: .body(locationName: "findingIds"), required: true, type: .list), 
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string)
         ]
-        public let findingIds: [String]?
-        public let nextToken: String?
+        /// IDs of the findings that you want to archive.
+        public let findingIds: [String]
+        public let detectorId: String
 
-        public init(findingIds: [String]? = nil, nextToken: String? = nil) {
+        public init(findingIds: [String], detectorId: String) {
             self.findingIds = findingIds
-            self.nextToken = nextToken
+            self.detectorId = detectorId
         }
 
         private enum CodingKeys: String, CodingKey {
             case findingIds = "findingIds"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public enum ThreatIntelSetFormat: String, CustomStringConvertible, Codable {
-        case txt = "TXT"
-        case stix = "STIX"
-        case otxCsv = "OTX_CSV"
-        case alienVault = "ALIEN_VAULT"
-        case proofPoint = "PROOF_POINT"
-        case fireEye = "FIRE_EYE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct LocalPortDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PortName", location: .body(locationName: "portName"), required: false, type: .string), 
-            AWSShapeMember(label: "Port", location: .body(locationName: "port"), required: false, type: .integer)
-        ]
-        /// Port name of the local connection.
-        public let portName: String?
-        /// Port number of the local connection.
-        public let port: Int32?
-
-        public init(portName: String? = nil, port: Int32? = nil) {
-            self.portName = portName
-            self.port = port
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case portName = "portName"
-            case port = "port"
-        }
-    }
-
-    public struct DeleteDetectorResponse: AWSShape {
-
-    }
-
-    public struct StartMonitoringMembersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountIds", location: .body(locationName: "accountIds"), required: true, type: .list), 
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string)
-        ]
-        /// A list of account IDs of the GuardDuty member accounts whose findings you want the master account to monitor.
-        public let accountIds: [String]
-        public let detectorId: String
-
-        public init(accountIds: [String], detectorId: String) {
-            self.accountIds = accountIds
-            self.detectorId = detectorId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accountIds = "accountIds"
             case detectorId = "detectorId"
         }
     }
 
-    public struct AccessKeyDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessKeyId", location: .body(locationName: "accessKeyId"), required: false, type: .string), 
-            AWSShapeMember(label: "UserType", location: .body(locationName: "userType"), required: false, type: .string), 
-            AWSShapeMember(label: "UserName", location: .body(locationName: "userName"), required: false, type: .string), 
-            AWSShapeMember(label: "PrincipalId", location: .body(locationName: "principalId"), required: false, type: .string)
-        ]
-        /// Access key ID of the user.
-        public let accessKeyId: String?
-        /// The type of the user.
-        public let userType: String?
-        /// The name of the user.
-        public let userName: String?
-        /// The principal ID of the user.
-        public let principalId: String?
+    public struct UnarchiveFindingsResponse: AWSShape {
 
-        public init(accessKeyId: String? = nil, userType: String? = nil, userName: String? = nil, principalId: String? = nil) {
-            self.accessKeyId = accessKeyId
-            self.userType = userType
-            self.userName = userName
-            self.principalId = principalId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accessKeyId = "accessKeyId"
-            case userType = "userType"
-            case userName = "userName"
-            case principalId = "principalId"
-        }
     }
 
-    public struct StopMonitoringMembersResponse: AWSShape {
+    public struct DisassociateMembersResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UnprocessedAccounts", location: .body(locationName: "unprocessedAccounts"), required: false, type: .list)
         ]
@@ -1736,65 +2171,194 @@ extension GuardDuty {
         }
     }
 
-    public struct DisassociateFromMasterAccountResponse: AWSShape {
+    public struct Country: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CountryName", location: .body(locationName: "countryName"), required: false, type: .string), 
+            AWSShapeMember(label: "CountryCode", location: .body(locationName: "countryCode"), required: false, type: .string)
+        ]
+        /// Country name of the remote IP address.
+        public let countryName: String?
+        /// Country code of the remote IP address.
+        public let countryCode: String?
 
+        public init(countryName: String? = nil, countryCode: String? = nil) {
+            self.countryName = countryName
+            self.countryCode = countryCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case countryName = "countryName"
+            case countryCode = "countryCode"
+        }
     }
 
-    public struct ListIPSetsRequest: AWSShape {
+    public struct DeleteThreatIntelSetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "ThreatIntelSetId", location: .uri(locationName: "threatIntelSetId"), required: true, type: .string)
         ]
         public let detectorId: String
-        public let maxResults: Int32?
-        public let nextToken: String?
+        public let threatIntelSetId: String
 
-        public init(detectorId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(detectorId: String, threatIntelSetId: String) {
             self.detectorId = detectorId
-            self.maxResults = maxResults
-            self.nextToken = nextToken
+            self.threatIntelSetId = threatIntelSetId
         }
 
         private enum CodingKeys: String, CodingKey {
             case detectorId = "detectorId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
+            case threatIntelSetId = "threatIntelSetId"
         }
     }
 
-    public struct DeleteMembersResponse: AWSShape {
+    public struct PrivateIpAddressDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UnprocessedAccounts", location: .body(locationName: "unprocessedAccounts"), required: false, type: .list)
+            AWSShapeMember(label: "PrivateDnsName", location: .body(locationName: "privateDnsName"), required: false, type: .string), 
+            AWSShapeMember(label: "PrivateIpAddress", location: .body(locationName: "privateIpAddress"), required: false, type: .string)
         ]
-        /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
-        public let unprocessedAccounts: [UnprocessedAccount]?
+        /// Private DNS name of the EC2 instance.
+        public let privateDnsName: String?
+        /// Private IP address of the EC2 instance.
+        public let privateIpAddress: String?
 
-        public init(unprocessedAccounts: [UnprocessedAccount]? = nil) {
-            self.unprocessedAccounts = unprocessedAccounts
+        public init(privateDnsName: String? = nil, privateIpAddress: String? = nil) {
+            self.privateDnsName = privateDnsName
+            self.privateIpAddress = privateIpAddress
         }
 
         private enum CodingKeys: String, CodingKey {
-            case unprocessedAccounts = "unprocessedAccounts"
+            case privateDnsName = "privateDnsName"
+            case privateIpAddress = "privateIpAddress"
         }
     }
 
-    public struct ListInvitationsResponse: AWSShape {
+    public struct CreateIPSetResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Invitations", location: .body(locationName: "invitations"), required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "IpSetId", location: .body(locationName: "ipSetId"), required: false, type: .string)
         ]
-        public let invitations: [Invitation]?
-        public let nextToken: String?
+        public let ipSetId: String?
 
-        public init(invitations: [Invitation]? = nil, nextToken: String? = nil) {
-            self.invitations = invitations
-            self.nextToken = nextToken
+        public init(ipSetId: String? = nil) {
+            self.ipSetId = ipSetId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case invitations = "invitations"
-            case nextToken = "nextToken"
+            case ipSetId = "ipSetId"
+        }
+    }
+
+    public struct AcceptInvitationResponse: AWSShape {
+
+    }
+
+    public struct NetworkInterface: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Ipv6Addresses", location: .body(locationName: "ipv6Addresses"), required: false, type: .list), 
+            AWSShapeMember(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId"), required: false, type: .string), 
+            AWSShapeMember(label: "PublicDnsName", location: .body(locationName: "publicDnsName"), required: false, type: .string), 
+            AWSShapeMember(label: "PublicIp", location: .body(locationName: "publicIp"), required: false, type: .string), 
+            AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "securityGroups"), required: false, type: .list), 
+            AWSShapeMember(label: "VpcId", location: .body(locationName: "vpcId"), required: false, type: .string), 
+            AWSShapeMember(label: "PrivateDnsName", location: .body(locationName: "privateDnsName"), required: false, type: .string), 
+            AWSShapeMember(label: "PrivateIpAddresses", location: .body(locationName: "privateIpAddresses"), required: false, type: .list), 
+            AWSShapeMember(label: "PrivateIpAddress", location: .body(locationName: "privateIpAddress"), required: false, type: .string), 
+            AWSShapeMember(label: "SubnetId", location: .body(locationName: "subnetId"), required: false, type: .string)
+        ]
+        /// A list of EC2 instance IPv6 address information.
+        public let ipv6Addresses: [String]?
+        /// The ID of the network interface
+        public let networkInterfaceId: String?
+        /// Public DNS name of the EC2 instance.
+        public let publicDnsName: String?
+        /// Public IP address of the EC2 instance.
+        public let publicIp: String?
+        /// Security groups associated with the EC2 instance.
+        public let securityGroups: [SecurityGroup]?
+        /// The VPC ID of the EC2 instance.
+        public let vpcId: String?
+        /// Private DNS name of the EC2 instance.
+        public let privateDnsName: String?
+        /// Other private IP address information of the EC2 instance.
+        public let privateIpAddresses: [PrivateIpAddressDetails]?
+        /// Private IP address of the EC2 instance.
+        public let privateIpAddress: String?
+        /// The subnet ID of the EC2 instance.
+        public let subnetId: String?
+
+        public init(ipv6Addresses: [String]? = nil, networkInterfaceId: String? = nil, publicDnsName: String? = nil, publicIp: String? = nil, securityGroups: [SecurityGroup]? = nil, vpcId: String? = nil, privateDnsName: String? = nil, privateIpAddresses: [PrivateIpAddressDetails]? = nil, privateIpAddress: String? = nil, subnetId: String? = nil) {
+            self.ipv6Addresses = ipv6Addresses
+            self.networkInterfaceId = networkInterfaceId
+            self.publicDnsName = publicDnsName
+            self.publicIp = publicIp
+            self.securityGroups = securityGroups
+            self.vpcId = vpcId
+            self.privateDnsName = privateDnsName
+            self.privateIpAddresses = privateIpAddresses
+            self.privateIpAddress = privateIpAddress
+            self.subnetId = subnetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipv6Addresses = "ipv6Addresses"
+            case networkInterfaceId = "networkInterfaceId"
+            case publicDnsName = "publicDnsName"
+            case publicIp = "publicIp"
+            case securityGroups = "securityGroups"
+            case vpcId = "vpcId"
+            case privateDnsName = "privateDnsName"
+            case privateIpAddresses = "privateIpAddresses"
+            case privateIpAddress = "privateIpAddress"
+            case subnetId = "subnetId"
+        }
+    }
+
+    public struct City: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CityName", location: .body(locationName: "cityName"), required: false, type: .string)
+        ]
+        /// City name of the remote IP address.
+        public let cityName: String?
+
+        public init(cityName: String? = nil) {
+            self.cityName = cityName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cityName = "cityName"
+        }
+    }
+
+    public struct UpdateIPSetRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "IpSetId", location: .uri(locationName: "ipSetId"), required: true, type: .string), 
+            AWSShapeMember(label: "Location", location: .body(locationName: "location"), required: false, type: .string), 
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string), 
+            AWSShapeMember(label: "Activate", location: .body(locationName: "activate"), required: false, type: .boolean)
+        ]
+        /// The unique ID that specifies the IPSet that you want to update.
+        public let name: String?
+        public let ipSetId: String
+        /// The updated URI of the file that contains the IPSet. For example (https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key).
+        public let location: String?
+        public let detectorId: String
+        /// The updated boolean value that specifies whether the IPSet is active or not.
+        public let activate: Bool?
+
+        public init(name: String? = nil, ipSetId: String, location: String? = nil, detectorId: String, activate: Bool? = nil) {
+            self.name = name
+            self.ipSetId = ipSetId
+            self.location = location
+            self.detectorId = detectorId
+            self.activate = activate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case ipSetId = "ipSetId"
+            case location = "location"
+            case detectorId = "detectorId"
+            case activate = "activate"
         }
     }
 
@@ -1817,140 +2381,20 @@ extension GuardDuty {
         }
     }
 
-    public struct ListThreatIntelSetsRequest: AWSShape {
+    public struct DeclineInvitationsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "UnprocessedAccounts", location: .body(locationName: "unprocessedAccounts"), required: false, type: .list)
         ]
-        public let detectorId: String
-        public let maxResults: Int32?
-        public let nextToken: String?
+        /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
+        public let unprocessedAccounts: [UnprocessedAccount]?
 
-        public init(detectorId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.detectorId = detectorId
-            self.maxResults = maxResults
-            self.nextToken = nextToken
+        public init(unprocessedAccounts: [UnprocessedAccount]? = nil) {
+            self.unprocessedAccounts = unprocessedAccounts
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detectorId = "detectorId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
+            case unprocessedAccounts = "unprocessedAccounts"
         }
-    }
-
-    public struct Finding: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Title", location: .body(locationName: "title"), required: false, type: .string), 
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: true, type: .string), 
-            AWSShapeMember(label: "Partition", location: .body(locationName: "partition"), required: false, type: .string), 
-            AWSShapeMember(label: "CreatedAt", location: .body(locationName: "createdAt"), required: true, type: .string), 
-            AWSShapeMember(label: "Severity", location: .body(locationName: "severity"), required: true, type: .double), 
-            AWSShapeMember(label: "Region", location: .body(locationName: "region"), required: true, type: .string), 
-            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: true, type: .string), 
-            AWSShapeMember(label: "UpdatedAt", location: .body(locationName: "updatedAt"), required: true, type: .string), 
-            AWSShapeMember(label: "Confidence", location: .body(locationName: "confidence"), required: false, type: .double), 
-            AWSShapeMember(label: "Type", location: .body(locationName: "type"), required: true, type: .string), 
-            AWSShapeMember(label: "Resource", location: .body(locationName: "resource"), required: true, type: .structure), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "Service", location: .body(locationName: "service"), required: false, type: .structure), 
-            AWSShapeMember(label: "AccountId", location: .body(locationName: "accountId"), required: true, type: .string), 
-            AWSShapeMember(label: "SchemaVersion", location: .body(locationName: "schemaVersion"), required: true, type: .string)
-        ]
-        /// The title of a finding.
-        public let title: String?
-        /// The ARN of a finding described by the action.
-        public let arn: String
-        /// The AWS resource partition.
-        public let partition: String?
-        /// The time stamp at which a finding was generated.
-        public let createdAt: String
-        /// The severity of a finding.
-        public let severity: Double
-        /// The AWS region where the activity occurred that prompted GuardDuty to generate a finding.
-        public let region: String
-        /// The identifier that corresponds to a finding described by the action.
-        public let id: String
-        /// The time stamp at which a finding was last updated.
-        public let updatedAt: String
-        /// The confidence level of a finding.
-        public let confidence: Double?
-        /// The type of a finding described by the action.
-        public let `type`: String
-        /// The AWS resource associated with the activity that prompted GuardDuty to generate a finding.
-        public let resource: Resource
-        /// The description of a finding.
-        public let description: String?
-        /// Additional information assigned to the generated finding by GuardDuty.
-        public let service: Service?
-        /// AWS account ID where the activity occurred that prompted GuardDuty to generate a finding.
-        public let accountId: String
-        /// Findings' schema version.
-        public let schemaVersion: String
-
-        public init(title: String? = nil, arn: String, partition: String? = nil, createdAt: String, severity: Double, region: String, id: String, updatedAt: String, confidence: Double? = nil, type: String, resource: Resource, description: String? = nil, service: Service? = nil, accountId: String, schemaVersion: String) {
-            self.title = title
-            self.arn = arn
-            self.partition = partition
-            self.createdAt = createdAt
-            self.severity = severity
-            self.region = region
-            self.id = id
-            self.updatedAt = updatedAt
-            self.confidence = confidence
-            self.`type` = `type`
-            self.resource = resource
-            self.description = description
-            self.service = service
-            self.accountId = accountId
-            self.schemaVersion = schemaVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case title = "title"
-            case arn = "arn"
-            case partition = "partition"
-            case createdAt = "createdAt"
-            case severity = "severity"
-            case region = "region"
-            case id = "id"
-            case updatedAt = "updatedAt"
-            case confidence = "confidence"
-            case `type` = "type"
-            case resource = "resource"
-            case description = "description"
-            case service = "service"
-            case accountId = "accountId"
-            case schemaVersion = "schemaVersion"
-        }
-    }
-
-    public struct ProductCode: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Code", location: .body(locationName: "code"), required: false, type: .string), 
-            AWSShapeMember(label: "ProductType", location: .body(locationName: "productType"), required: false, type: .string)
-        ]
-        /// Product code information.
-        public let code: String?
-        /// Product code type.
-        public let productType: String?
-
-        public init(code: String? = nil, productType: String? = nil) {
-            self.code = code
-            self.productType = productType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case code = "code"
-            case productType = "productType"
-        }
-    }
-
-    public enum DetectorStatus: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
     }
 
     public struct GetFindingsRequest: AWSShape {
@@ -1978,420 +2422,117 @@ extension GuardDuty {
         }
     }
 
-    public struct GetIPSetRequest: AWSShape {
+    public struct StopMonitoringMembersResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string), 
-            AWSShapeMember(label: "IpSetId", location: .uri(locationName: "ipSetId"), required: true, type: .string)
+            AWSShapeMember(label: "UnprocessedAccounts", location: .body(locationName: "unprocessedAccounts"), required: false, type: .list)
         ]
-        public let detectorId: String
-        public let ipSetId: String
+        /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
+        public let unprocessedAccounts: [UnprocessedAccount]?
 
-        public init(detectorId: String, ipSetId: String) {
-            self.detectorId = detectorId
-            self.ipSetId = ipSetId
+        public init(unprocessedAccounts: [UnprocessedAccount]? = nil) {
+            self.unprocessedAccounts = unprocessedAccounts
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detectorId = "detectorId"
-            case ipSetId = "ipSetId"
+            case unprocessedAccounts = "unprocessedAccounts"
         }
     }
 
-    public struct UnprocessedAccount: AWSShape {
+    public struct DeleteFilterRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", location: .body(locationName: "accountId"), required: true, type: .string), 
-            AWSShapeMember(label: "Result", location: .body(locationName: "result"), required: true, type: .string)
-        ]
-        /// AWS Account ID.
-        public let accountId: String
-        /// A reason why the account hasn't been processed.
-        public let result: String
-
-        public init(accountId: String, result: String) {
-            self.accountId = accountId
-            self.result = result
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case result = "result"
-        }
-    }
-
-    public struct DeleteIPSetResponse: AWSShape {
-
-    }
-
-    public struct GetInvitationsCountRequest: AWSShape {
-
-    }
-
-    public struct UnarchiveFindingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FindingIds", location: .body(locationName: "findingIds"), required: true, type: .list), 
+            AWSShapeMember(label: "FilterName", location: .uri(locationName: "filterName"), required: true, type: .string), 
             AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string)
         ]
-        /// IDs of the findings that you want to unarchive.
-        public let findingIds: [String]
+        public let filterName: String
         public let detectorId: String
 
-        public init(findingIds: [String], detectorId: String) {
-            self.findingIds = findingIds
+        public init(filterName: String, detectorId: String) {
+            self.filterName = filterName
             self.detectorId = detectorId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case findingIds = "findingIds"
+            case filterName = "filterName"
             case detectorId = "detectorId"
         }
-    }
-
-    public struct PortProbeAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Blocked", location: .body(locationName: "blocked"), required: false, type: .boolean), 
-            AWSShapeMember(label: "PortProbeDetails", location: .body(locationName: "portProbeDetails"), required: false, type: .list)
-        ]
-        /// Port probe blocked information.
-        public let blocked: Bool?
-        /// A list of port probe details objects.
-        public let portProbeDetails: [PortProbeDetail]?
-
-        public init(blocked: Bool? = nil, portProbeDetails: [PortProbeDetail]? = nil) {
-            self.blocked = blocked
-            self.portProbeDetails = portProbeDetails
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case blocked = "blocked"
-            case portProbeDetails = "portProbeDetails"
-        }
-    }
-
-    public enum FindingPublishingFrequency: String, CustomStringConvertible, Codable {
-        case fifteenMinutes = "FIFTEEN_MINUTES"
-        case oneHour = "ONE_HOUR"
-        case sixHours = "SIX_HOURS"
-        public var description: String { return self.rawValue }
     }
 
     public struct GetFilterResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Action", location: .body(locationName: "action"), required: false, type: .enum), 
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "Rank", location: .body(locationName: "rank"), required: false, type: .integer), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
             AWSShapeMember(label: "FindingCriteria", location: .body(locationName: "findingCriteria"), required: false, type: .structure), 
-            AWSShapeMember(label: "Rank", location: .body(locationName: "rank"), required: false, type: .integer)
+            AWSShapeMember(label: "Action", location: .body(locationName: "action"), required: false, type: .enum)
         ]
-        /// Specifies the action that is to be applied to the findings that match the filter.
-        public let action: FilterAction?
         /// The name of the filter.
         public let name: String?
+        /// Specifies the position of the filter in the list of current filters. Also specifies the order in which this filter is applied to the findings.
+        public let rank: Int32?
         /// The description of the filter.
         public let description: String?
         /// Represents the criteria to be used in the filter for querying findings.
         public let findingCriteria: FindingCriteria?
-        /// Specifies the position of the filter in the list of current filters. Also specifies the order in which this filter is applied to the findings.
-        public let rank: Int32?
+        /// Specifies the action that is to be applied to the findings that match the filter.
+        public let action: FilterAction?
 
-        public init(action: FilterAction? = nil, name: String? = nil, description: String? = nil, findingCriteria: FindingCriteria? = nil, rank: Int32? = nil) {
-            self.action = action
+        public init(name: String? = nil, rank: Int32? = nil, description: String? = nil, findingCriteria: FindingCriteria? = nil, action: FilterAction? = nil) {
             self.name = name
+            self.rank = rank
             self.description = description
             self.findingCriteria = findingCriteria
-            self.rank = rank
+            self.action = action
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action = "action"
             case name = "name"
+            case rank = "rank"
             case description = "description"
             case findingCriteria = "findingCriteria"
-            case rank = "rank"
-        }
-    }
-
-    public struct ListFiltersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
-        ]
-        public let detectorId: String
-        public let maxResults: Int32?
-        public let nextToken: String?
-
-        public init(detectorId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.detectorId = detectorId
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case detectorId = "detectorId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct FindingCriteria: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Criterion", location: .body(locationName: "criterion"), required: false, type: .map)
-        ]
-        /// Represents a map of finding properties that match specified conditions and values when querying findings.
-        public let criterion: [String: Condition]?
-
-        public init(criterion: [String: Condition]? = nil) {
-            self.criterion = criterion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case criterion = "criterion"
-        }
-    }
-
-    public struct AcceptInvitationResponse: AWSShape {
-
-    }
-
-    public struct ListInvitationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
-        ]
-        public let maxResults: Int32?
-        public let nextToken: String?
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct InviteMembersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountIds", location: .body(locationName: "accountIds"), required: true, type: .list), 
-            AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string), 
-            AWSShapeMember(label: "DisableEmailNotification", location: .body(locationName: "disableEmailNotification"), required: false, type: .boolean), 
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string)
-        ]
-        /// A list of account IDs of the accounts that you want to invite to GuardDuty as members.
-        public let accountIds: [String]
-        /// The invitation message that you want to send to the accounts that you’re inviting to GuardDuty as members.
-        public let message: String?
-        /// A boolean value that specifies whether you want to disable email notification to the accounts that you’re inviting to GuardDuty as members.
-        public let disableEmailNotification: Bool?
-        public let detectorId: String
-
-        public init(accountIds: [String], message: String? = nil, disableEmailNotification: Bool? = nil, detectorId: String) {
-            self.accountIds = accountIds
-            self.message = message
-            self.disableEmailNotification = disableEmailNotification
-            self.detectorId = detectorId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accountIds = "accountIds"
-            case message = "message"
-            case disableEmailNotification = "disableEmailNotification"
-            case detectorId = "detectorId"
-        }
-    }
-
-    public enum FindingStatisticType: String, CustomStringConvertible, Codable {
-        case countBySeverity = "COUNT_BY_SEVERITY"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetMembersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountIds", location: .body(locationName: "accountIds"), required: true, type: .list), 
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string)
-        ]
-        /// A list of account IDs of the GuardDuty member accounts that you want to describe.
-        public let accountIds: [String]
-        public let detectorId: String
-
-        public init(accountIds: [String], detectorId: String) {
-            self.accountIds = accountIds
-            self.detectorId = detectorId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accountIds = "accountIds"
-            case detectorId = "detectorId"
-        }
-    }
-
-    public struct Invitation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InvitedAt", location: .body(locationName: "invitedAt"), required: false, type: .string), 
-            AWSShapeMember(label: "InvitationId", location: .body(locationName: "invitationId"), required: false, type: .string), 
-            AWSShapeMember(label: "RelationshipStatus", location: .body(locationName: "relationshipStatus"), required: false, type: .string), 
-            AWSShapeMember(label: "AccountId", location: .body(locationName: "accountId"), required: false, type: .string)
-        ]
-        /// Timestamp at which the invitation was sent
-        public let invitedAt: String?
-        /// This value is used to validate the inviter account to the member account.
-        public let invitationId: String?
-        /// The status of the relationship between the inviter and invitee accounts.
-        public let relationshipStatus: String?
-        /// Inviter account ID
-        public let accountId: String?
-
-        public init(invitedAt: String? = nil, invitationId: String? = nil, relationshipStatus: String? = nil, accountId: String? = nil) {
-            self.invitedAt = invitedAt
-            self.invitationId = invitationId
-            self.relationshipStatus = relationshipStatus
-            self.accountId = accountId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case invitedAt = "invitedAt"
-            case invitationId = "invitationId"
-            case relationshipStatus = "relationshipStatus"
-            case accountId = "accountId"
-        }
-    }
-
-    public struct Service: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .body(locationName: "detectorId"), required: false, type: .string), 
-            AWSShapeMember(label: "UserFeedback", location: .body(locationName: "userFeedback"), required: false, type: .string), 
-            AWSShapeMember(label: "Action", location: .body(locationName: "action"), required: false, type: .structure), 
-            AWSShapeMember(label: "EventLastSeen", location: .body(locationName: "eventLastSeen"), required: false, type: .string), 
-            AWSShapeMember(label: "ServiceName", location: .body(locationName: "serviceName"), required: false, type: .string), 
-            AWSShapeMember(label: "Count", location: .body(locationName: "count"), required: false, type: .integer), 
-            AWSShapeMember(label: "Archived", location: .body(locationName: "archived"), required: false, type: .boolean), 
-            AWSShapeMember(label: "EventFirstSeen", location: .body(locationName: "eventFirstSeen"), required: false, type: .string), 
-            AWSShapeMember(label: "ResourceRole", location: .body(locationName: "resourceRole"), required: false, type: .string)
-        ]
-        /// Detector ID for the GuardDuty service.
-        public let detectorId: String?
-        /// Feedback left about the finding.
-        public let userFeedback: String?
-        /// Information about the activity described in a finding.
-        public let action: Action?
-        /// Last seen timestamp of the activity that prompted GuardDuty to generate this finding.
-        public let eventLastSeen: String?
-        /// The name of the AWS service (GuardDuty) that generated a finding.
-        public let serviceName: String?
-        /// Total count of the occurrences of this finding type.
-        public let count: Int32?
-        /// Indicates whether this finding is archived.
-        public let archived: Bool?
-        /// First seen timestamp of the activity that prompted GuardDuty to generate this finding.
-        public let eventFirstSeen: String?
-        /// Resource role information for this finding.
-        public let resourceRole: String?
-
-        public init(detectorId: String? = nil, userFeedback: String? = nil, action: Action? = nil, eventLastSeen: String? = nil, serviceName: String? = nil, count: Int32? = nil, archived: Bool? = nil, eventFirstSeen: String? = nil, resourceRole: String? = nil) {
-            self.detectorId = detectorId
-            self.userFeedback = userFeedback
-            self.action = action
-            self.eventLastSeen = eventLastSeen
-            self.serviceName = serviceName
-            self.count = count
-            self.archived = archived
-            self.eventFirstSeen = eventFirstSeen
-            self.resourceRole = resourceRole
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case detectorId = "detectorId"
-            case userFeedback = "userFeedback"
             case action = "action"
-            case eventLastSeen = "eventLastSeen"
-            case serviceName = "serviceName"
-            case count = "count"
-            case archived = "archived"
-            case eventFirstSeen = "eventFirstSeen"
-            case resourceRole = "resourceRole"
         }
     }
 
-    public struct NetworkConnectionAction: AWSShape {
+    public struct ListMembersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConnectionDirection", location: .body(locationName: "connectionDirection"), required: false, type: .string), 
-            AWSShapeMember(label: "Blocked", location: .body(locationName: "blocked"), required: false, type: .boolean), 
-            AWSShapeMember(label: "LocalPortDetails", location: .body(locationName: "localPortDetails"), required: false, type: .structure), 
-            AWSShapeMember(label: "RemoteIpDetails", location: .body(locationName: "remoteIpDetails"), required: false, type: .structure), 
-            AWSShapeMember(label: "Protocol", location: .body(locationName: "protocol"), required: false, type: .string), 
-            AWSShapeMember(label: "RemotePortDetails", location: .body(locationName: "remotePortDetails"), required: false, type: .structure)
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "OnlyAssociated", location: .querystring(locationName: "onlyAssociated"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string)
         ]
-        /// Network connection direction.
-        public let connectionDirection: String?
-        /// Network connection blocked information.
-        public let blocked: Bool?
-        /// Local port information of the connection.
-        public let localPortDetails: LocalPortDetails?
-        /// Remote IP information of the connection.
-        public let remoteIpDetails: RemoteIpDetails?
-        /// Network connection protocol.
-        public let `protocol`: String?
-        /// Remote port information of the connection.
-        public let remotePortDetails: RemotePortDetails?
+        public let nextToken: String?
+        public let onlyAssociated: String?
+        public let maxResults: Int32?
+        public let detectorId: String
 
-        public init(connectionDirection: String? = nil, blocked: Bool? = nil, localPortDetails: LocalPortDetails? = nil, remoteIpDetails: RemoteIpDetails? = nil, protocol: String? = nil, remotePortDetails: RemotePortDetails? = nil) {
-            self.connectionDirection = connectionDirection
-            self.blocked = blocked
-            self.localPortDetails = localPortDetails
-            self.remoteIpDetails = remoteIpDetails
-            self.`protocol` = `protocol`
-            self.remotePortDetails = remotePortDetails
+        public init(nextToken: String? = nil, onlyAssociated: String? = nil, maxResults: Int32? = nil, detectorId: String) {
+            self.nextToken = nextToken
+            self.onlyAssociated = onlyAssociated
+            self.maxResults = maxResults
+            self.detectorId = detectorId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionDirection = "connectionDirection"
-            case blocked = "blocked"
-            case localPortDetails = "localPortDetails"
-            case remoteIpDetails = "remoteIpDetails"
-            case `protocol` = "protocol"
-            case remotePortDetails = "remotePortDetails"
+            case nextToken = "nextToken"
+            case onlyAssociated = "onlyAssociated"
+            case maxResults = "maxResults"
+            case detectorId = "detectorId"
         }
     }
 
-    public struct CreateSampleFindingsResponse: AWSShape {
-
-    }
-
-    public struct RemoteIpDetails: AWSShape {
+    public struct DnsRequestAction: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Organization", location: .body(locationName: "organization"), required: false, type: .structure), 
-            AWSShapeMember(label: "City", location: .body(locationName: "city"), required: false, type: .structure), 
-            AWSShapeMember(label: "IpAddressV4", location: .body(locationName: "ipAddressV4"), required: false, type: .string), 
-            AWSShapeMember(label: "GeoLocation", location: .body(locationName: "geoLocation"), required: false, type: .structure), 
-            AWSShapeMember(label: "Country", location: .body(locationName: "country"), required: false, type: .structure)
+            AWSShapeMember(label: "Domain", location: .body(locationName: "domain"), required: false, type: .string)
         ]
-        /// ISP Organization information of the remote IP address.
-        public let organization: Organization?
-        /// City information of the remote IP address.
-        public let city: City?
-        /// IPV4 remote address of the connection.
-        public let ipAddressV4: String?
-        /// Location information of the remote IP address.
-        public let geoLocation: GeoLocation?
-        /// Country code of the remote IP address.
-        public let country: Country?
+        /// Domain information for the DNS request.
+        public let domain: String?
 
-        public init(organization: Organization? = nil, city: City? = nil, ipAddressV4: String? = nil, geoLocation: GeoLocation? = nil, country: Country? = nil) {
-            self.organization = organization
-            self.city = city
-            self.ipAddressV4 = ipAddressV4
-            self.geoLocation = geoLocation
-            self.country = country
+        public init(domain: String? = nil) {
+            self.domain = domain
         }
 
         private enum CodingKeys: String, CodingKey {
-            case organization = "organization"
-            case city = "city"
-            case ipAddressV4 = "ipAddressV4"
-            case geoLocation = "geoLocation"
-            case country = "country"
+            case domain = "domain"
         }
     }
 
@@ -2411,174 +2552,38 @@ extension GuardDuty {
         }
     }
 
-    public struct UpdateFindingsFeedbackRequest: AWSShape {
+    public struct GetMembersResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Feedback", location: .body(locationName: "feedback"), required: true, type: .enum), 
-            AWSShapeMember(label: "Comments", location: .body(locationName: "comments"), required: false, type: .string), 
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string), 
-            AWSShapeMember(label: "FindingIds", location: .body(locationName: "findingIds"), required: true, type: .list)
+            AWSShapeMember(label: "Members", location: .body(locationName: "members"), required: false, type: .list), 
+            AWSShapeMember(label: "UnprocessedAccounts", location: .body(locationName: "unprocessedAccounts"), required: false, type: .list)
         ]
-        /// Valid values: USEFUL | NOT_USEFUL
-        public let feedback: Feedback
-        /// Additional feedback about the GuardDuty findings.
-        public let comments: String?
-        public let detectorId: String
-        /// IDs of the findings that you want to mark as useful or not useful.
-        public let findingIds: [String]
+        public let members: [Member]?
+        /// A list of objects containing the unprocessed account and a result string explaining why it was unprocessed.
+        public let unprocessedAccounts: [UnprocessedAccount]?
 
-        public init(feedback: Feedback, comments: String? = nil, detectorId: String, findingIds: [String]) {
-            self.feedback = feedback
-            self.comments = comments
-            self.detectorId = detectorId
-            self.findingIds = findingIds
+        public init(members: [Member]? = nil, unprocessedAccounts: [UnprocessedAccount]? = nil) {
+            self.members = members
+            self.unprocessedAccounts = unprocessedAccounts
         }
 
         private enum CodingKeys: String, CodingKey {
-            case feedback = "feedback"
-            case comments = "comments"
-            case detectorId = "detectorId"
-            case findingIds = "findingIds"
+            case members = "members"
+            case unprocessedAccounts = "unprocessedAccounts"
         }
     }
 
-    public struct GetFindingsStatisticsRequest: AWSShape {
+    public struct DeleteDetectorRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FindingStatisticTypes", location: .body(locationName: "findingStatisticTypes"), required: true, type: .list), 
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string), 
-            AWSShapeMember(label: "FindingCriteria", location: .body(locationName: "findingCriteria"), required: false, type: .structure)
-        ]
-        /// Types of finding statistics to retrieve.
-        public let findingStatisticTypes: [FindingStatisticType]
-        public let detectorId: String
-        /// Represents the criteria used for querying findings.
-        public let findingCriteria: FindingCriteria?
-
-        public init(findingStatisticTypes: [FindingStatisticType], detectorId: String, findingCriteria: FindingCriteria? = nil) {
-            self.findingStatisticTypes = findingStatisticTypes
-            self.detectorId = detectorId
-            self.findingCriteria = findingCriteria
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case findingStatisticTypes = "findingStatisticTypes"
-            case detectorId = "detectorId"
-            case findingCriteria = "findingCriteria"
-        }
-    }
-
-    public struct Action: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PortProbeAction", location: .body(locationName: "portProbeAction"), required: false, type: .structure), 
-            AWSShapeMember(label: "NetworkConnectionAction", location: .body(locationName: "networkConnectionAction"), required: false, type: .structure), 
-            AWSShapeMember(label: "AwsApiCallAction", location: .body(locationName: "awsApiCallAction"), required: false, type: .structure), 
-            AWSShapeMember(label: "ActionType", location: .body(locationName: "actionType"), required: false, type: .string), 
-            AWSShapeMember(label: "DnsRequestAction", location: .body(locationName: "dnsRequestAction"), required: false, type: .structure)
-        ]
-        /// Information about the PORT_PROBE action described in this finding.
-        public let portProbeAction: PortProbeAction?
-        /// Information about the NETWORK_CONNECTION action described in this finding.
-        public let networkConnectionAction: NetworkConnectionAction?
-        /// Information about the AWS_API_CALL action described in this finding.
-        public let awsApiCallAction: AwsApiCallAction?
-        /// GuardDuty Finding activity type.
-        public let actionType: String?
-        /// Information about the DNS_REQUEST action described in this finding.
-        public let dnsRequestAction: DnsRequestAction?
-
-        public init(portProbeAction: PortProbeAction? = nil, networkConnectionAction: NetworkConnectionAction? = nil, awsApiCallAction: AwsApiCallAction? = nil, actionType: String? = nil, dnsRequestAction: DnsRequestAction? = nil) {
-            self.portProbeAction = portProbeAction
-            self.networkConnectionAction = networkConnectionAction
-            self.awsApiCallAction = awsApiCallAction
-            self.actionType = actionType
-            self.dnsRequestAction = dnsRequestAction
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case portProbeAction = "portProbeAction"
-            case networkConnectionAction = "networkConnectionAction"
-            case awsApiCallAction = "awsApiCallAction"
-            case actionType = "actionType"
-            case dnsRequestAction = "dnsRequestAction"
-        }
-    }
-
-    public struct CreateMembersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string), 
-            AWSShapeMember(label: "AccountDetails", location: .body(locationName: "accountDetails"), required: true, type: .list)
-        ]
-        public let detectorId: String
-        /// A list of account ID and email address pairs of the accounts that you want to associate with the master GuardDuty account.
-        public let accountDetails: [AccountDetail]
-
-        public init(detectorId: String, accountDetails: [AccountDetail]) {
-            self.detectorId = detectorId
-            self.accountDetails = accountDetails
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case detectorId = "detectorId"
-            case accountDetails = "accountDetails"
-        }
-    }
-
-    public struct UpdateIPSetResponse: AWSShape {
-
-    }
-
-    public struct AcceptInvitationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MasterId", location: .body(locationName: "masterId"), required: true, type: .string), 
-            AWSShapeMember(label: "InvitationId", location: .body(locationName: "invitationId"), required: true, type: .string), 
             AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string)
         ]
-        /// The account ID of the master GuardDuty account whose invitation you're accepting.
-        public let masterId: String
-        /// This value is used to validate the master account to the member account.
-        public let invitationId: String
         public let detectorId: String
 
-        public init(masterId: String, invitationId: String, detectorId: String) {
-            self.masterId = masterId
-            self.invitationId = invitationId
+        public init(detectorId: String) {
             self.detectorId = detectorId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case masterId = "masterId"
-            case invitationId = "invitationId"
             case detectorId = "detectorId"
-        }
-    }
-
-    public struct GetDetectorResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedAt", location: .body(locationName: "createdAt"), required: false, type: .string), 
-            AWSShapeMember(label: "FindingPublishingFrequency", location: .body(locationName: "findingPublishingFrequency"), required: false, type: .enum), 
-            AWSShapeMember(label: "UpdatedAt", location: .body(locationName: "updatedAt"), required: false, type: .string), 
-            AWSShapeMember(label: "ServiceRole", location: .body(locationName: "serviceRole"), required: false, type: .string), 
-            AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: false, type: .enum)
-        ]
-        public let createdAt: String?
-        public let findingPublishingFrequency: FindingPublishingFrequency?
-        public let updatedAt: String?
-        public let serviceRole: String?
-        public let status: DetectorStatus?
-
-        public init(createdAt: String? = nil, findingPublishingFrequency: FindingPublishingFrequency? = nil, updatedAt: String? = nil, serviceRole: String? = nil, status: DetectorStatus? = nil) {
-            self.createdAt = createdAt
-            self.findingPublishingFrequency = findingPublishingFrequency
-            self.updatedAt = updatedAt
-            self.serviceRole = serviceRole
-            self.status = status
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case createdAt = "createdAt"
-            case findingPublishingFrequency = "findingPublishingFrequency"
-            case updatedAt = "updatedAt"
-            case serviceRole = "serviceRole"
-            case status = "status"
         }
     }
 
@@ -2598,103 +2603,98 @@ extension GuardDuty {
         }
     }
 
-    public struct ListMembersResponse: AWSShape {
+    public struct GetInvitationsCountResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Members", location: .body(locationName: "members"), required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "InvitationsCount", location: .body(locationName: "invitationsCount"), required: false, type: .integer)
         ]
-        public let members: [Member]?
-        public let nextToken: String?
+        /// The number of received invitations.
+        public let invitationsCount: Int32?
 
-        public init(members: [Member]? = nil, nextToken: String? = nil) {
-            self.members = members
-            self.nextToken = nextToken
+        public init(invitationsCount: Int32? = nil) {
+            self.invitationsCount = invitationsCount
         }
 
         private enum CodingKeys: String, CodingKey {
-            case members = "members"
-            case nextToken = "nextToken"
+            case invitationsCount = "invitationsCount"
         }
     }
 
-    public struct UpdateFilterRequest: AWSShape {
+    public struct UpdateIPSetResponse: AWSShape {
+
+    }
+
+    public struct UpdateThreatIntelSetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Rank", location: .body(locationName: "rank"), required: false, type: .integer), 
-            AWSShapeMember(label: "Action", location: .body(locationName: "action"), required: false, type: .enum), 
-            AWSShapeMember(label: "FilterName", location: .uri(locationName: "filterName"), required: true, type: .string), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "FindingCriteria", location: .body(locationName: "findingCriteria"), required: false, type: .structure), 
+            AWSShapeMember(label: "Activate", location: .body(locationName: "activate"), required: false, type: .boolean), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "Location", location: .body(locationName: "location"), required: false, type: .string), 
+            AWSShapeMember(label: "ThreatIntelSetId", location: .uri(locationName: "threatIntelSetId"), required: true, type: .string), 
             AWSShapeMember(label: "DetectorId", location: .uri(locationName: "detectorId"), required: true, type: .string)
         ]
-        /// Specifies the position of the filter in the list of current filters. Also specifies the order in which this filter is applied to the findings.
-        public let rank: Int32?
-        /// Specifies the action that is to be applied to the findings that match the filter.
-        public let action: FilterAction?
-        public let filterName: String
-        /// The description of the filter.
-        public let description: String?
-        /// Represents the criteria to be used in the filter for querying findings.
-        public let findingCriteria: FindingCriteria?
+        /// The updated boolean value that specifies whether the ThreateIntelSet is active or not.
+        public let activate: Bool?
+        /// The unique ID that specifies the ThreatIntelSet that you want to update.
+        public let name: String?
+        /// The updated URI of the file that contains the ThreateIntelSet. For example (https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key)
+        public let location: String?
+        public let threatIntelSetId: String
         public let detectorId: String
 
-        public init(rank: Int32? = nil, action: FilterAction? = nil, filterName: String, description: String? = nil, findingCriteria: FindingCriteria? = nil, detectorId: String) {
-            self.rank = rank
-            self.action = action
-            self.filterName = filterName
-            self.description = description
-            self.findingCriteria = findingCriteria
+        public init(activate: Bool? = nil, name: String? = nil, location: String? = nil, threatIntelSetId: String, detectorId: String) {
+            self.activate = activate
+            self.name = name
+            self.location = location
+            self.threatIntelSetId = threatIntelSetId
             self.detectorId = detectorId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case rank = "rank"
-            case action = "action"
-            case filterName = "filterName"
-            case description = "description"
-            case findingCriteria = "findingCriteria"
+            case activate = "activate"
+            case name = "name"
+            case location = "location"
+            case threatIntelSetId = "threatIntelSetId"
             case detectorId = "detectorId"
         }
     }
 
-    public struct PrivateIpAddressDetails: AWSShape {
+    public struct Condition: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PrivateDnsName", location: .body(locationName: "privateDnsName"), required: false, type: .string), 
-            AWSShapeMember(label: "PrivateIpAddress", location: .body(locationName: "privateIpAddress"), required: false, type: .string)
+            AWSShapeMember(label: "Lte", location: .body(locationName: "lte"), required: false, type: .integer), 
+            AWSShapeMember(label: "Lt", location: .body(locationName: "lt"), required: false, type: .integer), 
+            AWSShapeMember(label: "Gt", location: .body(locationName: "gt"), required: false, type: .integer), 
+            AWSShapeMember(label: "Gte", location: .body(locationName: "gte"), required: false, type: .integer), 
+            AWSShapeMember(label: "Neq", location: .body(locationName: "neq"), required: false, type: .list), 
+            AWSShapeMember(label: "Eq", location: .body(locationName: "eq"), required: false, type: .list)
         ]
-        /// Private DNS name of the EC2 instance.
-        public let privateDnsName: String?
-        /// Private IP address of the EC2 instance.
-        public let privateIpAddress: String?
+        /// Represents the less than equal condition to be applied to a single field when querying for findings.
+        public let lte: Int32?
+        /// Represents the less than condition to be applied to a single field when querying for findings.
+        public let lt: Int32?
+        /// Represents the greater than condition to be applied to a single field when querying for findings.
+        public let gt: Int32?
+        /// Represents the greater than equal condition to be applied to a single field when querying for findings.
+        public let gte: Int32?
+        /// Represents the not equal condition to be applied to a single field when querying for findings.
+        public let neq: [String]?
+        /// Represents the equal condition to be applied to a single field when querying for findings.
+        public let eq: [String]?
 
-        public init(privateDnsName: String? = nil, privateIpAddress: String? = nil) {
-            self.privateDnsName = privateDnsName
-            self.privateIpAddress = privateIpAddress
+        public init(lte: Int32? = nil, lt: Int32? = nil, gt: Int32? = nil, gte: Int32? = nil, neq: [String]? = nil, eq: [String]? = nil) {
+            self.lte = lte
+            self.lt = lt
+            self.gt = gt
+            self.gte = gte
+            self.neq = neq
+            self.eq = eq
         }
 
         private enum CodingKeys: String, CodingKey {
-            case privateDnsName = "privateDnsName"
-            case privateIpAddress = "privateIpAddress"
-        }
-    }
-
-    public struct SecurityGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupId", location: .body(locationName: "groupId"), required: false, type: .string), 
-            AWSShapeMember(label: "GroupName", location: .body(locationName: "groupName"), required: false, type: .string)
-        ]
-        /// EC2 instance's security group ID.
-        public let groupId: String?
-        /// EC2 instance's security group name.
-        public let groupName: String?
-
-        public init(groupId: String? = nil, groupName: String? = nil) {
-            self.groupId = groupId
-            self.groupName = groupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groupId = "groupId"
-            case groupName = "groupName"
+            case lte = "lte"
+            case lt = "lt"
+            case gt = "gt"
+            case gte = "gte"
+            case neq = "neq"
+            case eq = "eq"
         }
     }
 

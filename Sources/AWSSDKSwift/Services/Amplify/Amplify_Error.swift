@@ -6,10 +6,10 @@ import AWSSDKSwiftCore
 public enum AmplifyErrorType: AWSErrorType {
     case badRequestException(message: String?)
     case unauthorizedException(message: String?)
+    case notFoundException(message: String?)
     case internalFailureException(message: String?)
     case limitExceededException(message: String?)
     case dependentServiceFailureException(message: String?)
-    case notFoundException(message: String?)
 }
 
 extension AmplifyErrorType {
@@ -23,14 +23,14 @@ extension AmplifyErrorType {
             self = .badRequestException(message: message)
         case "UnauthorizedException":
             self = .unauthorizedException(message: message)
+        case "NotFoundException":
+            self = .notFoundException(message: message)
         case "InternalFailureException":
             self = .internalFailureException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
         case "DependentServiceFailureException":
             self = .dependentServiceFailureException(message: message)
-        case "NotFoundException":
-            self = .notFoundException(message: message)
         default:
             return nil
         }

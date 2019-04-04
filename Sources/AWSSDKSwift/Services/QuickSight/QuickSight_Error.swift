@@ -8,17 +8,17 @@ public enum QuickSightErrorType: AWSErrorType {
     case invalidParameterValueException(message: String?)
     case resourceNotFoundException(message: String?)
     case throttlingException(message: String?)
-    case invalidNextTokenException(message: String?)
-    case preconditionNotMetException(message: String?)
     case internalFailureException(message: String?)
     case resourceUnavailableException(message: String?)
+    case invalidNextTokenException(message: String?)
+    case preconditionNotMetException(message: String?)
     case resourceExistsException(message: String?)
-    case limitExceededException(message: String?)
     case domainNotWhitelistedException(message: String?)
     case quickSightUserNotFoundException(message: String?)
     case identityTypeNotSupportedException(message: String?)
     case sessionLifetimeInMinutesInvalidException(message: String?)
     case unsupportedUserEditionException(message: String?)
+    case limitExceededException(message: String?)
 }
 
 extension QuickSightErrorType {
@@ -36,18 +36,16 @@ extension QuickSightErrorType {
             self = .resourceNotFoundException(message: message)
         case "ThrottlingException":
             self = .throttlingException(message: message)
-        case "InvalidNextTokenException":
-            self = .invalidNextTokenException(message: message)
-        case "PreconditionNotMetException":
-            self = .preconditionNotMetException(message: message)
         case "InternalFailureException":
             self = .internalFailureException(message: message)
         case "ResourceUnavailableException":
             self = .resourceUnavailableException(message: message)
+        case "InvalidNextTokenException":
+            self = .invalidNextTokenException(message: message)
+        case "PreconditionNotMetException":
+            self = .preconditionNotMetException(message: message)
         case "ResourceExistsException":
             self = .resourceExistsException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
         case "DomainNotWhitelistedException":
             self = .domainNotWhitelistedException(message: message)
         case "QuickSightUserNotFoundException":
@@ -58,6 +56,8 @@ extension QuickSightErrorType {
             self = .sessionLifetimeInMinutesInvalidException(message: message)
         case "UnsupportedUserEditionException":
             self = .unsupportedUserEditionException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
         default:
             return nil
         }

@@ -5,166 +5,6 @@ import AWSSDKSwiftCore
 
 extension ElasticBeanstalk {
 
-    public struct ResourceQuota: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Maximum", required: false, type: .integer)
-        ]
-        /// The maximum number of instances of this Elastic Beanstalk resource type that an AWS account can use.
-        public let maximum: Int32?
-
-        public init(maximum: Int32? = nil) {
-            self.maximum = maximum
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maximum = "Maximum"
-        }
-    }
-
-    public struct EnvironmentResourceDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Triggers", required: false, type: .list), 
-            AWSShapeMember(label: "LaunchConfigurations", required: false, type: .list), 
-            AWSShapeMember(label: "Queues", required: false, type: .list), 
-            AWSShapeMember(label: "LoadBalancers", required: false, type: .list), 
-            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeMember(label: "Instances", required: false, type: .list), 
-            AWSShapeMember(label: "AutoScalingGroups", required: false, type: .list)
-        ]
-        /// The AutoScaling triggers in use by this environment. 
-        public let triggers: [Trigger]?
-        /// The Auto Scaling launch configurations in use by this environment.
-        public let launchConfigurations: [LaunchConfiguration]?
-        /// The queues used by this environment.
-        public let queues: [Queue]?
-        /// The LoadBalancers in use by this environment.
-        public let loadBalancers: [LoadBalancer]?
-        /// The name of the environment.
-        public let environmentName: String?
-        /// The Amazon EC2 instances used by this environment.
-        public let instances: [Instance]?
-        ///  The AutoScalingGroups used by this environment. 
-        public let autoScalingGroups: [AutoScalingGroup]?
-
-        public init(triggers: [Trigger]? = nil, launchConfigurations: [LaunchConfiguration]? = nil, queues: [Queue]? = nil, loadBalancers: [LoadBalancer]? = nil, environmentName: String? = nil, instances: [Instance]? = nil, autoScalingGroups: [AutoScalingGroup]? = nil) {
-            self.triggers = triggers
-            self.launchConfigurations = launchConfigurations
-            self.queues = queues
-            self.loadBalancers = loadBalancers
-            self.environmentName = environmentName
-            self.instances = instances
-            self.autoScalingGroups = autoScalingGroups
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case triggers = "Triggers"
-            case launchConfigurations = "LaunchConfigurations"
-            case queues = "Queues"
-            case loadBalancers = "LoadBalancers"
-            case environmentName = "EnvironmentName"
-            case instances = "Instances"
-            case autoScalingGroups = "AutoScalingGroups"
-        }
-    }
-
-    public enum ApplicationVersionStatus: String, CustomStringConvertible, Codable {
-        case processed = "Processed"
-        case unprocessed = "Unprocessed"
-        case failed = "Failed"
-        case processing = "Processing"
-        case building = "Building"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CheckDNSAvailabilityResultMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Available", required: false, type: .boolean), 
-            AWSShapeMember(label: "FullyQualifiedCNAME", required: false, type: .string)
-        ]
-        /// Indicates if the specified CNAME is available:    true : The CNAME is available.    false : The CNAME is not available.  
-        public let available: Bool?
-        /// The fully qualified CNAME to reserve when CreateEnvironment is called with the provided prefix.
-        public let fullyQualifiedCNAME: String?
-
-        public init(available: Bool? = nil, fullyQualifiedCNAME: String? = nil) {
-            self.available = available
-            self.fullyQualifiedCNAME = fullyQualifiedCNAME
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case available = "Available"
-            case fullyQualifiedCNAME = "FullyQualifiedCNAME"
-        }
-    }
-
-    public struct RetrieveEnvironmentInfoMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InfoType", required: true, type: .enum), 
-            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeMember(label: "EnvironmentId", required: false, type: .string)
-        ]
-        /// The type of information to retrieve.
-        public let infoType: EnvironmentInfoType
-        /// The name of the data's environment.  If no such environment is found, returns an InvalidParameterValue error.   Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
-        public let environmentName: String?
-        /// The ID of the data's environment. If no such environment is found, returns an InvalidParameterValue error. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
-        public let environmentId: String?
-
-        public init(infoType: EnvironmentInfoType, environmentName: String? = nil, environmentId: String? = nil) {
-            self.infoType = infoType
-            self.environmentName = environmentName
-            self.environmentId = environmentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case infoType = "InfoType"
-            case environmentName = "EnvironmentName"
-            case environmentId = "EnvironmentId"
-        }
-    }
-
-    public struct ListAvailableSolutionStacksResultMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SolutionStacks", required: false, type: .list), 
-            AWSShapeMember(label: "SolutionStackDetails", required: false, type: .list)
-        ]
-        /// A list of available solution stacks.
-        public let solutionStacks: [String]?
-        ///  A list of available solution stacks and their SolutionStackDescription. 
-        public let solutionStackDetails: [SolutionStackDescription]?
-
-        public init(solutionStacks: [String]? = nil, solutionStackDetails: [SolutionStackDescription]? = nil) {
-            self.solutionStacks = solutionStacks
-            self.solutionStackDetails = solutionStackDetails
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case solutionStacks = "SolutionStacks"
-            case solutionStackDetails = "SolutionStackDetails"
-        }
-    }
-
-    public struct Listener: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Protocol", required: false, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer)
-        ]
-        /// The protocol that is used by the Listener.
-        public let `protocol`: String?
-        /// The port that is used by the Listener.
-        public let port: Int32?
-
-        public init(protocol: String? = nil, port: Int32? = nil) {
-            self.`protocol` = `protocol`
-            self.port = port
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `protocol` = "Protocol"
-            case port = "Port"
-        }
-    }
-
     public struct PlatformFramework: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Version", required: false, type: .string), 
@@ -186,70 +26,322 @@ extension ElasticBeanstalk {
         }
     }
 
-    public struct ManagedAction: AWSShape {
+    public struct RetrieveEnvironmentInfoResultMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "WindowStartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ActionDescription", required: false, type: .string), 
-            AWSShapeMember(label: "ActionId", required: false, type: .string), 
-            AWSShapeMember(label: "ActionType", required: false, type: .enum)
+            AWSShapeMember(label: "EnvironmentInfo", required: false, type: .list)
         ]
-        /// The status of the managed action. If the action is Scheduled, you can apply it immediately with ApplyEnvironmentManagedAction.
-        public let status: ActionStatus?
-        /// The start time of the maintenance window in which the managed action will execute.
-        public let windowStartTime: TimeStamp?
-        /// A description of the managed action.
-        public let actionDescription: String?
-        /// A unique identifier for the managed action.
-        public let actionId: String?
-        /// The type of managed action.
-        public let actionType: ActionType?
+        ///  The EnvironmentInfoDescription of the environment. 
+        public let environmentInfo: [EnvironmentInfoDescription]?
 
-        public init(status: ActionStatus? = nil, windowStartTime: TimeStamp? = nil, actionDescription: String? = nil, actionId: String? = nil, actionType: ActionType? = nil) {
-            self.status = status
-            self.windowStartTime = windowStartTime
-            self.actionDescription = actionDescription
-            self.actionId = actionId
-            self.actionType = actionType
+        public init(environmentInfo: [EnvironmentInfoDescription]? = nil) {
+            self.environmentInfo = environmentInfo
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status = "Status"
-            case windowStartTime = "WindowStartTime"
-            case actionDescription = "ActionDescription"
-            case actionId = "ActionId"
-            case actionType = "ActionType"
+            case environmentInfo = "EnvironmentInfo"
         }
     }
 
-    public struct TerminateEnvironmentMessage: AWSShape {
+    public enum ComputeType: String, CustomStringConvertible, Codable {
+        case buildGeneral1Small = "BUILD_GENERAL1_SMALL"
+        case buildGeneral1Medium = "BUILD_GENERAL1_MEDIUM"
+        case buildGeneral1Large = "BUILD_GENERAL1_LARGE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DescribeEnvironmentsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TerminateResources", required: false, type: .boolean), 
-            AWSShapeMember(label: "ForceTerminate", required: false, type: .boolean), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "EnvironmentIds", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationName", required: false, type: .string), 
+            AWSShapeMember(label: "VersionLabel", required: false, type: .string), 
+            AWSShapeMember(label: "EnvironmentNames", required: false, type: .list), 
+            AWSShapeMember(label: "IncludeDeleted", required: false, type: .boolean), 
+            AWSShapeMember(label: "IncludedDeletedBackTo", required: false, type: .timestamp)
+        ]
+        /// For a paginated request. Specify a maximum number of environments to include in each response. If no MaxRecords is specified, all available environments are retrieved in a single response.
+        public let maxRecords: Int32?
+        /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that have the specified IDs.
+        public let environmentIds: [String]?
+        /// For a paginated request. Specify a token from a previous response page to retrieve the next response page. All other parameter values must be identical to the ones specified in the initial request. If no NextToken is specified, the first page is retrieved.
+        public let nextToken: String?
+        /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application.
+        public let applicationName: String?
+        /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application version.
+        public let versionLabel: String?
+        /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that have the specified names.
+        public let environmentNames: [String]?
+        /// Indicates whether to include deleted environments:  true: Environments that have been deleted after IncludedDeletedBackTo are displayed.  false: Do not include deleted environments.
+        public let includeDeleted: Bool?
+        ///  If specified when IncludeDeleted is set to true, then environments deleted after this date are displayed. 
+        public let includedDeletedBackTo: TimeStamp?
+
+        public init(maxRecords: Int32? = nil, environmentIds: [String]? = nil, nextToken: String? = nil, applicationName: String? = nil, versionLabel: String? = nil, environmentNames: [String]? = nil, includeDeleted: Bool? = nil, includedDeletedBackTo: TimeStamp? = nil) {
+            self.maxRecords = maxRecords
+            self.environmentIds = environmentIds
+            self.nextToken = nextToken
+            self.applicationName = applicationName
+            self.versionLabel = versionLabel
+            self.environmentNames = environmentNames
+            self.includeDeleted = includeDeleted
+            self.includedDeletedBackTo = includedDeletedBackTo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case environmentIds = "EnvironmentIds"
+            case nextToken = "NextToken"
+            case applicationName = "ApplicationName"
+            case versionLabel = "VersionLabel"
+            case environmentNames = "EnvironmentNames"
+            case includeDeleted = "IncludeDeleted"
+            case includedDeletedBackTo = "IncludedDeletedBackTo"
+        }
+    }
+
+    public struct BuildConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TimeoutInMinutes", required: false, type: .integer), 
+            AWSShapeMember(label: "CodeBuildServiceRole", required: true, type: .string), 
+            AWSShapeMember(label: "ComputeType", required: false, type: .enum), 
+            AWSShapeMember(label: "ArtifactName", required: false, type: .string), 
+            AWSShapeMember(label: "Image", required: true, type: .string)
+        ]
+        /// How long in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait until timing out any related build that does not get marked as completed. The default is 60 minutes.
+        public let timeoutInMinutes: Int32?
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that enables AWS CodeBuild to interact with dependent AWS services on behalf of the AWS account.
+        public let codeBuildServiceRole: String
+        /// Information about the compute resources the build project will use.    BUILD_GENERAL1_SMALL: Use up to 3 GB memory and 2 vCPUs for builds     BUILD_GENERAL1_MEDIUM: Use up to 7 GB memory and 4 vCPUs for builds     BUILD_GENERAL1_LARGE: Use up to 15 GB memory and 8 vCPUs for builds   
+        public let computeType: ComputeType?
+        /// The name of the artifact of the CodeBuild build. If provided, Elastic Beanstalk stores the build artifact in the S3 location S3-bucket/resources/application-name/codebuild/codebuild-version-label-artifact-name.zip. If not provided, Elastic Beanstalk stores the build artifact in the S3 location S3-bucket/resources/application-name/codebuild/codebuild-version-label.zip. 
+        public let artifactName: String?
+        /// The ID of the Docker image to use for this build project.
+        public let image: String
+
+        public init(timeoutInMinutes: Int32? = nil, codeBuildServiceRole: String, computeType: ComputeType? = nil, artifactName: String? = nil, image: String) {
+            self.timeoutInMinutes = timeoutInMinutes
+            self.codeBuildServiceRole = codeBuildServiceRole
+            self.computeType = computeType
+            self.artifactName = artifactName
+            self.image = image
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timeoutInMinutes = "TimeoutInMinutes"
+            case codeBuildServiceRole = "CodeBuildServiceRole"
+            case computeType = "ComputeType"
+            case artifactName = "ArtifactName"
+            case image = "Image"
+        }
+    }
+
+    public struct SourceBuildInformation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourceRepository", required: true, type: .enum), 
+            AWSShapeMember(label: "SourceLocation", required: true, type: .string), 
+            AWSShapeMember(label: "SourceType", required: true, type: .enum)
+        ]
+        /// Location where the repository is stored.    CodeCommit     S3   
+        public let sourceRepository: SourceRepository
+        /// The location of the source code, as a formatted string, depending on the value of SourceRepository    For CodeCommit, the format is the repository name and commit ID, separated by a forward slash. For example, my-git-repo/265cfa0cf6af46153527f55d6503ec030551f57a.   For S3, the format is the S3 bucket name and object key, separated by a forward slash. For example, my-s3-bucket/Folders/my-source-file.  
+        public let sourceLocation: String
+        /// The type of repository.    Git     Zip   
+        public let sourceType: SourceType
+
+        public init(sourceRepository: SourceRepository, sourceLocation: String, sourceType: SourceType) {
+            self.sourceRepository = sourceRepository
+            self.sourceLocation = sourceLocation
+            self.sourceType = sourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceRepository = "SourceRepository"
+            case sourceLocation = "SourceLocation"
+            case sourceType = "SourceType"
+        }
+    }
+
+    public struct RestartAppServerMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
             AWSShapeMember(label: "EnvironmentId", required: false, type: .string)
         ]
-        /// Indicates whether the associated AWS resources should shut down when the environment is terminated:    true: The specified environment as well as the associated AWS resources, such as Auto Scaling group and LoadBalancer, are terminated.    false: AWS Elastic Beanstalk resource management is removed from the environment, but the AWS resources continue to operate.    For more information, see the  AWS Elastic Beanstalk User Guide.    Default: true   Valid Values: true | false 
-        public let terminateResources: Bool?
-        /// Terminates the target environment even if another environment in the same group is dependent on it.
-        public let forceTerminate: Bool?
-        /// The name of the environment to terminate.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
+        /// The name of the environment to restart the server for.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
         public let environmentName: String?
-        /// The ID of the environment to terminate.  Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
+        /// The ID of the environment to restart the server for.  Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
         public let environmentId: String?
 
-        public init(terminateResources: Bool? = nil, forceTerminate: Bool? = nil, environmentName: String? = nil, environmentId: String? = nil) {
-            self.terminateResources = terminateResources
-            self.forceTerminate = forceTerminate
+        public init(environmentName: String? = nil, environmentId: String? = nil) {
             self.environmentName = environmentName
             self.environmentId = environmentId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case terminateResources = "TerminateResources"
-            case forceTerminate = "ForceTerminate"
             case environmentName = "EnvironmentName"
             case environmentId = "EnvironmentId"
+        }
+    }
+
+    public struct ListTagsForResourceMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the resouce for which a tag list is requested. Must be the ARN of an Elastic Beanstalk environment.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct MaxAgeRule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeleteSourceFromS3", required: false, type: .boolean), 
+            AWSShapeMember(label: "MaxAgeInDays", required: false, type: .integer), 
+            AWSShapeMember(label: "Enabled", required: true, type: .boolean)
+        ]
+        /// Set to true to delete a version's source bundle from Amazon S3 when Elastic Beanstalk deletes the application version.
+        public let deleteSourceFromS3: Bool?
+        /// Specify the number of days to retain an application versions.
+        public let maxAgeInDays: Int32?
+        /// Specify true to apply the rule, or false to disable it.
+        public let enabled: Bool
+
+        public init(deleteSourceFromS3: Bool? = nil, maxAgeInDays: Int32? = nil, enabled: Bool) {
+            self.deleteSourceFromS3 = deleteSourceFromS3
+            self.maxAgeInDays = maxAgeInDays
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deleteSourceFromS3 = "DeleteSourceFromS3"
+            case maxAgeInDays = "MaxAgeInDays"
+            case enabled = "Enabled"
+        }
+    }
+
+    public struct CreateConfigurationTemplateMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TemplateName", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "SourceConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "PlatformArn", required: false, type: .string), 
+            AWSShapeMember(label: "EnvironmentId", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
+            AWSShapeMember(label: "SolutionStackName", required: false, type: .string), 
+            AWSShapeMember(label: "OptionSettings", required: false, type: .list)
+        ]
+        /// The name of the configuration template. Constraint: This name must be unique per application. Default: If a configuration template already exists with this name, AWS Elastic Beanstalk returns an InvalidParameterValue error. 
+        public let templateName: String
+        /// Describes this configuration.
+        public let description: String?
+        /// If specified, AWS Elastic Beanstalk uses the configuration values from the specified configuration template to create a new configuration.  Values specified in the OptionSettings parameter of this call overrides any values obtained from the SourceConfiguration.   If no configuration template is found, returns an InvalidParameterValue error.   Constraint: If both the solution stack name parameter and the source configuration parameters are specified, the solution stack of the source configuration template must match the specified solution stack name or else AWS Elastic Beanstalk returns an InvalidParameterCombination error. 
+        public let sourceConfiguration: SourceConfiguration?
+        /// The ARN of the custom platform.
+        public let platformArn: String?
+        /// The ID of the environment used with this configuration template.
+        public let environmentId: String?
+        /// The name of the application to associate with this configuration template. If no application is found with this name, AWS Elastic Beanstalk returns an InvalidParameterValue error. 
+        public let applicationName: String
+        /// The name of the solution stack used by this configuration. The solution stack specifies the operating system, architecture, and application server for a configuration template. It determines the set of configuration options as well as the possible and default values.  Use ListAvailableSolutionStacks to obtain a list of available solution stacks.   A solution stack name or a source configuration parameter must be specified, otherwise AWS Elastic Beanstalk returns an InvalidParameterValue error.  If a solution stack name is not specified and the source configuration parameter is specified, AWS Elastic Beanstalk uses the same solution stack as the source configuration template.
+        public let solutionStackName: String?
+        /// If specified, AWS Elastic Beanstalk sets the specified configuration option to the requested value. The new value overrides the value obtained from the solution stack or the source configuration template.
+        public let optionSettings: [ConfigurationOptionSetting]?
+
+        public init(templateName: String, description: String? = nil, sourceConfiguration: SourceConfiguration? = nil, platformArn: String? = nil, environmentId: String? = nil, applicationName: String, solutionStackName: String? = nil, optionSettings: [ConfigurationOptionSetting]? = nil) {
+            self.templateName = templateName
+            self.description = description
+            self.sourceConfiguration = sourceConfiguration
+            self.platformArn = platformArn
+            self.environmentId = environmentId
+            self.applicationName = applicationName
+            self.solutionStackName = solutionStackName
+            self.optionSettings = optionSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateName = "TemplateName"
+            case description = "Description"
+            case sourceConfiguration = "SourceConfiguration"
+            case platformArn = "PlatformArn"
+            case environmentId = "EnvironmentId"
+            case applicationName = "ApplicationName"
+            case solutionStackName = "SolutionStackName"
+            case optionSettings = "OptionSettings"
+        }
+    }
+
+    public enum ActionStatus: String, CustomStringConvertible, Codable {
+        case scheduled = "Scheduled"
+        case pending = "Pending"
+        case running = "Running"
+        case unknown = "Unknown"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ApplicationVersionDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VersionLabel", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationName", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "SourceBundle", required: false, type: .structure), 
+            AWSShapeMember(label: "DateCreated", required: false, type: .timestamp), 
+            AWSShapeMember(label: "BuildArn", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "ApplicationVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "DateUpdated", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SourceBuildInformation", required: false, type: .structure)
+        ]
+        /// A unique identifier for the application version.
+        public let versionLabel: String?
+        /// The name of the application to which the application version belongs.
+        public let applicationName: String?
+        /// The description of the application version.
+        public let description: String?
+        /// The storage location of the application version's source bundle in Amazon S3.
+        public let sourceBundle: S3Location?
+        /// The creation date of the application version.
+        public let dateCreated: TimeStamp?
+        /// Reference to the artifact from the AWS CodeBuild build.
+        public let buildArn: String?
+        /// The processing status of the application version. Reflects the state of the application version during its creation. Many of the values are only applicable if you specified True for the Process parameter of the CreateApplicationVersion action. The following list describes the possible values.    Unprocessed – Application version wasn't pre-processed or validated. Elastic Beanstalk will validate configuration files during deployment of the application version to an environment.    Processing – Elastic Beanstalk is currently processing the application version.    Building – Application version is currently undergoing an AWS CodeBuild build.    Processed – Elastic Beanstalk was successfully pre-processed and validated.    Failed – Either the AWS CodeBuild build failed or configuration files didn't pass validation. This application version isn't usable.  
+        public let status: ApplicationVersionStatus?
+        /// The Amazon Resource Name (ARN) of the application version.
+        public let applicationVersionArn: String?
+        /// The last modified date of the application version.
+        public let dateUpdated: TimeStamp?
+        /// If the version's source code was retrieved from AWS CodeCommit, the location of the source code for the application version.
+        public let sourceBuildInformation: SourceBuildInformation?
+
+        public init(versionLabel: String? = nil, applicationName: String? = nil, description: String? = nil, sourceBundle: S3Location? = nil, dateCreated: TimeStamp? = nil, buildArn: String? = nil, status: ApplicationVersionStatus? = nil, applicationVersionArn: String? = nil, dateUpdated: TimeStamp? = nil, sourceBuildInformation: SourceBuildInformation? = nil) {
+            self.versionLabel = versionLabel
+            self.applicationName = applicationName
+            self.description = description
+            self.sourceBundle = sourceBundle
+            self.dateCreated = dateCreated
+            self.buildArn = buildArn
+            self.status = status
+            self.applicationVersionArn = applicationVersionArn
+            self.dateUpdated = dateUpdated
+            self.sourceBuildInformation = sourceBuildInformation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case versionLabel = "VersionLabel"
+            case applicationName = "ApplicationName"
+            case description = "Description"
+            case sourceBundle = "SourceBundle"
+            case dateCreated = "DateCreated"
+            case buildArn = "BuildArn"
+            case status = "Status"
+            case applicationVersionArn = "ApplicationVersionArn"
+            case dateUpdated = "DateUpdated"
+            case sourceBuildInformation = "SourceBuildInformation"
         }
     }
 
@@ -274,90 +366,534 @@ extension ElasticBeanstalk {
         }
     }
 
-    public struct CPUUtilization: AWSShape {
+    public struct Latency: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SoftIRQ", required: false, type: .double), 
-            AWSShapeMember(label: "System", required: false, type: .double), 
-            AWSShapeMember(label: "Privileged", required: false, type: .double), 
-            AWSShapeMember(label: "Idle", required: false, type: .double), 
-            AWSShapeMember(label: "Nice", required: false, type: .double), 
-            AWSShapeMember(label: "IOWait", required: false, type: .double), 
-            AWSShapeMember(label: "IRQ", required: false, type: .double), 
-            AWSShapeMember(label: "User", required: false, type: .double)
+            AWSShapeMember(label: "P999", required: false, type: .double), 
+            AWSShapeMember(label: "P99", required: false, type: .double), 
+            AWSShapeMember(label: "P90", required: false, type: .double), 
+            AWSShapeMember(label: "P50", required: false, type: .double), 
+            AWSShapeMember(label: "P95", required: false, type: .double), 
+            AWSShapeMember(label: "P10", required: false, type: .double), 
+            AWSShapeMember(label: "P85", required: false, type: .double), 
+            AWSShapeMember(label: "P75", required: false, type: .double)
         ]
-        /// Available on Linux environments only. Percentage of time that the CPU has spent in the SoftIRQ state over the last 10 seconds.
-        public let softIRQ: Double?
-        /// Available on Linux environments only. Percentage of time that the CPU has spent in the System state over the last 10 seconds.
-        public let system: Double?
-        /// Available on Windows environments only. Percentage of time that the CPU has spent in the Privileged state over the last 10 seconds.
-        public let privileged: Double?
-        /// Percentage of time that the CPU has spent in the Idle state over the last 10 seconds.
-        public let idle: Double?
-        /// Available on Linux environments only. Percentage of time that the CPU has spent in the Nice state over the last 10 seconds.
-        public let nice: Double?
-        /// Available on Linux environments only. Percentage of time that the CPU has spent in the I/O Wait state over the last 10 seconds.
-        public let iOWait: Double?
-        /// Available on Linux environments only. Percentage of time that the CPU has spent in the IRQ state over the last 10 seconds.
-        public let irq: Double?
-        /// Percentage of time that the CPU has spent in the User state over the last 10 seconds.
-        public let user: Double?
+        /// The average latency for the slowest 0.1 percent of requests over the last 10 seconds.
+        public let p999: Double?
+        /// The average latency for the slowest 1 percent of requests over the last 10 seconds.
+        public let p99: Double?
+        /// The average latency for the slowest 10 percent of requests over the last 10 seconds.
+        public let p90: Double?
+        /// The average latency for the slowest 50 percent of requests over the last 10 seconds.
+        public let p50: Double?
+        /// The average latency for the slowest 5 percent of requests over the last 10 seconds.
+        public let p95: Double?
+        /// The average latency for the slowest 90 percent of requests over the last 10 seconds.
+        public let p10: Double?
+        /// The average latency for the slowest 15 percent of requests over the last 10 seconds.
+        public let p85: Double?
+        /// The average latency for the slowest 25 percent of requests over the last 10 seconds.
+        public let p75: Double?
 
-        public init(softIRQ: Double? = nil, system: Double? = nil, privileged: Double? = nil, idle: Double? = nil, nice: Double? = nil, iOWait: Double? = nil, irq: Double? = nil, user: Double? = nil) {
-            self.softIRQ = softIRQ
-            self.system = system
-            self.privileged = privileged
-            self.idle = idle
-            self.nice = nice
-            self.iOWait = iOWait
-            self.irq = irq
-            self.user = user
+        public init(p999: Double? = nil, p99: Double? = nil, p90: Double? = nil, p50: Double? = nil, p95: Double? = nil, p10: Double? = nil, p85: Double? = nil, p75: Double? = nil) {
+            self.p999 = p999
+            self.p99 = p99
+            self.p90 = p90
+            self.p50 = p50
+            self.p95 = p95
+            self.p10 = p10
+            self.p85 = p85
+            self.p75 = p75
         }
 
         private enum CodingKeys: String, CodingKey {
-            case softIRQ = "SoftIRQ"
-            case system = "System"
-            case privileged = "Privileged"
-            case idle = "Idle"
-            case nice = "Nice"
-            case iOWait = "IOWait"
-            case irq = "IRQ"
-            case user = "User"
+            case p999 = "P999"
+            case p99 = "P99"
+            case p90 = "P90"
+            case p50 = "P50"
+            case p95 = "P95"
+            case p10 = "P10"
+            case p85 = "P85"
+            case p75 = "P75"
         }
     }
 
-    public struct UpdateConfigurationTemplateMessage: AWSShape {
+    public struct ApplicationVersionLifecycleConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OptionSettings", required: false, type: .list), 
-            AWSShapeMember(label: "TemplateName", required: true, type: .string), 
-            AWSShapeMember(label: "OptionsToRemove", required: false, type: .list), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "MaxCountRule", required: false, type: .structure), 
+            AWSShapeMember(label: "MaxAgeRule", required: false, type: .structure)
+        ]
+        /// Specify a max count rule to restrict the number of application versions that are retained for an application.
+        public let maxCountRule: MaxCountRule?
+        /// Specify a max age rule to restrict the length of time that application versions are retained for an application.
+        public let maxAgeRule: MaxAgeRule?
+
+        public init(maxCountRule: MaxCountRule? = nil, maxAgeRule: MaxAgeRule? = nil) {
+            self.maxCountRule = maxCountRule
+            self.maxAgeRule = maxAgeRule
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxCountRule = "MaxCountRule"
+            case maxAgeRule = "MaxAgeRule"
+        }
+    }
+
+    public enum ConfigurationOptionValueType: String, CustomStringConvertible, Codable {
+        case scalar = "Scalar"
+        case list = "List"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct EnvironmentResourceDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoScalingGroups", required: false, type: .list), 
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "LoadBalancers", required: false, type: .list), 
+            AWSShapeMember(label: "Triggers", required: false, type: .list), 
+            AWSShapeMember(label: "Instances", required: false, type: .list), 
+            AWSShapeMember(label: "Queues", required: false, type: .list), 
+            AWSShapeMember(label: "LaunchConfigurations", required: false, type: .list)
+        ]
+        ///  The AutoScalingGroups used by this environment. 
+        public let autoScalingGroups: [AutoScalingGroup]?
+        /// The name of the environment.
+        public let environmentName: String?
+        /// The LoadBalancers in use by this environment.
+        public let loadBalancers: [LoadBalancer]?
+        /// The AutoScaling triggers in use by this environment. 
+        public let triggers: [Trigger]?
+        /// The Amazon EC2 instances used by this environment.
+        public let instances: [Instance]?
+        /// The queues used by this environment.
+        public let queues: [Queue]?
+        /// The Auto Scaling launch configurations in use by this environment.
+        public let launchConfigurations: [LaunchConfiguration]?
+
+        public init(autoScalingGroups: [AutoScalingGroup]? = nil, environmentName: String? = nil, loadBalancers: [LoadBalancer]? = nil, triggers: [Trigger]? = nil, instances: [Instance]? = nil, queues: [Queue]? = nil, launchConfigurations: [LaunchConfiguration]? = nil) {
+            self.autoScalingGroups = autoScalingGroups
+            self.environmentName = environmentName
+            self.loadBalancers = loadBalancers
+            self.triggers = triggers
+            self.instances = instances
+            self.queues = queues
+            self.launchConfigurations = launchConfigurations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingGroups = "AutoScalingGroups"
+            case environmentName = "EnvironmentName"
+            case loadBalancers = "LoadBalancers"
+            case triggers = "Triggers"
+            case instances = "Instances"
+            case queues = "Queues"
+            case launchConfigurations = "LaunchConfigurations"
+        }
+    }
+
+    public enum EnvironmentInfoType: String, CustomStringConvertible, Codable {
+        case tail = "tail"
+        case bundle = "bundle"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EventSeverity: String, CustomStringConvertible, Codable {
+        case trace = "TRACE"
+        case debug = "DEBUG"
+        case info = "INFO"
+        case warn = "WARN"
+        case error = "ERROR"
+        case fatal = "FATAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CheckDNSAvailabilityResultMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Available", required: false, type: .boolean), 
+            AWSShapeMember(label: "FullyQualifiedCNAME", required: false, type: .string)
+        ]
+        /// Indicates if the specified CNAME is available:    true : The CNAME is available.    false : The CNAME is not available.  
+        public let available: Bool?
+        /// The fully qualified CNAME to reserve when CreateEnvironment is called with the provided prefix.
+        public let fullyQualifiedCNAME: String?
+
+        public init(available: Bool? = nil, fullyQualifiedCNAME: String? = nil) {
+            self.available = available
+            self.fullyQualifiedCNAME = fullyQualifiedCNAME
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case available = "Available"
+            case fullyQualifiedCNAME = "FullyQualifiedCNAME"
+        }
+    }
+
+    public enum ValidationSeverity: String, CustomStringConvertible, Codable {
+        case error = "error"
+        case warning = "warning"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Listener: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Port", required: false, type: .integer), 
+            AWSShapeMember(label: "Protocol", required: false, type: .string)
+        ]
+        /// The port that is used by the Listener.
+        public let port: Int32?
+        /// The protocol that is used by the Listener.
+        public let `protocol`: String?
+
+        public init(port: Int32? = nil, protocol: String? = nil) {
+            self.port = port
+            self.`protocol` = `protocol`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case port = "Port"
+            case `protocol` = "Protocol"
+        }
+    }
+
+    public struct DeleteApplicationMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TerminateEnvByForce", required: false, type: .boolean), 
             AWSShapeMember(label: "ApplicationName", required: true, type: .string)
         ]
-        /// A list of configuration option settings to update with the new specified option value.
-        public let optionSettings: [ConfigurationOptionSetting]?
-        /// The name of the configuration template to update.  If no configuration template is found with this name, UpdateConfigurationTemplate returns an InvalidParameterValue error. 
-        public let templateName: String
-        /// A list of configuration options to remove from the configuration set.  Constraint: You can remove only UserDefined configuration options. 
-        public let optionsToRemove: [OptionSpecification]?
-        /// A new description for the configuration.
-        public let description: String?
-        /// The name of the application associated with the configuration template to update.  If no application is found with this name, UpdateConfigurationTemplate returns an InvalidParameterValue error. 
+        /// When set to true, running environments will be terminated before deleting the application.
+        public let terminateEnvByForce: Bool?
+        /// The name of the application to delete.
         public let applicationName: String
 
-        public init(optionSettings: [ConfigurationOptionSetting]? = nil, templateName: String, optionsToRemove: [OptionSpecification]? = nil, description: String? = nil, applicationName: String) {
-            self.optionSettings = optionSettings
-            self.templateName = templateName
-            self.optionsToRemove = optionsToRemove
-            self.description = description
+        public init(terminateEnvByForce: Bool? = nil, applicationName: String) {
+            self.terminateEnvByForce = terminateEnvByForce
             self.applicationName = applicationName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case optionSettings = "OptionSettings"
-            case templateName = "TemplateName"
-            case optionsToRemove = "OptionsToRemove"
+            case terminateEnvByForce = "TerminateEnvByForce"
+            case applicationName = "ApplicationName"
+        }
+    }
+
+    public struct EnvironmentTier: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// The type of this environment tier.
+        public let `type`: String?
+        /// The version of this environment tier. When you don't set a value to it, Elastic Beanstalk uses the latest compatible worker tier version.  This member is deprecated. Any specific version that you set may become out of date. We recommend leaving it unspecified. 
+        public let version: String?
+        /// The name of this environment tier.
+        public let name: String?
+
+        public init(type: String? = nil, version: String? = nil, name: String? = nil) {
+            self.`type` = `type`
+            self.version = version
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case version = "Version"
+            case name = "Name"
+        }
+    }
+
+    public struct ConfigurationSettingsValidationMessages: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Messages", required: false, type: .list)
+        ]
+        ///  A list of ValidationMessage. 
+        public let messages: [ValidationMessage]?
+
+        public init(messages: [ValidationMessage]? = nil) {
+            self.messages = messages
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case messages = "Messages"
+        }
+    }
+
+    public struct ResourceTagsDescriptionMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceTags", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceArn", required: false, type: .string)
+        ]
+        /// A list of tag key-value pairs.
+        public let resourceTags: [Tag]?
+        /// The Amazon Resource Name (ARN) of the resouce for which a tag list was requested.
+        public let resourceArn: String?
+
+        public init(resourceTags: [Tag]? = nil, resourceArn: String? = nil) {
+            self.resourceTags = resourceTags
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceTags = "ResourceTags"
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct ManagedAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActionType", required: false, type: .enum), 
+            AWSShapeMember(label: "ActionId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "WindowStartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ActionDescription", required: false, type: .string)
+        ]
+        /// The type of managed action.
+        public let actionType: ActionType?
+        /// A unique identifier for the managed action.
+        public let actionId: String?
+        /// The status of the managed action. If the action is Scheduled, you can apply it immediately with ApplyEnvironmentManagedAction.
+        public let status: ActionStatus?
+        /// The start time of the maintenance window in which the managed action will execute.
+        public let windowStartTime: TimeStamp?
+        /// A description of the managed action.
+        public let actionDescription: String?
+
+        public init(actionType: ActionType? = nil, actionId: String? = nil, status: ActionStatus? = nil, windowStartTime: TimeStamp? = nil, actionDescription: String? = nil) {
+            self.actionType = actionType
+            self.actionId = actionId
+            self.status = status
+            self.windowStartTime = windowStartTime
+            self.actionDescription = actionDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionType = "ActionType"
+            case actionId = "ActionId"
+            case status = "Status"
+            case windowStartTime = "WindowStartTime"
+            case actionDescription = "ActionDescription"
+        }
+    }
+
+    public struct CheckDNSAvailabilityMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CNAMEPrefix", required: true, type: .string)
+        ]
+        /// The prefix used when this CNAME is reserved.
+        public let cNAMEPrefix: String
+
+        public init(cNAMEPrefix: String) {
+            self.cNAMEPrefix = cNAMEPrefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cNAMEPrefix = "CNAMEPrefix"
+        }
+    }
+
+    public struct ResourceQuota: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Maximum", required: false, type: .integer)
+        ]
+        /// The maximum number of instances of this Elastic Beanstalk resource type that an AWS account can use.
+        public let maximum: Int32?
+
+        public init(maximum: Int32? = nil) {
+            self.maximum = maximum
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maximum = "Maximum"
+        }
+    }
+
+    public struct TerminateEnvironmentMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnvironmentId", required: false, type: .string), 
+            AWSShapeMember(label: "ForceTerminate", required: false, type: .boolean), 
+            AWSShapeMember(label: "TerminateResources", required: false, type: .boolean), 
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string)
+        ]
+        /// The ID of the environment to terminate.  Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
+        public let environmentId: String?
+        /// Terminates the target environment even if another environment in the same group is dependent on it.
+        public let forceTerminate: Bool?
+        /// Indicates whether the associated AWS resources should shut down when the environment is terminated:    true: The specified environment as well as the associated AWS resources, such as Auto Scaling group and LoadBalancer, are terminated.    false: AWS Elastic Beanstalk resource management is removed from the environment, but the AWS resources continue to operate.    For more information, see the  AWS Elastic Beanstalk User Guide.    Default: true   Valid Values: true | false 
+        public let terminateResources: Bool?
+        /// The name of the environment to terminate.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
+        public let environmentName: String?
+
+        public init(environmentId: String? = nil, forceTerminate: Bool? = nil, terminateResources: Bool? = nil, environmentName: String? = nil) {
+            self.environmentId = environmentId
+            self.forceTerminate = forceTerminate
+            self.terminateResources = terminateResources
+            self.environmentName = environmentName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case environmentId = "EnvironmentId"
+            case forceTerminate = "ForceTerminate"
+            case terminateResources = "TerminateResources"
+            case environmentName = "EnvironmentName"
+        }
+    }
+
+    public struct ApplicationVersionDescriptionsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationVersions", required: false, type: .list)
+        ]
+        /// In a paginated request, the token that you can pass in a subsequent request to get the next response page.
+        public let nextToken: String?
+        /// List of ApplicationVersionDescription objects sorted in order of creation.
+        public let applicationVersions: [ApplicationVersionDescription]?
+
+        public init(nextToken: String? = nil, applicationVersions: [ApplicationVersionDescription]? = nil) {
+            self.nextToken = nextToken
+            self.applicationVersions = applicationVersions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case applicationVersions = "ApplicationVersions"
+        }
+    }
+
+    public struct StatusCodes: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status3xx", required: false, type: .integer), 
+            AWSShapeMember(label: "Status2xx", required: false, type: .integer), 
+            AWSShapeMember(label: "Status4xx", required: false, type: .integer), 
+            AWSShapeMember(label: "Status5xx", required: false, type: .integer)
+        ]
+        /// The percentage of requests over the last 10 seconds that resulted in a 3xx (300, 301, etc.) status code.
+        public let status3xx: Int32?
+        /// The percentage of requests over the last 10 seconds that resulted in a 2xx (200, 201, etc.) status code.
+        public let status2xx: Int32?
+        /// The percentage of requests over the last 10 seconds that resulted in a 4xx (400, 401, etc.) status code.
+        public let status4xx: Int32?
+        /// The percentage of requests over the last 10 seconds that resulted in a 5xx (500, 501, etc.) status code.
+        public let status5xx: Int32?
+
+        public init(status3xx: Int32? = nil, status2xx: Int32? = nil, status4xx: Int32? = nil, status5xx: Int32? = nil) {
+            self.status3xx = status3xx
+            self.status2xx = status2xx
+            self.status4xx = status4xx
+            self.status5xx = status5xx
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status3xx = "Status3xx"
+            case status2xx = "Status2xx"
+            case status4xx = "Status4xx"
+            case status5xx = "Status5xx"
+        }
+    }
+
+    public struct SwapEnvironmentCNAMEsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DestinationEnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "DestinationEnvironmentId", required: false, type: .string), 
+            AWSShapeMember(label: "SourceEnvironmentId", required: false, type: .string), 
+            AWSShapeMember(label: "SourceEnvironmentName", required: false, type: .string)
+        ]
+        /// The name of the destination environment.  Condition: You must specify at least the DestinationEnvironmentID or the DestinationEnvironmentName. You may also specify both. You must specify the SourceEnvironmentName with the DestinationEnvironmentName. 
+        public let destinationEnvironmentName: String?
+        /// The ID of the destination environment.  Condition: You must specify at least the DestinationEnvironmentID or the DestinationEnvironmentName. You may also specify both. You must specify the SourceEnvironmentId with the DestinationEnvironmentId. 
+        public let destinationEnvironmentId: String?
+        /// The ID of the source environment.  Condition: You must specify at least the SourceEnvironmentID or the SourceEnvironmentName. You may also specify both. If you specify the SourceEnvironmentId, you must specify the DestinationEnvironmentId. 
+        public let sourceEnvironmentId: String?
+        /// The name of the source environment.  Condition: You must specify at least the SourceEnvironmentID or the SourceEnvironmentName. You may also specify both. If you specify the SourceEnvironmentName, you must specify the DestinationEnvironmentName. 
+        public let sourceEnvironmentName: String?
+
+        public init(destinationEnvironmentName: String? = nil, destinationEnvironmentId: String? = nil, sourceEnvironmentId: String? = nil, sourceEnvironmentName: String? = nil) {
+            self.destinationEnvironmentName = destinationEnvironmentName
+            self.destinationEnvironmentId = destinationEnvironmentId
+            self.sourceEnvironmentId = sourceEnvironmentId
+            self.sourceEnvironmentName = sourceEnvironmentName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationEnvironmentName = "DestinationEnvironmentName"
+            case destinationEnvironmentId = "DestinationEnvironmentId"
+            case sourceEnvironmentId = "SourceEnvironmentId"
+            case sourceEnvironmentName = "SourceEnvironmentName"
+        }
+    }
+
+    public enum EnvironmentStatus: String, CustomStringConvertible, Codable {
+        case launching = "Launching"
+        case updating = "Updating"
+        case ready = "Ready"
+        case terminating = "Terminating"
+        case terminated = "Terminated"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct RebuildEnvironmentMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "EnvironmentId", required: false, type: .string)
+        ]
+        /// The name of the environment to rebuild.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
+        public let environmentName: String?
+        /// The ID of the environment to rebuild.  Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
+        public let environmentId: String?
+
+        public init(environmentName: String? = nil, environmentId: String? = nil) {
+            self.environmentName = environmentName
+            self.environmentId = environmentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case environmentName = "EnvironmentName"
+            case environmentId = "EnvironmentId"
+        }
+    }
+
+    public struct ListPlatformVersionsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "PlatformSummaryList", required: false, type: .list)
+        ]
+        /// The starting index into the remaining list of platforms. if this value is not null, you can use it in a subsequent ListPlatformVersion call. 
+        public let nextToken: String?
+        /// Detailed information about the platforms.
+        public let platformSummaryList: [PlatformSummary]?
+
+        public init(nextToken: String? = nil, platformSummaryList: [PlatformSummary]? = nil) {
+            self.nextToken = nextToken
+            self.platformSummaryList = platformSummaryList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case platformSummaryList = "PlatformSummaryList"
+        }
+    }
+
+    public struct UpdateApplicationVersionMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
+            AWSShapeMember(label: "VersionLabel", required: true, type: .string)
+        ]
+        /// A new description for this version.
+        public let description: String?
+        /// The name of the application associated with this version.  If no application is found with this name, UpdateApplication returns an InvalidParameterValue error.
+        public let applicationName: String
+        /// The name of the version to update. If no application version is found with this label, UpdateApplication returns an InvalidParameterValue error. 
+        public let versionLabel: String
+
+        public init(description: String? = nil, applicationName: String, versionLabel: String) {
+            self.description = description
+            self.applicationName = applicationName
+            self.versionLabel = versionLabel
+        }
+
+        private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case applicationName = "ApplicationName"
+            case versionLabel = "VersionLabel"
         }
     }
 
@@ -382,55 +918,2339 @@ extension ElasticBeanstalk {
         }
     }
 
-    public struct CreatePlatformVersionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Builder", required: false, type: .structure), 
-            AWSShapeMember(label: "PlatformSummary", required: false, type: .structure)
-        ]
-        /// The builder used to create the custom platform.
-        public let builder: Builder?
-        /// Detailed information about the new version of the custom platform.
-        public let platformSummary: PlatformSummary?
+    public enum InstancesHealthAttribute: String, CustomStringConvertible, Codable {
+        case healthstatus = "HealthStatus"
+        case color = "Color"
+        case causes = "Causes"
+        case applicationmetrics = "ApplicationMetrics"
+        case refreshedat = "RefreshedAt"
+        case launchedat = "LaunchedAt"
+        case system = "System"
+        case deployment = "Deployment"
+        case availabilityzone = "AvailabilityZone"
+        case instancetype = "InstanceType"
+        case all = "All"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(builder: Builder? = nil, platformSummary: PlatformSummary? = nil) {
-            self.builder = builder
-            self.platformSummary = platformSummary
+    public struct Queue: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "URL", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// The URL of the queue.
+        public let url: String?
+        /// The name of the queue.
+        public let name: String?
+
+        public init(url: String? = nil, name: String? = nil) {
+            self.url = url
+            self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case builder = "Builder"
-            case platformSummary = "PlatformSummary"
+            case url = "URL"
+            case name = "Name"
         }
     }
 
-    public struct ValidateConfigurationSettingsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OptionSettings", required: true, type: .list), 
-            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeMember(label: "TemplateName", required: false, type: .string), 
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string)
-        ]
-        /// A list of the options and desired values to evaluate.
-        public let optionSettings: [ConfigurationOptionSetting]
-        /// The name of the environment to validate the settings against. Condition: You cannot specify both this and a configuration template name.
-        public let environmentName: String?
-        /// The name of the configuration template to validate the settings against. Condition: You cannot specify both this and an environment name.
-        public let templateName: String?
-        /// The name of the application that the configuration template or environment belongs to.
-        public let applicationName: String
+    public enum EnvironmentHealthStatus: String, CustomStringConvertible, Codable {
+        case nodata = "NoData"
+        case unknown = "Unknown"
+        case pending = "Pending"
+        case ok = "Ok"
+        case info = "Info"
+        case warning = "Warning"
+        case degraded = "Degraded"
+        case severe = "Severe"
+        case suspended = "Suspended"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(optionSettings: [ConfigurationOptionSetting], environmentName: String? = nil, templateName: String? = nil, applicationName: String) {
-            self.optionSettings = optionSettings
+    public struct DescribeEnvironmentManagedActionsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ManagedActions", required: false, type: .list)
+        ]
+        /// A list of upcoming and in-progress managed actions.
+        public let managedActions: [ManagedAction]?
+
+        public init(managedActions: [ManagedAction]? = nil) {
+            self.managedActions = managedActions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case managedActions = "ManagedActions"
+        }
+    }
+
+    public struct CreateApplicationVersionMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoCreateApplication", required: false, type: .boolean), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "VersionLabel", required: true, type: .string), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
+            AWSShapeMember(label: "SourceBuildInformation", required: false, type: .structure), 
+            AWSShapeMember(label: "Process", required: false, type: .boolean), 
+            AWSShapeMember(label: "SourceBundle", required: false, type: .structure), 
+            AWSShapeMember(label: "BuildConfiguration", required: false, type: .structure)
+        ]
+        /// Set to true to create an application with the specified name if it doesn't already exist.
+        public let autoCreateApplication: Bool?
+        /// Describes this version.
+        public let description: String?
+        /// A label identifying this version. Constraint: Must be unique per application. If an application version already exists with this label for the specified application, AWS Elastic Beanstalk returns an InvalidParameterValue error. 
+        public let versionLabel: String
+        ///  The name of the application. If no application is found with this name, and AutoCreateApplication is false, returns an InvalidParameterValue error. 
+        public let applicationName: String
+        /// Specify a commit in an AWS CodeCommit Git repository to use as the source code for the application version.
+        public let sourceBuildInformation: SourceBuildInformation?
+        /// Pre-processes and validates the environment manifest (env.yaml) and configuration files (*.config files in the .ebextensions folder) in the source bundle. Validating configuration files can identify issues prior to deploying the application version to an environment. You must turn processing on for application versions that you create using AWS CodeBuild or AWS CodeCommit. For application versions built from a source bundle in Amazon S3, processing is optional.  The Process option validates Elastic Beanstalk configuration files. It doesn't validate your application's configuration files, like proxy server or Docker configuration. 
+        public let process: Bool?
+        /// The Amazon S3 bucket and key that identify the location of the source bundle for this version.  The Amazon S3 bucket must be in the same region as the environment.  Specify a source bundle in S3 or a commit in an AWS CodeCommit repository (with SourceBuildInformation), but not both. If neither SourceBundle nor SourceBuildInformation are provided, Elastic Beanstalk uses a sample application.
+        public let sourceBundle: S3Location?
+        /// Settings for an AWS CodeBuild build.
+        public let buildConfiguration: BuildConfiguration?
+
+        public init(autoCreateApplication: Bool? = nil, description: String? = nil, versionLabel: String, applicationName: String, sourceBuildInformation: SourceBuildInformation? = nil, process: Bool? = nil, sourceBundle: S3Location? = nil, buildConfiguration: BuildConfiguration? = nil) {
+            self.autoCreateApplication = autoCreateApplication
+            self.description = description
+            self.versionLabel = versionLabel
+            self.applicationName = applicationName
+            self.sourceBuildInformation = sourceBuildInformation
+            self.process = process
+            self.sourceBundle = sourceBundle
+            self.buildConfiguration = buildConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoCreateApplication = "AutoCreateApplication"
+            case description = "Description"
+            case versionLabel = "VersionLabel"
+            case applicationName = "ApplicationName"
+            case sourceBuildInformation = "SourceBuildInformation"
+            case process = "Process"
+            case sourceBundle = "SourceBundle"
+            case buildConfiguration = "BuildConfiguration"
+        }
+    }
+
+    public struct DescribeEnvironmentResourcesMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "EnvironmentId", required: false, type: .string)
+        ]
+        /// The name of the environment to retrieve AWS resource usage data.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
+        public let environmentName: String?
+        /// The ID of the environment to retrieve AWS resource usage data.  Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
+        public let environmentId: String?
+
+        public init(environmentName: String? = nil, environmentId: String? = nil) {
             self.environmentName = environmentName
+            self.environmentId = environmentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case environmentName = "EnvironmentName"
+            case environmentId = "EnvironmentId"
+        }
+    }
+
+    public struct InstanceHealthSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Degraded", required: false, type: .integer), 
+            AWSShapeMember(label: "Pending", required: false, type: .integer), 
+            AWSShapeMember(label: "Info", required: false, type: .integer), 
+            AWSShapeMember(label: "Ok", required: false, type: .integer), 
+            AWSShapeMember(label: "Warning", required: false, type: .integer), 
+            AWSShapeMember(label: "Unknown", required: false, type: .integer), 
+            AWSShapeMember(label: "Severe", required: false, type: .integer), 
+            AWSShapeMember(label: "NoData", required: false, type: .integer)
+        ]
+        ///  Red. The health agent is reporting a high number of request failures or other issues for an instance or environment.
+        public let degraded: Int32?
+        ///  Grey. An operation is in progress on an instance within the command timeout.
+        public let pending: Int32?
+        ///  Green. An operation is in progress on an instance.
+        public let info: Int32?
+        ///  Green. An instance is passing health checks and the health agent is not reporting any problems.
+        public let ok: Int32?
+        ///  Yellow. The health agent is reporting a moderate number of request failures or other issues for an instance or environment.
+        public let warning: Int32?
+        ///  Grey. AWS Elastic Beanstalk and the health agent are reporting an insufficient amount of data on an instance.
+        public let unknown: Int32?
+        ///  Red. The health agent is reporting a very high number of request failures or other issues for an instance or environment.
+        public let severe: Int32?
+        ///  Grey. AWS Elastic Beanstalk and the health agent are reporting no data on an instance.
+        public let noData: Int32?
+
+        public init(degraded: Int32? = nil, pending: Int32? = nil, info: Int32? = nil, ok: Int32? = nil, warning: Int32? = nil, unknown: Int32? = nil, severe: Int32? = nil, noData: Int32? = nil) {
+            self.degraded = degraded
+            self.pending = pending
+            self.info = info
+            self.ok = ok
+            self.warning = warning
+            self.unknown = unknown
+            self.severe = severe
+            self.noData = noData
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case degraded = "Degraded"
+            case pending = "Pending"
+            case info = "Info"
+            case ok = "Ok"
+            case warning = "Warning"
+            case unknown = "Unknown"
+            case severe = "Severe"
+            case noData = "NoData"
+        }
+    }
+
+    public struct ApplicationMetrics: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RequestCount", required: false, type: .integer), 
+            AWSShapeMember(label: "Duration", required: false, type: .integer), 
+            AWSShapeMember(label: "StatusCodes", required: false, type: .structure), 
+            AWSShapeMember(label: "Latency", required: false, type: .structure)
+        ]
+        /// Average number of requests handled by the web server per second over the last 10 seconds.
+        public let requestCount: Int32?
+        /// The amount of time that the metrics cover (usually 10 seconds). For example, you might have 5 requests (request_count) within the most recent time slice of 10 seconds (duration).
+        public let duration: Int32?
+        /// Represents the percentage of requests over the last 10 seconds that resulted in each type of status code response.
+        public let statusCodes: StatusCodes?
+        /// Represents the average latency for the slowest X percent of requests over the last 10 seconds. Latencies are in seconds with one millisecond resolution.
+        public let latency: Latency?
+
+        public init(requestCount: Int32? = nil, duration: Int32? = nil, statusCodes: StatusCodes? = nil, latency: Latency? = nil) {
+            self.requestCount = requestCount
+            self.duration = duration
+            self.statusCodes = statusCodes
+            self.latency = latency
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestCount = "RequestCount"
+            case duration = "Duration"
+            case statusCodes = "StatusCodes"
+            case latency = "Latency"
+        }
+    }
+
+    public struct DescribeInstancesHealthRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "EnvironmentId", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "AttributeNames", required: false, type: .list)
+        ]
+        /// Specify the AWS Elastic Beanstalk environment by name.
+        public let environmentName: String?
+        /// Specify the AWS Elastic Beanstalk environment by ID.
+        public let environmentId: String?
+        /// Specify the pagination token returned by a previous call.
+        public let nextToken: String?
+        /// Specifies the response elements you wish to receive. To retrieve all attributes, set to All. If no attribute names are specified, returns a list of instances.
+        public let attributeNames: [InstancesHealthAttribute]?
+
+        public init(environmentName: String? = nil, environmentId: String? = nil, nextToken: String? = nil, attributeNames: [InstancesHealthAttribute]? = nil) {
+            self.environmentName = environmentName
+            self.environmentId = environmentId
+            self.nextToken = nextToken
+            self.attributeNames = attributeNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case environmentName = "EnvironmentName"
+            case environmentId = "EnvironmentId"
+            case nextToken = "NextToken"
+            case attributeNames = "AttributeNames"
+        }
+    }
+
+    public struct DescribeConfigurationOptionsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SolutionStackName", required: false, type: .string), 
+            AWSShapeMember(label: "PlatformArn", required: false, type: .string), 
+            AWSShapeMember(label: "Options", required: false, type: .list), 
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationName", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateName", required: false, type: .string)
+        ]
+        /// The name of the solution stack whose configuration options you want to describe.
+        public let solutionStackName: String?
+        /// The ARN of the custom platform.
+        public let platformArn: String?
+        /// If specified, restricts the descriptions to only the specified options.
+        public let options: [OptionSpecification]?
+        /// The name of the environment whose configuration options you want to describe.
+        public let environmentName: String?
+        /// The name of the application associated with the configuration template or environment. Only needed if you want to describe the configuration options associated with either the configuration template or environment.
+        public let applicationName: String?
+        /// The name of the configuration template whose configuration options you want to describe.
+        public let templateName: String?
+
+        public init(solutionStackName: String? = nil, platformArn: String? = nil, options: [OptionSpecification]? = nil, environmentName: String? = nil, applicationName: String? = nil, templateName: String? = nil) {
+            self.solutionStackName = solutionStackName
+            self.platformArn = platformArn
+            self.options = options
+            self.environmentName = environmentName
+            self.applicationName = applicationName
+            self.templateName = templateName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case solutionStackName = "SolutionStackName"
+            case platformArn = "PlatformArn"
+            case options = "Options"
+            case environmentName = "EnvironmentName"
+            case applicationName = "ApplicationName"
+            case templateName = "TemplateName"
+        }
+    }
+
+    public struct LoadBalancerDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Listeners", required: false, type: .list), 
+            AWSShapeMember(label: "Domain", required: false, type: .string), 
+            AWSShapeMember(label: "LoadBalancerName", required: false, type: .string)
+        ]
+        /// A list of Listeners used by the LoadBalancer.
+        public let listeners: [Listener]?
+        /// The domain name of the LoadBalancer.
+        public let domain: String?
+        /// The name of the LoadBalancer.
+        public let loadBalancerName: String?
+
+        public init(listeners: [Listener]? = nil, domain: String? = nil, loadBalancerName: String? = nil) {
+            self.listeners = listeners
+            self.domain = domain
+            self.loadBalancerName = loadBalancerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case listeners = "Listeners"
+            case domain = "Domain"
+            case loadBalancerName = "LoadBalancerName"
+        }
+    }
+
+    public struct DescribeEventsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EnvironmentId", required: false, type: .string), 
+            AWSShapeMember(label: "Severity", required: false, type: .enum), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationName", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "VersionLabel", required: false, type: .string), 
+            AWSShapeMember(label: "PlatformArn", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateName", required: false, type: .string), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp)
+        ]
+        ///  If specified, AWS Elastic Beanstalk restricts the returned descriptions to those that occur up to, but not including, the EndTime. 
+        public let endTime: TimeStamp?
+        /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to those associated with this environment.
+        public let environmentId: String?
+        /// If specified, limits the events returned from this call to include only those with the specified severity or higher.
+        public let severity: EventSeverity?
+        /// If specified, AWS Elastic Beanstalk restricts the described events to include only those associated with this request ID.
+        public let requestId: String?
+        /// Pagination token. If specified, the events return the next batch of results.
+        public let nextToken: String?
+        /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those associated with this application.
+        public let applicationName: String?
+        /// Specifies the maximum number of events that can be returned, beginning with the most recent event.
+        public let maxRecords: Int32?
+        /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to those associated with this environment.
+        public let environmentName: String?
+        /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to those associated with this application version.
+        public let versionLabel: String?
+        /// The ARN of the version of the custom platform.
+        public let platformArn: String?
+        /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to those that are associated with this environment configuration.
+        public let templateName: String?
+        /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to those that occur on or after this time.
+        public let startTime: TimeStamp?
+
+        public init(endTime: TimeStamp? = nil, environmentId: String? = nil, severity: EventSeverity? = nil, requestId: String? = nil, nextToken: String? = nil, applicationName: String? = nil, maxRecords: Int32? = nil, environmentName: String? = nil, versionLabel: String? = nil, platformArn: String? = nil, templateName: String? = nil, startTime: TimeStamp? = nil) {
+            self.endTime = endTime
+            self.environmentId = environmentId
+            self.severity = severity
+            self.requestId = requestId
+            self.nextToken = nextToken
+            self.applicationName = applicationName
+            self.maxRecords = maxRecords
+            self.environmentName = environmentName
+            self.versionLabel = versionLabel
+            self.platformArn = platformArn
+            self.templateName = templateName
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case environmentId = "EnvironmentId"
+            case severity = "Severity"
+            case requestId = "RequestId"
+            case nextToken = "NextToken"
+            case applicationName = "ApplicationName"
+            case maxRecords = "MaxRecords"
+            case environmentName = "EnvironmentName"
+            case versionLabel = "VersionLabel"
+            case platformArn = "PlatformArn"
+            case templateName = "TemplateName"
+            case startTime = "StartTime"
+        }
+    }
+
+    public struct SystemStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CPUUtilization", required: false, type: .structure), 
+            AWSShapeMember(label: "LoadAverage", required: false, type: .list)
+        ]
+        /// CPU utilization metrics for the instance.
+        public let cPUUtilization: CPUUtilization?
+        /// Load average in the last 1-minute, 5-minute, and 15-minute periods. For more information, see Operating System Metrics.
+        public let loadAverage: [Double]?
+
+        public init(cPUUtilization: CPUUtilization? = nil, loadAverage: [Double]? = nil) {
+            self.cPUUtilization = cPUUtilization
+            self.loadAverage = loadAverage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cPUUtilization = "CPUUtilization"
+            case loadAverage = "LoadAverage"
+        }
+    }
+
+    public struct DeleteEnvironmentConfigurationMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
+            AWSShapeMember(label: "EnvironmentName", required: true, type: .string)
+        ]
+        /// The name of the application the environment is associated with.
+        public let applicationName: String
+        /// The name of the environment to delete the draft configuration from.
+        public let environmentName: String
+
+        public init(applicationName: String, environmentName: String) {
+            self.applicationName = applicationName
+            self.environmentName = environmentName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "ApplicationName"
+            case environmentName = "EnvironmentName"
+        }
+    }
+
+    public struct CustomAmi: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ImageId", required: false, type: .string), 
+            AWSShapeMember(label: "VirtualizationType", required: false, type: .string)
+        ]
+        /// THe ID of the image used to create the custom AMI.
+        public let imageId: String?
+        /// The type of virtualization used to create the custom AMI.
+        public let virtualizationType: String?
+
+        public init(imageId: String? = nil, virtualizationType: String? = nil) {
+            self.imageId = imageId
+            self.virtualizationType = virtualizationType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageId = "ImageId"
+            case virtualizationType = "VirtualizationType"
+        }
+    }
+
+    public struct DescribePlatformVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PlatformArn", required: false, type: .string)
+        ]
+        /// The ARN of the version of the platform.
+        public let platformArn: String?
+
+        public init(platformArn: String? = nil) {
+            self.platformArn = platformArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case platformArn = "PlatformArn"
+        }
+    }
+
+    public struct ResourceQuotas: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationVersionQuota", required: false, type: .structure), 
+            AWSShapeMember(label: "EnvironmentQuota", required: false, type: .structure), 
+            AWSShapeMember(label: "CustomPlatformQuota", required: false, type: .structure), 
+            AWSShapeMember(label: "ApplicationQuota", required: false, type: .structure), 
+            AWSShapeMember(label: "ConfigurationTemplateQuota", required: false, type: .structure)
+        ]
+        /// The quota for application versions in the AWS account.
+        public let applicationVersionQuota: ResourceQuota?
+        /// The quota for environments in the AWS account.
+        public let environmentQuota: ResourceQuota?
+        /// The quota for custom platforms in the AWS account.
+        public let customPlatformQuota: ResourceQuota?
+        /// The quota for applications in the AWS account.
+        public let applicationQuota: ResourceQuota?
+        /// The quota for configuration templates in the AWS account.
+        public let configurationTemplateQuota: ResourceQuota?
+
+        public init(applicationVersionQuota: ResourceQuota? = nil, environmentQuota: ResourceQuota? = nil, customPlatformQuota: ResourceQuota? = nil, applicationQuota: ResourceQuota? = nil, configurationTemplateQuota: ResourceQuota? = nil) {
+            self.applicationVersionQuota = applicationVersionQuota
+            self.environmentQuota = environmentQuota
+            self.customPlatformQuota = customPlatformQuota
+            self.applicationQuota = applicationQuota
+            self.configurationTemplateQuota = configurationTemplateQuota
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationVersionQuota = "ApplicationVersionQuota"
+            case environmentQuota = "EnvironmentQuota"
+            case customPlatformQuota = "CustomPlatformQuota"
+            case applicationQuota = "ApplicationQuota"
+            case configurationTemplateQuota = "ConfigurationTemplateQuota"
+        }
+    }
+
+    public struct EnvironmentResourceDescriptionsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnvironmentResources", required: false, type: .structure)
+        ]
+        ///  A list of EnvironmentResourceDescription. 
+        public let environmentResources: EnvironmentResourceDescription?
+
+        public init(environmentResources: EnvironmentResourceDescription? = nil) {
+            self.environmentResources = environmentResources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case environmentResources = "EnvironmentResources"
+        }
+    }
+
+    public struct CreateEnvironmentMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OptionSettings", required: false, type: .list), 
+            AWSShapeMember(label: "OptionsToRemove", required: false, type: .list), 
+            AWSShapeMember(label: "VersionLabel", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
+            AWSShapeMember(label: "SolutionStackName", required: false, type: .string), 
+            AWSShapeMember(label: "GroupName", required: false, type: .string), 
+            AWSShapeMember(label: "CNAMEPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "Tier", required: false, type: .structure), 
+            AWSShapeMember(label: "TemplateName", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "PlatformArn", required: false, type: .string), 
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string)
+        ]
+        /// If specified, AWS Elastic Beanstalk sets the specified configuration options to the requested value in the configuration set for the new environment. These override the values obtained from the solution stack or the configuration template.
+        public let optionSettings: [ConfigurationOptionSetting]?
+        /// A list of custom user-defined configuration options to remove from the configuration set for this new environment.
+        public let optionsToRemove: [OptionSpecification]?
+        /// The name of the application version to deploy.  If the specified application has no associated application versions, AWS Elastic Beanstalk UpdateEnvironment returns an InvalidParameterValue error.  Default: If not specified, AWS Elastic Beanstalk attempts to launch the sample application in the container.
+        public let versionLabel: String?
+        /// The name of the application that contains the version to be deployed.  If no application is found with this name, CreateEnvironment returns an InvalidParameterValue error. 
+        public let applicationName: String
+        /// This is an alternative to specifying a template name. If specified, AWS Elastic Beanstalk sets the configuration values to the default values associated with the specified solution stack. For a list of current solution stacks, see Elastic Beanstalk Supported Platforms.
+        public let solutionStackName: String?
+        /// The name of the group to which the target environment belongs. Specify a group name only if the environment's name is specified in an environment manifest and not with the environment name parameter. See Environment Manifest (env.yaml) for details.
+        public let groupName: String?
+        /// If specified, the environment attempts to use this value as the prefix for the CNAME. If not specified, the CNAME is generated automatically by appending a random alphanumeric string to the environment name.
+        public let cNAMEPrefix: String?
+        /// This specifies the tier to use for creating this environment.
+        public let tier: EnvironmentTier?
+        ///  The name of the configuration template to use in deployment. If no configuration template is found with this name, AWS Elastic Beanstalk returns an InvalidParameterValue error. 
+        public let templateName: String?
+        /// This specifies the tags applied to resources in the environment.
+        public let tags: [Tag]?
+        /// Describes this environment.
+        public let description: String?
+        /// The ARN of the platform.
+        public let platformArn: String?
+        /// A unique name for the deployment environment. Used in the application URL. Constraint: Must be from 4 to 40 characters in length. The name can contain only letters, numbers, and hyphens. It cannot start or end with a hyphen. This name must be unique within a region in your account. If the specified name already exists in the region, AWS Elastic Beanstalk returns an InvalidParameterValue error.  Default: If the CNAME parameter is not specified, the environment name becomes part of the CNAME, and therefore part of the visible URL for your application.
+        public let environmentName: String?
+
+        public init(optionSettings: [ConfigurationOptionSetting]? = nil, optionsToRemove: [OptionSpecification]? = nil, versionLabel: String? = nil, applicationName: String, solutionStackName: String? = nil, groupName: String? = nil, cNAMEPrefix: String? = nil, tier: EnvironmentTier? = nil, templateName: String? = nil, tags: [Tag]? = nil, description: String? = nil, platformArn: String? = nil, environmentName: String? = nil) {
+            self.optionSettings = optionSettings
+            self.optionsToRemove = optionsToRemove
+            self.versionLabel = versionLabel
+            self.applicationName = applicationName
+            self.solutionStackName = solutionStackName
+            self.groupName = groupName
+            self.cNAMEPrefix = cNAMEPrefix
+            self.tier = tier
+            self.templateName = templateName
+            self.tags = tags
+            self.description = description
+            self.platformArn = platformArn
+            self.environmentName = environmentName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case optionSettings = "OptionSettings"
+            case optionsToRemove = "OptionsToRemove"
+            case versionLabel = "VersionLabel"
+            case applicationName = "ApplicationName"
+            case solutionStackName = "SolutionStackName"
+            case groupName = "GroupName"
+            case cNAMEPrefix = "CNAMEPrefix"
+            case tier = "Tier"
+            case templateName = "TemplateName"
+            case tags = "Tags"
+            case description = "Description"
+            case platformArn = "PlatformArn"
+            case environmentName = "EnvironmentName"
+        }
+    }
+
+    public struct PlatformDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Frameworks", required: false, type: .list), 
+            AWSShapeMember(label: "DateUpdated", required: false, type: .timestamp), 
+            AWSShapeMember(label: "PlatformStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "DateCreated", required: false, type: .timestamp), 
+            AWSShapeMember(label: "PlatformArn", required: false, type: .string), 
+            AWSShapeMember(label: "PlatformName", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "OperatingSystemName", required: false, type: .string), 
+            AWSShapeMember(label: "Maintainer", required: false, type: .string), 
+            AWSShapeMember(label: "PlatformVersion", required: false, type: .string), 
+            AWSShapeMember(label: "PlatformCategory", required: false, type: .string), 
+            AWSShapeMember(label: "SupportedAddonList", required: false, type: .list), 
+            AWSShapeMember(label: "SolutionStackName", required: false, type: .string), 
+            AWSShapeMember(label: "PlatformOwner", required: false, type: .string), 
+            AWSShapeMember(label: "CustomAmiList", required: false, type: .list), 
+            AWSShapeMember(label: "SupportedTierList", required: false, type: .list), 
+            AWSShapeMember(label: "OperatingSystemVersion", required: false, type: .string), 
+            AWSShapeMember(label: "ProgrammingLanguages", required: false, type: .list)
+        ]
+        /// The frameworks supported by the platform.
+        public let frameworks: [PlatformFramework]?
+        /// The date when the platform was last updated.
+        public let dateUpdated: TimeStamp?
+        /// The status of the platform.
+        public let platformStatus: PlatformStatus?
+        /// The date when the platform was created.
+        public let dateCreated: TimeStamp?
+        /// The ARN of the platform.
+        public let platformArn: String?
+        /// The name of the platform.
+        public let platformName: String?
+        /// The description of the platform.
+        public let description: String?
+        /// The operating system used by the platform.
+        public let operatingSystemName: String?
+        /// Information about the maintainer of the platform.
+        public let maintainer: String?
+        /// The version of the platform.
+        public let platformVersion: String?
+        /// The category of the platform.
+        public let platformCategory: String?
+        /// The additions supported by the platform.
+        public let supportedAddonList: [String]?
+        /// The name of the solution stack used by the platform.
+        public let solutionStackName: String?
+        /// The AWS account ID of the person who created the platform.
+        public let platformOwner: String?
+        /// The custom AMIs supported by the platform.
+        public let customAmiList: [CustomAmi]?
+        /// The tiers supported by the platform.
+        public let supportedTierList: [String]?
+        /// The version of the operating system used by the platform.
+        public let operatingSystemVersion: String?
+        /// The programming languages supported by the platform.
+        public let programmingLanguages: [PlatformProgrammingLanguage]?
+
+        public init(frameworks: [PlatformFramework]? = nil, dateUpdated: TimeStamp? = nil, platformStatus: PlatformStatus? = nil, dateCreated: TimeStamp? = nil, platformArn: String? = nil, platformName: String? = nil, description: String? = nil, operatingSystemName: String? = nil, maintainer: String? = nil, platformVersion: String? = nil, platformCategory: String? = nil, supportedAddonList: [String]? = nil, solutionStackName: String? = nil, platformOwner: String? = nil, customAmiList: [CustomAmi]? = nil, supportedTierList: [String]? = nil, operatingSystemVersion: String? = nil, programmingLanguages: [PlatformProgrammingLanguage]? = nil) {
+            self.frameworks = frameworks
+            self.dateUpdated = dateUpdated
+            self.platformStatus = platformStatus
+            self.dateCreated = dateCreated
+            self.platformArn = platformArn
+            self.platformName = platformName
+            self.description = description
+            self.operatingSystemName = operatingSystemName
+            self.maintainer = maintainer
+            self.platformVersion = platformVersion
+            self.platformCategory = platformCategory
+            self.supportedAddonList = supportedAddonList
+            self.solutionStackName = solutionStackName
+            self.platformOwner = platformOwner
+            self.customAmiList = customAmiList
+            self.supportedTierList = supportedTierList
+            self.operatingSystemVersion = operatingSystemVersion
+            self.programmingLanguages = programmingLanguages
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case frameworks = "Frameworks"
+            case dateUpdated = "DateUpdated"
+            case platformStatus = "PlatformStatus"
+            case dateCreated = "DateCreated"
+            case platformArn = "PlatformArn"
+            case platformName = "PlatformName"
+            case description = "Description"
+            case operatingSystemName = "OperatingSystemName"
+            case maintainer = "Maintainer"
+            case platformVersion = "PlatformVersion"
+            case platformCategory = "PlatformCategory"
+            case supportedAddonList = "SupportedAddonList"
+            case solutionStackName = "SolutionStackName"
+            case platformOwner = "PlatformOwner"
+            case customAmiList = "CustomAmiList"
+            case supportedTierList = "SupportedTierList"
+            case operatingSystemVersion = "OperatingSystemVersion"
+            case programmingLanguages = "ProgrammingLanguages"
+        }
+    }
+
+    public struct DescribeEnvironmentManagedActionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "EnvironmentId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+        /// The name of the target environment.
+        public let environmentName: String?
+        /// The environment ID of the target environment.
+        public let environmentId: String?
+        /// To show only actions with a particular status, specify a status.
+        public let status: ActionStatus?
+
+        public init(environmentName: String? = nil, environmentId: String? = nil, status: ActionStatus? = nil) {
+            self.environmentName = environmentName
+            self.environmentId = environmentId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case environmentName = "EnvironmentName"
+            case environmentId = "EnvironmentId"
+            case status = "Status"
+        }
+    }
+
+    public struct UpdateTagsForResourceMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagsToRemove", required: false, type: .list), 
+            AWSShapeMember(label: "TagsToAdd", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
+        ]
+        /// A list of tag keys to remove. If a tag key doesn't exist, it is silently ignored.
+        public let tagsToRemove: [String]?
+        /// A list of tags to add or update. If a key of an existing tag is added, the tag's value is updated.
+        public let tagsToAdd: [Tag]?
+        /// The Amazon Resource Name (ARN) of the resouce to be updated. Must be the ARN of an Elastic Beanstalk environment.
+        public let resourceArn: String
+
+        public init(tagsToRemove: [String]? = nil, tagsToAdd: [Tag]? = nil, resourceArn: String) {
+            self.tagsToRemove = tagsToRemove
+            self.tagsToAdd = tagsToAdd
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagsToRemove = "TagsToRemove"
+            case tagsToAdd = "TagsToAdd"
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct DescribeInstancesHealthResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceHealthList", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "RefreshedAt", required: false, type: .timestamp)
+        ]
+        /// Detailed health information about each instance. The output differs slightly between Linux and Windows environments. There is a difference in the members that are supported under the &lt;CPUUtilization&gt; type.
+        public let instanceHealthList: [SingleInstanceHealth]?
+        /// Pagination token for the next page of results, if available.
+        public let nextToken: String?
+        /// The date and time that the health information was retrieved.
+        public let refreshedAt: TimeStamp?
+
+        public init(instanceHealthList: [SingleInstanceHealth]? = nil, nextToken: String? = nil, refreshedAt: TimeStamp? = nil) {
+            self.instanceHealthList = instanceHealthList
+            self.nextToken = nextToken
+            self.refreshedAt = refreshedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceHealthList = "InstanceHealthList"
+            case nextToken = "NextToken"
+            case refreshedAt = "RefreshedAt"
+        }
+    }
+
+    public struct CreateStorageLocationResultMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3Bucket", required: false, type: .string)
+        ]
+        /// The name of the Amazon S3 bucket created.
+        public let s3Bucket: String?
+
+        public init(s3Bucket: String? = nil) {
+            self.s3Bucket = s3Bucket
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Bucket = "S3Bucket"
+        }
+    }
+
+    public struct EventDescriptionsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Events", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        ///  A list of EventDescription. 
+        public let events: [EventDescription]?
+        ///  If returned, this indicates that there are more results to obtain. Use this token in the next DescribeEvents call to get the next batch of events. 
+        public let nextToken: String?
+
+        public init(events: [EventDescription]? = nil, nextToken: String? = nil) {
+            self.events = events
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case events = "Events"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct RetrieveEnvironmentInfoMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnvironmentId", required: false, type: .string), 
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "InfoType", required: true, type: .enum)
+        ]
+        /// The ID of the data's environment. If no such environment is found, returns an InvalidParameterValue error. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
+        public let environmentId: String?
+        /// The name of the data's environment.  If no such environment is found, returns an InvalidParameterValue error.   Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
+        public let environmentName: String?
+        /// The type of information to retrieve.
+        public let infoType: EnvironmentInfoType
+
+        public init(environmentId: String? = nil, environmentName: String? = nil, infoType: EnvironmentInfoType) {
+            self.environmentId = environmentId
+            self.environmentName = environmentName
+            self.infoType = infoType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case environmentId = "EnvironmentId"
+            case environmentName = "EnvironmentName"
+            case infoType = "InfoType"
+        }
+    }
+
+    public struct EnvironmentInfoDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SampleTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "Ec2InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "InfoType", required: false, type: .enum)
+        ]
+        /// The time stamp when this information was retrieved.
+        public let sampleTimestamp: TimeStamp?
+        /// The retrieved information.
+        public let message: String?
+        /// The Amazon EC2 Instance ID for this information.
+        public let ec2InstanceId: String?
+        /// The type of information retrieved.
+        public let infoType: EnvironmentInfoType?
+
+        public init(sampleTimestamp: TimeStamp? = nil, message: String? = nil, ec2InstanceId: String? = nil, infoType: EnvironmentInfoType? = nil) {
+            self.sampleTimestamp = sampleTimestamp
+            self.message = message
+            self.ec2InstanceId = ec2InstanceId
+            self.infoType = infoType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sampleTimestamp = "SampleTimestamp"
+            case message = "Message"
+            case ec2InstanceId = "Ec2InstanceId"
+            case infoType = "InfoType"
+        }
+    }
+
+    public struct UpdateConfigurationTemplateMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OptionsToRemove", required: false, type: .list), 
+            AWSShapeMember(label: "TemplateName", required: true, type: .string), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "OptionSettings", required: false, type: .list)
+        ]
+        /// A list of configuration options to remove from the configuration set.  Constraint: You can remove only UserDefined configuration options. 
+        public let optionsToRemove: [OptionSpecification]?
+        /// The name of the configuration template to update.  If no configuration template is found with this name, UpdateConfigurationTemplate returns an InvalidParameterValue error. 
+        public let templateName: String
+        /// The name of the application associated with the configuration template to update.  If no application is found with this name, UpdateConfigurationTemplate returns an InvalidParameterValue error. 
+        public let applicationName: String
+        /// A new description for the configuration.
+        public let description: String?
+        /// A list of configuration option settings to update with the new specified option value.
+        public let optionSettings: [ConfigurationOptionSetting]?
+
+        public init(optionsToRemove: [OptionSpecification]? = nil, templateName: String, applicationName: String, description: String? = nil, optionSettings: [ConfigurationOptionSetting]? = nil) {
+            self.optionsToRemove = optionsToRemove
+            self.templateName = templateName
+            self.applicationName = applicationName
+            self.description = description
+            self.optionSettings = optionSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case optionsToRemove = "OptionsToRemove"
+            case templateName = "TemplateName"
+            case applicationName = "ApplicationName"
+            case description = "Description"
+            case optionSettings = "OptionSettings"
+        }
+    }
+
+    public struct DescribeEnvironmentHealthResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Causes", required: false, type: .list), 
+            AWSShapeMember(label: "Color", required: false, type: .string), 
+            AWSShapeMember(label: "HealthStatus", required: false, type: .string), 
+            AWSShapeMember(label: "RefreshedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "InstancesHealth", required: false, type: .structure), 
+            AWSShapeMember(label: "ApplicationMetrics", required: false, type: .structure), 
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string)
+        ]
+        /// Descriptions of the data that contributed to the environment's current health status.
+        public let causes: [String]?
+        /// The health color of the environment.
+        public let color: String?
+        /// The health status of the environment. For example, Ok.
+        public let healthStatus: String?
+        /// The date and time that the health information was retrieved.
+        public let refreshedAt: TimeStamp?
+        /// The environment's operational status. Ready, Launching, Updating, Terminating, or Terminated.
+        public let status: EnvironmentHealth?
+        /// Summary health information for the instances in the environment.
+        public let instancesHealth: InstanceHealthSummary?
+        /// Application request metrics for the environment.
+        public let applicationMetrics: ApplicationMetrics?
+        /// The environment's name.
+        public let environmentName: String?
+
+        public init(causes: [String]? = nil, color: String? = nil, healthStatus: String? = nil, refreshedAt: TimeStamp? = nil, status: EnvironmentHealth? = nil, instancesHealth: InstanceHealthSummary? = nil, applicationMetrics: ApplicationMetrics? = nil, environmentName: String? = nil) {
+            self.causes = causes
+            self.color = color
+            self.healthStatus = healthStatus
+            self.refreshedAt = refreshedAt
+            self.status = status
+            self.instancesHealth = instancesHealth
+            self.applicationMetrics = applicationMetrics
+            self.environmentName = environmentName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case causes = "Causes"
+            case color = "Color"
+            case healthStatus = "HealthStatus"
+            case refreshedAt = "RefreshedAt"
+            case status = "Status"
+            case instancesHealth = "InstancesHealth"
+            case applicationMetrics = "ApplicationMetrics"
+            case environmentName = "EnvironmentName"
+        }
+    }
+
+    public struct ConfigurationOptionsDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Options", required: false, type: .list), 
+            AWSShapeMember(label: "SolutionStackName", required: false, type: .string), 
+            AWSShapeMember(label: "PlatformArn", required: false, type: .string)
+        ]
+        ///  A list of ConfigurationOptionDescription. 
+        public let options: [ConfigurationOptionDescription]?
+        /// The name of the solution stack these configuration options belong to.
+        public let solutionStackName: String?
+        /// The ARN of the platform.
+        public let platformArn: String?
+
+        public init(options: [ConfigurationOptionDescription]? = nil, solutionStackName: String? = nil, platformArn: String? = nil) {
+            self.options = options
+            self.solutionStackName = solutionStackName
+            self.platformArn = platformArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case options = "Options"
+            case solutionStackName = "SolutionStackName"
+            case platformArn = "PlatformArn"
+        }
+    }
+
+    public struct UpdateEnvironmentMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OptionsToRemove", required: false, type: .list), 
+            AWSShapeMember(label: "SolutionStackName", required: false, type: .string), 
+            AWSShapeMember(label: "VersionLabel", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateName", required: false, type: .string), 
+            AWSShapeMember(label: "GroupName", required: false, type: .string), 
+            AWSShapeMember(label: "EnvironmentId", required: false, type: .string), 
+            AWSShapeMember(label: "Tier", required: false, type: .structure), 
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationName", required: false, type: .string), 
+            AWSShapeMember(label: "PlatformArn", required: false, type: .string), 
+            AWSShapeMember(label: "OptionSettings", required: false, type: .list), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
+        ]
+        /// A list of custom user-defined configuration options to remove from the configuration set for this environment.
+        public let optionsToRemove: [OptionSpecification]?
+        /// This specifies the platform version that the environment will run after the environment is updated.
+        public let solutionStackName: String?
+        /// If this parameter is specified, AWS Elastic Beanstalk deploys the named application version to the environment. If no such application version is found, returns an InvalidParameterValue error. 
+        public let versionLabel: String?
+        /// If this parameter is specified, AWS Elastic Beanstalk deploys this configuration template to the environment. If no such configuration template is found, AWS Elastic Beanstalk returns an InvalidParameterValue error. 
+        public let templateName: String?
+        /// The name of the group to which the target environment belongs. Specify a group name only if the environment's name is specified in an environment manifest and not with the environment name or environment ID parameters. See Environment Manifest (env.yaml) for details.
+        public let groupName: String?
+        /// The ID of the environment to update. If no environment with this ID exists, AWS Elastic Beanstalk returns an InvalidParameterValue error. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
+        public let environmentId: String?
+        /// This specifies the tier to use to update the environment. Condition: At this time, if you change the tier version, name, or type, AWS Elastic Beanstalk returns InvalidParameterValue error. 
+        public let tier: EnvironmentTier?
+        /// The name of the environment to update. If no environment with this name exists, AWS Elastic Beanstalk returns an InvalidParameterValue error.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
+        public let environmentName: String?
+        /// The name of the application with which the environment is associated.
+        public let applicationName: String?
+        /// The ARN of the platform, if used.
+        public let platformArn: String?
+        /// If specified, AWS Elastic Beanstalk updates the configuration set associated with the running environment and sets the specified configuration options to the requested value.
+        public let optionSettings: [ConfigurationOptionSetting]?
+        /// If this parameter is specified, AWS Elastic Beanstalk updates the description of this environment.
+        public let description: String?
+
+        public init(optionsToRemove: [OptionSpecification]? = nil, solutionStackName: String? = nil, versionLabel: String? = nil, templateName: String? = nil, groupName: String? = nil, environmentId: String? = nil, tier: EnvironmentTier? = nil, environmentName: String? = nil, applicationName: String? = nil, platformArn: String? = nil, optionSettings: [ConfigurationOptionSetting]? = nil, description: String? = nil) {
+            self.optionsToRemove = optionsToRemove
+            self.solutionStackName = solutionStackName
+            self.versionLabel = versionLabel
+            self.templateName = templateName
+            self.groupName = groupName
+            self.environmentId = environmentId
+            self.tier = tier
+            self.environmentName = environmentName
+            self.applicationName = applicationName
+            self.platformArn = platformArn
+            self.optionSettings = optionSettings
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case optionsToRemove = "OptionsToRemove"
+            case solutionStackName = "SolutionStackName"
+            case versionLabel = "VersionLabel"
+            case templateName = "TemplateName"
+            case groupName = "GroupName"
+            case environmentId = "EnvironmentId"
+            case tier = "Tier"
+            case environmentName = "EnvironmentName"
+            case applicationName = "ApplicationName"
+            case platformArn = "PlatformArn"
+            case optionSettings = "OptionSettings"
+            case description = "Description"
+        }
+    }
+
+    public struct ApplyEnvironmentManagedActionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnvironmentId", required: false, type: .string), 
+            AWSShapeMember(label: "ActionId", required: true, type: .string), 
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string)
+        ]
+        /// The environment ID of the target environment.
+        public let environmentId: String?
+        /// The action ID of the scheduled managed action to execute.
+        public let actionId: String
+        /// The name of the target environment.
+        public let environmentName: String?
+
+        public init(environmentId: String? = nil, actionId: String, environmentName: String? = nil) {
+            self.environmentId = environmentId
+            self.actionId = actionId
+            self.environmentName = environmentName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case environmentId = "EnvironmentId"
+            case actionId = "ActionId"
+            case environmentName = "EnvironmentName"
+        }
+    }
+
+    public struct SingleInstanceHealth: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "System", required: false, type: .structure), 
+            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
+            AWSShapeMember(label: "LaunchedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ApplicationMetrics", required: false, type: .structure), 
+            AWSShapeMember(label: "Deployment", required: false, type: .structure), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "Causes", required: false, type: .list), 
+            AWSShapeMember(label: "Color", required: false, type: .string), 
+            AWSShapeMember(label: "HealthStatus", required: false, type: .string)
+        ]
+        /// Operating system metrics from the instance.
+        public let system: SystemStatus?
+        /// The availability zone in which the instance runs.
+        public let availabilityZone: String?
+        /// The instance's type.
+        public let instanceType: String?
+        /// The time at which the EC2 instance was launched.
+        public let launchedAt: TimeStamp?
+        /// Request metrics from your application.
+        public let applicationMetrics: ApplicationMetrics?
+        /// Information about the most recent deployment to an instance.
+        public let deployment: Deployment?
+        /// The ID of the Amazon EC2 instance.
+        public let instanceId: String?
+        /// Represents the causes, which provide more information about the current health status.
+        public let causes: [String]?
+        /// Represents the color indicator that gives you information about the health of the EC2 instance. For more information, see Health Colors and Statuses.
+        public let color: String?
+        /// Returns the health status of the specified instance. For more information, see Health Colors and Statuses.
+        public let healthStatus: String?
+
+        public init(system: SystemStatus? = nil, availabilityZone: String? = nil, instanceType: String? = nil, launchedAt: TimeStamp? = nil, applicationMetrics: ApplicationMetrics? = nil, deployment: Deployment? = nil, instanceId: String? = nil, causes: [String]? = nil, color: String? = nil, healthStatus: String? = nil) {
+            self.system = system
+            self.availabilityZone = availabilityZone
+            self.instanceType = instanceType
+            self.launchedAt = launchedAt
+            self.applicationMetrics = applicationMetrics
+            self.deployment = deployment
+            self.instanceId = instanceId
+            self.causes = causes
+            self.color = color
+            self.healthStatus = healthStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case system = "System"
+            case availabilityZone = "AvailabilityZone"
+            case instanceType = "InstanceType"
+            case launchedAt = "LaunchedAt"
+            case applicationMetrics = "ApplicationMetrics"
+            case deployment = "Deployment"
+            case instanceId = "InstanceId"
+            case causes = "Causes"
+            case color = "Color"
+            case healthStatus = "HealthStatus"
+        }
+    }
+
+    public struct ConfigurationSettingsDescriptions: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationSettings", required: false, type: .list)
+        ]
+        ///  A list of ConfigurationSettingsDescription. 
+        public let configurationSettings: [ConfigurationSettingsDescription]?
+
+        public init(configurationSettings: [ConfigurationSettingsDescription]? = nil) {
+            self.configurationSettings = configurationSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationSettings = "ConfigurationSettings"
+        }
+    }
+
+    public struct SourceConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TemplateName", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationName", required: false, type: .string)
+        ]
+        /// The name of the configuration template.
+        public let templateName: String?
+        /// The name of the application associated with the configuration.
+        public let applicationName: String?
+
+        public init(templateName: String? = nil, applicationName: String? = nil) {
             self.templateName = templateName
             self.applicationName = applicationName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case optionSettings = "OptionSettings"
-            case environmentName = "EnvironmentName"
             case templateName = "TemplateName"
             case applicationName = "ApplicationName"
+        }
+    }
+
+    public struct EnvironmentDescriptionsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Environments", required: false, type: .list)
+        ]
+        /// In a paginated request, the token that you can pass in a subsequent request to get the next response page.
+        public let nextToken: String?
+        ///  Returns an EnvironmentDescription list. 
+        public let environments: [EnvironmentDescription]?
+
+        public init(nextToken: String? = nil, environments: [EnvironmentDescription]? = nil) {
+            self.nextToken = nextToken
+            self.environments = environments
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case environments = "Environments"
+        }
+    }
+
+    public struct ApplicationDescriptionsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Applications", required: false, type: .list)
+        ]
+        /// This parameter contains a list of ApplicationDescription.
+        public let applications: [ApplicationDescription]?
+
+        public init(applications: [ApplicationDescription]? = nil) {
+            self.applications = applications
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applications = "Applications"
+        }
+    }
+
+    public struct S3Location: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3Key", required: false, type: .string), 
+            AWSShapeMember(label: "S3Bucket", required: false, type: .string)
+        ]
+        /// The Amazon S3 key where the data is located.
+        public let s3Key: String?
+        /// The Amazon S3 bucket where the data is located.
+        public let s3Bucket: String?
+
+        public init(s3Key: String? = nil, s3Bucket: String? = nil) {
+            self.s3Key = s3Key
+            self.s3Bucket = s3Bucket
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Key = "S3Key"
+            case s3Bucket = "S3Bucket"
+        }
+    }
+
+    public struct EnvironmentResourcesDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancer", required: false, type: .structure)
+        ]
+        /// Describes the LoadBalancer.
+        public let loadBalancer: LoadBalancerDescription?
+
+        public init(loadBalancer: LoadBalancerDescription? = nil) {
+            self.loadBalancer = loadBalancer
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancer = "LoadBalancer"
+        }
+    }
+
+    public enum ActionType: String, CustomStringConvertible, Codable {
+        case instancerefresh = "InstanceRefresh"
+        case platformupdate = "PlatformUpdate"
+        case unknown = "Unknown"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct MaxCountRule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxCount", required: false, type: .integer), 
+            AWSShapeMember(label: "DeleteSourceFromS3", required: false, type: .boolean), 
+            AWSShapeMember(label: "Enabled", required: true, type: .boolean)
+        ]
+        /// Specify the maximum number of application versions to retain.
+        public let maxCount: Int32?
+        /// Set to true to delete a version's source bundle from Amazon S3 when Elastic Beanstalk deletes the application version.
+        public let deleteSourceFromS3: Bool?
+        /// Specify true to apply the rule, or false to disable it.
+        public let enabled: Bool
+
+        public init(maxCount: Int32? = nil, deleteSourceFromS3: Bool? = nil, enabled: Bool) {
+            self.maxCount = maxCount
+            self.deleteSourceFromS3 = deleteSourceFromS3
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxCount = "MaxCount"
+            case deleteSourceFromS3 = "DeleteSourceFromS3"
+            case enabled = "Enabled"
+        }
+    }
+
+    public struct PlatformProgrammingLanguage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
+        ]
+        /// The name of the programming language.
+        public let name: String?
+        /// The version of the programming language.
+        public let version: String?
+
+        public init(name: String? = nil, version: String? = nil) {
+            self.name = name
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case version = "Version"
+        }
+    }
+
+    public enum SourceType: String, CustomStringConvertible, Codable {
+        case git = "Git"
+        case zip = "Zip"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct OptionRestrictionRegex: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Pattern", required: false, type: .string), 
+            AWSShapeMember(label: "Label", required: false, type: .string)
+        ]
+        /// The regular expression pattern that a string configuration option value with this restriction must match.
+        public let pattern: String?
+        /// A unique name representing this regular expression.
+        public let label: String?
+
+        public init(pattern: String? = nil, label: String? = nil) {
+            self.pattern = pattern
+            self.label = label
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pattern = "Pattern"
+            case label = "Label"
+        }
+    }
+
+    public struct ApplicationDescriptionMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Application", required: false, type: .structure)
+        ]
+        ///  The ApplicationDescription of the application. 
+        public let application: ApplicationDescription?
+
+        public init(application: ApplicationDescription? = nil) {
+            self.application = application
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case application = "Application"
+        }
+    }
+
+    public struct RequestEnvironmentInfoMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "InfoType", required: true, type: .enum), 
+            AWSShapeMember(label: "EnvironmentId", required: false, type: .string)
+        ]
+        /// The name of the environment of the requested data. If no such environment is found, RequestEnvironmentInfo returns an InvalidParameterValue error.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
+        public let environmentName: String?
+        /// The type of information to request.
+        public let infoType: EnvironmentInfoType
+        /// The ID of the environment of the requested data. If no such environment is found, RequestEnvironmentInfo returns an InvalidParameterValue error.  Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
+        public let environmentId: String?
+
+        public init(environmentName: String? = nil, infoType: EnvironmentInfoType, environmentId: String? = nil) {
+            self.environmentName = environmentName
+            self.infoType = infoType
+            self.environmentId = environmentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case environmentName = "EnvironmentName"
+            case infoType = "InfoType"
+            case environmentId = "EnvironmentId"
+        }
+    }
+
+    public struct ApplicationDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DateCreated", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ResourceLifecycleConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "DateUpdated", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationArn", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationName", required: false, type: .string), 
+            AWSShapeMember(label: "ConfigurationTemplates", required: false, type: .list), 
+            AWSShapeMember(label: "Versions", required: false, type: .list)
+        ]
+        /// The date when the application was created.
+        public let dateCreated: TimeStamp?
+        /// The lifecycle settings for the application.
+        public let resourceLifecycleConfig: ApplicationResourceLifecycleConfig?
+        /// The date when the application was last modified.
+        public let dateUpdated: TimeStamp?
+        /// User-defined description of the application.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) of the application.
+        public let applicationArn: String?
+        /// The name of the application.
+        public let applicationName: String?
+        /// The names of the configuration templates associated with this application.
+        public let configurationTemplates: [String]?
+        /// The names of the versions for this application.
+        public let versions: [String]?
+
+        public init(dateCreated: TimeStamp? = nil, resourceLifecycleConfig: ApplicationResourceLifecycleConfig? = nil, dateUpdated: TimeStamp? = nil, description: String? = nil, applicationArn: String? = nil, applicationName: String? = nil, configurationTemplates: [String]? = nil, versions: [String]? = nil) {
+            self.dateCreated = dateCreated
+            self.resourceLifecycleConfig = resourceLifecycleConfig
+            self.dateUpdated = dateUpdated
+            self.description = description
+            self.applicationArn = applicationArn
+            self.applicationName = applicationName
+            self.configurationTemplates = configurationTemplates
+            self.versions = versions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateCreated = "DateCreated"
+            case resourceLifecycleConfig = "ResourceLifecycleConfig"
+            case dateUpdated = "DateUpdated"
+            case description = "Description"
+            case applicationArn = "ApplicationArn"
+            case applicationName = "ApplicationName"
+            case configurationTemplates = "ConfigurationTemplates"
+            case versions = "Versions"
+        }
+    }
+
+    public struct DeletePlatformVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PlatformArn", required: false, type: .string)
+        ]
+        /// The ARN of the version of the custom platform.
+        public let platformArn: String?
+
+        public init(platformArn: String? = nil) {
+            self.platformArn = platformArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case platformArn = "PlatformArn"
+        }
+    }
+
+    public struct ApplyEnvironmentManagedActionResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActionType", required: false, type: .enum), 
+            AWSShapeMember(label: "ActionDescription", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "ActionId", required: false, type: .string)
+        ]
+        /// The type of managed action.
+        public let actionType: ActionType?
+        /// A description of the managed action.
+        public let actionDescription: String?
+        /// The status of the managed action.
+        public let status: String?
+        /// The action ID of the managed action.
+        public let actionId: String?
+
+        public init(actionType: ActionType? = nil, actionDescription: String? = nil, status: String? = nil, actionId: String? = nil) {
+            self.actionType = actionType
+            self.actionDescription = actionDescription
+            self.status = status
+            self.actionId = actionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionType = "ActionType"
+            case actionDescription = "ActionDescription"
+            case status = "Status"
+            case actionId = "ActionId"
+        }
+    }
+
+    public struct ApplicationResourceLifecycleDescriptionMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceLifecycleConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "ApplicationName", required: false, type: .string)
+        ]
+        /// The lifecycle configuration.
+        public let resourceLifecycleConfig: ApplicationResourceLifecycleConfig?
+        /// The name of the application.
+        public let applicationName: String?
+
+        public init(resourceLifecycleConfig: ApplicationResourceLifecycleConfig? = nil, applicationName: String? = nil) {
+            self.resourceLifecycleConfig = resourceLifecycleConfig
+            self.applicationName = applicationName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceLifecycleConfig = "ResourceLifecycleConfig"
+            case applicationName = "ApplicationName"
+        }
+    }
+
+    public struct EventDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationName", required: false, type: .string), 
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "PlatformArn", required: false, type: .string), 
+            AWSShapeMember(label: "EventDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Severity", required: false, type: .enum), 
+            AWSShapeMember(label: "TemplateName", required: false, type: .string), 
+            AWSShapeMember(label: "VersionLabel", required: false, type: .string), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string)
+        ]
+        /// The application associated with the event.
+        public let applicationName: String?
+        /// The name of the environment associated with this event.
+        public let environmentName: String?
+        /// The event message.
+        public let message: String?
+        /// The ARN of the platform.
+        public let platformArn: String?
+        /// The date when the event occurred.
+        public let eventDate: TimeStamp?
+        /// The severity level of this event.
+        public let severity: EventSeverity?
+        /// The name of the configuration associated with this event.
+        public let templateName: String?
+        /// The release label for the application version associated with this event.
+        public let versionLabel: String?
+        /// The web service request ID for the activity of this event.
+        public let requestId: String?
+
+        public init(applicationName: String? = nil, environmentName: String? = nil, message: String? = nil, platformArn: String? = nil, eventDate: TimeStamp? = nil, severity: EventSeverity? = nil, templateName: String? = nil, versionLabel: String? = nil, requestId: String? = nil) {
+            self.applicationName = applicationName
+            self.environmentName = environmentName
+            self.message = message
+            self.platformArn = platformArn
+            self.eventDate = eventDate
+            self.severity = severity
+            self.templateName = templateName
+            self.versionLabel = versionLabel
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "ApplicationName"
+            case environmentName = "EnvironmentName"
+            case message = "Message"
+            case platformArn = "PlatformArn"
+            case eventDate = "EventDate"
+            case severity = "Severity"
+            case templateName = "TemplateName"
+            case versionLabel = "VersionLabel"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct DescribeEnvironmentManagedActionHistoryResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ManagedActionHistoryItems", required: false, type: .list)
+        ]
+        /// A pagination token that you pass to DescribeEnvironmentManagedActionHistory to get the next page of results.
+        public let nextToken: String?
+        /// A list of completed and failed managed actions.
+        public let managedActionHistoryItems: [ManagedActionHistoryItem]?
+
+        public init(nextToken: String? = nil, managedActionHistoryItems: [ManagedActionHistoryItem]? = nil) {
+            self.nextToken = nextToken
+            self.managedActionHistoryItems = managedActionHistoryItems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case managedActionHistoryItems = "ManagedActionHistoryItems"
+        }
+    }
+
+    public struct ConfigurationSettingsDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SolutionStackName", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationName", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateName", required: false, type: .string), 
+            AWSShapeMember(label: "DateUpdated", required: false, type: .timestamp), 
+            AWSShapeMember(label: "PlatformArn", required: false, type: .string), 
+            AWSShapeMember(label: "OptionSettings", required: false, type: .list), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "DateCreated", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DeploymentStatus", required: false, type: .enum)
+        ]
+        /// The name of the solution stack this configuration set uses.
+        public let solutionStackName: String?
+        /// The name of the application associated with this configuration set.
+        public let applicationName: String?
+        ///  If not null, the name of the configuration template for this configuration set. 
+        public let templateName: String?
+        /// The date (in UTC time) when this configuration set was last modified.
+        public let dateUpdated: TimeStamp?
+        /// The ARN of the platform.
+        public let platformArn: String?
+        /// A list of the configuration options and their values in this configuration set.
+        public let optionSettings: [ConfigurationOptionSetting]?
+        /// Describes this configuration set.
+        public let description: String?
+        ///  If not null, the name of the environment for this configuration set. 
+        public let environmentName: String?
+        /// The date (in UTC time) when this configuration set was created.
+        public let dateCreated: TimeStamp?
+        ///  If this configuration set is associated with an environment, the DeploymentStatus parameter indicates the deployment status of this configuration set:     null: This configuration is not associated with a running environment.    pending: This is a draft configuration that is not deployed to the associated environment but is in the process of deploying.    deployed: This is the configuration that is currently deployed to the associated running environment.    failed: This is a draft configuration that failed to successfully deploy.  
+        public let deploymentStatus: ConfigurationDeploymentStatus?
+
+        public init(solutionStackName: String? = nil, applicationName: String? = nil, templateName: String? = nil, dateUpdated: TimeStamp? = nil, platformArn: String? = nil, optionSettings: [ConfigurationOptionSetting]? = nil, description: String? = nil, environmentName: String? = nil, dateCreated: TimeStamp? = nil, deploymentStatus: ConfigurationDeploymentStatus? = nil) {
+            self.solutionStackName = solutionStackName
+            self.applicationName = applicationName
+            self.templateName = templateName
+            self.dateUpdated = dateUpdated
+            self.platformArn = platformArn
+            self.optionSettings = optionSettings
+            self.description = description
+            self.environmentName = environmentName
+            self.dateCreated = dateCreated
+            self.deploymentStatus = deploymentStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case solutionStackName = "SolutionStackName"
+            case applicationName = "ApplicationName"
+            case templateName = "TemplateName"
+            case dateUpdated = "DateUpdated"
+            case platformArn = "PlatformArn"
+            case optionSettings = "OptionSettings"
+            case description = "Description"
+            case environmentName = "EnvironmentName"
+            case dateCreated = "DateCreated"
+            case deploymentStatus = "DeploymentStatus"
+        }
+    }
+
+    public enum ConfigurationDeploymentStatus: String, CustomStringConvertible, Codable {
+        case deployed = "deployed"
+        case pending = "pending"
+        case failed = "failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ManagedActionHistoryItem: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FinishedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "FailureDescription", required: false, type: .string), 
+            AWSShapeMember(label: "ActionDescription", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "ActionType", required: false, type: .enum), 
+            AWSShapeMember(label: "FailureType", required: false, type: .enum), 
+            AWSShapeMember(label: "ActionId", required: false, type: .string), 
+            AWSShapeMember(label: "ExecutedTime", required: false, type: .timestamp)
+        ]
+        /// The date and time that the action finished executing.
+        public let finishedTime: TimeStamp?
+        /// If the action failed, a description of the failure.
+        public let failureDescription: String?
+        /// A description of the managed action.
+        public let actionDescription: String?
+        /// The status of the action.
+        public let status: ActionHistoryStatus?
+        /// The type of the managed action.
+        public let actionType: ActionType?
+        /// If the action failed, the type of failure.
+        public let failureType: FailureType?
+        /// A unique identifier for the managed action.
+        public let actionId: String?
+        /// The date and time that the action started executing.
+        public let executedTime: TimeStamp?
+
+        public init(finishedTime: TimeStamp? = nil, failureDescription: String? = nil, actionDescription: String? = nil, status: ActionHistoryStatus? = nil, actionType: ActionType? = nil, failureType: FailureType? = nil, actionId: String? = nil, executedTime: TimeStamp? = nil) {
+            self.finishedTime = finishedTime
+            self.failureDescription = failureDescription
+            self.actionDescription = actionDescription
+            self.status = status
+            self.actionType = actionType
+            self.failureType = failureType
+            self.actionId = actionId
+            self.executedTime = executedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case finishedTime = "FinishedTime"
+            case failureDescription = "FailureDescription"
+            case actionDescription = "ActionDescription"
+            case status = "Status"
+            case actionType = "ActionType"
+            case failureType = "FailureType"
+            case actionId = "ActionId"
+            case executedTime = "ExecutedTime"
+        }
+    }
+
+    public struct DescribeApplicationsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationNames", required: false, type: .list)
+        ]
+        /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to only include those with the specified names.
+        public let applicationNames: [String]?
+
+        public init(applicationNames: [String]? = nil) {
+            self.applicationNames = applicationNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationNames = "ApplicationNames"
+        }
+    }
+
+    public struct ListPlatformVersionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+        ]
+        /// List only the platforms where the platform member value relates to one of the supplied values.
+        public let filters: [PlatformFilter]?
+        /// The starting index into the remaining list of platforms. Use the NextToken value from a previous ListPlatformVersion call.
+        public let nextToken: String?
+        /// The maximum number of platform values returned in one call.
+        public let maxRecords: Int32?
+
+        public init(filters: [PlatformFilter]? = nil, nextToken: String? = nil, maxRecords: Int32? = nil) {
+            self.filters = filters
+            self.nextToken = nextToken
+            self.maxRecords = maxRecords
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case nextToken = "NextToken"
+            case maxRecords = "MaxRecords"
+        }
+    }
+
+    public enum SourceRepository: String, CustomStringConvertible, Codable {
+        case codecommit = "CodeCommit"
+        case s3 = "S3"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeletePlatformVersionResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PlatformSummary", required: false, type: .structure)
+        ]
+        /// Detailed information about the version of the custom platform.
+        public let platformSummary: PlatformSummary?
+
+        public init(platformSummary: PlatformSummary? = nil) {
+            self.platformSummary = platformSummary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case platformSummary = "PlatformSummary"
+        }
+    }
+
+    public struct ComposeEnvironmentsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationName", required: false, type: .string), 
+            AWSShapeMember(label: "VersionLabels", required: false, type: .list), 
+            AWSShapeMember(label: "GroupName", required: false, type: .string)
+        ]
+        /// The name of the application to which the specified source bundles belong.
+        public let applicationName: String?
+        /// A list of version labels, specifying one or more application source bundles that belong to the target application. Each source bundle must include an environment manifest that specifies the name of the environment and the name of the solution stack to use, and optionally can specify environment links to create.
+        public let versionLabels: [String]?
+        /// The name of the group to which the target environments belong. Specify a group name only if the environment name defined in each target environment's manifest ends with a + (plus) character. See Environment Manifest (env.yaml) for details.
+        public let groupName: String?
+
+        public init(applicationName: String? = nil, versionLabels: [String]? = nil, groupName: String? = nil) {
+            self.applicationName = applicationName
+            self.versionLabels = versionLabels
+            self.groupName = groupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "ApplicationName"
+            case versionLabels = "VersionLabels"
+            case groupName = "GroupName"
+        }
+    }
+
+    public struct ConfigurationOptionSetting: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceName", required: false, type: .string), 
+            AWSShapeMember(label: "OptionName", required: false, type: .string), 
+            AWSShapeMember(label: "Namespace", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+        /// A unique resource name for a time-based scaling configuration option.
+        public let resourceName: String?
+        /// The name of the configuration option.
+        public let optionName: String?
+        /// A unique namespace identifying the option's associated AWS resource.
+        public let namespace: String?
+        /// The current value for the configuration option.
+        public let value: String?
+
+        public init(resourceName: String? = nil, optionName: String? = nil, namespace: String? = nil, value: String? = nil) {
+            self.resourceName = resourceName
+            self.optionName = optionName
+            self.namespace = namespace
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceName = "ResourceName"
+            case optionName = "OptionName"
+            case namespace = "Namespace"
+            case value = "Value"
+        }
+    }
+
+    public struct PlatformSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OperatingSystemName", required: false, type: .string), 
+            AWSShapeMember(label: "PlatformStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "PlatformArn", required: false, type: .string), 
+            AWSShapeMember(label: "PlatformCategory", required: false, type: .string), 
+            AWSShapeMember(label: "SupportedTierList", required: false, type: .list), 
+            AWSShapeMember(label: "SupportedAddonList", required: false, type: .list), 
+            AWSShapeMember(label: "OperatingSystemVersion", required: false, type: .string), 
+            AWSShapeMember(label: "PlatformOwner", required: false, type: .string)
+        ]
+        /// The operating system used by the platform.
+        public let operatingSystemName: String?
+        /// The status of the platform. You can create an environment from the platform once it is ready.
+        public let platformStatus: PlatformStatus?
+        /// The ARN of the platform.
+        public let platformArn: String?
+        /// The category of platform.
+        public let platformCategory: String?
+        /// The tiers in which the platform runs.
+        public let supportedTierList: [String]?
+        /// The additions associated with the platform.
+        public let supportedAddonList: [String]?
+        /// The version of the operating system used by the platform.
+        public let operatingSystemVersion: String?
+        /// The AWS account ID of the person who created the platform.
+        public let platformOwner: String?
+
+        public init(operatingSystemName: String? = nil, platformStatus: PlatformStatus? = nil, platformArn: String? = nil, platformCategory: String? = nil, supportedTierList: [String]? = nil, supportedAddonList: [String]? = nil, operatingSystemVersion: String? = nil, platformOwner: String? = nil) {
+            self.operatingSystemName = operatingSystemName
+            self.platformStatus = platformStatus
+            self.platformArn = platformArn
+            self.platformCategory = platformCategory
+            self.supportedTierList = supportedTierList
+            self.supportedAddonList = supportedAddonList
+            self.operatingSystemVersion = operatingSystemVersion
+            self.platformOwner = platformOwner
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operatingSystemName = "OperatingSystemName"
+            case platformStatus = "PlatformStatus"
+            case platformArn = "PlatformArn"
+            case platformCategory = "PlatformCategory"
+            case supportedTierList = "SupportedTierList"
+            case supportedAddonList = "SupportedAddonList"
+            case operatingSystemVersion = "OperatingSystemVersion"
+            case platformOwner = "PlatformOwner"
+        }
+    }
+
+    public struct CreateApplicationMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceLifecycleConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string)
+        ]
+        /// Specify an application resource lifecycle configuration to prevent your application from accumulating too many versions.
+        public let resourceLifecycleConfig: ApplicationResourceLifecycleConfig?
+        /// Describes the application.
+        public let description: String?
+        /// The name of the application. Constraint: This name must be unique within your account. If the specified name already exists, the action returns an InvalidParameterValue error.
+        public let applicationName: String
+
+        public init(resourceLifecycleConfig: ApplicationResourceLifecycleConfig? = nil, description: String? = nil, applicationName: String) {
+            self.resourceLifecycleConfig = resourceLifecycleConfig
+            self.description = description
+            self.applicationName = applicationName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceLifecycleConfig = "ResourceLifecycleConfig"
+            case description = "Description"
+            case applicationName = "ApplicationName"
+        }
+    }
+
+    public struct LoadBalancer: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// The name of the LoadBalancer.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct CreatePlatformVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PlatformDefinitionBundle", required: true, type: .structure), 
+            AWSShapeMember(label: "PlatformVersion", required: true, type: .string), 
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "PlatformName", required: true, type: .string), 
+            AWSShapeMember(label: "OptionSettings", required: false, type: .list)
+        ]
+        /// The location of the platform definition archive in Amazon S3.
+        public let platformDefinitionBundle: S3Location
+        /// The number, such as 1.0.2, for the new platform version.
+        public let platformVersion: String
+        /// The name of the builder environment.
+        public let environmentName: String?
+        /// The name of your custom platform.
+        public let platformName: String
+        /// The configuration option settings to apply to the builder environment.
+        public let optionSettings: [ConfigurationOptionSetting]?
+
+        public init(platformDefinitionBundle: S3Location, platformVersion: String, environmentName: String? = nil, platformName: String, optionSettings: [ConfigurationOptionSetting]? = nil) {
+            self.platformDefinitionBundle = platformDefinitionBundle
+            self.platformVersion = platformVersion
+            self.environmentName = environmentName
+            self.platformName = platformName
+            self.optionSettings = optionSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case platformDefinitionBundle = "PlatformDefinitionBundle"
+            case platformVersion = "PlatformVersion"
+            case environmentName = "EnvironmentName"
+            case platformName = "PlatformName"
+            case optionSettings = "OptionSettings"
+        }
+    }
+
+    public struct DescribeConfigurationSettingsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateName", required: false, type: .string)
+        ]
+        /// The application for the environment or configuration template.
+        public let applicationName: String
+        /// The name of the environment to describe.  Condition: You must specify either this or a TemplateName, but not both. If you specify both, AWS Elastic Beanstalk returns an InvalidParameterCombination error. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
+        public let environmentName: String?
+        /// The name of the configuration template to describe.  Conditional: You must specify either this parameter or an EnvironmentName, but not both. If you specify both, AWS Elastic Beanstalk returns an InvalidParameterCombination error. If you do not specify either, AWS Elastic Beanstalk returns a MissingRequiredParameter error. 
+        public let templateName: String?
+
+        public init(applicationName: String, environmentName: String? = nil, templateName: String? = nil) {
+            self.applicationName = applicationName
+            self.environmentName = environmentName
+            self.templateName = templateName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "ApplicationName"
+            case environmentName = "EnvironmentName"
+            case templateName = "TemplateName"
+        }
+    }
+
+    public struct CreatePlatformVersionResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PlatformSummary", required: false, type: .structure), 
+            AWSShapeMember(label: "Builder", required: false, type: .structure)
+        ]
+        /// Detailed information about the new version of the custom platform.
+        public let platformSummary: PlatformSummary?
+        /// The builder used to create the custom platform.
+        public let builder: Builder?
+
+        public init(platformSummary: PlatformSummary? = nil, builder: Builder? = nil) {
+            self.platformSummary = platformSummary
+            self.builder = builder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case platformSummary = "PlatformSummary"
+            case builder = "Builder"
+        }
+    }
+
+    public struct DescribeEnvironmentManagedActionHistoryRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
+            AWSShapeMember(label: "EnvironmentId", required: false, type: .string)
+        ]
+        /// The pagination token returned by a previous request.
+        public let nextToken: String?
+        /// The name of the target environment.
+        public let environmentName: String?
+        /// The maximum number of items to return for a single request.
+        public let maxItems: Int32?
+        /// The environment ID of the target environment.
+        public let environmentId: String?
+
+        public init(nextToken: String? = nil, environmentName: String? = nil, maxItems: Int32? = nil, environmentId: String? = nil) {
+            self.nextToken = nextToken
+            self.environmentName = environmentName
+            self.maxItems = maxItems
+            self.environmentId = environmentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case environmentName = "EnvironmentName"
+            case maxItems = "MaxItems"
+            case environmentId = "EnvironmentId"
+        }
+    }
+
+    public struct UpdateApplicationResourceLifecycleMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceLifecycleConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string)
+        ]
+        /// The lifecycle configuration.
+        public let resourceLifecycleConfig: ApplicationResourceLifecycleConfig
+        /// The name of the application.
+        public let applicationName: String
+
+        public init(resourceLifecycleConfig: ApplicationResourceLifecycleConfig, applicationName: String) {
+            self.resourceLifecycleConfig = resourceLifecycleConfig
+            self.applicationName = applicationName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceLifecycleConfig = "ResourceLifecycleConfig"
+            case applicationName = "ApplicationName"
+        }
+    }
+
+    public struct EnvironmentLink: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LinkName", required: false, type: .string), 
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string)
+        ]
+        /// The name of the link.
+        public let linkName: String?
+        /// The name of the linked environment (the dependency).
+        public let environmentName: String?
+
+        public init(linkName: String? = nil, environmentName: String? = nil) {
+            self.linkName = linkName
+            self.environmentName = environmentName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case linkName = "LinkName"
+            case environmentName = "EnvironmentName"
+        }
+    }
+
+    public enum EnvironmentHealth: String, CustomStringConvertible, Codable {
+        case green = "Green"
+        case yellow = "Yellow"
+        case red = "Red"
+        case grey = "Grey"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Trigger: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// The name of the trigger.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public enum ActionHistoryStatus: String, CustomStringConvertible, Codable {
+        case completed = "Completed"
+        case failed = "Failed"
+        case unknown = "Unknown"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PlatformStatus: String, CustomStringConvertible, Codable {
+        case creating = "Creating"
+        case failed = "Failed"
+        case ready = "Ready"
+        case deleting = "Deleting"
+        case deleted = "Deleted"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ApplicationVersionStatus: String, CustomStringConvertible, Codable {
+        case processed = "Processed"
+        case unprocessed = "Unprocessed"
+        case failed = "Failed"
+        case processing = "Processing"
+        case building = "Building"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct PlatformFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .string), 
+            AWSShapeMember(label: "Operator", required: false, type: .string), 
+            AWSShapeMember(label: "Values", required: false, type: .list)
+        ]
+        /// The custom platform attribute to which the filter values are applied. Valid Values: PlatformName | PlatformVersion | PlatformStatus | PlatformOwner 
+        public let `type`: String?
+        /// The operator to apply to the Type with each of the Values.  Valid Values: = (equal to) | != (not equal to) | &lt; (less than) | &lt;= (less than or equal to) | &gt; (greater than) | &gt;= (greater than or equal to) | contains | begins_with | ends_with 
+        public let `operator`: String?
+        /// The list of values applied to the custom platform attribute.
+        public let values: [String]?
+
+        public init(type: String? = nil, operator: String? = nil, values: [String]? = nil) {
+            self.`type` = `type`
+            self.`operator` = `operator`
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case `operator` = "Operator"
+            case values = "Values"
+        }
+    }
+
+    public struct OptionSpecification: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Namespace", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceName", required: false, type: .string), 
+            AWSShapeMember(label: "OptionName", required: false, type: .string)
+        ]
+        /// A unique namespace identifying the option's associated AWS resource.
+        public let namespace: String?
+        /// A unique resource name for a time-based scaling configuration option.
+        public let resourceName: String?
+        /// The name of the configuration option.
+        public let optionName: String?
+
+        public init(namespace: String? = nil, resourceName: String? = nil, optionName: String? = nil) {
+            self.namespace = namespace
+            self.resourceName = resourceName
+            self.optionName = optionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case namespace = "Namespace"
+            case resourceName = "ResourceName"
+            case optionName = "OptionName"
+        }
+    }
+
+    public struct ConfigurationOptionDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Regex", required: false, type: .structure), 
+            AWSShapeMember(label: "ValueType", required: false, type: .enum), 
+            AWSShapeMember(label: "MaxValue", required: false, type: .integer), 
+            AWSShapeMember(label: "Namespace", required: false, type: .string), 
+            AWSShapeMember(label: "UserDefined", required: false, type: .boolean), 
+            AWSShapeMember(label: "MinValue", required: false, type: .integer), 
+            AWSShapeMember(label: "MaxLength", required: false, type: .integer), 
+            AWSShapeMember(label: "ChangeSeverity", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultValue", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "ValueOptions", required: false, type: .list)
+        ]
+        /// If specified, the configuration option must be a string value that satisfies this regular expression.
+        public let regex: OptionRestrictionRegex?
+        /// An indication of which type of values this option has and whether it is allowable to select one or more than one of the possible values:    Scalar : Values for this option are a single selection from the possible values, or an unformatted string, or numeric value governed by the MIN/MAX/Regex constraints.    List : Values for this option are multiple selections from the possible values.    Boolean : Values for this option are either true or false .    Json : Values for this option are a JSON representation of a ConfigDocument.  
+        public let valueType: ConfigurationOptionValueType?
+        /// If specified, the configuration option must be a numeric value less than this value.
+        public let maxValue: Int32?
+        /// A unique namespace identifying the option's associated AWS resource.
+        public let namespace: String?
+        /// An indication of whether the user defined this configuration option:    true : This configuration option was defined by the user. It is a valid choice for specifying if this as an Option to Remove when updating configuration settings.     false : This configuration was not defined by the user.    Constraint: You can remove only UserDefined options from a configuration.   Valid Values: true | false 
+        public let userDefined: Bool?
+        /// If specified, the configuration option must be a numeric value greater than this value.
+        public let minValue: Int32?
+        /// If specified, the configuration option must be a string value no longer than this value.
+        public let maxLength: Int32?
+        /// An indication of which action is required if the value for this configuration option changes:    NoInterruption : There is no interruption to the environment or application availability.    RestartEnvironment : The environment is entirely restarted, all AWS resources are deleted and recreated, and the environment is unavailable during the process.    RestartApplicationServer : The environment is available the entire time. However, a short application outage occurs when the application servers on the running Amazon EC2 instances are restarted.  
+        public let changeSeverity: String?
+        /// The default value for this configuration option.
+        public let defaultValue: String?
+        /// The name of the configuration option.
+        public let name: String?
+        /// If specified, values for the configuration option are selected from this list.
+        public let valueOptions: [String]?
+
+        public init(regex: OptionRestrictionRegex? = nil, valueType: ConfigurationOptionValueType? = nil, maxValue: Int32? = nil, namespace: String? = nil, userDefined: Bool? = nil, minValue: Int32? = nil, maxLength: Int32? = nil, changeSeverity: String? = nil, defaultValue: String? = nil, name: String? = nil, valueOptions: [String]? = nil) {
+            self.regex = regex
+            self.valueType = valueType
+            self.maxValue = maxValue
+            self.namespace = namespace
+            self.userDefined = userDefined
+            self.minValue = minValue
+            self.maxLength = maxLength
+            self.changeSeverity = changeSeverity
+            self.defaultValue = defaultValue
+            self.name = name
+            self.valueOptions = valueOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case regex = "Regex"
+            case valueType = "ValueType"
+            case maxValue = "MaxValue"
+            case namespace = "Namespace"
+            case userDefined = "UserDefined"
+            case minValue = "MinValue"
+            case maxLength = "MaxLength"
+            case changeSeverity = "ChangeSeverity"
+            case defaultValue = "DefaultValue"
+            case name = "Name"
+            case valueOptions = "ValueOptions"
+        }
+    }
+
+    public struct DescribeAccountAttributesResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceQuotas", required: false, type: .structure)
+        ]
+        /// The Elastic Beanstalk resource quotas associated with the calling AWS account.
+        public let resourceQuotas: ResourceQuotas?
+
+        public init(resourceQuotas: ResourceQuotas? = nil) {
+            self.resourceQuotas = resourceQuotas
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceQuotas = "ResourceQuotas"
+        }
+    }
+
+    public enum FailureType: String, CustomStringConvertible, Codable {
+        case updatecancelled = "UpdateCancelled"
+        case cancellationfailed = "CancellationFailed"
+        case rollbackfailed = "RollbackFailed"
+        case rollbacksuccessful = "RollbackSuccessful"
+        case internalfailure = "InternalFailure"
+        case invalidenvironmentstate = "InvalidEnvironmentState"
+        case permissionserror = "PermissionsError"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UpdateApplicationMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string)
+        ]
+        /// A new description for the application. Default: If not specified, AWS Elastic Beanstalk does not update the description.
+        public let description: String?
+        /// The name of the application to update. If no such application is found, UpdateApplication returns an InvalidParameterValue error. 
+        public let applicationName: String
+
+        public init(description: String? = nil, applicationName: String) {
+            self.description = description
+            self.applicationName = applicationName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case applicationName = "ApplicationName"
+        }
+    }
+
+    public struct ValidateConfigurationSettingsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TemplateName", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
+            AWSShapeMember(label: "OptionSettings", required: true, type: .list), 
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string)
+        ]
+        /// The name of the configuration template to validate the settings against. Condition: You cannot specify both this and an environment name.
+        public let templateName: String?
+        /// The name of the application that the configuration template or environment belongs to.
+        public let applicationName: String
+        /// A list of the options and desired values to evaluate.
+        public let optionSettings: [ConfigurationOptionSetting]
+        /// The name of the environment to validate the settings against. Condition: You cannot specify both this and a configuration template name.
+        public let environmentName: String?
+
+        public init(templateName: String? = nil, applicationName: String, optionSettings: [ConfigurationOptionSetting], environmentName: String? = nil) {
+            self.templateName = templateName
+            self.applicationName = applicationName
+            self.optionSettings = optionSettings
+            self.environmentName = environmentName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateName = "TemplateName"
+            case applicationName = "ApplicationName"
+            case optionSettings = "OptionSettings"
+            case environmentName = "EnvironmentName"
+        }
+    }
+
+    public struct Instance: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: false, type: .string)
+        ]
+        /// The ID of the Amazon EC2 instance.
+        public let id: String?
+
+        public init(id: String? = nil) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
+    }
+
+    public struct DescribePlatformVersionResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PlatformDescription", required: false, type: .structure)
+        ]
+        /// Detailed information about the version of the platform.
+        public let platformDescription: PlatformDescription?
+
+        public init(platformDescription: PlatformDescription? = nil) {
+            self.platformDescription = platformDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case platformDescription = "PlatformDescription"
         }
     }
 
@@ -465,78 +3285,6 @@ extension ElasticBeanstalk {
         }
     }
 
-    public struct InstanceHealthSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Warning", required: false, type: .integer), 
-            AWSShapeMember(label: "Severe", required: false, type: .integer), 
-            AWSShapeMember(label: "Degraded", required: false, type: .integer), 
-            AWSShapeMember(label: "Unknown", required: false, type: .integer), 
-            AWSShapeMember(label: "Pending", required: false, type: .integer), 
-            AWSShapeMember(label: "NoData", required: false, type: .integer), 
-            AWSShapeMember(label: "Ok", required: false, type: .integer), 
-            AWSShapeMember(label: "Info", required: false, type: .integer)
-        ]
-        ///  Yellow. The health agent is reporting a moderate number of request failures or other issues for an instance or environment.
-        public let warning: Int32?
-        ///  Red. The health agent is reporting a very high number of request failures or other issues for an instance or environment.
-        public let severe: Int32?
-        ///  Red. The health agent is reporting a high number of request failures or other issues for an instance or environment.
-        public let degraded: Int32?
-        ///  Grey. AWS Elastic Beanstalk and the health agent are reporting an insufficient amount of data on an instance.
-        public let unknown: Int32?
-        ///  Grey. An operation is in progress on an instance within the command timeout.
-        public let pending: Int32?
-        ///  Grey. AWS Elastic Beanstalk and the health agent are reporting no data on an instance.
-        public let noData: Int32?
-        ///  Green. An instance is passing health checks and the health agent is not reporting any problems.
-        public let ok: Int32?
-        ///  Green. An operation is in progress on an instance.
-        public let info: Int32?
-
-        public init(warning: Int32? = nil, severe: Int32? = nil, degraded: Int32? = nil, unknown: Int32? = nil, pending: Int32? = nil, noData: Int32? = nil, ok: Int32? = nil, info: Int32? = nil) {
-            self.warning = warning
-            self.severe = severe
-            self.degraded = degraded
-            self.unknown = unknown
-            self.pending = pending
-            self.noData = noData
-            self.ok = ok
-            self.info = info
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case warning = "Warning"
-            case severe = "Severe"
-            case degraded = "Degraded"
-            case unknown = "Unknown"
-            case pending = "Pending"
-            case noData = "NoData"
-            case ok = "Ok"
-            case info = "Info"
-        }
-    }
-
-    public struct SystemStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoadAverage", required: false, type: .list), 
-            AWSShapeMember(label: "CPUUtilization", required: false, type: .structure)
-        ]
-        /// Load average in the last 1-minute, 5-minute, and 15-minute periods. For more information, see Operating System Metrics.
-        public let loadAverage: [Double]?
-        /// CPU utilization metrics for the instance.
-        public let cPUUtilization: CPUUtilization?
-
-        public init(loadAverage: [Double]? = nil, cPUUtilization: CPUUtilization? = nil) {
-            self.loadAverage = loadAverage
-            self.cPUUtilization = cPUUtilization
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case loadAverage = "LoadAverage"
-            case cPUUtilization = "CPUUtilization"
-        }
-    }
-
     public struct Builder: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ARN", required: false, type: .string)
@@ -550,226 +3298,6 @@ extension ElasticBeanstalk {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "ARN"
-        }
-    }
-
-    public struct DescribeEnvironmentHealthResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Causes", required: false, type: .list), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "RefreshedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Color", required: false, type: .string), 
-            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeMember(label: "ApplicationMetrics", required: false, type: .structure), 
-            AWSShapeMember(label: "InstancesHealth", required: false, type: .structure), 
-            AWSShapeMember(label: "HealthStatus", required: false, type: .string)
-        ]
-        /// Descriptions of the data that contributed to the environment's current health status.
-        public let causes: [String]?
-        /// The environment's operational status. Ready, Launching, Updating, Terminating, or Terminated.
-        public let status: EnvironmentHealth?
-        /// The date and time that the health information was retrieved.
-        public let refreshedAt: TimeStamp?
-        /// The health color of the environment.
-        public let color: String?
-        /// The environment's name.
-        public let environmentName: String?
-        /// Application request metrics for the environment.
-        public let applicationMetrics: ApplicationMetrics?
-        /// Summary health information for the instances in the environment.
-        public let instancesHealth: InstanceHealthSummary?
-        /// The health status of the environment. For example, Ok.
-        public let healthStatus: String?
-
-        public init(causes: [String]? = nil, status: EnvironmentHealth? = nil, refreshedAt: TimeStamp? = nil, color: String? = nil, environmentName: String? = nil, applicationMetrics: ApplicationMetrics? = nil, instancesHealth: InstanceHealthSummary? = nil, healthStatus: String? = nil) {
-            self.causes = causes
-            self.status = status
-            self.refreshedAt = refreshedAt
-            self.color = color
-            self.environmentName = environmentName
-            self.applicationMetrics = applicationMetrics
-            self.instancesHealth = instancesHealth
-            self.healthStatus = healthStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case causes = "Causes"
-            case status = "Status"
-            case refreshedAt = "RefreshedAt"
-            case color = "Color"
-            case environmentName = "EnvironmentName"
-            case applicationMetrics = "ApplicationMetrics"
-            case instancesHealth = "InstancesHealth"
-            case healthStatus = "HealthStatus"
-        }
-    }
-
-    public struct DescribeApplicationsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationNames", required: false, type: .list)
-        ]
-        /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to only include those with the specified names.
-        public let applicationNames: [String]?
-
-        public init(applicationNames: [String]? = nil) {
-            self.applicationNames = applicationNames
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case applicationNames = "ApplicationNames"
-        }
-    }
-
-    public struct RetrieveEnvironmentInfoResultMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EnvironmentInfo", required: false, type: .list)
-        ]
-        ///  The EnvironmentInfoDescription of the environment. 
-        public let environmentInfo: [EnvironmentInfoDescription]?
-
-        public init(environmentInfo: [EnvironmentInfoDescription]? = nil) {
-            self.environmentInfo = environmentInfo
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case environmentInfo = "EnvironmentInfo"
-        }
-    }
-
-    public struct BuildConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Image", required: true, type: .string), 
-            AWSShapeMember(label: "TimeoutInMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "ComputeType", required: false, type: .enum), 
-            AWSShapeMember(label: "ArtifactName", required: false, type: .string), 
-            AWSShapeMember(label: "CodeBuildServiceRole", required: true, type: .string)
-        ]
-        /// The ID of the Docker image to use for this build project.
-        public let image: String
-        /// How long in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait until timing out any related build that does not get marked as completed. The default is 60 minutes.
-        public let timeoutInMinutes: Int32?
-        /// Information about the compute resources the build project will use.    BUILD_GENERAL1_SMALL: Use up to 3 GB memory and 2 vCPUs for builds     BUILD_GENERAL1_MEDIUM: Use up to 7 GB memory and 4 vCPUs for builds     BUILD_GENERAL1_LARGE: Use up to 15 GB memory and 8 vCPUs for builds   
-        public let computeType: ComputeType?
-        /// The name of the artifact of the CodeBuild build. If provided, Elastic Beanstalk stores the build artifact in the S3 location S3-bucket/resources/application-name/codebuild/codebuild-version-label-artifact-name.zip. If not provided, Elastic Beanstalk stores the build artifact in the S3 location S3-bucket/resources/application-name/codebuild/codebuild-version-label.zip. 
-        public let artifactName: String?
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that enables AWS CodeBuild to interact with dependent AWS services on behalf of the AWS account.
-        public let codeBuildServiceRole: String
-
-        public init(image: String, timeoutInMinutes: Int32? = nil, computeType: ComputeType? = nil, artifactName: String? = nil, codeBuildServiceRole: String) {
-            self.image = image
-            self.timeoutInMinutes = timeoutInMinutes
-            self.computeType = computeType
-            self.artifactName = artifactName
-            self.codeBuildServiceRole = codeBuildServiceRole
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case image = "Image"
-            case timeoutInMinutes = "TimeoutInMinutes"
-            case computeType = "ComputeType"
-            case artifactName = "ArtifactName"
-            case codeBuildServiceRole = "CodeBuildServiceRole"
-        }
-    }
-
-    public struct PlatformDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DateCreated", required: false, type: .timestamp), 
-            AWSShapeMember(label: "OperatingSystemName", required: false, type: .string), 
-            AWSShapeMember(label: "PlatformName", required: false, type: .string), 
-            AWSShapeMember(label: "CustomAmiList", required: false, type: .list), 
-            AWSShapeMember(label: "PlatformOwner", required: false, type: .string), 
-            AWSShapeMember(label: "OperatingSystemVersion", required: false, type: .string), 
-            AWSShapeMember(label: "SolutionStackName", required: false, type: .string), 
-            AWSShapeMember(label: "PlatformVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "PlatformStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "PlatformCategory", required: false, type: .string), 
-            AWSShapeMember(label: "PlatformArn", required: false, type: .string), 
-            AWSShapeMember(label: "Frameworks", required: false, type: .list), 
-            AWSShapeMember(label: "SupportedAddonList", required: false, type: .list), 
-            AWSShapeMember(label: "Maintainer", required: false, type: .string), 
-            AWSShapeMember(label: "DateUpdated", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ProgrammingLanguages", required: false, type: .list), 
-            AWSShapeMember(label: "SupportedTierList", required: false, type: .list)
-        ]
-        /// The date when the platform was created.
-        public let dateCreated: TimeStamp?
-        /// The operating system used by the platform.
-        public let operatingSystemName: String?
-        /// The name of the platform.
-        public let platformName: String?
-        /// The custom AMIs supported by the platform.
-        public let customAmiList: [CustomAmi]?
-        /// The AWS account ID of the person who created the platform.
-        public let platformOwner: String?
-        /// The version of the operating system used by the platform.
-        public let operatingSystemVersion: String?
-        /// The name of the solution stack used by the platform.
-        public let solutionStackName: String?
-        /// The version of the platform.
-        public let platformVersion: String?
-        /// The description of the platform.
-        public let description: String?
-        /// The status of the platform.
-        public let platformStatus: PlatformStatus?
-        /// The category of the platform.
-        public let platformCategory: String?
-        /// The ARN of the platform.
-        public let platformArn: String?
-        /// The frameworks supported by the platform.
-        public let frameworks: [PlatformFramework]?
-        /// The additions supported by the platform.
-        public let supportedAddonList: [String]?
-        /// Information about the maintainer of the platform.
-        public let maintainer: String?
-        /// The date when the platform was last updated.
-        public let dateUpdated: TimeStamp?
-        /// The programming languages supported by the platform.
-        public let programmingLanguages: [PlatformProgrammingLanguage]?
-        /// The tiers supported by the platform.
-        public let supportedTierList: [String]?
-
-        public init(dateCreated: TimeStamp? = nil, operatingSystemName: String? = nil, platformName: String? = nil, customAmiList: [CustomAmi]? = nil, platformOwner: String? = nil, operatingSystemVersion: String? = nil, solutionStackName: String? = nil, platformVersion: String? = nil, description: String? = nil, platformStatus: PlatformStatus? = nil, platformCategory: String? = nil, platformArn: String? = nil, frameworks: [PlatformFramework]? = nil, supportedAddonList: [String]? = nil, maintainer: String? = nil, dateUpdated: TimeStamp? = nil, programmingLanguages: [PlatformProgrammingLanguage]? = nil, supportedTierList: [String]? = nil) {
-            self.dateCreated = dateCreated
-            self.operatingSystemName = operatingSystemName
-            self.platformName = platformName
-            self.customAmiList = customAmiList
-            self.platformOwner = platformOwner
-            self.operatingSystemVersion = operatingSystemVersion
-            self.solutionStackName = solutionStackName
-            self.platformVersion = platformVersion
-            self.description = description
-            self.platformStatus = platformStatus
-            self.platformCategory = platformCategory
-            self.platformArn = platformArn
-            self.frameworks = frameworks
-            self.supportedAddonList = supportedAddonList
-            self.maintainer = maintainer
-            self.dateUpdated = dateUpdated
-            self.programmingLanguages = programmingLanguages
-            self.supportedTierList = supportedTierList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dateCreated = "DateCreated"
-            case operatingSystemName = "OperatingSystemName"
-            case platformName = "PlatformName"
-            case customAmiList = "CustomAmiList"
-            case platformOwner = "PlatformOwner"
-            case operatingSystemVersion = "OperatingSystemVersion"
-            case solutionStackName = "SolutionStackName"
-            case platformVersion = "PlatformVersion"
-            case description = "Description"
-            case platformStatus = "PlatformStatus"
-            case platformCategory = "PlatformCategory"
-            case platformArn = "PlatformArn"
-            case frameworks = "Frameworks"
-            case supportedAddonList = "SupportedAddonList"
-            case maintainer = "Maintainer"
-            case dateUpdated = "DateUpdated"
-            case programmingLanguages = "ProgrammingLanguages"
-            case supportedTierList = "SupportedTierList"
         }
     }
 
@@ -794,242 +3322,192 @@ extension ElasticBeanstalk {
         }
     }
 
-    public struct ConfigurationSettingsDescription: AWSShape {
+    public struct DescribeEnvironmentHealthRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeploymentStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "DateCreated", required: false, type: .timestamp), 
-            AWSShapeMember(label: "SolutionStackName", required: false, type: .string), 
-            AWSShapeMember(label: "DateUpdated", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ApplicationName", required: false, type: .string), 
-            AWSShapeMember(label: "TemplateName", required: false, type: .string), 
-            AWSShapeMember(label: "OptionSettings", required: false, type: .list), 
-            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "PlatformArn", required: false, type: .string)
-        ]
-        ///  If this configuration set is associated with an environment, the DeploymentStatus parameter indicates the deployment status of this configuration set:     null: This configuration is not associated with a running environment.    pending: This is a draft configuration that is not deployed to the associated environment but is in the process of deploying.    deployed: This is the configuration that is currently deployed to the associated running environment.    failed: This is a draft configuration that failed to successfully deploy.  
-        public let deploymentStatus: ConfigurationDeploymentStatus?
-        /// The date (in UTC time) when this configuration set was created.
-        public let dateCreated: TimeStamp?
-        /// The name of the solution stack this configuration set uses.
-        public let solutionStackName: String?
-        /// The date (in UTC time) when this configuration set was last modified.
-        public let dateUpdated: TimeStamp?
-        /// The name of the application associated with this configuration set.
-        public let applicationName: String?
-        ///  If not null, the name of the configuration template for this configuration set. 
-        public let templateName: String?
-        /// A list of the configuration options and their values in this configuration set.
-        public let optionSettings: [ConfigurationOptionSetting]?
-        ///  If not null, the name of the environment for this configuration set. 
-        public let environmentName: String?
-        /// Describes this configuration set.
-        public let description: String?
-        /// The ARN of the platform.
-        public let platformArn: String?
-
-        public init(deploymentStatus: ConfigurationDeploymentStatus? = nil, dateCreated: TimeStamp? = nil, solutionStackName: String? = nil, dateUpdated: TimeStamp? = nil, applicationName: String? = nil, templateName: String? = nil, optionSettings: [ConfigurationOptionSetting]? = nil, environmentName: String? = nil, description: String? = nil, platformArn: String? = nil) {
-            self.deploymentStatus = deploymentStatus
-            self.dateCreated = dateCreated
-            self.solutionStackName = solutionStackName
-            self.dateUpdated = dateUpdated
-            self.applicationName = applicationName
-            self.templateName = templateName
-            self.optionSettings = optionSettings
-            self.environmentName = environmentName
-            self.description = description
-            self.platformArn = platformArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deploymentStatus = "DeploymentStatus"
-            case dateCreated = "DateCreated"
-            case solutionStackName = "SolutionStackName"
-            case dateUpdated = "DateUpdated"
-            case applicationName = "ApplicationName"
-            case templateName = "TemplateName"
-            case optionSettings = "OptionSettings"
-            case environmentName = "EnvironmentName"
-            case description = "Description"
-            case platformArn = "PlatformArn"
-        }
-    }
-
-    public struct DescribeEnvironmentManagedActionHistoryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
             AWSShapeMember(label: "EnvironmentId", required: false, type: .string), 
-            AWSShapeMember(label: "MaxItems", required: false, type: .integer)
+            AWSShapeMember(label: "AttributeNames", required: false, type: .list), 
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string)
         ]
-        /// The pagination token returned by a previous request.
-        public let nextToken: String?
-        /// The name of the target environment.
-        public let environmentName: String?
-        /// The environment ID of the target environment.
+        /// Specify the environment by ID. You must specify either this or an EnvironmentName, or both.
         public let environmentId: String?
-        /// The maximum number of items to return for a single request.
-        public let maxItems: Int32?
-
-        public init(nextToken: String? = nil, environmentName: String? = nil, environmentId: String? = nil, maxItems: Int32? = nil) {
-            self.nextToken = nextToken
-            self.environmentName = environmentName
-            self.environmentId = environmentId
-            self.maxItems = maxItems
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case environmentName = "EnvironmentName"
-            case environmentId = "EnvironmentId"
-            case maxItems = "MaxItems"
-        }
-    }
-
-    public struct EnvironmentResourceDescriptionsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EnvironmentResources", required: false, type: .structure)
-        ]
-        ///  A list of EnvironmentResourceDescription. 
-        public let environmentResources: EnvironmentResourceDescription?
-
-        public init(environmentResources: EnvironmentResourceDescription? = nil) {
-            self.environmentResources = environmentResources
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case environmentResources = "EnvironmentResources"
-        }
-    }
-
-    public struct DescribeEnvironmentResourcesMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeMember(label: "EnvironmentId", required: false, type: .string)
-        ]
-        /// The name of the environment to retrieve AWS resource usage data.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
+        /// Specify the response elements to return. To retrieve all attributes, set to All. If no attribute names are specified, returns the name of the environment.
+        public let attributeNames: [EnvironmentHealthAttribute]?
+        /// Specify the environment by name. You must specify either this or an EnvironmentName, or both.
         public let environmentName: String?
-        /// The ID of the environment to retrieve AWS resource usage data.  Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
-        public let environmentId: String?
 
-        public init(environmentName: String? = nil, environmentId: String? = nil) {
-            self.environmentName = environmentName
-            self.environmentId = environmentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case environmentName = "EnvironmentName"
-            case environmentId = "EnvironmentId"
-        }
-    }
-
-    public struct Instance: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: false, type: .string)
-        ]
-        /// The ID of the Amazon EC2 instance.
-        public let id: String?
-
-        public init(id: String? = nil) {
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
-    }
-
-    public struct DescribeInstancesHealthRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeMember(label: "EnvironmentId", required: false, type: .string), 
-            AWSShapeMember(label: "AttributeNames", required: false, type: .list)
-        ]
-        /// Specify the pagination token returned by a previous call.
-        public let nextToken: String?
-        /// Specify the AWS Elastic Beanstalk environment by name.
-        public let environmentName: String?
-        /// Specify the AWS Elastic Beanstalk environment by ID.
-        public let environmentId: String?
-        /// Specifies the response elements you wish to receive. To retrieve all attributes, set to All. If no attribute names are specified, returns a list of instances.
-        public let attributeNames: [InstancesHealthAttribute]?
-
-        public init(nextToken: String? = nil, environmentName: String? = nil, environmentId: String? = nil, attributeNames: [InstancesHealthAttribute]? = nil) {
-            self.nextToken = nextToken
-            self.environmentName = environmentName
+        public init(environmentId: String? = nil, attributeNames: [EnvironmentHealthAttribute]? = nil, environmentName: String? = nil) {
             self.environmentId = environmentId
             self.attributeNames = attributeNames
+            self.environmentName = environmentName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case environmentName = "EnvironmentName"
             case environmentId = "EnvironmentId"
             case attributeNames = "AttributeNames"
+            case environmentName = "EnvironmentName"
         }
     }
 
-    public enum ActionHistoryStatus: String, CustomStringConvertible, Codable {
-        case completed = "Completed"
-        case failed = "Failed"
-        case unknown = "Unknown"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PlatformStatus: String, CustomStringConvertible, Codable {
-        case creating = "Creating"
-        case failed = "Failed"
-        case ready = "Ready"
-        case deleting = "Deleting"
-        case deleted = "Deleted"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListPlatformVersionsResult: AWSShape {
+    public struct DescribeApplicationVersionsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PlatformSummaryList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationName", required: false, type: .string), 
+            AWSShapeMember(label: "VersionLabels", required: false, type: .list)
         ]
-        /// Detailed information about the platforms.
-        public let platformSummaryList: [PlatformSummary]?
-        /// The starting index into the remaining list of platforms. if this value is not null, you can use it in a subsequent ListPlatformVersion call. 
+        /// For a paginated request. Specify a maximum number of application versions to include in each response. If no MaxRecords is specified, all available application versions are retrieved in a single response.
+        public let maxRecords: Int32?
+        /// For a paginated request. Specify a token from a previous response page to retrieve the next response page. All other parameter values must be identical to the ones specified in the initial request. If no NextToken is specified, the first page is retrieved.
         public let nextToken: String?
+        /// Specify an application name to show only application versions for that application.
+        public let applicationName: String?
+        /// Specify a version label to show a specific application version.
+        public let versionLabels: [String]?
 
-        public init(platformSummaryList: [PlatformSummary]? = nil, nextToken: String? = nil) {
-            self.platformSummaryList = platformSummaryList
+        public init(maxRecords: Int32? = nil, nextToken: String? = nil, applicationName: String? = nil, versionLabels: [String]? = nil) {
+            self.maxRecords = maxRecords
             self.nextToken = nextToken
+            self.applicationName = applicationName
+            self.versionLabels = versionLabels
         }
 
         private enum CodingKeys: String, CodingKey {
-            case platformSummaryList = "PlatformSummaryList"
+            case maxRecords = "MaxRecords"
             case nextToken = "NextToken"
+            case applicationName = "ApplicationName"
+            case versionLabels = "VersionLabels"
         }
     }
 
-    public struct EnvironmentTier: AWSShape {
+    public struct EnvironmentDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Version", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .string)
+            AWSShapeMember(label: "Resources", required: false, type: .structure), 
+            AWSShapeMember(label: "CNAME", required: false, type: .string), 
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "DateUpdated", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DateCreated", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ApplicationName", required: false, type: .string), 
+            AWSShapeMember(label: "EnvironmentId", required: false, type: .string), 
+            AWSShapeMember(label: "VersionLabel", required: false, type: .string), 
+            AWSShapeMember(label: "HealthStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "EndpointURL", required: false, type: .string), 
+            AWSShapeMember(label: "Tier", required: false, type: .structure), 
+            AWSShapeMember(label: "SolutionStackName", required: false, type: .string), 
+            AWSShapeMember(label: "AbortableOperationInProgress", required: false, type: .boolean), 
+            AWSShapeMember(label: "PlatformArn", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "EnvironmentArn", required: false, type: .string), 
+            AWSShapeMember(label: "Health", required: false, type: .enum), 
+            AWSShapeMember(label: "EnvironmentLinks", required: false, type: .list), 
+            AWSShapeMember(label: "TemplateName", required: false, type: .string)
         ]
-        /// The version of this environment tier. When you don't set a value to it, Elastic Beanstalk uses the latest compatible worker tier version.  This member is deprecated. Any specific version that you set may become out of date. We recommend leaving it unspecified. 
-        public let version: String?
-        /// The name of this environment tier.
-        public let name: String?
-        /// The type of this environment tier.
-        public let `type`: String?
+        /// The description of the AWS resources used by this environment.
+        public let resources: EnvironmentResourcesDescription?
+        /// The URL to the CNAME for this environment.
+        public let cname: String?
+        /// The name of this environment.
+        public let environmentName: String?
+        /// The last modified date for this environment.
+        public let dateUpdated: TimeStamp?
+        /// The creation date for this environment.
+        public let dateCreated: TimeStamp?
+        /// The name of the application associated with this environment.
+        public let applicationName: String?
+        /// The ID of this environment.
+        public let environmentId: String?
+        /// The application version deployed in this environment.
+        public let versionLabel: String?
+        /// Returns the health status of the application running in your environment. For more information, see Health Colors and Statuses.
+        public let healthStatus: EnvironmentHealthStatus?
+        /// For load-balanced, autoscaling environments, the URL to the LoadBalancer. For single-instance environments, the IP address of the instance.
+        public let endpointURL: String?
+        /// Describes the current tier of this environment.
+        public let tier: EnvironmentTier?
+        ///  The name of the SolutionStack deployed with this environment. 
+        public let solutionStackName: String?
+        /// Indicates if there is an in-progress environment configuration update or application version deployment that you can cancel.  true: There is an update in progress.   false: There are no updates currently in progress. 
+        public let abortableOperationInProgress: Bool?
+        /// The ARN of the platform.
+        public let platformArn: String?
+        /// The current operational status of the environment:    Launching: Environment is in the process of initial deployment.    Updating: Environment is in the process of updating its configuration settings or application version.    Ready: Environment is available to have an action performed on it, such as update or terminate.    Terminating: Environment is in the shut-down process.    Terminated: Environment is not running.  
+        public let status: EnvironmentStatus?
+        /// Describes this environment.
+        public let description: String?
+        /// The environment's Amazon Resource Name (ARN), which can be used in other API requests that require an ARN.
+        public let environmentArn: String?
+        /// Describes the health status of the environment. AWS Elastic Beanstalk indicates the failure levels for a running environment:    Red: Indicates the environment is not responsive. Occurs when three or more consecutive failures occur for an environment.    Yellow: Indicates that something is wrong. Occurs when two consecutive failures occur for an environment.    Green: Indicates the environment is healthy and fully functional.    Grey: Default health for a new environment. The environment is not fully launched and health checks have not started or health checks are suspended during an UpdateEnvironment or RestartEnvironement request.    Default: Grey 
+        public let health: EnvironmentHealth?
+        /// A list of links to other environments in the same group.
+        public let environmentLinks: [EnvironmentLink]?
+        /// The name of the configuration template used to originally launch this environment.
+        public let templateName: String?
 
-        public init(version: String? = nil, name: String? = nil, type: String? = nil) {
-            self.version = version
-            self.name = name
-            self.`type` = `type`
+        public init(resources: EnvironmentResourcesDescription? = nil, cname: String? = nil, environmentName: String? = nil, dateUpdated: TimeStamp? = nil, dateCreated: TimeStamp? = nil, applicationName: String? = nil, environmentId: String? = nil, versionLabel: String? = nil, healthStatus: EnvironmentHealthStatus? = nil, endpointURL: String? = nil, tier: EnvironmentTier? = nil, solutionStackName: String? = nil, abortableOperationInProgress: Bool? = nil, platformArn: String? = nil, status: EnvironmentStatus? = nil, description: String? = nil, environmentArn: String? = nil, health: EnvironmentHealth? = nil, environmentLinks: [EnvironmentLink]? = nil, templateName: String? = nil) {
+            self.resources = resources
+            self.cname = cname
+            self.environmentName = environmentName
+            self.dateUpdated = dateUpdated
+            self.dateCreated = dateCreated
+            self.applicationName = applicationName
+            self.environmentId = environmentId
+            self.versionLabel = versionLabel
+            self.healthStatus = healthStatus
+            self.endpointURL = endpointURL
+            self.tier = tier
+            self.solutionStackName = solutionStackName
+            self.abortableOperationInProgress = abortableOperationInProgress
+            self.platformArn = platformArn
+            self.status = status
+            self.description = description
+            self.environmentArn = environmentArn
+            self.health = health
+            self.environmentLinks = environmentLinks
+            self.templateName = templateName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case version = "Version"
-            case name = "Name"
-            case `type` = "Type"
+            case resources = "Resources"
+            case cname = "CNAME"
+            case environmentName = "EnvironmentName"
+            case dateUpdated = "DateUpdated"
+            case dateCreated = "DateCreated"
+            case applicationName = "ApplicationName"
+            case environmentId = "EnvironmentId"
+            case versionLabel = "VersionLabel"
+            case healthStatus = "HealthStatus"
+            case endpointURL = "EndpointURL"
+            case tier = "Tier"
+            case solutionStackName = "SolutionStackName"
+            case abortableOperationInProgress = "AbortableOperationInProgress"
+            case platformArn = "PlatformArn"
+            case status = "Status"
+            case description = "Description"
+            case environmentArn = "EnvironmentArn"
+            case health = "Health"
+            case environmentLinks = "EnvironmentLinks"
+            case templateName = "TemplateName"
+        }
+    }
+
+    public struct ListAvailableSolutionStacksResultMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SolutionStackDetails", required: false, type: .list), 
+            AWSShapeMember(label: "SolutionStacks", required: false, type: .list)
+        ]
+        ///  A list of available solution stacks and their SolutionStackDescription. 
+        public let solutionStackDetails: [SolutionStackDescription]?
+        /// A list of available solution stacks.
+        public let solutionStacks: [String]?
+
+        public init(solutionStackDetails: [SolutionStackDescription]? = nil, solutionStacks: [String]? = nil) {
+            self.solutionStackDetails = solutionStackDetails
+            self.solutionStacks = solutionStacks
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case solutionStackDetails = "SolutionStackDetails"
+            case solutionStacks = "SolutionStacks"
         }
     }
 
@@ -1059,1141 +3537,15 @@ extension ElasticBeanstalk {
         }
     }
 
-    public enum EnvironmentHealth: String, CustomStringConvertible, Codable {
-        case green = "Green"
-        case yellow = "Yellow"
-        case red = "Red"
-        case grey = "Grey"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateEnvironmentMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TemplateName", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "CNAMEPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "SolutionStackName", required: false, type: .string), 
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeMember(label: "OptionSettings", required: false, type: .list), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "VersionLabel", required: false, type: .string), 
-            AWSShapeMember(label: "GroupName", required: false, type: .string), 
-            AWSShapeMember(label: "OptionsToRemove", required: false, type: .list), 
-            AWSShapeMember(label: "PlatformArn", required: false, type: .string), 
-            AWSShapeMember(label: "Tier", required: false, type: .structure), 
-            AWSShapeMember(label: "EnvironmentName", required: false, type: .string)
-        ]
-        ///  The name of the configuration template to use in deployment. If no configuration template is found with this name, AWS Elastic Beanstalk returns an InvalidParameterValue error. 
-        public let templateName: String?
-        /// This specifies the tags applied to resources in the environment.
-        public let tags: [Tag]?
-        /// If specified, the environment attempts to use this value as the prefix for the CNAME. If not specified, the CNAME is generated automatically by appending a random alphanumeric string to the environment name.
-        public let cNAMEPrefix: String?
-        /// This is an alternative to specifying a template name. If specified, AWS Elastic Beanstalk sets the configuration values to the default values associated with the specified solution stack. For a list of current solution stacks, see Elastic Beanstalk Supported Platforms.
-        public let solutionStackName: String?
-        /// The name of the application that contains the version to be deployed.  If no application is found with this name, CreateEnvironment returns an InvalidParameterValue error. 
-        public let applicationName: String
-        /// If specified, AWS Elastic Beanstalk sets the specified configuration options to the requested value in the configuration set for the new environment. These override the values obtained from the solution stack or the configuration template.
-        public let optionSettings: [ConfigurationOptionSetting]?
-        /// Describes this environment.
-        public let description: String?
-        /// The name of the application version to deploy.  If the specified application has no associated application versions, AWS Elastic Beanstalk UpdateEnvironment returns an InvalidParameterValue error.  Default: If not specified, AWS Elastic Beanstalk attempts to launch the sample application in the container.
-        public let versionLabel: String?
-        /// The name of the group to which the target environment belongs. Specify a group name only if the environment's name is specified in an environment manifest and not with the environment name parameter. See Environment Manifest (env.yaml) for details.
-        public let groupName: String?
-        /// A list of custom user-defined configuration options to remove from the configuration set for this new environment.
-        public let optionsToRemove: [OptionSpecification]?
-        /// The ARN of the platform.
-        public let platformArn: String?
-        /// This specifies the tier to use for creating this environment.
-        public let tier: EnvironmentTier?
-        /// A unique name for the deployment environment. Used in the application URL. Constraint: Must be from 4 to 40 characters in length. The name can contain only letters, numbers, and hyphens. It cannot start or end with a hyphen. This name must be unique within a region in your account. If the specified name already exists in the region, AWS Elastic Beanstalk returns an InvalidParameterValue error.  Default: If the CNAME parameter is not specified, the environment name becomes part of the CNAME, and therefore part of the visible URL for your application.
-        public let environmentName: String?
-
-        public init(templateName: String? = nil, tags: [Tag]? = nil, cNAMEPrefix: String? = nil, solutionStackName: String? = nil, applicationName: String, optionSettings: [ConfigurationOptionSetting]? = nil, description: String? = nil, versionLabel: String? = nil, groupName: String? = nil, optionsToRemove: [OptionSpecification]? = nil, platformArn: String? = nil, tier: EnvironmentTier? = nil, environmentName: String? = nil) {
-            self.templateName = templateName
-            self.tags = tags
-            self.cNAMEPrefix = cNAMEPrefix
-            self.solutionStackName = solutionStackName
-            self.applicationName = applicationName
-            self.optionSettings = optionSettings
-            self.description = description
-            self.versionLabel = versionLabel
-            self.groupName = groupName
-            self.optionsToRemove = optionsToRemove
-            self.platformArn = platformArn
-            self.tier = tier
-            self.environmentName = environmentName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case templateName = "TemplateName"
-            case tags = "Tags"
-            case cNAMEPrefix = "CNAMEPrefix"
-            case solutionStackName = "SolutionStackName"
-            case applicationName = "ApplicationName"
-            case optionSettings = "OptionSettings"
-            case description = "Description"
-            case versionLabel = "VersionLabel"
-            case groupName = "GroupName"
-            case optionsToRemove = "OptionsToRemove"
-            case platformArn = "PlatformArn"
-            case tier = "Tier"
-            case environmentName = "EnvironmentName"
-        }
-    }
-
-    public struct ComposeEnvironmentsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VersionLabels", required: false, type: .list), 
-            AWSShapeMember(label: "GroupName", required: false, type: .string), 
-            AWSShapeMember(label: "ApplicationName", required: false, type: .string)
-        ]
-        /// A list of version labels, specifying one or more application source bundles that belong to the target application. Each source bundle must include an environment manifest that specifies the name of the environment and the name of the solution stack to use, and optionally can specify environment links to create.
-        public let versionLabels: [String]?
-        /// The name of the group to which the target environments belong. Specify a group name only if the environment name defined in each target environment's manifest ends with a + (plus) character. See Environment Manifest (env.yaml) for details.
-        public let groupName: String?
-        /// The name of the application to which the specified source bundles belong.
-        public let applicationName: String?
-
-        public init(versionLabels: [String]? = nil, groupName: String? = nil, applicationName: String? = nil) {
-            self.versionLabels = versionLabels
-            self.groupName = groupName
-            self.applicationName = applicationName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case versionLabels = "VersionLabels"
-            case groupName = "GroupName"
-            case applicationName = "ApplicationName"
-        }
-    }
-
-    public struct EnvironmentInfoDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "SampleTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "InfoType", required: false, type: .enum), 
-            AWSShapeMember(label: "Ec2InstanceId", required: false, type: .string)
-        ]
-        /// The retrieved information.
-        public let message: String?
-        /// The time stamp when this information was retrieved.
-        public let sampleTimestamp: TimeStamp?
-        /// The type of information retrieved.
-        public let infoType: EnvironmentInfoType?
-        /// The Amazon EC2 Instance ID for this information.
-        public let ec2InstanceId: String?
-
-        public init(message: String? = nil, sampleTimestamp: TimeStamp? = nil, infoType: EnvironmentInfoType? = nil, ec2InstanceId: String? = nil) {
-            self.message = message
-            self.sampleTimestamp = sampleTimestamp
-            self.infoType = infoType
-            self.ec2InstanceId = ec2InstanceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "Message"
-            case sampleTimestamp = "SampleTimestamp"
-            case infoType = "InfoType"
-            case ec2InstanceId = "Ec2InstanceId"
-        }
-    }
-
-    public struct CustomAmi: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VirtualizationType", required: false, type: .string), 
-            AWSShapeMember(label: "ImageId", required: false, type: .string)
-        ]
-        /// The type of virtualization used to create the custom AMI.
-        public let virtualizationType: String?
-        /// THe ID of the image used to create the custom AMI.
-        public let imageId: String?
-
-        public init(virtualizationType: String? = nil, imageId: String? = nil) {
-            self.virtualizationType = virtualizationType
-            self.imageId = imageId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case virtualizationType = "VirtualizationType"
-            case imageId = "ImageId"
-        }
-    }
-
-    public struct DeletePlatformVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PlatformArn", required: false, type: .string)
-        ]
-        /// The ARN of the version of the custom platform.
-        public let platformArn: String?
-
-        public init(platformArn: String? = nil) {
-            self.platformArn = platformArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case platformArn = "PlatformArn"
-        }
-    }
-
-    public struct DescribePlatformVersionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PlatformDescription", required: false, type: .structure)
-        ]
-        /// Detailed information about the version of the platform.
-        public let platformDescription: PlatformDescription?
-
-        public init(platformDescription: PlatformDescription? = nil) {
-            self.platformDescription = platformDescription
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case platformDescription = "PlatformDescription"
-        }
-    }
-
-    public struct EnvironmentLink: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LinkName", required: false, type: .string), 
-            AWSShapeMember(label: "EnvironmentName", required: false, type: .string)
-        ]
-        /// The name of the link.
-        public let linkName: String?
-        /// The name of the linked environment (the dependency).
-        public let environmentName: String?
-
-        public init(linkName: String? = nil, environmentName: String? = nil) {
-            self.linkName = linkName
-            self.environmentName = environmentName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case linkName = "LinkName"
-            case environmentName = "EnvironmentName"
-        }
-    }
-
-    public enum EnvironmentInfoType: String, CustomStringConvertible, Codable {
-        case tail = "tail"
-        case bundle = "bundle"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct UpdateApplicationVersionMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VersionLabel", required: true, type: .string), 
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
-        ]
-        /// The name of the version to update. If no application version is found with this label, UpdateApplication returns an InvalidParameterValue error. 
-        public let versionLabel: String
-        /// The name of the application associated with this version.  If no application is found with this name, UpdateApplication returns an InvalidParameterValue error.
-        public let applicationName: String
-        /// A new description for this version.
-        public let description: String?
-
-        public init(versionLabel: String, applicationName: String, description: String? = nil) {
-            self.versionLabel = versionLabel
-            self.applicationName = applicationName
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case versionLabel = "VersionLabel"
-            case applicationName = "ApplicationName"
-            case description = "Description"
-        }
-    }
-
-    public struct DescribeEventsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Severity", required: false, type: .enum), 
-            AWSShapeMember(label: "EnvironmentId", required: false, type: .string), 
-            AWSShapeMember(label: "ApplicationName", required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeMember(label: "TemplateName", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "VersionLabel", required: false, type: .string), 
-            AWSShapeMember(label: "PlatformArn", required: false, type: .string)
-        ]
-        /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to those that occur on or after this time.
-        public let startTime: TimeStamp?
-        /// If specified, limits the events returned from this call to include only those with the specified severity or higher.
-        public let severity: EventSeverity?
-        /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to those associated with this environment.
-        public let environmentId: String?
-        /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those associated with this application.
-        public let applicationName: String?
-        /// If specified, AWS Elastic Beanstalk restricts the described events to include only those associated with this request ID.
-        public let requestId: String?
-        /// Pagination token. If specified, the events return the next batch of results.
-        public let nextToken: String?
-        /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to those associated with this environment.
-        public let environmentName: String?
-        /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to those that are associated with this environment configuration.
-        public let templateName: String?
-        /// Specifies the maximum number of events that can be returned, beginning with the most recent event.
-        public let maxRecords: Int32?
-        ///  If specified, AWS Elastic Beanstalk restricts the returned descriptions to those that occur up to, but not including, the EndTime. 
-        public let endTime: TimeStamp?
-        /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to those associated with this application version.
-        public let versionLabel: String?
-        /// The ARN of the version of the custom platform.
-        public let platformArn: String?
-
-        public init(startTime: TimeStamp? = nil, severity: EventSeverity? = nil, environmentId: String? = nil, applicationName: String? = nil, requestId: String? = nil, nextToken: String? = nil, environmentName: String? = nil, templateName: String? = nil, maxRecords: Int32? = nil, endTime: TimeStamp? = nil, versionLabel: String? = nil, platformArn: String? = nil) {
-            self.startTime = startTime
-            self.severity = severity
-            self.environmentId = environmentId
-            self.applicationName = applicationName
-            self.requestId = requestId
-            self.nextToken = nextToken
-            self.environmentName = environmentName
-            self.templateName = templateName
-            self.maxRecords = maxRecords
-            self.endTime = endTime
-            self.versionLabel = versionLabel
-            self.platformArn = platformArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case startTime = "StartTime"
-            case severity = "Severity"
-            case environmentId = "EnvironmentId"
-            case applicationName = "ApplicationName"
-            case requestId = "RequestId"
-            case nextToken = "NextToken"
-            case environmentName = "EnvironmentName"
-            case templateName = "TemplateName"
-            case maxRecords = "MaxRecords"
-            case endTime = "EndTime"
-            case versionLabel = "VersionLabel"
-            case platformArn = "PlatformArn"
-        }
-    }
-
-    public struct DescribeConfigurationSettingsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeMember(label: "TemplateName", required: false, type: .string)
-        ]
-        /// The application for the environment or configuration template.
-        public let applicationName: String
-        /// The name of the environment to describe.  Condition: You must specify either this or a TemplateName, but not both. If you specify both, AWS Elastic Beanstalk returns an InvalidParameterCombination error. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
-        public let environmentName: String?
-        /// The name of the configuration template to describe.  Conditional: You must specify either this parameter or an EnvironmentName, but not both. If you specify both, AWS Elastic Beanstalk returns an InvalidParameterCombination error. If you do not specify either, AWS Elastic Beanstalk returns a MissingRequiredParameter error. 
-        public let templateName: String?
-
-        public init(applicationName: String, environmentName: String? = nil, templateName: String? = nil) {
-            self.applicationName = applicationName
-            self.environmentName = environmentName
-            self.templateName = templateName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case applicationName = "ApplicationName"
-            case environmentName = "EnvironmentName"
-            case templateName = "TemplateName"
-        }
-    }
-
-    public struct ApplicationMetrics: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StatusCodes", required: false, type: .structure), 
-            AWSShapeMember(label: "Latency", required: false, type: .structure), 
-            AWSShapeMember(label: "Duration", required: false, type: .integer), 
-            AWSShapeMember(label: "RequestCount", required: false, type: .integer)
-        ]
-        /// Represents the percentage of requests over the last 10 seconds that resulted in each type of status code response.
-        public let statusCodes: StatusCodes?
-        /// Represents the average latency for the slowest X percent of requests over the last 10 seconds. Latencies are in seconds with one millisecond resolution.
-        public let latency: Latency?
-        /// The amount of time that the metrics cover (usually 10 seconds). For example, you might have 5 requests (request_count) within the most recent time slice of 10 seconds (duration).
-        public let duration: Int32?
-        /// Average number of requests handled by the web server per second over the last 10 seconds.
-        public let requestCount: Int32?
-
-        public init(statusCodes: StatusCodes? = nil, latency: Latency? = nil, duration: Int32? = nil, requestCount: Int32? = nil) {
-            self.statusCodes = statusCodes
-            self.latency = latency
-            self.duration = duration
-            self.requestCount = requestCount
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case statusCodes = "StatusCodes"
-            case latency = "Latency"
-            case duration = "Duration"
-            case requestCount = "RequestCount"
-        }
-    }
-
-    public struct DescribeApplicationVersionsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "VersionLabels", required: false, type: .list), 
-            AWSShapeMember(label: "ApplicationName", required: false, type: .string)
-        ]
-        /// For a paginated request. Specify a maximum number of application versions to include in each response. If no MaxRecords is specified, all available application versions are retrieved in a single response.
-        public let maxRecords: Int32?
-        /// For a paginated request. Specify a token from a previous response page to retrieve the next response page. All other parameter values must be identical to the ones specified in the initial request. If no NextToken is specified, the first page is retrieved.
-        public let nextToken: String?
-        /// Specify a version label to show a specific application version.
-        public let versionLabels: [String]?
-        /// Specify an application name to show only application versions for that application.
-        public let applicationName: String?
-
-        public init(maxRecords: Int32? = nil, nextToken: String? = nil, versionLabels: [String]? = nil, applicationName: String? = nil) {
-            self.maxRecords = maxRecords
-            self.nextToken = nextToken
-            self.versionLabels = versionLabels
-            self.applicationName = applicationName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxRecords = "MaxRecords"
-            case nextToken = "NextToken"
-            case versionLabels = "VersionLabels"
-            case applicationName = "ApplicationName"
-        }
-    }
-
-    public struct UpdateApplicationResourceLifecycleMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceLifecycleConfig", required: true, type: .structure)
-        ]
-        /// The name of the application.
-        public let applicationName: String
-        /// The lifecycle configuration.
-        public let resourceLifecycleConfig: ApplicationResourceLifecycleConfig
-
-        public init(applicationName: String, resourceLifecycleConfig: ApplicationResourceLifecycleConfig) {
-            self.applicationName = applicationName
-            self.resourceLifecycleConfig = resourceLifecycleConfig
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case applicationName = "ApplicationName"
-            case resourceLifecycleConfig = "ResourceLifecycleConfig"
-        }
-    }
-
-    public struct LoadBalancerDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoadBalancerName", required: false, type: .string), 
-            AWSShapeMember(label: "Domain", required: false, type: .string), 
-            AWSShapeMember(label: "Listeners", required: false, type: .list)
-        ]
-        /// The name of the LoadBalancer.
-        public let loadBalancerName: String?
-        /// The domain name of the LoadBalancer.
-        public let domain: String?
-        /// A list of Listeners used by the LoadBalancer.
-        public let listeners: [Listener]?
-
-        public init(loadBalancerName: String? = nil, domain: String? = nil, listeners: [Listener]? = nil) {
-            self.loadBalancerName = loadBalancerName
-            self.domain = domain
-            self.listeners = listeners
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case loadBalancerName = "LoadBalancerName"
-            case domain = "Domain"
-            case listeners = "Listeners"
-        }
-    }
-
-    public struct OptionRestrictionRegex: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Label", required: false, type: .string), 
-            AWSShapeMember(label: "Pattern", required: false, type: .string)
-        ]
-        /// A unique name representing this regular expression.
-        public let label: String?
-        /// The regular expression pattern that a string configuration option value with this restriction must match.
-        public let pattern: String?
-
-        public init(label: String? = nil, pattern: String? = nil) {
-            self.label = label
-            self.pattern = pattern
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case label = "Label"
-            case pattern = "Pattern"
-        }
-    }
-
-    public enum FailureType: String, CustomStringConvertible, Codable {
-        case updatecancelled = "UpdateCancelled"
-        case cancellationfailed = "CancellationFailed"
-        case rollbackfailed = "RollbackFailed"
-        case rollbacksuccessful = "RollbackSuccessful"
-        case internalfailure = "InternalFailure"
-        case invalidenvironmentstate = "InvalidEnvironmentState"
-        case permissionserror = "PermissionsError"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreatePlatformVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PlatformDefinitionBundle", required: true, type: .structure), 
-            AWSShapeMember(label: "OptionSettings", required: false, type: .list), 
-            AWSShapeMember(label: "PlatformName", required: true, type: .string), 
-            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeMember(label: "PlatformVersion", required: true, type: .string)
-        ]
-        /// The location of the platform definition archive in Amazon S3.
-        public let platformDefinitionBundle: S3Location
-        /// The configuration option settings to apply to the builder environment.
-        public let optionSettings: [ConfigurationOptionSetting]?
-        /// The name of your custom platform.
-        public let platformName: String
-        /// The name of the builder environment.
-        public let environmentName: String?
-        /// The number, such as 1.0.2, for the new platform version.
-        public let platformVersion: String
-
-        public init(platformDefinitionBundle: S3Location, optionSettings: [ConfigurationOptionSetting]? = nil, platformName: String, environmentName: String? = nil, platformVersion: String) {
-            self.platformDefinitionBundle = platformDefinitionBundle
-            self.optionSettings = optionSettings
-            self.platformName = platformName
-            self.environmentName = environmentName
-            self.platformVersion = platformVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case platformDefinitionBundle = "PlatformDefinitionBundle"
-            case optionSettings = "OptionSettings"
-            case platformName = "PlatformName"
-            case environmentName = "EnvironmentName"
-            case platformVersion = "PlatformVersion"
-        }
-    }
-
-    public struct ConfigurationOptionSetting: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceName", required: false, type: .string), 
-            AWSShapeMember(label: "Namespace", required: false, type: .string), 
-            AWSShapeMember(label: "OptionName", required: false, type: .string)
-        ]
-        /// The current value for the configuration option.
-        public let value: String?
-        /// A unique resource name for a time-based scaling configuration option.
-        public let resourceName: String?
-        /// A unique namespace identifying the option's associated AWS resource.
-        public let namespace: String?
-        /// The name of the configuration option.
-        public let optionName: String?
-
-        public init(value: String? = nil, resourceName: String? = nil, namespace: String? = nil, optionName: String? = nil) {
-            self.value = value
-            self.resourceName = resourceName
-            self.namespace = namespace
-            self.optionName = optionName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case resourceName = "ResourceName"
-            case namespace = "Namespace"
-            case optionName = "OptionName"
-        }
-    }
-
-    public struct ApplyEnvironmentManagedActionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActionId", required: true, type: .string), 
-            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeMember(label: "EnvironmentId", required: false, type: .string)
-        ]
-        /// The action ID of the scheduled managed action to execute.
-        public let actionId: String
-        /// The name of the target environment.
-        public let environmentName: String?
-        /// The environment ID of the target environment.
-        public let environmentId: String?
-
-        public init(actionId: String, environmentName: String? = nil, environmentId: String? = nil) {
-            self.actionId = actionId
-            self.environmentName = environmentName
-            self.environmentId = environmentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case actionId = "ActionId"
-            case environmentName = "EnvironmentName"
-            case environmentId = "EnvironmentId"
-        }
-    }
-
-    public struct EnvironmentDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DateCreated", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Resources", required: false, type: .structure), 
-            AWSShapeMember(label: "AbortableOperationInProgress", required: false, type: .boolean), 
-            AWSShapeMember(label: "TemplateName", required: false, type: .string), 
-            AWSShapeMember(label: "EnvironmentLinks", required: false, type: .list), 
-            AWSShapeMember(label: "EndpointURL", required: false, type: .string), 
-            AWSShapeMember(label: "EnvironmentArn", required: false, type: .string), 
-            AWSShapeMember(label: "SolutionStackName", required: false, type: .string), 
-            AWSShapeMember(label: "CNAME", required: false, type: .string), 
-            AWSShapeMember(label: "ApplicationName", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "VersionLabel", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "HealthStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "PlatformArn", required: false, type: .string), 
-            AWSShapeMember(label: "Tier", required: false, type: .structure), 
-            AWSShapeMember(label: "DateUpdated", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeMember(label: "Health", required: false, type: .enum), 
-            AWSShapeMember(label: "EnvironmentId", required: false, type: .string)
-        ]
-        /// The creation date for this environment.
-        public let dateCreated: TimeStamp?
-        /// The description of the AWS resources used by this environment.
-        public let resources: EnvironmentResourcesDescription?
-        /// Indicates if there is an in-progress environment configuration update or application version deployment that you can cancel.  true: There is an update in progress.   false: There are no updates currently in progress. 
-        public let abortableOperationInProgress: Bool?
-        /// The name of the configuration template used to originally launch this environment.
-        public let templateName: String?
-        /// A list of links to other environments in the same group.
-        public let environmentLinks: [EnvironmentLink]?
-        /// For load-balanced, autoscaling environments, the URL to the LoadBalancer. For single-instance environments, the IP address of the instance.
-        public let endpointURL: String?
-        /// The environment's Amazon Resource Name (ARN), which can be used in other API requests that require an ARN.
-        public let environmentArn: String?
-        ///  The name of the SolutionStack deployed with this environment. 
-        public let solutionStackName: String?
-        /// The URL to the CNAME for this environment.
-        public let cname: String?
-        /// The name of the application associated with this environment.
-        public let applicationName: String?
-        /// Describes this environment.
-        public let description: String?
-        /// The application version deployed in this environment.
-        public let versionLabel: String?
-        /// The current operational status of the environment:    Launching: Environment is in the process of initial deployment.    Updating: Environment is in the process of updating its configuration settings or application version.    Ready: Environment is available to have an action performed on it, such as update or terminate.    Terminating: Environment is in the shut-down process.    Terminated: Environment is not running.  
-        public let status: EnvironmentStatus?
-        /// Returns the health status of the application running in your environment. For more information, see Health Colors and Statuses.
-        public let healthStatus: EnvironmentHealthStatus?
-        /// The ARN of the platform.
-        public let platformArn: String?
-        /// Describes the current tier of this environment.
-        public let tier: EnvironmentTier?
-        /// The last modified date for this environment.
-        public let dateUpdated: TimeStamp?
-        /// The name of this environment.
-        public let environmentName: String?
-        /// Describes the health status of the environment. AWS Elastic Beanstalk indicates the failure levels for a running environment:    Red: Indicates the environment is not responsive. Occurs when three or more consecutive failures occur for an environment.    Yellow: Indicates that something is wrong. Occurs when two consecutive failures occur for an environment.    Green: Indicates the environment is healthy and fully functional.    Grey: Default health for a new environment. The environment is not fully launched and health checks have not started or health checks are suspended during an UpdateEnvironment or RestartEnvironement request.    Default: Grey 
-        public let health: EnvironmentHealth?
-        /// The ID of this environment.
-        public let environmentId: String?
-
-        public init(dateCreated: TimeStamp? = nil, resources: EnvironmentResourcesDescription? = nil, abortableOperationInProgress: Bool? = nil, templateName: String? = nil, environmentLinks: [EnvironmentLink]? = nil, endpointURL: String? = nil, environmentArn: String? = nil, solutionStackName: String? = nil, cname: String? = nil, applicationName: String? = nil, description: String? = nil, versionLabel: String? = nil, status: EnvironmentStatus? = nil, healthStatus: EnvironmentHealthStatus? = nil, platformArn: String? = nil, tier: EnvironmentTier? = nil, dateUpdated: TimeStamp? = nil, environmentName: String? = nil, health: EnvironmentHealth? = nil, environmentId: String? = nil) {
-            self.dateCreated = dateCreated
-            self.resources = resources
-            self.abortableOperationInProgress = abortableOperationInProgress
-            self.templateName = templateName
-            self.environmentLinks = environmentLinks
-            self.endpointURL = endpointURL
-            self.environmentArn = environmentArn
-            self.solutionStackName = solutionStackName
-            self.cname = cname
-            self.applicationName = applicationName
-            self.description = description
-            self.versionLabel = versionLabel
-            self.status = status
-            self.healthStatus = healthStatus
-            self.platformArn = platformArn
-            self.tier = tier
-            self.dateUpdated = dateUpdated
-            self.environmentName = environmentName
-            self.health = health
-            self.environmentId = environmentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dateCreated = "DateCreated"
-            case resources = "Resources"
-            case abortableOperationInProgress = "AbortableOperationInProgress"
-            case templateName = "TemplateName"
-            case environmentLinks = "EnvironmentLinks"
-            case endpointURL = "EndpointURL"
-            case environmentArn = "EnvironmentArn"
-            case solutionStackName = "SolutionStackName"
-            case cname = "CNAME"
-            case applicationName = "ApplicationName"
-            case description = "Description"
-            case versionLabel = "VersionLabel"
-            case status = "Status"
-            case healthStatus = "HealthStatus"
-            case platformArn = "PlatformArn"
-            case tier = "Tier"
-            case dateUpdated = "DateUpdated"
-            case environmentName = "EnvironmentName"
-            case health = "Health"
-            case environmentId = "EnvironmentId"
-        }
-    }
-
-    public enum ActionType: String, CustomStringConvertible, Codable {
-        case instancerefresh = "InstanceRefresh"
-        case platformupdate = "PlatformUpdate"
-        case unknown = "Unknown"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteEnvironmentConfigurationMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeMember(label: "EnvironmentName", required: true, type: .string)
-        ]
-        /// The name of the application the environment is associated with.
-        public let applicationName: String
-        /// The name of the environment to delete the draft configuration from.
-        public let environmentName: String
-
-        public init(applicationName: String, environmentName: String) {
-            self.applicationName = applicationName
-            self.environmentName = environmentName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case applicationName = "ApplicationName"
-            case environmentName = "EnvironmentName"
-        }
-    }
-
-    public struct PlatformSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SupportedTierList", required: false, type: .list), 
-            AWSShapeMember(label: "OperatingSystemName", required: false, type: .string), 
-            AWSShapeMember(label: "PlatformStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "SupportedAddonList", required: false, type: .list), 
-            AWSShapeMember(label: "PlatformCategory", required: false, type: .string), 
-            AWSShapeMember(label: "OperatingSystemVersion", required: false, type: .string), 
-            AWSShapeMember(label: "PlatformOwner", required: false, type: .string), 
-            AWSShapeMember(label: "PlatformArn", required: false, type: .string)
-        ]
-        /// The tiers in which the platform runs.
-        public let supportedTierList: [String]?
-        /// The operating system used by the platform.
-        public let operatingSystemName: String?
-        /// The status of the platform. You can create an environment from the platform once it is ready.
-        public let platformStatus: PlatformStatus?
-        /// The additions associated with the platform.
-        public let supportedAddonList: [String]?
-        /// The category of platform.
-        public let platformCategory: String?
-        /// The version of the operating system used by the platform.
-        public let operatingSystemVersion: String?
-        /// The AWS account ID of the person who created the platform.
-        public let platformOwner: String?
-        /// The ARN of the platform.
-        public let platformArn: String?
-
-        public init(supportedTierList: [String]? = nil, operatingSystemName: String? = nil, platformStatus: PlatformStatus? = nil, supportedAddonList: [String]? = nil, platformCategory: String? = nil, operatingSystemVersion: String? = nil, platformOwner: String? = nil, platformArn: String? = nil) {
-            self.supportedTierList = supportedTierList
-            self.operatingSystemName = operatingSystemName
-            self.platformStatus = platformStatus
-            self.supportedAddonList = supportedAddonList
-            self.platformCategory = platformCategory
-            self.operatingSystemVersion = operatingSystemVersion
-            self.platformOwner = platformOwner
-            self.platformArn = platformArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case supportedTierList = "SupportedTierList"
-            case operatingSystemName = "OperatingSystemName"
-            case platformStatus = "PlatformStatus"
-            case supportedAddonList = "SupportedAddonList"
-            case platformCategory = "PlatformCategory"
-            case operatingSystemVersion = "OperatingSystemVersion"
-            case platformOwner = "PlatformOwner"
-            case platformArn = "PlatformArn"
-        }
-    }
-
-    public struct LoadBalancer: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// The name of the LoadBalancer.
-        public let name: String?
-
-        public init(name: String? = nil) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-        }
-    }
-
-    public struct UpdateTagsForResourceMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagsToAdd", required: false, type: .list), 
-            AWSShapeMember(label: "TagsToRemove", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
-        ]
-        /// A list of tags to add or update. If a key of an existing tag is added, the tag's value is updated.
-        public let tagsToAdd: [Tag]?
-        /// A list of tag keys to remove. If a tag key doesn't exist, it is silently ignored.
-        public let tagsToRemove: [String]?
-        /// The Amazon Resource Name (ARN) of the resouce to be updated. Must be the ARN of an Elastic Beanstalk environment.
-        public let resourceArn: String
-
-        public init(tagsToAdd: [Tag]? = nil, tagsToRemove: [String]? = nil, resourceArn: String) {
-            self.tagsToAdd = tagsToAdd
-            self.tagsToRemove = tagsToRemove
-            self.resourceArn = resourceArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tagsToAdd = "TagsToAdd"
-            case tagsToRemove = "TagsToRemove"
-            case resourceArn = "ResourceArn"
-        }
-    }
-
-    public enum ActionStatus: String, CustomStringConvertible, Codable {
-        case scheduled = "Scheduled"
-        case pending = "Pending"
-        case running = "Running"
-        case unknown = "Unknown"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct OptionSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OptionName", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceName", required: false, type: .string), 
-            AWSShapeMember(label: "Namespace", required: false, type: .string)
-        ]
-        /// The name of the configuration option.
-        public let optionName: String?
-        /// A unique resource name for a time-based scaling configuration option.
-        public let resourceName: String?
-        /// A unique namespace identifying the option's associated AWS resource.
-        public let namespace: String?
-
-        public init(optionName: String? = nil, resourceName: String? = nil, namespace: String? = nil) {
-            self.optionName = optionName
-            self.resourceName = resourceName
-            self.namespace = namespace
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case optionName = "OptionName"
-            case resourceName = "ResourceName"
-            case namespace = "Namespace"
-        }
-    }
-
-    public struct ApplicationDescriptionsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Applications", required: false, type: .list)
-        ]
-        /// This parameter contains a list of ApplicationDescription.
-        public let applications: [ApplicationDescription]?
-
-        public init(applications: [ApplicationDescription]? = nil) {
-            self.applications = applications
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case applications = "Applications"
-        }
-    }
-
-    public struct CheckDNSAvailabilityMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CNAMEPrefix", required: true, type: .string)
-        ]
-        /// The prefix used when this CNAME is reserved.
-        public let cNAMEPrefix: String
-
-        public init(cNAMEPrefix: String) {
-            self.cNAMEPrefix = cNAMEPrefix
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cNAMEPrefix = "CNAMEPrefix"
-        }
-    }
-
-    public struct ListPlatformVersionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "Filters", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The maximum number of platform values returned in one call.
-        public let maxRecords: Int32?
-        /// List only the platforms where the platform member value relates to one of the supplied values.
-        public let filters: [PlatformFilter]?
-        /// The starting index into the remaining list of platforms. Use the NextToken value from a previous ListPlatformVersion call.
-        public let nextToken: String?
-
-        public init(maxRecords: Int32? = nil, filters: [PlatformFilter]? = nil, nextToken: String? = nil) {
-            self.maxRecords = maxRecords
-            self.filters = filters
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxRecords = "MaxRecords"
-            case filters = "Filters"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DeleteConfigurationTemplateMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeMember(label: "TemplateName", required: true, type: .string)
-        ]
-        /// The name of the application to delete the configuration template from.
-        public let applicationName: String
-        /// The name of the configuration template to delete.
-        public let templateName: String
-
-        public init(applicationName: String, templateName: String) {
-            self.applicationName = applicationName
-            self.templateName = templateName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case applicationName = "ApplicationName"
-            case templateName = "TemplateName"
-        }
-    }
-
-    public struct CreateApplicationVersionMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Process", required: false, type: .boolean), 
-            AWSShapeMember(label: "AutoCreateApplication", required: false, type: .boolean), 
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeMember(label: "BuildConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "VersionLabel", required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "SourceBuildInformation", required: false, type: .structure), 
-            AWSShapeMember(label: "SourceBundle", required: false, type: .structure)
-        ]
-        /// Pre-processes and validates the environment manifest (env.yaml) and configuration files (*.config files in the .ebextensions folder) in the source bundle. Validating configuration files can identify issues prior to deploying the application version to an environment. You must turn processing on for application versions that you create using AWS CodeBuild or AWS CodeCommit. For application versions built from a source bundle in Amazon S3, processing is optional.  The Process option validates Elastic Beanstalk configuration files. It doesn't validate your application's configuration files, like proxy server or Docker configuration. 
-        public let process: Bool?
-        /// Set to true to create an application with the specified name if it doesn't already exist.
-        public let autoCreateApplication: Bool?
-        ///  The name of the application. If no application is found with this name, and AutoCreateApplication is false, returns an InvalidParameterValue error. 
-        public let applicationName: String
-        /// Settings for an AWS CodeBuild build.
-        public let buildConfiguration: BuildConfiguration?
-        /// A label identifying this version. Constraint: Must be unique per application. If an application version already exists with this label for the specified application, AWS Elastic Beanstalk returns an InvalidParameterValue error. 
-        public let versionLabel: String
-        /// Describes this version.
-        public let description: String?
-        /// Specify a commit in an AWS CodeCommit Git repository to use as the source code for the application version.
-        public let sourceBuildInformation: SourceBuildInformation?
-        /// The Amazon S3 bucket and key that identify the location of the source bundle for this version.  The Amazon S3 bucket must be in the same region as the environment.  Specify a source bundle in S3 or a commit in an AWS CodeCommit repository (with SourceBuildInformation), but not both. If neither SourceBundle nor SourceBuildInformation are provided, Elastic Beanstalk uses a sample application.
-        public let sourceBundle: S3Location?
-
-        public init(process: Bool? = nil, autoCreateApplication: Bool? = nil, applicationName: String, buildConfiguration: BuildConfiguration? = nil, versionLabel: String, description: String? = nil, sourceBuildInformation: SourceBuildInformation? = nil, sourceBundle: S3Location? = nil) {
-            self.process = process
-            self.autoCreateApplication = autoCreateApplication
-            self.applicationName = applicationName
-            self.buildConfiguration = buildConfiguration
-            self.versionLabel = versionLabel
-            self.description = description
-            self.sourceBuildInformation = sourceBuildInformation
-            self.sourceBundle = sourceBundle
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case process = "Process"
-            case autoCreateApplication = "AutoCreateApplication"
-            case applicationName = "ApplicationName"
-            case buildConfiguration = "BuildConfiguration"
-            case versionLabel = "VersionLabel"
-            case description = "Description"
-            case sourceBuildInformation = "SourceBuildInformation"
-            case sourceBundle = "SourceBundle"
-        }
-    }
-
-    public struct ApplyEnvironmentManagedActionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "ActionDescription", required: false, type: .string), 
-            AWSShapeMember(label: "ActionId", required: false, type: .string), 
-            AWSShapeMember(label: "ActionType", required: false, type: .enum)
-        ]
-        /// The status of the managed action.
-        public let status: String?
-        /// A description of the managed action.
-        public let actionDescription: String?
-        /// The action ID of the managed action.
-        public let actionId: String?
-        /// The type of managed action.
-        public let actionType: ActionType?
-
-        public init(status: String? = nil, actionDescription: String? = nil, actionId: String? = nil, actionType: ActionType? = nil) {
-            self.status = status
-            self.actionDescription = actionDescription
-            self.actionId = actionId
-            self.actionType = actionType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "Status"
-            case actionDescription = "ActionDescription"
-            case actionId = "ActionId"
-            case actionType = "ActionType"
-        }
-    }
-
-    public struct ApplicationResourceLifecycleDescriptionMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationName", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceLifecycleConfig", required: false, type: .structure)
-        ]
-        /// The name of the application.
-        public let applicationName: String?
-        /// The lifecycle configuration.
-        public let resourceLifecycleConfig: ApplicationResourceLifecycleConfig?
-
-        public init(applicationName: String? = nil, resourceLifecycleConfig: ApplicationResourceLifecycleConfig? = nil) {
-            self.applicationName = applicationName
-            self.resourceLifecycleConfig = resourceLifecycleConfig
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case applicationName = "ApplicationName"
-            case resourceLifecycleConfig = "ResourceLifecycleConfig"
-        }
-    }
-
-    public struct PlatformFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Values", required: false, type: .list), 
-            AWSShapeMember(label: "Operator", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .string)
-        ]
-        /// The list of values applied to the custom platform attribute.
-        public let values: [String]?
-        /// The operator to apply to the Type with each of the Values.  Valid Values: = (equal to) | != (not equal to) | &lt; (less than) | &lt;= (less than or equal to) | &gt; (greater than) | &gt;= (greater than or equal to) | contains | begins_with | ends_with 
-        public let `operator`: String?
-        /// The custom platform attribute to which the filter values are applied. Valid Values: PlatformName | PlatformVersion | PlatformStatus | PlatformOwner 
-        public let `type`: String?
-
-        public init(values: [String]? = nil, operator: String? = nil, type: String? = nil) {
-            self.values = values
-            self.`operator` = `operator`
-            self.`type` = `type`
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case values = "Values"
-            case `operator` = "Operator"
-            case `type` = "Type"
-        }
-    }
-
-    public struct DescribeEnvironmentsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EnvironmentIds", required: false, type: .list), 
-            AWSShapeMember(label: "ApplicationName", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "EnvironmentNames", required: false, type: .list), 
-            AWSShapeMember(label: "VersionLabel", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "IncludeDeleted", required: false, type: .boolean), 
-            AWSShapeMember(label: "IncludedDeletedBackTo", required: false, type: .timestamp)
-        ]
-        /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that have the specified IDs.
-        public let environmentIds: [String]?
-        /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application.
-        public let applicationName: String?
-        /// For a paginated request. Specify a token from a previous response page to retrieve the next response page. All other parameter values must be identical to the ones specified in the initial request. If no NextToken is specified, the first page is retrieved.
-        public let nextToken: String?
-        /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that have the specified names.
-        public let environmentNames: [String]?
-        /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application version.
-        public let versionLabel: String?
-        /// For a paginated request. Specify a maximum number of environments to include in each response. If no MaxRecords is specified, all available environments are retrieved in a single response.
-        public let maxRecords: Int32?
-        /// Indicates whether to include deleted environments:  true: Environments that have been deleted after IncludedDeletedBackTo are displayed.  false: Do not include deleted environments.
-        public let includeDeleted: Bool?
-        ///  If specified when IncludeDeleted is set to true, then environments deleted after this date are displayed. 
-        public let includedDeletedBackTo: TimeStamp?
-
-        public init(environmentIds: [String]? = nil, applicationName: String? = nil, nextToken: String? = nil, environmentNames: [String]? = nil, versionLabel: String? = nil, maxRecords: Int32? = nil, includeDeleted: Bool? = nil, includedDeletedBackTo: TimeStamp? = nil) {
-            self.environmentIds = environmentIds
-            self.applicationName = applicationName
-            self.nextToken = nextToken
-            self.environmentNames = environmentNames
-            self.versionLabel = versionLabel
-            self.maxRecords = maxRecords
-            self.includeDeleted = includeDeleted
-            self.includedDeletedBackTo = includedDeletedBackTo
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case environmentIds = "EnvironmentIds"
-            case applicationName = "ApplicationName"
-            case nextToken = "NextToken"
-            case environmentNames = "EnvironmentNames"
-            case versionLabel = "VersionLabel"
-            case maxRecords = "MaxRecords"
-            case includeDeleted = "IncludeDeleted"
-            case includedDeletedBackTo = "IncludedDeletedBackTo"
-        }
-    }
-
-    public enum ValidationSeverity: String, CustomStringConvertible, Codable {
-        case error = "error"
-        case warning = "warning"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListTagsForResourceMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the resouce for which a tag list is requested. Must be the ARN of an Elastic Beanstalk environment.
-        public let resourceArn: String
-
-        public init(resourceArn: String) {
-            self.resourceArn = resourceArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "ResourceArn"
-        }
-    }
-
-    public enum EnvironmentHealthStatus: String, CustomStringConvertible, Codable {
-        case nodata = "NoData"
-        case unknown = "Unknown"
-        case pending = "Pending"
-        case ok = "Ok"
-        case info = "Info"
-        case warning = "Warning"
-        case degraded = "Degraded"
-        case severe = "Severe"
-        case suspended = "Suspended"
+    public enum EnvironmentHealthAttribute: String, CustomStringConvertible, Codable {
+        case status = "Status"
+        case color = "Color"
+        case causes = "Causes"
+        case applicationmetrics = "ApplicationMetrics"
+        case instanceshealth = "InstancesHealth"
+        case all = "All"
+        case healthstatus = "HealthStatus"
+        case refreshedat = "RefreshedAt"
         public var description: String { return self.rawValue }
     }
 
@@ -2213,237 +3565,75 @@ extension ElasticBeanstalk {
         }
     }
 
-    public struct SourceBuildInformation: AWSShape {
+    public struct AbortEnvironmentUpdateMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceLocation", required: true, type: .string), 
-            AWSShapeMember(label: "SourceType", required: true, type: .enum), 
-            AWSShapeMember(label: "SourceRepository", required: true, type: .enum)
+            AWSShapeMember(label: "EnvironmentId", required: false, type: .string), 
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string)
         ]
-        /// The location of the source code, as a formatted string, depending on the value of SourceRepository    For CodeCommit, the format is the repository name and commit ID, separated by a forward slash. For example, my-git-repo/265cfa0cf6af46153527f55d6503ec030551f57a.   For S3, the format is the S3 bucket name and object key, separated by a forward slash. For example, my-s3-bucket/Folders/my-source-file.  
-        public let sourceLocation: String
-        /// The type of repository.    Git     Zip   
-        public let sourceType: SourceType
-        /// Location where the repository is stored.    CodeCommit     S3   
-        public let sourceRepository: SourceRepository
-
-        public init(sourceLocation: String, sourceType: SourceType, sourceRepository: SourceRepository) {
-            self.sourceLocation = sourceLocation
-            self.sourceType = sourceType
-            self.sourceRepository = sourceRepository
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sourceLocation = "SourceLocation"
-            case sourceType = "SourceType"
-            case sourceRepository = "SourceRepository"
-        }
-    }
-
-    public struct DescribeEnvironmentHealthRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeNames", required: false, type: .list), 
-            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeMember(label: "EnvironmentId", required: false, type: .string)
-        ]
-        /// Specify the response elements to return. To retrieve all attributes, set to All. If no attribute names are specified, returns the name of the environment.
-        public let attributeNames: [EnvironmentHealthAttribute]?
-        /// Specify the environment by name. You must specify either this or an EnvironmentName, or both.
-        public let environmentName: String?
-        /// Specify the environment by ID. You must specify either this or an EnvironmentName, or both.
+        /// This specifies the ID of the environment with the in-progress update that you want to cancel.
         public let environmentId: String?
+        /// This specifies the name of the environment with the in-progress update that you want to cancel.
+        public let environmentName: String?
 
-        public init(attributeNames: [EnvironmentHealthAttribute]? = nil, environmentName: String? = nil, environmentId: String? = nil) {
-            self.attributeNames = attributeNames
-            self.environmentName = environmentName
+        public init(environmentId: String? = nil, environmentName: String? = nil) {
             self.environmentId = environmentId
+            self.environmentName = environmentName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributeNames = "AttributeNames"
-            case environmentName = "EnvironmentName"
             case environmentId = "EnvironmentId"
+            case environmentName = "EnvironmentName"
         }
     }
 
-    public struct CreateStorageLocationResultMessage: AWSShape {
+    public struct CPUUtilization: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3Bucket", required: false, type: .string)
+            AWSShapeMember(label: "Nice", required: false, type: .double), 
+            AWSShapeMember(label: "SoftIRQ", required: false, type: .double), 
+            AWSShapeMember(label: "User", required: false, type: .double), 
+            AWSShapeMember(label: "System", required: false, type: .double), 
+            AWSShapeMember(label: "IOWait", required: false, type: .double), 
+            AWSShapeMember(label: "IRQ", required: false, type: .double), 
+            AWSShapeMember(label: "Idle", required: false, type: .double), 
+            AWSShapeMember(label: "Privileged", required: false, type: .double)
         ]
-        /// The name of the Amazon S3 bucket created.
-        public let s3Bucket: String?
+        /// Available on Linux environments only. Percentage of time that the CPU has spent in the Nice state over the last 10 seconds.
+        public let nice: Double?
+        /// Available on Linux environments only. Percentage of time that the CPU has spent in the SoftIRQ state over the last 10 seconds.
+        public let softIRQ: Double?
+        /// Percentage of time that the CPU has spent in the User state over the last 10 seconds.
+        public let user: Double?
+        /// Available on Linux environments only. Percentage of time that the CPU has spent in the System state over the last 10 seconds.
+        public let system: Double?
+        /// Available on Linux environments only. Percentage of time that the CPU has spent in the I/O Wait state over the last 10 seconds.
+        public let iOWait: Double?
+        /// Available on Linux environments only. Percentage of time that the CPU has spent in the IRQ state over the last 10 seconds.
+        public let irq: Double?
+        /// Percentage of time that the CPU has spent in the Idle state over the last 10 seconds.
+        public let idle: Double?
+        /// Available on Windows environments only. Percentage of time that the CPU has spent in the Privileged state over the last 10 seconds.
+        public let privileged: Double?
 
-        public init(s3Bucket: String? = nil) {
-            self.s3Bucket = s3Bucket
+        public init(nice: Double? = nil, softIRQ: Double? = nil, user: Double? = nil, system: Double? = nil, iOWait: Double? = nil, irq: Double? = nil, idle: Double? = nil, privileged: Double? = nil) {
+            self.nice = nice
+            self.softIRQ = softIRQ
+            self.user = user
+            self.system = system
+            self.iOWait = iOWait
+            self.irq = irq
+            self.idle = idle
+            self.privileged = privileged
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3Bucket = "S3Bucket"
-        }
-    }
-
-    public struct DeleteApplicationMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeMember(label: "TerminateEnvByForce", required: false, type: .boolean)
-        ]
-        /// The name of the application to delete.
-        public let applicationName: String
-        /// When set to true, running environments will be terminated before deleting the application.
-        public let terminateEnvByForce: Bool?
-
-        public init(applicationName: String, terminateEnvByForce: Bool? = nil) {
-            self.applicationName = applicationName
-            self.terminateEnvByForce = terminateEnvByForce
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case applicationName = "ApplicationName"
-            case terminateEnvByForce = "TerminateEnvByForce"
-        }
-    }
-
-    public struct UpdateApplicationMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
-        ]
-        /// The name of the application to update. If no such application is found, UpdateApplication returns an InvalidParameterValue error. 
-        public let applicationName: String
-        /// A new description for the application. Default: If not specified, AWS Elastic Beanstalk does not update the description.
-        public let description: String?
-
-        public init(applicationName: String, description: String? = nil) {
-            self.applicationName = applicationName
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case applicationName = "ApplicationName"
-            case description = "Description"
-        }
-    }
-
-    public enum EventSeverity: String, CustomStringConvertible, Codable {
-        case trace = "TRACE"
-        case debug = "DEBUG"
-        case info = "INFO"
-        case warn = "WARN"
-        case error = "ERROR"
-        case fatal = "FATAL"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SourceType: String, CustomStringConvertible, Codable {
-        case git = "Git"
-        case zip = "Zip"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct PlatformProgrammingLanguage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Version", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// The version of the programming language.
-        public let version: String?
-        /// The name of the programming language.
-        public let name: String?
-
-        public init(version: String? = nil, name: String? = nil) {
-            self.version = version
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case version = "Version"
-            case name = "Name"
-        }
-    }
-
-    public struct ApplicationVersionLifecycleConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxAgeRule", required: false, type: .structure), 
-            AWSShapeMember(label: "MaxCountRule", required: false, type: .structure)
-        ]
-        /// Specify a max age rule to restrict the length of time that application versions are retained for an application.
-        public let maxAgeRule: MaxAgeRule?
-        /// Specify a max count rule to restrict the number of application versions that are retained for an application.
-        public let maxCountRule: MaxCountRule?
-
-        public init(maxAgeRule: MaxAgeRule? = nil, maxCountRule: MaxCountRule? = nil) {
-            self.maxAgeRule = maxAgeRule
-            self.maxCountRule = maxCountRule
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxAgeRule = "MaxAgeRule"
-            case maxCountRule = "MaxCountRule"
-        }
-    }
-
-    public struct ConfigurationOptionDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DefaultValue", required: false, type: .string), 
-            AWSShapeMember(label: "MaxLength", required: false, type: .integer), 
-            AWSShapeMember(label: "ValueType", required: false, type: .enum), 
-            AWSShapeMember(label: "ValueOptions", required: false, type: .list), 
-            AWSShapeMember(label: "Regex", required: false, type: .structure), 
-            AWSShapeMember(label: "MaxValue", required: false, type: .integer), 
-            AWSShapeMember(label: "UserDefined", required: false, type: .boolean), 
-            AWSShapeMember(label: "ChangeSeverity", required: false, type: .string), 
-            AWSShapeMember(label: "Namespace", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "MinValue", required: false, type: .integer)
-        ]
-        /// The default value for this configuration option.
-        public let defaultValue: String?
-        /// If specified, the configuration option must be a string value no longer than this value.
-        public let maxLength: Int32?
-        /// An indication of which type of values this option has and whether it is allowable to select one or more than one of the possible values:    Scalar : Values for this option are a single selection from the possible values, or an unformatted string, or numeric value governed by the MIN/MAX/Regex constraints.    List : Values for this option are multiple selections from the possible values.    Boolean : Values for this option are either true or false .    Json : Values for this option are a JSON representation of a ConfigDocument.  
-        public let valueType: ConfigurationOptionValueType?
-        /// If specified, values for the configuration option are selected from this list.
-        public let valueOptions: [String]?
-        /// If specified, the configuration option must be a string value that satisfies this regular expression.
-        public let regex: OptionRestrictionRegex?
-        /// If specified, the configuration option must be a numeric value less than this value.
-        public let maxValue: Int32?
-        /// An indication of whether the user defined this configuration option:    true : This configuration option was defined by the user. It is a valid choice for specifying if this as an Option to Remove when updating configuration settings.     false : This configuration was not defined by the user.    Constraint: You can remove only UserDefined options from a configuration.   Valid Values: true | false 
-        public let userDefined: Bool?
-        /// An indication of which action is required if the value for this configuration option changes:    NoInterruption : There is no interruption to the environment or application availability.    RestartEnvironment : The environment is entirely restarted, all AWS resources are deleted and recreated, and the environment is unavailable during the process.    RestartApplicationServer : The environment is available the entire time. However, a short application outage occurs when the application servers on the running Amazon EC2 instances are restarted.  
-        public let changeSeverity: String?
-        /// A unique namespace identifying the option's associated AWS resource.
-        public let namespace: String?
-        /// The name of the configuration option.
-        public let name: String?
-        /// If specified, the configuration option must be a numeric value greater than this value.
-        public let minValue: Int32?
-
-        public init(defaultValue: String? = nil, maxLength: Int32? = nil, valueType: ConfigurationOptionValueType? = nil, valueOptions: [String]? = nil, regex: OptionRestrictionRegex? = nil, maxValue: Int32? = nil, userDefined: Bool? = nil, changeSeverity: String? = nil, namespace: String? = nil, name: String? = nil, minValue: Int32? = nil) {
-            self.defaultValue = defaultValue
-            self.maxLength = maxLength
-            self.valueType = valueType
-            self.valueOptions = valueOptions
-            self.regex = regex
-            self.maxValue = maxValue
-            self.userDefined = userDefined
-            self.changeSeverity = changeSeverity
-            self.namespace = namespace
-            self.name = name
-            self.minValue = minValue
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case defaultValue = "DefaultValue"
-            case maxLength = "MaxLength"
-            case valueType = "ValueType"
-            case valueOptions = "ValueOptions"
-            case regex = "Regex"
-            case maxValue = "MaxValue"
-            case userDefined = "UserDefined"
-            case changeSeverity = "ChangeSeverity"
-            case namespace = "Namespace"
-            case name = "Name"
-            case minValue = "MinValue"
+            case nice = "Nice"
+            case softIRQ = "SoftIRQ"
+            case user = "User"
+            case system = "System"
+            case iOWait = "IOWait"
+            case irq = "IRQ"
+            case idle = "Idle"
+            case privileged = "Privileged"
         }
     }
 
@@ -2463,699 +3653,17 @@ extension ElasticBeanstalk {
         }
     }
 
-    public struct ApplicationVersionDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BuildArn", required: false, type: .string), 
-            AWSShapeMember(label: "DateCreated", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DateUpdated", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "ApplicationName", required: false, type: .string), 
-            AWSShapeMember(label: "ApplicationVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "VersionLabel", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "SourceBuildInformation", required: false, type: .structure), 
-            AWSShapeMember(label: "SourceBundle", required: false, type: .structure)
-        ]
-        /// Reference to the artifact from the AWS CodeBuild build.
-        public let buildArn: String?
-        /// The creation date of the application version.
-        public let dateCreated: TimeStamp?
-        /// The last modified date of the application version.
-        public let dateUpdated: TimeStamp?
-        /// The processing status of the application version. Reflects the state of the application version during its creation. Many of the values are only applicable if you specified True for the Process parameter of the CreateApplicationVersion action. The following list describes the possible values.    Unprocessed – Application version wasn't pre-processed or validated. Elastic Beanstalk will validate configuration files during deployment of the application version to an environment.    Processing – Elastic Beanstalk is currently processing the application version.    Building – Application version is currently undergoing an AWS CodeBuild build.    Processed – Elastic Beanstalk was successfully pre-processed and validated.    Failed – Either the AWS CodeBuild build failed or configuration files didn't pass validation. This application version isn't usable.  
-        public let status: ApplicationVersionStatus?
-        /// The name of the application to which the application version belongs.
-        public let applicationName: String?
-        /// The Amazon Resource Name (ARN) of the application version.
-        public let applicationVersionArn: String?
-        /// A unique identifier for the application version.
-        public let versionLabel: String?
-        /// The description of the application version.
-        public let description: String?
-        /// If the version's source code was retrieved from AWS CodeCommit, the location of the source code for the application version.
-        public let sourceBuildInformation: SourceBuildInformation?
-        /// The storage location of the application version's source bundle in Amazon S3.
-        public let sourceBundle: S3Location?
-
-        public init(buildArn: String? = nil, dateCreated: TimeStamp? = nil, dateUpdated: TimeStamp? = nil, status: ApplicationVersionStatus? = nil, applicationName: String? = nil, applicationVersionArn: String? = nil, versionLabel: String? = nil, description: String? = nil, sourceBuildInformation: SourceBuildInformation? = nil, sourceBundle: S3Location? = nil) {
-            self.buildArn = buildArn
-            self.dateCreated = dateCreated
-            self.dateUpdated = dateUpdated
-            self.status = status
-            self.applicationName = applicationName
-            self.applicationVersionArn = applicationVersionArn
-            self.versionLabel = versionLabel
-            self.description = description
-            self.sourceBuildInformation = sourceBuildInformation
-            self.sourceBundle = sourceBundle
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case buildArn = "BuildArn"
-            case dateCreated = "DateCreated"
-            case dateUpdated = "DateUpdated"
-            case status = "Status"
-            case applicationName = "ApplicationName"
-            case applicationVersionArn = "ApplicationVersionArn"
-            case versionLabel = "VersionLabel"
-            case description = "Description"
-            case sourceBuildInformation = "SourceBuildInformation"
-            case sourceBundle = "SourceBundle"
-        }
-    }
-
-    public struct EnvironmentResourcesDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoadBalancer", required: false, type: .structure)
-        ]
-        /// Describes the LoadBalancer.
-        public let loadBalancer: LoadBalancerDescription?
-
-        public init(loadBalancer: LoadBalancerDescription? = nil) {
-            self.loadBalancer = loadBalancer
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case loadBalancer = "LoadBalancer"
-        }
-    }
-
-    public enum SourceRepository: String, CustomStringConvertible, Codable {
-        case codecommit = "CodeCommit"
-        case s3 = "S3"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ConfigurationDeploymentStatus: String, CustomStringConvertible, Codable {
-        case deployed = "deployed"
-        case pending = "pending"
-        case failed = "failed"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateApplicationMessage: AWSShape {
+    public struct DeleteConfigurationTemplateMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceLifecycleConfig", required: false, type: .structure)
+            AWSShapeMember(label: "TemplateName", required: true, type: .string)
         ]
-        /// The name of the application. Constraint: This name must be unique within your account. If the specified name already exists, the action returns an InvalidParameterValue error.
+        /// The name of the application to delete the configuration template from.
         public let applicationName: String
-        /// Describes the application.
-        public let description: String?
-        /// Specify an application resource lifecycle configuration to prevent your application from accumulating too many versions.
-        public let resourceLifecycleConfig: ApplicationResourceLifecycleConfig?
+        /// The name of the configuration template to delete.
+        public let templateName: String
 
-        public init(applicationName: String, description: String? = nil, resourceLifecycleConfig: ApplicationResourceLifecycleConfig? = nil) {
-            self.applicationName = applicationName
-            self.description = description
-            self.resourceLifecycleConfig = resourceLifecycleConfig
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case applicationName = "ApplicationName"
-            case description = "Description"
-            case resourceLifecycleConfig = "ResourceLifecycleConfig"
-        }
-    }
-
-    public struct Trigger: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// The name of the trigger.
-        public let name: String?
-
-        public init(name: String? = nil) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-        }
-    }
-
-    public enum ConfigurationOptionValueType: String, CustomStringConvertible, Codable {
-        case scalar = "Scalar"
-        case list = "List"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct UpdateEnvironmentMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tier", required: false, type: .structure), 
-            AWSShapeMember(label: "OptionsToRemove", required: false, type: .list), 
-            AWSShapeMember(label: "SolutionStackName", required: false, type: .string), 
-            AWSShapeMember(label: "EnvironmentId", required: false, type: .string), 
-            AWSShapeMember(label: "ApplicationName", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeMember(label: "TemplateName", required: false, type: .string), 
-            AWSShapeMember(label: "OptionSettings", required: false, type: .list), 
-            AWSShapeMember(label: "GroupName", required: false, type: .string), 
-            AWSShapeMember(label: "VersionLabel", required: false, type: .string), 
-            AWSShapeMember(label: "PlatformArn", required: false, type: .string)
-        ]
-        /// This specifies the tier to use to update the environment. Condition: At this time, if you change the tier version, name, or type, AWS Elastic Beanstalk returns InvalidParameterValue error. 
-        public let tier: EnvironmentTier?
-        /// A list of custom user-defined configuration options to remove from the configuration set for this environment.
-        public let optionsToRemove: [OptionSpecification]?
-        /// This specifies the platform version that the environment will run after the environment is updated.
-        public let solutionStackName: String?
-        /// The ID of the environment to update. If no environment with this ID exists, AWS Elastic Beanstalk returns an InvalidParameterValue error. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
-        public let environmentId: String?
-        /// The name of the application with which the environment is associated.
-        public let applicationName: String?
-        /// If this parameter is specified, AWS Elastic Beanstalk updates the description of this environment.
-        public let description: String?
-        /// The name of the environment to update. If no environment with this name exists, AWS Elastic Beanstalk returns an InvalidParameterValue error.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
-        public let environmentName: String?
-        /// If this parameter is specified, AWS Elastic Beanstalk deploys this configuration template to the environment. If no such configuration template is found, AWS Elastic Beanstalk returns an InvalidParameterValue error. 
-        public let templateName: String?
-        /// If specified, AWS Elastic Beanstalk updates the configuration set associated with the running environment and sets the specified configuration options to the requested value.
-        public let optionSettings: [ConfigurationOptionSetting]?
-        /// The name of the group to which the target environment belongs. Specify a group name only if the environment's name is specified in an environment manifest and not with the environment name or environment ID parameters. See Environment Manifest (env.yaml) for details.
-        public let groupName: String?
-        /// If this parameter is specified, AWS Elastic Beanstalk deploys the named application version to the environment. If no such application version is found, returns an InvalidParameterValue error. 
-        public let versionLabel: String?
-        /// The ARN of the platform, if used.
-        public let platformArn: String?
-
-        public init(tier: EnvironmentTier? = nil, optionsToRemove: [OptionSpecification]? = nil, solutionStackName: String? = nil, environmentId: String? = nil, applicationName: String? = nil, description: String? = nil, environmentName: String? = nil, templateName: String? = nil, optionSettings: [ConfigurationOptionSetting]? = nil, groupName: String? = nil, versionLabel: String? = nil, platformArn: String? = nil) {
-            self.tier = tier
-            self.optionsToRemove = optionsToRemove
-            self.solutionStackName = solutionStackName
-            self.environmentId = environmentId
-            self.applicationName = applicationName
-            self.description = description
-            self.environmentName = environmentName
-            self.templateName = templateName
-            self.optionSettings = optionSettings
-            self.groupName = groupName
-            self.versionLabel = versionLabel
-            self.platformArn = platformArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tier = "Tier"
-            case optionsToRemove = "OptionsToRemove"
-            case solutionStackName = "SolutionStackName"
-            case environmentId = "EnvironmentId"
-            case applicationName = "ApplicationName"
-            case description = "Description"
-            case environmentName = "EnvironmentName"
-            case templateName = "TemplateName"
-            case optionSettings = "OptionSettings"
-            case groupName = "GroupName"
-            case versionLabel = "VersionLabel"
-            case platformArn = "PlatformArn"
-        }
-    }
-
-    public struct DescribeEnvironmentManagedActionsResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ManagedActions", required: false, type: .list)
-        ]
-        /// A list of upcoming and in-progress managed actions.
-        public let managedActions: [ManagedAction]?
-
-        public init(managedActions: [ManagedAction]? = nil) {
-            self.managedActions = managedActions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case managedActions = "ManagedActions"
-        }
-    }
-
-    public struct StatusCodes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status5xx", required: false, type: .integer), 
-            AWSShapeMember(label: "Status4xx", required: false, type: .integer), 
-            AWSShapeMember(label: "Status2xx", required: false, type: .integer), 
-            AWSShapeMember(label: "Status3xx", required: false, type: .integer)
-        ]
-        /// The percentage of requests over the last 10 seconds that resulted in a 5xx (500, 501, etc.) status code.
-        public let status5xx: Int32?
-        /// The percentage of requests over the last 10 seconds that resulted in a 4xx (400, 401, etc.) status code.
-        public let status4xx: Int32?
-        /// The percentage of requests over the last 10 seconds that resulted in a 2xx (200, 201, etc.) status code.
-        public let status2xx: Int32?
-        /// The percentage of requests over the last 10 seconds that resulted in a 3xx (300, 301, etc.) status code.
-        public let status3xx: Int32?
-
-        public init(status5xx: Int32? = nil, status4xx: Int32? = nil, status2xx: Int32? = nil, status3xx: Int32? = nil) {
-            self.status5xx = status5xx
-            self.status4xx = status4xx
-            self.status2xx = status2xx
-            self.status3xx = status3xx
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status5xx = "Status5xx"
-            case status4xx = "Status4xx"
-            case status2xx = "Status2xx"
-            case status3xx = "Status3xx"
-        }
-    }
-
-    public struct MaxCountRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeleteSourceFromS3", required: false, type: .boolean), 
-            AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
-            AWSShapeMember(label: "MaxCount", required: false, type: .integer)
-        ]
-        /// Set to true to delete a version's source bundle from Amazon S3 when Elastic Beanstalk deletes the application version.
-        public let deleteSourceFromS3: Bool?
-        /// Specify true to apply the rule, or false to disable it.
-        public let enabled: Bool
-        /// Specify the maximum number of application versions to retain.
-        public let maxCount: Int32?
-
-        public init(deleteSourceFromS3: Bool? = nil, enabled: Bool, maxCount: Int32? = nil) {
-            self.deleteSourceFromS3 = deleteSourceFromS3
-            self.enabled = enabled
-            self.maxCount = maxCount
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deleteSourceFromS3 = "DeleteSourceFromS3"
-            case enabled = "Enabled"
-            case maxCount = "MaxCount"
-        }
-    }
-
-    public struct AbortEnvironmentUpdateMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeMember(label: "EnvironmentId", required: false, type: .string)
-        ]
-        /// This specifies the name of the environment with the in-progress update that you want to cancel.
-        public let environmentName: String?
-        /// This specifies the ID of the environment with the in-progress update that you want to cancel.
-        public let environmentId: String?
-
-        public init(environmentName: String? = nil, environmentId: String? = nil) {
-            self.environmentName = environmentName
-            self.environmentId = environmentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case environmentName = "EnvironmentName"
-            case environmentId = "EnvironmentId"
-        }
-    }
-
-    public struct ResourceQuotas: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EnvironmentQuota", required: false, type: .structure), 
-            AWSShapeMember(label: "CustomPlatformQuota", required: false, type: .structure), 
-            AWSShapeMember(label: "ApplicationVersionQuota", required: false, type: .structure), 
-            AWSShapeMember(label: "ConfigurationTemplateQuota", required: false, type: .structure), 
-            AWSShapeMember(label: "ApplicationQuota", required: false, type: .structure)
-        ]
-        /// The quota for environments in the AWS account.
-        public let environmentQuota: ResourceQuota?
-        /// The quota for custom platforms in the AWS account.
-        public let customPlatformQuota: ResourceQuota?
-        /// The quota for application versions in the AWS account.
-        public let applicationVersionQuota: ResourceQuota?
-        /// The quota for configuration templates in the AWS account.
-        public let configurationTemplateQuota: ResourceQuota?
-        /// The quota for applications in the AWS account.
-        public let applicationQuota: ResourceQuota?
-
-        public init(environmentQuota: ResourceQuota? = nil, customPlatformQuota: ResourceQuota? = nil, applicationVersionQuota: ResourceQuota? = nil, configurationTemplateQuota: ResourceQuota? = nil, applicationQuota: ResourceQuota? = nil) {
-            self.environmentQuota = environmentQuota
-            self.customPlatformQuota = customPlatformQuota
-            self.applicationVersionQuota = applicationVersionQuota
-            self.configurationTemplateQuota = configurationTemplateQuota
-            self.applicationQuota = applicationQuota
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case environmentQuota = "EnvironmentQuota"
-            case customPlatformQuota = "CustomPlatformQuota"
-            case applicationVersionQuota = "ApplicationVersionQuota"
-            case configurationTemplateQuota = "ConfigurationTemplateQuota"
-            case applicationQuota = "ApplicationQuota"
-        }
-    }
-
-    public struct DescribeAccountAttributesResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceQuotas", required: false, type: .structure)
-        ]
-        /// The Elastic Beanstalk resource quotas associated with the calling AWS account.
-        public let resourceQuotas: ResourceQuotas?
-
-        public init(resourceQuotas: ResourceQuotas? = nil) {
-            self.resourceQuotas = resourceQuotas
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceQuotas = "ResourceQuotas"
-        }
-    }
-
-    public struct ValidationMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "Namespace", required: false, type: .string), 
-            AWSShapeMember(label: "Severity", required: false, type: .enum), 
-            AWSShapeMember(label: "OptionName", required: false, type: .string)
-        ]
-        /// A message describing the error or warning.
-        public let message: String?
-        /// The namespace to which the option belongs.
-        public let namespace: String?
-        /// An indication of the severity of this message:    error: This message indicates that this is not a valid setting for an option.    warning: This message is providing information you should take into account.  
-        public let severity: ValidationSeverity?
-        /// The name of the option.
-        public let optionName: String?
-
-        public init(message: String? = nil, namespace: String? = nil, severity: ValidationSeverity? = nil, optionName: String? = nil) {
-            self.message = message
-            self.namespace = namespace
-            self.severity = severity
-            self.optionName = optionName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "Message"
-            case namespace = "Namespace"
-            case severity = "Severity"
-            case optionName = "OptionName"
-        }
-    }
-
-    public struct SwapEnvironmentCNAMEsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DestinationEnvironmentId", required: false, type: .string), 
-            AWSShapeMember(label: "DestinationEnvironmentName", required: false, type: .string), 
-            AWSShapeMember(label: "SourceEnvironmentId", required: false, type: .string), 
-            AWSShapeMember(label: "SourceEnvironmentName", required: false, type: .string)
-        ]
-        /// The ID of the destination environment.  Condition: You must specify at least the DestinationEnvironmentID or the DestinationEnvironmentName. You may also specify both. You must specify the SourceEnvironmentId with the DestinationEnvironmentId. 
-        public let destinationEnvironmentId: String?
-        /// The name of the destination environment.  Condition: You must specify at least the DestinationEnvironmentID or the DestinationEnvironmentName. You may also specify both. You must specify the SourceEnvironmentName with the DestinationEnvironmentName. 
-        public let destinationEnvironmentName: String?
-        /// The ID of the source environment.  Condition: You must specify at least the SourceEnvironmentID or the SourceEnvironmentName. You may also specify both. If you specify the SourceEnvironmentId, you must specify the DestinationEnvironmentId. 
-        public let sourceEnvironmentId: String?
-        /// The name of the source environment.  Condition: You must specify at least the SourceEnvironmentID or the SourceEnvironmentName. You may also specify both. If you specify the SourceEnvironmentName, you must specify the DestinationEnvironmentName. 
-        public let sourceEnvironmentName: String?
-
-        public init(destinationEnvironmentId: String? = nil, destinationEnvironmentName: String? = nil, sourceEnvironmentId: String? = nil, sourceEnvironmentName: String? = nil) {
-            self.destinationEnvironmentId = destinationEnvironmentId
-            self.destinationEnvironmentName = destinationEnvironmentName
-            self.sourceEnvironmentId = sourceEnvironmentId
-            self.sourceEnvironmentName = sourceEnvironmentName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case destinationEnvironmentId = "DestinationEnvironmentId"
-            case destinationEnvironmentName = "DestinationEnvironmentName"
-            case sourceEnvironmentId = "SourceEnvironmentId"
-            case sourceEnvironmentName = "SourceEnvironmentName"
-        }
-    }
-
-    public struct ConfigurationOptionsDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Options", required: false, type: .list), 
-            AWSShapeMember(label: "SolutionStackName", required: false, type: .string), 
-            AWSShapeMember(label: "PlatformArn", required: false, type: .string)
-        ]
-        ///  A list of ConfigurationOptionDescription. 
-        public let options: [ConfigurationOptionDescription]?
-        /// The name of the solution stack these configuration options belong to.
-        public let solutionStackName: String?
-        /// The ARN of the platform.
-        public let platformArn: String?
-
-        public init(options: [ConfigurationOptionDescription]? = nil, solutionStackName: String? = nil, platformArn: String? = nil) {
-            self.options = options
-            self.solutionStackName = solutionStackName
-            self.platformArn = platformArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case options = "Options"
-            case solutionStackName = "SolutionStackName"
-            case platformArn = "PlatformArn"
-        }
-    }
-
-    public struct DescribeConfigurationOptionsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PlatformArn", required: false, type: .string), 
-            AWSShapeMember(label: "SolutionStackName", required: false, type: .string), 
-            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeMember(label: "TemplateName", required: false, type: .string), 
-            AWSShapeMember(label: "Options", required: false, type: .list), 
-            AWSShapeMember(label: "ApplicationName", required: false, type: .string)
-        ]
-        /// The ARN of the custom platform.
-        public let platformArn: String?
-        /// The name of the solution stack whose configuration options you want to describe.
-        public let solutionStackName: String?
-        /// The name of the environment whose configuration options you want to describe.
-        public let environmentName: String?
-        /// The name of the configuration template whose configuration options you want to describe.
-        public let templateName: String?
-        /// If specified, restricts the descriptions to only the specified options.
-        public let options: [OptionSpecification]?
-        /// The name of the application associated with the configuration template or environment. Only needed if you want to describe the configuration options associated with either the configuration template or environment.
-        public let applicationName: String?
-
-        public init(platformArn: String? = nil, solutionStackName: String? = nil, environmentName: String? = nil, templateName: String? = nil, options: [OptionSpecification]? = nil, applicationName: String? = nil) {
-            self.platformArn = platformArn
-            self.solutionStackName = solutionStackName
-            self.environmentName = environmentName
-            self.templateName = templateName
-            self.options = options
-            self.applicationName = applicationName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case platformArn = "PlatformArn"
-            case solutionStackName = "SolutionStackName"
-            case environmentName = "EnvironmentName"
-            case templateName = "TemplateName"
-            case options = "Options"
-            case applicationName = "ApplicationName"
-        }
-    }
-
-    public struct DeletePlatformVersionResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PlatformSummary", required: false, type: .structure)
-        ]
-        /// Detailed information about the version of the custom platform.
-        public let platformSummary: PlatformSummary?
-
-        public init(platformSummary: PlatformSummary? = nil) {
-            self.platformSummary = platformSummary
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case platformSummary = "PlatformSummary"
-        }
-    }
-
-    public struct EnvironmentDescriptionsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Environments", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        ///  Returns an EnvironmentDescription list. 
-        public let environments: [EnvironmentDescription]?
-        /// In a paginated request, the token that you can pass in a subsequent request to get the next response page.
-        public let nextToken: String?
-
-        public init(environments: [EnvironmentDescription]? = nil, nextToken: String? = nil) {
-            self.environments = environments
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case environments = "Environments"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct ApplicationVersionDescriptionsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationVersions", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// List of ApplicationVersionDescription objects sorted in order of creation.
-        public let applicationVersions: [ApplicationVersionDescription]?
-        /// In a paginated request, the token that you can pass in a subsequent request to get the next response page.
-        public let nextToken: String?
-
-        public init(applicationVersions: [ApplicationVersionDescription]? = nil, nextToken: String? = nil) {
-            self.applicationVersions = applicationVersions
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case applicationVersions = "ApplicationVersions"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct S3Location: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3Bucket", required: false, type: .string), 
-            AWSShapeMember(label: "S3Key", required: false, type: .string)
-        ]
-        /// The Amazon S3 bucket where the data is located.
-        public let s3Bucket: String?
-        /// The Amazon S3 key where the data is located.
-        public let s3Key: String?
-
-        public init(s3Bucket: String? = nil, s3Key: String? = nil) {
-            self.s3Bucket = s3Bucket
-            self.s3Key = s3Key
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case s3Bucket = "S3Bucket"
-            case s3Key = "S3Key"
-        }
-    }
-
-    public struct ApplicationDescriptionMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Application", required: false, type: .structure)
-        ]
-        ///  The ApplicationDescription of the application. 
-        public let application: ApplicationDescription?
-
-        public init(application: ApplicationDescription? = nil) {
-            self.application = application
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case application = "Application"
-        }
-    }
-
-    public struct ConfigurationSettingsValidationMessages: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Messages", required: false, type: .list)
-        ]
-        ///  A list of ValidationMessage. 
-        public let messages: [ValidationMessage]?
-
-        public init(messages: [ValidationMessage]? = nil) {
-            self.messages = messages
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case messages = "Messages"
-        }
-    }
-
-    public struct SingleInstanceHealth: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Causes", required: false, type: .list), 
-            AWSShapeMember(label: "System", required: false, type: .structure), 
-            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
-            AWSShapeMember(label: "LaunchedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "Color", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
-            AWSShapeMember(label: "Deployment", required: false, type: .structure), 
-            AWSShapeMember(label: "ApplicationMetrics", required: false, type: .structure), 
-            AWSShapeMember(label: "HealthStatus", required: false, type: .string)
-        ]
-        /// Represents the causes, which provide more information about the current health status.
-        public let causes: [String]?
-        /// Operating system metrics from the instance.
-        public let system: SystemStatus?
-        /// The instance's type.
-        public let instanceType: String?
-        /// The time at which the EC2 instance was launched.
-        public let launchedAt: TimeStamp?
-        /// The availability zone in which the instance runs.
-        public let availabilityZone: String?
-        /// Represents the color indicator that gives you information about the health of the EC2 instance. For more information, see Health Colors and Statuses.
-        public let color: String?
-        /// The ID of the Amazon EC2 instance.
-        public let instanceId: String?
-        /// Information about the most recent deployment to an instance.
-        public let deployment: Deployment?
-        /// Request metrics from your application.
-        public let applicationMetrics: ApplicationMetrics?
-        /// Returns the health status of the specified instance. For more information, see Health Colors and Statuses.
-        public let healthStatus: String?
-
-        public init(causes: [String]? = nil, system: SystemStatus? = nil, instanceType: String? = nil, launchedAt: TimeStamp? = nil, availabilityZone: String? = nil, color: String? = nil, instanceId: String? = nil, deployment: Deployment? = nil, applicationMetrics: ApplicationMetrics? = nil, healthStatus: String? = nil) {
-            self.causes = causes
-            self.system = system
-            self.instanceType = instanceType
-            self.launchedAt = launchedAt
-            self.availabilityZone = availabilityZone
-            self.color = color
-            self.instanceId = instanceId
-            self.deployment = deployment
-            self.applicationMetrics = applicationMetrics
-            self.healthStatus = healthStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case causes = "Causes"
-            case system = "System"
-            case instanceType = "InstanceType"
-            case launchedAt = "LaunchedAt"
-            case availabilityZone = "AvailabilityZone"
-            case color = "Color"
-            case instanceId = "InstanceId"
-            case deployment = "Deployment"
-            case applicationMetrics = "ApplicationMetrics"
-            case healthStatus = "HealthStatus"
-        }
-    }
-
-    public struct DescribeInstancesHealthResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceHealthList", required: false, type: .list), 
-            AWSShapeMember(label: "RefreshedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Detailed health information about each instance. The output differs slightly between Linux and Windows environments. There is a difference in the members that are supported under the &lt;CPUUtilization&gt; type.
-        public let instanceHealthList: [SingleInstanceHealth]?
-        /// The date and time that the health information was retrieved.
-        public let refreshedAt: TimeStamp?
-        /// Pagination token for the next page of results, if available.
-        public let nextToken: String?
-
-        public init(instanceHealthList: [SingleInstanceHealth]? = nil, refreshedAt: TimeStamp? = nil, nextToken: String? = nil) {
-            self.instanceHealthList = instanceHealthList
-            self.refreshedAt = refreshedAt
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceHealthList = "InstanceHealthList"
-            case refreshedAt = "RefreshedAt"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct SourceConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationName", required: false, type: .string), 
-            AWSShapeMember(label: "TemplateName", required: false, type: .string)
-        ]
-        /// The name of the application associated with the configuration.
-        public let applicationName: String?
-        /// The name of the configuration template.
-        public let templateName: String?
-
-        public init(applicationName: String? = nil, templateName: String? = nil) {
+        public init(applicationName: String, templateName: String) {
             self.applicationName = applicationName
             self.templateName = templateName
         }
@@ -3182,542 +3690,34 @@ extension ElasticBeanstalk {
         }
     }
 
-    public enum EnvironmentStatus: String, CustomStringConvertible, Codable {
-        case launching = "Launching"
-        case updating = "Updating"
-        case ready = "Ready"
-        case terminating = "Terminating"
-        case terminated = "Terminated"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeEnvironmentManagedActionsRequest: AWSShape {
+    public struct ValidationMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeMember(label: "EnvironmentId", required: false, type: .string)
-        ]
-        /// To show only actions with a particular status, specify a status.
-        public let status: ActionStatus?
-        /// The name of the target environment.
-        public let environmentName: String?
-        /// The environment ID of the target environment.
-        public let environmentId: String?
-
-        public init(status: ActionStatus? = nil, environmentName: String? = nil, environmentId: String? = nil) {
-            self.status = status
-            self.environmentName = environmentName
-            self.environmentId = environmentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "Status"
-            case environmentName = "EnvironmentName"
-            case environmentId = "EnvironmentId"
-        }
-    }
-
-    public struct Latency: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "P50", required: false, type: .double), 
-            AWSShapeMember(label: "P99", required: false, type: .double), 
-            AWSShapeMember(label: "P85", required: false, type: .double), 
-            AWSShapeMember(label: "P999", required: false, type: .double), 
-            AWSShapeMember(label: "P95", required: false, type: .double), 
-            AWSShapeMember(label: "P90", required: false, type: .double), 
-            AWSShapeMember(label: "P75", required: false, type: .double), 
-            AWSShapeMember(label: "P10", required: false, type: .double)
-        ]
-        /// The average latency for the slowest 50 percent of requests over the last 10 seconds.
-        public let p50: Double?
-        /// The average latency for the slowest 1 percent of requests over the last 10 seconds.
-        public let p99: Double?
-        /// The average latency for the slowest 15 percent of requests over the last 10 seconds.
-        public let p85: Double?
-        /// The average latency for the slowest 0.1 percent of requests over the last 10 seconds.
-        public let p999: Double?
-        /// The average latency for the slowest 5 percent of requests over the last 10 seconds.
-        public let p95: Double?
-        /// The average latency for the slowest 10 percent of requests over the last 10 seconds.
-        public let p90: Double?
-        /// The average latency for the slowest 25 percent of requests over the last 10 seconds.
-        public let p75: Double?
-        /// The average latency for the slowest 90 percent of requests over the last 10 seconds.
-        public let p10: Double?
-
-        public init(p50: Double? = nil, p99: Double? = nil, p85: Double? = nil, p999: Double? = nil, p95: Double? = nil, p90: Double? = nil, p75: Double? = nil, p10: Double? = nil) {
-            self.p50 = p50
-            self.p99 = p99
-            self.p85 = p85
-            self.p999 = p999
-            self.p95 = p95
-            self.p90 = p90
-            self.p75 = p75
-            self.p10 = p10
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case p50 = "P50"
-            case p99 = "P99"
-            case p85 = "P85"
-            case p999 = "P999"
-            case p95 = "P95"
-            case p90 = "P90"
-            case p75 = "P75"
-            case p10 = "P10"
-        }
-    }
-
-    public struct RestartAppServerMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeMember(label: "EnvironmentId", required: false, type: .string)
-        ]
-        /// The name of the environment to restart the server for.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
-        public let environmentName: String?
-        /// The ID of the environment to restart the server for.  Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
-        public let environmentId: String?
-
-        public init(environmentName: String? = nil, environmentId: String? = nil) {
-            self.environmentName = environmentName
-            self.environmentId = environmentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case environmentName = "EnvironmentName"
-            case environmentId = "EnvironmentId"
-        }
-    }
-
-    public struct ApplicationDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DateCreated", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Versions", required: false, type: .list), 
-            AWSShapeMember(label: "DateUpdated", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ApplicationName", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "ConfigurationTemplates", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceLifecycleConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "ApplicationArn", required: false, type: .string)
-        ]
-        /// The date when the application was created.
-        public let dateCreated: TimeStamp?
-        /// The names of the versions for this application.
-        public let versions: [String]?
-        /// The date when the application was last modified.
-        public let dateUpdated: TimeStamp?
-        /// The name of the application.
-        public let applicationName: String?
-        /// User-defined description of the application.
-        public let description: String?
-        /// The names of the configuration templates associated with this application.
-        public let configurationTemplates: [String]?
-        /// The lifecycle settings for the application.
-        public let resourceLifecycleConfig: ApplicationResourceLifecycleConfig?
-        /// The Amazon Resource Name (ARN) of the application.
-        public let applicationArn: String?
-
-        public init(dateCreated: TimeStamp? = nil, versions: [String]? = nil, dateUpdated: TimeStamp? = nil, applicationName: String? = nil, description: String? = nil, configurationTemplates: [String]? = nil, resourceLifecycleConfig: ApplicationResourceLifecycleConfig? = nil, applicationArn: String? = nil) {
-            self.dateCreated = dateCreated
-            self.versions = versions
-            self.dateUpdated = dateUpdated
-            self.applicationName = applicationName
-            self.description = description
-            self.configurationTemplates = configurationTemplates
-            self.resourceLifecycleConfig = resourceLifecycleConfig
-            self.applicationArn = applicationArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dateCreated = "DateCreated"
-            case versions = "Versions"
-            case dateUpdated = "DateUpdated"
-            case applicationName = "ApplicationName"
-            case description = "Description"
-            case configurationTemplates = "ConfigurationTemplates"
-            case resourceLifecycleConfig = "ResourceLifecycleConfig"
-            case applicationArn = "ApplicationArn"
-        }
-    }
-
-    public struct DescribePlatformVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PlatformArn", required: false, type: .string)
-        ]
-        /// The ARN of the version of the platform.
-        public let platformArn: String?
-
-        public init(platformArn: String? = nil) {
-            self.platformArn = platformArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case platformArn = "PlatformArn"
-        }
-    }
-
-    public struct MaxAgeRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxAgeInDays", required: false, type: .integer), 
-            AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
-            AWSShapeMember(label: "DeleteSourceFromS3", required: false, type: .boolean)
-        ]
-        /// Specify the number of days to retain an application versions.
-        public let maxAgeInDays: Int32?
-        /// Specify true to apply the rule, or false to disable it.
-        public let enabled: Bool
-        /// Set to true to delete a version's source bundle from Amazon S3 when Elastic Beanstalk deletes the application version.
-        public let deleteSourceFromS3: Bool?
-
-        public init(maxAgeInDays: Int32? = nil, enabled: Bool, deleteSourceFromS3: Bool? = nil) {
-            self.maxAgeInDays = maxAgeInDays
-            self.enabled = enabled
-            self.deleteSourceFromS3 = deleteSourceFromS3
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxAgeInDays = "MaxAgeInDays"
-            case enabled = "Enabled"
-            case deleteSourceFromS3 = "DeleteSourceFromS3"
-        }
-    }
-
-    public struct Queue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "URL", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// The URL of the queue.
-        public let url: String?
-        /// The name of the queue.
-        public let name: String?
-
-        public init(url: String? = nil, name: String? = nil) {
-            self.url = url
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case url = "URL"
-            case name = "Name"
-        }
-    }
-
-    public struct EventDescriptionsMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Events", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        ///  A list of EventDescription. 
-        public let events: [EventDescription]?
-        ///  If returned, this indicates that there are more results to obtain. Use this token in the next DescribeEvents call to get the next batch of events. 
-        public let nextToken: String?
-
-        public init(events: [EventDescription]? = nil, nextToken: String? = nil) {
-            self.events = events
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case events = "Events"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct RebuildEnvironmentMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeMember(label: "EnvironmentId", required: false, type: .string)
-        ]
-        /// The name of the environment to rebuild.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
-        public let environmentName: String?
-        /// The ID of the environment to rebuild.  Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
-        public let environmentId: String?
-
-        public init(environmentName: String? = nil, environmentId: String? = nil) {
-            self.environmentName = environmentName
-            self.environmentId = environmentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case environmentName = "EnvironmentName"
-            case environmentId = "EnvironmentId"
-        }
-    }
-
-    public struct CreateConfigurationTemplateMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SolutionStackName", required: false, type: .string), 
-            AWSShapeMember(label: "EnvironmentId", required: false, type: .string), 
-            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeMember(label: "TemplateName", required: true, type: .string), 
-            AWSShapeMember(label: "OptionSettings", required: false, type: .list), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "SourceConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "PlatformArn", required: false, type: .string)
-        ]
-        /// The name of the solution stack used by this configuration. The solution stack specifies the operating system, architecture, and application server for a configuration template. It determines the set of configuration options as well as the possible and default values.  Use ListAvailableSolutionStacks to obtain a list of available solution stacks.   A solution stack name or a source configuration parameter must be specified, otherwise AWS Elastic Beanstalk returns an InvalidParameterValue error.  If a solution stack name is not specified and the source configuration parameter is specified, AWS Elastic Beanstalk uses the same solution stack as the source configuration template.
-        public let solutionStackName: String?
-        /// The ID of the environment used with this configuration template.
-        public let environmentId: String?
-        /// The name of the application to associate with this configuration template. If no application is found with this name, AWS Elastic Beanstalk returns an InvalidParameterValue error. 
-        public let applicationName: String
-        /// The name of the configuration template. Constraint: This name must be unique per application. Default: If a configuration template already exists with this name, AWS Elastic Beanstalk returns an InvalidParameterValue error. 
-        public let templateName: String
-        /// If specified, AWS Elastic Beanstalk sets the specified configuration option to the requested value. The new value overrides the value obtained from the solution stack or the source configuration template.
-        public let optionSettings: [ConfigurationOptionSetting]?
-        /// Describes this configuration.
-        public let description: String?
-        /// If specified, AWS Elastic Beanstalk uses the configuration values from the specified configuration template to create a new configuration.  Values specified in the OptionSettings parameter of this call overrides any values obtained from the SourceConfiguration.   If no configuration template is found, returns an InvalidParameterValue error.   Constraint: If both the solution stack name parameter and the source configuration parameters are specified, the solution stack of the source configuration template must match the specified solution stack name or else AWS Elastic Beanstalk returns an InvalidParameterCombination error. 
-        public let sourceConfiguration: SourceConfiguration?
-        /// The ARN of the custom platform.
-        public let platformArn: String?
-
-        public init(solutionStackName: String? = nil, environmentId: String? = nil, applicationName: String, templateName: String, optionSettings: [ConfigurationOptionSetting]? = nil, description: String? = nil, sourceConfiguration: SourceConfiguration? = nil, platformArn: String? = nil) {
-            self.solutionStackName = solutionStackName
-            self.environmentId = environmentId
-            self.applicationName = applicationName
-            self.templateName = templateName
-            self.optionSettings = optionSettings
-            self.description = description
-            self.sourceConfiguration = sourceConfiguration
-            self.platformArn = platformArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case solutionStackName = "SolutionStackName"
-            case environmentId = "EnvironmentId"
-            case applicationName = "ApplicationName"
-            case templateName = "TemplateName"
-            case optionSettings = "OptionSettings"
-            case description = "Description"
-            case sourceConfiguration = "SourceConfiguration"
-            case platformArn = "PlatformArn"
-        }
-    }
-
-    public struct EventDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OptionName", required: false, type: .string), 
             AWSShapeMember(label: "Severity", required: false, type: .enum), 
-            AWSShapeMember(label: "EventDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ApplicationName", required: false, type: .string), 
-            AWSShapeMember(label: "RequestId", required: false, type: .string), 
-            AWSShapeMember(label: "TemplateName", required: false, type: .string), 
-            AWSShapeMember(label: "VersionLabel", required: false, type: .string), 
-            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "PlatformArn", required: false, type: .string)
+            AWSShapeMember(label: "Namespace", required: false, type: .string), 
+            AWSShapeMember(label: "Message", required: false, type: .string)
         ]
-        /// The severity level of this event.
-        public let severity: EventSeverity?
-        /// The date when the event occurred.
-        public let eventDate: TimeStamp?
-        /// The application associated with the event.
-        public let applicationName: String?
-        /// The web service request ID for the activity of this event.
-        public let requestId: String?
-        /// The name of the configuration associated with this event.
-        public let templateName: String?
-        /// The release label for the application version associated with this event.
-        public let versionLabel: String?
-        /// The name of the environment associated with this event.
-        public let environmentName: String?
-        /// The event message.
+        /// The name of the option.
+        public let optionName: String?
+        /// An indication of the severity of this message:    error: This message indicates that this is not a valid setting for an option.    warning: This message is providing information you should take into account.  
+        public let severity: ValidationSeverity?
+        /// The namespace to which the option belongs.
+        public let namespace: String?
+        /// A message describing the error or warning.
         public let message: String?
-        /// The ARN of the platform.
-        public let platformArn: String?
 
-        public init(severity: EventSeverity? = nil, eventDate: TimeStamp? = nil, applicationName: String? = nil, requestId: String? = nil, templateName: String? = nil, versionLabel: String? = nil, environmentName: String? = nil, message: String? = nil, platformArn: String? = nil) {
+        public init(optionName: String? = nil, severity: ValidationSeverity? = nil, namespace: String? = nil, message: String? = nil) {
+            self.optionName = optionName
             self.severity = severity
-            self.eventDate = eventDate
-            self.applicationName = applicationName
-            self.requestId = requestId
-            self.templateName = templateName
-            self.versionLabel = versionLabel
-            self.environmentName = environmentName
+            self.namespace = namespace
             self.message = message
-            self.platformArn = platformArn
         }
 
         private enum CodingKeys: String, CodingKey {
+            case optionName = "OptionName"
             case severity = "Severity"
-            case eventDate = "EventDate"
-            case applicationName = "ApplicationName"
-            case requestId = "RequestId"
-            case templateName = "TemplateName"
-            case versionLabel = "VersionLabel"
-            case environmentName = "EnvironmentName"
+            case namespace = "Namespace"
             case message = "Message"
-            case platformArn = "PlatformArn"
-        }
-    }
-
-    public enum EnvironmentHealthAttribute: String, CustomStringConvertible, Codable {
-        case status = "Status"
-        case color = "Color"
-        case causes = "Causes"
-        case applicationmetrics = "ApplicationMetrics"
-        case instanceshealth = "InstancesHealth"
-        case all = "All"
-        case healthstatus = "HealthStatus"
-        case refreshedat = "RefreshedAt"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ManagedActionHistoryItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailureDescription", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "FailureType", required: false, type: .enum), 
-            AWSShapeMember(label: "ActionType", required: false, type: .enum), 
-            AWSShapeMember(label: "ExecutedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ActionId", required: false, type: .string), 
-            AWSShapeMember(label: "FinishedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ActionDescription", required: false, type: .string)
-        ]
-        /// If the action failed, a description of the failure.
-        public let failureDescription: String?
-        /// The status of the action.
-        public let status: ActionHistoryStatus?
-        /// If the action failed, the type of failure.
-        public let failureType: FailureType?
-        /// The type of the managed action.
-        public let actionType: ActionType?
-        /// The date and time that the action started executing.
-        public let executedTime: TimeStamp?
-        /// A unique identifier for the managed action.
-        public let actionId: String?
-        /// The date and time that the action finished executing.
-        public let finishedTime: TimeStamp?
-        /// A description of the managed action.
-        public let actionDescription: String?
-
-        public init(failureDescription: String? = nil, status: ActionHistoryStatus? = nil, failureType: FailureType? = nil, actionType: ActionType? = nil, executedTime: TimeStamp? = nil, actionId: String? = nil, finishedTime: TimeStamp? = nil, actionDescription: String? = nil) {
-            self.failureDescription = failureDescription
-            self.status = status
-            self.failureType = failureType
-            self.actionType = actionType
-            self.executedTime = executedTime
-            self.actionId = actionId
-            self.finishedTime = finishedTime
-            self.actionDescription = actionDescription
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case failureDescription = "FailureDescription"
-            case status = "Status"
-            case failureType = "FailureType"
-            case actionType = "ActionType"
-            case executedTime = "ExecutedTime"
-            case actionId = "ActionId"
-            case finishedTime = "FinishedTime"
-            case actionDescription = "ActionDescription"
-        }
-    }
-
-    public enum ComputeType: String, CustomStringConvertible, Codable {
-        case buildGeneral1Small = "BUILD_GENERAL1_SMALL"
-        case buildGeneral1Medium = "BUILD_GENERAL1_MEDIUM"
-        case buildGeneral1Large = "BUILD_GENERAL1_LARGE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct RequestEnvironmentInfoMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InfoType", required: true, type: .enum), 
-            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeMember(label: "EnvironmentId", required: false, type: .string)
-        ]
-        /// The type of information to request.
-        public let infoType: EnvironmentInfoType
-        /// The name of the environment of the requested data. If no such environment is found, RequestEnvironmentInfo returns an InvalidParameterValue error.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
-        public let environmentName: String?
-        /// The ID of the environment of the requested data. If no such environment is found, RequestEnvironmentInfo returns an InvalidParameterValue error.  Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
-        public let environmentId: String?
-
-        public init(infoType: EnvironmentInfoType, environmentName: String? = nil, environmentId: String? = nil) {
-            self.infoType = infoType
-            self.environmentName = environmentName
-            self.environmentId = environmentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case infoType = "InfoType"
-            case environmentName = "EnvironmentName"
-            case environmentId = "EnvironmentId"
-        }
-    }
-
-    public struct ConfigurationSettingsDescriptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSettings", required: false, type: .list)
-        ]
-        ///  A list of ConfigurationSettingsDescription. 
-        public let configurationSettings: [ConfigurationSettingsDescription]?
-
-        public init(configurationSettings: [ConfigurationSettingsDescription]? = nil) {
-            self.configurationSettings = configurationSettings
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case configurationSettings = "ConfigurationSettings"
-        }
-    }
-
-    public enum InstancesHealthAttribute: String, CustomStringConvertible, Codable {
-        case healthstatus = "HealthStatus"
-        case color = "Color"
-        case causes = "Causes"
-        case applicationmetrics = "ApplicationMetrics"
-        case refreshedat = "RefreshedAt"
-        case launchedat = "LaunchedAt"
-        case system = "System"
-        case deployment = "Deployment"
-        case availabilityzone = "AvailabilityZone"
-        case instancetype = "InstanceType"
-        case all = "All"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ResourceTagsDescriptionMessage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceTags", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceArn", required: false, type: .string)
-        ]
-        /// A list of tag key-value pairs.
-        public let resourceTags: [Tag]?
-        /// The Amazon Resource Name (ARN) of the resouce for which a tag list was requested.
-        public let resourceArn: String?
-
-        public init(resourceTags: [Tag]? = nil, resourceArn: String? = nil) {
-            self.resourceTags = resourceTags
-            self.resourceArn = resourceArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceTags = "ResourceTags"
-            case resourceArn = "ResourceArn"
-        }
-    }
-
-    public struct DescribeEnvironmentManagedActionHistoryResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ManagedActionHistoryItems", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// A list of completed and failed managed actions.
-        public let managedActionHistoryItems: [ManagedActionHistoryItem]?
-        /// A pagination token that you pass to DescribeEnvironmentManagedActionHistory to get the next page of results.
-        public let nextToken: String?
-
-        public init(managedActionHistoryItems: [ManagedActionHistoryItem]? = nil, nextToken: String? = nil) {
-            self.managedActionHistoryItems = managedActionHistoryItems
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case managedActionHistoryItems = "ManagedActionHistoryItems"
-            case nextToken = "NextToken"
         }
     }
 

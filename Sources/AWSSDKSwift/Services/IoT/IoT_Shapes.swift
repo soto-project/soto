@@ -5,50 +5,40 @@ import AWSSDKSwiftCore
 
 extension IoT {
 
-    public struct ListJobExecutionsForJobRequest: AWSShape {
+    public struct LogTarget: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "status", location: .querystring(locationName: "status"), required: false, type: .enum), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "targetType", required: true, type: .enum), 
+            AWSShapeMember(label: "targetName", required: false, type: .string)
         ]
-        /// The unique identifier you assigned to this job when it was created.
-        public let jobId: String
-        /// The maximum number of results to be returned per request.
-        public let maxResults: Int32?
-        /// The status of the job.
-        public let status: JobExecutionStatus?
-        /// The token to retrieve the next set of results.
-        public let nextToken: String?
+        /// The target type.
+        public let targetType: LogTargetType
+        /// The target name.
+        public let targetName: String?
 
-        public init(jobId: String, maxResults: Int32? = nil, status: JobExecutionStatus? = nil, nextToken: String? = nil) {
-            self.jobId = jobId
-            self.maxResults = maxResults
-            self.status = status
-            self.nextToken = nextToken
+        public init(targetType: LogTargetType, targetName: String? = nil) {
+            self.targetType = targetType
+            self.targetName = targetName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId = "jobId"
-            case maxResults = "maxResults"
-            case status = "status"
-            case nextToken = "nextToken"
+            case targetType = "targetType"
+            case targetName = "targetName"
         }
     }
 
-    public struct AbortConfig: AWSShape {
+    public struct DescribeAuditTaskRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "criteriaList", required: true, type: .list)
+            AWSShapeMember(label: "taskId", location: .uri(locationName: "taskId"), required: true, type: .string)
         ]
-        /// The list of abort criteria to define rules to abort the job.
-        public let criteriaList: [AbortCriteria]
+        /// The ID of the audit whose information you want to get.
+        public let taskId: String
 
-        public init(criteriaList: [AbortCriteria]) {
-            self.criteriaList = criteriaList
+        public init(taskId: String) {
+            self.taskId = taskId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case criteriaList = "criteriaList"
+            case taskId = "taskId"
         }
     }
 
@@ -73,274 +63,142 @@ extension IoT {
         }
     }
 
-    public struct ListActiveViolationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "securityProfileName", location: .querystring(locationName: "securityProfileName"), required: false, type: .string), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "thingName", location: .querystring(locationName: "thingName"), required: false, type: .string)
-        ]
-        /// The name of the Device Defender security profile for which violations are listed.
-        public let securityProfileName: String?
-        /// The token for the next set of results.
-        public let nextToken: String?
-        /// The maximum number of results to return at one time.
-        public let maxResults: Int32?
-        /// The name of the thing whose active violations are listed.
-        public let thingName: String?
-
-        public init(securityProfileName: String? = nil, nextToken: String? = nil, maxResults: Int32? = nil, thingName: String? = nil) {
-            self.securityProfileName = securityProfileName
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.thingName = thingName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case securityProfileName = "securityProfileName"
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
-            case thingName = "thingName"
-        }
-    }
-
-    public struct DeleteSecurityProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "expectedVersion", location: .querystring(locationName: "expectedVersion"), required: false, type: .long), 
-            AWSShapeMember(label: "securityProfileName", location: .uri(locationName: "securityProfileName"), required: true, type: .string)
-        ]
-        /// The expected version of the security profile. A new version is generated whenever the security profile is updated. If you specify a value that is different than the actual version, a VersionConflictException is thrown.
-        public let expectedVersion: Int64?
-        /// The name of the security profile to be deleted.
-        public let securityProfileName: String
-
-        public init(expectedVersion: Int64? = nil, securityProfileName: String) {
-            self.expectedVersion = expectedVersion
-            self.securityProfileName = securityProfileName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case expectedVersion = "expectedVersion"
-            case securityProfileName = "securityProfileName"
-        }
-    }
-
-    public enum ActionType: String, CustomStringConvertible, Codable {
-        case publish = "PUBLISH"
-        case subscribe = "SUBSCRIBE"
-        case receive = "RECEIVE"
-        case connect = "CONNECT"
+    public enum ReportType: String, CustomStringConvertible, Codable {
+        case errors = "ERRORS"
+        case results = "RESULTS"
         public var description: String { return self.rawValue }
     }
 
-    public struct ListThingRegistrationTasksRequest: AWSShape {
+    public struct ThingDocument: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "status", location: .querystring(locationName: "status"), required: false, type: .enum), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
+            AWSShapeMember(label: "thingTypeName", required: false, type: .string), 
+            AWSShapeMember(label: "shadow", required: false, type: .string), 
+            AWSShapeMember(label: "thingName", required: false, type: .string), 
+            AWSShapeMember(label: "connectivity", required: false, type: .structure), 
+            AWSShapeMember(label: "thingGroupNames", required: false, type: .list), 
+            AWSShapeMember(label: "thingId", required: false, type: .string), 
+            AWSShapeMember(label: "attributes", required: false, type: .map)
         ]
-        /// The status of the bulk thing provisioning task.
-        public let status: Status?
-        /// The token to retrieve the next set of results.
-        public let nextToken: String?
-        /// The maximum number of results to return at one time.
-        public let maxResults: Int32?
+        /// The thing type name.
+        public let thingTypeName: String?
+        /// The shadow.
+        public let shadow: String?
+        /// The thing name.
+        public let thingName: String?
+        /// Indicates whether or not the thing is connected to the AWS IoT service.
+        public let connectivity: ThingConnectivity?
+        /// Thing group names.
+        public let thingGroupNames: [String]?
+        /// The thing ID.
+        public let thingId: String?
+        /// The attributes.
+        public let attributes: [String: String]?
 
-        public init(status: Status? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
-            self.status = status
-            self.nextToken = nextToken
-            self.maxResults = maxResults
+        public init(thingTypeName: String? = nil, shadow: String? = nil, thingName: String? = nil, connectivity: ThingConnectivity? = nil, thingGroupNames: [String]? = nil, thingId: String? = nil, attributes: [String: String]? = nil) {
+            self.thingTypeName = thingTypeName
+            self.shadow = shadow
+            self.thingName = thingName
+            self.connectivity = connectivity
+            self.thingGroupNames = thingGroupNames
+            self.thingId = thingId
+            self.attributes = attributes
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status = "status"
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
+            case thingTypeName = "thingTypeName"
+            case shadow = "shadow"
+            case thingName = "thingName"
+            case connectivity = "connectivity"
+            case thingGroupNames = "thingGroupNames"
+            case thingId = "thingId"
+            case attributes = "attributes"
         }
     }
 
-    public struct RoleAliasDescription: AWSShape {
+    public struct UpdateAuthorizerResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "credentialDurationSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "roleAliasArn", required: false, type: .string), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string), 
-            AWSShapeMember(label: "roleAlias", required: false, type: .string), 
-            AWSShapeMember(label: "owner", required: false, type: .string), 
-            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp)
+            AWSShapeMember(label: "authorizerArn", required: false, type: .string), 
+            AWSShapeMember(label: "authorizerName", required: false, type: .string)
         ]
-        /// The number of seconds for which the credential is valid.
-        public let credentialDurationSeconds: Int32?
-        /// The UNIX timestamp of when the role alias was created.
-        public let creationDate: TimeStamp?
-        /// The ARN of the role alias.
-        public let roleAliasArn: String?
-        /// The role ARN.
-        public let roleArn: String?
-        /// The role alias.
-        public let roleAlias: String?
-        /// The role alias owner.
-        public let owner: String?
-        /// The UNIX timestamp of when the role alias was last modified.
-        public let lastModifiedDate: TimeStamp?
+        /// The authorizer ARN.
+        public let authorizerArn: String?
+        /// The authorizer name.
+        public let authorizerName: String?
 
-        public init(credentialDurationSeconds: Int32? = nil, creationDate: TimeStamp? = nil, roleAliasArn: String? = nil, roleArn: String? = nil, roleAlias: String? = nil, owner: String? = nil, lastModifiedDate: TimeStamp? = nil) {
-            self.credentialDurationSeconds = credentialDurationSeconds
-            self.creationDate = creationDate
-            self.roleAliasArn = roleAliasArn
+        public init(authorizerArn: String? = nil, authorizerName: String? = nil) {
+            self.authorizerArn = authorizerArn
+            self.authorizerName = authorizerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizerArn = "authorizerArn"
+            case authorizerName = "authorizerName"
+        }
+    }
+
+    public struct CreateThingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string), 
+            AWSShapeMember(label: "thingTypeName", required: false, type: .string), 
+            AWSShapeMember(label: "attributePayload", required: false, type: .structure), 
+            AWSShapeMember(label: "billingGroupName", required: false, type: .string)
+        ]
+        /// The name of the thing to create.
+        public let thingName: String
+        /// The name of the thing type associated with the new thing.
+        public let thingTypeName: String?
+        /// The attribute payload, which consists of up to three name/value pairs in a JSON document. For example:  {\"attributes\":{\"string1\":\"string2\"}} 
+        public let attributePayload: AttributePayload?
+        /// The name of the billing group the thing will be added to.
+        public let billingGroupName: String?
+
+        public init(thingName: String, thingTypeName: String? = nil, attributePayload: AttributePayload? = nil, billingGroupName: String? = nil) {
+            self.thingName = thingName
+            self.thingTypeName = thingTypeName
+            self.attributePayload = attributePayload
+            self.billingGroupName = billingGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case thingName = "thingName"
+            case thingTypeName = "thingTypeName"
+            case attributePayload = "attributePayload"
+            case billingGroupName = "billingGroupName"
+        }
+    }
+
+    public struct DescribeDefaultAuthorizerRequest: AWSShape {
+
+    }
+
+    public struct CloudwatchAlarmAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "alarmName", required: true, type: .string), 
+            AWSShapeMember(label: "stateReason", required: true, type: .string), 
+            AWSShapeMember(label: "stateValue", required: true, type: .string), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string)
+        ]
+        /// The CloudWatch alarm name.
+        public let alarmName: String
+        /// The reason for the alarm change.
+        public let stateReason: String
+        /// The value of the alarm state. Acceptable values are: OK, ALARM, INSUFFICIENT_DATA.
+        public let stateValue: String
+        /// The IAM role that allows access to the CloudWatch alarm.
+        public let roleArn: String
+
+        public init(alarmName: String, stateReason: String, stateValue: String, roleArn: String) {
+            self.alarmName = alarmName
+            self.stateReason = stateReason
+            self.stateValue = stateValue
             self.roleArn = roleArn
-            self.roleAlias = roleAlias
-            self.owner = owner
-            self.lastModifiedDate = lastModifiedDate
         }
 
         private enum CodingKeys: String, CodingKey {
-            case credentialDurationSeconds = "credentialDurationSeconds"
-            case creationDate = "creationDate"
-            case roleAliasArn = "roleAliasArn"
+            case alarmName = "alarmName"
+            case stateReason = "stateReason"
+            case stateValue = "stateValue"
             case roleArn = "roleArn"
-            case roleAlias = "roleAlias"
-            case owner = "owner"
-            case lastModifiedDate = "lastModifiedDate"
-        }
-    }
-
-    public struct DeletePolicyVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string), 
-            AWSShapeMember(label: "policyVersionId", location: .uri(locationName: "policyVersionId"), required: true, type: .string)
-        ]
-        /// The name of the policy.
-        public let policyName: String
-        /// The policy version ID.
-        public let policyVersionId: String
-
-        public init(policyName: String, policyVersionId: String) {
-            self.policyName = policyName
-            self.policyVersionId = policyVersionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyName = "policyName"
-            case policyVersionId = "policyVersionId"
-        }
-    }
-
-    public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "resourceArn", location: .querystring(locationName: "resourceArn"), required: true, type: .string)
-        ]
-        /// The token to retrieve the next set of results.
-        public let nextToken: String?
-        /// The ARN of the resource.
-        public let resourceArn: String
-
-        public init(nextToken: String? = nil, resourceArn: String) {
-            self.nextToken = nextToken
-            self.resourceArn = resourceArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case resourceArn = "resourceArn"
-        }
-    }
-
-    public struct LambdaAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "functionArn", required: true, type: .string)
-        ]
-        /// The ARN of the Lambda function.
-        public let functionArn: String
-
-        public init(functionArn: String) {
-            self.functionArn = functionArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case functionArn = "functionArn"
-        }
-    }
-
-    public struct OTAUpdateInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "errorInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "awsIotJobId", required: false, type: .string), 
-            AWSShapeMember(label: "otaUpdateFiles", required: false, type: .list), 
-            AWSShapeMember(label: "otaUpdateArn", required: false, type: .string), 
-            AWSShapeMember(label: "targets", required: false, type: .list), 
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "targetSelection", required: false, type: .enum), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "awsIotJobArn", required: false, type: .string), 
-            AWSShapeMember(label: "otaUpdateId", required: false, type: .string), 
-            AWSShapeMember(label: "awsJobExecutionsRolloutConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "additionalParameters", required: false, type: .map), 
-            AWSShapeMember(label: "otaUpdateStatus", required: false, type: .enum)
-        ]
-        /// Error information associated with the OTA update.
-        public let errorInfo: ErrorInfo?
-        /// The AWS IoT job ID associated with the OTA update.
-        public let awsIotJobId: String?
-        /// A list of files associated with the OTA update.
-        public let otaUpdateFiles: [OTAUpdateFile]?
-        /// The OTA update ARN.
-        public let otaUpdateArn: String?
-        /// The targets of the OTA update.
-        public let targets: [String]?
-        /// The date when the OTA update was created.
-        public let creationDate: TimeStamp?
-        /// Specifies whether the OTA update will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the OTA update (SNAPSHOT). If continuous, the OTA update may also be run on a thing when a change is detected in a target. For example, an OTA update will run on a thing when the thing is added to a target group, even after the OTA update was completed by all things originally in the group. 
-        public let targetSelection: TargetSelection?
-        /// A description of the OTA update.
-        public let description: String?
-        /// The date when the OTA update was last updated.
-        public let lastModifiedDate: TimeStamp?
-        /// The AWS IoT job ARN associated with the OTA update.
-        public let awsIotJobArn: String?
-        /// The OTA update ID.
-        public let otaUpdateId: String?
-        /// Configuration for the rollout of OTA updates.
-        public let awsJobExecutionsRolloutConfig: AwsJobExecutionsRolloutConfig?
-        /// A collection of name/value pairs
-        public let additionalParameters: [String: String]?
-        /// The status of the OTA update.
-        public let otaUpdateStatus: OTAUpdateStatus?
-
-        public init(errorInfo: ErrorInfo? = nil, awsIotJobId: String? = nil, otaUpdateFiles: [OTAUpdateFile]? = nil, otaUpdateArn: String? = nil, targets: [String]? = nil, creationDate: TimeStamp? = nil, targetSelection: TargetSelection? = nil, description: String? = nil, lastModifiedDate: TimeStamp? = nil, awsIotJobArn: String? = nil, otaUpdateId: String? = nil, awsJobExecutionsRolloutConfig: AwsJobExecutionsRolloutConfig? = nil, additionalParameters: [String: String]? = nil, otaUpdateStatus: OTAUpdateStatus? = nil) {
-            self.errorInfo = errorInfo
-            self.awsIotJobId = awsIotJobId
-            self.otaUpdateFiles = otaUpdateFiles
-            self.otaUpdateArn = otaUpdateArn
-            self.targets = targets
-            self.creationDate = creationDate
-            self.targetSelection = targetSelection
-            self.description = description
-            self.lastModifiedDate = lastModifiedDate
-            self.awsIotJobArn = awsIotJobArn
-            self.otaUpdateId = otaUpdateId
-            self.awsJobExecutionsRolloutConfig = awsJobExecutionsRolloutConfig
-            self.additionalParameters = additionalParameters
-            self.otaUpdateStatus = otaUpdateStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorInfo = "errorInfo"
-            case awsIotJobId = "awsIotJobId"
-            case otaUpdateFiles = "otaUpdateFiles"
-            case otaUpdateArn = "otaUpdateArn"
-            case targets = "targets"
-            case creationDate = "creationDate"
-            case targetSelection = "targetSelection"
-            case description = "description"
-            case lastModifiedDate = "lastModifiedDate"
-            case awsIotJobArn = "awsIotJobArn"
-            case otaUpdateId = "otaUpdateId"
-            case awsJobExecutionsRolloutConfig = "awsJobExecutionsRolloutConfig"
-            case additionalParameters = "additionalParameters"
-            case otaUpdateStatus = "otaUpdateStatus"
         }
     }
 
@@ -365,504 +223,148 @@ extension IoT {
         }
     }
 
-    public struct ListJobExecutionsForThingRequest: AWSShape {
+    public struct DescribeCACertificateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "status", location: .querystring(locationName: "status"), required: false, type: .enum), 
+            AWSShapeMember(label: "certificateId", location: .uri(locationName: "caCertificateId"), required: true, type: .string)
+        ]
+        /// The CA certificate identifier.
+        public let certificateId: String
+
+        public init(certificateId: String) {
+            self.certificateId = certificateId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateId = "caCertificateId"
+        }
+    }
+
+    public struct TestInvokeAuthorizerResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "isAuthenticated", required: false, type: .boolean), 
+            AWSShapeMember(label: "refreshAfterInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "principalId", required: false, type: .string), 
+            AWSShapeMember(label: "policyDocuments", required: false, type: .list), 
+            AWSShapeMember(label: "disconnectAfterInSeconds", required: false, type: .integer)
+        ]
+        /// True if the token is authenticated, otherwise false.
+        public let isAuthenticated: Bool?
+        /// The number of seconds after which the temporary credentials are refreshed.
+        public let refreshAfterInSeconds: Int32?
+        /// The principal ID.
+        public let principalId: String?
+        /// IAM policy documents.
+        public let policyDocuments: [String]?
+        /// The number of seconds after which the connection is terminated.
+        public let disconnectAfterInSeconds: Int32?
+
+        public init(isAuthenticated: Bool? = nil, refreshAfterInSeconds: Int32? = nil, principalId: String? = nil, policyDocuments: [String]? = nil, disconnectAfterInSeconds: Int32? = nil) {
+            self.isAuthenticated = isAuthenticated
+            self.refreshAfterInSeconds = refreshAfterInSeconds
+            self.principalId = principalId
+            self.policyDocuments = policyDocuments
+            self.disconnectAfterInSeconds = disconnectAfterInSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isAuthenticated = "isAuthenticated"
+            case refreshAfterInSeconds = "refreshAfterInSeconds"
+            case principalId = "principalId"
+            case policyDocuments = "policyDocuments"
+            case disconnectAfterInSeconds = "disconnectAfterInSeconds"
+        }
+    }
+
+    public struct ListActiveViolationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
+            AWSShapeMember(label: "thingName", location: .querystring(locationName: "thingName"), required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "securityProfileName", location: .querystring(locationName: "securityProfileName"), required: false, type: .string)
         ]
-        /// The maximum number of results to be returned per request.
+        /// The token for the next set of results.
+        public let nextToken: String?
+        /// The name of the thing whose active violations are listed.
+        public let thingName: String?
+        /// The maximum number of results to return at one time.
         public let maxResults: Int32?
-        /// An optional filter that lets you search for jobs that have the specified status.
-        public let status: JobExecutionStatus?
-        /// The token to retrieve the next set of results.
-        public let nextToken: String?
-        /// The thing name.
-        public let thingName: String
-
-        public init(maxResults: Int32? = nil, status: JobExecutionStatus? = nil, nextToken: String? = nil, thingName: String) {
-            self.maxResults = maxResults
-            self.status = status
-            self.nextToken = nextToken
-            self.thingName = thingName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case status = "status"
-            case nextToken = "nextToken"
-            case thingName = "thingName"
-        }
-    }
-
-    public struct AuditNotificationTarget: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string), 
-            AWSShapeMember(label: "targetArn", required: false, type: .string)
-        ]
-        /// True if notifications to the target are enabled.
-        public let enabled: Bool?
-        /// The ARN of the role that grants permission to send notifications to the target.
-        public let roleArn: String?
-        /// The ARN of the target (SNS topic) to which audit notifications are sent.
-        public let targetArn: String?
-
-        public init(enabled: Bool? = nil, roleArn: String? = nil, targetArn: String? = nil) {
-            self.enabled = enabled
-            self.roleArn = roleArn
-            self.targetArn = targetArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case enabled = "enabled"
-            case roleArn = "roleArn"
-            case targetArn = "targetArn"
-        }
-    }
-
-    public struct DeleteAccountAuditConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deleteScheduledAudits", location: .querystring(locationName: "deleteScheduledAudits"), required: false, type: .boolean)
-        ]
-        /// If true, all scheduled audits are deleted.
-        public let deleteScheduledAudits: Bool?
-
-        public init(deleteScheduledAudits: Bool? = nil) {
-            self.deleteScheduledAudits = deleteScheduledAudits
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deleteScheduledAudits = "deleteScheduledAudits"
-        }
-    }
-
-    public struct FileLocation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "stream", required: false, type: .structure), 
-            AWSShapeMember(label: "s3Location", required: false, type: .structure)
-        ]
-        /// The stream that contains the OTA update.
-        public let stream: Stream?
-        /// The location of the updated firmware in S3.
-        public let s3Location: S3Location?
-
-        public init(stream: Stream? = nil, s3Location: S3Location? = nil) {
-            self.stream = stream
-            self.s3Location = s3Location
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case stream = "stream"
-            case s3Location = "s3Location"
-        }
-    }
-
-    public struct DescribeStreamRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "streamId", location: .uri(locationName: "streamId"), required: true, type: .string)
-        ]
-        /// The stream ID.
-        public let streamId: String
-
-        public init(streamId: String) {
-            self.streamId = streamId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case streamId = "streamId"
-        }
-    }
-
-    public enum ViolationEventType: String, CustomStringConvertible, Codable {
-        case inAlarm = "in-alarm"
-        case alarmCleared = "alarm-cleared"
-        case alarmInvalidated = "alarm-invalidated"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ActiveViolation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lastViolationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "thingName", required: false, type: .string), 
-            AWSShapeMember(label: "lastViolationValue", required: false, type: .structure), 
-            AWSShapeMember(label: "violationId", required: false, type: .string), 
-            AWSShapeMember(label: "securityProfileName", required: false, type: .string), 
-            AWSShapeMember(label: "behavior", required: false, type: .structure), 
-            AWSShapeMember(label: "violationStartTime", required: false, type: .timestamp)
-        ]
-        /// The time the most recent violation occurred.
-        public let lastViolationTime: TimeStamp?
-        /// The name of the thing responsible for the active violation.
-        public let thingName: String?
-        /// The value of the metric (the measurement) which caused the most recent violation.
-        public let lastViolationValue: MetricValue?
-        /// The ID of the active violation.
-        public let violationId: String?
-        /// The security profile whose behavior is in violation.
+        /// The name of the Device Defender security profile for which violations are listed.
         public let securityProfileName: String?
-        /// The behavior which is being violated.
-        public let behavior: Behavior?
-        /// The time the violation started.
-        public let violationStartTime: TimeStamp?
 
-        public init(lastViolationTime: TimeStamp? = nil, thingName: String? = nil, lastViolationValue: MetricValue? = nil, violationId: String? = nil, securityProfileName: String? = nil, behavior: Behavior? = nil, violationStartTime: TimeStamp? = nil) {
-            self.lastViolationTime = lastViolationTime
-            self.thingName = thingName
-            self.lastViolationValue = lastViolationValue
-            self.violationId = violationId
-            self.securityProfileName = securityProfileName
-            self.behavior = behavior
-            self.violationStartTime = violationStartTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lastViolationTime = "lastViolationTime"
-            case thingName = "thingName"
-            case lastViolationValue = "lastViolationValue"
-            case violationId = "violationId"
-            case securityProfileName = "securityProfileName"
-            case behavior = "behavior"
-            case violationStartTime = "violationStartTime"
-        }
-    }
-
-    public struct DescribeAuditTaskResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "auditDetails", required: false, type: .map), 
-            AWSShapeMember(label: "taskType", required: false, type: .enum), 
-            AWSShapeMember(label: "scheduledAuditName", required: false, type: .string), 
-            AWSShapeMember(label: "taskStatistics", required: false, type: .structure), 
-            AWSShapeMember(label: "taskStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "taskStartTime", required: false, type: .timestamp)
-        ]
-        /// Detailed information about each check performed during this audit.
-        public let auditDetails: [String: AuditCheckDetails]?
-        /// The type of audit: "ON_DEMAND_AUDIT_TASK" or "SCHEDULED_AUDIT_TASK".
-        public let taskType: AuditTaskType?
-        /// The name of the scheduled audit (only if the audit was a scheduled audit).
-        public let scheduledAuditName: String?
-        /// Statistical information about the audit.
-        public let taskStatistics: TaskStatistics?
-        /// The status of the audit: one of "IN_PROGRESS", "COMPLETED", "FAILED", or "CANCELED".
-        public let taskStatus: AuditTaskStatus?
-        /// The time the audit started.
-        public let taskStartTime: TimeStamp?
-
-        public init(auditDetails: [String: AuditCheckDetails]? = nil, taskType: AuditTaskType? = nil, scheduledAuditName: String? = nil, taskStatistics: TaskStatistics? = nil, taskStatus: AuditTaskStatus? = nil, taskStartTime: TimeStamp? = nil) {
-            self.auditDetails = auditDetails
-            self.taskType = taskType
-            self.scheduledAuditName = scheduledAuditName
-            self.taskStatistics = taskStatistics
-            self.taskStatus = taskStatus
-            self.taskStartTime = taskStartTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case auditDetails = "auditDetails"
-            case taskType = "taskType"
-            case scheduledAuditName = "scheduledAuditName"
-            case taskStatistics = "taskStatistics"
-            case taskStatus = "taskStatus"
-            case taskStartTime = "taskStartTime"
-        }
-    }
-
-    public struct IotEventsAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "messageId", required: false, type: .string), 
-            AWSShapeMember(label: "inputName", required: true, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string)
-        ]
-        /// [Optional] Use this to ensure that only one input (message) with a given messageId will be processed by an AWS IoT Events detector.
-        public let messageId: String?
-        /// The name of the AWS IoT Events input.
-        public let inputName: String
-        /// The ARN of the role that grants AWS IoT permission to send an input to an AWS IoT Events detector. ("Action":"iotevents:BatchPutMessage").
-        public let roleArn: String
-
-        public init(messageId: String? = nil, inputName: String, roleArn: String) {
-            self.messageId = messageId
-            self.inputName = inputName
-            self.roleArn = roleArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case messageId = "messageId"
-            case inputName = "inputName"
-            case roleArn = "roleArn"
-        }
-    }
-
-    public struct BehaviorCriteria: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "comparisonOperator", required: false, type: .enum), 
-            AWSShapeMember(label: "value", required: false, type: .structure), 
-            AWSShapeMember(label: "durationSeconds", required: false, type: .integer)
-        ]
-        /// The operator that relates the thing measured (metric) to the criteria (value).
-        public let comparisonOperator: ComparisonOperator?
-        /// The value to be compared with the metric.
-        public let value: MetricValue?
-        /// Use this to specify the period of time over which the behavior is evaluated, for those criteria which have a time dimension (for example, NUM_MESSAGES_SENT).
-        public let durationSeconds: Int32?
-
-        public init(comparisonOperator: ComparisonOperator? = nil, value: MetricValue? = nil, durationSeconds: Int32? = nil) {
-            self.comparisonOperator = comparisonOperator
-            self.value = value
-            self.durationSeconds = durationSeconds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case comparisonOperator = "comparisonOperator"
-            case value = "value"
-            case durationSeconds = "durationSeconds"
-        }
-    }
-
-    public struct JobExecutionStatusDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "detailsMap", required: false, type: .map)
-        ]
-        /// The job execution status.
-        public let detailsMap: [String: String]?
-
-        public init(detailsMap: [String: String]? = nil) {
-            self.detailsMap = detailsMap
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case detailsMap = "detailsMap"
-        }
-    }
-
-    public struct DeleteStreamResponse: AWSShape {
-
-    }
-
-    public struct CreateScheduledAuditResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "scheduledAuditArn", required: false, type: .string)
-        ]
-        /// The ARN of the scheduled audit.
-        public let scheduledAuditArn: String?
-
-        public init(scheduledAuditArn: String? = nil) {
-            self.scheduledAuditArn = scheduledAuditArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case scheduledAuditArn = "scheduledAuditArn"
-        }
-    }
-
-    public struct ListThingTypesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingTypes", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// The thing types.
-        public let thingTypes: [ThingTypeDefinition]?
-        /// The token for the next set of results, or null if there are no additional results.
-        public let nextToken: String?
-
-        public init(thingTypes: [ThingTypeDefinition]? = nil, nextToken: String? = nil) {
-            self.thingTypes = thingTypes
+        public init(nextToken: String? = nil, thingName: String? = nil, maxResults: Int32? = nil, securityProfileName: String? = nil) {
             self.nextToken = nextToken
+            self.thingName = thingName
+            self.maxResults = maxResults
+            self.securityProfileName = securityProfileName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case thingTypes = "thingTypes"
             case nextToken = "nextToken"
-        }
-    }
-
-    public struct DescribeEndpointResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "endpointAddress", required: false, type: .string)
-        ]
-        /// The endpoint. The format of the endpoint is as follows: identifier.iot.region.amazonaws.com.
-        public let endpointAddress: String?
-
-        public init(endpointAddress: String? = nil) {
-            self.endpointAddress = endpointAddress
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case endpointAddress = "endpointAddress"
-        }
-    }
-
-    public struct AddThingToBillingGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "billingGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "thingArn", required: false, type: .string), 
-            AWSShapeMember(label: "thingName", required: false, type: .string), 
-            AWSShapeMember(label: "billingGroupArn", required: false, type: .string)
-        ]
-        /// The name of the billing group.
-        public let billingGroupName: String?
-        /// The ARN of the thing to be added to the billing group.
-        public let thingArn: String?
-        /// The name of the thing to be added to the billing group.
-        public let thingName: String?
-        /// The ARN of the billing group.
-        public let billingGroupArn: String?
-
-        public init(billingGroupName: String? = nil, thingArn: String? = nil, thingName: String? = nil, billingGroupArn: String? = nil) {
-            self.billingGroupName = billingGroupName
-            self.thingArn = thingArn
-            self.thingName = thingName
-            self.billingGroupArn = billingGroupArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case billingGroupName = "billingGroupName"
-            case thingArn = "thingArn"
             case thingName = "thingName"
-            case billingGroupArn = "billingGroupArn"
+            case maxResults = "maxResults"
+            case securityProfileName = "securityProfileName"
         }
     }
 
-    public struct RegisterThingResponse: AWSShape {
+    public struct AcceptCertificateTransferRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArns", required: false, type: .map), 
-            AWSShapeMember(label: "certificatePem", required: false, type: .string)
+            AWSShapeMember(label: "setAsActive", location: .querystring(locationName: "setAsActive"), required: false, type: .boolean), 
+            AWSShapeMember(label: "certificateId", location: .uri(locationName: "certificateId"), required: true, type: .string)
         ]
-        /// ARNs for the generated resources.
-        public let resourceArns: [String: String]?
-        /// .
-        public let certificatePem: String?
+        /// Specifies whether the certificate is active.
+        public let setAsActive: Bool?
+        /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
+        public let certificateId: String
 
-        public init(resourceArns: [String: String]? = nil, certificatePem: String? = nil) {
-            self.resourceArns = resourceArns
-            self.certificatePem = certificatePem
+        public init(setAsActive: Bool? = nil, certificateId: String) {
+            self.setAsActive = setAsActive
+            self.certificateId = certificateId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArns = "resourceArns"
-            case certificatePem = "certificatePem"
+            case setAsActive = "setAsActive"
+            case certificateId = "certificateId"
         }
     }
 
-    public struct UpdateThingRequest: AWSShape {
+    public struct AuditCheckDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "removeThingType", required: false, type: .boolean), 
-            AWSShapeMember(label: "thingTypeName", required: false, type: .string), 
-            AWSShapeMember(label: "attributePayload", required: false, type: .structure), 
-            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string), 
-            AWSShapeMember(label: "expectedVersion", required: false, type: .long)
+            AWSShapeMember(label: "checkRunStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "errorCode", required: false, type: .string), 
+            AWSShapeMember(label: "checkCompliant", required: false, type: .boolean), 
+            AWSShapeMember(label: "message", required: false, type: .string), 
+            AWSShapeMember(label: "totalResourcesCount", required: false, type: .long), 
+            AWSShapeMember(label: "nonCompliantResourcesCount", required: false, type: .long)
         ]
-        /// Remove a thing type association. If true, the association is removed.
-        public let removeThingType: Bool?
-        /// The name of the thing type.
-        public let thingTypeName: String?
-        /// A list of thing attributes, a JSON string containing name-value pairs. For example:  {\"attributes\":{\"name1\":\"value2\"}}  This data is used to add new attributes or update existing attributes.
-        public let attributePayload: AttributePayload?
-        /// The name of the thing to update.
-        public let thingName: String
-        /// The expected version of the thing record in the registry. If the version of the record in the registry does not match the expected version specified in the request, the UpdateThing request is rejected with a VersionConflictException.
-        public let expectedVersion: Int64?
+        /// The completion status of this check, one of "IN_PROGRESS", "WAITING_FOR_DATA_COLLECTION", "CANCELED", "COMPLETED_COMPLIANT", "COMPLETED_NON_COMPLIANT", or "FAILED".
+        public let checkRunStatus: AuditCheckRunStatus?
+        /// The code of any error encountered when performing this check during this audit. One of "INSUFFICIENT_PERMISSIONS", or "AUDIT_CHECK_DISABLED".
+        public let errorCode: String?
+        /// True if the check completed and found all resources compliant.
+        public let checkCompliant: Bool?
+        /// The message associated with any error encountered when performing this check during this audit.
+        public let message: String?
+        /// The number of resources on which the check was performed.
+        public let totalResourcesCount: Int64?
+        /// The number of resources that the check found non-compliant.
+        public let nonCompliantResourcesCount: Int64?
 
-        public init(removeThingType: Bool? = nil, thingTypeName: String? = nil, attributePayload: AttributePayload? = nil, thingName: String, expectedVersion: Int64? = nil) {
-            self.removeThingType = removeThingType
-            self.thingTypeName = thingTypeName
-            self.attributePayload = attributePayload
-            self.thingName = thingName
-            self.expectedVersion = expectedVersion
+        public init(checkRunStatus: AuditCheckRunStatus? = nil, errorCode: String? = nil, checkCompliant: Bool? = nil, message: String? = nil, totalResourcesCount: Int64? = nil, nonCompliantResourcesCount: Int64? = nil) {
+            self.checkRunStatus = checkRunStatus
+            self.errorCode = errorCode
+            self.checkCompliant = checkCompliant
+            self.message = message
+            self.totalResourcesCount = totalResourcesCount
+            self.nonCompliantResourcesCount = nonCompliantResourcesCount
         }
 
         private enum CodingKeys: String, CodingKey {
-            case removeThingType = "removeThingType"
-            case thingTypeName = "thingTypeName"
-            case attributePayload = "attributePayload"
-            case thingName = "thingName"
-            case expectedVersion = "expectedVersion"
-        }
-    }
-
-    public struct AuthInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resources", required: false, type: .list), 
-            AWSShapeMember(label: "actionType", required: false, type: .enum)
-        ]
-        /// The resources for which the principal is being authorized to perform the specified action.
-        public let resources: [String]?
-        /// The type of action for which the principal is being authorized.
-        public let actionType: ActionType?
-
-        public init(resources: [String]? = nil, actionType: ActionType? = nil) {
-            self.resources = resources
-            self.actionType = actionType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resources = "resources"
-            case actionType = "actionType"
-        }
-    }
-
-    public struct DeleteBillingGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "expectedVersion", location: .querystring(locationName: "expectedVersion"), required: false, type: .long), 
-            AWSShapeMember(label: "billingGroupName", location: .uri(locationName: "billingGroupName"), required: true, type: .string)
-        ]
-        /// The expected version of the billing group. If the version of the billing group does not match the expected version specified in the request, the DeleteBillingGroup request is rejected with a VersionConflictException.
-        public let expectedVersion: Int64?
-        /// The name of the billing group.
-        public let billingGroupName: String
-
-        public init(expectedVersion: Int64? = nil, billingGroupName: String) {
-            self.expectedVersion = expectedVersion
-            self.billingGroupName = billingGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case expectedVersion = "expectedVersion"
-            case billingGroupName = "billingGroupName"
-        }
-    }
-
-    public struct ValidateSecurityProfileBehaviorsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "behaviors", required: true, type: .list)
-        ]
-        /// Specifies the behaviors that, when violated by a device (thing), cause an alert.
-        public let behaviors: [Behavior]
-
-        public init(behaviors: [Behavior]) {
-            self.behaviors = behaviors
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case behaviors = "behaviors"
-        }
-    }
-
-    public struct UpdateAccountAuditConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "auditCheckConfigurations", required: false, type: .map), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string), 
-            AWSShapeMember(label: "auditNotificationTargetConfigurations", required: false, type: .map)
-        ]
-        /// Specifies which audit checks are enabled and disabled for this account. Use DescribeAccountAuditConfiguration to see the list of all checks including those that are currently enabled. Note that some data collection may begin immediately when certain checks are enabled. When a check is disabled, any data collected so far in relation to the check is deleted. You cannot disable a check if it is used by any scheduled audit. You must first delete the check from the scheduled audit or delete the scheduled audit itself. On the first call to UpdateAccountAuditConfiguration this parameter is required and must specify at least one enabled check.
-        public let auditCheckConfigurations: [String: AuditCheckConfiguration]?
-        /// The ARN of the role that grants permission to AWS IoT to access information about your devices, policies, certificates and other items as necessary when performing an audit.
-        public let roleArn: String?
-        /// Information about the targets to which audit notifications are sent.
-        public let auditNotificationTargetConfigurations: [AuditNotificationType: AuditNotificationTarget]?
-
-        public init(auditCheckConfigurations: [String: AuditCheckConfiguration]? = nil, roleArn: String? = nil, auditNotificationTargetConfigurations: [AuditNotificationType: AuditNotificationTarget]? = nil) {
-            self.auditCheckConfigurations = auditCheckConfigurations
-            self.roleArn = roleArn
-            self.auditNotificationTargetConfigurations = auditNotificationTargetConfigurations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case auditCheckConfigurations = "auditCheckConfigurations"
-            case roleArn = "roleArn"
-            case auditNotificationTargetConfigurations = "auditNotificationTargetConfigurations"
+            case checkRunStatus = "checkRunStatus"
+            case errorCode = "errorCode"
+            case checkCompliant = "checkCompliant"
+            case message = "message"
+            case totalResourcesCount = "totalResourcesCount"
+            case nonCompliantResourcesCount = "nonCompliantResourcesCount"
         }
     }
 
@@ -882,776 +384,108 @@ extension IoT {
         }
     }
 
-    public struct DescribeRoleAliasRequest: AWSShape {
+    public struct ListPoliciesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "roleAlias", location: .uri(locationName: "roleAlias"), required: true, type: .string)
+            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeMember(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean), 
+            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer)
         ]
-        /// The role alias to describe.
-        public let roleAlias: String
+        /// The marker for the next set of results.
+        public let marker: String?
+        /// Specifies the order for results. If true, the results are returned in ascending creation order.
+        public let ascendingOrder: Bool?
+        /// The result page size.
+        public let pageSize: Int32?
 
-        public init(roleAlias: String) {
-            self.roleAlias = roleAlias
+        public init(marker: String? = nil, ascendingOrder: Bool? = nil, pageSize: Int32? = nil) {
+            self.marker = marker
+            self.ascendingOrder = ascendingOrder
+            self.pageSize = pageSize
         }
 
         private enum CodingKeys: String, CodingKey {
-            case roleAlias = "roleAlias"
+            case marker = "marker"
+            case ascendingOrder = "isAscendingOrder"
+            case pageSize = "pageSize"
         }
     }
 
-    public struct AuditTaskMetadata: AWSShape {
+    public struct PresignedUrlConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "taskType", required: false, type: .enum), 
-            AWSShapeMember(label: "taskStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "taskId", required: false, type: .string)
+            AWSShapeMember(label: "expiresInSec", required: false, type: .long), 
+            AWSShapeMember(label: "roleArn", required: false, type: .string)
         ]
-        /// The type of this audit: one of "ON_DEMAND_AUDIT_TASK" or "SCHEDULED_AUDIT_TASK".
-        public let taskType: AuditTaskType?
-        /// The status of this audit: one of "IN_PROGRESS", "COMPLETED", "FAILED" or "CANCELED".
-        public let taskStatus: AuditTaskStatus?
-        /// The ID of this audit.
-        public let taskId: String?
-
-        public init(taskType: AuditTaskType? = nil, taskStatus: AuditTaskStatus? = nil, taskId: String? = nil) {
-            self.taskType = taskType
-            self.taskStatus = taskStatus
-            self.taskId = taskId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case taskType = "taskType"
-            case taskStatus = "taskStatus"
-            case taskId = "taskId"
-        }
-    }
-
-    public struct AuditCheckConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "enabled", required: false, type: .boolean)
-        ]
-        /// True if this audit check is enabled for this account.
-        public let enabled: Bool?
-
-        public init(enabled: Bool? = nil) {
-            self.enabled = enabled
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case enabled = "enabled"
-        }
-    }
-
-    public struct ListViolationEventsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "violationEvents", required: false, type: .list)
-        ]
-        /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
-        public let nextToken: String?
-        /// The security profile violation alerts issued for this account during the given time frame, potentially filtered by security profile, behavior violated, or thing (device) violating.
-        public let violationEvents: [ViolationEvent]?
-
-        public init(nextToken: String? = nil, violationEvents: [ViolationEvent]? = nil) {
-            self.nextToken = nextToken
-            self.violationEvents = violationEvents
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case violationEvents = "violationEvents"
-        }
-    }
-
-    public enum OTAUpdateStatus: String, CustomStringConvertible, Codable {
-        case createPending = "CREATE_PENDING"
-        case createInProgress = "CREATE_IN_PROGRESS"
-        case createComplete = "CREATE_COMPLETE"
-        case createFailed = "CREATE_FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct RemoveThingFromBillingGroupResponse: AWSShape {
-
-    }
-
-    public struct CreatePolicyVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string), 
-            AWSShapeMember(label: "policyDocument", required: true, type: .string), 
-            AWSShapeMember(label: "setAsDefault", location: .querystring(locationName: "setAsDefault"), required: false, type: .boolean)
-        ]
-        /// The policy name.
-        public let policyName: String
-        /// The JSON document that describes the policy. Minimum length of 1. Maximum length of 2048, excluding whitespace.
-        public let policyDocument: String
-        /// Specifies whether the policy version is set as the default. When this parameter is true, the new policy version becomes the operative version (that is, the version that is in effect for the certificates to which the policy is attached).
-        public let setAsDefault: Bool?
-
-        public init(policyName: String, policyDocument: String, setAsDefault: Bool? = nil) {
-            self.policyName = policyName
-            self.policyDocument = policyDocument
-            self.setAsDefault = setAsDefault
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyName = "policyName"
-            case policyDocument = "policyDocument"
-            case setAsDefault = "setAsDefault"
-        }
-    }
-
-    public struct UpdateCACertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "registrationConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "newAutoRegistrationStatus", location: .querystring(locationName: "newAutoRegistrationStatus"), required: false, type: .enum), 
-            AWSShapeMember(label: "newStatus", location: .querystring(locationName: "newStatus"), required: false, type: .enum), 
-            AWSShapeMember(label: "certificateId", location: .uri(locationName: "caCertificateId"), required: true, type: .string), 
-            AWSShapeMember(label: "removeAutoRegistration", required: false, type: .boolean)
-        ]
-        /// Information about the registration configuration.
-        public let registrationConfig: RegistrationConfig?
-        /// The new value for the auto registration status. Valid values are: "ENABLE" or "DISABLE".
-        public let newAutoRegistrationStatus: AutoRegistrationStatus?
-        /// The updated status of the CA certificate.  Note: The status value REGISTER_INACTIVE is deprecated and should not be used.
-        public let newStatus: CACertificateStatus?
-        /// The CA certificate identifier.
-        public let certificateId: String
-        /// If true, remove auto registration.
-        public let removeAutoRegistration: Bool?
-
-        public init(registrationConfig: RegistrationConfig? = nil, newAutoRegistrationStatus: AutoRegistrationStatus? = nil, newStatus: CACertificateStatus? = nil, certificateId: String, removeAutoRegistration: Bool? = nil) {
-            self.registrationConfig = registrationConfig
-            self.newAutoRegistrationStatus = newAutoRegistrationStatus
-            self.newStatus = newStatus
-            self.certificateId = certificateId
-            self.removeAutoRegistration = removeAutoRegistration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case registrationConfig = "registrationConfig"
-            case newAutoRegistrationStatus = "newAutoRegistrationStatus"
-            case newStatus = "newStatus"
-            case certificateId = "caCertificateId"
-            case removeAutoRegistration = "removeAutoRegistration"
-        }
-    }
-
-    public struct PutItemInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tableName", required: true, type: .string)
-        ]
-        /// The table where the message data will be written
-        public let tableName: String
-
-        public init(tableName: String) {
-            self.tableName = tableName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tableName = "tableName"
-        }
-    }
-
-    public struct ListV2LoggingLevelsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "targetType", location: .querystring(locationName: "targetType"), required: false, type: .enum)
-        ]
-        /// The token used to get the next set of results, or null if there are no additional results.
-        public let nextToken: String?
-        /// The maximum number of results to return at one time.
-        public let maxResults: Int32?
-        /// The type of resource for which you are configuring logging. Must be THING_Group.
-        public let targetType: LogTargetType?
-
-        public init(nextToken: String? = nil, maxResults: Int32? = nil, targetType: LogTargetType? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.targetType = targetType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
-            case targetType = "targetType"
-        }
-    }
-
-    public enum AuthDecision: String, CustomStringConvertible, Codable {
-        case allowed = "ALLOWED"
-        case explicitDeny = "EXPLICIT_DENY"
-        case implicitDeny = "IMPLICIT_DENY"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateRoleAliasRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "roleAlias", location: .uri(locationName: "roleAlias"), required: true, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string), 
-            AWSShapeMember(label: "credentialDurationSeconds", required: false, type: .integer)
-        ]
-        /// The role alias that points to a role ARN. This allows you to change the role without having to update the device.
-        public let roleAlias: String
-        /// The role ARN.
-        public let roleArn: String
-        /// How long (in seconds) the credentials will be valid.
-        public let credentialDurationSeconds: Int32?
-
-        public init(roleAlias: String, roleArn: String, credentialDurationSeconds: Int32? = nil) {
-            self.roleAlias = roleAlias
-            self.roleArn = roleArn
-            self.credentialDurationSeconds = credentialDurationSeconds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleAlias = "roleAlias"
-            case roleArn = "roleArn"
-            case credentialDurationSeconds = "credentialDurationSeconds"
-        }
-    }
-
-    public struct ListTargetsForSecurityProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "securityProfileName", location: .uri(locationName: "securityProfileName"), required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
-        ]
-        /// The token for the next set of results.
-        public let nextToken: String?
-        /// The security profile.
-        public let securityProfileName: String
-        /// The maximum number of results to return at one time.
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, securityProfileName: String, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.securityProfileName = securityProfileName
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case securityProfileName = "securityProfileName"
-            case maxResults = "maxResults"
-        }
-    }
-
-    public struct ThingDocument: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attributes", required: false, type: .map), 
-            AWSShapeMember(label: "thingId", required: false, type: .string), 
-            AWSShapeMember(label: "thingName", required: false, type: .string), 
-            AWSShapeMember(label: "connectivity", required: false, type: .structure), 
-            AWSShapeMember(label: "thingTypeName", required: false, type: .string), 
-            AWSShapeMember(label: "shadow", required: false, type: .string), 
-            AWSShapeMember(label: "thingGroupNames", required: false, type: .list)
-        ]
-        /// The attributes.
-        public let attributes: [String: String]?
-        /// The thing ID.
-        public let thingId: String?
-        /// The thing name.
-        public let thingName: String?
-        /// Indicates whether or not the thing is connected to the AWS IoT service.
-        public let connectivity: ThingConnectivity?
-        /// The thing type name.
-        public let thingTypeName: String?
-        /// The shadow.
-        public let shadow: String?
-        /// Thing group names.
-        public let thingGroupNames: [String]?
-
-        public init(attributes: [String: String]? = nil, thingId: String? = nil, thingName: String? = nil, connectivity: ThingConnectivity? = nil, thingTypeName: String? = nil, shadow: String? = nil, thingGroupNames: [String]? = nil) {
-            self.attributes = attributes
-            self.thingId = thingId
-            self.thingName = thingName
-            self.connectivity = connectivity
-            self.thingTypeName = thingTypeName
-            self.shadow = shadow
-            self.thingGroupNames = thingGroupNames
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attributes = "attributes"
-            case thingId = "thingId"
-            case thingName = "thingName"
-            case connectivity = "connectivity"
-            case thingTypeName = "thingTypeName"
-            case shadow = "shadow"
-            case thingGroupNames = "thingGroupNames"
-        }
-    }
-
-    public struct DescribeThingGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingGroupName", location: .uri(locationName: "thingGroupName"), required: true, type: .string)
-        ]
-        /// The name of the thing group.
-        public let thingGroupName: String
-
-        public init(thingGroupName: String) {
-            self.thingGroupName = thingGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case thingGroupName = "thingGroupName"
-        }
-    }
-
-    public struct DescribeThingRegistrationTaskResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "taskId", required: false, type: .string), 
-            AWSShapeMember(label: "inputFileBucket", required: false, type: .string), 
-            AWSShapeMember(label: "successCount", required: false, type: .integer), 
-            AWSShapeMember(label: "failureCount", required: false, type: .integer), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string), 
-            AWSShapeMember(label: "inputFileKey", required: false, type: .string), 
-            AWSShapeMember(label: "percentageProgress", required: false, type: .integer), 
-            AWSShapeMember(label: "templateBody", required: false, type: .string), 
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "message", required: false, type: .string)
-        ]
-        /// The task ID.
-        public let taskId: String?
-        /// The S3 bucket that contains the input file.
-        public let inputFileBucket: String?
-        /// The number of things successfully provisioned.
-        public let successCount: Int32?
-        /// The number of things that failed to be provisioned.
-        public let failureCount: Int32?
-        /// The role ARN that grants access to the input file bucket.
+        /// How long (in seconds) pre-signed URLs are valid. Valid values are 60 - 3600, the default value is 3600 seconds. Pre-signed URLs are generated when Jobs receives an MQTT request for the job document.
+        public let expiresInSec: Int64?
+        /// The ARN of an IAM role that grants grants permission to download files from the S3 bucket where the job data/updates are stored. The role must also grant permission for IoT to download the files.
         public let roleArn: String?
-        /// The input file key.
-        public let inputFileKey: String?
-        /// The progress of the bulk provisioning task expressed as a percentage.
-        public let percentageProgress: Int32?
-        /// The task's template.
-        public let templateBody: String?
-        /// The task creation date.
-        public let creationDate: TimeStamp?
-        /// The status of the bulk thing provisioning task.
-        public let status: Status?
-        /// The date when the task was last modified.
-        public let lastModifiedDate: TimeStamp?
-        /// The message.
-        public let message: String?
 
-        public init(taskId: String? = nil, inputFileBucket: String? = nil, successCount: Int32? = nil, failureCount: Int32? = nil, roleArn: String? = nil, inputFileKey: String? = nil, percentageProgress: Int32? = nil, templateBody: String? = nil, creationDate: TimeStamp? = nil, status: Status? = nil, lastModifiedDate: TimeStamp? = nil, message: String? = nil) {
-            self.taskId = taskId
-            self.inputFileBucket = inputFileBucket
-            self.successCount = successCount
-            self.failureCount = failureCount
-            self.roleArn = roleArn
-            self.inputFileKey = inputFileKey
-            self.percentageProgress = percentageProgress
-            self.templateBody = templateBody
-            self.creationDate = creationDate
-            self.status = status
-            self.lastModifiedDate = lastModifiedDate
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case taskId = "taskId"
-            case inputFileBucket = "inputFileBucket"
-            case successCount = "successCount"
-            case failureCount = "failureCount"
-            case roleArn = "roleArn"
-            case inputFileKey = "inputFileKey"
-            case percentageProgress = "percentageProgress"
-            case templateBody = "templateBody"
-            case creationDate = "creationDate"
-            case status = "status"
-            case lastModifiedDate = "lastModifiedDate"
-            case message = "message"
-        }
-    }
-
-    public struct DeleteThingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string), 
-            AWSShapeMember(label: "expectedVersion", location: .querystring(locationName: "expectedVersion"), required: false, type: .long)
-        ]
-        /// The name of the thing to delete.
-        public let thingName: String
-        /// The expected version of the thing record in the registry. If the version of the record in the registry does not match the expected version specified in the request, the DeleteThing request is rejected with a VersionConflictException.
-        public let expectedVersion: Int64?
-
-        public init(thingName: String, expectedVersion: Int64? = nil) {
-            self.thingName = thingName
-            self.expectedVersion = expectedVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case thingName = "thingName"
-            case expectedVersion = "expectedVersion"
-        }
-    }
-
-    public struct CancelAuditTaskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "taskId", location: .uri(locationName: "taskId"), required: true, type: .string)
-        ]
-        /// The ID of the audit you want to cancel. You can only cancel an audit that is "IN_PROGRESS".
-        public let taskId: String
-
-        public init(taskId: String) {
-            self.taskId = taskId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case taskId = "taskId"
-        }
-    }
-
-    public struct SetDefaultAuthorizerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorizerName", required: false, type: .string), 
-            AWSShapeMember(label: "authorizerArn", required: false, type: .string)
-        ]
-        /// The authorizer name.
-        public let authorizerName: String?
-        /// The authorizer ARN.
-        public let authorizerArn: String?
-
-        public init(authorizerName: String? = nil, authorizerArn: String? = nil) {
-            self.authorizerName = authorizerName
-            self.authorizerArn = authorizerArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case authorizerName = "authorizerName"
-            case authorizerArn = "authorizerArn"
-        }
-    }
-
-    public struct TaskStatistics: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "waitingForDataCollectionChecks", required: false, type: .integer), 
-            AWSShapeMember(label: "nonCompliantChecks", required: false, type: .integer), 
-            AWSShapeMember(label: "compliantChecks", required: false, type: .integer), 
-            AWSShapeMember(label: "canceledChecks", required: false, type: .integer), 
-            AWSShapeMember(label: "inProgressChecks", required: false, type: .integer), 
-            AWSShapeMember(label: "totalChecks", required: false, type: .integer), 
-            AWSShapeMember(label: "failedChecks", required: false, type: .integer)
-        ]
-        /// The number of checks waiting for data collection.
-        public let waitingForDataCollectionChecks: Int32?
-        /// The number of checks that found non-compliant resources.
-        public let nonCompliantChecks: Int32?
-        /// The number of checks that found compliant resources.
-        public let compliantChecks: Int32?
-        /// The number of checks that did not run because the audit was canceled.
-        public let canceledChecks: Int32?
-        /// The number of checks in progress.
-        public let inProgressChecks: Int32?
-        /// The number of checks in this audit.
-        public let totalChecks: Int32?
-        /// The number of checks 
-        public let failedChecks: Int32?
-
-        public init(waitingForDataCollectionChecks: Int32? = nil, nonCompliantChecks: Int32? = nil, compliantChecks: Int32? = nil, canceledChecks: Int32? = nil, inProgressChecks: Int32? = nil, totalChecks: Int32? = nil, failedChecks: Int32? = nil) {
-            self.waitingForDataCollectionChecks = waitingForDataCollectionChecks
-            self.nonCompliantChecks = nonCompliantChecks
-            self.compliantChecks = compliantChecks
-            self.canceledChecks = canceledChecks
-            self.inProgressChecks = inProgressChecks
-            self.totalChecks = totalChecks
-            self.failedChecks = failedChecks
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case waitingForDataCollectionChecks = "waitingForDataCollectionChecks"
-            case nonCompliantChecks = "nonCompliantChecks"
-            case compliantChecks = "compliantChecks"
-            case canceledChecks = "canceledChecks"
-            case inProgressChecks = "inProgressChecks"
-            case totalChecks = "totalChecks"
-            case failedChecks = "failedChecks"
-        }
-    }
-
-    public struct CreatePolicyVersionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyDocument", required: false, type: .string), 
-            AWSShapeMember(label: "policyArn", required: false, type: .string), 
-            AWSShapeMember(label: "policyVersionId", required: false, type: .string), 
-            AWSShapeMember(label: "isDefaultVersion", required: false, type: .boolean)
-        ]
-        /// The JSON document that describes the policy.
-        public let policyDocument: String?
-        /// The policy ARN.
-        public let policyArn: String?
-        /// The policy version ID.
-        public let policyVersionId: String?
-        /// Specifies whether the policy version is the default.
-        public let isDefaultVersion: Bool?
-
-        public init(policyDocument: String? = nil, policyArn: String? = nil, policyVersionId: String? = nil, isDefaultVersion: Bool? = nil) {
-            self.policyDocument = policyDocument
-            self.policyArn = policyArn
-            self.policyVersionId = policyVersionId
-            self.isDefaultVersion = isDefaultVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyDocument = "policyDocument"
-            case policyArn = "policyArn"
-            case policyVersionId = "policyVersionId"
-            case isDefaultVersion = "isDefaultVersion"
-        }
-    }
-
-    public struct TagResourceResponse: AWSShape {
-
-    }
-
-    public struct DescribeAuthorizerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorizerName", location: .uri(locationName: "authorizerName"), required: true, type: .string)
-        ]
-        /// The name of the authorizer to describe.
-        public let authorizerName: String
-
-        public init(authorizerName: String) {
-            self.authorizerName = authorizerName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case authorizerName = "authorizerName"
-        }
-    }
-
-    public struct SnsAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "messageFormat", required: false, type: .enum), 
-            AWSShapeMember(label: "targetArn", required: true, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string)
-        ]
-        /// (Optional) The message format of the message to publish. Accepted values are "JSON" and "RAW". The default value of the attribute is "RAW". SNS uses this setting to determine if the payload should be parsed and relevant platform-specific bits of the payload should be extracted. To read more about SNS message formats, see http://docs.aws.amazon.com/sns/latest/dg/json-formats.html refer to their official documentation.
-        public let messageFormat: MessageFormat?
-        /// The ARN of the SNS topic.
-        public let targetArn: String
-        /// The ARN of the IAM role that grants access.
-        public let roleArn: String
-
-        public init(messageFormat: MessageFormat? = nil, targetArn: String, roleArn: String) {
-            self.messageFormat = messageFormat
-            self.targetArn = targetArn
+        public init(expiresInSec: Int64? = nil, roleArn: String? = nil) {
+            self.expiresInSec = expiresInSec
             self.roleArn = roleArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case messageFormat = "messageFormat"
-            case targetArn = "targetArn"
+            case expiresInSec = "expiresInSec"
             case roleArn = "roleArn"
         }
     }
 
-    public struct DetachThingPrincipalRequest: AWSShape {
+    public struct ListPrincipalThingsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "principal", location: .header(locationName: "x-amzn-principal"), required: true, type: .string), 
-            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
         ]
-        /// If the principal is a certificate, this value must be ARN of the certificate. If the principal is an Amazon Cognito identity, this value must be the ID of the Amazon Cognito identity.
+        /// The principal.
         public let principal: String
-        /// The name of the thing.
-        public let thingName: String
+        /// The token to retrieve the next set of results.
+        public let nextToken: String?
+        /// The maximum number of results to return in this operation.
+        public let maxResults: Int32?
 
-        public init(principal: String, thingName: String) {
+        public init(principal: String, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.principal = principal
-            self.thingName = thingName
+            self.nextToken = nextToken
+            self.maxResults = maxResults
         }
 
         private enum CodingKeys: String, CodingKey {
             case principal = "x-amzn-principal"
-            case thingName = "thingName"
-        }
-    }
-
-    public struct DeletePolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string)
-        ]
-        /// The name of the policy to delete.
-        public let policyName: String
-
-        public init(policyName: String) {
-            self.policyName = policyName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyName = "policyName"
-        }
-    }
-
-    public struct DeleteThingGroupResponse: AWSShape {
-
-    }
-
-    public struct StopThingRegistrationTaskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "taskId", location: .uri(locationName: "taskId"), required: true, type: .string)
-        ]
-        /// The bulk thing provisioning task ID.
-        public let taskId: String
-
-        public init(taskId: String) {
-            self.taskId = taskId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case taskId = "taskId"
-        }
-    }
-
-    public struct ListJobsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "targetSelection", location: .querystring(locationName: "targetSelection"), required: false, type: .enum), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "status", location: .querystring(locationName: "status"), required: false, type: .enum), 
-            AWSShapeMember(label: "thingGroupName", location: .querystring(locationName: "thingGroupName"), required: false, type: .string), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "thingGroupId", location: .querystring(locationName: "thingGroupId"), required: false, type: .string)
-        ]
-        /// Specifies whether the job will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the job (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected in a target. For example, a job will run on a thing when the thing is added to a target group, even after the job was completed by all things originally in the group. 
-        public let targetSelection: TargetSelection?
-        /// The maximum number of results to return per request.
-        public let maxResults: Int32?
-        /// An optional filter that lets you search for jobs that have the specified status.
-        public let status: JobStatus?
-        /// A filter that limits the returned jobs to those for the specified group.
-        public let thingGroupName: String?
-        /// The token to retrieve the next set of results.
-        public let nextToken: String?
-        /// A filter that limits the returned jobs to those for the specified group.
-        public let thingGroupId: String?
-
-        public init(targetSelection: TargetSelection? = nil, maxResults: Int32? = nil, status: JobStatus? = nil, thingGroupName: String? = nil, nextToken: String? = nil, thingGroupId: String? = nil) {
-            self.targetSelection = targetSelection
-            self.maxResults = maxResults
-            self.status = status
-            self.thingGroupName = thingGroupName
-            self.nextToken = nextToken
-            self.thingGroupId = thingGroupId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case targetSelection = "targetSelection"
-            case maxResults = "maxResults"
-            case status = "status"
-            case thingGroupName = "thingGroupName"
             case nextToken = "nextToken"
-            case thingGroupId = "thingGroupId"
-        }
-    }
-
-    public struct CancelAuditTaskResponse: AWSShape {
-
-    }
-
-    public struct DeleteThingResponse: AWSShape {
-
-    }
-
-    public struct UpdateRoleAliasResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "roleAlias", required: false, type: .string), 
-            AWSShapeMember(label: "roleAliasArn", required: false, type: .string)
-        ]
-        /// The role alias.
-        public let roleAlias: String?
-        /// The role alias ARN.
-        public let roleAliasArn: String?
-
-        public init(roleAlias: String? = nil, roleAliasArn: String? = nil) {
-            self.roleAlias = roleAlias
-            self.roleAliasArn = roleAliasArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleAlias = "roleAlias"
-            case roleAliasArn = "roleAliasArn"
-        }
-    }
-
-    public struct DescribeStreamResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "streamInfo", required: false, type: .structure)
-        ]
-        /// Information about the stream.
-        public let streamInfo: StreamInfo?
-
-        public init(streamInfo: StreamInfo? = nil) {
-            self.streamInfo = streamInfo
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case streamInfo = "streamInfo"
+            case maxResults = "maxResults"
         }
     }
 
     public struct CreateCertificateFromCsrRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "setAsActive", location: .querystring(locationName: "setAsActive"), required: false, type: .boolean), 
-            AWSShapeMember(label: "certificateSigningRequest", required: true, type: .string)
+            AWSShapeMember(label: "certificateSigningRequest", required: true, type: .string), 
+            AWSShapeMember(label: "setAsActive", location: .querystring(locationName: "setAsActive"), required: false, type: .boolean)
         ]
-        /// Specifies whether the certificate is active.
-        public let setAsActive: Bool?
         /// The certificate signing request (CSR).
         public let certificateSigningRequest: String
+        /// Specifies whether the certificate is active.
+        public let setAsActive: Bool?
 
-        public init(setAsActive: Bool? = nil, certificateSigningRequest: String) {
-            self.setAsActive = setAsActive
+        public init(certificateSigningRequest: String, setAsActive: Bool? = nil) {
             self.certificateSigningRequest = certificateSigningRequest
+            self.setAsActive = setAsActive
         }
 
         private enum CodingKeys: String, CodingKey {
-            case setAsActive = "setAsActive"
             case certificateSigningRequest = "certificateSigningRequest"
+            case setAsActive = "setAsActive"
         }
     }
 
-    public struct UpdateIndexingConfigurationResponse: AWSShape {
-
-    }
-
-    public struct S3Location: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bucket", required: false, type: .string), 
-            AWSShapeMember(label: "key", required: false, type: .string), 
-            AWSShapeMember(label: "version", required: false, type: .string)
-        ]
-        /// The S3 bucket.
-        public let bucket: String?
-        /// The S3 key.
-        public let key: String?
-        /// The S3 bucket version.
-        public let version: String?
-
-        public init(bucket: String? = nil, key: String? = nil, version: String? = nil) {
-            self.bucket = bucket
-            self.key = key
-            self.version = version
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "bucket"
-            case key = "key"
-            case version = "version"
-        }
-    }
-
-    public struct AttachPolicyRequest: AWSShape {
+    public struct DetachPolicyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string), 
             AWSShapeMember(label: "target", required: true, type: .string)
         ]
-        /// The name of the policy to attach.
+        /// The policy to detach.
         public let policyName: String
-        /// The identity to which the policy is attached.
+        /// The target from which the policy will be detached.
         public let target: String
 
         public init(policyName: String, target: String) {
@@ -1665,503 +499,34 @@ extension IoT {
         }
     }
 
-    public struct SecurityProfileTargetMapping: AWSShape {
+    public struct RejectCertificateTransferRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "securityProfileIdentifier", required: false, type: .structure), 
-            AWSShapeMember(label: "target", required: false, type: .structure)
-        ]
-        /// Information that identifies the security profile.
-        public let securityProfileIdentifier: SecurityProfileIdentifier?
-        /// Information about the target (thing group) associated with the security profile.
-        public let target: SecurityProfileTarget?
-
-        public init(securityProfileIdentifier: SecurityProfileIdentifier? = nil, target: SecurityProfileTarget? = nil) {
-            self.securityProfileIdentifier = securityProfileIdentifier
-            self.target = target
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case securityProfileIdentifier = "securityProfileIdentifier"
-            case target = "target"
-        }
-    }
-
-    public struct DescribeEventConfigurationsRequest: AWSShape {
-
-    }
-
-    public struct CertificateValidity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "notBefore", required: false, type: .timestamp), 
-            AWSShapeMember(label: "notAfter", required: false, type: .timestamp)
-        ]
-        /// The certificate is not valid before this date.
-        public let notBefore: TimeStamp?
-        /// The certificate is not valid after this date.
-        public let notAfter: TimeStamp?
-
-        public init(notBefore: TimeStamp? = nil, notAfter: TimeStamp? = nil) {
-            self.notBefore = notBefore
-            self.notAfter = notAfter
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case notBefore = "notBefore"
-            case notAfter = "notAfter"
-        }
-    }
-
-    public struct Destination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "s3Destination", required: false, type: .structure)
-        ]
-        /// Describes the location in S3 of the updated firmware.
-        public let s3Destination: S3Destination?
-
-        public init(s3Destination: S3Destination? = nil) {
-            self.s3Destination = s3Destination
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case s3Destination = "s3Destination"
-        }
-    }
-
-    public struct ValidationError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "errorMessage", required: false, type: .string)
-        ]
-        /// The description of an error found in the behaviors.
-        public let errorMessage: String?
-
-        public init(errorMessage: String? = nil) {
-            self.errorMessage = errorMessage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorMessage = "errorMessage"
-        }
-    }
-
-    public struct DeleteRoleAliasRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "roleAlias", location: .uri(locationName: "roleAlias"), required: true, type: .string)
-        ]
-        /// The role alias to delete.
-        public let roleAlias: String
-
-        public init(roleAlias: String) {
-            self.roleAlias = roleAlias
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleAlias = "roleAlias"
-        }
-    }
-
-    public struct DescribeRoleAliasResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "roleAliasDescription", required: false, type: .structure)
-        ]
-        /// The role alias description.
-        public let roleAliasDescription: RoleAliasDescription?
-
-        public init(roleAliasDescription: RoleAliasDescription? = nil) {
-            self.roleAliasDescription = roleAliasDescription
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleAliasDescription = "roleAliasDescription"
-        }
-    }
-
-    public struct GetPolicyVersionResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyDocument", required: false, type: .string), 
-            AWSShapeMember(label: "isDefaultVersion", required: false, type: .boolean), 
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "generationId", required: false, type: .string), 
-            AWSShapeMember(label: "policyName", required: false, type: .string), 
-            AWSShapeMember(label: "policyArn", required: false, type: .string), 
-            AWSShapeMember(label: "policyVersionId", required: false, type: .string), 
-            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp)
-        ]
-        /// The JSON document that describes the policy.
-        public let policyDocument: String?
-        /// Specifies whether the policy version is the default.
-        public let isDefaultVersion: Bool?
-        /// The date the policy version was created.
-        public let creationDate: TimeStamp?
-        /// The generation ID of the policy version.
-        public let generationId: String?
-        /// The policy name.
-        public let policyName: String?
-        /// The policy ARN.
-        public let policyArn: String?
-        /// The policy version ID.
-        public let policyVersionId: String?
-        /// The date the policy version was last modified.
-        public let lastModifiedDate: TimeStamp?
-
-        public init(policyDocument: String? = nil, isDefaultVersion: Bool? = nil, creationDate: TimeStamp? = nil, generationId: String? = nil, policyName: String? = nil, policyArn: String? = nil, policyVersionId: String? = nil, lastModifiedDate: TimeStamp? = nil) {
-            self.policyDocument = policyDocument
-            self.isDefaultVersion = isDefaultVersion
-            self.creationDate = creationDate
-            self.generationId = generationId
-            self.policyName = policyName
-            self.policyArn = policyArn
-            self.policyVersionId = policyVersionId
-            self.lastModifiedDate = lastModifiedDate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyDocument = "policyDocument"
-            case isDefaultVersion = "isDefaultVersion"
-            case creationDate = "creationDate"
-            case generationId = "generationId"
-            case policyName = "policyName"
-            case policyArn = "policyArn"
-            case policyVersionId = "policyVersionId"
-            case lastModifiedDate = "lastModifiedDate"
-        }
-    }
-
-    public enum ThingConnectivityIndexingMode: String, CustomStringConvertible, Codable {
-        case off = "OFF"
-        case status = "STATUS"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeEndpointRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "endpointType", location: .querystring(locationName: "endpointType"), required: false, type: .string)
-        ]
-        /// The endpoint type. Valid endpoint types include:    iot:Data - Returns a VeriSign signed data endpoint.      iot:Data-ATS - Returns an ATS signed data endpoint.      iot:CredentialProvider - Returns an AWS IoT credentials provider API endpoint.      iot:Jobs - Returns an AWS IoT device management Jobs API endpoint.  
-        public let endpointType: String?
-
-        public init(endpointType: String? = nil) {
-            self.endpointType = endpointType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case endpointType = "endpointType"
-        }
-    }
-
-    public enum AuditTaskStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        case canceled = "CANCELED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CodeSigningSignature: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "inlineDocument", required: false, type: .blob)
-        ]
-        /// A base64 encoded binary representation of the code signing signature.
-        public let inlineDocument: Data?
-
-        public init(inlineDocument: Data? = nil) {
-            self.inlineDocument = inlineDocument
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case inlineDocument = "inlineDocument"
-        }
-    }
-
-    public struct DescribeCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "rejectReason", required: false, type: .string), 
             AWSShapeMember(label: "certificateId", location: .uri(locationName: "certificateId"), required: true, type: .string)
         ]
+        /// The reason the certificate transfer was rejected.
+        public let rejectReason: String?
         /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
         public let certificateId: String
 
-        public init(certificateId: String) {
+        public init(rejectReason: String? = nil, certificateId: String) {
+            self.rejectReason = rejectReason
             self.certificateId = certificateId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case rejectReason = "rejectReason"
             case certificateId = "certificateId"
         }
     }
 
-    public struct StartThingRegistrationTaskResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "taskId", required: false, type: .string)
-        ]
-        /// The bulk thing provisioning task ID.
-        public let taskId: String?
-
-        public init(taskId: String? = nil) {
-            self.taskId = taskId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case taskId = "taskId"
-        }
-    }
-
-    public struct DeprecateThingTypeResponse: AWSShape {
-
-    }
-
-    public struct AuditCheckDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "totalResourcesCount", required: false, type: .long), 
-            AWSShapeMember(label: "errorCode", required: false, type: .string), 
-            AWSShapeMember(label: "message", required: false, type: .string), 
-            AWSShapeMember(label: "checkRunStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "checkCompliant", required: false, type: .boolean), 
-            AWSShapeMember(label: "nonCompliantResourcesCount", required: false, type: .long)
-        ]
-        /// The number of resources on which the check was performed.
-        public let totalResourcesCount: Int64?
-        /// The code of any error encountered when performing this check during this audit. One of "INSUFFICIENT_PERMISSIONS", or "AUDIT_CHECK_DISABLED".
-        public let errorCode: String?
-        /// The message associated with any error encountered when performing this check during this audit.
-        public let message: String?
-        /// The completion status of this check, one of "IN_PROGRESS", "WAITING_FOR_DATA_COLLECTION", "CANCELED", "COMPLETED_COMPLIANT", "COMPLETED_NON_COMPLIANT", or "FAILED".
-        public let checkRunStatus: AuditCheckRunStatus?
-        /// True if the check completed and found all resources compliant.
-        public let checkCompliant: Bool?
-        /// The number of resources that the check found non-compliant.
-        public let nonCompliantResourcesCount: Int64?
-
-        public init(totalResourcesCount: Int64? = nil, errorCode: String? = nil, message: String? = nil, checkRunStatus: AuditCheckRunStatus? = nil, checkCompliant: Bool? = nil, nonCompliantResourcesCount: Int64? = nil) {
-            self.totalResourcesCount = totalResourcesCount
-            self.errorCode = errorCode
-            self.message = message
-            self.checkRunStatus = checkRunStatus
-            self.checkCompliant = checkCompliant
-            self.nonCompliantResourcesCount = nonCompliantResourcesCount
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case totalResourcesCount = "totalResourcesCount"
-            case errorCode = "errorCode"
-            case message = "message"
-            case checkRunStatus = "checkRunStatus"
-            case checkCompliant = "checkCompliant"
-            case nonCompliantResourcesCount = "nonCompliantResourcesCount"
-        }
-    }
-
-    public struct DescribeAuthorizerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorizerDescription", required: false, type: .structure)
-        ]
-        /// The authorizer description.
-        public let authorizerDescription: AuthorizerDescription?
-
-        public init(authorizerDescription: AuthorizerDescription? = nil) {
-            self.authorizerDescription = authorizerDescription
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case authorizerDescription = "authorizerDescription"
-        }
-    }
-
-    public struct Job: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "jobArn", required: false, type: .string), 
-            AWSShapeMember(label: "comment", required: false, type: .string), 
-            AWSShapeMember(label: "jobExecutionsRolloutConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "forceCanceled", required: false, type: .boolean), 
-            AWSShapeMember(label: "timeoutConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "targets", required: false, type: .list), 
-            AWSShapeMember(label: "targetSelection", required: false, type: .enum), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "jobProcessDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "completedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "jobId", required: false, type: .string), 
-            AWSShapeMember(label: "abortConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "reasonCode", required: false, type: .string), 
-            AWSShapeMember(label: "presignedUrlConfig", required: false, type: .structure)
-        ]
-        /// The status of the job, one of IN_PROGRESS, CANCELED, DELETION_IN_PROGRESS or COMPLETED. 
-        public let status: JobStatus?
-        /// An ARN identifying the job with format "arn:aws:iot:region:account:job/jobId".
-        public let jobArn: String?
-        /// If the job was updated, describes the reason for the update.
-        public let comment: String?
-        /// Allows you to create a staged rollout of a job.
-        public let jobExecutionsRolloutConfig: JobExecutionsRolloutConfig?
-        /// Will be true if the job was canceled with the optional force parameter set to true.
-        public let forceCanceled: Bool?
-        /// Specifies the amount of time each device has to finish its execution of the job. A timer is started when the job execution status is set to IN_PROGRESS. If the job execution status is not set to another terminal state before the timer expires, it will be automatically set to TIMED_OUT.
-        public let timeoutConfig: TimeoutConfig?
-        /// A list of IoT things and thing groups to which the job should be sent.
-        public let targets: [String]?
-        /// Specifies whether the job will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the job (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected in a target. For example, a job will run on a device when the thing representing the device is added to a target group, even after the job was completed by all things originally in the group. 
-        public let targetSelection: TargetSelection?
-        /// A short text description of the job.
-        public let description: String?
-        /// Details about the job process.
-        public let jobProcessDetails: JobProcessDetails?
-        /// The time, in milliseconds since the epoch, when the job was created.
-        public let createdAt: TimeStamp?
-        /// The time, in milliseconds since the epoch, when the job was completed.
-        public let completedAt: TimeStamp?
-        /// The unique identifier you assigned to this job when it was created.
-        public let jobId: String?
-        /// Configuration for criteria to abort the job.
-        public let abortConfig: AbortConfig?
-        /// The time, in milliseconds since the epoch, when the job was last updated.
-        public let lastUpdatedAt: TimeStamp?
-        /// If the job was updated, provides the reason code for the update.
-        public let reasonCode: String?
-        /// Configuration for pre-signed S3 URLs.
-        public let presignedUrlConfig: PresignedUrlConfig?
-
-        public init(status: JobStatus? = nil, jobArn: String? = nil, comment: String? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, forceCanceled: Bool? = nil, timeoutConfig: TimeoutConfig? = nil, targets: [String]? = nil, targetSelection: TargetSelection? = nil, description: String? = nil, jobProcessDetails: JobProcessDetails? = nil, createdAt: TimeStamp? = nil, completedAt: TimeStamp? = nil, jobId: String? = nil, abortConfig: AbortConfig? = nil, lastUpdatedAt: TimeStamp? = nil, reasonCode: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil) {
-            self.status = status
-            self.jobArn = jobArn
-            self.comment = comment
-            self.jobExecutionsRolloutConfig = jobExecutionsRolloutConfig
-            self.forceCanceled = forceCanceled
-            self.timeoutConfig = timeoutConfig
-            self.targets = targets
-            self.targetSelection = targetSelection
-            self.description = description
-            self.jobProcessDetails = jobProcessDetails
-            self.createdAt = createdAt
-            self.completedAt = completedAt
-            self.jobId = jobId
-            self.abortConfig = abortConfig
-            self.lastUpdatedAt = lastUpdatedAt
-            self.reasonCode = reasonCode
-            self.presignedUrlConfig = presignedUrlConfig
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "status"
-            case jobArn = "jobArn"
-            case comment = "comment"
-            case jobExecutionsRolloutConfig = "jobExecutionsRolloutConfig"
-            case forceCanceled = "forceCanceled"
-            case timeoutConfig = "timeoutConfig"
-            case targets = "targets"
-            case targetSelection = "targetSelection"
-            case description = "description"
-            case jobProcessDetails = "jobProcessDetails"
-            case createdAt = "createdAt"
-            case completedAt = "completedAt"
-            case jobId = "jobId"
-            case abortConfig = "abortConfig"
-            case lastUpdatedAt = "lastUpdatedAt"
-            case reasonCode = "reasonCode"
-            case presignedUrlConfig = "presignedUrlConfig"
-        }
-    }
-
-    public struct DeleteDynamicThingGroupResponse: AWSShape {
-
-    }
-
-    public struct DeleteOTAUpdateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "otaUpdateId", location: .uri(locationName: "otaUpdateId"), required: true, type: .string), 
-            AWSShapeMember(label: "deleteStream", location: .querystring(locationName: "deleteStream"), required: false, type: .boolean), 
-            AWSShapeMember(label: "forceDeleteAWSJob", location: .querystring(locationName: "forceDeleteAWSJob"), required: false, type: .boolean)
-        ]
-        /// The OTA update ID to delete.
-        public let otaUpdateId: String
-        /// Specifies if the stream associated with an OTA update should be deleted when the OTA update is deleted.
-        public let deleteStream: Bool?
-        /// Specifies if the AWS Job associated with the OTA update should be deleted with the OTA update is deleted.
-        public let forceDeleteAWSJob: Bool?
-
-        public init(otaUpdateId: String, deleteStream: Bool? = nil, forceDeleteAWSJob: Bool? = nil) {
-            self.otaUpdateId = otaUpdateId
-            self.deleteStream = deleteStream
-            self.forceDeleteAWSJob = forceDeleteAWSJob
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case otaUpdateId = "otaUpdateId"
-            case deleteStream = "deleteStream"
-            case forceDeleteAWSJob = "forceDeleteAWSJob"
-        }
-    }
-
-    public struct ElasticsearchAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "type", required: true, type: .string), 
-            AWSShapeMember(label: "endpoint", required: true, type: .string), 
-            AWSShapeMember(label: "id", required: true, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string), 
-            AWSShapeMember(label: "index", required: true, type: .string)
-        ]
-        /// The type of document you are storing.
-        public let `type`: String
-        /// The endpoint of your Elasticsearch domain.
-        public let endpoint: String
-        /// The unique identifier for the document you are storing.
-        public let id: String
-        /// The IAM role ARN that has access to Elasticsearch.
-        public let roleArn: String
-        /// The Elasticsearch index where you want to store your data.
-        public let index: String
-
-        public init(type: String, endpoint: String, id: String, roleArn: String, index: String) {
-            self.`type` = `type`
-            self.endpoint = endpoint
-            self.id = id
-            self.roleArn = roleArn
-            self.index = index
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "type"
-            case endpoint = "endpoint"
-            case id = "id"
-            case roleArn = "roleArn"
-            case index = "index"
-        }
-    }
-
-    public struct SalesforceAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "token", required: true, type: .string), 
-            AWSShapeMember(label: "url", required: true, type: .string)
-        ]
-        /// The token used to authenticate access to the Salesforce IoT Cloud Input Stream. The token is available from the Salesforce IoT Cloud platform after creation of the Input Stream.
-        public let token: String
-        /// The URL exposed by the Salesforce IoT Cloud Input Stream. The URL is available from the Salesforce IoT Cloud platform after creation of the Input Stream.
-        public let url: String
-
-        public init(token: String, url: String) {
-            self.token = token
-            self.url = url
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case token = "token"
-            case url = "url"
-        }
-    }
-
-    public struct DescribeThingRegistrationTaskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "taskId", location: .uri(locationName: "taskId"), required: true, type: .string)
-        ]
-        /// The task ID.
-        public let taskId: String
-
-        public init(taskId: String) {
-            self.taskId = taskId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case taskId = "taskId"
-        }
+    public enum Status: String, CustomStringConvertible, Codable {
+        case inprogress = "InProgress"
+        case completed = "Completed"
+        case failed = "Failed"
+        case cancelled = "Cancelled"
+        case cancelling = "Cancelling"
+        public var description: String { return self.rawValue }
     }
 
     public struct ListPrincipalThingsResponse: AWSShape {
@@ -2185,48 +550,1556 @@ extension IoT {
         }
     }
 
-    public struct DeleteCACertificateResponse: AWSShape {
+    public struct StartOnDemandAuditTaskResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "taskId", required: false, type: .string)
+        ]
+        /// The ID of the on-demand audit you started.
+        public let taskId: String?
+
+        public init(taskId: String? = nil) {
+            self.taskId = taskId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taskId = "taskId"
+        }
+    }
+
+    public struct DetachSecurityProfileRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "securityProfileTargetArn", location: .querystring(locationName: "securityProfileTargetArn"), required: true, type: .string), 
+            AWSShapeMember(label: "securityProfileName", location: .uri(locationName: "securityProfileName"), required: true, type: .string)
+        ]
+        /// The ARN of the thing group from which the security profile is detached.
+        public let securityProfileTargetArn: String
+        /// The security profile that is detached.
+        public let securityProfileName: String
+
+        public init(securityProfileTargetArn: String, securityProfileName: String) {
+            self.securityProfileTargetArn = securityProfileTargetArn
+            self.securityProfileName = securityProfileName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityProfileTargetArn = "securityProfileTargetArn"
+            case securityProfileName = "securityProfileName"
+        }
+    }
+
+    public struct GetPolicyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "generationId", required: false, type: .string), 
+            AWSShapeMember(label: "policyArn", required: false, type: .string), 
+            AWSShapeMember(label: "defaultVersionId", required: false, type: .string), 
+            AWSShapeMember(label: "policyName", required: false, type: .string), 
+            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "policyDocument", required: false, type: .string)
+        ]
+        /// The date the policy was last modified.
+        public let lastModifiedDate: TimeStamp?
+        /// The generation ID of the policy.
+        public let generationId: String?
+        /// The policy ARN.
+        public let policyArn: String?
+        /// The default policy version ID.
+        public let defaultVersionId: String?
+        /// The policy name.
+        public let policyName: String?
+        /// The date the policy was created.
+        public let creationDate: TimeStamp?
+        /// The JSON document that describes the policy.
+        public let policyDocument: String?
+
+        public init(lastModifiedDate: TimeStamp? = nil, generationId: String? = nil, policyArn: String? = nil, defaultVersionId: String? = nil, policyName: String? = nil, creationDate: TimeStamp? = nil, policyDocument: String? = nil) {
+            self.lastModifiedDate = lastModifiedDate
+            self.generationId = generationId
+            self.policyArn = policyArn
+            self.defaultVersionId = defaultVersionId
+            self.policyName = policyName
+            self.creationDate = creationDate
+            self.policyDocument = policyDocument
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastModifiedDate = "lastModifiedDate"
+            case generationId = "generationId"
+            case policyArn = "policyArn"
+            case defaultVersionId = "defaultVersionId"
+            case policyName = "policyName"
+            case creationDate = "creationDate"
+            case policyDocument = "policyDocument"
+        }
+    }
+
+    public struct DeleteAuthorizerResponse: AWSShape {
 
     }
 
-    public struct ListViolationEventsRequest: AWSShape {
+    public struct CreateRoleAliasRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "startTime", location: .querystring(locationName: "startTime"), required: true, type: .timestamp), 
-            AWSShapeMember(label: "securityProfileName", location: .querystring(locationName: "securityProfileName"), required: false, type: .string), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "endTime", location: .querystring(locationName: "endTime"), required: true, type: .timestamp), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "thingName", location: .querystring(locationName: "thingName"), required: false, type: .string)
+            AWSShapeMember(label: "credentialDurationSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "roleAlias", location: .uri(locationName: "roleAlias"), required: true, type: .string), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string)
         ]
-        /// The start time for the alerts to be listed.
-        public let startTime: TimeStamp
-        /// A filter to limit results to those alerts generated by the specified security profile.
-        public let securityProfileName: String?
-        /// The token for the next set of results.
+        /// How long (in seconds) the credentials will be valid.
+        public let credentialDurationSeconds: Int32?
+        /// The role alias that points to a role ARN. This allows you to change the role without having to update the device.
+        public let roleAlias: String
+        /// The role ARN.
+        public let roleArn: String
+
+        public init(credentialDurationSeconds: Int32? = nil, roleAlias: String, roleArn: String) {
+            self.credentialDurationSeconds = credentialDurationSeconds
+            self.roleAlias = roleAlias
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case credentialDurationSeconds = "credentialDurationSeconds"
+            case roleAlias = "roleAlias"
+            case roleArn = "roleArn"
+        }
+    }
+
+    public struct SecurityProfileIdentifier: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "arn", required: true, type: .string)
+        ]
+        /// The name you have given to the security profile.
+        public let name: String
+        /// The ARN of the security profile.
+        public let arn: String
+
+        public init(name: String, arn: String) {
+            self.name = name
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case arn = "arn"
+        }
+    }
+
+    public struct ListOutgoingCertificatesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextMarker", required: false, type: .string), 
+            AWSShapeMember(label: "outgoingCertificates", required: false, type: .list)
+        ]
+        /// The marker for the next set of results.
+        public let nextMarker: String?
+        /// The certificates that are being transferred but not yet accepted.
+        public let outgoingCertificates: [OutgoingCertificate]?
+
+        public init(nextMarker: String? = nil, outgoingCertificates: [OutgoingCertificate]? = nil) {
+            self.nextMarker = nextMarker
+            self.outgoingCertificates = outgoingCertificates
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextMarker = "nextMarker"
+            case outgoingCertificates = "outgoingCertificates"
+        }
+    }
+
+    public struct ValidationError: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "errorMessage", required: false, type: .string)
+        ]
+        /// The description of an error found in the behaviors.
+        public let errorMessage: String?
+
+        public init(errorMessage: String? = nil) {
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "errorMessage"
+        }
+    }
+
+    public enum JobExecutionFailureType: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
+        case rejected = "REJECTED"
+        case timedOut = "TIMED_OUT"
+        case all = "ALL"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListSecurityProfilesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "securityProfileIdentifiers", required: false, type: .list)
+        ]
+        /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
         public let nextToken: String?
-        /// The end time for the alerts to be listed.
-        public let endTime: TimeStamp
+        /// A list of security profile identifiers (names and ARNs).
+        public let securityProfileIdentifiers: [SecurityProfileIdentifier]?
+
+        public init(nextToken: String? = nil, securityProfileIdentifiers: [SecurityProfileIdentifier]? = nil) {
+            self.nextToken = nextToken
+            self.securityProfileIdentifiers = securityProfileIdentifiers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case securityProfileIdentifiers = "securityProfileIdentifiers"
+        }
+    }
+
+    public struct StreamFile: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "s3Location", required: false, type: .structure), 
+            AWSShapeMember(label: "fileId", required: false, type: .integer)
+        ]
+        /// The location of the file in S3.
+        public let s3Location: S3Location?
+        /// The file ID.
+        public let fileId: Int32?
+
+        public init(s3Location: S3Location? = nil, fileId: Int32? = nil) {
+            self.s3Location = s3Location
+            self.fileId = fileId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Location = "s3Location"
+            case fileId = "fileId"
+        }
+    }
+
+    public struct GroupNameAndArn: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "groupName", required: false, type: .string), 
+            AWSShapeMember(label: "groupArn", required: false, type: .string)
+        ]
+        /// The group name.
+        public let groupName: String?
+        /// The group ARN.
+        public let groupArn: String?
+
+        public init(groupName: String? = nil, groupArn: String? = nil) {
+            self.groupName = groupName
+            self.groupArn = groupArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupName = "groupName"
+            case groupArn = "groupArn"
+        }
+    }
+
+    public struct ListPrincipalPoliciesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "principal", location: .header(locationName: "x-amzn-iot-principal"), required: true, type: .string), 
+            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
+            AWSShapeMember(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean), 
+            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string)
+        ]
+        /// The principal.
+        public let principal: String
+        /// The result page size.
+        public let pageSize: Int32?
+        /// Specifies the order for results. If true, results are returned in ascending creation order.
+        public let ascendingOrder: Bool?
+        /// The marker for the next set of results.
+        public let marker: String?
+
+        public init(principal: String, pageSize: Int32? = nil, ascendingOrder: Bool? = nil, marker: String? = nil) {
+            self.principal = principal
+            self.pageSize = pageSize
+            self.ascendingOrder = ascendingOrder
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case principal = "x-amzn-iot-principal"
+            case pageSize = "pageSize"
+            case ascendingOrder = "isAscendingOrder"
+            case marker = "marker"
+        }
+    }
+
+    public struct ThingAttribute: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "version", required: false, type: .long), 
+            AWSShapeMember(label: "thingArn", required: false, type: .string), 
+            AWSShapeMember(label: "thingTypeName", required: false, type: .string), 
+            AWSShapeMember(label: "thingName", required: false, type: .string), 
+            AWSShapeMember(label: "attributes", required: false, type: .map)
+        ]
+        /// The version of the thing record in the registry.
+        public let version: Int64?
+        /// The thing ARN.
+        public let thingArn: String?
+        /// The name of the thing type, if the thing has been associated with a type.
+        public let thingTypeName: String?
+        /// The name of the thing.
+        public let thingName: String?
+        /// A list of thing attributes which are name-value pairs.
+        public let attributes: [String: String]?
+
+        public init(version: Int64? = nil, thingArn: String? = nil, thingTypeName: String? = nil, thingName: String? = nil, attributes: [String: String]? = nil) {
+            self.version = version
+            self.thingArn = thingArn
+            self.thingTypeName = thingTypeName
+            self.thingName = thingName
+            self.attributes = attributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case version = "version"
+            case thingArn = "thingArn"
+            case thingTypeName = "thingTypeName"
+            case thingName = "thingName"
+            case attributes = "attributes"
+        }
+    }
+
+    public struct KeyPair: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PrivateKey", required: false, type: .string), 
+            AWSShapeMember(label: "PublicKey", required: false, type: .string)
+        ]
+        /// The private key.
+        public let privateKey: String?
+        /// The public key.
+        public let publicKey: String?
+
+        public init(privateKey: String? = nil, publicKey: String? = nil) {
+            self.privateKey = privateKey
+            self.publicKey = publicKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case privateKey = "PrivateKey"
+            case publicKey = "PublicKey"
+        }
+    }
+
+    public struct CreateBillingGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "billingGroupName", location: .uri(locationName: "billingGroupName"), required: true, type: .string), 
+            AWSShapeMember(label: "billingGroupProperties", required: false, type: .structure)
+        ]
+        /// Metadata which can be used to manage the billing group.
+        public let tags: [Tag]?
+        /// The name you wish to give to the billing group.
+        public let billingGroupName: String
+        /// The properties of the billing group.
+        public let billingGroupProperties: BillingGroupProperties?
+
+        public init(tags: [Tag]? = nil, billingGroupName: String, billingGroupProperties: BillingGroupProperties? = nil) {
+            self.tags = tags
+            self.billingGroupName = billingGroupName
+            self.billingGroupProperties = billingGroupProperties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+            case billingGroupName = "billingGroupName"
+            case billingGroupProperties = "billingGroupProperties"
+        }
+    }
+
+    public struct ThingIndexingConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingIndexingMode", required: true, type: .enum), 
+            AWSShapeMember(label: "thingConnectivityIndexingMode", required: false, type: .enum)
+        ]
+        /// Thing indexing mode. Valid values are:   REGISTRY – Your thing index will contain only registry data.   REGISTRY_AND_SHADOW - Your thing index will contain registry and shadow data.   OFF - Thing indexing is disabled.  
+        public let thingIndexingMode: ThingIndexingMode
+        /// Thing connectivity indexing mode. Valid values are:    STATUS – Your thing index will contain connectivity status. In order to enable thing connectivity indexing, thingIndexMode must not be set to OFF.   OFF - Thing connectivity status indexing is disabled.  
+        public let thingConnectivityIndexingMode: ThingConnectivityIndexingMode?
+
+        public init(thingIndexingMode: ThingIndexingMode, thingConnectivityIndexingMode: ThingConnectivityIndexingMode? = nil) {
+            self.thingIndexingMode = thingIndexingMode
+            self.thingConnectivityIndexingMode = thingConnectivityIndexingMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case thingIndexingMode = "thingIndexingMode"
+            case thingConnectivityIndexingMode = "thingConnectivityIndexingMode"
+        }
+    }
+
+    public struct GetV2LoggingOptionsRequest: AWSShape {
+
+    }
+
+    public struct DescribeEventConfigurationsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "eventConfigurations", required: false, type: .map), 
+            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "creationDate", required: false, type: .timestamp)
+        ]
+        /// The event configurations.
+        public let eventConfigurations: [EventType: Configuration]?
+        /// The date the event configurations were last modified.
+        public let lastModifiedDate: TimeStamp?
+        /// The creation date of the event configuration.
+        public let creationDate: TimeStamp?
+
+        public init(eventConfigurations: [EventType: Configuration]? = nil, lastModifiedDate: TimeStamp? = nil, creationDate: TimeStamp? = nil) {
+            self.eventConfigurations = eventConfigurations
+            self.lastModifiedDate = lastModifiedDate
+            self.creationDate = creationDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventConfigurations = "eventConfigurations"
+            case lastModifiedDate = "lastModifiedDate"
+            case creationDate = "creationDate"
+        }
+    }
+
+    public struct ListThingPrincipalsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "principals", required: false, type: .list)
+        ]
+        /// The principals associated with the thing.
+        public let principals: [String]?
+
+        public init(principals: [String]? = nil) {
+            self.principals = principals
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case principals = "principals"
+        }
+    }
+
+    public struct ListThingGroupsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "parentGroup", location: .querystring(locationName: "parentGroup"), required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "recursive", location: .querystring(locationName: "recursive"), required: false, type: .boolean), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "namePrefixFilter", location: .querystring(locationName: "namePrefixFilter"), required: false, type: .string)
+        ]
+        /// A filter that limits the results to those with the specified parent group.
+        public let parentGroup: String?
         /// The maximum number of results to return at one time.
         public let maxResults: Int32?
-        /// A filter to limit results to those alerts caused by the specified thing.
+        /// If true, return child groups as well.
+        public let recursive: Bool?
+        /// The token to retrieve the next set of results.
+        public let nextToken: String?
+        /// A filter that limits the results to those with the specified name prefix.
+        public let namePrefixFilter: String?
+
+        public init(parentGroup: String? = nil, maxResults: Int32? = nil, recursive: Bool? = nil, nextToken: String? = nil, namePrefixFilter: String? = nil) {
+            self.parentGroup = parentGroup
+            self.maxResults = maxResults
+            self.recursive = recursive
+            self.nextToken = nextToken
+            self.namePrefixFilter = namePrefixFilter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parentGroup = "parentGroup"
+            case maxResults = "maxResults"
+            case recursive = "recursive"
+            case nextToken = "nextToken"
+            case namePrefixFilter = "namePrefixFilter"
+        }
+    }
+
+    public struct CACertificateDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificatePem", required: false, type: .string), 
+            AWSShapeMember(label: "ownedBy", required: false, type: .string), 
+            AWSShapeMember(label: "customerVersion", required: false, type: .integer), 
+            AWSShapeMember(label: "certificateId", required: false, type: .string), 
+            AWSShapeMember(label: "certificateArn", required: false, type: .string), 
+            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "autoRegistrationStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "generationId", required: false, type: .string), 
+            AWSShapeMember(label: "validity", required: false, type: .structure), 
+            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp)
+        ]
+        /// The CA certificate data, in PEM format.
+        public let certificatePem: String?
+        /// The owner of the CA certificate.
+        public let ownedBy: String?
+        /// The customer version of the CA certificate.
+        public let customerVersion: Int32?
+        /// The CA certificate ID.
+        public let certificateId: String?
+        /// The CA certificate ARN.
+        public let certificateArn: String?
+        /// The date the CA certificate was created.
+        public let creationDate: TimeStamp?
+        /// Whether the CA certificate configured for auto registration of device certificates. Valid values are "ENABLE" and "DISABLE"
+        public let autoRegistrationStatus: AutoRegistrationStatus?
+        /// The status of a CA certificate.
+        public let status: CACertificateStatus?
+        /// The generation ID of the CA certificate.
+        public let generationId: String?
+        /// When the CA certificate is valid.
+        public let validity: CertificateValidity?
+        /// The date the CA certificate was last modified.
+        public let lastModifiedDate: TimeStamp?
+
+        public init(certificatePem: String? = nil, ownedBy: String? = nil, customerVersion: Int32? = nil, certificateId: String? = nil, certificateArn: String? = nil, creationDate: TimeStamp? = nil, autoRegistrationStatus: AutoRegistrationStatus? = nil, status: CACertificateStatus? = nil, generationId: String? = nil, validity: CertificateValidity? = nil, lastModifiedDate: TimeStamp? = nil) {
+            self.certificatePem = certificatePem
+            self.ownedBy = ownedBy
+            self.customerVersion = customerVersion
+            self.certificateId = certificateId
+            self.certificateArn = certificateArn
+            self.creationDate = creationDate
+            self.autoRegistrationStatus = autoRegistrationStatus
+            self.status = status
+            self.generationId = generationId
+            self.validity = validity
+            self.lastModifiedDate = lastModifiedDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificatePem = "certificatePem"
+            case ownedBy = "ownedBy"
+            case customerVersion = "customerVersion"
+            case certificateId = "certificateId"
+            case certificateArn = "certificateArn"
+            case creationDate = "creationDate"
+            case autoRegistrationStatus = "autoRegistrationStatus"
+            case status = "status"
+            case generationId = "generationId"
+            case validity = "validity"
+            case lastModifiedDate = "lastModifiedDate"
+        }
+    }
+
+    public struct DeleteAccountAuditConfigurationResponse: AWSShape {
+
+    }
+
+    public struct ViolationEvent: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "violationId", required: false, type: .string), 
+            AWSShapeMember(label: "thingName", required: false, type: .string), 
+            AWSShapeMember(label: "securityProfileName", required: false, type: .string), 
+            AWSShapeMember(label: "metricValue", required: false, type: .structure), 
+            AWSShapeMember(label: "violationEventTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "violationEventType", required: false, type: .enum), 
+            AWSShapeMember(label: "behavior", required: false, type: .structure)
+        ]
+        /// The ID of the violation event.
+        public let violationId: String?
+        /// The name of the thing responsible for the violation event.
+        public let thingName: String?
+        /// The name of the security profile whose behavior was violated.
+        public let securityProfileName: String?
+        /// The value of the metric (the measurement).
+        public let metricValue: MetricValue?
+        /// The time the violation event occurred.
+        public let violationEventTime: TimeStamp?
+        /// The type of violation event.
+        public let violationEventType: ViolationEventType?
+        /// The behavior which was violated.
+        public let behavior: Behavior?
+
+        public init(violationId: String? = nil, thingName: String? = nil, securityProfileName: String? = nil, metricValue: MetricValue? = nil, violationEventTime: TimeStamp? = nil, violationEventType: ViolationEventType? = nil, behavior: Behavior? = nil) {
+            self.violationId = violationId
+            self.thingName = thingName
+            self.securityProfileName = securityProfileName
+            self.metricValue = metricValue
+            self.violationEventTime = violationEventTime
+            self.violationEventType = violationEventType
+            self.behavior = behavior
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case violationId = "violationId"
+            case thingName = "thingName"
+            case securityProfileName = "securityProfileName"
+            case metricValue = "metricValue"
+            case violationEventTime = "violationEventTime"
+            case violationEventType = "violationEventType"
+            case behavior = "behavior"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSShape {
+
+    }
+
+    public struct DeleteScheduledAuditResponse: AWSShape {
+
+    }
+
+    public struct S3Destination: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "bucket", required: false, type: .string), 
+            AWSShapeMember(label: "prefix", required: false, type: .string)
+        ]
+        /// The S3 bucket that contains the updated firmware.
+        public let bucket: String?
+        /// The S3 prefix.
+        public let prefix: String?
+
+        public init(bucket: String? = nil, prefix: String? = nil) {
+            self.bucket = bucket
+            self.prefix = prefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "bucket"
+            case prefix = "prefix"
+        }
+    }
+
+    public struct DescribeEndpointRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "endpointType", location: .querystring(locationName: "endpointType"), required: false, type: .string)
+        ]
+        /// The endpoint type. Valid endpoint types include:    iot:Data - Returns a VeriSign signed data endpoint.      iot:Data-ATS - Returns an ATS signed data endpoint.      iot:CredentialProvider - Returns an AWS IoT credentials provider API endpoint.      iot:Jobs - Returns an AWS IoT device management Jobs API endpoint.  
+        public let endpointType: String?
+
+        public init(endpointType: String? = nil) {
+            self.endpointType = endpointType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointType = "endpointType"
+        }
+    }
+
+    public struct DeleteStreamRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "streamId", location: .uri(locationName: "streamId"), required: true, type: .string)
+        ]
+        /// The stream ID.
+        public let streamId: String
+
+        public init(streamId: String) {
+            self.streamId = streamId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamId = "streamId"
+        }
+    }
+
+    public struct DeleteThingResponse: AWSShape {
+
+    }
+
+    public enum ResourceType: String, CustomStringConvertible, Codable {
+        case deviceCertificate = "DEVICE_CERTIFICATE"
+        case caCertificate = "CA_CERTIFICATE"
+        case iotPolicy = "IOT_POLICY"
+        case cognitoIdentityPool = "COGNITO_IDENTITY_POOL"
+        case clientId = "CLIENT_ID"
+        case accountSettings = "ACCOUNT_SETTINGS"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetEffectivePoliciesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "cognitoIdentityPoolId", required: false, type: .string), 
+            AWSShapeMember(label: "thingName", location: .querystring(locationName: "thingName"), required: false, type: .string), 
+            AWSShapeMember(label: "principal", required: false, type: .string)
+        ]
+        /// The Cognito identity pool ID.
+        public let cognitoIdentityPoolId: String?
+        /// The thing name.
+        public let thingName: String?
+        /// The principal.
+        public let principal: String?
+
+        public init(cognitoIdentityPoolId: String? = nil, thingName: String? = nil, principal: String? = nil) {
+            self.cognitoIdentityPoolId = cognitoIdentityPoolId
+            self.thingName = thingName
+            self.principal = principal
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cognitoIdentityPoolId = "cognitoIdentityPoolId"
+            case thingName = "thingName"
+            case principal = "principal"
+        }
+    }
+
+    public struct GetRegistrationCodeResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "registrationCode", required: false, type: .string)
+        ]
+        /// The CA certificate registration code.
+        public let registrationCode: String?
+
+        public init(registrationCode: String? = nil) {
+            self.registrationCode = registrationCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registrationCode = "registrationCode"
+        }
+    }
+
+    public struct JobSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "jobId", required: false, type: .string), 
+            AWSShapeMember(label: "completedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "jobArn", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "targetSelection", required: false, type: .enum), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "thingGroupId", required: false, type: .string)
+        ]
+        /// The job summary status.
+        public let status: JobStatus?
+        /// The unique identifier you assigned to this job when it was created.
+        public let jobId: String?
+        /// The time, in milliseconds since the epoch, when the job completed.
+        public let completedAt: TimeStamp?
+        /// The job ARN.
+        public let jobArn: String?
+        /// The time, in milliseconds since the epoch, when the job was last updated.
+        public let lastUpdatedAt: TimeStamp?
+        /// Specifies whether the job will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the job (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected in a target. For example, a job will run on a thing when the thing is added to a target group, even after the job was completed by all things originally in the group.
+        public let targetSelection: TargetSelection?
+        /// The time, in milliseconds since the epoch, when the job was created.
+        public let createdAt: TimeStamp?
+        /// The ID of the thing group.
+        public let thingGroupId: String?
+
+        public init(status: JobStatus? = nil, jobId: String? = nil, completedAt: TimeStamp? = nil, jobArn: String? = nil, lastUpdatedAt: TimeStamp? = nil, targetSelection: TargetSelection? = nil, createdAt: TimeStamp? = nil, thingGroupId: String? = nil) {
+            self.status = status
+            self.jobId = jobId
+            self.completedAt = completedAt
+            self.jobArn = jobArn
+            self.lastUpdatedAt = lastUpdatedAt
+            self.targetSelection = targetSelection
+            self.createdAt = createdAt
+            self.thingGroupId = thingGroupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case jobId = "jobId"
+            case completedAt = "completedAt"
+            case jobArn = "jobArn"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case targetSelection = "targetSelection"
+            case createdAt = "createdAt"
+            case thingGroupId = "thingGroupId"
+        }
+    }
+
+    public struct ListCertificatesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
+            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeMember(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean)
+        ]
+        /// The result page size.
+        public let pageSize: Int32?
+        /// The marker for the next set of results.
+        public let marker: String?
+        /// Specifies the order for results. If True, the results are returned in ascending order, based on the creation date.
+        public let ascendingOrder: Bool?
+
+        public init(pageSize: Int32? = nil, marker: String? = nil, ascendingOrder: Bool? = nil) {
+            self.pageSize = pageSize
+            self.marker = marker
+            self.ascendingOrder = ascendingOrder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pageSize = "pageSize"
+            case marker = "marker"
+            case ascendingOrder = "isAscendingOrder"
+        }
+    }
+
+    public struct CreateThingGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingGroupName", location: .uri(locationName: "thingGroupName"), required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "parentGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "thingGroupProperties", required: false, type: .structure)
+        ]
+        /// The thing group name to create.
+        public let thingGroupName: String
+        /// Metadata which can be used to manage the thing group.
+        public let tags: [Tag]?
+        /// The name of the parent thing group.
+        public let parentGroupName: String?
+        /// The thing group properties.
+        public let thingGroupProperties: ThingGroupProperties?
+
+        public init(thingGroupName: String, tags: [Tag]? = nil, parentGroupName: String? = nil, thingGroupProperties: ThingGroupProperties? = nil) {
+            self.thingGroupName = thingGroupName
+            self.tags = tags
+            self.parentGroupName = parentGroupName
+            self.thingGroupProperties = thingGroupProperties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case thingGroupName = "thingGroupName"
+            case tags = "tags"
+            case parentGroupName = "parentGroupName"
+            case thingGroupProperties = "thingGroupProperties"
+        }
+    }
+
+    public struct TestAuthorizationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "principal", required: false, type: .string), 
+            AWSShapeMember(label: "policyNamesToAdd", required: false, type: .list), 
+            AWSShapeMember(label: "policyNamesToSkip", required: false, type: .list), 
+            AWSShapeMember(label: "clientId", location: .querystring(locationName: "clientId"), required: false, type: .string), 
+            AWSShapeMember(label: "cognitoIdentityPoolId", required: false, type: .string), 
+            AWSShapeMember(label: "authInfos", required: true, type: .list)
+        ]
+        /// The principal.
+        public let principal: String?
+        /// When testing custom authorization, the policies specified here are treated as if they are attached to the principal being authorized.
+        public let policyNamesToAdd: [String]?
+        /// When testing custom authorization, the policies specified here are treated as if they are not attached to the principal being authorized.
+        public let policyNamesToSkip: [String]?
+        /// The MQTT client ID.
+        public let clientId: String?
+        /// The Cognito identity pool ID.
+        public let cognitoIdentityPoolId: String?
+        /// A list of authorization info objects. Simulating authorization will create a response for each authInfo object in the list.
+        public let authInfos: [AuthInfo]
+
+        public init(principal: String? = nil, policyNamesToAdd: [String]? = nil, policyNamesToSkip: [String]? = nil, clientId: String? = nil, cognitoIdentityPoolId: String? = nil, authInfos: [AuthInfo]) {
+            self.principal = principal
+            self.policyNamesToAdd = policyNamesToAdd
+            self.policyNamesToSkip = policyNamesToSkip
+            self.clientId = clientId
+            self.cognitoIdentityPoolId = cognitoIdentityPoolId
+            self.authInfos = authInfos
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case principal = "principal"
+            case policyNamesToAdd = "policyNamesToAdd"
+            case policyNamesToSkip = "policyNamesToSkip"
+            case clientId = "clientId"
+            case cognitoIdentityPoolId = "cognitoIdentityPoolId"
+            case authInfos = "authInfos"
+        }
+    }
+
+    public struct ListPolicyPrincipalsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "principals", required: false, type: .list), 
+            AWSShapeMember(label: "nextMarker", required: false, type: .string)
+        ]
+        /// The descriptions of the principals.
+        public let principals: [String]?
+        /// The marker for the next set of results, or null if there are no additional results.
+        public let nextMarker: String?
+
+        public init(principals: [String]? = nil, nextMarker: String? = nil) {
+            self.principals = principals
+            self.nextMarker = nextMarker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case principals = "principals"
+            case nextMarker = "nextMarker"
+        }
+    }
+
+    public struct UpdateCACertificateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificateId", location: .uri(locationName: "caCertificateId"), required: true, type: .string), 
+            AWSShapeMember(label: "newStatus", location: .querystring(locationName: "newStatus"), required: false, type: .enum), 
+            AWSShapeMember(label: "removeAutoRegistration", required: false, type: .boolean), 
+            AWSShapeMember(label: "newAutoRegistrationStatus", location: .querystring(locationName: "newAutoRegistrationStatus"), required: false, type: .enum), 
+            AWSShapeMember(label: "registrationConfig", required: false, type: .structure)
+        ]
+        /// The CA certificate identifier.
+        public let certificateId: String
+        /// The updated status of the CA certificate.  Note: The status value REGISTER_INACTIVE is deprecated and should not be used.
+        public let newStatus: CACertificateStatus?
+        /// If true, remove auto registration.
+        public let removeAutoRegistration: Bool?
+        /// The new value for the auto registration status. Valid values are: "ENABLE" or "DISABLE".
+        public let newAutoRegistrationStatus: AutoRegistrationStatus?
+        /// Information about the registration configuration.
+        public let registrationConfig: RegistrationConfig?
+
+        public init(certificateId: String, newStatus: CACertificateStatus? = nil, removeAutoRegistration: Bool? = nil, newAutoRegistrationStatus: AutoRegistrationStatus? = nil, registrationConfig: RegistrationConfig? = nil) {
+            self.certificateId = certificateId
+            self.newStatus = newStatus
+            self.removeAutoRegistration = removeAutoRegistration
+            self.newAutoRegistrationStatus = newAutoRegistrationStatus
+            self.registrationConfig = registrationConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateId = "caCertificateId"
+            case newStatus = "newStatus"
+            case removeAutoRegistration = "removeAutoRegistration"
+            case newAutoRegistrationStatus = "newAutoRegistrationStatus"
+            case registrationConfig = "registrationConfig"
+        }
+    }
+
+    public struct ListTagsForResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "resourceArn", location: .querystring(locationName: "resourceArn"), required: true, type: .string)
+        ]
+        /// The token to retrieve the next set of results.
+        public let nextToken: String?
+        /// The ARN of the resource.
+        public let resourceArn: String
+
+        public init(nextToken: String? = nil, resourceArn: String) {
+            self.nextToken = nextToken
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case resourceArn = "resourceArn"
+        }
+    }
+
+    public struct UpdateRoleAliasResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "roleAlias", required: false, type: .string), 
+            AWSShapeMember(label: "roleAliasArn", required: false, type: .string)
+        ]
+        /// The role alias.
+        public let roleAlias: String?
+        /// The role alias ARN.
+        public let roleAliasArn: String?
+
+        public init(roleAlias: String? = nil, roleAliasArn: String? = nil) {
+            self.roleAlias = roleAlias
+            self.roleAliasArn = roleAliasArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleAlias = "roleAlias"
+            case roleAliasArn = "roleAliasArn"
+        }
+    }
+
+    public struct ListV2LoggingLevelsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "targetType", location: .querystring(locationName: "targetType"), required: false, type: .enum), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+        /// The maximum number of results to return at one time.
+        public let maxResults: Int32?
+        /// The type of resource for which you are configuring logging. Must be THING_Group.
+        public let targetType: LogTargetType?
+        /// The token used to get the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, targetType: LogTargetType? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.targetType = targetType
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case targetType = "targetType"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DeleteOTAUpdateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deleteStream", location: .querystring(locationName: "deleteStream"), required: false, type: .boolean), 
+            AWSShapeMember(label: "otaUpdateId", location: .uri(locationName: "otaUpdateId"), required: true, type: .string), 
+            AWSShapeMember(label: "forceDeleteAWSJob", location: .querystring(locationName: "forceDeleteAWSJob"), required: false, type: .boolean)
+        ]
+        /// Specifies if the stream associated with an OTA update should be deleted when the OTA update is deleted.
+        public let deleteStream: Bool?
+        /// The OTA update ID to delete.
+        public let otaUpdateId: String
+        /// Specifies if the AWS Job associated with the OTA update should be deleted with the OTA update is deleted.
+        public let forceDeleteAWSJob: Bool?
+
+        public init(deleteStream: Bool? = nil, otaUpdateId: String, forceDeleteAWSJob: Bool? = nil) {
+            self.deleteStream = deleteStream
+            self.otaUpdateId = otaUpdateId
+            self.forceDeleteAWSJob = forceDeleteAWSJob
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deleteStream = "deleteStream"
+            case otaUpdateId = "otaUpdateId"
+            case forceDeleteAWSJob = "forceDeleteAWSJob"
+        }
+    }
+
+    public struct ListPoliciesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextMarker", required: false, type: .string), 
+            AWSShapeMember(label: "policies", required: false, type: .list)
+        ]
+        /// The marker for the next set of results, or null if there are no additional results.
+        public let nextMarker: String?
+        /// The descriptions of the policies.
+        public let policies: [Policy]?
+
+        public init(nextMarker: String? = nil, policies: [Policy]? = nil) {
+            self.nextMarker = nextMarker
+            self.policies = policies
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextMarker = "nextMarker"
+            case policies = "policies"
+        }
+    }
+
+    public struct ThingTypeProperties: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingTypeDescription", required: false, type: .string), 
+            AWSShapeMember(label: "searchableAttributes", required: false, type: .list)
+        ]
+        /// The description of the thing type.
+        public let thingTypeDescription: String?
+        /// A list of searchable thing attribute names.
+        public let searchableAttributes: [String]?
+
+        public init(thingTypeDescription: String? = nil, searchableAttributes: [String]? = nil) {
+            self.thingTypeDescription = thingTypeDescription
+            self.searchableAttributes = searchableAttributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case thingTypeDescription = "thingTypeDescription"
+            case searchableAttributes = "searchableAttributes"
+        }
+    }
+
+    public struct UpdateEventConfigurationsResponse: AWSShape {
+
+    }
+
+    public struct AttachSecurityProfileRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "securityProfileTargetArn", location: .querystring(locationName: "securityProfileTargetArn"), required: true, type: .string), 
+            AWSShapeMember(label: "securityProfileName", location: .uri(locationName: "securityProfileName"), required: true, type: .string)
+        ]
+        /// The ARN of the target (thing group) to which the security profile is attached.
+        public let securityProfileTargetArn: String
+        /// The security profile that is attached.
+        public let securityProfileName: String
+
+        public init(securityProfileTargetArn: String, securityProfileName: String) {
+            self.securityProfileTargetArn = securityProfileTargetArn
+            self.securityProfileName = securityProfileName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityProfileTargetArn = "securityProfileTargetArn"
+            case securityProfileName = "securityProfileName"
+        }
+    }
+
+    public struct RemoveThingFromBillingGroupResponse: AWSShape {
+
+    }
+
+    public struct ListTopicRulesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "topic", location: .querystring(locationName: "topic"), required: false, type: .string), 
+            AWSShapeMember(label: "ruleDisabled", location: .querystring(locationName: "ruleDisabled"), required: false, type: .boolean), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
+        ]
+        /// The topic.
+        public let topic: String?
+        /// Specifies whether the rule is disabled.
+        public let ruleDisabled: Bool?
+        /// A token used to retrieve the next value.
+        public let nextToken: String?
+        /// The maximum number of results to return.
+        public let maxResults: Int32?
+
+        public init(topic: String? = nil, ruleDisabled: Bool? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.topic = topic
+            self.ruleDisabled = ruleDisabled
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case topic = "topic"
+            case ruleDisabled = "ruleDisabled"
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+        }
+    }
+
+    public struct CustomCodeSigning: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "hashAlgorithm", required: false, type: .string), 
+            AWSShapeMember(label: "signatureAlgorithm", required: false, type: .string), 
+            AWSShapeMember(label: "certificateChain", required: false, type: .structure), 
+            AWSShapeMember(label: "signature", required: false, type: .structure)
+        ]
+        /// The hash algorithm used to code sign the file.
+        public let hashAlgorithm: String?
+        /// The signature algorithm used to code sign the file.
+        public let signatureAlgorithm: String?
+        /// The certificate chain.
+        public let certificateChain: CodeSigningCertificateChain?
+        /// The signature for the file.
+        public let signature: CodeSigningSignature?
+
+        public init(hashAlgorithm: String? = nil, signatureAlgorithm: String? = nil, certificateChain: CodeSigningCertificateChain? = nil, signature: CodeSigningSignature? = nil) {
+            self.hashAlgorithm = hashAlgorithm
+            self.signatureAlgorithm = signatureAlgorithm
+            self.certificateChain = certificateChain
+            self.signature = signature
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hashAlgorithm = "hashAlgorithm"
+            case signatureAlgorithm = "signatureAlgorithm"
+            case certificateChain = "certificateChain"
+            case signature = "signature"
+        }
+    }
+
+    public enum ThingIndexingMode: String, CustomStringConvertible, Codable {
+        case off = "OFF"
+        case registry = "REGISTRY"
+        case registryAndShadow = "REGISTRY_AND_SHADOW"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutoRegistrationStatus: String, CustomStringConvertible, Codable {
+        case enable = "ENABLE"
+        case disable = "DISABLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DescribeThingTypeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingTypeName", location: .uri(locationName: "thingTypeName"), required: true, type: .string)
+        ]
+        /// The name of the thing type.
+        public let thingTypeName: String
+
+        public init(thingTypeName: String) {
+            self.thingTypeName = thingTypeName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case thingTypeName = "thingTypeName"
+        }
+    }
+
+    public struct AuthResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "missingContextValues", required: false, type: .list), 
+            AWSShapeMember(label: "allowed", required: false, type: .structure), 
+            AWSShapeMember(label: "authInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "authDecision", required: false, type: .enum), 
+            AWSShapeMember(label: "denied", required: false, type: .structure)
+        ]
+        /// Contains any missing context values found while evaluating policy.
+        public let missingContextValues: [String]?
+        /// The policies and statements that allowed the specified action.
+        public let allowed: Allowed?
+        /// Authorization information.
+        public let authInfo: AuthInfo?
+        /// The final authorization decision of this scenario. Multiple statements are taken into account when determining the authorization decision. An explicit deny statement can override multiple allow statements.
+        public let authDecision: AuthDecision?
+        /// The policies and statements that denied the specified action.
+        public let denied: Denied?
+
+        public init(missingContextValues: [String]? = nil, allowed: Allowed? = nil, authInfo: AuthInfo? = nil, authDecision: AuthDecision? = nil, denied: Denied? = nil) {
+            self.missingContextValues = missingContextValues
+            self.allowed = allowed
+            self.authInfo = authInfo
+            self.authDecision = authDecision
+            self.denied = denied
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case missingContextValues = "missingContextValues"
+            case allowed = "allowed"
+            case authInfo = "authInfo"
+            case authDecision = "authDecision"
+            case denied = "denied"
+        }
+    }
+
+    public enum AbortAction: String, CustomStringConvertible, Codable {
+        case cancel = "CANCEL"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeleteThingTypeResponse: AWSShape {
+
+    }
+
+    public struct SetDefaultAuthorizerResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "authorizerName", required: false, type: .string), 
+            AWSShapeMember(label: "authorizerArn", required: false, type: .string)
+        ]
+        /// The authorizer name.
+        public let authorizerName: String?
+        /// The authorizer ARN.
+        public let authorizerArn: String?
+
+        public init(authorizerName: String? = nil, authorizerArn: String? = nil) {
+            self.authorizerName = authorizerName
+            self.authorizerArn = authorizerArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizerName = "authorizerName"
+            case authorizerArn = "authorizerArn"
+        }
+    }
+
+    public struct StopThingRegistrationTaskRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "taskId", location: .uri(locationName: "taskId"), required: true, type: .string)
+        ]
+        /// The bulk thing provisioning task ID.
+        public let taskId: String
+
+        public init(taskId: String) {
+            self.taskId = taskId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taskId = "taskId"
+        }
+    }
+
+    public struct ClearDefaultAuthorizerRequest: AWSShape {
+
+    }
+
+    public struct TaskStatistics: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "failedChecks", required: false, type: .integer), 
+            AWSShapeMember(label: "nonCompliantChecks", required: false, type: .integer), 
+            AWSShapeMember(label: "canceledChecks", required: false, type: .integer), 
+            AWSShapeMember(label: "waitingForDataCollectionChecks", required: false, type: .integer), 
+            AWSShapeMember(label: "compliantChecks", required: false, type: .integer), 
+            AWSShapeMember(label: "inProgressChecks", required: false, type: .integer), 
+            AWSShapeMember(label: "totalChecks", required: false, type: .integer)
+        ]
+        /// The number of checks 
+        public let failedChecks: Int32?
+        /// The number of checks that found non-compliant resources.
+        public let nonCompliantChecks: Int32?
+        /// The number of checks that did not run because the audit was canceled.
+        public let canceledChecks: Int32?
+        /// The number of checks waiting for data collection.
+        public let waitingForDataCollectionChecks: Int32?
+        /// The number of checks that found compliant resources.
+        public let compliantChecks: Int32?
+        /// The number of checks in progress.
+        public let inProgressChecks: Int32?
+        /// The number of checks in this audit.
+        public let totalChecks: Int32?
+
+        public init(failedChecks: Int32? = nil, nonCompliantChecks: Int32? = nil, canceledChecks: Int32? = nil, waitingForDataCollectionChecks: Int32? = nil, compliantChecks: Int32? = nil, inProgressChecks: Int32? = nil, totalChecks: Int32? = nil) {
+            self.failedChecks = failedChecks
+            self.nonCompliantChecks = nonCompliantChecks
+            self.canceledChecks = canceledChecks
+            self.waitingForDataCollectionChecks = waitingForDataCollectionChecks
+            self.compliantChecks = compliantChecks
+            self.inProgressChecks = inProgressChecks
+            self.totalChecks = totalChecks
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedChecks = "failedChecks"
+            case nonCompliantChecks = "nonCompliantChecks"
+            case canceledChecks = "canceledChecks"
+            case waitingForDataCollectionChecks = "waitingForDataCollectionChecks"
+            case compliantChecks = "compliantChecks"
+            case inProgressChecks = "inProgressChecks"
+            case totalChecks = "totalChecks"
+        }
+    }
+
+    public struct Job: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "abortConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "comment", required: false, type: .string), 
+            AWSShapeMember(label: "jobExecutionsRolloutConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "targets", required: false, type: .list), 
+            AWSShapeMember(label: "completedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "targetSelection", required: false, type: .enum), 
+            AWSShapeMember(label: "reasonCode", required: false, type: .string), 
+            AWSShapeMember(label: "presignedUrlConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "jobId", required: false, type: .string), 
+            AWSShapeMember(label: "forceCanceled", required: false, type: .boolean), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "jobProcessDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "jobArn", required: false, type: .string), 
+            AWSShapeMember(label: "timeoutConfig", required: false, type: .structure)
+        ]
+        /// The status of the job, one of IN_PROGRESS, CANCELED, DELETION_IN_PROGRESS or COMPLETED. 
+        public let status: JobStatus?
+        /// Configuration for criteria to abort the job.
+        public let abortConfig: AbortConfig?
+        /// If the job was updated, describes the reason for the update.
+        public let comment: String?
+        /// Allows you to create a staged rollout of a job.
+        public let jobExecutionsRolloutConfig: JobExecutionsRolloutConfig?
+        /// A list of IoT things and thing groups to which the job should be sent.
+        public let targets: [String]?
+        /// The time, in milliseconds since the epoch, when the job was completed.
+        public let completedAt: TimeStamp?
+        /// The time, in milliseconds since the epoch, when the job was last updated.
+        public let lastUpdatedAt: TimeStamp?
+        /// Specifies whether the job will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the job (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected in a target. For example, a job will run on a device when the thing representing the device is added to a target group, even after the job was completed by all things originally in the group. 
+        public let targetSelection: TargetSelection?
+        /// If the job was updated, provides the reason code for the update.
+        public let reasonCode: String?
+        /// Configuration for pre-signed S3 URLs.
+        public let presignedUrlConfig: PresignedUrlConfig?
+        /// A short text description of the job.
+        public let description: String?
+        /// The unique identifier you assigned to this job when it was created.
+        public let jobId: String?
+        /// Will be true if the job was canceled with the optional force parameter set to true.
+        public let forceCanceled: Bool?
+        /// The time, in milliseconds since the epoch, when the job was created.
+        public let createdAt: TimeStamp?
+        /// Details about the job process.
+        public let jobProcessDetails: JobProcessDetails?
+        /// An ARN identifying the job with format "arn:aws:iot:region:account:job/jobId".
+        public let jobArn: String?
+        /// Specifies the amount of time each device has to finish its execution of the job. A timer is started when the job execution status is set to IN_PROGRESS. If the job execution status is not set to another terminal state before the timer expires, it will be automatically set to TIMED_OUT.
+        public let timeoutConfig: TimeoutConfig?
+
+        public init(status: JobStatus? = nil, abortConfig: AbortConfig? = nil, comment: String? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, targets: [String]? = nil, completedAt: TimeStamp? = nil, lastUpdatedAt: TimeStamp? = nil, targetSelection: TargetSelection? = nil, reasonCode: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, description: String? = nil, jobId: String? = nil, forceCanceled: Bool? = nil, createdAt: TimeStamp? = nil, jobProcessDetails: JobProcessDetails? = nil, jobArn: String? = nil, timeoutConfig: TimeoutConfig? = nil) {
+            self.status = status
+            self.abortConfig = abortConfig
+            self.comment = comment
+            self.jobExecutionsRolloutConfig = jobExecutionsRolloutConfig
+            self.targets = targets
+            self.completedAt = completedAt
+            self.lastUpdatedAt = lastUpdatedAt
+            self.targetSelection = targetSelection
+            self.reasonCode = reasonCode
+            self.presignedUrlConfig = presignedUrlConfig
+            self.description = description
+            self.jobId = jobId
+            self.forceCanceled = forceCanceled
+            self.createdAt = createdAt
+            self.jobProcessDetails = jobProcessDetails
+            self.jobArn = jobArn
+            self.timeoutConfig = timeoutConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case abortConfig = "abortConfig"
+            case comment = "comment"
+            case jobExecutionsRolloutConfig = "jobExecutionsRolloutConfig"
+            case targets = "targets"
+            case completedAt = "completedAt"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case targetSelection = "targetSelection"
+            case reasonCode = "reasonCode"
+            case presignedUrlConfig = "presignedUrlConfig"
+            case description = "description"
+            case jobId = "jobId"
+            case forceCanceled = "forceCanceled"
+            case createdAt = "createdAt"
+            case jobProcessDetails = "jobProcessDetails"
+            case jobArn = "jobArn"
+            case timeoutConfig = "timeoutConfig"
+        }
+    }
+
+    public struct CreateThingResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingId", required: false, type: .string), 
+            AWSShapeMember(label: "thingArn", required: false, type: .string), 
+            AWSShapeMember(label: "thingName", required: false, type: .string)
+        ]
+        /// The thing ID.
+        public let thingId: String?
+        /// The ARN of the new thing.
+        public let thingArn: String?
+        /// The name of the new thing.
         public let thingName: String?
 
-        public init(startTime: TimeStamp, securityProfileName: String? = nil, nextToken: String? = nil, endTime: TimeStamp, maxResults: Int32? = nil, thingName: String? = nil) {
-            self.startTime = startTime
-            self.securityProfileName = securityProfileName
-            self.nextToken = nextToken
-            self.endTime = endTime
-            self.maxResults = maxResults
+        public init(thingId: String? = nil, thingArn: String? = nil, thingName: String? = nil) {
+            self.thingId = thingId
+            self.thingArn = thingArn
             self.thingName = thingName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case startTime = "startTime"
-            case securityProfileName = "securityProfileName"
-            case nextToken = "nextToken"
-            case endTime = "endTime"
-            case maxResults = "maxResults"
+            case thingId = "thingId"
+            case thingArn = "thingArn"
             case thingName = "thingName"
+        }
+    }
+
+    public struct Certificate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "certificateArn", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "certificateId", required: false, type: .string)
+        ]
+        /// The date and time the certificate was created.
+        public let creationDate: TimeStamp?
+        /// The ARN of the certificate.
+        public let certificateArn: String?
+        /// The status of the certificate. The status value REGISTER_INACTIVE is deprecated and should not be used.
+        public let status: CertificateStatus?
+        /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
+        public let certificateId: String?
+
+        public init(creationDate: TimeStamp? = nil, certificateArn: String? = nil, status: CertificateStatus? = nil, certificateId: String? = nil) {
+            self.creationDate = creationDate
+            self.certificateArn = certificateArn
+            self.status = status
+            self.certificateId = certificateId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDate = "creationDate"
+            case certificateArn = "certificateArn"
+            case status = "status"
+            case certificateId = "certificateId"
+        }
+    }
+
+    public struct GetPolicyVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policyVersionId", location: .uri(locationName: "policyVersionId"), required: true, type: .string), 
+            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string)
+        ]
+        /// The policy version ID.
+        public let policyVersionId: String
+        /// The name of the policy.
+        public let policyName: String
+
+        public init(policyVersionId: String, policyName: String) {
+            self.policyVersionId = policyVersionId
+            self.policyName = policyName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyVersionId = "policyVersionId"
+            case policyName = "policyName"
+        }
+    }
+
+    public struct CodeSigningSignature: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "inlineDocument", required: false, type: .blob)
+        ]
+        /// A base64 encoded binary representation of the code signing signature.
+        public let inlineDocument: Data?
+
+        public init(inlineDocument: Data? = nil) {
+            self.inlineDocument = inlineDocument
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inlineDocument = "inlineDocument"
+        }
+    }
+
+    public struct DescribeThingResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "defaultClientId", required: false, type: .string), 
+            AWSShapeMember(label: "thingTypeName", required: false, type: .string), 
+            AWSShapeMember(label: "billingGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "thingArn", required: false, type: .string), 
+            AWSShapeMember(label: "version", required: false, type: .long), 
+            AWSShapeMember(label: "thingId", required: false, type: .string), 
+            AWSShapeMember(label: "thingName", required: false, type: .string), 
+            AWSShapeMember(label: "attributes", required: false, type: .map)
+        ]
+        /// The default client ID.
+        public let defaultClientId: String?
+        /// The thing type name.
+        public let thingTypeName: String?
+        /// The name of the billing group the thing belongs to.
+        public let billingGroupName: String?
+        /// The ARN of the thing to describe.
+        public let thingArn: String?
+        /// The current version of the thing record in the registry.  To avoid unintentional changes to the information in the registry, you can pass the version information in the expectedVersion parameter of the UpdateThing and DeleteThing calls. 
+        public let version: Int64?
+        /// The ID of the thing to describe.
+        public let thingId: String?
+        /// The name of the thing.
+        public let thingName: String?
+        /// The thing attributes.
+        public let attributes: [String: String]?
+
+        public init(defaultClientId: String? = nil, thingTypeName: String? = nil, billingGroupName: String? = nil, thingArn: String? = nil, version: Int64? = nil, thingId: String? = nil, thingName: String? = nil, attributes: [String: String]? = nil) {
+            self.defaultClientId = defaultClientId
+            self.thingTypeName = thingTypeName
+            self.billingGroupName = billingGroupName
+            self.thingArn = thingArn
+            self.version = version
+            self.thingId = thingId
+            self.thingName = thingName
+            self.attributes = attributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultClientId = "defaultClientId"
+            case thingTypeName = "thingTypeName"
+            case billingGroupName = "billingGroupName"
+            case thingArn = "thingArn"
+            case version = "version"
+            case thingId = "thingId"
+            case thingName = "thingName"
+            case attributes = "attributes"
+        }
+    }
+
+    public struct EffectivePolicy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policyName", required: false, type: .string), 
+            AWSShapeMember(label: "policyArn", required: false, type: .string), 
+            AWSShapeMember(label: "policyDocument", required: false, type: .string)
+        ]
+        /// The policy name.
+        public let policyName: String?
+        /// The policy ARN.
+        public let policyArn: String?
+        /// The IAM policy document.
+        public let policyDocument: String?
+
+        public init(policyName: String? = nil, policyArn: String? = nil, policyDocument: String? = nil) {
+            self.policyName = policyName
+            self.policyArn = policyArn
+            self.policyDocument = policyDocument
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyName = "policyName"
+            case policyArn = "policyArn"
+            case policyDocument = "policyDocument"
         }
     }
 
@@ -2251,243 +2124,199 @@ extension IoT {
         }
     }
 
-    public enum AuditFindingSeverity: String, CustomStringConvertible, Codable {
-        case critical = "CRITICAL"
-        case high = "HIGH"
-        case medium = "MEDIUM"
-        case low = "LOW"
-        public var description: String { return self.rawValue }
+    public struct DetachThingPrincipalResponse: AWSShape {
+
     }
 
-    public struct Denied: AWSShape {
+    public struct DescribeThingRegistrationTaskRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "explicitDeny", required: false, type: .structure), 
-            AWSShapeMember(label: "implicitDeny", required: false, type: .structure)
+            AWSShapeMember(label: "taskId", location: .uri(locationName: "taskId"), required: true, type: .string)
         ]
-        /// Information that explicitly denies the authorization. 
-        public let explicitDeny: ExplicitDeny?
-        /// Information that implicitly denies the authorization. When a policy doesn't explicitly deny or allow an action on a resource it is considered an implicit deny.
-        public let implicitDeny: ImplicitDeny?
+        /// The task ID.
+        public let taskId: String
 
-        public init(explicitDeny: ExplicitDeny? = nil, implicitDeny: ImplicitDeny? = nil) {
-            self.explicitDeny = explicitDeny
-            self.implicitDeny = implicitDeny
+        public init(taskId: String) {
+            self.taskId = taskId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case explicitDeny = "explicitDeny"
-            case implicitDeny = "implicitDeny"
+            case taskId = "taskId"
         }
     }
 
-    public struct DeprecateThingTypeRequest: AWSShape {
+    public struct TopicRulePayload: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "undoDeprecate", required: false, type: .boolean), 
-            AWSShapeMember(label: "thingTypeName", location: .uri(locationName: "thingTypeName"), required: true, type: .string)
+            AWSShapeMember(label: "awsIotSqlVersion", required: false, type: .string), 
+            AWSShapeMember(label: "sql", required: true, type: .string), 
+            AWSShapeMember(label: "actions", required: true, type: .list), 
+            AWSShapeMember(label: "ruleDisabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "errorAction", required: false, type: .structure), 
+            AWSShapeMember(label: "description", required: false, type: .string)
         ]
-        /// Whether to undeprecate a deprecated thing type. If true, the thing type will not be deprecated anymore and you can associate it with things.
-        public let undoDeprecate: Bool?
-        /// The name of the thing type to deprecate.
-        public let thingTypeName: String
+        /// The version of the SQL rules engine to use when evaluating the rule.
+        public let awsIotSqlVersion: String?
+        /// The SQL statement used to query the topic. For more information, see AWS IoT SQL Reference in the AWS IoT Developer Guide.
+        public let sql: String
+        /// The actions associated with the rule.
+        public let actions: [Action]
+        /// Specifies whether the rule is disabled.
+        public let ruleDisabled: Bool?
+        /// The action to take when an error occurs.
+        public let errorAction: Action?
+        /// The description of the rule.
+        public let description: String?
 
-        public init(undoDeprecate: Bool? = nil, thingTypeName: String) {
-            self.undoDeprecate = undoDeprecate
-            self.thingTypeName = thingTypeName
+        public init(awsIotSqlVersion: String? = nil, sql: String, actions: [Action], ruleDisabled: Bool? = nil, errorAction: Action? = nil, description: String? = nil) {
+            self.awsIotSqlVersion = awsIotSqlVersion
+            self.sql = sql
+            self.actions = actions
+            self.ruleDisabled = ruleDisabled
+            self.errorAction = errorAction
+            self.description = description
         }
 
         private enum CodingKeys: String, CodingKey {
-            case undoDeprecate = "undoDeprecate"
-            case thingTypeName = "thingTypeName"
+            case awsIotSqlVersion = "awsIotSqlVersion"
+            case sql = "sql"
+            case actions = "actions"
+            case ruleDisabled = "ruleDisabled"
+            case errorAction = "errorAction"
+            case description = "description"
         }
     }
 
-    public struct ValidateSecurityProfileBehaviorsResponse: AWSShape {
+    public struct S3Action: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "valid", required: false, type: .boolean), 
-            AWSShapeMember(label: "validationErrors", required: false, type: .list)
+            AWSShapeMember(label: "key", required: true, type: .string), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string), 
+            AWSShapeMember(label: "cannedAcl", required: false, type: .enum), 
+            AWSShapeMember(label: "bucketName", required: true, type: .string)
         ]
-        /// True if the behaviors were valid.
-        public let valid: Bool?
-        /// The list of any errors found in the behaviors.
-        public let validationErrors: [ValidationError]?
+        /// The object key.
+        public let key: String
+        /// The ARN of the IAM role that grants access.
+        public let roleArn: String
+        /// The Amazon S3 canned ACL that controls access to the object identified by the object key. For more information, see S3 canned ACLs.
+        public let cannedAcl: CannedAccessControlList?
+        /// The Amazon S3 bucket.
+        public let bucketName: String
 
-        public init(valid: Bool? = nil, validationErrors: [ValidationError]? = nil) {
-            self.valid = valid
-            self.validationErrors = validationErrors
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case valid = "valid"
-            case validationErrors = "validationErrors"
-        }
-    }
-
-    public struct RegisterThingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "templateBody", required: true, type: .string), 
-            AWSShapeMember(label: "parameters", required: false, type: .map)
-        ]
-        /// The provisioning template. See Programmatic Provisioning for more information.
-        public let templateBody: String
-        /// The parameters for provisioning a thing. See Programmatic Provisioning for more information.
-        public let parameters: [String: String]?
-
-        public init(templateBody: String, parameters: [String: String]? = nil) {
-            self.templateBody = templateBody
-            self.parameters = parameters
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case templateBody = "templateBody"
-            case parameters = "parameters"
-        }
-    }
-
-    public struct S3Destination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bucket", required: false, type: .string), 
-            AWSShapeMember(label: "prefix", required: false, type: .string)
-        ]
-        /// The S3 bucket that contains the updated firmware.
-        public let bucket: String?
-        /// The S3 prefix.
-        public let prefix: String?
-
-        public init(bucket: String? = nil, prefix: String? = nil) {
-            self.bucket = bucket
-            self.prefix = prefix
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "bucket"
-            case prefix = "prefix"
-        }
-    }
-
-    public struct ListBillingGroupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "namePrefixFilter", location: .querystring(locationName: "namePrefixFilter"), required: false, type: .string)
-        ]
-        /// The token to retrieve the next set of results.
-        public let nextToken: String?
-        /// The maximum number of results to return per request.
-        public let maxResults: Int32?
-        /// Limit the results to billing groups whose names have the given prefix.
-        public let namePrefixFilter: String?
-
-        public init(nextToken: String? = nil, maxResults: Int32? = nil, namePrefixFilter: String? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.namePrefixFilter = namePrefixFilter
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
-            case namePrefixFilter = "namePrefixFilter"
-        }
-    }
-
-    public struct AddThingToThingGroupResponse: AWSShape {
-
-    }
-
-    public struct DeleteOTAUpdateResponse: AWSShape {
-
-    }
-
-    public struct ListThingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attributeValue", location: .querystring(locationName: "attributeValue"), required: false, type: .string), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "thingTypeName", location: .querystring(locationName: "thingTypeName"), required: false, type: .string), 
-            AWSShapeMember(label: "attributeName", location: .querystring(locationName: "attributeName"), required: false, type: .string)
-        ]
-        /// The attribute value used to search for things.
-        public let attributeValue: String?
-        /// The token to retrieve the next set of results.
-        public let nextToken: String?
-        /// The maximum number of results to return in this operation.
-        public let maxResults: Int32?
-        /// The name of the thing type used to search for things.
-        public let thingTypeName: String?
-        /// The attribute name used to search for things.
-        public let attributeName: String?
-
-        public init(attributeValue: String? = nil, nextToken: String? = nil, maxResults: Int32? = nil, thingTypeName: String? = nil, attributeName: String? = nil) {
-            self.attributeValue = attributeValue
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.thingTypeName = thingTypeName
-            self.attributeName = attributeName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attributeValue = "attributeValue"
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
-            case thingTypeName = "thingTypeName"
-            case attributeName = "attributeName"
-        }
-    }
-
-    public struct RegisterCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "setAsActive", location: .querystring(locationName: "setAsActive"), required: false, type: .boolean), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "certificatePem", required: true, type: .string), 
-            AWSShapeMember(label: "caCertificatePem", required: false, type: .string)
-        ]
-        /// A boolean value that specifies if the CA certificate is set to active.
-        public let setAsActive: Bool?
-        /// The status of the register certificate request.
-        public let status: CertificateStatus?
-        /// The certificate data, in PEM format.
-        public let certificatePem: String
-        /// The CA certificate used to sign the device certificate being registered.
-        public let caCertificatePem: String?
-
-        public init(setAsActive: Bool? = nil, status: CertificateStatus? = nil, certificatePem: String, caCertificatePem: String? = nil) {
-            self.setAsActive = setAsActive
-            self.status = status
-            self.certificatePem = certificatePem
-            self.caCertificatePem = caCertificatePem
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case setAsActive = "setAsActive"
-            case status = "status"
-            case certificatePem = "certificatePem"
-            case caCertificatePem = "caCertificatePem"
-        }
-    }
-
-    public struct UpdateRoleAliasRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "roleAlias", location: .uri(locationName: "roleAlias"), required: true, type: .string), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string), 
-            AWSShapeMember(label: "credentialDurationSeconds", required: false, type: .integer)
-        ]
-        /// The role alias to update.
-        public let roleAlias: String
-        /// The role ARN.
-        public let roleArn: String?
-        /// The number of seconds the credential will be valid.
-        public let credentialDurationSeconds: Int32?
-
-        public init(roleAlias: String, roleArn: String? = nil, credentialDurationSeconds: Int32? = nil) {
-            self.roleAlias = roleAlias
+        public init(key: String, roleArn: String, cannedAcl: CannedAccessControlList? = nil, bucketName: String) {
+            self.key = key
             self.roleArn = roleArn
-            self.credentialDurationSeconds = credentialDurationSeconds
+            self.cannedAcl = cannedAcl
+            self.bucketName = bucketName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case roleAlias = "roleAlias"
+            case key = "key"
             case roleArn = "roleArn"
-            case credentialDurationSeconds = "credentialDurationSeconds"
+            case cannedAcl = "cannedAcl"
+            case bucketName = "bucketName"
+        }
+    }
+
+    public struct ListThingRegistrationTaskReportsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "reportType", required: false, type: .enum), 
+            AWSShapeMember(label: "resourceLinks", required: false, type: .list)
+        ]
+        /// The token used to get the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+        /// The type of task report.
+        public let reportType: ReportType?
+        /// Links to the task resources.
+        public let resourceLinks: [String]?
+
+        public init(nextToken: String? = nil, reportType: ReportType? = nil, resourceLinks: [String]? = nil) {
+            self.nextToken = nextToken
+            self.reportType = reportType
+            self.resourceLinks = resourceLinks
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case reportType = "reportType"
+            case resourceLinks = "resourceLinks"
+        }
+    }
+
+    public struct UpdateThingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "removeThingType", required: false, type: .boolean), 
+            AWSShapeMember(label: "expectedVersion", required: false, type: .long), 
+            AWSShapeMember(label: "attributePayload", required: false, type: .structure), 
+            AWSShapeMember(label: "thingTypeName", required: false, type: .string), 
+            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
+        ]
+        /// Remove a thing type association. If true, the association is removed.
+        public let removeThingType: Bool?
+        /// The expected version of the thing record in the registry. If the version of the record in the registry does not match the expected version specified in the request, the UpdateThing request is rejected with a VersionConflictException.
+        public let expectedVersion: Int64?
+        /// A list of thing attributes, a JSON string containing name-value pairs. For example:  {\"attributes\":{\"name1\":\"value2\"}}  This data is used to add new attributes or update existing attributes.
+        public let attributePayload: AttributePayload?
+        /// The name of the thing type.
+        public let thingTypeName: String?
+        /// The name of the thing to update.
+        public let thingName: String
+
+        public init(removeThingType: Bool? = nil, expectedVersion: Int64? = nil, attributePayload: AttributePayload? = nil, thingTypeName: String? = nil, thingName: String) {
+            self.removeThingType = removeThingType
+            self.expectedVersion = expectedVersion
+            self.attributePayload = attributePayload
+            self.thingTypeName = thingTypeName
+            self.thingName = thingName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case removeThingType = "removeThingType"
+            case expectedVersion = "expectedVersion"
+            case attributePayload = "attributePayload"
+            case thingTypeName = "thingTypeName"
+            case thingName = "thingName"
+        }
+    }
+
+    public struct ListRoleAliasesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "roleAliases", required: false, type: .list), 
+            AWSShapeMember(label: "nextMarker", required: false, type: .string)
+        ]
+        /// The role aliases.
+        public let roleAliases: [String]?
+        /// A marker used to get the next set of results.
+        public let nextMarker: String?
+
+        public init(roleAliases: [String]? = nil, nextMarker: String? = nil) {
+            self.roleAliases = roleAliases
+            self.nextMarker = nextMarker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleAliases = "roleAliases"
+            case nextMarker = "nextMarker"
+        }
+    }
+
+    public struct ListTargetsForSecurityProfileResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "securityProfileTargets", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// The thing groups to which the security profile is attached.
+        public let securityProfileTargets: [SecurityProfileTarget]?
+        /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+
+        public init(securityProfileTargets: [SecurityProfileTarget]? = nil, nextToken: String? = nil) {
+            self.securityProfileTargets = securityProfileTargets
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityProfileTargets = "securityProfileTargets"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2517,569 +2346,440 @@ extension IoT {
         }
     }
 
-    public enum DayOfWeek: String, CustomStringConvertible, Codable {
-        case sun = "SUN"
-        case mon = "MON"
-        case tue = "TUE"
-        case wed = "WED"
-        case thu = "THU"
-        case fri = "FRI"
-        case sat = "SAT"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateAuthorizerResponse: AWSShape {
+    public struct CreateJobResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorizerName", required: false, type: .string), 
-            AWSShapeMember(label: "authorizerArn", required: false, type: .string)
-        ]
-        /// The authorizer's name.
-        public let authorizerName: String?
-        /// The authorizer ARN.
-        public let authorizerArn: String?
-
-        public init(authorizerName: String? = nil, authorizerArn: String? = nil) {
-            self.authorizerName = authorizerName
-            self.authorizerArn = authorizerArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case authorizerName = "authorizerName"
-            case authorizerArn = "authorizerArn"
-        }
-    }
-
-    public struct DescribeJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "job", required: false, type: .structure), 
-            AWSShapeMember(label: "documentSource", required: false, type: .string)
-        ]
-        /// Information about the job.
-        public let job: Job?
-        /// An S3 link to the job document.
-        public let documentSource: String?
-
-        public init(job: Job? = nil, documentSource: String? = nil) {
-            self.job = job
-            self.documentSource = documentSource
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case job = "job"
-            case documentSource = "documentSource"
-        }
-    }
-
-    public struct RegisterCertificateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "certificateId", required: false, type: .string)
-        ]
-        /// The certificate ARN.
-        public let certificateArn: String?
-        /// The certificate identifier.
-        public let certificateId: String?
-
-        public init(certificateArn: String? = nil, certificateId: String? = nil) {
-            self.certificateArn = certificateArn
-            self.certificateId = certificateId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificateArn = "certificateArn"
-            case certificateId = "certificateId"
-        }
-    }
-
-    public struct ThingIndexingConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingConnectivityIndexingMode", required: false, type: .enum), 
-            AWSShapeMember(label: "thingIndexingMode", required: true, type: .enum)
-        ]
-        /// Thing connectivity indexing mode. Valid values are:    STATUS – Your thing index will contain connectivity status. In order to enable thing connectivity indexing, thingIndexMode must not be set to OFF.   OFF - Thing connectivity status indexing is disabled.  
-        public let thingConnectivityIndexingMode: ThingConnectivityIndexingMode?
-        /// Thing indexing mode. Valid values are:   REGISTRY – Your thing index will contain only registry data.   REGISTRY_AND_SHADOW - Your thing index will contain registry and shadow data.   OFF - Thing indexing is disabled.  
-        public let thingIndexingMode: ThingIndexingMode
-
-        public init(thingConnectivityIndexingMode: ThingConnectivityIndexingMode? = nil, thingIndexingMode: ThingIndexingMode) {
-            self.thingConnectivityIndexingMode = thingConnectivityIndexingMode
-            self.thingIndexingMode = thingIndexingMode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case thingConnectivityIndexingMode = "thingConnectivityIndexingMode"
-            case thingIndexingMode = "thingIndexingMode"
-        }
-    }
-
-    public struct ListTopicRulesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ruleDisabled", location: .querystring(locationName: "ruleDisabled"), required: false, type: .boolean), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "topic", location: .querystring(locationName: "topic"), required: false, type: .string)
-        ]
-        /// Specifies whether the rule is disabled.
-        public let ruleDisabled: Bool?
-        /// The maximum number of results to return.
-        public let maxResults: Int32?
-        /// A token used to retrieve the next value.
-        public let nextToken: String?
-        /// The topic.
-        public let topic: String?
-
-        public init(ruleDisabled: Bool? = nil, maxResults: Int32? = nil, nextToken: String? = nil, topic: String? = nil) {
-            self.ruleDisabled = ruleDisabled
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-            self.topic = topic
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ruleDisabled = "ruleDisabled"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case topic = "topic"
-        }
-    }
-
-    public struct UpdateScheduledAuditRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "frequency", required: false, type: .enum), 
-            AWSShapeMember(label: "dayOfMonth", required: false, type: .string), 
-            AWSShapeMember(label: "dayOfWeek", required: false, type: .enum), 
-            AWSShapeMember(label: "targetCheckNames", required: false, type: .list), 
-            AWSShapeMember(label: "scheduledAuditName", location: .uri(locationName: "scheduledAuditName"), required: true, type: .string)
-        ]
-        /// How often the scheduled audit takes place. Can be one of "DAILY", "WEEKLY", "BIWEEKLY" or "MONTHLY". The actual start time of each audit is determined by the system.
-        public let frequency: AuditFrequency?
-        /// The day of the month on which the scheduled audit takes place. Can be "1" through "31" or "LAST". This field is required if the "frequency" parameter is set to "MONTHLY". If days 29-31 are specified, and the month does not have that many days, the audit takes place on the "LAST" day of the month.
-        public let dayOfMonth: String?
-        /// The day of the week on which the scheduled audit takes place. Can be one of "SUN", "MON", "TUE", "WED", "THU", "FRI" or "SAT". This field is required if the "frequency" parameter is set to "WEEKLY" or "BIWEEKLY".
-        public let dayOfWeek: DayOfWeek?
-        /// Which checks are performed during the scheduled audit. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks including those that are enabled or UpdateAccountAuditConfiguration to select which checks are enabled.)
-        public let targetCheckNames: [String]?
-        /// The name of the scheduled audit. (Max. 128 chars)
-        public let scheduledAuditName: String
-
-        public init(frequency: AuditFrequency? = nil, dayOfMonth: String? = nil, dayOfWeek: DayOfWeek? = nil, targetCheckNames: [String]? = nil, scheduledAuditName: String) {
-            self.frequency = frequency
-            self.dayOfMonth = dayOfMonth
-            self.dayOfWeek = dayOfWeek
-            self.targetCheckNames = targetCheckNames
-            self.scheduledAuditName = scheduledAuditName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case frequency = "frequency"
-            case dayOfMonth = "dayOfMonth"
-            case dayOfWeek = "dayOfWeek"
-            case targetCheckNames = "targetCheckNames"
-            case scheduledAuditName = "scheduledAuditName"
-        }
-    }
-
-    public struct AlertTarget: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "alertTargetArn", required: true, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string)
-        ]
-        /// The ARN of the notification target to which alerts are sent.
-        public let alertTargetArn: String
-        /// The ARN of the role that grants permission to send alerts to the notification target.
-        public let roleArn: String
-
-        public init(alertTargetArn: String, roleArn: String) {
-            self.alertTargetArn = alertTargetArn
-            self.roleArn = roleArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case alertTargetArn = "alertTargetArn"
-            case roleArn = "roleArn"
-        }
-    }
-
-    public struct ListThingTypesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "thingTypeName", location: .querystring(locationName: "thingTypeName"), required: false, type: .string)
-        ]
-        /// The token to retrieve the next set of results.
-        public let nextToken: String?
-        /// The maximum number of results to return in this operation.
-        public let maxResults: Int32?
-        /// The name of the thing type.
-        public let thingTypeName: String?
-
-        public init(nextToken: String? = nil, maxResults: Int32? = nil, thingTypeName: String? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.thingTypeName = thingTypeName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
-            case thingTypeName = "thingTypeName"
-        }
-    }
-
-    public struct UpdateBillingGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "expectedVersion", required: false, type: .long), 
-            AWSShapeMember(label: "billingGroupProperties", required: true, type: .structure), 
-            AWSShapeMember(label: "billingGroupName", location: .uri(locationName: "billingGroupName"), required: true, type: .string)
-        ]
-        /// The expected version of the billing group. If the version of the billing group does not match the expected version specified in the request, the UpdateBillingGroup request is rejected with a VersionConflictException.
-        public let expectedVersion: Int64?
-        /// The properties of the billing group.
-        public let billingGroupProperties: BillingGroupProperties
-        /// The name of the billing group.
-        public let billingGroupName: String
-
-        public init(expectedVersion: Int64? = nil, billingGroupProperties: BillingGroupProperties, billingGroupName: String) {
-            self.expectedVersion = expectedVersion
-            self.billingGroupProperties = billingGroupProperties
-            self.billingGroupName = billingGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case expectedVersion = "expectedVersion"
-            case billingGroupProperties = "billingGroupProperties"
-            case billingGroupName = "billingGroupName"
-        }
-    }
-
-    public struct DeleteTopicRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ruleName", location: .uri(locationName: "ruleName"), required: true, type: .string)
-        ]
-        /// The name of the rule.
-        public let ruleName: String
-
-        public init(ruleName: String) {
-            self.ruleName = ruleName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ruleName = "ruleName"
-        }
-    }
-
-    public struct CreateJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "targets", required: true, type: .list), 
-            AWSShapeMember(label: "abortConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "presignedUrlConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "document", required: false, type: .string), 
-            AWSShapeMember(label: "targetSelection", required: false, type: .enum), 
             AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "jobExecutionsRolloutConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "timeoutConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "documentSource", required: false, type: .string)
-        ]
-        /// A list of things and thing groups to which the job should be sent.
-        public let targets: [String]
-        /// Allows you to create criteria to abort a job.
-        public let abortConfig: AbortConfig?
-        /// Configuration information for pre-signed S3 URLs.
-        public let presignedUrlConfig: PresignedUrlConfig?
-        /// A job identifier which must be unique for your AWS account. We recommend using a UUID. Alpha-numeric characters, "-" and "_" are valid for use here.
-        public let jobId: String
-        /// Metadata which can be used to manage the job.
-        public let tags: [Tag]?
-        /// The job document.  If the job document resides in an S3 bucket, you must use a placeholder link when specifying the document. The placeholder link is of the following form:  ${aws:iot:s3-presigned-url:https://s3.amazonaws.com/bucket/key}  where bucket is your bucket name and key is the object in the bucket to which you are linking. 
-        public let document: String?
-        /// Specifies whether the job will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the job (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected in a target. For example, a job will run on a thing when the thing is added to a target group, even after the job was completed by all things originally in the group.
-        public let targetSelection: TargetSelection?
-        /// A short text description of the job.
-        public let description: String?
-        /// Allows you to create a staged rollout of the job.
-        public let jobExecutionsRolloutConfig: JobExecutionsRolloutConfig?
-        /// Specifies the amount of time each device has to finish its execution of the job. The timer is started when the job execution status is set to IN_PROGRESS. If the job execution status is not set to another terminal state before the time expires, it will be automatically set to TIMED_OUT.
-        public let timeoutConfig: TimeoutConfig?
-        /// An S3 link to the job document.
-        public let documentSource: String?
-
-        public init(targets: [String], abortConfig: AbortConfig? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, jobId: String, tags: [Tag]? = nil, document: String? = nil, targetSelection: TargetSelection? = nil, description: String? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, timeoutConfig: TimeoutConfig? = nil, documentSource: String? = nil) {
-            self.targets = targets
-            self.abortConfig = abortConfig
-            self.presignedUrlConfig = presignedUrlConfig
-            self.jobId = jobId
-            self.tags = tags
-            self.document = document
-            self.targetSelection = targetSelection
-            self.description = description
-            self.jobExecutionsRolloutConfig = jobExecutionsRolloutConfig
-            self.timeoutConfig = timeoutConfig
-            self.documentSource = documentSource
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case targets = "targets"
-            case abortConfig = "abortConfig"
-            case presignedUrlConfig = "presignedUrlConfig"
-            case jobId = "jobId"
-            case tags = "tags"
-            case document = "document"
-            case targetSelection = "targetSelection"
-            case description = "description"
-            case jobExecutionsRolloutConfig = "jobExecutionsRolloutConfig"
-            case timeoutConfig = "timeoutConfig"
-            case documentSource = "documentSource"
-        }
-    }
-
-    public struct SecurityProfileIdentifier: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "arn", required: true, type: .string)
-        ]
-        /// The name you have given to the security profile.
-        public let name: String
-        /// The ARN of the security profile.
-        public let arn: String
-
-        public init(name: String, arn: String) {
-            self.name = name
-            self.arn = arn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case arn = "arn"
-        }
-    }
-
-    public struct ListIndicesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "indexNames", required: false, type: .list)
-        ]
-        /// The token used to get the next set of results, or null if there are no additional results.
-        public let nextToken: String?
-        /// The index names.
-        public let indexNames: [String]?
-
-        public init(nextToken: String? = nil, indexNames: [String]? = nil) {
-            self.nextToken = nextToken
-            self.indexNames = indexNames
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case indexNames = "indexNames"
-        }
-    }
-
-    public struct CreateThingGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "thingGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "thingGroupId", required: false, type: .string)
-        ]
-        /// The thing group ARN.
-        public let thingGroupArn: String?
-        /// The thing group name.
-        public let thingGroupName: String?
-        /// The thing group ID.
-        public let thingGroupId: String?
-
-        public init(thingGroupArn: String? = nil, thingGroupName: String? = nil, thingGroupId: String? = nil) {
-            self.thingGroupArn = thingGroupArn
-            self.thingGroupName = thingGroupName
-            self.thingGroupId = thingGroupId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case thingGroupArn = "thingGroupArn"
-            case thingGroupName = "thingGroupName"
-            case thingGroupId = "thingGroupId"
-        }
-    }
-
-    public struct JobExecution: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "versionNumber", required: false, type: .long), 
-            AWSShapeMember(label: "approximateSecondsBeforeTimedOut", required: false, type: .long), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
             AWSShapeMember(label: "jobId", required: false, type: .string), 
-            AWSShapeMember(label: "statusDetails", required: false, type: .structure), 
-            AWSShapeMember(label: "startedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "queuedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "thingArn", required: false, type: .string), 
-            AWSShapeMember(label: "forceCanceled", required: false, type: .boolean), 
-            AWSShapeMember(label: "executionNumber", required: false, type: .long)
+            AWSShapeMember(label: "jobArn", required: false, type: .string)
         ]
-        /// The version of the job execution. Job execution versions are incremented each time they are updated by a device.
-        public let versionNumber: Int64?
-        /// The estimated number of seconds that remain before the job execution status will be changed to TIMED_OUT. The timeout interval can be anywhere between 1 minute and 7 days (1 to 10080 minutes). The actual job execution timeout can occur up to 60 seconds later than the estimated duration. This value will not be included if the job execution has reached a terminal status.
-        public let approximateSecondsBeforeTimedOut: Int64?
-        /// The time, in milliseconds since the epoch, when the job execution was last updated.
-        public let lastUpdatedAt: TimeStamp?
-        /// The unique identifier you assigned to the job when it was created.
+        /// The job description.
+        public let description: String?
+        /// The unique identifier you assigned to this job.
         public let jobId: String?
-        /// A collection of name/value pairs that describe the status of the job execution.
-        public let statusDetails: JobExecutionStatusDetails?
-        /// The time, in milliseconds since the epoch, when the job execution started.
-        public let startedAt: TimeStamp?
-        /// The status of the job execution (IN_PROGRESS, QUEUED, FAILED, SUCCEEDED, TIMED_OUT, CANCELED, or REJECTED).
-        public let status: JobExecutionStatus?
-        /// The time, in milliseconds since the epoch, when the job execution was queued.
-        public let queuedAt: TimeStamp?
-        /// The ARN of the thing on which the job execution is running.
-        public let thingArn: String?
-        /// Will be true if the job execution was canceled with the optional force parameter set to true.
-        public let forceCanceled: Bool?
-        /// A string (consisting of the digits "0" through "9") which identifies this particular job execution on this particular device. It can be used in commands which return or update job execution information. 
+        /// The job ARN.
+        public let jobArn: String?
+
+        public init(description: String? = nil, jobId: String? = nil, jobArn: String? = nil) {
+            self.description = description
+            self.jobId = jobId
+            self.jobArn = jobArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case jobId = "jobId"
+            case jobArn = "jobArn"
+        }
+    }
+
+    public struct LogTargetConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "logTarget", required: false, type: .structure), 
+            AWSShapeMember(label: "logLevel", required: false, type: .enum)
+        ]
+        /// A log target
+        public let logTarget: LogTarget?
+        /// The logging level.
+        public let logLevel: LogLevel?
+
+        public init(logTarget: LogTarget? = nil, logLevel: LogLevel? = nil) {
+            self.logTarget = logTarget
+            self.logLevel = logLevel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logTarget = "logTarget"
+            case logLevel = "logLevel"
+        }
+    }
+
+    public struct DescribeJobExecutionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string), 
+            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string), 
+            AWSShapeMember(label: "executionNumber", location: .querystring(locationName: "executionNumber"), required: false, type: .long)
+        ]
+        /// The unique identifier you assigned to this job when it was created.
+        public let jobId: String
+        /// The name of the thing on which the job execution is running.
+        public let thingName: String
+        /// A string (consisting of the digits "0" through "9" which is used to specify a particular job execution on a particular device.
         public let executionNumber: Int64?
 
-        public init(versionNumber: Int64? = nil, approximateSecondsBeforeTimedOut: Int64? = nil, lastUpdatedAt: TimeStamp? = nil, jobId: String? = nil, statusDetails: JobExecutionStatusDetails? = nil, startedAt: TimeStamp? = nil, status: JobExecutionStatus? = nil, queuedAt: TimeStamp? = nil, thingArn: String? = nil, forceCanceled: Bool? = nil, executionNumber: Int64? = nil) {
-            self.versionNumber = versionNumber
-            self.approximateSecondsBeforeTimedOut = approximateSecondsBeforeTimedOut
-            self.lastUpdatedAt = lastUpdatedAt
+        public init(jobId: String, thingName: String, executionNumber: Int64? = nil) {
             self.jobId = jobId
-            self.statusDetails = statusDetails
-            self.startedAt = startedAt
-            self.status = status
-            self.queuedAt = queuedAt
-            self.thingArn = thingArn
-            self.forceCanceled = forceCanceled
+            self.thingName = thingName
             self.executionNumber = executionNumber
         }
 
         private enum CodingKeys: String, CodingKey {
-            case versionNumber = "versionNumber"
-            case approximateSecondsBeforeTimedOut = "approximateSecondsBeforeTimedOut"
-            case lastUpdatedAt = "lastUpdatedAt"
             case jobId = "jobId"
-            case statusDetails = "statusDetails"
-            case startedAt = "startedAt"
-            case status = "status"
-            case queuedAt = "queuedAt"
-            case thingArn = "thingArn"
-            case forceCanceled = "forceCanceled"
+            case thingName = "thingName"
             case executionNumber = "executionNumber"
         }
     }
 
-    public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "Key", required: false, type: .string)
-        ]
-        /// The tag's value.
-        public let value: String?
-        /// The tag's key.
-        public let key: String?
+    public struct UpdateThingGroupsForThingResponse: AWSShape {
 
-        public init(value: String? = nil, key: String? = nil) {
-            self.value = value
-            self.key = key
+    }
+
+    public struct DescribeStreamRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "streamId", location: .uri(locationName: "streamId"), required: true, type: .string)
+        ]
+        /// The stream ID.
+        public let streamId: String
+
+        public init(streamId: String) {
+            self.streamId = streamId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case key = "Key"
+            case streamId = "streamId"
         }
     }
 
-    public struct DeleteAuthorizerResponse: AWSShape {
+    public struct StopThingRegistrationTaskResponse: AWSShape {
 
     }
 
-    public struct GetV2LoggingOptionsResponse: AWSShape {
+    public struct GetJobDocumentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "defaultLogLevel", required: false, type: .enum), 
-            AWSShapeMember(label: "disableAllLogs", required: false, type: .boolean), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string)
+            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string)
         ]
-        /// The default log level.
-        public let defaultLogLevel: LogLevel?
-        /// Disables all logs.
-        public let disableAllLogs: Bool?
-        /// The IAM role ARN AWS IoT uses to write to your CloudWatch logs.
-        public let roleArn: String?
+        /// The unique identifier you assigned to this job when it was created.
+        public let jobId: String
 
-        public init(defaultLogLevel: LogLevel? = nil, disableAllLogs: Bool? = nil, roleArn: String? = nil) {
-            self.defaultLogLevel = defaultLogLevel
-            self.disableAllLogs = disableAllLogs
-            self.roleArn = roleArn
+        public init(jobId: String) {
+            self.jobId = jobId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case defaultLogLevel = "defaultLogLevel"
-            case disableAllLogs = "disableAllLogs"
-            case roleArn = "roleArn"
+            case jobId = "jobId"
         }
     }
 
-    public struct FirehoseAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deliveryStreamName", required: true, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string), 
-            AWSShapeMember(label: "separator", required: false, type: .string)
-        ]
-        /// The delivery stream name.
-        public let deliveryStreamName: String
-        /// The IAM role that grants access to the Amazon Kinesis Firehose stream.
-        public let roleArn: String
-        /// A character separator that will be used to separate records written to the Firehose stream. Valid values are: '\n' (newline), '\t' (tab), '\r\n' (Windows newline), ',' (comma).
-        public let separator: String?
+    public struct UpdateIndexingConfigurationResponse: AWSShape {
 
-        public init(deliveryStreamName: String, roleArn: String, separator: String? = nil) {
-            self.deliveryStreamName = deliveryStreamName
-            self.roleArn = roleArn
-            self.separator = separator
+    }
+
+    public struct CreateThingGroupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "thingGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "thingGroupId", required: false, type: .string)
+        ]
+        /// The thing group name.
+        public let thingGroupName: String?
+        /// The thing group ARN.
+        public let thingGroupArn: String?
+        /// The thing group ID.
+        public let thingGroupId: String?
+
+        public init(thingGroupName: String? = nil, thingGroupArn: String? = nil, thingGroupId: String? = nil) {
+            self.thingGroupName = thingGroupName
+            self.thingGroupArn = thingGroupArn
+            self.thingGroupId = thingGroupId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deliveryStreamName = "deliveryStreamName"
-            case roleArn = "roleArn"
-            case separator = "separator"
+            case thingGroupName = "thingGroupName"
+            case thingGroupArn = "thingGroupArn"
+            case thingGroupId = "thingGroupId"
         }
     }
 
-    public struct SearchIndexResponse: AWSShape {
+    public struct DeleteAccountAuditConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "things", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "thingGroups", required: false, type: .list)
+            AWSShapeMember(label: "deleteScheduledAudits", location: .querystring(locationName: "deleteScheduledAudits"), required: false, type: .boolean)
         ]
-        /// The things that match the search query.
-        public let things: [ThingDocument]?
+        /// If true, all scheduled audits are deleted.
+        public let deleteScheduledAudits: Bool?
+
+        public init(deleteScheduledAudits: Bool? = nil) {
+            self.deleteScheduledAudits = deleteScheduledAudits
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deleteScheduledAudits = "deleteScheduledAudits"
+        }
+    }
+
+    public struct CreateSecurityProfileResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "securityProfileArn", required: false, type: .string), 
+            AWSShapeMember(label: "securityProfileName", required: false, type: .string)
+        ]
+        /// The ARN of the security profile.
+        public let securityProfileArn: String?
+        /// The name you gave to the security profile.
+        public let securityProfileName: String?
+
+        public init(securityProfileArn: String? = nil, securityProfileName: String? = nil) {
+            self.securityProfileArn = securityProfileArn
+            self.securityProfileName = securityProfileName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityProfileArn = "securityProfileArn"
+            case securityProfileName = "securityProfileName"
+        }
+    }
+
+    public struct AddThingToBillingGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingArn", required: false, type: .string), 
+            AWSShapeMember(label: "thingName", required: false, type: .string), 
+            AWSShapeMember(label: "billingGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "billingGroupName", required: false, type: .string)
+        ]
+        /// The ARN of the thing to be added to the billing group.
+        public let thingArn: String?
+        /// The name of the thing to be added to the billing group.
+        public let thingName: String?
+        /// The ARN of the billing group.
+        public let billingGroupArn: String?
+        /// The name of the billing group.
+        public let billingGroupName: String?
+
+        public init(thingArn: String? = nil, thingName: String? = nil, billingGroupArn: String? = nil, billingGroupName: String? = nil) {
+            self.thingArn = thingArn
+            self.thingName = thingName
+            self.billingGroupArn = billingGroupArn
+            self.billingGroupName = billingGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case thingArn = "thingArn"
+            case thingName = "thingName"
+            case billingGroupArn = "billingGroupArn"
+            case billingGroupName = "billingGroupName"
+        }
+    }
+
+    public struct ListThingGroupsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingGroups", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// The thing groups.
+        public let thingGroups: [GroupNameAndArn]?
         /// The token used to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
-        /// The thing groups that match the search query.
-        public let thingGroups: [ThingGroupDocument]?
 
-        public init(things: [ThingDocument]? = nil, nextToken: String? = nil, thingGroups: [ThingGroupDocument]? = nil) {
-            self.things = things
-            self.nextToken = nextToken
+        public init(thingGroups: [GroupNameAndArn]? = nil, nextToken: String? = nil) {
             self.thingGroups = thingGroups
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case things = "things"
-            case nextToken = "nextToken"
             case thingGroups = "thingGroups"
+            case nextToken = "nextToken"
         }
     }
 
-    public struct ClearDefaultAuthorizerRequest: AWSShape {
+    public struct DescribeCertificateResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificateDescription", required: false, type: .structure)
+        ]
+        /// The description of the certificate.
+        public let certificateDescription: CertificateDescription?
 
+        public init(certificateDescription: CertificateDescription? = nil) {
+            self.certificateDescription = certificateDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateDescription = "certificateDescription"
+        }
     }
 
-    public struct ImplicitDeny: AWSShape {
+    public struct TestInvokeAuthorizerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "token", required: true, type: .string), 
+            AWSShapeMember(label: "authorizerName", location: .uri(locationName: "authorizerName"), required: true, type: .string), 
+            AWSShapeMember(label: "tokenSignature", required: true, type: .string)
+        ]
+        /// The token returned by your custom authentication service.
+        public let token: String
+        /// The custom authorizer name.
+        public let authorizerName: String
+        /// The signature made with the token and your custom authentication service's private key.
+        public let tokenSignature: String
+
+        public init(token: String, authorizerName: String, tokenSignature: String) {
+            self.token = token
+            self.authorizerName = authorizerName
+            self.tokenSignature = tokenSignature
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case token = "token"
+            case authorizerName = "authorizerName"
+            case tokenSignature = "tokenSignature"
+        }
+    }
+
+    public struct CreateOTAUpdateResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "awsIotJobId", required: false, type: .string), 
+            AWSShapeMember(label: "otaUpdateStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "otaUpdateArn", required: false, type: .string), 
+            AWSShapeMember(label: "awsIotJobArn", required: false, type: .string), 
+            AWSShapeMember(label: "otaUpdateId", required: false, type: .string)
+        ]
+        /// The AWS IoT job ID associated with the OTA update.
+        public let awsIotJobId: String?
+        /// The OTA update status.
+        public let otaUpdateStatus: OTAUpdateStatus?
+        /// The OTA update ARN.
+        public let otaUpdateArn: String?
+        /// The AWS IoT job ARN associated with the OTA update.
+        public let awsIotJobArn: String?
+        /// The OTA update ID.
+        public let otaUpdateId: String?
+
+        public init(awsIotJobId: String? = nil, otaUpdateStatus: OTAUpdateStatus? = nil, otaUpdateArn: String? = nil, awsIotJobArn: String? = nil, otaUpdateId: String? = nil) {
+            self.awsIotJobId = awsIotJobId
+            self.otaUpdateStatus = otaUpdateStatus
+            self.otaUpdateArn = otaUpdateArn
+            self.awsIotJobArn = awsIotJobArn
+            self.otaUpdateId = otaUpdateId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsIotJobId = "awsIotJobId"
+            case otaUpdateStatus = "otaUpdateStatus"
+            case otaUpdateArn = "otaUpdateArn"
+            case awsIotJobArn = "awsIotJobArn"
+            case otaUpdateId = "otaUpdateId"
+        }
+    }
+
+    public struct ListAuditFindingsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "checkName", required: false, type: .string), 
+            AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "taskId", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "resourceIdentifier", required: false, type: .structure), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "startTime", required: false, type: .timestamp)
+        ]
+        /// A filter to limit results to the findings for the specified audit check.
+        public let checkName: String?
+        /// A filter to limit results to those found before the specified time. You must specify either the startTime and endTime or the taskId, but not both.
+        public let endTime: TimeStamp?
+        /// A filter to limit results to the audit with the specified ID. You must specify either the taskId or the startTime and endTime, but not both.
+        public let taskId: String?
+        /// The maximum number of results to return at one time. The default is 25.
+        public let maxResults: Int32?
+        /// Information identifying the non-compliant resource.
+        public let resourceIdentifier: ResourceIdentifier?
+        /// The token for the next set of results.
+        public let nextToken: String?
+        /// A filter to limit results to those found after the specified time. You must specify either the startTime and endTime or the taskId, but not both.
+        public let startTime: TimeStamp?
+
+        public init(checkName: String? = nil, endTime: TimeStamp? = nil, taskId: String? = nil, maxResults: Int32? = nil, resourceIdentifier: ResourceIdentifier? = nil, nextToken: String? = nil, startTime: TimeStamp? = nil) {
+            self.checkName = checkName
+            self.endTime = endTime
+            self.taskId = taskId
+            self.maxResults = maxResults
+            self.resourceIdentifier = resourceIdentifier
+            self.nextToken = nextToken
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case checkName = "checkName"
+            case endTime = "endTime"
+            case taskId = "taskId"
+            case maxResults = "maxResults"
+            case resourceIdentifier = "resourceIdentifier"
+            case nextToken = "nextToken"
+            case startTime = "startTime"
+        }
+    }
+
+    public struct TransferCertificateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "transferMessage", required: false, type: .string), 
+            AWSShapeMember(label: "targetAwsAccount", location: .querystring(locationName: "targetAwsAccount"), required: true, type: .string), 
+            AWSShapeMember(label: "certificateId", location: .uri(locationName: "certificateId"), required: true, type: .string)
+        ]
+        /// The transfer message.
+        public let transferMessage: String?
+        /// The AWS account.
+        public let targetAwsAccount: String
+        /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
+        public let certificateId: String
+
+        public init(transferMessage: String? = nil, targetAwsAccount: String, certificateId: String) {
+            self.transferMessage = transferMessage
+            self.targetAwsAccount = targetAwsAccount
+            self.certificateId = certificateId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transferMessage = "transferMessage"
+            case targetAwsAccount = "targetAwsAccount"
+            case certificateId = "certificateId"
+        }
+    }
+
+    public struct DescribeThingGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingGroupName", location: .uri(locationName: "thingGroupName"), required: true, type: .string)
+        ]
+        /// The name of the thing group.
+        public let thingGroupName: String
+
+        public init(thingGroupName: String) {
+            self.thingGroupName = thingGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case thingGroupName = "thingGroupName"
+        }
+    }
+
+    public struct ListThingRegistrationTaskReportsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "taskId", location: .uri(locationName: "taskId"), required: true, type: .string), 
+            AWSShapeMember(label: "reportType", location: .querystring(locationName: "reportType"), required: true, type: .enum), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+        /// The id of the task.
+        public let taskId: String
+        /// The type of task report.
+        public let reportType: ReportType
+        /// The maximum number of results to return per request.
+        public let maxResults: Int32?
+        /// The token to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(taskId: String, reportType: ReportType, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.taskId = taskId
+            self.reportType = reportType
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taskId = "taskId"
+            case reportType = "reportType"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct Allowed: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "policies", required: false, type: .list)
         ]
-        /// Policies that don't contain a matching allow or deny statement for the specified action on the specified resource. 
+        /// A list of policies that allowed the authentication.
         public let policies: [Policy]?
 
         public init(policies: [Policy]? = nil) {
@@ -3091,154 +2791,1460 @@ extension IoT {
         }
     }
 
-    public struct CreateScheduledAuditRequest: AWSShape {
+    public struct DescribeJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "frequency", required: true, type: .enum), 
-            AWSShapeMember(label: "dayOfMonth", required: false, type: .string), 
-            AWSShapeMember(label: "dayOfWeek", required: false, type: .enum), 
-            AWSShapeMember(label: "targetCheckNames", required: true, type: .list), 
-            AWSShapeMember(label: "scheduledAuditName", location: .uri(locationName: "scheduledAuditName"), required: true, type: .string)
-        ]
-        /// How often the scheduled audit takes place. Can be one of "DAILY", "WEEKLY", "BIWEEKLY" or "MONTHLY". The actual start time of each audit is determined by the system.
-        public let frequency: AuditFrequency
-        /// The day of the month on which the scheduled audit takes place. Can be "1" through "31" or "LAST". This field is required if the "frequency" parameter is set to "MONTHLY". If days 29-31 are specified, and the month does not have that many days, the audit takes place on the "LAST" day of the month.
-        public let dayOfMonth: String?
-        /// The day of the week on which the scheduled audit takes place. Can be one of "SUN", "MON", "TUE", "WED", "THU", "FRI" or "SAT". This field is required if the "frequency" parameter is set to "WEEKLY" or "BIWEEKLY".
-        public let dayOfWeek: DayOfWeek?
-        /// Which checks are performed during the scheduled audit. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks including those that are enabled or UpdateAccountAuditConfiguration to select which checks are enabled.)
-        public let targetCheckNames: [String]
-        /// The name you want to give to the scheduled audit. (Max. 128 chars)
-        public let scheduledAuditName: String
-
-        public init(frequency: AuditFrequency, dayOfMonth: String? = nil, dayOfWeek: DayOfWeek? = nil, targetCheckNames: [String], scheduledAuditName: String) {
-            self.frequency = frequency
-            self.dayOfMonth = dayOfMonth
-            self.dayOfWeek = dayOfWeek
-            self.targetCheckNames = targetCheckNames
-            self.scheduledAuditName = scheduledAuditName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case frequency = "frequency"
-            case dayOfMonth = "dayOfMonth"
-            case dayOfWeek = "dayOfWeek"
-            case targetCheckNames = "targetCheckNames"
-            case scheduledAuditName = "scheduledAuditName"
-        }
-    }
-
-    public struct UpdateStreamRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "streamId", location: .uri(locationName: "streamId"), required: true, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string), 
-            AWSShapeMember(label: "files", required: false, type: .list)
-        ]
-        /// The stream ID.
-        public let streamId: String
-        /// The description of the stream.
-        public let description: String?
-        /// An IAM role that allows the IoT service principal assumes to access your S3 files.
-        public let roleArn: String?
-        /// The files associated with the stream.
-        public let files: [StreamFile]?
-
-        public init(streamId: String, description: String? = nil, roleArn: String? = nil, files: [StreamFile]? = nil) {
-            self.streamId = streamId
-            self.description = description
-            self.roleArn = roleArn
-            self.files = files
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case streamId = "streamId"
-            case description = "description"
-            case roleArn = "roleArn"
-            case files = "files"
-        }
-    }
-
-    public struct DeleteRegistrationCodeResponse: AWSShape {
-
-    }
-
-    public struct JobExecutionSummaryForThing: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobId", required: false, type: .string), 
-            AWSShapeMember(label: "jobExecutionSummary", required: false, type: .structure)
+            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string)
         ]
         /// The unique identifier you assigned to this job when it was created.
-        public let jobId: String?
-        /// Contains a subset of information about a job execution.
-        public let jobExecutionSummary: JobExecutionSummary?
+        public let jobId: String
 
-        public init(jobId: String? = nil, jobExecutionSummary: JobExecutionSummary? = nil) {
+        public init(jobId: String) {
             self.jobId = jobId
-            self.jobExecutionSummary = jobExecutionSummary
         }
 
         private enum CodingKeys: String, CodingKey {
             case jobId = "jobId"
-            case jobExecutionSummary = "jobExecutionSummary"
         }
     }
 
-    public struct TopicRule: AWSShape {
+    public struct Tag: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ruleName", required: false, type: .string), 
-            AWSShapeMember(label: "actions", required: false, type: .list), 
-            AWSShapeMember(label: "errorAction", required: false, type: .structure), 
-            AWSShapeMember(label: "sql", required: false, type: .string), 
-            AWSShapeMember(label: "awsIotSqlVersion", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "ruleDisabled", required: false, type: .boolean)
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
         ]
-        /// The date and time the rule was created.
-        public let createdAt: TimeStamp?
-        /// The name of the rule.
-        public let ruleName: String?
-        /// The actions associated with the rule.
-        public let actions: [Action]?
-        /// The action to perform when an error occurs.
-        public let errorAction: Action?
-        /// The SQL statement used to query the topic. When using a SQL query with multiple lines, be sure to escape the newline characters.
-        public let sql: String?
-        /// The version of the SQL rules engine to use when evaluating the rule.
-        public let awsIotSqlVersion: String?
-        /// The description of the rule.
-        public let description: String?
-        /// Specifies whether the rule is disabled.
-        public let ruleDisabled: Bool?
+        /// The tag's key.
+        public let key: String?
+        /// The tag's value.
+        public let value: String?
 
-        public init(createdAt: TimeStamp? = nil, ruleName: String? = nil, actions: [Action]? = nil, errorAction: Action? = nil, sql: String? = nil, awsIotSqlVersion: String? = nil, description: String? = nil, ruleDisabled: Bool? = nil) {
-            self.createdAt = createdAt
-            self.ruleName = ruleName
-            self.actions = actions
-            self.errorAction = errorAction
-            self.sql = sql
-            self.awsIotSqlVersion = awsIotSqlVersion
-            self.description = description
-            self.ruleDisabled = ruleDisabled
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt = "createdAt"
-            case ruleName = "ruleName"
-            case actions = "actions"
-            case errorAction = "errorAction"
-            case sql = "sql"
-            case awsIotSqlVersion = "awsIotSqlVersion"
-            case description = "description"
-            case ruleDisabled = "ruleDisabled"
+            case key = "Key"
+            case value = "Value"
         }
     }
 
-    public enum ThingIndexingMode: String, CustomStringConvertible, Codable {
-        case off = "OFF"
-        case registry = "REGISTRY"
-        case registryAndShadow = "REGISTRY_AND_SHADOW"
+    public struct SetV2LoggingOptionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "disableAllLogs", required: false, type: .boolean), 
+            AWSShapeMember(label: "defaultLogLevel", required: false, type: .enum), 
+            AWSShapeMember(label: "roleArn", required: false, type: .string)
+        ]
+        /// If true all logs are disabled. The default is false.
+        public let disableAllLogs: Bool?
+        /// The default logging level.
+        public let defaultLogLevel: LogLevel?
+        /// The ARN of the role that allows IoT to write to Cloudwatch logs.
+        public let roleArn: String?
+
+        public init(disableAllLogs: Bool? = nil, defaultLogLevel: LogLevel? = nil, roleArn: String? = nil) {
+            self.disableAllLogs = disableAllLogs
+            self.defaultLogLevel = defaultLogLevel
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case disableAllLogs = "disableAllLogs"
+            case defaultLogLevel = "defaultLogLevel"
+            case roleArn = "roleArn"
+        }
+    }
+
+    public struct Behavior: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "metric", required: false, type: .string), 
+            AWSShapeMember(label: "criteria", required: false, type: .structure), 
+            AWSShapeMember(label: "name", required: true, type: .string)
+        ]
+        /// What is measured by the behavior.
+        public let metric: String?
+        /// The criteria that determine if a device is behaving normally in regard to the metric.
+        public let criteria: BehaviorCriteria?
+        /// The name you have given to the behavior.
+        public let name: String
+
+        public init(metric: String? = nil, criteria: BehaviorCriteria? = nil, name: String) {
+            self.metric = metric
+            self.criteria = criteria
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metric = "metric"
+            case criteria = "criteria"
+            case name = "name"
+        }
+    }
+
+    public struct ListPolicyPrincipalsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeMember(label: "policyName", location: .header(locationName: "x-amzn-iot-policy"), required: true, type: .string), 
+            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
+            AWSShapeMember(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean)
+        ]
+        /// The marker for the next set of results.
+        public let marker: String?
+        /// The policy name.
+        public let policyName: String
+        /// The result page size.
+        public let pageSize: Int32?
+        /// Specifies the order for results. If true, the results are returned in ascending creation order.
+        public let ascendingOrder: Bool?
+
+        public init(marker: String? = nil, policyName: String, pageSize: Int32? = nil, ascendingOrder: Bool? = nil) {
+            self.marker = marker
+            self.policyName = policyName
+            self.pageSize = pageSize
+            self.ascendingOrder = ascendingOrder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "marker"
+            case policyName = "x-amzn-iot-policy"
+            case pageSize = "pageSize"
+            case ascendingOrder = "isAscendingOrder"
+        }
+    }
+
+    public struct SetDefaultAuthorizerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "authorizerName", required: true, type: .string)
+        ]
+        /// The authorizer name.
+        public let authorizerName: String
+
+        public init(authorizerName: String) {
+            self.authorizerName = authorizerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizerName = "authorizerName"
+        }
+    }
+
+    public struct UpdateSecurityProfileRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "expectedVersion", location: .querystring(locationName: "expectedVersion"), required: false, type: .long), 
+            AWSShapeMember(label: "alertTargets", required: false, type: .map), 
+            AWSShapeMember(label: "behaviors", required: false, type: .list), 
+            AWSShapeMember(label: "securityProfileDescription", required: false, type: .string), 
+            AWSShapeMember(label: "securityProfileName", location: .uri(locationName: "securityProfileName"), required: true, type: .string)
+        ]
+        /// The expected version of the security profile. A new version is generated whenever the security profile is updated. If you specify a value that is different than the actual version, a VersionConflictException is thrown.
+        public let expectedVersion: Int64?
+        /// Where the alerts are sent. (Alerts are always sent to the console.)
+        public let alertTargets: [AlertTargetType: AlertTarget]?
+        /// Specifies the behaviors that, when violated by a device (thing), cause an alert.
+        public let behaviors: [Behavior]?
+        /// A description of the security profile.
+        public let securityProfileDescription: String?
+        /// The name of the security profile you want to update.
+        public let securityProfileName: String
+
+        public init(expectedVersion: Int64? = nil, alertTargets: [AlertTargetType: AlertTarget]? = nil, behaviors: [Behavior]? = nil, securityProfileDescription: String? = nil, securityProfileName: String) {
+            self.expectedVersion = expectedVersion
+            self.alertTargets = alertTargets
+            self.behaviors = behaviors
+            self.securityProfileDescription = securityProfileDescription
+            self.securityProfileName = securityProfileName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expectedVersion = "expectedVersion"
+            case alertTargets = "alertTargets"
+            case behaviors = "behaviors"
+            case securityProfileDescription = "securityProfileDescription"
+            case securityProfileName = "securityProfileName"
+        }
+    }
+
+    public struct DeletePolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string)
+        ]
+        /// The name of the policy to delete.
+        public let policyName: String
+
+        public init(policyName: String) {
+            self.policyName = policyName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyName = "policyName"
+        }
+    }
+
+    public struct CreateKeysAndCertificateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "setAsActive", location: .querystring(locationName: "setAsActive"), required: false, type: .boolean)
+        ]
+        /// Specifies whether the certificate is active.
+        public let setAsActive: Bool?
+
+        public init(setAsActive: Bool? = nil) {
+            self.setAsActive = setAsActive
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case setAsActive = "setAsActive"
+        }
+    }
+
+    public struct CreateCertificateFromCsrResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificateId", required: false, type: .string), 
+            AWSShapeMember(label: "certificateArn", required: false, type: .string), 
+            AWSShapeMember(label: "certificatePem", required: false, type: .string)
+        ]
+        /// The ID of the certificate. Certificate management operations only take a certificateId.
+        public let certificateId: String?
+        /// The Amazon Resource Name (ARN) of the certificate. You can use the ARN as a principal for policy operations.
+        public let certificateArn: String?
+        /// The certificate data, in PEM format.
+        public let certificatePem: String?
+
+        public init(certificateId: String? = nil, certificateArn: String? = nil, certificatePem: String? = nil) {
+            self.certificateId = certificateId
+            self.certificateArn = certificateArn
+            self.certificatePem = certificatePem
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateId = "certificateId"
+            case certificateArn = "certificateArn"
+            case certificatePem = "certificatePem"
+        }
+    }
+
+    public struct ListThingsInBillingGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "billingGroupName", location: .uri(locationName: "billingGroupName"), required: true, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+        /// The name of the billing group.
+        public let billingGroupName: String
+        /// The maximum number of results to return per request.
+        public let maxResults: Int32?
+        /// The token to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(billingGroupName: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.billingGroupName = billingGroupName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case billingGroupName = "billingGroupName"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DeleteThingGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingGroupName", location: .uri(locationName: "thingGroupName"), required: true, type: .string), 
+            AWSShapeMember(label: "expectedVersion", location: .querystring(locationName: "expectedVersion"), required: false, type: .long)
+        ]
+        /// The name of the thing group to delete.
+        public let thingGroupName: String
+        /// The expected version of the thing group to delete.
+        public let expectedVersion: Int64?
+
+        public init(thingGroupName: String, expectedVersion: Int64? = nil) {
+            self.thingGroupName = thingGroupName
+            self.expectedVersion = expectedVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case thingGroupName = "thingGroupName"
+            case expectedVersion = "expectedVersion"
+        }
+    }
+
+    public struct DescribeAccountAuditConfigurationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "roleArn", required: false, type: .string), 
+            AWSShapeMember(label: "auditNotificationTargetConfigurations", required: false, type: .map), 
+            AWSShapeMember(label: "auditCheckConfigurations", required: false, type: .map)
+        ]
+        /// The ARN of the role that grants permission to AWS IoT to access information about your devices, policies, certificates and other items as necessary when performing an audit. On the first call to UpdateAccountAuditConfiguration this parameter is required.
+        public let roleArn: String?
+        /// Information about the targets to which audit notifications are sent for this account.
+        public let auditNotificationTargetConfigurations: [AuditNotificationType: AuditNotificationTarget]?
+        /// Which audit checks are enabled and disabled for this account.
+        public let auditCheckConfigurations: [String: AuditCheckConfiguration]?
+
+        public init(roleArn: String? = nil, auditNotificationTargetConfigurations: [AuditNotificationType: AuditNotificationTarget]? = nil, auditCheckConfigurations: [String: AuditCheckConfiguration]? = nil) {
+            self.roleArn = roleArn
+            self.auditNotificationTargetConfigurations = auditNotificationTargetConfigurations
+            self.auditCheckConfigurations = auditCheckConfigurations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "roleArn"
+            case auditNotificationTargetConfigurations = "auditNotificationTargetConfigurations"
+            case auditCheckConfigurations = "auditCheckConfigurations"
+        }
+    }
+
+    public struct CodeSigningCertificateChain: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "inlineDocument", required: false, type: .string), 
+            AWSShapeMember(label: "certificateName", required: false, type: .string)
+        ]
+        /// A base64 encoded binary representation of the code signing certificate chain.
+        public let inlineDocument: String?
+        /// The name of the certificate.
+        public let certificateName: String?
+
+        public init(inlineDocument: String? = nil, certificateName: String? = nil) {
+            self.inlineDocument = inlineDocument
+            self.certificateName = certificateName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inlineDocument = "inlineDocument"
+            case certificateName = "certificateName"
+        }
+    }
+
+    public struct DeleteV2LoggingLevelRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "targetType", location: .querystring(locationName: "targetType"), required: true, type: .enum), 
+            AWSShapeMember(label: "targetName", location: .querystring(locationName: "targetName"), required: true, type: .string)
+        ]
+        /// The type of resource for which you are configuring logging. Must be THING_Group.
+        public let targetType: LogTargetType
+        /// The name of the resource for which you are configuring logging.
+        public let targetName: String
+
+        public init(targetType: LogTargetType, targetName: String) {
+            self.targetType = targetType
+            self.targetName = targetName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetType = "targetType"
+            case targetName = "targetName"
+        }
+    }
+
+    public enum AuditNotificationType: String, CustomStringConvertible, Codable {
+        case sns = "SNS"
         public var description: String { return self.rawValue }
+    }
+
+    public struct AttachPolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string), 
+            AWSShapeMember(label: "target", required: true, type: .string)
+        ]
+        /// The name of the policy to attach.
+        public let policyName: String
+        /// The identity to which the policy is attached.
+        public let target: String
+
+        public init(policyName: String, target: String) {
+            self.policyName = policyName
+            self.target = target
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyName = "policyName"
+            case target = "target"
+        }
+    }
+
+    public struct DynamoDBAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "rangeKeyField", required: false, type: .string), 
+            AWSShapeMember(label: "rangeKeyValue", required: false, type: .string), 
+            AWSShapeMember(label: "hashKeyField", required: true, type: .string), 
+            AWSShapeMember(label: "hashKeyValue", required: true, type: .string), 
+            AWSShapeMember(label: "hashKeyType", required: false, type: .enum), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string), 
+            AWSShapeMember(label: "operation", required: false, type: .string), 
+            AWSShapeMember(label: "tableName", required: true, type: .string), 
+            AWSShapeMember(label: "payloadField", required: false, type: .string), 
+            AWSShapeMember(label: "rangeKeyType", required: false, type: .enum)
+        ]
+        /// The range key name.
+        public let rangeKeyField: String?
+        /// The range key value.
+        public let rangeKeyValue: String?
+        /// The hash key name.
+        public let hashKeyField: String
+        /// The hash key value.
+        public let hashKeyValue: String
+        /// The hash key type. Valid values are "STRING" or "NUMBER"
+        public let hashKeyType: DynamoKeyType?
+        /// The ARN of the IAM role that grants access to the DynamoDB table.
+        public let roleArn: String
+        /// The type of operation to be performed. This follows the substitution template, so it can be ${operation}, but the substitution must result in one of the following: INSERT, UPDATE, or DELETE.
+        public let operation: String?
+        /// The name of the DynamoDB table.
+        public let tableName: String
+        /// The action payload. This name can be customized.
+        public let payloadField: String?
+        /// The range key type. Valid values are "STRING" or "NUMBER"
+        public let rangeKeyType: DynamoKeyType?
+
+        public init(rangeKeyField: String? = nil, rangeKeyValue: String? = nil, hashKeyField: String, hashKeyValue: String, hashKeyType: DynamoKeyType? = nil, roleArn: String, operation: String? = nil, tableName: String, payloadField: String? = nil, rangeKeyType: DynamoKeyType? = nil) {
+            self.rangeKeyField = rangeKeyField
+            self.rangeKeyValue = rangeKeyValue
+            self.hashKeyField = hashKeyField
+            self.hashKeyValue = hashKeyValue
+            self.hashKeyType = hashKeyType
+            self.roleArn = roleArn
+            self.operation = operation
+            self.tableName = tableName
+            self.payloadField = payloadField
+            self.rangeKeyType = rangeKeyType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rangeKeyField = "rangeKeyField"
+            case rangeKeyValue = "rangeKeyValue"
+            case hashKeyField = "hashKeyField"
+            case hashKeyValue = "hashKeyValue"
+            case hashKeyType = "hashKeyType"
+            case roleArn = "roleArn"
+            case operation = "operation"
+            case tableName = "tableName"
+            case payloadField = "payloadField"
+            case rangeKeyType = "rangeKeyType"
+        }
+    }
+
+    public struct DeleteScheduledAuditRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "scheduledAuditName", location: .uri(locationName: "scheduledAuditName"), required: true, type: .string)
+        ]
+        /// The name of the scheduled audit you want to delete.
+        public let scheduledAuditName: String
+
+        public init(scheduledAuditName: String) {
+            self.scheduledAuditName = scheduledAuditName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scheduledAuditName = "scheduledAuditName"
+        }
+    }
+
+    public struct StepFunctionsAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "executionNamePrefix", required: false, type: .string), 
+            AWSShapeMember(label: "stateMachineName", required: true, type: .string), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string)
+        ]
+        /// (Optional) A name will be given to the state machine execution consisting of this prefix followed by a UUID. Step Functions automatically creates a unique name for each state machine execution if one is not provided.
+        public let executionNamePrefix: String?
+        /// The name of the Step Functions state machine whose execution will be started.
+        public let stateMachineName: String
+        /// The ARN of the role that grants IoT permission to start execution of a state machine ("Action":"states:StartExecution").
+        public let roleArn: String
+
+        public init(executionNamePrefix: String? = nil, stateMachineName: String, roleArn: String) {
+            self.executionNamePrefix = executionNamePrefix
+            self.stateMachineName = stateMachineName
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executionNamePrefix = "executionNamePrefix"
+            case stateMachineName = "stateMachineName"
+            case roleArn = "roleArn"
+        }
+    }
+
+    public struct RemoveThingFromThingGroupResponse: AWSShape {
+
+    }
+
+    public struct OTAUpdateSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "otaUpdateArn", required: false, type: .string), 
+            AWSShapeMember(label: "otaUpdateId", required: false, type: .string)
+        ]
+        /// The date when the OTA update was created.
+        public let creationDate: TimeStamp?
+        /// The OTA update ARN.
+        public let otaUpdateArn: String?
+        /// The OTA update ID.
+        public let otaUpdateId: String?
+
+        public init(creationDate: TimeStamp? = nil, otaUpdateArn: String? = nil, otaUpdateId: String? = nil) {
+            self.creationDate = creationDate
+            self.otaUpdateArn = otaUpdateArn
+            self.otaUpdateId = otaUpdateId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDate = "creationDate"
+            case otaUpdateArn = "otaUpdateArn"
+            case otaUpdateId = "otaUpdateId"
+        }
+    }
+
+    public enum AuditTaskStatus: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case canceled = "CANCELED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DescribeThingTypeResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingTypeProperties", required: false, type: .structure), 
+            AWSShapeMember(label: "thingTypeMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "thingTypeId", required: false, type: .string), 
+            AWSShapeMember(label: "thingTypeName", required: false, type: .string), 
+            AWSShapeMember(label: "thingTypeArn", required: false, type: .string)
+        ]
+        /// The ThingTypeProperties contains information about the thing type including description, and a list of searchable thing attribute names.
+        public let thingTypeProperties: ThingTypeProperties?
+        /// The ThingTypeMetadata contains additional information about the thing type including: creation date and time, a value indicating whether the thing type is deprecated, and a date and time when it was deprecated.
+        public let thingTypeMetadata: ThingTypeMetadata?
+        /// The thing type ID.
+        public let thingTypeId: String?
+        /// The name of the thing type.
+        public let thingTypeName: String?
+        /// The thing type ARN.
+        public let thingTypeArn: String?
+
+        public init(thingTypeProperties: ThingTypeProperties? = nil, thingTypeMetadata: ThingTypeMetadata? = nil, thingTypeId: String? = nil, thingTypeName: String? = nil, thingTypeArn: String? = nil) {
+            self.thingTypeProperties = thingTypeProperties
+            self.thingTypeMetadata = thingTypeMetadata
+            self.thingTypeId = thingTypeId
+            self.thingTypeName = thingTypeName
+            self.thingTypeArn = thingTypeArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case thingTypeProperties = "thingTypeProperties"
+            case thingTypeMetadata = "thingTypeMetadata"
+            case thingTypeId = "thingTypeId"
+            case thingTypeName = "thingTypeName"
+            case thingTypeArn = "thingTypeArn"
+        }
+    }
+
+    public struct RemoveThingFromBillingGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingName", required: false, type: .string), 
+            AWSShapeMember(label: "thingArn", required: false, type: .string), 
+            AWSShapeMember(label: "billingGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "billingGroupName", required: false, type: .string)
+        ]
+        /// The name of the thing to be removed from the billing group.
+        public let thingName: String?
+        /// The ARN of the thing to be removed from the billing group.
+        public let thingArn: String?
+        /// The ARN of the billing group.
+        public let billingGroupArn: String?
+        /// The name of the billing group.
+        public let billingGroupName: String?
+
+        public init(thingName: String? = nil, thingArn: String? = nil, billingGroupArn: String? = nil, billingGroupName: String? = nil) {
+            self.thingName = thingName
+            self.thingArn = thingArn
+            self.billingGroupArn = billingGroupArn
+            self.billingGroupName = billingGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case thingName = "thingName"
+            case thingArn = "thingArn"
+            case billingGroupArn = "billingGroupArn"
+            case billingGroupName = "billingGroupName"
+        }
+    }
+
+    public struct RoleAliasDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "roleAlias", required: false, type: .string), 
+            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "credentialDurationSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "roleAliasArn", required: false, type: .string), 
+            AWSShapeMember(label: "roleArn", required: false, type: .string), 
+            AWSShapeMember(label: "owner", required: false, type: .string)
+        ]
+        /// The role alias.
+        public let roleAlias: String?
+        /// The UNIX timestamp of when the role alias was created.
+        public let creationDate: TimeStamp?
+        /// The UNIX timestamp of when the role alias was last modified.
+        public let lastModifiedDate: TimeStamp?
+        /// The number of seconds for which the credential is valid.
+        public let credentialDurationSeconds: Int32?
+        /// The ARN of the role alias.
+        public let roleAliasArn: String?
+        /// The role ARN.
+        public let roleArn: String?
+        /// The role alias owner.
+        public let owner: String?
+
+        public init(roleAlias: String? = nil, creationDate: TimeStamp? = nil, lastModifiedDate: TimeStamp? = nil, credentialDurationSeconds: Int32? = nil, roleAliasArn: String? = nil, roleArn: String? = nil, owner: String? = nil) {
+            self.roleAlias = roleAlias
+            self.creationDate = creationDate
+            self.lastModifiedDate = lastModifiedDate
+            self.credentialDurationSeconds = credentialDurationSeconds
+            self.roleAliasArn = roleAliasArn
+            self.roleArn = roleArn
+            self.owner = owner
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleAlias = "roleAlias"
+            case creationDate = "creationDate"
+            case lastModifiedDate = "lastModifiedDate"
+            case credentialDurationSeconds = "credentialDurationSeconds"
+            case roleAliasArn = "roleAliasArn"
+            case roleArn = "roleArn"
+            case owner = "owner"
+        }
+    }
+
+    public struct GetLoggingOptionsRequest: AWSShape {
+
+    }
+
+    public struct CreatePolicyVersionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policyArn", required: false, type: .string), 
+            AWSShapeMember(label: "isDefaultVersion", required: false, type: .boolean), 
+            AWSShapeMember(label: "policyDocument", required: false, type: .string), 
+            AWSShapeMember(label: "policyVersionId", required: false, type: .string)
+        ]
+        /// The policy ARN.
+        public let policyArn: String?
+        /// Specifies whether the policy version is the default.
+        public let isDefaultVersion: Bool?
+        /// The JSON document that describes the policy.
+        public let policyDocument: String?
+        /// The policy version ID.
+        public let policyVersionId: String?
+
+        public init(policyArn: String? = nil, isDefaultVersion: Bool? = nil, policyDocument: String? = nil, policyVersionId: String? = nil) {
+            self.policyArn = policyArn
+            self.isDefaultVersion = isDefaultVersion
+            self.policyDocument = policyDocument
+            self.policyVersionId = policyVersionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyArn = "policyArn"
+            case isDefaultVersion = "isDefaultVersion"
+            case policyDocument = "policyDocument"
+            case policyVersionId = "policyVersionId"
+        }
+    }
+
+    public struct ListJobExecutionsForThingResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "executionSummaries", required: false, type: .list)
+        ]
+        /// The token for the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+        /// A list of job execution summaries.
+        public let executionSummaries: [JobExecutionSummaryForThing]?
+
+        public init(nextToken: String? = nil, executionSummaries: [JobExecutionSummaryForThing]? = nil) {
+            self.nextToken = nextToken
+            self.executionSummaries = executionSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case executionSummaries = "executionSummaries"
+        }
+    }
+
+    public struct BillingGroupProperties: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "billingGroupDescription", required: false, type: .string)
+        ]
+        /// The description of the billing group.
+        public let billingGroupDescription: String?
+
+        public init(billingGroupDescription: String? = nil) {
+            self.billingGroupDescription = billingGroupDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case billingGroupDescription = "billingGroupDescription"
+        }
+    }
+
+    public struct SetDefaultPolicyVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string), 
+            AWSShapeMember(label: "policyVersionId", location: .uri(locationName: "policyVersionId"), required: true, type: .string)
+        ]
+        /// The policy name.
+        public let policyName: String
+        /// The policy version ID.
+        public let policyVersionId: String
+
+        public init(policyName: String, policyVersionId: String) {
+            self.policyName = policyName
+            self.policyVersionId = policyVersionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyName = "policyName"
+            case policyVersionId = "policyVersionId"
+        }
+    }
+
+    public struct ThingGroupDocument: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "parentGroupNames", required: false, type: .list), 
+            AWSShapeMember(label: "thingGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "thingGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "thingGroupDescription", required: false, type: .string), 
+            AWSShapeMember(label: "attributes", required: false, type: .map)
+        ]
+        /// Parent group names.
+        public let parentGroupNames: [String]?
+        /// The thing group ID.
+        public let thingGroupId: String?
+        /// The thing group name.
+        public let thingGroupName: String?
+        /// The thing group description.
+        public let thingGroupDescription: String?
+        /// The thing group attributes.
+        public let attributes: [String: String]?
+
+        public init(parentGroupNames: [String]? = nil, thingGroupId: String? = nil, thingGroupName: String? = nil, thingGroupDescription: String? = nil, attributes: [String: String]? = nil) {
+            self.parentGroupNames = parentGroupNames
+            self.thingGroupId = thingGroupId
+            self.thingGroupName = thingGroupName
+            self.thingGroupDescription = thingGroupDescription
+            self.attributes = attributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parentGroupNames = "parentGroupNames"
+            case thingGroupId = "thingGroupId"
+            case thingGroupName = "thingGroupName"
+            case thingGroupDescription = "thingGroupDescription"
+            case attributes = "attributes"
+        }
+    }
+
+    public struct EnableTopicRuleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ruleName", location: .uri(locationName: "ruleName"), required: true, type: .string)
+        ]
+        /// The name of the topic rule to enable.
+        public let ruleName: String
+
+        public init(ruleName: String) {
+            self.ruleName = ruleName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleName = "ruleName"
+        }
+    }
+
+    public struct SqsAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "queueUrl", required: true, type: .string), 
+            AWSShapeMember(label: "useBase64", required: false, type: .boolean), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string)
+        ]
+        /// The URL of the Amazon SQS queue.
+        public let queueUrl: String
+        /// Specifies whether to use Base64 encoding.
+        public let useBase64: Bool?
+        /// The ARN of the IAM role that grants access.
+        public let roleArn: String
+
+        public init(queueUrl: String, useBase64: Bool? = nil, roleArn: String) {
+            self.queueUrl = queueUrl
+            self.useBase64 = useBase64
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queueUrl = "queueUrl"
+            case useBase64 = "useBase64"
+            case roleArn = "roleArn"
+        }
+    }
+
+    public struct ListAttachedPoliciesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "recursive", location: .querystring(locationName: "recursive"), required: false, type: .boolean), 
+            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
+            AWSShapeMember(label: "target", location: .uri(locationName: "target"), required: true, type: .string)
+        ]
+        /// When true, recursively list attached policies.
+        public let recursive: Bool?
+        /// The token to retrieve the next set of results.
+        public let marker: String?
+        /// The maximum number of results to be returned per request.
+        public let pageSize: Int32?
+        /// The group for which the policies will be listed.
+        public let target: String
+
+        public init(recursive: Bool? = nil, marker: String? = nil, pageSize: Int32? = nil, target: String) {
+            self.recursive = recursive
+            self.marker = marker
+            self.pageSize = pageSize
+            self.target = target
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recursive = "recursive"
+            case marker = "marker"
+            case pageSize = "pageSize"
+            case target = "target"
+        }
+    }
+
+    public struct ListCertificatesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificates", required: false, type: .list), 
+            AWSShapeMember(label: "nextMarker", required: false, type: .string)
+        ]
+        /// The descriptions of the certificates.
+        public let certificates: [Certificate]?
+        /// The marker for the next set of results, or null if there are no additional results.
+        public let nextMarker: String?
+
+        public init(certificates: [Certificate]? = nil, nextMarker: String? = nil) {
+            self.certificates = certificates
+            self.nextMarker = nextMarker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificates = "certificates"
+            case nextMarker = "nextMarker"
+        }
+    }
+
+    public struct SalesforceAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "url", required: true, type: .string), 
+            AWSShapeMember(label: "token", required: true, type: .string)
+        ]
+        /// The URL exposed by the Salesforce IoT Cloud Input Stream. The URL is available from the Salesforce IoT Cloud platform after creation of the Input Stream.
+        public let url: String
+        /// The token used to authenticate access to the Salesforce IoT Cloud Input Stream. The token is available from the Salesforce IoT Cloud platform after creation of the Input Stream.
+        public let token: String
+
+        public init(url: String, token: String) {
+            self.url = url
+            self.token = token
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case url = "url"
+            case token = "token"
+        }
+    }
+
+    public struct JobExecution: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingArn", required: false, type: .string), 
+            AWSShapeMember(label: "jobId", required: false, type: .string), 
+            AWSShapeMember(label: "startedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "statusDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "forceCanceled", required: false, type: .boolean), 
+            AWSShapeMember(label: "versionNumber", required: false, type: .long), 
+            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "approximateSecondsBeforeTimedOut", required: false, type: .long), 
+            AWSShapeMember(label: "executionNumber", required: false, type: .long), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "queuedAt", required: false, type: .timestamp)
+        ]
+        /// The ARN of the thing on which the job execution is running.
+        public let thingArn: String?
+        /// The unique identifier you assigned to the job when it was created.
+        public let jobId: String?
+        /// The time, in milliseconds since the epoch, when the job execution started.
+        public let startedAt: TimeStamp?
+        /// A collection of name/value pairs that describe the status of the job execution.
+        public let statusDetails: JobExecutionStatusDetails?
+        /// Will be true if the job execution was canceled with the optional force parameter set to true.
+        public let forceCanceled: Bool?
+        /// The version of the job execution. Job execution versions are incremented each time they are updated by a device.
+        public let versionNumber: Int64?
+        /// The time, in milliseconds since the epoch, when the job execution was last updated.
+        public let lastUpdatedAt: TimeStamp?
+        /// The estimated number of seconds that remain before the job execution status will be changed to TIMED_OUT. The timeout interval can be anywhere between 1 minute and 7 days (1 to 10080 minutes). The actual job execution timeout can occur up to 60 seconds later than the estimated duration. This value will not be included if the job execution has reached a terminal status.
+        public let approximateSecondsBeforeTimedOut: Int64?
+        /// A string (consisting of the digits "0" through "9") which identifies this particular job execution on this particular device. It can be used in commands which return or update job execution information. 
+        public let executionNumber: Int64?
+        /// The status of the job execution (IN_PROGRESS, QUEUED, FAILED, SUCCEEDED, TIMED_OUT, CANCELED, or REJECTED).
+        public let status: JobExecutionStatus?
+        /// The time, in milliseconds since the epoch, when the job execution was queued.
+        public let queuedAt: TimeStamp?
+
+        public init(thingArn: String? = nil, jobId: String? = nil, startedAt: TimeStamp? = nil, statusDetails: JobExecutionStatusDetails? = nil, forceCanceled: Bool? = nil, versionNumber: Int64? = nil, lastUpdatedAt: TimeStamp? = nil, approximateSecondsBeforeTimedOut: Int64? = nil, executionNumber: Int64? = nil, status: JobExecutionStatus? = nil, queuedAt: TimeStamp? = nil) {
+            self.thingArn = thingArn
+            self.jobId = jobId
+            self.startedAt = startedAt
+            self.statusDetails = statusDetails
+            self.forceCanceled = forceCanceled
+            self.versionNumber = versionNumber
+            self.lastUpdatedAt = lastUpdatedAt
+            self.approximateSecondsBeforeTimedOut = approximateSecondsBeforeTimedOut
+            self.executionNumber = executionNumber
+            self.status = status
+            self.queuedAt = queuedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case thingArn = "thingArn"
+            case jobId = "jobId"
+            case startedAt = "startedAt"
+            case statusDetails = "statusDetails"
+            case forceCanceled = "forceCanceled"
+            case versionNumber = "versionNumber"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case approximateSecondsBeforeTimedOut = "approximateSecondsBeforeTimedOut"
+            case executionNumber = "executionNumber"
+            case status = "status"
+            case queuedAt = "queuedAt"
+        }
+    }
+
+    public struct Configuration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean)
+        ]
+        /// True to enable the configuration.
+        public let enabled: Bool?
+
+        public init(enabled: Bool? = nil) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+        }
+    }
+
+    public struct AssociateTargetsWithJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string), 
+            AWSShapeMember(label: "comment", required: false, type: .string), 
+            AWSShapeMember(label: "targets", required: true, type: .list)
+        ]
+        /// The unique identifier you assigned to this job when it was created.
+        public let jobId: String
+        /// An optional comment string describing why the job was associated with the targets.
+        public let comment: String?
+        /// A list of thing group ARNs that define the targets of the job.
+        public let targets: [String]
+
+        public init(jobId: String, comment: String? = nil, targets: [String]) {
+            self.jobId = jobId
+            self.comment = comment
+            self.targets = targets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "jobId"
+            case comment = "comment"
+            case targets = "targets"
+        }
+    }
+
+    public struct UpdateStreamResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "streamArn", required: false, type: .string), 
+            AWSShapeMember(label: "streamVersion", required: false, type: .integer), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "streamId", required: false, type: .string)
+        ]
+        /// The stream ARN.
+        public let streamArn: String?
+        /// The stream version.
+        public let streamVersion: Int32?
+        /// A description of the stream.
+        public let description: String?
+        /// The stream ID.
+        public let streamId: String?
+
+        public init(streamArn: String? = nil, streamVersion: Int32? = nil, description: String? = nil, streamId: String? = nil) {
+            self.streamArn = streamArn
+            self.streamVersion = streamVersion
+            self.description = description
+            self.streamId = streamId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamArn = "streamArn"
+            case streamVersion = "streamVersion"
+            case description = "description"
+            case streamId = "streamId"
+        }
+    }
+
+    public struct CreatePolicyVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policyDocument", required: true, type: .string), 
+            AWSShapeMember(label: "setAsDefault", location: .querystring(locationName: "setAsDefault"), required: false, type: .boolean), 
+            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string)
+        ]
+        /// The JSON document that describes the policy. Minimum length of 1. Maximum length of 2048, excluding whitespace.
+        public let policyDocument: String
+        /// Specifies whether the policy version is set as the default. When this parameter is true, the new policy version becomes the operative version (that is, the version that is in effect for the certificates to which the policy is attached).
+        public let setAsDefault: Bool?
+        /// The policy name.
+        public let policyName: String
+
+        public init(policyDocument: String, setAsDefault: Bool? = nil, policyName: String) {
+            self.policyDocument = policyDocument
+            self.setAsDefault = setAsDefault
+            self.policyName = policyName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyDocument = "policyDocument"
+            case setAsDefault = "setAsDefault"
+            case policyName = "policyName"
+        }
+    }
+
+    public struct UpdateThingGroupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "version", required: false, type: .long)
+        ]
+        /// The version of the updated thing group.
+        public let version: Int64?
+
+        public init(version: Int64? = nil) {
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case version = "version"
+        }
+    }
+
+    public struct CodeSigning: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "customCodeSigning", required: false, type: .structure), 
+            AWSShapeMember(label: "startSigningJobParameter", required: false, type: .structure), 
+            AWSShapeMember(label: "awsSignerJobId", required: false, type: .string)
+        ]
+        /// A custom method for code signing a file.
+        public let customCodeSigning: CustomCodeSigning?
+        /// Describes the code-signing job.
+        public let startSigningJobParameter: StartSigningJobParameter?
+        /// The ID of the AWSSignerJob which was created to sign the file.
+        public let awsSignerJobId: String?
+
+        public init(customCodeSigning: CustomCodeSigning? = nil, startSigningJobParameter: StartSigningJobParameter? = nil, awsSignerJobId: String? = nil) {
+            self.customCodeSigning = customCodeSigning
+            self.startSigningJobParameter = startSigningJobParameter
+            self.awsSignerJobId = awsSignerJobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customCodeSigning = "customCodeSigning"
+            case startSigningJobParameter = "startSigningJobParameter"
+            case awsSignerJobId = "awsSignerJobId"
+        }
+    }
+
+    public struct ListPolicyVersionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policyVersions", required: false, type: .list)
+        ]
+        /// The policy versions.
+        public let policyVersions: [PolicyVersion]?
+
+        public init(policyVersions: [PolicyVersion]? = nil) {
+            self.policyVersions = policyVersions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyVersions = "policyVersions"
+        }
+    }
+
+    public struct DeleteCACertificateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificateId", location: .uri(locationName: "caCertificateId"), required: true, type: .string)
+        ]
+        /// The ID of the certificate to delete. (The last part of the certificate ARN contains the certificate ID.)
+        public let certificateId: String
+
+        public init(certificateId: String) {
+            self.certificateId = certificateId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateId = "caCertificateId"
+        }
+    }
+
+    public struct CreateBillingGroupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "billingGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "billingGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "billingGroupId", required: false, type: .string)
+        ]
+        /// The name you gave to the billing group.
+        public let billingGroupName: String?
+        /// The ARN of the billing group.
+        public let billingGroupArn: String?
+        /// The ID of the billing group.
+        public let billingGroupId: String?
+
+        public init(billingGroupName: String? = nil, billingGroupArn: String? = nil, billingGroupId: String? = nil) {
+            self.billingGroupName = billingGroupName
+            self.billingGroupArn = billingGroupArn
+            self.billingGroupId = billingGroupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case billingGroupName = "billingGroupName"
+            case billingGroupArn = "billingGroupArn"
+            case billingGroupId = "billingGroupId"
+        }
+    }
+
+    public struct DeleteRegistrationCodeRequest: AWSShape {
+
+    }
+
+    public enum JobExecutionStatus: String, CustomStringConvertible, Codable {
+        case queued = "QUEUED"
+        case inProgress = "IN_PROGRESS"
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        case timedOut = "TIMED_OUT"
+        case rejected = "REJECTED"
+        case removed = "REMOVED"
+        case canceled = "CANCELED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CreateStreamRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "roleArn", required: true, type: .string), 
+            AWSShapeMember(label: "streamId", location: .uri(locationName: "streamId"), required: true, type: .string), 
+            AWSShapeMember(label: "files", required: true, type: .list), 
+            AWSShapeMember(label: "description", required: false, type: .string)
+        ]
+        /// An IAM role that allows the IoT service principal assumes to access your S3 files.
+        public let roleArn: String
+        /// The stream ID.
+        public let streamId: String
+        /// The files to stream.
+        public let files: [StreamFile]
+        /// A description of the stream.
+        public let description: String?
+
+        public init(roleArn: String, streamId: String, files: [StreamFile], description: String? = nil) {
+            self.roleArn = roleArn
+            self.streamId = streamId
+            self.files = files
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "roleArn"
+            case streamId = "streamId"
+            case files = "files"
+            case description = "description"
+        }
+    }
+
+    public struct UpdateIndexingConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingGroupIndexingConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "thingIndexingConfiguration", required: false, type: .structure)
+        ]
+        /// Thing group indexing configuration.
+        public let thingGroupIndexingConfiguration: ThingGroupIndexingConfiguration?
+        /// Thing indexing configuration.
+        public let thingIndexingConfiguration: ThingIndexingConfiguration?
+
+        public init(thingGroupIndexingConfiguration: ThingGroupIndexingConfiguration? = nil, thingIndexingConfiguration: ThingIndexingConfiguration? = nil) {
+            self.thingGroupIndexingConfiguration = thingGroupIndexingConfiguration
+            self.thingIndexingConfiguration = thingIndexingConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case thingGroupIndexingConfiguration = "thingGroupIndexingConfiguration"
+            case thingIndexingConfiguration = "thingIndexingConfiguration"
+        }
+    }
+
+    public struct ExponentialRolloutRate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "incrementFactor", required: true, type: .double), 
+            AWSShapeMember(label: "rateIncreaseCriteria", required: true, type: .structure), 
+            AWSShapeMember(label: "baseRatePerMinute", required: true, type: .integer)
+        ]
+        /// The exponential factor to increase the rate of rollout for a job.
+        public let incrementFactor: Double
+        /// The criteria to initiate the increase in rate of rollout for a job. AWS IoT supports up to one digit after the decimal (for example, 1.5, but not 1.55).
+        public let rateIncreaseCriteria: RateIncreaseCriteria
+        /// The minimum number of things that will be notified of a pending job, per minute at the start of job rollout. This parameter allows you to define the initial rate of rollout.
+        public let baseRatePerMinute: Int32
+
+        public init(incrementFactor: Double, rateIncreaseCriteria: RateIncreaseCriteria, baseRatePerMinute: Int32) {
+            self.incrementFactor = incrementFactor
+            self.rateIncreaseCriteria = rateIncreaseCriteria
+            self.baseRatePerMinute = baseRatePerMinute
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case incrementFactor = "incrementFactor"
+            case rateIncreaseCriteria = "rateIncreaseCriteria"
+            case baseRatePerMinute = "baseRatePerMinute"
+        }
+    }
+
+    public struct ListThingTypesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "thingTypes", required: false, type: .list)
+        ]
+        /// The token for the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+        /// The thing types.
+        public let thingTypes: [ThingTypeDefinition]?
+
+        public init(nextToken: String? = nil, thingTypes: [ThingTypeDefinition]? = nil) {
+            self.nextToken = nextToken
+            self.thingTypes = thingTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case thingTypes = "thingTypes"
+        }
+    }
+
+    public struct ListSecurityProfilesForTargetRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "securityProfileTargetArn", location: .querystring(locationName: "securityProfileTargetArn"), required: true, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "recursive", location: .querystring(locationName: "recursive"), required: false, type: .boolean)
+        ]
+        /// The token for the next set of results.
+        public let nextToken: String?
+        /// The ARN of the target (thing group) whose attached security profiles you want to get.
+        public let securityProfileTargetArn: String
+        /// The maximum number of results to return at one time.
+        public let maxResults: Int32?
+        /// If true, return child groups as well.
+        public let recursive: Bool?
+
+        public init(nextToken: String? = nil, securityProfileTargetArn: String, maxResults: Int32? = nil, recursive: Bool? = nil) {
+            self.nextToken = nextToken
+            self.securityProfileTargetArn = securityProfileTargetArn
+            self.maxResults = maxResults
+            self.recursive = recursive
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case securityProfileTargetArn = "securityProfileTargetArn"
+            case maxResults = "maxResults"
+            case recursive = "recursive"
+        }
+    }
+
+    public struct SnsAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "roleArn", required: true, type: .string), 
+            AWSShapeMember(label: "messageFormat", required: false, type: .enum), 
+            AWSShapeMember(label: "targetArn", required: true, type: .string)
+        ]
+        /// The ARN of the IAM role that grants access.
+        public let roleArn: String
+        /// (Optional) The message format of the message to publish. Accepted values are "JSON" and "RAW". The default value of the attribute is "RAW". SNS uses this setting to determine if the payload should be parsed and relevant platform-specific bits of the payload should be extracted. To read more about SNS message formats, see http://docs.aws.amazon.com/sns/latest/dg/json-formats.html refer to their official documentation.
+        public let messageFormat: MessageFormat?
+        /// The ARN of the SNS topic.
+        public let targetArn: String
+
+        public init(roleArn: String, messageFormat: MessageFormat? = nil, targetArn: String) {
+            self.roleArn = roleArn
+            self.messageFormat = messageFormat
+            self.targetArn = targetArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "roleArn"
+            case messageFormat = "messageFormat"
+            case targetArn = "targetArn"
+        }
+    }
+
+    public struct CancelJobExecutionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "expectedVersion", required: false, type: .long), 
+            AWSShapeMember(label: "statusDetails", required: false, type: .map), 
+            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string), 
+            AWSShapeMember(label: "force", location: .querystring(locationName: "force"), required: false, type: .boolean), 
+            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string)
+        ]
+        /// (Optional) The expected current version of the job execution. Each time you update the job execution, its version is incremented. If the version of the job execution stored in Jobs does not match, the update is rejected with a VersionMismatch error, and an ErrorResponse that contains the current job execution status data is returned. (This makes it unnecessary to perform a separate DescribeJobExecution request in order to obtain the job execution status data.)
+        public let expectedVersion: Int64?
+        /// A collection of name/value pairs that describe the status of the job execution. If not specified, the statusDetails are unchanged. You can specify at most 10 name/value pairs.
+        public let statusDetails: [String: String]?
+        /// The name of the thing whose execution of the job will be canceled.
+        public let thingName: String
+        /// (Optional) If true the job execution will be canceled if it has status IN_PROGRESS or QUEUED, otherwise the job execution will be canceled only if it has status QUEUED. If you attempt to cancel a job execution that is IN_PROGRESS, and you do not set force to true, then an InvalidStateTransitionException will be thrown. The default is false. Canceling a job execution which is "IN_PROGRESS", will cause the device to be unable to update the job execution status. Use caution and ensure that the device is able to recover to a valid state.
+        public let force: Bool?
+        /// The ID of the job to be canceled.
+        public let jobId: String
+
+        public init(expectedVersion: Int64? = nil, statusDetails: [String: String]? = nil, thingName: String, force: Bool? = nil, jobId: String) {
+            self.expectedVersion = expectedVersion
+            self.statusDetails = statusDetails
+            self.thingName = thingName
+            self.force = force
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expectedVersion = "expectedVersion"
+            case statusDetails = "statusDetails"
+            case thingName = "thingName"
+            case force = "force"
+            case jobId = "jobId"
+        }
+    }
+
+    public struct GetEffectivePoliciesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "effectivePolicies", required: false, type: .list)
+        ]
+        /// The effective policies.
+        public let effectivePolicies: [EffectivePolicy]?
+
+        public init(effectivePolicies: [EffectivePolicy]? = nil) {
+            self.effectivePolicies = effectivePolicies
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case effectivePolicies = "effectivePolicies"
+        }
+    }
+
+    public struct ReplaceTopicRuleRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "topicRulePayload"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "topicRulePayload", required: true, type: .structure), 
+            AWSShapeMember(label: "ruleName", location: .uri(locationName: "ruleName"), required: true, type: .string)
+        ]
+        /// The rule payload.
+        public let topicRulePayload: TopicRulePayload
+        /// The name of the rule.
+        public let ruleName: String
+
+        public init(topicRulePayload: TopicRulePayload, ruleName: String) {
+            self.topicRulePayload = topicRulePayload
+            self.ruleName = ruleName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case topicRulePayload = "topicRulePayload"
+            case ruleName = "ruleName"
+        }
+    }
+
+    public struct ThingGroupMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "parentGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "rootToParentThingGroups", required: false, type: .list), 
+            AWSShapeMember(label: "creationDate", required: false, type: .timestamp)
+        ]
+        /// The parent thing group name.
+        public let parentGroupName: String?
+        /// The root parent thing group.
+        public let rootToParentThingGroups: [GroupNameAndArn]?
+        /// The UNIX timestamp of when the thing group was created.
+        public let creationDate: TimeStamp?
+
+        public init(parentGroupName: String? = nil, rootToParentThingGroups: [GroupNameAndArn]? = nil, creationDate: TimeStamp? = nil) {
+            self.parentGroupName = parentGroupName
+            self.rootToParentThingGroups = rootToParentThingGroups
+            self.creationDate = creationDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parentGroupName = "parentGroupName"
+            case rootToParentThingGroups = "rootToParentThingGroups"
+            case creationDate = "creationDate"
+        }
+    }
+
+    public struct CreateThingTypeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingTypeName", location: .uri(locationName: "thingTypeName"), required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "thingTypeProperties", required: false, type: .structure)
+        ]
+        /// The name of the thing type.
+        public let thingTypeName: String
+        /// Metadata which can be used to manage the thing type.
+        public let tags: [Tag]?
+        /// The ThingTypeProperties for the thing type to create. It contains information about the new thing type including a description, and a list of searchable thing attribute names.
+        public let thingTypeProperties: ThingTypeProperties?
+
+        public init(thingTypeName: String, tags: [Tag]? = nil, thingTypeProperties: ThingTypeProperties? = nil) {
+            self.thingTypeName = thingTypeName
+            self.tags = tags
+            self.thingTypeProperties = thingTypeProperties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case thingTypeName = "thingTypeName"
+            case tags = "tags"
+            case thingTypeProperties = "thingTypeProperties"
+        }
+    }
+
+    public struct CreateTopicRuleRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "topicRulePayload"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "topicRulePayload", required: true, type: .structure), 
+            AWSShapeMember(label: "ruleName", location: .uri(locationName: "ruleName"), required: true, type: .string)
+        ]
+        /// The rule payload.
+        public let topicRulePayload: TopicRulePayload
+        /// The name of the rule.
+        public let ruleName: String
+
+        public init(topicRulePayload: TopicRulePayload, ruleName: String) {
+            self.topicRulePayload = topicRulePayload
+            self.ruleName = ruleName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case topicRulePayload = "topicRulePayload"
+            case ruleName = "ruleName"
+        }
     }
 
     public struct ListIndicesRequest: AWSShape {
@@ -3262,350 +4268,362 @@ extension IoT {
         }
     }
 
-    public struct CreateOTAUpdateRequest: AWSShape {
+    public struct ListActiveViolationsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "files", required: true, type: .list), 
-            AWSShapeMember(label: "awsJobExecutionsRolloutConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "otaUpdateId", location: .uri(locationName: "otaUpdateId"), required: true, type: .string), 
-            AWSShapeMember(label: "additionalParameters", required: false, type: .map), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string), 
-            AWSShapeMember(label: "targets", required: true, type: .list), 
-            AWSShapeMember(label: "targetSelection", required: false, type: .enum), 
-            AWSShapeMember(label: "description", required: false, type: .string)
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "activeViolations", required: false, type: .list)
         ]
-        /// The files to be streamed by the OTA update.
-        public let files: [OTAUpdateFile]
-        /// Configuration for the rollout of OTA updates.
-        public let awsJobExecutionsRolloutConfig: AwsJobExecutionsRolloutConfig?
-        /// The ID of the OTA update to be created.
-        public let otaUpdateId: String
-        /// A list of additional OTA update parameters which are name-value pairs.
-        public let additionalParameters: [String: String]?
-        /// The IAM role that allows access to the AWS IoT Jobs service.
-        public let roleArn: String
-        /// The targeted devices to receive OTA updates.
-        public let targets: [String]
-        /// Specifies whether the update will continue to run (CONTINUOUS), or will be complete after all the things specified as targets have completed the update (SNAPSHOT). If continuous, the update may also be run on a thing when a change is detected in a target. For example, an update will run on a thing when the thing is added to a target group, even after the update was completed by all things originally in the group. Valid values: CONTINUOUS | SNAPSHOT.
-        public let targetSelection: TargetSelection?
-        /// The description of the OTA update.
-        public let description: String?
-
-        public init(files: [OTAUpdateFile], awsJobExecutionsRolloutConfig: AwsJobExecutionsRolloutConfig? = nil, otaUpdateId: String, additionalParameters: [String: String]? = nil, roleArn: String, targets: [String], targetSelection: TargetSelection? = nil, description: String? = nil) {
-            self.files = files
-            self.awsJobExecutionsRolloutConfig = awsJobExecutionsRolloutConfig
-            self.otaUpdateId = otaUpdateId
-            self.additionalParameters = additionalParameters
-            self.roleArn = roleArn
-            self.targets = targets
-            self.targetSelection = targetSelection
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case files = "files"
-            case awsJobExecutionsRolloutConfig = "awsJobExecutionsRolloutConfig"
-            case otaUpdateId = "otaUpdateId"
-            case additionalParameters = "additionalParameters"
-            case roleArn = "roleArn"
-            case targets = "targets"
-            case targetSelection = "targetSelection"
-            case description = "description"
-        }
-    }
-
-    public struct UntagResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tagKeys", required: true, type: .list), 
-            AWSShapeMember(label: "resourceArn", required: true, type: .string)
-        ]
-        /// A list of the keys of the tags to be removed from the resource.
-        public let tagKeys: [String]
-        /// The ARN of the resource.
-        public let resourceArn: String
-
-        public init(tagKeys: [String], resourceArn: String) {
-            self.tagKeys = tagKeys
-            self.resourceArn = resourceArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tagKeys = "tagKeys"
-            case resourceArn = "resourceArn"
-        }
-    }
-
-    public struct ListPolicyVersionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyVersions", required: false, type: .list)
-        ]
-        /// The policy versions.
-        public let policyVersions: [PolicyVersion]?
-
-        public init(policyVersions: [PolicyVersion]? = nil) {
-            self.policyVersions = policyVersions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyVersions = "policyVersions"
-        }
-    }
-
-    public struct ListThingRegistrationTaskReportsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "taskId", location: .uri(locationName: "taskId"), required: true, type: .string), 
-            AWSShapeMember(label: "reportType", location: .querystring(locationName: "reportType"), required: true, type: .enum)
-        ]
-        /// The token to retrieve the next set of results.
+        /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
         public let nextToken: String?
-        /// The maximum number of results to return per request.
-        public let maxResults: Int32?
-        /// The id of the task.
-        public let taskId: String
-        /// The type of task report.
-        public let reportType: ReportType
+        /// The list of active violations.
+        public let activeViolations: [ActiveViolation]?
 
-        public init(nextToken: String? = nil, maxResults: Int32? = nil, taskId: String, reportType: ReportType) {
+        public init(nextToken: String? = nil, activeViolations: [ActiveViolation]? = nil) {
             self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.taskId = taskId
-            self.reportType = reportType
+            self.activeViolations = activeViolations
         }
 
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
-            case maxResults = "maxResults"
-            case taskId = "taskId"
-            case reportType = "reportType"
+            case activeViolations = "activeViolations"
         }
     }
 
-    public struct ListCertificatesByCARequest: AWSShape {
+    public struct ListThingRegistrationTasksResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "caCertificateId", location: .uri(locationName: "caCertificateId"), required: true, type: .string), 
-            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
-            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean)
+            AWSShapeMember(label: "taskIds", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
-        /// The ID of the CA certificate. This operation will list all registered device certificate that were signed by this CA certificate.
-        public let caCertificateId: String
-        /// The result page size.
-        public let pageSize: Int32?
-        /// The marker for the next set of results.
-        public let marker: String?
-        /// Specifies the order for results. If True, the results are returned in ascending order, based on the creation date.
-        public let ascendingOrder: Bool?
+        /// A list of bulk thing provisioning task IDs.
+        public let taskIds: [String]?
+        /// The token used to get the next set of results, or null if there are no additional results.
+        public let nextToken: String?
 
-        public init(caCertificateId: String, pageSize: Int32? = nil, marker: String? = nil, ascendingOrder: Bool? = nil) {
-            self.caCertificateId = caCertificateId
-            self.pageSize = pageSize
-            self.marker = marker
-            self.ascendingOrder = ascendingOrder
+        public init(taskIds: [String]? = nil, nextToken: String? = nil) {
+            self.taskIds = taskIds
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case caCertificateId = "caCertificateId"
-            case pageSize = "pageSize"
-            case marker = "marker"
-            case ascendingOrder = "isAscendingOrder"
+            case taskIds = "taskIds"
+            case nextToken = "nextToken"
         }
     }
 
-    public enum AutoRegistrationStatus: String, CustomStringConvertible, Codable {
-        case enable = "ENABLE"
-        case disable = "DISABLE"
+    public struct AbortConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "criteriaList", required: true, type: .list)
+        ]
+        /// The list of abort criteria to define rules to abort the job.
+        public let criteriaList: [AbortCriteria]
+
+        public init(criteriaList: [AbortCriteria]) {
+            self.criteriaList = criteriaList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case criteriaList = "criteriaList"
+        }
+    }
+
+    public enum MessageFormat: String, CustomStringConvertible, Codable {
+        case raw = "RAW"
+        case json = "JSON"
         public var description: String { return self.rawValue }
     }
 
-    public enum AuthorizerStatus: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case inactive = "INACTIVE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct AssociateTargetsWithJobResponse: AWSShape {
+    public struct FirehoseAction: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobId", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "jobArn", required: false, type: .string)
+            AWSShapeMember(label: "deliveryStreamName", required: true, type: .string), 
+            AWSShapeMember(label: "separator", required: false, type: .string), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string)
         ]
-        /// The unique identifier you assigned to this job when it was created.
-        public let jobId: String?
-        /// A short text description of the job.
-        public let description: String?
-        /// An ARN identifying the job.
-        public let jobArn: String?
+        /// The delivery stream name.
+        public let deliveryStreamName: String
+        /// A character separator that will be used to separate records written to the Firehose stream. Valid values are: '\n' (newline), '\t' (tab), '\r\n' (Windows newline), ',' (comma).
+        public let separator: String?
+        /// The IAM role that grants access to the Amazon Kinesis Firehose stream.
+        public let roleArn: String
 
-        public init(jobId: String? = nil, description: String? = nil, jobArn: String? = nil) {
-            self.jobId = jobId
-            self.description = description
-            self.jobArn = jobArn
+        public init(deliveryStreamName: String, separator: String? = nil, roleArn: String) {
+            self.deliveryStreamName = deliveryStreamName
+            self.separator = separator
+            self.roleArn = roleArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId = "jobId"
-            case description = "description"
-            case jobArn = "jobArn"
+            case deliveryStreamName = "deliveryStreamName"
+            case separator = "separator"
+            case roleArn = "roleArn"
         }
     }
 
-    public enum TargetSelection: String, CustomStringConvertible, Codable {
-        case continuous = "CONTINUOUS"
-        case snapshot = "SNAPSHOT"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeThingRequest: AWSShape {
+    public struct GetV2LoggingOptionsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
+            AWSShapeMember(label: "disableAllLogs", required: false, type: .boolean), 
+            AWSShapeMember(label: "roleArn", required: false, type: .string), 
+            AWSShapeMember(label: "defaultLogLevel", required: false, type: .enum)
         ]
-        /// The name of the thing.
-        public let thingName: String
+        /// Disables all logs.
+        public let disableAllLogs: Bool?
+        /// The IAM role ARN AWS IoT uses to write to your CloudWatch logs.
+        public let roleArn: String?
+        /// The default log level.
+        public let defaultLogLevel: LogLevel?
 
-        public init(thingName: String) {
-            self.thingName = thingName
+        public init(disableAllLogs: Bool? = nil, roleArn: String? = nil, defaultLogLevel: LogLevel? = nil) {
+            self.disableAllLogs = disableAllLogs
+            self.roleArn = roleArn
+            self.defaultLogLevel = defaultLogLevel
         }
 
         private enum CodingKeys: String, CodingKey {
-            case thingName = "thingName"
+            case disableAllLogs = "disableAllLogs"
+            case roleArn = "roleArn"
+            case defaultLogLevel = "defaultLogLevel"
         }
     }
 
-    public struct UpdateDynamicThingGroupRequest: AWSShape {
+    public struct ScheduledAuditMetadata: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingGroupProperties", required: true, type: .structure), 
-            AWSShapeMember(label: "queryVersion", required: false, type: .string), 
-            AWSShapeMember(label: "queryString", required: false, type: .string), 
-            AWSShapeMember(label: "thingGroupName", location: .uri(locationName: "thingGroupName"), required: true, type: .string), 
-            AWSShapeMember(label: "expectedVersion", required: false, type: .long), 
-            AWSShapeMember(label: "indexName", required: false, type: .string)
+            AWSShapeMember(label: "scheduledAuditArn", required: false, type: .string), 
+            AWSShapeMember(label: "frequency", required: false, type: .enum), 
+            AWSShapeMember(label: "scheduledAuditName", required: false, type: .string), 
+            AWSShapeMember(label: "dayOfWeek", required: false, type: .enum), 
+            AWSShapeMember(label: "dayOfMonth", required: false, type: .string)
         ]
-        /// The dynamic thing group properties to update.
-        public let thingGroupProperties: ThingGroupProperties
-        /// The dynamic thing group query version to update.  Currently one query version is supported: "2017-09-30". If not specified, the query version defaults to this value. 
-        public let queryVersion: String?
-        /// The dynamic thing group search query string to update.
-        public let queryString: String?
-        /// The name of the dynamic thing group to update.
-        public let thingGroupName: String
-        /// The expected version of the dynamic thing group to update.
-        public let expectedVersion: Int64?
-        /// The dynamic thing group index to update.  Currently one index is supported: 'AWS_Things'. 
-        public let indexName: String?
+        /// The ARN of the scheduled audit.
+        public let scheduledAuditArn: String?
+        /// How often the scheduled audit takes place.
+        public let frequency: AuditFrequency?
+        /// The name of the scheduled audit.
+        public let scheduledAuditName: String?
+        /// The day of the week on which the scheduled audit is run (if the frequency is "WEEKLY" or "BIWEEKLY").
+        public let dayOfWeek: DayOfWeek?
+        /// The day of the month on which the scheduled audit is run (if the frequency is "MONTHLY"). If days 29-31 are specified, and the month does not have that many days, the audit takes place on the "LAST" day of the month.
+        public let dayOfMonth: String?
 
-        public init(thingGroupProperties: ThingGroupProperties, queryVersion: String? = nil, queryString: String? = nil, thingGroupName: String, expectedVersion: Int64? = nil, indexName: String? = nil) {
-            self.thingGroupProperties = thingGroupProperties
-            self.queryVersion = queryVersion
-            self.queryString = queryString
-            self.thingGroupName = thingGroupName
-            self.expectedVersion = expectedVersion
-            self.indexName = indexName
+        public init(scheduledAuditArn: String? = nil, frequency: AuditFrequency? = nil, scheduledAuditName: String? = nil, dayOfWeek: DayOfWeek? = nil, dayOfMonth: String? = nil) {
+            self.scheduledAuditArn = scheduledAuditArn
+            self.frequency = frequency
+            self.scheduledAuditName = scheduledAuditName
+            self.dayOfWeek = dayOfWeek
+            self.dayOfMonth = dayOfMonth
         }
 
         private enum CodingKeys: String, CodingKey {
-            case thingGroupProperties = "thingGroupProperties"
-            case queryVersion = "queryVersion"
-            case queryString = "queryString"
-            case thingGroupName = "thingGroupName"
-            case expectedVersion = "expectedVersion"
-            case indexName = "indexName"
+            case scheduledAuditArn = "scheduledAuditArn"
+            case frequency = "frequency"
+            case scheduledAuditName = "scheduledAuditName"
+            case dayOfWeek = "dayOfWeek"
+            case dayOfMonth = "dayOfMonth"
         }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
-        case canceled = "CANCELED"
-        case completed = "COMPLETED"
-        case deletionInProgress = "DELETION_IN_PROGRESS"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateThingTypeResponse: AWSShape {
+    public struct AuthorizerSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingTypeArn", required: false, type: .string), 
-            AWSShapeMember(label: "thingTypeName", required: false, type: .string), 
-            AWSShapeMember(label: "thingTypeId", required: false, type: .string)
+            AWSShapeMember(label: "authorizerName", required: false, type: .string), 
+            AWSShapeMember(label: "authorizerArn", required: false, type: .string)
         ]
-        /// The Amazon Resource Name (ARN) of the thing type.
-        public let thingTypeArn: String?
-        /// The name of the thing type.
-        public let thingTypeName: String?
-        /// The thing type ID.
-        public let thingTypeId: String?
-
-        public init(thingTypeArn: String? = nil, thingTypeName: String? = nil, thingTypeId: String? = nil) {
-            self.thingTypeArn = thingTypeArn
-            self.thingTypeName = thingTypeName
-            self.thingTypeId = thingTypeId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case thingTypeArn = "thingTypeArn"
-            case thingTypeName = "thingTypeName"
-            case thingTypeId = "thingTypeId"
-        }
-    }
-
-    public struct CreateAuthorizerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tokenSigningPublicKeys", required: true, type: .map), 
-            AWSShapeMember(label: "authorizerFunctionArn", required: true, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "tokenKeyName", required: true, type: .string), 
-            AWSShapeMember(label: "authorizerName", location: .uri(locationName: "authorizerName"), required: true, type: .string)
-        ]
-        /// The public keys used to verify the digital signature returned by your custom authentication service.
-        public let tokenSigningPublicKeys: [String: String]
-        /// The ARN of the authorizer's Lambda function.
-        public let authorizerFunctionArn: String
-        /// The status of the create authorizer request.
-        public let status: AuthorizerStatus?
-        /// The name of the token key used to extract the token from the HTTP headers.
-        public let tokenKeyName: String
         /// The authorizer name.
-        public let authorizerName: String
+        public let authorizerName: String?
+        /// The authorizer ARN.
+        public let authorizerArn: String?
 
-        public init(tokenSigningPublicKeys: [String: String], authorizerFunctionArn: String, status: AuthorizerStatus? = nil, tokenKeyName: String, authorizerName: String) {
-            self.tokenSigningPublicKeys = tokenSigningPublicKeys
-            self.authorizerFunctionArn = authorizerFunctionArn
-            self.status = status
-            self.tokenKeyName = tokenKeyName
+        public init(authorizerName: String? = nil, authorizerArn: String? = nil) {
             self.authorizerName = authorizerName
+            self.authorizerArn = authorizerArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tokenSigningPublicKeys = "tokenSigningPublicKeys"
-            case authorizerFunctionArn = "authorizerFunctionArn"
-            case status = "status"
-            case tokenKeyName = "tokenKeyName"
             case authorizerName = "authorizerName"
+            case authorizerArn = "authorizerArn"
         }
     }
 
-    public struct EffectivePolicy: AWSShape {
+    public struct TopicRuleListItem: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyName", required: false, type: .string), 
-            AWSShapeMember(label: "policyDocument", required: false, type: .string), 
-            AWSShapeMember(label: "policyArn", required: false, type: .string)
+            AWSShapeMember(label: "ruleDisabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "topicPattern", required: false, type: .string), 
+            AWSShapeMember(label: "ruleArn", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ruleName", required: false, type: .string)
         ]
-        /// The policy name.
-        public let policyName: String?
-        /// The IAM policy document.
-        public let policyDocument: String?
-        /// The policy ARN.
-        public let policyArn: String?
+        /// Specifies whether the rule is disabled.
+        public let ruleDisabled: Bool?
+        /// The pattern for the topic names that apply.
+        public let topicPattern: String?
+        /// The rule ARN.
+        public let ruleArn: String?
+        /// The date and time the rule was created.
+        public let createdAt: TimeStamp?
+        /// The name of the rule.
+        public let ruleName: String?
 
-        public init(policyName: String? = nil, policyDocument: String? = nil, policyArn: String? = nil) {
-            self.policyName = policyName
-            self.policyDocument = policyDocument
-            self.policyArn = policyArn
+        public init(ruleDisabled: Bool? = nil, topicPattern: String? = nil, ruleArn: String? = nil, createdAt: TimeStamp? = nil, ruleName: String? = nil) {
+            self.ruleDisabled = ruleDisabled
+            self.topicPattern = topicPattern
+            self.ruleArn = ruleArn
+            self.createdAt = createdAt
+            self.ruleName = ruleName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policyName = "policyName"
-            case policyDocument = "policyDocument"
-            case policyArn = "policyArn"
+            case ruleDisabled = "ruleDisabled"
+            case topicPattern = "topicPattern"
+            case ruleArn = "ruleArn"
+            case createdAt = "createdAt"
+            case ruleName = "ruleName"
+        }
+    }
+
+    public struct CreateRoleAliasResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "roleAliasArn", required: false, type: .string), 
+            AWSShapeMember(label: "roleAlias", required: false, type: .string)
+        ]
+        /// The role alias ARN.
+        public let roleAliasArn: String?
+        /// The role alias.
+        public let roleAlias: String?
+
+        public init(roleAliasArn: String? = nil, roleAlias: String? = nil) {
+            self.roleAliasArn = roleAliasArn
+            self.roleAlias = roleAlias
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleAliasArn = "roleAliasArn"
+            case roleAlias = "roleAlias"
+        }
+    }
+
+    public struct DescribeScheduledAuditResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "scheduledAuditArn", required: false, type: .string), 
+            AWSShapeMember(label: "targetCheckNames", required: false, type: .list), 
+            AWSShapeMember(label: "dayOfWeek", required: false, type: .enum), 
+            AWSShapeMember(label: "scheduledAuditName", required: false, type: .string), 
+            AWSShapeMember(label: "dayOfMonth", required: false, type: .string), 
+            AWSShapeMember(label: "frequency", required: false, type: .enum)
+        ]
+        /// The ARN of the scheduled audit.
+        public let scheduledAuditArn: String?
+        /// Which checks are performed during the scheduled audit. (Note that checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks including those that are enabled or UpdateAccountAuditConfiguration to select which checks are enabled.)
+        public let targetCheckNames: [String]?
+        /// The day of the week on which the scheduled audit takes place. One of "SUN", "MON", "TUE", "WED", "THU", "FRI" or "SAT".
+        public let dayOfWeek: DayOfWeek?
+        /// The name of the scheduled audit.
+        public let scheduledAuditName: String?
+        /// The day of the month on which the scheduled audit takes place. Will be "1" through "31" or "LAST". If days 29-31 are specified, and the month does not have that many days, the audit takes place on the "LAST" day of the month.
+        public let dayOfMonth: String?
+        /// How often the scheduled audit takes place. One of "DAILY", "WEEKLY", "BIWEEKLY" or "MONTHLY". The actual start time of each audit is determined by the system.
+        public let frequency: AuditFrequency?
+
+        public init(scheduledAuditArn: String? = nil, targetCheckNames: [String]? = nil, dayOfWeek: DayOfWeek? = nil, scheduledAuditName: String? = nil, dayOfMonth: String? = nil, frequency: AuditFrequency? = nil) {
+            self.scheduledAuditArn = scheduledAuditArn
+            self.targetCheckNames = targetCheckNames
+            self.dayOfWeek = dayOfWeek
+            self.scheduledAuditName = scheduledAuditName
+            self.dayOfMonth = dayOfMonth
+            self.frequency = frequency
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scheduledAuditArn = "scheduledAuditArn"
+            case targetCheckNames = "targetCheckNames"
+            case dayOfWeek = "dayOfWeek"
+            case scheduledAuditName = "scheduledAuditName"
+            case dayOfMonth = "dayOfMonth"
+            case frequency = "frequency"
+        }
+    }
+
+    public struct GetIndexingConfigurationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingIndexingConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "thingGroupIndexingConfiguration", required: false, type: .structure)
+        ]
+        /// Thing indexing configuration.
+        public let thingIndexingConfiguration: ThingIndexingConfiguration?
+        /// The index configuration.
+        public let thingGroupIndexingConfiguration: ThingGroupIndexingConfiguration?
+
+        public init(thingIndexingConfiguration: ThingIndexingConfiguration? = nil, thingGroupIndexingConfiguration: ThingGroupIndexingConfiguration? = nil) {
+            self.thingIndexingConfiguration = thingIndexingConfiguration
+            self.thingGroupIndexingConfiguration = thingGroupIndexingConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case thingIndexingConfiguration = "thingIndexingConfiguration"
+            case thingGroupIndexingConfiguration = "thingGroupIndexingConfiguration"
+        }
+    }
+
+    public struct DescribeAccountAuditConfigurationRequest: AWSShape {
+
+    }
+
+    public struct CreateAuthorizerResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "authorizerName", required: false, type: .string), 
+            AWSShapeMember(label: "authorizerArn", required: false, type: .string)
+        ]
+        /// The authorizer's name.
+        public let authorizerName: String?
+        /// The authorizer ARN.
+        public let authorizerArn: String?
+
+        public init(authorizerName: String? = nil, authorizerArn: String? = nil) {
+            self.authorizerName = authorizerName
+            self.authorizerArn = authorizerArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizerName = "authorizerName"
+            case authorizerArn = "authorizerArn"
+        }
+    }
+
+    public struct FileLocation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "s3Location", required: false, type: .structure), 
+            AWSShapeMember(label: "stream", required: false, type: .structure)
+        ]
+        /// The location of the updated firmware in S3.
+        public let s3Location: S3Location?
+        /// The stream that contains the OTA update.
+        public let stream: Stream?
+
+        public init(s3Location: S3Location? = nil, stream: Stream? = nil) {
+            self.s3Location = s3Location
+            self.stream = stream
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Location = "s3Location"
+            case stream = "stream"
+        }
+    }
+
+    public struct RegistrationConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "roleArn", required: false, type: .string), 
+            AWSShapeMember(label: "templateBody", required: false, type: .string)
+        ]
+        /// The ARN of the role.
+        public let roleArn: String?
+        /// The template body.
+        public let templateBody: String?
+
+        public init(roleArn: String? = nil, templateBody: String? = nil) {
+            self.roleArn = roleArn
+            self.templateBody = templateBody
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "roleArn"
+            case templateBody = "templateBody"
         }
     }
 
@@ -3640,4059 +4658,334 @@ extension IoT {
         }
     }
 
-    public struct GetV2LoggingOptionsRequest: AWSShape {
-
-    }
-
-    public struct DynamoDBv2Action: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "roleArn", required: false, type: .string), 
-            AWSShapeMember(label: "putItem", required: false, type: .structure)
-        ]
-        /// The ARN of the IAM role that grants access to the DynamoDB table.
-        public let roleArn: String?
-        /// Specifies the DynamoDB table to which the message data will be written. For example:  { "dynamoDBv2": { "roleArn": "aws:iam:12341251:my-role" "putItem": { "tableName": "my-table" } } }  Each attribute in the message payload will be written to a separate column in the DynamoDB database.
-        public let putItem: PutItemInput?
-
-        public init(roleArn: String? = nil, putItem: PutItemInput? = nil) {
-            self.roleArn = roleArn
-            self.putItem = putItem
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleArn = "roleArn"
-            case putItem = "putItem"
-        }
-    }
-
-    public struct RateIncreaseCriteria: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "numberOfNotifiedThings", required: false, type: .integer), 
-            AWSShapeMember(label: "numberOfSucceededThings", required: false, type: .integer)
-        ]
-        /// The threshold for number of notified things that will initiate the increase in rate of rollout.
-        public let numberOfNotifiedThings: Int32?
-        /// The threshold for number of succeeded things that will initiate the increase in rate of rollout.
-        public let numberOfSucceededThings: Int32?
-
-        public init(numberOfNotifiedThings: Int32? = nil, numberOfSucceededThings: Int32? = nil) {
-            self.numberOfNotifiedThings = numberOfNotifiedThings
-            self.numberOfSucceededThings = numberOfSucceededThings
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case numberOfNotifiedThings = "numberOfNotifiedThings"
-            case numberOfSucceededThings = "numberOfSucceededThings"
-        }
-    }
-
-    public struct CreateTopicRuleRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "topicRulePayload"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "topicRulePayload", required: true, type: .structure), 
-            AWSShapeMember(label: "ruleName", location: .uri(locationName: "ruleName"), required: true, type: .string)
-        ]
-        /// The rule payload.
-        public let topicRulePayload: TopicRulePayload
-        /// The name of the rule.
-        public let ruleName: String
-
-        public init(topicRulePayload: TopicRulePayload, ruleName: String) {
-            self.topicRulePayload = topicRulePayload
-            self.ruleName = ruleName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case topicRulePayload = "topicRulePayload"
-            case ruleName = "ruleName"
-        }
-    }
-
-    public struct ListStreamsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "streams", required: false, type: .list)
-        ]
-        /// A token used to get the next set of results.
-        public let nextToken: String?
-        /// A list of streams.
-        public let streams: [StreamSummary]?
-
-        public init(nextToken: String? = nil, streams: [StreamSummary]? = nil) {
-            self.nextToken = nextToken
-            self.streams = streams
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case streams = "streams"
-        }
+    public enum CACertificateStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
     }
 
     public struct GetIndexingConfigurationRequest: AWSShape {
 
     }
 
-    public struct DeleteScheduledAuditRequest: AWSShape {
+    public struct UpdateAuthorizerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "scheduledAuditName", location: .uri(locationName: "scheduledAuditName"), required: true, type: .string)
-        ]
-        /// The name of the scheduled audit you want to delete.
-        public let scheduledAuditName: String
-
-        public init(scheduledAuditName: String) {
-            self.scheduledAuditName = scheduledAuditName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case scheduledAuditName = "scheduledAuditName"
-        }
-    }
-
-    public struct DescribeAccountAuditConfigurationRequest: AWSShape {
-
-    }
-
-    public struct ListCACertificatesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
-            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean)
-        ]
-        /// The result page size.
-        public let pageSize: Int32?
-        /// The marker for the next set of results.
-        public let marker: String?
-        /// Determines the order of the results.
-        public let ascendingOrder: Bool?
-
-        public init(pageSize: Int32? = nil, marker: String? = nil, ascendingOrder: Bool? = nil) {
-            self.pageSize = pageSize
-            self.marker = marker
-            self.ascendingOrder = ascendingOrder
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pageSize = "pageSize"
-            case marker = "marker"
-            case ascendingOrder = "isAscendingOrder"
-        }
-    }
-
-    public struct AuthResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "missingContextValues", required: false, type: .list), 
-            AWSShapeMember(label: "allowed", required: false, type: .structure), 
-            AWSShapeMember(label: "denied", required: false, type: .structure), 
-            AWSShapeMember(label: "authInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "authDecision", required: false, type: .enum)
-        ]
-        /// Contains any missing context values found while evaluating policy.
-        public let missingContextValues: [String]?
-        /// The policies and statements that allowed the specified action.
-        public let allowed: Allowed?
-        /// The policies and statements that denied the specified action.
-        public let denied: Denied?
-        /// Authorization information.
-        public let authInfo: AuthInfo?
-        /// The final authorization decision of this scenario. Multiple statements are taken into account when determining the authorization decision. An explicit deny statement can override multiple allow statements.
-        public let authDecision: AuthDecision?
-
-        public init(missingContextValues: [String]? = nil, allowed: Allowed? = nil, denied: Denied? = nil, authInfo: AuthInfo? = nil, authDecision: AuthDecision? = nil) {
-            self.missingContextValues = missingContextValues
-            self.allowed = allowed
-            self.denied = denied
-            self.authInfo = authInfo
-            self.authDecision = authDecision
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case missingContextValues = "missingContextValues"
-            case allowed = "allowed"
-            case denied = "denied"
-            case authInfo = "authInfo"
-            case authDecision = "authDecision"
-        }
-    }
-
-    public struct BillingGroupProperties: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "billingGroupDescription", required: false, type: .string)
-        ]
-        /// The description of the billing group.
-        public let billingGroupDescription: String?
-
-        public init(billingGroupDescription: String? = nil) {
-            self.billingGroupDescription = billingGroupDescription
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case billingGroupDescription = "billingGroupDescription"
-        }
-    }
-
-    public enum ResourceType: String, CustomStringConvertible, Codable {
-        case deviceCertificate = "DEVICE_CERTIFICATE"
-        case caCertificate = "CA_CERTIFICATE"
-        case iotPolicy = "IOT_POLICY"
-        case cognitoIdentityPool = "COGNITO_IDENTITY_POOL"
-        case clientId = "CLIENT_ID"
-        case accountSettings = "ACCOUNT_SETTINGS"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AbortAction: String, CustomStringConvertible, Codable {
-        case cancel = "CANCEL"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetPolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyDocument", required: false, type: .string), 
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "defaultVersionId", required: false, type: .string), 
-            AWSShapeMember(label: "generationId", required: false, type: .string), 
-            AWSShapeMember(label: "policyName", required: false, type: .string), 
-            AWSShapeMember(label: "policyArn", required: false, type: .string), 
-            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp)
-        ]
-        /// The JSON document that describes the policy.
-        public let policyDocument: String?
-        /// The date the policy was created.
-        public let creationDate: TimeStamp?
-        /// The default policy version ID.
-        public let defaultVersionId: String?
-        /// The generation ID of the policy.
-        public let generationId: String?
-        /// The policy name.
-        public let policyName: String?
-        /// The policy ARN.
-        public let policyArn: String?
-        /// The date the policy was last modified.
-        public let lastModifiedDate: TimeStamp?
-
-        public init(policyDocument: String? = nil, creationDate: TimeStamp? = nil, defaultVersionId: String? = nil, generationId: String? = nil, policyName: String? = nil, policyArn: String? = nil, lastModifiedDate: TimeStamp? = nil) {
-            self.policyDocument = policyDocument
-            self.creationDate = creationDate
-            self.defaultVersionId = defaultVersionId
-            self.generationId = generationId
-            self.policyName = policyName
-            self.policyArn = policyArn
-            self.lastModifiedDate = lastModifiedDate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyDocument = "policyDocument"
-            case creationDate = "creationDate"
-            case defaultVersionId = "defaultVersionId"
-            case generationId = "generationId"
-            case policyName = "policyName"
-            case policyArn = "policyArn"
-            case lastModifiedDate = "lastModifiedDate"
-        }
-    }
-
-    public struct SetDefaultAuthorizerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorizerName", required: true, type: .string)
+            AWSShapeMember(label: "authorizerName", location: .uri(locationName: "authorizerName"), required: true, type: .string), 
+            AWSShapeMember(label: "tokenSigningPublicKeys", required: false, type: .map), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "tokenKeyName", required: false, type: .string), 
+            AWSShapeMember(label: "authorizerFunctionArn", required: false, type: .string)
         ]
         /// The authorizer name.
         public let authorizerName: String
-
-        public init(authorizerName: String) {
-            self.authorizerName = authorizerName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case authorizerName = "authorizerName"
-        }
-    }
-
-    public struct ListPrincipalPoliciesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "principal", location: .header(locationName: "x-amzn-iot-principal"), required: true, type: .string), 
-            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
-            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean)
-        ]
-        /// The principal.
-        public let principal: String
-        /// The result page size.
-        public let pageSize: Int32?
-        /// The marker for the next set of results.
-        public let marker: String?
-        /// Specifies the order for results. If true, results are returned in ascending creation order.
-        public let ascendingOrder: Bool?
-
-        public init(principal: String, pageSize: Int32? = nil, marker: String? = nil, ascendingOrder: Bool? = nil) {
-            self.principal = principal
-            self.pageSize = pageSize
-            self.marker = marker
-            self.ascendingOrder = ascendingOrder
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case principal = "x-amzn-iot-principal"
-            case pageSize = "pageSize"
-            case marker = "marker"
-            case ascendingOrder = "isAscendingOrder"
-        }
-    }
-
-    public struct ListTargetsForPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string), 
-            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
-            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string)
-        ]
-        /// The policy name.
-        public let policyName: String
-        /// The maximum number of results to return at one time.
-        public let pageSize: Int32?
-        /// A marker used to get the next set of results.
-        public let marker: String?
-
-        public init(policyName: String, pageSize: Int32? = nil, marker: String? = nil) {
-            self.policyName = policyName
-            self.pageSize = pageSize
-            self.marker = marker
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyName = "policyName"
-            case pageSize = "pageSize"
-            case marker = "marker"
-        }
-    }
-
-    public struct RegisterCACertificateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "certificateId", required: false, type: .string)
-        ]
-        /// The CA certificate ARN.
-        public let certificateArn: String?
-        /// The CA certificate identifier.
-        public let certificateId: String?
-
-        public init(certificateArn: String? = nil, certificateId: String? = nil) {
-            self.certificateArn = certificateArn
-            self.certificateId = certificateId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificateArn = "certificateArn"
-            case certificateId = "certificateId"
-        }
-    }
-
-    public struct ListThingPrincipalsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
-        ]
-        /// The name of the thing.
-        public let thingName: String
-
-        public init(thingName: String) {
-            self.thingName = thingName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case thingName = "thingName"
-        }
-    }
-
-    public struct ListSecurityProfilesForTargetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "recursive", location: .querystring(locationName: "recursive"), required: false, type: .boolean), 
-            AWSShapeMember(label: "securityProfileTargetArn", location: .querystring(locationName: "securityProfileTargetArn"), required: true, type: .string), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
-        ]
-        /// If true, return child groups as well.
-        public let recursive: Bool?
-        /// The ARN of the target (thing group) whose attached security profiles you want to get.
-        public let securityProfileTargetArn: String
-        /// The token for the next set of results.
-        public let nextToken: String?
-        /// The maximum number of results to return at one time.
-        public let maxResults: Int32?
-
-        public init(recursive: Bool? = nil, securityProfileTargetArn: String, nextToken: String? = nil, maxResults: Int32? = nil) {
-            self.recursive = recursive
-            self.securityProfileTargetArn = securityProfileTargetArn
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case recursive = "recursive"
-            case securityProfileTargetArn = "securityProfileTargetArn"
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
-        }
-    }
-
-    public struct DescribeBillingGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "version", required: false, type: .long), 
-            AWSShapeMember(label: "billingGroupMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "billingGroupProperties", required: false, type: .structure), 
-            AWSShapeMember(label: "billingGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "billingGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "billingGroupArn", required: false, type: .string)
-        ]
-        /// The version of the billing group.
-        public let version: Int64?
-        /// Additional information about the billing group.
-        public let billingGroupMetadata: BillingGroupMetadata?
-        /// The properties of the billing group.
-        public let billingGroupProperties: BillingGroupProperties?
-        /// The name of the billing group.
-        public let billingGroupName: String?
-        /// The ID of the billing group.
-        public let billingGroupId: String?
-        /// The ARN of the billing group.
-        public let billingGroupArn: String?
-
-        public init(version: Int64? = nil, billingGroupMetadata: BillingGroupMetadata? = nil, billingGroupProperties: BillingGroupProperties? = nil, billingGroupName: String? = nil, billingGroupId: String? = nil, billingGroupArn: String? = nil) {
-            self.version = version
-            self.billingGroupMetadata = billingGroupMetadata
-            self.billingGroupProperties = billingGroupProperties
-            self.billingGroupName = billingGroupName
-            self.billingGroupId = billingGroupId
-            self.billingGroupArn = billingGroupArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case version = "version"
-            case billingGroupMetadata = "billingGroupMetadata"
-            case billingGroupProperties = "billingGroupProperties"
-            case billingGroupName = "billingGroupName"
-            case billingGroupId = "billingGroupId"
-            case billingGroupArn = "billingGroupArn"
-        }
-    }
-
-    public struct DeleteCACertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateId", location: .uri(locationName: "caCertificateId"), required: true, type: .string)
-        ]
-        /// The ID of the certificate to delete. (The last part of the certificate ARN contains the certificate ID.)
-        public let certificateId: String
-
-        public init(certificateId: String) {
-            self.certificateId = certificateId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificateId = "caCertificateId"
-        }
-    }
-
-    public enum JobExecutionFailureType: String, CustomStringConvertible, Codable {
-        case failed = "FAILED"
-        case rejected = "REJECTED"
-        case timedOut = "TIMED_OUT"
-        case all = "ALL"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteThingTypeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingTypeName", location: .uri(locationName: "thingTypeName"), required: true, type: .string)
-        ]
-        /// The name of the thing type.
-        public let thingTypeName: String
-
-        public init(thingTypeName: String) {
-            self.thingTypeName = thingTypeName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case thingTypeName = "thingTypeName"
-        }
-    }
-
-    public struct DescribeJobExecutionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string), 
-            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string), 
-            AWSShapeMember(label: "executionNumber", location: .querystring(locationName: "executionNumber"), required: false, type: .long)
-        ]
-        /// The name of the thing on which the job execution is running.
-        public let thingName: String
-        /// The unique identifier you assigned to this job when it was created.
-        public let jobId: String
-        /// A string (consisting of the digits "0" through "9" which is used to specify a particular job execution on a particular device.
-        public let executionNumber: Int64?
-
-        public init(thingName: String, jobId: String, executionNumber: Int64? = nil) {
-            self.thingName = thingName
-            self.jobId = jobId
-            self.executionNumber = executionNumber
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case thingName = "thingName"
-            case jobId = "jobId"
-            case executionNumber = "executionNumber"
-        }
-    }
-
-    public struct UpdateEventConfigurationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "eventConfigurations", required: false, type: .map)
-        ]
-        /// The new event configuration values.
-        public let eventConfigurations: [EventType: Configuration]?
-
-        public init(eventConfigurations: [EventType: Configuration]? = nil) {
-            self.eventConfigurations = eventConfigurations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eventConfigurations = "eventConfigurations"
-        }
-    }
-
-    public struct ThingGroupIndexingConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingGroupIndexingMode", required: true, type: .enum)
-        ]
-        /// Thing group indexing mode.
-        public let thingGroupIndexingMode: ThingGroupIndexingMode
-
-        public init(thingGroupIndexingMode: ThingGroupIndexingMode) {
-            self.thingGroupIndexingMode = thingGroupIndexingMode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case thingGroupIndexingMode = "thingGroupIndexingMode"
-        }
-    }
-
-    public struct DeleteCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "forceDelete", location: .querystring(locationName: "forceDelete"), required: false, type: .boolean), 
-            AWSShapeMember(label: "certificateId", location: .uri(locationName: "certificateId"), required: true, type: .string)
-        ]
-        /// Forces a certificate request to be deleted.
-        public let forceDelete: Bool?
-        /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
-        public let certificateId: String
-
-        public init(forceDelete: Bool? = nil, certificateId: String) {
-            self.forceDelete = forceDelete
-            self.certificateId = certificateId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case forceDelete = "forceDelete"
-            case certificateId = "certificateId"
-        }
-    }
-
-    public struct PresignedUrlConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "roleArn", required: false, type: .string), 
-            AWSShapeMember(label: "expiresInSec", required: false, type: .long)
-        ]
-        /// The ARN of an IAM role that grants grants permission to download files from the S3 bucket where the job data/updates are stored. The role must also grant permission for IoT to download the files.
-        public let roleArn: String?
-        /// How long (in seconds) pre-signed URLs are valid. Valid values are 60 - 3600, the default value is 3600 seconds. Pre-signed URLs are generated when Jobs receives an MQTT request for the job document.
-        public let expiresInSec: Int64?
-
-        public init(roleArn: String? = nil, expiresInSec: Int64? = nil) {
-            self.roleArn = roleArn
-            self.expiresInSec = expiresInSec
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleArn = "roleArn"
-            case expiresInSec = "expiresInSec"
-        }
-    }
-
-    public struct UpdateAuthorizerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tokenSigningPublicKeys", required: false, type: .map), 
-            AWSShapeMember(label: "authorizerFunctionArn", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "tokenKeyName", required: false, type: .string), 
-            AWSShapeMember(label: "authorizerName", location: .uri(locationName: "authorizerName"), required: true, type: .string)
-        ]
         /// The public keys used to verify the token signature.
         public let tokenSigningPublicKeys: [String: String]?
-        /// The ARN of the authorizer's Lambda function.
-        public let authorizerFunctionArn: String?
         /// The status of the update authorizer request.
         public let status: AuthorizerStatus?
         /// The key used to extract the token from the HTTP headers. 
         public let tokenKeyName: String?
-        /// The authorizer name.
-        public let authorizerName: String
-
-        public init(tokenSigningPublicKeys: [String: String]? = nil, authorizerFunctionArn: String? = nil, status: AuthorizerStatus? = nil, tokenKeyName: String? = nil, authorizerName: String) {
-            self.tokenSigningPublicKeys = tokenSigningPublicKeys
-            self.authorizerFunctionArn = authorizerFunctionArn
-            self.status = status
-            self.tokenKeyName = tokenKeyName
-            self.authorizerName = authorizerName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tokenSigningPublicKeys = "tokenSigningPublicKeys"
-            case authorizerFunctionArn = "authorizerFunctionArn"
-            case status = "status"
-            case tokenKeyName = "tokenKeyName"
-            case authorizerName = "authorizerName"
-        }
-    }
-
-    public struct ListV2LoggingLevelsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "logTargetConfigurations", required: false, type: .list)
-        ]
-        /// The token used to get the next set of results, or null if there are no additional results.
-        public let nextToken: String?
-        /// The logging configuration for a target.
-        public let logTargetConfigurations: [LogTargetConfiguration]?
-
-        public init(nextToken: String? = nil, logTargetConfigurations: [LogTargetConfiguration]? = nil) {
-            self.nextToken = nextToken
-            self.logTargetConfigurations = logTargetConfigurations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case logTargetConfigurations = "logTargetConfigurations"
-        }
-    }
-
-    public struct RemoveThingFromBillingGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "billingGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "thingArn", required: false, type: .string), 
-            AWSShapeMember(label: "thingName", required: false, type: .string), 
-            AWSShapeMember(label: "billingGroupArn", required: false, type: .string)
-        ]
-        /// The name of the billing group.
-        public let billingGroupName: String?
-        /// The ARN of the thing to be removed from the billing group.
-        public let thingArn: String?
-        /// The name of the thing to be removed from the billing group.
-        public let thingName: String?
-        /// The ARN of the billing group.
-        public let billingGroupArn: String?
-
-        public init(billingGroupName: String? = nil, thingArn: String? = nil, thingName: String? = nil, billingGroupArn: String? = nil) {
-            self.billingGroupName = billingGroupName
-            self.thingArn = thingArn
-            self.thingName = thingName
-            self.billingGroupArn = billingGroupArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case billingGroupName = "billingGroupName"
-            case thingArn = "thingArn"
-            case thingName = "thingName"
-            case billingGroupArn = "billingGroupArn"
-        }
-    }
-
-    public struct UpdateThingResponse: AWSShape {
-
-    }
-
-    public struct StepFunctionsAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "executionNamePrefix", required: false, type: .string), 
-            AWSShapeMember(label: "stateMachineName", required: true, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string)
-        ]
-        /// (Optional) A name will be given to the state machine execution consisting of this prefix followed by a UUID. Step Functions automatically creates a unique name for each state machine execution if one is not provided.
-        public let executionNamePrefix: String?
-        /// The name of the Step Functions state machine whose execution will be started.
-        public let stateMachineName: String
-        /// The ARN of the role that grants IoT permission to start execution of a state machine ("Action":"states:StartExecution").
-        public let roleArn: String
-
-        public init(executionNamePrefix: String? = nil, stateMachineName: String, roleArn: String) {
-            self.executionNamePrefix = executionNamePrefix
-            self.stateMachineName = stateMachineName
-            self.roleArn = roleArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case executionNamePrefix = "executionNamePrefix"
-            case stateMachineName = "stateMachineName"
-            case roleArn = "roleArn"
-        }
-    }
-
-    public struct ListScheduledAuditsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "scheduledAudits", required: false, type: .list)
-        ]
-        /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
-        public let nextToken: String?
-        /// The list of scheduled audits.
-        public let scheduledAudits: [ScheduledAuditMetadata]?
-
-        public init(nextToken: String? = nil, scheduledAudits: [ScheduledAuditMetadata]? = nil) {
-            self.nextToken = nextToken
-            self.scheduledAudits = scheduledAudits
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case scheduledAudits = "scheduledAudits"
-        }
-    }
-
-    public struct ListTagsForResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
-        ]
-        /// The token used to get the next set of results, or null if there are no additional results.
-        public let nextToken: String?
-        /// The list of tags assigned to the resource.
-        public let tags: [Tag]?
-
-        public init(nextToken: String? = nil, tags: [Tag]? = nil) {
-            self.nextToken = nextToken
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case tags = "tags"
-        }
-    }
-
-    public struct SetV2LoggingOptionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "defaultLogLevel", required: false, type: .enum), 
-            AWSShapeMember(label: "disableAllLogs", required: false, type: .boolean), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string)
-        ]
-        /// The default logging level.
-        public let defaultLogLevel: LogLevel?
-        /// If true all logs are disabled. The default is false.
-        public let disableAllLogs: Bool?
-        /// The ARN of the role that allows IoT to write to Cloudwatch logs.
-        public let roleArn: String?
-
-        public init(defaultLogLevel: LogLevel? = nil, disableAllLogs: Bool? = nil, roleArn: String? = nil) {
-            self.defaultLogLevel = defaultLogLevel
-            self.disableAllLogs = disableAllLogs
-            self.roleArn = roleArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case defaultLogLevel = "defaultLogLevel"
-            case disableAllLogs = "disableAllLogs"
-            case roleArn = "roleArn"
-        }
-    }
-
-    public struct CancelJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobId", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "jobArn", required: false, type: .string)
-        ]
-        /// The unique identifier you assigned to this job when it was created.
-        public let jobId: String?
-        /// A short text description of the job.
-        public let description: String?
-        /// The job ARN.
-        public let jobArn: String?
-
-        public init(jobId: String? = nil, description: String? = nil, jobArn: String? = nil) {
-            self.jobId = jobId
-            self.description = description
-            self.jobArn = jobArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobId = "jobId"
-            case description = "description"
-            case jobArn = "jobArn"
-        }
-    }
-
-    public struct CreateKeysAndCertificateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "keyPair", required: false, type: .structure), 
-            AWSShapeMember(label: "certificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "certificateId", required: false, type: .string), 
-            AWSShapeMember(label: "certificatePem", required: false, type: .string)
-        ]
-        /// The generated key pair.
-        public let keyPair: KeyPair?
-        /// The ARN of the certificate.
-        public let certificateArn: String?
-        /// The ID of the certificate. AWS IoT issues a default subject name for the certificate (for example, AWS IoT Certificate).
-        public let certificateId: String?
-        /// The certificate data, in PEM format.
-        public let certificatePem: String?
-
-        public init(keyPair: KeyPair? = nil, certificateArn: String? = nil, certificateId: String? = nil, certificatePem: String? = nil) {
-            self.keyPair = keyPair
-            self.certificateArn = certificateArn
-            self.certificateId = certificateId
-            self.certificatePem = certificatePem
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case keyPair = "keyPair"
-            case certificateArn = "certificateArn"
-            case certificateId = "certificateId"
-            case certificatePem = "certificatePem"
-        }
-    }
-
-    public enum DynamoKeyType: String, CustomStringConvertible, Codable {
-        case string = "STRING"
-        case number = "NUMBER"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetIndexingConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingIndexingConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "thingGroupIndexingConfiguration", required: false, type: .structure)
-        ]
-        /// Thing indexing configuration.
-        public let thingIndexingConfiguration: ThingIndexingConfiguration?
-        /// The index configuration.
-        public let thingGroupIndexingConfiguration: ThingGroupIndexingConfiguration?
-
-        public init(thingIndexingConfiguration: ThingIndexingConfiguration? = nil, thingGroupIndexingConfiguration: ThingGroupIndexingConfiguration? = nil) {
-            self.thingIndexingConfiguration = thingIndexingConfiguration
-            self.thingGroupIndexingConfiguration = thingGroupIndexingConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case thingIndexingConfiguration = "thingIndexingConfiguration"
-            case thingGroupIndexingConfiguration = "thingGroupIndexingConfiguration"
-        }
-    }
-
-    public struct DynamoDBAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "hashKeyValue", required: true, type: .string), 
-            AWSShapeMember(label: "tableName", required: true, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string), 
-            AWSShapeMember(label: "hashKeyField", required: true, type: .string), 
-            AWSShapeMember(label: "rangeKeyValue", required: false, type: .string), 
-            AWSShapeMember(label: "hashKeyType", required: false, type: .enum), 
-            AWSShapeMember(label: "payloadField", required: false, type: .string), 
-            AWSShapeMember(label: "rangeKeyType", required: false, type: .enum), 
-            AWSShapeMember(label: "rangeKeyField", required: false, type: .string), 
-            AWSShapeMember(label: "operation", required: false, type: .string)
-        ]
-        /// The hash key value.
-        public let hashKeyValue: String
-        /// The name of the DynamoDB table.
-        public let tableName: String
-        /// The ARN of the IAM role that grants access to the DynamoDB table.
-        public let roleArn: String
-        /// The hash key name.
-        public let hashKeyField: String
-        /// The range key value.
-        public let rangeKeyValue: String?
-        /// The hash key type. Valid values are "STRING" or "NUMBER"
-        public let hashKeyType: DynamoKeyType?
-        /// The action payload. This name can be customized.
-        public let payloadField: String?
-        /// The range key type. Valid values are "STRING" or "NUMBER"
-        public let rangeKeyType: DynamoKeyType?
-        /// The range key name.
-        public let rangeKeyField: String?
-        /// The type of operation to be performed. This follows the substitution template, so it can be ${operation}, but the substitution must result in one of the following: INSERT, UPDATE, or DELETE.
-        public let operation: String?
-
-        public init(hashKeyValue: String, tableName: String, roleArn: String, hashKeyField: String, rangeKeyValue: String? = nil, hashKeyType: DynamoKeyType? = nil, payloadField: String? = nil, rangeKeyType: DynamoKeyType? = nil, rangeKeyField: String? = nil, operation: String? = nil) {
-            self.hashKeyValue = hashKeyValue
-            self.tableName = tableName
-            self.roleArn = roleArn
-            self.hashKeyField = hashKeyField
-            self.rangeKeyValue = rangeKeyValue
-            self.hashKeyType = hashKeyType
-            self.payloadField = payloadField
-            self.rangeKeyType = rangeKeyType
-            self.rangeKeyField = rangeKeyField
-            self.operation = operation
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case hashKeyValue = "hashKeyValue"
-            case tableName = "tableName"
-            case roleArn = "roleArn"
-            case hashKeyField = "hashKeyField"
-            case rangeKeyValue = "rangeKeyValue"
-            case hashKeyType = "hashKeyType"
-            case payloadField = "payloadField"
-            case rangeKeyType = "rangeKeyType"
-            case rangeKeyField = "rangeKeyField"
-            case operation = "operation"
-        }
-    }
-
-    public struct SearchIndexRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "queryVersion", required: false, type: .string), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "queryString", required: true, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "indexName", required: false, type: .string)
-        ]
-        /// The query version.
-        public let queryVersion: String?
-        /// The token used to get the next set of results, or null if there are no additional results.
-        public let nextToken: String?
-        /// The search query string.
-        public let queryString: String
-        /// The maximum number of results to return at one time.
-        public let maxResults: Int32?
-        /// The search index name.
-        public let indexName: String?
-
-        public init(queryVersion: String? = nil, nextToken: String? = nil, queryString: String, maxResults: Int32? = nil, indexName: String? = nil) {
-            self.queryVersion = queryVersion
-            self.nextToken = nextToken
-            self.queryString = queryString
-            self.maxResults = maxResults
-            self.indexName = indexName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case queryVersion = "queryVersion"
-            case nextToken = "nextToken"
-            case queryString = "queryString"
-            case maxResults = "maxResults"
-            case indexName = "indexName"
-        }
-    }
-
-    public struct ListOTAUpdatesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "otaUpdateStatus", location: .querystring(locationName: "otaUpdateStatus"), required: false, type: .enum)
-        ]
-        /// The maximum number of results to return at one time.
-        public let maxResults: Int32?
-        /// A token used to retrieve the next set of results.
-        public let nextToken: String?
-        /// The OTA update job status.
-        public let otaUpdateStatus: OTAUpdateStatus?
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, otaUpdateStatus: OTAUpdateStatus? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-            self.otaUpdateStatus = otaUpdateStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case otaUpdateStatus = "otaUpdateStatus"
-        }
-    }
-
-    public struct CreateDynamicThingGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "queryVersion", required: false, type: .string), 
-            AWSShapeMember(label: "queryString", required: false, type: .string), 
-            AWSShapeMember(label: "thingGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "thingGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "indexName", required: false, type: .string)
-        ]
-        /// The dynamic thing group ID.
-        public let thingGroupId: String?
-        /// The dynamic thing group query version.
-        public let queryVersion: String?
-        /// The dynamic thing group search query string.
-        public let queryString: String?
-        /// The dynamic thing group name.
-        public let thingGroupName: String?
-        /// The dynamic thing group ARN.
-        public let thingGroupArn: String?
-        /// The dynamic thing group index name.
-        public let indexName: String?
-
-        public init(thingGroupId: String? = nil, queryVersion: String? = nil, queryString: String? = nil, thingGroupName: String? = nil, thingGroupArn: String? = nil, indexName: String? = nil) {
-            self.thingGroupId = thingGroupId
-            self.queryVersion = queryVersion
-            self.queryString = queryString
-            self.thingGroupName = thingGroupName
-            self.thingGroupArn = thingGroupArn
-            self.indexName = indexName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case thingGroupId = "thingGroupId"
-            case queryVersion = "queryVersion"
-            case queryString = "queryString"
-            case thingGroupName = "thingGroupName"
-            case thingGroupArn = "thingGroupArn"
-            case indexName = "indexName"
-        }
-    }
-
-    public struct GetEffectivePoliciesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "effectivePolicies", required: false, type: .list)
-        ]
-        /// The effective policies.
-        public let effectivePolicies: [EffectivePolicy]?
-
-        public init(effectivePolicies: [EffectivePolicy]? = nil) {
-            self.effectivePolicies = effectivePolicies
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case effectivePolicies = "effectivePolicies"
-        }
-    }
-
-    public struct Allowed: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policies", required: false, type: .list)
-        ]
-        /// A list of policies that allowed the authentication.
-        public let policies: [Policy]?
-
-        public init(policies: [Policy]? = nil) {
-            self.policies = policies
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policies = "policies"
-        }
-    }
-
-    public struct DeleteDynamicThingGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "expectedVersion", location: .querystring(locationName: "expectedVersion"), required: false, type: .long), 
-            AWSShapeMember(label: "thingGroupName", location: .uri(locationName: "thingGroupName"), required: true, type: .string)
-        ]
-        /// The expected version of the dynamic thing group to delete.
-        public let expectedVersion: Int64?
-        /// The name of the dynamic thing group to delete.
-        public let thingGroupName: String
-
-        public init(expectedVersion: Int64? = nil, thingGroupName: String) {
-            self.expectedVersion = expectedVersion
-            self.thingGroupName = thingGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case expectedVersion = "expectedVersion"
-            case thingGroupName = "thingGroupName"
-        }
-    }
-
-    public struct ListThingPrincipalsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "principals", required: false, type: .list)
-        ]
-        /// The principals associated with the thing.
-        public let principals: [String]?
-
-        public init(principals: [String]? = nil) {
-            self.principals = principals
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case principals = "principals"
-        }
-    }
-
-    public struct ListPolicyPrincipalsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyName", location: .header(locationName: "x-amzn-iot-policy"), required: true, type: .string), 
-            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
-            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean)
-        ]
-        /// The policy name.
-        public let policyName: String
-        /// The result page size.
-        public let pageSize: Int32?
-        /// The marker for the next set of results.
-        public let marker: String?
-        /// Specifies the order for results. If true, the results are returned in ascending creation order.
-        public let ascendingOrder: Bool?
-
-        public init(policyName: String, pageSize: Int32? = nil, marker: String? = nil, ascendingOrder: Bool? = nil) {
-            self.policyName = policyName
-            self.pageSize = pageSize
-            self.marker = marker
-            self.ascendingOrder = ascendingOrder
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyName = "x-amzn-iot-policy"
-            case pageSize = "pageSize"
-            case marker = "marker"
-            case ascendingOrder = "isAscendingOrder"
-        }
-    }
-
-    public struct UntagResourceResponse: AWSShape {
-
-    }
-
-    public struct StreamSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "streamId", required: false, type: .string), 
-            AWSShapeMember(label: "streamVersion", required: false, type: .integer), 
-            AWSShapeMember(label: "streamArn", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string)
-        ]
-        /// The stream ID.
-        public let streamId: String?
-        /// The stream version.
-        public let streamVersion: Int32?
-        /// The stream ARN.
-        public let streamArn: String?
-        /// A description of the stream.
-        public let description: String?
-
-        public init(streamId: String? = nil, streamVersion: Int32? = nil, streamArn: String? = nil, description: String? = nil) {
-            self.streamId = streamId
-            self.streamVersion = streamVersion
-            self.streamArn = streamArn
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case streamId = "streamId"
-            case streamVersion = "streamVersion"
-            case streamArn = "streamArn"
-            case description = "description"
-        }
-    }
-
-    public struct GetLoggingOptionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "roleArn", required: false, type: .string), 
-            AWSShapeMember(label: "logLevel", required: false, type: .enum)
-        ]
-        /// The ARN of the IAM role that grants access.
-        public let roleArn: String?
-        /// The logging level.
-        public let logLevel: LogLevel?
-
-        public init(roleArn: String? = nil, logLevel: LogLevel? = nil) {
-            self.roleArn = roleArn
-            self.logLevel = logLevel
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleArn = "roleArn"
-            case logLevel = "logLevel"
-        }
-    }
-
-    public struct LogTarget: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "targetName", required: false, type: .string), 
-            AWSShapeMember(label: "targetType", required: true, type: .enum)
-        ]
-        /// The target name.
-        public let targetName: String?
-        /// The target type.
-        public let targetType: LogTargetType
-
-        public init(targetName: String? = nil, targetType: LogTargetType) {
-            self.targetName = targetName
-            self.targetType = targetType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case targetName = "targetName"
-            case targetType = "targetType"
-        }
-    }
-
-    public struct TransferCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "transferMessage", required: false, type: .string), 
-            AWSShapeMember(label: "targetAwsAccount", location: .querystring(locationName: "targetAwsAccount"), required: true, type: .string), 
-            AWSShapeMember(label: "certificateId", location: .uri(locationName: "certificateId"), required: true, type: .string)
-        ]
-        /// The transfer message.
-        public let transferMessage: String?
-        /// The AWS account.
-        public let targetAwsAccount: String
-        /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
-        public let certificateId: String
-
-        public init(transferMessage: String? = nil, targetAwsAccount: String, certificateId: String) {
-            self.transferMessage = transferMessage
-            self.targetAwsAccount = targetAwsAccount
-            self.certificateId = certificateId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case transferMessage = "transferMessage"
-            case targetAwsAccount = "targetAwsAccount"
-            case certificateId = "certificateId"
-        }
-    }
-
-    public enum AlertTargetType: String, CustomStringConvertible, Codable {
-        case sns = "SNS"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct Configuration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean)
-        ]
-        /// True to enable the configuration.
-        public let enabled: Bool?
-
-        public init(enabled: Bool? = nil) {
-            self.enabled = enabled
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case enabled = "Enabled"
-        }
-    }
-
-    public enum Status: String, CustomStringConvertible, Codable {
-        case inprogress = "InProgress"
-        case completed = "Completed"
-        case failed = "Failed"
-        case cancelled = "Cancelled"
-        case cancelling = "Cancelling"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct JobSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "thingGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "jobId", required: false, type: .string), 
-            AWSShapeMember(label: "targetSelection", required: false, type: .enum), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "jobArn", required: false, type: .string), 
-            AWSShapeMember(label: "completedAt", required: false, type: .timestamp)
-        ]
-        /// The time, in milliseconds since the epoch, when the job was created.
-        public let createdAt: TimeStamp?
-        /// The ID of the thing group.
-        public let thingGroupId: String?
-        /// The time, in milliseconds since the epoch, when the job was last updated.
-        public let lastUpdatedAt: TimeStamp?
-        /// The unique identifier you assigned to this job when it was created.
-        public let jobId: String?
-        /// Specifies whether the job will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the job (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected in a target. For example, a job will run on a thing when the thing is added to a target group, even after the job was completed by all things originally in the group.
-        public let targetSelection: TargetSelection?
-        /// The job summary status.
-        public let status: JobStatus?
-        /// The job ARN.
-        public let jobArn: String?
-        /// The time, in milliseconds since the epoch, when the job completed.
-        public let completedAt: TimeStamp?
-
-        public init(createdAt: TimeStamp? = nil, thingGroupId: String? = nil, lastUpdatedAt: TimeStamp? = nil, jobId: String? = nil, targetSelection: TargetSelection? = nil, status: JobStatus? = nil, jobArn: String? = nil, completedAt: TimeStamp? = nil) {
-            self.createdAt = createdAt
-            self.thingGroupId = thingGroupId
-            self.lastUpdatedAt = lastUpdatedAt
-            self.jobId = jobId
-            self.targetSelection = targetSelection
-            self.status = status
-            self.jobArn = jobArn
-            self.completedAt = completedAt
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case createdAt = "createdAt"
-            case thingGroupId = "thingGroupId"
-            case lastUpdatedAt = "lastUpdatedAt"
-            case jobId = "jobId"
-            case targetSelection = "targetSelection"
-            case status = "status"
-            case jobArn = "jobArn"
-            case completedAt = "completedAt"
-        }
-    }
-
-    public struct GetJobDocumentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "document", required: false, type: .string)
-        ]
-        /// The job document content.
-        public let document: String?
-
-        public init(document: String? = nil) {
-            self.document = document
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case document = "document"
-        }
-    }
-
-    public struct TopicRulePayload: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "errorAction", required: false, type: .structure), 
-            AWSShapeMember(label: "ruleDisabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "actions", required: true, type: .list), 
-            AWSShapeMember(label: "awsIotSqlVersion", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "sql", required: true, type: .string)
-        ]
-        /// The action to take when an error occurs.
-        public let errorAction: Action?
-        /// Specifies whether the rule is disabled.
-        public let ruleDisabled: Bool?
-        /// The actions associated with the rule.
-        public let actions: [Action]
-        /// The version of the SQL rules engine to use when evaluating the rule.
-        public let awsIotSqlVersion: String?
-        /// The description of the rule.
-        public let description: String?
-        /// The SQL statement used to query the topic. For more information, see AWS IoT SQL Reference in the AWS IoT Developer Guide.
-        public let sql: String
-
-        public init(errorAction: Action? = nil, ruleDisabled: Bool? = nil, actions: [Action], awsIotSqlVersion: String? = nil, description: String? = nil, sql: String) {
-            self.errorAction = errorAction
-            self.ruleDisabled = ruleDisabled
-            self.actions = actions
-            self.awsIotSqlVersion = awsIotSqlVersion
-            self.description = description
-            self.sql = sql
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorAction = "errorAction"
-            case ruleDisabled = "ruleDisabled"
-            case actions = "actions"
-            case awsIotSqlVersion = "awsIotSqlVersion"
-            case description = "description"
-            case sql = "sql"
-        }
-    }
-
-    public struct UpdateAuthorizerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorizerName", required: false, type: .string), 
-            AWSShapeMember(label: "authorizerArn", required: false, type: .string)
-        ]
-        /// The authorizer name.
-        public let authorizerName: String?
-        /// The authorizer ARN.
-        public let authorizerArn: String?
-
-        public init(authorizerName: String? = nil, authorizerArn: String? = nil) {
-            self.authorizerName = authorizerName
-            self.authorizerArn = authorizerArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case authorizerName = "authorizerName"
-            case authorizerArn = "authorizerArn"
-        }
-    }
-
-    public struct TransferCertificateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "transferredCertificateArn", required: false, type: .string)
-        ]
-        /// The ARN of the certificate.
-        public let transferredCertificateArn: String?
-
-        public init(transferredCertificateArn: String? = nil) {
-            self.transferredCertificateArn = transferredCertificateArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case transferredCertificateArn = "transferredCertificateArn"
-        }
-    }
-
-    public struct ThingGroupProperties: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingGroupDescription", required: false, type: .string), 
-            AWSShapeMember(label: "attributePayload", required: false, type: .structure)
-        ]
-        /// The thing group description.
-        public let thingGroupDescription: String?
-        /// The thing group attributes in JSON format.
-        public let attributePayload: AttributePayload?
-
-        public init(thingGroupDescription: String? = nil, attributePayload: AttributePayload? = nil) {
-            self.thingGroupDescription = thingGroupDescription
-            self.attributePayload = attributePayload
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case thingGroupDescription = "thingGroupDescription"
-            case attributePayload = "attributePayload"
-        }
-    }
-
-    public struct DescribeIndexRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "indexName", location: .uri(locationName: "indexName"), required: true, type: .string)
-        ]
-        /// The index name.
-        public let indexName: String
-
-        public init(indexName: String) {
-            self.indexName = indexName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case indexName = "indexName"
-        }
-    }
-
-    public struct DescribeCACertificateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateDescription", required: false, type: .structure), 
-            AWSShapeMember(label: "registrationConfig", required: false, type: .structure)
-        ]
-        /// The CA certificate description.
-        public let certificateDescription: CACertificateDescription?
-        /// Information about the registration configuration.
-        public let registrationConfig: RegistrationConfig?
-
-        public init(certificateDescription: CACertificateDescription? = nil, registrationConfig: RegistrationConfig? = nil) {
-            self.certificateDescription = certificateDescription
-            self.registrationConfig = registrationConfig
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificateDescription = "certificateDescription"
-            case registrationConfig = "registrationConfig"
-        }
-    }
-
-    public struct Behavior: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: true, type: .string), 
-            AWSShapeMember(label: "metric", required: false, type: .string), 
-            AWSShapeMember(label: "criteria", required: false, type: .structure)
-        ]
-        /// The name you have given to the behavior.
-        public let name: String
-        /// What is measured by the behavior.
-        public let metric: String?
-        /// The criteria that determine if a device is behaving normally in regard to the metric.
-        public let criteria: BehaviorCriteria?
-
-        public init(name: String, metric: String? = nil, criteria: BehaviorCriteria? = nil) {
-            self.name = name
-            self.metric = metric
-            self.criteria = criteria
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case metric = "metric"
-            case criteria = "criteria"
-        }
-    }
-
-    public struct CancelJobExecutionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "force", location: .querystring(locationName: "force"), required: false, type: .boolean), 
-            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string), 
-            AWSShapeMember(label: "statusDetails", required: false, type: .map), 
-            AWSShapeMember(label: "expectedVersion", required: false, type: .long), 
-            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
-        ]
-        /// (Optional) If true the job execution will be canceled if it has status IN_PROGRESS or QUEUED, otherwise the job execution will be canceled only if it has status QUEUED. If you attempt to cancel a job execution that is IN_PROGRESS, and you do not set force to true, then an InvalidStateTransitionException will be thrown. The default is false. Canceling a job execution which is "IN_PROGRESS", will cause the device to be unable to update the job execution status. Use caution and ensure that the device is able to recover to a valid state.
-        public let force: Bool?
-        /// The ID of the job to be canceled.
-        public let jobId: String
-        /// A collection of name/value pairs that describe the status of the job execution. If not specified, the statusDetails are unchanged. You can specify at most 10 name/value pairs.
-        public let statusDetails: [String: String]?
-        /// (Optional) The expected current version of the job execution. Each time you update the job execution, its version is incremented. If the version of the job execution stored in Jobs does not match, the update is rejected with a VersionMismatch error, and an ErrorResponse that contains the current job execution status data is returned. (This makes it unnecessary to perform a separate DescribeJobExecution request in order to obtain the job execution status data.)
-        public let expectedVersion: Int64?
-        /// The name of the thing whose execution of the job will be canceled.
-        public let thingName: String
-
-        public init(force: Bool? = nil, jobId: String, statusDetails: [String: String]? = nil, expectedVersion: Int64? = nil, thingName: String) {
-            self.force = force
-            self.jobId = jobId
-            self.statusDetails = statusDetails
-            self.expectedVersion = expectedVersion
-            self.thingName = thingName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case force = "force"
-            case jobId = "jobId"
-            case statusDetails = "statusDetails"
-            case expectedVersion = "expectedVersion"
-            case thingName = "thingName"
-        }
-    }
-
-    public struct AttachThingPrincipalResponse: AWSShape {
-
-    }
-
-    public struct EnableTopicRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ruleName", location: .uri(locationName: "ruleName"), required: true, type: .string)
-        ]
-        /// The name of the topic rule to enable.
-        public let ruleName: String
-
-        public init(ruleName: String) {
-            self.ruleName = ruleName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ruleName = "ruleName"
-        }
-    }
-
-    public struct JobExecutionsRolloutConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maximumPerMinute", required: false, type: .integer), 
-            AWSShapeMember(label: "exponentialRate", required: false, type: .structure)
-        ]
-        /// The maximum number of things that will be notified of a pending job, per minute. This parameter allows you to create a staged rollout.
-        public let maximumPerMinute: Int32?
-        /// The rate of increase for a job rollout. This parameter allows you to define an exponential rate for a job rollout.
-        public let exponentialRate: ExponentialRolloutRate?
-
-        public init(maximumPerMinute: Int32? = nil, exponentialRate: ExponentialRolloutRate? = nil) {
-            self.maximumPerMinute = maximumPerMinute
-            self.exponentialRate = exponentialRate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maximumPerMinute = "maximumPerMinute"
-            case exponentialRate = "exponentialRate"
-        }
-    }
-
-    public struct CreateBillingGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "billingGroupProperties", required: false, type: .structure), 
-            AWSShapeMember(label: "billingGroupName", location: .uri(locationName: "billingGroupName"), required: true, type: .string)
-        ]
-        /// Metadata which can be used to manage the billing group.
-        public let tags: [Tag]?
-        /// The properties of the billing group.
-        public let billingGroupProperties: BillingGroupProperties?
-        /// The name you wish to give to the billing group.
-        public let billingGroupName: String
-
-        public init(tags: [Tag]? = nil, billingGroupProperties: BillingGroupProperties? = nil, billingGroupName: String) {
-            self.tags = tags
-            self.billingGroupProperties = billingGroupProperties
-            self.billingGroupName = billingGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "tags"
-            case billingGroupProperties = "billingGroupProperties"
-            case billingGroupName = "billingGroupName"
-        }
-    }
-
-    public struct CreateThingGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "parentGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "thingGroupName", location: .uri(locationName: "thingGroupName"), required: true, type: .string), 
-            AWSShapeMember(label: "thingGroupProperties", required: false, type: .structure)
-        ]
-        /// The name of the parent thing group.
-        public let parentGroupName: String?
-        /// Metadata which can be used to manage the thing group.
-        public let tags: [Tag]?
-        /// The thing group name to create.
-        public let thingGroupName: String
-        /// The thing group properties.
-        public let thingGroupProperties: ThingGroupProperties?
-
-        public init(parentGroupName: String? = nil, tags: [Tag]? = nil, thingGroupName: String, thingGroupProperties: ThingGroupProperties? = nil) {
-            self.parentGroupName = parentGroupName
-            self.tags = tags
-            self.thingGroupName = thingGroupName
-            self.thingGroupProperties = thingGroupProperties
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case parentGroupName = "parentGroupName"
-            case tags = "tags"
-            case thingGroupName = "thingGroupName"
-            case thingGroupProperties = "thingGroupProperties"
-        }
-    }
-
-    public struct SecurityProfileTarget: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string)
-        ]
-        /// The ARN of the security profile.
-        public let arn: String
-
-        public init(arn: String) {
-            self.arn = arn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
-        }
-    }
-
-    public struct RejectCertificateTransferRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "rejectReason", required: false, type: .string), 
-            AWSShapeMember(label: "certificateId", location: .uri(locationName: "certificateId"), required: true, type: .string)
-        ]
-        /// The reason the certificate transfer was rejected.
-        public let rejectReason: String?
-        /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
-        public let certificateId: String
-
-        public init(rejectReason: String? = nil, certificateId: String) {
-            self.rejectReason = rejectReason
-            self.certificateId = certificateId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case rejectReason = "rejectReason"
-            case certificateId = "certificateId"
-        }
-    }
-
-    public struct UpdateJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string), 
-            AWSShapeMember(label: "abortConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "timeoutConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "presignedUrlConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "jobExecutionsRolloutConfig", required: false, type: .structure)
-        ]
-        /// The ID of the job to be updated.
-        public let jobId: String
-        /// Allows you to create criteria to abort a job.
-        public let abortConfig: AbortConfig?
-        /// Specifies the amount of time each device has to finish its execution of the job. The timer is started when the job execution status is set to IN_PROGRESS. If the job execution status is not set to another terminal state before the time expires, it will be automatically set to TIMED_OUT. 
-        public let timeoutConfig: TimeoutConfig?
-        /// A short text description of the job.
-        public let description: String?
-        /// Configuration information for pre-signed S3 URLs.
-        public let presignedUrlConfig: PresignedUrlConfig?
-        /// Allows you to create a staged rollout of the job.
-        public let jobExecutionsRolloutConfig: JobExecutionsRolloutConfig?
-
-        public init(jobId: String, abortConfig: AbortConfig? = nil, timeoutConfig: TimeoutConfig? = nil, description: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil) {
-            self.jobId = jobId
-            self.abortConfig = abortConfig
-            self.timeoutConfig = timeoutConfig
-            self.description = description
-            self.presignedUrlConfig = presignedUrlConfig
-            self.jobExecutionsRolloutConfig = jobExecutionsRolloutConfig
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobId = "jobId"
-            case abortConfig = "abortConfig"
-            case timeoutConfig = "timeoutConfig"
-            case description = "description"
-            case presignedUrlConfig = "presignedUrlConfig"
-            case jobExecutionsRolloutConfig = "jobExecutionsRolloutConfig"
-        }
-    }
-
-    public struct AuthorizerDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorizerFunctionArn", required: false, type: .string), 
-            AWSShapeMember(label: "tokenSigningPublicKeys", required: false, type: .map), 
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "tokenKeyName", required: false, type: .string), 
-            AWSShapeMember(label: "authorizerName", required: false, type: .string), 
-            AWSShapeMember(label: "authorizerArn", required: false, type: .string), 
-            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp)
-        ]
-        /// The authorizer's Lambda function ARN.
+        /// The ARN of the authorizer's Lambda function.
         public let authorizerFunctionArn: String?
-        /// The public keys used to validate the token signature returned by your custom authentication service.
-        public let tokenSigningPublicKeys: [String: String]?
-        /// The UNIX timestamp of when the authorizer was created.
-        public let creationDate: TimeStamp?
-        /// The status of the authorizer.
-        public let status: AuthorizerStatus?
-        /// The key used to extract the token from the HTTP headers.
-        public let tokenKeyName: String?
-        /// The authorizer name.
-        public let authorizerName: String?
-        /// The authorizer ARN.
-        public let authorizerArn: String?
-        /// The UNIX timestamp of when the authorizer was last updated.
-        public let lastModifiedDate: TimeStamp?
 
-        public init(authorizerFunctionArn: String? = nil, tokenSigningPublicKeys: [String: String]? = nil, creationDate: TimeStamp? = nil, status: AuthorizerStatus? = nil, tokenKeyName: String? = nil, authorizerName: String? = nil, authorizerArn: String? = nil, lastModifiedDate: TimeStamp? = nil) {
-            self.authorizerFunctionArn = authorizerFunctionArn
+        public init(authorizerName: String, tokenSigningPublicKeys: [String: String]? = nil, status: AuthorizerStatus? = nil, tokenKeyName: String? = nil, authorizerFunctionArn: String? = nil) {
+            self.authorizerName = authorizerName
             self.tokenSigningPublicKeys = tokenSigningPublicKeys
-            self.creationDate = creationDate
             self.status = status
             self.tokenKeyName = tokenKeyName
-            self.authorizerName = authorizerName
-            self.authorizerArn = authorizerArn
-            self.lastModifiedDate = lastModifiedDate
+            self.authorizerFunctionArn = authorizerFunctionArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorizerFunctionArn = "authorizerFunctionArn"
+            case authorizerName = "authorizerName"
             case tokenSigningPublicKeys = "tokenSigningPublicKeys"
-            case creationDate = "creationDate"
             case status = "status"
             case tokenKeyName = "tokenKeyName"
-            case authorizerName = "authorizerName"
-            case authorizerArn = "authorizerArn"
-            case lastModifiedDate = "lastModifiedDate"
+            case authorizerFunctionArn = "authorizerFunctionArn"
         }
     }
 
-    public struct ListTopicRulesResponse: AWSShape {
+    public struct CreatePolicyResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "rules", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// The rules.
-        public let rules: [TopicRuleListItem]?
-        /// A token used to retrieve the next value.
-        public let nextToken: String?
-
-        public init(rules: [TopicRuleListItem]? = nil, nextToken: String? = nil) {
-            self.rules = rules
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case rules = "rules"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct ScheduledAuditMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "frequency", required: false, type: .enum), 
-            AWSShapeMember(label: "dayOfMonth", required: false, type: .string), 
-            AWSShapeMember(label: "dayOfWeek", required: false, type: .enum), 
-            AWSShapeMember(label: "scheduledAuditArn", required: false, type: .string), 
-            AWSShapeMember(label: "scheduledAuditName", required: false, type: .string)
-        ]
-        /// How often the scheduled audit takes place.
-        public let frequency: AuditFrequency?
-        /// The day of the month on which the scheduled audit is run (if the frequency is "MONTHLY"). If days 29-31 are specified, and the month does not have that many days, the audit takes place on the "LAST" day of the month.
-        public let dayOfMonth: String?
-        /// The day of the week on which the scheduled audit is run (if the frequency is "WEEKLY" or "BIWEEKLY").
-        public let dayOfWeek: DayOfWeek?
-        /// The ARN of the scheduled audit.
-        public let scheduledAuditArn: String?
-        /// The name of the scheduled audit.
-        public let scheduledAuditName: String?
-
-        public init(frequency: AuditFrequency? = nil, dayOfMonth: String? = nil, dayOfWeek: DayOfWeek? = nil, scheduledAuditArn: String? = nil, scheduledAuditName: String? = nil) {
-            self.frequency = frequency
-            self.dayOfMonth = dayOfMonth
-            self.dayOfWeek = dayOfWeek
-            self.scheduledAuditArn = scheduledAuditArn
-            self.scheduledAuditName = scheduledAuditName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case frequency = "frequency"
-            case dayOfMonth = "dayOfMonth"
-            case dayOfWeek = "dayOfWeek"
-            case scheduledAuditArn = "scheduledAuditArn"
-            case scheduledAuditName = "scheduledAuditName"
-        }
-    }
-
-    public struct ResourceIdentifier: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "caCertificateId", required: false, type: .string), 
-            AWSShapeMember(label: "deviceCertificateId", required: false, type: .string), 
-            AWSShapeMember(label: "cognitoIdentityPoolId", required: false, type: .string), 
-            AWSShapeMember(label: "account", required: false, type: .string), 
-            AWSShapeMember(label: "policyVersionIdentifier", required: false, type: .structure), 
-            AWSShapeMember(label: "clientId", required: false, type: .string)
-        ]
-        /// The ID of the CA certificate used to authorize the certificate.
-        public let caCertificateId: String?
-        /// The ID of the certificate attached to the resource.
-        public let deviceCertificateId: String?
-        /// The ID of the Cognito Identity Pool.
-        public let cognitoIdentityPoolId: String?
-        /// The account with which the resource is associated.
-        public let account: String?
-        /// The version of the policy associated with the resource.
-        public let policyVersionIdentifier: PolicyVersionIdentifier?
-        /// The client ID.
-        public let clientId: String?
-
-        public init(caCertificateId: String? = nil, deviceCertificateId: String? = nil, cognitoIdentityPoolId: String? = nil, account: String? = nil, policyVersionIdentifier: PolicyVersionIdentifier? = nil, clientId: String? = nil) {
-            self.caCertificateId = caCertificateId
-            self.deviceCertificateId = deviceCertificateId
-            self.cognitoIdentityPoolId = cognitoIdentityPoolId
-            self.account = account
-            self.policyVersionIdentifier = policyVersionIdentifier
-            self.clientId = clientId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case caCertificateId = "caCertificateId"
-            case deviceCertificateId = "deviceCertificateId"
-            case cognitoIdentityPoolId = "cognitoIdentityPoolId"
-            case account = "account"
-            case policyVersionIdentifier = "policyVersionIdentifier"
-            case clientId = "clientId"
-        }
-    }
-
-    public struct UpdateAccountAuditConfigurationResponse: AWSShape {
-
-    }
-
-    public struct GetLoggingOptionsRequest: AWSShape {
-
-    }
-
-    public struct TransferData: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "transferDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "acceptDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "transferMessage", required: false, type: .string), 
-            AWSShapeMember(label: "rejectDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "rejectReason", required: false, type: .string)
-        ]
-        /// The date the transfer took place.
-        public let transferDate: TimeStamp?
-        /// The date the transfer was accepted.
-        public let acceptDate: TimeStamp?
-        /// The transfer message.
-        public let transferMessage: String?
-        /// The date the transfer was rejected.
-        public let rejectDate: TimeStamp?
-        /// The reason why the transfer was rejected.
-        public let rejectReason: String?
-
-        public init(transferDate: TimeStamp? = nil, acceptDate: TimeStamp? = nil, transferMessage: String? = nil, rejectDate: TimeStamp? = nil, rejectReason: String? = nil) {
-            self.transferDate = transferDate
-            self.acceptDate = acceptDate
-            self.transferMessage = transferMessage
-            self.rejectDate = rejectDate
-            self.rejectReason = rejectReason
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case transferDate = "transferDate"
-            case acceptDate = "acceptDate"
-            case transferMessage = "transferMessage"
-            case rejectDate = "rejectDate"
-            case rejectReason = "rejectReason"
-        }
-    }
-
-    public struct ListSecurityProfilesForTargetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "securityProfileTargetMappings", required: false, type: .list)
-        ]
-        /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
-        public let nextToken: String?
-        /// A list of security profiles and their associated targets.
-        public let securityProfileTargetMappings: [SecurityProfileTargetMapping]?
-
-        public init(nextToken: String? = nil, securityProfileTargetMappings: [SecurityProfileTargetMapping]? = nil) {
-            self.nextToken = nextToken
-            self.securityProfileTargetMappings = securityProfileTargetMappings
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case securityProfileTargetMappings = "securityProfileTargetMappings"
-        }
-    }
-
-    public struct DescribeCACertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateId", location: .uri(locationName: "caCertificateId"), required: true, type: .string)
-        ]
-        /// The CA certificate identifier.
-        public let certificateId: String
-
-        public init(certificateId: String) {
-            self.certificateId = certificateId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificateId = "caCertificateId"
-        }
-    }
-
-    public struct ListStreamsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean)
-        ]
-        /// The maximum number of results to return at a time.
-        public let maxResults: Int32?
-        /// A token used to get the next set of results.
-        public let nextToken: String?
-        /// Set to true to return the list of streams in ascending order.
-        public let ascendingOrder: Bool?
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, ascendingOrder: Bool? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-            self.ascendingOrder = ascendingOrder
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case ascendingOrder = "isAscendingOrder"
-        }
-    }
-
-    public struct DeleteBillingGroupResponse: AWSShape {
-
-    }
-
-    public struct ListAuditTasksRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "startTime", location: .querystring(locationName: "startTime"), required: true, type: .timestamp), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "endTime", location: .querystring(locationName: "endTime"), required: true, type: .timestamp), 
-            AWSShapeMember(label: "taskType", location: .querystring(locationName: "taskType"), required: false, type: .enum), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "taskStatus", location: .querystring(locationName: "taskStatus"), required: false, type: .enum)
-        ]
-        /// The beginning of the time period. Note that audit information is retained for a limited time (180 days). Requesting a start time prior to what is retained results in an "InvalidRequestException".
-        public let startTime: TimeStamp
-        /// The token for the next set of results.
-        public let nextToken: String?
-        /// The end of the time period.
-        public let endTime: TimeStamp
-        /// A filter to limit the output to the specified type of audit: can be one of "ON_DEMAND_AUDIT_TASK" or "SCHEDULED__AUDIT_TASK".
-        public let taskType: AuditTaskType?
-        /// The maximum number of results to return at one time. The default is 25.
-        public let maxResults: Int32?
-        /// A filter to limit the output to audits with the specified completion status: can be one of "IN_PROGRESS", "COMPLETED", "FAILED" or "CANCELED".
-        public let taskStatus: AuditTaskStatus?
-
-        public init(startTime: TimeStamp, nextToken: String? = nil, endTime: TimeStamp, taskType: AuditTaskType? = nil, maxResults: Int32? = nil, taskStatus: AuditTaskStatus? = nil) {
-            self.startTime = startTime
-            self.nextToken = nextToken
-            self.endTime = endTime
-            self.taskType = taskType
-            self.maxResults = maxResults
-            self.taskStatus = taskStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case startTime = "startTime"
-            case nextToken = "nextToken"
-            case endTime = "endTime"
-            case taskType = "taskType"
-            case maxResults = "maxResults"
-            case taskStatus = "taskStatus"
-        }
-    }
-
-    public struct CreateSecurityProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "securityProfileName", location: .uri(locationName: "securityProfileName"), required: true, type: .string), 
-            AWSShapeMember(label: "securityProfileDescription", required: false, type: .string), 
-            AWSShapeMember(label: "alertTargets", required: false, type: .map), 
-            AWSShapeMember(label: "behaviors", required: true, type: .list)
-        ]
-        /// Metadata which can be used to manage the security profile.
-        public let tags: [Tag]?
-        /// The name you are giving to the security profile.
-        public let securityProfileName: String
-        /// A description of the security profile.
-        public let securityProfileDescription: String?
-        /// Specifies the destinations to which alerts are sent. (Alerts are always sent to the console.) Alerts are generated when a device (thing) violates a behavior.
-        public let alertTargets: [AlertTargetType: AlertTarget]?
-        /// Specifies the behaviors that, when violated by a device (thing), cause an alert.
-        public let behaviors: [Behavior]
-
-        public init(tags: [Tag]? = nil, securityProfileName: String, securityProfileDescription: String? = nil, alertTargets: [AlertTargetType: AlertTarget]? = nil, behaviors: [Behavior]) {
-            self.tags = tags
-            self.securityProfileName = securityProfileName
-            self.securityProfileDescription = securityProfileDescription
-            self.alertTargets = alertTargets
-            self.behaviors = behaviors
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "tags"
-            case securityProfileName = "securityProfileName"
-            case securityProfileDescription = "securityProfileDescription"
-            case alertTargets = "alertTargets"
-            case behaviors = "behaviors"
-        }
-    }
-
-    public struct CreateCertificateFromCsrResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "certificateId", required: false, type: .string), 
-            AWSShapeMember(label: "certificatePem", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the certificate. You can use the ARN as a principal for policy operations.
-        public let certificateArn: String?
-        /// The ID of the certificate. Certificate management operations only take a certificateId.
-        public let certificateId: String?
-        /// The certificate data, in PEM format.
-        public let certificatePem: String?
-
-        public init(certificateArn: String? = nil, certificateId: String? = nil, certificatePem: String? = nil) {
-            self.certificateArn = certificateArn
-            self.certificateId = certificateId
-            self.certificatePem = certificatePem
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificateArn = "certificateArn"
-            case certificateId = "certificateId"
-            case certificatePem = "certificatePem"
-        }
-    }
-
-    public struct PolicyVersionIdentifier: AWSShape {
-        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policyArn", required: false, type: .string), 
+            AWSShapeMember(label: "policyDocument", required: false, type: .string), 
             AWSShapeMember(label: "policyName", required: false, type: .string), 
             AWSShapeMember(label: "policyVersionId", required: false, type: .string)
         ]
-        /// The name of the policy.
+        /// The policy ARN.
+        public let policyArn: String?
+        /// The JSON document that describes the policy.
+        public let policyDocument: String?
+        /// The policy name.
         public let policyName: String?
-        /// The ID of the version of the policy associated with the resource.
+        /// The policy version ID.
         public let policyVersionId: String?
 
-        public init(policyName: String? = nil, policyVersionId: String? = nil) {
+        public init(policyArn: String? = nil, policyDocument: String? = nil, policyName: String? = nil, policyVersionId: String? = nil) {
+            self.policyArn = policyArn
+            self.policyDocument = policyDocument
             self.policyName = policyName
             self.policyVersionId = policyVersionId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case policyArn = "policyArn"
+            case policyDocument = "policyDocument"
             case policyName = "policyName"
             case policyVersionId = "policyVersionId"
         }
     }
 
-    public struct ExponentialRolloutRate: AWSShape {
+    public struct CreateDynamicThingGroupResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "incrementFactor", required: true, type: .double), 
-            AWSShapeMember(label: "rateIncreaseCriteria", required: true, type: .structure), 
-            AWSShapeMember(label: "baseRatePerMinute", required: true, type: .integer)
-        ]
-        /// The exponential factor to increase the rate of rollout for a job.
-        public let incrementFactor: Double
-        /// The criteria to initiate the increase in rate of rollout for a job. AWS IoT supports up to one digit after the decimal (for example, 1.5, but not 1.55).
-        public let rateIncreaseCriteria: RateIncreaseCriteria
-        /// The minimum number of things that will be notified of a pending job, per minute at the start of job rollout. This parameter allows you to define the initial rate of rollout.
-        public let baseRatePerMinute: Int32
-
-        public init(incrementFactor: Double, rateIncreaseCriteria: RateIncreaseCriteria, baseRatePerMinute: Int32) {
-            self.incrementFactor = incrementFactor
-            self.rateIncreaseCriteria = rateIncreaseCriteria
-            self.baseRatePerMinute = baseRatePerMinute
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case incrementFactor = "incrementFactor"
-            case rateIncreaseCriteria = "rateIncreaseCriteria"
-            case baseRatePerMinute = "baseRatePerMinute"
-        }
-    }
-
-    public struct ListAuditFindingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "resourceIdentifier", required: false, type: .structure), 
-            AWSShapeMember(label: "checkName", required: false, type: .string), 
-            AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "taskId", required: false, type: .string)
-        ]
-        /// The token for the next set of results.
-        public let nextToken: String?
-        /// The maximum number of results to return at one time. The default is 25.
-        public let maxResults: Int32?
-        /// A filter to limit results to those found after the specified time. You must specify either the startTime and endTime or the taskId, but not both.
-        public let startTime: TimeStamp?
-        /// Information identifying the non-compliant resource.
-        public let resourceIdentifier: ResourceIdentifier?
-        /// A filter to limit results to the findings for the specified audit check.
-        public let checkName: String?
-        /// A filter to limit results to those found before the specified time. You must specify either the startTime and endTime or the taskId, but not both.
-        public let endTime: TimeStamp?
-        /// A filter to limit results to the audit with the specified ID. You must specify either the taskId or the startTime and endTime, but not both.
-        public let taskId: String?
-
-        public init(nextToken: String? = nil, maxResults: Int32? = nil, startTime: TimeStamp? = nil, resourceIdentifier: ResourceIdentifier? = nil, checkName: String? = nil, endTime: TimeStamp? = nil, taskId: String? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.startTime = startTime
-            self.resourceIdentifier = resourceIdentifier
-            self.checkName = checkName
-            self.endTime = endTime
-            self.taskId = taskId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
-            case startTime = "startTime"
-            case resourceIdentifier = "resourceIdentifier"
-            case checkName = "checkName"
-            case endTime = "endTime"
-            case taskId = "taskId"
-        }
-    }
-
-    public struct CACertificateDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "customerVersion", required: false, type: .integer), 
-            AWSShapeMember(label: "generationId", required: false, type: .string), 
-            AWSShapeMember(label: "certificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "validity", required: false, type: .structure), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "certificateId", required: false, type: .string), 
-            AWSShapeMember(label: "autoRegistrationStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "certificatePem", required: false, type: .string), 
-            AWSShapeMember(label: "ownedBy", required: false, type: .string)
-        ]
-        /// The date the CA certificate was last modified.
-        public let lastModifiedDate: TimeStamp?
-        /// The date the CA certificate was created.
-        public let creationDate: TimeStamp?
-        /// The customer version of the CA certificate.
-        public let customerVersion: Int32?
-        /// The generation ID of the CA certificate.
-        public let generationId: String?
-        /// The CA certificate ARN.
-        public let certificateArn: String?
-        /// When the CA certificate is valid.
-        public let validity: CertificateValidity?
-        /// The status of a CA certificate.
-        public let status: CACertificateStatus?
-        /// The CA certificate ID.
-        public let certificateId: String?
-        /// Whether the CA certificate configured for auto registration of device certificates. Valid values are "ENABLE" and "DISABLE"
-        public let autoRegistrationStatus: AutoRegistrationStatus?
-        /// The CA certificate data, in PEM format.
-        public let certificatePem: String?
-        /// The owner of the CA certificate.
-        public let ownedBy: String?
-
-        public init(lastModifiedDate: TimeStamp? = nil, creationDate: TimeStamp? = nil, customerVersion: Int32? = nil, generationId: String? = nil, certificateArn: String? = nil, validity: CertificateValidity? = nil, status: CACertificateStatus? = nil, certificateId: String? = nil, autoRegistrationStatus: AutoRegistrationStatus? = nil, certificatePem: String? = nil, ownedBy: String? = nil) {
-            self.lastModifiedDate = lastModifiedDate
-            self.creationDate = creationDate
-            self.customerVersion = customerVersion
-            self.generationId = generationId
-            self.certificateArn = certificateArn
-            self.validity = validity
-            self.status = status
-            self.certificateId = certificateId
-            self.autoRegistrationStatus = autoRegistrationStatus
-            self.certificatePem = certificatePem
-            self.ownedBy = ownedBy
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lastModifiedDate = "lastModifiedDate"
-            case creationDate = "creationDate"
-            case customerVersion = "customerVersion"
-            case generationId = "generationId"
-            case certificateArn = "certificateArn"
-            case validity = "validity"
-            case status = "status"
-            case certificateId = "certificateId"
-            case autoRegistrationStatus = "autoRegistrationStatus"
-            case certificatePem = "certificatePem"
-            case ownedBy = "ownedBy"
-        }
-    }
-
-    public enum CannedAccessControlList: String, CustomStringConvertible, Codable {
-        case `private` = "private"
-        case publicRead = "public-read"
-        case publicReadWrite = "public-read-write"
-        case awsExecRead = "aws-exec-read"
-        case authenticatedRead = "authenticated-read"
-        case bucketOwnerRead = "bucket-owner-read"
-        case bucketOwnerFullControl = "bucket-owner-full-control"
-        case logDeliveryWrite = "log-delivery-write"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct AddThingToBillingGroupResponse: AWSShape {
-
-    }
-
-    public struct CloudwatchMetricAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "metricUnit", required: true, type: .string), 
-            AWSShapeMember(label: "metricTimestamp", required: false, type: .string), 
-            AWSShapeMember(label: "metricName", required: true, type: .string), 
-            AWSShapeMember(label: "metricNamespace", required: true, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string), 
-            AWSShapeMember(label: "metricValue", required: true, type: .string)
-        ]
-        /// The metric unit supported by CloudWatch.
-        public let metricUnit: String
-        /// An optional Unix timestamp.
-        public let metricTimestamp: String?
-        /// The CloudWatch metric name.
-        public let metricName: String
-        /// The CloudWatch metric namespace name.
-        public let metricNamespace: String
-        /// The IAM role that allows access to the CloudWatch metric.
-        public let roleArn: String
-        /// The CloudWatch metric value.
-        public let metricValue: String
-
-        public init(metricUnit: String, metricTimestamp: String? = nil, metricName: String, metricNamespace: String, roleArn: String, metricValue: String) {
-            self.metricUnit = metricUnit
-            self.metricTimestamp = metricTimestamp
-            self.metricName = metricName
-            self.metricNamespace = metricNamespace
-            self.roleArn = roleArn
-            self.metricValue = metricValue
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case metricUnit = "metricUnit"
-            case metricTimestamp = "metricTimestamp"
-            case metricName = "metricName"
-            case metricNamespace = "metricNamespace"
-            case roleArn = "roleArn"
-            case metricValue = "metricValue"
-        }
-    }
-
-    public enum ComparisonOperator: String, CustomStringConvertible, Codable {
-        case lessThan = "less-than"
-        case lessThanEquals = "less-than-equals"
-        case greaterThan = "greater-than"
-        case greaterThanEquals = "greater-than-equals"
-        case inCidrSet = "in-cidr-set"
-        case notInCidrSet = "not-in-cidr-set"
-        case inPortSet = "in-port-set"
-        case notInPortSet = "not-in-port-set"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListThingsInThingGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "things", required: false, type: .list)
-        ]
-        /// The token used to get the next set of results, or null if there are no additional results.
-        public let nextToken: String?
-        /// The things in the specified thing group.
-        public let things: [String]?
-
-        public init(nextToken: String? = nil, things: [String]? = nil) {
-            self.nextToken = nextToken
-            self.things = things
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case things = "things"
-        }
-    }
-
-    public struct ListPolicyPrincipalsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextMarker", required: false, type: .string), 
-            AWSShapeMember(label: "principals", required: false, type: .list)
-        ]
-        /// The marker for the next set of results, or null if there are no additional results.
-        public let nextMarker: String?
-        /// The descriptions of the principals.
-        public let principals: [String]?
-
-        public init(nextMarker: String? = nil, principals: [String]? = nil) {
-            self.nextMarker = nextMarker
-            self.principals = principals
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextMarker = "nextMarker"
-            case principals = "principals"
-        }
-    }
-
-    public struct CustomCodeSigning: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "signature", required: false, type: .structure), 
-            AWSShapeMember(label: "hashAlgorithm", required: false, type: .string), 
-            AWSShapeMember(label: "certificateChain", required: false, type: .structure), 
-            AWSShapeMember(label: "signatureAlgorithm", required: false, type: .string)
-        ]
-        /// The signature for the file.
-        public let signature: CodeSigningSignature?
-        /// The hash algorithm used to code sign the file.
-        public let hashAlgorithm: String?
-        /// The certificate chain.
-        public let certificateChain: CodeSigningCertificateChain?
-        /// The signature algorithm used to code sign the file.
-        public let signatureAlgorithm: String?
-
-        public init(signature: CodeSigningSignature? = nil, hashAlgorithm: String? = nil, certificateChain: CodeSigningCertificateChain? = nil, signatureAlgorithm: String? = nil) {
-            self.signature = signature
-            self.hashAlgorithm = hashAlgorithm
-            self.certificateChain = certificateChain
-            self.signatureAlgorithm = signatureAlgorithm
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case signature = "signature"
-            case hashAlgorithm = "hashAlgorithm"
-            case certificateChain = "certificateChain"
-            case signatureAlgorithm = "signatureAlgorithm"
-        }
-    }
-
-    public struct JobProcessDetails: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "numberOfFailedThings", required: false, type: .integer), 
-            AWSShapeMember(label: "processingTargets", required: false, type: .list), 
-            AWSShapeMember(label: "numberOfInProgressThings", required: false, type: .integer), 
-            AWSShapeMember(label: "numberOfRejectedThings", required: false, type: .integer), 
-            AWSShapeMember(label: "numberOfRemovedThings", required: false, type: .integer), 
-            AWSShapeMember(label: "numberOfSucceededThings", required: false, type: .integer), 
-            AWSShapeMember(label: "numberOfTimedOutThings", required: false, type: .integer), 
-            AWSShapeMember(label: "numberOfCanceledThings", required: false, type: .integer), 
-            AWSShapeMember(label: "numberOfQueuedThings", required: false, type: .integer)
-        ]
-        /// The number of things that failed executing the job.
-        public let numberOfFailedThings: Int32?
-        /// The target devices to which the job execution is being rolled out. This value will be null after the job execution has finished rolling out to all the target devices.
-        public let processingTargets: [String]?
-        /// The number of things currently executing the job.
-        public let numberOfInProgressThings: Int32?
-        /// The number of things that rejected the job.
-        public let numberOfRejectedThings: Int32?
-        /// The number of things that are no longer scheduled to execute the job because they have been deleted or have been removed from the group that was a target of the job.
-        public let numberOfRemovedThings: Int32?
-        /// The number of things which successfully completed the job.
-        public let numberOfSucceededThings: Int32?
-        /// The number of things whose job execution status is TIMED_OUT.
-        public let numberOfTimedOutThings: Int32?
-        /// The number of things that cancelled the job.
-        public let numberOfCanceledThings: Int32?
-        /// The number of things that are awaiting execution of the job.
-        public let numberOfQueuedThings: Int32?
-
-        public init(numberOfFailedThings: Int32? = nil, processingTargets: [String]? = nil, numberOfInProgressThings: Int32? = nil, numberOfRejectedThings: Int32? = nil, numberOfRemovedThings: Int32? = nil, numberOfSucceededThings: Int32? = nil, numberOfTimedOutThings: Int32? = nil, numberOfCanceledThings: Int32? = nil, numberOfQueuedThings: Int32? = nil) {
-            self.numberOfFailedThings = numberOfFailedThings
-            self.processingTargets = processingTargets
-            self.numberOfInProgressThings = numberOfInProgressThings
-            self.numberOfRejectedThings = numberOfRejectedThings
-            self.numberOfRemovedThings = numberOfRemovedThings
-            self.numberOfSucceededThings = numberOfSucceededThings
-            self.numberOfTimedOutThings = numberOfTimedOutThings
-            self.numberOfCanceledThings = numberOfCanceledThings
-            self.numberOfQueuedThings = numberOfQueuedThings
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case numberOfFailedThings = "numberOfFailedThings"
-            case processingTargets = "processingTargets"
-            case numberOfInProgressThings = "numberOfInProgressThings"
-            case numberOfRejectedThings = "numberOfRejectedThings"
-            case numberOfRemovedThings = "numberOfRemovedThings"
-            case numberOfSucceededThings = "numberOfSucceededThings"
-            case numberOfTimedOutThings = "numberOfTimedOutThings"
-            case numberOfCanceledThings = "numberOfCanceledThings"
-            case numberOfQueuedThings = "numberOfQueuedThings"
-        }
-    }
-
-    public struct DeleteJobExecutionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "force", location: .querystring(locationName: "force"), required: false, type: .boolean), 
-            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string), 
-            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string), 
-            AWSShapeMember(label: "executionNumber", location: .uri(locationName: "executionNumber"), required: true, type: .long)
-        ]
-        /// (Optional) When true, you can delete a job execution which is "IN_PROGRESS". Otherwise, you can only delete a job execution which is in a terminal state ("SUCCEEDED", "FAILED", "REJECTED", "REMOVED" or "CANCELED") or an exception will occur. The default is false.  Deleting a job execution which is "IN_PROGRESS", will cause the device to be unable to access job information or update the job execution status. Use caution and ensure that the device is able to recover to a valid state. 
-        public let force: Bool?
-        /// The ID of the job whose execution on a particular device will be deleted.
-        public let jobId: String
-        /// The name of the thing whose job execution will be deleted.
-        public let thingName: String
-        /// The ID of the job execution to be deleted. The executionNumber refers to the execution of a particular job on a particular device. Note that once a job execution is deleted, the executionNumber may be reused by IoT, so be sure you get and use the correct value here.
-        public let executionNumber: Int64
-
-        public init(force: Bool? = nil, jobId: String, thingName: String, executionNumber: Int64) {
-            self.force = force
-            self.jobId = jobId
-            self.thingName = thingName
-            self.executionNumber = executionNumber
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case force = "force"
-            case jobId = "jobId"
-            case thingName = "thingName"
-            case executionNumber = "executionNumber"
-        }
-    }
-
-    public enum LogTargetType: String, CustomStringConvertible, Codable {
-        case `default` = "DEFAULT"
-        case thingGroup = "THING_GROUP"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ThingAttribute: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "version", required: false, type: .long), 
-            AWSShapeMember(label: "attributes", required: false, type: .map), 
-            AWSShapeMember(label: "thingTypeName", required: false, type: .string), 
-            AWSShapeMember(label: "thingArn", required: false, type: .string), 
-            AWSShapeMember(label: "thingName", required: false, type: .string)
-        ]
-        /// The version of the thing record in the registry.
-        public let version: Int64?
-        /// A list of thing attributes which are name-value pairs.
-        public let attributes: [String: String]?
-        /// The name of the thing type, if the thing has been associated with a type.
-        public let thingTypeName: String?
-        /// The thing ARN.
-        public let thingArn: String?
-        /// The name of the thing.
-        public let thingName: String?
-
-        public init(version: Int64? = nil, attributes: [String: String]? = nil, thingTypeName: String? = nil, thingArn: String? = nil, thingName: String? = nil) {
-            self.version = version
-            self.attributes = attributes
-            self.thingTypeName = thingTypeName
-            self.thingArn = thingArn
-            self.thingName = thingName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case version = "version"
-            case attributes = "attributes"
-            case thingTypeName = "thingTypeName"
-            case thingArn = "thingArn"
-            case thingName = "thingName"
-        }
-    }
-
-    public struct MetricValue: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cidrs", required: false, type: .list), 
-            AWSShapeMember(label: "count", required: false, type: .long), 
-            AWSShapeMember(label: "ports", required: false, type: .list)
-        ]
-        /// If the comparisonOperator calls for a set of CIDRs, use this to specify that set to be compared with the metric.
-        public let cidrs: [String]?
-        /// If the comparisonOperator calls for a numeric value, use this to specify that numeric value to be compared with the metric.
-        public let count: Int64?
-        /// If the comparisonOperator calls for a set of ports, use this to specify that set to be compared with the metric.
-        public let ports: [Int32]?
-
-        public init(cidrs: [String]? = nil, count: Int64? = nil, ports: [Int32]? = nil) {
-            self.cidrs = cidrs
-            self.count = count
-            self.ports = ports
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cidrs = "cidrs"
-            case count = "count"
-            case ports = "ports"
-        }
-    }
-
-    public struct StopThingRegistrationTaskResponse: AWSShape {
-
-    }
-
-    public struct UpdateEventConfigurationsResponse: AWSShape {
-
-    }
-
-    public struct CreateBillingGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "billingGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "billingGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "billingGroupName", required: false, type: .string)
-        ]
-        /// The ARN of the billing group.
-        public let billingGroupArn: String?
-        /// The ID of the billing group.
-        public let billingGroupId: String?
-        /// The name you gave to the billing group.
-        public let billingGroupName: String?
-
-        public init(billingGroupArn: String? = nil, billingGroupId: String? = nil, billingGroupName: String? = nil) {
-            self.billingGroupArn = billingGroupArn
-            self.billingGroupId = billingGroupId
-            self.billingGroupName = billingGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case billingGroupArn = "billingGroupArn"
-            case billingGroupId = "billingGroupId"
-            case billingGroupName = "billingGroupName"
-        }
-    }
-
-    public struct JobExecutionSummaryForJob: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingArn", required: false, type: .string), 
-            AWSShapeMember(label: "jobExecutionSummary", required: false, type: .structure)
-        ]
-        /// The ARN of the thing on which the job execution is running.
-        public let thingArn: String?
-        /// Contains a subset of information about a job execution.
-        public let jobExecutionSummary: JobExecutionSummary?
-
-        public init(thingArn: String? = nil, jobExecutionSummary: JobExecutionSummary? = nil) {
-            self.thingArn = thingArn
-            self.jobExecutionSummary = jobExecutionSummary
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case thingArn = "thingArn"
-            case jobExecutionSummary = "jobExecutionSummary"
-        }
-    }
-
-    public struct DeleteThingGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "expectedVersion", location: .querystring(locationName: "expectedVersion"), required: false, type: .long), 
-            AWSShapeMember(label: "thingGroupName", location: .uri(locationName: "thingGroupName"), required: true, type: .string)
-        ]
-        /// The expected version of the thing group to delete.
-        public let expectedVersion: Int64?
-        /// The name of the thing group to delete.
-        public let thingGroupName: String
-
-        public init(expectedVersion: Int64? = nil, thingGroupName: String) {
-            self.expectedVersion = expectedVersion
-            self.thingGroupName = thingGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case expectedVersion = "expectedVersion"
-            case thingGroupName = "thingGroupName"
-        }
-    }
-
-    public struct DeleteStreamRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "streamId", location: .uri(locationName: "streamId"), required: true, type: .string)
-        ]
-        /// The stream ID.
-        public let streamId: String
-
-        public init(streamId: String) {
-            self.streamId = streamId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case streamId = "streamId"
-        }
-    }
-
-    public struct ListOutgoingCertificatesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
-            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean)
-        ]
-        /// The result page size.
-        public let pageSize: Int32?
-        /// The marker for the next set of results.
-        public let marker: String?
-        /// Specifies the order for results. If True, the results are returned in ascending order, based on the creation date.
-        public let ascendingOrder: Bool?
-
-        public init(pageSize: Int32? = nil, marker: String? = nil, ascendingOrder: Bool? = nil) {
-            self.pageSize = pageSize
-            self.marker = marker
-            self.ascendingOrder = ascendingOrder
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pageSize = "pageSize"
-            case marker = "marker"
-            case ascendingOrder = "isAscendingOrder"
-        }
-    }
-
-    public struct DetachPrincipalPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string), 
-            AWSShapeMember(label: "principal", location: .header(locationName: "x-amzn-iot-principal"), required: true, type: .string)
-        ]
-        /// The name of the policy to detach.
-        public let policyName: String
-        /// The principal. If the principal is a certificate, specify the certificate ARN. If the principal is an Amazon Cognito identity, specify the identity ID.
-        public let principal: String
-
-        public init(policyName: String, principal: String) {
-            self.policyName = policyName
-            self.principal = principal
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyName = "policyName"
-            case principal = "x-amzn-iot-principal"
-        }
-    }
-
-    public struct LogTargetConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logLevel", required: false, type: .enum), 
-            AWSShapeMember(label: "logTarget", required: false, type: .structure)
-        ]
-        /// The logging level.
-        public let logLevel: LogLevel?
-        /// A log target
-        public let logTarget: LogTarget?
-
-        public init(logLevel: LogLevel? = nil, logTarget: LogTarget? = nil) {
-            self.logLevel = logLevel
-            self.logTarget = logTarget
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case logLevel = "logLevel"
-            case logTarget = "logTarget"
-        }
-    }
-
-    public struct ListThingRegistrationTaskReportsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "reportType", required: false, type: .enum), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceLinks", required: false, type: .list)
-        ]
-        /// The type of task report.
-        public let reportType: ReportType?
-        /// The token used to get the next set of results, or null if there are no additional results.
-        public let nextToken: String?
-        /// Links to the task resources.
-        public let resourceLinks: [String]?
-
-        public init(reportType: ReportType? = nil, nextToken: String? = nil, resourceLinks: [String]? = nil) {
-            self.reportType = reportType
-            self.nextToken = nextToken
-            self.resourceLinks = resourceLinks
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case reportType = "reportType"
-            case nextToken = "nextToken"
-            case resourceLinks = "resourceLinks"
-        }
-    }
-
-    public struct GetJobDocumentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string)
-        ]
-        /// The unique identifier you assigned to this job when it was created.
-        public let jobId: String
-
-        public init(jobId: String) {
-            self.jobId = jobId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobId = "jobId"
-        }
-    }
-
-    public struct CreateSecurityProfileResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "securityProfileArn", required: false, type: .string), 
-            AWSShapeMember(label: "securityProfileName", required: false, type: .string)
-        ]
-        /// The ARN of the security profile.
-        public let securityProfileArn: String?
-        /// The name you gave to the security profile.
-        public let securityProfileName: String?
-
-        public init(securityProfileArn: String? = nil, securityProfileName: String? = nil) {
-            self.securityProfileArn = securityProfileArn
-            self.securityProfileName = securityProfileName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case securityProfileArn = "securityProfileArn"
-            case securityProfileName = "securityProfileName"
-        }
-    }
-
-    public enum MessageFormat: String, CustomStringConvertible, Codable {
-        case raw = "RAW"
-        case json = "JSON"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct AuditFinding: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "reasonForNonCompliance", required: false, type: .string), 
-            AWSShapeMember(label: "checkName", required: false, type: .string), 
-            AWSShapeMember(label: "reasonForNonComplianceCode", required: false, type: .string), 
-            AWSShapeMember(label: "nonCompliantResource", required: false, type: .structure), 
-            AWSShapeMember(label: "taskId", required: false, type: .string), 
-            AWSShapeMember(label: "findingTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "severity", required: false, type: .enum), 
-            AWSShapeMember(label: "relatedResources", required: false, type: .list), 
-            AWSShapeMember(label: "taskStartTime", required: false, type: .timestamp)
-        ]
-        /// The reason the resource was non-compliant.
-        public let reasonForNonCompliance: String?
-        /// The audit check that generated this result.
-        public let checkName: String?
-        /// A code which indicates the reason that the resource was non-compliant.
-        public let reasonForNonComplianceCode: String?
-        /// The resource that was found to be non-compliant with the audit check.
-        public let nonCompliantResource: NonCompliantResource?
-        /// The ID of the audit that generated this result (finding)
-        public let taskId: String?
-        /// The time the result (finding) was discovered.
-        public let findingTime: TimeStamp?
-        /// The severity of the result (finding).
-        public let severity: AuditFindingSeverity?
-        /// The list of related resources.
-        public let relatedResources: [RelatedResource]?
-        /// The time the audit started.
-        public let taskStartTime: TimeStamp?
-
-        public init(reasonForNonCompliance: String? = nil, checkName: String? = nil, reasonForNonComplianceCode: String? = nil, nonCompliantResource: NonCompliantResource? = nil, taskId: String? = nil, findingTime: TimeStamp? = nil, severity: AuditFindingSeverity? = nil, relatedResources: [RelatedResource]? = nil, taskStartTime: TimeStamp? = nil) {
-            self.reasonForNonCompliance = reasonForNonCompliance
-            self.checkName = checkName
-            self.reasonForNonComplianceCode = reasonForNonComplianceCode
-            self.nonCompliantResource = nonCompliantResource
-            self.taskId = taskId
-            self.findingTime = findingTime
-            self.severity = severity
-            self.relatedResources = relatedResources
-            self.taskStartTime = taskStartTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case reasonForNonCompliance = "reasonForNonCompliance"
-            case checkName = "checkName"
-            case reasonForNonComplianceCode = "reasonForNonComplianceCode"
-            case nonCompliantResource = "nonCompliantResource"
-            case taskId = "taskId"
-            case findingTime = "findingTime"
-            case severity = "severity"
-            case relatedResources = "relatedResources"
-            case taskStartTime = "taskStartTime"
-        }
-    }
-
-    public struct SqsAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "queueUrl", required: true, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string), 
-            AWSShapeMember(label: "useBase64", required: false, type: .boolean)
-        ]
-        /// The URL of the Amazon SQS queue.
-        public let queueUrl: String
-        /// The ARN of the IAM role that grants access.
-        public let roleArn: String
-        /// Specifies whether to use Base64 encoding.
-        public let useBase64: Bool?
-
-        public init(queueUrl: String, roleArn: String, useBase64: Bool? = nil) {
-            self.queueUrl = queueUrl
-            self.roleArn = roleArn
-            self.useBase64 = useBase64
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case queueUrl = "queueUrl"
-            case roleArn = "roleArn"
-            case useBase64 = "useBase64"
-        }
-    }
-
-    public struct DetachPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string), 
-            AWSShapeMember(label: "target", required: true, type: .string)
-        ]
-        /// The policy to detach.
-        public let policyName: String
-        /// The target from which the policy will be detached.
-        public let target: String
-
-        public init(policyName: String, target: String) {
-            self.policyName = policyName
-            self.target = target
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyName = "policyName"
-            case target = "target"
-        }
-    }
-
-    public struct StartOnDemandAuditTaskResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "taskId", required: false, type: .string)
-        ]
-        /// The ID of the on-demand audit you started.
-        public let taskId: String?
-
-        public init(taskId: String? = nil) {
-            self.taskId = taskId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case taskId = "taskId"
-        }
-    }
-
-    public struct PolicyVersion: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "isDefaultVersion", required: false, type: .boolean), 
-            AWSShapeMember(label: "versionId", required: false, type: .string), 
-            AWSShapeMember(label: "createDate", required: false, type: .timestamp)
-        ]
-        /// Specifies whether the policy version is the default.
-        public let isDefaultVersion: Bool?
-        /// The policy version ID.
-        public let versionId: String?
-        /// The date and time the policy was created.
-        public let createDate: TimeStamp?
-
-        public init(isDefaultVersion: Bool? = nil, versionId: String? = nil, createDate: TimeStamp? = nil) {
-            self.isDefaultVersion = isDefaultVersion
-            self.versionId = versionId
-            self.createDate = createDate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case isDefaultVersion = "isDefaultVersion"
-            case versionId = "versionId"
-            case createDate = "createDate"
-        }
-    }
-
-    public struct ListThingGroupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "recursive", location: .querystring(locationName: "recursive"), required: false, type: .boolean), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "parentGroup", location: .querystring(locationName: "parentGroup"), required: false, type: .string), 
-            AWSShapeMember(label: "namePrefixFilter", location: .querystring(locationName: "namePrefixFilter"), required: false, type: .string)
-        ]
-        /// If true, return child groups as well.
-        public let recursive: Bool?
-        /// The token to retrieve the next set of results.
-        public let nextToken: String?
-        /// The maximum number of results to return at one time.
-        public let maxResults: Int32?
-        /// A filter that limits the results to those with the specified parent group.
-        public let parentGroup: String?
-        /// A filter that limits the results to those with the specified name prefix.
-        public let namePrefixFilter: String?
-
-        public init(recursive: Bool? = nil, nextToken: String? = nil, maxResults: Int32? = nil, parentGroup: String? = nil, namePrefixFilter: String? = nil) {
-            self.recursive = recursive
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.parentGroup = parentGroup
-            self.namePrefixFilter = namePrefixFilter
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case recursive = "recursive"
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
-            case parentGroup = "parentGroup"
-            case namePrefixFilter = "namePrefixFilter"
-        }
-    }
-
-    public struct ErrorInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "code", required: false, type: .string), 
-            AWSShapeMember(label: "message", required: false, type: .string)
-        ]
-        /// The error code.
-        public let code: String?
-        /// The error message.
-        public let message: String?
-
-        public init(code: String? = nil, message: String? = nil) {
-            self.code = code
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case code = "code"
-            case message = "message"
-        }
-    }
-
-    public struct GetEffectivePoliciesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "cognitoIdentityPoolId", required: false, type: .string), 
-            AWSShapeMember(label: "thingName", location: .querystring(locationName: "thingName"), required: false, type: .string), 
-            AWSShapeMember(label: "principal", required: false, type: .string)
-        ]
-        /// The Cognito identity pool ID.
-        public let cognitoIdentityPoolId: String?
-        /// The thing name.
-        public let thingName: String?
-        /// The principal.
-        public let principal: String?
-
-        public init(cognitoIdentityPoolId: String? = nil, thingName: String? = nil, principal: String? = nil) {
-            self.cognitoIdentityPoolId = cognitoIdentityPoolId
-            self.thingName = thingName
-            self.principal = principal
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cognitoIdentityPoolId = "cognitoIdentityPoolId"
-            case thingName = "thingName"
-            case principal = "principal"
-        }
-    }
-
-    public struct LoggingOptionsPayload: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "roleArn", required: true, type: .string), 
-            AWSShapeMember(label: "logLevel", required: false, type: .enum)
-        ]
-        /// The ARN of the IAM role that grants access.
-        public let roleArn: String
-        /// The log level.
-        public let logLevel: LogLevel?
-
-        public init(roleArn: String, logLevel: LogLevel? = nil) {
-            self.roleArn = roleArn
-            self.logLevel = logLevel
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleArn = "roleArn"
-            case logLevel = "logLevel"
-        }
-    }
-
-    public struct CreateThingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "billingGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "thingTypeName", required: false, type: .string), 
-            AWSShapeMember(label: "attributePayload", required: false, type: .structure), 
-            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
-        ]
-        /// The name of the billing group the thing will be added to.
-        public let billingGroupName: String?
-        /// The name of the thing type associated with the new thing.
-        public let thingTypeName: String?
-        /// The attribute payload, which consists of up to three name/value pairs in a JSON document. For example:  {\"attributes\":{\"string1\":\"string2\"}} 
-        public let attributePayload: AttributePayload?
-        /// The name of the thing to create.
-        public let thingName: String
-
-        public init(billingGroupName: String? = nil, thingTypeName: String? = nil, attributePayload: AttributePayload? = nil, thingName: String) {
-            self.billingGroupName = billingGroupName
-            self.thingTypeName = thingTypeName
-            self.attributePayload = attributePayload
-            self.thingName = thingName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case billingGroupName = "billingGroupName"
-            case thingTypeName = "thingTypeName"
-            case attributePayload = "attributePayload"
-            case thingName = "thingName"
-        }
-    }
-
-    public struct AcceptCertificateTransferRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "setAsActive", location: .querystring(locationName: "setAsActive"), required: false, type: .boolean), 
-            AWSShapeMember(label: "certificateId", location: .uri(locationName: "certificateId"), required: true, type: .string)
-        ]
-        /// Specifies whether the certificate is active.
-        public let setAsActive: Bool?
-        /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
-        public let certificateId: String
-
-        public init(setAsActive: Bool? = nil, certificateId: String) {
-            self.setAsActive = setAsActive
-            self.certificateId = certificateId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case setAsActive = "setAsActive"
-            case certificateId = "certificateId"
-        }
-    }
-
-    public struct GetPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string)
-        ]
-        /// The name of the policy.
-        public let policyName: String
-
-        public init(policyName: String) {
-            self.policyName = policyName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyName = "policyName"
-        }
-    }
-
-    public struct SetV2LoggingLevelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logLevel", required: true, type: .enum), 
-            AWSShapeMember(label: "logTarget", required: true, type: .structure)
-        ]
-        /// The log level.
-        public let logLevel: LogLevel
-        /// The log target.
-        public let logTarget: LogTarget
-
-        public init(logLevel: LogLevel, logTarget: LogTarget) {
-            self.logLevel = logLevel
-            self.logTarget = logTarget
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case logLevel = "logLevel"
-            case logTarget = "logTarget"
-        }
-    }
-
-    public struct DeleteThingTypeResponse: AWSShape {
-
-    }
-
-    public struct DetachThingPrincipalResponse: AWSShape {
-
-    }
-
-    public struct UpdateThingGroupsForThingResponse: AWSShape {
-
-    }
-
-    public struct DescribeSecurityProfileResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "securityProfileArn", required: false, type: .string), 
-            AWSShapeMember(label: "version", required: false, type: .long), 
-            AWSShapeMember(label: "securityProfileDescription", required: false, type: .string), 
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "behaviors", required: false, type: .list), 
-            AWSShapeMember(label: "securityProfileName", required: false, type: .string), 
-            AWSShapeMember(label: "alertTargets", required: false, type: .map), 
-            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp)
-        ]
-        /// The ARN of the security profile.
-        public let securityProfileArn: String?
-        /// The version of the security profile. A new version is generated whenever the security profile is updated.
-        public let version: Int64?
-        /// A description of the security profile (associated with the security profile when it was created or updated).
-        public let securityProfileDescription: String?
-        /// The time the security profile was created.
-        public let creationDate: TimeStamp?
-        /// Specifies the behaviors that, when violated by a device (thing), cause an alert.
-        public let behaviors: [Behavior]?
-        /// The name of the security profile.
-        public let securityProfileName: String?
-        /// Where the alerts are sent. (Alerts are always sent to the console.)
-        public let alertTargets: [AlertTargetType: AlertTarget]?
-        /// The time the security profile was last modified.
-        public let lastModifiedDate: TimeStamp?
-
-        public init(securityProfileArn: String? = nil, version: Int64? = nil, securityProfileDescription: String? = nil, creationDate: TimeStamp? = nil, behaviors: [Behavior]? = nil, securityProfileName: String? = nil, alertTargets: [AlertTargetType: AlertTarget]? = nil, lastModifiedDate: TimeStamp? = nil) {
-            self.securityProfileArn = securityProfileArn
-            self.version = version
-            self.securityProfileDescription = securityProfileDescription
-            self.creationDate = creationDate
-            self.behaviors = behaviors
-            self.securityProfileName = securityProfileName
-            self.alertTargets = alertTargets
-            self.lastModifiedDate = lastModifiedDate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case securityProfileArn = "securityProfileArn"
-            case version = "version"
-            case securityProfileDescription = "securityProfileDescription"
-            case creationDate = "creationDate"
-            case behaviors = "behaviors"
-            case securityProfileName = "securityProfileName"
-            case alertTargets = "alertTargets"
-            case lastModifiedDate = "lastModifiedDate"
-        }
-    }
-
-    public struct CreateRoleAliasResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "roleAlias", required: false, type: .string), 
-            AWSShapeMember(label: "roleAliasArn", required: false, type: .string)
-        ]
-        /// The role alias.
-        public let roleAlias: String?
-        /// The role alias ARN.
-        public let roleAliasArn: String?
-
-        public init(roleAlias: String? = nil, roleAliasArn: String? = nil) {
-            self.roleAlias = roleAlias
-            self.roleAliasArn = roleAliasArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleAlias = "roleAlias"
-            case roleAliasArn = "roleAliasArn"
-        }
-    }
-
-    public struct AttachSecurityProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "securityProfileTargetArn", location: .querystring(locationName: "securityProfileTargetArn"), required: true, type: .string), 
-            AWSShapeMember(label: "securityProfileName", location: .uri(locationName: "securityProfileName"), required: true, type: .string)
-        ]
-        /// The ARN of the target (thing group) to which the security profile is attached.
-        public let securityProfileTargetArn: String
-        /// The security profile that is attached.
-        public let securityProfileName: String
-
-        public init(securityProfileTargetArn: String, securityProfileName: String) {
-            self.securityProfileTargetArn = securityProfileTargetArn
-            self.securityProfileName = securityProfileName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case securityProfileTargetArn = "securityProfileTargetArn"
-            case securityProfileName = "securityProfileName"
-        }
-    }
-
-    public struct ListThingGroupsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "thingGroups", required: false, type: .list)
-        ]
-        /// The token used to get the next set of results, or null if there are no additional results.
-        public let nextToken: String?
-        /// The thing groups.
-        public let thingGroups: [GroupNameAndArn]?
-
-        public init(nextToken: String? = nil, thingGroups: [GroupNameAndArn]? = nil) {
-            self.nextToken = nextToken
-            self.thingGroups = thingGroups
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case thingGroups = "thingGroups"
-        }
-    }
-
-    public struct AbortCriteria: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thresholdPercentage", required: true, type: .double), 
-            AWSShapeMember(label: "minNumberOfExecutedThings", required: true, type: .integer), 
-            AWSShapeMember(label: "failureType", required: true, type: .enum), 
-            AWSShapeMember(label: "action", required: true, type: .enum)
-        ]
-        /// The threshold as a percentage of the total number of executed things that will initiate a job abort. AWS IoT supports up to two digits after the decimal (for example, 10.9 and 10.99, but not 10.999).
-        public let thresholdPercentage: Double
-        /// Minimum number of executed things before evaluating an abort rule.
-        public let minNumberOfExecutedThings: Int32
-        /// The type of job execution failure to define a rule to initiate a job abort.
-        public let failureType: JobExecutionFailureType
-        /// The type of abort action to initiate a job abort.
-        public let action: AbortAction
-
-        public init(thresholdPercentage: Double, minNumberOfExecutedThings: Int32, failureType: JobExecutionFailureType, action: AbortAction) {
-            self.thresholdPercentage = thresholdPercentage
-            self.minNumberOfExecutedThings = minNumberOfExecutedThings
-            self.failureType = failureType
-            self.action = action
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case thresholdPercentage = "thresholdPercentage"
-            case minNumberOfExecutedThings = "minNumberOfExecutedThings"
-            case failureType = "failureType"
-            case action = "action"
-        }
-    }
-
-    public struct DetachSecurityProfileResponse: AWSShape {
-
-    }
-
-    public struct DescribeEventConfigurationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "eventConfigurations", required: false, type: .map), 
-            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp)
-        ]
-        /// The event configurations.
-        public let eventConfigurations: [EventType: Configuration]?
-        /// The date the event configurations were last modified.
-        public let lastModifiedDate: TimeStamp?
-        /// The creation date of the event configuration.
-        public let creationDate: TimeStamp?
-
-        public init(eventConfigurations: [EventType: Configuration]? = nil, lastModifiedDate: TimeStamp? = nil, creationDate: TimeStamp? = nil) {
-            self.eventConfigurations = eventConfigurations
-            self.lastModifiedDate = lastModifiedDate
-            self.creationDate = creationDate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eventConfigurations = "eventConfigurations"
-            case lastModifiedDate = "lastModifiedDate"
-            case creationDate = "creationDate"
-        }
-    }
-
-    public enum LogLevel: String, CustomStringConvertible, Codable {
-        case debug = "DEBUG"
-        case info = "INFO"
-        case error = "ERROR"
-        case warn = "WARN"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetOTAUpdateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "otaUpdateInfo", required: false, type: .structure)
-        ]
-        /// The OTA update info.
-        public let otaUpdateInfo: OTAUpdateInfo?
-
-        public init(otaUpdateInfo: OTAUpdateInfo? = nil) {
-            self.otaUpdateInfo = otaUpdateInfo
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case otaUpdateInfo = "otaUpdateInfo"
-        }
-    }
-
-    public struct AddThingToThingGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "overrideDynamicGroups", required: false, type: .boolean), 
-            AWSShapeMember(label: "thingArn", required: false, type: .string), 
             AWSShapeMember(label: "thingGroupArn", required: false, type: .string), 
             AWSShapeMember(label: "thingGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "thingName", required: false, type: .string)
+            AWSShapeMember(label: "queryString", required: false, type: .string), 
+            AWSShapeMember(label: "thingGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "queryVersion", required: false, type: .string), 
+            AWSShapeMember(label: "indexName", required: false, type: .string)
         ]
-        /// Override dynamic thing groups with static thing groups when 10-group limit is reached. If a thing belongs to 10 thing groups, and one or more of those groups are dynamic thing groups, adding a thing to a static group removes the thing from the last dynamic group.
-        public let overrideDynamicGroups: Bool?
-        /// The ARN of the thing to add to a group.
-        public let thingArn: String?
-        /// The ARN of the group to which you are adding a thing.
+        /// The dynamic thing group ARN.
         public let thingGroupArn: String?
-        /// The name of the group to which you are adding a thing.
+        /// The dynamic thing group name.
         public let thingGroupName: String?
-        /// The name of the thing to add to a group.
-        public let thingName: String?
+        /// The dynamic thing group search query string.
+        public let queryString: String?
+        /// The dynamic thing group ID.
+        public let thingGroupId: String?
+        /// The dynamic thing group query version.
+        public let queryVersion: String?
+        /// The dynamic thing group index name.
+        public let indexName: String?
 
-        public init(overrideDynamicGroups: Bool? = nil, thingArn: String? = nil, thingGroupArn: String? = nil, thingGroupName: String? = nil, thingName: String? = nil) {
-            self.overrideDynamicGroups = overrideDynamicGroups
-            self.thingArn = thingArn
+        public init(thingGroupArn: String? = nil, thingGroupName: String? = nil, queryString: String? = nil, thingGroupId: String? = nil, queryVersion: String? = nil, indexName: String? = nil) {
             self.thingGroupArn = thingGroupArn
             self.thingGroupName = thingGroupName
-            self.thingName = thingName
+            self.queryString = queryString
+            self.thingGroupId = thingGroupId
+            self.queryVersion = queryVersion
+            self.indexName = indexName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case overrideDynamicGroups = "overrideDynamicGroups"
-            case thingArn = "thingArn"
             case thingGroupArn = "thingGroupArn"
             case thingGroupName = "thingGroupName"
-            case thingName = "thingName"
+            case queryString = "queryString"
+            case thingGroupId = "thingGroupId"
+            case queryVersion = "queryVersion"
+            case indexName = "indexName"
         }
     }
 
-    public struct CreateDynamicThingGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "queryVersion", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "queryString", required: true, type: .string), 
-            AWSShapeMember(label: "thingGroupName", location: .uri(locationName: "thingGroupName"), required: true, type: .string), 
-            AWSShapeMember(label: "indexName", required: false, type: .string), 
-            AWSShapeMember(label: "thingGroupProperties", required: false, type: .structure)
-        ]
-        /// The dynamic thing group query version.  Currently one query version is supported: "2017-09-30". If not specified, the query version defaults to this value. 
-        public let queryVersion: String?
-        /// Metadata which can be used to manage the dynamic thing group.
-        public let tags: [Tag]?
-        /// The dynamic thing group search query string. See Query Syntax for information about query string syntax.
-        public let queryString: String
-        /// The dynamic thing group name to create.
-        public let thingGroupName: String
-        /// The dynamic thing group index name.  Currently one index is supported: "AWS_Things". 
-        public let indexName: String?
-        /// The dynamic thing group properties.
-        public let thingGroupProperties: ThingGroupProperties?
+    public struct DeleteSecurityProfileResponse: AWSShape {
 
-        public init(queryVersion: String? = nil, tags: [Tag]? = nil, queryString: String, thingGroupName: String, indexName: String? = nil, thingGroupProperties: ThingGroupProperties? = nil) {
-            self.queryVersion = queryVersion
-            self.tags = tags
-            self.queryString = queryString
-            self.thingGroupName = thingGroupName
-            self.indexName = indexName
-            self.thingGroupProperties = thingGroupProperties
+    }
+
+    public struct ThingConnectivity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "connected", required: false, type: .boolean), 
+            AWSShapeMember(label: "timestamp", required: false, type: .long)
+        ]
+        /// True if the thing is connected to the AWS IoT service, false if it is not connected.
+        public let connected: Bool?
+        /// The epoch time (in milliseconds) when the thing last connected or disconnected. Note that if the thing has been disconnected for more than a few weeks, the time value can be missing.
+        public let timestamp: Int64?
+
+        public init(connected: Bool? = nil, timestamp: Int64? = nil) {
+            self.connected = connected
+            self.timestamp = timestamp
         }
 
         private enum CodingKeys: String, CodingKey {
-            case queryVersion = "queryVersion"
-            case tags = "tags"
-            case queryString = "queryString"
-            case thingGroupName = "thingGroupName"
-            case indexName = "indexName"
-            case thingGroupProperties = "thingGroupProperties"
+            case connected = "connected"
+            case timestamp = "timestamp"
+        }
+    }
+
+    public struct CreatePolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string), 
+            AWSShapeMember(label: "policyDocument", required: true, type: .string)
+        ]
+        /// The policy name.
+        public let policyName: String
+        /// The JSON document that describes the policy. policyDocument must have a minimum length of 1, with a maximum length of 2048, excluding whitespace.
+        public let policyDocument: String
+
+        public init(policyName: String, policyDocument: String) {
+            self.policyName = policyName
+            self.policyDocument = policyDocument
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyName = "policyName"
+            case policyDocument = "policyDocument"
         }
     }
 
     public struct RepublishAction: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "topic", required: true, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string)
+            AWSShapeMember(label: "roleArn", required: true, type: .string), 
+            AWSShapeMember(label: "topic", required: true, type: .string)
         ]
+        /// The ARN of the IAM role that grants access.
+        public let roleArn: String
         /// The name of the MQTT topic.
         public let topic: String
-        /// The ARN of the IAM role that grants access.
-        public let roleArn: String
 
-        public init(topic: String, roleArn: String) {
+        public init(roleArn: String, topic: String) {
+            self.roleArn = roleArn
             self.topic = topic
-            self.roleArn = roleArn
         }
 
         private enum CodingKeys: String, CodingKey {
+            case roleArn = "roleArn"
             case topic = "topic"
-            case roleArn = "roleArn"
         }
     }
 
-    public struct ThingGroupDocument: AWSShape {
+    public struct StreamSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingGroupDescription", required: false, type: .string), 
-            AWSShapeMember(label: "attributes", required: false, type: .map), 
-            AWSShapeMember(label: "parentGroupNames", required: false, type: .list), 
-            AWSShapeMember(label: "thingGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "thingGroupName", required: false, type: .string)
+            AWSShapeMember(label: "streamId", required: false, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "streamVersion", required: false, type: .integer), 
+            AWSShapeMember(label: "streamArn", required: false, type: .string)
         ]
-        /// The thing group description.
-        public let thingGroupDescription: String?
-        /// The thing group attributes.
-        public let attributes: [String: String]?
-        /// Parent group names.
-        public let parentGroupNames: [String]?
-        /// The thing group ID.
-        public let thingGroupId: String?
-        /// The thing group name.
-        public let thingGroupName: String?
+        /// The stream ID.
+        public let streamId: String?
+        /// A description of the stream.
+        public let description: String?
+        /// The stream version.
+        public let streamVersion: Int32?
+        /// The stream ARN.
+        public let streamArn: String?
 
-        public init(thingGroupDescription: String? = nil, attributes: [String: String]? = nil, parentGroupNames: [String]? = nil, thingGroupId: String? = nil, thingGroupName: String? = nil) {
-            self.thingGroupDescription = thingGroupDescription
-            self.attributes = attributes
-            self.parentGroupNames = parentGroupNames
-            self.thingGroupId = thingGroupId
-            self.thingGroupName = thingGroupName
+        public init(streamId: String? = nil, description: String? = nil, streamVersion: Int32? = nil, streamArn: String? = nil) {
+            self.streamId = streamId
+            self.description = description
+            self.streamVersion = streamVersion
+            self.streamArn = streamArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case thingGroupDescription = "thingGroupDescription"
-            case attributes = "attributes"
-            case parentGroupNames = "parentGroupNames"
-            case thingGroupId = "thingGroupId"
-            case thingGroupName = "thingGroupName"
+            case streamId = "streamId"
+            case description = "description"
+            case streamVersion = "streamVersion"
+            case streamArn = "streamArn"
         }
     }
 
-    public struct CodeSigning: AWSShape {
+    public struct AssociateTargetsWithJobResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "startSigningJobParameter", required: false, type: .structure), 
-            AWSShapeMember(label: "customCodeSigning", required: false, type: .structure), 
-            AWSShapeMember(label: "awsSignerJobId", required: false, type: .string)
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "jobId", required: false, type: .string), 
+            AWSShapeMember(label: "jobArn", required: false, type: .string)
         ]
-        /// Describes the code-signing job.
-        public let startSigningJobParameter: StartSigningJobParameter?
-        /// A custom method for code signing a file.
-        public let customCodeSigning: CustomCodeSigning?
-        /// The ID of the AWSSignerJob which was created to sign the file.
-        public let awsSignerJobId: String?
+        /// A short text description of the job.
+        public let description: String?
+        /// The unique identifier you assigned to this job when it was created.
+        public let jobId: String?
+        /// An ARN identifying the job.
+        public let jobArn: String?
 
-        public init(startSigningJobParameter: StartSigningJobParameter? = nil, customCodeSigning: CustomCodeSigning? = nil, awsSignerJobId: String? = nil) {
-            self.startSigningJobParameter = startSigningJobParameter
-            self.customCodeSigning = customCodeSigning
-            self.awsSignerJobId = awsSignerJobId
+        public init(description: String? = nil, jobId: String? = nil, jobArn: String? = nil) {
+            self.description = description
+            self.jobId = jobId
+            self.jobArn = jobArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case startSigningJobParameter = "startSigningJobParameter"
-            case customCodeSigning = "customCodeSigning"
-            case awsSignerJobId = "awsSignerJobId"
+            case description = "description"
+            case jobId = "jobId"
+            case jobArn = "jobArn"
         }
     }
 
-    public struct DescribeAuditTaskRequest: AWSShape {
+    public struct SecurityProfileTargetMapping: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "taskId", location: .uri(locationName: "taskId"), required: true, type: .string)
+            AWSShapeMember(label: "target", required: false, type: .structure), 
+            AWSShapeMember(label: "securityProfileIdentifier", required: false, type: .structure)
         ]
-        /// The ID of the audit whose information you want to get.
-        public let taskId: String
+        /// Information about the target (thing group) associated with the security profile.
+        public let target: SecurityProfileTarget?
+        /// Information that identifies the security profile.
+        public let securityProfileIdentifier: SecurityProfileIdentifier?
 
-        public init(taskId: String) {
-            self.taskId = taskId
+        public init(target: SecurityProfileTarget? = nil, securityProfileIdentifier: SecurityProfileIdentifier? = nil) {
+            self.target = target
+            self.securityProfileIdentifier = securityProfileIdentifier
         }
 
         private enum CodingKeys: String, CodingKey {
-            case taskId = "taskId"
+            case target = "target"
+            case securityProfileIdentifier = "securityProfileIdentifier"
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
+    public struct ListThingsInThingGroupResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "tags", required: true, type: .list)
-        ]
-        /// The ARN of the resource.
-        public let resourceArn: String
-        /// The new or modified tags for the resource.
-        public let tags: [Tag]
-
-        public init(resourceArn: String, tags: [Tag]) {
-            self.resourceArn = resourceArn
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-            case tags = "tags"
-        }
-    }
-
-    public struct UpdateIndexingConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingIndexingConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "thingGroupIndexingConfiguration", required: false, type: .structure)
-        ]
-        /// Thing indexing configuration.
-        public let thingIndexingConfiguration: ThingIndexingConfiguration?
-        /// Thing group indexing configuration.
-        public let thingGroupIndexingConfiguration: ThingGroupIndexingConfiguration?
-
-        public init(thingIndexingConfiguration: ThingIndexingConfiguration? = nil, thingGroupIndexingConfiguration: ThingGroupIndexingConfiguration? = nil) {
-            self.thingIndexingConfiguration = thingIndexingConfiguration
-            self.thingGroupIndexingConfiguration = thingGroupIndexingConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case thingIndexingConfiguration = "thingIndexingConfiguration"
-            case thingGroupIndexingConfiguration = "thingGroupIndexingConfiguration"
-        }
-    }
-
-    public struct ListCertificatesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificates", required: false, type: .list), 
-            AWSShapeMember(label: "nextMarker", required: false, type: .string)
-        ]
-        /// The descriptions of the certificates.
-        public let certificates: [Certificate]?
-        /// The marker for the next set of results, or null if there are no additional results.
-        public let nextMarker: String?
-
-        public init(certificates: [Certificate]? = nil, nextMarker: String? = nil) {
-            self.certificates = certificates
-            self.nextMarker = nextMarker
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificates = "certificates"
-            case nextMarker = "nextMarker"
-        }
-    }
-
-    public enum AuditCheckRunStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
-        case waitingForDataCollection = "WAITING_FOR_DATA_COLLECTION"
-        case canceled = "CANCELED"
-        case completedCompliant = "COMPLETED_COMPLIANT"
-        case completedNonCompliant = "COMPLETED_NON_COMPLIANT"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct AttachPrincipalPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string), 
-            AWSShapeMember(label: "principal", location: .header(locationName: "x-amzn-iot-principal"), required: true, type: .string)
-        ]
-        /// The policy name.
-        public let policyName: String
-        /// The principal, which can be a certificate ARN (as returned from the CreateCertificate operation) or an Amazon Cognito ID.
-        public let principal: String
-
-        public init(policyName: String, principal: String) {
-            self.policyName = policyName
-            self.principal = principal
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyName = "policyName"
-            case principal = "x-amzn-iot-principal"
-        }
-    }
-
-    public struct ThingConnectivity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "timestamp", required: false, type: .long), 
-            AWSShapeMember(label: "connected", required: false, type: .boolean)
-        ]
-        /// The epoch time (in milliseconds) when the thing last connected or disconnected. Note that if the thing has been disconnected for more than a few weeks, the time value can be missing.
-        public let timestamp: Int64?
-        /// True if the thing is connected to the AWS IoT service, false if it is not connected.
-        public let connected: Bool?
-
-        public init(timestamp: Int64? = nil, connected: Bool? = nil) {
-            self.timestamp = timestamp
-            self.connected = connected
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case timestamp = "timestamp"
-            case connected = "connected"
-        }
-    }
-
-    public struct StartThingRegistrationTaskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "inputFileKey", required: true, type: .string), 
-            AWSShapeMember(label: "templateBody", required: true, type: .string), 
-            AWSShapeMember(label: "inputFileBucket", required: true, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string)
-        ]
-        /// The name of input file within the S3 bucket. This file contains a newline delimited JSON file. Each line contains the parameter values to provision one device (thing).
-        public let inputFileKey: String
-        /// The provisioning template.
-        public let templateBody: String
-        /// The S3 bucket that contains the input file.
-        public let inputFileBucket: String
-        /// The IAM role ARN that grants permission the input file.
-        public let roleArn: String
-
-        public init(inputFileKey: String, templateBody: String, inputFileBucket: String, roleArn: String) {
-            self.inputFileKey = inputFileKey
-            self.templateBody = templateBody
-            self.inputFileBucket = inputFileBucket
-            self.roleArn = roleArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case inputFileKey = "inputFileKey"
-            case templateBody = "templateBody"
-            case inputFileBucket = "inputFileBucket"
-            case roleArn = "roleArn"
-        }
-    }
-
-    public struct DescribeAccountAuditConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "auditCheckConfigurations", required: false, type: .map), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string), 
-            AWSShapeMember(label: "auditNotificationTargetConfigurations", required: false, type: .map)
-        ]
-        /// Which audit checks are enabled and disabled for this account.
-        public let auditCheckConfigurations: [String: AuditCheckConfiguration]?
-        /// The ARN of the role that grants permission to AWS IoT to access information about your devices, policies, certificates and other items as necessary when performing an audit. On the first call to UpdateAccountAuditConfiguration this parameter is required.
-        public let roleArn: String?
-        /// Information about the targets to which audit notifications are sent for this account.
-        public let auditNotificationTargetConfigurations: [AuditNotificationType: AuditNotificationTarget]?
-
-        public init(auditCheckConfigurations: [String: AuditCheckConfiguration]? = nil, roleArn: String? = nil, auditNotificationTargetConfigurations: [AuditNotificationType: AuditNotificationTarget]? = nil) {
-            self.auditCheckConfigurations = auditCheckConfigurations
-            self.roleArn = roleArn
-            self.auditNotificationTargetConfigurations = auditNotificationTargetConfigurations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case auditCheckConfigurations = "auditCheckConfigurations"
-            case roleArn = "roleArn"
-            case auditNotificationTargetConfigurations = "auditNotificationTargetConfigurations"
-        }
-    }
-
-    public struct DetachSecurityProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "securityProfileTargetArn", location: .querystring(locationName: "securityProfileTargetArn"), required: true, type: .string), 
-            AWSShapeMember(label: "securityProfileName", location: .uri(locationName: "securityProfileName"), required: true, type: .string)
-        ]
-        /// The ARN of the thing group from which the security profile is detached.
-        public let securityProfileTargetArn: String
-        /// The security profile that is detached.
-        public let securityProfileName: String
-
-        public init(securityProfileTargetArn: String, securityProfileName: String) {
-            self.securityProfileTargetArn = securityProfileTargetArn
-            self.securityProfileName = securityProfileName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case securityProfileTargetArn = "securityProfileTargetArn"
-            case securityProfileName = "securityProfileName"
-        }
-    }
-
-    public struct CreateThingTypeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: false, type: .list), 
-            AWSShapeMember(label: "thingTypeName", location: .uri(locationName: "thingTypeName"), required: true, type: .string), 
-            AWSShapeMember(label: "thingTypeProperties", required: false, type: .structure)
-        ]
-        /// Metadata which can be used to manage the thing type.
-        public let tags: [Tag]?
-        /// The name of the thing type.
-        public let thingTypeName: String
-        /// The ThingTypeProperties for the thing type to create. It contains information about the new thing type including a description, and a list of searchable thing attribute names.
-        public let thingTypeProperties: ThingTypeProperties?
-
-        public init(tags: [Tag]? = nil, thingTypeName: String, thingTypeProperties: ThingTypeProperties? = nil) {
-            self.tags = tags
-            self.thingTypeName = thingTypeName
-            self.thingTypeProperties = thingTypeProperties
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "tags"
-            case thingTypeName = "thingTypeName"
-            case thingTypeProperties = "thingTypeProperties"
-        }
-    }
-
-    public struct RegistrationConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "templateBody", required: false, type: .string), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string)
-        ]
-        /// The template body.
-        public let templateBody: String?
-        /// The ARN of the role.
-        public let roleArn: String?
-
-        public init(templateBody: String? = nil, roleArn: String? = nil) {
-            self.templateBody = templateBody
-            self.roleArn = roleArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case templateBody = "templateBody"
-            case roleArn = "roleArn"
-        }
-    }
-
-    public struct ListPoliciesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextMarker", required: false, type: .string), 
-            AWSShapeMember(label: "policies", required: false, type: .list)
-        ]
-        /// The marker for the next set of results, or null if there are no additional results.
-        public let nextMarker: String?
-        /// The descriptions of the policies.
-        public let policies: [Policy]?
-
-        public init(nextMarker: String? = nil, policies: [Policy]? = nil) {
-            self.nextMarker = nextMarker
-            self.policies = policies
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextMarker = "nextMarker"
-            case policies = "policies"
-        }
-    }
-
-    public struct DeleteAccountAuditConfigurationResponse: AWSShape {
-
-    }
-
-    public struct IotAnalyticsAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "channelArn", required: false, type: .string), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string), 
-            AWSShapeMember(label: "channelName", required: false, type: .string)
-        ]
-        /// (deprecated) The ARN of the IoT Analytics channel to which message data will be sent.
-        public let channelArn: String?
-        /// The ARN of the role which has a policy that grants IoT Analytics permission to send message data via IoT Analytics (iotanalytics:BatchPutMessage).
-        public let roleArn: String?
-        /// The name of the IoT Analytics channel to which message data will be sent.
-        public let channelName: String?
-
-        public init(channelArn: String? = nil, roleArn: String? = nil, channelName: String? = nil) {
-            self.channelArn = channelArn
-            self.roleArn = roleArn
-            self.channelName = channelName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case channelArn = "channelArn"
-            case roleArn = "roleArn"
-            case channelName = "channelName"
-        }
-    }
-
-    public struct CancelCertificateTransferRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateId", location: .uri(locationName: "certificateId"), required: true, type: .string)
-        ]
-        /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
-        public let certificateId: String
-
-        public init(certificateId: String) {
-            self.certificateId = certificateId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificateId = "certificateId"
-        }
-    }
-
-    public struct AttachThingPrincipalRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "principal", location: .header(locationName: "x-amzn-principal"), required: true, type: .string), 
-            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
-        ]
-        /// The principal, such as a certificate or other credential.
-        public let principal: String
-        /// The name of the thing.
-        public let thingName: String
-
-        public init(principal: String, thingName: String) {
-            self.principal = principal
-            self.thingName = thingName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case principal = "x-amzn-principal"
-            case thingName = "thingName"
-        }
-    }
-
-    public struct TestInvokeAuthorizerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyDocuments", required: false, type: .list), 
-            AWSShapeMember(label: "refreshAfterInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "principalId", required: false, type: .string), 
-            AWSShapeMember(label: "isAuthenticated", required: false, type: .boolean), 
-            AWSShapeMember(label: "disconnectAfterInSeconds", required: false, type: .integer)
-        ]
-        /// IAM policy documents.
-        public let policyDocuments: [String]?
-        /// The number of seconds after which the temporary credentials are refreshed.
-        public let refreshAfterInSeconds: Int32?
-        /// The principal ID.
-        public let principalId: String?
-        /// True if the token is authenticated, otherwise false.
-        public let isAuthenticated: Bool?
-        /// The number of seconds after which the connection is terminated.
-        public let disconnectAfterInSeconds: Int32?
-
-        public init(policyDocuments: [String]? = nil, refreshAfterInSeconds: Int32? = nil, principalId: String? = nil, isAuthenticated: Bool? = nil, disconnectAfterInSeconds: Int32? = nil) {
-            self.policyDocuments = policyDocuments
-            self.refreshAfterInSeconds = refreshAfterInSeconds
-            self.principalId = principalId
-            self.isAuthenticated = isAuthenticated
-            self.disconnectAfterInSeconds = disconnectAfterInSeconds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyDocuments = "policyDocuments"
-            case refreshAfterInSeconds = "refreshAfterInSeconds"
-            case principalId = "principalId"
-            case isAuthenticated = "isAuthenticated"
-            case disconnectAfterInSeconds = "disconnectAfterInSeconds"
-        }
-    }
-
-    public struct ListPoliciesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
-            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean)
-        ]
-        /// The result page size.
-        public let pageSize: Int32?
-        /// The marker for the next set of results.
-        public let marker: String?
-        /// Specifies the order for results. If true, the results are returned in ascending creation order.
-        public let ascendingOrder: Bool?
-
-        public init(pageSize: Int32? = nil, marker: String? = nil, ascendingOrder: Bool? = nil) {
-            self.pageSize = pageSize
-            self.marker = marker
-            self.ascendingOrder = ascendingOrder
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pageSize = "pageSize"
-            case marker = "marker"
-            case ascendingOrder = "isAscendingOrder"
-        }
-    }
-
-    public struct S3Action: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bucketName", required: true, type: .string), 
-            AWSShapeMember(label: "key", required: true, type: .string), 
-            AWSShapeMember(label: "cannedAcl", required: false, type: .enum), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string)
-        ]
-        /// The Amazon S3 bucket.
-        public let bucketName: String
-        /// The object key.
-        public let key: String
-        /// The Amazon S3 canned ACL that controls access to the object identified by the object key. For more information, see S3 canned ACLs.
-        public let cannedAcl: CannedAccessControlList?
-        /// The ARN of the IAM role that grants access.
-        public let roleArn: String
-
-        public init(bucketName: String, key: String, cannedAcl: CannedAccessControlList? = nil, roleArn: String) {
-            self.bucketName = bucketName
-            self.key = key
-            self.cannedAcl = cannedAcl
-            self.roleArn = roleArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bucketName = "bucketName"
-            case key = "key"
-            case cannedAcl = "cannedAcl"
-            case roleArn = "roleArn"
-        }
-    }
-
-    public enum AuditTaskType: String, CustomStringConvertible, Codable {
-        case onDemandAuditTask = "ON_DEMAND_AUDIT_TASK"
-        case scheduledAuditTask = "SCHEDULED_AUDIT_TASK"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListJobExecutionsForThingResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "executionSummaries", required: false, type: .list), 
+            AWSShapeMember(label: "things", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
-        /// A list of job execution summaries.
-        public let executionSummaries: [JobExecutionSummaryForThing]?
-        /// The token for the next set of results, or null if there are no additional results.
-        public let nextToken: String?
-
-        public init(executionSummaries: [JobExecutionSummaryForThing]? = nil, nextToken: String? = nil) {
-            self.executionSummaries = executionSummaries
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case executionSummaries = "executionSummaries"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct AuthorizerSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorizerName", required: false, type: .string), 
-            AWSShapeMember(label: "authorizerArn", required: false, type: .string)
-        ]
-        /// The authorizer name.
-        public let authorizerName: String?
-        /// The authorizer ARN.
-        public let authorizerArn: String?
-
-        public init(authorizerName: String? = nil, authorizerArn: String? = nil) {
-            self.authorizerName = authorizerName
-            self.authorizerArn = authorizerArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case authorizerName = "authorizerName"
-            case authorizerArn = "authorizerArn"
-        }
-    }
-
-    public struct ListRoleAliasesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
-            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean)
-        ]
-        /// The maximum number of results to return at one time.
-        public let pageSize: Int32?
-        /// A marker used to get the next set of results.
-        public let marker: String?
-        /// Return the list of role aliases in ascending alphabetical order.
-        public let ascendingOrder: Bool?
-
-        public init(pageSize: Int32? = nil, marker: String? = nil, ascendingOrder: Bool? = nil) {
-            self.pageSize = pageSize
-            self.marker = marker
-            self.ascendingOrder = ascendingOrder
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pageSize = "pageSize"
-            case marker = "marker"
-            case ascendingOrder = "isAscendingOrder"
-        }
-    }
-
-    public struct ListThingRegistrationTasksResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "taskIds", required: false, type: .list)
-        ]
+        /// The things in the specified thing group.
+        public let things: [String]?
         /// The token used to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
-        /// A list of bulk thing provisioning task IDs.
-        public let taskIds: [String]?
 
-        public init(nextToken: String? = nil, taskIds: [String]? = nil) {
+        public init(things: [String]? = nil, nextToken: String? = nil) {
+            self.things = things
             self.nextToken = nextToken
-            self.taskIds = taskIds
         }
 
         private enum CodingKeys: String, CodingKey {
+            case things = "things"
             case nextToken = "nextToken"
-            case taskIds = "taskIds"
         }
     }
 
-    public struct ListAuthorizersRequest: AWSShape {
+    public struct DeleteJobExecutionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
-            AWSShapeMember(label: "status", location: .querystring(locationName: "status"), required: false, type: .enum), 
-            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean)
+            AWSShapeMember(label: "executionNumber", location: .uri(locationName: "executionNumber"), required: true, type: .long), 
+            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string), 
+            AWSShapeMember(label: "force", location: .querystring(locationName: "force"), required: false, type: .boolean), 
+            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string)
         ]
-        /// The maximum number of results to return at one time.
-        public let pageSize: Int32?
-        /// The status of the list authorizers request.
-        public let status: AuthorizerStatus?
-        /// A marker used to get the next set of results.
-        public let marker: String?
-        /// Return the list of authorizers in ascending alphabetical order.
-        public let ascendingOrder: Bool?
-
-        public init(pageSize: Int32? = nil, status: AuthorizerStatus? = nil, marker: String? = nil, ascendingOrder: Bool? = nil) {
-            self.pageSize = pageSize
-            self.status = status
-            self.marker = marker
-            self.ascendingOrder = ascendingOrder
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pageSize = "pageSize"
-            case status = "status"
-            case marker = "marker"
-            case ascendingOrder = "isAscendingOrder"
-        }
-    }
-
-    public struct DeleteJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string), 
-            AWSShapeMember(label: "force", location: .querystring(locationName: "force"), required: false, type: .boolean)
-        ]
-        /// The ID of the job to be deleted. After a job deletion is completed, you may reuse this jobId when you create a new job. However, this is not recommended, and you must ensure that your devices are not using the jobId to refer to the deleted job.
-        public let jobId: String
-        /// (Optional) When true, you can delete a job which is "IN_PROGRESS". Otherwise, you can only delete a job which is in a terminal state ("COMPLETED" or "CANCELED") or an exception will occur. The default is false.  Deleting a job which is "IN_PROGRESS", will cause a device which is executing the job to be unable to access job information or update the job execution status. Use caution and ensure that each device executing a job which is deleted is able to recover to a valid state. 
+        /// The ID of the job execution to be deleted. The executionNumber refers to the execution of a particular job on a particular device. Note that once a job execution is deleted, the executionNumber may be reused by IoT, so be sure you get and use the correct value here.
+        public let executionNumber: Int64
+        /// The name of the thing whose job execution will be deleted.
+        public let thingName: String
+        /// (Optional) When true, you can delete a job execution which is "IN_PROGRESS". Otherwise, you can only delete a job execution which is in a terminal state ("SUCCEEDED", "FAILED", "REJECTED", "REMOVED" or "CANCELED") or an exception will occur. The default is false.  Deleting a job execution which is "IN_PROGRESS", will cause the device to be unable to access job information or update the job execution status. Use caution and ensure that the device is able to recover to a valid state. 
         public let force: Bool?
+        /// The ID of the job whose execution on a particular device will be deleted.
+        public let jobId: String
 
-        public init(jobId: String, force: Bool? = nil) {
-            self.jobId = jobId
+        public init(executionNumber: Int64, thingName: String, force: Bool? = nil, jobId: String) {
+            self.executionNumber = executionNumber
+            self.thingName = thingName
             self.force = force
+            self.jobId = jobId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId = "jobId"
+            case executionNumber = "executionNumber"
+            case thingName = "thingName"
             case force = "force"
+            case jobId = "jobId"
         }
     }
 
-    public struct ThingTypeDefinition: AWSShape {
+    public struct LambdaAction: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingTypeProperties", required: false, type: .structure), 
-            AWSShapeMember(label: "thingTypeArn", required: false, type: .string), 
-            AWSShapeMember(label: "thingTypeName", required: false, type: .string), 
-            AWSShapeMember(label: "thingTypeMetadata", required: false, type: .structure)
+            AWSShapeMember(label: "functionArn", required: true, type: .string)
         ]
-        /// The ThingTypeProperties for the thing type.
-        public let thingTypeProperties: ThingTypeProperties?
-        /// The thing type ARN.
-        public let thingTypeArn: String?
-        /// The name of the thing type.
-        public let thingTypeName: String?
-        /// The ThingTypeMetadata contains additional information about the thing type including: creation date and time, a value indicating whether the thing type is deprecated, and a date and time when it was deprecated.
-        public let thingTypeMetadata: ThingTypeMetadata?
+        /// The ARN of the Lambda function.
+        public let functionArn: String
 
-        public init(thingTypeProperties: ThingTypeProperties? = nil, thingTypeArn: String? = nil, thingTypeName: String? = nil, thingTypeMetadata: ThingTypeMetadata? = nil) {
-            self.thingTypeProperties = thingTypeProperties
-            self.thingTypeArn = thingTypeArn
-            self.thingTypeName = thingTypeName
-            self.thingTypeMetadata = thingTypeMetadata
+        public init(functionArn: String) {
+            self.functionArn = functionArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case thingTypeProperties = "thingTypeProperties"
-            case thingTypeArn = "thingTypeArn"
-            case thingTypeName = "thingTypeName"
-            case thingTypeMetadata = "thingTypeMetadata"
+            case functionArn = "functionArn"
         }
     }
 
@@ -7712,759 +5005,177 @@ extension IoT {
         }
     }
 
-    public struct AttachSecurityProfileResponse: AWSShape {
-
-    }
-
-    public struct ExplicitDeny: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policies", required: false, type: .list)
-        ]
-        /// The policies that denied the authorization.
-        public let policies: [Policy]?
-
-        public init(policies: [Policy]? = nil) {
-            self.policies = policies
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policies = "policies"
-        }
-    }
-
-    public struct AssociateTargetsWithJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "targets", required: true, type: .list), 
-            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string), 
-            AWSShapeMember(label: "comment", required: false, type: .string)
-        ]
-        /// A list of thing group ARNs that define the targets of the job.
-        public let targets: [String]
-        /// The unique identifier you assigned to this job when it was created.
-        public let jobId: String
-        /// An optional comment string describing why the job was associated with the targets.
-        public let comment: String?
-
-        public init(targets: [String], jobId: String, comment: String? = nil) {
-            self.targets = targets
-            self.jobId = jobId
-            self.comment = comment
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case targets = "targets"
-            case jobId = "jobId"
-            case comment = "comment"
-        }
-    }
-
-    public enum AuditNotificationType: String, CustomStringConvertible, Codable {
-        case sns = "SNS"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListPolicyVersionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string)
-        ]
-        /// The policy name.
-        public let policyName: String
-
-        public init(policyName: String) {
-            self.policyName = policyName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyName = "policyName"
-        }
-    }
-
-    public struct ClearDefaultAuthorizerResponse: AWSShape {
-
-    }
-
-    public struct ListSecurityProfilesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
-        ]
-        /// The token for the next set of results.
-        public let nextToken: String?
-        /// The maximum number of results to return at one time.
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
-        }
-    }
-
-    public struct JobExecutionSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "startedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "queuedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "executionNumber", required: false, type: .long)
-        ]
-        /// The time, in milliseconds since the epoch, when the job execution started.
-        public let startedAt: TimeStamp?
-        /// The status of the job execution.
-        public let status: JobExecutionStatus?
-        /// The time, in milliseconds since the epoch, when the job execution was queued.
-        public let queuedAt: TimeStamp?
-        /// The time, in milliseconds since the epoch, when the job execution was last updated.
-        public let lastUpdatedAt: TimeStamp?
-        /// A string (consisting of the digits "0" through "9") which identifies this particular job execution on this particular device. It can be used later in commands which return or update job execution information.
-        public let executionNumber: Int64?
-
-        public init(startedAt: TimeStamp? = nil, status: JobExecutionStatus? = nil, queuedAt: TimeStamp? = nil, lastUpdatedAt: TimeStamp? = nil, executionNumber: Int64? = nil) {
-            self.startedAt = startedAt
-            self.status = status
-            self.queuedAt = queuedAt
-            self.lastUpdatedAt = lastUpdatedAt
-            self.executionNumber = executionNumber
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case startedAt = "startedAt"
-            case status = "status"
-            case queuedAt = "queuedAt"
-            case lastUpdatedAt = "lastUpdatedAt"
-            case executionNumber = "executionNumber"
-        }
-    }
-
-    public struct GetRegistrationCodeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "registrationCode", required: false, type: .string)
-        ]
-        /// The CA certificate registration code.
-        public let registrationCode: String?
-
-        public init(registrationCode: String? = nil) {
-            self.registrationCode = registrationCode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case registrationCode = "registrationCode"
-        }
-    }
-
-    public struct ReplaceTopicRuleRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "topicRulePayload"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "topicRulePayload", required: true, type: .structure), 
-            AWSShapeMember(label: "ruleName", location: .uri(locationName: "ruleName"), required: true, type: .string)
-        ]
-        /// The rule payload.
-        public let topicRulePayload: TopicRulePayload
-        /// The name of the rule.
-        public let ruleName: String
-
-        public init(topicRulePayload: TopicRulePayload, ruleName: String) {
-            self.topicRulePayload = topicRulePayload
-            self.ruleName = ruleName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case topicRulePayload = "topicRulePayload"
-            case ruleName = "ruleName"
-        }
-    }
-
-    public struct ListThingsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "things", required: false, type: .list)
-        ]
-        /// The token used to get the next set of results, or null if there are no additional results.
-        public let nextToken: String?
-        /// The things.
-        public let things: [ThingAttribute]?
-
-        public init(nextToken: String? = nil, things: [ThingAttribute]? = nil) {
-            self.nextToken = nextToken
-            self.things = things
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case things = "things"
-        }
-    }
-
-    public struct ListPrincipalThingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "principal", location: .header(locationName: "x-amzn-principal"), required: true, type: .string), 
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
-        ]
-        /// The principal.
-        public let principal: String
-        /// The token to retrieve the next set of results.
-        public let nextToken: String?
-        /// The maximum number of results to return in this operation.
-        public let maxResults: Int32?
-
-        public init(principal: String, nextToken: String? = nil, maxResults: Int32? = nil) {
-            self.principal = principal
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case principal = "x-amzn-principal"
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
-        }
-    }
-
-    public struct CreateOTAUpdateResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "otaUpdateStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "otaUpdateArn", required: false, type: .string), 
-            AWSShapeMember(label: "awsIotJobId", required: false, type: .string), 
-            AWSShapeMember(label: "otaUpdateId", required: false, type: .string), 
-            AWSShapeMember(label: "awsIotJobArn", required: false, type: .string)
-        ]
-        /// The OTA update status.
-        public let otaUpdateStatus: OTAUpdateStatus?
-        /// The OTA update ARN.
-        public let otaUpdateArn: String?
-        /// The AWS IoT job ID associated with the OTA update.
-        public let awsIotJobId: String?
-        /// The OTA update ID.
-        public let otaUpdateId: String?
-        /// The AWS IoT job ARN associated with the OTA update.
-        public let awsIotJobArn: String?
-
-        public init(otaUpdateStatus: OTAUpdateStatus? = nil, otaUpdateArn: String? = nil, awsIotJobId: String? = nil, otaUpdateId: String? = nil, awsIotJobArn: String? = nil) {
-            self.otaUpdateStatus = otaUpdateStatus
-            self.otaUpdateArn = otaUpdateArn
-            self.awsIotJobId = awsIotJobId
-            self.otaUpdateId = otaUpdateId
-            self.awsIotJobArn = awsIotJobArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case otaUpdateStatus = "otaUpdateStatus"
-            case otaUpdateArn = "otaUpdateArn"
-            case awsIotJobId = "awsIotJobId"
-            case otaUpdateId = "otaUpdateId"
-            case awsIotJobArn = "awsIotJobArn"
-        }
-    }
-
-    public struct TopicRuleListItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ruleName", required: false, type: .string), 
-            AWSShapeMember(label: "ruleDisabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "ruleArn", required: false, type: .string), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "topicPattern", required: false, type: .string)
-        ]
-        /// The name of the rule.
-        public let ruleName: String?
-        /// Specifies whether the rule is disabled.
-        public let ruleDisabled: Bool?
-        /// The rule ARN.
-        public let ruleArn: String?
-        /// The date and time the rule was created.
-        public let createdAt: TimeStamp?
-        /// The pattern for the topic names that apply.
-        public let topicPattern: String?
-
-        public init(ruleName: String? = nil, ruleDisabled: Bool? = nil, ruleArn: String? = nil, createdAt: TimeStamp? = nil, topicPattern: String? = nil) {
-            self.ruleName = ruleName
-            self.ruleDisabled = ruleDisabled
-            self.ruleArn = ruleArn
-            self.createdAt = createdAt
-            self.topicPattern = topicPattern
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ruleName = "ruleName"
-            case ruleDisabled = "ruleDisabled"
-            case ruleArn = "ruleArn"
-            case createdAt = "createdAt"
-            case topicPattern = "topicPattern"
-        }
-    }
-
-    public struct UpdateThingGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "version", required: false, type: .long)
-        ]
-        /// The version of the updated thing group.
-        public let version: Int64?
-
-        public init(version: Int64? = nil) {
-            self.version = version
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case version = "version"
-        }
-    }
-
-    public struct ListThingsInBillingGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "billingGroupName", location: .uri(locationName: "billingGroupName"), required: true, type: .string)
-        ]
-        /// The token to retrieve the next set of results.
-        public let nextToken: String?
-        /// The maximum number of results to return per request.
-        public let maxResults: Int32?
-        /// The name of the billing group.
-        public let billingGroupName: String
-
-        public init(nextToken: String? = nil, maxResults: Int32? = nil, billingGroupName: String) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.billingGroupName = billingGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
-            case billingGroupName = "billingGroupName"
-        }
-    }
-
-    public struct CloudwatchAlarmAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "stateReason", required: true, type: .string), 
-            AWSShapeMember(label: "alarmName", required: true, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string), 
-            AWSShapeMember(label: "stateValue", required: true, type: .string)
-        ]
-        /// The reason for the alarm change.
-        public let stateReason: String
-        /// The CloudWatch alarm name.
-        public let alarmName: String
-        /// The IAM role that allows access to the CloudWatch alarm.
-        public let roleArn: String
-        /// The value of the alarm state. Acceptable values are: OK, ALARM, INSUFFICIENT_DATA.
-        public let stateValue: String
-
-        public init(stateReason: String, alarmName: String, roleArn: String, stateValue: String) {
-            self.stateReason = stateReason
-            self.alarmName = alarmName
-            self.roleArn = roleArn
-            self.stateValue = stateValue
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case stateReason = "stateReason"
-            case alarmName = "alarmName"
-            case roleArn = "roleArn"
-            case stateValue = "stateValue"
-        }
-    }
-
-    public struct CreateStreamRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "streamId", location: .uri(locationName: "streamId"), required: true, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string), 
-            AWSShapeMember(label: "files", required: true, type: .list)
-        ]
-        /// The stream ID.
-        public let streamId: String
-        /// A description of the stream.
-        public let description: String?
-        /// An IAM role that allows the IoT service principal assumes to access your S3 files.
-        public let roleArn: String
-        /// The files to stream.
-        public let files: [StreamFile]
-
-        public init(streamId: String, description: String? = nil, roleArn: String, files: [StreamFile]) {
-            self.streamId = streamId
-            self.description = description
-            self.roleArn = roleArn
-            self.files = files
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case streamId = "streamId"
-            case description = "description"
-            case roleArn = "roleArn"
-            case files = "files"
-        }
-    }
-
-    public struct ListActiveViolationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "activeViolations", required: false, type: .list)
-        ]
-        /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
-        public let nextToken: String?
-        /// The list of active violations.
-        public let activeViolations: [ActiveViolation]?
-
-        public init(nextToken: String? = nil, activeViolations: [ActiveViolation]? = nil) {
-            self.nextToken = nextToken
-            self.activeViolations = activeViolations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case activeViolations = "activeViolations"
-        }
-    }
-
-    public struct ListThingsInBillingGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "things", required: false, type: .list)
-        ]
-        /// The token used to get the next set of results, or null if there are no additional results.
-        public let nextToken: String?
-        /// A list of things in the billing group.
-        public let things: [String]?
-
-        public init(nextToken: String? = nil, things: [String]? = nil) {
-            self.nextToken = nextToken
-            self.things = things
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case things = "things"
-        }
-    }
-
-    public enum JobExecutionStatus: String, CustomStringConvertible, Codable {
-        case queued = "QUEUED"
-        case inProgress = "IN_PROGRESS"
-        case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
-        case timedOut = "TIMED_OUT"
-        case rejected = "REJECTED"
-        case removed = "REMOVED"
-        case canceled = "CANCELED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListJobExecutionsForJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "executionSummaries", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// A list of job execution summaries.
-        public let executionSummaries: [JobExecutionSummaryForJob]?
-        /// The token for the next set of results, or null if there are no additional results.
-        public let nextToken: String?
-
-        public init(executionSummaries: [JobExecutionSummaryForJob]? = nil, nextToken: String? = nil) {
-            self.executionSummaries = executionSummaries
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case executionSummaries = "executionSummaries"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct UpdateBillingGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "version", required: false, type: .long)
-        ]
-        /// The latest version of the billing group.
-        public let version: Int64?
-
-        public init(version: Int64? = nil) {
-            self.version = version
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case version = "version"
-        }
-    }
-
-    public struct DisableTopicRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ruleName", location: .uri(locationName: "ruleName"), required: true, type: .string)
-        ]
-        /// The name of the rule to disable.
-        public let ruleName: String
-
-        public init(ruleName: String) {
-            self.ruleName = ruleName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ruleName = "ruleName"
-        }
-    }
-
-    public struct CreateStreamResponse: AWSShape {
+    public struct Stream: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "streamId", required: false, type: .string), 
-            AWSShapeMember(label: "streamVersion", required: false, type: .integer), 
-            AWSShapeMember(label: "streamArn", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string)
+            AWSShapeMember(label: "fileId", required: false, type: .integer)
         ]
         /// The stream ID.
         public let streamId: String?
-        /// The version of the stream.
-        public let streamVersion: Int32?
-        /// The stream ARN.
-        public let streamArn: String?
-        /// A description of the stream.
-        public let description: String?
-
-        public init(streamId: String? = nil, streamVersion: Int32? = nil, streamArn: String? = nil, description: String? = nil) {
-            self.streamId = streamId
-            self.streamVersion = streamVersion
-            self.streamArn = streamArn
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case streamId = "streamId"
-            case streamVersion = "streamVersion"
-            case streamArn = "streamArn"
-            case description = "description"
-        }
-    }
-
-    public struct ListCertificatesByCAResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificates", required: false, type: .list), 
-            AWSShapeMember(label: "nextMarker", required: false, type: .string)
-        ]
-        /// The device certificates signed by the specified CA certificate.
-        public let certificates: [Certificate]?
-        /// The marker for the next set of results, or null if there are no additional results.
-        public let nextMarker: String?
-
-        public init(certificates: [Certificate]? = nil, nextMarker: String? = nil) {
-            self.certificates = certificates
-            self.nextMarker = nextMarker
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificates = "certificates"
-            case nextMarker = "nextMarker"
-        }
-    }
-
-    public struct SetDefaultPolicyVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string), 
-            AWSShapeMember(label: "policyVersionId", location: .uri(locationName: "policyVersionId"), required: true, type: .string)
-        ]
-        /// The policy name.
-        public let policyName: String
-        /// The policy version ID.
-        public let policyVersionId: String
-
-        public init(policyName: String, policyVersionId: String) {
-            self.policyName = policyName
-            self.policyVersionId = policyVersionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyName = "policyName"
-            case policyVersionId = "policyVersionId"
-        }
-    }
-
-    public struct DeleteRegistrationCodeRequest: AWSShape {
-
-    }
-
-    public struct DescribeDefaultAuthorizerRequest: AWSShape {
-
-    }
-
-    public struct CancelJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "force", location: .querystring(locationName: "force"), required: false, type: .boolean), 
-            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string), 
-            AWSShapeMember(label: "comment", required: false, type: .string), 
-            AWSShapeMember(label: "reasonCode", required: false, type: .string)
-        ]
-        /// (Optional) If true job executions with status "IN_PROGRESS" and "QUEUED" are canceled, otherwise only job executions with status "QUEUED" are canceled. The default is false. Canceling a job which is "IN_PROGRESS", will cause a device which is executing the job to be unable to update the job execution status. Use caution and ensure that each device executing a job which is canceled is able to recover to a valid state.
-        public let force: Bool?
-        /// The unique identifier you assigned to this job when it was created.
-        public let jobId: String
-        /// An optional comment string describing why the job was canceled.
-        public let comment: String?
-        /// (Optional)A reason code string that explains why the job was canceled.
-        public let reasonCode: String?
-
-        public init(force: Bool? = nil, jobId: String, comment: String? = nil, reasonCode: String? = nil) {
-            self.force = force
-            self.jobId = jobId
-            self.comment = comment
-            self.reasonCode = reasonCode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case force = "force"
-            case jobId = "jobId"
-            case comment = "comment"
-            case reasonCode = "reasonCode"
-        }
-    }
-
-    public struct GetPolicyVersionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string), 
-            AWSShapeMember(label: "policyVersionId", location: .uri(locationName: "policyVersionId"), required: true, type: .string)
-        ]
-        /// The name of the policy.
-        public let policyName: String
-        /// The policy version ID.
-        public let policyVersionId: String
-
-        public init(policyName: String, policyVersionId: String) {
-            self.policyName = policyName
-            self.policyVersionId = policyVersionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyName = "policyName"
-            case policyVersionId = "policyVersionId"
-        }
-    }
-
-    public struct RelatedResource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "additionalInfo", required: false, type: .map), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "resourceIdentifier", required: false, type: .structure)
-        ]
-        /// Additional information about the resource.
-        public let additionalInfo: [String: String]?
-        /// The type of resource.
-        public let resourceType: ResourceType?
-        /// Information identifying the resource.
-        public let resourceIdentifier: ResourceIdentifier?
-
-        public init(additionalInfo: [String: String]? = nil, resourceType: ResourceType? = nil, resourceIdentifier: ResourceIdentifier? = nil) {
-            self.additionalInfo = additionalInfo
-            self.resourceType = resourceType
-            self.resourceIdentifier = resourceIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case additionalInfo = "additionalInfo"
-            case resourceType = "resourceType"
-            case resourceIdentifier = "resourceIdentifier"
-        }
-    }
-
-    public struct GetOTAUpdateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "otaUpdateId", location: .uri(locationName: "otaUpdateId"), required: true, type: .string)
-        ]
-        /// The OTA update ID.
-        public let otaUpdateId: String
-
-        public init(otaUpdateId: String) {
-            self.otaUpdateId = otaUpdateId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case otaUpdateId = "otaUpdateId"
-        }
-    }
-
-    public struct DescribeBillingGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "billingGroupName", location: .uri(locationName: "billingGroupName"), required: true, type: .string)
-        ]
-        /// The name of the billing group.
-        public let billingGroupName: String
-
-        public init(billingGroupName: String) {
-            self.billingGroupName = billingGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case billingGroupName = "billingGroupName"
-        }
-    }
-
-    public struct ListAuthorizersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextMarker", required: false, type: .string), 
-            AWSShapeMember(label: "authorizers", required: false, type: .list)
-        ]
-        /// A marker used to get the next set of results.
-        public let nextMarker: String?
-        /// The authorizers.
-        public let authorizers: [AuthorizerSummary]?
-
-        public init(nextMarker: String? = nil, authorizers: [AuthorizerSummary]? = nil) {
-            self.nextMarker = nextMarker
-            self.authorizers = authorizers
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextMarker = "nextMarker"
-            case authorizers = "authorizers"
-        }
-    }
-
-    public struct DescribeIndexResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "indexStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "schema", required: false, type: .string), 
-            AWSShapeMember(label: "indexName", required: false, type: .string)
-        ]
-        /// The index status.
-        public let indexStatus: IndexStatus?
-        /// Contains a value that specifies the type of indexing performed. Valid values are:   REGISTRY – Your thing index will contain only registry data.   REGISTRY_AND_SHADOW - Your thing index will contain registry data and shadow data.   REGISTRY_AND_CONNECTIVITY_STATUS - Your thing index will contain registry data and thing connectivity status data.   REGISTRY_AND_SHADOW_AND_CONNECTIVITY_STATUS - Your thing index will contain registry data, shadow data, and thing connectivity status data.  
-        public let schema: String?
-        /// The index name.
-        public let indexName: String?
-
-        public init(indexStatus: IndexStatus? = nil, schema: String? = nil, indexName: String? = nil) {
-            self.indexStatus = indexStatus
-            self.schema = schema
-            self.indexName = indexName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case indexStatus = "indexStatus"
-            case schema = "schema"
-            case indexName = "indexName"
-        }
-    }
-
-    public struct StreamFile: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "s3Location", required: false, type: .structure), 
-            AWSShapeMember(label: "fileId", required: false, type: .integer)
-        ]
-        /// The location of the file in S3.
-        public let s3Location: S3Location?
-        /// The file ID.
+        /// The ID of a file associated with a stream.
         public let fileId: Int32?
 
-        public init(s3Location: S3Location? = nil, fileId: Int32? = nil) {
-            self.s3Location = s3Location
+        public init(streamId: String? = nil, fileId: Int32? = nil) {
+            self.streamId = streamId
             self.fileId = fileId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3Location = "s3Location"
+            case streamId = "streamId"
             case fileId = "fileId"
+        }
+    }
+
+    public enum AuditFrequency: String, CustomStringConvertible, Codable {
+        case daily = "DAILY"
+        case weekly = "WEEKLY"
+        case biweekly = "BIWEEKLY"
+        case monthly = "MONTHLY"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DescribeBillingGroupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "billingGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "billingGroupProperties", required: false, type: .structure), 
+            AWSShapeMember(label: "billingGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "billingGroupMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "billingGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "version", required: false, type: .long)
+        ]
+        /// The ID of the billing group.
+        public let billingGroupId: String?
+        /// The properties of the billing group.
+        public let billingGroupProperties: BillingGroupProperties?
+        /// The ARN of the billing group.
+        public let billingGroupArn: String?
+        /// Additional information about the billing group.
+        public let billingGroupMetadata: BillingGroupMetadata?
+        /// The name of the billing group.
+        public let billingGroupName: String?
+        /// The version of the billing group.
+        public let version: Int64?
+
+        public init(billingGroupId: String? = nil, billingGroupProperties: BillingGroupProperties? = nil, billingGroupArn: String? = nil, billingGroupMetadata: BillingGroupMetadata? = nil, billingGroupName: String? = nil, version: Int64? = nil) {
+            self.billingGroupId = billingGroupId
+            self.billingGroupProperties = billingGroupProperties
+            self.billingGroupArn = billingGroupArn
+            self.billingGroupMetadata = billingGroupMetadata
+            self.billingGroupName = billingGroupName
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case billingGroupId = "billingGroupId"
+            case billingGroupProperties = "billingGroupProperties"
+            case billingGroupArn = "billingGroupArn"
+            case billingGroupMetadata = "billingGroupMetadata"
+            case billingGroupName = "billingGroupName"
+            case version = "version"
+        }
+    }
+
+    public struct DeleteThingTypeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingTypeName", location: .uri(locationName: "thingTypeName"), required: true, type: .string)
+        ]
+        /// The name of the thing type.
+        public let thingTypeName: String
+
+        public init(thingTypeName: String) {
+            self.thingTypeName = thingTypeName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case thingTypeName = "thingTypeName"
+        }
+    }
+
+    public struct RegisterCertificateResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificateArn", required: false, type: .string), 
+            AWSShapeMember(label: "certificateId", required: false, type: .string)
+        ]
+        /// The certificate ARN.
+        public let certificateArn: String?
+        /// The certificate identifier.
+        public let certificateId: String?
+
+        public init(certificateArn: String? = nil, certificateId: String? = nil) {
+            self.certificateArn = certificateArn
+            self.certificateId = certificateId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "certificateArn"
+            case certificateId = "certificateId"
+        }
+    }
+
+    public struct StreamInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "streamVersion", required: false, type: .integer), 
+            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "streamArn", required: false, type: .string), 
+            AWSShapeMember(label: "files", required: false, type: .list), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "streamId", required: false, type: .string), 
+            AWSShapeMember(label: "roleArn", required: false, type: .string)
+        ]
+        /// The stream version.
+        public let streamVersion: Int32?
+        /// The date when the stream was last updated.
+        public let lastUpdatedAt: TimeStamp?
+        /// The stream ARN.
+        public let streamArn: String?
+        /// The files to stream.
+        public let files: [StreamFile]?
+        /// The date when the stream was created.
+        public let createdAt: TimeStamp?
+        /// The description of the stream.
+        public let description: String?
+        /// The stream ID.
+        public let streamId: String?
+        /// An IAM role AWS IoT assumes to access your S3 files.
+        public let roleArn: String?
+
+        public init(streamVersion: Int32? = nil, lastUpdatedAt: TimeStamp? = nil, streamArn: String? = nil, files: [StreamFile]? = nil, createdAt: TimeStamp? = nil, description: String? = nil, streamId: String? = nil, roleArn: String? = nil) {
+            self.streamVersion = streamVersion
+            self.lastUpdatedAt = lastUpdatedAt
+            self.streamArn = streamArn
+            self.files = files
+            self.createdAt = createdAt
+            self.description = description
+            self.streamId = streamId
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamVersion = "streamVersion"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case streamArn = "streamArn"
+            case files = "files"
+            case createdAt = "createdAt"
+            case description = "description"
+            case streamId = "streamId"
+            case roleArn = "roleArn"
+        }
+    }
+
+    public struct UpdateEventConfigurationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "eventConfigurations", required: false, type: .map)
+        ]
+        /// The new event configuration values.
+        public let eventConfigurations: [EventType: Configuration]?
+
+        public init(eventConfigurations: [EventType: Configuration]? = nil) {
+            self.eventConfigurations = eventConfigurations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventConfigurations = "eventConfigurations"
         }
     }
 
@@ -8499,538 +5210,292 @@ extension IoT {
         }
     }
 
-    public struct TestInvokeAuthorizerRequest: AWSShape {
+    public struct ListBillingGroupsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tokenSignature", required: true, type: .string), 
-            AWSShapeMember(label: "token", required: true, type: .string), 
+            AWSShapeMember(label: "billingGroups", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// The list of billing groups.
+        public let billingGroups: [GroupNameAndArn]?
+        /// The token used to get the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+
+        public init(billingGroups: [GroupNameAndArn]? = nil, nextToken: String? = nil) {
+            self.billingGroups = billingGroups
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case billingGroups = "billingGroups"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct CancelAuditTaskRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "taskId", location: .uri(locationName: "taskId"), required: true, type: .string)
+        ]
+        /// The ID of the audit you want to cancel. You can only cancel an audit that is "IN_PROGRESS".
+        public let taskId: String
+
+        public init(taskId: String) {
+            self.taskId = taskId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taskId = "taskId"
+        }
+    }
+
+    public struct JobProcessDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "numberOfInProgressThings", required: false, type: .integer), 
+            AWSShapeMember(label: "numberOfCanceledThings", required: false, type: .integer), 
+            AWSShapeMember(label: "processingTargets", required: false, type: .list), 
+            AWSShapeMember(label: "numberOfRejectedThings", required: false, type: .integer), 
+            AWSShapeMember(label: "numberOfFailedThings", required: false, type: .integer), 
+            AWSShapeMember(label: "numberOfSucceededThings", required: false, type: .integer), 
+            AWSShapeMember(label: "numberOfTimedOutThings", required: false, type: .integer), 
+            AWSShapeMember(label: "numberOfQueuedThings", required: false, type: .integer), 
+            AWSShapeMember(label: "numberOfRemovedThings", required: false, type: .integer)
+        ]
+        /// The number of things currently executing the job.
+        public let numberOfInProgressThings: Int32?
+        /// The number of things that cancelled the job.
+        public let numberOfCanceledThings: Int32?
+        /// The target devices to which the job execution is being rolled out. This value will be null after the job execution has finished rolling out to all the target devices.
+        public let processingTargets: [String]?
+        /// The number of things that rejected the job.
+        public let numberOfRejectedThings: Int32?
+        /// The number of things that failed executing the job.
+        public let numberOfFailedThings: Int32?
+        /// The number of things which successfully completed the job.
+        public let numberOfSucceededThings: Int32?
+        /// The number of things whose job execution status is TIMED_OUT.
+        public let numberOfTimedOutThings: Int32?
+        /// The number of things that are awaiting execution of the job.
+        public let numberOfQueuedThings: Int32?
+        /// The number of things that are no longer scheduled to execute the job because they have been deleted or have been removed from the group that was a target of the job.
+        public let numberOfRemovedThings: Int32?
+
+        public init(numberOfInProgressThings: Int32? = nil, numberOfCanceledThings: Int32? = nil, processingTargets: [String]? = nil, numberOfRejectedThings: Int32? = nil, numberOfFailedThings: Int32? = nil, numberOfSucceededThings: Int32? = nil, numberOfTimedOutThings: Int32? = nil, numberOfQueuedThings: Int32? = nil, numberOfRemovedThings: Int32? = nil) {
+            self.numberOfInProgressThings = numberOfInProgressThings
+            self.numberOfCanceledThings = numberOfCanceledThings
+            self.processingTargets = processingTargets
+            self.numberOfRejectedThings = numberOfRejectedThings
+            self.numberOfFailedThings = numberOfFailedThings
+            self.numberOfSucceededThings = numberOfSucceededThings
+            self.numberOfTimedOutThings = numberOfTimedOutThings
+            self.numberOfQueuedThings = numberOfQueuedThings
+            self.numberOfRemovedThings = numberOfRemovedThings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case numberOfInProgressThings = "numberOfInProgressThings"
+            case numberOfCanceledThings = "numberOfCanceledThings"
+            case processingTargets = "processingTargets"
+            case numberOfRejectedThings = "numberOfRejectedThings"
+            case numberOfFailedThings = "numberOfFailedThings"
+            case numberOfSucceededThings = "numberOfSucceededThings"
+            case numberOfTimedOutThings = "numberOfTimedOutThings"
+            case numberOfQueuedThings = "numberOfQueuedThings"
+            case numberOfRemovedThings = "numberOfRemovedThings"
+        }
+    }
+
+    public struct DescribeAuthorizerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "authorizerName", location: .uri(locationName: "authorizerName"), required: true, type: .string)
         ]
-        /// The signature made with the token and your custom authentication service's private key.
-        public let tokenSignature: String
-        /// The token returned by your custom authentication service.
-        public let token: String
-        /// The custom authorizer name.
+        /// The name of the authorizer to describe.
         public let authorizerName: String
 
-        public init(tokenSignature: String, token: String, authorizerName: String) {
-            self.tokenSignature = tokenSignature
-            self.token = token
+        public init(authorizerName: String) {
             self.authorizerName = authorizerName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tokenSignature = "tokenSignature"
-            case token = "token"
             case authorizerName = "authorizerName"
         }
     }
 
-    public struct DescribeThingResponse: AWSShape {
+    public struct JobExecutionStatusDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attributes", required: false, type: .map), 
-            AWSShapeMember(label: "thingId", required: false, type: .string), 
-            AWSShapeMember(label: "billingGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "version", required: false, type: .long), 
-            AWSShapeMember(label: "thingName", required: false, type: .string), 
-            AWSShapeMember(label: "thingTypeName", required: false, type: .string), 
-            AWSShapeMember(label: "defaultClientId", required: false, type: .string), 
-            AWSShapeMember(label: "thingArn", required: false, type: .string)
+            AWSShapeMember(label: "detailsMap", required: false, type: .map)
         ]
-        /// The thing attributes.
-        public let attributes: [String: String]?
-        /// The ID of the thing to describe.
-        public let thingId: String?
-        /// The name of the billing group the thing belongs to.
-        public let billingGroupName: String?
-        /// The current version of the thing record in the registry.  To avoid unintentional changes to the information in the registry, you can pass the version information in the expectedVersion parameter of the UpdateThing and DeleteThing calls. 
-        public let version: Int64?
-        /// The name of the thing.
-        public let thingName: String?
-        /// The thing type name.
-        public let thingTypeName: String?
-        /// The default client ID.
-        public let defaultClientId: String?
-        /// The ARN of the thing to describe.
-        public let thingArn: String?
+        /// The job execution status.
+        public let detailsMap: [String: String]?
 
-        public init(attributes: [String: String]? = nil, thingId: String? = nil, billingGroupName: String? = nil, version: Int64? = nil, thingName: String? = nil, thingTypeName: String? = nil, defaultClientId: String? = nil, thingArn: String? = nil) {
-            self.attributes = attributes
-            self.thingId = thingId
-            self.billingGroupName = billingGroupName
-            self.version = version
-            self.thingName = thingName
-            self.thingTypeName = thingTypeName
-            self.defaultClientId = defaultClientId
-            self.thingArn = thingArn
+        public init(detailsMap: [String: String]? = nil) {
+            self.detailsMap = detailsMap
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes = "attributes"
-            case thingId = "thingId"
-            case billingGroupName = "billingGroupName"
-            case version = "version"
-            case thingName = "thingName"
-            case thingTypeName = "thingTypeName"
-            case defaultClientId = "defaultClientId"
-            case thingArn = "thingArn"
+            case detailsMap = "detailsMap"
         }
     }
 
-    public struct GetTopicRuleRequest: AWSShape {
+    public struct PolicyVersionIdentifier: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ruleName", location: .uri(locationName: "ruleName"), required: true, type: .string)
+            AWSShapeMember(label: "policyName", required: false, type: .string), 
+            AWSShapeMember(label: "policyVersionId", required: false, type: .string)
         ]
-        /// The name of the rule.
-        public let ruleName: String
+        /// The name of the policy.
+        public let policyName: String?
+        /// The ID of the version of the policy associated with the resource.
+        public let policyVersionId: String?
 
-        public init(ruleName: String) {
-            self.ruleName = ruleName
+        public init(policyName: String? = nil, policyVersionId: String? = nil) {
+            self.policyName = policyName
+            self.policyVersionId = policyVersionId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ruleName = "ruleName"
+            case policyName = "policyName"
+            case policyVersionId = "policyVersionId"
         }
     }
 
-    public struct DeleteV2LoggingLevelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "targetName", location: .querystring(locationName: "targetName"), required: true, type: .string), 
-            AWSShapeMember(label: "targetType", location: .querystring(locationName: "targetType"), required: true, type: .enum)
-        ]
-        /// The name of the resource for which you are configuring logging.
-        public let targetName: String
-        /// The type of resource for which you are configuring logging. Must be THING_Group.
-        public let targetType: LogTargetType
+    public struct DeleteStreamResponse: AWSShape {
 
-        public init(targetName: String, targetType: LogTargetType) {
-            self.targetName = targetName
-            self.targetType = targetType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case targetName = "targetName"
-            case targetType = "targetType"
-        }
     }
 
-    public struct CreateJobResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobId", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "jobArn", required: false, type: .string)
-        ]
-        /// The unique identifier you assigned to this job.
-        public let jobId: String?
-        /// The job description.
-        public let description: String?
-        /// The job ARN.
-        public let jobArn: String?
-
-        public init(jobId: String? = nil, description: String? = nil, jobArn: String? = nil) {
-            self.jobId = jobId
-            self.description = description
-            self.jobArn = jobArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case jobId = "jobId"
-            case description = "description"
-            case jobArn = "jobArn"
-        }
-    }
-
-    public struct ListPrincipalPoliciesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextMarker", required: false, type: .string), 
-            AWSShapeMember(label: "policies", required: false, type: .list)
-        ]
-        /// The marker for the next set of results, or null if there are no additional results.
-        public let nextMarker: String?
-        /// The policies.
-        public let policies: [Policy]?
-
-        public init(nextMarker: String? = nil, policies: [Policy]? = nil) {
-            self.nextMarker = nextMarker
-            self.policies = policies
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextMarker = "nextMarker"
-            case policies = "policies"
-        }
-    }
-
-    public struct UpdateDynamicThingGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "version", required: false, type: .long)
-        ]
-        /// The dynamic thing group version.
-        public let version: Int64?
-
-        public init(version: Int64? = nil) {
-            self.version = version
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case version = "version"
-        }
-    }
-
-    public struct Certificate: AWSShape {
+    public struct CACertificate: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "certificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
             AWSShapeMember(label: "certificateId", required: false, type: .string), 
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp)
+            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "status", required: false, type: .enum)
         ]
-        /// The ARN of the certificate.
+        /// The ARN of the CA certificate.
         public let certificateArn: String?
-        /// The status of the certificate. The status value REGISTER_INACTIVE is deprecated and should not be used.
-        public let status: CertificateStatus?
-        /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
+        /// The ID of the CA certificate.
         public let certificateId: String?
-        /// The date and time the certificate was created.
+        /// The date the CA certificate was created.
         public let creationDate: TimeStamp?
+        /// The status of the CA certificate. The status value REGISTER_INACTIVE is deprecated and should not be used.
+        public let status: CACertificateStatus?
 
-        public init(certificateArn: String? = nil, status: CertificateStatus? = nil, certificateId: String? = nil, creationDate: TimeStamp? = nil) {
+        public init(certificateArn: String? = nil, certificateId: String? = nil, creationDate: TimeStamp? = nil, status: CACertificateStatus? = nil) {
             self.certificateArn = certificateArn
-            self.status = status
             self.certificateId = certificateId
             self.creationDate = creationDate
+            self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
             case certificateArn = "certificateArn"
-            case status = "status"
             case certificateId = "certificateId"
             case creationDate = "creationDate"
+            case status = "status"
         }
     }
 
-    public struct ListCertificatesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
-            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean)
-        ]
-        /// The result page size.
-        public let pageSize: Int32?
-        /// The marker for the next set of results.
-        public let marker: String?
-        /// Specifies the order for results. If True, the results are returned in ascending order, based on the creation date.
-        public let ascendingOrder: Bool?
+    public struct DeleteBillingGroupResponse: AWSShape {
 
-        public init(pageSize: Int32? = nil, marker: String? = nil, ascendingOrder: Bool? = nil) {
-            self.pageSize = pageSize
-            self.marker = marker
-            self.ascendingOrder = ascendingOrder
+    }
+
+    public struct DeletePolicyVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string), 
+            AWSShapeMember(label: "policyVersionId", location: .uri(locationName: "policyVersionId"), required: true, type: .string)
+        ]
+        /// The name of the policy.
+        public let policyName: String
+        /// The policy version ID.
+        public let policyVersionId: String
+
+        public init(policyName: String, policyVersionId: String) {
+            self.policyName = policyName
+            self.policyVersionId = policyVersionId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageSize = "pageSize"
-            case marker = "marker"
-            case ascendingOrder = "isAscendingOrder"
+            case policyName = "policyName"
+            case policyVersionId = "policyVersionId"
         }
     }
 
-    public struct AwsJobExecutionsRolloutConfig: AWSShape {
+    public struct TransferCertificateResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "maximumPerMinute", required: false, type: .integer)
+            AWSShapeMember(label: "transferredCertificateArn", required: false, type: .string)
         ]
-        /// The maximum number of OTA update job executions started per minute.
-        public let maximumPerMinute: Int32?
+        /// The ARN of the certificate.
+        public let transferredCertificateArn: String?
 
-        public init(maximumPerMinute: Int32? = nil) {
-            self.maximumPerMinute = maximumPerMinute
+        public init(transferredCertificateArn: String? = nil) {
+            self.transferredCertificateArn = transferredCertificateArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maximumPerMinute = "maximumPerMinute"
+            case transferredCertificateArn = "transferredCertificateArn"
         }
     }
 
-    public enum DynamicGroupStatus: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case building = "BUILDING"
-        case rebuilding = "REBUILDING"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateKeysAndCertificateRequest: AWSShape {
+    public struct ListJobExecutionsForJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "setAsActive", location: .querystring(locationName: "setAsActive"), required: false, type: .boolean)
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string), 
+            AWSShapeMember(label: "status", location: .querystring(locationName: "status"), required: false, type: .enum), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
         ]
-        /// Specifies whether the certificate is active.
-        public let setAsActive: Bool?
-
-        public init(setAsActive: Bool? = nil) {
-            self.setAsActive = setAsActive
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case setAsActive = "setAsActive"
-        }
-    }
-
-    public struct SigningProfileParameter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "platform", required: false, type: .string), 
-            AWSShapeMember(label: "certificatePathOnDevice", required: false, type: .string), 
-            AWSShapeMember(label: "certificateArn", required: false, type: .string)
-        ]
-        /// The hardware platform of your device.
-        public let platform: String?
-        /// The location of the code-signing certificate on your device.
-        public let certificatePathOnDevice: String?
-        /// Certificate ARN.
-        public let certificateArn: String?
-
-        public init(platform: String? = nil, certificatePathOnDevice: String? = nil, certificateArn: String? = nil) {
-            self.platform = platform
-            self.certificatePathOnDevice = certificatePathOnDevice
-            self.certificateArn = certificateArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case platform = "platform"
-            case certificatePathOnDevice = "certificatePathOnDevice"
-            case certificateArn = "certificateArn"
-        }
-    }
-
-    public struct Action: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "sns", required: false, type: .structure), 
-            AWSShapeMember(label: "iotAnalytics", required: false, type: .structure), 
-            AWSShapeMember(label: "elasticsearch", required: false, type: .structure), 
-            AWSShapeMember(label: "cloudwatchAlarm", required: false, type: .structure), 
-            AWSShapeMember(label: "s3", required: false, type: .structure), 
-            AWSShapeMember(label: "dynamoDBv2", required: false, type: .structure), 
-            AWSShapeMember(label: "sqs", required: false, type: .structure), 
-            AWSShapeMember(label: "cloudwatchMetric", required: false, type: .structure), 
-            AWSShapeMember(label: "stepFunctions", required: false, type: .structure), 
-            AWSShapeMember(label: "lambda", required: false, type: .structure), 
-            AWSShapeMember(label: "kinesis", required: false, type: .structure), 
-            AWSShapeMember(label: "firehose", required: false, type: .structure), 
-            AWSShapeMember(label: "salesforce", required: false, type: .structure), 
-            AWSShapeMember(label: "iotEvents", required: false, type: .structure), 
-            AWSShapeMember(label: "dynamoDB", required: false, type: .structure), 
-            AWSShapeMember(label: "republish", required: false, type: .structure)
-        ]
-        /// Publish to an Amazon SNS topic.
-        public let sns: SnsAction?
-        /// Sends message data to an AWS IoT Analytics channel.
-        public let iotAnalytics: IotAnalyticsAction?
-        /// Write data to an Amazon Elasticsearch Service domain.
-        public let elasticsearch: ElasticsearchAction?
-        /// Change the state of a CloudWatch alarm.
-        public let cloudwatchAlarm: CloudwatchAlarmAction?
-        /// Write to an Amazon S3 bucket.
-        public let s3: S3Action?
-        /// Write to a DynamoDB table. This is a new version of the DynamoDB action. It allows you to write each attribute in an MQTT message payload into a separate DynamoDB column.
-        public let dynamoDBv2: DynamoDBv2Action?
-        /// Publish to an Amazon SQS queue.
-        public let sqs: SqsAction?
-        /// Capture a CloudWatch metric.
-        public let cloudwatchMetric: CloudwatchMetricAction?
-        /// Starts execution of a Step Functions state machine.
-        public let stepFunctions: StepFunctionsAction?
-        /// Invoke a Lambda function.
-        public let lambda: LambdaAction?
-        /// Write data to an Amazon Kinesis stream.
-        public let kinesis: KinesisAction?
-        /// Write to an Amazon Kinesis Firehose stream.
-        public let firehose: FirehoseAction?
-        /// Send a message to a Salesforce IoT Cloud Input Stream.
-        public let salesforce: SalesforceAction?
-        /// Sends an input to an AWS IoT Events detector.
-        public let iotEvents: IotEventsAction?
-        /// Write to a DynamoDB table.
-        public let dynamoDB: DynamoDBAction?
-        /// Publish to another MQTT topic.
-        public let republish: RepublishAction?
-
-        public init(sns: SnsAction? = nil, iotAnalytics: IotAnalyticsAction? = nil, elasticsearch: ElasticsearchAction? = nil, cloudwatchAlarm: CloudwatchAlarmAction? = nil, s3: S3Action? = nil, dynamoDBv2: DynamoDBv2Action? = nil, sqs: SqsAction? = nil, cloudwatchMetric: CloudwatchMetricAction? = nil, stepFunctions: StepFunctionsAction? = nil, lambda: LambdaAction? = nil, kinesis: KinesisAction? = nil, firehose: FirehoseAction? = nil, salesforce: SalesforceAction? = nil, iotEvents: IotEventsAction? = nil, dynamoDB: DynamoDBAction? = nil, republish: RepublishAction? = nil) {
-            self.sns = sns
-            self.iotAnalytics = iotAnalytics
-            self.elasticsearch = elasticsearch
-            self.cloudwatchAlarm = cloudwatchAlarm
-            self.s3 = s3
-            self.dynamoDBv2 = dynamoDBv2
-            self.sqs = sqs
-            self.cloudwatchMetric = cloudwatchMetric
-            self.stepFunctions = stepFunctions
-            self.lambda = lambda
-            self.kinesis = kinesis
-            self.firehose = firehose
-            self.salesforce = salesforce
-            self.iotEvents = iotEvents
-            self.dynamoDB = dynamoDB
-            self.republish = republish
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sns = "sns"
-            case iotAnalytics = "iotAnalytics"
-            case elasticsearch = "elasticsearch"
-            case cloudwatchAlarm = "cloudwatchAlarm"
-            case s3 = "s3"
-            case dynamoDBv2 = "dynamoDBv2"
-            case sqs = "sqs"
-            case cloudwatchMetric = "cloudwatchMetric"
-            case stepFunctions = "stepFunctions"
-            case lambda = "lambda"
-            case kinesis = "kinesis"
-            case firehose = "firehose"
-            case salesforce = "salesforce"
-            case iotEvents = "iotEvents"
-            case dynamoDB = "dynamoDB"
-            case republish = "republish"
-        }
-    }
-
-    public struct RegisterCACertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "caCertificate", required: true, type: .string), 
-            AWSShapeMember(label: "registrationConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "verificationCertificate", required: true, type: .string), 
-            AWSShapeMember(label: "setAsActive", location: .querystring(locationName: "setAsActive"), required: false, type: .boolean), 
-            AWSShapeMember(label: "allowAutoRegistration", location: .querystring(locationName: "allowAutoRegistration"), required: false, type: .boolean)
-        ]
-        /// The CA certificate.
-        public let caCertificate: String
-        /// Information about the registration configuration.
-        public let registrationConfig: RegistrationConfig?
-        /// The private key verification certificate.
-        public let verificationCertificate: String
-        /// A boolean value that specifies if the CA certificate is set to active.
-        public let setAsActive: Bool?
-        /// Allows this CA certificate to be used for auto registration of device certificates.
-        public let allowAutoRegistration: Bool?
-
-        public init(caCertificate: String, registrationConfig: RegistrationConfig? = nil, verificationCertificate: String, setAsActive: Bool? = nil, allowAutoRegistration: Bool? = nil) {
-            self.caCertificate = caCertificate
-            self.registrationConfig = registrationConfig
-            self.verificationCertificate = verificationCertificate
-            self.setAsActive = setAsActive
-            self.allowAutoRegistration = allowAutoRegistration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case caCertificate = "caCertificate"
-            case registrationConfig = "registrationConfig"
-            case verificationCertificate = "verificationCertificate"
-            case setAsActive = "setAsActive"
-            case allowAutoRegistration = "allowAutoRegistration"
-        }
-    }
-
-    public enum CertificateStatus: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case inactive = "INACTIVE"
-        case revoked = "REVOKED"
-        case pendingTransfer = "PENDING_TRANSFER"
-        case registerInactive = "REGISTER_INACTIVE"
-        case pendingActivation = "PENDING_ACTIVATION"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct StartOnDemandAuditTaskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "targetCheckNames", required: true, type: .list)
-        ]
-        /// Which checks are performed during the audit. The checks you specify must be enabled for your account or an exception occurs. Use DescribeAccountAuditConfiguration to see the list of all checks including those that are enabled or UpdateAccountAuditConfiguration to select which checks are enabled.
-        public let targetCheckNames: [String]
-
-        public init(targetCheckNames: [String]) {
-            self.targetCheckNames = targetCheckNames
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case targetCheckNames = "targetCheckNames"
-        }
-    }
-
-    public struct UpdateSecurityProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "securityProfileName", location: .uri(locationName: "securityProfileName"), required: true, type: .string), 
-            AWSShapeMember(label: "securityProfileDescription", required: false, type: .string), 
-            AWSShapeMember(label: "alertTargets", required: false, type: .map), 
-            AWSShapeMember(label: "behaviors", required: false, type: .list), 
-            AWSShapeMember(label: "expectedVersion", location: .querystring(locationName: "expectedVersion"), required: false, type: .long)
-        ]
-        /// The name of the security profile you want to update.
-        public let securityProfileName: String
-        /// A description of the security profile.
-        public let securityProfileDescription: String?
-        /// Where the alerts are sent. (Alerts are always sent to the console.)
-        public let alertTargets: [AlertTargetType: AlertTarget]?
-        /// Specifies the behaviors that, when violated by a device (thing), cause an alert.
-        public let behaviors: [Behavior]?
-        /// The expected version of the security profile. A new version is generated whenever the security profile is updated. If you specify a value that is different than the actual version, a VersionConflictException is thrown.
-        public let expectedVersion: Int64?
-
-        public init(securityProfileName: String, securityProfileDescription: String? = nil, alertTargets: [AlertTargetType: AlertTarget]? = nil, behaviors: [Behavior]? = nil, expectedVersion: Int64? = nil) {
-            self.securityProfileName = securityProfileName
-            self.securityProfileDescription = securityProfileDescription
-            self.alertTargets = alertTargets
-            self.behaviors = behaviors
-            self.expectedVersion = expectedVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case securityProfileName = "securityProfileName"
-            case securityProfileDescription = "securityProfileDescription"
-            case alertTargets = "alertTargets"
-            case behaviors = "behaviors"
-            case expectedVersion = "expectedVersion"
-        }
-    }
-
-    public struct NonCompliantResource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "additionalInfo", required: false, type: .map), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "resourceIdentifier", required: false, type: .structure)
-        ]
-        /// Additional information about the non-compliant resource.
-        public let additionalInfo: [String: String]?
-        /// The type of the non-compliant resource.
-        public let resourceType: ResourceType?
-        /// Information identifying the non-compliant resource.
-        public let resourceIdentifier: ResourceIdentifier?
-
-        public init(additionalInfo: [String: String]? = nil, resourceType: ResourceType? = nil, resourceIdentifier: ResourceIdentifier? = nil) {
-            self.additionalInfo = additionalInfo
-            self.resourceType = resourceType
-            self.resourceIdentifier = resourceIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case additionalInfo = "additionalInfo"
-            case resourceType = "resourceType"
-            case resourceIdentifier = "resourceIdentifier"
-        }
-    }
-
-    public struct ListJobsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "jobs", required: false, type: .list)
-        ]
-        /// The token for the next set of results, or null if there are no additional results.
+        /// The token to retrieve the next set of results.
         public let nextToken: String?
-        /// A list of jobs.
-        public let jobs: [JobSummary]?
+        /// The unique identifier you assigned to this job when it was created.
+        public let jobId: String
+        /// The status of the job.
+        public let status: JobExecutionStatus?
+        /// The maximum number of results to be returned per request.
+        public let maxResults: Int32?
 
-        public init(nextToken: String? = nil, jobs: [JobSummary]? = nil) {
+        public init(nextToken: String? = nil, jobId: String, status: JobExecutionStatus? = nil, maxResults: Int32? = nil) {
             self.nextToken = nextToken
-            self.jobs = jobs
+            self.jobId = jobId
+            self.status = status
+            self.maxResults = maxResults
         }
 
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
-            case jobs = "jobs"
+            case jobId = "jobId"
+            case status = "status"
+            case maxResults = "maxResults"
+        }
+    }
+
+    public struct UpdateScheduledAuditRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "scheduledAuditName", location: .uri(locationName: "scheduledAuditName"), required: true, type: .string), 
+            AWSShapeMember(label: "frequency", required: false, type: .enum), 
+            AWSShapeMember(label: "dayOfWeek", required: false, type: .enum), 
+            AWSShapeMember(label: "targetCheckNames", required: false, type: .list), 
+            AWSShapeMember(label: "dayOfMonth", required: false, type: .string)
+        ]
+        /// The name of the scheduled audit. (Max. 128 chars)
+        public let scheduledAuditName: String
+        /// How often the scheduled audit takes place. Can be one of "DAILY", "WEEKLY", "BIWEEKLY" or "MONTHLY". The actual start time of each audit is determined by the system.
+        public let frequency: AuditFrequency?
+        /// The day of the week on which the scheduled audit takes place. Can be one of "SUN", "MON", "TUE", "WED", "THU", "FRI" or "SAT". This field is required if the "frequency" parameter is set to "WEEKLY" or "BIWEEKLY".
+        public let dayOfWeek: DayOfWeek?
+        /// Which checks are performed during the scheduled audit. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks including those that are enabled or UpdateAccountAuditConfiguration to select which checks are enabled.)
+        public let targetCheckNames: [String]?
+        /// The day of the month on which the scheduled audit takes place. Can be "1" through "31" or "LAST". This field is required if the "frequency" parameter is set to "MONTHLY". If days 29-31 are specified, and the month does not have that many days, the audit takes place on the "LAST" day of the month.
+        public let dayOfMonth: String?
+
+        public init(scheduledAuditName: String, frequency: AuditFrequency? = nil, dayOfWeek: DayOfWeek? = nil, targetCheckNames: [String]? = nil, dayOfMonth: String? = nil) {
+            self.scheduledAuditName = scheduledAuditName
+            self.frequency = frequency
+            self.dayOfWeek = dayOfWeek
+            self.targetCheckNames = targetCheckNames
+            self.dayOfMonth = dayOfMonth
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scheduledAuditName = "scheduledAuditName"
+            case frequency = "frequency"
+            case dayOfWeek = "dayOfWeek"
+            case targetCheckNames = "targetCheckNames"
+            case dayOfMonth = "dayOfMonth"
         }
     }
 
@@ -9050,630 +5515,294 @@ extension IoT {
         }
     }
 
-    public struct DescribeScheduledAuditRequest: AWSShape {
+    public struct AuthInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "scheduledAuditName", location: .uri(locationName: "scheduledAuditName"), required: true, type: .string)
+            AWSShapeMember(label: "actionType", required: false, type: .enum), 
+            AWSShapeMember(label: "resources", required: false, type: .list)
         ]
-        /// The name of the scheduled audit whose information you want to get.
-        public let scheduledAuditName: String
+        /// The type of action for which the principal is being authorized.
+        public let actionType: ActionType?
+        /// The resources for which the principal is being authorized to perform the specified action.
+        public let resources: [String]?
 
-        public init(scheduledAuditName: String) {
-            self.scheduledAuditName = scheduledAuditName
+        public init(actionType: ActionType? = nil, resources: [String]? = nil) {
+            self.actionType = actionType
+            self.resources = resources
         }
 
         private enum CodingKeys: String, CodingKey {
-            case scheduledAuditName = "scheduledAuditName"
+            case actionType = "actionType"
+            case resources = "resources"
         }
     }
 
-    public struct ThingTypeProperties: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "searchableAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "thingTypeDescription", required: false, type: .string)
-        ]
-        /// A list of searchable thing attribute names.
-        public let searchableAttributes: [String]?
-        /// The description of the thing type.
-        public let thingTypeDescription: String?
+    public struct DeprecateThingTypeResponse: AWSShape {
 
-        public init(searchableAttributes: [String]? = nil, thingTypeDescription: String? = nil) {
-            self.searchableAttributes = searchableAttributes
-            self.thingTypeDescription = thingTypeDescription
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case searchableAttributes = "searchableAttributes"
-            case thingTypeDescription = "thingTypeDescription"
-        }
     }
 
-    public struct DescribeJobExecutionResponse: AWSShape {
+    public struct AttachThingPrincipalRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "execution", required: false, type: .structure)
+            AWSShapeMember(label: "principal", location: .header(locationName: "x-amzn-principal"), required: true, type: .string), 
+            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
         ]
-        /// Information about the job execution.
-        public let execution: JobExecution?
+        /// The principal, such as a certificate or other credential.
+        public let principal: String
+        /// The name of the thing.
+        public let thingName: String
 
-        public init(execution: JobExecution? = nil) {
-            self.execution = execution
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case execution = "execution"
-        }
-    }
-
-    public struct CertificateDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "certificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "certificatePem", required: false, type: .string), 
-            AWSShapeMember(label: "transferData", required: false, type: .structure), 
-            AWSShapeMember(label: "ownedBy", required: false, type: .string), 
-            AWSShapeMember(label: "certificateId", required: false, type: .string), 
-            AWSShapeMember(label: "caCertificateId", required: false, type: .string), 
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "previousOwnedBy", required: false, type: .string), 
-            AWSShapeMember(label: "customerVersion", required: false, type: .integer), 
-            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "validity", required: false, type: .structure), 
-            AWSShapeMember(label: "generationId", required: false, type: .string)
-        ]
-        /// The status of the certificate.
-        public let status: CertificateStatus?
-        /// The ARN of the certificate.
-        public let certificateArn: String?
-        /// The certificate data, in PEM format.
-        public let certificatePem: String?
-        /// The transfer data.
-        public let transferData: TransferData?
-        /// The ID of the AWS account that owns the certificate.
-        public let ownedBy: String?
-        /// The ID of the certificate.
-        public let certificateId: String?
-        /// The certificate ID of the CA certificate used to sign this certificate.
-        public let caCertificateId: String?
-        /// The date and time the certificate was created.
-        public let creationDate: TimeStamp?
-        /// The ID of the AWS account of the previous owner of the certificate.
-        public let previousOwnedBy: String?
-        /// The customer version of the certificate.
-        public let customerVersion: Int32?
-        /// The date and time the certificate was last modified.
-        public let lastModifiedDate: TimeStamp?
-        /// When the certificate is valid.
-        public let validity: CertificateValidity?
-        /// The generation ID of the certificate.
-        public let generationId: String?
-
-        public init(status: CertificateStatus? = nil, certificateArn: String? = nil, certificatePem: String? = nil, transferData: TransferData? = nil, ownedBy: String? = nil, certificateId: String? = nil, caCertificateId: String? = nil, creationDate: TimeStamp? = nil, previousOwnedBy: String? = nil, customerVersion: Int32? = nil, lastModifiedDate: TimeStamp? = nil, validity: CertificateValidity? = nil, generationId: String? = nil) {
-            self.status = status
-            self.certificateArn = certificateArn
-            self.certificatePem = certificatePem
-            self.transferData = transferData
-            self.ownedBy = ownedBy
-            self.certificateId = certificateId
-            self.caCertificateId = caCertificateId
-            self.creationDate = creationDate
-            self.previousOwnedBy = previousOwnedBy
-            self.customerVersion = customerVersion
-            self.lastModifiedDate = lastModifiedDate
-            self.validity = validity
-            self.generationId = generationId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "status"
-            case certificateArn = "certificateArn"
-            case certificatePem = "certificatePem"
-            case transferData = "transferData"
-            case ownedBy = "ownedBy"
-            case certificateId = "certificateId"
-            case caCertificateId = "caCertificateId"
-            case creationDate = "creationDate"
-            case previousOwnedBy = "previousOwnedBy"
-            case customerVersion = "customerVersion"
-            case lastModifiedDate = "lastModifiedDate"
-            case validity = "validity"
-            case generationId = "generationId"
-        }
-    }
-
-    public struct UpdateThingGroupsForThingRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingGroupsToRemove", required: false, type: .list), 
-            AWSShapeMember(label: "thingGroupsToAdd", required: false, type: .list), 
-            AWSShapeMember(label: "overrideDynamicGroups", required: false, type: .boolean), 
-            AWSShapeMember(label: "thingName", required: false, type: .string)
-        ]
-        /// The groups from which the thing will be removed.
-        public let thingGroupsToRemove: [String]?
-        /// The groups to which the thing will be added.
-        public let thingGroupsToAdd: [String]?
-        /// Override dynamic thing groups with static thing groups when 10-group limit is reached. If a thing belongs to 10 thing groups, and one or more of those groups are dynamic thing groups, adding a thing to a static group removes the thing from the last dynamic group.
-        public let overrideDynamicGroups: Bool?
-        /// The thing whose group memberships will be updated.
-        public let thingName: String?
-
-        public init(thingGroupsToRemove: [String]? = nil, thingGroupsToAdd: [String]? = nil, overrideDynamicGroups: Bool? = nil, thingName: String? = nil) {
-            self.thingGroupsToRemove = thingGroupsToRemove
-            self.thingGroupsToAdd = thingGroupsToAdd
-            self.overrideDynamicGroups = overrideDynamicGroups
+        public init(principal: String, thingName: String) {
+            self.principal = principal
             self.thingName = thingName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case thingGroupsToRemove = "thingGroupsToRemove"
-            case thingGroupsToAdd = "thingGroupsToAdd"
-            case overrideDynamicGroups = "overrideDynamicGroups"
+            case principal = "x-amzn-principal"
             case thingName = "thingName"
         }
     }
 
-    public struct Stream: AWSShape {
+    public struct CreateOTAUpdateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "streamId", required: false, type: .string), 
-            AWSShapeMember(label: "fileId", required: false, type: .integer)
+            AWSShapeMember(label: "targetSelection", required: false, type: .enum), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string), 
+            AWSShapeMember(label: "awsJobExecutionsRolloutConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "targets", required: true, type: .list), 
+            AWSShapeMember(label: "otaUpdateId", location: .uri(locationName: "otaUpdateId"), required: true, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "additionalParameters", required: false, type: .map), 
+            AWSShapeMember(label: "files", required: true, type: .list)
         ]
-        /// The stream ID.
-        public let streamId: String?
-        /// The ID of a file associated with a stream.
-        public let fileId: Int32?
+        /// Specifies whether the update will continue to run (CONTINUOUS), or will be complete after all the things specified as targets have completed the update (SNAPSHOT). If continuous, the update may also be run on a thing when a change is detected in a target. For example, an update will run on a thing when the thing is added to a target group, even after the update was completed by all things originally in the group. Valid values: CONTINUOUS | SNAPSHOT.
+        public let targetSelection: TargetSelection?
+        /// The IAM role that allows access to the AWS IoT Jobs service.
+        public let roleArn: String
+        /// Configuration for the rollout of OTA updates.
+        public let awsJobExecutionsRolloutConfig: AwsJobExecutionsRolloutConfig?
+        /// The targeted devices to receive OTA updates.
+        public let targets: [String]
+        /// The ID of the OTA update to be created.
+        public let otaUpdateId: String
+        /// The description of the OTA update.
+        public let description: String?
+        /// A list of additional OTA update parameters which are name-value pairs.
+        public let additionalParameters: [String: String]?
+        /// The files to be streamed by the OTA update.
+        public let files: [OTAUpdateFile]
 
-        public init(streamId: String? = nil, fileId: Int32? = nil) {
-            self.streamId = streamId
-            self.fileId = fileId
+        public init(targetSelection: TargetSelection? = nil, roleArn: String, awsJobExecutionsRolloutConfig: AwsJobExecutionsRolloutConfig? = nil, targets: [String], otaUpdateId: String, description: String? = nil, additionalParameters: [String: String]? = nil, files: [OTAUpdateFile]) {
+            self.targetSelection = targetSelection
+            self.roleArn = roleArn
+            self.awsJobExecutionsRolloutConfig = awsJobExecutionsRolloutConfig
+            self.targets = targets
+            self.otaUpdateId = otaUpdateId
+            self.description = description
+            self.additionalParameters = additionalParameters
+            self.files = files
         }
 
         private enum CodingKeys: String, CodingKey {
-            case streamId = "streamId"
-            case fileId = "fileId"
+            case targetSelection = "targetSelection"
+            case roleArn = "roleArn"
+            case awsJobExecutionsRolloutConfig = "awsJobExecutionsRolloutConfig"
+            case targets = "targets"
+            case otaUpdateId = "otaUpdateId"
+            case description = "description"
+            case additionalParameters = "additionalParameters"
+            case files = "files"
         }
     }
 
-    public struct CreatePolicyRequest: AWSShape {
+    public struct DescribeBillingGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string), 
-            AWSShapeMember(label: "policyDocument", required: true, type: .string)
+            AWSShapeMember(label: "billingGroupName", location: .uri(locationName: "billingGroupName"), required: true, type: .string)
         ]
-        /// The policy name.
-        public let policyName: String
-        /// The JSON document that describes the policy. policyDocument must have a minimum length of 1, with a maximum length of 2048, excluding whitespace.
-        public let policyDocument: String
+        /// The name of the billing group.
+        public let billingGroupName: String
 
-        public init(policyName: String, policyDocument: String) {
-            self.policyName = policyName
-            self.policyDocument = policyDocument
+        public init(billingGroupName: String) {
+            self.billingGroupName = billingGroupName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policyName = "policyName"
-            case policyDocument = "policyDocument"
+            case billingGroupName = "billingGroupName"
         }
     }
 
-    public struct ListBillingGroupsResponse: AWSShape {
+    public struct JobExecutionSummaryForThing: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "billingGroups", required: false, type: .list)
-        ]
-        /// The token used to get the next set of results, or null if there are no additional results.
-        public let nextToken: String?
-        /// The list of billing groups.
-        public let billingGroups: [GroupNameAndArn]?
-
-        public init(nextToken: String? = nil, billingGroups: [GroupNameAndArn]? = nil) {
-            self.nextToken = nextToken
-            self.billingGroups = billingGroups
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case billingGroups = "billingGroups"
-        }
-    }
-
-    public struct KeyPair: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PublicKey", required: false, type: .string), 
-            AWSShapeMember(label: "PrivateKey", required: false, type: .string)
-        ]
-        /// The public key.
-        public let publicKey: String?
-        /// The private key.
-        public let privateKey: String?
-
-        public init(publicKey: String? = nil, privateKey: String? = nil) {
-            self.publicKey = publicKey
-            self.privateKey = privateKey
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case publicKey = "PublicKey"
-            case privateKey = "PrivateKey"
-        }
-    }
-
-    public struct DeleteSecurityProfileResponse: AWSShape {
-
-    }
-
-    public struct DescribeJobRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string)
+            AWSShapeMember(label: "jobId", required: false, type: .string), 
+            AWSShapeMember(label: "jobExecutionSummary", required: false, type: .structure)
         ]
         /// The unique identifier you assigned to this job when it was created.
-        public let jobId: String
+        public let jobId: String?
+        /// Contains a subset of information about a job execution.
+        public let jobExecutionSummary: JobExecutionSummary?
 
-        public init(jobId: String) {
+        public init(jobId: String? = nil, jobExecutionSummary: JobExecutionSummary? = nil) {
             self.jobId = jobId
+            self.jobExecutionSummary = jobExecutionSummary
         }
 
         private enum CodingKeys: String, CodingKey {
             case jobId = "jobId"
+            case jobExecutionSummary = "jobExecutionSummary"
         }
     }
 
-    public struct CreatePolicyResponse: AWSShape {
+    public enum ActionType: String, CustomStringConvertible, Codable {
+        case publish = "PUBLISH"
+        case subscribe = "SUBSCRIBE"
+        case receive = "RECEIVE"
+        case connect = "CONNECT"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UpdateSecurityProfileResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "securityProfileName", required: false, type: .string), 
+            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "behaviors", required: false, type: .list), 
+            AWSShapeMember(label: "securityProfileDescription", required: false, type: .string), 
+            AWSShapeMember(label: "securityProfileArn", required: false, type: .string), 
+            AWSShapeMember(label: "version", required: false, type: .long), 
+            AWSShapeMember(label: "alertTargets", required: false, type: .map)
+        ]
+        /// The time the security profile was created.
+        public let creationDate: TimeStamp?
+        /// The name of the security profile that was updated.
+        public let securityProfileName: String?
+        /// The time the security profile was last modified.
+        public let lastModifiedDate: TimeStamp?
+        /// Specifies the behaviors that, when violated by a device (thing), cause an alert.
+        public let behaviors: [Behavior]?
+        /// The description of the security profile.
+        public let securityProfileDescription: String?
+        /// The ARN of the security profile that was updated.
+        public let securityProfileArn: String?
+        /// The updated version of the security profile.
+        public let version: Int64?
+        /// Where the alerts are sent. (Alerts are always sent to the console.)
+        public let alertTargets: [AlertTargetType: AlertTarget]?
+
+        public init(creationDate: TimeStamp? = nil, securityProfileName: String? = nil, lastModifiedDate: TimeStamp? = nil, behaviors: [Behavior]? = nil, securityProfileDescription: String? = nil, securityProfileArn: String? = nil, version: Int64? = nil, alertTargets: [AlertTargetType: AlertTarget]? = nil) {
+            self.creationDate = creationDate
+            self.securityProfileName = securityProfileName
+            self.lastModifiedDate = lastModifiedDate
+            self.behaviors = behaviors
+            self.securityProfileDescription = securityProfileDescription
+            self.securityProfileArn = securityProfileArn
+            self.version = version
+            self.alertTargets = alertTargets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDate = "creationDate"
+            case securityProfileName = "securityProfileName"
+            case lastModifiedDate = "lastModifiedDate"
+            case behaviors = "behaviors"
+            case securityProfileDescription = "securityProfileDescription"
+            case securityProfileArn = "securityProfileArn"
+            case version = "version"
+            case alertTargets = "alertTargets"
+        }
+    }
+
+    public struct IotEventsAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "messageId", required: false, type: .string), 
+            AWSShapeMember(label: "inputName", required: true, type: .string), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string)
+        ]
+        /// [Optional] Use this to ensure that only one input (message) with a given messageId will be processed by an AWS IoT Events detector.
+        public let messageId: String?
+        /// The name of the AWS IoT Events input.
+        public let inputName: String
+        /// The ARN of the role that grants AWS IoT permission to send an input to an AWS IoT Events detector. ("Action":"iotevents:BatchPutMessage").
+        public let roleArn: String
+
+        public init(messageId: String? = nil, inputName: String, roleArn: String) {
+            self.messageId = messageId
+            self.inputName = inputName
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case messageId = "messageId"
+            case inputName = "inputName"
+            case roleArn = "roleArn"
+        }
+    }
+
+    public struct GetLoggingOptionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "roleArn", required: false, type: .string), 
+            AWSShapeMember(label: "logLevel", required: false, type: .enum)
+        ]
+        /// The ARN of the IAM role that grants access.
+        public let roleArn: String?
+        /// The logging level.
+        public let logLevel: LogLevel?
+
+        public init(roleArn: String? = nil, logLevel: LogLevel? = nil) {
+            self.roleArn = roleArn
+            self.logLevel = logLevel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "roleArn"
+            case logLevel = "logLevel"
+        }
+    }
+
+    public struct DetachSecurityProfileResponse: AWSShape {
+
+    }
+
+    public struct ListStreamsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean)
+        ]
+        /// The maximum number of results to return at a time.
+        public let maxResults: Int32?
+        /// A token used to get the next set of results.
+        public let nextToken: String?
+        /// Set to true to return the list of streams in ascending order.
+        public let ascendingOrder: Bool?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, ascendingOrder: Bool? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.ascendingOrder = ascendingOrder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case ascendingOrder = "isAscendingOrder"
+        }
+    }
+
+    public struct Policy: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "policyName", required: false, type: .string), 
-            AWSShapeMember(label: "policyDocument", required: false, type: .string), 
-            AWSShapeMember(label: "policyArn", required: false, type: .string), 
-            AWSShapeMember(label: "policyVersionId", required: false, type: .string)
+            AWSShapeMember(label: "policyArn", required: false, type: .string)
         ]
         /// The policy name.
         public let policyName: String?
-        /// The JSON document that describes the policy.
-        public let policyDocument: String?
         /// The policy ARN.
         public let policyArn: String?
-        /// The policy version ID.
-        public let policyVersionId: String?
 
-        public init(policyName: String? = nil, policyDocument: String? = nil, policyArn: String? = nil, policyVersionId: String? = nil) {
+        public init(policyName: String? = nil, policyArn: String? = nil) {
             self.policyName = policyName
-            self.policyDocument = policyDocument
             self.policyArn = policyArn
-            self.policyVersionId = policyVersionId
         }
 
         private enum CodingKeys: String, CodingKey {
             case policyName = "policyName"
-            case policyDocument = "policyDocument"
             case policyArn = "policyArn"
-            case policyVersionId = "policyVersionId"
-        }
-    }
-
-    public struct ListTargetsForPolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "targets", required: false, type: .list), 
-            AWSShapeMember(label: "nextMarker", required: false, type: .string)
-        ]
-        /// The policy targets.
-        public let targets: [String]?
-        /// A marker used to get the next set of results.
-        public let nextMarker: String?
-
-        public init(targets: [String]? = nil, nextMarker: String? = nil) {
-            self.targets = targets
-            self.nextMarker = nextMarker
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case targets = "targets"
-            case nextMarker = "nextMarker"
-        }
-    }
-
-    public struct ListAuditTasksResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tasks", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// The audits that were performed during the specified time period.
-        public let tasks: [AuditTaskMetadata]?
-        /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
-        public let nextToken: String?
-
-        public init(tasks: [AuditTaskMetadata]? = nil, nextToken: String? = nil) {
-            self.tasks = tasks
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tasks = "tasks"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct ListOTAUpdatesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "otaUpdates", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// A list of OTA update jobs.
-        public let otaUpdates: [OTAUpdateSummary]?
-        /// A token to use to get the next set of results.
-        public let nextToken: String?
-
-        public init(otaUpdates: [OTAUpdateSummary]? = nil, nextToken: String? = nil) {
-            self.otaUpdates = otaUpdates
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case otaUpdates = "otaUpdates"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct SetLoggingOptionsRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "loggingOptionsPayload"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "loggingOptionsPayload", required: true, type: .structure)
-        ]
-        /// The logging options payload.
-        public let loggingOptionsPayload: LoggingOptionsPayload
-
-        public init(loggingOptionsPayload: LoggingOptionsPayload) {
-            self.loggingOptionsPayload = loggingOptionsPayload
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case loggingOptionsPayload = "loggingOptionsPayload"
-        }
-    }
-
-    public struct ListThingGroupsForThingResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "thingGroups", required: false, type: .list)
-        ]
-        /// The token used to get the next set of results, or null if there are no additional results.
-        public let nextToken: String?
-        /// The thing groups.
-        public let thingGroups: [GroupNameAndArn]?
-
-        public init(nextToken: String? = nil, thingGroups: [GroupNameAndArn]? = nil) {
-            self.nextToken = nextToken
-            self.thingGroups = thingGroups
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case thingGroups = "thingGroups"
-        }
-    }
-
-    public struct OTAUpdateSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "otaUpdateArn", required: false, type: .string), 
-            AWSShapeMember(label: "otaUpdateId", required: false, type: .string), 
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp)
-        ]
-        /// The OTA update ARN.
-        public let otaUpdateArn: String?
-        /// The OTA update ID.
-        public let otaUpdateId: String?
-        /// The date when the OTA update was created.
-        public let creationDate: TimeStamp?
-
-        public init(otaUpdateArn: String? = nil, otaUpdateId: String? = nil, creationDate: TimeStamp? = nil) {
-            self.otaUpdateArn = otaUpdateArn
-            self.otaUpdateId = otaUpdateId
-            self.creationDate = creationDate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case otaUpdateArn = "otaUpdateArn"
-            case otaUpdateId = "otaUpdateId"
-            case creationDate = "creationDate"
-        }
-    }
-
-    public struct CodeSigningCertificateChain: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateName", required: false, type: .string), 
-            AWSShapeMember(label: "inlineDocument", required: false, type: .string)
-        ]
-        /// The name of the certificate.
-        public let certificateName: String?
-        /// A base64 encoded binary representation of the code signing certificate chain.
-        public let inlineDocument: String?
-
-        public init(certificateName: String? = nil, inlineDocument: String? = nil) {
-            self.certificateName = certificateName
-            self.inlineDocument = inlineDocument
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificateName = "certificateName"
-            case inlineDocument = "inlineDocument"
-        }
-    }
-
-    public struct TestAuthorizationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyNamesToAdd", required: false, type: .list), 
-            AWSShapeMember(label: "authInfos", required: true, type: .list), 
-            AWSShapeMember(label: "principal", required: false, type: .string), 
-            AWSShapeMember(label: "cognitoIdentityPoolId", required: false, type: .string), 
-            AWSShapeMember(label: "policyNamesToSkip", required: false, type: .list), 
-            AWSShapeMember(label: "clientId", location: .querystring(locationName: "clientId"), required: false, type: .string)
-        ]
-        /// When testing custom authorization, the policies specified here are treated as if they are attached to the principal being authorized.
-        public let policyNamesToAdd: [String]?
-        /// A list of authorization info objects. Simulating authorization will create a response for each authInfo object in the list.
-        public let authInfos: [AuthInfo]
-        /// The principal.
-        public let principal: String?
-        /// The Cognito identity pool ID.
-        public let cognitoIdentityPoolId: String?
-        /// When testing custom authorization, the policies specified here are treated as if they are not attached to the principal being authorized.
-        public let policyNamesToSkip: [String]?
-        /// The MQTT client ID.
-        public let clientId: String?
-
-        public init(policyNamesToAdd: [String]? = nil, authInfos: [AuthInfo], principal: String? = nil, cognitoIdentityPoolId: String? = nil, policyNamesToSkip: [String]? = nil, clientId: String? = nil) {
-            self.policyNamesToAdd = policyNamesToAdd
-            self.authInfos = authInfos
-            self.principal = principal
-            self.cognitoIdentityPoolId = cognitoIdentityPoolId
-            self.policyNamesToSkip = policyNamesToSkip
-            self.clientId = clientId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyNamesToAdd = "policyNamesToAdd"
-            case authInfos = "authInfos"
-            case principal = "principal"
-            case cognitoIdentityPoolId = "cognitoIdentityPoolId"
-            case policyNamesToSkip = "policyNamesToSkip"
-            case clientId = "clientId"
-        }
-    }
-
-    public struct GetTopicRuleResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ruleArn", required: false, type: .string), 
-            AWSShapeMember(label: "rule", required: false, type: .structure)
-        ]
-        /// The rule ARN.
-        public let ruleArn: String?
-        /// The rule.
-        public let rule: TopicRule?
-
-        public init(ruleArn: String? = nil, rule: TopicRule? = nil) {
-            self.ruleArn = ruleArn
-            self.rule = rule
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ruleArn = "ruleArn"
-            case rule = "rule"
-        }
-    }
-
-    public struct DescribeScheduledAuditResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "frequency", required: false, type: .enum), 
-            AWSShapeMember(label: "dayOfMonth", required: false, type: .string), 
-            AWSShapeMember(label: "scheduledAuditArn", required: false, type: .string), 
-            AWSShapeMember(label: "dayOfWeek", required: false, type: .enum), 
-            AWSShapeMember(label: "targetCheckNames", required: false, type: .list), 
-            AWSShapeMember(label: "scheduledAuditName", required: false, type: .string)
-        ]
-        /// How often the scheduled audit takes place. One of "DAILY", "WEEKLY", "BIWEEKLY" or "MONTHLY". The actual start time of each audit is determined by the system.
-        public let frequency: AuditFrequency?
-        /// The day of the month on which the scheduled audit takes place. Will be "1" through "31" or "LAST". If days 29-31 are specified, and the month does not have that many days, the audit takes place on the "LAST" day of the month.
-        public let dayOfMonth: String?
-        /// The ARN of the scheduled audit.
-        public let scheduledAuditArn: String?
-        /// The day of the week on which the scheduled audit takes place. One of "SUN", "MON", "TUE", "WED", "THU", "FRI" or "SAT".
-        public let dayOfWeek: DayOfWeek?
-        /// Which checks are performed during the scheduled audit. (Note that checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks including those that are enabled or UpdateAccountAuditConfiguration to select which checks are enabled.)
-        public let targetCheckNames: [String]?
-        /// The name of the scheduled audit.
-        public let scheduledAuditName: String?
-
-        public init(frequency: AuditFrequency? = nil, dayOfMonth: String? = nil, scheduledAuditArn: String? = nil, dayOfWeek: DayOfWeek? = nil, targetCheckNames: [String]? = nil, scheduledAuditName: String? = nil) {
-            self.frequency = frequency
-            self.dayOfMonth = dayOfMonth
-            self.scheduledAuditArn = scheduledAuditArn
-            self.dayOfWeek = dayOfWeek
-            self.targetCheckNames = targetCheckNames
-            self.scheduledAuditName = scheduledAuditName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case frequency = "frequency"
-            case dayOfMonth = "dayOfMonth"
-            case scheduledAuditArn = "scheduledAuditArn"
-            case dayOfWeek = "dayOfWeek"
-            case targetCheckNames = "targetCheckNames"
-            case scheduledAuditName = "scheduledAuditName"
-        }
-    }
-
-    public struct ListTargetsForSecurityProfileResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "securityProfileTargets", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// The thing groups to which the security profile is attached.
-        public let securityProfileTargets: [SecurityProfileTarget]?
-        /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
-        public let nextToken: String?
-
-        public init(securityProfileTargets: [SecurityProfileTarget]? = nil, nextToken: String? = nil) {
-            self.securityProfileTargets = securityProfileTargets
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case securityProfileTargets = "securityProfileTargets"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public enum AuditFrequency: String, CustomStringConvertible, Codable {
-        case daily = "DAILY"
-        case weekly = "WEEKLY"
-        case biweekly = "BIWEEKLY"
-        case monthly = "MONTHLY"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct StreamInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "files", required: false, type: .list), 
-            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "streamId", required: false, type: .string), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string), 
-            AWSShapeMember(label: "streamArn", required: false, type: .string), 
-            AWSShapeMember(label: "streamVersion", required: false, type: .integer), 
-            AWSShapeMember(label: "description", required: false, type: .string)
-        ]
-        /// The files to stream.
-        public let files: [StreamFile]?
-        /// The date when the stream was created.
-        public let createdAt: TimeStamp?
-        /// The date when the stream was last updated.
-        public let lastUpdatedAt: TimeStamp?
-        /// The stream ID.
-        public let streamId: String?
-        /// An IAM role AWS IoT assumes to access your S3 files.
-        public let roleArn: String?
-        /// The stream ARN.
-        public let streamArn: String?
-        /// The stream version.
-        public let streamVersion: Int32?
-        /// The description of the stream.
-        public let description: String?
-
-        public init(files: [StreamFile]? = nil, createdAt: TimeStamp? = nil, lastUpdatedAt: TimeStamp? = nil, streamId: String? = nil, roleArn: String? = nil, streamArn: String? = nil, streamVersion: Int32? = nil, description: String? = nil) {
-            self.files = files
-            self.createdAt = createdAt
-            self.lastUpdatedAt = lastUpdatedAt
-            self.streamId = streamId
-            self.roleArn = roleArn
-            self.streamArn = streamArn
-            self.streamVersion = streamVersion
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case files = "files"
-            case createdAt = "createdAt"
-            case lastUpdatedAt = "lastUpdatedAt"
-            case streamId = "streamId"
-            case roleArn = "roleArn"
-            case streamArn = "streamArn"
-            case streamVersion = "streamVersion"
-            case description = "description"
         }
     }
 
@@ -9681,329 +5810,39 @@ extension IoT {
 
     }
 
-    public struct RemoveThingFromThingGroupResponse: AWSShape {
-
-    }
-
-    public struct DescribeSecurityProfileRequest: AWSShape {
+    public struct CreateSecurityProfileRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "securityProfileDescription", required: false, type: .string), 
+            AWSShapeMember(label: "alertTargets", required: false, type: .map), 
+            AWSShapeMember(label: "behaviors", required: true, type: .list), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
             AWSShapeMember(label: "securityProfileName", location: .uri(locationName: "securityProfileName"), required: true, type: .string)
         ]
-        /// The name of the security profile whose information you want to get.
+        /// A description of the security profile.
+        public let securityProfileDescription: String?
+        /// Specifies the destinations to which alerts are sent. (Alerts are always sent to the console.) Alerts are generated when a device (thing) violates a behavior.
+        public let alertTargets: [AlertTargetType: AlertTarget]?
+        /// Specifies the behaviors that, when violated by a device (thing), cause an alert.
+        public let behaviors: [Behavior]
+        /// Metadata which can be used to manage the security profile.
+        public let tags: [Tag]?
+        /// The name you are giving to the security profile.
         public let securityProfileName: String
 
-        public init(securityProfileName: String) {
+        public init(securityProfileDescription: String? = nil, alertTargets: [AlertTargetType: AlertTarget]? = nil, behaviors: [Behavior], tags: [Tag]? = nil, securityProfileName: String) {
+            self.securityProfileDescription = securityProfileDescription
+            self.alertTargets = alertTargets
+            self.behaviors = behaviors
+            self.tags = tags
             self.securityProfileName = securityProfileName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case securityProfileDescription = "securityProfileDescription"
+            case alertTargets = "alertTargets"
+            case behaviors = "behaviors"
+            case tags = "tags"
             case securityProfileName = "securityProfileName"
-        }
-    }
-
-    public enum ThingGroupIndexingMode: String, CustomStringConvertible, Codable {
-        case off = "OFF"
-        case on = "ON"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeThingGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "version", required: false, type: .long), 
-            AWSShapeMember(label: "thingGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "queryString", required: false, type: .string), 
-            AWSShapeMember(label: "indexName", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "queryVersion", required: false, type: .string), 
-            AWSShapeMember(label: "thingGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "thingGroupProperties", required: false, type: .structure), 
-            AWSShapeMember(label: "thingGroupMetadata", required: false, type: .structure)
-        ]
-        /// The name of the thing group.
-        public let thingGroupName: String?
-        /// The version of the thing group.
-        public let version: Int64?
-        /// The thing group ID.
-        public let thingGroupId: String?
-        /// The dynamic thing group search query string.
-        public let queryString: String?
-        /// The dynamic thing group index name.
-        public let indexName: String?
-        /// The dynamic thing group status.
-        public let status: DynamicGroupStatus?
-        /// The dynamic thing group query version.
-        public let queryVersion: String?
-        /// The thing group ARN.
-        public let thingGroupArn: String?
-        /// The thing group properties.
-        public let thingGroupProperties: ThingGroupProperties?
-        /// Thing group metadata.
-        public let thingGroupMetadata: ThingGroupMetadata?
-
-        public init(thingGroupName: String? = nil, version: Int64? = nil, thingGroupId: String? = nil, queryString: String? = nil, indexName: String? = nil, status: DynamicGroupStatus? = nil, queryVersion: String? = nil, thingGroupArn: String? = nil, thingGroupProperties: ThingGroupProperties? = nil, thingGroupMetadata: ThingGroupMetadata? = nil) {
-            self.thingGroupName = thingGroupName
-            self.version = version
-            self.thingGroupId = thingGroupId
-            self.queryString = queryString
-            self.indexName = indexName
-            self.status = status
-            self.queryVersion = queryVersion
-            self.thingGroupArn = thingGroupArn
-            self.thingGroupProperties = thingGroupProperties
-            self.thingGroupMetadata = thingGroupMetadata
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case thingGroupName = "thingGroupName"
-            case version = "version"
-            case thingGroupId = "thingGroupId"
-            case queryString = "queryString"
-            case indexName = "indexName"
-            case status = "status"
-            case queryVersion = "queryVersion"
-            case thingGroupArn = "thingGroupArn"
-            case thingGroupProperties = "thingGroupProperties"
-            case thingGroupMetadata = "thingGroupMetadata"
-        }
-    }
-
-    public struct DescribeDefaultAuthorizerResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authorizerDescription", required: false, type: .structure)
-        ]
-        /// The default authorizer's description.
-        public let authorizerDescription: AuthorizerDescription?
-
-        public init(authorizerDescription: AuthorizerDescription? = nil) {
-            self.authorizerDescription = authorizerDescription
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case authorizerDescription = "authorizerDescription"
-        }
-    }
-
-    public struct UpdateCertificateRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "newStatus", location: .querystring(locationName: "newStatus"), required: true, type: .enum), 
-            AWSShapeMember(label: "certificateId", location: .uri(locationName: "certificateId"), required: true, type: .string)
-        ]
-        /// The new status.  Note: Setting the status to PENDING_TRANSFER will result in an exception being thrown. PENDING_TRANSFER is a status used internally by AWS IoT. It is not intended for developer use.  Note: The status value REGISTER_INACTIVE is deprecated and should not be used.
-        public let newStatus: CertificateStatus
-        /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
-        public let certificateId: String
-
-        public init(newStatus: CertificateStatus, certificateId: String) {
-            self.newStatus = newStatus
-            self.certificateId = certificateId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case newStatus = "newStatus"
-            case certificateId = "certificateId"
-        }
-    }
-
-    public struct DescribeThingTypeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingTypeProperties", required: false, type: .structure), 
-            AWSShapeMember(label: "thingTypeId", required: false, type: .string), 
-            AWSShapeMember(label: "thingTypeName", required: false, type: .string), 
-            AWSShapeMember(label: "thingTypeArn", required: false, type: .string), 
-            AWSShapeMember(label: "thingTypeMetadata", required: false, type: .structure)
-        ]
-        /// The ThingTypeProperties contains information about the thing type including description, and a list of searchable thing attribute names.
-        public let thingTypeProperties: ThingTypeProperties?
-        /// The thing type ID.
-        public let thingTypeId: String?
-        /// The name of the thing type.
-        public let thingTypeName: String?
-        /// The thing type ARN.
-        public let thingTypeArn: String?
-        /// The ThingTypeMetadata contains additional information about the thing type including: creation date and time, a value indicating whether the thing type is deprecated, and a date and time when it was deprecated.
-        public let thingTypeMetadata: ThingTypeMetadata?
-
-        public init(thingTypeProperties: ThingTypeProperties? = nil, thingTypeId: String? = nil, thingTypeName: String? = nil, thingTypeArn: String? = nil, thingTypeMetadata: ThingTypeMetadata? = nil) {
-            self.thingTypeProperties = thingTypeProperties
-            self.thingTypeId = thingTypeId
-            self.thingTypeName = thingTypeName
-            self.thingTypeArn = thingTypeArn
-            self.thingTypeMetadata = thingTypeMetadata
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case thingTypeProperties = "thingTypeProperties"
-            case thingTypeId = "thingTypeId"
-            case thingTypeName = "thingTypeName"
-            case thingTypeArn = "thingTypeArn"
-            case thingTypeMetadata = "thingTypeMetadata"
-        }
-    }
-
-    public struct ListScheduledAuditsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
-        ]
-        /// The token for the next set of results.
-        public let nextToken: String?
-        /// The maximum number of results to return at one time. The default is 25.
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case maxResults = "maxResults"
-        }
-    }
-
-    public struct DescribeThingTypeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingTypeName", location: .uri(locationName: "thingTypeName"), required: true, type: .string)
-        ]
-        /// The name of the thing type.
-        public let thingTypeName: String
-
-        public init(thingTypeName: String) {
-            self.thingTypeName = thingTypeName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case thingTypeName = "thingTypeName"
-        }
-    }
-
-    public struct KinesisAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "partitionKey", required: false, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string), 
-            AWSShapeMember(label: "streamName", required: true, type: .string)
-        ]
-        /// The partition key.
-        public let partitionKey: String?
-        /// The ARN of the IAM role that grants access to the Amazon Kinesis stream.
-        public let roleArn: String
-        /// The name of the Amazon Kinesis stream.
-        public let streamName: String
-
-        public init(partitionKey: String? = nil, roleArn: String, streamName: String) {
-            self.partitionKey = partitionKey
-            self.roleArn = roleArn
-            self.streamName = streamName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case partitionKey = "partitionKey"
-            case roleArn = "roleArn"
-            case streamName = "streamName"
-        }
-    }
-
-    public struct ThingTypeMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deprecated", required: false, type: .boolean), 
-            AWSShapeMember(label: "deprecationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp)
-        ]
-        /// Whether the thing type is deprecated. If true, no new things could be associated with this type.
-        public let deprecated: Bool?
-        /// The date and time when the thing type was deprecated.
-        public let deprecationDate: TimeStamp?
-        /// The date and time when the thing type was created.
-        public let creationDate: TimeStamp?
-
-        public init(deprecated: Bool? = nil, deprecationDate: TimeStamp? = nil, creationDate: TimeStamp? = nil) {
-            self.deprecated = deprecated
-            self.deprecationDate = deprecationDate
-            self.creationDate = creationDate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deprecated = "deprecated"
-            case deprecationDate = "deprecationDate"
-            case creationDate = "creationDate"
-        }
-    }
-
-    public struct DeleteRoleAliasResponse: AWSShape {
-
-    }
-
-    public struct OTAUpdateFile: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "fileLocation", required: false, type: .structure), 
-            AWSShapeMember(label: "fileName", required: false, type: .string), 
-            AWSShapeMember(label: "attributes", required: false, type: .map), 
-            AWSShapeMember(label: "fileVersion", required: false, type: .string), 
-            AWSShapeMember(label: "codeSigning", required: false, type: .structure)
-        ]
-        /// The location of the updated firmware.
-        public let fileLocation: FileLocation?
-        /// The name of the file.
-        public let fileName: String?
-        /// A list of name/attribute pairs.
-        public let attributes: [String: String]?
-        /// The file version.
-        public let fileVersion: String?
-        /// The code signing method of the file.
-        public let codeSigning: CodeSigning?
-
-        public init(fileLocation: FileLocation? = nil, fileName: String? = nil, attributes: [String: String]? = nil, fileVersion: String? = nil, codeSigning: CodeSigning? = nil) {
-            self.fileLocation = fileLocation
-            self.fileName = fileName
-            self.attributes = attributes
-            self.fileVersion = fileVersion
-            self.codeSigning = codeSigning
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fileLocation = "fileLocation"
-            case fileName = "fileName"
-            case attributes = "attributes"
-            case fileVersion = "fileVersion"
-            case codeSigning = "codeSigning"
-        }
-    }
-
-    public struct TestAuthorizationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "authResults", required: false, type: .list)
-        ]
-        /// The authentication results.
-        public let authResults: [AuthResult]?
-
-        public init(authResults: [AuthResult]? = nil) {
-            self.authResults = authResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case authResults = "authResults"
-        }
-    }
-
-    public struct ListAttachedPoliciesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextMarker", required: false, type: .string), 
-            AWSShapeMember(label: "policies", required: false, type: .list)
-        ]
-        /// The token to retrieve the next set of results, or ``null`` if there are no more results.
-        public let nextMarker: String?
-        /// The policies.
-        public let policies: [Policy]?
-
-        public init(nextMarker: String? = nil, policies: [Policy]? = nil) {
-            self.nextMarker = nextMarker
-            self.policies = policies
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextMarker = "nextMarker"
-            case policies = "policies"
         }
     }
 
@@ -10033,65 +5872,2946 @@ extension IoT {
         }
     }
 
-    public struct OutgoingCertificate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "transferDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "transferredTo", required: false, type: .string), 
-            AWSShapeMember(label: "certificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "certificateId", required: false, type: .string), 
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "transferMessage", required: false, type: .string)
-        ]
-        /// The date the transfer was initiated.
-        public let transferDate: TimeStamp?
-        /// The AWS account to which the transfer was made.
-        public let transferredTo: String?
-        /// The certificate ARN.
-        public let certificateArn: String?
-        /// The certificate ID.
-        public let certificateId: String?
-        /// The certificate creation date.
-        public let creationDate: TimeStamp?
-        /// The transfer message.
-        public let transferMessage: String?
+    public enum ThingGroupIndexingMode: String, CustomStringConvertible, Codable {
+        case off = "OFF"
+        case on = "ON"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(transferDate: TimeStamp? = nil, transferredTo: String? = nil, certificateArn: String? = nil, certificateId: String? = nil, creationDate: TimeStamp? = nil, transferMessage: String? = nil) {
-            self.transferDate = transferDate
-            self.transferredTo = transferredTo
-            self.certificateArn = certificateArn
-            self.certificateId = certificateId
+    public struct ClearDefaultAuthorizerResponse: AWSShape {
+
+    }
+
+    public struct GetPolicyVersionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "generationId", required: false, type: .string), 
+            AWSShapeMember(label: "policyName", required: false, type: .string), 
+            AWSShapeMember(label: "policyVersionId", required: false, type: .string), 
+            AWSShapeMember(label: "policyDocument", required: false, type: .string), 
+            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "policyArn", required: false, type: .string), 
+            AWSShapeMember(label: "isDefaultVersion", required: false, type: .boolean)
+        ]
+        /// The date the policy version was created.
+        public let creationDate: TimeStamp?
+        /// The generation ID of the policy version.
+        public let generationId: String?
+        /// The policy name.
+        public let policyName: String?
+        /// The policy version ID.
+        public let policyVersionId: String?
+        /// The JSON document that describes the policy.
+        public let policyDocument: String?
+        /// The date the policy version was last modified.
+        public let lastModifiedDate: TimeStamp?
+        /// The policy ARN.
+        public let policyArn: String?
+        /// Specifies whether the policy version is the default.
+        public let isDefaultVersion: Bool?
+
+        public init(creationDate: TimeStamp? = nil, generationId: String? = nil, policyName: String? = nil, policyVersionId: String? = nil, policyDocument: String? = nil, lastModifiedDate: TimeStamp? = nil, policyArn: String? = nil, isDefaultVersion: Bool? = nil) {
             self.creationDate = creationDate
-            self.transferMessage = transferMessage
+            self.generationId = generationId
+            self.policyName = policyName
+            self.policyVersionId = policyVersionId
+            self.policyDocument = policyDocument
+            self.lastModifiedDate = lastModifiedDate
+            self.policyArn = policyArn
+            self.isDefaultVersion = isDefaultVersion
         }
 
         private enum CodingKeys: String, CodingKey {
-            case transferDate = "transferDate"
-            case transferredTo = "transferredTo"
-            case certificateArn = "certificateArn"
-            case certificateId = "certificateId"
             case creationDate = "creationDate"
-            case transferMessage = "transferMessage"
+            case generationId = "generationId"
+            case policyName = "policyName"
+            case policyVersionId = "policyVersionId"
+            case policyDocument = "policyDocument"
+            case lastModifiedDate = "lastModifiedDate"
+            case policyArn = "policyArn"
+            case isDefaultVersion = "isDefaultVersion"
         }
     }
 
-    public struct ListOutgoingCertificatesResponse: AWSShape {
+    public struct ListThingsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "thingTypeName", location: .querystring(locationName: "thingTypeName"), required: false, type: .string), 
+            AWSShapeMember(label: "attributeValue", location: .querystring(locationName: "attributeValue"), required: false, type: .string), 
+            AWSShapeMember(label: "attributeName", location: .querystring(locationName: "attributeName"), required: false, type: .string)
+        ]
+        /// The token to retrieve the next set of results.
+        public let nextToken: String?
+        /// The maximum number of results to return in this operation.
+        public let maxResults: Int32?
+        /// The name of the thing type used to search for things.
+        public let thingTypeName: String?
+        /// The attribute value used to search for things.
+        public let attributeValue: String?
+        /// The attribute name used to search for things.
+        public let attributeName: String?
+
+        public init(nextToken: String? = nil, maxResults: Int32? = nil, thingTypeName: String? = nil, attributeValue: String? = nil, attributeName: String? = nil) {
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+            self.thingTypeName = thingTypeName
+            self.attributeValue = attributeValue
+            self.attributeName = attributeName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+            case thingTypeName = "thingTypeName"
+            case attributeValue = "attributeValue"
+            case attributeName = "attributeName"
+        }
+    }
+
+    public struct ListThingsInBillingGroupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "things", required: false, type: .list)
+        ]
+        /// The token used to get the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+        /// A list of things in the billing group.
+        public let things: [String]?
+
+        public init(nextToken: String? = nil, things: [String]? = nil) {
+            self.nextToken = nextToken
+            self.things = things
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case things = "things"
+        }
+    }
+
+    public struct ElasticsearchAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "id", required: true, type: .string), 
+            AWSShapeMember(label: "type", required: true, type: .string), 
+            AWSShapeMember(label: "index", required: true, type: .string), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string), 
+            AWSShapeMember(label: "endpoint", required: true, type: .string)
+        ]
+        /// The unique identifier for the document you are storing.
+        public let id: String
+        /// The type of document you are storing.
+        public let `type`: String
+        /// The Elasticsearch index where you want to store your data.
+        public let index: String
+        /// The IAM role ARN that has access to Elasticsearch.
+        public let roleArn: String
+        /// The endpoint of your Elasticsearch domain.
+        public let endpoint: String
+
+        public init(id: String, type: String, index: String, roleArn: String, endpoint: String) {
+            self.id = id
+            self.`type` = `type`
+            self.index = index
+            self.roleArn = roleArn
+            self.endpoint = endpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case `type` = "type"
+            case index = "index"
+            case roleArn = "roleArn"
+            case endpoint = "endpoint"
+        }
+    }
+
+    public struct ListThingGroupsForThingResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "thingGroups", required: false, type: .list)
+        ]
+        /// The token used to get the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+        /// The thing groups.
+        public let thingGroups: [GroupNameAndArn]?
+
+        public init(nextToken: String? = nil, thingGroups: [GroupNameAndArn]? = nil) {
+            self.nextToken = nextToken
+            self.thingGroups = thingGroups
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case thingGroups = "thingGroups"
+        }
+    }
+
+    public struct AuditTaskMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "taskId", required: false, type: .string), 
+            AWSShapeMember(label: "taskType", required: false, type: .enum), 
+            AWSShapeMember(label: "taskStatus", required: false, type: .enum)
+        ]
+        /// The ID of this audit.
+        public let taskId: String?
+        /// The type of this audit: one of "ON_DEMAND_AUDIT_TASK" or "SCHEDULED_AUDIT_TASK".
+        public let taskType: AuditTaskType?
+        /// The status of this audit: one of "IN_PROGRESS", "COMPLETED", "FAILED" or "CANCELED".
+        public let taskStatus: AuditTaskStatus?
+
+        public init(taskId: String? = nil, taskType: AuditTaskType? = nil, taskStatus: AuditTaskStatus? = nil) {
+            self.taskId = taskId
+            self.taskType = taskType
+            self.taskStatus = taskStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taskId = "taskId"
+            case taskType = "taskType"
+            case taskStatus = "taskStatus"
+        }
+    }
+
+    public struct AttachPrincipalPolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "principal", location: .header(locationName: "x-amzn-iot-principal"), required: true, type: .string), 
+            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string)
+        ]
+        /// The principal, which can be a certificate ARN (as returned from the CreateCertificate operation) or an Amazon Cognito ID.
+        public let principal: String
+        /// The policy name.
+        public let policyName: String
+
+        public init(principal: String, policyName: String) {
+            self.principal = principal
+            self.policyName = policyName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case principal = "x-amzn-iot-principal"
+            case policyName = "policyName"
+        }
+    }
+
+    public struct StartOnDemandAuditTaskRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "targetCheckNames", required: true, type: .list)
+        ]
+        /// Which checks are performed during the audit. The checks you specify must be enabled for your account or an exception occurs. Use DescribeAccountAuditConfiguration to see the list of all checks including those that are enabled or UpdateAccountAuditConfiguration to select which checks are enabled.
+        public let targetCheckNames: [String]
+
+        public init(targetCheckNames: [String]) {
+            self.targetCheckNames = targetCheckNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetCheckNames = "targetCheckNames"
+        }
+    }
+
+    public struct ResourceIdentifier: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deviceCertificateId", required: false, type: .string), 
+            AWSShapeMember(label: "clientId", required: false, type: .string), 
+            AWSShapeMember(label: "account", required: false, type: .string), 
+            AWSShapeMember(label: "cognitoIdentityPoolId", required: false, type: .string), 
+            AWSShapeMember(label: "caCertificateId", required: false, type: .string), 
+            AWSShapeMember(label: "policyVersionIdentifier", required: false, type: .structure)
+        ]
+        /// The ID of the certificate attached to the resource.
+        public let deviceCertificateId: String?
+        /// The client ID.
+        public let clientId: String?
+        /// The account with which the resource is associated.
+        public let account: String?
+        /// The ID of the Cognito Identity Pool.
+        public let cognitoIdentityPoolId: String?
+        /// The ID of the CA certificate used to authorize the certificate.
+        public let caCertificateId: String?
+        /// The version of the policy associated with the resource.
+        public let policyVersionIdentifier: PolicyVersionIdentifier?
+
+        public init(deviceCertificateId: String? = nil, clientId: String? = nil, account: String? = nil, cognitoIdentityPoolId: String? = nil, caCertificateId: String? = nil, policyVersionIdentifier: PolicyVersionIdentifier? = nil) {
+            self.deviceCertificateId = deviceCertificateId
+            self.clientId = clientId
+            self.account = account
+            self.cognitoIdentityPoolId = cognitoIdentityPoolId
+            self.caCertificateId = caCertificateId
+            self.policyVersionIdentifier = policyVersionIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceCertificateId = "deviceCertificateId"
+            case clientId = "clientId"
+            case account = "account"
+            case cognitoIdentityPoolId = "cognitoIdentityPoolId"
+            case caCertificateId = "caCertificateId"
+            case policyVersionIdentifier = "policyVersionIdentifier"
+        }
+    }
+
+    public enum OTAUpdateStatus: String, CustomStringConvertible, Codable {
+        case createPending = "CREATE_PENDING"
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case createComplete = "CREATE_COMPLETE"
+        case createFailed = "CREATE_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct BehaviorCriteria: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "value", required: false, type: .structure), 
+            AWSShapeMember(label: "durationSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "comparisonOperator", required: false, type: .enum)
+        ]
+        /// The value to be compared with the metric.
+        public let value: MetricValue?
+        /// Use this to specify the period of time over which the behavior is evaluated, for those criteria which have a time dimension (for example, NUM_MESSAGES_SENT).
+        public let durationSeconds: Int32?
+        /// The operator that relates the thing measured (metric) to the criteria (value).
+        public let comparisonOperator: ComparisonOperator?
+
+        public init(value: MetricValue? = nil, durationSeconds: Int32? = nil, comparisonOperator: ComparisonOperator? = nil) {
+            self.value = value
+            self.durationSeconds = durationSeconds
+            self.comparisonOperator = comparisonOperator
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case value = "value"
+            case durationSeconds = "durationSeconds"
+            case comparisonOperator = "comparisonOperator"
+        }
+    }
+
+    public struct UpdateAccountAuditConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "auditNotificationTargetConfigurations", required: false, type: .map), 
+            AWSShapeMember(label: "roleArn", required: false, type: .string), 
+            AWSShapeMember(label: "auditCheckConfigurations", required: false, type: .map)
+        ]
+        /// Information about the targets to which audit notifications are sent.
+        public let auditNotificationTargetConfigurations: [AuditNotificationType: AuditNotificationTarget]?
+        /// The ARN of the role that grants permission to AWS IoT to access information about your devices, policies, certificates and other items as necessary when performing an audit.
+        public let roleArn: String?
+        /// Specifies which audit checks are enabled and disabled for this account. Use DescribeAccountAuditConfiguration to see the list of all checks including those that are currently enabled. Note that some data collection may begin immediately when certain checks are enabled. When a check is disabled, any data collected so far in relation to the check is deleted. You cannot disable a check if it is used by any scheduled audit. You must first delete the check from the scheduled audit or delete the scheduled audit itself. On the first call to UpdateAccountAuditConfiguration this parameter is required and must specify at least one enabled check.
+        public let auditCheckConfigurations: [String: AuditCheckConfiguration]?
+
+        public init(auditNotificationTargetConfigurations: [AuditNotificationType: AuditNotificationTarget]? = nil, roleArn: String? = nil, auditCheckConfigurations: [String: AuditCheckConfiguration]? = nil) {
+            self.auditNotificationTargetConfigurations = auditNotificationTargetConfigurations
+            self.roleArn = roleArn
+            self.auditCheckConfigurations = auditCheckConfigurations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case auditNotificationTargetConfigurations = "auditNotificationTargetConfigurations"
+            case roleArn = "roleArn"
+            case auditCheckConfigurations = "auditCheckConfigurations"
+        }
+    }
+
+    public struct OTAUpdateInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "targetSelection", required: false, type: .enum), 
+            AWSShapeMember(label: "awsIotJobArn", required: false, type: .string), 
+            AWSShapeMember(label: "targets", required: false, type: .list), 
+            AWSShapeMember(label: "otaUpdateStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "otaUpdateArn", required: false, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "additionalParameters", required: false, type: .map), 
+            AWSShapeMember(label: "awsJobExecutionsRolloutConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "awsIotJobId", required: false, type: .string), 
+            AWSShapeMember(label: "otaUpdateFiles", required: false, type: .list), 
+            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "errorInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "otaUpdateId", required: false, type: .string)
+        ]
+        /// Specifies whether the OTA update will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the OTA update (SNAPSHOT). If continuous, the OTA update may also be run on a thing when a change is detected in a target. For example, an OTA update will run on a thing when the thing is added to a target group, even after the OTA update was completed by all things originally in the group. 
+        public let targetSelection: TargetSelection?
+        /// The AWS IoT job ARN associated with the OTA update.
+        public let awsIotJobArn: String?
+        /// The targets of the OTA update.
+        public let targets: [String]?
+        /// The status of the OTA update.
+        public let otaUpdateStatus: OTAUpdateStatus?
+        /// The OTA update ARN.
+        public let otaUpdateArn: String?
+        /// A description of the OTA update.
+        public let description: String?
+        /// A collection of name/value pairs
+        public let additionalParameters: [String: String]?
+        /// Configuration for the rollout of OTA updates.
+        public let awsJobExecutionsRolloutConfig: AwsJobExecutionsRolloutConfig?
+        /// The AWS IoT job ID associated with the OTA update.
+        public let awsIotJobId: String?
+        /// A list of files associated with the OTA update.
+        public let otaUpdateFiles: [OTAUpdateFile]?
+        /// The date when the OTA update was created.
+        public let creationDate: TimeStamp?
+        /// Error information associated with the OTA update.
+        public let errorInfo: ErrorInfo?
+        /// The date when the OTA update was last updated.
+        public let lastModifiedDate: TimeStamp?
+        /// The OTA update ID.
+        public let otaUpdateId: String?
+
+        public init(targetSelection: TargetSelection? = nil, awsIotJobArn: String? = nil, targets: [String]? = nil, otaUpdateStatus: OTAUpdateStatus? = nil, otaUpdateArn: String? = nil, description: String? = nil, additionalParameters: [String: String]? = nil, awsJobExecutionsRolloutConfig: AwsJobExecutionsRolloutConfig? = nil, awsIotJobId: String? = nil, otaUpdateFiles: [OTAUpdateFile]? = nil, creationDate: TimeStamp? = nil, errorInfo: ErrorInfo? = nil, lastModifiedDate: TimeStamp? = nil, otaUpdateId: String? = nil) {
+            self.targetSelection = targetSelection
+            self.awsIotJobArn = awsIotJobArn
+            self.targets = targets
+            self.otaUpdateStatus = otaUpdateStatus
+            self.otaUpdateArn = otaUpdateArn
+            self.description = description
+            self.additionalParameters = additionalParameters
+            self.awsJobExecutionsRolloutConfig = awsJobExecutionsRolloutConfig
+            self.awsIotJobId = awsIotJobId
+            self.otaUpdateFiles = otaUpdateFiles
+            self.creationDate = creationDate
+            self.errorInfo = errorInfo
+            self.lastModifiedDate = lastModifiedDate
+            self.otaUpdateId = otaUpdateId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetSelection = "targetSelection"
+            case awsIotJobArn = "awsIotJobArn"
+            case targets = "targets"
+            case otaUpdateStatus = "otaUpdateStatus"
+            case otaUpdateArn = "otaUpdateArn"
+            case description = "description"
+            case additionalParameters = "additionalParameters"
+            case awsJobExecutionsRolloutConfig = "awsJobExecutionsRolloutConfig"
+            case awsIotJobId = "awsIotJobId"
+            case otaUpdateFiles = "otaUpdateFiles"
+            case creationDate = "creationDate"
+            case errorInfo = "errorInfo"
+            case lastModifiedDate = "lastModifiedDate"
+            case otaUpdateId = "otaUpdateId"
+        }
+    }
+
+    public struct CreateThingTypeResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingTypeName", required: false, type: .string), 
+            AWSShapeMember(label: "thingTypeArn", required: false, type: .string), 
+            AWSShapeMember(label: "thingTypeId", required: false, type: .string)
+        ]
+        /// The name of the thing type.
+        public let thingTypeName: String?
+        /// The Amazon Resource Name (ARN) of the thing type.
+        public let thingTypeArn: String?
+        /// The thing type ID.
+        public let thingTypeId: String?
+
+        public init(thingTypeName: String? = nil, thingTypeArn: String? = nil, thingTypeId: String? = nil) {
+            self.thingTypeName = thingTypeName
+            self.thingTypeArn = thingTypeArn
+            self.thingTypeId = thingTypeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case thingTypeName = "thingTypeName"
+            case thingTypeArn = "thingTypeArn"
+            case thingTypeId = "thingTypeId"
+        }
+    }
+
+    public struct CertificateValidity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "notBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "notAfter", required: false, type: .timestamp)
+        ]
+        /// The certificate is not valid before this date.
+        public let notBefore: TimeStamp?
+        /// The certificate is not valid after this date.
+        public let notAfter: TimeStamp?
+
+        public init(notBefore: TimeStamp? = nil, notAfter: TimeStamp? = nil) {
+            self.notBefore = notBefore
+            self.notAfter = notAfter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notBefore = "notBefore"
+            case notAfter = "notAfter"
+        }
+    }
+
+    public struct DescribeIndexResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "schema", required: false, type: .string), 
+            AWSShapeMember(label: "indexName", required: false, type: .string), 
+            AWSShapeMember(label: "indexStatus", required: false, type: .enum)
+        ]
+        /// Contains a value that specifies the type of indexing performed. Valid values are:   REGISTRY – Your thing index will contain only registry data.   REGISTRY_AND_SHADOW - Your thing index will contain registry data and shadow data.   REGISTRY_AND_CONNECTIVITY_STATUS - Your thing index will contain registry data and thing connectivity status data.   REGISTRY_AND_SHADOW_AND_CONNECTIVITY_STATUS - Your thing index will contain registry data, shadow data, and thing connectivity status data.  
+        public let schema: String?
+        /// The index name.
+        public let indexName: String?
+        /// The index status.
+        public let indexStatus: IndexStatus?
+
+        public init(schema: String? = nil, indexName: String? = nil, indexStatus: IndexStatus? = nil) {
+            self.schema = schema
+            self.indexName = indexName
+            self.indexStatus = indexStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schema = "schema"
+            case indexName = "indexName"
+            case indexStatus = "indexStatus"
+        }
+    }
+
+    public struct ListV2LoggingLevelsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "logTargetConfigurations", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// The logging configuration for a target.
+        public let logTargetConfigurations: [LogTargetConfiguration]?
+        /// The token used to get the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+
+        public init(logTargetConfigurations: [LogTargetConfiguration]? = nil, nextToken: String? = nil) {
+            self.logTargetConfigurations = logTargetConfigurations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logTargetConfigurations = "logTargetConfigurations"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DeprecateThingTypeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "undoDeprecate", required: false, type: .boolean), 
+            AWSShapeMember(label: "thingTypeName", location: .uri(locationName: "thingTypeName"), required: true, type: .string)
+        ]
+        /// Whether to undeprecate a deprecated thing type. If true, the thing type will not be deprecated anymore and you can associate it with things.
+        public let undoDeprecate: Bool?
+        /// The name of the thing type to deprecate.
+        public let thingTypeName: String
+
+        public init(undoDeprecate: Bool? = nil, thingTypeName: String) {
+            self.undoDeprecate = undoDeprecate
+            self.thingTypeName = thingTypeName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case undoDeprecate = "undoDeprecate"
+            case thingTypeName = "thingTypeName"
+        }
+    }
+
+    public struct ListBillingGroupsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "namePrefixFilter", location: .querystring(locationName: "namePrefixFilter"), required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
+        ]
+        /// The token to retrieve the next set of results.
+        public let nextToken: String?
+        /// Limit the results to billing groups whose names have the given prefix.
+        public let namePrefixFilter: String?
+        /// The maximum number of results to return per request.
+        public let maxResults: Int32?
+
+        public init(nextToken: String? = nil, namePrefixFilter: String? = nil, maxResults: Int32? = nil) {
+            self.nextToken = nextToken
+            self.namePrefixFilter = namePrefixFilter
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case namePrefixFilter = "namePrefixFilter"
+            case maxResults = "maxResults"
+        }
+    }
+
+    public struct DescribeStreamResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "streamInfo", required: false, type: .structure)
+        ]
+        /// Information about the stream.
+        public let streamInfo: StreamInfo?
+
+        public init(streamInfo: StreamInfo? = nil) {
+            self.streamInfo = streamInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamInfo = "streamInfo"
+        }
+    }
+
+    public enum ViolationEventType: String, CustomStringConvertible, Codable {
+        case inAlarm = "in-alarm"
+        case alarmCleared = "alarm-cleared"
+        case alarmInvalidated = "alarm-invalidated"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DescribeSecurityProfileResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "behaviors", required: false, type: .list), 
+            AWSShapeMember(label: "alertTargets", required: false, type: .map), 
+            AWSShapeMember(label: "version", required: false, type: .long), 
+            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "securityProfileName", required: false, type: .string), 
+            AWSShapeMember(label: "securityProfileDescription", required: false, type: .string), 
+            AWSShapeMember(label: "securityProfileArn", required: false, type: .string), 
+            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp)
+        ]
+        /// Specifies the behaviors that, when violated by a device (thing), cause an alert.
+        public let behaviors: [Behavior]?
+        /// Where the alerts are sent. (Alerts are always sent to the console.)
+        public let alertTargets: [AlertTargetType: AlertTarget]?
+        /// The version of the security profile. A new version is generated whenever the security profile is updated.
+        public let version: Int64?
+        /// The time the security profile was created.
+        public let creationDate: TimeStamp?
+        /// The name of the security profile.
+        public let securityProfileName: String?
+        /// A description of the security profile (associated with the security profile when it was created or updated).
+        public let securityProfileDescription: String?
+        /// The ARN of the security profile.
+        public let securityProfileArn: String?
+        /// The time the security profile was last modified.
+        public let lastModifiedDate: TimeStamp?
+
+        public init(behaviors: [Behavior]? = nil, alertTargets: [AlertTargetType: AlertTarget]? = nil, version: Int64? = nil, creationDate: TimeStamp? = nil, securityProfileName: String? = nil, securityProfileDescription: String? = nil, securityProfileArn: String? = nil, lastModifiedDate: TimeStamp? = nil) {
+            self.behaviors = behaviors
+            self.alertTargets = alertTargets
+            self.version = version
+            self.creationDate = creationDate
+            self.securityProfileName = securityProfileName
+            self.securityProfileDescription = securityProfileDescription
+            self.securityProfileArn = securityProfileArn
+            self.lastModifiedDate = lastModifiedDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case behaviors = "behaviors"
+            case alertTargets = "alertTargets"
+            case version = "version"
+            case creationDate = "creationDate"
+            case securityProfileName = "securityProfileName"
+            case securityProfileDescription = "securityProfileDescription"
+            case securityProfileArn = "securityProfileArn"
+            case lastModifiedDate = "lastModifiedDate"
+        }
+    }
+
+    public struct UpdateThingGroupsForThingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "overrideDynamicGroups", required: false, type: .boolean), 
+            AWSShapeMember(label: "thingGroupsToRemove", required: false, type: .list), 
+            AWSShapeMember(label: "thingName", required: false, type: .string), 
+            AWSShapeMember(label: "thingGroupsToAdd", required: false, type: .list)
+        ]
+        /// Override dynamic thing groups with static thing groups when 10-group limit is reached. If a thing belongs to 10 thing groups, and one or more of those groups are dynamic thing groups, adding a thing to a static group removes the thing from the last dynamic group.
+        public let overrideDynamicGroups: Bool?
+        /// The groups from which the thing will be removed.
+        public let thingGroupsToRemove: [String]?
+        /// The thing whose group memberships will be updated.
+        public let thingName: String?
+        /// The groups to which the thing will be added.
+        public let thingGroupsToAdd: [String]?
+
+        public init(overrideDynamicGroups: Bool? = nil, thingGroupsToRemove: [String]? = nil, thingName: String? = nil, thingGroupsToAdd: [String]? = nil) {
+            self.overrideDynamicGroups = overrideDynamicGroups
+            self.thingGroupsToRemove = thingGroupsToRemove
+            self.thingName = thingName
+            self.thingGroupsToAdd = thingGroupsToAdd
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case overrideDynamicGroups = "overrideDynamicGroups"
+            case thingGroupsToRemove = "thingGroupsToRemove"
+            case thingName = "thingName"
+            case thingGroupsToAdd = "thingGroupsToAdd"
+        }
+    }
+
+    public struct UpdateBillingGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "billingGroupName", location: .uri(locationName: "billingGroupName"), required: true, type: .string), 
+            AWSShapeMember(label: "expectedVersion", required: false, type: .long), 
+            AWSShapeMember(label: "billingGroupProperties", required: true, type: .structure)
+        ]
+        /// The name of the billing group.
+        public let billingGroupName: String
+        /// The expected version of the billing group. If the version of the billing group does not match the expected version specified in the request, the UpdateBillingGroup request is rejected with a VersionConflictException.
+        public let expectedVersion: Int64?
+        /// The properties of the billing group.
+        public let billingGroupProperties: BillingGroupProperties
+
+        public init(billingGroupName: String, expectedVersion: Int64? = nil, billingGroupProperties: BillingGroupProperties) {
+            self.billingGroupName = billingGroupName
+            self.expectedVersion = expectedVersion
+            self.billingGroupProperties = billingGroupProperties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case billingGroupName = "billingGroupName"
+            case expectedVersion = "expectedVersion"
+            case billingGroupProperties = "billingGroupProperties"
+        }
+    }
+
+    public enum LogTargetType: String, CustomStringConvertible, Codable {
+        case `default` = "DEFAULT"
+        case thingGroup = "THING_GROUP"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListCertificatesByCAResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextMarker", required: false, type: .string), 
-            AWSShapeMember(label: "outgoingCertificates", required: false, type: .list)
+            AWSShapeMember(label: "certificates", required: false, type: .list)
         ]
-        /// The marker for the next set of results.
+        /// The marker for the next set of results, or null if there are no additional results.
         public let nextMarker: String?
-        /// The certificates that are being transferred but not yet accepted.
-        public let outgoingCertificates: [OutgoingCertificate]?
+        /// The device certificates signed by the specified CA certificate.
+        public let certificates: [Certificate]?
 
-        public init(nextMarker: String? = nil, outgoingCertificates: [OutgoingCertificate]? = nil) {
+        public init(nextMarker: String? = nil, certificates: [Certificate]? = nil) {
             self.nextMarker = nextMarker
-            self.outgoingCertificates = outgoingCertificates
+            self.certificates = certificates
         }
 
         private enum CodingKeys: String, CodingKey {
             case nextMarker = "nextMarker"
-            case outgoingCertificates = "outgoingCertificates"
+            case certificates = "certificates"
+        }
+    }
+
+    public struct ListAttachedPoliciesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextMarker", required: false, type: .string), 
+            AWSShapeMember(label: "policies", required: false, type: .list)
+        ]
+        /// The token to retrieve the next set of results, or ``null`` if there are no more results.
+        public let nextMarker: String?
+        /// The policies.
+        public let policies: [Policy]?
+
+        public init(nextMarker: String? = nil, policies: [Policy]? = nil) {
+            self.nextMarker = nextMarker
+            self.policies = policies
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextMarker = "nextMarker"
+            case policies = "policies"
+        }
+    }
+
+    public struct ListJobExecutionsForThingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", location: .querystring(locationName: "status"), required: false, type: .enum), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
+        ]
+        /// An optional filter that lets you search for jobs that have the specified status.
+        public let status: JobExecutionStatus?
+        /// The maximum number of results to be returned per request.
+        public let maxResults: Int32?
+        /// The token to retrieve the next set of results.
+        public let nextToken: String?
+        /// The thing name.
+        public let thingName: String
+
+        public init(status: JobExecutionStatus? = nil, maxResults: Int32? = nil, nextToken: String? = nil, thingName: String) {
+            self.status = status
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.thingName = thingName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case thingName = "thingName"
+        }
+    }
+
+    public struct DeleteDynamicThingGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingGroupName", location: .uri(locationName: "thingGroupName"), required: true, type: .string), 
+            AWSShapeMember(label: "expectedVersion", location: .querystring(locationName: "expectedVersion"), required: false, type: .long)
+        ]
+        /// The name of the dynamic thing group to delete.
+        public let thingGroupName: String
+        /// The expected version of the dynamic thing group to delete.
+        public let expectedVersion: Int64?
+
+        public init(thingGroupName: String, expectedVersion: Int64? = nil) {
+            self.thingGroupName = thingGroupName
+            self.expectedVersion = expectedVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case thingGroupName = "thingGroupName"
+            case expectedVersion = "expectedVersion"
+        }
+    }
+
+    public struct ListSecurityProfilesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
+        ]
+        /// The token for the next set of results.
+        public let nextToken: String?
+        /// The maximum number of results to return at one time.
+        public let maxResults: Int32?
+
+        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+        }
+    }
+
+    public struct TopicRule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "awsIotSqlVersion", required: false, type: .string), 
+            AWSShapeMember(label: "actions", required: false, type: .list), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "sql", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ruleDisabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "ruleName", required: false, type: .string), 
+            AWSShapeMember(label: "errorAction", required: false, type: .structure)
+        ]
+        /// The version of the SQL rules engine to use when evaluating the rule.
+        public let awsIotSqlVersion: String?
+        /// The actions associated with the rule.
+        public let actions: [Action]?
+        /// The description of the rule.
+        public let description: String?
+        /// The SQL statement used to query the topic. When using a SQL query with multiple lines, be sure to escape the newline characters.
+        public let sql: String?
+        /// The date and time the rule was created.
+        public let createdAt: TimeStamp?
+        /// Specifies whether the rule is disabled.
+        public let ruleDisabled: Bool?
+        /// The name of the rule.
+        public let ruleName: String?
+        /// The action to perform when an error occurs.
+        public let errorAction: Action?
+
+        public init(awsIotSqlVersion: String? = nil, actions: [Action]? = nil, description: String? = nil, sql: String? = nil, createdAt: TimeStamp? = nil, ruleDisabled: Bool? = nil, ruleName: String? = nil, errorAction: Action? = nil) {
+            self.awsIotSqlVersion = awsIotSqlVersion
+            self.actions = actions
+            self.description = description
+            self.sql = sql
+            self.createdAt = createdAt
+            self.ruleDisabled = ruleDisabled
+            self.ruleName = ruleName
+            self.errorAction = errorAction
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsIotSqlVersion = "awsIotSqlVersion"
+            case actions = "actions"
+            case description = "description"
+            case sql = "sql"
+            case createdAt = "createdAt"
+            case ruleDisabled = "ruleDisabled"
+            case ruleName = "ruleName"
+            case errorAction = "errorAction"
+        }
+    }
+
+    public struct DeleteRegistrationCodeResponse: AWSShape {
+
+    }
+
+    public struct DescribeRoleAliasResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "roleAliasDescription", required: false, type: .structure)
+        ]
+        /// The role alias description.
+        public let roleAliasDescription: RoleAliasDescription?
+
+        public init(roleAliasDescription: RoleAliasDescription? = nil) {
+            self.roleAliasDescription = roleAliasDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleAliasDescription = "roleAliasDescription"
+        }
+    }
+
+    public struct RegisterCACertificateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "caCertificate", required: true, type: .string), 
+            AWSShapeMember(label: "verificationCertificate", required: true, type: .string), 
+            AWSShapeMember(label: "allowAutoRegistration", location: .querystring(locationName: "allowAutoRegistration"), required: false, type: .boolean), 
+            AWSShapeMember(label: "setAsActive", location: .querystring(locationName: "setAsActive"), required: false, type: .boolean), 
+            AWSShapeMember(label: "registrationConfig", required: false, type: .structure)
+        ]
+        /// The CA certificate.
+        public let caCertificate: String
+        /// The private key verification certificate.
+        public let verificationCertificate: String
+        /// Allows this CA certificate to be used for auto registration of device certificates.
+        public let allowAutoRegistration: Bool?
+        /// A boolean value that specifies if the CA certificate is set to active.
+        public let setAsActive: Bool?
+        /// Information about the registration configuration.
+        public let registrationConfig: RegistrationConfig?
+
+        public init(caCertificate: String, verificationCertificate: String, allowAutoRegistration: Bool? = nil, setAsActive: Bool? = nil, registrationConfig: RegistrationConfig? = nil) {
+            self.caCertificate = caCertificate
+            self.verificationCertificate = verificationCertificate
+            self.allowAutoRegistration = allowAutoRegistration
+            self.setAsActive = setAsActive
+            self.registrationConfig = registrationConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case caCertificate = "caCertificate"
+            case verificationCertificate = "verificationCertificate"
+            case allowAutoRegistration = "allowAutoRegistration"
+            case setAsActive = "setAsActive"
+            case registrationConfig = "registrationConfig"
+        }
+    }
+
+    public struct CancelCertificateTransferRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificateId", location: .uri(locationName: "certificateId"), required: true, type: .string)
+        ]
+        /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
+        public let certificateId: String
+
+        public init(certificateId: String) {
+            self.certificateId = certificateId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateId = "certificateId"
+        }
+    }
+
+    public struct ListCertificatesByCARequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
+            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeMember(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean), 
+            AWSShapeMember(label: "caCertificateId", location: .uri(locationName: "caCertificateId"), required: true, type: .string)
+        ]
+        /// The result page size.
+        public let pageSize: Int32?
+        /// The marker for the next set of results.
+        public let marker: String?
+        /// Specifies the order for results. If True, the results are returned in ascending order, based on the creation date.
+        public let ascendingOrder: Bool?
+        /// The ID of the CA certificate. This operation will list all registered device certificate that were signed by this CA certificate.
+        public let caCertificateId: String
+
+        public init(pageSize: Int32? = nil, marker: String? = nil, ascendingOrder: Bool? = nil, caCertificateId: String) {
+            self.pageSize = pageSize
+            self.marker = marker
+            self.ascendingOrder = ascendingOrder
+            self.caCertificateId = caCertificateId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pageSize = "pageSize"
+            case marker = "marker"
+            case ascendingOrder = "isAscendingOrder"
+            case caCertificateId = "caCertificateId"
+        }
+    }
+
+    public struct DescribeIndexRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "indexName", location: .uri(locationName: "indexName"), required: true, type: .string)
+        ]
+        /// The index name.
+        public let indexName: String
+
+        public init(indexName: String) {
+            self.indexName = indexName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexName = "indexName"
+        }
+    }
+
+    public struct Denied: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "explicitDeny", required: false, type: .structure), 
+            AWSShapeMember(label: "implicitDeny", required: false, type: .structure)
+        ]
+        /// Information that explicitly denies the authorization. 
+        public let explicitDeny: ExplicitDeny?
+        /// Information that implicitly denies the authorization. When a policy doesn't explicitly deny or allow an action on a resource it is considered an implicit deny.
+        public let implicitDeny: ImplicitDeny?
+
+        public init(explicitDeny: ExplicitDeny? = nil, implicitDeny: ImplicitDeny? = nil) {
+            self.explicitDeny = explicitDeny
+            self.implicitDeny = implicitDeny
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case explicitDeny = "explicitDeny"
+            case implicitDeny = "implicitDeny"
+        }
+    }
+
+    public enum TargetSelection: String, CustomStringConvertible, Codable {
+        case continuous = "CONTINUOUS"
+        case snapshot = "SNAPSHOT"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CreateKeysAndCertificateResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificateId", required: false, type: .string), 
+            AWSShapeMember(label: "certificateArn", required: false, type: .string), 
+            AWSShapeMember(label: "keyPair", required: false, type: .structure), 
+            AWSShapeMember(label: "certificatePem", required: false, type: .string)
+        ]
+        /// The ID of the certificate. AWS IoT issues a default subject name for the certificate (for example, AWS IoT Certificate).
+        public let certificateId: String?
+        /// The ARN of the certificate.
+        public let certificateArn: String?
+        /// The generated key pair.
+        public let keyPair: KeyPair?
+        /// The certificate data, in PEM format.
+        public let certificatePem: String?
+
+        public init(certificateId: String? = nil, certificateArn: String? = nil, keyPair: KeyPair? = nil, certificatePem: String? = nil) {
+            self.certificateId = certificateId
+            self.certificateArn = certificateArn
+            self.keyPair = keyPair
+            self.certificatePem = certificatePem
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateId = "certificateId"
+            case certificateArn = "certificateArn"
+            case keyPair = "keyPair"
+            case certificatePem = "certificatePem"
+        }
+    }
+
+    public struct ListScheduledAuditsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "scheduledAudits", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// The list of scheduled audits.
+        public let scheduledAudits: [ScheduledAuditMetadata]?
+        /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+
+        public init(scheduledAudits: [ScheduledAuditMetadata]? = nil, nextToken: String? = nil) {
+            self.scheduledAudits = scheduledAudits
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scheduledAudits = "scheduledAudits"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeThingGroupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "queryVersion", required: false, type: .string), 
+            AWSShapeMember(label: "thingGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "queryString", required: false, type: .string), 
+            AWSShapeMember(label: "thingGroupProperties", required: false, type: .structure), 
+            AWSShapeMember(label: "version", required: false, type: .long), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "indexName", required: false, type: .string), 
+            AWSShapeMember(label: "thingGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "thingGroupMetadata", required: false, type: .structure)
+        ]
+        /// The name of the thing group.
+        public let thingGroupName: String?
+        /// The dynamic thing group query version.
+        public let queryVersion: String?
+        /// The thing group ARN.
+        public let thingGroupArn: String?
+        /// The dynamic thing group search query string.
+        public let queryString: String?
+        /// The thing group properties.
+        public let thingGroupProperties: ThingGroupProperties?
+        /// The version of the thing group.
+        public let version: Int64?
+        /// The dynamic thing group status.
+        public let status: DynamicGroupStatus?
+        /// The dynamic thing group index name.
+        public let indexName: String?
+        /// The thing group ID.
+        public let thingGroupId: String?
+        /// Thing group metadata.
+        public let thingGroupMetadata: ThingGroupMetadata?
+
+        public init(thingGroupName: String? = nil, queryVersion: String? = nil, thingGroupArn: String? = nil, queryString: String? = nil, thingGroupProperties: ThingGroupProperties? = nil, version: Int64? = nil, status: DynamicGroupStatus? = nil, indexName: String? = nil, thingGroupId: String? = nil, thingGroupMetadata: ThingGroupMetadata? = nil) {
+            self.thingGroupName = thingGroupName
+            self.queryVersion = queryVersion
+            self.thingGroupArn = thingGroupArn
+            self.queryString = queryString
+            self.thingGroupProperties = thingGroupProperties
+            self.version = version
+            self.status = status
+            self.indexName = indexName
+            self.thingGroupId = thingGroupId
+            self.thingGroupMetadata = thingGroupMetadata
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case thingGroupName = "thingGroupName"
+            case queryVersion = "queryVersion"
+            case thingGroupArn = "thingGroupArn"
+            case queryString = "queryString"
+            case thingGroupProperties = "thingGroupProperties"
+            case version = "version"
+            case status = "status"
+            case indexName = "indexName"
+            case thingGroupId = "thingGroupId"
+            case thingGroupMetadata = "thingGroupMetadata"
+        }
+    }
+
+    public struct ValidateSecurityProfileBehaviorsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "behaviors", required: true, type: .list)
+        ]
+        /// Specifies the behaviors that, when violated by a device (thing), cause an alert.
+        public let behaviors: [Behavior]
+
+        public init(behaviors: [Behavior]) {
+            self.behaviors = behaviors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case behaviors = "behaviors"
+        }
+    }
+
+    public struct UpdateDynamicThingGroupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "version", required: false, type: .long)
+        ]
+        /// The dynamic thing group version.
+        public let version: Int64?
+
+        public init(version: Int64? = nil) {
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case version = "version"
+        }
+    }
+
+    public struct ListJobExecutionsForJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "executionSummaries", required: false, type: .list)
+        ]
+        /// The token for the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+        /// A list of job execution summaries.
+        public let executionSummaries: [JobExecutionSummaryForJob]?
+
+        public init(nextToken: String? = nil, executionSummaries: [JobExecutionSummaryForJob]? = nil) {
+            self.nextToken = nextToken
+            self.executionSummaries = executionSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case executionSummaries = "executionSummaries"
+        }
+    }
+
+    public struct OTAUpdateFile: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "attributes", required: false, type: .map), 
+            AWSShapeMember(label: "fileLocation", required: false, type: .structure), 
+            AWSShapeMember(label: "codeSigning", required: false, type: .structure), 
+            AWSShapeMember(label: "fileName", required: false, type: .string), 
+            AWSShapeMember(label: "fileVersion", required: false, type: .string)
+        ]
+        /// A list of name/attribute pairs.
+        public let attributes: [String: String]?
+        /// The location of the updated firmware.
+        public let fileLocation: FileLocation?
+        /// The code signing method of the file.
+        public let codeSigning: CodeSigning?
+        /// The name of the file.
+        public let fileName: String?
+        /// The file version.
+        public let fileVersion: String?
+
+        public init(attributes: [String: String]? = nil, fileLocation: FileLocation? = nil, codeSigning: CodeSigning? = nil, fileName: String? = nil, fileVersion: String? = nil) {
+            self.attributes = attributes
+            self.fileLocation = fileLocation
+            self.codeSigning = codeSigning
+            self.fileName = fileName
+            self.fileVersion = fileVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "attributes"
+            case fileLocation = "fileLocation"
+            case codeSigning = "codeSigning"
+            case fileName = "fileName"
+            case fileVersion = "fileVersion"
+        }
+    }
+
+    public struct AuditNotificationTarget: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "targetArn", required: false, type: .string), 
+            AWSShapeMember(label: "roleArn", required: false, type: .string)
+        ]
+        /// True if notifications to the target are enabled.
+        public let enabled: Bool?
+        /// The ARN of the target (SNS topic) to which audit notifications are sent.
+        public let targetArn: String?
+        /// The ARN of the role that grants permission to send notifications to the target.
+        public let roleArn: String?
+
+        public init(enabled: Bool? = nil, targetArn: String? = nil, roleArn: String? = nil) {
+            self.enabled = enabled
+            self.targetArn = targetArn
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "enabled"
+            case targetArn = "targetArn"
+            case roleArn = "roleArn"
+        }
+    }
+
+    public struct AddThingToThingGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingName", required: false, type: .string), 
+            AWSShapeMember(label: "thingArn", required: false, type: .string), 
+            AWSShapeMember(label: "thingGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "overrideDynamicGroups", required: false, type: .boolean), 
+            AWSShapeMember(label: "thingGroupName", required: false, type: .string)
+        ]
+        /// The name of the thing to add to a group.
+        public let thingName: String?
+        /// The ARN of the thing to add to a group.
+        public let thingArn: String?
+        /// The ARN of the group to which you are adding a thing.
+        public let thingGroupArn: String?
+        /// Override dynamic thing groups with static thing groups when 10-group limit is reached. If a thing belongs to 10 thing groups, and one or more of those groups are dynamic thing groups, adding a thing to a static group removes the thing from the last dynamic group.
+        public let overrideDynamicGroups: Bool?
+        /// The name of the group to which you are adding a thing.
+        public let thingGroupName: String?
+
+        public init(thingName: String? = nil, thingArn: String? = nil, thingGroupArn: String? = nil, overrideDynamicGroups: Bool? = nil, thingGroupName: String? = nil) {
+            self.thingName = thingName
+            self.thingArn = thingArn
+            self.thingGroupArn = thingGroupArn
+            self.overrideDynamicGroups = overrideDynamicGroups
+            self.thingGroupName = thingGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case thingName = "thingName"
+            case thingArn = "thingArn"
+            case thingGroupArn = "thingGroupArn"
+            case overrideDynamicGroups = "overrideDynamicGroups"
+            case thingGroupName = "thingGroupName"
+        }
+    }
+
+    public struct CancelAuditTaskResponse: AWSShape {
+
+    }
+
+    public struct CancelJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobArn", required: false, type: .string), 
+            AWSShapeMember(label: "jobId", required: false, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string)
+        ]
+        /// The job ARN.
+        public let jobArn: String?
+        /// The unique identifier you assigned to this job when it was created.
+        public let jobId: String?
+        /// A short text description of the job.
+        public let description: String?
+
+        public init(jobArn: String? = nil, jobId: String? = nil, description: String? = nil) {
+            self.jobArn = jobArn
+            self.jobId = jobId
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobArn = "jobArn"
+            case jobId = "jobId"
+            case description = "description"
+        }
+    }
+
+    public struct SigningProfileParameter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificateArn", required: false, type: .string), 
+            AWSShapeMember(label: "platform", required: false, type: .string), 
+            AWSShapeMember(label: "certificatePathOnDevice", required: false, type: .string)
+        ]
+        /// Certificate ARN.
+        public let certificateArn: String?
+        /// The hardware platform of your device.
+        public let platform: String?
+        /// The location of the code-signing certificate on your device.
+        public let certificatePathOnDevice: String?
+
+        public init(certificateArn: String? = nil, platform: String? = nil, certificatePathOnDevice: String? = nil) {
+            self.certificateArn = certificateArn
+            self.platform = platform
+            self.certificatePathOnDevice = certificatePathOnDevice
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "certificateArn"
+            case platform = "platform"
+            case certificatePathOnDevice = "certificatePathOnDevice"
+        }
+    }
+
+    public enum AuditTaskType: String, CustomStringConvertible, Codable {
+        case onDemandAuditTask = "ON_DEMAND_AUDIT_TASK"
+        case scheduledAuditTask = "SCHEDULED_AUDIT_TASK"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListJobsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "targetSelection", location: .querystring(locationName: "targetSelection"), required: false, type: .enum), 
+            AWSShapeMember(label: "thingGroupName", location: .querystring(locationName: "thingGroupName"), required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "thingGroupId", location: .querystring(locationName: "thingGroupId"), required: false, type: .string), 
+            AWSShapeMember(label: "status", location: .querystring(locationName: "status"), required: false, type: .enum), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+        /// Specifies whether the job will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the job (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected in a target. For example, a job will run on a thing when the thing is added to a target group, even after the job was completed by all things originally in the group. 
+        public let targetSelection: TargetSelection?
+        /// A filter that limits the returned jobs to those for the specified group.
+        public let thingGroupName: String?
+        /// The maximum number of results to return per request.
+        public let maxResults: Int32?
+        /// A filter that limits the returned jobs to those for the specified group.
+        public let thingGroupId: String?
+        /// An optional filter that lets you search for jobs that have the specified status.
+        public let status: JobStatus?
+        /// The token to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(targetSelection: TargetSelection? = nil, thingGroupName: String? = nil, maxResults: Int32? = nil, thingGroupId: String? = nil, status: JobStatus? = nil, nextToken: String? = nil) {
+            self.targetSelection = targetSelection
+            self.thingGroupName = thingGroupName
+            self.maxResults = maxResults
+            self.thingGroupId = thingGroupId
+            self.status = status
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetSelection = "targetSelection"
+            case thingGroupName = "thingGroupName"
+            case maxResults = "maxResults"
+            case thingGroupId = "thingGroupId"
+            case status = "status"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListIndicesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "indexNames", required: false, type: .list)
+        ]
+        /// The token used to get the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+        /// The index names.
+        public let indexNames: [String]?
+
+        public init(nextToken: String? = nil, indexNames: [String]? = nil) {
+            self.nextToken = nextToken
+            self.indexNames = indexNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case indexNames = "indexNames"
+        }
+    }
+
+    public struct DeleteCertificateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "forceDelete", location: .querystring(locationName: "forceDelete"), required: false, type: .boolean), 
+            AWSShapeMember(label: "certificateId", location: .uri(locationName: "certificateId"), required: true, type: .string)
+        ]
+        /// Forces a certificate request to be deleted.
+        public let forceDelete: Bool?
+        /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
+        public let certificateId: String
+
+        public init(forceDelete: Bool? = nil, certificateId: String) {
+            self.forceDelete = forceDelete
+            self.certificateId = certificateId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case forceDelete = "forceDelete"
+            case certificateId = "certificateId"
+        }
+    }
+
+    public struct UpdateDynamicThingGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "expectedVersion", required: false, type: .long), 
+            AWSShapeMember(label: "queryString", required: false, type: .string), 
+            AWSShapeMember(label: "queryVersion", required: false, type: .string), 
+            AWSShapeMember(label: "thingGroupName", location: .uri(locationName: "thingGroupName"), required: true, type: .string), 
+            AWSShapeMember(label: "thingGroupProperties", required: true, type: .structure), 
+            AWSShapeMember(label: "indexName", required: false, type: .string)
+        ]
+        /// The expected version of the dynamic thing group to update.
+        public let expectedVersion: Int64?
+        /// The dynamic thing group search query string to update.
+        public let queryString: String?
+        /// The dynamic thing group query version to update.  Currently one query version is supported: "2017-09-30". If not specified, the query version defaults to this value. 
+        public let queryVersion: String?
+        /// The name of the dynamic thing group to update.
+        public let thingGroupName: String
+        /// The dynamic thing group properties to update.
+        public let thingGroupProperties: ThingGroupProperties
+        /// The dynamic thing group index to update.  Currently one index is supported: 'AWS_Things'. 
+        public let indexName: String?
+
+        public init(expectedVersion: Int64? = nil, queryString: String? = nil, queryVersion: String? = nil, thingGroupName: String, thingGroupProperties: ThingGroupProperties, indexName: String? = nil) {
+            self.expectedVersion = expectedVersion
+            self.queryString = queryString
+            self.queryVersion = queryVersion
+            self.thingGroupName = thingGroupName
+            self.thingGroupProperties = thingGroupProperties
+            self.indexName = indexName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expectedVersion = "expectedVersion"
+            case queryString = "queryString"
+            case queryVersion = "queryVersion"
+            case thingGroupName = "thingGroupName"
+            case thingGroupProperties = "thingGroupProperties"
+            case indexName = "indexName"
+        }
+    }
+
+    public enum CannedAccessControlList: String, CustomStringConvertible, Codable {
+        case `private` = "private"
+        case publicRead = "public-read"
+        case publicReadWrite = "public-read-write"
+        case awsExecRead = "aws-exec-read"
+        case authenticatedRead = "authenticated-read"
+        case bucketOwnerRead = "bucket-owner-read"
+        case bucketOwnerFullControl = "bucket-owner-full-control"
+        case logDeliveryWrite = "log-delivery-write"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListStreamsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "streams", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// A list of streams.
+        public let streams: [StreamSummary]?
+        /// A token used to get the next set of results.
+        public let nextToken: String?
+
+        public init(streams: [StreamSummary]? = nil, nextToken: String? = nil) {
+            self.streams = streams
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streams = "streams"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct RegisterCACertificateResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificateArn", required: false, type: .string), 
+            AWSShapeMember(label: "certificateId", required: false, type: .string)
+        ]
+        /// The CA certificate ARN.
+        public let certificateArn: String?
+        /// The CA certificate identifier.
+        public let certificateId: String?
+
+        public init(certificateArn: String? = nil, certificateId: String? = nil) {
+            self.certificateArn = certificateArn
+            self.certificateId = certificateId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "certificateArn"
+            case certificateId = "certificateId"
+        }
+    }
+
+    public struct AttachSecurityProfileResponse: AWSShape {
+
+    }
+
+    public struct AbortCriteria: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thresholdPercentage", required: true, type: .double), 
+            AWSShapeMember(label: "minNumberOfExecutedThings", required: true, type: .integer), 
+            AWSShapeMember(label: "action", required: true, type: .enum), 
+            AWSShapeMember(label: "failureType", required: true, type: .enum)
+        ]
+        /// The threshold as a percentage of the total number of executed things that will initiate a job abort. AWS IoT supports up to two digits after the decimal (for example, 10.9 and 10.99, but not 10.999).
+        public let thresholdPercentage: Double
+        /// Minimum number of executed things before evaluating an abort rule.
+        public let minNumberOfExecutedThings: Int32
+        /// The type of abort action to initiate a job abort.
+        public let action: AbortAction
+        /// The type of job execution failure to define a rule to initiate a job abort.
+        public let failureType: JobExecutionFailureType
+
+        public init(thresholdPercentage: Double, minNumberOfExecutedThings: Int32, action: AbortAction, failureType: JobExecutionFailureType) {
+            self.thresholdPercentage = thresholdPercentage
+            self.minNumberOfExecutedThings = minNumberOfExecutedThings
+            self.action = action
+            self.failureType = failureType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case thresholdPercentage = "thresholdPercentage"
+            case minNumberOfExecutedThings = "minNumberOfExecutedThings"
+            case action = "action"
+            case failureType = "failureType"
+        }
+    }
+
+    public struct DescribeJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "job", required: false, type: .structure), 
+            AWSShapeMember(label: "documentSource", required: false, type: .string)
+        ]
+        /// Information about the job.
+        public let job: Job?
+        /// An S3 link to the job document.
+        public let documentSource: String?
+
+        public init(job: Job? = nil, documentSource: String? = nil) {
+            self.job = job
+            self.documentSource = documentSource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case job = "job"
+            case documentSource = "documentSource"
+        }
+    }
+
+    public struct DeleteDynamicThingGroupResponse: AWSShape {
+
+    }
+
+    public struct ValidateSecurityProfileBehaviorsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "validationErrors", required: false, type: .list), 
+            AWSShapeMember(label: "valid", required: false, type: .boolean)
+        ]
+        /// The list of any errors found in the behaviors.
+        public let validationErrors: [ValidationError]?
+        /// True if the behaviors were valid.
+        public let valid: Bool?
+
+        public init(validationErrors: [ValidationError]? = nil, valid: Bool? = nil) {
+            self.validationErrors = validationErrors
+            self.valid = valid
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case validationErrors = "validationErrors"
+            case valid = "valid"
+        }
+    }
+
+    public struct S3Location: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "key", required: false, type: .string), 
+            AWSShapeMember(label: "bucket", required: false, type: .string), 
+            AWSShapeMember(label: "version", required: false, type: .string)
+        ]
+        /// The S3 key.
+        public let key: String?
+        /// The S3 bucket.
+        public let bucket: String?
+        /// The S3 bucket version.
+        public let version: String?
+
+        public init(key: String? = nil, bucket: String? = nil, version: String? = nil) {
+            self.key = key
+            self.bucket = bucket
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case bucket = "bucket"
+            case version = "version"
+        }
+    }
+
+    public struct DeleteRoleAliasResponse: AWSShape {
+
+    }
+
+    public struct DescribeCACertificateResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "registrationConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "certificateDescription", required: false, type: .structure)
+        ]
+        /// Information about the registration configuration.
+        public let registrationConfig: RegistrationConfig?
+        /// The CA certificate description.
+        public let certificateDescription: CACertificateDescription?
+
+        public init(registrationConfig: RegistrationConfig? = nil, certificateDescription: CACertificateDescription? = nil) {
+            self.registrationConfig = registrationConfig
+            self.certificateDescription = certificateDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registrationConfig = "registrationConfig"
+            case certificateDescription = "certificateDescription"
+        }
+    }
+
+    public struct Action: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "dynamoDBv2", required: false, type: .structure), 
+            AWSShapeMember(label: "stepFunctions", required: false, type: .structure), 
+            AWSShapeMember(label: "firehose", required: false, type: .structure), 
+            AWSShapeMember(label: "sns", required: false, type: .structure), 
+            AWSShapeMember(label: "cloudwatchMetric", required: false, type: .structure), 
+            AWSShapeMember(label: "dynamoDB", required: false, type: .structure), 
+            AWSShapeMember(label: "kinesis", required: false, type: .structure), 
+            AWSShapeMember(label: "cloudwatchAlarm", required: false, type: .structure), 
+            AWSShapeMember(label: "salesforce", required: false, type: .structure), 
+            AWSShapeMember(label: "s3", required: false, type: .structure), 
+            AWSShapeMember(label: "republish", required: false, type: .structure), 
+            AWSShapeMember(label: "iotEvents", required: false, type: .structure), 
+            AWSShapeMember(label: "sqs", required: false, type: .structure), 
+            AWSShapeMember(label: "elasticsearch", required: false, type: .structure), 
+            AWSShapeMember(label: "lambda", required: false, type: .structure), 
+            AWSShapeMember(label: "iotAnalytics", required: false, type: .structure)
+        ]
+        /// Write to a DynamoDB table. This is a new version of the DynamoDB action. It allows you to write each attribute in an MQTT message payload into a separate DynamoDB column.
+        public let dynamoDBv2: DynamoDBv2Action?
+        /// Starts execution of a Step Functions state machine.
+        public let stepFunctions: StepFunctionsAction?
+        /// Write to an Amazon Kinesis Firehose stream.
+        public let firehose: FirehoseAction?
+        /// Publish to an Amazon SNS topic.
+        public let sns: SnsAction?
+        /// Capture a CloudWatch metric.
+        public let cloudwatchMetric: CloudwatchMetricAction?
+        /// Write to a DynamoDB table.
+        public let dynamoDB: DynamoDBAction?
+        /// Write data to an Amazon Kinesis stream.
+        public let kinesis: KinesisAction?
+        /// Change the state of a CloudWatch alarm.
+        public let cloudwatchAlarm: CloudwatchAlarmAction?
+        /// Send a message to a Salesforce IoT Cloud Input Stream.
+        public let salesforce: SalesforceAction?
+        /// Write to an Amazon S3 bucket.
+        public let s3: S3Action?
+        /// Publish to another MQTT topic.
+        public let republish: RepublishAction?
+        /// Sends an input to an AWS IoT Events detector.
+        public let iotEvents: IotEventsAction?
+        /// Publish to an Amazon SQS queue.
+        public let sqs: SqsAction?
+        /// Write data to an Amazon Elasticsearch Service domain.
+        public let elasticsearch: ElasticsearchAction?
+        /// Invoke a Lambda function.
+        public let lambda: LambdaAction?
+        /// Sends message data to an AWS IoT Analytics channel.
+        public let iotAnalytics: IotAnalyticsAction?
+
+        public init(dynamoDBv2: DynamoDBv2Action? = nil, stepFunctions: StepFunctionsAction? = nil, firehose: FirehoseAction? = nil, sns: SnsAction? = nil, cloudwatchMetric: CloudwatchMetricAction? = nil, dynamoDB: DynamoDBAction? = nil, kinesis: KinesisAction? = nil, cloudwatchAlarm: CloudwatchAlarmAction? = nil, salesforce: SalesforceAction? = nil, s3: S3Action? = nil, republish: RepublishAction? = nil, iotEvents: IotEventsAction? = nil, sqs: SqsAction? = nil, elasticsearch: ElasticsearchAction? = nil, lambda: LambdaAction? = nil, iotAnalytics: IotAnalyticsAction? = nil) {
+            self.dynamoDBv2 = dynamoDBv2
+            self.stepFunctions = stepFunctions
+            self.firehose = firehose
+            self.sns = sns
+            self.cloudwatchMetric = cloudwatchMetric
+            self.dynamoDB = dynamoDB
+            self.kinesis = kinesis
+            self.cloudwatchAlarm = cloudwatchAlarm
+            self.salesforce = salesforce
+            self.s3 = s3
+            self.republish = republish
+            self.iotEvents = iotEvents
+            self.sqs = sqs
+            self.elasticsearch = elasticsearch
+            self.lambda = lambda
+            self.iotAnalytics = iotAnalytics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dynamoDBv2 = "dynamoDBv2"
+            case stepFunctions = "stepFunctions"
+            case firehose = "firehose"
+            case sns = "sns"
+            case cloudwatchMetric = "cloudwatchMetric"
+            case dynamoDB = "dynamoDB"
+            case kinesis = "kinesis"
+            case cloudwatchAlarm = "cloudwatchAlarm"
+            case salesforce = "salesforce"
+            case s3 = "s3"
+            case republish = "republish"
+            case iotEvents = "iotEvents"
+            case sqs = "sqs"
+            case elasticsearch = "elasticsearch"
+            case lambda = "lambda"
+            case iotAnalytics = "iotAnalytics"
+        }
+    }
+
+    public struct DeleteThingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "expectedVersion", location: .querystring(locationName: "expectedVersion"), required: false, type: .long), 
+            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
+        ]
+        /// The expected version of the thing record in the registry. If the version of the record in the registry does not match the expected version specified in the request, the DeleteThing request is rejected with a VersionConflictException.
+        public let expectedVersion: Int64?
+        /// The name of the thing to delete.
+        public let thingName: String
+
+        public init(expectedVersion: Int64? = nil, thingName: String) {
+            self.expectedVersion = expectedVersion
+            self.thingName = thingName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expectedVersion = "expectedVersion"
+            case thingName = "thingName"
+        }
+    }
+
+    public struct CreateAuthorizerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tokenSigningPublicKeys", required: true, type: .map), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "tokenKeyName", required: true, type: .string), 
+            AWSShapeMember(label: "authorizerName", location: .uri(locationName: "authorizerName"), required: true, type: .string), 
+            AWSShapeMember(label: "authorizerFunctionArn", required: true, type: .string)
+        ]
+        /// The public keys used to verify the digital signature returned by your custom authentication service.
+        public let tokenSigningPublicKeys: [String: String]
+        /// The status of the create authorizer request.
+        public let status: AuthorizerStatus?
+        /// The name of the token key used to extract the token from the HTTP headers.
+        public let tokenKeyName: String
+        /// The authorizer name.
+        public let authorizerName: String
+        /// The ARN of the authorizer's Lambda function.
+        public let authorizerFunctionArn: String
+
+        public init(tokenSigningPublicKeys: [String: String], status: AuthorizerStatus? = nil, tokenKeyName: String, authorizerName: String, authorizerFunctionArn: String) {
+            self.tokenSigningPublicKeys = tokenSigningPublicKeys
+            self.status = status
+            self.tokenKeyName = tokenKeyName
+            self.authorizerName = authorizerName
+            self.authorizerFunctionArn = authorizerFunctionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tokenSigningPublicKeys = "tokenSigningPublicKeys"
+            case status = "status"
+            case tokenKeyName = "tokenKeyName"
+            case authorizerName = "authorizerName"
+            case authorizerFunctionArn = "authorizerFunctionArn"
+        }
+    }
+
+    public struct RateIncreaseCriteria: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "numberOfNotifiedThings", required: false, type: .integer), 
+            AWSShapeMember(label: "numberOfSucceededThings", required: false, type: .integer)
+        ]
+        /// The threshold for number of notified things that will initiate the increase in rate of rollout.
+        public let numberOfNotifiedThings: Int32?
+        /// The threshold for number of succeeded things that will initiate the increase in rate of rollout.
+        public let numberOfSucceededThings: Int32?
+
+        public init(numberOfNotifiedThings: Int32? = nil, numberOfSucceededThings: Int32? = nil) {
+            self.numberOfNotifiedThings = numberOfNotifiedThings
+            self.numberOfSucceededThings = numberOfSucceededThings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case numberOfNotifiedThings = "numberOfNotifiedThings"
+            case numberOfSucceededThings = "numberOfSucceededThings"
+        }
+    }
+
+    public struct RegisterThingResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificatePem", required: false, type: .string), 
+            AWSShapeMember(label: "resourceArns", required: false, type: .map)
+        ]
+        /// .
+        public let certificatePem: String?
+        /// ARNs for the generated resources.
+        public let resourceArns: [String: String]?
+
+        public init(certificatePem: String? = nil, resourceArns: [String: String]? = nil) {
+            self.certificatePem = certificatePem
+            self.resourceArns = resourceArns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificatePem = "certificatePem"
+            case resourceArns = "resourceArns"
+        }
+    }
+
+    public enum AuditCheckRunStatus: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case waitingForDataCollection = "WAITING_FOR_DATA_COLLECTION"
+        case canceled = "CANCELED"
+        case completedCompliant = "COMPLETED_COMPLIANT"
+        case completedNonCompliant = "COMPLETED_NON_COMPLIANT"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UpdateRoleAliasRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "roleArn", required: false, type: .string), 
+            AWSShapeMember(label: "roleAlias", location: .uri(locationName: "roleAlias"), required: true, type: .string), 
+            AWSShapeMember(label: "credentialDurationSeconds", required: false, type: .integer)
+        ]
+        /// The role ARN.
+        public let roleArn: String?
+        /// The role alias to update.
+        public let roleAlias: String
+        /// The number of seconds the credential will be valid.
+        public let credentialDurationSeconds: Int32?
+
+        public init(roleArn: String? = nil, roleAlias: String, credentialDurationSeconds: Int32? = nil) {
+            self.roleArn = roleArn
+            self.roleAlias = roleAlias
+            self.credentialDurationSeconds = credentialDurationSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "roleArn"
+            case roleAlias = "roleAlias"
+            case credentialDurationSeconds = "credentialDurationSeconds"
+        }
+    }
+
+    public struct AddThingToBillingGroupResponse: AWSShape {
+
+    }
+
+    public struct DescribeCertificateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificateId", location: .uri(locationName: "certificateId"), required: true, type: .string)
+        ]
+        /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
+        public let certificateId: String
+
+        public init(certificateId: String) {
+            self.certificateId = certificateId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateId = "certificateId"
+        }
+    }
+
+    public struct ListAuditTasksResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "tasks", required: false, type: .list)
+        ]
+        /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+        /// The audits that were performed during the specified time period.
+        public let tasks: [AuditTaskMetadata]?
+
+        public init(nextToken: String? = nil, tasks: [AuditTaskMetadata]? = nil) {
+            self.nextToken = nextToken
+            self.tasks = tasks
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case tasks = "tasks"
+        }
+    }
+
+    public struct LoggingOptionsPayload: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "logLevel", required: false, type: .enum), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string)
+        ]
+        /// The log level.
+        public let logLevel: LogLevel?
+        /// The ARN of the IAM role that grants access.
+        public let roleArn: String
+
+        public init(logLevel: LogLevel? = nil, roleArn: String) {
+            self.logLevel = logLevel
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logLevel = "logLevel"
+            case roleArn = "roleArn"
+        }
+    }
+
+    public struct ListAuthorizersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextMarker", required: false, type: .string), 
+            AWSShapeMember(label: "authorizers", required: false, type: .list)
+        ]
+        /// A marker used to get the next set of results.
+        public let nextMarker: String?
+        /// The authorizers.
+        public let authorizers: [AuthorizerSummary]?
+
+        public init(nextMarker: String? = nil, authorizers: [AuthorizerSummary]? = nil) {
+            self.nextMarker = nextMarker
+            self.authorizers = authorizers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextMarker = "nextMarker"
+            case authorizers = "authorizers"
+        }
+    }
+
+    public struct IotAnalyticsAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "channelName", required: false, type: .string), 
+            AWSShapeMember(label: "channelArn", required: false, type: .string), 
+            AWSShapeMember(label: "roleArn", required: false, type: .string)
+        ]
+        /// The name of the IoT Analytics channel to which message data will be sent.
+        public let channelName: String?
+        /// (deprecated) The ARN of the IoT Analytics channel to which message data will be sent.
+        public let channelArn: String?
+        /// The ARN of the role which has a policy that grants IoT Analytics permission to send message data via IoT Analytics (iotanalytics:BatchPutMessage).
+        public let roleArn: String?
+
+        public init(channelName: String? = nil, channelArn: String? = nil, roleArn: String? = nil) {
+            self.channelName = channelName
+            self.channelArn = channelArn
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelName = "channelName"
+            case channelArn = "channelArn"
+            case roleArn = "roleArn"
+        }
+    }
+
+    public enum DynamicGroupStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case building = "BUILDING"
+        case rebuilding = "REBUILDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct JobExecutionsRolloutConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maximumPerMinute", required: false, type: .integer), 
+            AWSShapeMember(label: "exponentialRate", required: false, type: .structure)
+        ]
+        /// The maximum number of things that will be notified of a pending job, per minute. This parameter allows you to create a staged rollout.
+        public let maximumPerMinute: Int32?
+        /// The rate of increase for a job rollout. This parameter allows you to define an exponential rate for a job rollout.
+        public let exponentialRate: ExponentialRolloutRate?
+
+        public init(maximumPerMinute: Int32? = nil, exponentialRate: ExponentialRolloutRate? = nil) {
+            self.maximumPerMinute = maximumPerMinute
+            self.exponentialRate = exponentialRate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maximumPerMinute = "maximumPerMinute"
+            case exponentialRate = "exponentialRate"
+        }
+    }
+
+    public struct DetachThingPrincipalRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string), 
+            AWSShapeMember(label: "principal", location: .header(locationName: "x-amzn-principal"), required: true, type: .string)
+        ]
+        /// The name of the thing.
+        public let thingName: String
+        /// If the principal is a certificate, this value must be ARN of the certificate. If the principal is an Amazon Cognito identity, this value must be the ID of the Amazon Cognito identity.
+        public let principal: String
+
+        public init(thingName: String, principal: String) {
+            self.thingName = thingName
+            self.principal = principal
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case thingName = "thingName"
+            case principal = "x-amzn-principal"
+        }
+    }
+
+    public struct DescribeDefaultAuthorizerResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "authorizerDescription", required: false, type: .structure)
+        ]
+        /// The default authorizer's description.
+        public let authorizerDescription: AuthorizerDescription?
+
+        public init(authorizerDescription: AuthorizerDescription? = nil) {
+            self.authorizerDescription = authorizerDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizerDescription = "authorizerDescription"
+        }
+    }
+
+    public enum ThingConnectivityIndexingMode: String, CustomStringConvertible, Codable {
+        case off = "OFF"
+        case status = "STATUS"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct MetricValue: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "cidrs", required: false, type: .list), 
+            AWSShapeMember(label: "count", required: false, type: .long), 
+            AWSShapeMember(label: "ports", required: false, type: .list)
+        ]
+        /// If the comparisonOperator calls for a set of CIDRs, use this to specify that set to be compared with the metric.
+        public let cidrs: [String]?
+        /// If the comparisonOperator calls for a numeric value, use this to specify that numeric value to be compared with the metric.
+        public let count: Int64?
+        /// If the comparisonOperator calls for a set of ports, use this to specify that set to be compared with the metric.
+        public let ports: [Int32]?
+
+        public init(cidrs: [String]? = nil, count: Int64? = nil, ports: [Int32]? = nil) {
+            self.cidrs = cidrs
+            self.count = count
+            self.ports = ports
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidrs = "cidrs"
+            case count = "count"
+            case ports = "ports"
+        }
+    }
+
+    public struct UpdateJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "presignedUrlConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "timeoutConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "abortConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "jobExecutionsRolloutConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string)
+        ]
+        /// Configuration information for pre-signed S3 URLs.
+        public let presignedUrlConfig: PresignedUrlConfig?
+        /// Specifies the amount of time each device has to finish its execution of the job. The timer is started when the job execution status is set to IN_PROGRESS. If the job execution status is not set to another terminal state before the time expires, it will be automatically set to TIMED_OUT. 
+        public let timeoutConfig: TimeoutConfig?
+        /// Allows you to create criteria to abort a job.
+        public let abortConfig: AbortConfig?
+        /// A short text description of the job.
+        public let description: String?
+        /// Allows you to create a staged rollout of the job.
+        public let jobExecutionsRolloutConfig: JobExecutionsRolloutConfig?
+        /// The ID of the job to be updated.
+        public let jobId: String
+
+        public init(presignedUrlConfig: PresignedUrlConfig? = nil, timeoutConfig: TimeoutConfig? = nil, abortConfig: AbortConfig? = nil, description: String? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String) {
+            self.presignedUrlConfig = presignedUrlConfig
+            self.timeoutConfig = timeoutConfig
+            self.abortConfig = abortConfig
+            self.description = description
+            self.jobExecutionsRolloutConfig = jobExecutionsRolloutConfig
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case presignedUrlConfig = "presignedUrlConfig"
+            case timeoutConfig = "timeoutConfig"
+            case abortConfig = "abortConfig"
+            case description = "description"
+            case jobExecutionsRolloutConfig = "jobExecutionsRolloutConfig"
+            case jobId = "jobId"
+        }
+    }
+
+    public struct DeleteBillingGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "billingGroupName", location: .uri(locationName: "billingGroupName"), required: true, type: .string), 
+            AWSShapeMember(label: "expectedVersion", location: .querystring(locationName: "expectedVersion"), required: false, type: .long)
+        ]
+        /// The name of the billing group.
+        public let billingGroupName: String
+        /// The expected version of the billing group. If the version of the billing group does not match the expected version specified in the request, the DeleteBillingGroup request is rejected with a VersionConflictException.
+        public let expectedVersion: Int64?
+
+        public init(billingGroupName: String, expectedVersion: Int64? = nil) {
+            self.billingGroupName = billingGroupName
+            self.expectedVersion = expectedVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case billingGroupName = "billingGroupName"
+            case expectedVersion = "expectedVersion"
+        }
+    }
+
+    public struct ListThingPrincipalsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
+        ]
+        /// The name of the thing.
+        public let thingName: String
+
+        public init(thingName: String) {
+            self.thingName = thingName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case thingName = "thingName"
+        }
+    }
+
+    public struct UpdateCertificateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "newStatus", location: .querystring(locationName: "newStatus"), required: true, type: .enum), 
+            AWSShapeMember(label: "certificateId", location: .uri(locationName: "certificateId"), required: true, type: .string)
+        ]
+        /// The new status.  Note: Setting the status to PENDING_TRANSFER will result in an exception being thrown. PENDING_TRANSFER is a status used internally by AWS IoT. It is not intended for developer use.  Note: The status value REGISTER_INACTIVE is deprecated and should not be used.
+        public let newStatus: CertificateStatus
+        /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
+        public let certificateId: String
+
+        public init(newStatus: CertificateStatus, certificateId: String) {
+            self.newStatus = newStatus
+            self.certificateId = certificateId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case newStatus = "newStatus"
+            case certificateId = "certificateId"
+        }
+    }
+
+    public struct DeleteSecurityProfileRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "expectedVersion", location: .querystring(locationName: "expectedVersion"), required: false, type: .long), 
+            AWSShapeMember(label: "securityProfileName", location: .uri(locationName: "securityProfileName"), required: true, type: .string)
+        ]
+        /// The expected version of the security profile. A new version is generated whenever the security profile is updated. If you specify a value that is different than the actual version, a VersionConflictException is thrown.
+        public let expectedVersion: Int64?
+        /// The name of the security profile to be deleted.
+        public let securityProfileName: String
+
+        public init(expectedVersion: Int64? = nil, securityProfileName: String) {
+            self.expectedVersion = expectedVersion
+            self.securityProfileName = securityProfileName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expectedVersion = "expectedVersion"
+            case securityProfileName = "securityProfileName"
+        }
+    }
+
+    public struct DescribeThingRegistrationTaskResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "message", required: false, type: .string), 
+            AWSShapeMember(label: "roleArn", required: false, type: .string), 
+            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "templateBody", required: false, type: .string), 
+            AWSShapeMember(label: "failureCount", required: false, type: .integer), 
+            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "inputFileBucket", required: false, type: .string), 
+            AWSShapeMember(label: "successCount", required: false, type: .integer), 
+            AWSShapeMember(label: "inputFileKey", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "percentageProgress", required: false, type: .integer), 
+            AWSShapeMember(label: "taskId", required: false, type: .string)
+        ]
+        /// The message.
+        public let message: String?
+        /// The role ARN that grants access to the input file bucket.
+        public let roleArn: String?
+        /// The date when the task was last modified.
+        public let lastModifiedDate: TimeStamp?
+        /// The task's template.
+        public let templateBody: String?
+        /// The number of things that failed to be provisioned.
+        public let failureCount: Int32?
+        /// The task creation date.
+        public let creationDate: TimeStamp?
+        /// The S3 bucket that contains the input file.
+        public let inputFileBucket: String?
+        /// The number of things successfully provisioned.
+        public let successCount: Int32?
+        /// The input file key.
+        public let inputFileKey: String?
+        /// The status of the bulk thing provisioning task.
+        public let status: Status?
+        /// The progress of the bulk provisioning task expressed as a percentage.
+        public let percentageProgress: Int32?
+        /// The task ID.
+        public let taskId: String?
+
+        public init(message: String? = nil, roleArn: String? = nil, lastModifiedDate: TimeStamp? = nil, templateBody: String? = nil, failureCount: Int32? = nil, creationDate: TimeStamp? = nil, inputFileBucket: String? = nil, successCount: Int32? = nil, inputFileKey: String? = nil, status: Status? = nil, percentageProgress: Int32? = nil, taskId: String? = nil) {
+            self.message = message
+            self.roleArn = roleArn
+            self.lastModifiedDate = lastModifiedDate
+            self.templateBody = templateBody
+            self.failureCount = failureCount
+            self.creationDate = creationDate
+            self.inputFileBucket = inputFileBucket
+            self.successCount = successCount
+            self.inputFileKey = inputFileKey
+            self.status = status
+            self.percentageProgress = percentageProgress
+            self.taskId = taskId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case roleArn = "roleArn"
+            case lastModifiedDate = "lastModifiedDate"
+            case templateBody = "templateBody"
+            case failureCount = "failureCount"
+            case creationDate = "creationDate"
+            case inputFileBucket = "inputFileBucket"
+            case successCount = "successCount"
+            case inputFileKey = "inputFileKey"
+            case status = "status"
+            case percentageProgress = "percentageProgress"
+            case taskId = "taskId"
+        }
+    }
+
+    public struct NonCompliantResource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceIdentifier", required: false, type: .structure), 
+            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "additionalInfo", required: false, type: .map)
+        ]
+        /// Information identifying the non-compliant resource.
+        public let resourceIdentifier: ResourceIdentifier?
+        /// The type of the non-compliant resource.
+        public let resourceType: ResourceType?
+        /// Additional information about the non-compliant resource.
+        public let additionalInfo: [String: String]?
+
+        public init(resourceIdentifier: ResourceIdentifier? = nil, resourceType: ResourceType? = nil, additionalInfo: [String: String]? = nil) {
+            self.resourceIdentifier = resourceIdentifier
+            self.resourceType = resourceType
+            self.additionalInfo = additionalInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceIdentifier = "resourceIdentifier"
+            case resourceType = "resourceType"
+            case additionalInfo = "additionalInfo"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .list)
+        ]
+        /// The token used to get the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+        /// The list of tags assigned to the resource.
+        public let tags: [Tag]?
+
+        public init(nextToken: String? = nil, tags: [Tag]? = nil) {
+            self.nextToken = nextToken
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case tags = "tags"
+        }
+    }
+
+    public enum DayOfWeek: String, CustomStringConvertible, Codable {
+        case sun = "SUN"
+        case mon = "MON"
+        case tue = "TUE"
+        case wed = "WED"
+        case thu = "THU"
+        case fri = "FRI"
+        case sat = "SAT"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct RegisterCertificateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "caCertificatePem", required: false, type: .string), 
+            AWSShapeMember(label: "certificatePem", required: true, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "setAsActive", location: .querystring(locationName: "setAsActive"), required: false, type: .boolean)
+        ]
+        /// The CA certificate used to sign the device certificate being registered.
+        public let caCertificatePem: String?
+        /// The certificate data, in PEM format.
+        public let certificatePem: String
+        /// The status of the register certificate request.
+        public let status: CertificateStatus?
+        /// A boolean value that specifies if the CA certificate is set to active.
+        public let setAsActive: Bool?
+
+        public init(caCertificatePem: String? = nil, certificatePem: String, status: CertificateStatus? = nil, setAsActive: Bool? = nil) {
+            self.caCertificatePem = caCertificatePem
+            self.certificatePem = certificatePem
+            self.status = status
+            self.setAsActive = setAsActive
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case caCertificatePem = "caCertificatePem"
+            case certificatePem = "certificatePem"
+            case status = "status"
+            case setAsActive = "setAsActive"
+        }
+    }
+
+    public enum ComparisonOperator: String, CustomStringConvertible, Codable {
+        case lessThan = "less-than"
+        case lessThanEquals = "less-than-equals"
+        case greaterThan = "greater-than"
+        case greaterThanEquals = "greater-than-equals"
+        case inCidrSet = "in-cidr-set"
+        case notInCidrSet = "not-in-cidr-set"
+        case inPortSet = "in-port-set"
+        case notInPortSet = "not-in-port-set"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AlertTargetType: String, CustomStringConvertible, Codable {
+        case sns = "SNS"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CloudwatchMetricAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "metricNamespace", required: true, type: .string), 
+            AWSShapeMember(label: "metricTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "metricName", required: true, type: .string), 
+            AWSShapeMember(label: "metricValue", required: true, type: .string), 
+            AWSShapeMember(label: "metricUnit", required: true, type: .string), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string)
+        ]
+        /// The CloudWatch metric namespace name.
+        public let metricNamespace: String
+        /// An optional Unix timestamp.
+        public let metricTimestamp: String?
+        /// The CloudWatch metric name.
+        public let metricName: String
+        /// The CloudWatch metric value.
+        public let metricValue: String
+        /// The metric unit supported by CloudWatch.
+        public let metricUnit: String
+        /// The IAM role that allows access to the CloudWatch metric.
+        public let roleArn: String
+
+        public init(metricNamespace: String, metricTimestamp: String? = nil, metricName: String, metricValue: String, metricUnit: String, roleArn: String) {
+            self.metricNamespace = metricNamespace
+            self.metricTimestamp = metricTimestamp
+            self.metricName = metricName
+            self.metricValue = metricValue
+            self.metricUnit = metricUnit
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricNamespace = "metricNamespace"
+            case metricTimestamp = "metricTimestamp"
+            case metricName = "metricName"
+            case metricValue = "metricValue"
+            case metricUnit = "metricUnit"
+            case roleArn = "roleArn"
+        }
+    }
+
+    public struct JobExecutionSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "executionNumber", required: false, type: .long), 
+            AWSShapeMember(label: "queuedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "startedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "status", required: false, type: .enum)
+        ]
+        /// The time, in milliseconds since the epoch, when the job execution was last updated.
+        public let lastUpdatedAt: TimeStamp?
+        /// A string (consisting of the digits "0" through "9") which identifies this particular job execution on this particular device. It can be used later in commands which return or update job execution information.
+        public let executionNumber: Int64?
+        /// The time, in milliseconds since the epoch, when the job execution was queued.
+        public let queuedAt: TimeStamp?
+        /// The time, in milliseconds since the epoch, when the job execution started.
+        public let startedAt: TimeStamp?
+        /// The status of the job execution.
+        public let status: JobExecutionStatus?
+
+        public init(lastUpdatedAt: TimeStamp? = nil, executionNumber: Int64? = nil, queuedAt: TimeStamp? = nil, startedAt: TimeStamp? = nil, status: JobExecutionStatus? = nil) {
+            self.lastUpdatedAt = lastUpdatedAt
+            self.executionNumber = executionNumber
+            self.queuedAt = queuedAt
+            self.startedAt = startedAt
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastUpdatedAt = "lastUpdatedAt"
+            case executionNumber = "executionNumber"
+            case queuedAt = "queuedAt"
+            case startedAt = "startedAt"
+            case status = "status"
+        }
+    }
+
+    public struct DeleteJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string), 
+            AWSShapeMember(label: "force", location: .querystring(locationName: "force"), required: false, type: .boolean)
+        ]
+        /// The ID of the job to be deleted. After a job deletion is completed, you may reuse this jobId when you create a new job. However, this is not recommended, and you must ensure that your devices are not using the jobId to refer to the deleted job.
+        public let jobId: String
+        /// (Optional) When true, you can delete a job which is "IN_PROGRESS". Otherwise, you can only delete a job which is in a terminal state ("COMPLETED" or "CANCELED") or an exception will occur. The default is false.  Deleting a job which is "IN_PROGRESS", will cause a device which is executing the job to be unable to access job information or update the job execution status. Use caution and ensure that each device executing a job which is deleted is able to recover to a valid state. 
+        public let force: Bool?
+
+        public init(jobId: String, force: Bool? = nil) {
+            self.jobId = jobId
+            self.force = force
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "jobId"
+            case force = "force"
+        }
+    }
+
+    public struct DetachPrincipalPolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string), 
+            AWSShapeMember(label: "principal", location: .header(locationName: "x-amzn-iot-principal"), required: true, type: .string)
+        ]
+        /// The name of the policy to detach.
+        public let policyName: String
+        /// The principal. If the principal is a certificate, specify the certificate ARN. If the principal is an Amazon Cognito identity, specify the identity ID.
+        public let principal: String
+
+        public init(policyName: String, principal: String) {
+            self.policyName = policyName
+            self.principal = principal
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyName = "policyName"
+            case principal = "x-amzn-iot-principal"
+        }
+    }
+
+    public struct DescribeEndpointResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "endpointAddress", required: false, type: .string)
+        ]
+        /// The endpoint. The format of the endpoint is as follows: identifier.iot.region.amazonaws.com.
+        public let endpointAddress: String?
+
+        public init(endpointAddress: String? = nil) {
+            self.endpointAddress = endpointAddress
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointAddress = "endpointAddress"
+        }
+    }
+
+    public struct SearchIndexResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "things", required: false, type: .list), 
+            AWSShapeMember(label: "thingGroups", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// The things that match the search query.
+        public let things: [ThingDocument]?
+        /// The thing groups that match the search query.
+        public let thingGroups: [ThingGroupDocument]?
+        /// The token used to get the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+
+        public init(things: [ThingDocument]? = nil, thingGroups: [ThingGroupDocument]? = nil, nextToken: String? = nil) {
+            self.things = things
+            self.thingGroups = thingGroups
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case things = "things"
+            case thingGroups = "thingGroups"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct TestAuthorizationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "authResults", required: false, type: .list)
+        ]
+        /// The authentication results.
+        public let authResults: [AuthResult]?
+
+        public init(authResults: [AuthResult]? = nil) {
+            self.authResults = authResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authResults = "authResults"
+        }
+    }
+
+    public struct UpdateThingResponse: AWSShape {
+
+    }
+
+    public struct SetLoggingOptionsRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "loggingOptionsPayload"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "loggingOptionsPayload", required: true, type: .structure)
+        ]
+        /// The logging options payload.
+        public let loggingOptionsPayload: LoggingOptionsPayload
+
+        public init(loggingOptionsPayload: LoggingOptionsPayload) {
+            self.loggingOptionsPayload = loggingOptionsPayload
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loggingOptionsPayload = "loggingOptionsPayload"
+        }
+    }
+
+    public struct AuthorizerDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "authorizerFunctionArn", required: false, type: .string), 
+            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "authorizerArn", required: false, type: .string), 
+            AWSShapeMember(label: "tokenKeyName", required: false, type: .string), 
+            AWSShapeMember(label: "tokenSigningPublicKeys", required: false, type: .map), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "authorizerName", required: false, type: .string)
+        ]
+        /// The authorizer's Lambda function ARN.
+        public let authorizerFunctionArn: String?
+        /// The UNIX timestamp of when the authorizer was last updated.
+        public let lastModifiedDate: TimeStamp?
+        /// The authorizer ARN.
+        public let authorizerArn: String?
+        /// The key used to extract the token from the HTTP headers.
+        public let tokenKeyName: String?
+        /// The public keys used to validate the token signature returned by your custom authentication service.
+        public let tokenSigningPublicKeys: [String: String]?
+        /// The status of the authorizer.
+        public let status: AuthorizerStatus?
+        /// The UNIX timestamp of when the authorizer was created.
+        public let creationDate: TimeStamp?
+        /// The authorizer name.
+        public let authorizerName: String?
+
+        public init(authorizerFunctionArn: String? = nil, lastModifiedDate: TimeStamp? = nil, authorizerArn: String? = nil, tokenKeyName: String? = nil, tokenSigningPublicKeys: [String: String]? = nil, status: AuthorizerStatus? = nil, creationDate: TimeStamp? = nil, authorizerName: String? = nil) {
+            self.authorizerFunctionArn = authorizerFunctionArn
+            self.lastModifiedDate = lastModifiedDate
+            self.authorizerArn = authorizerArn
+            self.tokenKeyName = tokenKeyName
+            self.tokenSigningPublicKeys = tokenSigningPublicKeys
+            self.status = status
+            self.creationDate = creationDate
+            self.authorizerName = authorizerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizerFunctionArn = "authorizerFunctionArn"
+            case lastModifiedDate = "lastModifiedDate"
+            case authorizerArn = "authorizerArn"
+            case tokenKeyName = "tokenKeyName"
+            case tokenSigningPublicKeys = "tokenSigningPublicKeys"
+            case status = "status"
+            case creationDate = "creationDate"
+            case authorizerName = "authorizerName"
+        }
+    }
+
+    public struct ErrorInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "code", required: false, type: .string), 
+            AWSShapeMember(label: "message", required: false, type: .string)
+        ]
+        /// The error code.
+        public let code: String?
+        /// The error message.
+        public let message: String?
+
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+        }
+    }
+
+    public struct ListOutgoingCertificatesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean), 
+            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer)
+        ]
+        /// Specifies the order for results. If True, the results are returned in ascending order, based on the creation date.
+        public let ascendingOrder: Bool?
+        /// The marker for the next set of results.
+        public let marker: String?
+        /// The result page size.
+        public let pageSize: Int32?
+
+        public init(ascendingOrder: Bool? = nil, marker: String? = nil, pageSize: Int32? = nil) {
+            self.ascendingOrder = ascendingOrder
+            self.marker = marker
+            self.pageSize = pageSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ascendingOrder = "isAscendingOrder"
+            case marker = "marker"
+            case pageSize = "pageSize"
+        }
+    }
+
+    public struct DescribeJobExecutionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "execution", required: false, type: .structure)
+        ]
+        /// Information about the job execution.
+        public let execution: JobExecution?
+
+        public init(execution: JobExecution? = nil) {
+            self.execution = execution
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case execution = "execution"
+        }
+    }
+
+    public enum AuditFindingSeverity: String, CustomStringConvertible, Codable {
+        case critical = "CRITICAL"
+        case high = "HIGH"
+        case medium = "MEDIUM"
+        case low = "LOW"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UpdateAccountAuditConfigurationResponse: AWSShape {
+
+    }
+
+    public struct DeleteOTAUpdateResponse: AWSShape {
+
+    }
+
+    public struct CreateJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "timeoutConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string), 
+            AWSShapeMember(label: "jobExecutionsRolloutConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "documentSource", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "targetSelection", required: false, type: .enum), 
+            AWSShapeMember(label: "abortConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "targets", required: true, type: .list), 
+            AWSShapeMember(label: "presignedUrlConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "document", required: false, type: .string)
+        ]
+        /// Specifies the amount of time each device has to finish its execution of the job. The timer is started when the job execution status is set to IN_PROGRESS. If the job execution status is not set to another terminal state before the time expires, it will be automatically set to TIMED_OUT.
+        public let timeoutConfig: TimeoutConfig?
+        /// A short text description of the job.
+        public let description: String?
+        /// A job identifier which must be unique for your AWS account. We recommend using a UUID. Alpha-numeric characters, "-" and "_" are valid for use here.
+        public let jobId: String
+        /// Allows you to create a staged rollout of the job.
+        public let jobExecutionsRolloutConfig: JobExecutionsRolloutConfig?
+        /// An S3 link to the job document.
+        public let documentSource: String?
+        /// Metadata which can be used to manage the job.
+        public let tags: [Tag]?
+        /// Specifies whether the job will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the job (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected in a target. For example, a job will run on a thing when the thing is added to a target group, even after the job was completed by all things originally in the group.
+        public let targetSelection: TargetSelection?
+        /// Allows you to create criteria to abort a job.
+        public let abortConfig: AbortConfig?
+        /// A list of things and thing groups to which the job should be sent.
+        public let targets: [String]
+        /// Configuration information for pre-signed S3 URLs.
+        public let presignedUrlConfig: PresignedUrlConfig?
+        /// The job document.  If the job document resides in an S3 bucket, you must use a placeholder link when specifying the document. The placeholder link is of the following form:  ${aws:iot:s3-presigned-url:https://s3.amazonaws.com/bucket/key}  where bucket is your bucket name and key is the object in the bucket to which you are linking. 
+        public let document: String?
+
+        public init(timeoutConfig: TimeoutConfig? = nil, description: String? = nil, jobId: String, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, documentSource: String? = nil, tags: [Tag]? = nil, targetSelection: TargetSelection? = nil, abortConfig: AbortConfig? = nil, targets: [String], presignedUrlConfig: PresignedUrlConfig? = nil, document: String? = nil) {
+            self.timeoutConfig = timeoutConfig
+            self.description = description
+            self.jobId = jobId
+            self.jobExecutionsRolloutConfig = jobExecutionsRolloutConfig
+            self.documentSource = documentSource
+            self.tags = tags
+            self.targetSelection = targetSelection
+            self.abortConfig = abortConfig
+            self.targets = targets
+            self.presignedUrlConfig = presignedUrlConfig
+            self.document = document
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timeoutConfig = "timeoutConfig"
+            case description = "description"
+            case jobId = "jobId"
+            case jobExecutionsRolloutConfig = "jobExecutionsRolloutConfig"
+            case documentSource = "documentSource"
+            case tags = "tags"
+            case targetSelection = "targetSelection"
+            case abortConfig = "abortConfig"
+            case targets = "targets"
+            case presignedUrlConfig = "presignedUrlConfig"
+            case document = "document"
+        }
+    }
+
+    public enum AuthorizerStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DisableTopicRuleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ruleName", location: .uri(locationName: "ruleName"), required: true, type: .string)
+        ]
+        /// The name of the rule to disable.
+        public let ruleName: String
+
+        public init(ruleName: String) {
+            self.ruleName = ruleName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleName = "ruleName"
+        }
+    }
+
+    public struct ListAuditTasksRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "taskStatus", location: .querystring(locationName: "taskStatus"), required: false, type: .enum), 
+            AWSShapeMember(label: "endTime", location: .querystring(locationName: "endTime"), required: true, type: .timestamp), 
+            AWSShapeMember(label: "startTime", location: .querystring(locationName: "startTime"), required: true, type: .timestamp), 
+            AWSShapeMember(label: "taskType", location: .querystring(locationName: "taskType"), required: false, type: .enum), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+        /// A filter to limit the output to audits with the specified completion status: can be one of "IN_PROGRESS", "COMPLETED", "FAILED" or "CANCELED".
+        public let taskStatus: AuditTaskStatus?
+        /// The end of the time period.
+        public let endTime: TimeStamp
+        /// The beginning of the time period. Note that audit information is retained for a limited time (180 days). Requesting a start time prior to what is retained results in an "InvalidRequestException".
+        public let startTime: TimeStamp
+        /// A filter to limit the output to the specified type of audit: can be one of "ON_DEMAND_AUDIT_TASK" or "SCHEDULED__AUDIT_TASK".
+        public let taskType: AuditTaskType?
+        /// The maximum number of results to return at one time. The default is 25.
+        public let maxResults: Int32?
+        /// The token for the next set of results.
+        public let nextToken: String?
+
+        public init(taskStatus: AuditTaskStatus? = nil, endTime: TimeStamp, startTime: TimeStamp, taskType: AuditTaskType? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.taskStatus = taskStatus
+            self.endTime = endTime
+            self.startTime = startTime
+            self.taskType = taskType
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taskStatus = "taskStatus"
+            case endTime = "endTime"
+            case startTime = "startTime"
+            case taskType = "taskType"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct KinesisAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "streamName", required: true, type: .string), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string), 
+            AWSShapeMember(label: "partitionKey", required: false, type: .string)
+        ]
+        /// The name of the Amazon Kinesis stream.
+        public let streamName: String
+        /// The ARN of the IAM role that grants access to the Amazon Kinesis stream.
+        public let roleArn: String
+        /// The partition key.
+        public let partitionKey: String?
+
+        public init(streamName: String, roleArn: String, partitionKey: String? = nil) {
+            self.streamName = streamName
+            self.roleArn = roleArn
+            self.partitionKey = partitionKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamName = "streamName"
+            case roleArn = "roleArn"
+            case partitionKey = "partitionKey"
+        }
+    }
+
+    public struct GetTopicRuleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ruleName", location: .uri(locationName: "ruleName"), required: true, type: .string)
+        ]
+        /// The name of the rule.
+        public let ruleName: String
+
+        public init(ruleName: String) {
+            self.ruleName = ruleName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleName = "ruleName"
+        }
+    }
+
+    public struct ListRoleAliasesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
+            AWSShapeMember(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean)
+        ]
+        /// A marker used to get the next set of results.
+        public let marker: String?
+        /// The maximum number of results to return at one time.
+        public let pageSize: Int32?
+        /// Return the list of role aliases in ascending alphabetical order.
+        public let ascendingOrder: Bool?
+
+        public init(marker: String? = nil, pageSize: Int32? = nil, ascendingOrder: Bool? = nil) {
+            self.marker = marker
+            self.pageSize = pageSize
+            self.ascendingOrder = ascendingOrder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "marker"
+            case pageSize = "pageSize"
+            case ascendingOrder = "isAscendingOrder"
+        }
+    }
+
+    public struct ThingGroupIndexingConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingGroupIndexingMode", required: true, type: .enum)
+        ]
+        /// Thing group indexing mode.
+        public let thingGroupIndexingMode: ThingGroupIndexingMode
+
+        public init(thingGroupIndexingMode: ThingGroupIndexingMode) {
+            self.thingGroupIndexingMode = thingGroupIndexingMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case thingGroupIndexingMode = "thingGroupIndexingMode"
+        }
+    }
+
+    public struct ListCACertificatesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean), 
+            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
+            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string)
+        ]
+        /// Determines the order of the results.
+        public let ascendingOrder: Bool?
+        /// The result page size.
+        public let pageSize: Int32?
+        /// The marker for the next set of results.
+        public let marker: String?
+
+        public init(ascendingOrder: Bool? = nil, pageSize: Int32? = nil, marker: String? = nil) {
+            self.ascendingOrder = ascendingOrder
+            self.pageSize = pageSize
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ascendingOrder = "isAscendingOrder"
+            case pageSize = "pageSize"
+            case marker = "marker"
         }
     }
 
@@ -10111,196 +8831,248 @@ extension IoT {
         }
     }
 
-    public struct ListSecurityProfilesResponse: AWSShape {
+    public struct ListThingTypesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "securityProfileIdentifiers", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "thingTypeName", location: .querystring(locationName: "thingTypeName"), required: false, type: .string), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
-        /// A list of security profile identifiers (names and ARNs).
-        public let securityProfileIdentifiers: [SecurityProfileIdentifier]?
-        /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
+        /// The maximum number of results to return in this operation.
+        public let maxResults: Int32?
+        /// The name of the thing type.
+        public let thingTypeName: String?
+        /// The token to retrieve the next set of results.
         public let nextToken: String?
 
-        public init(securityProfileIdentifiers: [SecurityProfileIdentifier]? = nil, nextToken: String? = nil) {
-            self.securityProfileIdentifiers = securityProfileIdentifiers
+        public init(maxResults: Int32? = nil, thingTypeName: String? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.thingTypeName = thingTypeName
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case securityProfileIdentifiers = "securityProfileIdentifiers"
+            case maxResults = "maxResults"
+            case thingTypeName = "thingTypeName"
             case nextToken = "nextToken"
         }
     }
 
-    public struct ThingGroupMetadata: AWSShape {
+    public struct UntagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "parentGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "rootToParentThingGroups", required: false, type: .list), 
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp)
+            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "tagKeys", required: true, type: .list)
         ]
-        /// The parent thing group name.
-        public let parentGroupName: String?
-        /// The root parent thing group.
-        public let rootToParentThingGroups: [GroupNameAndArn]?
-        /// The UNIX timestamp of when the thing group was created.
-        public let creationDate: TimeStamp?
+        /// The ARN of the resource.
+        public let resourceArn: String
+        /// A list of the keys of the tags to be removed from the resource.
+        public let tagKeys: [String]
 
-        public init(parentGroupName: String? = nil, rootToParentThingGroups: [GroupNameAndArn]? = nil, creationDate: TimeStamp? = nil) {
-            self.parentGroupName = parentGroupName
-            self.rootToParentThingGroups = rootToParentThingGroups
-            self.creationDate = creationDate
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
         }
 
         private enum CodingKeys: String, CodingKey {
-            case parentGroupName = "parentGroupName"
-            case rootToParentThingGroups = "rootToParentThingGroups"
-            case creationDate = "creationDate"
+            case resourceArn = "resourceArn"
+            case tagKeys = "tagKeys"
         }
     }
 
-    public enum CACertificateStatus: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case inactive = "INACTIVE"
-        public var description: String { return self.rawValue }
+    public struct DeleteTopicRuleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ruleName", location: .uri(locationName: "ruleName"), required: true, type: .string)
+        ]
+        /// The name of the rule.
+        public let ruleName: String
+
+        public init(ruleName: String) {
+            self.ruleName = ruleName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleName = "ruleName"
+        }
     }
 
-    public struct UpdateStreamResponse: AWSShape {
+    public struct ThingTypeMetadata: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "streamId", required: false, type: .string), 
-            AWSShapeMember(label: "streamVersion", required: false, type: .integer), 
-            AWSShapeMember(label: "streamArn", required: false, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string)
+            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "deprecated", required: false, type: .boolean), 
+            AWSShapeMember(label: "deprecationDate", required: false, type: .timestamp)
         ]
-        /// The stream ID.
-        public let streamId: String?
-        /// The stream version.
-        public let streamVersion: Int32?
+        /// The date and time when the thing type was created.
+        public let creationDate: TimeStamp?
+        /// Whether the thing type is deprecated. If true, no new things could be associated with this type.
+        public let deprecated: Bool?
+        /// The date and time when the thing type was deprecated.
+        public let deprecationDate: TimeStamp?
+
+        public init(creationDate: TimeStamp? = nil, deprecated: Bool? = nil, deprecationDate: TimeStamp? = nil) {
+            self.creationDate = creationDate
+            self.deprecated = deprecated
+            self.deprecationDate = deprecationDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDate = "creationDate"
+            case deprecated = "deprecated"
+            case deprecationDate = "deprecationDate"
+        }
+    }
+
+    public struct AttachThingPrincipalResponse: AWSShape {
+
+    }
+
+    public struct UpdateBillingGroupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "version", required: false, type: .long)
+        ]
+        /// The latest version of the billing group.
+        public let version: Int64?
+
+        public init(version: Int64? = nil) {
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case version = "version"
+        }
+    }
+
+    public struct GetJobDocumentResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "document", required: false, type: .string)
+        ]
+        /// The job document content.
+        public let document: String?
+
+        public init(document: String? = nil) {
+            self.document = document
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case document = "document"
+        }
+    }
+
+    public struct CreateStreamResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "streamArn", required: false, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "streamVersion", required: false, type: .integer), 
+            AWSShapeMember(label: "streamId", required: false, type: .string)
+        ]
         /// The stream ARN.
         public let streamArn: String?
         /// A description of the stream.
         public let description: String?
+        /// The version of the stream.
+        public let streamVersion: Int32?
+        /// The stream ID.
+        public let streamId: String?
 
-        public init(streamId: String? = nil, streamVersion: Int32? = nil, streamArn: String? = nil, description: String? = nil) {
-            self.streamId = streamId
-            self.streamVersion = streamVersion
+        public init(streamArn: String? = nil, description: String? = nil, streamVersion: Int32? = nil, streamId: String? = nil) {
             self.streamArn = streamArn
             self.description = description
+            self.streamVersion = streamVersion
+            self.streamId = streamId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case streamId = "streamId"
-            case streamVersion = "streamVersion"
             case streamArn = "streamArn"
             case description = "description"
+            case streamVersion = "streamVersion"
+            case streamId = "streamId"
         }
     }
 
-    public struct CreateThingResponse: AWSShape {
+    public struct PolicyVersion: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingId", required: false, type: .string), 
-            AWSShapeMember(label: "thingArn", required: false, type: .string), 
-            AWSShapeMember(label: "thingName", required: false, type: .string)
+            AWSShapeMember(label: "createDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "versionId", required: false, type: .string), 
+            AWSShapeMember(label: "isDefaultVersion", required: false, type: .boolean)
         ]
-        /// The thing ID.
-        public let thingId: String?
-        /// The ARN of the new thing.
-        public let thingArn: String?
-        /// The name of the new thing.
-        public let thingName: String?
+        /// The date and time the policy was created.
+        public let createDate: TimeStamp?
+        /// The policy version ID.
+        public let versionId: String?
+        /// Specifies whether the policy version is the default.
+        public let isDefaultVersion: Bool?
 
-        public init(thingId: String? = nil, thingArn: String? = nil, thingName: String? = nil) {
-            self.thingId = thingId
-            self.thingArn = thingArn
-            self.thingName = thingName
+        public init(createDate: TimeStamp? = nil, versionId: String? = nil, isDefaultVersion: Bool? = nil) {
+            self.createDate = createDate
+            self.versionId = versionId
+            self.isDefaultVersion = isDefaultVersion
         }
 
         private enum CodingKeys: String, CodingKey {
-            case thingId = "thingId"
-            case thingArn = "thingArn"
-            case thingName = "thingName"
+            case createDate = "createDate"
+            case versionId = "versionId"
+            case isDefaultVersion = "isDefaultVersion"
         }
     }
 
-    public struct CACertificate: AWSShape {
+    public struct ListTargetsForPolicyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "certificateId", required: false, type: .string), 
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp)
-        ]
-        /// The ARN of the CA certificate.
-        public let certificateArn: String?
-        /// The status of the CA certificate. The status value REGISTER_INACTIVE is deprecated and should not be used.
-        public let status: CACertificateStatus?
-        /// The ID of the CA certificate.
-        public let certificateId: String?
-        /// The date the CA certificate was created.
-        public let creationDate: TimeStamp?
-
-        public init(certificateArn: String? = nil, status: CACertificateStatus? = nil, certificateId: String? = nil, creationDate: TimeStamp? = nil) {
-            self.certificateArn = certificateArn
-            self.status = status
-            self.certificateId = certificateId
-            self.creationDate = creationDate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificateArn = "certificateArn"
-            case status = "status"
-            case certificateId = "certificateId"
-            case creationDate = "creationDate"
-        }
-    }
-
-    public struct ListAttachedPoliciesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "recursive", location: .querystring(locationName: "recursive"), required: false, type: .boolean), 
-            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
             AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeMember(label: "target", location: .uri(locationName: "target"), required: true, type: .string)
+            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
+            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string)
         ]
-        /// When true, recursively list attached policies.
-        public let recursive: Bool?
-        /// The maximum number of results to be returned per request.
-        public let pageSize: Int32?
-        /// The token to retrieve the next set of results.
+        /// A marker used to get the next set of results.
         public let marker: String?
-        /// The group for which the policies will be listed.
-        public let target: String
+        /// The maximum number of results to return at one time.
+        public let pageSize: Int32?
+        /// The policy name.
+        public let policyName: String
 
-        public init(recursive: Bool? = nil, pageSize: Int32? = nil, marker: String? = nil, target: String) {
-            self.recursive = recursive
-            self.pageSize = pageSize
+        public init(marker: String? = nil, pageSize: Int32? = nil, policyName: String) {
             self.marker = marker
-            self.target = target
+            self.pageSize = pageSize
+            self.policyName = policyName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recursive = "recursive"
-            case pageSize = "pageSize"
             case marker = "marker"
-            case target = "target"
+            case pageSize = "pageSize"
+            case policyName = "policyName"
         }
     }
 
-    public struct Policy: AWSShape {
+    public struct ListJobsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyName", required: false, type: .string), 
-            AWSShapeMember(label: "policyArn", required: false, type: .string)
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "jobs", required: false, type: .list)
         ]
-        /// The policy name.
-        public let policyName: String?
-        /// The policy ARN.
-        public let policyArn: String?
+        /// The token for the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+        /// A list of jobs.
+        public let jobs: [JobSummary]?
 
-        public init(policyName: String? = nil, policyArn: String? = nil) {
-            self.policyName = policyName
-            self.policyArn = policyArn
+        public init(nextToken: String? = nil, jobs: [JobSummary]? = nil) {
+            self.nextToken = nextToken
+            self.jobs = jobs
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policyName = "policyName"
-            case policyArn = "policyArn"
+            case nextToken = "nextToken"
+            case jobs = "jobs"
+        }
+    }
+
+    public struct Destination: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "s3Destination", required: false, type: .structure)
+        ]
+        /// Describes the location in S3 of the updated firmware.
+        public let s3Destination: S3Destination?
+
+        public init(s3Destination: S3Destination? = nil) {
+            self.s3Destination = s3Destination
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Destination = "s3Destination"
         }
     }
 
@@ -10319,188 +9091,1268 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
-    public struct DescribeCertificateResponse: AWSShape {
+    public struct AuditFinding: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "certificateDescription", required: false, type: .structure)
+            AWSShapeMember(label: "findingTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "reasonForNonCompliance", required: false, type: .string), 
+            AWSShapeMember(label: "taskId", required: false, type: .string), 
+            AWSShapeMember(label: "nonCompliantResource", required: false, type: .structure), 
+            AWSShapeMember(label: "reasonForNonComplianceCode", required: false, type: .string), 
+            AWSShapeMember(label: "checkName", required: false, type: .string), 
+            AWSShapeMember(label: "relatedResources", required: false, type: .list), 
+            AWSShapeMember(label: "severity", required: false, type: .enum), 
+            AWSShapeMember(label: "taskStartTime", required: false, type: .timestamp)
         ]
-        /// The description of the certificate.
-        public let certificateDescription: CertificateDescription?
+        /// The time the result (finding) was discovered.
+        public let findingTime: TimeStamp?
+        /// The reason the resource was non-compliant.
+        public let reasonForNonCompliance: String?
+        /// The ID of the audit that generated this result (finding)
+        public let taskId: String?
+        /// The resource that was found to be non-compliant with the audit check.
+        public let nonCompliantResource: NonCompliantResource?
+        /// A code which indicates the reason that the resource was non-compliant.
+        public let reasonForNonComplianceCode: String?
+        /// The audit check that generated this result.
+        public let checkName: String?
+        /// The list of related resources.
+        public let relatedResources: [RelatedResource]?
+        /// The severity of the result (finding).
+        public let severity: AuditFindingSeverity?
+        /// The time the audit started.
+        public let taskStartTime: TimeStamp?
 
-        public init(certificateDescription: CertificateDescription? = nil) {
-            self.certificateDescription = certificateDescription
+        public init(findingTime: TimeStamp? = nil, reasonForNonCompliance: String? = nil, taskId: String? = nil, nonCompliantResource: NonCompliantResource? = nil, reasonForNonComplianceCode: String? = nil, checkName: String? = nil, relatedResources: [RelatedResource]? = nil, severity: AuditFindingSeverity? = nil, taskStartTime: TimeStamp? = nil) {
+            self.findingTime = findingTime
+            self.reasonForNonCompliance = reasonForNonCompliance
+            self.taskId = taskId
+            self.nonCompliantResource = nonCompliantResource
+            self.reasonForNonComplianceCode = reasonForNonComplianceCode
+            self.checkName = checkName
+            self.relatedResources = relatedResources
+            self.severity = severity
+            self.taskStartTime = taskStartTime
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateDescription = "certificateDescription"
+            case findingTime = "findingTime"
+            case reasonForNonCompliance = "reasonForNonCompliance"
+            case taskId = "taskId"
+            case nonCompliantResource = "nonCompliantResource"
+            case reasonForNonComplianceCode = "reasonForNonComplianceCode"
+            case checkName = "checkName"
+            case relatedResources = "relatedResources"
+            case severity = "severity"
+            case taskStartTime = "taskStartTime"
         }
     }
 
-    public struct DeleteScheduledAuditResponse: AWSShape {
-
-    }
-
-    public struct GroupNameAndArn: AWSShape {
+    public struct CreateDynamicThingGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "groupName", required: false, type: .string), 
-            AWSShapeMember(label: "groupArn", required: false, type: .string)
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "thingGroupName", location: .uri(locationName: "thingGroupName"), required: true, type: .string), 
+            AWSShapeMember(label: "queryVersion", required: false, type: .string), 
+            AWSShapeMember(label: "indexName", required: false, type: .string), 
+            AWSShapeMember(label: "thingGroupProperties", required: false, type: .structure), 
+            AWSShapeMember(label: "queryString", required: true, type: .string)
         ]
-        /// The group name.
-        public let groupName: String?
-        /// The group ARN.
-        public let groupArn: String?
+        /// Metadata which can be used to manage the dynamic thing group.
+        public let tags: [Tag]?
+        /// The dynamic thing group name to create.
+        public let thingGroupName: String
+        /// The dynamic thing group query version.  Currently one query version is supported: "2017-09-30". If not specified, the query version defaults to this value. 
+        public let queryVersion: String?
+        /// The dynamic thing group index name.  Currently one index is supported: "AWS_Things". 
+        public let indexName: String?
+        /// The dynamic thing group properties.
+        public let thingGroupProperties: ThingGroupProperties?
+        /// The dynamic thing group search query string. See Query Syntax for information about query string syntax.
+        public let queryString: String
 
-        public init(groupName: String? = nil, groupArn: String? = nil) {
-            self.groupName = groupName
-            self.groupArn = groupArn
+        public init(tags: [Tag]? = nil, thingGroupName: String, queryVersion: String? = nil, indexName: String? = nil, thingGroupProperties: ThingGroupProperties? = nil, queryString: String) {
+            self.tags = tags
+            self.thingGroupName = thingGroupName
+            self.queryVersion = queryVersion
+            self.indexName = indexName
+            self.thingGroupProperties = thingGroupProperties
+            self.queryString = queryString
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groupName = "groupName"
-            case groupArn = "groupArn"
+            case tags = "tags"
+            case thingGroupName = "thingGroupName"
+            case queryVersion = "queryVersion"
+            case indexName = "indexName"
+            case thingGroupProperties = "thingGroupProperties"
+            case queryString = "queryString"
         }
     }
 
-    public struct UpdateSecurityProfileResponse: AWSShape {
+    public struct SecurityProfileTarget: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "securityProfileArn", required: false, type: .string), 
-            AWSShapeMember(label: "version", required: false, type: .long), 
-            AWSShapeMember(label: "securityProfileDescription", required: false, type: .string), 
-            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "behaviors", required: false, type: .list), 
-            AWSShapeMember(label: "securityProfileName", required: false, type: .string), 
-            AWSShapeMember(label: "alertTargets", required: false, type: .map), 
-            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp)
+            AWSShapeMember(label: "arn", required: true, type: .string)
         ]
-        /// The ARN of the security profile that was updated.
-        public let securityProfileArn: String?
-        /// The updated version of the security profile.
-        public let version: Int64?
-        /// The description of the security profile.
-        public let securityProfileDescription: String?
-        /// The time the security profile was created.
-        public let creationDate: TimeStamp?
-        /// Specifies the behaviors that, when violated by a device (thing), cause an alert.
-        public let behaviors: [Behavior]?
-        /// The name of the security profile that was updated.
-        public let securityProfileName: String?
-        /// Where the alerts are sent. (Alerts are always sent to the console.)
-        public let alertTargets: [AlertTargetType: AlertTarget]?
-        /// The time the security profile was last modified.
-        public let lastModifiedDate: TimeStamp?
+        /// The ARN of the security profile.
+        public let arn: String
 
-        public init(securityProfileArn: String? = nil, version: Int64? = nil, securityProfileDescription: String? = nil, creationDate: TimeStamp? = nil, behaviors: [Behavior]? = nil, securityProfileName: String? = nil, alertTargets: [AlertTargetType: AlertTarget]? = nil, lastModifiedDate: TimeStamp? = nil) {
-            self.securityProfileArn = securityProfileArn
-            self.version = version
-            self.securityProfileDescription = securityProfileDescription
-            self.creationDate = creationDate
-            self.behaviors = behaviors
-            self.securityProfileName = securityProfileName
-            self.alertTargets = alertTargets
-            self.lastModifiedDate = lastModifiedDate
+        public init(arn: String) {
+            self.arn = arn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case securityProfileArn = "securityProfileArn"
-            case version = "version"
-            case securityProfileDescription = "securityProfileDescription"
-            case creationDate = "creationDate"
-            case behaviors = "behaviors"
-            case securityProfileName = "securityProfileName"
-            case alertTargets = "alertTargets"
-            case lastModifiedDate = "lastModifiedDate"
+            case arn = "arn"
+        }
+    }
+
+    public struct ListScheduledAuditsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
+        ]
+        /// The token for the next set of results.
+        public let nextToken: String?
+        /// The maximum number of results to return at one time. The default is 25.
+        public let maxResults: Int32?
+
+        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+        }
+    }
+
+    public enum AuthDecision: String, CustomStringConvertible, Codable {
+        case allowed = "ALLOWED"
+        case explicitDeny = "EXPLICIT_DENY"
+        case implicitDeny = "IMPLICIT_DENY"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetPolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string)
+        ]
+        /// The name of the policy.
+        public let policyName: String
+
+        public init(policyName: String) {
+            self.policyName = policyName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyName = "policyName"
+        }
+    }
+
+    public struct DeleteRoleAliasRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "roleAlias", location: .uri(locationName: "roleAlias"), required: true, type: .string)
+        ]
+        /// The role alias to delete.
+        public let roleAlias: String
+
+        public init(roleAlias: String) {
+            self.roleAlias = roleAlias
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleAlias = "roleAlias"
+        }
+    }
+
+    public struct ListThingRegistrationTasksRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "status", location: .querystring(locationName: "status"), required: false, type: .enum), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
+        ]
+        /// The token to retrieve the next set of results.
+        public let nextToken: String?
+        /// The status of the bulk thing provisioning task.
+        public let status: Status?
+        /// The maximum number of results to return at one time.
+        public let maxResults: Int32?
+
+        public init(nextToken: String? = nil, status: Status? = nil, maxResults: Int32? = nil) {
+            self.nextToken = nextToken
+            self.status = status
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case status = "status"
+            case maxResults = "maxResults"
+        }
+    }
+
+    public struct CreateScheduledAuditRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "dayOfWeek", required: false, type: .enum), 
+            AWSShapeMember(label: "targetCheckNames", required: true, type: .list), 
+            AWSShapeMember(label: "frequency", required: true, type: .enum), 
+            AWSShapeMember(label: "dayOfMonth", required: false, type: .string), 
+            AWSShapeMember(label: "scheduledAuditName", location: .uri(locationName: "scheduledAuditName"), required: true, type: .string)
+        ]
+        /// The day of the week on which the scheduled audit takes place. Can be one of "SUN", "MON", "TUE", "WED", "THU", "FRI" or "SAT". This field is required if the "frequency" parameter is set to "WEEKLY" or "BIWEEKLY".
+        public let dayOfWeek: DayOfWeek?
+        /// Which checks are performed during the scheduled audit. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks including those that are enabled or UpdateAccountAuditConfiguration to select which checks are enabled.)
+        public let targetCheckNames: [String]
+        /// How often the scheduled audit takes place. Can be one of "DAILY", "WEEKLY", "BIWEEKLY" or "MONTHLY". The actual start time of each audit is determined by the system.
+        public let frequency: AuditFrequency
+        /// The day of the month on which the scheduled audit takes place. Can be "1" through "31" or "LAST". This field is required if the "frequency" parameter is set to "MONTHLY". If days 29-31 are specified, and the month does not have that many days, the audit takes place on the "LAST" day of the month.
+        public let dayOfMonth: String?
+        /// The name you want to give to the scheduled audit. (Max. 128 chars)
+        public let scheduledAuditName: String
+
+        public init(dayOfWeek: DayOfWeek? = nil, targetCheckNames: [String], frequency: AuditFrequency, dayOfMonth: String? = nil, scheduledAuditName: String) {
+            self.dayOfWeek = dayOfWeek
+            self.targetCheckNames = targetCheckNames
+            self.frequency = frequency
+            self.dayOfMonth = dayOfMonth
+            self.scheduledAuditName = scheduledAuditName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dayOfWeek = "dayOfWeek"
+            case targetCheckNames = "targetCheckNames"
+            case frequency = "frequency"
+            case dayOfMonth = "dayOfMonth"
+            case scheduledAuditName = "scheduledAuditName"
         }
     }
 
     public struct StartSigningJobParameter: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "destination", required: false, type: .structure), 
-            AWSShapeMember(label: "signingProfileParameter", required: false, type: .structure), 
-            AWSShapeMember(label: "signingProfileName", required: false, type: .string)
+            AWSShapeMember(label: "signingProfileName", required: false, type: .string), 
+            AWSShapeMember(label: "signingProfileParameter", required: false, type: .structure)
         ]
         /// The location to write the code-signed file.
         public let destination: Destination?
-        /// Describes the code-signing profile.
-        public let signingProfileParameter: SigningProfileParameter?
         /// The code-signing profile name.
         public let signingProfileName: String?
+        /// Describes the code-signing profile.
+        public let signingProfileParameter: SigningProfileParameter?
 
-        public init(destination: Destination? = nil, signingProfileParameter: SigningProfileParameter? = nil, signingProfileName: String? = nil) {
+        public init(destination: Destination? = nil, signingProfileName: String? = nil, signingProfileParameter: SigningProfileParameter? = nil) {
             self.destination = destination
-            self.signingProfileParameter = signingProfileParameter
             self.signingProfileName = signingProfileName
+            self.signingProfileParameter = signingProfileParameter
         }
 
         private enum CodingKeys: String, CodingKey {
             case destination = "destination"
-            case signingProfileParameter = "signingProfileParameter"
             case signingProfileName = "signingProfileName"
+            case signingProfileParameter = "signingProfileParameter"
         }
     }
 
-    public struct ViolationEvent: AWSShape {
+    public struct TransferData: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "thingName", required: false, type: .string), 
-            AWSShapeMember(label: "violationId", required: false, type: .string), 
-            AWSShapeMember(label: "securityProfileName", required: false, type: .string), 
-            AWSShapeMember(label: "violationEventType", required: false, type: .enum), 
-            AWSShapeMember(label: "behavior", required: false, type: .structure), 
-            AWSShapeMember(label: "metricValue", required: false, type: .structure), 
-            AWSShapeMember(label: "violationEventTime", required: false, type: .timestamp)
+            AWSShapeMember(label: "rejectReason", required: false, type: .string), 
+            AWSShapeMember(label: "rejectDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "acceptDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "transferDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "transferMessage", required: false, type: .string)
         ]
-        /// The name of the thing responsible for the violation event.
-        public let thingName: String?
-        /// The ID of the violation event.
-        public let violationId: String?
-        /// The name of the security profile whose behavior was violated.
-        public let securityProfileName: String?
-        /// The type of violation event.
-        public let violationEventType: ViolationEventType?
-        /// The behavior which was violated.
-        public let behavior: Behavior?
-        /// The value of the metric (the measurement).
-        public let metricValue: MetricValue?
-        /// The time the violation event occurred.
-        public let violationEventTime: TimeStamp?
+        /// The reason why the transfer was rejected.
+        public let rejectReason: String?
+        /// The date the transfer was rejected.
+        public let rejectDate: TimeStamp?
+        /// The date the transfer was accepted.
+        public let acceptDate: TimeStamp?
+        /// The date the transfer took place.
+        public let transferDate: TimeStamp?
+        /// The transfer message.
+        public let transferMessage: String?
 
-        public init(thingName: String? = nil, violationId: String? = nil, securityProfileName: String? = nil, violationEventType: ViolationEventType? = nil, behavior: Behavior? = nil, metricValue: MetricValue? = nil, violationEventTime: TimeStamp? = nil) {
+        public init(rejectReason: String? = nil, rejectDate: TimeStamp? = nil, acceptDate: TimeStamp? = nil, transferDate: TimeStamp? = nil, transferMessage: String? = nil) {
+            self.rejectReason = rejectReason
+            self.rejectDate = rejectDate
+            self.acceptDate = acceptDate
+            self.transferDate = transferDate
+            self.transferMessage = transferMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rejectReason = "rejectReason"
+            case rejectDate = "rejectDate"
+            case acceptDate = "acceptDate"
+            case transferDate = "transferDate"
+            case transferMessage = "transferMessage"
+        }
+    }
+
+    public struct GetTopicRuleResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ruleArn", required: false, type: .string), 
+            AWSShapeMember(label: "rule", required: false, type: .structure)
+        ]
+        /// The rule ARN.
+        public let ruleArn: String?
+        /// The rule.
+        public let rule: TopicRule?
+
+        public init(ruleArn: String? = nil, rule: TopicRule? = nil) {
+            self.ruleArn = ruleArn
+            self.rule = rule
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleArn = "ruleArn"
+            case rule = "rule"
+        }
+    }
+
+    public struct ThingTypeDefinition: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingTypeName", required: false, type: .string), 
+            AWSShapeMember(label: "thingTypeMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "thingTypeProperties", required: false, type: .structure), 
+            AWSShapeMember(label: "thingTypeArn", required: false, type: .string)
+        ]
+        /// The name of the thing type.
+        public let thingTypeName: String?
+        /// The ThingTypeMetadata contains additional information about the thing type including: creation date and time, a value indicating whether the thing type is deprecated, and a date and time when it was deprecated.
+        public let thingTypeMetadata: ThingTypeMetadata?
+        /// The ThingTypeProperties for the thing type.
+        public let thingTypeProperties: ThingTypeProperties?
+        /// The thing type ARN.
+        public let thingTypeArn: String?
+
+        public init(thingTypeName: String? = nil, thingTypeMetadata: ThingTypeMetadata? = nil, thingTypeProperties: ThingTypeProperties? = nil, thingTypeArn: String? = nil) {
+            self.thingTypeName = thingTypeName
+            self.thingTypeMetadata = thingTypeMetadata
+            self.thingTypeProperties = thingTypeProperties
+            self.thingTypeArn = thingTypeArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case thingTypeName = "thingTypeName"
+            case thingTypeMetadata = "thingTypeMetadata"
+            case thingTypeProperties = "thingTypeProperties"
+            case thingTypeArn = "thingTypeArn"
+        }
+    }
+
+    public struct ListOTAUpdatesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "otaUpdateStatus", location: .querystring(locationName: "otaUpdateStatus"), required: false, type: .enum), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+        /// The maximum number of results to return at one time.
+        public let maxResults: Int32?
+        /// The OTA update job status.
+        public let otaUpdateStatus: OTAUpdateStatus?
+        /// A token used to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, otaUpdateStatus: OTAUpdateStatus? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.otaUpdateStatus = otaUpdateStatus
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case otaUpdateStatus = "otaUpdateStatus"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListSecurityProfilesForTargetResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "securityProfileTargetMappings", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// A list of security profiles and their associated targets.
+        public let securityProfileTargetMappings: [SecurityProfileTargetMapping]?
+        /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+
+        public init(securityProfileTargetMappings: [SecurityProfileTargetMapping]? = nil, nextToken: String? = nil) {
+            self.securityProfileTargetMappings = securityProfileTargetMappings
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityProfileTargetMappings = "securityProfileTargetMappings"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct CreateScheduledAuditResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "scheduledAuditArn", required: false, type: .string)
+        ]
+        /// The ARN of the scheduled audit.
+        public let scheduledAuditArn: String?
+
+        public init(scheduledAuditArn: String? = nil) {
+            self.scheduledAuditArn = scheduledAuditArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scheduledAuditArn = "scheduledAuditArn"
+        }
+    }
+
+    public struct ImplicitDeny: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policies", required: false, type: .list)
+        ]
+        /// Policies that don't contain a matching allow or deny statement for the specified action on the specified resource. 
+        public let policies: [Policy]?
+
+        public init(policies: [Policy]? = nil) {
+            self.policies = policies
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policies = "policies"
+        }
+    }
+
+    public struct RegisterThingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "templateBody", required: true, type: .string), 
+            AWSShapeMember(label: "parameters", required: false, type: .map)
+        ]
+        /// The provisioning template. See Programmatic Provisioning for more information.
+        public let templateBody: String
+        /// The parameters for provisioning a thing. See Programmatic Provisioning for more information.
+        public let parameters: [String: String]?
+
+        public init(templateBody: String, parameters: [String: String]? = nil) {
+            self.templateBody = templateBody
+            self.parameters = parameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateBody = "templateBody"
+            case parameters = "parameters"
+        }
+    }
+
+    public struct AddThingToThingGroupResponse: AWSShape {
+
+    }
+
+    public enum LogLevel: String, CustomStringConvertible, Codable {
+        case debug = "DEBUG"
+        case info = "INFO"
+        case error = "ERROR"
+        case warn = "WARN"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct PutItemInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tableName", required: true, type: .string)
+        ]
+        /// The table where the message data will be written
+        public let tableName: String
+
+        public init(tableName: String) {
+            self.tableName = tableName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tableName = "tableName"
+        }
+    }
+
+    public struct DescribeEventConfigurationsRequest: AWSShape {
+
+    }
+
+    public enum CertificateStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case inactive = "INACTIVE"
+        case revoked = "REVOKED"
+        case pendingTransfer = "PENDING_TRANSFER"
+        case registerInactive = "REGISTER_INACTIVE"
+        case pendingActivation = "PENDING_ACTIVATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetOTAUpdateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "otaUpdateId", location: .uri(locationName: "otaUpdateId"), required: true, type: .string)
+        ]
+        /// The OTA update ID.
+        public let otaUpdateId: String
+
+        public init(otaUpdateId: String) {
+            self.otaUpdateId = otaUpdateId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case otaUpdateId = "otaUpdateId"
+        }
+    }
+
+    public struct DescribeAuthorizerResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "authorizerDescription", required: false, type: .structure)
+        ]
+        /// The authorizer description.
+        public let authorizerDescription: AuthorizerDescription?
+
+        public init(authorizerDescription: AuthorizerDescription? = nil) {
+            self.authorizerDescription = authorizerDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizerDescription = "authorizerDescription"
+        }
+    }
+
+    public struct ListTopicRulesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "rules", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// The rules.
+        public let rules: [TopicRuleListItem]?
+        /// A token used to retrieve the next value.
+        public let nextToken: String?
+
+        public init(rules: [TopicRuleListItem]? = nil, nextToken: String? = nil) {
+            self.rules = rules
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rules = "rules"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeThingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
+        ]
+        /// The name of the thing.
+        public let thingName: String
+
+        public init(thingName: String) {
             self.thingName = thingName
-            self.violationId = violationId
-            self.securityProfileName = securityProfileName
-            self.violationEventType = violationEventType
-            self.behavior = behavior
-            self.metricValue = metricValue
-            self.violationEventTime = violationEventTime
         }
 
         private enum CodingKeys: String, CodingKey {
             case thingName = "thingName"
-            case violationId = "violationId"
-            case securityProfileName = "securityProfileName"
-            case violationEventType = "violationEventType"
-            case behavior = "behavior"
-            case metricValue = "metricValue"
-            case violationEventTime = "violationEventTime"
         }
     }
 
-    public struct ListRoleAliasesResponse: AWSShape {
+    public struct SetV2LoggingLevelRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextMarker", required: false, type: .string), 
-            AWSShapeMember(label: "roleAliases", required: false, type: .list)
+            AWSShapeMember(label: "logTarget", required: true, type: .structure), 
+            AWSShapeMember(label: "logLevel", required: true, type: .enum)
         ]
-        /// A marker used to get the next set of results.
-        public let nextMarker: String?
-        /// The role aliases.
-        public let roleAliases: [String]?
+        /// The log target.
+        public let logTarget: LogTarget
+        /// The log level.
+        public let logLevel: LogLevel
 
-        public init(nextMarker: String? = nil, roleAliases: [String]? = nil) {
-            self.nextMarker = nextMarker
-            self.roleAliases = roleAliases
+        public init(logTarget: LogTarget, logLevel: LogLevel) {
+            self.logTarget = logTarget
+            self.logLevel = logLevel
         }
 
         private enum CodingKeys: String, CodingKey {
+            case logTarget = "logTarget"
+            case logLevel = "logLevel"
+        }
+    }
+
+    public struct DescribeScheduledAuditRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "scheduledAuditName", location: .uri(locationName: "scheduledAuditName"), required: true, type: .string)
+        ]
+        /// The name of the scheduled audit whose information you want to get.
+        public let scheduledAuditName: String
+
+        public init(scheduledAuditName: String) {
+            self.scheduledAuditName = scheduledAuditName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scheduledAuditName = "scheduledAuditName"
+        }
+    }
+
+    public struct StartThingRegistrationTaskRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "templateBody", required: true, type: .string), 
+            AWSShapeMember(label: "inputFileKey", required: true, type: .string), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string), 
+            AWSShapeMember(label: "inputFileBucket", required: true, type: .string)
+        ]
+        /// The provisioning template.
+        public let templateBody: String
+        /// The name of input file within the S3 bucket. This file contains a newline delimited JSON file. Each line contains the parameter values to provision one device (thing).
+        public let inputFileKey: String
+        /// The IAM role ARN that grants permission the input file.
+        public let roleArn: String
+        /// The S3 bucket that contains the input file.
+        public let inputFileBucket: String
+
+        public init(templateBody: String, inputFileKey: String, roleArn: String, inputFileBucket: String) {
+            self.templateBody = templateBody
+            self.inputFileKey = inputFileKey
+            self.roleArn = roleArn
+            self.inputFileBucket = inputFileBucket
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateBody = "templateBody"
+            case inputFileKey = "inputFileKey"
+            case roleArn = "roleArn"
+            case inputFileBucket = "inputFileBucket"
+        }
+    }
+
+    public struct RelatedResource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "additionalInfo", required: false, type: .map), 
+            AWSShapeMember(label: "resourceIdentifier", required: false, type: .structure), 
+            AWSShapeMember(label: "resourceType", required: false, type: .enum)
+        ]
+        /// Additional information about the resource.
+        public let additionalInfo: [String: String]?
+        /// Information identifying the resource.
+        public let resourceIdentifier: ResourceIdentifier?
+        /// The type of resource.
+        public let resourceType: ResourceType?
+
+        public init(additionalInfo: [String: String]? = nil, resourceIdentifier: ResourceIdentifier? = nil, resourceType: ResourceType? = nil) {
+            self.additionalInfo = additionalInfo
+            self.resourceIdentifier = resourceIdentifier
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalInfo = "additionalInfo"
+            case resourceIdentifier = "resourceIdentifier"
+            case resourceType = "resourceType"
+        }
+    }
+
+    public struct DescribeRoleAliasRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "roleAlias", location: .uri(locationName: "roleAlias"), required: true, type: .string)
+        ]
+        /// The role alias to describe.
+        public let roleAlias: String
+
+        public init(roleAlias: String) {
+            self.roleAlias = roleAlias
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleAlias = "roleAlias"
+        }
+    }
+
+    public struct CancelJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string), 
+            AWSShapeMember(label: "reasonCode", required: false, type: .string), 
+            AWSShapeMember(label: "comment", required: false, type: .string), 
+            AWSShapeMember(label: "force", location: .querystring(locationName: "force"), required: false, type: .boolean)
+        ]
+        /// The unique identifier you assigned to this job when it was created.
+        public let jobId: String
+        /// (Optional)A reason code string that explains why the job was canceled.
+        public let reasonCode: String?
+        /// An optional comment string describing why the job was canceled.
+        public let comment: String?
+        /// (Optional) If true job executions with status "IN_PROGRESS" and "QUEUED" are canceled, otherwise only job executions with status "QUEUED" are canceled. The default is false. Canceling a job which is "IN_PROGRESS", will cause a device which is executing the job to be unable to update the job execution status. Use caution and ensure that each device executing a job which is canceled is able to recover to a valid state.
+        public let force: Bool?
+
+        public init(jobId: String, reasonCode: String? = nil, comment: String? = nil, force: Bool? = nil) {
+            self.jobId = jobId
+            self.reasonCode = reasonCode
+            self.comment = comment
+            self.force = force
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "jobId"
+            case reasonCode = "reasonCode"
+            case comment = "comment"
+            case force = "force"
+        }
+    }
+
+    public struct JobExecutionSummaryForJob: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobExecutionSummary", required: false, type: .structure), 
+            AWSShapeMember(label: "thingArn", required: false, type: .string)
+        ]
+        /// Contains a subset of information about a job execution.
+        public let jobExecutionSummary: JobExecutionSummary?
+        /// The ARN of the thing on which the job execution is running.
+        public let thingArn: String?
+
+        public init(jobExecutionSummary: JobExecutionSummary? = nil, thingArn: String? = nil) {
+            self.jobExecutionSummary = jobExecutionSummary
+            self.thingArn = thingArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobExecutionSummary = "jobExecutionSummary"
+            case thingArn = "thingArn"
+        }
+    }
+
+    public struct GetOTAUpdateResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "otaUpdateInfo", required: false, type: .structure)
+        ]
+        /// The OTA update info.
+        public let otaUpdateInfo: OTAUpdateInfo?
+
+        public init(otaUpdateInfo: OTAUpdateInfo? = nil) {
+            self.otaUpdateInfo = otaUpdateInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case otaUpdateInfo = "otaUpdateInfo"
+        }
+    }
+
+    public struct AuditCheckConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "enabled", required: false, type: .boolean)
+        ]
+        /// True if this audit check is enabled for this account.
+        public let enabled: Bool?
+
+        public init(enabled: Bool? = nil) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "enabled"
+        }
+    }
+
+    public struct OutgoingCertificate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "transferredTo", required: false, type: .string), 
+            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "certificateId", required: false, type: .string), 
+            AWSShapeMember(label: "transferMessage", required: false, type: .string), 
+            AWSShapeMember(label: "certificateArn", required: false, type: .string), 
+            AWSShapeMember(label: "transferDate", required: false, type: .timestamp)
+        ]
+        /// The AWS account to which the transfer was made.
+        public let transferredTo: String?
+        /// The certificate creation date.
+        public let creationDate: TimeStamp?
+        /// The certificate ID.
+        public let certificateId: String?
+        /// The transfer message.
+        public let transferMessage: String?
+        /// The certificate ARN.
+        public let certificateArn: String?
+        /// The date the transfer was initiated.
+        public let transferDate: TimeStamp?
+
+        public init(transferredTo: String? = nil, creationDate: TimeStamp? = nil, certificateId: String? = nil, transferMessage: String? = nil, certificateArn: String? = nil, transferDate: TimeStamp? = nil) {
+            self.transferredTo = transferredTo
+            self.creationDate = creationDate
+            self.certificateId = certificateId
+            self.transferMessage = transferMessage
+            self.certificateArn = certificateArn
+            self.transferDate = transferDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transferredTo = "transferredTo"
+            case creationDate = "creationDate"
+            case certificateId = "certificateId"
+            case transferMessage = "transferMessage"
+            case certificateArn = "certificateArn"
+            case transferDate = "transferDate"
+        }
+    }
+
+    public struct CertificateDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ownedBy", required: false, type: .string), 
+            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "certificateArn", required: false, type: .string), 
+            AWSShapeMember(label: "caCertificateId", required: false, type: .string), 
+            AWSShapeMember(label: "generationId", required: false, type: .string), 
+            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "previousOwnedBy", required: false, type: .string), 
+            AWSShapeMember(label: "validity", required: false, type: .structure), 
+            AWSShapeMember(label: "certificatePem", required: false, type: .string), 
+            AWSShapeMember(label: "customerVersion", required: false, type: .integer), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "transferData", required: false, type: .structure), 
+            AWSShapeMember(label: "certificateId", required: false, type: .string)
+        ]
+        /// The ID of the AWS account that owns the certificate.
+        public let ownedBy: String?
+        /// The date and time the certificate was created.
+        public let creationDate: TimeStamp?
+        /// The ARN of the certificate.
+        public let certificateArn: String?
+        /// The certificate ID of the CA certificate used to sign this certificate.
+        public let caCertificateId: String?
+        /// The generation ID of the certificate.
+        public let generationId: String?
+        /// The date and time the certificate was last modified.
+        public let lastModifiedDate: TimeStamp?
+        /// The ID of the AWS account of the previous owner of the certificate.
+        public let previousOwnedBy: String?
+        /// When the certificate is valid.
+        public let validity: CertificateValidity?
+        /// The certificate data, in PEM format.
+        public let certificatePem: String?
+        /// The customer version of the certificate.
+        public let customerVersion: Int32?
+        /// The status of the certificate.
+        public let status: CertificateStatus?
+        /// The transfer data.
+        public let transferData: TransferData?
+        /// The ID of the certificate.
+        public let certificateId: String?
+
+        public init(ownedBy: String? = nil, creationDate: TimeStamp? = nil, certificateArn: String? = nil, caCertificateId: String? = nil, generationId: String? = nil, lastModifiedDate: TimeStamp? = nil, previousOwnedBy: String? = nil, validity: CertificateValidity? = nil, certificatePem: String? = nil, customerVersion: Int32? = nil, status: CertificateStatus? = nil, transferData: TransferData? = nil, certificateId: String? = nil) {
+            self.ownedBy = ownedBy
+            self.creationDate = creationDate
+            self.certificateArn = certificateArn
+            self.caCertificateId = caCertificateId
+            self.generationId = generationId
+            self.lastModifiedDate = lastModifiedDate
+            self.previousOwnedBy = previousOwnedBy
+            self.validity = validity
+            self.certificatePem = certificatePem
+            self.customerVersion = customerVersion
+            self.status = status
+            self.transferData = transferData
+            self.certificateId = certificateId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ownedBy = "ownedBy"
+            case creationDate = "creationDate"
+            case certificateArn = "certificateArn"
+            case caCertificateId = "caCertificateId"
+            case generationId = "generationId"
+            case lastModifiedDate = "lastModifiedDate"
+            case previousOwnedBy = "previousOwnedBy"
+            case validity = "validity"
+            case certificatePem = "certificatePem"
+            case customerVersion = "customerVersion"
+            case status = "status"
+            case transferData = "transferData"
+            case certificateId = "certificateId"
+        }
+    }
+
+    public struct ListViolationEventsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "violationEvents", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// The security profile violation alerts issued for this account during the given time frame, potentially filtered by security profile, behavior violated, or thing (device) violating.
+        public let violationEvents: [ViolationEvent]?
+        /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+
+        public init(violationEvents: [ViolationEvent]? = nil, nextToken: String? = nil) {
+            self.violationEvents = violationEvents
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case violationEvents = "violationEvents"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DeleteCACertificateResponse: AWSShape {
+
+    }
+
+    public struct TagResourceResponse: AWSShape {
+
+    }
+
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tags", required: true, type: .list), 
+            AWSShapeMember(label: "resourceArn", required: true, type: .string)
+        ]
+        /// The new or modified tags for the resource.
+        public let tags: [Tag]
+        /// The ARN of the resource.
+        public let resourceArn: String
+
+        public init(tags: [Tag], resourceArn: String) {
+            self.tags = tags
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+            case resourceArn = "resourceArn"
+        }
+    }
+
+    public struct ListThingsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "things", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// The things.
+        public let things: [ThingAttribute]?
+        /// The token used to get the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+
+        public init(things: [ThingAttribute]? = nil, nextToken: String? = nil) {
+            self.things = things
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case things = "things"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DeleteThingGroupResponse: AWSShape {
+
+    }
+
+    public struct ListViolationEventsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "startTime", location: .querystring(locationName: "startTime"), required: true, type: .timestamp), 
+            AWSShapeMember(label: "endTime", location: .querystring(locationName: "endTime"), required: true, type: .timestamp), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "securityProfileName", location: .querystring(locationName: "securityProfileName"), required: false, type: .string), 
+            AWSShapeMember(label: "thingName", location: .querystring(locationName: "thingName"), required: false, type: .string)
+        ]
+        /// The start time for the alerts to be listed.
+        public let startTime: TimeStamp
+        /// The end time for the alerts to be listed.
+        public let endTime: TimeStamp
+        /// The maximum number of results to return at one time.
+        public let maxResults: Int32?
+        /// The token for the next set of results.
+        public let nextToken: String?
+        /// A filter to limit results to those alerts generated by the specified security profile.
+        public let securityProfileName: String?
+        /// A filter to limit results to those alerts caused by the specified thing.
+        public let thingName: String?
+
+        public init(startTime: TimeStamp, endTime: TimeStamp, maxResults: Int32? = nil, nextToken: String? = nil, securityProfileName: String? = nil, thingName: String? = nil) {
+            self.startTime = startTime
+            self.endTime = endTime
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.securityProfileName = securityProfileName
+            self.thingName = thingName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case startTime = "startTime"
+            case endTime = "endTime"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case securityProfileName = "securityProfileName"
+            case thingName = "thingName"
+        }
+    }
+
+    public struct DescribeSecurityProfileRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "securityProfileName", location: .uri(locationName: "securityProfileName"), required: true, type: .string)
+        ]
+        /// The name of the security profile whose information you want to get.
+        public let securityProfileName: String
+
+        public init(securityProfileName: String) {
+            self.securityProfileName = securityProfileName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityProfileName = "securityProfileName"
+        }
+    }
+
+    public struct AlertTarget: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "alertTargetArn", required: true, type: .string), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string)
+        ]
+        /// The ARN of the notification target to which alerts are sent.
+        public let alertTargetArn: String
+        /// The ARN of the role that grants permission to send alerts to the notification target.
+        public let roleArn: String
+
+        public init(alertTargetArn: String, roleArn: String) {
+            self.alertTargetArn = alertTargetArn
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alertTargetArn = "alertTargetArn"
+            case roleArn = "roleArn"
+        }
+    }
+
+    public struct ListPolicyVersionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string)
+        ]
+        /// The policy name.
+        public let policyName: String
+
+        public init(policyName: String) {
+            self.policyName = policyName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyName = "policyName"
+        }
+    }
+
+    public struct UpdateStreamRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "streamId", location: .uri(locationName: "streamId"), required: true, type: .string), 
+            AWSShapeMember(label: "roleArn", required: false, type: .string), 
+            AWSShapeMember(label: "files", required: false, type: .list)
+        ]
+        /// The description of the stream.
+        public let description: String?
+        /// The stream ID.
+        public let streamId: String
+        /// An IAM role that allows the IoT service principal assumes to access your S3 files.
+        public let roleArn: String?
+        /// The files associated with the stream.
+        public let files: [StreamFile]?
+
+        public init(description: String? = nil, streamId: String, roleArn: String? = nil, files: [StreamFile]? = nil) {
+            self.description = description
+            self.streamId = streamId
+            self.roleArn = roleArn
+            self.files = files
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case streamId = "streamId"
+            case roleArn = "roleArn"
+            case files = "files"
+        }
+    }
+
+    public struct ListTargetsForSecurityProfileRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "securityProfileName", location: .uri(locationName: "securityProfileName"), required: true, type: .string), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+        /// The maximum number of results to return at one time.
+        public let maxResults: Int32?
+        /// The security profile.
+        public let securityProfileName: String
+        /// The token for the next set of results.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, securityProfileName: String, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.securityProfileName = securityProfileName
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case securityProfileName = "securityProfileName"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ThingGroupProperties: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "attributePayload", required: false, type: .structure), 
+            AWSShapeMember(label: "thingGroupDescription", required: false, type: .string)
+        ]
+        /// The thing group attributes in JSON format.
+        public let attributePayload: AttributePayload?
+        /// The thing group description.
+        public let thingGroupDescription: String?
+
+        public init(attributePayload: AttributePayload? = nil, thingGroupDescription: String? = nil) {
+            self.attributePayload = attributePayload
+            self.thingGroupDescription = thingGroupDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributePayload = "attributePayload"
+            case thingGroupDescription = "thingGroupDescription"
+        }
+    }
+
+    public struct ExplicitDeny: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policies", required: false, type: .list)
+        ]
+        /// The policies that denied the authorization.
+        public let policies: [Policy]?
+
+        public init(policies: [Policy]? = nil) {
+            self.policies = policies
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policies = "policies"
+        }
+    }
+
+    public struct ListPrincipalPoliciesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policies", required: false, type: .list), 
+            AWSShapeMember(label: "nextMarker", required: false, type: .string)
+        ]
+        /// The policies.
+        public let policies: [Policy]?
+        /// The marker for the next set of results, or null if there are no additional results.
+        public let nextMarker: String?
+
+        public init(policies: [Policy]? = nil, nextMarker: String? = nil) {
+            self.policies = policies
+            self.nextMarker = nextMarker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policies = "policies"
             case nextMarker = "nextMarker"
-            case roleAliases = "roleAliases"
+        }
+    }
+
+    public enum DynamoKeyType: String, CustomStringConvertible, Codable {
+        case string = "STRING"
+        case number = "NUMBER"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DynamoDBv2Action: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "roleArn", required: false, type: .string), 
+            AWSShapeMember(label: "putItem", required: false, type: .structure)
+        ]
+        /// The ARN of the IAM role that grants access to the DynamoDB table.
+        public let roleArn: String?
+        /// Specifies the DynamoDB table to which the message data will be written. For example:  { "dynamoDBv2": { "roleArn": "aws:iam:12341251:my-role" "putItem": { "tableName": "my-table" } } }  Each attribute in the message payload will be written to a separate column in the DynamoDB database.
+        public let putItem: PutItemInput?
+
+        public init(roleArn: String? = nil, putItem: PutItemInput? = nil) {
+            self.roleArn = roleArn
+            self.putItem = putItem
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "roleArn"
+            case putItem = "putItem"
+        }
+    }
+
+    public struct SearchIndexRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "indexName", required: false, type: .string), 
+            AWSShapeMember(label: "queryVersion", required: false, type: .string), 
+            AWSShapeMember(label: "queryString", required: true, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// The search index name.
+        public let indexName: String?
+        /// The query version.
+        public let queryVersion: String?
+        /// The search query string.
+        public let queryString: String
+        /// The maximum number of results to return at one time.
+        public let maxResults: Int32?
+        /// The token used to get the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+
+        public init(indexName: String? = nil, queryVersion: String? = nil, queryString: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.indexName = indexName
+            self.queryVersion = queryVersion
+            self.queryString = queryString
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexName = "indexName"
+            case queryVersion = "queryVersion"
+            case queryString = "queryString"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ActiveViolation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "securityProfileName", required: false, type: .string), 
+            AWSShapeMember(label: "violationStartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "behavior", required: false, type: .structure), 
+            AWSShapeMember(label: "thingName", required: false, type: .string), 
+            AWSShapeMember(label: "lastViolationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "lastViolationValue", required: false, type: .structure), 
+            AWSShapeMember(label: "violationId", required: false, type: .string)
+        ]
+        /// The security profile whose behavior is in violation.
+        public let securityProfileName: String?
+        /// The time the violation started.
+        public let violationStartTime: TimeStamp?
+        /// The behavior which is being violated.
+        public let behavior: Behavior?
+        /// The name of the thing responsible for the active violation.
+        public let thingName: String?
+        /// The time the most recent violation occurred.
+        public let lastViolationTime: TimeStamp?
+        /// The value of the metric (the measurement) which caused the most recent violation.
+        public let lastViolationValue: MetricValue?
+        /// The ID of the active violation.
+        public let violationId: String?
+
+        public init(securityProfileName: String? = nil, violationStartTime: TimeStamp? = nil, behavior: Behavior? = nil, thingName: String? = nil, lastViolationTime: TimeStamp? = nil, lastViolationValue: MetricValue? = nil, violationId: String? = nil) {
+            self.securityProfileName = securityProfileName
+            self.violationStartTime = violationStartTime
+            self.behavior = behavior
+            self.thingName = thingName
+            self.lastViolationTime = lastViolationTime
+            self.lastViolationValue = lastViolationValue
+            self.violationId = violationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityProfileName = "securityProfileName"
+            case violationStartTime = "violationStartTime"
+            case behavior = "behavior"
+            case thingName = "thingName"
+            case lastViolationTime = "lastViolationTime"
+            case lastViolationValue = "lastViolationValue"
+            case violationId = "violationId"
         }
     }
 
@@ -10511,10 +10363,158 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportType: String, CustomStringConvertible, Codable {
-        case errors = "ERRORS"
-        case results = "RESULTS"
+    public enum JobStatus: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case canceled = "CANCELED"
+        case completed = "COMPLETED"
+        case deletionInProgress = "DELETION_IN_PROGRESS"
         public var description: String { return self.rawValue }
+    }
+
+    public struct DescribeAuditTaskResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "taskStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "scheduledAuditName", required: false, type: .string), 
+            AWSShapeMember(label: "auditDetails", required: false, type: .map), 
+            AWSShapeMember(label: "taskType", required: false, type: .enum), 
+            AWSShapeMember(label: "taskStartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "taskStatistics", required: false, type: .structure)
+        ]
+        /// The status of the audit: one of "IN_PROGRESS", "COMPLETED", "FAILED", or "CANCELED".
+        public let taskStatus: AuditTaskStatus?
+        /// The name of the scheduled audit (only if the audit was a scheduled audit).
+        public let scheduledAuditName: String?
+        /// Detailed information about each check performed during this audit.
+        public let auditDetails: [String: AuditCheckDetails]?
+        /// The type of audit: "ON_DEMAND_AUDIT_TASK" or "SCHEDULED_AUDIT_TASK".
+        public let taskType: AuditTaskType?
+        /// The time the audit started.
+        public let taskStartTime: TimeStamp?
+        /// Statistical information about the audit.
+        public let taskStatistics: TaskStatistics?
+
+        public init(taskStatus: AuditTaskStatus? = nil, scheduledAuditName: String? = nil, auditDetails: [String: AuditCheckDetails]? = nil, taskType: AuditTaskType? = nil, taskStartTime: TimeStamp? = nil, taskStatistics: TaskStatistics? = nil) {
+            self.taskStatus = taskStatus
+            self.scheduledAuditName = scheduledAuditName
+            self.auditDetails = auditDetails
+            self.taskType = taskType
+            self.taskStartTime = taskStartTime
+            self.taskStatistics = taskStatistics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taskStatus = "taskStatus"
+            case scheduledAuditName = "scheduledAuditName"
+            case auditDetails = "auditDetails"
+            case taskType = "taskType"
+            case taskStartTime = "taskStartTime"
+            case taskStatistics = "taskStatistics"
+        }
+    }
+
+    public struct ListTargetsForPolicyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextMarker", required: false, type: .string), 
+            AWSShapeMember(label: "targets", required: false, type: .list)
+        ]
+        /// A marker used to get the next set of results.
+        public let nextMarker: String?
+        /// The policy targets.
+        public let targets: [String]?
+
+        public init(nextMarker: String? = nil, targets: [String]? = nil) {
+            self.nextMarker = nextMarker
+            self.targets = targets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextMarker = "nextMarker"
+            case targets = "targets"
+        }
+    }
+
+    public struct ListOTAUpdatesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "otaUpdates", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// A list of OTA update jobs.
+        public let otaUpdates: [OTAUpdateSummary]?
+        /// A token to use to get the next set of results.
+        public let nextToken: String?
+
+        public init(otaUpdates: [OTAUpdateSummary]? = nil, nextToken: String? = nil) {
+            self.otaUpdates = otaUpdates
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case otaUpdates = "otaUpdates"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct AwsJobExecutionsRolloutConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maximumPerMinute", required: false, type: .integer)
+        ]
+        /// The maximum number of OTA update job executions started per minute.
+        public let maximumPerMinute: Int32?
+
+        public init(maximumPerMinute: Int32? = nil) {
+            self.maximumPerMinute = maximumPerMinute
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maximumPerMinute = "maximumPerMinute"
+        }
+    }
+
+    public struct StartThingRegistrationTaskResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "taskId", required: false, type: .string)
+        ]
+        /// The bulk thing provisioning task ID.
+        public let taskId: String?
+
+        public init(taskId: String? = nil) {
+            self.taskId = taskId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taskId = "taskId"
+        }
+    }
+
+    public struct ListAuthorizersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
+            AWSShapeMember(label: "status", location: .querystring(locationName: "status"), required: false, type: .enum), 
+            AWSShapeMember(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean)
+        ]
+        /// A marker used to get the next set of results.
+        public let marker: String?
+        /// The maximum number of results to return at one time.
+        public let pageSize: Int32?
+        /// The status of the list authorizers request.
+        public let status: AuthorizerStatus?
+        /// Return the list of authorizers in ascending alphabetical order.
+        public let ascendingOrder: Bool?
+
+        public init(marker: String? = nil, pageSize: Int32? = nil, status: AuthorizerStatus? = nil, ascendingOrder: Bool? = nil) {
+            self.marker = marker
+            self.pageSize = pageSize
+            self.status = status
+            self.ascendingOrder = ascendingOrder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "marker"
+            case pageSize = "pageSize"
+            case status = "status"
+            case ascendingOrder = "isAscendingOrder"
+        }
     }
 
 }

@@ -2,6 +2,7 @@
 
 import Foundation
 import AWSSDKSwiftCore
+import NIO
 
 /**
 AWS Service Catalog  AWS Service Catalog enables organizations to create and manage catalogs of IT services that are approved for use on AWS. To get the most out of this documentation, you should be familiar with the terminology discussed in AWS Service Catalog Concepts.
@@ -20,395 +21,395 @@ public struct ServiceCatalog {
             serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2015-12-10",
             endpoint: endpoint,
-            serviceEndpoints: ["us-east-1-fips": "servicecatalog-fips.us-east-1.amazonaws.com", "us-west-2-fips": "servicecatalog-fips.us-west-2.amazonaws.com", "us-west-1-fips": "servicecatalog-fips.us-west-1.amazonaws.com", "us-east-2-fips": "servicecatalog-fips.us-east-2.amazonaws.com"],
+            serviceEndpoints: ["us-east-2-fips": "servicecatalog-fips.us-east-2.amazonaws.com", "us-west-2-fips": "servicecatalog-fips.us-west-2.amazonaws.com", "us-west-1-fips": "servicecatalog-fips.us-west-1.amazonaws.com", "us-east-1-fips": "servicecatalog-fips.us-east-1.amazonaws.com"],
             middlewares: [],
             possibleErrorTypes: [ServiceCatalogErrorType.self]
         )
     }
 
-    ///  Lists all portfolios for which sharing was accepted by this account.
-    public func listAcceptedPortfolioShares(_ input: ListAcceptedPortfolioSharesInput) throws -> ListAcceptedPortfolioSharesOutput {
-        return try client.send(operation: "ListAcceptedPortfolioShares", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates a constraint.
-    public func createConstraint(_ input: CreateConstraintInput) throws -> CreateConstraintOutput {
-        return try client.send(operation: "CreateConstraint", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Lists the constraints for the specified portfolio and product.
-    public func listConstraintsForPortfolio(_ input: ListConstraintsForPortfolioInput) throws -> ListConstraintsForPortfolioOutput {
-        return try client.send(operation: "ListConstraintsForPortfolio", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Associates a self-service action with a provisioning artifact.
-    public func associateServiceActionWithProvisioningArtifact(_ input: AssociateServiceActionWithProvisioningArtifactInput) throws -> AssociateServiceActionWithProvisioningArtifactOutput {
-        return try client.send(operation: "AssociateServiceActionWithProvisioningArtifact", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Lists the resources associated with the specified TagOption.
-    public func listResourcesForTagOption(_ input: ListResourcesForTagOptionInput) throws -> ListResourcesForTagOptionOutput {
-        return try client.send(operation: "ListResourcesForTagOption", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about the specified provisioned product.
-    public func describeProvisionedProduct(_ input: DescribeProvisionedProductInput) throws -> DescribeProvisionedProductOutput {
-        return try client.send(operation: "DescribeProvisionedProduct", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about the specified product. This operation is run with administrator access.
-    public func describeProductAsAdmin(_ input: DescribeProductAsAdminInput) throws -> DescribeProductAsAdminOutput {
-        return try client.send(operation: "DescribeProductAsAdmin", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Copies the specified source product to the specified target product or a new product. You can copy a product to the same account or another account. You can copy a product to the same region or another region. This operation is performed asynchronously. To track the progress of the operation, use DescribeCopyProductStatus.
-    public func copyProduct(_ input: CopyProductInput) throws -> CopyProductOutput {
-        return try client.send(operation: "CopyProduct", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about the configuration required to provision the specified product using the specified provisioning artifact. If the output contains a TagOption key with an empty list of values, there is a TagOption conflict for that key. The end user cannot take action to fix the conflict, and launch is not blocked. In subsequent calls to ProvisionProduct, do not include conflicted TagOption keys as tags, or this causes the error "Parameter validation failed: Missing required parameter in Tags[N]:Value". Tag the provisioned product with the value sc-tagoption-conflict-portfolioId-productId.
-    public func describeProvisioningParameters(_ input: DescribeProvisioningParametersInput) throws -> DescribeProvisioningParametersOutput {
-        return try client.send(operation: "DescribeProvisioningParameters", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes the specified plan.
-    public func deleteProvisionedProductPlan(_ input: DeleteProvisionedProductPlanInput) throws -> DeleteProvisionedProductPlanOutput {
-        return try client.send(operation: "DeleteProvisionedProductPlan", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about the products to which the caller has access.
-    public func searchProducts(_ input: SearchProductsInput) throws -> SearchProductsOutput {
-        return try client.send(operation: "SearchProducts", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about the provisioned products that meet the specified criteria.
-    public func searchProvisionedProducts(_ input: SearchProvisionedProductsInput) throws -> SearchProvisionedProductsOutput {
-        return try client.send(operation: "SearchProvisionedProducts", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Updates the specified product.
-    public func updateProduct(_ input: UpdateProductInput) throws -> UpdateProductOutput {
-        return try client.send(operation: "UpdateProduct", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes the specified product. You cannot delete a product if it was shared with you or is associated with a portfolio.
-    public func deleteProduct(_ input: DeleteProductInput) throws -> DeleteProductOutput {
-        return try client.send(operation: "DeleteProduct", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Associates the specified product with the specified portfolio.
-    public func associateProductWithPortfolio(_ input: AssociateProductWithPortfolioInput) throws -> AssociateProductWithPortfolioOutput {
-        return try client.send(operation: "AssociateProductWithPortfolio", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Requests updates to the configuration of the specified provisioned product. If there are tags associated with the object, they cannot be updated or added. Depending on the specific updates requested, this operation can update with no interruption, with some interruption, or replace the provisioned product entirely. You can check the status of this request using DescribeRecord.
-    public func updateProvisionedProduct(_ input: UpdateProvisionedProductInput) throws -> UpdateProvisionedProductOutput {
-        return try client.send(operation: "UpdateProvisionedProduct", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Updates a self-service action.
-    public func updateServiceAction(_ input: UpdateServiceActionInput) throws -> UpdateServiceActionOutput {
-        return try client.send(operation: "UpdateServiceAction", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Updates the specified portfolio. You cannot update a product that was shared with you.
-    public func updatePortfolio(_ input: UpdatePortfolioInput) throws -> UpdatePortfolioOutput {
-        return try client.send(operation: "UpdatePortfolio", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Lists all self-service actions.
-    public func listServiceActions(_ input: ListServiceActionsInput) throws -> ListServiceActionsOutput {
-        return try client.send(operation: "ListServiceActions", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about the specified product.
-    public func describeProductView(_ input: DescribeProductViewInput) throws -> DescribeProductViewOutput {
-        return try client.send(operation: "DescribeProductView", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates a self-service action.
-    public func createServiceAction(_ input: CreateServiceActionInput) throws -> CreateServiceActionOutput {
-        return try client.send(operation: "CreateServiceAction", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes a self-service action.
-    public func deleteServiceAction(_ input: DeleteServiceActionInput) throws -> DeleteServiceActionOutput {
-        return try client.send(operation: "DeleteServiceAction", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates a TagOption.
-    public func createTagOption(_ input: CreateTagOptionInput) throws -> CreateTagOptionOutput {
-        return try client.send(operation: "CreateTagOption", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Describes a self-service action.
-    public func describeServiceAction(_ input: DescribeServiceActionInput) throws -> DescribeServiceActionOutput {
-        return try client.send(operation: "DescribeServiceAction", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about the specified product.
-    public func describeProduct(_ input: DescribeProductInput) throws -> DescribeProductOutput {
-        return try client.send(operation: "DescribeProduct", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Enable portfolio sharing feature through AWS Organizations. This API will allow Service Catalog to receive updates on your organization in order to sync your shares with the current structure. This API can only be called by the master account in the organization. By calling this API Service Catalog will use FAS credentials to call organizations:EnableAWSServiceAccess so that your shares can be in sync with any changes in your AWS Organizations.
-    public func enableAWSOrganizationsAccess(_ input: EnableAWSOrganizationsAccessInput) throws -> EnableAWSOrganizationsAccessOutput {
-        return try client.send(operation: "EnableAWSOrganizationsAccess", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Updates the specified TagOption.
-    public func updateTagOption(_ input: UpdateTagOptionInput) throws -> UpdateTagOptionOutput {
-        return try client.send(operation: "UpdateTagOption", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about the resource changes for the specified plan.
-    public func describeProvisionedProductPlan(_ input: DescribeProvisionedProductPlanInput) throws -> DescribeProvisionedProductPlanOutput {
-        return try client.send(operation: "DescribeProvisionedProductPlan", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Provisions the specified product. A provisioned product is a resourced instance of a product. For example, provisioning a product based on a CloudFormation template launches a CloudFormation stack and its underlying resources. You can check the status of this request using DescribeRecord. If the request contains a tag key with an empty list of values, there is a tag conflict for that key. Do not include conflicted keys as tags, or this causes the error "Parameter validation failed: Missing required parameter in Tags[N]:Value".
-    public func provisionProduct(_ input: ProvisionProductInput) throws -> ProvisionProductOutput {
-        return try client.send(operation: "ProvisionProduct", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Associates the specified principal ARN with the specified portfolio.
-    public func associatePrincipalWithPortfolio(_ input: AssociatePrincipalWithPortfolioInput) throws -> AssociatePrincipalWithPortfolioOutput {
-        return try client.send(operation: "AssociatePrincipalWithPortfolio", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Shares the specified portfolio with the specified account or organization node. Shares to an organization node can only be created by the master account of an Organization. AWSOrganizationsAccess must be enabled in order to create a portfolio share to an organization node.
-    public func createPortfolioShare(_ input: CreatePortfolioShareInput) throws -> CreatePortfolioShareOutput {
-        return try client.send(operation: "CreatePortfolioShare", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about the specified constraint.
-    public func describeConstraint(_ input: DescribeConstraintInput) throws -> DescribeConstraintOutput {
-        return try client.send(operation: "DescribeConstraint", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Executes a self-service action against a provisioned product.
-    public func executeProvisionedProductServiceAction(_ input: ExecuteProvisionedProductServiceActionInput) throws -> ExecuteProvisionedProductServiceActionOutput {
-        return try client.send(operation: "ExecuteProvisionedProductServiceAction", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Lists the specified requests or all performed requests.
-    public func listRecordHistory(_ input: ListRecordHistoryInput) throws -> ListRecordHistoryOutput {
-        return try client.send(operation: "ListRecordHistory", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes the specified constraint.
-    public func deleteConstraint(_ input: DeleteConstraintInput) throws -> DeleteConstraintOutput {
-        return try client.send(operation: "DeleteConstraint", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates a provisioning artifact (also known as a version) for the specified product. You cannot create a provisioning artifact for a product that was shared with you.
-    public func createProvisioningArtifact(_ input: CreateProvisioningArtifactInput) throws -> CreateProvisioningArtifactOutput {
-        return try client.send(operation: "CreateProvisioningArtifact", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Lists all provisioning artifacts (also known as versions) for the specified self-service action.
-    public func listProvisioningArtifactsForServiceAction(_ input: ListProvisioningArtifactsForServiceActionInput) throws -> ListProvisioningArtifactsForServiceActionOutput {
-        return try client.send(operation: "ListProvisioningArtifactsForServiceAction", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about the products for the specified portfolio or all products.
-    public func searchProductsAsAdmin(_ input: SearchProductsAsAdminInput) throws -> SearchProductsAsAdminOutput {
-        return try client.send(operation: "SearchProductsAsAdmin", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes the specified provisioning artifact (also known as a version) for the specified product. You cannot delete a provisioning artifact associated with a product that was shared with you. You cannot delete the last provisioning artifact for a product, because a product must have at least one provisioning artifact.
-    public func deleteProvisioningArtifact(_ input: DeleteProvisioningArtifactInput) throws -> DeleteProvisioningArtifactOutput {
-        return try client.send(operation: "DeleteProvisioningArtifact", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Updates the specified constraint.
-    public func updateConstraint(_ input: UpdateConstraintInput) throws -> UpdateConstraintOutput {
-        return try client.send(operation: "UpdateConstraint", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Get the Access Status for AWS Organization portfolio share feature. This API can only be called by the master account in the organization.
-    public func getAWSOrganizationsAccessStatus(_ input: GetAWSOrganizationsAccessStatusInput) throws -> GetAWSOrganizationsAccessStatusOutput {
-        return try client.send(operation: "GetAWSOrganizationsAccessStatus", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Stops sharing the specified portfolio with the specified account or organization node. Shares to an organization node can only be deleted by the master account of an Organization.
-    public func deletePortfolioShare(_ input: DeletePortfolioShareInput) throws -> DeletePortfolioShareOutput {
-        return try client.send(operation: "DeletePortfolioShare", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Disable portfolio sharing through AWS Organizations feature. This feature will not delete your current shares but it will prevent you from creating new shares throughout your organization. Current shares will not be in sync with your organization structure if it changes after calling this API. This API can only be called by the master account in the organization.
-    public func disableAWSOrganizationsAccess(_ input: DisableAWSOrganizationsAccessInput) throws -> DisableAWSOrganizationsAccessOutput {
-        return try client.send(operation: "DisableAWSOrganizationsAccess", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates a plan. A plan includes the list of resources to be created (when provisioning a new product) or modified (when updating a provisioned product) when the plan is executed. You can create one plan per provisioned product. To create a plan for an existing provisioned product, the product status must be AVAILBLE or TAINTED. To view the resource changes in the change set, use DescribeProvisionedProductPlan. To create or modify the provisioned product, use ExecuteProvisionedProductPlan.
-    public func createProvisionedProductPlan(_ input: CreateProvisionedProductPlanInput) throws -> CreateProvisionedProductPlanOutput {
-        return try client.send(operation: "CreateProvisionedProductPlan", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Terminates the specified provisioned product. This operation does not delete any records associated with the provisioned product. You can check the status of this request using DescribeRecord.
-    public func terminateProvisionedProduct(_ input: TerminateProvisionedProductInput) throws -> TerminateProvisionedProductOutput {
-        return try client.send(operation: "TerminateProvisionedProduct", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about the specified TagOption.
-    public func describeTagOption(_ input: DescribeTagOptionInput) throws -> DescribeTagOptionOutput {
-        return try client.send(operation: "DescribeTagOption", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Associates multiple self-service actions with provisioning artifacts.
-    public func batchAssociateServiceActionWithProvisioningArtifact(_ input: BatchAssociateServiceActionWithProvisioningArtifactInput) throws -> BatchAssociateServiceActionWithProvisioningArtifactOutput {
-        return try client.send(operation: "BatchAssociateServiceActionWithProvisioningArtifact", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Disassociates a previously associated principal ARN from a specified portfolio.
-    public func disassociatePrincipalFromPortfolio(_ input: DisassociatePrincipalFromPortfolioInput) throws -> DisassociatePrincipalFromPortfolioOutput {
-        return try client.send(operation: "DisassociatePrincipalFromPortfolio", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates a portfolio.
-    public func createPortfolio(_ input: CreatePortfolioInput) throws -> CreatePortfolioOutput {
-        return try client.send(operation: "CreatePortfolio", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Lists the organization nodes that have access to the specified portfolio. This API can only be called by the master account in the organization.
-    public func listOrganizationPortfolioAccess(_ input: ListOrganizationPortfolioAccessInput) throws -> ListOrganizationPortfolioAccessOutput {
-        return try client.send(operation: "ListOrganizationPortfolioAccess", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes the specified TagOption. You cannot delete a TagOption if it is associated with a product or portfolio.
-    public func deleteTagOption(_ input: DeleteTagOptionInput) throws -> DeleteTagOptionOutput {
-        return try client.send(operation: "DeleteTagOption", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates a product.
-    public func createProduct(_ input: CreateProductInput) throws -> CreateProductOutput {
-        return try client.send(operation: "CreateProduct", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Disassociates the specified product from the specified portfolio. 
-    public func disassociateProductFromPortfolio(_ input: DisassociateProductFromPortfolioInput) throws -> DisassociateProductFromPortfolioOutput {
-        return try client.send(operation: "DisassociateProductFromPortfolio", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Disassociates a batch of self-service actions from the specified provisioning artifact.
-    public func batchDisassociateServiceActionFromProvisioningArtifact(_ input: BatchDisassociateServiceActionFromProvisioningArtifactInput) throws -> BatchDisassociateServiceActionFromProvisioningArtifactOutput {
-        return try client.send(operation: "BatchDisassociateServiceActionFromProvisioningArtifact", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about the specified portfolio.
-    public func describePortfolio(_ input: DescribePortfolioInput) throws -> DescribePortfolioOutput {
-        return try client.send(operation: "DescribePortfolio", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about the specified provisioning artifact (also known as a version) for the specified product.
-    public func describeProvisioningArtifact(_ input: DescribeProvisioningArtifactInput) throws -> DescribeProvisioningArtifactOutput {
-        return try client.send(operation: "DescribeProvisioningArtifact", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Lists all provisioning artifacts (also known as versions) for the specified product.
-    public func listProvisioningArtifacts(_ input: ListProvisioningArtifactsInput) throws -> ListProvisioningArtifactsOutput {
-        return try client.send(operation: "ListProvisioningArtifacts", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Lists all portfolios that the specified product is associated with.
-    public func listPortfoliosForProduct(_ input: ListPortfoliosForProductInput) throws -> ListPortfoliosForProductOutput {
-        return try client.send(operation: "ListPortfoliosForProduct", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Lists the plans for the specified provisioned product or all plans to which the user has access.
-    public func listProvisionedProductPlans(_ input: ListProvisionedProductPlansInput) throws -> ListProvisionedProductPlansOutput {
-        return try client.send(operation: "ListProvisionedProductPlans", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets the status of the specified copy product operation.
-    public func describeCopyProductStatus(_ input: DescribeCopyProductStatusInput) throws -> DescribeCopyProductStatusOutput {
-        return try client.send(operation: "DescribeCopyProductStatus", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Lists all portfolios in the catalog.
-    public func listPortfolios(_ input: ListPortfoliosInput) throws -> ListPortfoliosOutput {
+    public func listPortfolios(_ input: ListPortfoliosInput) throws -> EventLoopFuture<ListPortfoliosOutput> {
         return try client.send(operation: "ListPortfolios", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the specified TagOptions or all TagOptions.
-    public func listTagOptions(_ input: ListTagOptionsInput) throws -> ListTagOptionsOutput {
-        return try client.send(operation: "ListTagOptions", path: "/", httpMethod: "POST", input: input)
+    ///  Gets information about the specified TagOption.
+    public func describeTagOption(_ input: DescribeTagOptionInput) throws -> EventLoopFuture<DescribeTagOptionOutput> {
+        return try client.send(operation: "DescribeTagOption", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the paths to the specified product. A path is how the user has access to a specified product, and is necessary when provisioning a product. A path also determines the constraints put on the product.
-    public func listLaunchPaths(_ input: ListLaunchPathsInput) throws -> ListLaunchPathsOutput {
-        return try client.send(operation: "ListLaunchPaths", path: "/", httpMethod: "POST", input: input)
+    ///  Lists all self-service actions.
+    public func listServiceActions(_ input: ListServiceActionsInput) throws -> EventLoopFuture<ListServiceActionsOutput> {
+        return try client.send(operation: "ListServiceActions", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Disassociates the specified product from the specified portfolio. 
+    public func disassociateProductFromPortfolio(_ input: DisassociateProductFromPortfolioInput) throws -> EventLoopFuture<DisassociateProductFromPortfolioOutput> {
+        return try client.send(operation: "DisassociateProductFromPortfolio", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists all provisioning artifacts (also known as versions) for the specified product.
+    public func listProvisioningArtifacts(_ input: ListProvisioningArtifactsInput) throws -> EventLoopFuture<ListProvisioningArtifactsOutput> {
+        return try client.send(operation: "ListProvisioningArtifacts", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about the specified product. This operation is run with administrator access.
+    public func describeProductAsAdmin(_ input: DescribeProductAsAdminInput) throws -> EventLoopFuture<DescribeProductAsAdminOutput> {
+        return try client.send(operation: "DescribeProductAsAdmin", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about the specified provisioned product.
+    public func describeProvisionedProduct(_ input: DescribeProvisionedProductInput) throws -> EventLoopFuture<DescribeProvisionedProductOutput> {
+        return try client.send(operation: "DescribeProvisionedProduct", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a plan. A plan includes the list of resources to be created (when provisioning a new product) or modified (when updating a provisioned product) when the plan is executed. You can create one plan per provisioned product. To create a plan for an existing provisioned product, the product status must be AVAILBLE or TAINTED. To view the resource changes in the change set, use DescribeProvisionedProductPlan. To create or modify the provisioned product, use ExecuteProvisionedProductPlan.
+    public func createProvisionedProductPlan(_ input: CreateProvisionedProductPlanInput) throws -> EventLoopFuture<CreateProvisionedProductPlanOutput> {
+        return try client.send(operation: "CreateProvisionedProductPlan", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists the organization nodes that have access to the specified portfolio. This API can only be called by the master account in the organization.
+    public func listOrganizationPortfolioAccess(_ input: ListOrganizationPortfolioAccessInput) throws -> EventLoopFuture<ListOrganizationPortfolioAccessOutput> {
+        return try client.send(operation: "ListOrganizationPortfolioAccess", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about the specified product.
+    public func describeProduct(_ input: DescribeProductInput) throws -> EventLoopFuture<DescribeProductOutput> {
+        return try client.send(operation: "DescribeProduct", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a self-service action.
+    public func createServiceAction(_ input: CreateServiceActionInput) throws -> EventLoopFuture<CreateServiceActionOutput> {
+        return try client.send(operation: "CreateServiceAction", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Rejects an offer to share the specified portfolio.
-    public func rejectPortfolioShare(_ input: RejectPortfolioShareInput) throws -> RejectPortfolioShareOutput {
+    public func rejectPortfolioShare(_ input: RejectPortfolioShareInput) throws -> EventLoopFuture<RejectPortfolioShareOutput> {
         return try client.send(operation: "RejectPortfolioShare", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the account IDs that have access to the specified portfolio.
-    public func listPortfolioAccess(_ input: ListPortfolioAccessInput) throws -> ListPortfolioAccessOutput {
-        return try client.send(operation: "ListPortfolioAccess", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Updates the specified provisioning artifact (also known as a version) for the specified product. You cannot update a provisioning artifact for a product that was shared with you.
-    public func updateProvisioningArtifact(_ input: UpdateProvisioningArtifactInput) throws -> UpdateProvisioningArtifactOutput {
-        return try client.send(operation: "UpdateProvisioningArtifact", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Disassociates the specified self-service action association from the specified provisioning artifact.
-    public func disassociateServiceActionFromProvisioningArtifact(_ input: DisassociateServiceActionFromProvisioningArtifactInput) throws -> DisassociateServiceActionFromProvisioningArtifactOutput {
-        return try client.send(operation: "DisassociateServiceActionFromProvisioningArtifact", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns a paginated list of self-service actions associated with the specified Product ID and Provisioning Artifact ID.
-    public func listServiceActionsForProvisioningArtifact(_ input: ListServiceActionsForProvisioningArtifactInput) throws -> ListServiceActionsForProvisioningArtifactOutput {
-        return try client.send(operation: "ListServiceActionsForProvisioningArtifact", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Associate the specified TagOption with the specified portfolio or product.
-    public func associateTagOptionWithResource(_ input: AssociateTagOptionWithResourceInput) throws -> AssociateTagOptionWithResourceOutput {
-        return try client.send(operation: "AssociateTagOptionWithResource", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets the status of the specified portfolio share operation. This API can only be called by the master account in the organization.
-    public func describePortfolioShareStatus(_ input: DescribePortfolioShareStatusInput) throws -> DescribePortfolioShareStatusOutput {
-        return try client.send(operation: "DescribePortfolioShareStatus", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about the specified request operation. Use this operation after calling a request operation (for example, ProvisionProduct, TerminateProvisionedProduct, or UpdateProvisionedProduct). 
-    public func describeRecord(_ input: DescribeRecordInput) throws -> DescribeRecordOutput {
-        return try client.send(operation: "DescribeRecord", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes the specified portfolio. You cannot delete a portfolio if it was shared with you or if it has associated products, users, constraints, or shared accounts.
-    public func deletePortfolio(_ input: DeletePortfolioInput) throws -> DeletePortfolioOutput {
-        return try client.send(operation: "DeletePortfolio", path: "/", httpMethod: "POST", input: input)
+    ///  Lists all principal ARNs associated with the specified portfolio.
+    public func listPrincipalsForPortfolio(_ input: ListPrincipalsForPortfolioInput) throws -> EventLoopFuture<ListPrincipalsForPortfolioOutput> {
+        return try client.send(operation: "ListPrincipalsForPortfolio", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Provisions or modifies a product based on the resource changes for the specified plan.
-    public func executeProvisionedProductPlan(_ input: ExecuteProvisionedProductPlanInput) throws -> ExecuteProvisionedProductPlanOutput {
+    public func executeProvisionedProductPlan(_ input: ExecuteProvisionedProductPlanInput) throws -> EventLoopFuture<ExecuteProvisionedProductPlanOutput> {
         return try client.send(operation: "ExecuteProvisionedProductPlan", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Disassociates the specified TagOption from the specified resource.
-    public func disassociateTagOptionFromResource(_ input: DisassociateTagOptionFromResourceInput) throws -> DisassociateTagOptionFromResourceOutput {
+    public func disassociateTagOptionFromResource(_ input: DisassociateTagOptionFromResourceInput) throws -> EventLoopFuture<DisassociateTagOptionFromResourceOutput> {
         return try client.send(operation: "DisassociateTagOptionFromResource", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Updates the specified portfolio. You cannot update a product that was shared with you.
+    public func updatePortfolio(_ input: UpdatePortfolioInput) throws -> EventLoopFuture<UpdatePortfolioOutput> {
+        return try client.send(operation: "UpdatePortfolio", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists all portfolios for which sharing was accepted by this account.
+    public func listAcceptedPortfolioShares(_ input: ListAcceptedPortfolioSharesInput) throws -> EventLoopFuture<ListAcceptedPortfolioSharesOutput> {
+        return try client.send(operation: "ListAcceptedPortfolioShares", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates a self-service action.
+    public func updateServiceAction(_ input: UpdateServiceActionInput) throws -> EventLoopFuture<UpdateServiceActionOutput> {
+        return try client.send(operation: "UpdateServiceAction", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a TagOption.
+    public func createTagOption(_ input: CreateTagOptionInput) throws -> EventLoopFuture<CreateTagOptionOutput> {
+        return try client.send(operation: "CreateTagOption", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about the configuration required to provision the specified product using the specified provisioning artifact. If the output contains a TagOption key with an empty list of values, there is a TagOption conflict for that key. The end user cannot take action to fix the conflict, and launch is not blocked. In subsequent calls to ProvisionProduct, do not include conflicted TagOption keys as tags, or this causes the error "Parameter validation failed: Missing required parameter in Tags[N]:Value". Tag the provisioned product with the value sc-tagoption-conflict-portfolioId-productId.
+    public func describeProvisioningParameters(_ input: DescribeProvisioningParametersInput) throws -> EventLoopFuture<DescribeProvisioningParametersOutput> {
+        return try client.send(operation: "DescribeProvisioningParameters", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns a paginated list of self-service actions associated with the specified Product ID and Provisioning Artifact ID.
+    public func listServiceActionsForProvisioningArtifact(_ input: ListServiceActionsForProvisioningArtifactInput) throws -> EventLoopFuture<ListServiceActionsForProvisioningArtifactOutput> {
+        return try client.send(operation: "ListServiceActionsForProvisioningArtifact", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists all portfolios that the specified product is associated with.
+    public func listPortfoliosForProduct(_ input: ListPortfoliosForProductInput) throws -> EventLoopFuture<ListPortfoliosForProductOutput> {
+        return try client.send(operation: "ListPortfoliosForProduct", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists the specified TagOptions or all TagOptions.
+    public func listTagOptions(_ input: ListTagOptionsInput) throws -> EventLoopFuture<ListTagOptionsOutput> {
+        return try client.send(operation: "ListTagOptions", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Terminates the specified provisioned product. This operation does not delete any records associated with the provisioned product. You can check the status of this request using DescribeRecord.
+    public func terminateProvisionedProduct(_ input: TerminateProvisionedProductInput) throws -> EventLoopFuture<TerminateProvisionedProductOutput> {
+        return try client.send(operation: "TerminateProvisionedProduct", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a provisioning artifact (also known as a version) for the specified product. You cannot create a provisioning artifact for a product that was shared with you.
+    public func createProvisioningArtifact(_ input: CreateProvisioningArtifactInput) throws -> EventLoopFuture<CreateProvisioningArtifactOutput> {
+        return try client.send(operation: "CreateProvisioningArtifact", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists the constraints for the specified portfolio and product.
+    public func listConstraintsForPortfolio(_ input: ListConstraintsForPortfolioInput) throws -> EventLoopFuture<ListConstraintsForPortfolioOutput> {
+        return try client.send(operation: "ListConstraintsForPortfolio", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Associates a self-service action with a provisioning artifact.
+    public func associateServiceActionWithProvisioningArtifact(_ input: AssociateServiceActionWithProvisioningArtifactInput) throws -> EventLoopFuture<AssociateServiceActionWithProvisioningArtifactOutput> {
+        return try client.send(operation: "AssociateServiceActionWithProvisioningArtifact", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes the specified provisioning artifact (also known as a version) for the specified product. You cannot delete a provisioning artifact associated with a product that was shared with you. You cannot delete the last provisioning artifact for a product, because a product must have at least one provisioning artifact.
+    public func deleteProvisioningArtifact(_ input: DeleteProvisioningArtifactInput) throws -> EventLoopFuture<DeleteProvisioningArtifactOutput> {
+        return try client.send(operation: "DeleteProvisioningArtifact", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a constraint.
+    public func createConstraint(_ input: CreateConstraintInput) throws -> EventLoopFuture<CreateConstraintOutput> {
+        return try client.send(operation: "CreateConstraint", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Associates the specified product with the specified portfolio.
+    public func associateProductWithPortfolio(_ input: AssociateProductWithPortfolioInput) throws -> EventLoopFuture<AssociateProductWithPortfolioOutput> {
+        return try client.send(operation: "AssociateProductWithPortfolio", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the specified constraint.
+    public func updateConstraint(_ input: UpdateConstraintInput) throws -> EventLoopFuture<UpdateConstraintOutput> {
+        return try client.send(operation: "UpdateConstraint", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the specified provisioning artifact (also known as a version) for the specified product. You cannot update a provisioning artifact for a product that was shared with you.
+    public func updateProvisioningArtifact(_ input: UpdateProvisioningArtifactInput) throws -> EventLoopFuture<UpdateProvisioningArtifactOutput> {
+        return try client.send(operation: "UpdateProvisioningArtifact", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Disassociates a batch of self-service actions from the specified provisioning artifact.
+    public func batchDisassociateServiceActionFromProvisioningArtifact(_ input: BatchDisassociateServiceActionFromProvisioningArtifactInput) throws -> EventLoopFuture<BatchDisassociateServiceActionFromProvisioningArtifactOutput> {
+        return try client.send(operation: "BatchDisassociateServiceActionFromProvisioningArtifact", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Requests updates to the configuration of the specified provisioned product. If there are tags associated with the object, they cannot be updated or added. Depending on the specific updates requested, this operation can update with no interruption, with some interruption, or replace the provisioned product entirely. You can check the status of this request using DescribeRecord.
+    public func updateProvisionedProduct(_ input: UpdateProvisionedProductInput) throws -> EventLoopFuture<UpdateProvisionedProductOutput> {
+        return try client.send(operation: "UpdateProvisionedProduct", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about the specified product.
+    public func describeProductView(_ input: DescribeProductViewInput) throws -> EventLoopFuture<DescribeProductViewOutput> {
+        return try client.send(operation: "DescribeProductView", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes the specified product. You cannot delete a product if it was shared with you or is associated with a portfolio.
+    public func deleteProduct(_ input: DeleteProductInput) throws -> EventLoopFuture<DeleteProductOutput> {
+        return try client.send(operation: "DeleteProduct", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Executes a self-service action against a provisioned product.
+    public func executeProvisionedProductServiceAction(_ input: ExecuteProvisionedProductServiceActionInput) throws -> EventLoopFuture<ExecuteProvisionedProductServiceActionOutput> {
+        return try client.send(operation: "ExecuteProvisionedProductServiceAction", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Copies the specified source product to the specified target product or a new product. You can copy a product to the same account or another account. You can copy a product to the same region or another region. This operation is performed asynchronously. To track the progress of the operation, use DescribeCopyProductStatus.
+    public func copyProduct(_ input: CopyProductInput) throws -> EventLoopFuture<CopyProductOutput> {
+        return try client.send(operation: "CopyProduct", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes the specified TagOption. You cannot delete a TagOption if it is associated with a product or portfolio.
+    public func deleteTagOption(_ input: DeleteTagOptionInput) throws -> EventLoopFuture<DeleteTagOptionOutput> {
+        return try client.send(operation: "DeleteTagOption", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists the resources associated with the specified TagOption.
+    public func listResourcesForTagOption(_ input: ListResourcesForTagOptionInput) throws -> EventLoopFuture<ListResourcesForTagOptionOutput> {
+        return try client.send(operation: "ListResourcesForTagOption", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists all provisioning artifacts (also known as versions) for the specified self-service action.
+    public func listProvisioningArtifactsForServiceAction(_ input: ListProvisioningArtifactsForServiceActionInput) throws -> EventLoopFuture<ListProvisioningArtifactsForServiceActionOutput> {
+        return try client.send(operation: "ListProvisioningArtifactsForServiceAction", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Stops sharing the specified portfolio with the specified account or organization node. Shares to an organization node can only be deleted by the master account of an Organization.
+    public func deletePortfolioShare(_ input: DeletePortfolioShareInput) throws -> EventLoopFuture<DeletePortfolioShareOutput> {
+        return try client.send(operation: "DeletePortfolioShare", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about the specified constraint.
+    public func describeConstraint(_ input: DescribeConstraintInput) throws -> EventLoopFuture<DescribeConstraintOutput> {
+        return try client.send(operation: "DescribeConstraint", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Associates multiple self-service actions with provisioning artifacts.
+    public func batchAssociateServiceActionWithProvisioningArtifact(_ input: BatchAssociateServiceActionWithProvisioningArtifactInput) throws -> EventLoopFuture<BatchAssociateServiceActionWithProvisioningArtifactOutput> {
+        return try client.send(operation: "BatchAssociateServiceActionWithProvisioningArtifact", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes a self-service action.
+    public func describeServiceAction(_ input: DescribeServiceActionInput) throws -> EventLoopFuture<DescribeServiceActionOutput> {
+        return try client.send(operation: "DescribeServiceAction", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes the specified portfolio. You cannot delete a portfolio if it was shared with you or if it has associated products, users, constraints, or shared accounts.
+    public func deletePortfolio(_ input: DeletePortfolioInput) throws -> EventLoopFuture<DeletePortfolioOutput> {
+        return try client.send(operation: "DeletePortfolio", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets the status of the specified copy product operation.
+    public func describeCopyProductStatus(_ input: DescribeCopyProductStatusInput) throws -> EventLoopFuture<DescribeCopyProductStatusOutput> {
+        return try client.send(operation: "DescribeCopyProductStatus", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a product.
+    public func createProduct(_ input: CreateProductInput) throws -> EventLoopFuture<CreateProductOutput> {
+        return try client.send(operation: "CreateProduct", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists the specified requests or all performed requests.
+    public func listRecordHistory(_ input: ListRecordHistoryInput) throws -> EventLoopFuture<ListRecordHistoryOutput> {
+        return try client.send(operation: "ListRecordHistory", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the specified product.
+    public func updateProduct(_ input: UpdateProductInput) throws -> EventLoopFuture<UpdateProductOutput> {
+        return try client.send(operation: "UpdateProduct", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes the specified plan.
+    public func deleteProvisionedProductPlan(_ input: DeleteProvisionedProductPlanInput) throws -> EventLoopFuture<DeleteProvisionedProductPlanOutput> {
+        return try client.send(operation: "DeleteProvisionedProductPlan", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Disassociates a previously associated principal ARN from a specified portfolio.
+    public func disassociatePrincipalFromPortfolio(_ input: DisassociatePrincipalFromPortfolioInput) throws -> EventLoopFuture<DisassociatePrincipalFromPortfolioOutput> {
+        return try client.send(operation: "DisassociatePrincipalFromPortfolio", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a self-service action.
+    public func deleteServiceAction(_ input: DeleteServiceActionInput) throws -> EventLoopFuture<DeleteServiceActionOutput> {
+        return try client.send(operation: "DeleteServiceAction", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Disable portfolio sharing through AWS Organizations feature. This feature will not delete your current shares but it will prevent you from creating new shares throughout your organization. Current shares will not be in sync with your organization structure if it changes after calling this API. This API can only be called by the master account in the organization.
+    public func disableAWSOrganizationsAccess(_ input: DisableAWSOrganizationsAccessInput) throws -> EventLoopFuture<DisableAWSOrganizationsAccessOutput> {
+        return try client.send(operation: "DisableAWSOrganizationsAccess", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Disassociates the specified self-service action association from the specified provisioning artifact.
+    public func disassociateServiceActionFromProvisioningArtifact(_ input: DisassociateServiceActionFromProvisioningArtifactInput) throws -> EventLoopFuture<DisassociateServiceActionFromProvisioningArtifactOutput> {
+        return try client.send(operation: "DisassociateServiceActionFromProvisioningArtifact", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets the status of the specified portfolio share operation. This API can only be called by the master account in the organization.
+    public func describePortfolioShareStatus(_ input: DescribePortfolioShareStatusInput) throws -> EventLoopFuture<DescribePortfolioShareStatusOutput> {
+        return try client.send(operation: "DescribePortfolioShareStatus", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the specified TagOption.
+    public func updateTagOption(_ input: UpdateTagOptionInput) throws -> EventLoopFuture<UpdateTagOptionOutput> {
+        return try client.send(operation: "UpdateTagOption", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Shares the specified portfolio with the specified account or organization node. Shares to an organization node can only be created by the master account of an Organization. AWSOrganizationsAccess must be enabled in order to create a portfolio share to an organization node.
+    public func createPortfolioShare(_ input: CreatePortfolioShareInput) throws -> EventLoopFuture<CreatePortfolioShareOutput> {
+        return try client.send(operation: "CreatePortfolioShare", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about the resource changes for the specified plan.
+    public func describeProvisionedProductPlan(_ input: DescribeProvisionedProductPlanInput) throws -> EventLoopFuture<DescribeProvisionedProductPlanOutput> {
+        return try client.send(operation: "DescribeProvisionedProductPlan", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about the provisioned products that meet the specified criteria.
+    public func searchProvisionedProducts(_ input: SearchProvisionedProductsInput) throws -> EventLoopFuture<SearchProvisionedProductsOutput> {
+        return try client.send(operation: "SearchProvisionedProducts", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Get the Access Status for AWS Organization portfolio share feature. This API can only be called by the master account in the organization.
+    public func getAWSOrganizationsAccessStatus(_ input: GetAWSOrganizationsAccessStatusInput) throws -> EventLoopFuture<GetAWSOrganizationsAccessStatusOutput> {
+        return try client.send(operation: "GetAWSOrganizationsAccessStatus", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about the specified portfolio.
+    public func describePortfolio(_ input: DescribePortfolioInput) throws -> EventLoopFuture<DescribePortfolioOutput> {
+        return try client.send(operation: "DescribePortfolio", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Lists the provisioned products that are available (not terminated). To use additional filtering, see SearchProvisionedProducts.
-    public func scanProvisionedProducts(_ input: ScanProvisionedProductsInput) throws -> ScanProvisionedProductsOutput {
+    public func scanProvisionedProducts(_ input: ScanProvisionedProductsInput) throws -> EventLoopFuture<ScanProvisionedProductsOutput> {
         return try client.send(operation: "ScanProvisionedProducts", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Deletes the specified constraint.
+    public func deleteConstraint(_ input: DeleteConstraintInput) throws -> EventLoopFuture<DeleteConstraintOutput> {
+        return try client.send(operation: "DeleteConstraint", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Provisions the specified product. A provisioned product is a resourced instance of a product. For example, provisioning a product based on a CloudFormation template launches a CloudFormation stack and its underlying resources. You can check the status of this request using DescribeRecord. If the request contains a tag key with an empty list of values, there is a tag conflict for that key. Do not include conflicted keys as tags, or this causes the error "Parameter validation failed: Missing required parameter in Tags[N]:Value".
+    public func provisionProduct(_ input: ProvisionProductInput) throws -> EventLoopFuture<ProvisionProductOutput> {
+        return try client.send(operation: "ProvisionProduct", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Associates the specified principal ARN with the specified portfolio.
+    public func associatePrincipalWithPortfolio(_ input: AssociatePrincipalWithPortfolioInput) throws -> EventLoopFuture<AssociatePrincipalWithPortfolioOutput> {
+        return try client.send(operation: "AssociatePrincipalWithPortfolio", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Associate the specified TagOption with the specified portfolio or product.
+    public func associateTagOptionWithResource(_ input: AssociateTagOptionWithResourceInput) throws -> EventLoopFuture<AssociateTagOptionWithResourceOutput> {
+        return try client.send(operation: "AssociateTagOptionWithResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists the paths to the specified product. A path is how the user has access to a specified product, and is necessary when provisioning a product. A path also determines the constraints put on the product.
+    public func listLaunchPaths(_ input: ListLaunchPathsInput) throws -> EventLoopFuture<ListLaunchPathsOutput> {
+        return try client.send(operation: "ListLaunchPaths", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists the account IDs that have access to the specified portfolio.
+    public func listPortfolioAccess(_ input: ListPortfolioAccessInput) throws -> EventLoopFuture<ListPortfolioAccessOutput> {
+        return try client.send(operation: "ListPortfolioAccess", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about the specified provisioning artifact (also known as a version) for the specified product.
+    public func describeProvisioningArtifact(_ input: DescribeProvisioningArtifactInput) throws -> EventLoopFuture<DescribeProvisioningArtifactOutput> {
+        return try client.send(operation: "DescribeProvisioningArtifact", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about the products to which the caller has access.
+    public func searchProducts(_ input: SearchProductsInput) throws -> EventLoopFuture<SearchProductsOutput> {
+        return try client.send(operation: "SearchProducts", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Accepts an offer to share the specified portfolio.
-    public func acceptPortfolioShare(_ input: AcceptPortfolioShareInput) throws -> AcceptPortfolioShareOutput {
+    public func acceptPortfolioShare(_ input: AcceptPortfolioShareInput) throws -> EventLoopFuture<AcceptPortfolioShareOutput> {
         return try client.send(operation: "AcceptPortfolioShare", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists all principal ARNs associated with the specified portfolio.
-    public func listPrincipalsForPortfolio(_ input: ListPrincipalsForPortfolioInput) throws -> ListPrincipalsForPortfolioOutput {
-        return try client.send(operation: "ListPrincipalsForPortfolio", path: "/", httpMethod: "POST", input: input)
+    ///  Enable portfolio sharing feature through AWS Organizations. This API will allow Service Catalog to receive updates on your organization in order to sync your shares with the current structure. This API can only be called by the master account in the organization. By calling this API Service Catalog will use FAS credentials to call organizations:EnableAWSServiceAccess so that your shares can be in sync with any changes in your AWS Organizations.
+    public func enableAWSOrganizationsAccess(_ input: EnableAWSOrganizationsAccessInput) throws -> EventLoopFuture<EnableAWSOrganizationsAccessOutput> {
+        return try client.send(operation: "EnableAWSOrganizationsAccess", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a portfolio.
+    public func createPortfolio(_ input: CreatePortfolioInput) throws -> EventLoopFuture<CreatePortfolioOutput> {
+        return try client.send(operation: "CreatePortfolio", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists the plans for the specified provisioned product or all plans to which the user has access.
+    public func listProvisionedProductPlans(_ input: ListProvisionedProductPlansInput) throws -> EventLoopFuture<ListProvisionedProductPlansOutput> {
+        return try client.send(operation: "ListProvisionedProductPlans", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about the products for the specified portfolio or all products.
+    public func searchProductsAsAdmin(_ input: SearchProductsAsAdminInput) throws -> EventLoopFuture<SearchProductsAsAdminOutput> {
+        return try client.send(operation: "SearchProductsAsAdmin", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about the specified request operation. Use this operation after calling a request operation (for example, ProvisionProduct, TerminateProvisionedProduct, or UpdateProvisionedProduct). 
+    public func describeRecord(_ input: DescribeRecordInput) throws -> EventLoopFuture<DescribeRecordOutput> {
+        return try client.send(operation: "DescribeRecord", path: "/", httpMethod: "POST", input: input)
     }
 
 

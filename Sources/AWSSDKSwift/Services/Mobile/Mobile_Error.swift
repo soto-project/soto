@@ -10,8 +10,8 @@ public enum MobileErrorType: AWSErrorType {
     case tooManyRequestsException(message: String?)
     case badRequestException(message: String?)
     case notFoundException(message: String?)
-    case accountActionRequiredException(message: String?)
     case limitExceededException(message: String?)
+    case accountActionRequiredException(message: String?)
 }
 
 extension MobileErrorType {
@@ -33,10 +33,10 @@ extension MobileErrorType {
             self = .badRequestException(message: message)
         case "NotFoundException":
             self = .notFoundException(message: message)
-        case "AccountActionRequiredException":
-            self = .accountActionRequiredException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
+        case "AccountActionRequiredException":
+            self = .accountActionRequiredException(message: message)
         default:
             return nil
         }

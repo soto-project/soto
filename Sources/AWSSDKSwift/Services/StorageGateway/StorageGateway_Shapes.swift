@@ -5,61 +5,10 @@ import AWSSDKSwiftCore
 
 extension StorageGateway {
 
-    public struct CreateStorediSCSIVolumeInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SnapshotId", required: false, type: .string), 
-            AWSShapeMember(label: "KMSKey", required: false, type: .string), 
-            AWSShapeMember(label: "KMSEncrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "PreserveExistingData", required: true, type: .boolean), 
-            AWSShapeMember(label: "NetworkInterfaceId", required: true, type: .string), 
-            AWSShapeMember(label: "DiskId", required: true, type: .string), 
-            AWSShapeMember(label: "TargetName", required: true, type: .string), 
-            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
-        ]
-        /// The snapshot ID (e.g. "snap-1122aabb") of the snapshot to restore as the new stored volume. Specify this field if you want to create the iSCSI storage volume from a snapshot otherwise do not include this field. To list snapshots for your account use DescribeSnapshots in the Amazon Elastic Compute Cloud API Reference.
-        public let snapshotId: String?
-        /// The Amazon Resource Name (ARN) of the KMS key used for Amazon S3 server side encryption. This value can only be set when KMSEncrypted is true. Optional.
-        public let kMSKey: String?
-        /// True to use Amazon S3 server side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional.
-        public let kMSEncrypted: Bool?
-        /// Specify this field as true if you want to preserve the data on the local disk. Otherwise, specifying this field as false creates an empty volume.  Valid Values: true, false
-        public let preserveExistingData: Bool
-        /// The network interface of the gateway on which to expose the iSCSI target. Only IPv4 addresses are accepted. Use DescribeGatewayInformation to get a list of the network interfaces available on a gateway.  Valid Values: A valid IP address.
-        public let networkInterfaceId: String
-        /// The unique identifier for the gateway local disk that is configured as a stored volume. Use ListLocalDisks to list disk IDs for a gateway.
-        public let diskId: String
-        /// The name of the iSCSI target used by initiators to connect to the target and as a suffix for the target ARN. For example, specifying TargetName as myvolume results in the target ARN of arn:aws:storagegateway:us-east-2:111122223333:gateway/sgw-12A3456B/target/iqn.1997-05.com.amazon:myvolume. The target name must be unique across all volumes of a gateway.
-        public let targetName: String
-        public let gatewayARN: String
-
-        public init(snapshotId: String? = nil, kMSKey: String? = nil, kMSEncrypted: Bool? = nil, preserveExistingData: Bool, networkInterfaceId: String, diskId: String, targetName: String, gatewayARN: String) {
-            self.snapshotId = snapshotId
-            self.kMSKey = kMSKey
-            self.kMSEncrypted = kMSEncrypted
-            self.preserveExistingData = preserveExistingData
-            self.networkInterfaceId = networkInterfaceId
-            self.diskId = diskId
-            self.targetName = targetName
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case snapshotId = "SnapshotId"
-            case kMSKey = "KMSKey"
-            case kMSEncrypted = "KMSEncrypted"
-            case preserveExistingData = "PreserveExistingData"
-            case networkInterfaceId = "NetworkInterfaceId"
-            case diskId = "DiskId"
-            case targetName = "TargetName"
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct DisableGatewayOutput: AWSShape {
+    public struct AddCacheOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
-        /// The unique Amazon Resource Name (ARN) of the disabled gateway.
         public let gatewayARN: String?
 
         public init(gatewayARN: String? = nil) {
@@ -71,53 +20,26 @@ extension StorageGateway {
         }
     }
 
-    public struct DescribeTapeArchivesInput: AWSShape {
+    public struct CreateSnapshotFromVolumeRecoveryPointInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "TapeARNs", required: false, type: .list)
+            AWSShapeMember(label: "SnapshotDescription", required: true, type: .string), 
+            AWSShapeMember(label: "VolumeARN", required: true, type: .string)
         ]
-        /// Specifies that the number of virtual tapes descried be limited to the specified number.
-        public let limit: Int32?
-        /// An opaque string that indicates the position at which to begin describing virtual tapes.
-        public let marker: String?
-        /// Specifies one or more unique Amazon Resource Names (ARNs) that represent the virtual tapes you want to describe.
-        public let tapeARNs: [String]?
+        public let snapshotDescription: String
+        public let volumeARN: String
 
-        public init(limit: Int32? = nil, marker: String? = nil, tapeARNs: [String]? = nil) {
-            self.limit = limit
-            self.marker = marker
-            self.tapeARNs = tapeARNs
+        public init(snapshotDescription: String, volumeARN: String) {
+            self.snapshotDescription = snapshotDescription
+            self.volumeARN = volumeARN
         }
 
         private enum CodingKeys: String, CodingKey {
-            case limit = "Limit"
-            case marker = "Marker"
-            case tapeARNs = "TapeARNs"
+            case snapshotDescription = "SnapshotDescription"
+            case volumeARN = "VolumeARN"
         }
     }
 
-    public struct ListTapesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "TapeInfos", required: false, type: .list)
-        ]
-        /// A string that indicates the position at which to begin returning the next list of tapes. Use the marker in your next request to continue pagination of tapes. If there are no more tapes to list, this element does not appear in the response body.
-        public let marker: String?
-        public let tapeInfos: [TapeInfo]?
-
-        public init(marker: String? = nil, tapeInfos: [TapeInfo]? = nil) {
-            self.marker = marker
-            self.tapeInfos = tapeInfos
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case tapeInfos = "TapeInfos"
-        }
-    }
-
-    public struct ListVolumeRecoveryPointsInput: AWSShape {
+    public struct DescribeMaintenanceStartTimeInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
@@ -132,7 +54,7 @@ extension StorageGateway {
         }
     }
 
-    public struct DeleteGatewayInput: AWSShape {
+    public struct DescribeGatewayInformationInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
@@ -144,6 +66,113 @@ extension StorageGateway {
 
         private enum CodingKeys: String, CodingKey {
             case gatewayARN = "GatewayARN"
+        }
+    }
+
+    public struct UpdateNFSFileShareOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileShareARN", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the updated file share. 
+        public let fileShareARN: String?
+
+        public init(fileShareARN: String? = nil) {
+            self.fileShareARN = fileShareARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileShareARN = "FileShareARN"
+        }
+    }
+
+    public struct DescribeSMBFileSharesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SMBFileShareInfoList", required: false, type: .list)
+        ]
+        /// An array containing a description for each requested file share. 
+        public let sMBFileShareInfoList: [SMBFileShareInfo]?
+
+        public init(sMBFileShareInfoList: [SMBFileShareInfo]? = nil) {
+            self.sMBFileShareInfoList = sMBFileShareInfoList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sMBFileShareInfoList = "SMBFileShareInfoList"
+        }
+    }
+
+    public struct StorediSCSIVolume: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KMSKey", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeStatus", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeId", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeDiskId", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeSizeInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "VolumeiSCSIAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "VolumeARN", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeType", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeUsedInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "PreservedExistingData", required: false, type: .boolean), 
+            AWSShapeMember(label: "CreatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "VolumeProgress", required: false, type: .double), 
+            AWSShapeMember(label: "SourceSnapshotId", required: false, type: .string)
+        ]
+        public let kMSKey: String?
+        /// One of the VolumeStatus values that indicates the state of the storage volume.
+        public let volumeStatus: String?
+        /// The unique identifier of the volume, e.g. vol-AE4B946D.
+        public let volumeId: String?
+        /// The ID of the local disk that was specified in the CreateStorediSCSIVolume operation.
+        public let volumeDiskId: String?
+        /// The size of the volume in bytes.
+        public let volumeSizeInBytes: Int64?
+        /// An VolumeiSCSIAttributes object that represents a collection of iSCSI attributes for one stored volume.
+        public let volumeiSCSIAttributes: VolumeiSCSIAttributes?
+        /// The Amazon Resource Name (ARN) of the storage volume.
+        public let volumeARN: String?
+        /// One of the VolumeType enumeration values describing the type of the volume.
+        public let volumeType: String?
+        /// The size of the data stored on the volume in bytes.   This value is not available for volumes created prior to May 13, 2015, until you store data on the volume. 
+        public let volumeUsedInBytes: Int64?
+        /// Indicates if when the stored volume was created, existing data on the underlying local disk was preserved.  Valid Values: true, false
+        public let preservedExistingData: Bool?
+        /// The date the volume was created. Volumes created prior to March 28, 2017 don’t have this time stamp.
+        public let createdDate: TimeStamp?
+        /// Represents the percentage complete if the volume is restoring or bootstrapping that represents the percent of data transferred. This field does not appear in the response if the stored volume is not restoring or bootstrapping.
+        public let volumeProgress: Double?
+        /// If the stored volume was created from a snapshot, this field contains the snapshot ID used, e.g. snap-78e22663. Otherwise, this field is not included.
+        public let sourceSnapshotId: String?
+
+        public init(kMSKey: String? = nil, volumeStatus: String? = nil, volumeId: String? = nil, volumeDiskId: String? = nil, volumeSizeInBytes: Int64? = nil, volumeiSCSIAttributes: VolumeiSCSIAttributes? = nil, volumeARN: String? = nil, volumeType: String? = nil, volumeUsedInBytes: Int64? = nil, preservedExistingData: Bool? = nil, createdDate: TimeStamp? = nil, volumeProgress: Double? = nil, sourceSnapshotId: String? = nil) {
+            self.kMSKey = kMSKey
+            self.volumeStatus = volumeStatus
+            self.volumeId = volumeId
+            self.volumeDiskId = volumeDiskId
+            self.volumeSizeInBytes = volumeSizeInBytes
+            self.volumeiSCSIAttributes = volumeiSCSIAttributes
+            self.volumeARN = volumeARN
+            self.volumeType = volumeType
+            self.volumeUsedInBytes = volumeUsedInBytes
+            self.preservedExistingData = preservedExistingData
+            self.createdDate = createdDate
+            self.volumeProgress = volumeProgress
+            self.sourceSnapshotId = sourceSnapshotId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kMSKey = "KMSKey"
+            case volumeStatus = "VolumeStatus"
+            case volumeId = "VolumeId"
+            case volumeDiskId = "VolumeDiskId"
+            case volumeSizeInBytes = "VolumeSizeInBytes"
+            case volumeiSCSIAttributes = "VolumeiSCSIAttributes"
+            case volumeARN = "VolumeARN"
+            case volumeType = "VolumeType"
+            case volumeUsedInBytes = "VolumeUsedInBytes"
+            case preservedExistingData = "PreservedExistingData"
+            case createdDate = "CreatedDate"
+            case volumeProgress = "VolumeProgress"
+            case sourceSnapshotId = "SourceSnapshotId"
         }
     }
 
@@ -162,72 +191,308 @@ extension StorageGateway {
         }
     }
 
-    public struct NotifyWhenUploadedOutput: AWSShape {
+    public struct ListVolumeInitiatorsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NotificationId", required: false, type: .string), 
-            AWSShapeMember(label: "FileShareARN", required: false, type: .string)
+            AWSShapeMember(label: "VolumeARN", required: true, type: .string)
         ]
-        public let notificationId: String?
-        public let fileShareARN: String?
+        /// The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes for the gateway.
+        public let volumeARN: String
 
-        public init(notificationId: String? = nil, fileShareARN: String? = nil) {
-            self.notificationId = notificationId
-            self.fileShareARN = fileShareARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case notificationId = "NotificationId"
-            case fileShareARN = "FileShareARN"
-        }
-    }
-
-    public struct DescribeTapeRecoveryPointsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TapeRecoveryPointInfos", required: false, type: .list), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
-        ]
-        /// An array of TapeRecoveryPointInfos that are available for the specified gateway.
-        public let tapeRecoveryPointInfos: [TapeRecoveryPointInfo]?
-        /// An opaque string that indicates the position at which the virtual tape recovery points that were listed for description ended. Use this marker in your next request to list the next set of virtual tape recovery points in the list. If there are no more recovery points to describe, this field does not appear in the response.
-        public let marker: String?
-        public let gatewayARN: String?
-
-        public init(tapeRecoveryPointInfos: [TapeRecoveryPointInfo]? = nil, marker: String? = nil, gatewayARN: String? = nil) {
-            self.tapeRecoveryPointInfos = tapeRecoveryPointInfos
-            self.marker = marker
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tapeRecoveryPointInfos = "TapeRecoveryPointInfos"
-            case marker = "Marker"
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct CreateSnapshotOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SnapshotId", required: false, type: .string), 
-            AWSShapeMember(label: "VolumeARN", required: false, type: .string)
-        ]
-        /// The snapshot ID that is used to refer to the snapshot in future operations such as describing snapshots (Amazon Elastic Compute Cloud API DescribeSnapshots) or creating a volume from a snapshot (CreateStorediSCSIVolume).
-        public let snapshotId: String?
-        /// The Amazon Resource Name (ARN) of the volume of which the snapshot was taken.
-        public let volumeARN: String?
-
-        public init(snapshotId: String? = nil, volumeARN: String? = nil) {
-            self.snapshotId = snapshotId
+        public init(volumeARN: String) {
             self.volumeARN = volumeARN
         }
 
         private enum CodingKeys: String, CodingKey {
-            case snapshotId = "SnapshotId"
             case volumeARN = "VolumeARN"
         }
     }
 
-    public struct DescribeSMBSettingsInput: AWSShape {
+    public struct CreateCachediSCSIVolumeOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetARN", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeARN", required: false, type: .string)
+        ]
+        /// he Amazon Resource Name (ARN) of the volume target that includes the iSCSI name that initiators can use to connect to the target.
+        public let targetARN: String?
+        /// The Amazon Resource Name (ARN) of the configured volume.
+        public let volumeARN: String?
+
+        public init(targetARN: String? = nil, volumeARN: String? = nil) {
+            self.targetARN = targetARN
+            self.volumeARN = volumeARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetARN = "TargetARN"
+            case volumeARN = "VolumeARN"
+        }
+    }
+
+    public struct NetworkInterface: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Ipv4Address", required: false, type: .string), 
+            AWSShapeMember(label: "MacAddress", required: false, type: .string), 
+            AWSShapeMember(label: "Ipv6Address", required: false, type: .string)
+        ]
+        /// The Internet Protocol version 4 (IPv4) address of the interface.
+        public let ipv4Address: String?
+        /// The Media Access Control (MAC) address of the interface.  This is currently unsupported and will not be returned in output. 
+        public let macAddress: String?
+        /// The Internet Protocol version 6 (IPv6) address of the interface. Currently not supported.
+        public let ipv6Address: String?
+
+        public init(ipv4Address: String? = nil, macAddress: String? = nil, ipv6Address: String? = nil) {
+            self.ipv4Address = ipv4Address
+            self.macAddress = macAddress
+            self.ipv6Address = ipv6Address
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipv4Address = "Ipv4Address"
+            case macAddress = "MacAddress"
+            case ipv6Address = "Ipv6Address"
+        }
+    }
+
+    public struct DeleteSnapshotScheduleInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VolumeARN", required: true, type: .string)
+        ]
+        public let volumeARN: String
+
+        public init(volumeARN: String) {
+            self.volumeARN = volumeARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case volumeARN = "VolumeARN"
+        }
+    }
+
+    public struct DeleteTapeInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
+            AWSShapeMember(label: "TapeARN", required: true, type: .string)
+        ]
+        /// The unique Amazon Resource Name (ARN) of the gateway that the virtual tape to delete is associated with. Use the ListGateways operation to return a list of gateways for your account and region.
+        public let gatewayARN: String
+        /// The Amazon Resource Name (ARN) of the virtual tape to delete.
+        public let tapeARN: String
+
+        public init(gatewayARN: String, tapeARN: String) {
+            self.gatewayARN = gatewayARN
+            self.tapeARN = tapeARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+            case tapeARN = "TapeARN"
+        }
+    }
+
+    public struct DescribeNFSFileSharesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NFSFileShareInfoList", required: false, type: .list)
+        ]
+        /// An array containing a description for each requested file share. 
+        public let nFSFileShareInfoList: [NFSFileShareInfo]?
+
+        public init(nFSFileShareInfoList: [NFSFileShareInfo]? = nil) {
+            self.nFSFileShareInfoList = nFSFileShareInfoList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nFSFileShareInfoList = "NFSFileShareInfoList"
+        }
+    }
+
+    public struct DeleteChapCredentialsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InitiatorName", required: false, type: .string), 
+            AWSShapeMember(label: "TargetARN", required: false, type: .string)
+        ]
+        /// The iSCSI initiator that connects to the target.
+        public let initiatorName: String?
+        /// The Amazon Resource Name (ARN) of the target.
+        public let targetARN: String?
+
+        public init(initiatorName: String? = nil, targetARN: String? = nil) {
+            self.initiatorName = initiatorName
+            self.targetARN = targetARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case initiatorName = "InitiatorName"
+            case targetARN = "TargetARN"
+        }
+    }
+
+    public struct UpdateVTLDeviceTypeOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VTLDeviceARN", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the medium changer you have selected.
+        public let vTLDeviceARN: String?
+
+        public init(vTLDeviceARN: String? = nil) {
+            self.vTLDeviceARN = vTLDeviceARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vTLDeviceARN = "VTLDeviceARN"
+        }
+    }
+
+    public struct ListVolumeInitiatorsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Initiators", required: false, type: .list)
+        ]
+        /// The host names and port numbers of all iSCSI initiators that are connected to the gateway.
+        public let initiators: [String]?
+
+        public init(initiators: [String]? = nil) {
+            self.initiators = initiators
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case initiators = "Initiators"
+        }
+    }
+
+    public struct CreateSMBFileShareInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectACL", required: false, type: .enum), 
+            AWSShapeMember(label: "GuessMIMETypeEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
+            AWSShapeMember(label: "KMSEncrypted", required: false, type: .boolean), 
+            AWSShapeMember(label: "LocationARN", required: true, type: .string), 
+            AWSShapeMember(label: "DefaultStorageClass", required: false, type: .string), 
+            AWSShapeMember(label: "Authentication", required: false, type: .string), 
+            AWSShapeMember(label: "RequesterPays", required: false, type: .boolean), 
+            AWSShapeMember(label: "ValidUserList", required: false, type: .list), 
+            AWSShapeMember(label: "ClientToken", required: true, type: .string), 
+            AWSShapeMember(label: "InvalidUserList", required: false, type: .list), 
+            AWSShapeMember(label: "Role", required: true, type: .string), 
+            AWSShapeMember(label: "ReadOnly", required: false, type: .boolean), 
+            AWSShapeMember(label: "KMSKey", required: false, type: .string)
+        ]
+        /// A value that sets the access control list permission for objects in the S3 bucket that a file gateway puts objects into. The default value is "private".
+        public let objectACL: ObjectACL?
+        /// A value that enables guessing of the MIME type for uploaded objects based on file extensions. Set this value to true to enable MIME type guessing, and otherwise to false. The default value is true.
+        public let guessMIMETypeEnabled: Bool?
+        /// The Amazon Resource Name (ARN) of the file gateway on which you want to create a file share.
+        public let gatewayARN: String
+        /// True to use Amazon S3 server side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional.
+        public let kMSEncrypted: Bool?
+        /// The ARN of the backed storage used for storing file data. 
+        public let locationARN: String
+        /// The default storage class for objects put into an Amazon S3 bucket by the file gateway. Possible values are S3_STANDARD, S3_STANDARD_IA, or S3_ONEZONE_IA. If this field is not populated, the default value S3_STANDARD is used. Optional.
+        public let defaultStorageClass: String?
+        /// The authentication method that users use to access the file share. Valid values are ActiveDirectory or GuestAccess. The default is ActiveDirectory.
+        public let authentication: String?
+        /// A value that sets the access control list permission for objects in the Amazon S3 bucket that a file gateway puts objects into. The default value is private.
+        public let requesterPays: Bool?
+        /// A list of users or groups in the Active Directory that are allowed to access the file share. A group must be prefixed with the @ character. For example @group1. Can only be set if Authentication is set to ActiveDirectory.
+        public let validUserList: [String]?
+        /// A unique string value that you supply that is used by file gateway to ensure idempotent file share creation.
+        public let clientToken: String
+        /// A list of users or groups in the Active Directory that are not allowed to access the file share. A group must be prefixed with the @ character. For example @group1. Can only be set if Authentication is set to ActiveDirectory.
+        public let invalidUserList: [String]?
+        /// The ARN of the AWS Identity and Access Management (IAM) role that a file gateway assumes when it accesses the underlying storage. 
+        public let role: String
+        /// A value that sets the write status of a file share. This value is true if the write status is read-only, and otherwise false.
+        public let readOnly: Bool?
+        /// The Amazon Resource Name (ARN) of the AWS KMS key used for Amazon S3 server side encryption. This value can only be set when KMSEncrypted is true. Optional.
+        public let kMSKey: String?
+
+        public init(objectACL: ObjectACL? = nil, guessMIMETypeEnabled: Bool? = nil, gatewayARN: String, kMSEncrypted: Bool? = nil, locationARN: String, defaultStorageClass: String? = nil, authentication: String? = nil, requesterPays: Bool? = nil, validUserList: [String]? = nil, clientToken: String, invalidUserList: [String]? = nil, role: String, readOnly: Bool? = nil, kMSKey: String? = nil) {
+            self.objectACL = objectACL
+            self.guessMIMETypeEnabled = guessMIMETypeEnabled
+            self.gatewayARN = gatewayARN
+            self.kMSEncrypted = kMSEncrypted
+            self.locationARN = locationARN
+            self.defaultStorageClass = defaultStorageClass
+            self.authentication = authentication
+            self.requesterPays = requesterPays
+            self.validUserList = validUserList
+            self.clientToken = clientToken
+            self.invalidUserList = invalidUserList
+            self.role = role
+            self.readOnly = readOnly
+            self.kMSKey = kMSKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectACL = "ObjectACL"
+            case guessMIMETypeEnabled = "GuessMIMETypeEnabled"
+            case gatewayARN = "GatewayARN"
+            case kMSEncrypted = "KMSEncrypted"
+            case locationARN = "LocationARN"
+            case defaultStorageClass = "DefaultStorageClass"
+            case authentication = "Authentication"
+            case requesterPays = "RequesterPays"
+            case validUserList = "ValidUserList"
+            case clientToken = "ClientToken"
+            case invalidUserList = "InvalidUserList"
+            case role = "Role"
+            case readOnly = "ReadOnly"
+            case kMSKey = "KMSKey"
+        }
+    }
+
+    public struct DescribeChapCredentialsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChapCredentials", required: false, type: .list)
+        ]
+        /// An array of ChapInfo objects that represent CHAP credentials. Each object in the array contains CHAP credential information for one target-initiator pair. If no CHAP credentials are set, an empty array is returned. CHAP credential information is provided in a JSON object with the following fields:    InitiatorName: The iSCSI initiator that connects to the target.    SecretToAuthenticateInitiator: The secret key that the initiator (for example, the Windows client) must provide to participate in mutual CHAP with the target.    SecretToAuthenticateTarget: The secret key that the target must provide to participate in mutual CHAP with the initiator (e.g. Windows client).    TargetARN: The Amazon Resource Name (ARN) of the storage volume.  
+        public let chapCredentials: [ChapInfo]?
+
+        public init(chapCredentials: [ChapInfo]? = nil) {
+            self.chapCredentials = chapCredentials
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case chapCredentials = "ChapCredentials"
+        }
+    }
+
+    public struct CreateTapeWithBarcodeOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TapeARN", required: false, type: .string)
+        ]
+        /// A unique Amazon Resource Name (ARN) that represents the virtual tape that was created.
+        public let tapeARN: String?
+
+        public init(tapeARN: String? = nil) {
+            self.tapeARN = tapeARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tapeARN = "TapeARN"
+        }
+    }
+
+    public struct DeleteBandwidthRateLimitInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BandwidthType", required: true, type: .string), 
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
+        ]
+        /// One of the BandwidthType values that indicates the gateway bandwidth rate limit to delete. Valid Values: Upload, Download, All.
+        public let bandwidthType: String
+        public let gatewayARN: String
+
+        public init(bandwidthType: String, gatewayARN: String) {
+            self.bandwidthType = bandwidthType
+            self.gatewayARN = gatewayARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bandwidthType = "BandwidthType"
+            case gatewayARN = "GatewayARN"
+        }
+    }
+
+    public struct DescribeBandwidthRateLimitInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
@@ -242,11 +507,77 @@ extension StorageGateway {
         }
     }
 
-    public struct RetrieveTapeArchiveOutput: AWSShape {
+    public struct ListVolumesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// Specifies that the list of volumes returned be limited to the specified number of items.
+        public let limit: Int32?
+        public let gatewayARN: String?
+        /// A string that indicates the position at which to begin the returned list of volumes. Obtain the marker from the response of a previous List iSCSI Volumes request.
+        public let marker: String?
+
+        public init(limit: Int32? = nil, gatewayARN: String? = nil, marker: String? = nil) {
+            self.limit = limit
+            self.gatewayARN = gatewayARN
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "Limit"
+            case gatewayARN = "GatewayARN"
+            case marker = "Marker"
+        }
+    }
+
+    public struct DeleteTapeArchiveInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TapeARN", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the virtual tape to delete from the virtual tape shelf (VTS).
+        public let tapeARN: String
+
+        public init(tapeARN: String) {
+            self.tapeARN = tapeARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tapeARN = "TapeARN"
+        }
+    }
+
+    public struct DescribeTapeRecoveryPointsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// Specifies that the number of virtual tape recovery points that are described be limited to the specified number.
+        public let limit: Int32?
+        public let gatewayARN: String
+        /// An opaque string that indicates the position at which to begin describing the virtual tape recovery points.
+        public let marker: String?
+
+        public init(limit: Int32? = nil, gatewayARN: String, marker: String? = nil) {
+            self.limit = limit
+            self.gatewayARN = gatewayARN
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "Limit"
+            case gatewayARN = "GatewayARN"
+            case marker = "Marker"
+        }
+    }
+
+    public struct CancelRetrievalOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TapeARN", required: false, type: .string)
         ]
-        /// The Amazon Resource Name (ARN) of the retrieved virtual tape.
+        /// The Amazon Resource Name (ARN) of the virtual tape for which retrieval was canceled.
         public let tapeARN: String?
 
         public init(tapeARN: String? = nil) {
@@ -258,275 +589,7 @@ extension StorageGateway {
         }
     }
 
-    public struct CreateTapeWithBarcodeInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KMSKey", required: false, type: .string), 
-            AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
-            AWSShapeMember(label: "TapeSizeInBytes", required: true, type: .long), 
-            AWSShapeMember(label: "TapeBarcode", required: true, type: .string), 
-            AWSShapeMember(label: "KMSEncrypted", required: false, type: .boolean)
-        ]
-        /// The Amazon Resource Name (ARN) of the AWS KMS Key used for Amazon S3 server side encryption. This value can only be set when KMSEncrypted is true. Optional.
-        public let kMSKey: String?
-        /// The unique Amazon Resource Name (ARN) that represents the gateway to associate the virtual tape with. Use the ListGateways operation to return a list of gateways for your account and region.
-        public let gatewayARN: String
-        /// The size, in bytes, of the virtual tape that you want to create.  The size must be aligned by gigabyte (1024*1024*1024 byte). 
-        public let tapeSizeInBytes: Int64
-        /// The barcode that you want to assign to the tape.  Barcodes cannot be reused. This includes barcodes used for tapes that have been deleted. 
-        public let tapeBarcode: String
-        /// True to use Amazon S3 server side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional.
-        public let kMSEncrypted: Bool?
-
-        public init(kMSKey: String? = nil, gatewayARN: String, tapeSizeInBytes: Int64, tapeBarcode: String, kMSEncrypted: Bool? = nil) {
-            self.kMSKey = kMSKey
-            self.gatewayARN = gatewayARN
-            self.tapeSizeInBytes = tapeSizeInBytes
-            self.tapeBarcode = tapeBarcode
-            self.kMSEncrypted = kMSEncrypted
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case kMSKey = "KMSKey"
-            case gatewayARN = "GatewayARN"
-            case tapeSizeInBytes = "TapeSizeInBytes"
-            case tapeBarcode = "TapeBarcode"
-            case kMSEncrypted = "KMSEncrypted"
-        }
-    }
-
-    public struct UpdateSnapshotScheduleInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StartAt", required: true, type: .integer), 
-            AWSShapeMember(label: "RecurrenceInHours", required: true, type: .integer), 
-            AWSShapeMember(label: "VolumeARN", required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
-        ]
-        /// The hour of the day at which the snapshot schedule begins represented as hh, where hh is the hour (0 to 23). The hour of the day is in the time zone of the gateway.
-        public let startAt: Int32
-        /// Frequency of snapshots. Specify the number of hours between snapshots.
-        public let recurrenceInHours: Int32
-        /// The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes.
-        public let volumeARN: String
-        /// Optional description of the snapshot that overwrites the existing description.
-        public let description: String?
-
-        public init(startAt: Int32, recurrenceInHours: Int32, volumeARN: String, description: String? = nil) {
-            self.startAt = startAt
-            self.recurrenceInHours = recurrenceInHours
-            self.volumeARN = volumeARN
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case startAt = "StartAt"
-            case recurrenceInHours = "RecurrenceInHours"
-            case volumeARN = "VolumeARN"
-            case description = "Description"
-        }
-    }
-
-    public struct GatewayInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
-            AWSShapeMember(label: "GatewayType", required: false, type: .string), 
-            AWSShapeMember(label: "GatewayOperationalState", required: false, type: .string), 
-            AWSShapeMember(label: "GatewayName", required: false, type: .string), 
-            AWSShapeMember(label: "GatewayId", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and region.
-        public let gatewayARN: String?
-        /// The type of the gateway.
-        public let gatewayType: String?
-        /// The state of the gateway. Valid Values: DISABLED or ACTIVE
-        public let gatewayOperationalState: String?
-        /// The name of the gateway.
-        public let gatewayName: String?
-        /// The unique identifier assigned to your gateway during activation. This ID becomes part of the gateway Amazon Resource Name (ARN), which you use as input for other operations.
-        public let gatewayId: String?
-
-        public init(gatewayARN: String? = nil, gatewayType: String? = nil, gatewayOperationalState: String? = nil, gatewayName: String? = nil, gatewayId: String? = nil) {
-            self.gatewayARN = gatewayARN
-            self.gatewayType = gatewayType
-            self.gatewayOperationalState = gatewayOperationalState
-            self.gatewayName = gatewayName
-            self.gatewayId = gatewayId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gatewayARN = "GatewayARN"
-            case gatewayType = "GatewayType"
-            case gatewayOperationalState = "GatewayOperationalState"
-            case gatewayName = "GatewayName"
-            case gatewayId = "GatewayId"
-        }
-    }
-
-    public struct DescribeCacheOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheAllocatedInBytes", required: false, type: .long), 
-            AWSShapeMember(label: "CacheHitPercentage", required: false, type: .double), 
-            AWSShapeMember(label: "CacheUsedPercentage", required: false, type: .double), 
-            AWSShapeMember(label: "CacheDirtyPercentage", required: false, type: .double), 
-            AWSShapeMember(label: "DiskIds", required: false, type: .list), 
-            AWSShapeMember(label: "CacheMissPercentage", required: false, type: .double), 
-            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
-        ]
-        public let cacheAllocatedInBytes: Int64?
-        public let cacheHitPercentage: Double?
-        public let cacheUsedPercentage: Double?
-        public let cacheDirtyPercentage: Double?
-        public let diskIds: [String]?
-        public let cacheMissPercentage: Double?
-        public let gatewayARN: String?
-
-        public init(cacheAllocatedInBytes: Int64? = nil, cacheHitPercentage: Double? = nil, cacheUsedPercentage: Double? = nil, cacheDirtyPercentage: Double? = nil, diskIds: [String]? = nil, cacheMissPercentage: Double? = nil, gatewayARN: String? = nil) {
-            self.cacheAllocatedInBytes = cacheAllocatedInBytes
-            self.cacheHitPercentage = cacheHitPercentage
-            self.cacheUsedPercentage = cacheUsedPercentage
-            self.cacheDirtyPercentage = cacheDirtyPercentage
-            self.diskIds = diskIds
-            self.cacheMissPercentage = cacheMissPercentage
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cacheAllocatedInBytes = "CacheAllocatedInBytes"
-            case cacheHitPercentage = "CacheHitPercentage"
-            case cacheUsedPercentage = "CacheUsedPercentage"
-            case cacheDirtyPercentage = "CacheDirtyPercentage"
-            case diskIds = "DiskIds"
-            case cacheMissPercentage = "CacheMissPercentage"
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct DescribeNFSFileSharesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FileShareARNList", required: true, type: .list)
-        ]
-        /// An array containing the Amazon Resource Name (ARN) of each file share to be described. 
-        public let fileShareARNList: [String]
-
-        public init(fileShareARNList: [String]) {
-            self.fileShareARNList = fileShareARNList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fileShareARNList = "FileShareARNList"
-        }
-    }
-
-    public struct VTLDevice: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VTLDeviceARN", required: false, type: .string), 
-            AWSShapeMember(label: "VTLDeviceVendor", required: false, type: .string), 
-            AWSShapeMember(label: "DeviceiSCSIAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "VTLDeviceType", required: false, type: .string), 
-            AWSShapeMember(label: "VTLDeviceProductIdentifier", required: false, type: .string)
-        ]
-        /// Specifies the unique Amazon Resource Name (ARN) of the device (tape drive or media changer).
-        public let vTLDeviceARN: String?
-        public let vTLDeviceVendor: String?
-        /// A list of iSCSI information about a VTL device.
-        public let deviceiSCSIAttributes: DeviceiSCSIAttributes?
-        public let vTLDeviceType: String?
-        public let vTLDeviceProductIdentifier: String?
-
-        public init(vTLDeviceARN: String? = nil, vTLDeviceVendor: String? = nil, deviceiSCSIAttributes: DeviceiSCSIAttributes? = nil, vTLDeviceType: String? = nil, vTLDeviceProductIdentifier: String? = nil) {
-            self.vTLDeviceARN = vTLDeviceARN
-            self.vTLDeviceVendor = vTLDeviceVendor
-            self.deviceiSCSIAttributes = deviceiSCSIAttributes
-            self.vTLDeviceType = vTLDeviceType
-            self.vTLDeviceProductIdentifier = vTLDeviceProductIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case vTLDeviceARN = "VTLDeviceARN"
-            case vTLDeviceVendor = "VTLDeviceVendor"
-            case deviceiSCSIAttributes = "DeviceiSCSIAttributes"
-            case vTLDeviceType = "VTLDeviceType"
-            case vTLDeviceProductIdentifier = "VTLDeviceProductIdentifier"
-        }
-    }
-
-    public struct CreateSnapshotInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SnapshotDescription", required: true, type: .string), 
-            AWSShapeMember(label: "VolumeARN", required: true, type: .string)
-        ]
-        /// Textual description of the snapshot that appears in the Amazon EC2 console, Elastic Block Store snapshots panel in the Description field, and in the AWS Storage Gateway snapshot Details pane, Description field
-        public let snapshotDescription: String
-        /// The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes.
-        public let volumeARN: String
-
-        public init(snapshotDescription: String, volumeARN: String) {
-            self.snapshotDescription = snapshotDescription
-            self.volumeARN = volumeARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case snapshotDescription = "SnapshotDescription"
-            case volumeARN = "VolumeARN"
-        }
-    }
-
-    public struct RetrieveTapeRecoveryPointInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TapeARN", required: true, type: .string), 
-            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the virtual tape for which you want to retrieve the recovery point.
-        public let tapeARN: String
-        public let gatewayARN: String
-
-        public init(tapeARN: String, gatewayARN: String) {
-            self.tapeARN = tapeARN
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tapeARN = "TapeARN"
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct DescribeTapeArchivesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "TapeArchives", required: false, type: .list)
-        ]
-        /// An opaque string that indicates the position at which the virtual tapes that were fetched for description ended. Use this marker in your next request to fetch the next set of virtual tapes in the virtual tape shelf (VTS). If there are no more virtual tapes to describe, this field does not appear in the response.
-        public let marker: String?
-        /// An array of virtual tape objects in the virtual tape shelf (VTS). The description includes of the Amazon Resource Name (ARN) of the virtual tapes. The information returned includes the Amazon Resource Names (ARNs) of the tapes, size of the tapes, status of the tapes, progress of the description and tape barcode.
-        public let tapeArchives: [TapeArchive]?
-
-        public init(marker: String? = nil, tapeArchives: [TapeArchive]? = nil) {
-            self.marker = marker
-            self.tapeArchives = tapeArchives
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case tapeArchives = "TapeArchives"
-        }
-    }
-
-    public struct DescribeCachediSCSIVolumesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VolumeARNs", required: true, type: .list)
-        ]
-        public let volumeARNs: [String]
-
-        public init(volumeARNs: [String]) {
-            self.volumeARNs = volumeARNs
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case volumeARNs = "VolumeARNs"
-        }
-    }
-
-    public struct UpdateBandwidthRateLimitOutput: AWSShape {
+    public struct SetSMBGuestPasswordOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
@@ -541,212 +604,501 @@ extension StorageGateway {
         }
     }
 
-    public struct DeviceiSCSIAttributes: AWSShape {
+    public struct UpdateNFSFileShareInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChapEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "NetworkInterfaceId", required: false, type: .string), 
-            AWSShapeMember(label: "NetworkInterfacePort", required: false, type: .integer), 
-            AWSShapeMember(label: "TargetARN", required: false, type: .string)
+            AWSShapeMember(label: "DefaultStorageClass", required: false, type: .string), 
+            AWSShapeMember(label: "KMSEncrypted", required: false, type: .boolean), 
+            AWSShapeMember(label: "KMSKey", required: false, type: .string), 
+            AWSShapeMember(label: "NFSFileShareDefaults", required: false, type: .structure), 
+            AWSShapeMember(label: "FileShareARN", required: true, type: .string), 
+            AWSShapeMember(label: "ClientList", required: false, type: .list), 
+            AWSShapeMember(label: "ObjectACL", required: false, type: .enum), 
+            AWSShapeMember(label: "RequesterPays", required: false, type: .boolean), 
+            AWSShapeMember(label: "ReadOnly", required: false, type: .boolean), 
+            AWSShapeMember(label: "GuessMIMETypeEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "Squash", required: false, type: .string)
         ]
-        /// Indicates whether mutual CHAP is enabled for the iSCSI target.
-        public let chapEnabled: Bool?
-        /// The network interface identifier of the VTL device.
-        public let networkInterfaceId: String?
-        /// The port used to communicate with iSCSI VTL device targets.
-        public let networkInterfacePort: Int32?
-        /// Specifies the unique Amazon Resource Name (ARN) that encodes the iSCSI qualified name(iqn) of a tape drive or media changer target.
-        public let targetARN: String?
+        /// The default storage class for objects put into an Amazon S3 bucket by the file gateway. Possible values are S3_STANDARD, S3_STANDARD_IA, or S3_ONEZONE_IA. If this field is not populated, the default value S3_STANDARD is used. Optional.
+        public let defaultStorageClass: String?
+        /// True to use Amazon S3 server side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional. 
+        public let kMSEncrypted: Bool?
+        /// The Amazon Resource Name (ARN) of the AWS KMS key used for Amazon S3 server side encryption. This value can only be set when KMSEncrypted is true. Optional. 
+        public let kMSKey: String?
+        /// The default values for the file share. Optional.
+        public let nFSFileShareDefaults: NFSFileShareDefaults?
+        /// The Amazon Resource Name (ARN) of the file share to be updated. 
+        public let fileShareARN: String
+        /// The list of clients that are allowed to access the file gateway. The list must contain either valid IP addresses or valid CIDR blocks.
+        public let clientList: [String]?
+        /// A value that sets the access control list permission for objects in the S3 bucket that a file gateway puts objects into. The default value is "private".
+        public let objectACL: ObjectACL?
+        /// A value that sets the access control list permission for objects in the Amazon S3 bucket that a file gateway puts objects into. The default value is private.
+        public let requesterPays: Bool?
+        /// A value that sets the write status of a file share. This value is true if the write status is read-only, and otherwise false.
+        public let readOnly: Bool?
+        /// A value that enables guessing of the MIME type for uploaded objects based on file extensions. Set this value to true to enable MIME type guessing, and otherwise to false. The default value is true.
+        public let guessMIMETypeEnabled: Bool?
+        /// The user mapped to anonymous user. Valid options are the following:    RootSquash - Only root is mapped to anonymous user.    NoSquash - No one is mapped to anonymous user    AllSquash - Everyone is mapped to anonymous user.  
+        public let squash: String?
 
-        public init(chapEnabled: Bool? = nil, networkInterfaceId: String? = nil, networkInterfacePort: Int32? = nil, targetARN: String? = nil) {
-            self.chapEnabled = chapEnabled
-            self.networkInterfaceId = networkInterfaceId
-            self.networkInterfacePort = networkInterfacePort
-            self.targetARN = targetARN
+        public init(defaultStorageClass: String? = nil, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, nFSFileShareDefaults: NFSFileShareDefaults? = nil, fileShareARN: String, clientList: [String]? = nil, objectACL: ObjectACL? = nil, requesterPays: Bool? = nil, readOnly: Bool? = nil, guessMIMETypeEnabled: Bool? = nil, squash: String? = nil) {
+            self.defaultStorageClass = defaultStorageClass
+            self.kMSEncrypted = kMSEncrypted
+            self.kMSKey = kMSKey
+            self.nFSFileShareDefaults = nFSFileShareDefaults
+            self.fileShareARN = fileShareARN
+            self.clientList = clientList
+            self.objectACL = objectACL
+            self.requesterPays = requesterPays
+            self.readOnly = readOnly
+            self.guessMIMETypeEnabled = guessMIMETypeEnabled
+            self.squash = squash
         }
 
         private enum CodingKeys: String, CodingKey {
-            case chapEnabled = "ChapEnabled"
-            case networkInterfaceId = "NetworkInterfaceId"
-            case networkInterfacePort = "NetworkInterfacePort"
-            case targetARN = "TargetARN"
+            case defaultStorageClass = "DefaultStorageClass"
+            case kMSEncrypted = "KMSEncrypted"
+            case kMSKey = "KMSKey"
+            case nFSFileShareDefaults = "NFSFileShareDefaults"
+            case fileShareARN = "FileShareARN"
+            case clientList = "ClientList"
+            case objectACL = "ObjectACL"
+            case requesterPays = "RequesterPays"
+            case readOnly = "ReadOnly"
+            case guessMIMETypeEnabled = "GuessMIMETypeEnabled"
+            case squash = "Squash"
         }
     }
 
-    public struct DeleteChapCredentialsInput: AWSShape {
+    public struct VTLDevice: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetARN", required: true, type: .string), 
-            AWSShapeMember(label: "InitiatorName", required: true, type: .string)
+            AWSShapeMember(label: "DeviceiSCSIAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "VTLDeviceProductIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "VTLDeviceARN", required: false, type: .string), 
+            AWSShapeMember(label: "VTLDeviceType", required: false, type: .string), 
+            AWSShapeMember(label: "VTLDeviceVendor", required: false, type: .string)
         ]
-        /// The Amazon Resource Name (ARN) of the iSCSI volume target. Use the DescribeStorediSCSIVolumes operation to return to retrieve the TargetARN for specified VolumeARN.
-        public let targetARN: String
-        /// The iSCSI initiator that connects to the target.
-        public let initiatorName: String
+        /// A list of iSCSI information about a VTL device.
+        public let deviceiSCSIAttributes: DeviceiSCSIAttributes?
+        public let vTLDeviceProductIdentifier: String?
+        /// Specifies the unique Amazon Resource Name (ARN) of the device (tape drive or media changer).
+        public let vTLDeviceARN: String?
+        public let vTLDeviceType: String?
+        public let vTLDeviceVendor: String?
 
-        public init(targetARN: String, initiatorName: String) {
-            self.targetARN = targetARN
-            self.initiatorName = initiatorName
+        public init(deviceiSCSIAttributes: DeviceiSCSIAttributes? = nil, vTLDeviceProductIdentifier: String? = nil, vTLDeviceARN: String? = nil, vTLDeviceType: String? = nil, vTLDeviceVendor: String? = nil) {
+            self.deviceiSCSIAttributes = deviceiSCSIAttributes
+            self.vTLDeviceProductIdentifier = vTLDeviceProductIdentifier
+            self.vTLDeviceARN = vTLDeviceARN
+            self.vTLDeviceType = vTLDeviceType
+            self.vTLDeviceVendor = vTLDeviceVendor
         }
 
         private enum CodingKeys: String, CodingKey {
-            case targetARN = "TargetARN"
-            case initiatorName = "InitiatorName"
+            case deviceiSCSIAttributes = "DeviceiSCSIAttributes"
+            case vTLDeviceProductIdentifier = "VTLDeviceProductIdentifier"
+            case vTLDeviceARN = "VTLDeviceARN"
+            case vTLDeviceType = "VTLDeviceType"
+            case vTLDeviceVendor = "VTLDeviceVendor"
         }
     }
 
-    public struct Tag: AWSShape {
+    public struct JoinDomainOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: true, type: .string), 
-            AWSShapeMember(label: "Key", required: true, type: .string)
-        ]
-        public let value: String
-        public let key: String
-
-        public init(value: String, key: String) {
-            self.value = value
-            self.key = key
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case key = "Key"
-        }
-    }
-
-    public struct ListGatewaysInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
-        ]
-        /// Specifies that the list of gateways returned be limited to the specified number of items.
-        public let limit: Int32?
-        /// An opaque string that indicates the position at which to begin the returned list of gateways.
-        public let marker: String?
-
-        public init(limit: Int32? = nil, marker: String? = nil) {
-            self.limit = limit
-            self.marker = marker
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case limit = "Limit"
-            case marker = "Marker"
-        }
-    }
-
-    public struct NFSFileShareDefaults: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryMode", required: false, type: .string), 
-            AWSShapeMember(label: "FileMode", required: false, type: .string), 
-            AWSShapeMember(label: "GroupId", required: false, type: .long), 
-            AWSShapeMember(label: "OwnerId", required: false, type: .long)
-        ]
-        /// The Unix directory mode in the form "nnnn". For example, "0666" represents the default access mode for all directories inside the file share. The default value is 0777.
-        public let directoryMode: String?
-        /// The Unix file mode in the form "nnnn". For example, "0666" represents the default file mode inside the file share. The default value is 0666. 
-        public let fileMode: String?
-        /// The default group ID for the file share (unless the files have another group ID specified). The default value is nfsnobody. 
-        public let groupId: Int64?
-        /// The default owner ID for files in the file share (unless the files have another owner ID specified). The default value is nfsnobody. 
-        public let ownerId: Int64?
-
-        public init(directoryMode: String? = nil, fileMode: String? = nil, groupId: Int64? = nil, ownerId: Int64? = nil) {
-            self.directoryMode = directoryMode
-            self.fileMode = fileMode
-            self.groupId = groupId
-            self.ownerId = ownerId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case directoryMode = "DirectoryMode"
-            case fileMode = "FileMode"
-            case groupId = "GroupId"
-            case ownerId = "OwnerId"
-        }
-    }
-
-    public struct ListVolumeRecoveryPointsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VolumeRecoveryPointInfos", required: false, type: .list), 
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
-        public let volumeRecoveryPointInfos: [VolumeRecoveryPointInfo]?
+        /// The unique Amazon Resource Name (ARN) of the gateway that joined the domain.
         public let gatewayARN: String?
 
-        public init(volumeRecoveryPointInfos: [VolumeRecoveryPointInfo]? = nil, gatewayARN: String? = nil) {
-            self.volumeRecoveryPointInfos = volumeRecoveryPointInfos
+        public init(gatewayARN: String? = nil) {
             self.gatewayARN = gatewayARN
         }
 
         private enum CodingKeys: String, CodingKey {
-            case volumeRecoveryPointInfos = "VolumeRecoveryPointInfos"
             case gatewayARN = "GatewayARN"
         }
     }
 
-    public struct ListTagsForResourceOutput: AWSShape {
+    public struct ActivateGatewayOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceARN", required: false, type: .string)
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
-        /// An array that contains the tags for the specified resource.
-        public let tags: [Tag]?
-        /// An opaque string that indicates the position at which to stop returning the list of tags.
-        public let marker: String?
-        /// he Amazon Resource Name (ARN) of the resource for which you want to list tags.
-        public let resourceARN: String?
+        public let gatewayARN: String?
 
-        public init(tags: [Tag]? = nil, marker: String? = nil, resourceARN: String? = nil) {
-            self.tags = tags
-            self.marker = marker
-            self.resourceARN = resourceARN
+        public init(gatewayARN: String? = nil) {
+            self.gatewayARN = gatewayARN
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-            case marker = "Marker"
-            case resourceARN = "ResourceARN"
+            case gatewayARN = "GatewayARN"
         }
     }
 
-    public struct AddTagsToResourceOutput: AWSShape {
+    public struct CancelArchivalInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARN", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the resource you want to add tags to.
-        public let resourceARN: String?
-
-        public init(resourceARN: String? = nil) {
-            self.resourceARN = resourceARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceARN = "ResourceARN"
-        }
-    }
-
-    public struct UpdateBandwidthRateLimitInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AverageUploadRateLimitInBitsPerSec", required: false, type: .long), 
-            AWSShapeMember(label: "AverageDownloadRateLimitInBitsPerSec", required: false, type: .long), 
+            AWSShapeMember(label: "TapeARN", required: true, type: .string), 
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
-        /// The average upload bandwidth rate limit in bits per second.
-        public let averageUploadRateLimitInBitsPerSec: Int64?
-        /// The average download bandwidth rate limit in bits per second.
-        public let averageDownloadRateLimitInBitsPerSec: Int64?
+        /// The Amazon Resource Name (ARN) of the virtual tape you want to cancel archiving for.
+        public let tapeARN: String
         public let gatewayARN: String
 
-        public init(averageUploadRateLimitInBitsPerSec: Int64? = nil, averageDownloadRateLimitInBitsPerSec: Int64? = nil, gatewayARN: String) {
-            self.averageUploadRateLimitInBitsPerSec = averageUploadRateLimitInBitsPerSec
-            self.averageDownloadRateLimitInBitsPerSec = averageDownloadRateLimitInBitsPerSec
+        public init(tapeARN: String, gatewayARN: String) {
+            self.tapeARN = tapeARN
             self.gatewayARN = gatewayARN
         }
 
         private enum CodingKeys: String, CodingKey {
-            case averageUploadRateLimitInBitsPerSec = "AverageUploadRateLimitInBitsPerSec"
-            case averageDownloadRateLimitInBitsPerSec = "AverageDownloadRateLimitInBitsPerSec"
+            case tapeARN = "TapeARN"
             case gatewayARN = "GatewayARN"
+        }
+    }
+
+    public struct VolumeRecoveryPointInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VolumeRecoveryPointTime", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeUsageInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "VolumeARN", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeSizeInBytes", required: false, type: .long)
+        ]
+        public let volumeRecoveryPointTime: String?
+        public let volumeUsageInBytes: Int64?
+        public let volumeARN: String?
+        public let volumeSizeInBytes: Int64?
+
+        public init(volumeRecoveryPointTime: String? = nil, volumeUsageInBytes: Int64? = nil, volumeARN: String? = nil, volumeSizeInBytes: Int64? = nil) {
+            self.volumeRecoveryPointTime = volumeRecoveryPointTime
+            self.volumeUsageInBytes = volumeUsageInBytes
+            self.volumeARN = volumeARN
+            self.volumeSizeInBytes = volumeSizeInBytes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case volumeRecoveryPointTime = "VolumeRecoveryPointTime"
+            case volumeUsageInBytes = "VolumeUsageInBytes"
+            case volumeARN = "VolumeARN"
+            case volumeSizeInBytes = "VolumeSizeInBytes"
+        }
+    }
+
+    public struct DescribeSnapshotScheduleInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VolumeARN", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes.
+        public let volumeARN: String
+
+        public init(volumeARN: String) {
+            self.volumeARN = volumeARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case volumeARN = "VolumeARN"
+        }
+    }
+
+    public struct UpdateSnapshotScheduleInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartAt", required: true, type: .integer), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "RecurrenceInHours", required: true, type: .integer), 
+            AWSShapeMember(label: "VolumeARN", required: true, type: .string)
+        ]
+        /// The hour of the day at which the snapshot schedule begins represented as hh, where hh is the hour (0 to 23). The hour of the day is in the time zone of the gateway.
+        public let startAt: Int32
+        /// Optional description of the snapshot that overwrites the existing description.
+        public let description: String?
+        /// Frequency of snapshots. Specify the number of hours between snapshots.
+        public let recurrenceInHours: Int32
+        /// The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes.
+        public let volumeARN: String
+
+        public init(startAt: Int32, description: String? = nil, recurrenceInHours: Int32, volumeARN: String) {
+            self.startAt = startAt
+            self.description = description
+            self.recurrenceInHours = recurrenceInHours
+            self.volumeARN = volumeARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case startAt = "StartAt"
+            case description = "Description"
+            case recurrenceInHours = "RecurrenceInHours"
+            case volumeARN = "VolumeARN"
+        }
+    }
+
+    public struct UpdateGatewayInformationInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayTimezone", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
+            AWSShapeMember(label: "GatewayName", required: false, type: .string)
+        ]
+        public let gatewayTimezone: String?
+        public let gatewayARN: String
+        public let gatewayName: String?
+
+        public init(gatewayTimezone: String? = nil, gatewayARN: String, gatewayName: String? = nil) {
+            self.gatewayTimezone = gatewayTimezone
+            self.gatewayARN = gatewayARN
+            self.gatewayName = gatewayName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayTimezone = "GatewayTimezone"
+            case gatewayARN = "GatewayARN"
+            case gatewayName = "GatewayName"
+        }
+    }
+
+    public struct ChapInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InitiatorName", required: false, type: .string), 
+            AWSShapeMember(label: "SecretToAuthenticateTarget", required: false, type: .string), 
+            AWSShapeMember(label: "SecretToAuthenticateInitiator", required: false, type: .string), 
+            AWSShapeMember(label: "TargetARN", required: false, type: .string)
+        ]
+        /// The iSCSI initiator that connects to the target.
+        public let initiatorName: String?
+        /// The secret key that the target must provide to participate in mutual CHAP with the initiator (e.g. Windows client).
+        public let secretToAuthenticateTarget: String?
+        /// The secret key that the initiator (for example, the Windows client) must provide to participate in mutual CHAP with the target.
+        public let secretToAuthenticateInitiator: String?
+        /// The Amazon Resource Name (ARN) of the volume.  Valid Values: 50 to 500 lowercase letters, numbers, periods (.), and hyphens (-).
+        public let targetARN: String?
+
+        public init(initiatorName: String? = nil, secretToAuthenticateTarget: String? = nil, secretToAuthenticateInitiator: String? = nil, targetARN: String? = nil) {
+            self.initiatorName = initiatorName
+            self.secretToAuthenticateTarget = secretToAuthenticateTarget
+            self.secretToAuthenticateInitiator = secretToAuthenticateInitiator
+            self.targetARN = targetARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case initiatorName = "InitiatorName"
+            case secretToAuthenticateTarget = "SecretToAuthenticateTarget"
+            case secretToAuthenticateInitiator = "SecretToAuthenticateInitiator"
+            case targetARN = "TargetARN"
+        }
+    }
+
+    public struct FileShareInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileShareStatus", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
+            AWSShapeMember(label: "FileShareARN", required: false, type: .string), 
+            AWSShapeMember(label: "FileShareType", required: false, type: .enum), 
+            AWSShapeMember(label: "FileShareId", required: false, type: .string)
+        ]
+        public let fileShareStatus: String?
+        public let gatewayARN: String?
+        public let fileShareARN: String?
+        public let fileShareType: FileShareType?
+        public let fileShareId: String?
+
+        public init(fileShareStatus: String? = nil, gatewayARN: String? = nil, fileShareARN: String? = nil, fileShareType: FileShareType? = nil, fileShareId: String? = nil) {
+            self.fileShareStatus = fileShareStatus
+            self.gatewayARN = gatewayARN
+            self.fileShareARN = fileShareARN
+            self.fileShareType = fileShareType
+            self.fileShareId = fileShareId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileShareStatus = "FileShareStatus"
+            case gatewayARN = "GatewayARN"
+            case fileShareARN = "FileShareARN"
+            case fileShareType = "FileShareType"
+            case fileShareId = "FileShareId"
+        }
+    }
+
+    public struct DescribeCacheInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
+        ]
+        public let gatewayARN: String
+
+        public init(gatewayARN: String) {
+            self.gatewayARN = gatewayARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+        }
+    }
+
+    public struct ListLocalDisksOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Disks", required: false, type: .list), 
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
+        ]
+        public let disks: [Disk]?
+        public let gatewayARN: String?
+
+        public init(disks: [Disk]? = nil, gatewayARN: String? = nil) {
+            self.disks = disks
+            self.gatewayARN = gatewayARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case disks = "Disks"
+            case gatewayARN = "GatewayARN"
+        }
+    }
+
+    public struct DescribeSMBSettingsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
+            AWSShapeMember(label: "DomainName", required: false, type: .string), 
+            AWSShapeMember(label: "SMBGuestPasswordSet", required: false, type: .boolean)
+        ]
+        public let gatewayARN: String?
+        /// The name of the domain that the gateway is joined to.
+        public let domainName: String?
+        /// This value is true if a password for the guest user “smbguest” is set, and otherwise false.
+        public let sMBGuestPasswordSet: Bool?
+
+        public init(gatewayARN: String? = nil, domainName: String? = nil, sMBGuestPasswordSet: Bool? = nil) {
+            self.gatewayARN = gatewayARN
+            self.domainName = domainName
+            self.sMBGuestPasswordSet = sMBGuestPasswordSet
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+            case domainName = "DomainName"
+            case sMBGuestPasswordSet = "SMBGuestPasswordSet"
+        }
+    }
+
+    public struct CreateTapesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
+            AWSShapeMember(label: "NumTapesToCreate", required: true, type: .integer), 
+            AWSShapeMember(label: "TapeBarcodePrefix", required: true, type: .string), 
+            AWSShapeMember(label: "KMSEncrypted", required: false, type: .boolean), 
+            AWSShapeMember(label: "TapeSizeInBytes", required: true, type: .long), 
+            AWSShapeMember(label: "ClientToken", required: true, type: .string), 
+            AWSShapeMember(label: "KMSKey", required: false, type: .string)
+        ]
+        /// The unique Amazon Resource Name (ARN) that represents the gateway to associate the virtual tapes with. Use the ListGateways operation to return a list of gateways for your account and region.
+        public let gatewayARN: String
+        /// The number of virtual tapes that you want to create.
+        public let numTapesToCreate: Int32
+        /// A prefix that you append to the barcode of the virtual tape you are creating. This prefix makes the barcode unique.  The prefix must be 1 to 4 characters in length and must be one of the uppercase letters from A to Z. 
+        public let tapeBarcodePrefix: String
+        /// True to use Amazon S3 server side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional.
+        public let kMSEncrypted: Bool?
+        /// The size, in bytes, of the virtual tapes that you want to create.  The size must be aligned by gigabyte (1024*1024*1024 byte). 
+        public let tapeSizeInBytes: Int64
+        /// A unique identifier that you use to retry a request. If you retry a request, use the same ClientToken you specified in the initial request.  Using the same ClientToken prevents creating the tape multiple times. 
+        public let clientToken: String
+        /// The Amazon Resource Name (ARN) of the AWS KMS key used for Amazon S3 server side encryption. This value can only be set when KMSEncrypted is true. Optional.
+        public let kMSKey: String?
+
+        public init(gatewayARN: String, numTapesToCreate: Int32, tapeBarcodePrefix: String, kMSEncrypted: Bool? = nil, tapeSizeInBytes: Int64, clientToken: String, kMSKey: String? = nil) {
+            self.gatewayARN = gatewayARN
+            self.numTapesToCreate = numTapesToCreate
+            self.tapeBarcodePrefix = tapeBarcodePrefix
+            self.kMSEncrypted = kMSEncrypted
+            self.tapeSizeInBytes = tapeSizeInBytes
+            self.clientToken = clientToken
+            self.kMSKey = kMSKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+            case numTapesToCreate = "NumTapesToCreate"
+            case tapeBarcodePrefix = "TapeBarcodePrefix"
+            case kMSEncrypted = "KMSEncrypted"
+            case tapeSizeInBytes = "TapeSizeInBytes"
+            case clientToken = "ClientToken"
+            case kMSKey = "KMSKey"
+        }
+    }
+
+    public struct NFSFileShareInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileShareId", required: false, type: .string), 
+            AWSShapeMember(label: "GuessMIMETypeEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "DefaultStorageClass", required: false, type: .string), 
+            AWSShapeMember(label: "ClientList", required: false, type: .list), 
+            AWSShapeMember(label: "Squash", required: false, type: .string), 
+            AWSShapeMember(label: "LocationARN", required: false, type: .string), 
+            AWSShapeMember(label: "Path", required: false, type: .string), 
+            AWSShapeMember(label: "FileShareStatus", required: false, type: .string), 
+            AWSShapeMember(label: "FileShareARN", required: false, type: .string), 
+            AWSShapeMember(label: "KMSKey", required: false, type: .string), 
+            AWSShapeMember(label: "ObjectACL", required: false, type: .enum), 
+            AWSShapeMember(label: "Role", required: false, type: .string), 
+            AWSShapeMember(label: "KMSEncrypted", required: false, type: .boolean), 
+            AWSShapeMember(label: "RequesterPays", required: false, type: .boolean), 
+            AWSShapeMember(label: "ReadOnly", required: false, type: .boolean), 
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
+            AWSShapeMember(label: "NFSFileShareDefaults", required: false, type: .structure)
+        ]
+        public let fileShareId: String?
+        /// A value that enables guessing of the MIME type for uploaded objects based on file extensions. Set this value to true to enable MIME type guessing, and otherwise to false. The default value is true.
+        public let guessMIMETypeEnabled: Bool?
+        /// The default storage class for objects put into an Amazon S3 bucket by the file gateway. Possible values are S3_STANDARD, S3_STANDARD_IA, or S3_ONEZONE_IA. If this field is not populated, the default value S3_STANDARD is used. Optional.
+        public let defaultStorageClass: String?
+        public let clientList: [String]?
+        public let squash: String?
+        public let locationARN: String?
+        public let path: String?
+        public let fileShareStatus: String?
+        public let fileShareARN: String?
+        public let kMSKey: String?
+        public let objectACL: ObjectACL?
+        public let role: String?
+        /// True to use Amazon S3 server side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional. 
+        public let kMSEncrypted: Bool?
+        /// A value that sets the access control list permission for objects in the Amazon S3 bucket that a file gateway puts objects into. The default value is private.
+        public let requesterPays: Bool?
+        /// A value that sets the write status of a file share. This value is true if the write status is read-only, and otherwise false.
+        public let readOnly: Bool?
+        public let gatewayARN: String?
+        public let nFSFileShareDefaults: NFSFileShareDefaults?
+
+        public init(fileShareId: String? = nil, guessMIMETypeEnabled: Bool? = nil, defaultStorageClass: String? = nil, clientList: [String]? = nil, squash: String? = nil, locationARN: String? = nil, path: String? = nil, fileShareStatus: String? = nil, fileShareARN: String? = nil, kMSKey: String? = nil, objectACL: ObjectACL? = nil, role: String? = nil, kMSEncrypted: Bool? = nil, requesterPays: Bool? = nil, readOnly: Bool? = nil, gatewayARN: String? = nil, nFSFileShareDefaults: NFSFileShareDefaults? = nil) {
+            self.fileShareId = fileShareId
+            self.guessMIMETypeEnabled = guessMIMETypeEnabled
+            self.defaultStorageClass = defaultStorageClass
+            self.clientList = clientList
+            self.squash = squash
+            self.locationARN = locationARN
+            self.path = path
+            self.fileShareStatus = fileShareStatus
+            self.fileShareARN = fileShareARN
+            self.kMSKey = kMSKey
+            self.objectACL = objectACL
+            self.role = role
+            self.kMSEncrypted = kMSEncrypted
+            self.requesterPays = requesterPays
+            self.readOnly = readOnly
+            self.gatewayARN = gatewayARN
+            self.nFSFileShareDefaults = nFSFileShareDefaults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileShareId = "FileShareId"
+            case guessMIMETypeEnabled = "GuessMIMETypeEnabled"
+            case defaultStorageClass = "DefaultStorageClass"
+            case clientList = "ClientList"
+            case squash = "Squash"
+            case locationARN = "LocationARN"
+            case path = "Path"
+            case fileShareStatus = "FileShareStatus"
+            case fileShareARN = "FileShareARN"
+            case kMSKey = "KMSKey"
+            case objectACL = "ObjectACL"
+            case role = "Role"
+            case kMSEncrypted = "KMSEncrypted"
+            case requesterPays = "RequesterPays"
+            case readOnly = "ReadOnly"
+            case gatewayARN = "GatewayARN"
+            case nFSFileShareDefaults = "NFSFileShareDefaults"
         }
     }
 
@@ -776,50 +1128,149 @@ extension StorageGateway {
         }
     }
 
-    public struct DeleteSnapshotScheduleInput: AWSShape {
+    public struct UpdateGatewayInformationOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VolumeARN", required: true, type: .string)
+            AWSShapeMember(label: "GatewayName", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
-        public let volumeARN: String
+        public let gatewayName: String?
+        public let gatewayARN: String?
 
-        public init(volumeARN: String) {
-            self.volumeARN = volumeARN
+        public init(gatewayName: String? = nil, gatewayARN: String? = nil) {
+            self.gatewayName = gatewayName
+            self.gatewayARN = gatewayARN
         }
 
         private enum CodingKeys: String, CodingKey {
-            case volumeARN = "VolumeARN"
+            case gatewayName = "GatewayName"
+            case gatewayARN = "GatewayARN"
         }
     }
 
-    public struct DescribeCachediSCSIVolumesOutput: AWSShape {
+    public struct ListVolumeRecoveryPointsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CachediSCSIVolumes", required: false, type: .list)
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
-        /// An array of objects where each object contains metadata about one cached volume.
-        public let cachediSCSIVolumes: [CachediSCSIVolume]?
+        public let gatewayARN: String
 
-        public init(cachediSCSIVolumes: [CachediSCSIVolume]? = nil) {
-            self.cachediSCSIVolumes = cachediSCSIVolumes
+        public init(gatewayARN: String) {
+            self.gatewayARN = gatewayARN
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cachediSCSIVolumes = "CachediSCSIVolumes"
+            case gatewayARN = "GatewayARN"
         }
     }
 
-    public struct DeleteTapeArchiveInput: AWSShape {
+    public struct DeleteBandwidthRateLimitOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TapeARN", required: true, type: .string)
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
-        /// The Amazon Resource Name (ARN) of the virtual tape to delete from the virtual tape shelf (VTS).
-        public let tapeARN: String
+        public let gatewayARN: String?
 
-        public init(tapeARN: String) {
-            self.tapeARN = tapeARN
+        public init(gatewayARN: String? = nil) {
+            self.gatewayARN = gatewayARN
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tapeARN = "TapeARN"
+            case gatewayARN = "GatewayARN"
+        }
+    }
+
+    public struct ResetCacheInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
+        ]
+        public let gatewayARN: String
+
+        public init(gatewayARN: String) {
+            self.gatewayARN = gatewayARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+        }
+    }
+
+    public struct NotifyWhenUploadedInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileShareARN", required: true, type: .string)
+        ]
+        public let fileShareARN: String
+
+        public init(fileShareARN: String) {
+            self.fileShareARN = fileShareARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileShareARN = "FileShareARN"
+        }
+    }
+
+    public struct UpdateMaintenanceStartTimeInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MinuteOfHour", required: true, type: .integer), 
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
+            AWSShapeMember(label: "DayOfWeek", required: true, type: .integer), 
+            AWSShapeMember(label: "HourOfDay", required: true, type: .integer)
+        ]
+        /// The minute component of the maintenance start time represented as mm, where mm is the minute (00 to 59). The minute of the hour is in the time zone of the gateway.
+        public let minuteOfHour: Int32
+        public let gatewayARN: String
+        /// The maintenance start time day of the week represented as an ordinal number from 0 to 6, where 0 represents Sunday and 6 Saturday.
+        public let dayOfWeek: Int32
+        /// The hour component of the maintenance start time represented as hh, where hh is the hour (00 to 23). The hour of the day is in the time zone of the gateway.
+        public let hourOfDay: Int32
+
+        public init(minuteOfHour: Int32, gatewayARN: String, dayOfWeek: Int32, hourOfDay: Int32) {
+            self.minuteOfHour = minuteOfHour
+            self.gatewayARN = gatewayARN
+            self.dayOfWeek = dayOfWeek
+            self.hourOfDay = hourOfDay
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case minuteOfHour = "MinuteOfHour"
+            case gatewayARN = "GatewayARN"
+            case dayOfWeek = "DayOfWeek"
+            case hourOfDay = "HourOfDay"
+        }
+    }
+
+    public struct UpdateVTLDeviceTypeInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VTLDeviceARN", required: true, type: .string), 
+            AWSShapeMember(label: "DeviceType", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the medium changer you want to select.
+        public let vTLDeviceARN: String
+        /// The type of medium changer you want to select.  Valid Values: "STK-L700", "AWS-Gateway-VTL"
+        public let deviceType: String
+
+        public init(vTLDeviceARN: String, deviceType: String) {
+            self.vTLDeviceARN = vTLDeviceARN
+            self.deviceType = deviceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vTLDeviceARN = "VTLDeviceARN"
+            case deviceType = "DeviceType"
+        }
+    }
+
+    public struct DescribeNFSFileSharesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileShareARNList", required: true, type: .list)
+        ]
+        /// An array containing the Amazon Resource Name (ARN) of each file share to be described. 
+        public let fileShareARNList: [String]
+
+        public init(fileShareARNList: [String]) {
+            self.fileShareARNList = fileShareARNList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileShareARNList = "FileShareARNList"
         }
     }
 
@@ -839,7 +1290,411 @@ extension StorageGateway {
         }
     }
 
-    public struct DescribeBandwidthRateLimitInput: AWSShape {
+    public struct DescribeTapeRecoveryPointsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TapeRecoveryPointInfos", required: false, type: .list), 
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// An array of TapeRecoveryPointInfos that are available for the specified gateway.
+        public let tapeRecoveryPointInfos: [TapeRecoveryPointInfo]?
+        public let gatewayARN: String?
+        /// An opaque string that indicates the position at which the virtual tape recovery points that were listed for description ended. Use this marker in your next request to list the next set of virtual tape recovery points in the list. If there are no more recovery points to describe, this field does not appear in the response.
+        public let marker: String?
+
+        public init(tapeRecoveryPointInfos: [TapeRecoveryPointInfo]? = nil, gatewayARN: String? = nil, marker: String? = nil) {
+            self.tapeRecoveryPointInfos = tapeRecoveryPointInfos
+            self.gatewayARN = gatewayARN
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tapeRecoveryPointInfos = "TapeRecoveryPointInfos"
+            case gatewayARN = "GatewayARN"
+            case marker = "Marker"
+        }
+    }
+
+    public struct SMBFileShareInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileShareId", required: false, type: .string), 
+            AWSShapeMember(label: "KMSKey", required: false, type: .string), 
+            AWSShapeMember(label: "FileShareStatus", required: false, type: .string), 
+            AWSShapeMember(label: "Role", required: false, type: .string), 
+            AWSShapeMember(label: "GuessMIMETypeEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "KMSEncrypted", required: false, type: .boolean), 
+            AWSShapeMember(label: "ObjectACL", required: false, type: .enum), 
+            AWSShapeMember(label: "DefaultStorageClass", required: false, type: .string), 
+            AWSShapeMember(label: "Authentication", required: false, type: .string), 
+            AWSShapeMember(label: "InvalidUserList", required: false, type: .list), 
+            AWSShapeMember(label: "ValidUserList", required: false, type: .list), 
+            AWSShapeMember(label: "FileShareARN", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
+            AWSShapeMember(label: "ReadOnly", required: false, type: .boolean), 
+            AWSShapeMember(label: "RequesterPays", required: false, type: .boolean), 
+            AWSShapeMember(label: "LocationARN", required: false, type: .string), 
+            AWSShapeMember(label: "Path", required: false, type: .string)
+        ]
+        public let fileShareId: String?
+        public let kMSKey: String?
+        public let fileShareStatus: String?
+        public let role: String?
+        /// A value that enables guessing of the MIME type for uploaded objects based on file extensions. Set this value to true to enable MIME type guessing, and otherwise to false. The default value is true.
+        public let guessMIMETypeEnabled: Bool?
+        /// True to use Amazon S3 server-side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional. 
+        public let kMSEncrypted: Bool?
+        public let objectACL: ObjectACL?
+        /// The default storage class for objects put into an Amazon S3 bucket by the file gateway. Possible values are S3_STANDARD, S3_STANDARD_IA, or S3_ONEZONE_IA. If this field is not populated, the default value S3_STANDARD is used. Optional.
+        public let defaultStorageClass: String?
+        public let authentication: String?
+        /// A list of users or groups in the Active Directory that are not allowed to access the file share. A group must be prefixed with the @ character. For example @group1. Can only be set if Authentication is set to ActiveDirectory.
+        public let invalidUserList: [String]?
+        /// A list of users or groups in the Active Directory that are allowed to access the file share. A group must be prefixed with the @ character. For example @group1. Can only be set if Authentication is set to ActiveDirectory.
+        public let validUserList: [String]?
+        public let fileShareARN: String?
+        public let gatewayARN: String?
+        /// A value that sets the write status of a file share. This value is true if the write status is read-only, and otherwise false.
+        public let readOnly: Bool?
+        /// A value that sets the access control list permission for objects in the Amazon S3 bucket that a file gateway puts objects into. The default value is private.
+        public let requesterPays: Bool?
+        public let locationARN: String?
+        /// The file share path used by the SMB client to identify the mount point.
+        public let path: String?
+
+        public init(fileShareId: String? = nil, kMSKey: String? = nil, fileShareStatus: String? = nil, role: String? = nil, guessMIMETypeEnabled: Bool? = nil, kMSEncrypted: Bool? = nil, objectACL: ObjectACL? = nil, defaultStorageClass: String? = nil, authentication: String? = nil, invalidUserList: [String]? = nil, validUserList: [String]? = nil, fileShareARN: String? = nil, gatewayARN: String? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, locationARN: String? = nil, path: String? = nil) {
+            self.fileShareId = fileShareId
+            self.kMSKey = kMSKey
+            self.fileShareStatus = fileShareStatus
+            self.role = role
+            self.guessMIMETypeEnabled = guessMIMETypeEnabled
+            self.kMSEncrypted = kMSEncrypted
+            self.objectACL = objectACL
+            self.defaultStorageClass = defaultStorageClass
+            self.authentication = authentication
+            self.invalidUserList = invalidUserList
+            self.validUserList = validUserList
+            self.fileShareARN = fileShareARN
+            self.gatewayARN = gatewayARN
+            self.readOnly = readOnly
+            self.requesterPays = requesterPays
+            self.locationARN = locationARN
+            self.path = path
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileShareId = "FileShareId"
+            case kMSKey = "KMSKey"
+            case fileShareStatus = "FileShareStatus"
+            case role = "Role"
+            case guessMIMETypeEnabled = "GuessMIMETypeEnabled"
+            case kMSEncrypted = "KMSEncrypted"
+            case objectACL = "ObjectACL"
+            case defaultStorageClass = "DefaultStorageClass"
+            case authentication = "Authentication"
+            case invalidUserList = "InvalidUserList"
+            case validUserList = "ValidUserList"
+            case fileShareARN = "FileShareARN"
+            case gatewayARN = "GatewayARN"
+            case readOnly = "ReadOnly"
+            case requesterPays = "RequesterPays"
+            case locationARN = "LocationARN"
+            case path = "Path"
+        }
+    }
+
+    public struct TapeArchive: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TapeBarcode", required: false, type: .string), 
+            AWSShapeMember(label: "RetrievedTo", required: false, type: .string), 
+            AWSShapeMember(label: "TapeUsedInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "CompletionTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TapeCreatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TapeStatus", required: false, type: .string), 
+            AWSShapeMember(label: "TapeARN", required: false, type: .string), 
+            AWSShapeMember(label: "KMSKey", required: false, type: .string), 
+            AWSShapeMember(label: "TapeSizeInBytes", required: false, type: .long)
+        ]
+        /// The barcode that identifies the archived virtual tape.
+        public let tapeBarcode: String?
+        /// The Amazon Resource Name (ARN) of the tape gateway that the virtual tape is being retrieved to. The virtual tape is retrieved from the virtual tape shelf (VTS).
+        public let retrievedTo: String?
+        /// The size, in bytes, of data stored on the virtual tape.  This value is not available for tapes created prior to May 13, 2015. 
+        public let tapeUsedInBytes: Int64?
+        /// The time that the archiving of the virtual tape was completed. The default time stamp format is in the ISO8601 extended YYYY-MM-DD'T'HH:MM:SS'Z' format.
+        public let completionTime: TimeStamp?
+        /// The date the virtual tape was created.
+        public let tapeCreatedDate: TimeStamp?
+        /// The current state of the archived virtual tape.
+        public let tapeStatus: String?
+        /// The Amazon Resource Name (ARN) of an archived virtual tape.
+        public let tapeARN: String?
+        public let kMSKey: String?
+        /// The size, in bytes, of the archived virtual tape.
+        public let tapeSizeInBytes: Int64?
+
+        public init(tapeBarcode: String? = nil, retrievedTo: String? = nil, tapeUsedInBytes: Int64? = nil, completionTime: TimeStamp? = nil, tapeCreatedDate: TimeStamp? = nil, tapeStatus: String? = nil, tapeARN: String? = nil, kMSKey: String? = nil, tapeSizeInBytes: Int64? = nil) {
+            self.tapeBarcode = tapeBarcode
+            self.retrievedTo = retrievedTo
+            self.tapeUsedInBytes = tapeUsedInBytes
+            self.completionTime = completionTime
+            self.tapeCreatedDate = tapeCreatedDate
+            self.tapeStatus = tapeStatus
+            self.tapeARN = tapeARN
+            self.kMSKey = kMSKey
+            self.tapeSizeInBytes = tapeSizeInBytes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tapeBarcode = "TapeBarcode"
+            case retrievedTo = "RetrievedTo"
+            case tapeUsedInBytes = "TapeUsedInBytes"
+            case completionTime = "CompletionTime"
+            case tapeCreatedDate = "TapeCreatedDate"
+            case tapeStatus = "TapeStatus"
+            case tapeARN = "TapeARN"
+            case kMSKey = "KMSKey"
+            case tapeSizeInBytes = "TapeSizeInBytes"
+        }
+    }
+
+    public struct DeleteFileShareInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileShareARN", required: true, type: .string), 
+            AWSShapeMember(label: "ForceDelete", required: false, type: .boolean)
+        ]
+        /// The Amazon Resource Name (ARN) of the file share to be deleted. 
+        public let fileShareARN: String
+        /// If this value is set to true, the operation deletes a file share immediately and aborts all data uploads to AWS. Otherwise, the file share is not deleted until all data is uploaded to AWS. This process aborts the data upload process, and the file share enters the FORCE_DELETING status.
+        public let forceDelete: Bool?
+
+        public init(fileShareARN: String, forceDelete: Bool? = nil) {
+            self.fileShareARN = fileShareARN
+            self.forceDelete = forceDelete
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileShareARN = "FileShareARN"
+            case forceDelete = "ForceDelete"
+        }
+    }
+
+    public struct ActivateGatewayInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayType", required: false, type: .string), 
+            AWSShapeMember(label: "ActivationKey", required: true, type: .string), 
+            AWSShapeMember(label: "GatewayRegion", required: true, type: .string), 
+            AWSShapeMember(label: "GatewayName", required: true, type: .string), 
+            AWSShapeMember(label: "GatewayTimezone", required: true, type: .string), 
+            AWSShapeMember(label: "TapeDriveType", required: false, type: .string), 
+            AWSShapeMember(label: "MediumChangerType", required: false, type: .string)
+        ]
+        /// A value that defines the type of gateway to activate. The type specified is critical to all later functions of the gateway and cannot be changed after activation. The default value is CACHED.   Valid Values: "STORED", "CACHED", "VTL", "FILE_S3"
+        public let gatewayType: String?
+        /// Your gateway activation key. You can obtain the activation key by sending an HTTP GET request with redirects enabled to the gateway IP address (port 80). The redirect URL returned in the response provides you the activation key for your gateway in the query string parameter activationKey. It may also include other activation-related parameters, however, these are merely defaults -- the arguments you pass to the ActivateGateway API call determine the actual configuration of your gateway.  For more information, see https://docs.aws.amazon.com/storagegateway/latest/userguide/get-activation-key.html in the Storage Gateway User Guide.
+        public let activationKey: String
+        /// A value that indicates the region where you want to store your data. The gateway region specified must be the same region as the region in your Host header in the request. For more information about available regions and endpoints for AWS Storage Gateway, see Regions and Endpoints in the Amazon Web Services Glossary.  Valid Values: "us-east-1", "us-east-2", "us-west-1", "us-west-2", "ca-central-1", "eu-west-1", "eu-central-1", "eu-west-2", "eu-west-3", "ap-northeast-1", "ap-northeast-2", "ap-southeast-1", "ap-southeast-2", "ap-south-1", "sa-east-1"
+        public let gatewayRegion: String
+        /// The name you configured for your gateway.
+        public let gatewayName: String
+        /// A value that indicates the time zone you want to set for the gateway. The time zone is of the format "GMT-hr:mm" or "GMT+hr:mm". For example, GMT-4:00 indicates the time is 4 hours behind GMT. GMT+2:00 indicates the time is 2 hours ahead of GMT. The time zone is used, for example, for scheduling snapshots and your gateway's maintenance schedule.
+        public let gatewayTimezone: String
+        /// The value that indicates the type of tape drive to use for tape gateway. This field is optional.  Valid Values: "IBM-ULT3580-TD5" 
+        public let tapeDriveType: String?
+        /// The value that indicates the type of medium changer to use for tape gateway. This field is optional.  Valid Values: "STK-L700", "AWS-Gateway-VTL"
+        public let mediumChangerType: String?
+
+        public init(gatewayType: String? = nil, activationKey: String, gatewayRegion: String, gatewayName: String, gatewayTimezone: String, tapeDriveType: String? = nil, mediumChangerType: String? = nil) {
+            self.gatewayType = gatewayType
+            self.activationKey = activationKey
+            self.gatewayRegion = gatewayRegion
+            self.gatewayName = gatewayName
+            self.gatewayTimezone = gatewayTimezone
+            self.tapeDriveType = tapeDriveType
+            self.mediumChangerType = mediumChangerType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayType = "GatewayType"
+            case activationKey = "ActivationKey"
+            case gatewayRegion = "GatewayRegion"
+            case gatewayName = "GatewayName"
+            case gatewayTimezone = "GatewayTimezone"
+            case tapeDriveType = "TapeDriveType"
+            case mediumChangerType = "MediumChangerType"
+        }
+    }
+
+    public struct NFSFileShareDefaults: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupId", required: false, type: .long), 
+            AWSShapeMember(label: "DirectoryMode", required: false, type: .string), 
+            AWSShapeMember(label: "OwnerId", required: false, type: .long), 
+            AWSShapeMember(label: "FileMode", required: false, type: .string)
+        ]
+        /// The default group ID for the file share (unless the files have another group ID specified). The default value is nfsnobody. 
+        public let groupId: Int64?
+        /// The Unix directory mode in the form "nnnn". For example, "0666" represents the default access mode for all directories inside the file share. The default value is 0777.
+        public let directoryMode: String?
+        /// The default owner ID for files in the file share (unless the files have another owner ID specified). The default value is nfsnobody. 
+        public let ownerId: Int64?
+        /// The Unix file mode in the form "nnnn". For example, "0666" represents the default file mode inside the file share. The default value is 0666. 
+        public let fileMode: String?
+
+        public init(groupId: Int64? = nil, directoryMode: String? = nil, ownerId: Int64? = nil, fileMode: String? = nil) {
+            self.groupId = groupId
+            self.directoryMode = directoryMode
+            self.ownerId = ownerId
+            self.fileMode = fileMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupId = "GroupId"
+            case directoryMode = "DirectoryMode"
+            case ownerId = "OwnerId"
+            case fileMode = "FileMode"
+        }
+    }
+
+    public struct NotifyWhenUploadedOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NotificationId", required: false, type: .string), 
+            AWSShapeMember(label: "FileShareARN", required: false, type: .string)
+        ]
+        public let notificationId: String?
+        public let fileShareARN: String?
+
+        public init(notificationId: String? = nil, fileShareARN: String? = nil) {
+            self.notificationId = notificationId
+            self.fileShareARN = fileShareARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notificationId = "NotificationId"
+            case fileShareARN = "FileShareARN"
+        }
+    }
+
+    public struct DeleteGatewayOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
+        ]
+        public let gatewayARN: String?
+
+        public init(gatewayARN: String? = nil) {
+            self.gatewayARN = gatewayARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+        }
+    }
+
+    public struct SetSMBGuestPasswordInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Password", required: true, type: .string), 
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
+        ]
+        /// The password that you want to set for your SMB Server.
+        public let password: String
+        /// The Amazon Resource Name (ARN) of the file gateway the SMB file share is associated with.
+        public let gatewayARN: String
+
+        public init(password: String, gatewayARN: String) {
+            self.password = password
+            self.gatewayARN = gatewayARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case password = "Password"
+            case gatewayARN = "GatewayARN"
+        }
+    }
+
+    public struct AddUploadBufferInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DiskIds", required: true, type: .list), 
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
+        ]
+        public let diskIds: [String]
+        public let gatewayARN: String
+
+        public init(diskIds: [String], gatewayARN: String) {
+            self.diskIds = diskIds
+            self.gatewayARN = gatewayARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case diskIds = "DiskIds"
+            case gatewayARN = "GatewayARN"
+        }
+    }
+
+    public struct DisableGatewayOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
+        ]
+        /// The unique Amazon Resource Name (ARN) of the disabled gateway.
+        public let gatewayARN: String?
+
+        public init(gatewayARN: String? = nil) {
+            self.gatewayARN = gatewayARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+        }
+    }
+
+    public struct UpdateSnapshotScheduleOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VolumeARN", required: false, type: .string)
+        ]
+        public let volumeARN: String?
+
+        public init(volumeARN: String? = nil) {
+            self.volumeARN = volumeARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case volumeARN = "VolumeARN"
+        }
+    }
+
+    public struct UpdateBandwidthRateLimitOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
+        ]
+        public let gatewayARN: String?
+
+        public init(gatewayARN: String? = nil) {
+            self.gatewayARN = gatewayARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+        }
+    }
+
+    public struct ListVolumeRecoveryPointsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VolumeRecoveryPointInfos", required: false, type: .list), 
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
+        ]
+        public let volumeRecoveryPointInfos: [VolumeRecoveryPointInfo]?
+        public let gatewayARN: String?
+
+        public init(volumeRecoveryPointInfos: [VolumeRecoveryPointInfo]? = nil, gatewayARN: String? = nil) {
+            self.volumeRecoveryPointInfos = volumeRecoveryPointInfos
+            self.gatewayARN = gatewayARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case volumeRecoveryPointInfos = "VolumeRecoveryPointInfos"
+            case gatewayARN = "GatewayARN"
+        }
+    }
+
+    public struct DeleteGatewayInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
@@ -854,158 +1709,123 @@ extension StorageGateway {
         }
     }
 
-    public struct DescribeGatewayInformationOutput: AWSShape {
+    public struct DescribeTapesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GatewayTimezone", required: false, type: .string), 
-            AWSShapeMember(label: "GatewayType", required: false, type: .string), 
-            AWSShapeMember(label: "GatewayId", required: false, type: .string), 
-            AWSShapeMember(label: "GatewayName", required: false, type: .string), 
-            AWSShapeMember(label: "GatewayNetworkInterfaces", required: false, type: .list), 
-            AWSShapeMember(label: "LastSoftwareUpdate", required: false, type: .string), 
-            AWSShapeMember(label: "GatewayState", required: false, type: .string), 
-            AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
-            AWSShapeMember(label: "NextUpdateAvailabilityDate", required: false, type: .string)
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "TapeARNs", required: false, type: .list), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
-        /// A value that indicates the time zone configured for the gateway.
-        public let gatewayTimezone: String?
-        /// The type of the gateway.
-        public let gatewayType: String?
-        /// The unique identifier assigned to your gateway during activation. This ID becomes part of the gateway Amazon Resource Name (ARN), which you use as input for other operations.
-        public let gatewayId: String?
-        /// The name you configured for your gateway.
-        public let gatewayName: String?
-        /// A NetworkInterface array that contains descriptions of the gateway network interfaces.
-        public let gatewayNetworkInterfaces: [NetworkInterface]?
-        /// The date on which the last software update was applied to the gateway. If the gateway has never been updated, this field does not return a value in the response.
-        public let lastSoftwareUpdate: String?
-        /// A value that indicates the operating state of the gateway.
-        public let gatewayState: String?
-        public let gatewayARN: String?
-        /// The date on which an update to the gateway is available. This date is in the time zone of the gateway. If the gateway is not available for an update this field is not returned in the response.
-        public let nextUpdateAvailabilityDate: String?
-
-        public init(gatewayTimezone: String? = nil, gatewayType: String? = nil, gatewayId: String? = nil, gatewayName: String? = nil, gatewayNetworkInterfaces: [NetworkInterface]? = nil, lastSoftwareUpdate: String? = nil, gatewayState: String? = nil, gatewayARN: String? = nil, nextUpdateAvailabilityDate: String? = nil) {
-            self.gatewayTimezone = gatewayTimezone
-            self.gatewayType = gatewayType
-            self.gatewayId = gatewayId
-            self.gatewayName = gatewayName
-            self.gatewayNetworkInterfaces = gatewayNetworkInterfaces
-            self.lastSoftwareUpdate = lastSoftwareUpdate
-            self.gatewayState = gatewayState
-            self.gatewayARN = gatewayARN
-            self.nextUpdateAvailabilityDate = nextUpdateAvailabilityDate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gatewayTimezone = "GatewayTimezone"
-            case gatewayType = "GatewayType"
-            case gatewayId = "GatewayId"
-            case gatewayName = "GatewayName"
-            case gatewayNetworkInterfaces = "GatewayNetworkInterfaces"
-            case lastSoftwareUpdate = "LastSoftwareUpdate"
-            case gatewayState = "GatewayState"
-            case gatewayARN = "GatewayARN"
-            case nextUpdateAvailabilityDate = "NextUpdateAvailabilityDate"
-        }
-    }
-
-    public struct DescribeSMBSettingsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
-            AWSShapeMember(label: "DomainName", required: false, type: .string), 
-            AWSShapeMember(label: "SMBGuestPasswordSet", required: false, type: .boolean)
-        ]
-        public let gatewayARN: String?
-        /// The name of the domain that the gateway is joined to.
-        public let domainName: String?
-        /// This value is true if a password for the guest user “smbguest” is set, and otherwise false.
-        public let sMBGuestPasswordSet: Bool?
-
-        public init(gatewayARN: String? = nil, domainName: String? = nil, sMBGuestPasswordSet: Bool? = nil) {
-            self.gatewayARN = gatewayARN
-            self.domainName = domainName
-            self.sMBGuestPasswordSet = sMBGuestPasswordSet
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gatewayARN = "GatewayARN"
-            case domainName = "DomainName"
-            case sMBGuestPasswordSet = "SMBGuestPasswordSet"
-        }
-    }
-
-    public struct CreateCachediSCSIVolumeOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetARN", required: false, type: .string), 
-            AWSShapeMember(label: "VolumeARN", required: false, type: .string)
-        ]
-        /// he Amazon Resource Name (ARN) of the volume target that includes the iSCSI name that initiators can use to connect to the target.
-        public let targetARN: String?
-        /// The Amazon Resource Name (ARN) of the configured volume.
-        public let volumeARN: String?
-
-        public init(targetARN: String? = nil, volumeARN: String? = nil) {
-            self.targetARN = targetARN
-            self.volumeARN = volumeARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case targetARN = "TargetARN"
-            case volumeARN = "VolumeARN"
-        }
-    }
-
-    public struct CreateTapesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TapeSizeInBytes", required: true, type: .long), 
-            AWSShapeMember(label: "KMSKey", required: false, type: .string), 
-            AWSShapeMember(label: "KMSEncrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "ClientToken", required: true, type: .string), 
-            AWSShapeMember(label: "TapeBarcodePrefix", required: true, type: .string), 
-            AWSShapeMember(label: "NumTapesToCreate", required: true, type: .integer), 
-            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
-        ]
-        /// The size, in bytes, of the virtual tapes that you want to create.  The size must be aligned by gigabyte (1024*1024*1024 byte). 
-        public let tapeSizeInBytes: Int64
-        /// The Amazon Resource Name (ARN) of the AWS KMS key used for Amazon S3 server side encryption. This value can only be set when KMSEncrypted is true. Optional.
-        public let kMSKey: String?
-        /// True to use Amazon S3 server side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional.
-        public let kMSEncrypted: Bool?
-        /// A unique identifier that you use to retry a request. If you retry a request, use the same ClientToken you specified in the initial request.  Using the same ClientToken prevents creating the tape multiple times. 
-        public let clientToken: String
-        /// A prefix that you append to the barcode of the virtual tape you are creating. This prefix makes the barcode unique.  The prefix must be 1 to 4 characters in length and must be one of the uppercase letters from A to Z. 
-        public let tapeBarcodePrefix: String
-        /// The number of virtual tapes that you want to create.
-        public let numTapesToCreate: Int32
-        /// The unique Amazon Resource Name (ARN) that represents the gateway to associate the virtual tapes with. Use the ListGateways operation to return a list of gateways for your account and region.
         public let gatewayARN: String
+        /// A marker value, obtained in a previous call to DescribeTapes. This marker indicates which page of results to retrieve.  If not specified, the first page of results is retrieved.
+        public let marker: String?
+        /// Specifies one or more unique Amazon Resource Names (ARNs) that represent the virtual tapes you want to describe. If this parameter is not specified, Tape gateway returns a description of all virtual tapes associated with the specified gateway.
+        public let tapeARNs: [String]?
+        /// Specifies that the number of virtual tapes described be limited to the specified number.  Amazon Web Services may impose its own limit, if this field is not set. 
+        public let limit: Int32?
 
-        public init(tapeSizeInBytes: Int64, kMSKey: String? = nil, kMSEncrypted: Bool? = nil, clientToken: String, tapeBarcodePrefix: String, numTapesToCreate: Int32, gatewayARN: String) {
-            self.tapeSizeInBytes = tapeSizeInBytes
-            self.kMSKey = kMSKey
-            self.kMSEncrypted = kMSEncrypted
-            self.clientToken = clientToken
-            self.tapeBarcodePrefix = tapeBarcodePrefix
-            self.numTapesToCreate = numTapesToCreate
+        public init(gatewayARN: String, marker: String? = nil, tapeARNs: [String]? = nil, limit: Int32? = nil) {
             self.gatewayARN = gatewayARN
+            self.marker = marker
+            self.tapeARNs = tapeARNs
+            self.limit = limit
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tapeSizeInBytes = "TapeSizeInBytes"
-            case kMSKey = "KMSKey"
-            case kMSEncrypted = "KMSEncrypted"
-            case clientToken = "ClientToken"
-            case tapeBarcodePrefix = "TapeBarcodePrefix"
-            case numTapesToCreate = "NumTapesToCreate"
             case gatewayARN = "GatewayARN"
+            case marker = "Marker"
+            case tapeARNs = "TapeARNs"
+            case limit = "Limit"
         }
     }
 
-    public struct CancelRetrievalOutput: AWSShape {
+    public struct DeleteFileShareOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileShareARN", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the deleted file share. 
+        public let fileShareARN: String?
+
+        public init(fileShareARN: String? = nil) {
+            self.fileShareARN = fileShareARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileShareARN = "FileShareARN"
+        }
+    }
+
+    public struct DescribeVTLDevicesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VTLDeviceARNs", required: false, type: .list), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// An array of strings, where each string represents the Amazon Resource Name (ARN) of a VTL device.  All of the specified VTL devices must be from the same gateway. If no VTL devices are specified, the result will contain all devices on the specified gateway. 
+        public let vTLDeviceARNs: [String]?
+        /// Specifies that the number of VTL devices described be limited to the specified number.
+        public let limit: Int32?
+        public let gatewayARN: String
+        /// An opaque string that indicates the position at which to begin describing the VTL devices.
+        public let marker: String?
+
+        public init(vTLDeviceARNs: [String]? = nil, limit: Int32? = nil, gatewayARN: String, marker: String? = nil) {
+            self.vTLDeviceARNs = vTLDeviceARNs
+            self.limit = limit
+            self.gatewayARN = gatewayARN
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vTLDeviceARNs = "VTLDeviceARNs"
+            case limit = "Limit"
+            case gatewayARN = "GatewayARN"
+            case marker = "Marker"
+        }
+    }
+
+    public struct VolumeiSCSIAttributes: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NetworkInterfaceId", required: false, type: .string), 
+            AWSShapeMember(label: "NetworkInterfacePort", required: false, type: .integer), 
+            AWSShapeMember(label: "ChapEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "LunNumber", required: false, type: .integer), 
+            AWSShapeMember(label: "TargetARN", required: false, type: .string)
+        ]
+        /// The network interface identifier.
+        public let networkInterfaceId: String?
+        /// The port used to communicate with iSCSI targets.
+        public let networkInterfacePort: Int32?
+        /// Indicates whether mutual CHAP is enabled for the iSCSI target.
+        public let chapEnabled: Bool?
+        /// The logical disk number.
+        public let lunNumber: Int32?
+        /// The Amazon Resource Name (ARN) of the volume target.
+        public let targetARN: String?
+
+        public init(networkInterfaceId: String? = nil, networkInterfacePort: Int32? = nil, chapEnabled: Bool? = nil, lunNumber: Int32? = nil, targetARN: String? = nil) {
+            self.networkInterfaceId = networkInterfaceId
+            self.networkInterfacePort = networkInterfacePort
+            self.chapEnabled = chapEnabled
+            self.lunNumber = lunNumber
+            self.targetARN = targetARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case networkInterfaceId = "NetworkInterfaceId"
+            case networkInterfacePort = "NetworkInterfacePort"
+            case chapEnabled = "ChapEnabled"
+            case lunNumber = "LunNumber"
+            case targetARN = "TargetARN"
+        }
+    }
+
+    public struct DeleteTapeOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TapeARN", required: false, type: .string)
         ]
-        /// The Amazon Resource Name (ARN) of the virtual tape for which retrieval was canceled.
+        /// The Amazon Resource Name (ARN) of the deleted virtual tape.
         public let tapeARN: String?
 
         public init(tapeARN: String? = nil) {
@@ -1041,11 +1861,394 @@ extension StorageGateway {
         }
     }
 
-    public struct RetrieveTapeRecoveryPointOutput: AWSShape {
+    public struct AddUploadBufferOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
+        ]
+        public let gatewayARN: String?
+
+        public init(gatewayARN: String? = nil) {
+            self.gatewayARN = gatewayARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+        }
+    }
+
+    public struct StartGatewayInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
+        ]
+        public let gatewayARN: String
+
+        public init(gatewayARN: String) {
+            self.gatewayARN = gatewayARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+        }
+    }
+
+    public struct SetLocalConsolePasswordInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
+            AWSShapeMember(label: "LocalConsolePassword", required: true, type: .string)
+        ]
+        public let gatewayARN: String
+        /// The password you want to set for your VM local console.
+        public let localConsolePassword: String
+
+        public init(gatewayARN: String, localConsolePassword: String) {
+            self.gatewayARN = gatewayARN
+            self.localConsolePassword = localConsolePassword
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+            case localConsolePassword = "LocalConsolePassword"
+        }
+    }
+
+    public struct CreateCachediSCSIVolumeInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KMSKey", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
+            AWSShapeMember(label: "SnapshotId", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeSizeInBytes", required: true, type: .long), 
+            AWSShapeMember(label: "TargetName", required: true, type: .string), 
+            AWSShapeMember(label: "NetworkInterfaceId", required: true, type: .string), 
+            AWSShapeMember(label: "ClientToken", required: true, type: .string), 
+            AWSShapeMember(label: "SourceVolumeARN", required: false, type: .string), 
+            AWSShapeMember(label: "KMSEncrypted", required: false, type: .boolean)
+        ]
+        /// The Amazon Resource Name (ARN) of the AWS KMS key used for Amazon S3 server side encryption. This value can only be set when KMSEncrypted is true. Optional.
+        public let kMSKey: String?
+        public let gatewayARN: String
+        /// The snapshot ID (e.g. "snap-1122aabb") of the snapshot to restore as the new cached volume. Specify this field if you want to create the iSCSI storage volume from a snapshot otherwise do not include this field. To list snapshots for your account use DescribeSnapshots in the Amazon Elastic Compute Cloud API Reference.
+        public let snapshotId: String?
+        /// The size of the volume in bytes.
+        public let volumeSizeInBytes: Int64
+        /// The name of the iSCSI target used by initiators to connect to the target and as a suffix for the target ARN. For example, specifying TargetName as myvolume results in the target ARN of arn:aws:storagegateway:us-east-2:111122223333:gateway/sgw-12A3456B/target/iqn.1997-05.com.amazon:myvolume. The target name must be unique across all volumes of a gateway.
+        public let targetName: String
+        /// The network interface of the gateway on which to expose the iSCSI target. Only IPv4 addresses are accepted. Use DescribeGatewayInformation to get a list of the network interfaces available on a gateway.  Valid Values: A valid IP address.
+        public let networkInterfaceId: String
+        /// A unique identifier that you use to retry a request. If you retry a request, use the same ClientToken you specified in the initial request.
+        public let clientToken: String
+        /// The ARN for an existing volume. Specifying this ARN makes the new volume into an exact copy of the specified existing volume's latest recovery point. The VolumeSizeInBytes value for this new volume must be equal to or larger than the size of the existing volume, in bytes.
+        public let sourceVolumeARN: String?
+        /// True to use Amazon S3 server side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional.
+        public let kMSEncrypted: Bool?
+
+        public init(kMSKey: String? = nil, gatewayARN: String, snapshotId: String? = nil, volumeSizeInBytes: Int64, targetName: String, networkInterfaceId: String, clientToken: String, sourceVolumeARN: String? = nil, kMSEncrypted: Bool? = nil) {
+            self.kMSKey = kMSKey
+            self.gatewayARN = gatewayARN
+            self.snapshotId = snapshotId
+            self.volumeSizeInBytes = volumeSizeInBytes
+            self.targetName = targetName
+            self.networkInterfaceId = networkInterfaceId
+            self.clientToken = clientToken
+            self.sourceVolumeARN = sourceVolumeARN
+            self.kMSEncrypted = kMSEncrypted
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kMSKey = "KMSKey"
+            case gatewayARN = "GatewayARN"
+            case snapshotId = "SnapshotId"
+            case volumeSizeInBytes = "VolumeSizeInBytes"
+            case targetName = "TargetName"
+            case networkInterfaceId = "NetworkInterfaceId"
+            case clientToken = "ClientToken"
+            case sourceVolumeARN = "SourceVolumeARN"
+            case kMSEncrypted = "KMSEncrypted"
+        }
+    }
+
+    public struct CancelRetrievalInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
+            AWSShapeMember(label: "TapeARN", required: true, type: .string)
+        ]
+        public let gatewayARN: String
+        /// The Amazon Resource Name (ARN) of the virtual tape you want to cancel retrieval for.
+        public let tapeARN: String
+
+        public init(gatewayARN: String, tapeARN: String) {
+            self.gatewayARN = gatewayARN
+            self.tapeARN = tapeARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+            case tapeARN = "TapeARN"
+        }
+    }
+
+    public struct TapeRecoveryPointInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TapeStatus", required: false, type: .string), 
+            AWSShapeMember(label: "TapeSizeInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "TapeRecoveryPointTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TapeARN", required: false, type: .string)
+        ]
+        public let tapeStatus: String?
+        /// The size, in bytes, of the virtual tapes to recover.
+        public let tapeSizeInBytes: Int64?
+        /// The time when the point-in-time view of the virtual tape was replicated for later recovery. The default time stamp format of the tape recovery point time is in the ISO8601 extended YYYY-MM-DD'T'HH:MM:SS'Z' format.
+        public let tapeRecoveryPointTime: TimeStamp?
+        /// The Amazon Resource Name (ARN) of the virtual tape.
+        public let tapeARN: String?
+
+        public init(tapeStatus: String? = nil, tapeSizeInBytes: Int64? = nil, tapeRecoveryPointTime: TimeStamp? = nil, tapeARN: String? = nil) {
+            self.tapeStatus = tapeStatus
+            self.tapeSizeInBytes = tapeSizeInBytes
+            self.tapeRecoveryPointTime = tapeRecoveryPointTime
+            self.tapeARN = tapeARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tapeStatus = "TapeStatus"
+            case tapeSizeInBytes = "TapeSizeInBytes"
+            case tapeRecoveryPointTime = "TapeRecoveryPointTime"
+            case tapeARN = "TapeARN"
+        }
+    }
+
+    public struct UpdateChapCredentialsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InitiatorName", required: true, type: .string), 
+            AWSShapeMember(label: "TargetARN", required: true, type: .string), 
+            AWSShapeMember(label: "SecretToAuthenticateInitiator", required: true, type: .string), 
+            AWSShapeMember(label: "SecretToAuthenticateTarget", required: false, type: .string)
+        ]
+        /// The iSCSI initiator that connects to the target.
+        public let initiatorName: String
+        /// The Amazon Resource Name (ARN) of the iSCSI volume target. Use the DescribeStorediSCSIVolumes operation to return the TargetARN for specified VolumeARN.
+        public let targetARN: String
+        /// The secret key that the initiator (for example, the Windows client) must provide to participate in mutual CHAP with the target.  The secret key must be between 12 and 16 bytes when encoded in UTF-8. 
+        public let secretToAuthenticateInitiator: String
+        /// The secret key that the target must provide to participate in mutual CHAP with the initiator (e.g. Windows client). Byte constraints: Minimum bytes of 12. Maximum bytes of 16.  The secret key must be between 12 and 16 bytes when encoded in UTF-8. 
+        public let secretToAuthenticateTarget: String?
+
+        public init(initiatorName: String, targetARN: String, secretToAuthenticateInitiator: String, secretToAuthenticateTarget: String? = nil) {
+            self.initiatorName = initiatorName
+            self.targetARN = targetARN
+            self.secretToAuthenticateInitiator = secretToAuthenticateInitiator
+            self.secretToAuthenticateTarget = secretToAuthenticateTarget
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case initiatorName = "InitiatorName"
+            case targetARN = "TargetARN"
+            case secretToAuthenticateInitiator = "SecretToAuthenticateInitiator"
+            case secretToAuthenticateTarget = "SecretToAuthenticateTarget"
+        }
+    }
+
+    public struct UpdateGatewaySoftwareNowInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
+        ]
+        public let gatewayARN: String
+
+        public init(gatewayARN: String) {
+            self.gatewayARN = gatewayARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+        }
+    }
+
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: true, type: .string)
+        ]
+        public let key: String
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct Disk: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DiskAttributeList", required: false, type: .list), 
+            AWSShapeMember(label: "DiskStatus", required: false, type: .string), 
+            AWSShapeMember(label: "DiskSizeInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "DiskId", required: false, type: .string), 
+            AWSShapeMember(label: "DiskAllocationType", required: false, type: .string), 
+            AWSShapeMember(label: "DiskAllocationResource", required: false, type: .string), 
+            AWSShapeMember(label: "DiskNode", required: false, type: .string), 
+            AWSShapeMember(label: "DiskPath", required: false, type: .string)
+        ]
+        public let diskAttributeList: [String]?
+        /// A value that represents the status of a local disk.
+        public let diskStatus: String?
+        /// The local disk size in bytes.
+        public let diskSizeInBytes: Int64?
+        /// The unique device ID or other distinguishing data that identifies a local disk.
+        public let diskId: String?
+        public let diskAllocationType: String?
+        /// The iSCSI Qualified Name (IQN) that is defined for a disk. This field is not included in the response if the local disk is not defined as an iSCSI target. The format of this field is targetIqn::LUNNumber::region-volumeId. 
+        public let diskAllocationResource: String?
+        /// The device node of a local disk as assigned by the virtualization environment.
+        public let diskNode: String?
+        /// The path of a local disk in the gateway virtual machine (VM).
+        public let diskPath: String?
+
+        public init(diskAttributeList: [String]? = nil, diskStatus: String? = nil, diskSizeInBytes: Int64? = nil, diskId: String? = nil, diskAllocationType: String? = nil, diskAllocationResource: String? = nil, diskNode: String? = nil, diskPath: String? = nil) {
+            self.diskAttributeList = diskAttributeList
+            self.diskStatus = diskStatus
+            self.diskSizeInBytes = diskSizeInBytes
+            self.diskId = diskId
+            self.diskAllocationType = diskAllocationType
+            self.diskAllocationResource = diskAllocationResource
+            self.diskNode = diskNode
+            self.diskPath = diskPath
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case diskAttributeList = "DiskAttributeList"
+            case diskStatus = "DiskStatus"
+            case diskSizeInBytes = "DiskSizeInBytes"
+            case diskId = "DiskId"
+            case diskAllocationType = "DiskAllocationType"
+            case diskAllocationResource = "DiskAllocationResource"
+            case diskNode = "DiskNode"
+            case diskPath = "DiskPath"
+        }
+    }
+
+    public struct CreateSnapshotOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VolumeARN", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshotId", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the volume of which the snapshot was taken.
+        public let volumeARN: String?
+        /// The snapshot ID that is used to refer to the snapshot in future operations such as describing snapshots (Amazon Elastic Compute Cloud API DescribeSnapshots) or creating a volume from a snapshot (CreateStorediSCSIVolume).
+        public let snapshotId: String?
+
+        public init(volumeARN: String? = nil, snapshotId: String? = nil) {
+            self.volumeARN = volumeARN
+            self.snapshotId = snapshotId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case volumeARN = "VolumeARN"
+            case snapshotId = "SnapshotId"
+        }
+    }
+
+    public struct DisableGatewayInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
+        ]
+        public let gatewayARN: String
+
+        public init(gatewayARN: String) {
+            self.gatewayARN = gatewayARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+        }
+    }
+
+    public struct CreateTapesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TapeARNs", required: false, type: .list)
+        ]
+        /// A list of unique Amazon Resource Names (ARNs) that represents the virtual tapes that were created.
+        public let tapeARNs: [String]?
+
+        public init(tapeARNs: [String]? = nil) {
+            self.tapeARNs = tapeARNs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tapeARNs = "TapeARNs"
+        }
+    }
+
+    public struct ResetCacheOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
+        ]
+        public let gatewayARN: String?
+
+        public init(gatewayARN: String? = nil) {
+            self.gatewayARN = gatewayARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+        }
+    }
+
+    public struct DescribeTapeArchivesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TapeARNs", required: false, type: .list), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// Specifies one or more unique Amazon Resource Names (ARNs) that represent the virtual tapes you want to describe.
+        public let tapeARNs: [String]?
+        /// Specifies that the number of virtual tapes descried be limited to the specified number.
+        public let limit: Int32?
+        /// An opaque string that indicates the position at which to begin describing virtual tapes.
+        public let marker: String?
+
+        public init(tapeARNs: [String]? = nil, limit: Int32? = nil, marker: String? = nil) {
+            self.tapeARNs = tapeARNs
+            self.limit = limit
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tapeARNs = "TapeARNs"
+            case limit = "Limit"
+            case marker = "Marker"
+        }
+    }
+
+    public struct DescribeTapeArchivesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TapeArchives", required: false, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// An array of virtual tape objects in the virtual tape shelf (VTS). The description includes of the Amazon Resource Name (ARN) of the virtual tapes. The information returned includes the Amazon Resource Names (ARNs) of the tapes, size of the tapes, status of the tapes, progress of the description and tape barcode.
+        public let tapeArchives: [TapeArchive]?
+        /// An opaque string that indicates the position at which the virtual tapes that were fetched for description ended. Use this marker in your next request to fetch the next set of virtual tapes in the virtual tape shelf (VTS). If there are no more virtual tapes to describe, this field does not appear in the response.
+        public let marker: String?
+
+        public init(tapeArchives: [TapeArchive]? = nil, marker: String? = nil) {
+            self.tapeArchives = tapeArchives
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tapeArchives = "TapeArchives"
+            case marker = "Marker"
+        }
+    }
+
+    public struct CancelArchivalOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TapeARN", required: false, type: .string)
         ]
-        /// The Amazon Resource Name (ARN) of the virtual tape for which the recovery point was retrieved.
+        /// The Amazon Resource Name (ARN) of the virtual tape for which archiving was canceled.
         public let tapeARN: String?
 
         public init(tapeARN: String? = nil) {
@@ -1057,145 +2260,964 @@ extension StorageGateway {
         }
     }
 
-    public struct AddCacheInput: AWSShape {
+    public struct DescribeGatewayInformationOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DiskIds", required: true, type: .list), 
-            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
+            AWSShapeMember(label: "GatewayState", required: false, type: .string), 
+            AWSShapeMember(label: "NextUpdateAvailabilityDate", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayType", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayNetworkInterfaces", required: false, type: .list), 
+            AWSShapeMember(label: "GatewayName", required: false, type: .string), 
+            AWSShapeMember(label: "LastSoftwareUpdate", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayTimezone", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayId", required: false, type: .string)
         ]
-        public let diskIds: [String]
-        public let gatewayARN: String
+        /// A value that indicates the operating state of the gateway.
+        public let gatewayState: String?
+        /// The date on which an update to the gateway is available. This date is in the time zone of the gateway. If the gateway is not available for an update this field is not returned in the response.
+        public let nextUpdateAvailabilityDate: String?
+        public let gatewayARN: String?
+        /// The type of the gateway.
+        public let gatewayType: String?
+        /// A NetworkInterface array that contains descriptions of the gateway network interfaces.
+        public let gatewayNetworkInterfaces: [NetworkInterface]?
+        /// The name you configured for your gateway.
+        public let gatewayName: String?
+        /// The date on which the last software update was applied to the gateway. If the gateway has never been updated, this field does not return a value in the response.
+        public let lastSoftwareUpdate: String?
+        /// A value that indicates the time zone configured for the gateway.
+        public let gatewayTimezone: String?
+        /// The unique identifier assigned to your gateway during activation. This ID becomes part of the gateway Amazon Resource Name (ARN), which you use as input for other operations.
+        public let gatewayId: String?
 
-        public init(diskIds: [String], gatewayARN: String) {
-            self.diskIds = diskIds
+        public init(gatewayState: String? = nil, nextUpdateAvailabilityDate: String? = nil, gatewayARN: String? = nil, gatewayType: String? = nil, gatewayNetworkInterfaces: [NetworkInterface]? = nil, gatewayName: String? = nil, lastSoftwareUpdate: String? = nil, gatewayTimezone: String? = nil, gatewayId: String? = nil) {
+            self.gatewayState = gatewayState
+            self.nextUpdateAvailabilityDate = nextUpdateAvailabilityDate
             self.gatewayARN = gatewayARN
+            self.gatewayType = gatewayType
+            self.gatewayNetworkInterfaces = gatewayNetworkInterfaces
+            self.gatewayName = gatewayName
+            self.lastSoftwareUpdate = lastSoftwareUpdate
+            self.gatewayTimezone = gatewayTimezone
+            self.gatewayId = gatewayId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case diskIds = "DiskIds"
+            case gatewayState = "GatewayState"
+            case nextUpdateAvailabilityDate = "NextUpdateAvailabilityDate"
             case gatewayARN = "GatewayARN"
+            case gatewayType = "GatewayType"
+            case gatewayNetworkInterfaces = "GatewayNetworkInterfaces"
+            case gatewayName = "GatewayName"
+            case lastSoftwareUpdate = "LastSoftwareUpdate"
+            case gatewayTimezone = "GatewayTimezone"
+            case gatewayId = "GatewayId"
+        }
+    }
+
+    public struct DescribeBandwidthRateLimitOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
+            AWSShapeMember(label: "AverageDownloadRateLimitInBitsPerSec", required: false, type: .long), 
+            AWSShapeMember(label: "AverageUploadRateLimitInBitsPerSec", required: false, type: .long)
+        ]
+        public let gatewayARN: String?
+        /// The average download bandwidth rate limit in bits per second. This field does not appear in the response if the download rate limit is not set.
+        public let averageDownloadRateLimitInBitsPerSec: Int64?
+        /// The average upload bandwidth rate limit in bits per second. This field does not appear in the response if the upload rate limit is not set.
+        public let averageUploadRateLimitInBitsPerSec: Int64?
+
+        public init(gatewayARN: String? = nil, averageDownloadRateLimitInBitsPerSec: Int64? = nil, averageUploadRateLimitInBitsPerSec: Int64? = nil) {
+            self.gatewayARN = gatewayARN
+            self.averageDownloadRateLimitInBitsPerSec = averageDownloadRateLimitInBitsPerSec
+            self.averageUploadRateLimitInBitsPerSec = averageUploadRateLimitInBitsPerSec
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+            case averageDownloadRateLimitInBitsPerSec = "AverageDownloadRateLimitInBitsPerSec"
+            case averageUploadRateLimitInBitsPerSec = "AverageUploadRateLimitInBitsPerSec"
         }
     }
 
     public struct DescribeTapesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Tapes", required: false, type: .list)
+            AWSShapeMember(label: "Tapes", required: false, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
-        /// An opaque string which can be used as part of a subsequent DescribeTapes call to retrieve the next page of results. If a response does not contain a marker, then there are no more results to be retrieved.
-        public let marker: String?
         /// An array of virtual tape descriptions.
         public let tapes: [Tape]?
+        /// An opaque string which can be used as part of a subsequent DescribeTapes call to retrieve the next page of results. If a response does not contain a marker, then there are no more results to be retrieved.
+        public let marker: String?
 
-        public init(marker: String? = nil, tapes: [Tape]? = nil) {
-            self.marker = marker
+        public init(tapes: [Tape]? = nil, marker: String? = nil) {
             self.tapes = tapes
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tapes = "Tapes"
+            case marker = "Marker"
+        }
+    }
+
+    public struct RefreshCacheOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NotificationId", required: false, type: .string), 
+            AWSShapeMember(label: "FileShareARN", required: false, type: .string)
+        ]
+        public let notificationId: String?
+        public let fileShareARN: String?
+
+        public init(notificationId: String? = nil, fileShareARN: String? = nil) {
+            self.notificationId = notificationId
+            self.fileShareARN = fileShareARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notificationId = "NotificationId"
+            case fileShareARN = "FileShareARN"
+        }
+    }
+
+    public struct CachediSCSIVolume: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourceSnapshotId", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeUsedInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "VolumeStatus", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeARN", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "VolumeProgress", required: false, type: .double), 
+            AWSShapeMember(label: "VolumeSizeInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "VolumeType", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeiSCSIAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "KMSKey", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeId", required: false, type: .string)
+        ]
+        /// If the cached volume was created from a snapshot, this field contains the snapshot ID used, e.g. snap-78e22663. Otherwise, this field is not included.
+        public let sourceSnapshotId: String?
+        /// The size of the data stored on the volume in bytes.  This value is not available for volumes created prior to May 13, 2015, until you store data on the volume. 
+        public let volumeUsedInBytes: Int64?
+        /// One of the VolumeStatus values that indicates the state of the storage volume.
+        public let volumeStatus: String?
+        /// The Amazon Resource Name (ARN) of the storage volume.
+        public let volumeARN: String?
+        /// The date the volume was created. Volumes created prior to March 28, 2017 don’t have this time stamp.
+        public let createdDate: TimeStamp?
+        /// Represents the percentage complete if the volume is restoring or bootstrapping that represents the percent of data transferred. This field does not appear in the response if the cached volume is not restoring or bootstrapping.
+        public let volumeProgress: Double?
+        /// The size, in bytes, of the volume capacity.
+        public let volumeSizeInBytes: Int64?
+        /// One of the VolumeType enumeration values that describes the type of the volume.
+        public let volumeType: String?
+        /// An VolumeiSCSIAttributes object that represents a collection of iSCSI attributes for one stored volume.
+        public let volumeiSCSIAttributes: VolumeiSCSIAttributes?
+        public let kMSKey: String?
+        /// The unique identifier of the volume, e.g. vol-AE4B946D.
+        public let volumeId: String?
+
+        public init(sourceSnapshotId: String? = nil, volumeUsedInBytes: Int64? = nil, volumeStatus: String? = nil, volumeARN: String? = nil, createdDate: TimeStamp? = nil, volumeProgress: Double? = nil, volumeSizeInBytes: Int64? = nil, volumeType: String? = nil, volumeiSCSIAttributes: VolumeiSCSIAttributes? = nil, kMSKey: String? = nil, volumeId: String? = nil) {
+            self.sourceSnapshotId = sourceSnapshotId
+            self.volumeUsedInBytes = volumeUsedInBytes
+            self.volumeStatus = volumeStatus
+            self.volumeARN = volumeARN
+            self.createdDate = createdDate
+            self.volumeProgress = volumeProgress
+            self.volumeSizeInBytes = volumeSizeInBytes
+            self.volumeType = volumeType
+            self.volumeiSCSIAttributes = volumeiSCSIAttributes
+            self.kMSKey = kMSKey
+            self.volumeId = volumeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceSnapshotId = "SourceSnapshotId"
+            case volumeUsedInBytes = "VolumeUsedInBytes"
+            case volumeStatus = "VolumeStatus"
+            case volumeARN = "VolumeARN"
+            case createdDate = "CreatedDate"
+            case volumeProgress = "VolumeProgress"
+            case volumeSizeInBytes = "VolumeSizeInBytes"
+            case volumeType = "VolumeType"
+            case volumeiSCSIAttributes = "VolumeiSCSIAttributes"
+            case kMSKey = "KMSKey"
+            case volumeId = "VolumeId"
+        }
+    }
+
+    public struct ListGatewaysOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Gateways", required: false, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        public let gateways: [GatewayInfo]?
+        public let marker: String?
+
+        public init(gateways: [GatewayInfo]? = nil, marker: String? = nil) {
+            self.gateways = gateways
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gateways = "Gateways"
+            case marker = "Marker"
+        }
+    }
+
+    public struct ListGatewaysInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
+        ]
+        /// An opaque string that indicates the position at which to begin the returned list of gateways.
+        public let marker: String?
+        /// Specifies that the list of gateways returned be limited to the specified number of items.
+        public let limit: Int32?
+
+        public init(marker: String? = nil, limit: Int32? = nil) {
+            self.marker = marker
+            self.limit = limit
         }
 
         private enum CodingKeys: String, CodingKey {
             case marker = "Marker"
-            case tapes = "Tapes"
+            case limit = "Limit"
         }
     }
 
-    public struct RemoveTagsFromResourceInput: AWSShape {
+    public struct DescribeUploadBufferOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagKeys", required: true, type: .list), 
-            AWSShapeMember(label: "ResourceARN", required: true, type: .string)
+            AWSShapeMember(label: "UploadBufferUsedInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "DiskIds", required: false, type: .list), 
+            AWSShapeMember(label: "UploadBufferAllocatedInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
-        /// The keys of the tags you want to remove from the specified resource. A tag is composed of a key/value pair.
-        public let tagKeys: [String]
-        /// The Amazon Resource Name (ARN) of the resource you want to remove the tags from.
-        public let resourceARN: String
+        public let uploadBufferUsedInBytes: Int64?
+        public let diskIds: [String]?
+        public let uploadBufferAllocatedInBytes: Int64?
+        public let gatewayARN: String?
 
-        public init(tagKeys: [String], resourceARN: String) {
-            self.tagKeys = tagKeys
-            self.resourceARN = resourceARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tagKeys = "TagKeys"
-            case resourceARN = "ResourceARN"
-        }
-    }
-
-    public struct CreateSMBFileShareInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Authentication", required: false, type: .string), 
-            AWSShapeMember(label: "ObjectACL", required: false, type: .enum), 
-            AWSShapeMember(label: "ReadOnly", required: false, type: .boolean), 
-            AWSShapeMember(label: "InvalidUserList", required: false, type: .list), 
-            AWSShapeMember(label: "DefaultStorageClass", required: false, type: .string), 
-            AWSShapeMember(label: "Role", required: true, type: .string), 
-            AWSShapeMember(label: "KMSKey", required: false, type: .string), 
-            AWSShapeMember(label: "RequesterPays", required: false, type: .boolean), 
-            AWSShapeMember(label: "ValidUserList", required: false, type: .list), 
-            AWSShapeMember(label: "KMSEncrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "GuessMIMETypeEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "ClientToken", required: true, type: .string), 
-            AWSShapeMember(label: "LocationARN", required: true, type: .string), 
-            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
-        ]
-        /// The authentication method that users use to access the file share. Valid values are ActiveDirectory or GuestAccess. The default is ActiveDirectory.
-        public let authentication: String?
-        /// A value that sets the access control list permission for objects in the S3 bucket that a file gateway puts objects into. The default value is "private".
-        public let objectACL: ObjectACL?
-        /// A value that sets the write status of a file share. This value is true if the write status is read-only, and otherwise false.
-        public let readOnly: Bool?
-        /// A list of users or groups in the Active Directory that are not allowed to access the file share. A group must be prefixed with the @ character. For example @group1. Can only be set if Authentication is set to ActiveDirectory.
-        public let invalidUserList: [String]?
-        /// The default storage class for objects put into an Amazon S3 bucket by the file gateway. Possible values are S3_STANDARD, S3_STANDARD_IA, or S3_ONEZONE_IA. If this field is not populated, the default value S3_STANDARD is used. Optional.
-        public let defaultStorageClass: String?
-        /// The ARN of the AWS Identity and Access Management (IAM) role that a file gateway assumes when it accesses the underlying storage. 
-        public let role: String
-        /// The Amazon Resource Name (ARN) of the AWS KMS key used for Amazon S3 server side encryption. This value can only be set when KMSEncrypted is true. Optional.
-        public let kMSKey: String?
-        /// A value that sets the access control list permission for objects in the Amazon S3 bucket that a file gateway puts objects into. The default value is private.
-        public let requesterPays: Bool?
-        /// A list of users or groups in the Active Directory that are allowed to access the file share. A group must be prefixed with the @ character. For example @group1. Can only be set if Authentication is set to ActiveDirectory.
-        public let validUserList: [String]?
-        /// True to use Amazon S3 server side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional.
-        public let kMSEncrypted: Bool?
-        /// A value that enables guessing of the MIME type for uploaded objects based on file extensions. Set this value to true to enable MIME type guessing, and otherwise to false. The default value is true.
-        public let guessMIMETypeEnabled: Bool?
-        /// A unique string value that you supply that is used by file gateway to ensure idempotent file share creation.
-        public let clientToken: String
-        /// The ARN of the backed storage used for storing file data. 
-        public let locationARN: String
-        /// The Amazon Resource Name (ARN) of the file gateway on which you want to create a file share.
-        public let gatewayARN: String
-
-        public init(authentication: String? = nil, objectACL: ObjectACL? = nil, readOnly: Bool? = nil, invalidUserList: [String]? = nil, defaultStorageClass: String? = nil, role: String, kMSKey: String? = nil, requesterPays: Bool? = nil, validUserList: [String]? = nil, kMSEncrypted: Bool? = nil, guessMIMETypeEnabled: Bool? = nil, clientToken: String, locationARN: String, gatewayARN: String) {
-            self.authentication = authentication
-            self.objectACL = objectACL
-            self.readOnly = readOnly
-            self.invalidUserList = invalidUserList
-            self.defaultStorageClass = defaultStorageClass
-            self.role = role
-            self.kMSKey = kMSKey
-            self.requesterPays = requesterPays
-            self.validUserList = validUserList
-            self.kMSEncrypted = kMSEncrypted
-            self.guessMIMETypeEnabled = guessMIMETypeEnabled
-            self.clientToken = clientToken
-            self.locationARN = locationARN
+        public init(uploadBufferUsedInBytes: Int64? = nil, diskIds: [String]? = nil, uploadBufferAllocatedInBytes: Int64? = nil, gatewayARN: String? = nil) {
+            self.uploadBufferUsedInBytes = uploadBufferUsedInBytes
+            self.diskIds = diskIds
+            self.uploadBufferAllocatedInBytes = uploadBufferAllocatedInBytes
             self.gatewayARN = gatewayARN
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authentication = "Authentication"
-            case objectACL = "ObjectACL"
-            case readOnly = "ReadOnly"
-            case invalidUserList = "InvalidUserList"
-            case defaultStorageClass = "DefaultStorageClass"
-            case role = "Role"
-            case kMSKey = "KMSKey"
-            case requesterPays = "RequesterPays"
-            case validUserList = "ValidUserList"
-            case kMSEncrypted = "KMSEncrypted"
-            case guessMIMETypeEnabled = "GuessMIMETypeEnabled"
-            case clientToken = "ClientToken"
-            case locationARN = "LocationARN"
+            case uploadBufferUsedInBytes = "UploadBufferUsedInBytes"
+            case diskIds = "DiskIds"
+            case uploadBufferAllocatedInBytes = "UploadBufferAllocatedInBytes"
             case gatewayARN = "GatewayARN"
+        }
+    }
+
+    public struct DeleteSnapshotScheduleOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VolumeARN", required: false, type: .string)
+        ]
+        public let volumeARN: String?
+
+        public init(volumeARN: String? = nil) {
+            self.volumeARN = volumeARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case volumeARN = "VolumeARN"
+        }
+    }
+
+    public struct StartGatewayOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
+        ]
+        public let gatewayARN: String?
+
+        public init(gatewayARN: String? = nil) {
+            self.gatewayARN = gatewayARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+        }
+    }
+
+    public struct Tape: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TapeARN", required: false, type: .string), 
+            AWSShapeMember(label: "TapeStatus", required: false, type: .string), 
+            AWSShapeMember(label: "KMSKey", required: false, type: .string), 
+            AWSShapeMember(label: "TapeCreatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Progress", required: false, type: .double), 
+            AWSShapeMember(label: "TapeUsedInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "VTLDevice", required: false, type: .string), 
+            AWSShapeMember(label: "TapeSizeInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "TapeBarcode", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the virtual tape.
+        public let tapeARN: String?
+        /// The current state of the virtual tape.
+        public let tapeStatus: String?
+        public let kMSKey: String?
+        /// The date the virtual tape was created.
+        public let tapeCreatedDate: TimeStamp?
+        /// For archiving virtual tapes, indicates how much data remains to be uploaded before archiving is complete. Range: 0 (not started) to 100 (complete).
+        public let progress: Double?
+        /// The size, in bytes, of data stored on the virtual tape.  This value is not available for tapes created prior to May 13, 2015. 
+        public let tapeUsedInBytes: Int64?
+        /// The virtual tape library (VTL) device that the virtual tape is associated with.
+        public let vTLDevice: String?
+        /// The size, in bytes, of the virtual tape capacity.
+        public let tapeSizeInBytes: Int64?
+        /// The barcode that identifies a specific virtual tape.
+        public let tapeBarcode: String?
+
+        public init(tapeARN: String? = nil, tapeStatus: String? = nil, kMSKey: String? = nil, tapeCreatedDate: TimeStamp? = nil, progress: Double? = nil, tapeUsedInBytes: Int64? = nil, vTLDevice: String? = nil, tapeSizeInBytes: Int64? = nil, tapeBarcode: String? = nil) {
+            self.tapeARN = tapeARN
+            self.tapeStatus = tapeStatus
+            self.kMSKey = kMSKey
+            self.tapeCreatedDate = tapeCreatedDate
+            self.progress = progress
+            self.tapeUsedInBytes = tapeUsedInBytes
+            self.vTLDevice = vTLDevice
+            self.tapeSizeInBytes = tapeSizeInBytes
+            self.tapeBarcode = tapeBarcode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tapeARN = "TapeARN"
+            case tapeStatus = "TapeStatus"
+            case kMSKey = "KMSKey"
+            case tapeCreatedDate = "TapeCreatedDate"
+            case progress = "Progress"
+            case tapeUsedInBytes = "TapeUsedInBytes"
+            case vTLDevice = "VTLDevice"
+            case tapeSizeInBytes = "TapeSizeInBytes"
+            case tapeBarcode = "TapeBarcode"
+        }
+    }
+
+    public struct CreateSnapshotInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnapshotDescription", required: true, type: .string), 
+            AWSShapeMember(label: "VolumeARN", required: true, type: .string)
+        ]
+        /// Textual description of the snapshot that appears in the Amazon EC2 console, Elastic Block Store snapshots panel in the Description field, and in the AWS Storage Gateway snapshot Details pane, Description field
+        public let snapshotDescription: String
+        /// The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes.
+        public let volumeARN: String
+
+        public init(snapshotDescription: String, volumeARN: String) {
+            self.snapshotDescription = snapshotDescription
+            self.volumeARN = volumeARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snapshotDescription = "SnapshotDescription"
+            case volumeARN = "VolumeARN"
+        }
+    }
+
+    public struct CreateStorediSCSIVolumeInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetName", required: true, type: .string), 
+            AWSShapeMember(label: "NetworkInterfaceId", required: true, type: .string), 
+            AWSShapeMember(label: "DiskId", required: true, type: .string), 
+            AWSShapeMember(label: "KMSEncrypted", required: false, type: .boolean), 
+            AWSShapeMember(label: "KMSKey", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
+            AWSShapeMember(label: "SnapshotId", required: false, type: .string), 
+            AWSShapeMember(label: "PreserveExistingData", required: true, type: .boolean)
+        ]
+        /// The name of the iSCSI target used by initiators to connect to the target and as a suffix for the target ARN. For example, specifying TargetName as myvolume results in the target ARN of arn:aws:storagegateway:us-east-2:111122223333:gateway/sgw-12A3456B/target/iqn.1997-05.com.amazon:myvolume. The target name must be unique across all volumes of a gateway.
+        public let targetName: String
+        /// The network interface of the gateway on which to expose the iSCSI target. Only IPv4 addresses are accepted. Use DescribeGatewayInformation to get a list of the network interfaces available on a gateway.  Valid Values: A valid IP address.
+        public let networkInterfaceId: String
+        /// The unique identifier for the gateway local disk that is configured as a stored volume. Use ListLocalDisks to list disk IDs for a gateway.
+        public let diskId: String
+        /// True to use Amazon S3 server side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional.
+        public let kMSEncrypted: Bool?
+        /// The Amazon Resource Name (ARN) of the KMS key used for Amazon S3 server side encryption. This value can only be set when KMSEncrypted is true. Optional.
+        public let kMSKey: String?
+        public let gatewayARN: String
+        /// The snapshot ID (e.g. "snap-1122aabb") of the snapshot to restore as the new stored volume. Specify this field if you want to create the iSCSI storage volume from a snapshot otherwise do not include this field. To list snapshots for your account use DescribeSnapshots in the Amazon Elastic Compute Cloud API Reference.
+        public let snapshotId: String?
+        /// Specify this field as true if you want to preserve the data on the local disk. Otherwise, specifying this field as false creates an empty volume.  Valid Values: true, false
+        public let preserveExistingData: Bool
+
+        public init(targetName: String, networkInterfaceId: String, diskId: String, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, gatewayARN: String, snapshotId: String? = nil, preserveExistingData: Bool) {
+            self.targetName = targetName
+            self.networkInterfaceId = networkInterfaceId
+            self.diskId = diskId
+            self.kMSEncrypted = kMSEncrypted
+            self.kMSKey = kMSKey
+            self.gatewayARN = gatewayARN
+            self.snapshotId = snapshotId
+            self.preserveExistingData = preserveExistingData
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetName = "TargetName"
+            case networkInterfaceId = "NetworkInterfaceId"
+            case diskId = "DiskId"
+            case kMSEncrypted = "KMSEncrypted"
+            case kMSKey = "KMSKey"
+            case gatewayARN = "GatewayARN"
+            case snapshotId = "SnapshotId"
+            case preserveExistingData = "PreserveExistingData"
+        }
+    }
+
+    public struct DescribeCachediSCSIVolumesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CachediSCSIVolumes", required: false, type: .list)
+        ]
+        /// An array of objects where each object contains metadata about one cached volume.
+        public let cachediSCSIVolumes: [CachediSCSIVolume]?
+
+        public init(cachediSCSIVolumes: [CachediSCSIVolume]? = nil) {
+            self.cachediSCSIVolumes = cachediSCSIVolumes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cachediSCSIVolumes = "CachediSCSIVolumes"
+        }
+    }
+
+    public struct DescribeStorediSCSIVolumesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VolumeARNs", required: true, type: .list)
+        ]
+        /// An array of strings where each string represents the Amazon Resource Name (ARN) of a stored volume. All of the specified stored volumes must from the same gateway. Use ListVolumes to get volume ARNs for a gateway.
+        public let volumeARNs: [String]
+
+        public init(volumeARNs: [String]) {
+            self.volumeARNs = volumeARNs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case volumeARNs = "VolumeARNs"
+        }
+    }
+
+    public struct DescribeCachediSCSIVolumesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VolumeARNs", required: true, type: .list)
+        ]
+        public let volumeARNs: [String]
+
+        public init(volumeARNs: [String]) {
+            self.volumeARNs = volumeARNs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case volumeARNs = "VolumeARNs"
+        }
+    }
+
+    public struct DeviceiSCSIAttributes: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetARN", required: false, type: .string), 
+            AWSShapeMember(label: "ChapEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "NetworkInterfaceId", required: false, type: .string), 
+            AWSShapeMember(label: "NetworkInterfacePort", required: false, type: .integer)
+        ]
+        /// Specifies the unique Amazon Resource Name (ARN) that encodes the iSCSI qualified name(iqn) of a tape drive or media changer target.
+        public let targetARN: String?
+        /// Indicates whether mutual CHAP is enabled for the iSCSI target.
+        public let chapEnabled: Bool?
+        /// The network interface identifier of the VTL device.
+        public let networkInterfaceId: String?
+        /// The port used to communicate with iSCSI VTL device targets.
+        public let networkInterfacePort: Int32?
+
+        public init(targetARN: String? = nil, chapEnabled: Bool? = nil, networkInterfaceId: String? = nil, networkInterfacePort: Int32? = nil) {
+            self.targetARN = targetARN
+            self.chapEnabled = chapEnabled
+            self.networkInterfaceId = networkInterfaceId
+            self.networkInterfacePort = networkInterfacePort
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetARN = "TargetARN"
+            case chapEnabled = "ChapEnabled"
+            case networkInterfaceId = "NetworkInterfaceId"
+            case networkInterfacePort = "NetworkInterfacePort"
+        }
+    }
+
+    public struct VolumeInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VolumeARN", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeType", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeSizeInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "VolumeId", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayId", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) for the storage volume. For example, the following is a valid ARN:  arn:aws:storagegateway:us-east-2:111122223333:gateway/sgw-12A3456B/volume/vol-1122AABB   Valid Values: 50 to 500 lowercase letters, numbers, periods (.), and hyphens (-).
+        public let volumeARN: String?
+        public let volumeType: String?
+        public let gatewayARN: String?
+        /// The size of the volume in bytes. Valid Values: 50 to 500 lowercase letters, numbers, periods (.), and hyphens (-).
+        public let volumeSizeInBytes: Int64?
+        /// The unique identifier assigned to the volume. This ID becomes part of the volume Amazon Resource Name (ARN), which you use as input for other operations.  Valid Values: 50 to 500 lowercase letters, numbers, periods (.), and hyphens (-).
+        public let volumeId: String?
+        /// The unique identifier assigned to your gateway during activation. This ID becomes part of the gateway Amazon Resource Name (ARN), which you use as input for other operations.  Valid Values: 50 to 500 lowercase letters, numbers, periods (.), and hyphens (-).
+        public let gatewayId: String?
+
+        public init(volumeARN: String? = nil, volumeType: String? = nil, gatewayARN: String? = nil, volumeSizeInBytes: Int64? = nil, volumeId: String? = nil, gatewayId: String? = nil) {
+            self.volumeARN = volumeARN
+            self.volumeType = volumeType
+            self.gatewayARN = gatewayARN
+            self.volumeSizeInBytes = volumeSizeInBytes
+            self.volumeId = volumeId
+            self.gatewayId = gatewayId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case volumeARN = "VolumeARN"
+            case volumeType = "VolumeType"
+            case gatewayARN = "GatewayARN"
+            case volumeSizeInBytes = "VolumeSizeInBytes"
+            case volumeId = "VolumeId"
+            case gatewayId = "GatewayId"
+        }
+    }
+
+    public struct ListFileSharesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
+            AWSShapeMember(label: "FileShareInfoList", required: false, type: .list)
+        ]
+        /// If the request includes Marker, the response returns that value in this field. 
+        public let marker: String?
+        /// If a value is present, there are more file shares to return. In a subsequent request, use NextMarker as the value for Marker to retrieve the next set of file shares. 
+        public let nextMarker: String?
+        /// An array of information about the file gateway's file shares. 
+        public let fileShareInfoList: [FileShareInfo]?
+
+        public init(marker: String? = nil, nextMarker: String? = nil, fileShareInfoList: [FileShareInfo]? = nil) {
+            self.marker = marker
+            self.nextMarker = nextMarker
+            self.fileShareInfoList = fileShareInfoList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case nextMarker = "NextMarker"
+            case fileShareInfoList = "FileShareInfoList"
+        }
+    }
+
+    public struct CreateStorediSCSIVolumeOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VolumeARN", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeSizeInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "TargetARN", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the configured volume.
+        public let volumeARN: String?
+        /// The size of the volume in bytes.
+        public let volumeSizeInBytes: Int64?
+        /// he Amazon Resource Name (ARN) of the volume target that includes the iSCSI name that initiators can use to connect to the target.
+        public let targetARN: String?
+
+        public init(volumeARN: String? = nil, volumeSizeInBytes: Int64? = nil, targetARN: String? = nil) {
+            self.volumeARN = volumeARN
+            self.volumeSizeInBytes = volumeSizeInBytes
+            self.targetARN = targetARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case volumeARN = "VolumeARN"
+            case volumeSizeInBytes = "VolumeSizeInBytes"
+            case targetARN = "TargetARN"
+        }
+    }
+
+    public struct CreateNFSFileShareOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileShareARN", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the newly created file share. 
+        public let fileShareARN: String?
+
+        public init(fileShareARN: String? = nil) {
+            self.fileShareARN = fileShareARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileShareARN = "FileShareARN"
+        }
+    }
+
+    public struct AddTagsToResourceOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the resource you want to add tags to.
+        public let resourceARN: String?
+
+        public init(resourceARN: String? = nil) {
+            self.resourceARN = resourceARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+        }
+    }
+
+    public struct GatewayInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayName", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayId", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayOperationalState", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayType", required: false, type: .string)
+        ]
+        /// The name of the gateway.
+        public let gatewayName: String?
+        /// The unique identifier assigned to your gateway during activation. This ID becomes part of the gateway Amazon Resource Name (ARN), which you use as input for other operations.
+        public let gatewayId: String?
+        /// The state of the gateway. Valid Values: DISABLED or ACTIVE
+        public let gatewayOperationalState: String?
+        /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and region.
+        public let gatewayARN: String?
+        /// The type of the gateway.
+        public let gatewayType: String?
+
+        public init(gatewayName: String? = nil, gatewayId: String? = nil, gatewayOperationalState: String? = nil, gatewayARN: String? = nil, gatewayType: String? = nil) {
+            self.gatewayName = gatewayName
+            self.gatewayId = gatewayId
+            self.gatewayOperationalState = gatewayOperationalState
+            self.gatewayARN = gatewayARN
+            self.gatewayType = gatewayType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayName = "GatewayName"
+            case gatewayId = "GatewayId"
+            case gatewayOperationalState = "GatewayOperationalState"
+            case gatewayARN = "GatewayARN"
+            case gatewayType = "GatewayType"
+        }
+    }
+
+    public struct UpdateMaintenanceStartTimeOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
+        ]
+        public let gatewayARN: String?
+
+        public init(gatewayARN: String? = nil) {
+            self.gatewayARN = gatewayARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+        }
+    }
+
+    public struct UpdateSMBFileShareOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileShareARN", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the updated SMB file share. 
+        public let fileShareARN: String?
+
+        public init(fileShareARN: String? = nil) {
+            self.fileShareARN = fileShareARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileShareARN = "FileShareARN"
+        }
+    }
+
+    public struct DescribeSMBFileSharesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileShareARNList", required: true, type: .list)
+        ]
+        /// An array containing the Amazon Resource Name (ARN) of each file share to be described. 
+        public let fileShareARNList: [String]
+
+        public init(fileShareARNList: [String]) {
+            self.fileShareARNList = fileShareARNList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileShareARNList = "FileShareARNList"
+        }
+    }
+
+    public struct ListLocalDisksInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
+        ]
+        public let gatewayARN: String
+
+        public init(gatewayARN: String) {
+            self.gatewayARN = gatewayARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+        }
+    }
+
+    public struct ListFileSharesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
+        ]
+        /// The Amazon resource Name (ARN) of the gateway whose file shares you want to list. If this field is not present, all file shares under your account are listed.
+        public let gatewayARN: String?
+        /// Opaque pagination token returned from a previous ListFileShares operation. If present, Marker specifies where to continue the list from after a previous call to ListFileShares. Optional.
+        public let marker: String?
+        /// The maximum number of file shares to return in the response. The value must be an integer with a value greater than zero. Optional.
+        public let limit: Int32?
+
+        public init(gatewayARN: String? = nil, marker: String? = nil, limit: Int32? = nil) {
+            self.gatewayARN = gatewayARN
+            self.marker = marker
+            self.limit = limit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+            case marker = "Marker"
+            case limit = "Limit"
+        }
+    }
+
+    public struct DescribeVTLDevicesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "VTLDevices", required: false, type: .list), 
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
+        ]
+        /// An opaque string that indicates the position at which the VTL devices that were fetched for description ended. Use the marker in your next request to fetch the next set of VTL devices in the list. If there are no more VTL devices to describe, this field does not appear in the response.
+        public let marker: String?
+        /// An array of VTL device objects composed of the Amazon Resource Name(ARN) of the VTL devices.
+        public let vTLDevices: [VTLDevice]?
+        public let gatewayARN: String?
+
+        public init(marker: String? = nil, vTLDevices: [VTLDevice]? = nil, gatewayARN: String? = nil) {
+            self.marker = marker
+            self.vTLDevices = vTLDevices
+            self.gatewayARN = gatewayARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case vTLDevices = "VTLDevices"
+            case gatewayARN = "GatewayARN"
+        }
+    }
+
+    public struct DescribeMaintenanceStartTimeOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MinuteOfHour", required: false, type: .integer), 
+            AWSShapeMember(label: "HourOfDay", required: false, type: .integer), 
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
+            AWSShapeMember(label: "Timezone", required: false, type: .string), 
+            AWSShapeMember(label: "DayOfWeek", required: false, type: .integer)
+        ]
+        /// The minute component of the maintenance start time represented as mm, where mm is the minute (0 to 59). The minute of the hour is in the time zone of the gateway.
+        public let minuteOfHour: Int32?
+        /// The hour component of the maintenance start time represented as hh, where hh is the hour (0 to 23). The hour of the day is in the time zone of the gateway.
+        public let hourOfDay: Int32?
+        public let gatewayARN: String?
+        public let timezone: String?
+        /// An ordinal number between 0 and 6 that represents the day of the week, where 0 represents Sunday and 6 represents Saturday. The day of week is in the time zone of the gateway.
+        public let dayOfWeek: Int32?
+
+        public init(minuteOfHour: Int32? = nil, hourOfDay: Int32? = nil, gatewayARN: String? = nil, timezone: String? = nil, dayOfWeek: Int32? = nil) {
+            self.minuteOfHour = minuteOfHour
+            self.hourOfDay = hourOfDay
+            self.gatewayARN = gatewayARN
+            self.timezone = timezone
+            self.dayOfWeek = dayOfWeek
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case minuteOfHour = "MinuteOfHour"
+            case hourOfDay = "HourOfDay"
+            case gatewayARN = "GatewayARN"
+            case timezone = "Timezone"
+            case dayOfWeek = "DayOfWeek"
+        }
+    }
+
+    public struct ListTagsForResourceOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+        /// An opaque string that indicates the position at which to stop returning the list of tags.
+        public let marker: String?
+        /// he Amazon Resource Name (ARN) of the resource for which you want to list tags.
+        public let resourceARN: String?
+        /// An array that contains the tags for the specified resource.
+        public let tags: [Tag]?
+
+        public init(marker: String? = nil, resourceARN: String? = nil, tags: [Tag]? = nil) {
+            self.marker = marker
+            self.resourceARN = resourceARN
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case resourceARN = "ResourceARN"
+            case tags = "Tags"
+        }
+    }
+
+    public struct DescribeChapCredentialsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetARN", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the iSCSI volume target. Use the DescribeStorediSCSIVolumes operation to return to retrieve the TargetARN for specified VolumeARN.
+        public let targetARN: String
+
+        public init(targetARN: String) {
+            self.targetARN = targetARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetARN = "TargetARN"
+        }
+    }
+
+    public struct ListTapesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "TapeARNs", required: false, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// An optional number limit for the tapes in the list returned by this call.
+        public let limit: Int32?
+        public let tapeARNs: [String]?
+        /// A string that indicates the position at which to begin the returned list of tapes.
+        public let marker: String?
+
+        public init(limit: Int32? = nil, tapeARNs: [String]? = nil, marker: String? = nil) {
+            self.limit = limit
+            self.tapeARNs = tapeARNs
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "Limit"
+            case tapeARNs = "TapeARNs"
+            case marker = "Marker"
+        }
+    }
+
+    public struct UpdateSMBFileShareInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileShareARN", required: true, type: .string), 
+            AWSShapeMember(label: "KMSEncrypted", required: false, type: .boolean), 
+            AWSShapeMember(label: "InvalidUserList", required: false, type: .list), 
+            AWSShapeMember(label: "ReadOnly", required: false, type: .boolean), 
+            AWSShapeMember(label: "ObjectACL", required: false, type: .enum), 
+            AWSShapeMember(label: "GuessMIMETypeEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "ValidUserList", required: false, type: .list), 
+            AWSShapeMember(label: "RequesterPays", required: false, type: .boolean), 
+            AWSShapeMember(label: "KMSKey", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultStorageClass", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the SMB file share that you want to update.
+        public let fileShareARN: String
+        /// True to use Amazon S3 server side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional.
+        public let kMSEncrypted: Bool?
+        /// A list of users or groups in the Active Directory that are not allowed to access the file share. A group must be prefixed with the @ character. For example @group1. Can only be set if Authentication is set to ActiveDirectory.
+        public let invalidUserList: [String]?
+        /// A value that sets the write status of a file share. This value is true if the write status is read-only, and otherwise false.
+        public let readOnly: Bool?
+        /// A value that sets the access control list permission for objects in the S3 bucket that a file gateway puts objects into. The default value is "private".
+        public let objectACL: ObjectACL?
+        /// A value that enables guessing of the MIME type for uploaded objects based on file extensions. Set this value to true to enable MIME type guessing, and otherwise to false. The default value is true.
+        public let guessMIMETypeEnabled: Bool?
+        /// A list of users or groups in the Active Directory that are allowed to access the file share. A group must be prefixed with the @ character. For example @group1. Can only be set if Authentication is set to ActiveDirectory.
+        public let validUserList: [String]?
+        /// A value that sets the access control list permission for objects in the Amazon S3 bucket that a file gateway puts objects into. The default value is private.
+        public let requesterPays: Bool?
+        /// The Amazon Resource Name (ARN) of the AWS KMS key used for Amazon S3 server side encryption. This value can only be set when KMSEncrypted is true. Optional.
+        public let kMSKey: String?
+        /// The default storage class for objects put into an Amazon S3 bucket by the file gateway. Possible values are S3_STANDARD, S3_STANDARD_IA, or S3_ONEZONE_IA. If this field is not populated, the default value S3_STANDARD is used. Optional.
+        public let defaultStorageClass: String?
+
+        public init(fileShareARN: String, kMSEncrypted: Bool? = nil, invalidUserList: [String]? = nil, readOnly: Bool? = nil, objectACL: ObjectACL? = nil, guessMIMETypeEnabled: Bool? = nil, validUserList: [String]? = nil, requesterPays: Bool? = nil, kMSKey: String? = nil, defaultStorageClass: String? = nil) {
+            self.fileShareARN = fileShareARN
+            self.kMSEncrypted = kMSEncrypted
+            self.invalidUserList = invalidUserList
+            self.readOnly = readOnly
+            self.objectACL = objectACL
+            self.guessMIMETypeEnabled = guessMIMETypeEnabled
+            self.validUserList = validUserList
+            self.requesterPays = requesterPays
+            self.kMSKey = kMSKey
+            self.defaultStorageClass = defaultStorageClass
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileShareARN = "FileShareARN"
+            case kMSEncrypted = "KMSEncrypted"
+            case invalidUserList = "InvalidUserList"
+            case readOnly = "ReadOnly"
+            case objectACL = "ObjectACL"
+            case guessMIMETypeEnabled = "GuessMIMETypeEnabled"
+            case validUserList = "ValidUserList"
+            case requesterPays = "RequesterPays"
+            case kMSKey = "KMSKey"
+            case defaultStorageClass = "DefaultStorageClass"
+        }
+    }
+
+    public struct RetrieveTapeArchiveInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
+            AWSShapeMember(label: "TapeARN", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the gateway you want to retrieve the virtual tape to. Use the ListGateways operation to return a list of gateways for your account and region. You retrieve archived virtual tapes to only one gateway and the gateway must be a tape gateway.
+        public let gatewayARN: String
+        /// The Amazon Resource Name (ARN) of the virtual tape you want to retrieve from the virtual tape shelf (VTS).
+        public let tapeARN: String
+
+        public init(gatewayARN: String, tapeARN: String) {
+            self.gatewayARN = gatewayARN
+            self.tapeARN = tapeARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+            case tapeARN = "TapeARN"
+        }
+    }
+
+    public struct RetrieveTapeRecoveryPointInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
+            AWSShapeMember(label: "TapeARN", required: true, type: .string)
+        ]
+        public let gatewayARN: String
+        /// The Amazon Resource Name (ARN) of the virtual tape for which you want to retrieve the recovery point.
+        public let tapeARN: String
+
+        public init(gatewayARN: String, tapeARN: String) {
+            self.gatewayARN = gatewayARN
+            self.tapeARN = tapeARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+            case tapeARN = "TapeARN"
         }
     }
 
@@ -1214,64 +3236,585 @@ extension StorageGateway {
         }
     }
 
-    public struct JoinDomainInput: AWSShape {
+    public struct CreateSMBFileShareOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "UserName", required: true, type: .string), 
-            AWSShapeMember(label: "Password", required: true, type: .string)
+            AWSShapeMember(label: "FileShareARN", required: false, type: .string)
         ]
-        /// The unique Amazon Resource Name (ARN) of the file gateway you want to add to the Active Directory domain. 
-        public let gatewayARN: String
-        /// The name of the domain that you want the gateway to join.
-        public let domainName: String
-        /// Sets the user name of user who has permission to add the gateway to the Active Directory domain.
-        public let userName: String
-        /// Sets the password of the user who has permission to add the gateway to the Active Directory domain.
-        public let password: String
+        /// The Amazon Resource Name (ARN) of the newly created file share. 
+        public let fileShareARN: String?
 
-        public init(gatewayARN: String, domainName: String, userName: String, password: String) {
-            self.gatewayARN = gatewayARN
-            self.domainName = domainName
-            self.userName = userName
-            self.password = password
+        public init(fileShareARN: String? = nil) {
+            self.fileShareARN = fileShareARN
         }
 
         private enum CodingKeys: String, CodingKey {
-            case gatewayARN = "GatewayARN"
-            case domainName = "DomainName"
-            case userName = "UserName"
-            case password = "Password"
+            case fileShareARN = "FileShareARN"
         }
     }
 
-    public struct DescribeTapesInput: AWSShape {
+    public struct AddTagsToResourceInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "TapeARNs", required: false, type: .list)
+            AWSShapeMember(label: "Tags", required: true, type: .list), 
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string)
         ]
-        /// A marker value, obtained in a previous call to DescribeTapes. This marker indicates which page of results to retrieve.  If not specified, the first page of results is retrieved.
-        public let marker: String?
-        public let gatewayARN: String
-        /// Specifies that the number of virtual tapes described be limited to the specified number.  Amazon Web Services may impose its own limit, if this field is not set. 
-        public let limit: Int32?
-        /// Specifies one or more unique Amazon Resource Names (ARNs) that represent the virtual tapes you want to describe. If this parameter is not specified, Tape gateway returns a description of all virtual tapes associated with the specified gateway.
-        public let tapeARNs: [String]?
+        /// The key-value pair that represents the tag you want to add to the resource. The value can be an empty string.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. 
+        public let tags: [Tag]
+        /// The Amazon Resource Name (ARN) of the resource you want to add tags to.
+        public let resourceARN: String
 
-        public init(marker: String? = nil, gatewayARN: String, limit: Int32? = nil, tapeARNs: [String]? = nil) {
-            self.marker = marker
-            self.gatewayARN = gatewayARN
-            self.limit = limit
-            self.tapeARNs = tapeARNs
+        public init(tags: [Tag], resourceARN: String) {
+            self.tags = tags
+            self.resourceARN = resourceARN
         }
 
         private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
+            case tags = "Tags"
+            case resourceARN = "ResourceARN"
+        }
+    }
+
+    public struct TapeInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TapeStatus", required: false, type: .string), 
+            AWSShapeMember(label: "TapeARN", required: false, type: .string), 
+            AWSShapeMember(label: "TapeBarcode", required: false, type: .string), 
+            AWSShapeMember(label: "TapeSizeInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
+        ]
+        /// The status of the tape.
+        public let tapeStatus: String?
+        /// The Amazon Resource Name (ARN) of a virtual tape.
+        public let tapeARN: String?
+        /// The barcode that identifies a specific virtual tape.
+        public let tapeBarcode: String?
+        /// The size, in bytes, of a virtual tape.
+        public let tapeSizeInBytes: Int64?
+        /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and region.
+        public let gatewayARN: String?
+
+        public init(tapeStatus: String? = nil, tapeARN: String? = nil, tapeBarcode: String? = nil, tapeSizeInBytes: Int64? = nil, gatewayARN: String? = nil) {
+            self.tapeStatus = tapeStatus
+            self.tapeARN = tapeARN
+            self.tapeBarcode = tapeBarcode
+            self.tapeSizeInBytes = tapeSizeInBytes
+            self.gatewayARN = gatewayARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tapeStatus = "TapeStatus"
+            case tapeARN = "TapeARN"
+            case tapeBarcode = "TapeBarcode"
+            case tapeSizeInBytes = "TapeSizeInBytes"
             case gatewayARN = "GatewayARN"
-            case limit = "Limit"
-            case tapeARNs = "TapeARNs"
+        }
+    }
+
+    public struct CreateSnapshotFromVolumeRecoveryPointOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VolumeARN", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshotId", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeRecoveryPointTime", required: false, type: .string)
+        ]
+        public let volumeARN: String?
+        public let snapshotId: String?
+        public let volumeRecoveryPointTime: String?
+
+        public init(volumeARN: String? = nil, snapshotId: String? = nil, volumeRecoveryPointTime: String? = nil) {
+            self.volumeARN = volumeARN
+            self.snapshotId = snapshotId
+            self.volumeRecoveryPointTime = volumeRecoveryPointTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case volumeARN = "VolumeARN"
+            case snapshotId = "SnapshotId"
+            case volumeRecoveryPointTime = "VolumeRecoveryPointTime"
+        }
+    }
+
+    public enum ObjectACL: String, CustomStringConvertible, Codable {
+        case `private` = "private"
+        case publicRead = "public-read"
+        case publicReadWrite = "public-read-write"
+        case authenticatedRead = "authenticated-read"
+        case bucketOwnerRead = "bucket-owner-read"
+        case bucketOwnerFullControl = "bucket-owner-full-control"
+        case awsExecRead = "aws-exec-read"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FileShareType: String, CustomStringConvertible, Codable {
+        case nfs = "NFS"
+        case smb = "SMB"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct SetLocalConsolePasswordOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
+        ]
+        public let gatewayARN: String?
+
+        public init(gatewayARN: String? = nil) {
+            self.gatewayARN = gatewayARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+        }
+    }
+
+    public struct RemoveTagsFromResourceOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the resource that the tags were removed from.
+        public let resourceARN: String?
+
+        public init(resourceARN: String? = nil) {
+            self.resourceARN = resourceARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+        }
+    }
+
+    public struct DeleteTapeArchiveOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TapeARN", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the virtual tape that was deleted from the virtual tape shelf (VTS).
+        public let tapeARN: String?
+
+        public init(tapeARN: String? = nil) {
+            self.tapeARN = tapeARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tapeARN = "TapeARN"
+        }
+    }
+
+    public struct CreateTapeWithBarcodeInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
+            AWSShapeMember(label: "KMSEncrypted", required: false, type: .boolean), 
+            AWSShapeMember(label: "TapeSizeInBytes", required: true, type: .long), 
+            AWSShapeMember(label: "KMSKey", required: false, type: .string), 
+            AWSShapeMember(label: "TapeBarcode", required: true, type: .string)
+        ]
+        /// The unique Amazon Resource Name (ARN) that represents the gateway to associate the virtual tape with. Use the ListGateways operation to return a list of gateways for your account and region.
+        public let gatewayARN: String
+        /// True to use Amazon S3 server side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional.
+        public let kMSEncrypted: Bool?
+        /// The size, in bytes, of the virtual tape that you want to create.  The size must be aligned by gigabyte (1024*1024*1024 byte). 
+        public let tapeSizeInBytes: Int64
+        /// The Amazon Resource Name (ARN) of the AWS KMS Key used for Amazon S3 server side encryption. This value can only be set when KMSEncrypted is true. Optional.
+        public let kMSKey: String?
+        /// The barcode that you want to assign to the tape.  Barcodes cannot be reused. This includes barcodes used for tapes that have been deleted. 
+        public let tapeBarcode: String
+
+        public init(gatewayARN: String, kMSEncrypted: Bool? = nil, tapeSizeInBytes: Int64, kMSKey: String? = nil, tapeBarcode: String) {
+            self.gatewayARN = gatewayARN
+            self.kMSEncrypted = kMSEncrypted
+            self.tapeSizeInBytes = tapeSizeInBytes
+            self.kMSKey = kMSKey
+            self.tapeBarcode = tapeBarcode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+            case kMSEncrypted = "KMSEncrypted"
+            case tapeSizeInBytes = "TapeSizeInBytes"
+            case kMSKey = "KMSKey"
+            case tapeBarcode = "TapeBarcode"
+        }
+    }
+
+    public struct RetrieveTapeRecoveryPointOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TapeARN", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the virtual tape for which the recovery point was retrieved.
+        public let tapeARN: String?
+
+        public init(tapeARN: String? = nil) {
+            self.tapeARN = tapeARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tapeARN = "TapeARN"
+        }
+    }
+
+    public struct ShutdownGatewayOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
+        ]
+        public let gatewayARN: String?
+
+        public init(gatewayARN: String? = nil) {
+            self.gatewayARN = gatewayARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+        }
+    }
+
+    public struct CreateNFSFileShareInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectACL", required: false, type: .enum), 
+            AWSShapeMember(label: "ReadOnly", required: false, type: .boolean), 
+            AWSShapeMember(label: "ClientToken", required: true, type: .string), 
+            AWSShapeMember(label: "NFSFileShareDefaults", required: false, type: .structure), 
+            AWSShapeMember(label: "GuessMIMETypeEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "Role", required: true, type: .string), 
+            AWSShapeMember(label: "KMSKey", required: false, type: .string), 
+            AWSShapeMember(label: "LocationARN", required: true, type: .string), 
+            AWSShapeMember(label: "KMSEncrypted", required: false, type: .boolean), 
+            AWSShapeMember(label: "DefaultStorageClass", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
+            AWSShapeMember(label: "ClientList", required: false, type: .list), 
+            AWSShapeMember(label: "RequesterPays", required: false, type: .boolean), 
+            AWSShapeMember(label: "Squash", required: false, type: .string)
+        ]
+        /// A value that sets the access control list permission for objects in the S3 bucket that a file gateway puts objects into. The default value is "private".
+        public let objectACL: ObjectACL?
+        /// A value that sets the write status of a file share. This value is true if the write status is read-only, and otherwise false.
+        public let readOnly: Bool?
+        /// A unique string value that you supply that is used by file gateway to ensure idempotent file share creation.
+        public let clientToken: String
+        /// File share default values. Optional.
+        public let nFSFileShareDefaults: NFSFileShareDefaults?
+        /// A value that enables guessing of the MIME type for uploaded objects based on file extensions. Set this value to true to enable MIME type guessing, and otherwise to false. The default value is true.
+        public let guessMIMETypeEnabled: Bool?
+        /// The ARN of the AWS Identity and Access Management (IAM) role that a file gateway assumes when it accesses the underlying storage. 
+        public let role: String
+        /// The Amazon Resource Name (ARN) AWS KMS key used for Amazon S3 server side encryption. This value can only be set when KMSEncrypted is true. Optional.
+        public let kMSKey: String?
+        /// The ARN of the backed storage used for storing file data. 
+        public let locationARN: String
+        /// True to use Amazon S3 server side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional.
+        public let kMSEncrypted: Bool?
+        /// The default storage class for objects put into an Amazon S3 bucket by the file gateway. Possible values are S3_STANDARD, S3_STANDARD_IA, or S3_ONEZONE_IA. If this field is not populated, the default value S3_STANDARD is used. Optional.
+        public let defaultStorageClass: String?
+        /// The Amazon Resource Name (ARN) of the file gateway on which you want to create a file share.
+        public let gatewayARN: String
+        /// The list of clients that are allowed to access the file gateway. The list must contain either valid IP addresses or valid CIDR blocks. 
+        public let clientList: [String]?
+        /// A value that sets the access control list permission for objects in the Amazon S3 bucket that a file gateway puts objects into. The default value is private.
+        public let requesterPays: Bool?
+        /// Maps a user to anonymous user. Valid options are the following:     RootSquash - Only root is mapped to anonymous user.    NoSquash - No one is mapped to anonymous user    AllSquash - Everyone is mapped to anonymous user.  
+        public let squash: String?
+
+        public init(objectACL: ObjectACL? = nil, readOnly: Bool? = nil, clientToken: String, nFSFileShareDefaults: NFSFileShareDefaults? = nil, guessMIMETypeEnabled: Bool? = nil, role: String, kMSKey: String? = nil, locationARN: String, kMSEncrypted: Bool? = nil, defaultStorageClass: String? = nil, gatewayARN: String, clientList: [String]? = nil, requesterPays: Bool? = nil, squash: String? = nil) {
+            self.objectACL = objectACL
+            self.readOnly = readOnly
+            self.clientToken = clientToken
+            self.nFSFileShareDefaults = nFSFileShareDefaults
+            self.guessMIMETypeEnabled = guessMIMETypeEnabled
+            self.role = role
+            self.kMSKey = kMSKey
+            self.locationARN = locationARN
+            self.kMSEncrypted = kMSEncrypted
+            self.defaultStorageClass = defaultStorageClass
+            self.gatewayARN = gatewayARN
+            self.clientList = clientList
+            self.requesterPays = requesterPays
+            self.squash = squash
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectACL = "ObjectACL"
+            case readOnly = "ReadOnly"
+            case clientToken = "ClientToken"
+            case nFSFileShareDefaults = "NFSFileShareDefaults"
+            case guessMIMETypeEnabled = "GuessMIMETypeEnabled"
+            case role = "Role"
+            case kMSKey = "KMSKey"
+            case locationARN = "LocationARN"
+            case kMSEncrypted = "KMSEncrypted"
+            case defaultStorageClass = "DefaultStorageClass"
+            case gatewayARN = "GatewayARN"
+            case clientList = "ClientList"
+            case requesterPays = "RequesterPays"
+            case squash = "Squash"
+        }
+    }
+
+    public struct ShutdownGatewayInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
+        ]
+        public let gatewayARN: String
+
+        public init(gatewayARN: String) {
+            self.gatewayARN = gatewayARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+        }
+    }
+
+    public struct DeleteChapCredentialsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetARN", required: true, type: .string), 
+            AWSShapeMember(label: "InitiatorName", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the iSCSI volume target. Use the DescribeStorediSCSIVolumes operation to return to retrieve the TargetARN for specified VolumeARN.
+        public let targetARN: String
+        /// The iSCSI initiator that connects to the target.
+        public let initiatorName: String
+
+        public init(targetARN: String, initiatorName: String) {
+            self.targetARN = targetARN
+            self.initiatorName = initiatorName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetARN = "TargetARN"
+            case initiatorName = "InitiatorName"
+        }
+    }
+
+    public struct DeleteVolumeOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VolumeARN", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the storage volume that was deleted. It is the same ARN you provided in the request.
+        public let volumeARN: String?
+
+        public init(volumeARN: String? = nil) {
+            self.volumeARN = volumeARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case volumeARN = "VolumeARN"
+        }
+    }
+
+    public struct DescribeCacheOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DiskIds", required: false, type: .list), 
+            AWSShapeMember(label: "CacheAllocatedInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "CacheUsedPercentage", required: false, type: .double), 
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
+            AWSShapeMember(label: "CacheHitPercentage", required: false, type: .double), 
+            AWSShapeMember(label: "CacheDirtyPercentage", required: false, type: .double), 
+            AWSShapeMember(label: "CacheMissPercentage", required: false, type: .double)
+        ]
+        public let diskIds: [String]?
+        public let cacheAllocatedInBytes: Int64?
+        public let cacheUsedPercentage: Double?
+        public let gatewayARN: String?
+        public let cacheHitPercentage: Double?
+        public let cacheDirtyPercentage: Double?
+        public let cacheMissPercentage: Double?
+
+        public init(diskIds: [String]? = nil, cacheAllocatedInBytes: Int64? = nil, cacheUsedPercentage: Double? = nil, gatewayARN: String? = nil, cacheHitPercentage: Double? = nil, cacheDirtyPercentage: Double? = nil, cacheMissPercentage: Double? = nil) {
+            self.diskIds = diskIds
+            self.cacheAllocatedInBytes = cacheAllocatedInBytes
+            self.cacheUsedPercentage = cacheUsedPercentage
+            self.gatewayARN = gatewayARN
+            self.cacheHitPercentage = cacheHitPercentage
+            self.cacheDirtyPercentage = cacheDirtyPercentage
+            self.cacheMissPercentage = cacheMissPercentage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case diskIds = "DiskIds"
+            case cacheAllocatedInBytes = "CacheAllocatedInBytes"
+            case cacheUsedPercentage = "CacheUsedPercentage"
+            case gatewayARN = "GatewayARN"
+            case cacheHitPercentage = "CacheHitPercentage"
+            case cacheDirtyPercentage = "CacheDirtyPercentage"
+            case cacheMissPercentage = "CacheMissPercentage"
+        }
+    }
+
+    public struct AddWorkingStorageOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
+        ]
+        public let gatewayARN: String?
+
+        public init(gatewayARN: String? = nil) {
+            self.gatewayARN = gatewayARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+        }
+    }
+
+    public struct DescribeStorediSCSIVolumesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StorediSCSIVolumes", required: false, type: .list)
+        ]
+        public let storediSCSIVolumes: [StorediSCSIVolume]?
+
+        public init(storediSCSIVolumes: [StorediSCSIVolume]? = nil) {
+            self.storediSCSIVolumes = storediSCSIVolumes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case storediSCSIVolumes = "StorediSCSIVolumes"
+        }
+    }
+
+    public struct DescribeWorkingStorageOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
+            AWSShapeMember(label: "WorkingStorageAllocatedInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "WorkingStorageUsedInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "DiskIds", required: false, type: .list)
+        ]
+        public let gatewayARN: String?
+        /// The total working storage in bytes allocated for the gateway. If no working storage is configured for the gateway, this field returns 0.
+        public let workingStorageAllocatedInBytes: Int64?
+        /// The total working storage in bytes in use by the gateway. If no working storage is configured for the gateway, this field returns 0.
+        public let workingStorageUsedInBytes: Int64?
+        /// An array of the gateway's local disk IDs that are configured as working storage. Each local disk ID is specified as a string (minimum length of 1 and maximum length of 300). If no local disks are configured as working storage, then the DiskIds array is empty.
+        public let diskIds: [String]?
+
+        public init(gatewayARN: String? = nil, workingStorageAllocatedInBytes: Int64? = nil, workingStorageUsedInBytes: Int64? = nil, diskIds: [String]? = nil) {
+            self.gatewayARN = gatewayARN
+            self.workingStorageAllocatedInBytes = workingStorageAllocatedInBytes
+            self.workingStorageUsedInBytes = workingStorageUsedInBytes
+            self.diskIds = diskIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+            case workingStorageAllocatedInBytes = "WorkingStorageAllocatedInBytes"
+            case workingStorageUsedInBytes = "WorkingStorageUsedInBytes"
+            case diskIds = "DiskIds"
+        }
+    }
+
+    public struct UpdateBandwidthRateLimitInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AverageUploadRateLimitInBitsPerSec", required: false, type: .long), 
+            AWSShapeMember(label: "AverageDownloadRateLimitInBitsPerSec", required: false, type: .long), 
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
+        ]
+        /// The average upload bandwidth rate limit in bits per second.
+        public let averageUploadRateLimitInBitsPerSec: Int64?
+        /// The average download bandwidth rate limit in bits per second.
+        public let averageDownloadRateLimitInBitsPerSec: Int64?
+        public let gatewayARN: String
+
+        public init(averageUploadRateLimitInBitsPerSec: Int64? = nil, averageDownloadRateLimitInBitsPerSec: Int64? = nil, gatewayARN: String) {
+            self.averageUploadRateLimitInBitsPerSec = averageUploadRateLimitInBitsPerSec
+            self.averageDownloadRateLimitInBitsPerSec = averageDownloadRateLimitInBitsPerSec
+            self.gatewayARN = gatewayARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case averageUploadRateLimitInBitsPerSec = "AverageUploadRateLimitInBitsPerSec"
+            case averageDownloadRateLimitInBitsPerSec = "AverageDownloadRateLimitInBitsPerSec"
+            case gatewayARN = "GatewayARN"
+        }
+    }
+
+    public struct UpdateChapCredentialsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetARN", required: false, type: .string), 
+            AWSShapeMember(label: "InitiatorName", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the target. This is the same target specified in the request.
+        public let targetARN: String?
+        /// The iSCSI initiator that connects to the target. This is the same initiator name specified in the request.
+        public let initiatorName: String?
+
+        public init(targetARN: String? = nil, initiatorName: String? = nil) {
+            self.targetARN = targetARN
+            self.initiatorName = initiatorName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetARN = "TargetARN"
+            case initiatorName = "InitiatorName"
+        }
+    }
+
+    public struct RemoveTagsFromResourceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
+        ]
+        /// The Amazon Resource Name (ARN) of the resource you want to remove the tags from.
+        public let resourceARN: String
+        /// The keys of the tags you want to remove from the specified resource. A tag is composed of a key/value pair.
+        public let tagKeys: [String]
+
+        public init(resourceARN: String, tagKeys: [String]) {
+            self.resourceARN = resourceARN
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct StorageGatewayError: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "errorCode", required: false, type: .enum), 
+            AWSShapeMember(label: "errorDetails", required: false, type: .map)
+        ]
+        /// Additional information about the error.
+        public let errorCode: ErrorCode?
+        /// Human-readable text that provides detail about the error that occurred.
+        public let errorDetails: [String: String]?
+
+        public init(errorCode: ErrorCode? = nil, errorDetails: [String: String]? = nil) {
+            self.errorCode = errorCode
+            self.errorDetails = errorDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "errorCode"
+            case errorDetails = "errorDetails"
+        }
+    }
+
+    public struct AddWorkingStorageInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
+            AWSShapeMember(label: "DiskIds", required: true, type: .list)
+        ]
+        public let gatewayARN: String
+        /// An array of strings that identify disks that are to be configured as working storage. Each string have a minimum length of 1 and maximum length of 300. You can get the disk IDs from the ListLocalDisks API.
+        public let diskIds: [String]
+
+        public init(gatewayARN: String, diskIds: [String]) {
+            self.gatewayARN = gatewayARN
+            self.diskIds = diskIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+            case diskIds = "DiskIds"
+        }
+    }
+
+    public struct DescribeSMBSettingsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
+        ]
+        public let gatewayARN: String
+
+        public init(gatewayARN: String) {
+            self.gatewayARN = gatewayARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
         }
     }
 
@@ -1340,502 +3883,42 @@ extension StorageGateway {
         public var description: String { return self.rawValue }
     }
 
-    public struct CancelRetrievalInput: AWSShape {
+    public struct DescribeSnapshotScheduleOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TapeARN", required: true, type: .string), 
-            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the virtual tape you want to cancel retrieval for.
-        public let tapeARN: String
-        public let gatewayARN: String
-
-        public init(tapeARN: String, gatewayARN: String) {
-            self.tapeARN = tapeARN
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tapeARN = "TapeARN"
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct DescribeVTLDevicesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "VTLDevices", required: false, type: .list), 
-            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
-        ]
-        /// An opaque string that indicates the position at which the VTL devices that were fetched for description ended. Use the marker in your next request to fetch the next set of VTL devices in the list. If there are no more VTL devices to describe, this field does not appear in the response.
-        public let marker: String?
-        /// An array of VTL device objects composed of the Amazon Resource Name(ARN) of the VTL devices.
-        public let vTLDevices: [VTLDevice]?
-        public let gatewayARN: String?
-
-        public init(marker: String? = nil, vTLDevices: [VTLDevice]? = nil, gatewayARN: String? = nil) {
-            self.marker = marker
-            self.vTLDevices = vTLDevices
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case vTLDevices = "VTLDevices"
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct UpdateGatewayInformationOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GatewayName", required: false, type: .string), 
-            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
-        ]
-        public let gatewayName: String?
-        public let gatewayARN: String?
-
-        public init(gatewayName: String? = nil, gatewayARN: String? = nil) {
-            self.gatewayName = gatewayName
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gatewayName = "GatewayName"
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct DescribeGatewayInformationInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
-        ]
-        public let gatewayARN: String
-
-        public init(gatewayARN: String) {
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct ActivateGatewayInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GatewayTimezone", required: true, type: .string), 
-            AWSShapeMember(label: "GatewayType", required: false, type: .string), 
-            AWSShapeMember(label: "ActivationKey", required: true, type: .string), 
-            AWSShapeMember(label: "TapeDriveType", required: false, type: .string), 
-            AWSShapeMember(label: "GatewayName", required: true, type: .string), 
-            AWSShapeMember(label: "MediumChangerType", required: false, type: .string), 
-            AWSShapeMember(label: "GatewayRegion", required: true, type: .string)
-        ]
-        /// A value that indicates the time zone you want to set for the gateway. The time zone is of the format "GMT-hr:mm" or "GMT+hr:mm". For example, GMT-4:00 indicates the time is 4 hours behind GMT. GMT+2:00 indicates the time is 2 hours ahead of GMT. The time zone is used, for example, for scheduling snapshots and your gateway's maintenance schedule.
-        public let gatewayTimezone: String
-        /// A value that defines the type of gateway to activate. The type specified is critical to all later functions of the gateway and cannot be changed after activation. The default value is CACHED.   Valid Values: "STORED", "CACHED", "VTL", "FILE_S3"
-        public let gatewayType: String?
-        /// Your gateway activation key. You can obtain the activation key by sending an HTTP GET request with redirects enabled to the gateway IP address (port 80). The redirect URL returned in the response provides you the activation key for your gateway in the query string parameter activationKey. It may also include other activation-related parameters, however, these are merely defaults -- the arguments you pass to the ActivateGateway API call determine the actual configuration of your gateway.  For more information, see https://docs.aws.amazon.com/storagegateway/latest/userguide/get-activation-key.html in the Storage Gateway User Guide.
-        public let activationKey: String
-        /// The value that indicates the type of tape drive to use for tape gateway. This field is optional.  Valid Values: "IBM-ULT3580-TD5" 
-        public let tapeDriveType: String?
-        /// The name you configured for your gateway.
-        public let gatewayName: String
-        /// The value that indicates the type of medium changer to use for tape gateway. This field is optional.  Valid Values: "STK-L700", "AWS-Gateway-VTL"
-        public let mediumChangerType: String?
-        /// A value that indicates the region where you want to store your data. The gateway region specified must be the same region as the region in your Host header in the request. For more information about available regions and endpoints for AWS Storage Gateway, see Regions and Endpoints in the Amazon Web Services Glossary.  Valid Values: "us-east-1", "us-east-2", "us-west-1", "us-west-2", "ca-central-1", "eu-west-1", "eu-central-1", "eu-west-2", "eu-west-3", "ap-northeast-1", "ap-northeast-2", "ap-southeast-1", "ap-southeast-2", "ap-south-1", "sa-east-1"
-        public let gatewayRegion: String
-
-        public init(gatewayTimezone: String, gatewayType: String? = nil, activationKey: String, tapeDriveType: String? = nil, gatewayName: String, mediumChangerType: String? = nil, gatewayRegion: String) {
-            self.gatewayTimezone = gatewayTimezone
-            self.gatewayType = gatewayType
-            self.activationKey = activationKey
-            self.tapeDriveType = tapeDriveType
-            self.gatewayName = gatewayName
-            self.mediumChangerType = mediumChangerType
-            self.gatewayRegion = gatewayRegion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gatewayTimezone = "GatewayTimezone"
-            case gatewayType = "GatewayType"
-            case activationKey = "ActivationKey"
-            case tapeDriveType = "TapeDriveType"
-            case gatewayName = "GatewayName"
-            case mediumChangerType = "MediumChangerType"
-            case gatewayRegion = "GatewayRegion"
-        }
-    }
-
-    public struct VolumeRecoveryPointInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VolumeUsageInBytes", required: false, type: .long), 
-            AWSShapeMember(label: "VolumeARN", required: false, type: .string), 
-            AWSShapeMember(label: "VolumeSizeInBytes", required: false, type: .long), 
-            AWSShapeMember(label: "VolumeRecoveryPointTime", required: false, type: .string)
-        ]
-        public let volumeUsageInBytes: Int64?
-        public let volumeARN: String?
-        public let volumeSizeInBytes: Int64?
-        public let volumeRecoveryPointTime: String?
-
-        public init(volumeUsageInBytes: Int64? = nil, volumeARN: String? = nil, volumeSizeInBytes: Int64? = nil, volumeRecoveryPointTime: String? = nil) {
-            self.volumeUsageInBytes = volumeUsageInBytes
-            self.volumeARN = volumeARN
-            self.volumeSizeInBytes = volumeSizeInBytes
-            self.volumeRecoveryPointTime = volumeRecoveryPointTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case volumeUsageInBytes = "VolumeUsageInBytes"
-            case volumeARN = "VolumeARN"
-            case volumeSizeInBytes = "VolumeSizeInBytes"
-            case volumeRecoveryPointTime = "VolumeRecoveryPointTime"
-        }
-    }
-
-    public struct DeleteGatewayOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
-        ]
-        public let gatewayARN: String?
-
-        public init(gatewayARN: String? = nil) {
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct DeleteFileShareOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FileShareARN", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the deleted file share. 
-        public let fileShareARN: String?
-
-        public init(fileShareARN: String? = nil) {
-            self.fileShareARN = fileShareARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fileShareARN = "FileShareARN"
-        }
-    }
-
-    public struct DescribeWorkingStorageOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WorkingStorageUsedInBytes", required: false, type: .long), 
-            AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
-            AWSShapeMember(label: "WorkingStorageAllocatedInBytes", required: false, type: .long), 
-            AWSShapeMember(label: "DiskIds", required: false, type: .list)
-        ]
-        /// The total working storage in bytes in use by the gateway. If no working storage is configured for the gateway, this field returns 0.
-        public let workingStorageUsedInBytes: Int64?
-        public let gatewayARN: String?
-        /// The total working storage in bytes allocated for the gateway. If no working storage is configured for the gateway, this field returns 0.
-        public let workingStorageAllocatedInBytes: Int64?
-        /// An array of the gateway's local disk IDs that are configured as working storage. Each local disk ID is specified as a string (minimum length of 1 and maximum length of 300). If no local disks are configured as working storage, then the DiskIds array is empty.
-        public let diskIds: [String]?
-
-        public init(workingStorageUsedInBytes: Int64? = nil, gatewayARN: String? = nil, workingStorageAllocatedInBytes: Int64? = nil, diskIds: [String]? = nil) {
-            self.workingStorageUsedInBytes = workingStorageUsedInBytes
-            self.gatewayARN = gatewayARN
-            self.workingStorageAllocatedInBytes = workingStorageAllocatedInBytes
-            self.diskIds = diskIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case workingStorageUsedInBytes = "WorkingStorageUsedInBytes"
-            case gatewayARN = "GatewayARN"
-            case workingStorageAllocatedInBytes = "WorkingStorageAllocatedInBytes"
-            case diskIds = "DiskIds"
-        }
-    }
-
-    public struct DeleteSnapshotScheduleOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VolumeARN", required: false, type: .string)
-        ]
-        public let volumeARN: String?
-
-        public init(volumeARN: String? = nil) {
-            self.volumeARN = volumeARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case volumeARN = "VolumeARN"
-        }
-    }
-
-    public struct UpdateMaintenanceStartTimeInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MinuteOfHour", required: true, type: .integer), 
-            AWSShapeMember(label: "DayOfWeek", required: true, type: .integer), 
-            AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
-            AWSShapeMember(label: "HourOfDay", required: true, type: .integer)
-        ]
-        /// The minute component of the maintenance start time represented as mm, where mm is the minute (00 to 59). The minute of the hour is in the time zone of the gateway.
-        public let minuteOfHour: Int32
-        /// The maintenance start time day of the week represented as an ordinal number from 0 to 6, where 0 represents Sunday and 6 Saturday.
-        public let dayOfWeek: Int32
-        public let gatewayARN: String
-        /// The hour component of the maintenance start time represented as hh, where hh is the hour (00 to 23). The hour of the day is in the time zone of the gateway.
-        public let hourOfDay: Int32
-
-        public init(minuteOfHour: Int32, dayOfWeek: Int32, gatewayARN: String, hourOfDay: Int32) {
-            self.minuteOfHour = minuteOfHour
-            self.dayOfWeek = dayOfWeek
-            self.gatewayARN = gatewayARN
-            self.hourOfDay = hourOfDay
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case minuteOfHour = "MinuteOfHour"
-            case dayOfWeek = "DayOfWeek"
-            case gatewayARN = "GatewayARN"
-            case hourOfDay = "HourOfDay"
-        }
-    }
-
-    public struct DescribeSMBFileSharesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FileShareARNList", required: true, type: .list)
-        ]
-        /// An array containing the Amazon Resource Name (ARN) of each file share to be described. 
-        public let fileShareARNList: [String]
-
-        public init(fileShareARNList: [String]) {
-            self.fileShareARNList = fileShareARNList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fileShareARNList = "FileShareARNList"
-        }
-    }
-
-    public struct DescribeMaintenanceStartTimeOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MinuteOfHour", required: false, type: .integer), 
-            AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
+            AWSShapeMember(label: "StartAt", required: false, type: .integer), 
             AWSShapeMember(label: "Timezone", required: false, type: .string), 
-            AWSShapeMember(label: "HourOfDay", required: false, type: .integer), 
-            AWSShapeMember(label: "DayOfWeek", required: false, type: .integer)
-        ]
-        /// The minute component of the maintenance start time represented as mm, where mm is the minute (0 to 59). The minute of the hour is in the time zone of the gateway.
-        public let minuteOfHour: Int32?
-        public let gatewayARN: String?
-        public let timezone: String?
-        /// The hour component of the maintenance start time represented as hh, where hh is the hour (0 to 23). The hour of the day is in the time zone of the gateway.
-        public let hourOfDay: Int32?
-        /// An ordinal number between 0 and 6 that represents the day of the week, where 0 represents Sunday and 6 represents Saturday. The day of week is in the time zone of the gateway.
-        public let dayOfWeek: Int32?
-
-        public init(minuteOfHour: Int32? = nil, gatewayARN: String? = nil, timezone: String? = nil, hourOfDay: Int32? = nil, dayOfWeek: Int32? = nil) {
-            self.minuteOfHour = minuteOfHour
-            self.gatewayARN = gatewayARN
-            self.timezone = timezone
-            self.hourOfDay = hourOfDay
-            self.dayOfWeek = dayOfWeek
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case minuteOfHour = "MinuteOfHour"
-            case gatewayARN = "GatewayARN"
-            case timezone = "Timezone"
-            case hourOfDay = "HourOfDay"
-            case dayOfWeek = "DayOfWeek"
-        }
-    }
-
-    public struct DisableGatewayInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
-        ]
-        public let gatewayARN: String
-
-        public init(gatewayARN: String) {
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct CreateTapesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TapeARNs", required: false, type: .list)
-        ]
-        /// A list of unique Amazon Resource Names (ARNs) that represents the virtual tapes that were created.
-        public let tapeARNs: [String]?
-
-        public init(tapeARNs: [String]? = nil) {
-            self.tapeARNs = tapeARNs
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tapeARNs = "TapeARNs"
-        }
-    }
-
-    public struct TapeRecoveryPointInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TapeSizeInBytes", required: false, type: .long), 
-            AWSShapeMember(label: "TapeRecoveryPointTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "TapeARN", required: false, type: .string), 
-            AWSShapeMember(label: "TapeStatus", required: false, type: .string)
-        ]
-        /// The size, in bytes, of the virtual tapes to recover.
-        public let tapeSizeInBytes: Int64?
-        /// The time when the point-in-time view of the virtual tape was replicated for later recovery. The default time stamp format of the tape recovery point time is in the ISO8601 extended YYYY-MM-DD'T'HH:MM:SS'Z' format.
-        public let tapeRecoveryPointTime: TimeStamp?
-        /// The Amazon Resource Name (ARN) of the virtual tape.
-        public let tapeARN: String?
-        public let tapeStatus: String?
-
-        public init(tapeSizeInBytes: Int64? = nil, tapeRecoveryPointTime: TimeStamp? = nil, tapeARN: String? = nil, tapeStatus: String? = nil) {
-            self.tapeSizeInBytes = tapeSizeInBytes
-            self.tapeRecoveryPointTime = tapeRecoveryPointTime
-            self.tapeARN = tapeARN
-            self.tapeStatus = tapeStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tapeSizeInBytes = "TapeSizeInBytes"
-            case tapeRecoveryPointTime = "TapeRecoveryPointTime"
-            case tapeARN = "TapeARN"
-            case tapeStatus = "TapeStatus"
-        }
-    }
-
-    public struct UpdateGatewayInformationInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GatewayTimezone", required: false, type: .string), 
-            AWSShapeMember(label: "GatewayName", required: false, type: .string), 
-            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
-        ]
-        public let gatewayTimezone: String?
-        public let gatewayName: String?
-        public let gatewayARN: String
-
-        public init(gatewayTimezone: String? = nil, gatewayName: String? = nil, gatewayARN: String) {
-            self.gatewayTimezone = gatewayTimezone
-            self.gatewayName = gatewayName
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gatewayTimezone = "GatewayTimezone"
-            case gatewayName = "GatewayName"
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct StartGatewayOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
-        ]
-        public let gatewayARN: String?
-
-        public init(gatewayARN: String? = nil) {
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct ListLocalDisksOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Disks", required: false, type: .list), 
-            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
-        ]
-        public let disks: [Disk]?
-        public let gatewayARN: String?
-
-        public init(disks: [Disk]? = nil, gatewayARN: String? = nil) {
-            self.disks = disks
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case disks = "Disks"
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct CachediSCSIVolume: AWSShape {
-        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "VolumeARN", required: false, type: .string), 
-            AWSShapeMember(label: "KMSKey", required: false, type: .string), 
-            AWSShapeMember(label: "VolumeType", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "VolumeUsedInBytes", required: false, type: .long), 
-            AWSShapeMember(label: "VolumeSizeInBytes", required: false, type: .long), 
-            AWSShapeMember(label: "VolumeProgress", required: false, type: .double), 
-            AWSShapeMember(label: "VolumeId", required: false, type: .string), 
-            AWSShapeMember(label: "VolumeStatus", required: false, type: .string), 
-            AWSShapeMember(label: "VolumeiSCSIAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "SourceSnapshotId", required: false, type: .string)
+            AWSShapeMember(label: "RecurrenceInHours", required: false, type: .integer)
         ]
-        /// The Amazon Resource Name (ARN) of the storage volume.
+        public let startAt: Int32?
+        public let timezone: String?
+        public let description: String?
         public let volumeARN: String?
-        public let kMSKey: String?
-        /// One of the VolumeType enumeration values that describes the type of the volume.
-        public let volumeType: String?
-        /// The date the volume was created. Volumes created prior to March 28, 2017 don’t have this time stamp.
-        public let createdDate: TimeStamp?
-        /// The size of the data stored on the volume in bytes.  This value is not available for volumes created prior to May 13, 2015, until you store data on the volume. 
-        public let volumeUsedInBytes: Int64?
-        /// The size, in bytes, of the volume capacity.
-        public let volumeSizeInBytes: Int64?
-        /// Represents the percentage complete if the volume is restoring or bootstrapping that represents the percent of data transferred. This field does not appear in the response if the cached volume is not restoring or bootstrapping.
-        public let volumeProgress: Double?
-        /// The unique identifier of the volume, e.g. vol-AE4B946D.
-        public let volumeId: String?
-        /// One of the VolumeStatus values that indicates the state of the storage volume.
-        public let volumeStatus: String?
-        /// An VolumeiSCSIAttributes object that represents a collection of iSCSI attributes for one stored volume.
-        public let volumeiSCSIAttributes: VolumeiSCSIAttributes?
-        /// If the cached volume was created from a snapshot, this field contains the snapshot ID used, e.g. snap-78e22663. Otherwise, this field is not included.
-        public let sourceSnapshotId: String?
+        public let recurrenceInHours: Int32?
 
-        public init(volumeARN: String? = nil, kMSKey: String? = nil, volumeType: String? = nil, createdDate: TimeStamp? = nil, volumeUsedInBytes: Int64? = nil, volumeSizeInBytes: Int64? = nil, volumeProgress: Double? = nil, volumeId: String? = nil, volumeStatus: String? = nil, volumeiSCSIAttributes: VolumeiSCSIAttributes? = nil, sourceSnapshotId: String? = nil) {
+        public init(startAt: Int32? = nil, timezone: String? = nil, description: String? = nil, volumeARN: String? = nil, recurrenceInHours: Int32? = nil) {
+            self.startAt = startAt
+            self.timezone = timezone
+            self.description = description
             self.volumeARN = volumeARN
-            self.kMSKey = kMSKey
-            self.volumeType = volumeType
-            self.createdDate = createdDate
-            self.volumeUsedInBytes = volumeUsedInBytes
-            self.volumeSizeInBytes = volumeSizeInBytes
-            self.volumeProgress = volumeProgress
-            self.volumeId = volumeId
-            self.volumeStatus = volumeStatus
-            self.volumeiSCSIAttributes = volumeiSCSIAttributes
-            self.sourceSnapshotId = sourceSnapshotId
+            self.recurrenceInHours = recurrenceInHours
         }
 
         private enum CodingKeys: String, CodingKey {
+            case startAt = "StartAt"
+            case timezone = "Timezone"
+            case description = "Description"
             case volumeARN = "VolumeARN"
-            case kMSKey = "KMSKey"
-            case volumeType = "VolumeType"
-            case createdDate = "CreatedDate"
-            case volumeUsedInBytes = "VolumeUsedInBytes"
-            case volumeSizeInBytes = "VolumeSizeInBytes"
-            case volumeProgress = "VolumeProgress"
-            case volumeId = "VolumeId"
-            case volumeStatus = "VolumeStatus"
-            case volumeiSCSIAttributes = "VolumeiSCSIAttributes"
-            case sourceSnapshotId = "SourceSnapshotId"
+            case recurrenceInHours = "RecurrenceInHours"
         }
     }
 
-    public struct CancelArchivalOutput: AWSShape {
+    public struct RetrieveTapeArchiveOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TapeARN", required: false, type: .string)
         ]
-        /// The Amazon Resource Name (ARN) of the virtual tape for which archiving was canceled.
+        /// The Amazon Resource Name (ARN) of the retrieved virtual tape.
         public let tapeARN: String?
 
         public init(tapeARN: String? = nil) {
@@ -1847,526 +3930,23 @@ extension StorageGateway {
         }
     }
 
-    public struct StartGatewayInput: AWSShape {
+    public struct ListTapesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
+            AWSShapeMember(label: "TapeInfos", required: false, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
-        public let gatewayARN: String
-
-        public init(gatewayARN: String) {
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct Tape: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TapeSizeInBytes", required: false, type: .long), 
-            AWSShapeMember(label: "KMSKey", required: false, type: .string), 
-            AWSShapeMember(label: "TapeCreatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "TapeUsedInBytes", required: false, type: .long), 
-            AWSShapeMember(label: "TapeARN", required: false, type: .string), 
-            AWSShapeMember(label: "VTLDevice", required: false, type: .string), 
-            AWSShapeMember(label: "TapeStatus", required: false, type: .string), 
-            AWSShapeMember(label: "Progress", required: false, type: .double), 
-            AWSShapeMember(label: "TapeBarcode", required: false, type: .string)
-        ]
-        /// The size, in bytes, of the virtual tape capacity.
-        public let tapeSizeInBytes: Int64?
-        public let kMSKey: String?
-        /// The date the virtual tape was created.
-        public let tapeCreatedDate: TimeStamp?
-        /// The size, in bytes, of data stored on the virtual tape.  This value is not available for tapes created prior to May 13, 2015. 
-        public let tapeUsedInBytes: Int64?
-        /// The Amazon Resource Name (ARN) of the virtual tape.
-        public let tapeARN: String?
-        /// The virtual tape library (VTL) device that the virtual tape is associated with.
-        public let vTLDevice: String?
-        /// The current state of the virtual tape.
-        public let tapeStatus: String?
-        /// For archiving virtual tapes, indicates how much data remains to be uploaded before archiving is complete. Range: 0 (not started) to 100 (complete).
-        public let progress: Double?
-        /// The barcode that identifies a specific virtual tape.
-        public let tapeBarcode: String?
-
-        public init(tapeSizeInBytes: Int64? = nil, kMSKey: String? = nil, tapeCreatedDate: TimeStamp? = nil, tapeUsedInBytes: Int64? = nil, tapeARN: String? = nil, vTLDevice: String? = nil, tapeStatus: String? = nil, progress: Double? = nil, tapeBarcode: String? = nil) {
-            self.tapeSizeInBytes = tapeSizeInBytes
-            self.kMSKey = kMSKey
-            self.tapeCreatedDate = tapeCreatedDate
-            self.tapeUsedInBytes = tapeUsedInBytes
-            self.tapeARN = tapeARN
-            self.vTLDevice = vTLDevice
-            self.tapeStatus = tapeStatus
-            self.progress = progress
-            self.tapeBarcode = tapeBarcode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tapeSizeInBytes = "TapeSizeInBytes"
-            case kMSKey = "KMSKey"
-            case tapeCreatedDate = "TapeCreatedDate"
-            case tapeUsedInBytes = "TapeUsedInBytes"
-            case tapeARN = "TapeARN"
-            case vTLDevice = "VTLDevice"
-            case tapeStatus = "TapeStatus"
-            case progress = "Progress"
-            case tapeBarcode = "TapeBarcode"
-        }
-    }
-
-    public struct TapeInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
-            AWSShapeMember(label: "TapeSizeInBytes", required: false, type: .long), 
-            AWSShapeMember(label: "TapeARN", required: false, type: .string), 
-            AWSShapeMember(label: "TapeBarcode", required: false, type: .string), 
-            AWSShapeMember(label: "TapeStatus", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and region.
-        public let gatewayARN: String?
-        /// The size, in bytes, of a virtual tape.
-        public let tapeSizeInBytes: Int64?
-        /// The Amazon Resource Name (ARN) of a virtual tape.
-        public let tapeARN: String?
-        /// The barcode that identifies a specific virtual tape.
-        public let tapeBarcode: String?
-        /// The status of the tape.
-        public let tapeStatus: String?
-
-        public init(gatewayARN: String? = nil, tapeSizeInBytes: Int64? = nil, tapeARN: String? = nil, tapeBarcode: String? = nil, tapeStatus: String? = nil) {
-            self.gatewayARN = gatewayARN
-            self.tapeSizeInBytes = tapeSizeInBytes
-            self.tapeARN = tapeARN
-            self.tapeBarcode = tapeBarcode
-            self.tapeStatus = tapeStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gatewayARN = "GatewayARN"
-            case tapeSizeInBytes = "TapeSizeInBytes"
-            case tapeARN = "TapeARN"
-            case tapeBarcode = "TapeBarcode"
-            case tapeStatus = "TapeStatus"
-        }
-    }
-
-    public struct DescribeCacheInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
-        ]
-        public let gatewayARN: String
-
-        public init(gatewayARN: String) {
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct SetSMBGuestPasswordInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Password", required: true, type: .string), 
-            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
-        ]
-        /// The password that you want to set for your SMB Server.
-        public let password: String
-        /// The Amazon Resource Name (ARN) of the file gateway the SMB file share is associated with.
-        public let gatewayARN: String
-
-        public init(password: String, gatewayARN: String) {
-            self.password = password
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case password = "Password"
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct ListVolumeInitiatorsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VolumeARN", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes for the gateway.
-        public let volumeARN: String
-
-        public init(volumeARN: String) {
-            self.volumeARN = volumeARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case volumeARN = "VolumeARN"
-        }
-    }
-
-    public struct NotifyWhenUploadedInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FileShareARN", required: true, type: .string)
-        ]
-        public let fileShareARN: String
-
-        public init(fileShareARN: String) {
-            self.fileShareARN = fileShareARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fileShareARN = "FileShareARN"
-        }
-    }
-
-    public struct UpdateVTLDeviceTypeInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VTLDeviceARN", required: true, type: .string), 
-            AWSShapeMember(label: "DeviceType", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the medium changer you want to select.
-        public let vTLDeviceARN: String
-        /// The type of medium changer you want to select.  Valid Values: "STK-L700", "AWS-Gateway-VTL"
-        public let deviceType: String
-
-        public init(vTLDeviceARN: String, deviceType: String) {
-            self.vTLDeviceARN = vTLDeviceARN
-            self.deviceType = deviceType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case vTLDeviceARN = "VTLDeviceARN"
-            case deviceType = "DeviceType"
-        }
-    }
-
-    public struct FileShareInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FileShareStatus", required: false, type: .string), 
-            AWSShapeMember(label: "FileShareType", required: false, type: .enum), 
-            AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
-            AWSShapeMember(label: "FileShareARN", required: false, type: .string), 
-            AWSShapeMember(label: "FileShareId", required: false, type: .string)
-        ]
-        public let fileShareStatus: String?
-        public let fileShareType: FileShareType?
-        public let gatewayARN: String?
-        public let fileShareARN: String?
-        public let fileShareId: String?
-
-        public init(fileShareStatus: String? = nil, fileShareType: FileShareType? = nil, gatewayARN: String? = nil, fileShareARN: String? = nil, fileShareId: String? = nil) {
-            self.fileShareStatus = fileShareStatus
-            self.fileShareType = fileShareType
-            self.gatewayARN = gatewayARN
-            self.fileShareARN = fileShareARN
-            self.fileShareId = fileShareId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fileShareStatus = "FileShareStatus"
-            case fileShareType = "FileShareType"
-            case gatewayARN = "GatewayARN"
-            case fileShareARN = "FileShareARN"
-            case fileShareId = "FileShareId"
-        }
-    }
-
-    public struct RefreshCacheOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NotificationId", required: false, type: .string), 
-            AWSShapeMember(label: "FileShareARN", required: false, type: .string)
-        ]
-        public let notificationId: String?
-        public let fileShareARN: String?
-
-        public init(notificationId: String? = nil, fileShareARN: String? = nil) {
-            self.notificationId = notificationId
-            self.fileShareARN = fileShareARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case notificationId = "NotificationId"
-            case fileShareARN = "FileShareARN"
-        }
-    }
-
-    public struct CreateTapeWithBarcodeOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TapeARN", required: false, type: .string)
-        ]
-        /// A unique Amazon Resource Name (ARN) that represents the virtual tape that was created.
-        public let tapeARN: String?
-
-        public init(tapeARN: String? = nil) {
-            self.tapeARN = tapeARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tapeARN = "TapeARN"
-        }
-    }
-
-    public struct DescribeSMBFileSharesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SMBFileShareInfoList", required: false, type: .list)
-        ]
-        /// An array containing a description for each requested file share. 
-        public let sMBFileShareInfoList: [SMBFileShareInfo]?
-
-        public init(sMBFileShareInfoList: [SMBFileShareInfo]? = nil) {
-            self.sMBFileShareInfoList = sMBFileShareInfoList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sMBFileShareInfoList = "SMBFileShareInfoList"
-        }
-    }
-
-    public struct DescribeUploadBufferOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
-            AWSShapeMember(label: "DiskIds", required: false, type: .list), 
-            AWSShapeMember(label: "UploadBufferAllocatedInBytes", required: false, type: .long), 
-            AWSShapeMember(label: "UploadBufferUsedInBytes", required: false, type: .long)
-        ]
-        public let gatewayARN: String?
-        public let diskIds: [String]?
-        public let uploadBufferAllocatedInBytes: Int64?
-        public let uploadBufferUsedInBytes: Int64?
-
-        public init(gatewayARN: String? = nil, diskIds: [String]? = nil, uploadBufferAllocatedInBytes: Int64? = nil, uploadBufferUsedInBytes: Int64? = nil) {
-            self.gatewayARN = gatewayARN
-            self.diskIds = diskIds
-            self.uploadBufferAllocatedInBytes = uploadBufferAllocatedInBytes
-            self.uploadBufferUsedInBytes = uploadBufferUsedInBytes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gatewayARN = "GatewayARN"
-            case diskIds = "DiskIds"
-            case uploadBufferAllocatedInBytes = "UploadBufferAllocatedInBytes"
-            case uploadBufferUsedInBytes = "UploadBufferUsedInBytes"
-        }
-    }
-
-    public struct ListVolumesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
-        ]
-        /// Specifies that the list of volumes returned be limited to the specified number of items.
-        public let limit: Int32?
-        /// A string that indicates the position at which to begin the returned list of volumes. Obtain the marker from the response of a previous List iSCSI Volumes request.
+        public let tapeInfos: [TapeInfo]?
+        /// A string that indicates the position at which to begin returning the next list of tapes. Use the marker in your next request to continue pagination of tapes. If there are no more tapes to list, this element does not appear in the response body.
         public let marker: String?
-        public let gatewayARN: String?
 
-        public init(limit: Int32? = nil, marker: String? = nil, gatewayARN: String? = nil) {
-            self.limit = limit
+        public init(tapeInfos: [TapeInfo]? = nil, marker: String? = nil) {
+            self.tapeInfos = tapeInfos
             self.marker = marker
-            self.gatewayARN = gatewayARN
         }
 
         private enum CodingKeys: String, CodingKey {
-            case limit = "Limit"
+            case tapeInfos = "TapeInfos"
             case marker = "Marker"
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct ListLocalDisksInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
-        ]
-        public let gatewayARN: String
-
-        public init(gatewayARN: String) {
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct NetworkInterface: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MacAddress", required: false, type: .string), 
-            AWSShapeMember(label: "Ipv6Address", required: false, type: .string), 
-            AWSShapeMember(label: "Ipv4Address", required: false, type: .string)
-        ]
-        /// The Media Access Control (MAC) address of the interface.  This is currently unsupported and will not be returned in output. 
-        public let macAddress: String?
-        /// The Internet Protocol version 6 (IPv6) address of the interface. Currently not supported.
-        public let ipv6Address: String?
-        /// The Internet Protocol version 4 (IPv4) address of the interface.
-        public let ipv4Address: String?
-
-        public init(macAddress: String? = nil, ipv6Address: String? = nil, ipv4Address: String? = nil) {
-            self.macAddress = macAddress
-            self.ipv6Address = ipv6Address
-            self.ipv4Address = ipv4Address
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case macAddress = "MacAddress"
-            case ipv6Address = "Ipv6Address"
-            case ipv4Address = "Ipv4Address"
-        }
-    }
-
-    public struct CreateCachediSCSIVolumeInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SnapshotId", required: false, type: .string), 
-            AWSShapeMember(label: "KMSKey", required: false, type: .string), 
-            AWSShapeMember(label: "KMSEncrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "VolumeSizeInBytes", required: true, type: .long), 
-            AWSShapeMember(label: "ClientToken", required: true, type: .string), 
-            AWSShapeMember(label: "NetworkInterfaceId", required: true, type: .string), 
-            AWSShapeMember(label: "TargetName", required: true, type: .string), 
-            AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
-            AWSShapeMember(label: "SourceVolumeARN", required: false, type: .string)
-        ]
-        /// The snapshot ID (e.g. "snap-1122aabb") of the snapshot to restore as the new cached volume. Specify this field if you want to create the iSCSI storage volume from a snapshot otherwise do not include this field. To list snapshots for your account use DescribeSnapshots in the Amazon Elastic Compute Cloud API Reference.
-        public let snapshotId: String?
-        /// The Amazon Resource Name (ARN) of the AWS KMS key used for Amazon S3 server side encryption. This value can only be set when KMSEncrypted is true. Optional.
-        public let kMSKey: String?
-        /// True to use Amazon S3 server side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional.
-        public let kMSEncrypted: Bool?
-        /// The size of the volume in bytes.
-        public let volumeSizeInBytes: Int64
-        /// A unique identifier that you use to retry a request. If you retry a request, use the same ClientToken you specified in the initial request.
-        public let clientToken: String
-        /// The network interface of the gateway on which to expose the iSCSI target. Only IPv4 addresses are accepted. Use DescribeGatewayInformation to get a list of the network interfaces available on a gateway.  Valid Values: A valid IP address.
-        public let networkInterfaceId: String
-        /// The name of the iSCSI target used by initiators to connect to the target and as a suffix for the target ARN. For example, specifying TargetName as myvolume results in the target ARN of arn:aws:storagegateway:us-east-2:111122223333:gateway/sgw-12A3456B/target/iqn.1997-05.com.amazon:myvolume. The target name must be unique across all volumes of a gateway.
-        public let targetName: String
-        public let gatewayARN: String
-        /// The ARN for an existing volume. Specifying this ARN makes the new volume into an exact copy of the specified existing volume's latest recovery point. The VolumeSizeInBytes value for this new volume must be equal to or larger than the size of the existing volume, in bytes.
-        public let sourceVolumeARN: String?
-
-        public init(snapshotId: String? = nil, kMSKey: String? = nil, kMSEncrypted: Bool? = nil, volumeSizeInBytes: Int64, clientToken: String, networkInterfaceId: String, targetName: String, gatewayARN: String, sourceVolumeARN: String? = nil) {
-            self.snapshotId = snapshotId
-            self.kMSKey = kMSKey
-            self.kMSEncrypted = kMSEncrypted
-            self.volumeSizeInBytes = volumeSizeInBytes
-            self.clientToken = clientToken
-            self.networkInterfaceId = networkInterfaceId
-            self.targetName = targetName
-            self.gatewayARN = gatewayARN
-            self.sourceVolumeARN = sourceVolumeARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case snapshotId = "SnapshotId"
-            case kMSKey = "KMSKey"
-            case kMSEncrypted = "KMSEncrypted"
-            case volumeSizeInBytes = "VolumeSizeInBytes"
-            case clientToken = "ClientToken"
-            case networkInterfaceId = "NetworkInterfaceId"
-            case targetName = "TargetName"
-            case gatewayARN = "GatewayARN"
-            case sourceVolumeARN = "SourceVolumeARN"
-        }
-    }
-
-    public struct NFSFileShareInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReadOnly", required: false, type: .boolean), 
-            AWSShapeMember(label: "ObjectACL", required: false, type: .enum), 
-            AWSShapeMember(label: "FileShareId", required: false, type: .string), 
-            AWSShapeMember(label: "DefaultStorageClass", required: false, type: .string), 
-            AWSShapeMember(label: "ClientList", required: false, type: .list), 
-            AWSShapeMember(label: "Role", required: false, type: .string), 
-            AWSShapeMember(label: "KMSKey", required: false, type: .string), 
-            AWSShapeMember(label: "NFSFileShareDefaults", required: false, type: .structure), 
-            AWSShapeMember(label: "Path", required: false, type: .string), 
-            AWSShapeMember(label: "RequesterPays", required: false, type: .boolean), 
-            AWSShapeMember(label: "KMSEncrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "FileShareStatus", required: false, type: .string), 
-            AWSShapeMember(label: "GuessMIMETypeEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "LocationARN", required: false, type: .string), 
-            AWSShapeMember(label: "Squash", required: false, type: .string), 
-            AWSShapeMember(label: "FileShareARN", required: false, type: .string), 
-            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
-        ]
-        /// A value that sets the write status of a file share. This value is true if the write status is read-only, and otherwise false.
-        public let readOnly: Bool?
-        public let objectACL: ObjectACL?
-        public let fileShareId: String?
-        /// The default storage class for objects put into an Amazon S3 bucket by the file gateway. Possible values are S3_STANDARD, S3_STANDARD_IA, or S3_ONEZONE_IA. If this field is not populated, the default value S3_STANDARD is used. Optional.
-        public let defaultStorageClass: String?
-        public let clientList: [String]?
-        public let role: String?
-        public let kMSKey: String?
-        public let nFSFileShareDefaults: NFSFileShareDefaults?
-        public let path: String?
-        /// A value that sets the access control list permission for objects in the Amazon S3 bucket that a file gateway puts objects into. The default value is private.
-        public let requesterPays: Bool?
-        /// True to use Amazon S3 server side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional. 
-        public let kMSEncrypted: Bool?
-        public let fileShareStatus: String?
-        /// A value that enables guessing of the MIME type for uploaded objects based on file extensions. Set this value to true to enable MIME type guessing, and otherwise to false. The default value is true.
-        public let guessMIMETypeEnabled: Bool?
-        public let locationARN: String?
-        public let squash: String?
-        public let fileShareARN: String?
-        public let gatewayARN: String?
-
-        public init(readOnly: Bool? = nil, objectACL: ObjectACL? = nil, fileShareId: String? = nil, defaultStorageClass: String? = nil, clientList: [String]? = nil, role: String? = nil, kMSKey: String? = nil, nFSFileShareDefaults: NFSFileShareDefaults? = nil, path: String? = nil, requesterPays: Bool? = nil, kMSEncrypted: Bool? = nil, fileShareStatus: String? = nil, guessMIMETypeEnabled: Bool? = nil, locationARN: String? = nil, squash: String? = nil, fileShareARN: String? = nil, gatewayARN: String? = nil) {
-            self.readOnly = readOnly
-            self.objectACL = objectACL
-            self.fileShareId = fileShareId
-            self.defaultStorageClass = defaultStorageClass
-            self.clientList = clientList
-            self.role = role
-            self.kMSKey = kMSKey
-            self.nFSFileShareDefaults = nFSFileShareDefaults
-            self.path = path
-            self.requesterPays = requesterPays
-            self.kMSEncrypted = kMSEncrypted
-            self.fileShareStatus = fileShareStatus
-            self.guessMIMETypeEnabled = guessMIMETypeEnabled
-            self.locationARN = locationARN
-            self.squash = squash
-            self.fileShareARN = fileShareARN
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case readOnly = "ReadOnly"
-            case objectACL = "ObjectACL"
-            case fileShareId = "FileShareId"
-            case defaultStorageClass = "DefaultStorageClass"
-            case clientList = "ClientList"
-            case role = "Role"
-            case kMSKey = "KMSKey"
-            case nFSFileShareDefaults = "NFSFileShareDefaults"
-            case path = "Path"
-            case requesterPays = "RequesterPays"
-            case kMSEncrypted = "KMSEncrypted"
-            case fileShareStatus = "FileShareStatus"
-            case guessMIMETypeEnabled = "GuessMIMETypeEnabled"
-            case locationARN = "LocationARN"
-            case squash = "Squash"
-            case fileShareARN = "FileShareARN"
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct ActivateGatewayOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
-        ]
-        public let gatewayARN: String?
-
-        public init(gatewayARN: String? = nil) {
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gatewayARN = "GatewayARN"
         }
     }
 
@@ -2385,1657 +3965,77 @@ extension StorageGateway {
         }
     }
 
-    public struct SetLocalConsolePasswordInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LocalConsolePassword", required: true, type: .string), 
-            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
-        ]
-        /// The password you want to set for your VM local console.
-        public let localConsolePassword: String
-        public let gatewayARN: String
-
-        public init(localConsolePassword: String, gatewayARN: String) {
-            self.localConsolePassword = localConsolePassword
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case localConsolePassword = "LocalConsolePassword"
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct UpdateVTLDeviceTypeOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VTLDeviceARN", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the medium changer you have selected.
-        public let vTLDeviceARN: String?
-
-        public init(vTLDeviceARN: String? = nil) {
-            self.vTLDeviceARN = vTLDeviceARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case vTLDeviceARN = "VTLDeviceARN"
-        }
-    }
-
-    public struct JoinDomainOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
-        ]
-        /// The unique Amazon Resource Name (ARN) of the gateway that joined the domain.
-        public let gatewayARN: String?
-
-        public init(gatewayARN: String? = nil) {
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct SetSMBGuestPasswordOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
-        ]
-        public let gatewayARN: String?
-
-        public init(gatewayARN: String? = nil) {
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct CreateSMBFileShareOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FileShareARN", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the newly created file share. 
-        public let fileShareARN: String?
-
-        public init(fileShareARN: String? = nil) {
-            self.fileShareARN = fileShareARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fileShareARN = "FileShareARN"
-        }
-    }
-
-    public struct CreateSnapshotFromVolumeRecoveryPointOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SnapshotId", required: false, type: .string), 
-            AWSShapeMember(label: "VolumeARN", required: false, type: .string), 
-            AWSShapeMember(label: "VolumeRecoveryPointTime", required: false, type: .string)
-        ]
-        public let snapshotId: String?
-        public let volumeARN: String?
-        public let volumeRecoveryPointTime: String?
-
-        public init(snapshotId: String? = nil, volumeARN: String? = nil, volumeRecoveryPointTime: String? = nil) {
-            self.snapshotId = snapshotId
-            self.volumeARN = volumeARN
-            self.volumeRecoveryPointTime = volumeRecoveryPointTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case snapshotId = "SnapshotId"
-            case volumeARN = "VolumeARN"
-            case volumeRecoveryPointTime = "VolumeRecoveryPointTime"
-        }
-    }
-
-    public struct VolumeInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VolumeId", required: false, type: .string), 
-            AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
-            AWSShapeMember(label: "VolumeType", required: false, type: .string), 
-            AWSShapeMember(label: "VolumeSizeInBytes", required: false, type: .long), 
-            AWSShapeMember(label: "VolumeARN", required: false, type: .string), 
-            AWSShapeMember(label: "GatewayId", required: false, type: .string)
-        ]
-        /// The unique identifier assigned to the volume. This ID becomes part of the volume Amazon Resource Name (ARN), which you use as input for other operations.  Valid Values: 50 to 500 lowercase letters, numbers, periods (.), and hyphens (-).
-        public let volumeId: String?
-        public let gatewayARN: String?
-        public let volumeType: String?
-        /// The size of the volume in bytes. Valid Values: 50 to 500 lowercase letters, numbers, periods (.), and hyphens (-).
-        public let volumeSizeInBytes: Int64?
-        /// The Amazon Resource Name (ARN) for the storage volume. For example, the following is a valid ARN:  arn:aws:storagegateway:us-east-2:111122223333:gateway/sgw-12A3456B/volume/vol-1122AABB   Valid Values: 50 to 500 lowercase letters, numbers, periods (.), and hyphens (-).
-        public let volumeARN: String?
-        /// The unique identifier assigned to your gateway during activation. This ID becomes part of the gateway Amazon Resource Name (ARN), which you use as input for other operations.  Valid Values: 50 to 500 lowercase letters, numbers, periods (.), and hyphens (-).
-        public let gatewayId: String?
-
-        public init(volumeId: String? = nil, gatewayARN: String? = nil, volumeType: String? = nil, volumeSizeInBytes: Int64? = nil, volumeARN: String? = nil, gatewayId: String? = nil) {
-            self.volumeId = volumeId
-            self.gatewayARN = gatewayARN
-            self.volumeType = volumeType
-            self.volumeSizeInBytes = volumeSizeInBytes
-            self.volumeARN = volumeARN
-            self.gatewayId = gatewayId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case volumeId = "VolumeId"
-            case gatewayARN = "GatewayARN"
-            case volumeType = "VolumeType"
-            case volumeSizeInBytes = "VolumeSizeInBytes"
-            case volumeARN = "VolumeARN"
-            case gatewayId = "GatewayId"
-        }
-    }
-
-    public struct UpdateSnapshotScheduleOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VolumeARN", required: false, type: .string)
-        ]
-        public let volumeARN: String?
-
-        public init(volumeARN: String? = nil) {
-            self.volumeARN = volumeARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case volumeARN = "VolumeARN"
-        }
-    }
-
-    public struct UpdateChapCredentialsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InitiatorName", required: true, type: .string), 
-            AWSShapeMember(label: "SecretToAuthenticateInitiator", required: true, type: .string), 
-            AWSShapeMember(label: "TargetARN", required: true, type: .string), 
-            AWSShapeMember(label: "SecretToAuthenticateTarget", required: false, type: .string)
-        ]
-        /// The iSCSI initiator that connects to the target.
-        public let initiatorName: String
-        /// The secret key that the initiator (for example, the Windows client) must provide to participate in mutual CHAP with the target.  The secret key must be between 12 and 16 bytes when encoded in UTF-8. 
-        public let secretToAuthenticateInitiator: String
-        /// The Amazon Resource Name (ARN) of the iSCSI volume target. Use the DescribeStorediSCSIVolumes operation to return the TargetARN for specified VolumeARN.
-        public let targetARN: String
-        /// The secret key that the target must provide to participate in mutual CHAP with the initiator (e.g. Windows client). Byte constraints: Minimum bytes of 12. Maximum bytes of 16.  The secret key must be between 12 and 16 bytes when encoded in UTF-8. 
-        public let secretToAuthenticateTarget: String?
-
-        public init(initiatorName: String, secretToAuthenticateInitiator: String, targetARN: String, secretToAuthenticateTarget: String? = nil) {
-            self.initiatorName = initiatorName
-            self.secretToAuthenticateInitiator = secretToAuthenticateInitiator
-            self.targetARN = targetARN
-            self.secretToAuthenticateTarget = secretToAuthenticateTarget
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case initiatorName = "InitiatorName"
-            case secretToAuthenticateInitiator = "SecretToAuthenticateInitiator"
-            case targetARN = "TargetARN"
-            case secretToAuthenticateTarget = "SecretToAuthenticateTarget"
-        }
-    }
-
-    public struct DescribeStorediSCSIVolumesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StorediSCSIVolumes", required: false, type: .list)
-        ]
-        public let storediSCSIVolumes: [StorediSCSIVolume]?
-
-        public init(storediSCSIVolumes: [StorediSCSIVolume]? = nil) {
-            self.storediSCSIVolumes = storediSCSIVolumes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case storediSCSIVolumes = "StorediSCSIVolumes"
-        }
-    }
-
-    public struct DescribeSnapshotScheduleOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StartAt", required: false, type: .integer), 
-            AWSShapeMember(label: "RecurrenceInHours", required: false, type: .integer), 
-            AWSShapeMember(label: "Timezone", required: false, type: .string), 
-            AWSShapeMember(label: "VolumeARN", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
-        ]
-        public let startAt: Int32?
-        public let recurrenceInHours: Int32?
-        public let timezone: String?
-        public let volumeARN: String?
-        public let description: String?
-
-        public init(startAt: Int32? = nil, recurrenceInHours: Int32? = nil, timezone: String? = nil, volumeARN: String? = nil, description: String? = nil) {
-            self.startAt = startAt
-            self.recurrenceInHours = recurrenceInHours
-            self.timezone = timezone
-            self.volumeARN = volumeARN
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case startAt = "StartAt"
-            case recurrenceInHours = "RecurrenceInHours"
-            case timezone = "Timezone"
-            case volumeARN = "VolumeARN"
-            case description = "Description"
-        }
-    }
-
-    public struct DeleteTapeInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TapeARN", required: true, type: .string), 
-            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the virtual tape to delete.
-        public let tapeARN: String
-        /// The unique Amazon Resource Name (ARN) of the gateway that the virtual tape to delete is associated with. Use the ListGateways operation to return a list of gateways for your account and region.
-        public let gatewayARN: String
-
-        public init(tapeARN: String, gatewayARN: String) {
-            self.tapeARN = tapeARN
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tapeARN = "TapeARN"
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct DescribeNFSFileSharesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NFSFileShareInfoList", required: false, type: .list)
-        ]
-        /// An array containing a description for each requested file share. 
-        public let nFSFileShareInfoList: [NFSFileShareInfo]?
-
-        public init(nFSFileShareInfoList: [NFSFileShareInfo]? = nil) {
-            self.nFSFileShareInfoList = nFSFileShareInfoList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nFSFileShareInfoList = "NFSFileShareInfoList"
-        }
-    }
-
-    public struct ListFileSharesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
-        ]
-        /// The maximum number of file shares to return in the response. The value must be an integer with a value greater than zero. Optional.
-        public let limit: Int32?
-        /// Opaque pagination token returned from a previous ListFileShares operation. If present, Marker specifies where to continue the list from after a previous call to ListFileShares. Optional.
-        public let marker: String?
-        /// The Amazon resource Name (ARN) of the gateway whose file shares you want to list. If this field is not present, all file shares under your account are listed.
-        public let gatewayARN: String?
-
-        public init(limit: Int32? = nil, marker: String? = nil, gatewayARN: String? = nil) {
-            self.limit = limit
-            self.marker = marker
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case limit = "Limit"
-            case marker = "Marker"
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct DescribeBandwidthRateLimitOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AverageUploadRateLimitInBitsPerSec", required: false, type: .long), 
-            AWSShapeMember(label: "AverageDownloadRateLimitInBitsPerSec", required: false, type: .long), 
-            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
-        ]
-        /// The average upload bandwidth rate limit in bits per second. This field does not appear in the response if the upload rate limit is not set.
-        public let averageUploadRateLimitInBitsPerSec: Int64?
-        /// The average download bandwidth rate limit in bits per second. This field does not appear in the response if the download rate limit is not set.
-        public let averageDownloadRateLimitInBitsPerSec: Int64?
-        public let gatewayARN: String?
-
-        public init(averageUploadRateLimitInBitsPerSec: Int64? = nil, averageDownloadRateLimitInBitsPerSec: Int64? = nil, gatewayARN: String? = nil) {
-            self.averageUploadRateLimitInBitsPerSec = averageUploadRateLimitInBitsPerSec
-            self.averageDownloadRateLimitInBitsPerSec = averageDownloadRateLimitInBitsPerSec
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case averageUploadRateLimitInBitsPerSec = "AverageUploadRateLimitInBitsPerSec"
-            case averageDownloadRateLimitInBitsPerSec = "AverageDownloadRateLimitInBitsPerSec"
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct ListGatewaysOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Gateways", required: false, type: .list), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
-        ]
-        public let gateways: [GatewayInfo]?
-        public let marker: String?
-
-        public init(gateways: [GatewayInfo]? = nil, marker: String? = nil) {
-            self.gateways = gateways
-            self.marker = marker
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gateways = "Gateways"
-            case marker = "Marker"
-        }
-    }
-
-    public struct ChapInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InitiatorName", required: false, type: .string), 
-            AWSShapeMember(label: "SecretToAuthenticateInitiator", required: false, type: .string), 
-            AWSShapeMember(label: "TargetARN", required: false, type: .string), 
-            AWSShapeMember(label: "SecretToAuthenticateTarget", required: false, type: .string)
-        ]
-        /// The iSCSI initiator that connects to the target.
-        public let initiatorName: String?
-        /// The secret key that the initiator (for example, the Windows client) must provide to participate in mutual CHAP with the target.
-        public let secretToAuthenticateInitiator: String?
-        /// The Amazon Resource Name (ARN) of the volume.  Valid Values: 50 to 500 lowercase letters, numbers, periods (.), and hyphens (-).
-        public let targetARN: String?
-        /// The secret key that the target must provide to participate in mutual CHAP with the initiator (e.g. Windows client).
-        public let secretToAuthenticateTarget: String?
-
-        public init(initiatorName: String? = nil, secretToAuthenticateInitiator: String? = nil, targetARN: String? = nil, secretToAuthenticateTarget: String? = nil) {
-            self.initiatorName = initiatorName
-            self.secretToAuthenticateInitiator = secretToAuthenticateInitiator
-            self.targetARN = targetARN
-            self.secretToAuthenticateTarget = secretToAuthenticateTarget
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case initiatorName = "InitiatorName"
-            case secretToAuthenticateInitiator = "SecretToAuthenticateInitiator"
-            case targetARN = "TargetARN"
-            case secretToAuthenticateTarget = "SecretToAuthenticateTarget"
-        }
-    }
-
-    public struct DeleteChapCredentialsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetARN", required: false, type: .string), 
-            AWSShapeMember(label: "InitiatorName", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the target.
-        public let targetARN: String?
-        /// The iSCSI initiator that connects to the target.
-        public let initiatorName: String?
-
-        public init(targetARN: String? = nil, initiatorName: String? = nil) {
-            self.targetARN = targetARN
-            self.initiatorName = initiatorName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case targetARN = "TargetARN"
-            case initiatorName = "InitiatorName"
-        }
-    }
-
-    public struct SetLocalConsolePasswordOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
-        ]
-        public let gatewayARN: String?
-
-        public init(gatewayARN: String? = nil) {
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
     public struct ListVolumesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "VolumeInfos", required: false, type: .list), 
-            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
-        public let marker: String?
         public let volumeInfos: [VolumeInfo]?
         public let gatewayARN: String?
+        public let marker: String?
 
-        public init(marker: String? = nil, volumeInfos: [VolumeInfo]? = nil, gatewayARN: String? = nil) {
-            self.marker = marker
+        public init(volumeInfos: [VolumeInfo]? = nil, gatewayARN: String? = nil, marker: String? = nil) {
             self.volumeInfos = volumeInfos
             self.gatewayARN = gatewayARN
+            self.marker = marker
         }
 
         private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
             case volumeInfos = "VolumeInfos"
             case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct ListVolumeInitiatorsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Initiators", required: false, type: .list)
-        ]
-        /// The host names and port numbers of all iSCSI initiators that are connected to the gateway.
-        public let initiators: [String]?
-
-        public init(initiators: [String]? = nil) {
-            self.initiators = initiators
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case initiators = "Initiators"
-        }
-    }
-
-    public struct DeleteVolumeOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VolumeARN", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the storage volume that was deleted. It is the same ARN you provided in the request.
-        public let volumeARN: String?
-
-        public init(volumeARN: String? = nil) {
-            self.volumeARN = volumeARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case volumeARN = "VolumeARN"
-        }
-    }
-
-    public struct CreateNFSFileShareOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FileShareARN", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the newly created file share. 
-        public let fileShareARN: String?
-
-        public init(fileShareARN: String? = nil) {
-            self.fileShareARN = fileShareARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fileShareARN = "FileShareARN"
-        }
-    }
-
-    public struct ShutdownGatewayOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
-        ]
-        public let gatewayARN: String?
-
-        public init(gatewayARN: String? = nil) {
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct AddWorkingStorageOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
-        ]
-        public let gatewayARN: String?
-
-        public init(gatewayARN: String? = nil) {
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct TapeArchive: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TapeSizeInBytes", required: false, type: .long), 
-            AWSShapeMember(label: "KMSKey", required: false, type: .string), 
-            AWSShapeMember(label: "CompletionTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "TapeCreatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "TapeARN", required: false, type: .string), 
-            AWSShapeMember(label: "TapeUsedInBytes", required: false, type: .long), 
-            AWSShapeMember(label: "TapeStatus", required: false, type: .string), 
-            AWSShapeMember(label: "TapeBarcode", required: false, type: .string), 
-            AWSShapeMember(label: "RetrievedTo", required: false, type: .string)
-        ]
-        /// The size, in bytes, of the archived virtual tape.
-        public let tapeSizeInBytes: Int64?
-        public let kMSKey: String?
-        /// The time that the archiving of the virtual tape was completed. The default time stamp format is in the ISO8601 extended YYYY-MM-DD'T'HH:MM:SS'Z' format.
-        public let completionTime: TimeStamp?
-        /// The date the virtual tape was created.
-        public let tapeCreatedDate: TimeStamp?
-        /// The Amazon Resource Name (ARN) of an archived virtual tape.
-        public let tapeARN: String?
-        /// The size, in bytes, of data stored on the virtual tape.  This value is not available for tapes created prior to May 13, 2015. 
-        public let tapeUsedInBytes: Int64?
-        /// The current state of the archived virtual tape.
-        public let tapeStatus: String?
-        /// The barcode that identifies the archived virtual tape.
-        public let tapeBarcode: String?
-        /// The Amazon Resource Name (ARN) of the tape gateway that the virtual tape is being retrieved to. The virtual tape is retrieved from the virtual tape shelf (VTS).
-        public let retrievedTo: String?
-
-        public init(tapeSizeInBytes: Int64? = nil, kMSKey: String? = nil, completionTime: TimeStamp? = nil, tapeCreatedDate: TimeStamp? = nil, tapeARN: String? = nil, tapeUsedInBytes: Int64? = nil, tapeStatus: String? = nil, tapeBarcode: String? = nil, retrievedTo: String? = nil) {
-            self.tapeSizeInBytes = tapeSizeInBytes
-            self.kMSKey = kMSKey
-            self.completionTime = completionTime
-            self.tapeCreatedDate = tapeCreatedDate
-            self.tapeARN = tapeARN
-            self.tapeUsedInBytes = tapeUsedInBytes
-            self.tapeStatus = tapeStatus
-            self.tapeBarcode = tapeBarcode
-            self.retrievedTo = retrievedTo
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tapeSizeInBytes = "TapeSizeInBytes"
-            case kMSKey = "KMSKey"
-            case completionTime = "CompletionTime"
-            case tapeCreatedDate = "TapeCreatedDate"
-            case tapeARN = "TapeARN"
-            case tapeUsedInBytes = "TapeUsedInBytes"
-            case tapeStatus = "TapeStatus"
-            case tapeBarcode = "TapeBarcode"
-            case retrievedTo = "RetrievedTo"
-        }
-    }
-
-    public struct CancelArchivalInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TapeARN", required: true, type: .string), 
-            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the virtual tape you want to cancel archiving for.
-        public let tapeARN: String
-        public let gatewayARN: String
-
-        public init(tapeARN: String, gatewayARN: String) {
-            self.tapeARN = tapeARN
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tapeARN = "TapeARN"
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct ResetCacheOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
-        ]
-        public let gatewayARN: String?
-
-        public init(gatewayARN: String? = nil) {
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct DeleteTapeOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TapeARN", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the deleted virtual tape.
-        public let tapeARN: String?
-
-        public init(tapeARN: String? = nil) {
-            self.tapeARN = tapeARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tapeARN = "TapeARN"
-        }
-    }
-
-    public struct DescribeSnapshotScheduleInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VolumeARN", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes.
-        public let volumeARN: String
-
-        public init(volumeARN: String) {
-            self.volumeARN = volumeARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case volumeARN = "VolumeARN"
-        }
-    }
-
-    public struct UpdateMaintenanceStartTimeOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
-        ]
-        public let gatewayARN: String?
-
-        public init(gatewayARN: String? = nil) {
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct DeleteFileShareInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FileShareARN", required: true, type: .string), 
-            AWSShapeMember(label: "ForceDelete", required: false, type: .boolean)
-        ]
-        /// The Amazon Resource Name (ARN) of the file share to be deleted. 
-        public let fileShareARN: String
-        /// If this value is set to true, the operation deletes a file share immediately and aborts all data uploads to AWS. Otherwise, the file share is not deleted until all data is uploaded to AWS. This process aborts the data upload process, and the file share enters the FORCE_DELETING status.
-        public let forceDelete: Bool?
-
-        public init(fileShareARN: String, forceDelete: Bool? = nil) {
-            self.fileShareARN = fileShareARN
-            self.forceDelete = forceDelete
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fileShareARN = "FileShareARN"
-            case forceDelete = "ForceDelete"
-        }
-    }
-
-    public struct AddCacheOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
-        ]
-        public let gatewayARN: String?
-
-        public init(gatewayARN: String? = nil) {
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct UpdateNFSFileShareOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FileShareARN", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the updated file share. 
-        public let fileShareARN: String?
-
-        public init(fileShareARN: String? = nil) {
-            self.fileShareARN = fileShareARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fileShareARN = "FileShareARN"
-        }
-    }
-
-    public struct CreateSnapshotFromVolumeRecoveryPointInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SnapshotDescription", required: true, type: .string), 
-            AWSShapeMember(label: "VolumeARN", required: true, type: .string)
-        ]
-        public let snapshotDescription: String
-        public let volumeARN: String
-
-        public init(snapshotDescription: String, volumeARN: String) {
-            self.snapshotDescription = snapshotDescription
-            self.volumeARN = volumeARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case snapshotDescription = "SnapshotDescription"
-            case volumeARN = "VolumeARN"
-        }
-    }
-
-    public struct DescribeTapeRecoveryPointsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
-        ]
-        /// Specifies that the number of virtual tape recovery points that are described be limited to the specified number.
-        public let limit: Int32?
-        /// An opaque string that indicates the position at which to begin describing the virtual tape recovery points.
-        public let marker: String?
-        public let gatewayARN: String
-
-        public init(limit: Int32? = nil, marker: String? = nil, gatewayARN: String) {
-            self.limit = limit
-            self.marker = marker
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case limit = "Limit"
             case marker = "Marker"
-            case gatewayARN = "GatewayARN"
         }
     }
 
-    public struct AddUploadBufferInput: AWSShape {
+    public struct JoinDomainInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DiskIds", required: true, type: .list), 
-            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
-        ]
-        public let diskIds: [String]
-        public let gatewayARN: String
-
-        public init(diskIds: [String], gatewayARN: String) {
-            self.diskIds = diskIds
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case diskIds = "DiskIds"
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct AddWorkingStorageInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DiskIds", required: true, type: .list), 
-            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
-        ]
-        /// An array of strings that identify disks that are to be configured as working storage. Each string have a minimum length of 1 and maximum length of 300. You can get the disk IDs from the ListLocalDisks API.
-        public let diskIds: [String]
-        public let gatewayARN: String
-
-        public init(diskIds: [String], gatewayARN: String) {
-            self.diskIds = diskIds
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case diskIds = "DiskIds"
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct DeleteBandwidthRateLimitOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
-        ]
-        public let gatewayARN: String?
-
-        public init(gatewayARN: String? = nil) {
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct ResetCacheInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
-        ]
-        public let gatewayARN: String
-
-        public init(gatewayARN: String) {
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct ListFileSharesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "FileShareInfoList", required: false, type: .list), 
-            AWSShapeMember(label: "NextMarker", required: false, type: .string)
-        ]
-        /// If the request includes Marker, the response returns that value in this field. 
-        public let marker: String?
-        /// An array of information about the file gateway's file shares. 
-        public let fileShareInfoList: [FileShareInfo]?
-        /// If a value is present, there are more file shares to return. In a subsequent request, use NextMarker as the value for Marker to retrieve the next set of file shares. 
-        public let nextMarker: String?
-
-        public init(marker: String? = nil, fileShareInfoList: [FileShareInfo]? = nil, nextMarker: String? = nil) {
-            self.marker = marker
-            self.fileShareInfoList = fileShareInfoList
-            self.nextMarker = nextMarker
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case fileShareInfoList = "FileShareInfoList"
-            case nextMarker = "NextMarker"
-        }
-    }
-
-    public struct SMBFileShareInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Authentication", required: false, type: .string), 
-            AWSShapeMember(label: "ObjectACL", required: false, type: .enum), 
-            AWSShapeMember(label: "ReadOnly", required: false, type: .boolean), 
-            AWSShapeMember(label: "InvalidUserList", required: false, type: .list), 
-            AWSShapeMember(label: "FileShareId", required: false, type: .string), 
-            AWSShapeMember(label: "DefaultStorageClass", required: false, type: .string), 
-            AWSShapeMember(label: "Role", required: false, type: .string), 
-            AWSShapeMember(label: "KMSKey", required: false, type: .string), 
-            AWSShapeMember(label: "Path", required: false, type: .string), 
-            AWSShapeMember(label: "RequesterPays", required: false, type: .boolean), 
-            AWSShapeMember(label: "ValidUserList", required: false, type: .list), 
-            AWSShapeMember(label: "KMSEncrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "FileShareStatus", required: false, type: .string), 
-            AWSShapeMember(label: "GuessMIMETypeEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "LocationARN", required: false, type: .string), 
-            AWSShapeMember(label: "FileShareARN", required: false, type: .string), 
-            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
-        ]
-        public let authentication: String?
-        public let objectACL: ObjectACL?
-        /// A value that sets the write status of a file share. This value is true if the write status is read-only, and otherwise false.
-        public let readOnly: Bool?
-        /// A list of users or groups in the Active Directory that are not allowed to access the file share. A group must be prefixed with the @ character. For example @group1. Can only be set if Authentication is set to ActiveDirectory.
-        public let invalidUserList: [String]?
-        public let fileShareId: String?
-        /// The default storage class for objects put into an Amazon S3 bucket by the file gateway. Possible values are S3_STANDARD, S3_STANDARD_IA, or S3_ONEZONE_IA. If this field is not populated, the default value S3_STANDARD is used. Optional.
-        public let defaultStorageClass: String?
-        public let role: String?
-        public let kMSKey: String?
-        /// The file share path used by the SMB client to identify the mount point.
-        public let path: String?
-        /// A value that sets the access control list permission for objects in the Amazon S3 bucket that a file gateway puts objects into. The default value is private.
-        public let requesterPays: Bool?
-        /// A list of users or groups in the Active Directory that are allowed to access the file share. A group must be prefixed with the @ character. For example @group1. Can only be set if Authentication is set to ActiveDirectory.
-        public let validUserList: [String]?
-        /// True to use Amazon S3 server-side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional. 
-        public let kMSEncrypted: Bool?
-        public let fileShareStatus: String?
-        /// A value that enables guessing of the MIME type for uploaded objects based on file extensions. Set this value to true to enable MIME type guessing, and otherwise to false. The default value is true.
-        public let guessMIMETypeEnabled: Bool?
-        public let locationARN: String?
-        public let fileShareARN: String?
-        public let gatewayARN: String?
-
-        public init(authentication: String? = nil, objectACL: ObjectACL? = nil, readOnly: Bool? = nil, invalidUserList: [String]? = nil, fileShareId: String? = nil, defaultStorageClass: String? = nil, role: String? = nil, kMSKey: String? = nil, path: String? = nil, requesterPays: Bool? = nil, validUserList: [String]? = nil, kMSEncrypted: Bool? = nil, fileShareStatus: String? = nil, guessMIMETypeEnabled: Bool? = nil, locationARN: String? = nil, fileShareARN: String? = nil, gatewayARN: String? = nil) {
-            self.authentication = authentication
-            self.objectACL = objectACL
-            self.readOnly = readOnly
-            self.invalidUserList = invalidUserList
-            self.fileShareId = fileShareId
-            self.defaultStorageClass = defaultStorageClass
-            self.role = role
-            self.kMSKey = kMSKey
-            self.path = path
-            self.requesterPays = requesterPays
-            self.validUserList = validUserList
-            self.kMSEncrypted = kMSEncrypted
-            self.fileShareStatus = fileShareStatus
-            self.guessMIMETypeEnabled = guessMIMETypeEnabled
-            self.locationARN = locationARN
-            self.fileShareARN = fileShareARN
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case authentication = "Authentication"
-            case objectACL = "ObjectACL"
-            case readOnly = "ReadOnly"
-            case invalidUserList = "InvalidUserList"
-            case fileShareId = "FileShareId"
-            case defaultStorageClass = "DefaultStorageClass"
-            case role = "Role"
-            case kMSKey = "KMSKey"
-            case path = "Path"
-            case requesterPays = "RequesterPays"
-            case validUserList = "ValidUserList"
-            case kMSEncrypted = "KMSEncrypted"
-            case fileShareStatus = "FileShareStatus"
-            case guessMIMETypeEnabled = "GuessMIMETypeEnabled"
-            case locationARN = "LocationARN"
-            case fileShareARN = "FileShareARN"
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct DescribeMaintenanceStartTimeInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
-        ]
-        public let gatewayARN: String
-
-        public init(gatewayARN: String) {
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct DeleteBandwidthRateLimitInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BandwidthType", required: true, type: .string), 
-            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
-        ]
-        /// One of the BandwidthType values that indicates the gateway bandwidth rate limit to delete. Valid Values: Upload, Download, All.
-        public let bandwidthType: String
-        public let gatewayARN: String
-
-        public init(bandwidthType: String, gatewayARN: String) {
-            self.bandwidthType = bandwidthType
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bandwidthType = "BandwidthType"
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct AddUploadBufferOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
-        ]
-        public let gatewayARN: String?
-
-        public init(gatewayARN: String? = nil) {
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct UpdateNFSFileShareInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KMSKey", required: false, type: .string), 
-            AWSShapeMember(label: "GuessMIMETypeEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "FileShareARN", required: true, type: .string), 
-            AWSShapeMember(label: "ObjectACL", required: false, type: .enum), 
-            AWSShapeMember(label: "DefaultStorageClass", required: false, type: .string), 
-            AWSShapeMember(label: "KMSEncrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "Squash", required: false, type: .string), 
-            AWSShapeMember(label: "ClientList", required: false, type: .list), 
-            AWSShapeMember(label: "RequesterPays", required: false, type: .boolean), 
-            AWSShapeMember(label: "NFSFileShareDefaults", required: false, type: .structure), 
-            AWSShapeMember(label: "ReadOnly", required: false, type: .boolean)
-        ]
-        /// The Amazon Resource Name (ARN) of the AWS KMS key used for Amazon S3 server side encryption. This value can only be set when KMSEncrypted is true. Optional. 
-        public let kMSKey: String?
-        /// A value that enables guessing of the MIME type for uploaded objects based on file extensions. Set this value to true to enable MIME type guessing, and otherwise to false. The default value is true.
-        public let guessMIMETypeEnabled: Bool?
-        /// The Amazon Resource Name (ARN) of the file share to be updated. 
-        public let fileShareARN: String
-        /// A value that sets the access control list permission for objects in the S3 bucket that a file gateway puts objects into. The default value is "private".
-        public let objectACL: ObjectACL?
-        /// The default storage class for objects put into an Amazon S3 bucket by the file gateway. Possible values are S3_STANDARD, S3_STANDARD_IA, or S3_ONEZONE_IA. If this field is not populated, the default value S3_STANDARD is used. Optional.
-        public let defaultStorageClass: String?
-        /// True to use Amazon S3 server side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional. 
-        public let kMSEncrypted: Bool?
-        /// The user mapped to anonymous user. Valid options are the following:    RootSquash - Only root is mapped to anonymous user.    NoSquash - No one is mapped to anonymous user    AllSquash - Everyone is mapped to anonymous user.  
-        public let squash: String?
-        /// The list of clients that are allowed to access the file gateway. The list must contain either valid IP addresses or valid CIDR blocks.
-        public let clientList: [String]?
-        /// A value that sets the access control list permission for objects in the Amazon S3 bucket that a file gateway puts objects into. The default value is private.
-        public let requesterPays: Bool?
-        /// The default values for the file share. Optional.
-        public let nFSFileShareDefaults: NFSFileShareDefaults?
-        /// A value that sets the write status of a file share. This value is true if the write status is read-only, and otherwise false.
-        public let readOnly: Bool?
-
-        public init(kMSKey: String? = nil, guessMIMETypeEnabled: Bool? = nil, fileShareARN: String, objectACL: ObjectACL? = nil, defaultStorageClass: String? = nil, kMSEncrypted: Bool? = nil, squash: String? = nil, clientList: [String]? = nil, requesterPays: Bool? = nil, nFSFileShareDefaults: NFSFileShareDefaults? = nil, readOnly: Bool? = nil) {
-            self.kMSKey = kMSKey
-            self.guessMIMETypeEnabled = guessMIMETypeEnabled
-            self.fileShareARN = fileShareARN
-            self.objectACL = objectACL
-            self.defaultStorageClass = defaultStorageClass
-            self.kMSEncrypted = kMSEncrypted
-            self.squash = squash
-            self.clientList = clientList
-            self.requesterPays = requesterPays
-            self.nFSFileShareDefaults = nFSFileShareDefaults
-            self.readOnly = readOnly
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case kMSKey = "KMSKey"
-            case guessMIMETypeEnabled = "GuessMIMETypeEnabled"
-            case fileShareARN = "FileShareARN"
-            case objectACL = "ObjectACL"
-            case defaultStorageClass = "DefaultStorageClass"
-            case kMSEncrypted = "KMSEncrypted"
-            case squash = "Squash"
-            case clientList = "ClientList"
-            case requesterPays = "RequesterPays"
-            case nFSFileShareDefaults = "NFSFileShareDefaults"
-            case readOnly = "ReadOnly"
-        }
-    }
-
-    public struct VolumeiSCSIAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChapEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "NetworkInterfaceId", required: false, type: .string), 
-            AWSShapeMember(label: "NetworkInterfacePort", required: false, type: .integer), 
-            AWSShapeMember(label: "TargetARN", required: false, type: .string), 
-            AWSShapeMember(label: "LunNumber", required: false, type: .integer)
-        ]
-        /// Indicates whether mutual CHAP is enabled for the iSCSI target.
-        public let chapEnabled: Bool?
-        /// The network interface identifier.
-        public let networkInterfaceId: String?
-        /// The port used to communicate with iSCSI targets.
-        public let networkInterfacePort: Int32?
-        /// The Amazon Resource Name (ARN) of the volume target.
-        public let targetARN: String?
-        /// The logical disk number.
-        public let lunNumber: Int32?
-
-        public init(chapEnabled: Bool? = nil, networkInterfaceId: String? = nil, networkInterfacePort: Int32? = nil, targetARN: String? = nil, lunNumber: Int32? = nil) {
-            self.chapEnabled = chapEnabled
-            self.networkInterfaceId = networkInterfaceId
-            self.networkInterfacePort = networkInterfacePort
-            self.targetARN = targetARN
-            self.lunNumber = lunNumber
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case chapEnabled = "ChapEnabled"
-            case networkInterfaceId = "NetworkInterfaceId"
-            case networkInterfacePort = "NetworkInterfacePort"
-            case targetARN = "TargetARN"
-            case lunNumber = "LunNumber"
-        }
-    }
-
-    public struct UpdateSMBFileShareInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KMSKey", required: false, type: .string), 
-            AWSShapeMember(label: "GuessMIMETypeEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "FileShareARN", required: true, type: .string), 
-            AWSShapeMember(label: "ObjectACL", required: false, type: .enum), 
-            AWSShapeMember(label: "DefaultStorageClass", required: false, type: .string), 
-            AWSShapeMember(label: "KMSEncrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "RequesterPays", required: false, type: .boolean), 
-            AWSShapeMember(label: "ReadOnly", required: false, type: .boolean), 
-            AWSShapeMember(label: "InvalidUserList", required: false, type: .list), 
-            AWSShapeMember(label: "ValidUserList", required: false, type: .list)
-        ]
-        /// The Amazon Resource Name (ARN) of the AWS KMS key used for Amazon S3 server side encryption. This value can only be set when KMSEncrypted is true. Optional.
-        public let kMSKey: String?
-        /// A value that enables guessing of the MIME type for uploaded objects based on file extensions. Set this value to true to enable MIME type guessing, and otherwise to false. The default value is true.
-        public let guessMIMETypeEnabled: Bool?
-        /// The Amazon Resource Name (ARN) of the SMB file share that you want to update.
-        public let fileShareARN: String
-        /// A value that sets the access control list permission for objects in the S3 bucket that a file gateway puts objects into. The default value is "private".
-        public let objectACL: ObjectACL?
-        /// The default storage class for objects put into an Amazon S3 bucket by the file gateway. Possible values are S3_STANDARD, S3_STANDARD_IA, or S3_ONEZONE_IA. If this field is not populated, the default value S3_STANDARD is used. Optional.
-        public let defaultStorageClass: String?
-        /// True to use Amazon S3 server side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional.
-        public let kMSEncrypted: Bool?
-        /// A value that sets the access control list permission for objects in the Amazon S3 bucket that a file gateway puts objects into. The default value is private.
-        public let requesterPays: Bool?
-        /// A value that sets the write status of a file share. This value is true if the write status is read-only, and otherwise false.
-        public let readOnly: Bool?
-        /// A list of users or groups in the Active Directory that are not allowed to access the file share. A group must be prefixed with the @ character. For example @group1. Can only be set if Authentication is set to ActiveDirectory.
-        public let invalidUserList: [String]?
-        /// A list of users or groups in the Active Directory that are allowed to access the file share. A group must be prefixed with the @ character. For example @group1. Can only be set if Authentication is set to ActiveDirectory.
-        public let validUserList: [String]?
-
-        public init(kMSKey: String? = nil, guessMIMETypeEnabled: Bool? = nil, fileShareARN: String, objectACL: ObjectACL? = nil, defaultStorageClass: String? = nil, kMSEncrypted: Bool? = nil, requesterPays: Bool? = nil, readOnly: Bool? = nil, invalidUserList: [String]? = nil, validUserList: [String]? = nil) {
-            self.kMSKey = kMSKey
-            self.guessMIMETypeEnabled = guessMIMETypeEnabled
-            self.fileShareARN = fileShareARN
-            self.objectACL = objectACL
-            self.defaultStorageClass = defaultStorageClass
-            self.kMSEncrypted = kMSEncrypted
-            self.requesterPays = requesterPays
-            self.readOnly = readOnly
-            self.invalidUserList = invalidUserList
-            self.validUserList = validUserList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case kMSKey = "KMSKey"
-            case guessMIMETypeEnabled = "GuessMIMETypeEnabled"
-            case fileShareARN = "FileShareARN"
-            case objectACL = "ObjectACL"
-            case defaultStorageClass = "DefaultStorageClass"
-            case kMSEncrypted = "KMSEncrypted"
-            case requesterPays = "RequesterPays"
-            case readOnly = "ReadOnly"
-            case invalidUserList = "InvalidUserList"
-            case validUserList = "ValidUserList"
-        }
-    }
-
-    public struct DescribeStorediSCSIVolumesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VolumeARNs", required: true, type: .list)
-        ]
-        /// An array of strings where each string represents the Amazon Resource Name (ARN) of a stored volume. All of the specified stored volumes must from the same gateway. Use ListVolumes to get volume ARNs for a gateway.
-        public let volumeARNs: [String]
-
-        public init(volumeARNs: [String]) {
-            self.volumeARNs = volumeARNs
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case volumeARNs = "VolumeARNs"
-        }
-    }
-
-    public struct ShutdownGatewayInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
-        ]
-        public let gatewayARN: String
-
-        public init(gatewayARN: String) {
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct Disk: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DiskPath", required: false, type: .string), 
-            AWSShapeMember(label: "DiskNode", required: false, type: .string), 
-            AWSShapeMember(label: "DiskStatus", required: false, type: .string), 
-            AWSShapeMember(label: "DiskAllocationType", required: false, type: .string), 
-            AWSShapeMember(label: "DiskId", required: false, type: .string), 
-            AWSShapeMember(label: "DiskSizeInBytes", required: false, type: .long), 
-            AWSShapeMember(label: "DiskAttributeList", required: false, type: .list), 
-            AWSShapeMember(label: "DiskAllocationResource", required: false, type: .string)
-        ]
-        /// The path of a local disk in the gateway virtual machine (VM).
-        public let diskPath: String?
-        /// The device node of a local disk as assigned by the virtualization environment.
-        public let diskNode: String?
-        /// A value that represents the status of a local disk.
-        public let diskStatus: String?
-        public let diskAllocationType: String?
-        /// The unique device ID or other distinguishing data that identifies a local disk.
-        public let diskId: String?
-        /// The local disk size in bytes.
-        public let diskSizeInBytes: Int64?
-        public let diskAttributeList: [String]?
-        /// The iSCSI Qualified Name (IQN) that is defined for a disk. This field is not included in the response if the local disk is not defined as an iSCSI target. The format of this field is targetIqn::LUNNumber::region-volumeId. 
-        public let diskAllocationResource: String?
-
-        public init(diskPath: String? = nil, diskNode: String? = nil, diskStatus: String? = nil, diskAllocationType: String? = nil, diskId: String? = nil, diskSizeInBytes: Int64? = nil, diskAttributeList: [String]? = nil, diskAllocationResource: String? = nil) {
-            self.diskPath = diskPath
-            self.diskNode = diskNode
-            self.diskStatus = diskStatus
-            self.diskAllocationType = diskAllocationType
-            self.diskId = diskId
-            self.diskSizeInBytes = diskSizeInBytes
-            self.diskAttributeList = diskAttributeList
-            self.diskAllocationResource = diskAllocationResource
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case diskPath = "DiskPath"
-            case diskNode = "DiskNode"
-            case diskStatus = "DiskStatus"
-            case diskAllocationType = "DiskAllocationType"
-            case diskId = "DiskId"
-            case diskSizeInBytes = "DiskSizeInBytes"
-            case diskAttributeList = "DiskAttributeList"
-            case diskAllocationResource = "DiskAllocationResource"
-        }
-    }
-
-    public struct RemoveTagsFromResourceOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceARN", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the resource that the tags were removed from.
-        public let resourceARN: String?
-
-        public init(resourceARN: String? = nil) {
-            self.resourceARN = resourceARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceARN = "ResourceARN"
-        }
-    }
-
-    public struct StorediSCSIVolume: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VolumeStatus", required: false, type: .string), 
-            AWSShapeMember(label: "SourceSnapshotId", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "VolumeiSCSIAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "KMSKey", required: false, type: .string), 
-            AWSShapeMember(label: "VolumeSizeInBytes", required: false, type: .long), 
-            AWSShapeMember(label: "VolumeARN", required: false, type: .string), 
-            AWSShapeMember(label: "VolumeId", required: false, type: .string), 
-            AWSShapeMember(label: "PreservedExistingData", required: false, type: .boolean), 
-            AWSShapeMember(label: "VolumeDiskId", required: false, type: .string), 
-            AWSShapeMember(label: "VolumeProgress", required: false, type: .double), 
-            AWSShapeMember(label: "VolumeType", required: false, type: .string), 
-            AWSShapeMember(label: "VolumeUsedInBytes", required: false, type: .long)
-        ]
-        /// One of the VolumeStatus values that indicates the state of the storage volume.
-        public let volumeStatus: String?
-        /// If the stored volume was created from a snapshot, this field contains the snapshot ID used, e.g. snap-78e22663. Otherwise, this field is not included.
-        public let sourceSnapshotId: String?
-        /// The date the volume was created. Volumes created prior to March 28, 2017 don’t have this time stamp.
-        public let createdDate: TimeStamp?
-        /// An VolumeiSCSIAttributes object that represents a collection of iSCSI attributes for one stored volume.
-        public let volumeiSCSIAttributes: VolumeiSCSIAttributes?
-        public let kMSKey: String?
-        /// The size of the volume in bytes.
-        public let volumeSizeInBytes: Int64?
-        /// The Amazon Resource Name (ARN) of the storage volume.
-        public let volumeARN: String?
-        /// The unique identifier of the volume, e.g. vol-AE4B946D.
-        public let volumeId: String?
-        /// Indicates if when the stored volume was created, existing data on the underlying local disk was preserved.  Valid Values: true, false
-        public let preservedExistingData: Bool?
-        /// The ID of the local disk that was specified in the CreateStorediSCSIVolume operation.
-        public let volumeDiskId: String?
-        /// Represents the percentage complete if the volume is restoring or bootstrapping that represents the percent of data transferred. This field does not appear in the response if the stored volume is not restoring or bootstrapping.
-        public let volumeProgress: Double?
-        /// One of the VolumeType enumeration values describing the type of the volume.
-        public let volumeType: String?
-        /// The size of the data stored on the volume in bytes.   This value is not available for volumes created prior to May 13, 2015, until you store data on the volume. 
-        public let volumeUsedInBytes: Int64?
-
-        public init(volumeStatus: String? = nil, sourceSnapshotId: String? = nil, createdDate: TimeStamp? = nil, volumeiSCSIAttributes: VolumeiSCSIAttributes? = nil, kMSKey: String? = nil, volumeSizeInBytes: Int64? = nil, volumeARN: String? = nil, volumeId: String? = nil, preservedExistingData: Bool? = nil, volumeDiskId: String? = nil, volumeProgress: Double? = nil, volumeType: String? = nil, volumeUsedInBytes: Int64? = nil) {
-            self.volumeStatus = volumeStatus
-            self.sourceSnapshotId = sourceSnapshotId
-            self.createdDate = createdDate
-            self.volumeiSCSIAttributes = volumeiSCSIAttributes
-            self.kMSKey = kMSKey
-            self.volumeSizeInBytes = volumeSizeInBytes
-            self.volumeARN = volumeARN
-            self.volumeId = volumeId
-            self.preservedExistingData = preservedExistingData
-            self.volumeDiskId = volumeDiskId
-            self.volumeProgress = volumeProgress
-            self.volumeType = volumeType
-            self.volumeUsedInBytes = volumeUsedInBytes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case volumeStatus = "VolumeStatus"
-            case sourceSnapshotId = "SourceSnapshotId"
-            case createdDate = "CreatedDate"
-            case volumeiSCSIAttributes = "VolumeiSCSIAttributes"
-            case kMSKey = "KMSKey"
-            case volumeSizeInBytes = "VolumeSizeInBytes"
-            case volumeARN = "VolumeARN"
-            case volumeId = "VolumeId"
-            case preservedExistingData = "PreservedExistingData"
-            case volumeDiskId = "VolumeDiskId"
-            case volumeProgress = "VolumeProgress"
-            case volumeType = "VolumeType"
-            case volumeUsedInBytes = "VolumeUsedInBytes"
-        }
-    }
-
-    public struct UpdateChapCredentialsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetARN", required: false, type: .string), 
-            AWSShapeMember(label: "InitiatorName", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the target. This is the same target specified in the request.
-        public let targetARN: String?
-        /// The iSCSI initiator that connects to the target. This is the same initiator name specified in the request.
-        public let initiatorName: String?
-
-        public init(targetARN: String? = nil, initiatorName: String? = nil) {
-            self.targetARN = targetARN
-            self.initiatorName = initiatorName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case targetARN = "TargetARN"
-            case initiatorName = "InitiatorName"
-        }
-    }
-
-    public struct CreateNFSFileShareInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReadOnly", required: false, type: .boolean), 
-            AWSShapeMember(label: "ObjectACL", required: false, type: .enum), 
-            AWSShapeMember(label: "DefaultStorageClass", required: false, type: .string), 
-            AWSShapeMember(label: "ClientList", required: false, type: .list), 
-            AWSShapeMember(label: "Role", required: true, type: .string), 
-            AWSShapeMember(label: "NFSFileShareDefaults", required: false, type: .structure), 
-            AWSShapeMember(label: "KMSKey", required: false, type: .string), 
-            AWSShapeMember(label: "RequesterPays", required: false, type: .boolean), 
-            AWSShapeMember(label: "KMSEncrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "GuessMIMETypeEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "ClientToken", required: true, type: .string), 
-            AWSShapeMember(label: "LocationARN", required: true, type: .string), 
-            AWSShapeMember(label: "Squash", required: false, type: .string), 
-            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
-        ]
-        /// A value that sets the write status of a file share. This value is true if the write status is read-only, and otherwise false.
-        public let readOnly: Bool?
-        /// A value that sets the access control list permission for objects in the S3 bucket that a file gateway puts objects into. The default value is "private".
-        public let objectACL: ObjectACL?
-        /// The default storage class for objects put into an Amazon S3 bucket by the file gateway. Possible values are S3_STANDARD, S3_STANDARD_IA, or S3_ONEZONE_IA. If this field is not populated, the default value S3_STANDARD is used. Optional.
-        public let defaultStorageClass: String?
-        /// The list of clients that are allowed to access the file gateway. The list must contain either valid IP addresses or valid CIDR blocks. 
-        public let clientList: [String]?
-        /// The ARN of the AWS Identity and Access Management (IAM) role that a file gateway assumes when it accesses the underlying storage. 
-        public let role: String
-        /// File share default values. Optional.
-        public let nFSFileShareDefaults: NFSFileShareDefaults?
-        /// The Amazon Resource Name (ARN) AWS KMS key used for Amazon S3 server side encryption. This value can only be set when KMSEncrypted is true. Optional.
-        public let kMSKey: String?
-        /// A value that sets the access control list permission for objects in the Amazon S3 bucket that a file gateway puts objects into. The default value is private.
-        public let requesterPays: Bool?
-        /// True to use Amazon S3 server side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional.
-        public let kMSEncrypted: Bool?
-        /// A value that enables guessing of the MIME type for uploaded objects based on file extensions. Set this value to true to enable MIME type guessing, and otherwise to false. The default value is true.
-        public let guessMIMETypeEnabled: Bool?
-        /// A unique string value that you supply that is used by file gateway to ensure idempotent file share creation.
-        public let clientToken: String
-        /// The ARN of the backed storage used for storing file data. 
-        public let locationARN: String
-        /// Maps a user to anonymous user. Valid options are the following:     RootSquash - Only root is mapped to anonymous user.    NoSquash - No one is mapped to anonymous user    AllSquash - Everyone is mapped to anonymous user.  
-        public let squash: String?
-        /// The Amazon Resource Name (ARN) of the file gateway on which you want to create a file share.
-        public let gatewayARN: String
-
-        public init(readOnly: Bool? = nil, objectACL: ObjectACL? = nil, defaultStorageClass: String? = nil, clientList: [String]? = nil, role: String, nFSFileShareDefaults: NFSFileShareDefaults? = nil, kMSKey: String? = nil, requesterPays: Bool? = nil, kMSEncrypted: Bool? = nil, guessMIMETypeEnabled: Bool? = nil, clientToken: String, locationARN: String, squash: String? = nil, gatewayARN: String) {
-            self.readOnly = readOnly
-            self.objectACL = objectACL
-            self.defaultStorageClass = defaultStorageClass
-            self.clientList = clientList
-            self.role = role
-            self.nFSFileShareDefaults = nFSFileShareDefaults
-            self.kMSKey = kMSKey
-            self.requesterPays = requesterPays
-            self.kMSEncrypted = kMSEncrypted
-            self.guessMIMETypeEnabled = guessMIMETypeEnabled
-            self.clientToken = clientToken
-            self.locationARN = locationARN
-            self.squash = squash
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case readOnly = "ReadOnly"
-            case objectACL = "ObjectACL"
-            case defaultStorageClass = "DefaultStorageClass"
-            case clientList = "ClientList"
-            case role = "Role"
-            case nFSFileShareDefaults = "NFSFileShareDefaults"
-            case kMSKey = "KMSKey"
-            case requesterPays = "RequesterPays"
-            case kMSEncrypted = "KMSEncrypted"
-            case guessMIMETypeEnabled = "GuessMIMETypeEnabled"
-            case clientToken = "ClientToken"
-            case locationARN = "LocationARN"
-            case squash = "Squash"
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct DeleteTapeArchiveOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TapeARN", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the virtual tape that was deleted from the virtual tape shelf (VTS).
-        public let tapeARN: String?
-
-        public init(tapeARN: String? = nil) {
-            self.tapeARN = tapeARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tapeARN = "TapeARN"
-        }
-    }
-
-    public struct CreateStorediSCSIVolumeOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VolumeSizeInBytes", required: false, type: .long), 
-            AWSShapeMember(label: "TargetARN", required: false, type: .string), 
-            AWSShapeMember(label: "VolumeARN", required: false, type: .string)
-        ]
-        /// The size of the volume in bytes.
-        public let volumeSizeInBytes: Int64?
-        /// he Amazon Resource Name (ARN) of the volume target that includes the iSCSI name that initiators can use to connect to the target.
-        public let targetARN: String?
-        /// The Amazon Resource Name (ARN) of the configured volume.
-        public let volumeARN: String?
-
-        public init(volumeSizeInBytes: Int64? = nil, targetARN: String? = nil, volumeARN: String? = nil) {
-            self.volumeSizeInBytes = volumeSizeInBytes
-            self.targetARN = targetARN
-            self.volumeARN = volumeARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case volumeSizeInBytes = "VolumeSizeInBytes"
-            case targetARN = "TargetARN"
-            case volumeARN = "VolumeARN"
-        }
-    }
-
-    public struct DescribeChapCredentialsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ChapCredentials", required: false, type: .list)
-        ]
-        /// An array of ChapInfo objects that represent CHAP credentials. Each object in the array contains CHAP credential information for one target-initiator pair. If no CHAP credentials are set, an empty array is returned. CHAP credential information is provided in a JSON object with the following fields:    InitiatorName: The iSCSI initiator that connects to the target.    SecretToAuthenticateInitiator: The secret key that the initiator (for example, the Windows client) must provide to participate in mutual CHAP with the target.    SecretToAuthenticateTarget: The secret key that the target must provide to participate in mutual CHAP with the initiator (e.g. Windows client).    TargetARN: The Amazon Resource Name (ARN) of the storage volume.  
-        public let chapCredentials: [ChapInfo]?
-
-        public init(chapCredentials: [ChapInfo]? = nil) {
-            self.chapCredentials = chapCredentials
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case chapCredentials = "ChapCredentials"
-        }
-    }
-
-    public struct StorageGatewayError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "errorDetails", required: false, type: .map), 
-            AWSShapeMember(label: "errorCode", required: false, type: .enum)
-        ]
-        /// Human-readable text that provides detail about the error that occurred.
-        public let errorDetails: [String: String]?
-        /// Additional information about the error.
-        public let errorCode: ErrorCode?
-
-        public init(errorDetails: [String: String]? = nil, errorCode: ErrorCode? = nil) {
-            self.errorDetails = errorDetails
-            self.errorCode = errorCode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorDetails = "errorDetails"
-            case errorCode = "errorCode"
-        }
-    }
-
-    public struct UpdateSMBFileShareOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FileShareARN", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the updated SMB file share. 
-        public let fileShareARN: String?
-
-        public init(fileShareARN: String? = nil) {
-            self.fileShareARN = fileShareARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fileShareARN = "FileShareARN"
-        }
-    }
-
-    public struct UpdateGatewaySoftwareNowInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
-        ]
-        public let gatewayARN: String
-
-        public init(gatewayARN: String) {
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public struct AddTagsToResourceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: true, type: .list), 
-            AWSShapeMember(label: "ResourceARN", required: true, type: .string)
-        ]
-        /// The key-value pair that represents the tag you want to add to the resource. The value can be an empty string.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. 
-        public let tags: [Tag]
-        /// The Amazon Resource Name (ARN) of the resource you want to add tags to.
-        public let resourceARN: String
-
-        public init(tags: [Tag], resourceARN: String) {
-            self.tags = tags
-            self.resourceARN = resourceARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-            case resourceARN = "ResourceARN"
-        }
-    }
-
-    public struct RetrieveTapeArchiveInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TapeARN", required: true, type: .string), 
-            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the virtual tape you want to retrieve from the virtual tape shelf (VTS).
-        public let tapeARN: String
-        /// The Amazon Resource Name (ARN) of the gateway you want to retrieve the virtual tape to. Use the ListGateways operation to return a list of gateways for your account and region. You retrieve archived virtual tapes to only one gateway and the gateway must be a tape gateway.
-        public let gatewayARN: String
-
-        public init(tapeARN: String, gatewayARN: String) {
-            self.tapeARN = tapeARN
-            self.gatewayARN = gatewayARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tapeARN = "TapeARN"
-            case gatewayARN = "GatewayARN"
-        }
-    }
-
-    public enum FileShareType: String, CustomStringConvertible, Codable {
-        case nfs = "NFS"
-        case smb = "SMB"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListTapesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "TapeARNs", required: false, type: .list)
-        ]
-        /// An optional number limit for the tapes in the list returned by this call.
-        public let limit: Int32?
-        /// A string that indicates the position at which to begin the returned list of tapes.
-        public let marker: String?
-        public let tapeARNs: [String]?
-
-        public init(limit: Int32? = nil, marker: String? = nil, tapeARNs: [String]? = nil) {
-            self.limit = limit
-            self.marker = marker
-            self.tapeARNs = tapeARNs
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case limit = "Limit"
-            case marker = "Marker"
-            case tapeARNs = "TapeARNs"
-        }
-    }
-
-    public struct DescribeChapCredentialsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetARN", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the iSCSI volume target. Use the DescribeStorediSCSIVolumes operation to return to retrieve the TargetARN for specified VolumeARN.
-        public let targetARN: String
-
-        public init(targetARN: String) {
-            self.targetARN = targetARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case targetARN = "TargetARN"
-        }
-    }
-
-    public struct DescribeVTLDevicesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Password", required: true, type: .string), 
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
             AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
-            AWSShapeMember(label: "VTLDeviceARNs", required: false, type: .list), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer)
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
-        /// An opaque string that indicates the position at which to begin describing the VTL devices.
-        public let marker: String?
+        /// Sets the password of the user who has permission to add the gateway to the Active Directory domain.
+        public let password: String
+        /// Sets the user name of user who has permission to add the gateway to the Active Directory domain.
+        public let userName: String
+        /// The unique Amazon Resource Name (ARN) of the file gateway you want to add to the Active Directory domain. 
         public let gatewayARN: String
-        /// An array of strings, where each string represents the Amazon Resource Name (ARN) of a VTL device.  All of the specified VTL devices must be from the same gateway. If no VTL devices are specified, the result will contain all devices on the specified gateway. 
-        public let vTLDeviceARNs: [String]?
-        /// Specifies that the number of VTL devices described be limited to the specified number.
-        public let limit: Int32?
+        /// The name of the domain that you want the gateway to join.
+        public let domainName: String
 
-        public init(marker: String? = nil, gatewayARN: String, vTLDeviceARNs: [String]? = nil, limit: Int32? = nil) {
-            self.marker = marker
+        public init(password: String, userName: String, gatewayARN: String, domainName: String) {
+            self.password = password
+            self.userName = userName
             self.gatewayARN = gatewayARN
-            self.vTLDeviceARNs = vTLDeviceARNs
-            self.limit = limit
+            self.domainName = domainName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
+            case password = "Password"
+            case userName = "UserName"
             case gatewayARN = "GatewayARN"
-            case vTLDeviceARNs = "VTLDeviceARNs"
-            case limit = "Limit"
+            case domainName = "DomainName"
         }
     }
 
-    public enum ObjectACL: String, CustomStringConvertible, Codable {
-        case `private` = "private"
-        case publicRead = "public-read"
-        case publicReadWrite = "public-read-write"
-        case authenticatedRead = "authenticated-read"
-        case bucketOwnerRead = "bucket-owner-read"
-        case bucketOwnerFullControl = "bucket-owner-full-control"
-        case awsExecRead = "aws-exec-read"
-        public var description: String { return self.rawValue }
+    public struct AddCacheInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
+            AWSShapeMember(label: "DiskIds", required: true, type: .list)
+        ]
+        public let gatewayARN: String
+        public let diskIds: [String]
+
+        public init(gatewayARN: String, diskIds: [String]) {
+            self.gatewayARN = gatewayARN
+            self.diskIds = diskIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+            case diskIds = "DiskIds"
+        }
     }
 
 }

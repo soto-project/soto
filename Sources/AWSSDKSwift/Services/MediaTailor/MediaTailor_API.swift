@@ -2,6 +2,7 @@
 
 import Foundation
 import AWSSDKSwiftCore
+import NIO
 
 /**
 Use the AWS Elemental MediaTailor SDK to configure scalable ad insertion for your live and VOD content. With AWS Elemental MediaTailor, you can serve targeted ads to viewers while maintaining broadcast quality in over-the-top (OTT) video applications. For information about using the service, including detailed information about the settings covered in this guide, see the AWS Elemental MediaTailor User Guide.Through the SDK, you manage AWS Elemental MediaTailor configurations the same as you do through the console. For example, you specify ad insertion behavior and mapping information for the origin server and the ad decision server (ADS).
@@ -23,24 +24,24 @@ public struct MediaTailor {
         )
     }
 
+    ///  Returns the configuration for the specified name. 
+    public func getPlaybackConfiguration(_ input: GetPlaybackConfigurationRequest) throws -> EventLoopFuture<GetPlaybackConfigurationResponse> {
+        return try client.send(operation: "GetPlaybackConfiguration", path: "/playbackConfiguration/{Name}", httpMethod: "GET", input: input)
+    }
+
+    ///  Returns a list of the configurations defined in AWS Elemental MediaTailor. You can specify a max number of configurations to return at a time. The default max is 50. Results are returned in pagefuls. If AWS Elemental MediaTailor has more configurations than the specified max, it provides parameters in the response that you can use to retrieve the next pageful. 
+    public func listPlaybackConfigurations(_ input: ListPlaybackConfigurationsRequest) throws -> EventLoopFuture<ListPlaybackConfigurationsResponse> {
+        return try client.send(operation: "ListPlaybackConfigurations", path: "/playbackConfigurations", httpMethod: "GET", input: input)
+    }
+
     ///  Deletes the configuration for the specified name. 
     public func deletePlaybackConfiguration(_ input: DeletePlaybackConfigurationRequest) throws {
         _ = try client.send(operation: "DeletePlaybackConfiguration", path: "/playbackConfiguration/{Name}", httpMethod: "DELETE", input: input)
     }
 
     ///  Adds a new configuration to AWS Elemental MediaTailor.
-    public func putPlaybackConfiguration(_ input: PutPlaybackConfigurationRequest) throws -> PutPlaybackConfigurationResponse {
+    public func putPlaybackConfiguration(_ input: PutPlaybackConfigurationRequest) throws -> EventLoopFuture<PutPlaybackConfigurationResponse> {
         return try client.send(operation: "PutPlaybackConfiguration", path: "/playbackConfiguration", httpMethod: "PUT", input: input)
-    }
-
-    ///  Returns the configuration for the specified name. 
-    public func getPlaybackConfiguration(_ input: GetPlaybackConfigurationRequest) throws -> GetPlaybackConfigurationResponse {
-        return try client.send(operation: "GetPlaybackConfiguration", path: "/playbackConfiguration/{Name}", httpMethod: "GET", input: input)
-    }
-
-    ///  Returns a list of the configurations defined in AWS Elemental MediaTailor. You can specify a max number of configurations to return at a time. The default max is 50. Results are returned in pagefuls. If AWS Elemental MediaTailor has more configurations than the specified max, it provides parameters in the response that you can use to retrieve the next pageful. 
-    public func listPlaybackConfigurations(_ input: ListPlaybackConfigurationsRequest) throws -> ListPlaybackConfigurationsResponse {
-        return try client.send(operation: "ListPlaybackConfigurations", path: "/playbackConfigurations", httpMethod: "GET", input: input)
     }
 
 

@@ -5,293 +5,246 @@ import AWSSDKSwiftCore
 
 extension CodeDeploy {
 
-    public struct ListApplicationRevisionsOutput: AWSShape {
+    public struct GetDeploymentConfigOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "revisions", required: false, type: .list), 
+            AWSShapeMember(label: "deploymentConfigInfo", required: false, type: .structure)
+        ]
+        /// Information about the deployment configuration.
+        public let deploymentConfigInfo: DeploymentConfigInfo?
+
+        public init(deploymentConfigInfo: DeploymentConfigInfo? = nil) {
+            self.deploymentConfigInfo = deploymentConfigInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentConfigInfo = "deploymentConfigInfo"
+        }
+    }
+
+    public struct BatchGetOnPremisesInstancesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceNames", required: true, type: .list)
+        ]
+        /// The names of the on-premises instances about which to get information.
+        public let instanceNames: [String]
+
+        public init(instanceNames: [String]) {
+            self.instanceNames = instanceNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceNames = "instanceNames"
+        }
+    }
+
+    public struct TimeBasedCanary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "canaryInterval", required: false, type: .integer), 
+            AWSShapeMember(label: "canaryPercentage", required: false, type: .integer)
+        ]
+        /// The number of minutes between the first and second traffic shifts of a TimeBasedCanary deployment.
+        public let canaryInterval: Int32?
+        /// The percentage of traffic to shift in the first increment of a TimeBasedCanary deployment.
+        public let canaryPercentage: Int32?
+
+        public init(canaryInterval: Int32? = nil, canaryPercentage: Int32? = nil) {
+            self.canaryInterval = canaryInterval
+            self.canaryPercentage = canaryPercentage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case canaryInterval = "canaryInterval"
+            case canaryPercentage = "canaryPercentage"
+        }
+    }
+
+    public struct ListDeploymentConfigsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
-        /// A list of locations that contain the matching revisions.
-        public let revisions: [RevisionLocation]?
-        /// If a large amount of information is returned, an identifier will also be returned. It can be used in a subsequent list application revisions call to return the next set of application revisions in the list.
+        /// An identifier returned from the previous ListDeploymentConfigs call. It can be used to return the next set of deployment configurations in the list. 
         public let nextToken: String?
 
-        public init(revisions: [RevisionLocation]? = nil, nextToken: String? = nil) {
-            self.revisions = revisions
+        public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case revisions = "revisions"
             case nextToken = "nextToken"
         }
     }
 
-    public struct ECSService: AWSShape {
+    public struct RollbackInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "clusterName", required: false, type: .string), 
-            AWSShapeMember(label: "serviceName", required: false, type: .string)
+            AWSShapeMember(label: "rollbackMessage", required: false, type: .string), 
+            AWSShapeMember(label: "rollbackTriggeringDeploymentId", required: false, type: .string), 
+            AWSShapeMember(label: "rollbackDeploymentId", required: false, type: .string)
         ]
-        ///  The name of the cluster that the ECS service is associated with. 
-        public let clusterName: String?
-        ///  The name of the target ECS service. 
-        public let serviceName: String?
+        /// Information describing the status of a deployment rollback; for example, whether the deployment can't be rolled back, is in progress, failed, or succeeded. 
+        public let rollbackMessage: String?
+        /// The deployment ID of the deployment that was underway and triggered a rollback deployment because it failed or was stopped.
+        public let rollbackTriggeringDeploymentId: String?
+        /// The ID of the deployment rollback.
+        public let rollbackDeploymentId: String?
 
-        public init(clusterName: String? = nil, serviceName: String? = nil) {
-            self.clusterName = clusterName
-            self.serviceName = serviceName
+        public init(rollbackMessage: String? = nil, rollbackTriggeringDeploymentId: String? = nil, rollbackDeploymentId: String? = nil) {
+            self.rollbackMessage = rollbackMessage
+            self.rollbackTriggeringDeploymentId = rollbackTriggeringDeploymentId
+            self.rollbackDeploymentId = rollbackDeploymentId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterName = "clusterName"
-            case serviceName = "serviceName"
+            case rollbackMessage = "rollbackMessage"
+            case rollbackTriggeringDeploymentId = "rollbackTriggeringDeploymentId"
+            case rollbackDeploymentId = "rollbackDeploymentId"
         }
     }
 
-    public struct UpdateApplicationInput: AWSShape {
+    public struct DeploymentConfigInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "newApplicationName", required: false, type: .string), 
-            AWSShapeMember(label: "applicationName", required: false, type: .string)
-        ]
-        /// The new name to give the application.
-        public let newApplicationName: String?
-        /// The current name of the application you want to change.
-        public let applicationName: String?
-
-        public init(newApplicationName: String? = nil, applicationName: String? = nil) {
-            self.newApplicationName = newApplicationName
-            self.applicationName = applicationName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case newApplicationName = "newApplicationName"
-            case applicationName = "applicationName"
-        }
-    }
-
-    public struct BatchGetDeploymentTargetsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "targetIds", required: false, type: .list), 
-            AWSShapeMember(label: "deploymentId", required: false, type: .string)
-        ]
-        ///  The unique IDs of the deployment targets. The compute platform of the deployment determines the type of the targets and their formats.     For deployments that use the EC2/On-premises compute platform, the target IDs are EC2 or on-premises instances IDs and their target type is instanceTarget.     For deployments that use the AWS Lambda compute platform, the target IDs are the names of Lambda functions and their target type is instanceTarget.     For deployments that use the Amazon ECS compute platform, the target IDs are pairs of Amazon ECS clusters and services specified using the format &lt;clustername&gt;:&lt;servicename&gt;. Their target type is ecsTarget.   
-        public let targetIds: [String]?
-        ///  The unique ID of a deployment. 
-        public let deploymentId: String?
-
-        public init(targetIds: [String]? = nil, deploymentId: String? = nil) {
-            self.targetIds = targetIds
-            self.deploymentId = deploymentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case targetIds = "targetIds"
-            case deploymentId = "deploymentId"
-        }
-    }
-
-    public struct CreateDeploymentConfigInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deploymentConfigName", required: true, type: .string), 
             AWSShapeMember(label: "computePlatform", required: false, type: .enum), 
-            AWSShapeMember(label: "minimumHealthyHosts", required: false, type: .structure), 
-            AWSShapeMember(label: "trafficRoutingConfig", required: false, type: .structure)
+            AWSShapeMember(label: "createTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "trafficRoutingConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "deploymentConfigName", required: false, type: .string), 
+            AWSShapeMember(label: "deploymentConfigId", required: false, type: .string), 
+            AWSShapeMember(label: "minimumHealthyHosts", required: false, type: .structure)
         ]
-        /// The name of the deployment configuration to create.
-        public let deploymentConfigName: String
-        /// The destination platform type for the deployment (Lambda or Server&gt;).
+        /// The destination platform type for the deployment (Lambda or Server).
         public let computePlatform: ComputePlatform?
-        /// The minimum number of healthy instances that should be available at any time during the deployment. There are two parameters expected in the input: type and value. The type parameter takes either of the following values:   HOST_COUNT: The value parameter represents the minimum number of healthy instances as an absolute value.   FLEET_PERCENT: The value parameter represents the minimum number of healthy instances as a percentage of the total number of instances in the deployment. If you specify FLEET_PERCENT, at the start of the deployment, AWS CodeDeploy converts the percentage to the equivalent number of instance and rounds up fractional instances.   The value parameter takes an integer. For example, to set a minimum of 95% healthy instance, specify a type of FLEET_PERCENT and a value of 95.
-        public let minimumHealthyHosts: MinimumHealthyHosts?
-        /// The configuration that specifies how the deployment traffic will be routed.
+        /// The time at which the deployment configuration was created.
+        public let createTime: TimeStamp?
+        /// The configuration specifying how the deployment traffic will be routed. Only deployments with a Lambda compute platform can specify this.
         public let trafficRoutingConfig: TrafficRoutingConfig?
+        /// The deployment configuration name.
+        public let deploymentConfigName: String?
+        /// The deployment configuration ID.
+        public let deploymentConfigId: String?
+        /// Information about the number or percentage of minimum healthy instance.
+        public let minimumHealthyHosts: MinimumHealthyHosts?
 
-        public init(deploymentConfigName: String, computePlatform: ComputePlatform? = nil, minimumHealthyHosts: MinimumHealthyHosts? = nil, trafficRoutingConfig: TrafficRoutingConfig? = nil) {
-            self.deploymentConfigName = deploymentConfigName
+        public init(computePlatform: ComputePlatform? = nil, createTime: TimeStamp? = nil, trafficRoutingConfig: TrafficRoutingConfig? = nil, deploymentConfigName: String? = nil, deploymentConfigId: String? = nil, minimumHealthyHosts: MinimumHealthyHosts? = nil) {
             self.computePlatform = computePlatform
-            self.minimumHealthyHosts = minimumHealthyHosts
+            self.createTime = createTime
             self.trafficRoutingConfig = trafficRoutingConfig
+            self.deploymentConfigName = deploymentConfigName
+            self.deploymentConfigId = deploymentConfigId
+            self.minimumHealthyHosts = minimumHealthyHosts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computePlatform = "computePlatform"
+            case createTime = "createTime"
+            case trafficRoutingConfig = "trafficRoutingConfig"
+            case deploymentConfigName = "deploymentConfigName"
+            case deploymentConfigId = "deploymentConfigId"
+            case minimumHealthyHosts = "minimumHealthyHosts"
+        }
+    }
+
+    public struct GetDeploymentConfigInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentConfigName", required: true, type: .string)
+        ]
+        /// The name of a deployment configuration associated with the applicable IAM user or AWS account.
+        public let deploymentConfigName: String
+
+        public init(deploymentConfigName: String) {
+            self.deploymentConfigName = deploymentConfigName
         }
 
         private enum CodingKeys: String, CodingKey {
             case deploymentConfigName = "deploymentConfigName"
-            case computePlatform = "computePlatform"
-            case minimumHealthyHosts = "minimumHealthyHosts"
-            case trafficRoutingConfig = "trafficRoutingConfig"
         }
     }
 
-    public struct RegisterApplicationRevisionInput: AWSShape {
+    public struct EC2TagFilter: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "revision", required: true, type: .structure), 
-            AWSShapeMember(label: "applicationName", required: true, type: .string)
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Key", required: false, type: .string)
         ]
-        /// A comment about the revision.
-        public let description: String?
-        /// Information about the application revision to register, including type and location.
-        public let revision: RevisionLocation
-        /// The name of an AWS CodeDeploy application associated with the applicable IAM user or AWS account.
-        public let applicationName: String
+        /// The tag filter value.
+        public let value: String?
+        /// The tag filter type:   KEY_ONLY: Key only.   VALUE_ONLY: Value only.   KEY_AND_VALUE: Key and value.  
+        public let `type`: EC2TagFilterType?
+        /// The tag filter key.
+        public let key: String?
 
-        public init(description: String? = nil, revision: RevisionLocation, applicationName: String) {
-            self.description = description
-            self.revision = revision
-            self.applicationName = applicationName
+        public init(value: String? = nil, type: EC2TagFilterType? = nil, key: String? = nil) {
+            self.value = value
+            self.`type` = `type`
+            self.key = key
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description = "description"
-            case revision = "revision"
-            case applicationName = "applicationName"
+            case value = "Value"
+            case `type` = "Type"
+            case key = "Key"
         }
     }
 
-    public struct CreateDeploymentConfigOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deploymentConfigId", required: false, type: .string)
-        ]
-        /// A unique deployment configuration ID.
-        public let deploymentConfigId: String?
-
-        public init(deploymentConfigId: String? = nil) {
-            self.deploymentConfigId = deploymentConfigId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deploymentConfigId = "deploymentConfigId"
-        }
-    }
-
-    public struct BatchGetApplicationRevisionsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "revisions", required: true, type: .list), 
-            AWSShapeMember(label: "applicationName", required: true, type: .string)
-        ]
-        /// Information to get about the application revisions, including type and location.
-        public let revisions: [RevisionLocation]
-        /// The name of an AWS CodeDeploy application about which to get revision information.
-        public let applicationName: String
-
-        public init(revisions: [RevisionLocation], applicationName: String) {
-            self.revisions = revisions
-            self.applicationName = applicationName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case revisions = "revisions"
-            case applicationName = "applicationName"
-        }
-    }
-
-    public enum ComputePlatform: String, CustomStringConvertible, Codable {
-        case server = "Server"
-        case lambda = "Lambda"
-        case ecs = "ECS"
+    public enum FileExistsBehavior: String, CustomStringConvertible, Codable {
+        case disallow = "DISALLOW"
+        case overwrite = "OVERWRITE"
+        case retain = "RETAIN"
         public var description: String { return self.rawValue }
     }
 
-    public struct BlueGreenDeploymentConfiguration: AWSShape {
+    public struct ListGitHubAccountTokenNamesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "terminateBlueInstancesOnDeploymentSuccess", required: false, type: .structure), 
-            AWSShapeMember(label: "deploymentReadyOption", required: false, type: .structure), 
-            AWSShapeMember(label: "greenFleetProvisioningOption", required: false, type: .structure)
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
-        /// Information about whether to terminate instances in the original fleet during a blue/green deployment.
-        public let terminateBlueInstancesOnDeploymentSuccess: BlueInstanceTerminationOption?
-        /// Information about the action to take when newly provisioned instances are ready to receive traffic in a blue/green deployment.
-        public let deploymentReadyOption: DeploymentReadyOption?
-        /// Information about how instances are provisioned for a replacement environment in a blue/green deployment.
-        public let greenFleetProvisioningOption: GreenFleetProvisioningOption?
-
-        public init(terminateBlueInstancesOnDeploymentSuccess: BlueInstanceTerminationOption? = nil, deploymentReadyOption: DeploymentReadyOption? = nil, greenFleetProvisioningOption: GreenFleetProvisioningOption? = nil) {
-            self.terminateBlueInstancesOnDeploymentSuccess = terminateBlueInstancesOnDeploymentSuccess
-            self.deploymentReadyOption = deploymentReadyOption
-            self.greenFleetProvisioningOption = greenFleetProvisioningOption
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case terminateBlueInstancesOnDeploymentSuccess = "terminateBlueInstancesOnDeploymentSuccess"
-            case deploymentReadyOption = "deploymentReadyOption"
-            case greenFleetProvisioningOption = "greenFleetProvisioningOption"
-        }
-    }
-
-    public struct ListDeploymentGroupsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deploymentGroups", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "applicationName", required: false, type: .string)
-        ]
-        /// A list of corresponding deployment group names.
-        public let deploymentGroups: [String]?
-        /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list deployment groups call to return the next set of deployment groups in the list.
+        /// An identifier returned from the previous ListGitHubAccountTokenNames call. It can be used to return the next set of names in the list. 
         public let nextToken: String?
-        /// The application name.
-        public let applicationName: String?
 
-        public init(deploymentGroups: [String]? = nil, nextToken: String? = nil, applicationName: String? = nil) {
-            self.deploymentGroups = deploymentGroups
+        public init(nextToken: String? = nil) {
             self.nextToken = nextToken
-            self.applicationName = applicationName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentGroups = "deploymentGroups"
             case nextToken = "nextToken"
-            case applicationName = "applicationName"
         }
     }
 
-    public struct BlueInstanceTerminationOption: AWSShape {
+    public struct OnPremisesTagSet: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "terminationWaitTimeInMinutes", required: false, type: .integer), 
-            AWSShapeMember(label: "action", required: false, type: .enum)
+            AWSShapeMember(label: "onPremisesTagSetList", required: false, type: .list)
         ]
-        /// The number of minutes to wait after a successful blue/green deployment before terminating instances from the original environment. The maximum setting is 2880 minutes (2 days).
-        public let terminationWaitTimeInMinutes: Int32?
-        /// The action to take on instances in the original environment after a successful blue/green deployment.   TERMINATE: Instances are terminated after a specified wait time.   KEEP_ALIVE: Instances are left running after they are deregistered from the load balancer and removed from the deployment group.  
-        public let action: InstanceAction?
+        /// A list containing other lists of on-premises instance tag groups. In order for an instance to be included in the deployment group, it must be identified by all the tag groups in the list.
+        public let onPremisesTagSetList: [[TagFilter]]?
 
-        public init(terminationWaitTimeInMinutes: Int32? = nil, action: InstanceAction? = nil) {
-            self.terminationWaitTimeInMinutes = terminationWaitTimeInMinutes
-            self.action = action
+        public init(onPremisesTagSetList: [[TagFilter]]? = nil) {
+            self.onPremisesTagSetList = onPremisesTagSetList
         }
 
         private enum CodingKeys: String, CodingKey {
-            case terminationWaitTimeInMinutes = "terminationWaitTimeInMinutes"
-            case action = "action"
+            case onPremisesTagSetList = "onPremisesTagSetList"
         }
     }
 
-    public struct TargetGroupInfo: AWSShape {
+    public struct TrafficRoutingConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string)
+            AWSShapeMember(label: "timeBasedLinear", required: false, type: .structure), 
+            AWSShapeMember(label: "timeBasedCanary", required: false, type: .structure), 
+            AWSShapeMember(label: "type", required: false, type: .enum)
         ]
-        /// For blue/green deployments, the name of the target group that instances in the original environment are deregistered from, and instances in the replacement environment registered with. For in-place deployments, the name of the target group that instances are deregistered from, so they are not serving traffic during a deployment, and then re-registered with after the deployment completes. 
-        public let name: String?
+        /// A configuration that shifts traffic from one version of a Lambda function to another in equal increments, with an equal number of minutes between each increment. The original and target Lambda function versions are specified in the deployment's AppSpec file.
+        public let timeBasedLinear: TimeBasedLinear?
+        /// A configuration that shifts traffic from one version of a Lambda function to another in two increments. The original and target Lambda function versions are specified in the deployment's AppSpec file.
+        public let timeBasedCanary: TimeBasedCanary?
+        /// The type of traffic shifting (TimeBasedCanary or TimeBasedLinear) used by a deployment configuration .
+        public let `type`: TrafficRoutingType?
 
-        public init(name: String? = nil) {
-            self.name = name
+        public init(timeBasedLinear: TimeBasedLinear? = nil, timeBasedCanary: TimeBasedCanary? = nil, type: TrafficRoutingType? = nil) {
+            self.timeBasedLinear = timeBasedLinear
+            self.timeBasedCanary = timeBasedCanary
+            self.`type` = `type`
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name = "name"
-        }
-    }
-
-    public struct CreateDeploymentGroupOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deploymentGroupId", required: false, type: .string)
-        ]
-        /// A unique deployment group ID.
-        public let deploymentGroupId: String?
-
-        public init(deploymentGroupId: String? = nil) {
-            self.deploymentGroupId = deploymentGroupId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deploymentGroupId = "deploymentGroupId"
+            case timeBasedLinear = "timeBasedLinear"
+            case timeBasedCanary = "timeBasedCanary"
+            case `type` = "type"
         }
     }
 
@@ -311,372 +264,302 @@ extension CodeDeploy {
         }
     }
 
-    public struct ListGitHubAccountTokenNamesOutput: AWSShape {
+    public struct GetDeploymentGroupOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tokenNameList", required: false, type: .list), 
+            AWSShapeMember(label: "deploymentGroupInfo", required: false, type: .structure)
+        ]
+        /// Information about the deployment group.
+        public let deploymentGroupInfo: DeploymentGroupInfo?
+
+        public init(deploymentGroupInfo: DeploymentGroupInfo? = nil) {
+            self.deploymentGroupInfo = deploymentGroupInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentGroupInfo = "deploymentGroupInfo"
+        }
+    }
+
+    public struct GenericRevisionInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "registerTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "firstUsedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "deploymentGroups", required: false, type: .list), 
+            AWSShapeMember(label: "lastUsedTime", required: false, type: .timestamp)
+        ]
+        /// When the revision was registered with AWS CodeDeploy.
+        public let registerTime: TimeStamp?
+        /// When the revision was first used by AWS CodeDeploy.
+        public let firstUsedTime: TimeStamp?
+        /// A comment about the revision.
+        public let description: String?
+        /// The deployment groups for which this is the current target revision.
+        public let deploymentGroups: [String]?
+        /// When the revision was last used by AWS CodeDeploy.
+        public let lastUsedTime: TimeStamp?
+
+        public init(registerTime: TimeStamp? = nil, firstUsedTime: TimeStamp? = nil, description: String? = nil, deploymentGroups: [String]? = nil, lastUsedTime: TimeStamp? = nil) {
+            self.registerTime = registerTime
+            self.firstUsedTime = firstUsedTime
+            self.description = description
+            self.deploymentGroups = deploymentGroups
+            self.lastUsedTime = lastUsedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registerTime = "registerTime"
+            case firstUsedTime = "firstUsedTime"
+            case description = "description"
+            case deploymentGroups = "deploymentGroups"
+            case lastUsedTime = "lastUsedTime"
+        }
+    }
+
+    public struct GetApplicationInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "applicationName", required: true, type: .string)
+        ]
+        /// The name of an AWS CodeDeploy application associated with the applicable IAM user or AWS account.
+        public let applicationName: String
+
+        public init(applicationName: String) {
+            self.applicationName = applicationName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "applicationName"
+        }
+    }
+
+    public struct BlueGreenDeploymentConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "greenFleetProvisioningOption", required: false, type: .structure), 
+            AWSShapeMember(label: "terminateBlueInstancesOnDeploymentSuccess", required: false, type: .structure), 
+            AWSShapeMember(label: "deploymentReadyOption", required: false, type: .structure)
+        ]
+        /// Information about how instances are provisioned for a replacement environment in a blue/green deployment.
+        public let greenFleetProvisioningOption: GreenFleetProvisioningOption?
+        /// Information about whether to terminate instances in the original fleet during a blue/green deployment.
+        public let terminateBlueInstancesOnDeploymentSuccess: BlueInstanceTerminationOption?
+        /// Information about the action to take when newly provisioned instances are ready to receive traffic in a blue/green deployment.
+        public let deploymentReadyOption: DeploymentReadyOption?
+
+        public init(greenFleetProvisioningOption: GreenFleetProvisioningOption? = nil, terminateBlueInstancesOnDeploymentSuccess: BlueInstanceTerminationOption? = nil, deploymentReadyOption: DeploymentReadyOption? = nil) {
+            self.greenFleetProvisioningOption = greenFleetProvisioningOption
+            self.terminateBlueInstancesOnDeploymentSuccess = terminateBlueInstancesOnDeploymentSuccess
+            self.deploymentReadyOption = deploymentReadyOption
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case greenFleetProvisioningOption = "greenFleetProvisioningOption"
+            case terminateBlueInstancesOnDeploymentSuccess = "terminateBlueInstancesOnDeploymentSuccess"
+            case deploymentReadyOption = "deploymentReadyOption"
+        }
+    }
+
+    public struct CreateApplicationInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "applicationName", required: true, type: .string), 
+            AWSShapeMember(label: "computePlatform", required: false, type: .enum)
+        ]
+        /// The name of the application. This name must be unique with the applicable IAM user or AWS account.
+        public let applicationName: String
+        ///  The destination platform type for the deployment (Lambda or Server).
+        public let computePlatform: ComputePlatform?
+
+        public init(applicationName: String, computePlatform: ComputePlatform? = nil) {
+            self.applicationName = applicationName
+            self.computePlatform = computePlatform
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "applicationName"
+            case computePlatform = "computePlatform"
+        }
+    }
+
+    public enum InstanceAction: String, CustomStringConvertible, Codable {
+        case terminate = "TERMINATE"
+        case keepAlive = "KEEP_ALIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct SkipWaitTimeForInstanceTerminationInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentId", required: false, type: .string)
+        ]
+        ///  The unique ID of a blue/green deployment for which you want to skip the instance termination wait time. 
+        public let deploymentId: String?
+
+        public init(deploymentId: String? = nil) {
+            self.deploymentId = deploymentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentId = "deploymentId"
+        }
+    }
+
+    public struct ECSTaskSet: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pendingCount", required: false, type: .long), 
+            AWSShapeMember(label: "taskSetLabel", required: false, type: .enum), 
+            AWSShapeMember(label: "runningCount", required: false, type: .long), 
+            AWSShapeMember(label: "desiredCount", required: false, type: .long), 
+            AWSShapeMember(label: "status", required: false, type: .string), 
+            AWSShapeMember(label: "trafficWeight", required: false, type: .double), 
+            AWSShapeMember(label: "identifer", required: false, type: .string), 
+            AWSShapeMember(label: "targetGroup", required: false, type: .structure)
+        ]
+        ///  The number of tasks in the task set that are in the PENDING status during an Amazon ECS deployment. A task in the PENDING state is preparing to enter the RUNNING state. A task set enters the PENDING status when it launches for the first time, or when it is restarted after being in the STOPPED state. 
+        public let pendingCount: Int64?
+        ///  A label that identifies whether the ECS task set is an original target (BLUE) or a replacement target (GREEN). 
+        public let taskSetLabel: TargetLabel?
+        ///  The number of tasks in the task set that are in the RUNNING status during an Amazon ECS deployment. A task in the RUNNING state is running and ready for use. 
+        public let runningCount: Int64?
+        ///  The number of tasks in a task set. During a deployment that uses the Amazon ECS compute type, CodeDeploy asks Amazon ECS to create a new task set and uses this value to determine how many tasks to create. After the updated task set is created, CodeDeploy shifts traffic to the new task set. 
+        public let desiredCount: Int64?
+        ///  The status of the task set. There are three valid task set statuses:     PRIMARY - indicates the task set is serving production traffic.     ACTIVE - indicates the task set is not serving production traffic.     DRAINING - indicates the tasks in the task set are being stopped and their corresponding targets are being deregistered from their target group.   
+        public let status: String?
+        ///  The percentage of traffic served by this task set. 
+        public let trafficWeight: Double?
+        ///  A unique ID of an ECSTaskSet. 
+        public let identifer: String?
+        ///  The target group associated with the task set. The target group is used by AWS CodeDeploy to manage traffic to a task set. 
+        public let targetGroup: TargetGroupInfo?
+
+        public init(pendingCount: Int64? = nil, taskSetLabel: TargetLabel? = nil, runningCount: Int64? = nil, desiredCount: Int64? = nil, status: String? = nil, trafficWeight: Double? = nil, identifer: String? = nil, targetGroup: TargetGroupInfo? = nil) {
+            self.pendingCount = pendingCount
+            self.taskSetLabel = taskSetLabel
+            self.runningCount = runningCount
+            self.desiredCount = desiredCount
+            self.status = status
+            self.trafficWeight = trafficWeight
+            self.identifer = identifer
+            self.targetGroup = targetGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pendingCount = "pendingCount"
+            case taskSetLabel = "taskSetLabel"
+            case runningCount = "runningCount"
+            case desiredCount = "desiredCount"
+            case status = "status"
+            case trafficWeight = "trafficWeight"
+            case identifer = "identifer"
+            case targetGroup = "targetGroup"
+        }
+    }
+
+    public struct RegisterApplicationRevisionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "revision", required: true, type: .structure), 
+            AWSShapeMember(label: "applicationName", required: true, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string)
+        ]
+        /// Information about the application revision to register, including type and location.
+        public let revision: RevisionLocation
+        /// The name of an AWS CodeDeploy application associated with the applicable IAM user or AWS account.
+        public let applicationName: String
+        /// A comment about the revision.
+        public let description: String?
+
+        public init(revision: RevisionLocation, applicationName: String, description: String? = nil) {
+            self.revision = revision
+            self.applicationName = applicationName
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case revision = "revision"
+            case applicationName = "applicationName"
+            case description = "description"
+        }
+    }
+
+    public enum EC2TagFilterType: String, CustomStringConvertible, Codable {
+        case keyOnly = "KEY_ONLY"
+        case valueOnly = "VALUE_ONLY"
+        case keyAndValue = "KEY_AND_VALUE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListApplicationsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
-        /// A list of names of connections to GitHub accounts.
-        public let tokenNameList: [String]?
-        /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent ListGitHubAccountTokenNames call to return the next set of names in the list. 
+        /// An identifier returned from the previous list applications call. It can be used to return the next set of applications in the list.
         public let nextToken: String?
 
-        public init(tokenNameList: [String]? = nil, nextToken: String? = nil) {
-            self.tokenNameList = tokenNameList
+        public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tokenNameList = "tokenNameList"
             case nextToken = "nextToken"
         }
     }
 
-    public struct LoadBalancerInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "elbInfoList", required: false, type: .list), 
-            AWSShapeMember(label: "targetGroupInfoList", required: false, type: .list), 
-            AWSShapeMember(label: "targetGroupPairInfoList", required: false, type: .list)
-        ]
-        /// An array containing information about the load balancer to use for load balancing in a deployment. In Elastic Load Balancing, load balancers are used with Classic Load Balancers.   Adding more than one load balancer to the array is not supported.  
-        public let elbInfoList: [ELBInfo]?
-        /// An array containing information about the target group to use for load balancing in a deployment. In Elastic Load Balancing, target groups are used with Application Load Balancers.   Adding more than one target group to the array is not supported.  
-        public let targetGroupInfoList: [TargetGroupInfo]?
-        ///  The target group pair information. This is an array of TargeGroupPairInfo objects with a maximum size of one. 
-        public let targetGroupPairInfoList: [TargetGroupPairInfo]?
-
-        public init(elbInfoList: [ELBInfo]? = nil, targetGroupInfoList: [TargetGroupInfo]? = nil, targetGroupPairInfoList: [TargetGroupPairInfo]? = nil) {
-            self.elbInfoList = elbInfoList
-            self.targetGroupInfoList = targetGroupInfoList
-            self.targetGroupPairInfoList = targetGroupPairInfoList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case elbInfoList = "elbInfoList"
-            case targetGroupInfoList = "targetGroupInfoList"
-            case targetGroupPairInfoList = "targetGroupPairInfoList"
-        }
-    }
-
-    public struct StopDeploymentInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "autoRollbackEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "deploymentId", required: true, type: .string)
-        ]
-        ///  Indicates, when a deployment is stopped, whether instances that have been updated should be rolled back to the previous version of the application revision. 
-        public let autoRollbackEnabled: Bool?
-        ///  The unique ID of a deployment. 
-        public let deploymentId: String
-
-        public init(autoRollbackEnabled: Bool? = nil, deploymentId: String) {
-            self.autoRollbackEnabled = autoRollbackEnabled
-            self.deploymentId = deploymentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case autoRollbackEnabled = "autoRollbackEnabled"
-            case deploymentId = "deploymentId"
-        }
-    }
-
-    public enum TriggerEventType: String, CustomStringConvertible, Codable {
-        case deploymentstart = "DeploymentStart"
-        case deploymentsuccess = "DeploymentSuccess"
-        case deploymentfailure = "DeploymentFailure"
-        case deploymentstop = "DeploymentStop"
-        case deploymentrollback = "DeploymentRollback"
-        case deploymentready = "DeploymentReady"
-        case instancestart = "InstanceStart"
-        case instancesuccess = "InstanceSuccess"
-        case instancefailure = "InstanceFailure"
-        case instanceready = "InstanceReady"
+    public enum BundleType: String, CustomStringConvertible, Codable {
+        case tar = "tar"
+        case tgz = "tgz"
+        case zip = "zip"
+        case yaml = "YAML"
+        case json = "JSON"
         public var description: String { return self.rawValue }
     }
 
-    public enum LifecycleErrorCode: String, CustomStringConvertible, Codable {
-        case success = "Success"
-        case scriptmissing = "ScriptMissing"
-        case scriptnotexecutable = "ScriptNotExecutable"
-        case scripttimedout = "ScriptTimedOut"
-        case scriptfailed = "ScriptFailed"
-        case unknownerror = "UnknownError"
+    public enum TrafficRoutingType: String, CustomStringConvertible, Codable {
+        case timebasedcanary = "TimeBasedCanary"
+        case timebasedlinear = "TimeBasedLinear"
+        case allatonce = "AllAtOnce"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeploymentCreator: String, CustomStringConvertible, Codable {
-        case user = "user"
-        case autoscaling = "autoscaling"
-        case codedeployrollback = "codeDeployRollback"
+    public struct CreateDeploymentGroupOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentGroupId", required: false, type: .string)
+        ]
+        /// A unique deployment group ID.
+        public let deploymentGroupId: String?
+
+        public init(deploymentGroupId: String? = nil) {
+            self.deploymentGroupId = deploymentGroupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentGroupId = "deploymentGroupId"
+        }
+    }
+
+    public struct TargetGroupInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string)
+        ]
+        /// For blue/green deployments, the name of the target group that instances in the original environment are deregistered from, and instances in the replacement environment registered with. For in-place deployments, the name of the target group that instances are deregistered from, so they are not serving traffic during a deployment, and then re-registered with after the deployment completes. 
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
+    public enum AutoRollbackEvent: String, CustomStringConvertible, Codable {
+        case deploymentFailure = "DEPLOYMENT_FAILURE"
+        case deploymentStopOnAlarm = "DEPLOYMENT_STOP_ON_ALARM"
+        case deploymentStopOnRequest = "DEPLOYMENT_STOP_ON_REQUEST"
         public var description: String { return self.rawValue }
     }
 
-    public struct ListApplicationRevisionsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "sortBy", required: false, type: .enum), 
-            AWSShapeMember(label: "applicationName", required: true, type: .string), 
-            AWSShapeMember(label: "sortOrder", required: false, type: .enum), 
-            AWSShapeMember(label: "deployed", required: false, type: .enum), 
-            AWSShapeMember(label: "s3KeyPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "s3Bucket", required: false, type: .string)
-        ]
-        /// An identifier returned from the previous ListApplicationRevisions call. It can be used to return the next set of applications in the list.
-        public let nextToken: String?
-        /// The column name to use to sort the list results:   registerTime: Sort by the time the revisions were registered with AWS CodeDeploy.   firstUsedTime: Sort by the time the revisions were first used in a deployment.   lastUsedTime: Sort by the time the revisions were last used in a deployment.    If not specified or set to null, the results will be returned in an arbitrary order. 
-        public let sortBy: ApplicationRevisionSortBy?
-        ///  The name of an AWS CodeDeploy application associated with the applicable IAM user or AWS account. 
-        public let applicationName: String
-        ///  The order in which to sort the list results:    ascending: ascending order.   descending: descending order.   If not specified, the results will be sorted in ascending order. If set to null, the results will be sorted in an arbitrary order.
-        public let sortOrder: SortOrder?
-        ///  Whether to list revisions based on whether the revision is the target revision of an deployment group:    include: List revisions that are target revisions of a deployment group.   exclude: Do not list revisions that are target revisions of a deployment group.   ignore: List all revisions.  
-        public let deployed: ListStateFilterAction?
-        ///  A key prefix for the set of Amazon S3 objects to limit the search for revisions. 
-        public let s3KeyPrefix: String?
-        ///  An Amazon S3 bucket name to limit the search for revisions.   If set to null, all of the user's buckets are searched. 
-        public let s3Bucket: String?
-
-        public init(nextToken: String? = nil, sortBy: ApplicationRevisionSortBy? = nil, applicationName: String, sortOrder: SortOrder? = nil, deployed: ListStateFilterAction? = nil, s3KeyPrefix: String? = nil, s3Bucket: String? = nil) {
-            self.nextToken = nextToken
-            self.sortBy = sortBy
-            self.applicationName = applicationName
-            self.sortOrder = sortOrder
-            self.deployed = deployed
-            self.s3KeyPrefix = s3KeyPrefix
-            self.s3Bucket = s3Bucket
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case sortBy = "sortBy"
-            case applicationName = "applicationName"
-            case sortOrder = "sortOrder"
-            case deployed = "deployed"
-            case s3KeyPrefix = "s3KeyPrefix"
-            case s3Bucket = "s3Bucket"
-        }
-    }
-
-    public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "Key", required: false, type: .string)
-        ]
-        /// The tag's value.
-        public let value: String?
-        /// The tag's key.
-        public let key: String?
-
-        public init(value: String? = nil, key: String? = nil) {
-            self.value = value
-            self.key = key
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case key = "Key"
-        }
-    }
-
-    public struct DeploymentInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ignoreApplicationStopFailures", required: false, type: .boolean), 
-            AWSShapeMember(label: "applicationName", required: false, type: .string), 
-            AWSShapeMember(label: "blueGreenDeploymentConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "previousRevision", required: false, type: .structure), 
-            AWSShapeMember(label: "deploymentOverview", required: false, type: .structure), 
-            AWSShapeMember(label: "deploymentGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "targetInstances", required: false, type: .structure), 
-            AWSShapeMember(label: "updateOutdatedInstancesOnly", required: false, type: .boolean), 
-            AWSShapeMember(label: "errorInformation", required: false, type: .structure), 
-            AWSShapeMember(label: "rollbackInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "completeTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "fileExistsBehavior", required: false, type: .enum), 
-            AWSShapeMember(label: "loadBalancerInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "computePlatform", required: false, type: .enum), 
-            AWSShapeMember(label: "autoRollbackConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "deploymentStyle", required: false, type: .structure), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "deploymentStatusMessages", required: false, type: .list), 
-            AWSShapeMember(label: "creator", required: false, type: .enum), 
-            AWSShapeMember(label: "instanceTerminationWaitTimeStarted", required: false, type: .boolean), 
-            AWSShapeMember(label: "createTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "revision", required: false, type: .structure), 
-            AWSShapeMember(label: "deploymentId", required: false, type: .string), 
-            AWSShapeMember(label: "deploymentConfigName", required: false, type: .string), 
-            AWSShapeMember(label: "additionalDeploymentStatusInfo", required: false, type: .string)
-        ]
-        /// If true, then if the deployment causes the ApplicationStop deployment lifecycle event to an instance to fail, the deployment to that instance will not be considered to have failed at that point and will continue on to the BeforeInstall deployment lifecycle event. If false or not specified, then if the deployment causes the ApplicationStop deployment lifecycle event to an instance to fail, the deployment to that instance will stop, and the deployment to that instance will be considered to have failed.
-        public let ignoreApplicationStopFailures: Bool?
-        /// The application name.
-        public let applicationName: String?
-        /// Information about blue/green deployment options for this deployment.
-        public let blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration?
-        /// Information about the application revision that was deployed to the deployment group before the most recent successful deployment.
-        public let previousRevision: RevisionLocation?
-        /// A summary of the deployment status of the instances in the deployment.
-        public let deploymentOverview: DeploymentOverview?
-        ///  The deployment group name. 
-        public let deploymentGroupName: String?
-        /// Information about the instances that belong to the replacement environment in a blue/green deployment.
-        public let targetInstances: TargetInstances?
-        /// Indicates whether only instances that are not running the latest application revision are to be deployed to.
-        public let updateOutdatedInstancesOnly: Bool?
-        /// Information about any error associated with this deployment.
-        public let errorInformation: ErrorInformation?
-        /// Information about a deployment rollback.
-        public let rollbackInfo: RollbackInfo?
-        /// A timestamp indicating when the deployment was complete.
-        public let completeTime: TimeStamp?
-        /// A timestamp indicating when the deployment was deployed to the deployment group. In some cases, the reported value of the start time may be later than the complete time. This is due to differences in the clock settings of back-end servers that participate in the deployment process.
-        public let startTime: TimeStamp?
-        /// Information about how AWS CodeDeploy handles files that already exist in a deployment target location but weren't part of the previous successful deployment.   DISALLOW: The deployment fails. This is also the default behavior if no option is specified.   OVERWRITE: The version of the file from the application revision currently being deployed replaces the version already on the instance.   RETAIN: The version of the file already on the instance is kept and used as part of the new deployment.  
-        public let fileExistsBehavior: FileExistsBehavior?
-        /// Information about the load balancer used in the deployment.
-        public let loadBalancerInfo: LoadBalancerInfo?
-        ///  The destination platform type for the deployment (Lambda or Server). 
-        public let computePlatform: ComputePlatform?
-        /// Information about the automatic rollback configuration associated with the deployment.
-        public let autoRollbackConfiguration: AutoRollbackConfiguration?
-        /// Information about the type of deployment, either in-place or blue/green, you want to run and whether to route deployment traffic behind a load balancer.
-        public let deploymentStyle: DeploymentStyle?
-        /// A comment about the deployment.
-        public let description: String?
-        /// Messages that contain information about the status of a deployment.
-        public let deploymentStatusMessages: [String]?
-        /// The means by which the deployment was created:   user: A user created the deployment.   autoscaling: Auto Scaling created the deployment.   codeDeployRollback: A rollback process created the deployment.  
-        public let creator: DeploymentCreator?
-        /// Indicates whether the wait period set for the termination of instances in the original environment has started. Status is 'false' if the KEEP_ALIVE option is specified; otherwise, 'true' as soon as the termination wait period starts.
-        public let instanceTerminationWaitTimeStarted: Bool?
-        /// A timestamp indicating when the deployment was created.
-        public let createTime: TimeStamp?
-        /// The current state of the deployment as a whole.
-        public let status: DeploymentStatus?
-        /// Information about the location of stored application artifacts and the service from which to retrieve them.
-        public let revision: RevisionLocation?
-        ///  The unique ID of a deployment. 
-        public let deploymentId: String?
-        ///  The deployment configuration name. 
-        public let deploymentConfigName: String?
-        /// Provides information about the results of a deployment, such as whether instances in the original environment in a blue/green deployment were not terminated.
-        public let additionalDeploymentStatusInfo: String?
-
-        public init(ignoreApplicationStopFailures: Bool? = nil, applicationName: String? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, previousRevision: RevisionLocation? = nil, deploymentOverview: DeploymentOverview? = nil, deploymentGroupName: String? = nil, targetInstances: TargetInstances? = nil, updateOutdatedInstancesOnly: Bool? = nil, errorInformation: ErrorInformation? = nil, rollbackInfo: RollbackInfo? = nil, completeTime: TimeStamp? = nil, startTime: TimeStamp? = nil, fileExistsBehavior: FileExistsBehavior? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, computePlatform: ComputePlatform? = nil, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, deploymentStyle: DeploymentStyle? = nil, description: String? = nil, deploymentStatusMessages: [String]? = nil, creator: DeploymentCreator? = nil, instanceTerminationWaitTimeStarted: Bool? = nil, createTime: TimeStamp? = nil, status: DeploymentStatus? = nil, revision: RevisionLocation? = nil, deploymentId: String? = nil, deploymentConfigName: String? = nil, additionalDeploymentStatusInfo: String? = nil) {
-            self.ignoreApplicationStopFailures = ignoreApplicationStopFailures
-            self.applicationName = applicationName
-            self.blueGreenDeploymentConfiguration = blueGreenDeploymentConfiguration
-            self.previousRevision = previousRevision
-            self.deploymentOverview = deploymentOverview
-            self.deploymentGroupName = deploymentGroupName
-            self.targetInstances = targetInstances
-            self.updateOutdatedInstancesOnly = updateOutdatedInstancesOnly
-            self.errorInformation = errorInformation
-            self.rollbackInfo = rollbackInfo
-            self.completeTime = completeTime
-            self.startTime = startTime
-            self.fileExistsBehavior = fileExistsBehavior
-            self.loadBalancerInfo = loadBalancerInfo
-            self.computePlatform = computePlatform
-            self.autoRollbackConfiguration = autoRollbackConfiguration
-            self.deploymentStyle = deploymentStyle
-            self.description = description
-            self.deploymentStatusMessages = deploymentStatusMessages
-            self.creator = creator
-            self.instanceTerminationWaitTimeStarted = instanceTerminationWaitTimeStarted
-            self.createTime = createTime
-            self.status = status
-            self.revision = revision
-            self.deploymentId = deploymentId
-            self.deploymentConfigName = deploymentConfigName
-            self.additionalDeploymentStatusInfo = additionalDeploymentStatusInfo
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ignoreApplicationStopFailures = "ignoreApplicationStopFailures"
-            case applicationName = "applicationName"
-            case blueGreenDeploymentConfiguration = "blueGreenDeploymentConfiguration"
-            case previousRevision = "previousRevision"
-            case deploymentOverview = "deploymentOverview"
-            case deploymentGroupName = "deploymentGroupName"
-            case targetInstances = "targetInstances"
-            case updateOutdatedInstancesOnly = "updateOutdatedInstancesOnly"
-            case errorInformation = "errorInformation"
-            case rollbackInfo = "rollbackInfo"
-            case completeTime = "completeTime"
-            case startTime = "startTime"
-            case fileExistsBehavior = "fileExistsBehavior"
-            case loadBalancerInfo = "loadBalancerInfo"
-            case computePlatform = "computePlatform"
-            case autoRollbackConfiguration = "autoRollbackConfiguration"
-            case deploymentStyle = "deploymentStyle"
-            case description = "description"
-            case deploymentStatusMessages = "deploymentStatusMessages"
-            case creator = "creator"
-            case instanceTerminationWaitTimeStarted = "instanceTerminationWaitTimeStarted"
-            case createTime = "createTime"
-            case status = "status"
-            case revision = "revision"
-            case deploymentId = "deploymentId"
-            case deploymentConfigName = "deploymentConfigName"
-            case additionalDeploymentStatusInfo = "additionalDeploymentStatusInfo"
-        }
-    }
-
-    public struct InvalidTargetException: AWSShape {
-
-    }
-
-    public enum LifecycleEventStatus: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case inprogress = "InProgress"
-        case succeeded = "Succeeded"
-        case failed = "Failed"
-        case skipped = "Skipped"
-        case unknown = "Unknown"
+    public enum DeploymentOption: String, CustomStringConvertible, Codable {
+        case withTrafficControl = "WITH_TRAFFIC_CONTROL"
+        case withoutTrafficControl = "WITHOUT_TRAFFIC_CONTROL"
         public var description: String { return self.rawValue }
-    }
-
-    public struct BatchGetDeploymentsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deploymentsInfo", required: false, type: .list)
-        ]
-        ///  Information about the deployments. 
-        public let deploymentsInfo: [DeploymentInfo]?
-
-        public init(deploymentsInfo: [DeploymentInfo]? = nil) {
-            self.deploymentsInfo = deploymentsInfo
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deploymentsInfo = "deploymentsInfo"
-        }
-    }
-
-    public struct GetApplicationRevisionOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "revisionInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "revision", required: false, type: .structure), 
-            AWSShapeMember(label: "applicationName", required: false, type: .string)
-        ]
-        /// General information about the revision.
-        public let revisionInfo: GenericRevisionInfo?
-        /// Additional information about the revision, including type and location.
-        public let revision: RevisionLocation?
-        /// The name of the application that corresponds to the revision.
-        public let applicationName: String?
-
-        public init(revisionInfo: GenericRevisionInfo? = nil, revision: RevisionLocation? = nil, applicationName: String? = nil) {
-            self.revisionInfo = revisionInfo
-            self.revision = revision
-            self.applicationName = applicationName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case revisionInfo = "revisionInfo"
-            case revision = "revision"
-            case applicationName = "applicationName"
-        }
     }
 
     public struct GetDeploymentOutput: AWSShape {
@@ -695,447 +578,114 @@ extension CodeDeploy {
         }
     }
 
-    public struct DeploymentGroupInfo: AWSShape {
+    public struct TrafficRoute: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lastAttemptedDeployment", required: false, type: .structure), 
-            AWSShapeMember(label: "deploymentConfigName", required: false, type: .string), 
-            AWSShapeMember(label: "deploymentGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "autoRollbackConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "onPremisesTagSet", required: false, type: .structure), 
-            AWSShapeMember(label: "ecsServices", required: false, type: .list), 
-            AWSShapeMember(label: "deploymentStyle", required: false, type: .structure), 
-            AWSShapeMember(label: "ec2TagFilters", required: false, type: .list), 
-            AWSShapeMember(label: "triggerConfigurations", required: false, type: .list), 
-            AWSShapeMember(label: "serviceRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "alarmConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "applicationName", required: false, type: .string), 
-            AWSShapeMember(label: "blueGreenDeploymentConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "onPremisesInstanceTagFilters", required: false, type: .list), 
-            AWSShapeMember(label: "targetRevision", required: false, type: .structure), 
-            AWSShapeMember(label: "loadBalancerInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "lastSuccessfulDeployment", required: false, type: .structure), 
-            AWSShapeMember(label: "autoScalingGroups", required: false, type: .list), 
-            AWSShapeMember(label: "deploymentGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "ec2TagSet", required: false, type: .structure), 
-            AWSShapeMember(label: "computePlatform", required: false, type: .enum)
+            AWSShapeMember(label: "listenerArns", required: false, type: .list)
         ]
-        /// Information about the most recent attempted deployment to the deployment group.
-        public let lastAttemptedDeployment: LastDeploymentInfo?
-        /// The deployment configuration name.
-        public let deploymentConfigName: String?
-        /// The deployment group name.
-        public let deploymentGroupName: String?
-        /// Information about the automatic rollback configuration associated with the deployment group.
-        public let autoRollbackConfiguration: AutoRollbackConfiguration?
-        /// Information about groups of tags applied to an on-premises instance. The deployment group includes only on-premises instances identified by all the tag groups. Cannot be used in the same call as onPremisesInstanceTagFilters.
-        public let onPremisesTagSet: OnPremisesTagSet?
-        ///  The target ECS services in the deployment group. This only applies to deployment groups that use the Amazon ECS compute platform. A target ECS service is specified as an Amazon ECS cluster and service name pair using the format &lt;clustername&gt;:&lt;servicename&gt;. 
-        public let ecsServices: [ECSService]?
-        /// Information about the type of deployment, either in-place or blue/green, you want to run and whether to route deployment traffic behind a load balancer.
-        public let deploymentStyle: DeploymentStyle?
-        /// The Amazon EC2 tags on which to filter. The deployment group includes EC2 instances with any of the specified tags.
-        public let ec2TagFilters: [EC2TagFilter]?
-        /// Information about triggers associated with the deployment group.
-        public let triggerConfigurations: [TriggerConfig]?
-        /// A service role ARN.
-        public let serviceRoleArn: String?
-        /// A list of alarms associated with the deployment group.
-        public let alarmConfiguration: AlarmConfiguration?
-        /// The application name.
-        public let applicationName: String?
-        /// Information about blue/green deployment options for a deployment group.
-        public let blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration?
-        /// The on-premises instance tags on which to filter. The deployment group includes on-premises instances with any of the specified tags.
-        public let onPremisesInstanceTagFilters: [TagFilter]?
-        /// Information about the deployment group's target revision, including type and location.
-        public let targetRevision: RevisionLocation?
-        /// Information about the load balancer to use in a deployment.
-        public let loadBalancerInfo: LoadBalancerInfo?
-        /// Information about the most recent successful deployment to the deployment group.
-        public let lastSuccessfulDeployment: LastDeploymentInfo?
-        /// A list of associated Auto Scaling groups.
-        public let autoScalingGroups: [AutoScalingGroup]?
-        /// The deployment group ID.
-        public let deploymentGroupId: String?
-        /// Information about groups of tags applied to an EC2 instance. The deployment group includes only EC2 instances identified by all the tag groups. Cannot be used in the same call as ec2TagFilters.
-        public let ec2TagSet: EC2TagSet?
-        /// The destination platform type for the deployment group (Lambda or Server).
-        public let computePlatform: ComputePlatform?
+        ///  The ARN of one listener. The listener identifies the route between a target group and a load balancer. This is an array of strings with a maximum size of one. 
+        public let listenerArns: [String]?
 
-        public init(lastAttemptedDeployment: LastDeploymentInfo? = nil, deploymentConfigName: String? = nil, deploymentGroupName: String? = nil, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, onPremisesTagSet: OnPremisesTagSet? = nil, ecsServices: [ECSService]? = nil, deploymentStyle: DeploymentStyle? = nil, ec2TagFilters: [EC2TagFilter]? = nil, triggerConfigurations: [TriggerConfig]? = nil, serviceRoleArn: String? = nil, alarmConfiguration: AlarmConfiguration? = nil, applicationName: String? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, onPremisesInstanceTagFilters: [TagFilter]? = nil, targetRevision: RevisionLocation? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, lastSuccessfulDeployment: LastDeploymentInfo? = nil, autoScalingGroups: [AutoScalingGroup]? = nil, deploymentGroupId: String? = nil, ec2TagSet: EC2TagSet? = nil, computePlatform: ComputePlatform? = nil) {
-            self.lastAttemptedDeployment = lastAttemptedDeployment
-            self.deploymentConfigName = deploymentConfigName
-            self.deploymentGroupName = deploymentGroupName
-            self.autoRollbackConfiguration = autoRollbackConfiguration
-            self.onPremisesTagSet = onPremisesTagSet
-            self.ecsServices = ecsServices
-            self.deploymentStyle = deploymentStyle
-            self.ec2TagFilters = ec2TagFilters
-            self.triggerConfigurations = triggerConfigurations
-            self.serviceRoleArn = serviceRoleArn
-            self.alarmConfiguration = alarmConfiguration
-            self.applicationName = applicationName
-            self.blueGreenDeploymentConfiguration = blueGreenDeploymentConfiguration
-            self.onPremisesInstanceTagFilters = onPremisesInstanceTagFilters
-            self.targetRevision = targetRevision
-            self.loadBalancerInfo = loadBalancerInfo
-            self.lastSuccessfulDeployment = lastSuccessfulDeployment
-            self.autoScalingGroups = autoScalingGroups
-            self.deploymentGroupId = deploymentGroupId
-            self.ec2TagSet = ec2TagSet
-            self.computePlatform = computePlatform
+        public init(listenerArns: [String]? = nil) {
+            self.listenerArns = listenerArns
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lastAttemptedDeployment = "lastAttemptedDeployment"
-            case deploymentConfigName = "deploymentConfigName"
-            case deploymentGroupName = "deploymentGroupName"
-            case autoRollbackConfiguration = "autoRollbackConfiguration"
-            case onPremisesTagSet = "onPremisesTagSet"
-            case ecsServices = "ecsServices"
-            case deploymentStyle = "deploymentStyle"
-            case ec2TagFilters = "ec2TagFilters"
-            case triggerConfigurations = "triggerConfigurations"
-            case serviceRoleArn = "serviceRoleArn"
-            case alarmConfiguration = "alarmConfiguration"
-            case applicationName = "applicationName"
-            case blueGreenDeploymentConfiguration = "blueGreenDeploymentConfiguration"
-            case onPremisesInstanceTagFilters = "onPremisesInstanceTagFilters"
-            case targetRevision = "targetRevision"
-            case loadBalancerInfo = "loadBalancerInfo"
-            case lastSuccessfulDeployment = "lastSuccessfulDeployment"
-            case autoScalingGroups = "autoScalingGroups"
-            case deploymentGroupId = "deploymentGroupId"
-            case ec2TagSet = "ec2TagSet"
-            case computePlatform = "computePlatform"
+            case listenerArns = "listenerArns"
         }
     }
 
-    public struct TagFilter: AWSShape {
+    public struct CreateDeploymentOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .enum)
+            AWSShapeMember(label: "deploymentId", required: false, type: .string)
         ]
-        /// The on-premises instance tag filter key.
-        public let key: String?
-        /// The on-premises instance tag filter value.
-        public let value: String?
-        /// The on-premises instance tag filter type:   KEY_ONLY: Key only.   VALUE_ONLY: Value only.   KEY_AND_VALUE: Key and value.  
-        public let `type`: TagFilterType?
+        ///  The unique ID of a deployment. 
+        public let deploymentId: String?
 
-        public init(key: String? = nil, value: String? = nil, type: TagFilterType? = nil) {
-            self.key = key
+        public init(deploymentId: String? = nil) {
+            self.deploymentId = deploymentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentId = "deploymentId"
+        }
+    }
+
+    public struct TargetGroupPairInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "targetGroups", required: false, type: .list), 
+            AWSShapeMember(label: "prodTrafficRoute", required: false, type: .structure), 
+            AWSShapeMember(label: "testTrafficRoute", required: false, type: .structure)
+        ]
+        ///  One pair of target groups. One is associated with the original task set. The second target is associated with the task set that serves traffic after the deployment completes. 
+        public let targetGroups: [TargetGroupInfo]?
+        ///  The path used by a load balancer to route production traffic when an Amazon ECS deployment is complete. 
+        public let prodTrafficRoute: TrafficRoute?
+        ///  An optional path used by a load balancer to route test traffic after an Amazon ECS deployment. Validation can happen while test traffic is served during a deployment. 
+        public let testTrafficRoute: TrafficRoute?
+
+        public init(targetGroups: [TargetGroupInfo]? = nil, prodTrafficRoute: TrafficRoute? = nil, testTrafficRoute: TrafficRoute? = nil) {
+            self.targetGroups = targetGroups
+            self.prodTrafficRoute = prodTrafficRoute
+            self.testTrafficRoute = testTrafficRoute
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetGroups = "targetGroups"
+            case prodTrafficRoute = "prodTrafficRoute"
+            case testTrafficRoute = "testTrafficRoute"
+        }
+    }
+
+    public struct AlarmConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "ignorePollAlarmFailure", required: false, type: .boolean), 
+            AWSShapeMember(label: "alarms", required: false, type: .list)
+        ]
+        /// Indicates whether the alarm configuration is enabled.
+        public let enabled: Bool?
+        /// Indicates whether a deployment should continue if information about the current state of alarms cannot be retrieved from Amazon CloudWatch. The default value is false.   true: The deployment will proceed even if alarm status information can't be retrieved from Amazon CloudWatch.   false: The deployment will stop if alarm status information can't be retrieved from Amazon CloudWatch.  
+        public let ignorePollAlarmFailure: Bool?
+        /// A list of alarms configured for the deployment group. A maximum of 10 alarms can be added to a deployment group.
+        public let alarms: [Alarm]?
+
+        public init(enabled: Bool? = nil, ignorePollAlarmFailure: Bool? = nil, alarms: [Alarm]? = nil) {
+            self.enabled = enabled
+            self.ignorePollAlarmFailure = ignorePollAlarmFailure
+            self.alarms = alarms
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "enabled"
+            case ignorePollAlarmFailure = "ignorePollAlarmFailure"
+            case alarms = "alarms"
+        }
+    }
+
+    public struct MinimumHealthyHosts: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "value", required: false, type: .integer), 
+            AWSShapeMember(label: "type", required: false, type: .enum)
+        ]
+        /// The minimum healthy instance value.
+        public let value: Int32?
+        /// The minimum healthy instance type:   HOST_COUNT: The minimum number of healthy instance as an absolute value.   FLEET_PERCENT: The minimum number of healthy instance as a percentage of the total number of instance in the deployment.   In an example of nine instance, if a HOST_COUNT of six is specified, deploy to up to three instances at a time. The deployment will be successful if six or more instances are deployed to successfully; otherwise, the deployment fails. If a FLEET_PERCENT of 40 is specified, deploy to up to five instance at a time. The deployment will be successful if four or more instance are deployed to successfully; otherwise, the deployment fails.  In a call to the get deployment configuration operation, CodeDeployDefault.OneAtATime will return a minimum healthy instance type of MOST_CONCURRENCY and a value of 1. This means a deployment to only one instance at a time. (You cannot set the type to MOST_CONCURRENCY, only to HOST_COUNT or FLEET_PERCENT.) In addition, with CodeDeployDefault.OneAtATime, AWS CodeDeploy will try to ensure that all instances but one are kept in a healthy state during the deployment. Although this allows one instance at a time to be taken offline for a new deployment, it also means that if the deployment to the last instance fails, the overall deployment still succeeds.  For more information, see AWS CodeDeploy Instance Health in the AWS CodeDeploy User Guide.
+        public let `type`: MinimumHealthyHostsType?
+
+        public init(value: Int32? = nil, type: MinimumHealthyHostsType? = nil) {
             self.value = value
             self.`type` = `type`
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key = "Key"
-            case value = "Value"
-            case `type` = "Type"
+            case value = "value"
+            case `type` = "type"
         }
     }
 
     public enum DeploymentWaitType: String, CustomStringConvertible, Codable {
         case readyWait = "READY_WAIT"
         case terminationWait = "TERMINATION_WAIT"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteApplicationInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "applicationName", required: true, type: .string)
-        ]
-        /// The name of an AWS CodeDeploy application associated with the applicable IAM user or AWS account.
-        public let applicationName: String
-
-        public init(applicationName: String) {
-            self.applicationName = applicationName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case applicationName = "applicationName"
-        }
-    }
-
-    public struct ListDeploymentTargetsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "targetIds", required: false, type: .list)
-        ]
-        ///  If a large amount of information is returned, a token identifier will also be returned. It can be used in a subsequent ListDeploymentTargets call to return the next set of deployment targets in the list. 
-        public let nextToken: String?
-        ///  The unique IDs of deployment targets. 
-        public let targetIds: [String]?
-
-        public init(nextToken: String? = nil, targetIds: [String]? = nil) {
-            self.nextToken = nextToken
-            self.targetIds = targetIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case targetIds = "targetIds"
-        }
-    }
-
-    public struct GetOnPremisesInstanceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceName", required: true, type: .string)
-        ]
-        ///  The name of the on-premises instance about which to get information. 
-        public let instanceName: String
-
-        public init(instanceName: String) {
-            self.instanceName = instanceName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceName = "instanceName"
-        }
-    }
-
-    public struct ListGitHubAccountTokenNamesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// An identifier returned from the previous ListGitHubAccountTokenNames call. It can be used to return the next set of names in the list. 
-        public let nextToken: String?
-
-        public init(nextToken: String? = nil) {
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct DeleteGitHubAccountTokenOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tokenName", required: false, type: .string)
-        ]
-        /// The name of the GitHub account connection that was deleted.
-        public let tokenName: String?
-
-        public init(tokenName: String? = nil) {
-            self.tokenName = tokenName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tokenName = "tokenName"
-        }
-    }
-
-    public enum TagFilterType: String, CustomStringConvertible, Codable {
-        case keyOnly = "KEY_ONLY"
-        case valueOnly = "VALUE_ONLY"
-        case keyAndValue = "KEY_AND_VALUE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ApplicationInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "computePlatform", required: false, type: .enum), 
-            AWSShapeMember(label: "applicationName", required: false, type: .string), 
-            AWSShapeMember(label: "gitHubAccountName", required: false, type: .string), 
-            AWSShapeMember(label: "applicationId", required: false, type: .string), 
-            AWSShapeMember(label: "createTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "linkedToGitHub", required: false, type: .boolean)
-        ]
-        /// The destination platform type for deployment of the application (Lambda or Server).
-        public let computePlatform: ComputePlatform?
-        /// The application name.
-        public let applicationName: String?
-        /// The name for a connection to a GitHub account.
-        public let gitHubAccountName: String?
-        /// The application ID.
-        public let applicationId: String?
-        /// The time at which the application was created.
-        public let createTime: TimeStamp?
-        /// True if the user has authenticated with GitHub for the specified application; otherwise, false.
-        public let linkedToGitHub: Bool?
-
-        public init(computePlatform: ComputePlatform? = nil, applicationName: String? = nil, gitHubAccountName: String? = nil, applicationId: String? = nil, createTime: TimeStamp? = nil, linkedToGitHub: Bool? = nil) {
-            self.computePlatform = computePlatform
-            self.applicationName = applicationName
-            self.gitHubAccountName = gitHubAccountName
-            self.applicationId = applicationId
-            self.createTime = createTime
-            self.linkedToGitHub = linkedToGitHub
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case computePlatform = "computePlatform"
-            case applicationName = "applicationName"
-            case gitHubAccountName = "gitHubAccountName"
-            case applicationId = "applicationId"
-            case createTime = "createTime"
-            case linkedToGitHub = "linkedToGitHub"
-        }
-    }
-
-    public struct TrafficRoutingConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "type", required: false, type: .enum), 
-            AWSShapeMember(label: "timeBasedLinear", required: false, type: .structure), 
-            AWSShapeMember(label: "timeBasedCanary", required: false, type: .structure)
-        ]
-        /// The type of traffic shifting (TimeBasedCanary or TimeBasedLinear) used by a deployment configuration .
-        public let `type`: TrafficRoutingType?
-        /// A configuration that shifts traffic from one version of a Lambda function to another in equal increments, with an equal number of minutes between each increment. The original and target Lambda function versions are specified in the deployment's AppSpec file.
-        public let timeBasedLinear: TimeBasedLinear?
-        /// A configuration that shifts traffic from one version of a Lambda function to another in two increments. The original and target Lambda function versions are specified in the deployment's AppSpec file.
-        public let timeBasedCanary: TimeBasedCanary?
-
-        public init(type: TrafficRoutingType? = nil, timeBasedLinear: TimeBasedLinear? = nil, timeBasedCanary: TimeBasedCanary? = nil) {
-            self.`type` = `type`
-            self.timeBasedLinear = timeBasedLinear
-            self.timeBasedCanary = timeBasedCanary
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "type"
-            case timeBasedLinear = "timeBasedLinear"
-            case timeBasedCanary = "timeBasedCanary"
-        }
-    }
-
-    public struct RollbackInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "rollbackDeploymentId", required: false, type: .string), 
-            AWSShapeMember(label: "rollbackMessage", required: false, type: .string), 
-            AWSShapeMember(label: "rollbackTriggeringDeploymentId", required: false, type: .string)
-        ]
-        /// The ID of the deployment rollback.
-        public let rollbackDeploymentId: String?
-        /// Information describing the status of a deployment rollback; for example, whether the deployment can't be rolled back, is in progress, failed, or succeeded. 
-        public let rollbackMessage: String?
-        /// The deployment ID of the deployment that was underway and triggered a rollback deployment because it failed or was stopped.
-        public let rollbackTriggeringDeploymentId: String?
-
-        public init(rollbackDeploymentId: String? = nil, rollbackMessage: String? = nil, rollbackTriggeringDeploymentId: String? = nil) {
-            self.rollbackDeploymentId = rollbackDeploymentId
-            self.rollbackMessage = rollbackMessage
-            self.rollbackTriggeringDeploymentId = rollbackTriggeringDeploymentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case rollbackDeploymentId = "rollbackDeploymentId"
-            case rollbackMessage = "rollbackMessage"
-            case rollbackTriggeringDeploymentId = "rollbackTriggeringDeploymentId"
-        }
-    }
-
-    public struct ECSTaskSet: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "trafficWeight", required: false, type: .double), 
-            AWSShapeMember(label: "desiredCount", required: false, type: .long), 
-            AWSShapeMember(label: "taskSetLabel", required: false, type: .enum), 
-            AWSShapeMember(label: "status", required: false, type: .string), 
-            AWSShapeMember(label: "targetGroup", required: false, type: .structure), 
-            AWSShapeMember(label: "identifer", required: false, type: .string), 
-            AWSShapeMember(label: "pendingCount", required: false, type: .long), 
-            AWSShapeMember(label: "runningCount", required: false, type: .long)
-        ]
-        ///  The percentage of traffic served by this task set. 
-        public let trafficWeight: Double?
-        ///  The number of tasks in a task set. During a deployment that uses the Amazon ECS compute type, CodeDeploy asks Amazon ECS to create a new task set and uses this value to determine how many tasks to create. After the updated task set is created, CodeDeploy shifts traffic to the new task set. 
-        public let desiredCount: Int64?
-        ///  A label that identifies whether the ECS task set is an original target (BLUE) or a replacement target (GREEN). 
-        public let taskSetLabel: TargetLabel?
-        ///  The status of the task set. There are three valid task set statuses:     PRIMARY - indicates the task set is serving production traffic.     ACTIVE - indicates the task set is not serving production traffic.     DRAINING - indicates the tasks in the task set are being stopped and their corresponding targets are being deregistered from their target group.   
-        public let status: String?
-        ///  The target group associated with the task set. The target group is used by AWS CodeDeploy to manage traffic to a task set. 
-        public let targetGroup: TargetGroupInfo?
-        ///  A unique ID of an ECSTaskSet. 
-        public let identifer: String?
-        ///  The number of tasks in the task set that are in the PENDING status during an Amazon ECS deployment. A task in the PENDING state is preparing to enter the RUNNING state. A task set enters the PENDING status when it launches for the first time, or when it is restarted after being in the STOPPED state. 
-        public let pendingCount: Int64?
-        ///  The number of tasks in the task set that are in the RUNNING status during an Amazon ECS deployment. A task in the RUNNING state is running and ready for use. 
-        public let runningCount: Int64?
-
-        public init(trafficWeight: Double? = nil, desiredCount: Int64? = nil, taskSetLabel: TargetLabel? = nil, status: String? = nil, targetGroup: TargetGroupInfo? = nil, identifer: String? = nil, pendingCount: Int64? = nil, runningCount: Int64? = nil) {
-            self.trafficWeight = trafficWeight
-            self.desiredCount = desiredCount
-            self.taskSetLabel = taskSetLabel
-            self.status = status
-            self.targetGroup = targetGroup
-            self.identifer = identifer
-            self.pendingCount = pendingCount
-            self.runningCount = runningCount
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case trafficWeight = "trafficWeight"
-            case desiredCount = "desiredCount"
-            case taskSetLabel = "taskSetLabel"
-            case status = "status"
-            case targetGroup = "targetGroup"
-            case identifer = "identifer"
-            case pendingCount = "pendingCount"
-            case runningCount = "runningCount"
-        }
-    }
-
-    public struct GetApplicationRevisionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "revision", required: true, type: .structure), 
-            AWSShapeMember(label: "applicationName", required: true, type: .string)
-        ]
-        /// Information about the application revision to get, including type and location.
-        public let revision: RevisionLocation
-        /// The name of the application that corresponds to the revision.
-        public let applicationName: String
-
-        public init(revision: RevisionLocation, applicationName: String) {
-            self.revision = revision
-            self.applicationName = applicationName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case revision = "revision"
-            case applicationName = "applicationName"
-        }
-    }
-
-    public enum DeploymentStatus: String, CustomStringConvertible, Codable {
-        case created = "Created"
-        case queued = "Queued"
-        case inprogress = "InProgress"
-        case succeeded = "Succeeded"
-        case failed = "Failed"
-        case stopped = "Stopped"
-        case ready = "Ready"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ContinueDeploymentInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deploymentWaitType", required: false, type: .enum), 
-            AWSShapeMember(label: "deploymentId", required: false, type: .string)
-        ]
-        ///  The status of the deployment's waiting period. READY_WAIT indicates the deployment is ready to start shifting traffic. TERMINATION_WAIT indicates the traffic is shifted, but the original target is not terminated. 
-        public let deploymentWaitType: DeploymentWaitType?
-        ///  The unique ID of a blue/green deployment for which you want to start rerouting traffic to the replacement environment. 
-        public let deploymentId: String?
-
-        public init(deploymentWaitType: DeploymentWaitType? = nil, deploymentId: String? = nil) {
-            self.deploymentWaitType = deploymentWaitType
-            self.deploymentId = deploymentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deploymentWaitType = "deploymentWaitType"
-            case deploymentId = "deploymentId"
-        }
-    }
-
-    public enum FileExistsBehavior: String, CustomStringConvertible, Codable {
-        case disallow = "DISALLOW"
-        case overwrite = "OVERWRITE"
-        case retain = "RETAIN"
         public var description: String { return self.rawValue }
     }
 
@@ -1160,113 +710,446 @@ extension CodeDeploy {
         }
     }
 
-    public struct GetDeploymentConfigOutput: AWSShape {
+    public struct ErrorInformation: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deploymentConfigInfo", required: false, type: .structure)
+            AWSShapeMember(label: "message", required: false, type: .string), 
+            AWSShapeMember(label: "code", required: false, type: .enum)
         ]
-        /// Information about the deployment configuration.
-        public let deploymentConfigInfo: DeploymentConfigInfo?
+        /// An accompanying error message.
+        public let message: String?
+        /// For information about additional error codes, see Error Codes for AWS CodeDeploy in the AWS CodeDeploy User Guide. The error code:   APPLICATION_MISSING: The application was missing. This error code will most likely be raised if the application is deleted after the deployment is created but before it is started.   DEPLOYMENT_GROUP_MISSING: The deployment group was missing. This error code will most likely be raised if the deployment group is deleted after the deployment is created but before it is started.   HEALTH_CONSTRAINTS: The deployment failed on too many instances to be successfully deployed within the instance health constraints specified.   HEALTH_CONSTRAINTS_INVALID: The revision cannot be successfully deployed within the instance health constraints specified.   IAM_ROLE_MISSING: The service role cannot be accessed.   IAM_ROLE_PERMISSIONS: The service role does not have the correct permissions.   INTERNAL_ERROR: There was an internal error.   NO_EC2_SUBSCRIPTION: The calling account is not subscribed to the Amazon EC2 service.   NO_INSTANCES: No instance were specified, or no instance can be found.   OVER_MAX_INSTANCES: The maximum number of instance was exceeded.   THROTTLED: The operation was throttled because the calling account exceeded the throttling limits of one or more AWS services.   TIMEOUT: The deployment has timed out.   REVISION_MISSING: The revision ID was missing. This error code will most likely be raised if the revision is deleted after the deployment is created but before it is started.  
+        public let code: ErrorCode?
 
-        public init(deploymentConfigInfo: DeploymentConfigInfo? = nil) {
-            self.deploymentConfigInfo = deploymentConfigInfo
+        public init(message: String? = nil, code: ErrorCode? = nil) {
+            self.message = message
+            self.code = code
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentConfigInfo = "deploymentConfigInfo"
+            case message = "message"
+            case code = "code"
         }
     }
 
-    public struct ListOnPremisesInstancesOutput: AWSShape {
+    public struct TriggerConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "instanceNames", required: false, type: .list)
+            AWSShapeMember(label: "triggerEvents", required: false, type: .list), 
+            AWSShapeMember(label: "triggerTargetArn", required: false, type: .string), 
+            AWSShapeMember(label: "triggerName", required: false, type: .string)
         ]
-        /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list on-premises instances call to return the next set of on-premises instances in the list.
-        public let nextToken: String?
-        /// The list of matching on-premises instance names.
-        public let instanceNames: [String]?
+        /// The event type or types for which notifications are triggered.
+        public let triggerEvents: [TriggerEventType]?
+        /// The ARN of the Amazon Simple Notification Service topic through which notifications about deployment or instance events are sent.
+        public let triggerTargetArn: String?
+        /// The name of the notification trigger.
+        public let triggerName: String?
 
-        public init(nextToken: String? = nil, instanceNames: [String]? = nil) {
-            self.nextToken = nextToken
-            self.instanceNames = instanceNames
+        public init(triggerEvents: [TriggerEventType]? = nil, triggerTargetArn: String? = nil, triggerName: String? = nil) {
+            self.triggerEvents = triggerEvents
+            self.triggerTargetArn = triggerTargetArn
+            self.triggerName = triggerName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case instanceNames = "instanceNames"
+            case triggerEvents = "triggerEvents"
+            case triggerTargetArn = "triggerTargetArn"
+            case triggerName = "triggerName"
         }
     }
 
-    public struct DeleteGitHubAccountTokenInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tokenName", required: false, type: .string)
-        ]
-        /// The name of the GitHub account connection to delete.
-        public let tokenName: String?
+    public enum InstanceStatus: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case inprogress = "InProgress"
+        case succeeded = "Succeeded"
+        case failed = "Failed"
+        case skipped = "Skipped"
+        case unknown = "Unknown"
+        case ready = "Ready"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(tokenName: String? = nil) {
-            self.tokenName = tokenName
+    public struct ECSService: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clusterName", required: false, type: .string), 
+            AWSShapeMember(label: "serviceName", required: false, type: .string)
+        ]
+        ///  The name of the cluster that the ECS service is associated with. 
+        public let clusterName: String?
+        ///  The name of the target ECS service. 
+        public let serviceName: String?
+
+        public init(clusterName: String? = nil, serviceName: String? = nil) {
+            self.clusterName = clusterName
+            self.serviceName = serviceName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tokenName = "tokenName"
+            case clusterName = "clusterName"
+            case serviceName = "serviceName"
         }
     }
 
-    public struct LambdaTarget: AWSShape {
+    public struct BatchGetApplicationsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "targetId", required: false, type: .string), 
+            AWSShapeMember(label: "applicationsInfo", required: false, type: .list)
+        ]
+        /// Information about the applications.
+        public let applicationsInfo: [ApplicationInfo]?
+
+        public init(applicationsInfo: [ApplicationInfo]? = nil) {
+            self.applicationsInfo = applicationsInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationsInfo = "applicationsInfo"
+        }
+    }
+
+    public struct DeploymentInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ignoreApplicationStopFailures", required: false, type: .boolean), 
+            AWSShapeMember(label: "targetInstances", required: false, type: .structure), 
+            AWSShapeMember(label: "updateOutdatedInstancesOnly", required: false, type: .boolean), 
+            AWSShapeMember(label: "deploymentStyle", required: false, type: .structure), 
+            AWSShapeMember(label: "previousRevision", required: false, type: .structure), 
+            AWSShapeMember(label: "fileExistsBehavior", required: false, type: .enum), 
             AWSShapeMember(label: "deploymentId", required: false, type: .string), 
+            AWSShapeMember(label: "loadBalancerInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "additionalDeploymentStatusInfo", required: false, type: .string), 
+            AWSShapeMember(label: "rollbackInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "errorInformation", required: false, type: .structure), 
+            AWSShapeMember(label: "deploymentStatusMessages", required: false, type: .list), 
+            AWSShapeMember(label: "deploymentGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "createTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "creator", required: false, type: .enum), 
+            AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "computePlatform", required: false, type: .enum), 
+            AWSShapeMember(label: "blueGreenDeploymentConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "completeTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "autoRollbackConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "deploymentConfigName", required: false, type: .string), 
+            AWSShapeMember(label: "deploymentOverview", required: false, type: .structure), 
+            AWSShapeMember(label: "instanceTerminationWaitTimeStarted", required: false, type: .boolean), 
             AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "targetArn", required: false, type: .string), 
-            AWSShapeMember(label: "lifecycleEvents", required: false, type: .list), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp)
+            AWSShapeMember(label: "applicationName", required: false, type: .string), 
+            AWSShapeMember(label: "revision", required: false, type: .structure)
         ]
-        ///  The unique ID of a deployment target that has a type of lambdaTarget. 
-        public let targetId: String?
+        /// If true, then if the deployment causes the ApplicationStop deployment lifecycle event to an instance to fail, the deployment to that instance will not be considered to have failed at that point and will continue on to the BeforeInstall deployment lifecycle event. If false or not specified, then if the deployment causes the ApplicationStop deployment lifecycle event to an instance to fail, the deployment to that instance will stop, and the deployment to that instance will be considered to have failed.
+        public let ignoreApplicationStopFailures: Bool?
+        /// Information about the instances that belong to the replacement environment in a blue/green deployment.
+        public let targetInstances: TargetInstances?
+        /// Indicates whether only instances that are not running the latest application revision are to be deployed to.
+        public let updateOutdatedInstancesOnly: Bool?
+        /// Information about the type of deployment, either in-place or blue/green, you want to run and whether to route deployment traffic behind a load balancer.
+        public let deploymentStyle: DeploymentStyle?
+        /// Information about the application revision that was deployed to the deployment group before the most recent successful deployment.
+        public let previousRevision: RevisionLocation?
+        /// Information about how AWS CodeDeploy handles files that already exist in a deployment target location but weren't part of the previous successful deployment.   DISALLOW: The deployment fails. This is also the default behavior if no option is specified.   OVERWRITE: The version of the file from the application revision currently being deployed replaces the version already on the instance.   RETAIN: The version of the file already on the instance is kept and used as part of the new deployment.  
+        public let fileExistsBehavior: FileExistsBehavior?
         ///  The unique ID of a deployment. 
         public let deploymentId: String?
-        ///  The status an AWS Lambda deployment's target Lambda function. 
-        public let status: TargetStatus?
-        ///  The ARN of the target. 
-        public let targetArn: String?
-        ///  The lifecycle events of the deployment to this target Lambda function. 
-        public let lifecycleEvents: [LifecycleEvent]?
-        ///  The date and time when the target Lambda function was updated by a deployment. 
-        public let lastUpdatedAt: TimeStamp?
+        /// Information about the load balancer used in the deployment.
+        public let loadBalancerInfo: LoadBalancerInfo?
+        /// Provides information about the results of a deployment, such as whether instances in the original environment in a blue/green deployment were not terminated.
+        public let additionalDeploymentStatusInfo: String?
+        /// Information about a deployment rollback.
+        public let rollbackInfo: RollbackInfo?
+        /// Information about any error associated with this deployment.
+        public let errorInformation: ErrorInformation?
+        /// Messages that contain information about the status of a deployment.
+        public let deploymentStatusMessages: [String]?
+        ///  The deployment group name. 
+        public let deploymentGroupName: String?
+        /// A timestamp indicating when the deployment was created.
+        public let createTime: TimeStamp?
+        /// The means by which the deployment was created:   user: A user created the deployment.   autoscaling: Auto Scaling created the deployment.   codeDeployRollback: A rollback process created the deployment.  
+        public let creator: DeploymentCreator?
+        /// A timestamp indicating when the deployment was deployed to the deployment group. In some cases, the reported value of the start time may be later than the complete time. This is due to differences in the clock settings of back-end servers that participate in the deployment process.
+        public let startTime: TimeStamp?
+        /// A comment about the deployment.
+        public let description: String?
+        ///  The destination platform type for the deployment (Lambda or Server). 
+        public let computePlatform: ComputePlatform?
+        /// Information about blue/green deployment options for this deployment.
+        public let blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration?
+        /// A timestamp indicating when the deployment was complete.
+        public let completeTime: TimeStamp?
+        /// Information about the automatic rollback configuration associated with the deployment.
+        public let autoRollbackConfiguration: AutoRollbackConfiguration?
+        ///  The deployment configuration name. 
+        public let deploymentConfigName: String?
+        /// A summary of the deployment status of the instances in the deployment.
+        public let deploymentOverview: DeploymentOverview?
+        /// Indicates whether the wait period set for the termination of instances in the original environment has started. Status is 'false' if the KEEP_ALIVE option is specified; otherwise, 'true' as soon as the termination wait period starts.
+        public let instanceTerminationWaitTimeStarted: Bool?
+        /// The current state of the deployment as a whole.
+        public let status: DeploymentStatus?
+        /// The application name.
+        public let applicationName: String?
+        /// Information about the location of stored application artifacts and the service from which to retrieve them.
+        public let revision: RevisionLocation?
 
-        public init(targetId: String? = nil, deploymentId: String? = nil, status: TargetStatus? = nil, targetArn: String? = nil, lifecycleEvents: [LifecycleEvent]? = nil, lastUpdatedAt: TimeStamp? = nil) {
-            self.targetId = targetId
+        public init(ignoreApplicationStopFailures: Bool? = nil, targetInstances: TargetInstances? = nil, updateOutdatedInstancesOnly: Bool? = nil, deploymentStyle: DeploymentStyle? = nil, previousRevision: RevisionLocation? = nil, fileExistsBehavior: FileExistsBehavior? = nil, deploymentId: String? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, additionalDeploymentStatusInfo: String? = nil, rollbackInfo: RollbackInfo? = nil, errorInformation: ErrorInformation? = nil, deploymentStatusMessages: [String]? = nil, deploymentGroupName: String? = nil, createTime: TimeStamp? = nil, creator: DeploymentCreator? = nil, startTime: TimeStamp? = nil, description: String? = nil, computePlatform: ComputePlatform? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, completeTime: TimeStamp? = nil, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, deploymentConfigName: String? = nil, deploymentOverview: DeploymentOverview? = nil, instanceTerminationWaitTimeStarted: Bool? = nil, status: DeploymentStatus? = nil, applicationName: String? = nil, revision: RevisionLocation? = nil) {
+            self.ignoreApplicationStopFailures = ignoreApplicationStopFailures
+            self.targetInstances = targetInstances
+            self.updateOutdatedInstancesOnly = updateOutdatedInstancesOnly
+            self.deploymentStyle = deploymentStyle
+            self.previousRevision = previousRevision
+            self.fileExistsBehavior = fileExistsBehavior
             self.deploymentId = deploymentId
+            self.loadBalancerInfo = loadBalancerInfo
+            self.additionalDeploymentStatusInfo = additionalDeploymentStatusInfo
+            self.rollbackInfo = rollbackInfo
+            self.errorInformation = errorInformation
+            self.deploymentStatusMessages = deploymentStatusMessages
+            self.deploymentGroupName = deploymentGroupName
+            self.createTime = createTime
+            self.creator = creator
+            self.startTime = startTime
+            self.description = description
+            self.computePlatform = computePlatform
+            self.blueGreenDeploymentConfiguration = blueGreenDeploymentConfiguration
+            self.completeTime = completeTime
+            self.autoRollbackConfiguration = autoRollbackConfiguration
+            self.deploymentConfigName = deploymentConfigName
+            self.deploymentOverview = deploymentOverview
+            self.instanceTerminationWaitTimeStarted = instanceTerminationWaitTimeStarted
             self.status = status
-            self.targetArn = targetArn
-            self.lifecycleEvents = lifecycleEvents
-            self.lastUpdatedAt = lastUpdatedAt
+            self.applicationName = applicationName
+            self.revision = revision
         }
 
         private enum CodingKeys: String, CodingKey {
-            case targetId = "targetId"
+            case ignoreApplicationStopFailures = "ignoreApplicationStopFailures"
+            case targetInstances = "targetInstances"
+            case updateOutdatedInstancesOnly = "updateOutdatedInstancesOnly"
+            case deploymentStyle = "deploymentStyle"
+            case previousRevision = "previousRevision"
+            case fileExistsBehavior = "fileExistsBehavior"
             case deploymentId = "deploymentId"
+            case loadBalancerInfo = "loadBalancerInfo"
+            case additionalDeploymentStatusInfo = "additionalDeploymentStatusInfo"
+            case rollbackInfo = "rollbackInfo"
+            case errorInformation = "errorInformation"
+            case deploymentStatusMessages = "deploymentStatusMessages"
+            case deploymentGroupName = "deploymentGroupName"
+            case createTime = "createTime"
+            case creator = "creator"
+            case startTime = "startTime"
+            case description = "description"
+            case computePlatform = "computePlatform"
+            case blueGreenDeploymentConfiguration = "blueGreenDeploymentConfiguration"
+            case completeTime = "completeTime"
+            case autoRollbackConfiguration = "autoRollbackConfiguration"
+            case deploymentConfigName = "deploymentConfigName"
+            case deploymentOverview = "deploymentOverview"
+            case instanceTerminationWaitTimeStarted = "instanceTerminationWaitTimeStarted"
             case status = "status"
-            case targetArn = "targetArn"
-            case lifecycleEvents = "lifecycleEvents"
-            case lastUpdatedAt = "lastUpdatedAt"
+            case applicationName = "applicationName"
+            case revision = "revision"
         }
     }
 
-    public struct PutLifecycleEventHookExecutionStatusOutput: AWSShape {
+    public struct UpdateApplicationInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lifecycleEventHookExecutionId", required: false, type: .string)
+            AWSShapeMember(label: "applicationName", required: false, type: .string), 
+            AWSShapeMember(label: "newApplicationName", required: false, type: .string)
         ]
-        /// The execution ID of the lifecycle event hook. A hook is specified in the hooks section of the deployment's AppSpec file.
-        public let lifecycleEventHookExecutionId: String?
+        /// The current name of the application you want to change.
+        public let applicationName: String?
+        /// The new name to give the application.
+        public let newApplicationName: String?
 
-        public init(lifecycleEventHookExecutionId: String? = nil) {
-            self.lifecycleEventHookExecutionId = lifecycleEventHookExecutionId
+        public init(applicationName: String? = nil, newApplicationName: String? = nil) {
+            self.applicationName = applicationName
+            self.newApplicationName = newApplicationName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lifecycleEventHookExecutionId = "lifecycleEventHookExecutionId"
+            case applicationName = "applicationName"
+            case newApplicationName = "newApplicationName"
+        }
+    }
+
+    public enum RegistrationStatus: String, CustomStringConvertible, Codable {
+        case registered = "Registered"
+        case deregistered = "Deregistered"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetDeploymentTargetInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentId", required: false, type: .string), 
+            AWSShapeMember(label: "targetId", required: false, type: .string)
+        ]
+        ///  The unique ID of a deployment. 
+        public let deploymentId: String?
+        ///  The unique ID of a deployment target. 
+        public let targetId: String?
+
+        public init(deploymentId: String? = nil, targetId: String? = nil) {
+            self.deploymentId = deploymentId
+            self.targetId = targetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentId = "deploymentId"
+            case targetId = "targetId"
+        }
+    }
+
+    public enum ListStateFilterAction: String, CustomStringConvertible, Codable {
+        case include = "include"
+        case exclude = "exclude"
+        case ignore = "ignore"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MinimumHealthyHostsType: String, CustomStringConvertible, Codable {
+        case hostCount = "HOST_COUNT"
+        case fleetPercent = "FLEET_PERCENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct LastDeploymentInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "createTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "deploymentId", required: false, type: .string), 
+            AWSShapeMember(label: "endTime", required: false, type: .timestamp)
+        ]
+        /// A timestamp indicating when the most recent deployment to the deployment group started.
+        public let createTime: TimeStamp?
+        /// The status of the most recent deployment.
+        public let status: DeploymentStatus?
+        ///  The unique ID of a deployment. 
+        public let deploymentId: String?
+        /// A timestamp indicating when the most recent deployment to the deployment group completed.
+        public let endTime: TimeStamp?
+
+        public init(createTime: TimeStamp? = nil, status: DeploymentStatus? = nil, deploymentId: String? = nil, endTime: TimeStamp? = nil) {
+            self.createTime = createTime
+            self.status = status
+            self.deploymentId = deploymentId
+            self.endTime = endTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createTime = "createTime"
+            case status = "status"
+            case deploymentId = "deploymentId"
+            case endTime = "endTime"
+        }
+    }
+
+    public enum DeploymentStatus: String, CustomStringConvertible, Codable {
+        case created = "Created"
+        case queued = "Queued"
+        case inprogress = "InProgress"
+        case succeeded = "Succeeded"
+        case failed = "Failed"
+        case stopped = "Stopped"
+        case ready = "Ready"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeploymentOverview: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Succeeded", required: false, type: .long), 
+            AWSShapeMember(label: "Ready", required: false, type: .long), 
+            AWSShapeMember(label: "InProgress", required: false, type: .long), 
+            AWSShapeMember(label: "Failed", required: false, type: .long), 
+            AWSShapeMember(label: "Pending", required: false, type: .long), 
+            AWSShapeMember(label: "Skipped", required: false, type: .long)
+        ]
+        /// The number of instances in the deployment to which revisions have been successfully deployed.
+        public let succeeded: Int64?
+        /// The number of instances in a replacement environment ready to receive traffic in a blue/green deployment.
+        public let ready: Int64?
+        /// The number of instances in which the deployment is in progress.
+        public let inProgress: Int64?
+        /// The number of instances in the deployment in a failed state.
+        public let failed: Int64?
+        /// The number of instances in the deployment in a pending state.
+        public let pending: Int64?
+        /// The number of instances in the deployment in a skipped state.
+        public let skipped: Int64?
+
+        public init(succeeded: Int64? = nil, ready: Int64? = nil, inProgress: Int64? = nil, failed: Int64? = nil, pending: Int64? = nil, skipped: Int64? = nil) {
+            self.succeeded = succeeded
+            self.ready = ready
+            self.inProgress = inProgress
+            self.failed = failed
+            self.pending = pending
+            self.skipped = skipped
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case succeeded = "Succeeded"
+            case ready = "Ready"
+            case inProgress = "InProgress"
+            case failed = "Failed"
+            case pending = "Pending"
+            case skipped = "Skipped"
+        }
+    }
+
+    public struct GetDeploymentInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentId", required: true, type: .string)
+        ]
+        ///  The unique ID of a deployment associated with the applicable IAM user or AWS account. 
+        public let deploymentId: String
+
+        public init(deploymentId: String) {
+            self.deploymentId = deploymentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentId = "deploymentId"
+        }
+    }
+
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+        /// The tag's key.
+        public let key: String?
+        /// The tag's value.
+        public let value: String?
+
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct ListApplicationRevisionsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "revisions", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// A list of locations that contain the matching revisions.
+        public let revisions: [RevisionLocation]?
+        /// If a large amount of information is returned, an identifier will also be returned. It can be used in a subsequent list application revisions call to return the next set of application revisions in the list.
+        public let nextToken: String?
+
+        public init(revisions: [RevisionLocation]? = nil, nextToken: String? = nil) {
+            self.revisions = revisions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case revisions = "revisions"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1304,472 +1187,50 @@ extension CodeDeploy {
         public var description: String { return self.rawValue }
     }
 
-    public struct GetDeploymentGroupOutput: AWSShape {
+    public struct ContinueDeploymentInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deploymentGroupInfo", required: false, type: .structure)
-        ]
-        /// Information about the deployment group.
-        public let deploymentGroupInfo: DeploymentGroupInfo?
-
-        public init(deploymentGroupInfo: DeploymentGroupInfo? = nil) {
-            self.deploymentGroupInfo = deploymentGroupInfo
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deploymentGroupInfo = "deploymentGroupInfo"
-        }
-    }
-
-    public struct Diagnostics: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "scriptName", required: false, type: .string), 
-            AWSShapeMember(label: "errorCode", required: false, type: .enum), 
-            AWSShapeMember(label: "message", required: false, type: .string), 
-            AWSShapeMember(label: "logTail", required: false, type: .string)
-        ]
-        /// The name of the script.
-        public let scriptName: String?
-        /// The associated error code:   Success: The specified script ran.   ScriptMissing: The specified script was not found in the specified location.   ScriptNotExecutable: The specified script is not a recognized executable file type.   ScriptTimedOut: The specified script did not finish running in the specified time period.   ScriptFailed: The specified script failed to run as expected.   UnknownError: The specified script did not run for an unknown reason.  
-        public let errorCode: LifecycleErrorCode?
-        /// The message associated with the error.
-        public let message: String?
-        /// The last portion of the diagnostic log. If available, AWS CodeDeploy returns up to the last 4 KB of the diagnostic log.
-        public let logTail: String?
-
-        public init(scriptName: String? = nil, errorCode: LifecycleErrorCode? = nil, message: String? = nil, logTail: String? = nil) {
-            self.scriptName = scriptName
-            self.errorCode = errorCode
-            self.message = message
-            self.logTail = logTail
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case scriptName = "scriptName"
-            case errorCode = "errorCode"
-            case message = "message"
-            case logTail = "logTail"
-        }
-    }
-
-    public struct ListDeploymentConfigsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// An identifier returned from the previous ListDeploymentConfigs call. It can be used to return the next set of deployment configurations in the list. 
-        public let nextToken: String?
-
-        public init(nextToken: String? = nil) {
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct BatchGetDeploymentGroupsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deploymentGroupsInfo", required: false, type: .list), 
-            AWSShapeMember(label: "errorMessage", required: false, type: .string)
-        ]
-        /// Information about the deployment groups.
-        public let deploymentGroupsInfo: [DeploymentGroupInfo]?
-        /// Information about errors that may have occurred during the API call.
-        public let errorMessage: String?
-
-        public init(deploymentGroupsInfo: [DeploymentGroupInfo]? = nil, errorMessage: String? = nil) {
-            self.deploymentGroupsInfo = deploymentGroupsInfo
-            self.errorMessage = errorMessage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deploymentGroupsInfo = "deploymentGroupsInfo"
-            case errorMessage = "errorMessage"
-        }
-    }
-
-    public struct BatchGetOnPremisesInstancesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceNames", required: true, type: .list)
-        ]
-        /// The names of the on-premises instances about which to get information.
-        public let instanceNames: [String]
-
-        public init(instanceNames: [String]) {
-            self.instanceNames = instanceNames
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceNames = "instanceNames"
-        }
-    }
-
-    public enum ListStateFilterAction: String, CustomStringConvertible, Codable {
-        case include = "include"
-        case exclude = "exclude"
-        case ignore = "ignore"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListApplicationsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// An identifier returned from the previous list applications call. It can be used to return the next set of applications in the list.
-        public let nextToken: String?
-
-        public init(nextToken: String? = nil) {
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct GetDeploymentTargetOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deploymentTarget", required: false, type: .structure)
-        ]
-        ///  A deployment target that contains information about a deployment such as its status, lifecyle events, and when it was updated last. It also contains metadata about the deployment target. The deployment target metadata depends on the deployment target's type (instanceTarget, lambdaTarget, or ecsTarget). 
-        public let deploymentTarget: DeploymentTarget?
-
-        public init(deploymentTarget: DeploymentTarget? = nil) {
-            self.deploymentTarget = deploymentTarget
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deploymentTarget = "deploymentTarget"
-        }
-    }
-
-    public enum ApplicationRevisionSortBy: String, CustomStringConvertible, Codable {
-        case registertime = "registerTime"
-        case firstusedtime = "firstUsedTime"
-        case lastusedtime = "lastUsedTime"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListDeploymentsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deployments", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// A list of deployment IDs.
-        public let deployments: [String]?
-        /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list deployments call to return the next set of deployments in the list.
-        public let nextToken: String?
-
-        public init(deployments: [String]? = nil, nextToken: String? = nil) {
-            self.deployments = deployments
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deployments = "deployments"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct CreateDeploymentOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deploymentId", required: false, type: .string)
-        ]
-        ///  The unique ID of a deployment. 
-        public let deploymentId: String?
-
-        public init(deploymentId: String? = nil) {
-            self.deploymentId = deploymentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deploymentId = "deploymentId"
-        }
-    }
-
-    public struct BatchGetApplicationRevisionsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "revisions", required: false, type: .list), 
-            AWSShapeMember(label: "errorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "applicationName", required: false, type: .string)
-        ]
-        /// Additional information about the revisions, including the type and location.
-        public let revisions: [RevisionInfo]?
-        /// Information about errors that may have occurred during the API call.
-        public let errorMessage: String?
-        /// The name of the application that corresponds to the revisions.
-        public let applicationName: String?
-
-        public init(revisions: [RevisionInfo]? = nil, errorMessage: String? = nil, applicationName: String? = nil) {
-            self.revisions = revisions
-            self.errorMessage = errorMessage
-            self.applicationName = applicationName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case revisions = "revisions"
-            case errorMessage = "errorMessage"
-            case applicationName = "applicationName"
-        }
-    }
-
-    public struct InstanceSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceId", required: false, type: .string), 
             AWSShapeMember(label: "deploymentId", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "lifecycleEvents", required: false, type: .list), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "instanceType", required: false, type: .enum)
+            AWSShapeMember(label: "deploymentWaitType", required: false, type: .enum)
         ]
-        /// The instance ID.
-        public let instanceId: String?
-        ///  The unique ID of a deployment. 
+        ///  The unique ID of a blue/green deployment for which you want to start rerouting traffic to the replacement environment. 
         public let deploymentId: String?
-        /// The deployment status for this instance:   Pending: The deployment is pending for this instance.   In Progress: The deployment is in progress for this instance.   Succeeded: The deployment has succeeded for this instance.   Failed: The deployment has failed for this instance.   Skipped: The deployment has been skipped for this instance.   Unknown: The deployment status is unknown for this instance.  
-        public let status: InstanceStatus?
-        /// A list of lifecycle events for this instance.
-        public let lifecycleEvents: [LifecycleEvent]?
-        /// A timestamp indicating when the instance information was last updated.
-        public let lastUpdatedAt: TimeStamp?
-        /// Information about which environment an instance belongs to in a blue/green deployment.   BLUE: The instance is part of the original environment.   GREEN: The instance is part of the replacement environment.  
-        public let instanceType: InstanceType?
+        ///  The status of the deployment's waiting period. READY_WAIT indicates the deployment is ready to start shifting traffic. TERMINATION_WAIT indicates the traffic is shifted, but the original target is not terminated. 
+        public let deploymentWaitType: DeploymentWaitType?
 
-        public init(instanceId: String? = nil, deploymentId: String? = nil, status: InstanceStatus? = nil, lifecycleEvents: [LifecycleEvent]? = nil, lastUpdatedAt: TimeStamp? = nil, instanceType: InstanceType? = nil) {
-            self.instanceId = instanceId
+        public init(deploymentId: String? = nil, deploymentWaitType: DeploymentWaitType? = nil) {
             self.deploymentId = deploymentId
-            self.status = status
-            self.lifecycleEvents = lifecycleEvents
-            self.lastUpdatedAt = lastUpdatedAt
-            self.instanceType = instanceType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceId = "instanceId"
-            case deploymentId = "deploymentId"
-            case status = "status"
-            case lifecycleEvents = "lifecycleEvents"
-            case lastUpdatedAt = "lastUpdatedAt"
-            case instanceType = "instanceType"
-        }
-    }
-
-    public struct GetDeploymentInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deploymentId", required: true, type: .string)
-        ]
-        ///  The unique ID of a deployment associated with the applicable IAM user or AWS account. 
-        public let deploymentId: String
-
-        public init(deploymentId: String) {
-            self.deploymentId = deploymentId
+            self.deploymentWaitType = deploymentWaitType
         }
 
         private enum CodingKeys: String, CodingKey {
             case deploymentId = "deploymentId"
+            case deploymentWaitType = "deploymentWaitType"
         }
     }
 
-    public struct RevisionLocation: AWSShape {
+    public struct TagFilter: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "appSpecContent", required: false, type: .structure), 
-            AWSShapeMember(label: "revisionType", required: false, type: .enum), 
-            AWSShapeMember(label: "string", required: false, type: .structure), 
-            AWSShapeMember(label: "s3Location", required: false, type: .structure), 
-            AWSShapeMember(label: "gitHubLocation", required: false, type: .structure)
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
-        ///  The content of an AppSpec file for an AWS Lambda or Amazon ECS deployment. The content is formatted as JSON or YAML and stored as a RawString. 
-        public let appSpecContent: AppSpecContent?
-        /// The type of application revision:   S3: An application revision stored in Amazon S3.   GitHub: An application revision stored in GitHub (EC2/On-premises deployments only)   String: A YAML-formatted or JSON-formatted string (AWS Lambda deployments only)  
-        public let revisionType: RevisionLocationType?
-        /// Information about the location of an AWS Lambda deployment revision stored as a RawString.
-        public let string: RawString?
-        /// Information about the location of a revision stored in Amazon S3. 
-        public let s3Location: S3Location?
-        /// Information about the location of application artifacts stored in GitHub.
-        public let gitHubLocation: GitHubLocation?
+        /// The on-premises instance tag filter value.
+        public let value: String?
+        /// The on-premises instance tag filter key.
+        public let key: String?
+        /// The on-premises instance tag filter type:   KEY_ONLY: Key only.   VALUE_ONLY: Value only.   KEY_AND_VALUE: Key and value.  
+        public let `type`: TagFilterType?
 
-        public init(appSpecContent: AppSpecContent? = nil, revisionType: RevisionLocationType? = nil, string: RawString? = nil, s3Location: S3Location? = nil, gitHubLocation: GitHubLocation? = nil) {
-            self.appSpecContent = appSpecContent
-            self.revisionType = revisionType
-            self.string = string
-            self.s3Location = s3Location
-            self.gitHubLocation = gitHubLocation
+        public init(value: String? = nil, key: String? = nil, type: TagFilterType? = nil) {
+            self.value = value
+            self.key = key
+            self.`type` = `type`
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appSpecContent = "appSpecContent"
-            case revisionType = "revisionType"
-            case string = "string"
-            case s3Location = "s3Location"
-            case gitHubLocation = "gitHubLocation"
-        }
-    }
-
-    public struct TrafficRoute: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "listenerArns", required: false, type: .list)
-        ]
-        ///  The ARN of one listener. The listener identifies the route between a target group and a load balancer. This is an array of strings with a maximum size of one. 
-        public let listenerArns: [String]?
-
-        public init(listenerArns: [String]? = nil) {
-            self.listenerArns = listenerArns
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case listenerArns = "listenerArns"
-        }
-    }
-
-    public struct BatchGetDeploymentTargetsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deploymentTargets", required: false, type: .list)
-        ]
-        ///  A list of target objects for a deployment. Each target object contains details about the target, such as its status and lifecycle events. The type of the target objects depends on the deployment' compute platform.     EC2/On-premises - Each target object is an EC2 or on-premises instance.     AWS Lambda - The target object is a specific version of an AWS Lambda function.     Amazon ECS - The target object is an Amazon ECS service.   
-        public let deploymentTargets: [DeploymentTarget]?
-
-        public init(deploymentTargets: [DeploymentTarget]? = nil) {
-            self.deploymentTargets = deploymentTargets
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deploymentTargets = "deploymentTargets"
-        }
-    }
-
-    public enum BundleType: String, CustomStringConvertible, Codable {
-        case tar = "tar"
-        case tgz = "tgz"
-        case zip = "zip"
-        case yaml = "YAML"
-        case json = "JSON"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateApplicationInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "computePlatform", required: false, type: .enum), 
-            AWSShapeMember(label: "applicationName", required: true, type: .string)
-        ]
-        ///  The destination platform type for the deployment (Lambda or Server).
-        public let computePlatform: ComputePlatform?
-        /// The name of the application. This name must be unique with the applicable IAM user or AWS account.
-        public let applicationName: String
-
-        public init(computePlatform: ComputePlatform? = nil, applicationName: String) {
-            self.computePlatform = computePlatform
-            self.applicationName = applicationName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case computePlatform = "computePlatform"
-            case applicationName = "applicationName"
-        }
-    }
-
-    public struct DeploymentConfigInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deploymentConfigName", required: false, type: .string), 
-            AWSShapeMember(label: "computePlatform", required: false, type: .enum), 
-            AWSShapeMember(label: "minimumHealthyHosts", required: false, type: .structure), 
-            AWSShapeMember(label: "trafficRoutingConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "createTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "deploymentConfigId", required: false, type: .string)
-        ]
-        /// The deployment configuration name.
-        public let deploymentConfigName: String?
-        /// The destination platform type for the deployment (Lambda or Server).
-        public let computePlatform: ComputePlatform?
-        /// Information about the number or percentage of minimum healthy instance.
-        public let minimumHealthyHosts: MinimumHealthyHosts?
-        /// The configuration specifying how the deployment traffic will be routed. Only deployments with a Lambda compute platform can specify this.
-        public let trafficRoutingConfig: TrafficRoutingConfig?
-        /// The time at which the deployment configuration was created.
-        public let createTime: TimeStamp?
-        /// The deployment configuration ID.
-        public let deploymentConfigId: String?
-
-        public init(deploymentConfigName: String? = nil, computePlatform: ComputePlatform? = nil, minimumHealthyHosts: MinimumHealthyHosts? = nil, trafficRoutingConfig: TrafficRoutingConfig? = nil, createTime: TimeStamp? = nil, deploymentConfigId: String? = nil) {
-            self.deploymentConfigName = deploymentConfigName
-            self.computePlatform = computePlatform
-            self.minimumHealthyHosts = minimumHealthyHosts
-            self.trafficRoutingConfig = trafficRoutingConfig
-            self.createTime = createTime
-            self.deploymentConfigId = deploymentConfigId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deploymentConfigName = "deploymentConfigName"
-            case computePlatform = "computePlatform"
-            case minimumHealthyHosts = "minimumHealthyHosts"
-            case trafficRoutingConfig = "trafficRoutingConfig"
-            case createTime = "createTime"
-            case deploymentConfigId = "deploymentConfigId"
-        }
-    }
-
-    public struct DeleteDeploymentGroupInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deploymentGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "applicationName", required: true, type: .string)
-        ]
-        /// The name of an existing deployment group for the specified application.
-        public let deploymentGroupName: String
-        /// The name of an AWS CodeDeploy application associated with the applicable IAM user or AWS account.
-        public let applicationName: String
-
-        public init(deploymentGroupName: String, applicationName: String) {
-            self.deploymentGroupName = deploymentGroupName
-            self.applicationName = applicationName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deploymentGroupName = "deploymentGroupName"
-            case applicationName = "applicationName"
-        }
-    }
-
-    public struct DeregisterOnPremisesInstanceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceName", required: true, type: .string)
-        ]
-        /// The name of the on-premises instance to deregister.
-        public let instanceName: String
-
-        public init(instanceName: String) {
-            self.instanceName = instanceName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceName = "instanceName"
-        }
-    }
-
-    public enum RegistrationStatus: String, CustomStringConvertible, Codable {
-        case registered = "Registered"
-        case deregistered = "Deregistered"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct AddTagsToOnPremisesInstancesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: true, type: .list), 
-            AWSShapeMember(label: "instanceNames", required: true, type: .list)
-        ]
-        /// The tag key-value pairs to add to the on-premises instances. Keys and values are both required. Keys cannot be null or empty strings. Value-only tags are not allowed.
-        public let tags: [Tag]
-        /// The names of the on-premises instances to which to add tags.
-        public let instanceNames: [String]
-
-        public init(tags: [Tag], instanceNames: [String]) {
-            self.tags = tags
-            self.instanceNames = instanceNames
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "tags"
-            case instanceNames = "instanceNames"
+            case value = "Value"
+            case key = "Key"
+            case `type` = "Type"
         }
     }
 
@@ -1789,965 +1250,78 @@ extension CodeDeploy {
         }
     }
 
-    public struct ECSTarget: AWSShape {
+    public struct BatchGetDeploymentInstancesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deploymentId", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "targetArn", required: false, type: .string), 
-            AWSShapeMember(label: "targetId", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "taskSetsInfo", required: false, type: .list), 
-            AWSShapeMember(label: "lifecycleEvents", required: false, type: .list)
+            AWSShapeMember(label: "errorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "instancesSummary", required: false, type: .list)
         ]
-        ///  The unique ID of a deployment. 
-        public let deploymentId: String?
-        ///  The date and time when the target Amazon ECS application was updated by a deployment. 
-        public let lastUpdatedAt: TimeStamp?
-        ///  The ARN of the target. 
-        public let targetArn: String?
-        ///  The unique ID of a deployment target that has a type of ecsTarget. 
-        public let targetId: String?
-        ///  The status an Amazon ECS deployment's target ECS application. 
-        public let status: TargetStatus?
-        ///  The ECSTaskSet objects associated with the ECS target. 
-        public let taskSetsInfo: [ECSTaskSet]?
-        ///  The lifecycle events of the deployment to this target Amazon ECS application. 
-        public let lifecycleEvents: [LifecycleEvent]?
+        /// Information about errors that may have occurred during the API call.
+        public let errorMessage: String?
+        /// Information about the instance.
+        public let instancesSummary: [InstanceSummary]?
 
-        public init(deploymentId: String? = nil, lastUpdatedAt: TimeStamp? = nil, targetArn: String? = nil, targetId: String? = nil, status: TargetStatus? = nil, taskSetsInfo: [ECSTaskSet]? = nil, lifecycleEvents: [LifecycleEvent]? = nil) {
-            self.deploymentId = deploymentId
-            self.lastUpdatedAt = lastUpdatedAt
-            self.targetArn = targetArn
-            self.targetId = targetId
-            self.status = status
-            self.taskSetsInfo = taskSetsInfo
-            self.lifecycleEvents = lifecycleEvents
+        public init(errorMessage: String? = nil, instancesSummary: [InstanceSummary]? = nil) {
+            self.errorMessage = errorMessage
+            self.instancesSummary = instancesSummary
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentId = "deploymentId"
-            case lastUpdatedAt = "lastUpdatedAt"
-            case targetArn = "targetArn"
-            case targetId = "targetId"
-            case status = "status"
-            case taskSetsInfo = "taskSetsInfo"
-            case lifecycleEvents = "lifecycleEvents"
+            case errorMessage = "errorMessage"
+            case instancesSummary = "instancesSummary"
         }
     }
 
     public struct InstanceInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deregisterTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "instanceArn", required: false, type: .string), 
-            AWSShapeMember(label: "iamSessionArn", required: false, type: .string), 
-            AWSShapeMember(label: "registerTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "tags", required: false, type: .list), 
             AWSShapeMember(label: "instanceName", required: false, type: .string), 
-            AWSShapeMember(label: "iamUserArn", required: false, type: .string)
+            AWSShapeMember(label: "deregisterTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "iamSessionArn", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "iamUserArn", required: false, type: .string), 
+            AWSShapeMember(label: "registerTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "instanceArn", required: false, type: .string)
         ]
-        /// If the on-premises instance was deregistered, the time at which the on-premises instance was deregistered.
-        public let deregisterTime: TimeStamp?
-        /// The ARN of the on-premises instance.
-        public let instanceArn: String?
-        /// The ARN of the IAM session associated with the on-premises instance.
-        public let iamSessionArn: String?
-        /// The time at which the on-premises instance was registered.
-        public let registerTime: TimeStamp?
-        /// The tags currently associated with the on-premises instance.
-        public let tags: [Tag]?
         /// The name of the on-premises instance.
         public let instanceName: String?
+        /// If the on-premises instance was deregistered, the time at which the on-premises instance was deregistered.
+        public let deregisterTime: TimeStamp?
+        /// The ARN of the IAM session associated with the on-premises instance.
+        public let iamSessionArn: String?
+        /// The tags currently associated with the on-premises instance.
+        public let tags: [Tag]?
         /// The IAM user ARN associated with the on-premises instance.
         public let iamUserArn: String?
+        /// The time at which the on-premises instance was registered.
+        public let registerTime: TimeStamp?
+        /// The ARN of the on-premises instance.
+        public let instanceArn: String?
 
-        public init(deregisterTime: TimeStamp? = nil, instanceArn: String? = nil, iamSessionArn: String? = nil, registerTime: TimeStamp? = nil, tags: [Tag]? = nil, instanceName: String? = nil, iamUserArn: String? = nil) {
+        public init(instanceName: String? = nil, deregisterTime: TimeStamp? = nil, iamSessionArn: String? = nil, tags: [Tag]? = nil, iamUserArn: String? = nil, registerTime: TimeStamp? = nil, instanceArn: String? = nil) {
+            self.instanceName = instanceName
             self.deregisterTime = deregisterTime
-            self.instanceArn = instanceArn
             self.iamSessionArn = iamSessionArn
-            self.registerTime = registerTime
             self.tags = tags
-            self.instanceName = instanceName
             self.iamUserArn = iamUserArn
+            self.registerTime = registerTime
+            self.instanceArn = instanceArn
         }
 
         private enum CodingKeys: String, CodingKey {
+            case instanceName = "instanceName"
             case deregisterTime = "deregisterTime"
-            case instanceArn = "instanceArn"
             case iamSessionArn = "iamSessionArn"
-            case registerTime = "registerTime"
             case tags = "tags"
-            case instanceName = "instanceName"
             case iamUserArn = "iamUserArn"
+            case registerTime = "registerTime"
+            case instanceArn = "instanceArn"
         }
     }
 
-    public enum RevisionLocationType: String, CustomStringConvertible, Codable {
-        case s3 = "S3"
-        case github = "GitHub"
-        case string = "String"
-        case appspeccontent = "AppSpecContent"
+    public enum DeploymentTargetType: String, CustomStringConvertible, Codable {
+        case instancetarget = "InstanceTarget"
+        case lambdatarget = "LambdaTarget"
+        case ecstarget = "ECSTarget"
         public var description: String { return self.rawValue }
-    }
-
-    public struct InstanceTarget: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deploymentId", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeMember(label: "targetArn", required: false, type: .string), 
-            AWSShapeMember(label: "targetId", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "lifecycleEvents", required: false, type: .list), 
-            AWSShapeMember(label: "instanceLabel", required: false, type: .enum)
-        ]
-        ///  The unique ID of a deployment. 
-        public let deploymentId: String?
-        ///  The date and time when the target instance was updated by a deployment. 
-        public let lastUpdatedAt: TimeStamp?
-        ///  The ARN of the target. 
-        public let targetArn: String?
-        ///  The unique ID of a deployment target that has a type of instanceTarget. 
-        public let targetId: String?
-        ///  The status an EC2/On-premises deployment's target instance. 
-        public let status: TargetStatus?
-        ///  The lifecycle events of the deployment to this target instance. 
-        public let lifecycleEvents: [LifecycleEvent]?
-        ///  A label that identifies whether the instance is an original target (BLUE) or a replacement target (GREEN). 
-        public let instanceLabel: TargetLabel?
-
-        public init(deploymentId: String? = nil, lastUpdatedAt: TimeStamp? = nil, targetArn: String? = nil, targetId: String? = nil, status: TargetStatus? = nil, lifecycleEvents: [LifecycleEvent]? = nil, instanceLabel: TargetLabel? = nil) {
-            self.deploymentId = deploymentId
-            self.lastUpdatedAt = lastUpdatedAt
-            self.targetArn = targetArn
-            self.targetId = targetId
-            self.status = status
-            self.lifecycleEvents = lifecycleEvents
-            self.instanceLabel = instanceLabel
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deploymentId = "deploymentId"
-            case lastUpdatedAt = "lastUpdatedAt"
-            case targetArn = "targetArn"
-            case targetId = "targetId"
-            case status = "status"
-            case lifecycleEvents = "lifecycleEvents"
-            case instanceLabel = "instanceLabel"
-        }
-    }
-
-    public enum AutoRollbackEvent: String, CustomStringConvertible, Codable {
-        case deploymentFailure = "DEPLOYMENT_FAILURE"
-        case deploymentStopOnAlarm = "DEPLOYMENT_STOP_ON_ALARM"
-        case deploymentStopOnRequest = "DEPLOYMENT_STOP_ON_REQUEST"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListOnPremisesInstancesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tagFilters", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "registrationStatus", required: false, type: .enum)
-        ]
-        /// The on-premises instance tags that will be used to restrict the corresponding on-premises instance names returned.
-        public let tagFilters: [TagFilter]?
-        /// An identifier returned from the previous list on-premises instances call. It can be used to return the next set of on-premises instances in the list.
-        public let nextToken: String?
-        /// The registration status of the on-premises instances:   Deregistered: Include deregistered on-premises instances in the resulting list.   Registered: Include registered on-premises instances in the resulting list.  
-        public let registrationStatus: RegistrationStatus?
-
-        public init(tagFilters: [TagFilter]? = nil, nextToken: String? = nil, registrationStatus: RegistrationStatus? = nil) {
-            self.tagFilters = tagFilters
-            self.nextToken = nextToken
-            self.registrationStatus = registrationStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tagFilters = "tagFilters"
-            case nextToken = "nextToken"
-            case registrationStatus = "registrationStatus"
-        }
-    }
-
-    public struct TimeBasedLinear: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "linearInterval", required: false, type: .integer), 
-            AWSShapeMember(label: "linearPercentage", required: false, type: .integer)
-        ]
-        /// The number of minutes between each incremental traffic shift of a TimeBasedLinear deployment.
-        public let linearInterval: Int32?
-        /// The percentage of traffic that is shifted at the start of each increment of a TimeBasedLinear deployment.
-        public let linearPercentage: Int32?
-
-        public init(linearInterval: Int32? = nil, linearPercentage: Int32? = nil) {
-            self.linearInterval = linearInterval
-            self.linearPercentage = linearPercentage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case linearInterval = "linearInterval"
-            case linearPercentage = "linearPercentage"
-        }
-    }
-
-    public struct GitHubLocation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "repository", required: false, type: .string), 
-            AWSShapeMember(label: "commitId", required: false, type: .string)
-        ]
-        /// The GitHub account and repository pair that stores a reference to the commit that represents the bundled artifacts for the application revision.  Specified as account/repository.
-        public let repository: String?
-        /// The SHA1 commit ID of the GitHub commit that represents the bundled artifacts for the application revision.
-        public let commitId: String?
-
-        public init(repository: String? = nil, commitId: String? = nil) {
-            self.repository = repository
-            self.commitId = commitId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case repository = "repository"
-            case commitId = "commitId"
-        }
-    }
-
-    public struct LifecycleEvent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lifecycleEventName", required: false, type: .string), 
-            AWSShapeMember(label: "diagnostics", required: false, type: .structure)
-        ]
-        /// A timestamp indicating when the deployment lifecycle event started.
-        public let startTime: TimeStamp?
-        /// The deployment lifecycle event status:   Pending: The deployment lifecycle event is pending.   InProgress: The deployment lifecycle event is in progress.   Succeeded: The deployment lifecycle event ran successfully.   Failed: The deployment lifecycle event has failed.   Skipped: The deployment lifecycle event has been skipped.   Unknown: The deployment lifecycle event is unknown.  
-        public let status: LifecycleEventStatus?
-        /// A timestamp indicating when the deployment lifecycle event ended.
-        public let endTime: TimeStamp?
-        /// The deployment lifecycle event name, such as ApplicationStop, BeforeInstall, AfterInstall, ApplicationStart, or ValidateService.
-        public let lifecycleEventName: String?
-        /// Diagnostic information about the deployment lifecycle event.
-        public let diagnostics: Diagnostics?
-
-        public init(startTime: TimeStamp? = nil, status: LifecycleEventStatus? = nil, endTime: TimeStamp? = nil, lifecycleEventName: String? = nil, diagnostics: Diagnostics? = nil) {
-            self.startTime = startTime
-            self.status = status
-            self.endTime = endTime
-            self.lifecycleEventName = lifecycleEventName
-            self.diagnostics = diagnostics
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case startTime = "startTime"
-            case status = "status"
-            case endTime = "endTime"
-            case lifecycleEventName = "lifecycleEventName"
-            case diagnostics = "diagnostics"
-        }
-    }
-
-    public struct RegisterOnPremisesInstanceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceName", required: true, type: .string), 
-            AWSShapeMember(label: "iamSessionArn", required: false, type: .string), 
-            AWSShapeMember(label: "iamUserArn", required: false, type: .string)
-        ]
-        /// The name of the on-premises instance to register.
-        public let instanceName: String
-        /// The ARN of the IAM session to associate with the on-premises instance.
-        public let iamSessionArn: String?
-        /// The ARN of the IAM user to associate with the on-premises instance.
-        public let iamUserArn: String?
-
-        public init(instanceName: String, iamSessionArn: String? = nil, iamUserArn: String? = nil) {
-            self.instanceName = instanceName
-            self.iamSessionArn = iamSessionArn
-            self.iamUserArn = iamUserArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceName = "instanceName"
-            case iamSessionArn = "iamSessionArn"
-            case iamUserArn = "iamUserArn"
-        }
-    }
-
-    public struct ListDeploymentInstancesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceStatusFilter", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "deploymentId", required: true, type: .string), 
-            AWSShapeMember(label: "instanceTypeFilter", required: false, type: .list)
-        ]
-        /// A subset of instances to list by status:   Pending: Include those instance with pending deployments.   InProgress: Include those instance where deployments are still in progress.   Succeeded: Include those instances with successful deployments.   Failed: Include those instance with failed deployments.   Skipped: Include those instance with skipped deployments.   Unknown: Include those instance with deployments in an unknown state.  
-        public let instanceStatusFilter: [InstanceStatus]?
-        /// An identifier returned from the previous list deployment instances call. It can be used to return the next set of deployment instances in the list.
-        public let nextToken: String?
-        ///  The unique ID of a deployment. 
-        public let deploymentId: String
-        /// The set of instances in a blue/green deployment, either those in the original environment ("BLUE") or those in the replacement environment ("GREEN"), for which you want to view instance information.
-        public let instanceTypeFilter: [InstanceType]?
-
-        public init(instanceStatusFilter: [InstanceStatus]? = nil, nextToken: String? = nil, deploymentId: String, instanceTypeFilter: [InstanceType]? = nil) {
-            self.instanceStatusFilter = instanceStatusFilter
-            self.nextToken = nextToken
-            self.deploymentId = deploymentId
-            self.instanceTypeFilter = instanceTypeFilter
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceStatusFilter = "instanceStatusFilter"
-            case nextToken = "nextToken"
-            case deploymentId = "deploymentId"
-            case instanceTypeFilter = "instanceTypeFilter"
-        }
-    }
-
-    public struct DeploymentTarget: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceTarget", required: false, type: .structure), 
-            AWSShapeMember(label: "deploymentTargetType", required: false, type: .enum), 
-            AWSShapeMember(label: "lambdaTarget", required: false, type: .structure), 
-            AWSShapeMember(label: "ecsTarget", required: false, type: .structure)
-        ]
-        ///  Information about the target for a deployment that uses the EC2/On-premises compute platform. 
-        public let instanceTarget: InstanceTarget?
-        ///  The deployment type which is specific to the deployment's compute platform. 
-        public let deploymentTargetType: DeploymentTargetType?
-        ///  Information about the target for a deployment that uses the AWS Lambda compute platform. 
-        public let lambdaTarget: LambdaTarget?
-        ///  Information about the target for a deployment that uses the Amazon ECS compute platform. 
-        public let ecsTarget: ECSTarget?
-
-        public init(instanceTarget: InstanceTarget? = nil, deploymentTargetType: DeploymentTargetType? = nil, lambdaTarget: LambdaTarget? = nil, ecsTarget: ECSTarget? = nil) {
-            self.instanceTarget = instanceTarget
-            self.deploymentTargetType = deploymentTargetType
-            self.lambdaTarget = lambdaTarget
-            self.ecsTarget = ecsTarget
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceTarget = "instanceTarget"
-            case deploymentTargetType = "deploymentTargetType"
-            case lambdaTarget = "lambdaTarget"
-            case ecsTarget = "ecsTarget"
-        }
-    }
-
-    public struct AutoScalingGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "hook", required: false, type: .string)
-        ]
-        /// The Auto Scaling group name.
-        public let name: String?
-        /// An Auto Scaling lifecycle event hook name.
-        public let hook: String?
-
-        public init(name: String? = nil, hook: String? = nil) {
-            self.name = name
-            self.hook = hook
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case hook = "hook"
-        }
-    }
-
-    public enum TargetStatus: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case inprogress = "InProgress"
-        case succeeded = "Succeeded"
-        case failed = "Failed"
-        case skipped = "Skipped"
-        case unknown = "Unknown"
-        case ready = "Ready"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum InstanceType: String, CustomStringConvertible, Codable {
-        case blue = "Blue"
-        case green = "Green"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SortOrder: String, CustomStringConvertible, Codable {
-        case ascending = "ascending"
-        case descending = "descending"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteDeploymentConfigInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deploymentConfigName", required: true, type: .string)
-        ]
-        /// The name of a deployment configuration associated with the applicable IAM user or AWS account.
-        public let deploymentConfigName: String
-
-        public init(deploymentConfigName: String) {
-            self.deploymentConfigName = deploymentConfigName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deploymentConfigName = "deploymentConfigName"
-        }
-    }
-
-    public enum TrafficRoutingType: String, CustomStringConvertible, Codable {
-        case timebasedcanary = "TimeBasedCanary"
-        case timebasedlinear = "TimeBasedLinear"
-        case allatonce = "AllAtOnce"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct Alarm: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
-        /// The name of the alarm. Maximum length is 255 characters. Each alarm name can be used only once in a list of alarms.
-        public let name: String?
-
-        public init(name: String? = nil) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-        }
-    }
-
-    public struct DeleteDeploymentGroupOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "hooksNotCleanedUp", required: false, type: .list)
-        ]
-        /// If the output contains no data, and the corresponding deployment group contained at least one Auto Scaling group, AWS CodeDeploy successfully removed all corresponding Auto Scaling lifecycle event hooks from the Amazon EC2 instances in the Auto Scaling group. If the output contains data, AWS CodeDeploy could not remove some Auto Scaling lifecycle event hooks from the Amazon EC2 instances in the Auto Scaling group.
-        public let hooksNotCleanedUp: [AutoScalingGroup]?
-
-        public init(hooksNotCleanedUp: [AutoScalingGroup]? = nil) {
-            self.hooksNotCleanedUp = hooksNotCleanedUp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case hooksNotCleanedUp = "hooksNotCleanedUp"
-        }
-    }
-
-    public struct RawString: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "content", required: false, type: .string), 
-            AWSShapeMember(label: "sha256", required: false, type: .string)
-        ]
-        /// The YAML-formatted or JSON-formatted revision string. It includes information about which Lambda function to update and optional Lambda functions that validate deployment lifecycle events.
-        public let content: String?
-        /// The SHA256 hash value of the revision content.
-        public let sha256: String?
-
-        public init(content: String? = nil, sha256: String? = nil) {
-            self.content = content
-            self.sha256 = sha256
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case content = "content"
-            case sha256 = "sha256"
-        }
-    }
-
-    public struct GetDeploymentInstanceInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceId", required: true, type: .string), 
-            AWSShapeMember(label: "deploymentId", required: true, type: .string)
-        ]
-        ///  The unique ID of an instance in the deployment group. 
-        public let instanceId: String
-        ///  The unique ID of a deployment. 
-        public let deploymentId: String
-
-        public init(instanceId: String, deploymentId: String) {
-            self.instanceId = instanceId
-            self.deploymentId = deploymentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceId = "instanceId"
-            case deploymentId = "deploymentId"
-        }
-    }
-
-    public struct ListDeploymentsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "applicationName", required: false, type: .string), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "deploymentGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "createTimeRange", required: false, type: .structure), 
-            AWSShapeMember(label: "includeOnlyStatuses", required: false, type: .list)
-        ]
-        /// The name of an AWS CodeDeploy application associated with the applicable IAM user or AWS account.
-        public let applicationName: String?
-        /// An identifier returned from the previous list deployments call. It can be used to return the next set of deployments in the list.
-        public let nextToken: String?
-        /// The name of an existing deployment group for the specified application.
-        public let deploymentGroupName: String?
-        /// A time range (start and end) for returning a subset of the list of deployments.
-        public let createTimeRange: TimeRange?
-        /// A subset of deployments to list by status:   Created: Include created deployments in the resulting list.   Queued: Include queued deployments in the resulting list.   In Progress: Include in-progress deployments in the resulting list.   Succeeded: Include successful deployments in the resulting list.   Failed: Include failed deployments in the resulting list.   Stopped: Include stopped deployments in the resulting list.  
-        public let includeOnlyStatuses: [DeploymentStatus]?
-
-        public init(applicationName: String? = nil, nextToken: String? = nil, deploymentGroupName: String? = nil, createTimeRange: TimeRange? = nil, includeOnlyStatuses: [DeploymentStatus]? = nil) {
-            self.applicationName = applicationName
-            self.nextToken = nextToken
-            self.deploymentGroupName = deploymentGroupName
-            self.createTimeRange = createTimeRange
-            self.includeOnlyStatuses = includeOnlyStatuses
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case applicationName = "applicationName"
-            case nextToken = "nextToken"
-            case deploymentGroupName = "deploymentGroupName"
-            case createTimeRange = "createTimeRange"
-            case includeOnlyStatuses = "includeOnlyStatuses"
-        }
-    }
-
-    public struct GetOnPremisesInstanceOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceInfo", required: false, type: .structure)
-        ]
-        ///  Information about the on-premises instance. 
-        public let instanceInfo: InstanceInfo?
-
-        public init(instanceInfo: InstanceInfo? = nil) {
-            self.instanceInfo = instanceInfo
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceInfo = "instanceInfo"
-        }
-    }
-
-    public struct CreateDeploymentGroupInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deploymentConfigName", required: false, type: .string), 
-            AWSShapeMember(label: "deploymentGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "autoRollbackConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "onPremisesTagSet", required: false, type: .structure), 
-            AWSShapeMember(label: "ecsServices", required: false, type: .list), 
-            AWSShapeMember(label: "deploymentStyle", required: false, type: .structure), 
-            AWSShapeMember(label: "ec2TagFilters", required: false, type: .list), 
-            AWSShapeMember(label: "triggerConfigurations", required: false, type: .list), 
-            AWSShapeMember(label: "serviceRoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "alarmConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "applicationName", required: true, type: .string), 
-            AWSShapeMember(label: "blueGreenDeploymentConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "loadBalancerInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "onPremisesInstanceTagFilters", required: false, type: .list), 
-            AWSShapeMember(label: "autoScalingGroups", required: false, type: .list), 
-            AWSShapeMember(label: "ec2TagSet", required: false, type: .structure)
-        ]
-        /// If specified, the deployment configuration name can be either one of the predefined configurations provided with AWS CodeDeploy or a custom deployment configuration that you create by calling the create deployment configuration operation. CodeDeployDefault.OneAtATime is the default deployment configuration. It is used if a configuration isn't specified for the deployment or the deployment group. For more information about the predefined deployment configurations in AWS CodeDeploy, see Working with Deployment Groups in AWS CodeDeploy in the AWS CodeDeploy User Guide.
-        public let deploymentConfigName: String?
-        /// The name of a new deployment group for the specified application.
-        public let deploymentGroupName: String
-        /// Configuration information for an automatic rollback that is added when a deployment group is created.
-        public let autoRollbackConfiguration: AutoRollbackConfiguration?
-        /// Information about groups of tags applied to on-premises instances. The deployment group will include only on-premises instances identified by all the tag groups. Cannot be used in the same call as onPremisesInstanceTagFilters.
-        public let onPremisesTagSet: OnPremisesTagSet?
-        ///  The target ECS services in the deployment group. This only applies to deployment groups that use the Amazon ECS compute platform. A target ECS service is specified as an Amazon ECS cluster and service name pair using the format &lt;clustername&gt;:&lt;servicename&gt;. 
-        public let ecsServices: [ECSService]?
-        /// Information about the type of deployment, in-place or blue/green, that you want to run and whether to route deployment traffic behind a load balancer.
-        public let deploymentStyle: DeploymentStyle?
-        /// The Amazon EC2 tags on which to filter. The deployment group will include EC2 instances with any of the specified tags. Cannot be used in the same call as ec2TagSet.
-        public let ec2TagFilters: [EC2TagFilter]?
-        /// Information about triggers to create when the deployment group is created. For examples, see Create a Trigger for an AWS CodeDeploy Event in the AWS CodeDeploy User Guide.
-        public let triggerConfigurations: [TriggerConfig]?
-        /// A service role ARN that allows AWS CodeDeploy to act on the user's behalf when interacting with AWS services.
-        public let serviceRoleArn: String
-        /// Information to add about Amazon CloudWatch alarms when the deployment group is created.
-        public let alarmConfiguration: AlarmConfiguration?
-        /// The name of an AWS CodeDeploy application associated with the applicable IAM user or AWS account.
-        public let applicationName: String
-        /// Information about blue/green deployment options for a deployment group.
-        public let blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration?
-        /// Information about the load balancer used in a deployment.
-        public let loadBalancerInfo: LoadBalancerInfo?
-        /// The on-premises instance tags on which to filter. The deployment group will include on-premises instances with any of the specified tags. Cannot be used in the same call as OnPremisesTagSet.
-        public let onPremisesInstanceTagFilters: [TagFilter]?
-        /// A list of associated Auto Scaling groups.
-        public let autoScalingGroups: [String]?
-        /// Information about groups of tags applied to EC2 instances. The deployment group will include only EC2 instances identified by all the tag groups. Cannot be used in the same call as ec2TagFilters.
-        public let ec2TagSet: EC2TagSet?
-
-        public init(deploymentConfigName: String? = nil, deploymentGroupName: String, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, onPremisesTagSet: OnPremisesTagSet? = nil, ecsServices: [ECSService]? = nil, deploymentStyle: DeploymentStyle? = nil, ec2TagFilters: [EC2TagFilter]? = nil, triggerConfigurations: [TriggerConfig]? = nil, serviceRoleArn: String, alarmConfiguration: AlarmConfiguration? = nil, applicationName: String, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, onPremisesInstanceTagFilters: [TagFilter]? = nil, autoScalingGroups: [String]? = nil, ec2TagSet: EC2TagSet? = nil) {
-            self.deploymentConfigName = deploymentConfigName
-            self.deploymentGroupName = deploymentGroupName
-            self.autoRollbackConfiguration = autoRollbackConfiguration
-            self.onPremisesTagSet = onPremisesTagSet
-            self.ecsServices = ecsServices
-            self.deploymentStyle = deploymentStyle
-            self.ec2TagFilters = ec2TagFilters
-            self.triggerConfigurations = triggerConfigurations
-            self.serviceRoleArn = serviceRoleArn
-            self.alarmConfiguration = alarmConfiguration
-            self.applicationName = applicationName
-            self.blueGreenDeploymentConfiguration = blueGreenDeploymentConfiguration
-            self.loadBalancerInfo = loadBalancerInfo
-            self.onPremisesInstanceTagFilters = onPremisesInstanceTagFilters
-            self.autoScalingGroups = autoScalingGroups
-            self.ec2TagSet = ec2TagSet
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deploymentConfigName = "deploymentConfigName"
-            case deploymentGroupName = "deploymentGroupName"
-            case autoRollbackConfiguration = "autoRollbackConfiguration"
-            case onPremisesTagSet = "onPremisesTagSet"
-            case ecsServices = "ecsServices"
-            case deploymentStyle = "deploymentStyle"
-            case ec2TagFilters = "ec2TagFilters"
-            case triggerConfigurations = "triggerConfigurations"
-            case serviceRoleArn = "serviceRoleArn"
-            case alarmConfiguration = "alarmConfiguration"
-            case applicationName = "applicationName"
-            case blueGreenDeploymentConfiguration = "blueGreenDeploymentConfiguration"
-            case loadBalancerInfo = "loadBalancerInfo"
-            case onPremisesInstanceTagFilters = "onPremisesInstanceTagFilters"
-            case autoScalingGroups = "autoScalingGroups"
-            case ec2TagSet = "ec2TagSet"
-        }
-    }
-
-    public struct GetDeploymentInstanceOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceSummary", required: false, type: .structure)
-        ]
-        ///  Information about the instance. 
-        public let instanceSummary: InstanceSummary?
-
-        public init(instanceSummary: InstanceSummary? = nil) {
-            self.instanceSummary = instanceSummary
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceSummary = "instanceSummary"
-        }
-    }
-
-    public enum TargetLabel: String, CustomStringConvertible, Codable {
-        case blue = "Blue"
-        case green = "Green"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetDeploymentGroupInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deploymentGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "applicationName", required: true, type: .string)
-        ]
-        /// The name of an existing deployment group for the specified application.
-        public let deploymentGroupName: String
-        /// The name of an AWS CodeDeploy application associated with the applicable IAM user or AWS account.
-        public let applicationName: String
-
-        public init(deploymentGroupName: String, applicationName: String) {
-            self.deploymentGroupName = deploymentGroupName
-            self.applicationName = applicationName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deploymentGroupName = "deploymentGroupName"
-            case applicationName = "applicationName"
-        }
-    }
-
-    public struct UpdateDeploymentGroupInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deploymentConfigName", required: false, type: .string), 
-            AWSShapeMember(label: "autoRollbackConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "currentDeploymentGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "onPremisesTagSet", required: false, type: .structure), 
-            AWSShapeMember(label: "newDeploymentGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "deploymentStyle", required: false, type: .structure), 
-            AWSShapeMember(label: "ecsServices", required: false, type: .list), 
-            AWSShapeMember(label: "triggerConfigurations", required: false, type: .list), 
-            AWSShapeMember(label: "ec2TagFilters", required: false, type: .list), 
-            AWSShapeMember(label: "serviceRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "alarmConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "applicationName", required: true, type: .string), 
-            AWSShapeMember(label: "blueGreenDeploymentConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "onPremisesInstanceTagFilters", required: false, type: .list), 
-            AWSShapeMember(label: "loadBalancerInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "autoScalingGroups", required: false, type: .list), 
-            AWSShapeMember(label: "ec2TagSet", required: false, type: .structure)
-        ]
-        /// The replacement deployment configuration name to use, if you want to change it.
-        public let deploymentConfigName: String?
-        /// Information for an automatic rollback configuration that is added or changed when a deployment group is updated.
-        public let autoRollbackConfiguration: AutoRollbackConfiguration?
-        /// The current name of the deployment group.
-        public let currentDeploymentGroupName: String
-        /// Information about an on-premises instance tag set. The deployment group will include only on-premises instances identified by all the tag groups.
-        public let onPremisesTagSet: OnPremisesTagSet?
-        /// The new name of the deployment group, if you want to change it.
-        public let newDeploymentGroupName: String?
-        /// Information about the type of deployment, either in-place or blue/green, you want to run and whether to route deployment traffic behind a load balancer.
-        public let deploymentStyle: DeploymentStyle?
-        ///  The target ECS services in the deployment group. This only applies to deployment groups that use the Amazon ECS compute platform. A target ECS service is specified as an Amazon ECS cluster and service name pair using the format &lt;clustername&gt;:&lt;servicename&gt;. 
-        public let ecsServices: [ECSService]?
-        /// Information about triggers to change when the deployment group is updated. For examples, see Modify Triggers in an AWS CodeDeploy Deployment Group in the AWS CodeDeploy User Guide.
-        public let triggerConfigurations: [TriggerConfig]?
-        /// The replacement set of Amazon EC2 tags on which to filter, if you want to change them. To keep the existing tags, enter their names. To remove tags, do not enter any tag names.
-        public let ec2TagFilters: [EC2TagFilter]?
-        /// A replacement ARN for the service role, if you want to change it.
-        public let serviceRoleArn: String?
-        /// Information to add or change about Amazon CloudWatch alarms when the deployment group is updated.
-        public let alarmConfiguration: AlarmConfiguration?
-        /// The application name corresponding to the deployment group to update.
-        public let applicationName: String
-        /// Information about blue/green deployment options for a deployment group.
-        public let blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration?
-        /// The replacement set of on-premises instance tags on which to filter, if you want to change them. To keep the existing tags, enter their names. To remove tags, do not enter any tag names.
-        public let onPremisesInstanceTagFilters: [TagFilter]?
-        /// Information about the load balancer used in a deployment.
-        public let loadBalancerInfo: LoadBalancerInfo?
-        /// The replacement list of Auto Scaling groups to be included in the deployment group, if you want to change them. To keep the Auto Scaling groups, enter their names. To remove Auto Scaling groups, do not enter any Auto Scaling group names.
-        public let autoScalingGroups: [String]?
-        /// Information about groups of tags applied to on-premises instances. The deployment group will include only EC2 instances identified by all the tag groups.
-        public let ec2TagSet: EC2TagSet?
-
-        public init(deploymentConfigName: String? = nil, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, currentDeploymentGroupName: String, onPremisesTagSet: OnPremisesTagSet? = nil, newDeploymentGroupName: String? = nil, deploymentStyle: DeploymentStyle? = nil, ecsServices: [ECSService]? = nil, triggerConfigurations: [TriggerConfig]? = nil, ec2TagFilters: [EC2TagFilter]? = nil, serviceRoleArn: String? = nil, alarmConfiguration: AlarmConfiguration? = nil, applicationName: String, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, onPremisesInstanceTagFilters: [TagFilter]? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, autoScalingGroups: [String]? = nil, ec2TagSet: EC2TagSet? = nil) {
-            self.deploymentConfigName = deploymentConfigName
-            self.autoRollbackConfiguration = autoRollbackConfiguration
-            self.currentDeploymentGroupName = currentDeploymentGroupName
-            self.onPremisesTagSet = onPremisesTagSet
-            self.newDeploymentGroupName = newDeploymentGroupName
-            self.deploymentStyle = deploymentStyle
-            self.ecsServices = ecsServices
-            self.triggerConfigurations = triggerConfigurations
-            self.ec2TagFilters = ec2TagFilters
-            self.serviceRoleArn = serviceRoleArn
-            self.alarmConfiguration = alarmConfiguration
-            self.applicationName = applicationName
-            self.blueGreenDeploymentConfiguration = blueGreenDeploymentConfiguration
-            self.onPremisesInstanceTagFilters = onPremisesInstanceTagFilters
-            self.loadBalancerInfo = loadBalancerInfo
-            self.autoScalingGroups = autoScalingGroups
-            self.ec2TagSet = ec2TagSet
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deploymentConfigName = "deploymentConfigName"
-            case autoRollbackConfiguration = "autoRollbackConfiguration"
-            case currentDeploymentGroupName = "currentDeploymentGroupName"
-            case onPremisesTagSet = "onPremisesTagSet"
-            case newDeploymentGroupName = "newDeploymentGroupName"
-            case deploymentStyle = "deploymentStyle"
-            case ecsServices = "ecsServices"
-            case triggerConfigurations = "triggerConfigurations"
-            case ec2TagFilters = "ec2TagFilters"
-            case serviceRoleArn = "serviceRoleArn"
-            case alarmConfiguration = "alarmConfiguration"
-            case applicationName = "applicationName"
-            case blueGreenDeploymentConfiguration = "blueGreenDeploymentConfiguration"
-            case onPremisesInstanceTagFilters = "onPremisesInstanceTagFilters"
-            case loadBalancerInfo = "loadBalancerInfo"
-            case autoScalingGroups = "autoScalingGroups"
-            case ec2TagSet = "ec2TagSet"
-        }
-    }
-
-    public enum DeploymentType: String, CustomStringConvertible, Codable {
-        case inPlace = "IN_PLACE"
-        case blueGreen = "BLUE_GREEN"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeploymentOverview: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Pending", required: false, type: .long), 
-            AWSShapeMember(label: "Failed", required: false, type: .long), 
-            AWSShapeMember(label: "Succeeded", required: false, type: .long), 
-            AWSShapeMember(label: "InProgress", required: false, type: .long), 
-            AWSShapeMember(label: "Ready", required: false, type: .long), 
-            AWSShapeMember(label: "Skipped", required: false, type: .long)
-        ]
-        /// The number of instances in the deployment in a pending state.
-        public let pending: Int64?
-        /// The number of instances in the deployment in a failed state.
-        public let failed: Int64?
-        /// The number of instances in the deployment to which revisions have been successfully deployed.
-        public let succeeded: Int64?
-        /// The number of instances in which the deployment is in progress.
-        public let inProgress: Int64?
-        /// The number of instances in a replacement environment ready to receive traffic in a blue/green deployment.
-        public let ready: Int64?
-        /// The number of instances in the deployment in a skipped state.
-        public let skipped: Int64?
-
-        public init(pending: Int64? = nil, failed: Int64? = nil, succeeded: Int64? = nil, inProgress: Int64? = nil, ready: Int64? = nil, skipped: Int64? = nil) {
-            self.pending = pending
-            self.failed = failed
-            self.succeeded = succeeded
-            self.inProgress = inProgress
-            self.ready = ready
-            self.skipped = skipped
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pending = "Pending"
-            case failed = "Failed"
-            case succeeded = "Succeeded"
-            case inProgress = "InProgress"
-            case ready = "Ready"
-            case skipped = "Skipped"
-        }
-    }
-
-    public enum DeploymentReadyAction: String, CustomStringConvertible, Codable {
-        case continueDeployment = "CONTINUE_DEPLOYMENT"
-        case stopDeployment = "STOP_DEPLOYMENT"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct LastDeploymentInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deploymentId", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "createTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "endTime", required: false, type: .timestamp)
-        ]
-        ///  The unique ID of a deployment. 
-        public let deploymentId: String?
-        /// The status of the most recent deployment.
-        public let status: DeploymentStatus?
-        /// A timestamp indicating when the most recent deployment to the deployment group started.
-        public let createTime: TimeStamp?
-        /// A timestamp indicating when the most recent deployment to the deployment group completed.
-        public let endTime: TimeStamp?
-
-        public init(deploymentId: String? = nil, status: DeploymentStatus? = nil, createTime: TimeStamp? = nil, endTime: TimeStamp? = nil) {
-            self.deploymentId = deploymentId
-            self.status = status
-            self.createTime = createTime
-            self.endTime = endTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deploymentId = "deploymentId"
-            case status = "status"
-            case createTime = "createTime"
-            case endTime = "endTime"
-        }
-    }
-
-    public struct PutLifecycleEventHookExecutionStatusInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "lifecycleEventHookExecutionId", required: false, type: .string), 
-            AWSShapeMember(label: "deploymentId", required: false, type: .string)
-        ]
-        /// The result of a Lambda function that validates a deployment lifecycle event (Succeeded or Failed).
-        public let status: LifecycleEventStatus?
-        ///  The execution ID of a deployment's lifecycle hook. A deployment lifecycle hook is specified in the hooks section of the AppSpec file. 
-        public let lifecycleEventHookExecutionId: String?
-        ///  The unique ID of a deployment. Pass this ID to a Lambda function that validates a deployment lifecycle event. 
-        public let deploymentId: String?
-
-        public init(status: LifecycleEventStatus? = nil, lifecycleEventHookExecutionId: String? = nil, deploymentId: String? = nil) {
-            self.status = status
-            self.lifecycleEventHookExecutionId = lifecycleEventHookExecutionId
-            self.deploymentId = deploymentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "status"
-            case lifecycleEventHookExecutionId = "lifecycleEventHookExecutionId"
-            case deploymentId = "deploymentId"
-        }
-    }
-
-    public struct InvalidInstanceIdException: AWSShape {
-
-    }
-
-    public enum InstanceStatus: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case inprogress = "InProgress"
-        case succeeded = "Succeeded"
-        case failed = "Failed"
-        case skipped = "Skipped"
-        case unknown = "Unknown"
-        case ready = "Ready"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListDeploymentTargetsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "targetFilters", required: false, type: .map), 
-            AWSShapeMember(label: "deploymentId", required: false, type: .string)
-        ]
-        ///  A token identifier returned from the previous ListDeploymentTargets call. It can be used to return the next set of deployment targets in the list. 
-        public let nextToken: String?
-        ///  A key used to filter the returned targets. 
-        public let targetFilters: [TargetFilterName: [String]]?
-        ///  The unique ID of a deployment. 
-        public let deploymentId: String?
-
-        public init(nextToken: String? = nil, targetFilters: [TargetFilterName: [String]]? = nil, deploymentId: String? = nil) {
-            self.nextToken = nextToken
-            self.targetFilters = targetFilters
-            self.deploymentId = deploymentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case targetFilters = "targetFilters"
-            case deploymentId = "deploymentId"
-        }
-    }
-
-    public struct TargetGroupPairInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "testTrafficRoute", required: false, type: .structure), 
-            AWSShapeMember(label: "prodTrafficRoute", required: false, type: .structure), 
-            AWSShapeMember(label: "targetGroups", required: false, type: .list)
-        ]
-        ///  An optional path used by a load balancer to route test traffic after an Amazon ECS deployment. Validation can happen while test traffic is served during a deployment. 
-        public let testTrafficRoute: TrafficRoute?
-        ///  The path used by a load balancer to route production traffic when an Amazon ECS deployment is complete. 
-        public let prodTrafficRoute: TrafficRoute?
-        ///  One pair of target groups. One is associated with the original task set. The second target is associated with the task set that serves traffic after the deployment completes. 
-        public let targetGroups: [TargetGroupInfo]?
-
-        public init(testTrafficRoute: TrafficRoute? = nil, prodTrafficRoute: TrafficRoute? = nil, targetGroups: [TargetGroupInfo]? = nil) {
-            self.testTrafficRoute = testTrafficRoute
-            self.prodTrafficRoute = prodTrafficRoute
-            self.targetGroups = targetGroups
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case testTrafficRoute = "testTrafficRoute"
-            case prodTrafficRoute = "prodTrafficRoute"
-            case targetGroups = "targetGroups"
-        }
-    }
-
-    public struct GreenFleetProvisioningOption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "action", required: false, type: .enum)
-        ]
-        /// The method used to add instances to a replacement environment.   DISCOVER_EXISTING: Use instances that already exist or will be created manually.   COPY_AUTO_SCALING_GROUP: Use settings from a specified Auto Scaling group to define and create instances in a new Auto Scaling group.  
-        public let action: GreenFleetProvisioningAction?
-
-        public init(action: GreenFleetProvisioningAction? = nil) {
-            self.action = action
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case action = "action"
-        }
     }
 
     public struct StopDeploymentOutput: AWSShape {
@@ -2771,738 +1345,30 @@ extension CodeDeploy {
         }
     }
 
-    public struct DeploymentStyle: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deploymentOption", required: false, type: .enum), 
-            AWSShapeMember(label: "deploymentType", required: false, type: .enum)
-        ]
-        /// Indicates whether to route deployment traffic behind a load balancer.
-        public let deploymentOption: DeploymentOption?
-        /// Indicates whether to run an in-place deployment or a blue/green deployment.
-        public let deploymentType: DeploymentType?
-
-        public init(deploymentOption: DeploymentOption? = nil, deploymentType: DeploymentType? = nil) {
-            self.deploymentOption = deploymentOption
-            self.deploymentType = deploymentType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deploymentOption = "deploymentOption"
-            case deploymentType = "deploymentType"
-        }
+    public enum DeploymentReadyAction: String, CustomStringConvertible, Codable {
+        case continueDeployment = "CONTINUE_DEPLOYMENT"
+        case stopDeployment = "STOP_DEPLOYMENT"
+        public var description: String { return self.rawValue }
     }
 
-    public struct CreateDeploymentInput: AWSShape {
+    public struct GetDeploymentGroupInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ignoreApplicationStopFailures", required: false, type: .boolean), 
-            AWSShapeMember(label: "revision", required: false, type: .structure), 
-            AWSShapeMember(label: "deploymentConfigName", required: false, type: .string), 
-            AWSShapeMember(label: "deploymentGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "targetInstances", required: false, type: .structure), 
-            AWSShapeMember(label: "autoRollbackConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "applicationName", required: true, type: .string), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "updateOutdatedInstancesOnly", required: false, type: .boolean), 
-            AWSShapeMember(label: "fileExistsBehavior", required: false, type: .enum)
+            AWSShapeMember(label: "deploymentGroupName", required: true, type: .string)
         ]
-        ///  If set to true, then if the deployment causes the ApplicationStop deployment lifecycle event to an instance to fail, the deployment to that instance will not be considered to have failed at that point and will continue on to the BeforeInstall deployment lifecycle event.   If set to false or not specified, then if the deployment causes the ApplicationStop deployment lifecycle event to fail to an instance, the deployment to that instance will stop, and the deployment to that instance will be considered to have failed. 
-        public let ignoreApplicationStopFailures: Bool?
-        ///  The type and location of the revision to deploy. 
-        public let revision: RevisionLocation?
-        /// The name of a deployment configuration associated with the applicable IAM user or AWS account. If not specified, the value configured in the deployment group will be used as the default. If the deployment group does not have a deployment configuration associated with it, then CodeDeployDefault.OneAtATime will be used by default.
-        public let deploymentConfigName: String?
-        /// The name of the deployment group.
-        public let deploymentGroupName: String?
-        ///  Information about the instances that will belong to the replacement environment in a blue/green deployment. 
-        public let targetInstances: TargetInstances?
-        /// Configuration information for an automatic rollback that is added when a deployment is created.
-        public let autoRollbackConfiguration: AutoRollbackConfiguration?
         /// The name of an AWS CodeDeploy application associated with the applicable IAM user or AWS account.
         public let applicationName: String
-        /// A comment about the deployment.
-        public let description: String?
-        ///  Indicates whether to deploy to all instances or only to instances that are not running the latest application revision. 
-        public let updateOutdatedInstancesOnly: Bool?
-        /// Information about how AWS CodeDeploy handles files that already exist in a deployment target location but weren't part of the previous successful deployment. The fileExistsBehavior parameter takes any of the following values:   DISALLOW: The deployment fails. This is also the default behavior if no option is specified.   OVERWRITE: The version of the file from the application revision currently being deployed replaces the version already on the instance.   RETAIN: The version of the file already on the instance is kept and used as part of the new deployment.  
-        public let fileExistsBehavior: FileExistsBehavior?
+        /// The name of an existing deployment group for the specified application.
+        public let deploymentGroupName: String
 
-        public init(ignoreApplicationStopFailures: Bool? = nil, revision: RevisionLocation? = nil, deploymentConfigName: String? = nil, deploymentGroupName: String? = nil, targetInstances: TargetInstances? = nil, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, applicationName: String, description: String? = nil, updateOutdatedInstancesOnly: Bool? = nil, fileExistsBehavior: FileExistsBehavior? = nil) {
-            self.ignoreApplicationStopFailures = ignoreApplicationStopFailures
-            self.revision = revision
-            self.deploymentConfigName = deploymentConfigName
+        public init(applicationName: String, deploymentGroupName: String) {
+            self.applicationName = applicationName
             self.deploymentGroupName = deploymentGroupName
-            self.targetInstances = targetInstances
-            self.autoRollbackConfiguration = autoRollbackConfiguration
-            self.applicationName = applicationName
-            self.description = description
-            self.updateOutdatedInstancesOnly = updateOutdatedInstancesOnly
-            self.fileExistsBehavior = fileExistsBehavior
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ignoreApplicationStopFailures = "ignoreApplicationStopFailures"
-            case revision = "revision"
-            case deploymentConfigName = "deploymentConfigName"
+            case applicationName = "applicationName"
             case deploymentGroupName = "deploymentGroupName"
-            case targetInstances = "targetInstances"
-            case autoRollbackConfiguration = "autoRollbackConfiguration"
-            case applicationName = "applicationName"
-            case description = "description"
-            case updateOutdatedInstancesOnly = "updateOutdatedInstancesOnly"
-            case fileExistsBehavior = "fileExistsBehavior"
-        }
-    }
-
-    public enum GreenFleetProvisioningAction: String, CustomStringConvertible, Codable {
-        case discoverExisting = "DISCOVER_EXISTING"
-        case copyAutoScalingGroup = "COPY_AUTO_SCALING_GROUP"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetDeploymentTargetInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "targetId", required: false, type: .string), 
-            AWSShapeMember(label: "deploymentId", required: false, type: .string)
-        ]
-        ///  The unique ID of a deployment target. 
-        public let targetId: String?
-        ///  The unique ID of a deployment. 
-        public let deploymentId: String?
-
-        public init(targetId: String? = nil, deploymentId: String? = nil) {
-            self.targetId = targetId
-            self.deploymentId = deploymentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case targetId = "targetId"
-            case deploymentId = "deploymentId"
-        }
-    }
-
-    public struct UpdateDeploymentGroupOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "hooksNotCleanedUp", required: false, type: .list)
-        ]
-        /// If the output contains no data, and the corresponding deployment group contained at least one Auto Scaling group, AWS CodeDeploy successfully removed all corresponding Auto Scaling lifecycle event hooks from the AWS account. If the output contains data, AWS CodeDeploy could not remove some Auto Scaling lifecycle event hooks from the AWS account.
-        public let hooksNotCleanedUp: [AutoScalingGroup]?
-
-        public init(hooksNotCleanedUp: [AutoScalingGroup]? = nil) {
-            self.hooksNotCleanedUp = hooksNotCleanedUp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case hooksNotCleanedUp = "hooksNotCleanedUp"
-        }
-    }
-
-    public enum InstanceAction: String, CustomStringConvertible, Codable {
-        case terminate = "TERMINATE"
-        case keepAlive = "KEEP_ALIVE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct TimeBasedCanary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "canaryInterval", required: false, type: .integer), 
-            AWSShapeMember(label: "canaryPercentage", required: false, type: .integer)
-        ]
-        /// The number of minutes between the first and second traffic shifts of a TimeBasedCanary deployment.
-        public let canaryInterval: Int32?
-        /// The percentage of traffic to shift in the first increment of a TimeBasedCanary deployment.
-        public let canaryPercentage: Int32?
-
-        public init(canaryInterval: Int32? = nil, canaryPercentage: Int32? = nil) {
-            self.canaryInterval = canaryInterval
-            self.canaryPercentage = canaryPercentage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case canaryInterval = "canaryInterval"
-            case canaryPercentage = "canaryPercentage"
-        }
-    }
-
-    public struct ELBInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string)
-        ]
-        /// For blue/green deployments, the name of the load balancer that will be used to route traffic from original instances to replacement instances in a blue/green deployment. For in-place deployments, the name of the load balancer that instances are deregistered from so they are not serving traffic during a deployment, and then re-registered with after the deployment completes.
-        public let name: String?
-
-        public init(name: String? = nil) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-        }
-    }
-
-    public struct BatchGetDeploymentsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deploymentIds", required: true, type: .list)
-        ]
-        ///  A list of deployment IDs, separated by spaces. 
-        public let deploymentIds: [String]
-
-        public init(deploymentIds: [String]) {
-            self.deploymentIds = deploymentIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deploymentIds = "deploymentIds"
-        }
-    }
-
-    public struct BatchGetDeploymentInstancesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceIds", required: true, type: .list), 
-            AWSShapeMember(label: "deploymentId", required: true, type: .string)
-        ]
-        /// The unique IDs of instances of the deployment.
-        public let instanceIds: [String]
-        ///  The unique ID of a deployment. 
-        public let deploymentId: String
-
-        public init(instanceIds: [String], deploymentId: String) {
-            self.instanceIds = instanceIds
-            self.deploymentId = deploymentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceIds = "instanceIds"
-            case deploymentId = "deploymentId"
-        }
-    }
-
-    public enum StopStatus: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case succeeded = "Succeeded"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct TriggerConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "triggerTargetArn", required: false, type: .string), 
-            AWSShapeMember(label: "triggerName", required: false, type: .string), 
-            AWSShapeMember(label: "triggerEvents", required: false, type: .list)
-        ]
-        /// The ARN of the Amazon Simple Notification Service topic through which notifications about deployment or instance events are sent.
-        public let triggerTargetArn: String?
-        /// The name of the notification trigger.
-        public let triggerName: String?
-        /// The event type or types for which notifications are triggered.
-        public let triggerEvents: [TriggerEventType]?
-
-        public init(triggerTargetArn: String? = nil, triggerName: String? = nil, triggerEvents: [TriggerEventType]? = nil) {
-            self.triggerTargetArn = triggerTargetArn
-            self.triggerName = triggerName
-            self.triggerEvents = triggerEvents
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case triggerTargetArn = "triggerTargetArn"
-            case triggerName = "triggerName"
-            case triggerEvents = "triggerEvents"
-        }
-    }
-
-    public enum DeploymentTargetType: String, CustomStringConvertible, Codable {
-        case instancetarget = "InstanceTarget"
-        case lambdatarget = "LambdaTarget"
-        case ecstarget = "ECSTarget"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct SkipWaitTimeForInstanceTerminationInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deploymentId", required: false, type: .string)
-        ]
-        ///  The unique ID of a blue/green deployment for which you want to skip the instance termination wait time. 
-        public let deploymentId: String?
-
-        public init(deploymentId: String? = nil) {
-            self.deploymentId = deploymentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deploymentId = "deploymentId"
-        }
-    }
-
-    public struct ListDeploymentGroupsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "applicationName", required: true, type: .string)
-        ]
-        /// An identifier returned from the previous list deployment groups call. It can be used to return the next set of deployment groups in the list.
-        public let nextToken: String?
-        /// The name of an AWS CodeDeploy application associated with the applicable IAM user or AWS account.
-        public let applicationName: String
-
-        public init(nextToken: String? = nil, applicationName: String) {
-            self.nextToken = nextToken
-            self.applicationName = applicationName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case applicationName = "applicationName"
-        }
-    }
-
-    public struct DeploymentAlreadyStartedException: AWSShape {
-
-    }
-
-    public struct TimeRange: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "end", required: false, type: .timestamp), 
-            AWSShapeMember(label: "start", required: false, type: .timestamp)
-        ]
-        /// The end time of the time range.  Specify null to leave the end time open-ended. 
-        public let end: TimeStamp?
-        /// The start time of the time range.  Specify null to leave the start time open-ended. 
-        public let start: TimeStamp?
-
-        public init(end: TimeStamp? = nil, start: TimeStamp? = nil) {
-            self.end = end
-            self.start = start
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case end = "end"
-            case start = "start"
-        }
-    }
-
-    public struct S3Location: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "version", required: false, type: .string), 
-            AWSShapeMember(label: "bundleType", required: false, type: .enum), 
-            AWSShapeMember(label: "bucket", required: false, type: .string), 
-            AWSShapeMember(label: "key", required: false, type: .string), 
-            AWSShapeMember(label: "eTag", required: false, type: .string)
-        ]
-        /// A specific version of the Amazon S3 object that represents the bundled artifacts for the application revision. If the version is not specified, the system will use the most recent version by default.
-        public let version: String?
-        /// The file type of the application revision. Must be one of the following:   tar: A tar archive file.   tgz: A compressed tar archive file.   zip: A zip archive file.  
-        public let bundleType: BundleType?
-        /// The name of the Amazon S3 bucket where the application revision is stored.
-        public let bucket: String?
-        /// The name of the Amazon S3 object that represents the bundled artifacts for the application revision.
-        public let key: String?
-        /// The ETag of the Amazon S3 object that represents the bundled artifacts for the application revision. If the ETag is not specified as an input parameter, ETag validation of the object will be skipped.
-        public let eTag: String?
-
-        public init(version: String? = nil, bundleType: BundleType? = nil, bucket: String? = nil, key: String? = nil, eTag: String? = nil) {
-            self.version = version
-            self.bundleType = bundleType
-            self.bucket = bucket
-            self.key = key
-            self.eTag = eTag
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case version = "version"
-            case bundleType = "bundleType"
-            case bucket = "bucket"
-            case key = "key"
-            case eTag = "eTag"
-        }
-    }
-
-    public struct CreateApplicationOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "applicationId", required: false, type: .string)
-        ]
-        /// A unique application ID.
-        public let applicationId: String?
-
-        public init(applicationId: String? = nil) {
-            self.applicationId = applicationId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "applicationId"
-        }
-    }
-
-    public struct GenericRevisionInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deploymentGroups", required: false, type: .list), 
-            AWSShapeMember(label: "firstUsedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "registerTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "description", required: false, type: .string), 
-            AWSShapeMember(label: "lastUsedTime", required: false, type: .timestamp)
-        ]
-        /// The deployment groups for which this is the current target revision.
-        public let deploymentGroups: [String]?
-        /// When the revision was first used by AWS CodeDeploy.
-        public let firstUsedTime: TimeStamp?
-        /// When the revision was registered with AWS CodeDeploy.
-        public let registerTime: TimeStamp?
-        /// A comment about the revision.
-        public let description: String?
-        /// When the revision was last used by AWS CodeDeploy.
-        public let lastUsedTime: TimeStamp?
-
-        public init(deploymentGroups: [String]? = nil, firstUsedTime: TimeStamp? = nil, registerTime: TimeStamp? = nil, description: String? = nil, lastUsedTime: TimeStamp? = nil) {
-            self.deploymentGroups = deploymentGroups
-            self.firstUsedTime = firstUsedTime
-            self.registerTime = registerTime
-            self.description = description
-            self.lastUsedTime = lastUsedTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deploymentGroups = "deploymentGroups"
-            case firstUsedTime = "firstUsedTime"
-            case registerTime = "registerTime"
-            case description = "description"
-            case lastUsedTime = "lastUsedTime"
-        }
-    }
-
-    public struct BatchGetApplicationsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "applicationsInfo", required: false, type: .list)
-        ]
-        /// Information about the applications.
-        public let applicationsInfo: [ApplicationInfo]?
-
-        public init(applicationsInfo: [ApplicationInfo]? = nil) {
-            self.applicationsInfo = applicationsInfo
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case applicationsInfo = "applicationsInfo"
-        }
-    }
-
-    public struct ListApplicationsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "applications", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// A list of application names.
-        public let applications: [String]?
-        /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list applications call to return the next set of applications, will also be returned. in the list.
-        public let nextToken: String?
-
-        public init(applications: [String]? = nil, nextToken: String? = nil) {
-            self.applications = applications
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case applications = "applications"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct BatchGetApplicationsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "applicationNames", required: true, type: .list)
-        ]
-        /// A list of application names separated by spaces.
-        public let applicationNames: [String]
-
-        public init(applicationNames: [String]) {
-            self.applicationNames = applicationNames
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case applicationNames = "applicationNames"
-        }
-    }
-
-    public struct OnPremisesTagSet: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "onPremisesTagSetList", required: false, type: .list)
-        ]
-        /// A list containing other lists of on-premises instance tag groups. In order for an instance to be included in the deployment group, it must be identified by all the tag groups in the list.
-        public let onPremisesTagSetList: [[TagFilter]]?
-
-        public init(onPremisesTagSetList: [[TagFilter]]? = nil) {
-            self.onPremisesTagSetList = onPremisesTagSetList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case onPremisesTagSetList = "onPremisesTagSetList"
-        }
-    }
-
-    public struct EC2TagFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .enum)
-        ]
-        /// The tag filter key.
-        public let key: String?
-        /// The tag filter value.
-        public let value: String?
-        /// The tag filter type:   KEY_ONLY: Key only.   VALUE_ONLY: Value only.   KEY_AND_VALUE: Key and value.  
-        public let `type`: EC2TagFilterType?
-
-        public init(key: String? = nil, value: String? = nil, type: EC2TagFilterType? = nil) {
-            self.key = key
-            self.value = value
-            self.`type` = `type`
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "Key"
-            case value = "Value"
-            case `type` = "Type"
-        }
-    }
-
-    public struct MinimumHealthyHosts: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "value", required: false, type: .integer), 
-            AWSShapeMember(label: "type", required: false, type: .enum)
-        ]
-        /// The minimum healthy instance value.
-        public let value: Int32?
-        /// The minimum healthy instance type:   HOST_COUNT: The minimum number of healthy instance as an absolute value.   FLEET_PERCENT: The minimum number of healthy instance as a percentage of the total number of instance in the deployment.   In an example of nine instance, if a HOST_COUNT of six is specified, deploy to up to three instances at a time. The deployment will be successful if six or more instances are deployed to successfully; otherwise, the deployment fails. If a FLEET_PERCENT of 40 is specified, deploy to up to five instance at a time. The deployment will be successful if four or more instance are deployed to successfully; otherwise, the deployment fails.  In a call to the get deployment configuration operation, CodeDeployDefault.OneAtATime will return a minimum healthy instance type of MOST_CONCURRENCY and a value of 1. This means a deployment to only one instance at a time. (You cannot set the type to MOST_CONCURRENCY, only to HOST_COUNT or FLEET_PERCENT.) In addition, with CodeDeployDefault.OneAtATime, AWS CodeDeploy will try to ensure that all instances but one are kept in a healthy state during the deployment. Although this allows one instance at a time to be taken offline for a new deployment, it also means that if the deployment to the last instance fails, the overall deployment still succeeds.  For more information, see AWS CodeDeploy Instance Health in the AWS CodeDeploy User Guide.
-        public let `type`: MinimumHealthyHostsType?
-
-        public init(value: Int32? = nil, type: MinimumHealthyHostsType? = nil) {
-            self.value = value
-            self.`type` = `type`
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "value"
-            case `type` = "type"
-        }
-    }
-
-    public struct BatchGetDeploymentGroupsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deploymentGroupNames", required: true, type: .list), 
-            AWSShapeMember(label: "applicationName", required: true, type: .string)
-        ]
-        /// The deployment groups' names.
-        public let deploymentGroupNames: [String]
-        /// The name of an AWS CodeDeploy application associated with the applicable IAM user or AWS account.
-        public let applicationName: String
-
-        public init(deploymentGroupNames: [String], applicationName: String) {
-            self.deploymentGroupNames = deploymentGroupNames
-            self.applicationName = applicationName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deploymentGroupNames = "deploymentGroupNames"
-            case applicationName = "applicationName"
-        }
-    }
-
-    public enum TargetFilterName: String, CustomStringConvertible, Codable {
-        case targetstatus = "TargetStatus"
-        case serverinstancelabel = "ServerInstanceLabel"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct AppSpecContent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "content", required: false, type: .string), 
-            AWSShapeMember(label: "sha256", required: false, type: .string)
-        ]
-        ///  The YAML-formatted or JSON-formatted revision string.   For an AWS Lambda deployment the content includes a Lambda function name, the alias for its original version, and the alias for its replacement version. The deployment shifts traffic from the original version of the Lambda function to the replacement version.   For an Amazon ECS deployment the content includes the task name, information about the load balancer that serves traffic to the container, and more.   For both types of deployments, the content can specify Lambda functions that run at specified hooks, such as BeforeInstall, during a deployment. 
-        public let content: String?
-        ///  The SHA256 hash value of the revision content. 
-        public let sha256: String?
-
-        public init(content: String? = nil, sha256: String? = nil) {
-            self.content = content
-            self.sha256 = sha256
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case content = "content"
-            case sha256 = "sha256"
-        }
-    }
-
-    public enum MinimumHealthyHostsType: String, CustomStringConvertible, Codable {
-        case hostCount = "HOST_COUNT"
-        case fleetPercent = "FLEET_PERCENT"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct AutoRollbackConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "events", required: false, type: .list)
-        ]
-        /// Indicates whether a defined automatic rollback configuration is currently enabled.
-        public let enabled: Bool?
-        /// The event type or types that trigger a rollback.
-        public let events: [AutoRollbackEvent]?
-
-        public init(enabled: Bool? = nil, events: [AutoRollbackEvent]? = nil) {
-            self.enabled = enabled
-            self.events = events
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case enabled = "enabled"
-            case events = "events"
-        }
-    }
-
-    public struct BatchGetOnPremisesInstancesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instanceInfos", required: false, type: .list)
-        ]
-        /// Information about the on-premises instances.
-        public let instanceInfos: [InstanceInfo]?
-
-        public init(instanceInfos: [InstanceInfo]? = nil) {
-            self.instanceInfos = instanceInfos
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceInfos = "instanceInfos"
-        }
-    }
-
-    public struct TargetInstances: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tagFilters", required: false, type: .list), 
-            AWSShapeMember(label: "autoScalingGroups", required: false, type: .list), 
-            AWSShapeMember(label: "ec2TagSet", required: false, type: .structure)
-        ]
-        /// The tag filter key, type, and value used to identify Amazon EC2 instances in a replacement environment for a blue/green deployment. Cannot be used in the same call as ec2TagSet.
-        public let tagFilters: [EC2TagFilter]?
-        /// The names of one or more Auto Scaling groups to identify a replacement environment for a blue/green deployment.
-        public let autoScalingGroups: [String]?
-        /// Information about the groups of EC2 instance tags that an instance must be identified by in order for it to be included in the replacement environment for a blue/green deployment. Cannot be used in the same call as tagFilters.
-        public let ec2TagSet: EC2TagSet?
-
-        public init(tagFilters: [EC2TagFilter]? = nil, autoScalingGroups: [String]? = nil, ec2TagSet: EC2TagSet? = nil) {
-            self.tagFilters = tagFilters
-            self.autoScalingGroups = autoScalingGroups
-            self.ec2TagSet = ec2TagSet
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tagFilters = "tagFilters"
-            case autoScalingGroups = "autoScalingGroups"
-            case ec2TagSet = "ec2TagSet"
-        }
-    }
-
-    public struct GetDeploymentConfigInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deploymentConfigName", required: true, type: .string)
-        ]
-        /// The name of a deployment configuration associated with the applicable IAM user or AWS account.
-        public let deploymentConfigName: String
-
-        public init(deploymentConfigName: String) {
-            self.deploymentConfigName = deploymentConfigName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deploymentConfigName = "deploymentConfigName"
-        }
-    }
-
-    public struct BatchGetDeploymentInstancesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "instancesSummary", required: false, type: .list), 
-            AWSShapeMember(label: "errorMessage", required: false, type: .string)
-        ]
-        /// Information about the instance.
-        public let instancesSummary: [InstanceSummary]?
-        /// Information about errors that may have occurred during the API call.
-        public let errorMessage: String?
-
-        public init(instancesSummary: [InstanceSummary]? = nil, errorMessage: String? = nil) {
-            self.instancesSummary = instancesSummary
-            self.errorMessage = errorMessage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instancesSummary = "instancesSummary"
-            case errorMessage = "errorMessage"
-        }
-    }
-
-    public struct DeploymentReadyOption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "actionOnTimeout", required: false, type: .enum), 
-            AWSShapeMember(label: "waitTimeInMinutes", required: false, type: .integer)
-        ]
-        /// Information about when to reroute traffic from an original environment to a replacement environment in a blue/green deployment.   CONTINUE_DEPLOYMENT: Register new instances with the load balancer immediately after the new application revision is installed on the instances in the replacement environment.   STOP_DEPLOYMENT: Do not register new instances with a load balancer unless traffic rerouting is started using ContinueDeployment. If traffic rerouting is not started before the end of the specified wait period, the deployment status is changed to Stopped.  
-        public let actionOnTimeout: DeploymentReadyAction?
-        /// The number of minutes to wait before the status of a blue/green deployment changed to Stopped if rerouting is not started manually. Applies only to the STOP_DEPLOYMENT option for actionOnTimeout
-        public let waitTimeInMinutes: Int32?
-
-        public init(actionOnTimeout: DeploymentReadyAction? = nil, waitTimeInMinutes: Int32? = nil) {
-            self.actionOnTimeout = actionOnTimeout
-            self.waitTimeInMinutes = waitTimeInMinutes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case actionOnTimeout = "actionOnTimeout"
-            case waitTimeInMinutes = "waitTimeInMinutes"
-        }
-    }
-
-    public enum DeploymentOption: String, CustomStringConvertible, Codable {
-        case withTrafficControl = "WITH_TRAFFIC_CONTROL"
-        case withoutTrafficControl = "WITHOUT_TRAFFIC_CONTROL"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum EC2TagFilterType: String, CustomStringConvertible, Codable {
-        case keyOnly = "KEY_ONLY"
-        case valueOnly = "VALUE_ONLY"
-        case keyAndValue = "KEY_AND_VALUE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetApplicationInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "applicationName", required: true, type: .string)
-        ]
-        /// The name of an AWS CodeDeploy application associated with the applicable IAM user or AWS account.
-        public let applicationName: String
-
-        public init(applicationName: String) {
-            self.applicationName = applicationName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case applicationName = "applicationName"
-        }
-    }
-
-    public struct RevisionInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "revisionLocation", required: false, type: .structure), 
-            AWSShapeMember(label: "genericRevisionInfo", required: false, type: .structure)
-        ]
-        /// Information about the location and type of an application revision.
-        public let revisionLocation: RevisionLocation?
-        /// Information about an application revision, including usage details and associated deployment groups.
-        public let genericRevisionInfo: GenericRevisionInfo?
-
-        public init(revisionLocation: RevisionLocation? = nil, genericRevisionInfo: GenericRevisionInfo? = nil) {
-            self.revisionLocation = revisionLocation
-            self.genericRevisionInfo = genericRevisionInfo
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case revisionLocation = "revisionLocation"
-            case genericRevisionInfo = "genericRevisionInfo"
         }
     }
 
@@ -3527,50 +1393,2178 @@ extension CodeDeploy {
         }
     }
 
-    public struct AlarmConfiguration: AWSShape {
+    public struct RawString: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "content", required: false, type: .string), 
+            AWSShapeMember(label: "sha256", required: false, type: .string)
+        ]
+        /// The YAML-formatted or JSON-formatted revision string. It includes information about which Lambda function to update and optional Lambda functions that validate deployment lifecycle events.
+        public let content: String?
+        /// The SHA256 hash value of the revision content.
+        public let sha256: String?
+
+        public init(content: String? = nil, sha256: String? = nil) {
+            self.content = content
+            self.sha256 = sha256
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "content"
+            case sha256 = "sha256"
+        }
+    }
+
+    public struct ListDeploymentsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "createTimeRange", required: false, type: .structure), 
+            AWSShapeMember(label: "deploymentGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "includeOnlyStatuses", required: false, type: .list), 
+            AWSShapeMember(label: "applicationName", required: false, type: .string)
+        ]
+        /// An identifier returned from the previous list deployments call. It can be used to return the next set of deployments in the list.
+        public let nextToken: String?
+        /// A time range (start and end) for returning a subset of the list of deployments.
+        public let createTimeRange: TimeRange?
+        /// The name of an existing deployment group for the specified application.
+        public let deploymentGroupName: String?
+        /// A subset of deployments to list by status:   Created: Include created deployments in the resulting list.   Queued: Include queued deployments in the resulting list.   In Progress: Include in-progress deployments in the resulting list.   Succeeded: Include successful deployments in the resulting list.   Failed: Include failed deployments in the resulting list.   Stopped: Include stopped deployments in the resulting list.  
+        public let includeOnlyStatuses: [DeploymentStatus]?
+        /// The name of an AWS CodeDeploy application associated with the applicable IAM user or AWS account.
+        public let applicationName: String?
+
+        public init(nextToken: String? = nil, createTimeRange: TimeRange? = nil, deploymentGroupName: String? = nil, includeOnlyStatuses: [DeploymentStatus]? = nil, applicationName: String? = nil) {
+            self.nextToken = nextToken
+            self.createTimeRange = createTimeRange
+            self.deploymentGroupName = deploymentGroupName
+            self.includeOnlyStatuses = includeOnlyStatuses
+            self.applicationName = applicationName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case createTimeRange = "createTimeRange"
+            case deploymentGroupName = "deploymentGroupName"
+            case includeOnlyStatuses = "includeOnlyStatuses"
+            case applicationName = "applicationName"
+        }
+    }
+
+    public struct InvalidInstanceIdException: AWSShape {
+
+    }
+
+    public struct DeploymentAlreadyStartedException: AWSShape {
+
+    }
+
+    public struct ListDeploymentTargetsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "targetFilters", required: false, type: .map), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "deploymentId", required: false, type: .string)
+        ]
+        ///  A key used to filter the returned targets. 
+        public let targetFilters: [TargetFilterName: [String]]?
+        ///  A token identifier returned from the previous ListDeploymentTargets call. It can be used to return the next set of deployment targets in the list. 
+        public let nextToken: String?
+        ///  The unique ID of a deployment. 
+        public let deploymentId: String?
+
+        public init(targetFilters: [TargetFilterName: [String]]? = nil, nextToken: String? = nil, deploymentId: String? = nil) {
+            self.targetFilters = targetFilters
+            self.nextToken = nextToken
+            self.deploymentId = deploymentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetFilters = "targetFilters"
+            case nextToken = "nextToken"
+            case deploymentId = "deploymentId"
+        }
+    }
+
+    public enum StopStatus: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case succeeded = "Succeeded"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct BatchGetApplicationsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "applicationNames", required: true, type: .list)
+        ]
+        /// A list of application names separated by spaces.
+        public let applicationNames: [String]
+
+        public init(applicationNames: [String]) {
+            self.applicationNames = applicationNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationNames = "applicationNames"
+        }
+    }
+
+    public struct BatchGetDeploymentTargetsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentId", required: false, type: .string), 
+            AWSShapeMember(label: "targetIds", required: false, type: .list)
+        ]
+        ///  The unique ID of a deployment. 
+        public let deploymentId: String?
+        ///  The unique IDs of the deployment targets. The compute platform of the deployment determines the type of the targets and their formats.     For deployments that use the EC2/On-premises compute platform, the target IDs are EC2 or on-premises instances IDs and their target type is instanceTarget.     For deployments that use the AWS Lambda compute platform, the target IDs are the names of Lambda functions and their target type is instanceTarget.     For deployments that use the Amazon ECS compute platform, the target IDs are pairs of Amazon ECS clusters and services specified using the format &lt;clustername&gt;:&lt;servicename&gt;. Their target type is ecsTarget.   
+        public let targetIds: [String]?
+
+        public init(deploymentId: String? = nil, targetIds: [String]? = nil) {
+            self.deploymentId = deploymentId
+            self.targetIds = targetIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentId = "deploymentId"
+            case targetIds = "targetIds"
+        }
+    }
+
+    public struct DeploymentTarget: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "lambdaTarget", required: false, type: .structure), 
+            AWSShapeMember(label: "deploymentTargetType", required: false, type: .enum), 
+            AWSShapeMember(label: "instanceTarget", required: false, type: .structure), 
+            AWSShapeMember(label: "ecsTarget", required: false, type: .structure)
+        ]
+        ///  Information about the target for a deployment that uses the AWS Lambda compute platform. 
+        public let lambdaTarget: LambdaTarget?
+        ///  The deployment type which is specific to the deployment's compute platform. 
+        public let deploymentTargetType: DeploymentTargetType?
+        ///  Information about the target for a deployment that uses the EC2/On-premises compute platform. 
+        public let instanceTarget: InstanceTarget?
+        ///  Information about the target for a deployment that uses the Amazon ECS compute platform. 
+        public let ecsTarget: ECSTarget?
+
+        public init(lambdaTarget: LambdaTarget? = nil, deploymentTargetType: DeploymentTargetType? = nil, instanceTarget: InstanceTarget? = nil, ecsTarget: ECSTarget? = nil) {
+            self.lambdaTarget = lambdaTarget
+            self.deploymentTargetType = deploymentTargetType
+            self.instanceTarget = instanceTarget
+            self.ecsTarget = ecsTarget
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lambdaTarget = "lambdaTarget"
+            case deploymentTargetType = "deploymentTargetType"
+            case instanceTarget = "instanceTarget"
+            case ecsTarget = "ecsTarget"
+        }
+    }
+
+    public struct AddTagsToOnPremisesInstancesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tags", required: true, type: .list), 
+            AWSShapeMember(label: "instanceNames", required: true, type: .list)
+        ]
+        /// The tag key-value pairs to add to the on-premises instances. Keys and values are both required. Keys cannot be null or empty strings. Value-only tags are not allowed.
+        public let tags: [Tag]
+        /// The names of the on-premises instances to which to add tags.
+        public let instanceNames: [String]
+
+        public init(tags: [Tag], instanceNames: [String]) {
+            self.tags = tags
+            self.instanceNames = instanceNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+            case instanceNames = "instanceNames"
+        }
+    }
+
+    public enum ApplicationRevisionSortBy: String, CustomStringConvertible, Codable {
+        case registertime = "registerTime"
+        case firstusedtime = "firstUsedTime"
+        case lastusedtime = "lastUsedTime"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct AppSpecContent: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "sha256", required: false, type: .string), 
+            AWSShapeMember(label: "content", required: false, type: .string)
+        ]
+        ///  The SHA256 hash value of the revision content. 
+        public let sha256: String?
+        ///  The YAML-formatted or JSON-formatted revision string.   For an AWS Lambda deployment the content includes a Lambda function name, the alias for its original version, and the alias for its replacement version. The deployment shifts traffic from the original version of the Lambda function to the replacement version.   For an Amazon ECS deployment the content includes the task name, information about the load balancer that serves traffic to the container, and more.   For both types of deployments, the content can specify Lambda functions that run at specified hooks, such as BeforeInstall, during a deployment. 
+        public let content: String?
+
+        public init(sha256: String? = nil, content: String? = nil) {
+            self.sha256 = sha256
+            self.content = content
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sha256 = "sha256"
+            case content = "content"
+        }
+    }
+
+    public struct ListApplicationRevisionsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "sortOrder", required: false, type: .enum), 
+            AWSShapeMember(label: "s3KeyPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "s3Bucket", required: false, type: .string), 
+            AWSShapeMember(label: "sortBy", required: false, type: .enum), 
+            AWSShapeMember(label: "applicationName", required: true, type: .string), 
+            AWSShapeMember(label: "deployed", required: false, type: .enum)
+        ]
+        ///  The order in which to sort the list results:    ascending: ascending order.   descending: descending order.   If not specified, the results will be sorted in ascending order. If set to null, the results will be sorted in an arbitrary order.
+        public let sortOrder: SortOrder?
+        ///  A key prefix for the set of Amazon S3 objects to limit the search for revisions. 
+        public let s3KeyPrefix: String?
+        /// An identifier returned from the previous ListApplicationRevisions call. It can be used to return the next set of applications in the list.
+        public let nextToken: String?
+        ///  An Amazon S3 bucket name to limit the search for revisions.   If set to null, all of the user's buckets are searched. 
+        public let s3Bucket: String?
+        /// The column name to use to sort the list results:   registerTime: Sort by the time the revisions were registered with AWS CodeDeploy.   firstUsedTime: Sort by the time the revisions were first used in a deployment.   lastUsedTime: Sort by the time the revisions were last used in a deployment.    If not specified or set to null, the results will be returned in an arbitrary order. 
+        public let sortBy: ApplicationRevisionSortBy?
+        ///  The name of an AWS CodeDeploy application associated with the applicable IAM user or AWS account. 
+        public let applicationName: String
+        ///  Whether to list revisions based on whether the revision is the target revision of an deployment group:    include: List revisions that are target revisions of a deployment group.   exclude: Do not list revisions that are target revisions of a deployment group.   ignore: List all revisions.  
+        public let deployed: ListStateFilterAction?
+
+        public init(sortOrder: SortOrder? = nil, s3KeyPrefix: String? = nil, nextToken: String? = nil, s3Bucket: String? = nil, sortBy: ApplicationRevisionSortBy? = nil, applicationName: String, deployed: ListStateFilterAction? = nil) {
+            self.sortOrder = sortOrder
+            self.s3KeyPrefix = s3KeyPrefix
+            self.nextToken = nextToken
+            self.s3Bucket = s3Bucket
+            self.sortBy = sortBy
+            self.applicationName = applicationName
+            self.deployed = deployed
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sortOrder = "sortOrder"
+            case s3KeyPrefix = "s3KeyPrefix"
+            case nextToken = "nextToken"
+            case s3Bucket = "s3Bucket"
+            case sortBy = "sortBy"
+            case applicationName = "applicationName"
+            case deployed = "deployed"
+        }
+    }
+
+    public struct GreenFleetProvisioningOption: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "action", required: false, type: .enum)
+        ]
+        /// The method used to add instances to a replacement environment.   DISCOVER_EXISTING: Use instances that already exist or will be created manually.   COPY_AUTO_SCALING_GROUP: Use settings from a specified Auto Scaling group to define and create instances in a new Auto Scaling group.  
+        public let action: GreenFleetProvisioningAction?
+
+        public init(action: GreenFleetProvisioningAction? = nil) {
+            self.action = action
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+        }
+    }
+
+    public enum DeploymentType: String, CustomStringConvertible, Codable {
+        case inPlace = "IN_PLACE"
+        case blueGreen = "BLUE_GREEN"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListApplicationsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "applications", required: false, type: .list)
+        ]
+        /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list applications call to return the next set of applications, will also be returned. in the list.
+        public let nextToken: String?
+        /// A list of application names.
+        public let applications: [String]?
+
+        public init(nextToken: String? = nil, applications: [String]? = nil) {
+            self.nextToken = nextToken
+            self.applications = applications
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case applications = "applications"
+        }
+    }
+
+    public struct DeploymentReadyOption: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "actionOnTimeout", required: false, type: .enum), 
+            AWSShapeMember(label: "waitTimeInMinutes", required: false, type: .integer)
+        ]
+        /// Information about when to reroute traffic from an original environment to a replacement environment in a blue/green deployment.   CONTINUE_DEPLOYMENT: Register new instances with the load balancer immediately after the new application revision is installed on the instances in the replacement environment.   STOP_DEPLOYMENT: Do not register new instances with a load balancer unless traffic rerouting is started using ContinueDeployment. If traffic rerouting is not started before the end of the specified wait period, the deployment status is changed to Stopped.  
+        public let actionOnTimeout: DeploymentReadyAction?
+        /// The number of minutes to wait before the status of a blue/green deployment changed to Stopped if rerouting is not started manually. Applies only to the STOP_DEPLOYMENT option for actionOnTimeout
+        public let waitTimeInMinutes: Int32?
+
+        public init(actionOnTimeout: DeploymentReadyAction? = nil, waitTimeInMinutes: Int32? = nil) {
+            self.actionOnTimeout = actionOnTimeout
+            self.waitTimeInMinutes = waitTimeInMinutes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionOnTimeout = "actionOnTimeout"
+            case waitTimeInMinutes = "waitTimeInMinutes"
+        }
+    }
+
+    public struct BatchGetDeploymentsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentsInfo", required: false, type: .list)
+        ]
+        ///  Information about the deployments. 
+        public let deploymentsInfo: [DeploymentInfo]?
+
+        public init(deploymentsInfo: [DeploymentInfo]? = nil) {
+            self.deploymentsInfo = deploymentsInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentsInfo = "deploymentsInfo"
+        }
+    }
+
+    public struct CreateDeploymentInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "applicationName", required: true, type: .string), 
+            AWSShapeMember(label: "deploymentConfigName", required: false, type: .string), 
+            AWSShapeMember(label: "updateOutdatedInstancesOnly", required: false, type: .boolean), 
+            AWSShapeMember(label: "fileExistsBehavior", required: false, type: .enum), 
+            AWSShapeMember(label: "ignoreApplicationStopFailures", required: false, type: .boolean), 
+            AWSShapeMember(label: "targetInstances", required: false, type: .structure), 
+            AWSShapeMember(label: "deploymentGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "autoRollbackConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "revision", required: false, type: .structure), 
+            AWSShapeMember(label: "description", required: false, type: .string)
+        ]
+        /// The name of an AWS CodeDeploy application associated with the applicable IAM user or AWS account.
+        public let applicationName: String
+        /// The name of a deployment configuration associated with the applicable IAM user or AWS account. If not specified, the value configured in the deployment group will be used as the default. If the deployment group does not have a deployment configuration associated with it, then CodeDeployDefault.OneAtATime will be used by default.
+        public let deploymentConfigName: String?
+        ///  Indicates whether to deploy to all instances or only to instances that are not running the latest application revision. 
+        public let updateOutdatedInstancesOnly: Bool?
+        /// Information about how AWS CodeDeploy handles files that already exist in a deployment target location but weren't part of the previous successful deployment. The fileExistsBehavior parameter takes any of the following values:   DISALLOW: The deployment fails. This is also the default behavior if no option is specified.   OVERWRITE: The version of the file from the application revision currently being deployed replaces the version already on the instance.   RETAIN: The version of the file already on the instance is kept and used as part of the new deployment.  
+        public let fileExistsBehavior: FileExistsBehavior?
+        ///  If set to true, then if the deployment causes the ApplicationStop deployment lifecycle event to an instance to fail, the deployment to that instance will not be considered to have failed at that point and will continue on to the BeforeInstall deployment lifecycle event.   If set to false or not specified, then if the deployment causes the ApplicationStop deployment lifecycle event to fail to an instance, the deployment to that instance will stop, and the deployment to that instance will be considered to have failed. 
+        public let ignoreApplicationStopFailures: Bool?
+        ///  Information about the instances that will belong to the replacement environment in a blue/green deployment. 
+        public let targetInstances: TargetInstances?
+        /// The name of the deployment group.
+        public let deploymentGroupName: String?
+        /// Configuration information for an automatic rollback that is added when a deployment is created.
+        public let autoRollbackConfiguration: AutoRollbackConfiguration?
+        ///  The type and location of the revision to deploy. 
+        public let revision: RevisionLocation?
+        /// A comment about the deployment.
+        public let description: String?
+
+        public init(applicationName: String, deploymentConfigName: String? = nil, updateOutdatedInstancesOnly: Bool? = nil, fileExistsBehavior: FileExistsBehavior? = nil, ignoreApplicationStopFailures: Bool? = nil, targetInstances: TargetInstances? = nil, deploymentGroupName: String? = nil, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, revision: RevisionLocation? = nil, description: String? = nil) {
+            self.applicationName = applicationName
+            self.deploymentConfigName = deploymentConfigName
+            self.updateOutdatedInstancesOnly = updateOutdatedInstancesOnly
+            self.fileExistsBehavior = fileExistsBehavior
+            self.ignoreApplicationStopFailures = ignoreApplicationStopFailures
+            self.targetInstances = targetInstances
+            self.deploymentGroupName = deploymentGroupName
+            self.autoRollbackConfiguration = autoRollbackConfiguration
+            self.revision = revision
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "applicationName"
+            case deploymentConfigName = "deploymentConfigName"
+            case updateOutdatedInstancesOnly = "updateOutdatedInstancesOnly"
+            case fileExistsBehavior = "fileExistsBehavior"
+            case ignoreApplicationStopFailures = "ignoreApplicationStopFailures"
+            case targetInstances = "targetInstances"
+            case deploymentGroupName = "deploymentGroupName"
+            case autoRollbackConfiguration = "autoRollbackConfiguration"
+            case revision = "revision"
+            case description = "description"
+        }
+    }
+
+    public struct BatchGetDeploymentGroupsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "applicationName", required: true, type: .string), 
+            AWSShapeMember(label: "deploymentGroupNames", required: true, type: .list)
+        ]
+        /// The name of an AWS CodeDeploy application associated with the applicable IAM user or AWS account.
+        public let applicationName: String
+        /// The deployment groups' names.
+        public let deploymentGroupNames: [String]
+
+        public init(applicationName: String, deploymentGroupNames: [String]) {
+            self.applicationName = applicationName
+            self.deploymentGroupNames = deploymentGroupNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "applicationName"
+            case deploymentGroupNames = "deploymentGroupNames"
+        }
+    }
+
+    public struct LifecycleEvent: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "diagnostics", required: false, type: .structure), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "lifecycleEventName", required: false, type: .string)
+        ]
+        /// Diagnostic information about the deployment lifecycle event.
+        public let diagnostics: Diagnostics?
+        /// The deployment lifecycle event status:   Pending: The deployment lifecycle event is pending.   InProgress: The deployment lifecycle event is in progress.   Succeeded: The deployment lifecycle event ran successfully.   Failed: The deployment lifecycle event has failed.   Skipped: The deployment lifecycle event has been skipped.   Unknown: The deployment lifecycle event is unknown.  
+        public let status: LifecycleEventStatus?
+        /// A timestamp indicating when the deployment lifecycle event started.
+        public let startTime: TimeStamp?
+        /// A timestamp indicating when the deployment lifecycle event ended.
+        public let endTime: TimeStamp?
+        /// The deployment lifecycle event name, such as ApplicationStop, BeforeInstall, AfterInstall, ApplicationStart, or ValidateService.
+        public let lifecycleEventName: String?
+
+        public init(diagnostics: Diagnostics? = nil, status: LifecycleEventStatus? = nil, startTime: TimeStamp? = nil, endTime: TimeStamp? = nil, lifecycleEventName: String? = nil) {
+            self.diagnostics = diagnostics
+            self.status = status
+            self.startTime = startTime
+            self.endTime = endTime
+            self.lifecycleEventName = lifecycleEventName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case diagnostics = "diagnostics"
+            case status = "status"
+            case startTime = "startTime"
+            case endTime = "endTime"
+            case lifecycleEventName = "lifecycleEventName"
+        }
+    }
+
+    public struct GetDeploymentInstanceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceId", required: true, type: .string), 
+            AWSShapeMember(label: "deploymentId", required: true, type: .string)
+        ]
+        ///  The unique ID of an instance in the deployment group. 
+        public let instanceId: String
+        ///  The unique ID of a deployment. 
+        public let deploymentId: String
+
+        public init(instanceId: String, deploymentId: String) {
+            self.instanceId = instanceId
+            self.deploymentId = deploymentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "instanceId"
+            case deploymentId = "deploymentId"
+        }
+    }
+
+    public struct TimeRange: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "start", required: false, type: .timestamp), 
+            AWSShapeMember(label: "end", required: false, type: .timestamp)
+        ]
+        /// The start time of the time range.  Specify null to leave the start time open-ended. 
+        public let start: TimeStamp?
+        /// The end time of the time range.  Specify null to leave the end time open-ended. 
+        public let end: TimeStamp?
+
+        public init(start: TimeStamp? = nil, end: TimeStamp? = nil) {
+            self.start = start
+            self.end = end
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case start = "start"
+            case end = "end"
+        }
+    }
+
+    public struct BatchGetApplicationRevisionsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "applicationName", required: false, type: .string), 
+            AWSShapeMember(label: "revisions", required: false, type: .list), 
+            AWSShapeMember(label: "errorMessage", required: false, type: .string)
+        ]
+        /// The name of the application that corresponds to the revisions.
+        public let applicationName: String?
+        /// Additional information about the revisions, including the type and location.
+        public let revisions: [RevisionInfo]?
+        /// Information about errors that may have occurred during the API call.
+        public let errorMessage: String?
+
+        public init(applicationName: String? = nil, revisions: [RevisionInfo]? = nil, errorMessage: String? = nil) {
+            self.applicationName = applicationName
+            self.revisions = revisions
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "applicationName"
+            case revisions = "revisions"
+            case errorMessage = "errorMessage"
+        }
+    }
+
+    public struct PutLifecycleEventHookExecutionStatusInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "lifecycleEventHookExecutionId", required: false, type: .string), 
+            AWSShapeMember(label: "deploymentId", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum)
+        ]
+        ///  The execution ID of a deployment's lifecycle hook. A deployment lifecycle hook is specified in the hooks section of the AppSpec file. 
+        public let lifecycleEventHookExecutionId: String?
+        ///  The unique ID of a deployment. Pass this ID to a Lambda function that validates a deployment lifecycle event. 
+        public let deploymentId: String?
+        /// The result of a Lambda function that validates a deployment lifecycle event (Succeeded or Failed).
+        public let status: LifecycleEventStatus?
+
+        public init(lifecycleEventHookExecutionId: String? = nil, deploymentId: String? = nil, status: LifecycleEventStatus? = nil) {
+            self.lifecycleEventHookExecutionId = lifecycleEventHookExecutionId
+            self.deploymentId = deploymentId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lifecycleEventHookExecutionId = "lifecycleEventHookExecutionId"
+            case deploymentId = "deploymentId"
+            case status = "status"
+        }
+    }
+
+    public struct InvalidTargetException: AWSShape {
+
+    }
+
+    public enum InstanceType: String, CustomStringConvertible, Codable {
+        case blue = "Blue"
+        case green = "Green"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct RevisionLocation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "s3Location", required: false, type: .structure), 
+            AWSShapeMember(label: "revisionType", required: false, type: .enum), 
+            AWSShapeMember(label: "gitHubLocation", required: false, type: .structure), 
+            AWSShapeMember(label: "appSpecContent", required: false, type: .structure), 
+            AWSShapeMember(label: "string", required: false, type: .structure)
+        ]
+        /// Information about the location of a revision stored in Amazon S3. 
+        public let s3Location: S3Location?
+        /// The type of application revision:   S3: An application revision stored in Amazon S3.   GitHub: An application revision stored in GitHub (EC2/On-premises deployments only)   String: A YAML-formatted or JSON-formatted string (AWS Lambda deployments only)  
+        public let revisionType: RevisionLocationType?
+        /// Information about the location of application artifacts stored in GitHub.
+        public let gitHubLocation: GitHubLocation?
+        ///  The content of an AppSpec file for an AWS Lambda or Amazon ECS deployment. The content is formatted as JSON or YAML and stored as a RawString. 
+        public let appSpecContent: AppSpecContent?
+        /// Information about the location of an AWS Lambda deployment revision stored as a RawString.
+        public let string: RawString?
+
+        public init(s3Location: S3Location? = nil, revisionType: RevisionLocationType? = nil, gitHubLocation: GitHubLocation? = nil, appSpecContent: AppSpecContent? = nil, string: RawString? = nil) {
+            self.s3Location = s3Location
+            self.revisionType = revisionType
+            self.gitHubLocation = gitHubLocation
+            self.appSpecContent = appSpecContent
+            self.string = string
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Location = "s3Location"
+            case revisionType = "revisionType"
+            case gitHubLocation = "gitHubLocation"
+            case appSpecContent = "appSpecContent"
+            case string = "string"
+        }
+    }
+
+    public struct ApplicationInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "createTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "linkedToGitHub", required: false, type: .boolean), 
+            AWSShapeMember(label: "applicationName", required: false, type: .string), 
+            AWSShapeMember(label: "applicationId", required: false, type: .string), 
+            AWSShapeMember(label: "computePlatform", required: false, type: .enum), 
+            AWSShapeMember(label: "gitHubAccountName", required: false, type: .string)
+        ]
+        /// The time at which the application was created.
+        public let createTime: TimeStamp?
+        /// True if the user has authenticated with GitHub for the specified application; otherwise, false.
+        public let linkedToGitHub: Bool?
+        /// The application name.
+        public let applicationName: String?
+        /// The application ID.
+        public let applicationId: String?
+        /// The destination platform type for deployment of the application (Lambda or Server).
+        public let computePlatform: ComputePlatform?
+        /// The name for a connection to a GitHub account.
+        public let gitHubAccountName: String?
+
+        public init(createTime: TimeStamp? = nil, linkedToGitHub: Bool? = nil, applicationName: String? = nil, applicationId: String? = nil, computePlatform: ComputePlatform? = nil, gitHubAccountName: String? = nil) {
+            self.createTime = createTime
+            self.linkedToGitHub = linkedToGitHub
+            self.applicationName = applicationName
+            self.applicationId = applicationId
+            self.computePlatform = computePlatform
+            self.gitHubAccountName = gitHubAccountName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createTime = "createTime"
+            case linkedToGitHub = "linkedToGitHub"
+            case applicationName = "applicationName"
+            case applicationId = "applicationId"
+            case computePlatform = "computePlatform"
+            case gitHubAccountName = "gitHubAccountName"
+        }
+    }
+
+    public struct DeploymentStyle: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentType", required: false, type: .enum), 
+            AWSShapeMember(label: "deploymentOption", required: false, type: .enum)
+        ]
+        /// Indicates whether to run an in-place deployment or a blue/green deployment.
+        public let deploymentType: DeploymentType?
+        /// Indicates whether to route deployment traffic behind a load balancer.
+        public let deploymentOption: DeploymentOption?
+
+        public init(deploymentType: DeploymentType? = nil, deploymentOption: DeploymentOption? = nil) {
+            self.deploymentType = deploymentType
+            self.deploymentOption = deploymentOption
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentType = "deploymentType"
+            case deploymentOption = "deploymentOption"
+        }
+    }
+
+    public struct LambdaTarget: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "targetId", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "targetArn", required: false, type: .string), 
+            AWSShapeMember(label: "lifecycleEvents", required: false, type: .list), 
+            AWSShapeMember(label: "deploymentId", required: false, type: .string)
+        ]
+        ///  The status an AWS Lambda deployment's target Lambda function. 
+        public let status: TargetStatus?
+        ///  The unique ID of a deployment target that has a type of lambdaTarget. 
+        public let targetId: String?
+        ///  The date and time when the target Lambda function was updated by a deployment. 
+        public let lastUpdatedAt: TimeStamp?
+        ///  The ARN of the target. 
+        public let targetArn: String?
+        ///  The lifecycle events of the deployment to this target Lambda function. 
+        public let lifecycleEvents: [LifecycleEvent]?
+        ///  The unique ID of a deployment. 
+        public let deploymentId: String?
+
+        public init(status: TargetStatus? = nil, targetId: String? = nil, lastUpdatedAt: TimeStamp? = nil, targetArn: String? = nil, lifecycleEvents: [LifecycleEvent]? = nil, deploymentId: String? = nil) {
+            self.status = status
+            self.targetId = targetId
+            self.lastUpdatedAt = lastUpdatedAt
+            self.targetArn = targetArn
+            self.lifecycleEvents = lifecycleEvents
+            self.deploymentId = deploymentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case targetId = "targetId"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case targetArn = "targetArn"
+            case lifecycleEvents = "lifecycleEvents"
+            case deploymentId = "deploymentId"
+        }
+    }
+
+    public struct BatchGetDeploymentsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentIds", required: true, type: .list)
+        ]
+        ///  A list of deployment IDs, separated by spaces. 
+        public let deploymentIds: [String]
+
+        public init(deploymentIds: [String]) {
+            self.deploymentIds = deploymentIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentIds = "deploymentIds"
+        }
+    }
+
+    public struct UpdateDeploymentGroupOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "hooksNotCleanedUp", required: false, type: .list)
+        ]
+        /// If the output contains no data, and the corresponding deployment group contained at least one Auto Scaling group, AWS CodeDeploy successfully removed all corresponding Auto Scaling lifecycle event hooks from the AWS account. If the output contains data, AWS CodeDeploy could not remove some Auto Scaling lifecycle event hooks from the AWS account.
+        public let hooksNotCleanedUp: [AutoScalingGroup]?
+
+        public init(hooksNotCleanedUp: [AutoScalingGroup]? = nil) {
+            self.hooksNotCleanedUp = hooksNotCleanedUp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hooksNotCleanedUp = "hooksNotCleanedUp"
+        }
+    }
+
+    public struct BatchGetDeploymentInstancesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentId", required: true, type: .string), 
+            AWSShapeMember(label: "instanceIds", required: true, type: .list)
+        ]
+        ///  The unique ID of a deployment. 
+        public let deploymentId: String
+        /// The unique IDs of instances of the deployment.
+        public let instanceIds: [String]
+
+        public init(deploymentId: String, instanceIds: [String]) {
+            self.deploymentId = deploymentId
+            self.instanceIds = instanceIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentId = "deploymentId"
+            case instanceIds = "instanceIds"
+        }
+    }
+
+    public struct ListDeploymentTargetsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "targetIds", required: false, type: .list)
+        ]
+        ///  If a large amount of information is returned, a token identifier will also be returned. It can be used in a subsequent ListDeploymentTargets call to return the next set of deployment targets in the list. 
+        public let nextToken: String?
+        ///  The unique IDs of deployment targets. 
+        public let targetIds: [String]?
+
+        public init(nextToken: String? = nil, targetIds: [String]? = nil) {
+            self.nextToken = nextToken
+            self.targetIds = targetIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case targetIds = "targetIds"
+        }
+    }
+
+    public struct ListDeploymentInstancesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceStatusFilter", required: false, type: .list), 
+            AWSShapeMember(label: "instanceTypeFilter", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "deploymentId", required: true, type: .string)
+        ]
+        /// A subset of instances to list by status:   Pending: Include those instance with pending deployments.   InProgress: Include those instance where deployments are still in progress.   Succeeded: Include those instances with successful deployments.   Failed: Include those instance with failed deployments.   Skipped: Include those instance with skipped deployments.   Unknown: Include those instance with deployments in an unknown state.  
+        public let instanceStatusFilter: [InstanceStatus]?
+        /// The set of instances in a blue/green deployment, either those in the original environment ("BLUE") or those in the replacement environment ("GREEN"), for which you want to view instance information.
+        public let instanceTypeFilter: [InstanceType]?
+        /// An identifier returned from the previous list deployment instances call. It can be used to return the next set of deployment instances in the list.
+        public let nextToken: String?
+        ///  The unique ID of a deployment. 
+        public let deploymentId: String
+
+        public init(instanceStatusFilter: [InstanceStatus]? = nil, instanceTypeFilter: [InstanceType]? = nil, nextToken: String? = nil, deploymentId: String) {
+            self.instanceStatusFilter = instanceStatusFilter
+            self.instanceTypeFilter = instanceTypeFilter
+            self.nextToken = nextToken
+            self.deploymentId = deploymentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceStatusFilter = "instanceStatusFilter"
+            case instanceTypeFilter = "instanceTypeFilter"
+            case nextToken = "nextToken"
+            case deploymentId = "deploymentId"
+        }
+    }
+
+    public struct DeploymentGroupInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "serviceRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "deploymentConfigName", required: false, type: .string), 
+            AWSShapeMember(label: "applicationName", required: false, type: .string), 
+            AWSShapeMember(label: "ec2TagSet", required: false, type: .structure), 
+            AWSShapeMember(label: "triggerConfigurations", required: false, type: .list), 
+            AWSShapeMember(label: "alarmConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "ecsServices", required: false, type: .list), 
+            AWSShapeMember(label: "autoRollbackConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "deploymentGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "onPremisesInstanceTagFilters", required: false, type: .list), 
+            AWSShapeMember(label: "targetRevision", required: false, type: .structure), 
+            AWSShapeMember(label: "loadBalancerInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "blueGreenDeploymentConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "autoScalingGroups", required: false, type: .list), 
+            AWSShapeMember(label: "lastSuccessfulDeployment", required: false, type: .structure), 
+            AWSShapeMember(label: "ec2TagFilters", required: false, type: .list), 
+            AWSShapeMember(label: "computePlatform", required: false, type: .enum), 
+            AWSShapeMember(label: "deploymentStyle", required: false, type: .structure), 
+            AWSShapeMember(label: "lastAttemptedDeployment", required: false, type: .structure), 
+            AWSShapeMember(label: "onPremisesTagSet", required: false, type: .structure)
+        ]
+        /// The deployment group name.
+        public let deploymentGroupName: String?
+        /// A service role ARN.
+        public let serviceRoleArn: String?
+        /// The deployment configuration name.
+        public let deploymentConfigName: String?
+        /// The application name.
+        public let applicationName: String?
+        /// Information about groups of tags applied to an EC2 instance. The deployment group includes only EC2 instances identified by all the tag groups. Cannot be used in the same call as ec2TagFilters.
+        public let ec2TagSet: EC2TagSet?
+        /// Information about triggers associated with the deployment group.
+        public let triggerConfigurations: [TriggerConfig]?
+        /// A list of alarms associated with the deployment group.
+        public let alarmConfiguration: AlarmConfiguration?
+        ///  The target ECS services in the deployment group. This only applies to deployment groups that use the Amazon ECS compute platform. A target ECS service is specified as an Amazon ECS cluster and service name pair using the format &lt;clustername&gt;:&lt;servicename&gt;. 
+        public let ecsServices: [ECSService]?
+        /// Information about the automatic rollback configuration associated with the deployment group.
+        public let autoRollbackConfiguration: AutoRollbackConfiguration?
+        /// The deployment group ID.
+        public let deploymentGroupId: String?
+        /// The on-premises instance tags on which to filter. The deployment group includes on-premises instances with any of the specified tags.
+        public let onPremisesInstanceTagFilters: [TagFilter]?
+        /// Information about the deployment group's target revision, including type and location.
+        public let targetRevision: RevisionLocation?
+        /// Information about the load balancer to use in a deployment.
+        public let loadBalancerInfo: LoadBalancerInfo?
+        /// Information about blue/green deployment options for a deployment group.
+        public let blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration?
+        /// A list of associated Auto Scaling groups.
+        public let autoScalingGroups: [AutoScalingGroup]?
+        /// Information about the most recent successful deployment to the deployment group.
+        public let lastSuccessfulDeployment: LastDeploymentInfo?
+        /// The Amazon EC2 tags on which to filter. The deployment group includes EC2 instances with any of the specified tags.
+        public let ec2TagFilters: [EC2TagFilter]?
+        /// The destination platform type for the deployment group (Lambda or Server).
+        public let computePlatform: ComputePlatform?
+        /// Information about the type of deployment, either in-place or blue/green, you want to run and whether to route deployment traffic behind a load balancer.
+        public let deploymentStyle: DeploymentStyle?
+        /// Information about the most recent attempted deployment to the deployment group.
+        public let lastAttemptedDeployment: LastDeploymentInfo?
+        /// Information about groups of tags applied to an on-premises instance. The deployment group includes only on-premises instances identified by all the tag groups. Cannot be used in the same call as onPremisesInstanceTagFilters.
+        public let onPremisesTagSet: OnPremisesTagSet?
+
+        public init(deploymentGroupName: String? = nil, serviceRoleArn: String? = nil, deploymentConfigName: String? = nil, applicationName: String? = nil, ec2TagSet: EC2TagSet? = nil, triggerConfigurations: [TriggerConfig]? = nil, alarmConfiguration: AlarmConfiguration? = nil, ecsServices: [ECSService]? = nil, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, deploymentGroupId: String? = nil, onPremisesInstanceTagFilters: [TagFilter]? = nil, targetRevision: RevisionLocation? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, autoScalingGroups: [AutoScalingGroup]? = nil, lastSuccessfulDeployment: LastDeploymentInfo? = nil, ec2TagFilters: [EC2TagFilter]? = nil, computePlatform: ComputePlatform? = nil, deploymentStyle: DeploymentStyle? = nil, lastAttemptedDeployment: LastDeploymentInfo? = nil, onPremisesTagSet: OnPremisesTagSet? = nil) {
+            self.deploymentGroupName = deploymentGroupName
+            self.serviceRoleArn = serviceRoleArn
+            self.deploymentConfigName = deploymentConfigName
+            self.applicationName = applicationName
+            self.ec2TagSet = ec2TagSet
+            self.triggerConfigurations = triggerConfigurations
+            self.alarmConfiguration = alarmConfiguration
+            self.ecsServices = ecsServices
+            self.autoRollbackConfiguration = autoRollbackConfiguration
+            self.deploymentGroupId = deploymentGroupId
+            self.onPremisesInstanceTagFilters = onPremisesInstanceTagFilters
+            self.targetRevision = targetRevision
+            self.loadBalancerInfo = loadBalancerInfo
+            self.blueGreenDeploymentConfiguration = blueGreenDeploymentConfiguration
+            self.autoScalingGroups = autoScalingGroups
+            self.lastSuccessfulDeployment = lastSuccessfulDeployment
+            self.ec2TagFilters = ec2TagFilters
+            self.computePlatform = computePlatform
+            self.deploymentStyle = deploymentStyle
+            self.lastAttemptedDeployment = lastAttemptedDeployment
+            self.onPremisesTagSet = onPremisesTagSet
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentGroupName = "deploymentGroupName"
+            case serviceRoleArn = "serviceRoleArn"
+            case deploymentConfigName = "deploymentConfigName"
+            case applicationName = "applicationName"
+            case ec2TagSet = "ec2TagSet"
+            case triggerConfigurations = "triggerConfigurations"
+            case alarmConfiguration = "alarmConfiguration"
+            case ecsServices = "ecsServices"
+            case autoRollbackConfiguration = "autoRollbackConfiguration"
+            case deploymentGroupId = "deploymentGroupId"
+            case onPremisesInstanceTagFilters = "onPremisesInstanceTagFilters"
+            case targetRevision = "targetRevision"
+            case loadBalancerInfo = "loadBalancerInfo"
+            case blueGreenDeploymentConfiguration = "blueGreenDeploymentConfiguration"
+            case autoScalingGroups = "autoScalingGroups"
+            case lastSuccessfulDeployment = "lastSuccessfulDeployment"
+            case ec2TagFilters = "ec2TagFilters"
+            case computePlatform = "computePlatform"
+            case deploymentStyle = "deploymentStyle"
+            case lastAttemptedDeployment = "lastAttemptedDeployment"
+            case onPremisesTagSet = "onPremisesTagSet"
+        }
+    }
+
+    public struct RevisionInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "revisionLocation", required: false, type: .structure), 
+            AWSShapeMember(label: "genericRevisionInfo", required: false, type: .structure)
+        ]
+        /// Information about the location and type of an application revision.
+        public let revisionLocation: RevisionLocation?
+        /// Information about an application revision, including usage details and associated deployment groups.
+        public let genericRevisionInfo: GenericRevisionInfo?
+
+        public init(revisionLocation: RevisionLocation? = nil, genericRevisionInfo: GenericRevisionInfo? = nil) {
+            self.revisionLocation = revisionLocation
+            self.genericRevisionInfo = genericRevisionInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case revisionLocation = "revisionLocation"
+            case genericRevisionInfo = "genericRevisionInfo"
+        }
+    }
+
+    public struct AutoRollbackConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "ignorePollAlarmFailure", required: false, type: .boolean), 
-            AWSShapeMember(label: "alarms", required: false, type: .list)
+            AWSShapeMember(label: "events", required: false, type: .list)
         ]
-        /// Indicates whether the alarm configuration is enabled.
+        /// Indicates whether a defined automatic rollback configuration is currently enabled.
         public let enabled: Bool?
-        /// Indicates whether a deployment should continue if information about the current state of alarms cannot be retrieved from Amazon CloudWatch. The default value is false.   true: The deployment will proceed even if alarm status information can't be retrieved from Amazon CloudWatch.   false: The deployment will stop if alarm status information can't be retrieved from Amazon CloudWatch.  
-        public let ignorePollAlarmFailure: Bool?
-        /// A list of alarms configured for the deployment group. A maximum of 10 alarms can be added to a deployment group.
-        public let alarms: [Alarm]?
+        /// The event type or types that trigger a rollback.
+        public let events: [AutoRollbackEvent]?
 
-        public init(enabled: Bool? = nil, ignorePollAlarmFailure: Bool? = nil, alarms: [Alarm]? = nil) {
+        public init(enabled: Bool? = nil, events: [AutoRollbackEvent]? = nil) {
             self.enabled = enabled
-            self.ignorePollAlarmFailure = ignorePollAlarmFailure
-            self.alarms = alarms
+            self.events = events
         }
 
         private enum CodingKeys: String, CodingKey {
             case enabled = "enabled"
-            case ignorePollAlarmFailure = "ignorePollAlarmFailure"
-            case alarms = "alarms"
+            case events = "events"
         }
     }
 
-    public struct ErrorInformation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "code", required: false, type: .enum), 
-            AWSShapeMember(label: "message", required: false, type: .string)
-        ]
-        /// For information about additional error codes, see Error Codes for AWS CodeDeploy in the AWS CodeDeploy User Guide. The error code:   APPLICATION_MISSING: The application was missing. This error code will most likely be raised if the application is deleted after the deployment is created but before it is started.   DEPLOYMENT_GROUP_MISSING: The deployment group was missing. This error code will most likely be raised if the deployment group is deleted after the deployment is created but before it is started.   HEALTH_CONSTRAINTS: The deployment failed on too many instances to be successfully deployed within the instance health constraints specified.   HEALTH_CONSTRAINTS_INVALID: The revision cannot be successfully deployed within the instance health constraints specified.   IAM_ROLE_MISSING: The service role cannot be accessed.   IAM_ROLE_PERMISSIONS: The service role does not have the correct permissions.   INTERNAL_ERROR: There was an internal error.   NO_EC2_SUBSCRIPTION: The calling account is not subscribed to the Amazon EC2 service.   NO_INSTANCES: No instance were specified, or no instance can be found.   OVER_MAX_INSTANCES: The maximum number of instance was exceeded.   THROTTLED: The operation was throttled because the calling account exceeded the throttling limits of one or more AWS services.   TIMEOUT: The deployment has timed out.   REVISION_MISSING: The revision ID was missing. This error code will most likely be raised if the revision is deleted after the deployment is created but before it is started.  
-        public let code: ErrorCode?
-        /// An accompanying error message.
-        public let message: String?
+    public enum LifecycleEventStatus: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case inprogress = "InProgress"
+        case succeeded = "Succeeded"
+        case failed = "Failed"
+        case skipped = "Skipped"
+        case unknown = "Unknown"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(code: ErrorCode? = nil, message: String? = nil) {
-            self.code = code
-            self.message = message
+    public struct BatchGetDeploymentTargetsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentTargets", required: false, type: .list)
+        ]
+        ///  A list of target objects for a deployment. Each target object contains details about the target, such as its status and lifecycle events. The type of the target objects depends on the deployment' compute platform.     EC2/On-premises - Each target object is an EC2 or on-premises instance.     AWS Lambda - The target object is a specific version of an AWS Lambda function.     Amazon ECS - The target object is an Amazon ECS service.   
+        public let deploymentTargets: [DeploymentTarget]?
+
+        public init(deploymentTargets: [DeploymentTarget]? = nil) {
+            self.deploymentTargets = deploymentTargets
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code = "code"
+            case deploymentTargets = "deploymentTargets"
+        }
+    }
+
+    public struct GitHubLocation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "commitId", required: false, type: .string), 
+            AWSShapeMember(label: "repository", required: false, type: .string)
+        ]
+        /// The SHA1 commit ID of the GitHub commit that represents the bundled artifacts for the application revision.
+        public let commitId: String?
+        /// The GitHub account and repository pair that stores a reference to the commit that represents the bundled artifacts for the application revision.  Specified as account/repository.
+        public let repository: String?
+
+        public init(commitId: String? = nil, repository: String? = nil) {
+            self.commitId = commitId
+            self.repository = repository
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commitId = "commitId"
+            case repository = "repository"
+        }
+    }
+
+    public struct BatchGetApplicationRevisionsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "applicationName", required: true, type: .string), 
+            AWSShapeMember(label: "revisions", required: true, type: .list)
+        ]
+        /// The name of an AWS CodeDeploy application about which to get revision information.
+        public let applicationName: String
+        /// Information to get about the application revisions, including type and location.
+        public let revisions: [RevisionLocation]
+
+        public init(applicationName: String, revisions: [RevisionLocation]) {
+            self.applicationName = applicationName
+            self.revisions = revisions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "applicationName"
+            case revisions = "revisions"
+        }
+    }
+
+    public struct BatchGetDeploymentGroupsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "errorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "deploymentGroupsInfo", required: false, type: .list)
+        ]
+        /// Information about errors that may have occurred during the API call.
+        public let errorMessage: String?
+        /// Information about the deployment groups.
+        public let deploymentGroupsInfo: [DeploymentGroupInfo]?
+
+        public init(errorMessage: String? = nil, deploymentGroupsInfo: [DeploymentGroupInfo]? = nil) {
+            self.errorMessage = errorMessage
+            self.deploymentGroupsInfo = deploymentGroupsInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "errorMessage"
+            case deploymentGroupsInfo = "deploymentGroupsInfo"
+        }
+    }
+
+    public struct StopDeploymentInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentId", required: true, type: .string), 
+            AWSShapeMember(label: "autoRollbackEnabled", required: false, type: .boolean)
+        ]
+        ///  The unique ID of a deployment. 
+        public let deploymentId: String
+        ///  Indicates, when a deployment is stopped, whether instances that have been updated should be rolled back to the previous version of the application revision. 
+        public let autoRollbackEnabled: Bool?
+
+        public init(deploymentId: String, autoRollbackEnabled: Bool? = nil) {
+            self.deploymentId = deploymentId
+            self.autoRollbackEnabled = autoRollbackEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentId = "deploymentId"
+            case autoRollbackEnabled = "autoRollbackEnabled"
+        }
+    }
+
+    public struct TimeBasedLinear: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "linearInterval", required: false, type: .integer), 
+            AWSShapeMember(label: "linearPercentage", required: false, type: .integer)
+        ]
+        /// The number of minutes between each incremental traffic shift of a TimeBasedLinear deployment.
+        public let linearInterval: Int32?
+        /// The percentage of traffic that is shifted at the start of each increment of a TimeBasedLinear deployment.
+        public let linearPercentage: Int32?
+
+        public init(linearInterval: Int32? = nil, linearPercentage: Int32? = nil) {
+            self.linearInterval = linearInterval
+            self.linearPercentage = linearPercentage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case linearInterval = "linearInterval"
+            case linearPercentage = "linearPercentage"
+        }
+    }
+
+    public struct LoadBalancerInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "elbInfoList", required: false, type: .list), 
+            AWSShapeMember(label: "targetGroupPairInfoList", required: false, type: .list), 
+            AWSShapeMember(label: "targetGroupInfoList", required: false, type: .list)
+        ]
+        /// An array containing information about the load balancer to use for load balancing in a deployment. In Elastic Load Balancing, load balancers are used with Classic Load Balancers.   Adding more than one load balancer to the array is not supported.  
+        public let elbInfoList: [ELBInfo]?
+        ///  The target group pair information. This is an array of TargeGroupPairInfo objects with a maximum size of one. 
+        public let targetGroupPairInfoList: [TargetGroupPairInfo]?
+        /// An array containing information about the target group to use for load balancing in a deployment. In Elastic Load Balancing, target groups are used with Application Load Balancers.   Adding more than one target group to the array is not supported.  
+        public let targetGroupInfoList: [TargetGroupInfo]?
+
+        public init(elbInfoList: [ELBInfo]? = nil, targetGroupPairInfoList: [TargetGroupPairInfo]? = nil, targetGroupInfoList: [TargetGroupInfo]? = nil) {
+            self.elbInfoList = elbInfoList
+            self.targetGroupPairInfoList = targetGroupPairInfoList
+            self.targetGroupInfoList = targetGroupInfoList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case elbInfoList = "elbInfoList"
+            case targetGroupPairInfoList = "targetGroupPairInfoList"
+            case targetGroupInfoList = "targetGroupInfoList"
+        }
+    }
+
+    public enum TagFilterType: String, CustomStringConvertible, Codable {
+        case keyOnly = "KEY_ONLY"
+        case valueOnly = "VALUE_ONLY"
+        case keyAndValue = "KEY_AND_VALUE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeregisterOnPremisesInstanceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceName", required: true, type: .string)
+        ]
+        /// The name of the on-premises instance to deregister.
+        public let instanceName: String
+
+        public init(instanceName: String) {
+            self.instanceName = instanceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceName = "instanceName"
+        }
+    }
+
+    public struct ListDeploymentGroupsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "applicationName", required: true, type: .string), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// The name of an AWS CodeDeploy application associated with the applicable IAM user or AWS account.
+        public let applicationName: String
+        /// An identifier returned from the previous list deployment groups call. It can be used to return the next set of deployment groups in the list.
+        public let nextToken: String?
+
+        public init(applicationName: String, nextToken: String? = nil) {
+            self.applicationName = applicationName
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "applicationName"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct InstanceSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "deploymentId", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "instanceType", required: false, type: .enum), 
+            AWSShapeMember(label: "lifecycleEvents", required: false, type: .list), 
+            AWSShapeMember(label: "instanceId", required: false, type: .string)
+        ]
+        /// A timestamp indicating when the instance information was last updated.
+        public let lastUpdatedAt: TimeStamp?
+        ///  The unique ID of a deployment. 
+        public let deploymentId: String?
+        /// The deployment status for this instance:   Pending: The deployment is pending for this instance.   In Progress: The deployment is in progress for this instance.   Succeeded: The deployment has succeeded for this instance.   Failed: The deployment has failed for this instance.   Skipped: The deployment has been skipped for this instance.   Unknown: The deployment status is unknown for this instance.  
+        public let status: InstanceStatus?
+        /// Information about which environment an instance belongs to in a blue/green deployment.   BLUE: The instance is part of the original environment.   GREEN: The instance is part of the replacement environment.  
+        public let instanceType: InstanceType?
+        /// A list of lifecycle events for this instance.
+        public let lifecycleEvents: [LifecycleEvent]?
+        /// The instance ID.
+        public let instanceId: String?
+
+        public init(lastUpdatedAt: TimeStamp? = nil, deploymentId: String? = nil, status: InstanceStatus? = nil, instanceType: InstanceType? = nil, lifecycleEvents: [LifecycleEvent]? = nil, instanceId: String? = nil) {
+            self.lastUpdatedAt = lastUpdatedAt
+            self.deploymentId = deploymentId
+            self.status = status
+            self.instanceType = instanceType
+            self.lifecycleEvents = lifecycleEvents
+            self.instanceId = instanceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastUpdatedAt = "lastUpdatedAt"
+            case deploymentId = "deploymentId"
+            case status = "status"
+            case instanceType = "instanceType"
+            case lifecycleEvents = "lifecycleEvents"
+            case instanceId = "instanceId"
+        }
+    }
+
+    public struct DeleteDeploymentGroupInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "applicationName", required: true, type: .string), 
+            AWSShapeMember(label: "deploymentGroupName", required: true, type: .string)
+        ]
+        /// The name of an AWS CodeDeploy application associated with the applicable IAM user or AWS account.
+        public let applicationName: String
+        /// The name of an existing deployment group for the specified application.
+        public let deploymentGroupName: String
+
+        public init(applicationName: String, deploymentGroupName: String) {
+            self.applicationName = applicationName
+            self.deploymentGroupName = deploymentGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "applicationName"
+            case deploymentGroupName = "deploymentGroupName"
+        }
+    }
+
+    public struct Diagnostics: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "message", required: false, type: .string), 
+            AWSShapeMember(label: "logTail", required: false, type: .string), 
+            AWSShapeMember(label: "errorCode", required: false, type: .enum), 
+            AWSShapeMember(label: "scriptName", required: false, type: .string)
+        ]
+        /// The message associated with the error.
+        public let message: String?
+        /// The last portion of the diagnostic log. If available, AWS CodeDeploy returns up to the last 4 KB of the diagnostic log.
+        public let logTail: String?
+        /// The associated error code:   Success: The specified script ran.   ScriptMissing: The specified script was not found in the specified location.   ScriptNotExecutable: The specified script is not a recognized executable file type.   ScriptTimedOut: The specified script did not finish running in the specified time period.   ScriptFailed: The specified script failed to run as expected.   UnknownError: The specified script did not run for an unknown reason.  
+        public let errorCode: LifecycleErrorCode?
+        /// The name of the script.
+        public let scriptName: String?
+
+        public init(message: String? = nil, logTail: String? = nil, errorCode: LifecycleErrorCode? = nil, scriptName: String? = nil) {
+            self.message = message
+            self.logTail = logTail
+            self.errorCode = errorCode
+            self.scriptName = scriptName
+        }
+
+        private enum CodingKeys: String, CodingKey {
             case message = "message"
+            case logTail = "logTail"
+            case errorCode = "errorCode"
+            case scriptName = "scriptName"
+        }
+    }
+
+    public struct ListDeploymentsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deployments", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// A list of deployment IDs.
+        public let deployments: [String]?
+        /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list deployments call to return the next set of deployments in the list.
+        public let nextToken: String?
+
+        public init(deployments: [String]? = nil, nextToken: String? = nil) {
+            self.deployments = deployments
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deployments = "deployments"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct UpdateDeploymentGroupInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "alarmConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "deploymentStyle", required: false, type: .structure), 
+            AWSShapeMember(label: "onPremisesTagSet", required: false, type: .structure), 
+            AWSShapeMember(label: "currentDeploymentGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "autoScalingGroups", required: false, type: .list), 
+            AWSShapeMember(label: "triggerConfigurations", required: false, type: .list), 
+            AWSShapeMember(label: "loadBalancerInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "newDeploymentGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "serviceRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "onPremisesInstanceTagFilters", required: false, type: .list), 
+            AWSShapeMember(label: "ec2TagFilters", required: false, type: .list), 
+            AWSShapeMember(label: "ecsServices", required: false, type: .list), 
+            AWSShapeMember(label: "autoRollbackConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "applicationName", required: true, type: .string), 
+            AWSShapeMember(label: "ec2TagSet", required: false, type: .structure), 
+            AWSShapeMember(label: "blueGreenDeploymentConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "deploymentConfigName", required: false, type: .string)
+        ]
+        /// Information to add or change about Amazon CloudWatch alarms when the deployment group is updated.
+        public let alarmConfiguration: AlarmConfiguration?
+        /// Information about the type of deployment, either in-place or blue/green, you want to run and whether to route deployment traffic behind a load balancer.
+        public let deploymentStyle: DeploymentStyle?
+        /// Information about an on-premises instance tag set. The deployment group will include only on-premises instances identified by all the tag groups.
+        public let onPremisesTagSet: OnPremisesTagSet?
+        /// The current name of the deployment group.
+        public let currentDeploymentGroupName: String
+        /// The replacement list of Auto Scaling groups to be included in the deployment group, if you want to change them. To keep the Auto Scaling groups, enter their names. To remove Auto Scaling groups, do not enter any Auto Scaling group names.
+        public let autoScalingGroups: [String]?
+        /// Information about triggers to change when the deployment group is updated. For examples, see Modify Triggers in an AWS CodeDeploy Deployment Group in the AWS CodeDeploy User Guide.
+        public let triggerConfigurations: [TriggerConfig]?
+        /// Information about the load balancer used in a deployment.
+        public let loadBalancerInfo: LoadBalancerInfo?
+        /// The new name of the deployment group, if you want to change it.
+        public let newDeploymentGroupName: String?
+        /// A replacement ARN for the service role, if you want to change it.
+        public let serviceRoleArn: String?
+        /// The replacement set of on-premises instance tags on which to filter, if you want to change them. To keep the existing tags, enter their names. To remove tags, do not enter any tag names.
+        public let onPremisesInstanceTagFilters: [TagFilter]?
+        /// The replacement set of Amazon EC2 tags on which to filter, if you want to change them. To keep the existing tags, enter their names. To remove tags, do not enter any tag names.
+        public let ec2TagFilters: [EC2TagFilter]?
+        ///  The target ECS services in the deployment group. This only applies to deployment groups that use the Amazon ECS compute platform. A target ECS service is specified as an Amazon ECS cluster and service name pair using the format &lt;clustername&gt;:&lt;servicename&gt;. 
+        public let ecsServices: [ECSService]?
+        /// Information for an automatic rollback configuration that is added or changed when a deployment group is updated.
+        public let autoRollbackConfiguration: AutoRollbackConfiguration?
+        /// The application name corresponding to the deployment group to update.
+        public let applicationName: String
+        /// Information about groups of tags applied to on-premises instances. The deployment group will include only EC2 instances identified by all the tag groups.
+        public let ec2TagSet: EC2TagSet?
+        /// Information about blue/green deployment options for a deployment group.
+        public let blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration?
+        /// The replacement deployment configuration name to use, if you want to change it.
+        public let deploymentConfigName: String?
+
+        public init(alarmConfiguration: AlarmConfiguration? = nil, deploymentStyle: DeploymentStyle? = nil, onPremisesTagSet: OnPremisesTagSet? = nil, currentDeploymentGroupName: String, autoScalingGroups: [String]? = nil, triggerConfigurations: [TriggerConfig]? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, newDeploymentGroupName: String? = nil, serviceRoleArn: String? = nil, onPremisesInstanceTagFilters: [TagFilter]? = nil, ec2TagFilters: [EC2TagFilter]? = nil, ecsServices: [ECSService]? = nil, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, applicationName: String, ec2TagSet: EC2TagSet? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, deploymentConfigName: String? = nil) {
+            self.alarmConfiguration = alarmConfiguration
+            self.deploymentStyle = deploymentStyle
+            self.onPremisesTagSet = onPremisesTagSet
+            self.currentDeploymentGroupName = currentDeploymentGroupName
+            self.autoScalingGroups = autoScalingGroups
+            self.triggerConfigurations = triggerConfigurations
+            self.loadBalancerInfo = loadBalancerInfo
+            self.newDeploymentGroupName = newDeploymentGroupName
+            self.serviceRoleArn = serviceRoleArn
+            self.onPremisesInstanceTagFilters = onPremisesInstanceTagFilters
+            self.ec2TagFilters = ec2TagFilters
+            self.ecsServices = ecsServices
+            self.autoRollbackConfiguration = autoRollbackConfiguration
+            self.applicationName = applicationName
+            self.ec2TagSet = ec2TagSet
+            self.blueGreenDeploymentConfiguration = blueGreenDeploymentConfiguration
+            self.deploymentConfigName = deploymentConfigName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmConfiguration = "alarmConfiguration"
+            case deploymentStyle = "deploymentStyle"
+            case onPremisesTagSet = "onPremisesTagSet"
+            case currentDeploymentGroupName = "currentDeploymentGroupName"
+            case autoScalingGroups = "autoScalingGroups"
+            case triggerConfigurations = "triggerConfigurations"
+            case loadBalancerInfo = "loadBalancerInfo"
+            case newDeploymentGroupName = "newDeploymentGroupName"
+            case serviceRoleArn = "serviceRoleArn"
+            case onPremisesInstanceTagFilters = "onPremisesInstanceTagFilters"
+            case ec2TagFilters = "ec2TagFilters"
+            case ecsServices = "ecsServices"
+            case autoRollbackConfiguration = "autoRollbackConfiguration"
+            case applicationName = "applicationName"
+            case ec2TagSet = "ec2TagSet"
+            case blueGreenDeploymentConfiguration = "blueGreenDeploymentConfiguration"
+            case deploymentConfigName = "deploymentConfigName"
+        }
+    }
+
+    public struct GetApplicationRevisionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "revision", required: true, type: .structure), 
+            AWSShapeMember(label: "applicationName", required: true, type: .string)
+        ]
+        /// Information about the application revision to get, including type and location.
+        public let revision: RevisionLocation
+        /// The name of the application that corresponds to the revision.
+        public let applicationName: String
+
+        public init(revision: RevisionLocation, applicationName: String) {
+            self.revision = revision
+            self.applicationName = applicationName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case revision = "revision"
+            case applicationName = "applicationName"
+        }
+    }
+
+    public struct CreateDeploymentGroupInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "serviceRoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "ecsServices", required: false, type: .list), 
+            AWSShapeMember(label: "ec2TagFilters", required: false, type: .list), 
+            AWSShapeMember(label: "deploymentConfigName", required: false, type: .string), 
+            AWSShapeMember(label: "autoScalingGroups", required: false, type: .list), 
+            AWSShapeMember(label: "onPremisesInstanceTagFilters", required: false, type: .list), 
+            AWSShapeMember(label: "loadBalancerInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "triggerConfigurations", required: false, type: .list), 
+            AWSShapeMember(label: "autoRollbackConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "deploymentGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "applicationName", required: true, type: .string), 
+            AWSShapeMember(label: "alarmConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "deploymentStyle", required: false, type: .structure), 
+            AWSShapeMember(label: "ec2TagSet", required: false, type: .structure), 
+            AWSShapeMember(label: "onPremisesTagSet", required: false, type: .structure), 
+            AWSShapeMember(label: "blueGreenDeploymentConfiguration", required: false, type: .structure)
+        ]
+        /// A service role ARN that allows AWS CodeDeploy to act on the user's behalf when interacting with AWS services.
+        public let serviceRoleArn: String
+        ///  The target ECS services in the deployment group. This only applies to deployment groups that use the Amazon ECS compute platform. A target ECS service is specified as an Amazon ECS cluster and service name pair using the format &lt;clustername&gt;:&lt;servicename&gt;. 
+        public let ecsServices: [ECSService]?
+        /// The Amazon EC2 tags on which to filter. The deployment group will include EC2 instances with any of the specified tags. Cannot be used in the same call as ec2TagSet.
+        public let ec2TagFilters: [EC2TagFilter]?
+        /// If specified, the deployment configuration name can be either one of the predefined configurations provided with AWS CodeDeploy or a custom deployment configuration that you create by calling the create deployment configuration operation. CodeDeployDefault.OneAtATime is the default deployment configuration. It is used if a configuration isn't specified for the deployment or the deployment group. For more information about the predefined deployment configurations in AWS CodeDeploy, see Working with Deployment Groups in AWS CodeDeploy in the AWS CodeDeploy User Guide.
+        public let deploymentConfigName: String?
+        /// A list of associated Auto Scaling groups.
+        public let autoScalingGroups: [String]?
+        /// The on-premises instance tags on which to filter. The deployment group will include on-premises instances with any of the specified tags. Cannot be used in the same call as OnPremisesTagSet.
+        public let onPremisesInstanceTagFilters: [TagFilter]?
+        /// Information about the load balancer used in a deployment.
+        public let loadBalancerInfo: LoadBalancerInfo?
+        /// Information about triggers to create when the deployment group is created. For examples, see Create a Trigger for an AWS CodeDeploy Event in the AWS CodeDeploy User Guide.
+        public let triggerConfigurations: [TriggerConfig]?
+        /// Configuration information for an automatic rollback that is added when a deployment group is created.
+        public let autoRollbackConfiguration: AutoRollbackConfiguration?
+        /// The name of a new deployment group for the specified application.
+        public let deploymentGroupName: String
+        /// The name of an AWS CodeDeploy application associated with the applicable IAM user or AWS account.
+        public let applicationName: String
+        /// Information to add about Amazon CloudWatch alarms when the deployment group is created.
+        public let alarmConfiguration: AlarmConfiguration?
+        /// Information about the type of deployment, in-place or blue/green, that you want to run and whether to route deployment traffic behind a load balancer.
+        public let deploymentStyle: DeploymentStyle?
+        /// Information about groups of tags applied to EC2 instances. The deployment group will include only EC2 instances identified by all the tag groups. Cannot be used in the same call as ec2TagFilters.
+        public let ec2TagSet: EC2TagSet?
+        /// Information about groups of tags applied to on-premises instances. The deployment group will include only on-premises instances identified by all the tag groups. Cannot be used in the same call as onPremisesInstanceTagFilters.
+        public let onPremisesTagSet: OnPremisesTagSet?
+        /// Information about blue/green deployment options for a deployment group.
+        public let blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration?
+
+        public init(serviceRoleArn: String, ecsServices: [ECSService]? = nil, ec2TagFilters: [EC2TagFilter]? = nil, deploymentConfigName: String? = nil, autoScalingGroups: [String]? = nil, onPremisesInstanceTagFilters: [TagFilter]? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, triggerConfigurations: [TriggerConfig]? = nil, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, deploymentGroupName: String, applicationName: String, alarmConfiguration: AlarmConfiguration? = nil, deploymentStyle: DeploymentStyle? = nil, ec2TagSet: EC2TagSet? = nil, onPremisesTagSet: OnPremisesTagSet? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil) {
+            self.serviceRoleArn = serviceRoleArn
+            self.ecsServices = ecsServices
+            self.ec2TagFilters = ec2TagFilters
+            self.deploymentConfigName = deploymentConfigName
+            self.autoScalingGroups = autoScalingGroups
+            self.onPremisesInstanceTagFilters = onPremisesInstanceTagFilters
+            self.loadBalancerInfo = loadBalancerInfo
+            self.triggerConfigurations = triggerConfigurations
+            self.autoRollbackConfiguration = autoRollbackConfiguration
+            self.deploymentGroupName = deploymentGroupName
+            self.applicationName = applicationName
+            self.alarmConfiguration = alarmConfiguration
+            self.deploymentStyle = deploymentStyle
+            self.ec2TagSet = ec2TagSet
+            self.onPremisesTagSet = onPremisesTagSet
+            self.blueGreenDeploymentConfiguration = blueGreenDeploymentConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceRoleArn = "serviceRoleArn"
+            case ecsServices = "ecsServices"
+            case ec2TagFilters = "ec2TagFilters"
+            case deploymentConfigName = "deploymentConfigName"
+            case autoScalingGroups = "autoScalingGroups"
+            case onPremisesInstanceTagFilters = "onPremisesInstanceTagFilters"
+            case loadBalancerInfo = "loadBalancerInfo"
+            case triggerConfigurations = "triggerConfigurations"
+            case autoRollbackConfiguration = "autoRollbackConfiguration"
+            case deploymentGroupName = "deploymentGroupName"
+            case applicationName = "applicationName"
+            case alarmConfiguration = "alarmConfiguration"
+            case deploymentStyle = "deploymentStyle"
+            case ec2TagSet = "ec2TagSet"
+            case onPremisesTagSet = "onPremisesTagSet"
+            case blueGreenDeploymentConfiguration = "blueGreenDeploymentConfiguration"
+        }
+    }
+
+    public struct InstanceTarget: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentId", required: false, type: .string), 
+            AWSShapeMember(label: "targetId", required: false, type: .string), 
+            AWSShapeMember(label: "targetArn", required: false, type: .string), 
+            AWSShapeMember(label: "instanceLabel", required: false, type: .enum), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "lifecycleEvents", required: false, type: .list), 
+            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp)
+        ]
+        ///  The unique ID of a deployment. 
+        public let deploymentId: String?
+        ///  The unique ID of a deployment target that has a type of instanceTarget. 
+        public let targetId: String?
+        ///  The ARN of the target. 
+        public let targetArn: String?
+        ///  A label that identifies whether the instance is an original target (BLUE) or a replacement target (GREEN). 
+        public let instanceLabel: TargetLabel?
+        ///  The status an EC2/On-premises deployment's target instance. 
+        public let status: TargetStatus?
+        ///  The lifecycle events of the deployment to this target instance. 
+        public let lifecycleEvents: [LifecycleEvent]?
+        ///  The date and time when the target instance was updated by a deployment. 
+        public let lastUpdatedAt: TimeStamp?
+
+        public init(deploymentId: String? = nil, targetId: String? = nil, targetArn: String? = nil, instanceLabel: TargetLabel? = nil, status: TargetStatus? = nil, lifecycleEvents: [LifecycleEvent]? = nil, lastUpdatedAt: TimeStamp? = nil) {
+            self.deploymentId = deploymentId
+            self.targetId = targetId
+            self.targetArn = targetArn
+            self.instanceLabel = instanceLabel
+            self.status = status
+            self.lifecycleEvents = lifecycleEvents
+            self.lastUpdatedAt = lastUpdatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentId = "deploymentId"
+            case targetId = "targetId"
+            case targetArn = "targetArn"
+            case instanceLabel = "instanceLabel"
+            case status = "status"
+            case lifecycleEvents = "lifecycleEvents"
+            case lastUpdatedAt = "lastUpdatedAt"
+        }
+    }
+
+    public struct GetOnPremisesInstanceOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceInfo", required: false, type: .structure)
+        ]
+        ///  Information about the on-premises instance. 
+        public let instanceInfo: InstanceInfo?
+
+        public init(instanceInfo: InstanceInfo? = nil) {
+            self.instanceInfo = instanceInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceInfo = "instanceInfo"
+        }
+    }
+
+    public struct CreateDeploymentConfigInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "trafficRoutingConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "computePlatform", required: false, type: .enum), 
+            AWSShapeMember(label: "minimumHealthyHosts", required: false, type: .structure), 
+            AWSShapeMember(label: "deploymentConfigName", required: true, type: .string)
+        ]
+        /// The configuration that specifies how the deployment traffic will be routed.
+        public let trafficRoutingConfig: TrafficRoutingConfig?
+        /// The destination platform type for the deployment (Lambda or Server&gt;).
+        public let computePlatform: ComputePlatform?
+        /// The minimum number of healthy instances that should be available at any time during the deployment. There are two parameters expected in the input: type and value. The type parameter takes either of the following values:   HOST_COUNT: The value parameter represents the minimum number of healthy instances as an absolute value.   FLEET_PERCENT: The value parameter represents the minimum number of healthy instances as a percentage of the total number of instances in the deployment. If you specify FLEET_PERCENT, at the start of the deployment, AWS CodeDeploy converts the percentage to the equivalent number of instance and rounds up fractional instances.   The value parameter takes an integer. For example, to set a minimum of 95% healthy instance, specify a type of FLEET_PERCENT and a value of 95.
+        public let minimumHealthyHosts: MinimumHealthyHosts?
+        /// The name of the deployment configuration to create.
+        public let deploymentConfigName: String
+
+        public init(trafficRoutingConfig: TrafficRoutingConfig? = nil, computePlatform: ComputePlatform? = nil, minimumHealthyHosts: MinimumHealthyHosts? = nil, deploymentConfigName: String) {
+            self.trafficRoutingConfig = trafficRoutingConfig
+            self.computePlatform = computePlatform
+            self.minimumHealthyHosts = minimumHealthyHosts
+            self.deploymentConfigName = deploymentConfigName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trafficRoutingConfig = "trafficRoutingConfig"
+            case computePlatform = "computePlatform"
+            case minimumHealthyHosts = "minimumHealthyHosts"
+            case deploymentConfigName = "deploymentConfigName"
+        }
+    }
+
+    public struct GetApplicationRevisionOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "applicationName", required: false, type: .string), 
+            AWSShapeMember(label: "revision", required: false, type: .structure), 
+            AWSShapeMember(label: "revisionInfo", required: false, type: .structure)
+        ]
+        /// The name of the application that corresponds to the revision.
+        public let applicationName: String?
+        /// Additional information about the revision, including type and location.
+        public let revision: RevisionLocation?
+        /// General information about the revision.
+        public let revisionInfo: GenericRevisionInfo?
+
+        public init(applicationName: String? = nil, revision: RevisionLocation? = nil, revisionInfo: GenericRevisionInfo? = nil) {
+            self.applicationName = applicationName
+            self.revision = revision
+            self.revisionInfo = revisionInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "applicationName"
+            case revision = "revision"
+            case revisionInfo = "revisionInfo"
+        }
+    }
+
+    public enum TargetStatus: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case inprogress = "InProgress"
+        case succeeded = "Succeeded"
+        case failed = "Failed"
+        case skipped = "Skipped"
+        case unknown = "Unknown"
+        case ready = "Ready"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct RegisterOnPremisesInstanceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "iamUserArn", required: false, type: .string), 
+            AWSShapeMember(label: "iamSessionArn", required: false, type: .string), 
+            AWSShapeMember(label: "instanceName", required: true, type: .string)
+        ]
+        /// The ARN of the IAM user to associate with the on-premises instance.
+        public let iamUserArn: String?
+        /// The ARN of the IAM session to associate with the on-premises instance.
+        public let iamSessionArn: String?
+        /// The name of the on-premises instance to register.
+        public let instanceName: String
+
+        public init(iamUserArn: String? = nil, iamSessionArn: String? = nil, instanceName: String) {
+            self.iamUserArn = iamUserArn
+            self.iamSessionArn = iamSessionArn
+            self.instanceName = instanceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case iamUserArn = "iamUserArn"
+            case iamSessionArn = "iamSessionArn"
+            case instanceName = "instanceName"
+        }
+    }
+
+    public struct DeleteApplicationInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "applicationName", required: true, type: .string)
+        ]
+        /// The name of an AWS CodeDeploy application associated with the applicable IAM user or AWS account.
+        public let applicationName: String
+
+        public init(applicationName: String) {
+            self.applicationName = applicationName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "applicationName"
+        }
+    }
+
+    public enum TargetFilterName: String, CustomStringConvertible, Codable {
+        case targetstatus = "TargetStatus"
+        case serverinstancelabel = "ServerInstanceLabel"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ComputePlatform: String, CustomStringConvertible, Codable {
+        case server = "Server"
+        case lambda = "Lambda"
+        case ecs = "ECS"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeleteGitHubAccountTokenInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tokenName", required: false, type: .string)
+        ]
+        /// The name of the GitHub account connection to delete.
+        public let tokenName: String?
+
+        public init(tokenName: String? = nil) {
+            self.tokenName = tokenName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tokenName = "tokenName"
+        }
+    }
+
+    public struct AutoScalingGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "hook", required: false, type: .string)
+        ]
+        /// The Auto Scaling group name.
+        public let name: String?
+        /// An Auto Scaling lifecycle event hook name.
+        public let hook: String?
+
+        public init(name: String? = nil, hook: String? = nil) {
+            self.name = name
+            self.hook = hook
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case hook = "hook"
+        }
+    }
+
+    public struct ELBInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string)
+        ]
+        /// For blue/green deployments, the name of the load balancer that will be used to route traffic from original instances to replacement instances in a blue/green deployment. For in-place deployments, the name of the load balancer that instances are deregistered from so they are not serving traffic during a deployment, and then re-registered with after the deployment completes.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
+    public struct ListOnPremisesInstancesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "registrationStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "tagFilters", required: false, type: .list)
+        ]
+        /// The registration status of the on-premises instances:   Deregistered: Include deregistered on-premises instances in the resulting list.   Registered: Include registered on-premises instances in the resulting list.  
+        public let registrationStatus: RegistrationStatus?
+        /// An identifier returned from the previous list on-premises instances call. It can be used to return the next set of on-premises instances in the list.
+        public let nextToken: String?
+        /// The on-premises instance tags that will be used to restrict the corresponding on-premises instance names returned.
+        public let tagFilters: [TagFilter]?
+
+        public init(registrationStatus: RegistrationStatus? = nil, nextToken: String? = nil, tagFilters: [TagFilter]? = nil) {
+            self.registrationStatus = registrationStatus
+            self.nextToken = nextToken
+            self.tagFilters = tagFilters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registrationStatus = "registrationStatus"
+            case nextToken = "nextToken"
+            case tagFilters = "tagFilters"
+        }
+    }
+
+    public struct ECSTarget: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "lifecycleEvents", required: false, type: .list), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "targetArn", required: false, type: .string), 
+            AWSShapeMember(label: "taskSetsInfo", required: false, type: .list), 
+            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "deploymentId", required: false, type: .string), 
+            AWSShapeMember(label: "targetId", required: false, type: .string)
+        ]
+        ///  The lifecycle events of the deployment to this target Amazon ECS application. 
+        public let lifecycleEvents: [LifecycleEvent]?
+        ///  The status an Amazon ECS deployment's target ECS application. 
+        public let status: TargetStatus?
+        ///  The ARN of the target. 
+        public let targetArn: String?
+        ///  The ECSTaskSet objects associated with the ECS target. 
+        public let taskSetsInfo: [ECSTaskSet]?
+        ///  The date and time when the target Amazon ECS application was updated by a deployment. 
+        public let lastUpdatedAt: TimeStamp?
+        ///  The unique ID of a deployment. 
+        public let deploymentId: String?
+        ///  The unique ID of a deployment target that has a type of ecsTarget. 
+        public let targetId: String?
+
+        public init(lifecycleEvents: [LifecycleEvent]? = nil, status: TargetStatus? = nil, targetArn: String? = nil, taskSetsInfo: [ECSTaskSet]? = nil, lastUpdatedAt: TimeStamp? = nil, deploymentId: String? = nil, targetId: String? = nil) {
+            self.lifecycleEvents = lifecycleEvents
+            self.status = status
+            self.targetArn = targetArn
+            self.taskSetsInfo = taskSetsInfo
+            self.lastUpdatedAt = lastUpdatedAt
+            self.deploymentId = deploymentId
+            self.targetId = targetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lifecycleEvents = "lifecycleEvents"
+            case status = "status"
+            case targetArn = "targetArn"
+            case taskSetsInfo = "taskSetsInfo"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case deploymentId = "deploymentId"
+            case targetId = "targetId"
+        }
+    }
+
+    public struct DeleteDeploymentGroupOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "hooksNotCleanedUp", required: false, type: .list)
+        ]
+        /// If the output contains no data, and the corresponding deployment group contained at least one Auto Scaling group, AWS CodeDeploy successfully removed all corresponding Auto Scaling lifecycle event hooks from the Amazon EC2 instances in the Auto Scaling group. If the output contains data, AWS CodeDeploy could not remove some Auto Scaling lifecycle event hooks from the Amazon EC2 instances in the Auto Scaling group.
+        public let hooksNotCleanedUp: [AutoScalingGroup]?
+
+        public init(hooksNotCleanedUp: [AutoScalingGroup]? = nil) {
+            self.hooksNotCleanedUp = hooksNotCleanedUp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hooksNotCleanedUp = "hooksNotCleanedUp"
+        }
+    }
+
+    public struct S3Location: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "key", required: false, type: .string), 
+            AWSShapeMember(label: "bucket", required: false, type: .string), 
+            AWSShapeMember(label: "eTag", required: false, type: .string), 
+            AWSShapeMember(label: "bundleType", required: false, type: .enum)
+        ]
+        /// A specific version of the Amazon S3 object that represents the bundled artifacts for the application revision. If the version is not specified, the system will use the most recent version by default.
+        public let version: String?
+        /// The name of the Amazon S3 object that represents the bundled artifacts for the application revision.
+        public let key: String?
+        /// The name of the Amazon S3 bucket where the application revision is stored.
+        public let bucket: String?
+        /// The ETag of the Amazon S3 object that represents the bundled artifacts for the application revision. If the ETag is not specified as an input parameter, ETag validation of the object will be skipped.
+        public let eTag: String?
+        /// The file type of the application revision. Must be one of the following:   tar: A tar archive file.   tgz: A compressed tar archive file.   zip: A zip archive file.  
+        public let bundleType: BundleType?
+
+        public init(version: String? = nil, key: String? = nil, bucket: String? = nil, eTag: String? = nil, bundleType: BundleType? = nil) {
+            self.version = version
+            self.key = key
+            self.bucket = bucket
+            self.eTag = eTag
+            self.bundleType = bundleType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case version = "version"
+            case key = "key"
+            case bucket = "bucket"
+            case eTag = "eTag"
+            case bundleType = "bundleType"
+        }
+    }
+
+    public struct BatchGetOnPremisesInstancesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceInfos", required: false, type: .list)
+        ]
+        /// Information about the on-premises instances.
+        public let instanceInfos: [InstanceInfo]?
+
+        public init(instanceInfos: [InstanceInfo]? = nil) {
+            self.instanceInfos = instanceInfos
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceInfos = "instanceInfos"
+        }
+    }
+
+    public struct DeleteGitHubAccountTokenOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tokenName", required: false, type: .string)
+        ]
+        /// The name of the GitHub account connection that was deleted.
+        public let tokenName: String?
+
+        public init(tokenName: String? = nil) {
+            self.tokenName = tokenName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tokenName = "tokenName"
+        }
+    }
+
+    public struct GetOnPremisesInstanceInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceName", required: true, type: .string)
+        ]
+        ///  The name of the on-premises instance about which to get information. 
+        public let instanceName: String
+
+        public init(instanceName: String) {
+            self.instanceName = instanceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceName = "instanceName"
+        }
+    }
+
+    public struct TargetInstances: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "autoScalingGroups", required: false, type: .list), 
+            AWSShapeMember(label: "tagFilters", required: false, type: .list), 
+            AWSShapeMember(label: "ec2TagSet", required: false, type: .structure)
+        ]
+        /// The names of one or more Auto Scaling groups to identify a replacement environment for a blue/green deployment.
+        public let autoScalingGroups: [String]?
+        /// The tag filter key, type, and value used to identify Amazon EC2 instances in a replacement environment for a blue/green deployment. Cannot be used in the same call as ec2TagSet.
+        public let tagFilters: [EC2TagFilter]?
+        /// Information about the groups of EC2 instance tags that an instance must be identified by in order for it to be included in the replacement environment for a blue/green deployment. Cannot be used in the same call as tagFilters.
+        public let ec2TagSet: EC2TagSet?
+
+        public init(autoScalingGroups: [String]? = nil, tagFilters: [EC2TagFilter]? = nil, ec2TagSet: EC2TagSet? = nil) {
+            self.autoScalingGroups = autoScalingGroups
+            self.tagFilters = tagFilters
+            self.ec2TagSet = ec2TagSet
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingGroups = "autoScalingGroups"
+            case tagFilters = "tagFilters"
+            case ec2TagSet = "ec2TagSet"
+        }
+    }
+
+    public struct PutLifecycleEventHookExecutionStatusOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "lifecycleEventHookExecutionId", required: false, type: .string)
+        ]
+        /// The execution ID of the lifecycle event hook. A hook is specified in the hooks section of the deployment's AppSpec file.
+        public let lifecycleEventHookExecutionId: String?
+
+        public init(lifecycleEventHookExecutionId: String? = nil) {
+            self.lifecycleEventHookExecutionId = lifecycleEventHookExecutionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lifecycleEventHookExecutionId = "lifecycleEventHookExecutionId"
+        }
+    }
+
+    public struct ListGitHubAccountTokenNamesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tokenNameList", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// A list of names of connections to GitHub accounts.
+        public let tokenNameList: [String]?
+        /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent ListGitHubAccountTokenNames call to return the next set of names in the list. 
+        public let nextToken: String?
+
+        public init(tokenNameList: [String]? = nil, nextToken: String? = nil) {
+            self.tokenNameList = tokenNameList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tokenNameList = "tokenNameList"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct CreateApplicationOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "applicationId", required: false, type: .string)
+        ]
+        /// A unique application ID.
+        public let applicationId: String?
+
+        public init(applicationId: String? = nil) {
+            self.applicationId = applicationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "applicationId"
+        }
+    }
+
+    public struct DeleteDeploymentConfigInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentConfigName", required: true, type: .string)
+        ]
+        /// The name of a deployment configuration associated with the applicable IAM user or AWS account.
+        public let deploymentConfigName: String
+
+        public init(deploymentConfigName: String) {
+            self.deploymentConfigName = deploymentConfigName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentConfigName = "deploymentConfigName"
+        }
+    }
+
+    public enum SortOrder: String, CustomStringConvertible, Codable {
+        case ascending = "ascending"
+        case descending = "descending"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeploymentCreator: String, CustomStringConvertible, Codable {
+        case user = "user"
+        case autoscaling = "autoscaling"
+        case codedeployrollback = "codeDeployRollback"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Alarm: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string)
+        ]
+        /// The name of the alarm. Maximum length is 255 characters. Each alarm name can be used only once in a list of alarms.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
+    public enum TriggerEventType: String, CustomStringConvertible, Codable {
+        case deploymentstart = "DeploymentStart"
+        case deploymentsuccess = "DeploymentSuccess"
+        case deploymentfailure = "DeploymentFailure"
+        case deploymentstop = "DeploymentStop"
+        case deploymentrollback = "DeploymentRollback"
+        case deploymentready = "DeploymentReady"
+        case instancestart = "InstanceStart"
+        case instancesuccess = "InstanceSuccess"
+        case instancefailure = "InstanceFailure"
+        case instanceready = "InstanceReady"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct BlueInstanceTerminationOption: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "action", required: false, type: .enum), 
+            AWSShapeMember(label: "terminationWaitTimeInMinutes", required: false, type: .integer)
+        ]
+        /// The action to take on instances in the original environment after a successful blue/green deployment.   TERMINATE: Instances are terminated after a specified wait time.   KEEP_ALIVE: Instances are left running after they are deregistered from the load balancer and removed from the deployment group.  
+        public let action: InstanceAction?
+        /// The number of minutes to wait after a successful blue/green deployment before terminating instances from the original environment. The maximum setting is 2880 minutes (2 days).
+        public let terminationWaitTimeInMinutes: Int32?
+
+        public init(action: InstanceAction? = nil, terminationWaitTimeInMinutes: Int32? = nil) {
+            self.action = action
+            self.terminationWaitTimeInMinutes = terminationWaitTimeInMinutes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case terminationWaitTimeInMinutes = "terminationWaitTimeInMinutes"
+        }
+    }
+
+    public enum RevisionLocationType: String, CustomStringConvertible, Codable {
+        case s3 = "S3"
+        case github = "GitHub"
+        case string = "String"
+        case appspeccontent = "AppSpecContent"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListDeploymentGroupsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "applicationName", required: false, type: .string), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "deploymentGroups", required: false, type: .list)
+        ]
+        /// The application name.
+        public let applicationName: String?
+        /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list deployment groups call to return the next set of deployment groups in the list.
+        public let nextToken: String?
+        /// A list of corresponding deployment group names.
+        public let deploymentGroups: [String]?
+
+        public init(applicationName: String? = nil, nextToken: String? = nil, deploymentGroups: [String]? = nil) {
+            self.applicationName = applicationName
+            self.nextToken = nextToken
+            self.deploymentGroups = deploymentGroups
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "applicationName"
+            case nextToken = "nextToken"
+            case deploymentGroups = "deploymentGroups"
+        }
+    }
+
+    public struct ListOnPremisesInstancesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceNames", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// The list of matching on-premises instance names.
+        public let instanceNames: [String]?
+        /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list on-premises instances call to return the next set of on-premises instances in the list.
+        public let nextToken: String?
+
+        public init(instanceNames: [String]? = nil, nextToken: String? = nil) {
+            self.instanceNames = instanceNames
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceNames = "instanceNames"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public enum TargetLabel: String, CustomStringConvertible, Codable {
+        case blue = "Blue"
+        case green = "Green"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetDeploymentInstanceOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceSummary", required: false, type: .structure)
+        ]
+        ///  Information about the instance. 
+        public let instanceSummary: InstanceSummary?
+
+        public init(instanceSummary: InstanceSummary? = nil) {
+            self.instanceSummary = instanceSummary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceSummary = "instanceSummary"
+        }
+    }
+
+    public struct GetDeploymentTargetOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentTarget", required: false, type: .structure)
+        ]
+        ///  A deployment target that contains information about a deployment such as its status, lifecyle events, and when it was updated last. It also contains metadata about the deployment target. The deployment target metadata depends on the deployment target's type (instanceTarget, lambdaTarget, or ecsTarget). 
+        public let deploymentTarget: DeploymentTarget?
+
+        public init(deploymentTarget: DeploymentTarget? = nil) {
+            self.deploymentTarget = deploymentTarget
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentTarget = "deploymentTarget"
+        }
+    }
+
+    public enum LifecycleErrorCode: String, CustomStringConvertible, Codable {
+        case success = "Success"
+        case scriptmissing = "ScriptMissing"
+        case scriptnotexecutable = "ScriptNotExecutable"
+        case scripttimedout = "ScriptTimedOut"
+        case scriptfailed = "ScriptFailed"
+        case unknownerror = "UnknownError"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CreateDeploymentConfigOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentConfigId", required: false, type: .string)
+        ]
+        /// A unique deployment configuration ID.
+        public let deploymentConfigId: String?
+
+        public init(deploymentConfigId: String? = nil) {
+            self.deploymentConfigId = deploymentConfigId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentConfigId = "deploymentConfigId"
         }
     }
 
@@ -3593,6 +3587,12 @@ extension CodeDeploy {
             case nextToken = "nextToken"
             case deploymentConfigsList = "deploymentConfigsList"
         }
+    }
+
+    public enum GreenFleetProvisioningAction: String, CustomStringConvertible, Codable {
+        case discoverExisting = "DISCOVER_EXISTING"
+        case copyAutoScalingGroup = "COPY_AUTO_SCALING_GROUP"
+        public var description: String { return self.rawValue }
     }
 
 }

@@ -5,122 +5,95 @@ import AWSSDKSwiftCore
 
 extension ServiceDiscovery {
 
-    public enum RecordType: String, CustomStringConvertible, Codable {
-        case srv = "SRV"
-        case a = "A"
-        case aaaa = "AAAA"
-        case cname = "CNAME"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteServiceRequest: AWSShape {
+    public struct UpdateServiceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Service", required: true, type: .structure), 
             AWSShapeMember(label: "Id", required: true, type: .string)
         ]
-        /// The ID of the service that you want to delete.
+        /// A complex type that contains the new settings for the service.
+        public let service: ServiceChange
+        /// The ID of the service that you want to update.
         public let id: String
 
-        public init(id: String) {
+        public init(service: ServiceChange, id: String) {
+            self.service = service
             self.id = id
         }
 
         private enum CodingKeys: String, CodingKey {
+            case service = "Service"
             case id = "Id"
         }
     }
 
-    public struct HealthCheckCustomConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailureThreshold", required: false, type: .integer)
-        ]
-        /// The number of 30-second intervals that you want Cloud Map to wait after receiving an UpdateInstanceCustomHealthStatus request before it changes the health status of a service instance. For example, suppose you specify a value of 2 for FailureTheshold, and then your application sends an UpdateInstanceCustomHealthStatus request. Cloud Map waits for approximately 60 seconds (2 x 30) before changing the status of the service instance based on that request. Sending a second or subsequent UpdateInstanceCustomHealthStatus request with the same value before FailureThreshold x 30 seconds has passed doesn't accelerate the change. Cloud Map still waits FailureThreshold x 30 seconds after the first request to make the change.
-        public let failureThreshold: Int32?
+    public enum FilterCondition: String, CustomStringConvertible, Codable {
+        case eq = "EQ"
+        case `in` = "IN"
+        case between = "BETWEEN"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(failureThreshold: Int32? = nil) {
-            self.failureThreshold = failureThreshold
+    public struct ServiceSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "HealthCheckCustomConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "DnsConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "CreateDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "HealthCheckConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "InstanceCount", required: false, type: .integer), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// The description that you specify when you create the service.
+        public let description: String?
+        public let healthCheckCustomConfig: HealthCheckCustomConfig?
+        public let dnsConfig: DnsConfig?
+        /// The date and time that the service was created.
+        public let createDate: TimeStamp?
+        /// The Amazon Resource Name (ARN) that AWS Cloud Map assigns to the service when you create it.
+        public let arn: String?
+        public let healthCheckConfig: HealthCheckConfig?
+        /// The number of instances that are currently associated with the service. Instances that were previously associated with the service but that have been deleted are not included in the count.
+        public let instanceCount: Int32?
+        /// The ID that AWS Cloud Map assigned to the service when you created it.
+        public let id: String?
+        /// The name of the service.
+        public let name: String?
+
+        public init(description: String? = nil, healthCheckCustomConfig: HealthCheckCustomConfig? = nil, dnsConfig: DnsConfig? = nil, createDate: TimeStamp? = nil, arn: String? = nil, healthCheckConfig: HealthCheckConfig? = nil, instanceCount: Int32? = nil, id: String? = nil, name: String? = nil) {
+            self.description = description
+            self.healthCheckCustomConfig = healthCheckCustomConfig
+            self.dnsConfig = dnsConfig
+            self.createDate = createDate
+            self.arn = arn
+            self.healthCheckConfig = healthCheckConfig
+            self.instanceCount = instanceCount
+            self.id = id
+            self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failureThreshold = "FailureThreshold"
+            case description = "Description"
+            case healthCheckCustomConfig = "HealthCheckCustomConfig"
+            case dnsConfig = "DnsConfig"
+            case createDate = "CreateDate"
+            case arn = "Arn"
+            case healthCheckConfig = "HealthCheckConfig"
+            case instanceCount = "InstanceCount"
+            case id = "Id"
+            case name = "Name"
         }
     }
 
-    public struct GetOperationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OperationId", required: true, type: .string)
-        ]
-        /// The ID of the operation that you want to get more information about.
-        public let operationId: String
-
-        public init(operationId: String) {
-            self.operationId = operationId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operationId = "OperationId"
-        }
-    }
-
-    public struct HttpInstanceSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServiceName", required: false, type: .string), 
-            AWSShapeMember(label: "NamespaceName", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
-            AWSShapeMember(label: "Attributes", required: false, type: .map), 
-            AWSShapeMember(label: "HealthStatus", required: false, type: .enum)
-        ]
-        /// The name of the service that you specified when you registered the instance.
-        public let serviceName: String?
-        /// The name of the namespace that you specified when you registered the instance.
-        public let namespaceName: String?
-        /// The ID of an instance that matches the values that you specified in the request.
-        public let instanceId: String?
-        /// If you included any attributes when you registered the instance, the values of those attributes.
-        public let attributes: [String: String]?
-        /// If you configured health checking in the service, the current health status of the service instance.
-        public let healthStatus: HealthStatus?
-
-        public init(serviceName: String? = nil, namespaceName: String? = nil, instanceId: String? = nil, attributes: [String: String]? = nil, healthStatus: HealthStatus? = nil) {
-            self.serviceName = serviceName
-            self.namespaceName = namespaceName
-            self.instanceId = instanceId
-            self.attributes = attributes
-            self.healthStatus = healthStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serviceName = "ServiceName"
-            case namespaceName = "NamespaceName"
-            case instanceId = "InstanceId"
-            case attributes = "Attributes"
-            case healthStatus = "HealthStatus"
-        }
-    }
-
-    public struct CreateServiceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Service", required: false, type: .structure)
-        ]
-        /// A complex type that contains information about the new service.
-        public let service: Service?
-
-        public init(service: Service? = nil) {
-            self.service = service
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case service = "Service"
-        }
-    }
-
-    public struct GetInstanceRequest: AWSShape {
+    public struct DeregisterInstanceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ServiceId", required: true, type: .string), 
             AWSShapeMember(label: "InstanceId", required: true, type: .string)
         ]
         /// The ID of the service that the instance is associated with.
         public let serviceId: String
-        /// The ID of the instance that you want to get information about.
+        /// The value that you specified for Id in the RegisterInstance request.
         public let instanceId: String
 
         public init(serviceId: String, instanceId: String) {
@@ -134,196 +107,40 @@ extension ServiceDiscovery {
         }
     }
 
-    public struct NamespaceSummary: AWSShape {
+    public struct CreatePublicDnsNamespaceResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Properties", required: false, type: .structure), 
-            AWSShapeMember(label: "CreateDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ServiceCount", required: false, type: .integer), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
+            AWSShapeMember(label: "OperationId", required: false, type: .string)
         ]
-        /// The Amazon Resource Name (ARN) that AWS Cloud Map assigns to the namespace when you create it.
-        public let arn: String?
-        /// The ID of the namespace.
-        public let id: String?
-        public let properties: NamespaceProperties?
-        /// The date and time that the namespace was created.
-        public let createDate: TimeStamp?
-        /// The number of services that were created using the namespace.
-        public let serviceCount: Int32?
-        /// A description for the namespace.
-        public let description: String?
-        /// The type of the namespace, either public or private.
-        public let `type`: NamespaceType?
-        /// The name of the namespace. When you create a namespace, AWS Cloud Map automatically creates a Route 53 hosted zone that has the same name as the namespace.
-        public let name: String?
+        /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see GetOperation.
+        public let operationId: String?
 
-        public init(arn: String? = nil, id: String? = nil, properties: NamespaceProperties? = nil, createDate: TimeStamp? = nil, serviceCount: Int32? = nil, description: String? = nil, type: NamespaceType? = nil, name: String? = nil) {
-            self.arn = arn
-            self.id = id
-            self.properties = properties
-            self.createDate = createDate
-            self.serviceCount = serviceCount
-            self.description = description
-            self.`type` = `type`
-            self.name = name
+        public init(operationId: String? = nil) {
+            self.operationId = operationId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
-            case id = "Id"
-            case properties = "Properties"
-            case createDate = "CreateDate"
-            case serviceCount = "ServiceCount"
-            case description = "Description"
-            case `type` = "Type"
-            case name = "Name"
+            case operationId = "OperationId"
         }
     }
 
-    public enum HealthStatusFilter: String, CustomStringConvertible, Codable {
-        case healthy = "HEALTHY"
-        case unhealthy = "UNHEALTHY"
-        case all = "ALL"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum NamespaceFilterName: String, CustomStringConvertible, Codable {
-        case `type` = "TYPE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateHttpNamespaceRequest: AWSShape {
+    public struct ListOperationsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "CreatorRequestId", required: false, type: .string)
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Operations", required: false, type: .list)
         ]
-        /// The name that you want to assign to this namespace.
-        public let name: String
-        /// A description for the namespace.
-        public let description: String?
-        /// A unique string that identifies the request and that allows failed CreateHttpNamespace requests to be retried without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
-        public let creatorRequestId: String?
-
-        public init(name: String, description: String? = nil, creatorRequestId: String? = nil) {
-            self.name = name
-            self.description = description
-            self.creatorRequestId = creatorRequestId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case description = "Description"
-            case creatorRequestId = "CreatorRequestId"
-        }
-    }
-
-    public struct CreateServiceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "DnsConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "HealthCheckCustomConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "HealthCheckConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "NamespaceId", required: false, type: .string), 
-            AWSShapeMember(label: "CreatorRequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// A description for the service.
-        public let description: String?
-        /// A complex type that contains information about the Amazon Route 53 records that you want AWS Cloud Map to create when you register an instance. 
-        public let dnsConfig: DnsConfig?
-        /// A complex type that contains information about an optional custom health check.  If you specify a health check configuration, you can specify either HealthCheckCustomConfig or HealthCheckConfig but not both. 
-        public let healthCheckCustomConfig: HealthCheckCustomConfig?
-        ///  Public DNS namespaces only. A complex type that contains settings for an optional Route 53 health check. If you specify settings for a health check, AWS Cloud Map associates the health check with all the Route 53 DNS records that you specify in DnsConfig.  If you specify a health check configuration, you can specify either HealthCheckCustomConfig or HealthCheckConfig but not both.  For information about the charges for health checks, see AWS Cloud Map Pricing.
-        public let healthCheckConfig: HealthCheckConfig?
-        /// The ID of the namespace that you want to use to create the service.
-        public let namespaceId: String?
-        /// A unique string that identifies the request and that allows failed CreateService requests to be retried without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
-        public let creatorRequestId: String?
-        /// The name that you want to assign to the service.
-        public let name: String
-
-        public init(description: String? = nil, dnsConfig: DnsConfig? = nil, healthCheckCustomConfig: HealthCheckCustomConfig? = nil, healthCheckConfig: HealthCheckConfig? = nil, namespaceId: String? = nil, creatorRequestId: String? = nil, name: String) {
-            self.description = description
-            self.dnsConfig = dnsConfig
-            self.healthCheckCustomConfig = healthCheckCustomConfig
-            self.healthCheckConfig = healthCheckConfig
-            self.namespaceId = namespaceId
-            self.creatorRequestId = creatorRequestId
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case description = "Description"
-            case dnsConfig = "DnsConfig"
-            case healthCheckCustomConfig = "HealthCheckCustomConfig"
-            case healthCheckConfig = "HealthCheckConfig"
-            case namespaceId = "NamespaceId"
-            case creatorRequestId = "CreatorRequestId"
-            case name = "Name"
-        }
-    }
-
-    public enum HealthStatus: String, CustomStringConvertible, Codable {
-        case healthy = "HEALTHY"
-        case unhealthy = "UNHEALTHY"
-        case unknown = "UNKNOWN"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetInstancesHealthStatusResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: false, type: .map), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// A complex type that contains the IDs and the health status of the instances that you specified in the GetInstancesHealthStatus request.
-        public let status: [String: HealthStatus]?
-        /// If more than MaxResults instances match the specified criteria, you can submit another GetInstancesHealthStatus request to get the next group of results. Specify the value of NextToken from the previous response in the next request.
+        /// If the response contains NextToken, submit another ListOperations request to get the next group of results. Specify the value of NextToken from the previous response in the next request.  AWS Cloud Map gets MaxResults operations and then filters them based on the specified criteria. It's possible that no operations in the first MaxResults operations matched the specified criteria but that subsequent groups of MaxResults operations do contain operations that match the criteria. 
         public let nextToken: String?
+        /// Summary information about the operations that match the specified criteria.
+        public let operations: [OperationSummary]?
 
-        public init(status: [String: HealthStatus]? = nil, nextToken: String? = nil) {
-            self.status = status
+        public init(nextToken: String? = nil, operations: [OperationSummary]? = nil) {
             self.nextToken = nextToken
+            self.operations = operations
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status = "Status"
             case nextToken = "NextToken"
-        }
-    }
-
-    public struct RegisterInstanceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServiceId", required: true, type: .string), 
-            AWSShapeMember(label: "InstanceId", required: true, type: .string), 
-            AWSShapeMember(label: "Attributes", required: true, type: .map), 
-            AWSShapeMember(label: "CreatorRequestId", required: false, type: .string)
-        ]
-        /// The ID of the service that you want to use for settings for the instance.
-        public let serviceId: String
-        /// An identifier that you want to associate with the instance. Note the following:   If the service that is specified by ServiceId includes settings for an SRV record, the value of InstanceId is automatically included as part of the value for the SRV record. For more information, see DnsRecord$Type.   You can use this value to update an existing instance.   To register a new instance, you must specify a value that is unique among instances that you register by using the same service.    If you specify an existing InstanceId and ServiceId, AWS Cloud Map updates the existing DNS records, if any. If there's also an existing health check, AWS Cloud Map deletes the old health check and creates a new one.   The health check isn't deleted immediately, so it will still appear for a while if you submit a ListHealthChecks request, for example.   
-        public let instanceId: String
-        /// A string map that contains the following information for the service that you specify in ServiceId:   The attributes that apply to the records that are defined in the service.    For each attribute, the applicable value.   Supported attribute keys include the following:  AWS_ALIAS_DNS_NAME     If you want AWS Cloud Map to create an Amazon Route 53 alias record that routes traffic to an Elastic Load Balancing load balancer, specify the DNS name that is associated with the load balancer. For information about how to get the DNS name, see "DNSName" in the topic AliasTarget in the Route 53 API Reference. Note the following:   The configuration for the service that is specified by ServiceId must include settings for an A record, an AAAA record, or both.   In the service that is specified by ServiceId, the value of RoutingPolicy must be WEIGHTED.   If the service that is specified by ServiceId includes HealthCheckConfig settings, AWS Cloud Map will create the Route 53 health check, but it won't associate the health check with the alias record.   Auto naming currently doesn't support creating alias records that route traffic to AWS resources other than ELB load balancers.   If you specify a value for AWS_ALIAS_DNS_NAME, don't specify values for any of the AWS_INSTANCE attributes.    AWS_INIT_HEALTH_STATUS  If the service configuration includes HealthCheckCustomConfig, you can optionally use AWS_INIT_HEALTH_STATUS to specify the initial status of the custom health check, HEALTHY or UNHEALTHY. If you don't specify a value for AWS_INIT_HEALTH_STATUS, the initial status is HEALTHY.  AWS_INSTANCE_CNAME  If the service configuration includes a CNAME record, the domain name that you want Route 53 to return in response to DNS queries, for example, example.com. This value is required if the service specified by ServiceId includes settings for an CNAME record.  AWS_INSTANCE_IPV4  If the service configuration includes an A record, the IPv4 address that you want Route 53 to return in response to DNS queries, for example, 192.0.2.44. This value is required if the service specified by ServiceId includes settings for an A record. If the service includes settings for an SRV record, you must specify a value for AWS_INSTANCE_IPV4, AWS_INSTANCE_IPV6, or both.  AWS_INSTANCE_IPV6  If the service configuration includes an AAAA record, the IPv6 address that you want Route 53 to return in response to DNS queries, for example, 2001:0db8:85a3:0000:0000:abcd:0001:2345. This value is required if the service specified by ServiceId includes settings for an AAAA record. If the service includes settings for an SRV record, you must specify a value for AWS_INSTANCE_IPV4, AWS_INSTANCE_IPV6, or both.  AWS_INSTANCE_PORT  If the service includes an SRV record, the value that you want Route 53 to return for the port. If the service includes HealthCheckConfig, the port on the endpoint that you want Route 53 to send requests to.  This value is required if you specified settings for an SRV record when you created the service.  Custom attributes  You can add up to 30 custom attributes. For each key-value pair, the maximum length of the attribute name is 255 characters, and the maximum length of the attribute value is 1,024 characters. 
-        public let attributes: [String: String]
-        /// A unique string that identifies the request and that allows failed RegisterInstance requests to be retried without the risk of executing the operation twice. You must use a unique CreatorRequestId string every time you submit a RegisterInstance request if you're registering additional instances for the same namespace and service. CreatorRequestId can be any unique string, for example, a date/time stamp.
-        public let creatorRequestId: String?
-
-        public init(serviceId: String, instanceId: String, attributes: [String: String], creatorRequestId: String? = nil) {
-            self.serviceId = serviceId
-            self.instanceId = instanceId
-            self.attributes = attributes
-            self.creatorRequestId = creatorRequestId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serviceId = "ServiceId"
-            case instanceId = "InstanceId"
-            case attributes = "Attributes"
-            case creatorRequestId = "CreatorRequestId"
+            case operations = "Operations"
         }
     }
 
@@ -343,29 +160,97 @@ extension ServiceDiscovery {
         }
     }
 
-    public struct Instance: AWSShape {
+    public struct CreateHttpNamespaceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
             AWSShapeMember(label: "CreatorRequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Attributes", required: false, type: .map)
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
-        /// An identifier that you want to associate with the instance. Note the following:   If the service that is specified by ServiceId includes settings for an SRV record, the value of InstanceId is automatically included as part of the value for the SRV record. For more information, see DnsRecord$Type.   You can use this value to update an existing instance.   To register a new instance, you must specify a value that is unique among instances that you register by using the same service.    If you specify an existing InstanceId and ServiceId, AWS Cloud Map updates the existing DNS records. If there's also an existing health check, AWS Cloud Map deletes the old health check and creates a new one.   The health check isn't deleted immediately, so it will still appear for a while if you submit a ListHealthChecks request, for example.   
-        public let id: String
-        /// A unique string that identifies the request and that allows failed RegisterInstance requests to be retried without the risk of executing the operation twice. You must use a unique CreatorRequestId string every time you submit a RegisterInstance request if you're registering additional instances for the same namespace and service. CreatorRequestId can be any unique string, for example, a date/time stamp.
+        /// A unique string that identifies the request and that allows failed CreateHttpNamespace requests to be retried without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
         public let creatorRequestId: String?
-        /// A string map that contains the following information for the service that you specify in ServiceId:   The attributes that apply to the records that are defined in the service.    For each attribute, the applicable value.   Supported attribute keys include the following:  AWS_ALIAS_DNS_NAME     If you want AWS Cloud Map to create a Route 53 alias record that routes traffic to an Elastic Load Balancing load balancer, specify the DNS name that is associated with the load balancer. For information about how to get the DNS name, see "DNSName" in the topic AliasTarget. Note the following:   The configuration for the service that is specified by ServiceId must include settings for an A record, an AAAA record, or both.   In the service that is specified by ServiceId, the value of RoutingPolicy must be WEIGHTED.   If the service that is specified by ServiceId includes HealthCheckConfig settings, AWS Cloud Map will create the health check, but it won't associate the health check with the alias record.   Auto naming currently doesn't support creating alias records that route traffic to AWS resources other than ELB load balancers.   If you specify a value for AWS_ALIAS_DNS_NAME, don't specify values for any of the AWS_INSTANCE attributes.    AWS_INSTANCE_CNAME  If the service configuration includes a CNAME record, the domain name that you want Route 53 to return in response to DNS queries, for example, example.com. This value is required if the service specified by ServiceId includes settings for an CNAME record.  AWS_INSTANCE_IPV4  If the service configuration includes an A record, the IPv4 address that you want Route 53 to return in response to DNS queries, for example, 192.0.2.44. This value is required if the service specified by ServiceId includes settings for an A record. If the service includes settings for an SRV record, you must specify a value for AWS_INSTANCE_IPV4, AWS_INSTANCE_IPV6, or both.  AWS_INSTANCE_IPV6  If the service configuration includes an AAAA record, the IPv6 address that you want Route 53 to return in response to DNS queries, for example, 2001:0db8:85a3:0000:0000:abcd:0001:2345. This value is required if the service specified by ServiceId includes settings for an AAAA record. If the service includes settings for an SRV record, you must specify a value for AWS_INSTANCE_IPV4, AWS_INSTANCE_IPV6, or both.  AWS_INSTANCE_PORT  If the service includes an SRV record, the value that you want Route 53 to return for the port. If the service includes HealthCheckConfig, the port on the endpoint that you want Route 53 to send requests to.  This value is required if you specified settings for an SRV record when you created the service.
-        public let attributes: [String: String]?
+        /// The name that you want to assign to this namespace.
+        public let name: String
+        /// A description for the namespace.
+        public let description: String?
 
-        public init(id: String, creatorRequestId: String? = nil, attributes: [String: String]? = nil) {
-            self.id = id
+        public init(creatorRequestId: String? = nil, name: String, description: String? = nil) {
             self.creatorRequestId = creatorRequestId
-            self.attributes = attributes
+            self.name = name
+            self.description = description
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id = "Id"
             case creatorRequestId = "CreatorRequestId"
-            case attributes = "Attributes"
+            case name = "Name"
+            case description = "Description"
+        }
+    }
+
+    public struct OperationFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Values", required: true, type: .list), 
+            AWSShapeMember(label: "Condition", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: true, type: .enum)
+        ]
+        /// Specify values that are applicable to the value that you specify for Name:     NAMESPACE_ID: Specify one namespace ID.    SERVICE_ID: Specify one service ID.    STATUS: Specify one or more statuses: SUBMITTED, PENDING, SUCCEED, or FAIL.    TYPE: Specify one or more of the following types: CREATE_NAMESPACE, DELETE_NAMESPACE, UPDATE_SERVICE, REGISTER_INSTANCE, or DEREGISTER_INSTANCE.    UPDATE_DATE: Specify a start date and an end date in Unix date/time format and Coordinated Universal Time (UTC). The start date must be the first value.  
+        public let values: [String]
+        /// The operator that you want to use to determine whether an operation matches the specified value. Valid values for condition include:    EQ: When you specify EQ for the condition, you can specify only one value. EQ is supported for NAMESPACE_ID, SERVICE_ID, STATUS, and TYPE. EQ is the default condition and can be omitted.    IN: When you specify IN for the condition, you can specify a list of one or more values. IN is supported for STATUS and TYPE. An operation must match one of the specified values to be returned in the response.    BETWEEN: Specify a start date and an end date in Unix date/time format and Coordinated Universal Time (UTC). The start date must be the first value. BETWEEN is supported for UPDATE_DATE.   
+        public let condition: FilterCondition?
+        /// Specify the operations that you want to get:    NAMESPACE_ID: Gets operations related to specified namespaces.    SERVICE_ID: Gets operations related to specified services.    STATUS: Gets operations based on the status of the operations: SUBMITTED, PENDING, SUCCEED, or FAIL.    TYPE: Gets specified types of operation.    UPDATE_DATE: Gets operations that changed status during a specified date/time range.   
+        public let name: OperationFilterName
+
+        public init(values: [String], condition: FilterCondition? = nil, name: OperationFilterName) {
+            self.values = values
+            self.condition = condition
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case values = "Values"
+            case condition = "Condition"
+            case name = "Name"
+        }
+    }
+
+    public struct HealthCheckConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FailureThreshold", required: false, type: .integer), 
+            AWSShapeMember(label: "Type", required: true, type: .enum), 
+            AWSShapeMember(label: "ResourcePath", required: false, type: .string)
+        ]
+        /// The number of consecutive health checks that an endpoint must pass or fail for Route 53 to change the current status of the endpoint from unhealthy to healthy or vice versa. For more information, see How Route 53 Determines Whether an Endpoint Is Healthy in the Route 53 Developer Guide.
+        public let failureThreshold: Int32?
+        /// The type of health check that you want to create, which indicates how Route 53 determines whether an endpoint is healthy.  You can't change the value of Type after you create a health check.  You can create the following types of health checks:    HTTP: Route 53 tries to establish a TCP connection. If successful, Route 53 submits an HTTP request and waits for an HTTP status code of 200 or greater and less than 400.    HTTPS: Route 53 tries to establish a TCP connection. If successful, Route 53 submits an HTTPS request and waits for an HTTP status code of 200 or greater and less than 400.  If you specify HTTPS for the value of Type, the endpoint must support TLS v1.0 or later.     TCP: Route 53 tries to establish a TCP connection. If you specify TCP for Type, don't specify a value for ResourcePath.   For more information, see How Route 53 Determines Whether an Endpoint Is Healthy in the Route 53 Developer Guide.
+        public let `type`: HealthCheckType
+        /// The path that you want Route 53 to request when performing health checks. The path can be any value for which your endpoint will return an HTTP status code of 2xx or 3xx when the endpoint is healthy, such as the file /docs/route53-health-check.html. Route 53 automatically adds the DNS name for the service. If you don't specify a value for ResourcePath, the default value is /. If you specify TCP for Type, you must not specify a value for ResourcePath.
+        public let resourcePath: String?
+
+        public init(failureThreshold: Int32? = nil, type: HealthCheckType, resourcePath: String? = nil) {
+            self.failureThreshold = failureThreshold
+            self.`type` = `type`
+            self.resourcePath = resourcePath
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failureThreshold = "FailureThreshold"
+            case `type` = "Type"
+            case resourcePath = "ResourcePath"
+        }
+    }
+
+    public struct UpdateServiceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OperationId", required: false, type: .string)
+        ]
+        /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see GetOperation.
+        public let operationId: String?
+
+        public init(operationId: String? = nil) {
+            self.operationId = operationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operationId = "OperationId"
         }
     }
 
@@ -373,75 +258,311 @@ extension ServiceDiscovery {
 
     }
 
-    public enum OperationFilterName: String, CustomStringConvertible, Codable {
-        case namespaceId = "NAMESPACE_ID"
-        case serviceId = "SERVICE_ID"
-        case status = "STATUS"
-        case `type` = "TYPE"
-        case updateDate = "UPDATE_DATE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListNamespacesRequest: AWSShape {
+    public struct ServiceFilter: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "Filters", required: false, type: .list)
+            AWSShapeMember(label: "Condition", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: true, type: .enum), 
+            AWSShapeMember(label: "Values", required: true, type: .list)
         ]
-        /// For the first ListNamespaces request, omit this value. If the response contains NextToken, submit another ListNamespaces request to get the next group of results. Specify the value of NextToken from the previous response in the next request.  AWS Cloud Map gets MaxResults namespaces and then filters them based on the specified criteria. It's possible that no namespaces in the first MaxResults namespaces matched the specified criteria but that subsequent groups of MaxResults namespaces do contain namespaces that match the criteria. 
-        public let nextToken: String?
-        /// The maximum number of namespaces that you want AWS Cloud Map to return in the response to a ListNamespaces request. If you don't specify a value for MaxResults, AWS Cloud Map returns up to 100 namespaces.
-        public let maxResults: Int32?
-        /// A complex type that contains specifications for the namespaces that you want to list. If you specify more than one filter, a namespace must match all filters to be returned by ListNamespaces.
-        public let filters: [NamespaceFilter]?
+        /// The operator that you want to use to determine whether a service is returned by ListServices. Valid values for Condition include the following:    EQ: When you specify EQ, specify one namespace ID for Values. EQ is the default condition and can be omitted.    IN: When you specify IN, specify a list of the IDs for the namespaces that you want ListServices to return a list of services for.    BETWEEN: Not applicable.  
+        public let condition: FilterCondition?
+        /// Specify NAMESPACE_ID.
+        public let name: ServiceFilterName
+        /// The values that are applicable to the value that you specify for Condition to filter the list of services.
+        public let values: [String]
 
-        public init(nextToken: String? = nil, maxResults: Int32? = nil, filters: [NamespaceFilter]? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.filters = filters
+        public init(condition: FilterCondition? = nil, name: ServiceFilterName, values: [String]) {
+            self.condition = condition
+            self.name = name
+            self.values = values
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case maxResults = "MaxResults"
-            case filters = "Filters"
+            case condition = "Condition"
+            case name = "Name"
+            case values = "Values"
         }
     }
 
-    public struct GetServiceRequest: AWSShape {
+    public struct OperationSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string)
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
-        /// The ID of the service that you want to get settings for.
-        public let id: String
+        /// The status of the operation. Values include the following:    SUBMITTED: This is the initial state immediately after you submit a request.    PENDING: AWS Cloud Map is performing the operation.    SUCCESS: The operation succeeded.    FAIL: The operation failed. For the failure reason, see ErrorMessage.  
+        public let status: OperationStatus?
+        /// The ID for an operation.
+        public let id: String?
 
-        public init(id: String) {
+        public init(status: OperationStatus? = nil, id: String? = nil) {
+            self.status = status
             self.id = id
         }
 
         private enum CodingKeys: String, CodingKey {
+            case status = "Status"
             case id = "Id"
         }
     }
 
-    public struct ListInstancesResponse: AWSShape {
+    public struct ListServicesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Instances", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Services", required: false, type: .list)
         ]
-        /// Summary information about the instances that are associated with the specified service.
-        public let instances: [InstanceSummary]?
-        /// If more than MaxResults instances match the specified criteria, you can submit another ListInstances request to get the next group of results. Specify the value of NextToken from the previous response in the next request.
+        /// If the response contains NextToken, submit another ListServices request to get the next group of results. Specify the value of NextToken from the previous response in the next request.  AWS Cloud Map gets MaxResults services and then filters them based on the specified criteria. It's possible that no services in the first MaxResults services matched the specified criteria but that subsequent groups of MaxResults services do contain services that match the criteria. 
         public let nextToken: String?
+        /// An array that contains one ServiceSummary object for each service that matches the specified filter criteria.
+        public let services: [ServiceSummary]?
 
-        public init(instances: [InstanceSummary]? = nil, nextToken: String? = nil) {
-            self.instances = instances
+        public init(nextToken: String? = nil, services: [ServiceSummary]? = nil) {
             self.nextToken = nextToken
+            self.services = services
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instances = "Instances"
             case nextToken = "NextToken"
+            case services = "Services"
+        }
+    }
+
+    public struct UpdateInstanceCustomHealthStatusRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: true, type: .enum), 
+            AWSShapeMember(label: "InstanceId", required: true, type: .string), 
+            AWSShapeMember(label: "ServiceId", required: true, type: .string)
+        ]
+        /// The new status of the instance, HEALTHY or UNHEALTHY.
+        public let status: CustomHealthStatus
+        /// The ID of the instance that you want to change the health status for.
+        public let instanceId: String
+        /// The ID of the service that includes the configuration for the custom health check that you want to change the status for.
+        public let serviceId: String
+
+        public init(status: CustomHealthStatus, instanceId: String, serviceId: String) {
+            self.status = status
+            self.instanceId = instanceId
+            self.serviceId = serviceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case instanceId = "InstanceId"
+            case serviceId = "ServiceId"
+        }
+    }
+
+    public struct DnsRecord: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TTL", required: true, type: .long), 
+            AWSShapeMember(label: "Type", required: true, type: .enum)
+        ]
+        /// The amount of time, in seconds, that you want DNS resolvers to cache the settings for this record.  Alias records don't include a TTL because Route 53 uses the TTL for the AWS resource that an alias record routes traffic to. If you include the AWS_ALIAS_DNS_NAME attribute when you submit a RegisterInstance request, the TTL value is ignored. Always specify a TTL for the service; you can use a service to register instances that create either alias or non-alias records. 
+        public let ttl: Int64
+        /// The type of the resource, which indicates the type of value that Route 53 returns in response to DNS queries. Note the following:    A, AAAA, and SRV records: You can specify settings for a maximum of one A, one AAAA, and one SRV record. You can specify them in any combination.    CNAME records: If you specify CNAME for Type, you can't define any other records. This is a limitation of DNS: you can't create a CNAME record and any other type of record that has the same name as a CNAME record.    Alias records: If you want AWS Cloud Map to create a Route 53 alias record when you register an instance, specify A or AAAA for Type.    All records: You specify settings other than TTL and Type when you register an instance.   The following values are supported:  A  Route 53 returns the IP address of the resource in IPv4 format, such as 192.0.2.44.  AAAA  Route 53 returns the IP address of the resource in IPv6 format, such as 2001:0db8:85a3:0000:0000:abcd:0001:2345.  CNAME  Route 53 returns the domain name of the resource, such as www.example.com. Note the following:   You specify the domain name that you want to route traffic to when you register an instance. For more information, see RegisterInstanceRequest$Attributes.   You must specify WEIGHTED for the value of RoutingPolicy.   You can't specify both CNAME for Type and settings for HealthCheckConfig. If you do, the request will fail with an InvalidInput error.    SRV  Route 53 returns the value for an SRV record. The value for an SRV record uses the following values:  priority weight port service-hostname  Note the following about the values:   The values of priority and weight are both set to 1 and can't be changed.    The value of port comes from the value that you specify for the AWS_INSTANCE_PORT attribute when you submit a RegisterInstance request.    The value of service-hostname is a concatenation of the following values:   The value that you specify for InstanceId when you register an instance.   The name of the service.   The name of the namespace.    For example, if the value of InstanceId is test, the name of the service is backend, and the name of the namespace is example.com, the value of service-hostname is:  test.backend.example.com    If you specify settings for an SRV record and if you specify values for AWS_INSTANCE_IPV4, AWS_INSTANCE_IPV6, or both in the RegisterInstance request, AWS Cloud Map automatically creates A and/or AAAA records that have the same name as the value of service-hostname in the SRV record. You can ignore these records.
+        public let `type`: RecordType
+
+        public init(ttl: Int64, type: RecordType) {
+            self.ttl = ttl
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ttl = "TTL"
+            case `type` = "Type"
+        }
+    }
+
+    public struct CreateServiceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NamespaceId", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "CreatorRequestId", required: false, type: .string), 
+            AWSShapeMember(label: "HealthCheckCustomConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "HealthCheckConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "DnsConfig", required: false, type: .structure)
+        ]
+        /// The ID of the namespace that you want to use to create the service.
+        public let namespaceId: String?
+        /// A description for the service.
+        public let description: String?
+        /// A unique string that identifies the request and that allows failed CreateService requests to be retried without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
+        public let creatorRequestId: String?
+        /// A complex type that contains information about an optional custom health check.  If you specify a health check configuration, you can specify either HealthCheckCustomConfig or HealthCheckConfig but not both. 
+        public let healthCheckCustomConfig: HealthCheckCustomConfig?
+        /// The name that you want to assign to the service.
+        public let name: String
+        ///  Public DNS namespaces only. A complex type that contains settings for an optional Route 53 health check. If you specify settings for a health check, AWS Cloud Map associates the health check with all the Route 53 DNS records that you specify in DnsConfig.  If you specify a health check configuration, you can specify either HealthCheckCustomConfig or HealthCheckConfig but not both.  For information about the charges for health checks, see AWS Cloud Map Pricing.
+        public let healthCheckConfig: HealthCheckConfig?
+        /// A complex type that contains information about the Amazon Route 53 records that you want AWS Cloud Map to create when you register an instance. 
+        public let dnsConfig: DnsConfig?
+
+        public init(namespaceId: String? = nil, description: String? = nil, creatorRequestId: String? = nil, healthCheckCustomConfig: HealthCheckCustomConfig? = nil, name: String, healthCheckConfig: HealthCheckConfig? = nil, dnsConfig: DnsConfig? = nil) {
+            self.namespaceId = namespaceId
+            self.description = description
+            self.creatorRequestId = creatorRequestId
+            self.healthCheckCustomConfig = healthCheckCustomConfig
+            self.name = name
+            self.healthCheckConfig = healthCheckConfig
+            self.dnsConfig = dnsConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case namespaceId = "NamespaceId"
+            case description = "Description"
+            case creatorRequestId = "CreatorRequestId"
+            case healthCheckCustomConfig = "HealthCheckCustomConfig"
+            case name = "Name"
+            case healthCheckConfig = "HealthCheckConfig"
+            case dnsConfig = "DnsConfig"
+        }
+    }
+
+    public struct GetServiceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Service", required: false, type: .structure)
+        ]
+        /// A complex type that contains information about the service.
+        public let service: Service?
+
+        public init(service: Service? = nil) {
+            self.service = service
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case service = "Service"
+        }
+    }
+
+    public struct GetOperationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Operation", required: false, type: .structure)
+        ]
+        /// A complex type that contains information about the operation.
+        public let operation: Operation?
+
+        public init(operation: Operation? = nil) {
+            self.operation = operation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operation = "Operation"
+        }
+    }
+
+    public enum NamespaceType: String, CustomStringConvertible, Codable {
+        case dnsPublic = "DNS_PUBLIC"
+        case dnsPrivate = "DNS_PRIVATE"
+        case http = "HTTP"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct HealthCheckCustomConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FailureThreshold", required: false, type: .integer)
+        ]
+        /// The number of 30-second intervals that you want Cloud Map to wait after receiving an UpdateInstanceCustomHealthStatus request before it changes the health status of a service instance. For example, suppose you specify a value of 2 for FailureTheshold, and then your application sends an UpdateInstanceCustomHealthStatus request. Cloud Map waits for approximately 60 seconds (2 x 30) before changing the status of the service instance based on that request. Sending a second or subsequent UpdateInstanceCustomHealthStatus request with the same value before FailureThreshold x 30 seconds has passed doesn't accelerate the change. Cloud Map still waits FailureThreshold x 30 seconds after the first request to make the change.
+        public let failureThreshold: Int32?
+
+        public init(failureThreshold: Int32? = nil) {
+            self.failureThreshold = failureThreshold
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failureThreshold = "FailureThreshold"
+        }
+    }
+
+    public struct GetNamespaceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Namespace", required: false, type: .structure)
+        ]
+        /// A complex type that contains information about the specified namespace.
+        public let namespace: Namespace?
+
+        public init(namespace: Namespace? = nil) {
+            self.namespace = namespace
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case namespace = "Namespace"
+        }
+    }
+
+    public struct CreatePublicDnsNamespaceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatorRequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
+        ]
+        /// A unique string that identifies the request and that allows failed CreatePublicDnsNamespace requests to be retried without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
+        public let creatorRequestId: String?
+        /// The name that you want to assign to this namespace.
+        public let name: String
+        /// A description for the namespace.
+        public let description: String?
+
+        public init(creatorRequestId: String? = nil, name: String, description: String? = nil) {
+            self.creatorRequestId = creatorRequestId
+            self.name = name
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creatorRequestId = "CreatorRequestId"
+            case name = "Name"
+            case description = "Description"
+        }
+    }
+
+    public struct NamespaceSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "CreateDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Properties", required: false, type: .structure), 
+            AWSShapeMember(label: "ServiceCount", required: false, type: .integer)
+        ]
+        /// The Amazon Resource Name (ARN) that AWS Cloud Map assigns to the namespace when you create it.
+        public let arn: String?
+        /// A description for the namespace.
+        public let description: String?
+        /// The name of the namespace. When you create a namespace, AWS Cloud Map automatically creates a Route 53 hosted zone that has the same name as the namespace.
+        public let name: String?
+        /// The type of the namespace, either public or private.
+        public let `type`: NamespaceType?
+        /// The date and time that the namespace was created.
+        public let createDate: TimeStamp?
+        /// The ID of the namespace.
+        public let id: String?
+        public let properties: NamespaceProperties?
+        /// The number of services that were created using the namespace.
+        public let serviceCount: Int32?
+
+        public init(arn: String? = nil, description: String? = nil, name: String? = nil, type: NamespaceType? = nil, createDate: TimeStamp? = nil, id: String? = nil, properties: NamespaceProperties? = nil, serviceCount: Int32? = nil) {
+            self.arn = arn
+            self.description = description
+            self.name = name
+            self.`type` = `type`
+            self.createDate = createDate
+            self.id = id
+            self.properties = properties
+            self.serviceCount = serviceCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case description = "Description"
+            case name = "Name"
+            case `type` = "Type"
+            case createDate = "CreateDate"
+            case id = "Id"
+            case properties = "Properties"
+            case serviceCount = "ServiceCount"
         }
     }
 
@@ -461,60 +582,58 @@ extension ServiceDiscovery {
         }
     }
 
-    public struct CreatePublicDnsNamespaceRequest: AWSShape {
+    public struct DeleteServiceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "CreatorRequestId", required: false, type: .string)
+            AWSShapeMember(label: "Id", required: true, type: .string)
         ]
-        /// The name that you want to assign to this namespace.
-        public let name: String
-        /// A description for the namespace.
-        public let description: String?
-        /// A unique string that identifies the request and that allows failed CreatePublicDnsNamespace requests to be retried without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
-        public let creatorRequestId: String?
+        /// The ID of the service that you want to delete.
+        public let id: String
 
-        public init(name: String, description: String? = nil, creatorRequestId: String? = nil) {
-            self.name = name
-            self.description = description
-            self.creatorRequestId = creatorRequestId
+        public init(id: String) {
+            self.id = id
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case description = "Description"
-            case creatorRequestId = "CreatorRequestId"
+            case id = "Id"
         }
     }
 
-    public struct ServiceChange: AWSShape {
+    public struct CreatePrivateDnsNamespaceResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DnsConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "HealthCheckConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
+            AWSShapeMember(label: "OperationId", required: false, type: .string)
         ]
-        /// A complex type that contains information about the Route 53 DNS records that you want AWS Cloud Map to create when you register an instance.
-        public let dnsConfig: DnsConfigChange
-        public let healthCheckConfig: HealthCheckConfig?
-        /// A description for the service.
-        public let description: String?
+        /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see GetOperation.
+        public let operationId: String?
 
-        public init(dnsConfig: DnsConfigChange, healthCheckConfig: HealthCheckConfig? = nil, description: String? = nil) {
-            self.dnsConfig = dnsConfig
-            self.healthCheckConfig = healthCheckConfig
-            self.description = description
+        public init(operationId: String? = nil) {
+            self.operationId = operationId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dnsConfig = "DnsConfig"
-            case healthCheckConfig = "HealthCheckConfig"
-            case description = "Description"
+            case operationId = "OperationId"
         }
     }
 
-    public enum CustomHealthStatus: String, CustomStringConvertible, Codable {
+    public struct DeleteNamespaceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OperationId", required: false, type: .string)
+        ]
+        /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see GetOperation.
+        public let operationId: String?
+
+        public init(operationId: String? = nil) {
+            self.operationId = operationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operationId = "OperationId"
+        }
+    }
+
+    public enum HealthStatusFilter: String, CustomStringConvertible, Codable {
         case healthy = "HEALTHY"
         case unhealthy = "UNHEALTHY"
+        case all = "ALL"
         public var description: String { return self.rawValue }
     }
 
@@ -544,307 +663,24 @@ extension ServiceDiscovery {
         }
     }
 
-    public struct GetServiceResponse: AWSShape {
+    public struct GetInstancesHealthStatusResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Service", required: false, type: .structure)
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .map)
         ]
-        /// A complex type that contains information about the service.
-        public let service: Service?
+        /// If more than MaxResults instances match the specified criteria, you can submit another GetInstancesHealthStatus request to get the next group of results. Specify the value of NextToken from the previous response in the next request.
+        public let nextToken: String?
+        /// A complex type that contains the IDs and the health status of the instances that you specified in the GetInstancesHealthStatus request.
+        public let status: [String: HealthStatus]?
 
-        public init(service: Service? = nil) {
-            self.service = service
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case service = "Service"
-        }
-    }
-
-    public enum OperationTargetType: String, CustomStringConvertible, Codable {
-        case namespace = "NAMESPACE"
-        case service = "SERVICE"
-        case instance = "INSTANCE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct RegisterInstanceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OperationId", required: false, type: .string)
-        ]
-        /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see GetOperation.
-        public let operationId: String?
-
-        public init(operationId: String? = nil) {
-            self.operationId = operationId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operationId = "OperationId"
-        }
-    }
-
-    public struct InstanceSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Attributes", required: false, type: .map)
-        ]
-        /// The ID for an instance that you created by using a specified service.
-        public let id: String?
-        /// A string map that contains the following information:   The attributes that are associate with the instance.    For each attribute, the applicable value.   Supported attribute keys include the following:    AWS_ALIAS_DNS_NAME: For an alias record that routes traffic to an Elastic Load Balancing load balancer, the DNS name that is associated with the load balancer.     AWS_INSTANCE_CNAME: For a CNAME record, the domain name that Route 53 returns in response to DNS queries, for example, example.com.    AWS_INSTANCE_IPV4: For an A record, the IPv4 address that Route 53 returns in response to DNS queries, for example, 192.0.2.44.    AWS_INSTANCE_IPV6: For an AAAA record, the IPv6 address that Route 53 returns in response to DNS queries, for example, 2001:0db8:85a3:0000:0000:abcd:0001:2345.    AWS_INSTANCE_PORT: For an SRV record, the value that Route 53 returns for the port. In addition, if the service includes HealthCheckConfig, the port on the endpoint that Route 53 sends requests to.  
-        public let attributes: [String: String]?
-
-        public init(id: String? = nil, attributes: [String: String]? = nil) {
-            self.id = id
-            self.attributes = attributes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case attributes = "Attributes"
-        }
-    }
-
-    public struct CreatePrivateDnsNamespaceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OperationId", required: false, type: .string)
-        ]
-        /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see GetOperation.
-        public let operationId: String?
-
-        public init(operationId: String? = nil) {
-            self.operationId = operationId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operationId = "OperationId"
-        }
-    }
-
-    public struct OperationSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "Id", required: false, type: .string)
-        ]
-        /// The status of the operation. Values include the following:    SUBMITTED: This is the initial state immediately after you submit a request.    PENDING: AWS Cloud Map is performing the operation.    SUCCESS: The operation succeeded.    FAIL: The operation failed. For the failure reason, see ErrorMessage.  
-        public let status: OperationStatus?
-        /// The ID for an operation.
-        public let id: String?
-
-        public init(status: OperationStatus? = nil, id: String? = nil) {
+        public init(nextToken: String? = nil, status: [String: HealthStatus]? = nil) {
+            self.nextToken = nextToken
             self.status = status
-            self.id = id
         }
 
         private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
             case status = "Status"
-            case id = "Id"
-        }
-    }
-
-    public struct DeleteNamespaceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OperationId", required: false, type: .string)
-        ]
-        /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see GetOperation.
-        public let operationId: String?
-
-        public init(operationId: String? = nil) {
-            self.operationId = operationId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operationId = "OperationId"
-        }
-    }
-
-    public enum OperationStatus: String, CustomStringConvertible, Codable {
-        case submitted = "SUBMITTED"
-        case pending = "PENDING"
-        case success = "SUCCESS"
-        case fail = "FAIL"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetNamespaceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Namespace", required: false, type: .structure)
-        ]
-        /// A complex type that contains information about the specified namespace.
-        public let namespace: Namespace?
-
-        public init(namespace: Namespace? = nil) {
-            self.namespace = namespace
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case namespace = "Namespace"
-        }
-    }
-
-    public struct DiscoverInstancesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Instances", required: false, type: .list)
-        ]
-        /// A complex type that contains one HttpInstanceSummary for each registered instance.
-        public let instances: [HttpInstanceSummary]?
-
-        public init(instances: [HttpInstanceSummary]? = nil) {
-            self.instances = instances
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instances = "Instances"
-        }
-    }
-
-    public struct DnsRecord: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TTL", required: true, type: .long), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
-        ]
-        /// The amount of time, in seconds, that you want DNS resolvers to cache the settings for this record.  Alias records don't include a TTL because Route 53 uses the TTL for the AWS resource that an alias record routes traffic to. If you include the AWS_ALIAS_DNS_NAME attribute when you submit a RegisterInstance request, the TTL value is ignored. Always specify a TTL for the service; you can use a service to register instances that create either alias or non-alias records. 
-        public let ttl: Int64
-        /// The type of the resource, which indicates the type of value that Route 53 returns in response to DNS queries. Note the following:    A, AAAA, and SRV records: You can specify settings for a maximum of one A, one AAAA, and one SRV record. You can specify them in any combination.    CNAME records: If you specify CNAME for Type, you can't define any other records. This is a limitation of DNS: you can't create a CNAME record and any other type of record that has the same name as a CNAME record.    Alias records: If you want AWS Cloud Map to create a Route 53 alias record when you register an instance, specify A or AAAA for Type.    All records: You specify settings other than TTL and Type when you register an instance.   The following values are supported:  A  Route 53 returns the IP address of the resource in IPv4 format, such as 192.0.2.44.  AAAA  Route 53 returns the IP address of the resource in IPv6 format, such as 2001:0db8:85a3:0000:0000:abcd:0001:2345.  CNAME  Route 53 returns the domain name of the resource, such as www.example.com. Note the following:   You specify the domain name that you want to route traffic to when you register an instance. For more information, see RegisterInstanceRequest$Attributes.   You must specify WEIGHTED for the value of RoutingPolicy.   You can't specify both CNAME for Type and settings for HealthCheckConfig. If you do, the request will fail with an InvalidInput error.    SRV  Route 53 returns the value for an SRV record. The value for an SRV record uses the following values:  priority weight port service-hostname  Note the following about the values:   The values of priority and weight are both set to 1 and can't be changed.    The value of port comes from the value that you specify for the AWS_INSTANCE_PORT attribute when you submit a RegisterInstance request.    The value of service-hostname is a concatenation of the following values:   The value that you specify for InstanceId when you register an instance.   The name of the service.   The name of the namespace.    For example, if the value of InstanceId is test, the name of the service is backend, and the name of the namespace is example.com, the value of service-hostname is:  test.backend.example.com    If you specify settings for an SRV record and if you specify values for AWS_INSTANCE_IPV4, AWS_INSTANCE_IPV6, or both in the RegisterInstance request, AWS Cloud Map automatically creates A and/or AAAA records that have the same name as the value of service-hostname in the SRV record. You can ignore these records.
-        public let `type`: RecordType
-
-        public init(ttl: Int64, type: RecordType) {
-            self.ttl = ttl
-            self.`type` = `type`
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ttl = "TTL"
-            case `type` = "Type"
-        }
-    }
-
-    public struct ServiceFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Condition", required: false, type: .enum), 
-            AWSShapeMember(label: "Name", required: true, type: .enum), 
-            AWSShapeMember(label: "Values", required: true, type: .list)
-        ]
-        /// The operator that you want to use to determine whether a service is returned by ListServices. Valid values for Condition include the following:    EQ: When you specify EQ, specify one namespace ID for Values. EQ is the default condition and can be omitted.    IN: When you specify IN, specify a list of the IDs for the namespaces that you want ListServices to return a list of services for.    BETWEEN: Not applicable.  
-        public let condition: FilterCondition?
-        /// Specify NAMESPACE_ID.
-        public let name: ServiceFilterName
-        /// The values that are applicable to the value that you specify for Condition to filter the list of services.
-        public let values: [String]
-
-        public init(condition: FilterCondition? = nil, name: ServiceFilterName, values: [String]) {
-            self.condition = condition
-            self.name = name
-            self.values = values
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case condition = "Condition"
-            case name = "Name"
-            case values = "Values"
-        }
-    }
-
-    public struct HttpProperties: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HttpName", required: false, type: .string)
-        ]
-        /// The name of an HTTP namespace.
-        public let httpName: String?
-
-        public init(httpName: String? = nil) {
-            self.httpName = httpName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case httpName = "HttpName"
-        }
-    }
-
-    public struct DeregisterInstanceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServiceId", required: true, type: .string), 
-            AWSShapeMember(label: "InstanceId", required: true, type: .string)
-        ]
-        /// The ID of the service that the instance is associated with.
-        public let serviceId: String
-        /// The value that you specified for Id in the RegisterInstance request.
-        public let instanceId: String
-
-        public init(serviceId: String, instanceId: String) {
-            self.serviceId = serviceId
-            self.instanceId = instanceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serviceId = "ServiceId"
-            case instanceId = "InstanceId"
-        }
-    }
-
-    public struct GetOperationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Operation", required: false, type: .structure)
-        ]
-        /// A complex type that contains information about the operation.
-        public let operation: Operation?
-
-        public init(operation: Operation? = nil) {
-            self.operation = operation
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operation = "Operation"
-        }
-    }
-
-    public struct Operation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "CreateDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "Targets", required: false, type: .map), 
-            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "UpdateDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Type", required: false, type: .enum)
-        ]
-        /// If the value of Status is FAIL, the reason that the operation failed.
-        public let errorMessage: String?
-        /// The ID of the operation that you want to get information about.
-        public let id: String?
-        /// The date and time that the request was submitted, in Unix date/time format and Coordinated Universal Time (UTC). The value of CreateDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let createDate: TimeStamp?
-        /// The status of the operation. Values include the following:    SUBMITTED: This is the initial state immediately after you submit a request.    PENDING: AWS Cloud Map is performing the operation.    SUCCESS: The operation succeeded.    FAIL: The operation failed. For the failure reason, see ErrorMessage.  
-        public let status: OperationStatus?
-        /// The name of the target entity that is associated with the operation:    NAMESPACE: The namespace ID is returned in the ResourceId property.    SERVICE: The service ID is returned in the ResourceId property.    INSTANCE: The instance ID is returned in the ResourceId property.  
-        public let targets: [OperationTargetType: String]?
-        /// The code associated with ErrorMessage. Values for ErrorCode include the following:    ACCESS_DENIED     CANNOT_CREATE_HOSTED_ZONE     EXPIRED_TOKEN     HOSTED_ZONE_NOT_FOUND     INTERNAL_FAILURE     INVALID_CHANGE_BATCH     THROTTLED_REQUEST   
-        public let errorCode: String?
-        /// The date and time that the value of Status changed to the current value, in Unix date/time format and Coordinated Universal Time (UTC). The value of UpdateDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let updateDate: TimeStamp?
-        /// The name of the operation that is associated with the specified ID.
-        public let `type`: OperationType?
-
-        public init(errorMessage: String? = nil, id: String? = nil, createDate: TimeStamp? = nil, status: OperationStatus? = nil, targets: [OperationTargetType: String]? = nil, errorCode: String? = nil, updateDate: TimeStamp? = nil, type: OperationType? = nil) {
-            self.errorMessage = errorMessage
-            self.id = id
-            self.createDate = createDate
-            self.status = status
-            self.targets = targets
-            self.errorCode = errorCode
-            self.updateDate = updateDate
-            self.`type` = `type`
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorMessage = "ErrorMessage"
-            case id = "Id"
-            case createDate = "CreateDate"
-            case status = "Status"
-            case targets = "Targets"
-            case errorCode = "ErrorCode"
-            case updateDate = "UpdateDate"
-            case `type` = "Type"
         }
     }
 
@@ -861,382 +697,6 @@ extension ServiceDiscovery {
 
         private enum CodingKeys: String, CodingKey {
             case id = "Id"
-        }
-    }
-
-    public enum NamespaceType: String, CustomStringConvertible, Codable {
-        case dnsPublic = "DNS_PUBLIC"
-        case dnsPrivate = "DNS_PRIVATE"
-        case http = "HTTP"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ServiceFilterName: String, CustomStringConvertible, Codable {
-        case namespaceId = "NAMESPACE_ID"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct OperationFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Condition", required: false, type: .enum), 
-            AWSShapeMember(label: "Name", required: true, type: .enum), 
-            AWSShapeMember(label: "Values", required: true, type: .list)
-        ]
-        /// The operator that you want to use to determine whether an operation matches the specified value. Valid values for condition include:    EQ: When you specify EQ for the condition, you can specify only one value. EQ is supported for NAMESPACE_ID, SERVICE_ID, STATUS, and TYPE. EQ is the default condition and can be omitted.    IN: When you specify IN for the condition, you can specify a list of one or more values. IN is supported for STATUS and TYPE. An operation must match one of the specified values to be returned in the response.    BETWEEN: Specify a start date and an end date in Unix date/time format and Coordinated Universal Time (UTC). The start date must be the first value. BETWEEN is supported for UPDATE_DATE.   
-        public let condition: FilterCondition?
-        /// Specify the operations that you want to get:    NAMESPACE_ID: Gets operations related to specified namespaces.    SERVICE_ID: Gets operations related to specified services.    STATUS: Gets operations based on the status of the operations: SUBMITTED, PENDING, SUCCEED, or FAIL.    TYPE: Gets specified types of operation.    UPDATE_DATE: Gets operations that changed status during a specified date/time range.   
-        public let name: OperationFilterName
-        /// Specify values that are applicable to the value that you specify for Name:     NAMESPACE_ID: Specify one namespace ID.    SERVICE_ID: Specify one service ID.    STATUS: Specify one or more statuses: SUBMITTED, PENDING, SUCCEED, or FAIL.    TYPE: Specify one or more of the following types: CREATE_NAMESPACE, DELETE_NAMESPACE, UPDATE_SERVICE, REGISTER_INSTANCE, or DEREGISTER_INSTANCE.    UPDATE_DATE: Specify a start date and an end date in Unix date/time format and Coordinated Universal Time (UTC). The start date must be the first value.  
-        public let values: [String]
-
-        public init(condition: FilterCondition? = nil, name: OperationFilterName, values: [String]) {
-            self.condition = condition
-            self.name = name
-            self.values = values
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case condition = "Condition"
-            case name = "Name"
-            case values = "Values"
-        }
-    }
-
-    public struct CreateHttpNamespaceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OperationId", required: false, type: .string)
-        ]
-        /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see GetOperation.
-        public let operationId: String?
-
-        public init(operationId: String? = nil) {
-            self.operationId = operationId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operationId = "OperationId"
-        }
-    }
-
-    public struct CreatePublicDnsNamespaceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OperationId", required: false, type: .string)
-        ]
-        /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see GetOperation.
-        public let operationId: String?
-
-        public init(operationId: String? = nil) {
-            self.operationId = operationId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operationId = "OperationId"
-        }
-    }
-
-    public struct GetInstanceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Instance", required: false, type: .structure)
-        ]
-        /// A complex type that contains information about a specified instance.
-        public let instance: Instance?
-
-        public init(instance: Instance? = nil) {
-            self.instance = instance
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instance = "Instance"
-        }
-    }
-
-    public struct ListNamespacesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Namespaces", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// An array that contains one NamespaceSummary object for each namespace that matches the specified filter criteria.
-        public let namespaces: [NamespaceSummary]?
-        /// If the response contains NextToken, submit another ListNamespaces request to get the next group of results. Specify the value of NextToken from the previous response in the next request.  AWS Cloud Map gets MaxResults namespaces and then filters them based on the specified criteria. It's possible that no namespaces in the first MaxResults namespaces matched the specified criteria but that subsequent groups of MaxResults namespaces do contain namespaces that match the criteria. 
-        public let nextToken: String?
-
-        public init(namespaces: [NamespaceSummary]? = nil, nextToken: String? = nil) {
-            self.namespaces = namespaces
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case namespaces = "Namespaces"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DiscoverInstancesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServiceName", required: true, type: .string), 
-            AWSShapeMember(label: "NamespaceName", required: true, type: .string), 
-            AWSShapeMember(label: "QueryParameters", required: false, type: .map), 
-            AWSShapeMember(label: "HealthStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
-        ]
-        /// The name of the service that you specified when you registered the instance.
-        public let serviceName: String
-        /// The name of the namespace that you specified when you registered the instance.
-        public let namespaceName: String
-        /// A string map that contains attributes with values that you can use to filter instances by any custom attribute that you specified when you registered the instance. Only instances that match all the specified key/value pairs will be returned.
-        public let queryParameters: [String: String]?
-        /// The health status of the instances that you want to discover.
-        public let healthStatus: HealthStatusFilter?
-        /// The maximum number of instances that you want Cloud Map to return in the response to a DiscoverInstances request. If you don't specify a value for MaxResults, Cloud Map returns up to 100 instances.
-        public let maxResults: Int32?
-
-        public init(serviceName: String, namespaceName: String, queryParameters: [String: String]? = nil, healthStatus: HealthStatusFilter? = nil, maxResults: Int32? = nil) {
-            self.serviceName = serviceName
-            self.namespaceName = namespaceName
-            self.queryParameters = queryParameters
-            self.healthStatus = healthStatus
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serviceName = "ServiceName"
-            case namespaceName = "NamespaceName"
-            case queryParameters = "QueryParameters"
-            case healthStatus = "HealthStatus"
-            case maxResults = "MaxResults"
-        }
-    }
-
-    public struct Namespace: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Properties", required: false, type: .structure), 
-            AWSShapeMember(label: "CreateDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ServiceCount", required: false, type: .integer), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "CreatorRequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) that AWS Cloud Map assigns to the namespace when you create it.
-        public let arn: String?
-        /// The ID of a namespace.
-        public let id: String?
-        /// A complex type that contains information that's specific to the type of the namespace.
-        public let properties: NamespaceProperties?
-        /// The date that the namespace was created, in Unix date/time format and Coordinated Universal Time (UTC). The value of CreateDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let createDate: TimeStamp?
-        /// The number of services that are associated with the namespace.
-        public let serviceCount: Int32?
-        /// The description that you specify for the namespace when you create it.
-        public let description: String?
-        /// A unique string that identifies the request and that allows failed requests to be retried without the risk of executing an operation twice. 
-        public let creatorRequestId: String?
-        /// The type of the namespace. Valid values are DNS_PUBLIC and DNS_PRIVATE.
-        public let `type`: NamespaceType?
-        /// The name of the namespace, such as example.com.
-        public let name: String?
-
-        public init(arn: String? = nil, id: String? = nil, properties: NamespaceProperties? = nil, createDate: TimeStamp? = nil, serviceCount: Int32? = nil, description: String? = nil, creatorRequestId: String? = nil, type: NamespaceType? = nil, name: String? = nil) {
-            self.arn = arn
-            self.id = id
-            self.properties = properties
-            self.createDate = createDate
-            self.serviceCount = serviceCount
-            self.description = description
-            self.creatorRequestId = creatorRequestId
-            self.`type` = `type`
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
-            case id = "Id"
-            case properties = "Properties"
-            case createDate = "CreateDate"
-            case serviceCount = "ServiceCount"
-            case description = "Description"
-            case creatorRequestId = "CreatorRequestId"
-            case `type` = "Type"
-            case name = "Name"
-        }
-    }
-
-    public enum RoutingPolicy: String, CustomStringConvertible, Codable {
-        case multivalue = "MULTIVALUE"
-        case weighted = "WEIGHTED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeregisterInstanceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OperationId", required: false, type: .string)
-        ]
-        /// A value that you can use to determine whether the request completed successfully. For more information, see GetOperation.
-        public let operationId: String?
-
-        public init(operationId: String? = nil) {
-            self.operationId = operationId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operationId = "OperationId"
-        }
-    }
-
-    public struct GetNamespaceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string)
-        ]
-        /// The ID of the namespace that you want to get information about.
-        public let id: String
-
-        public init(id: String) {
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
-    }
-
-    public struct CreatePrivateDnsNamespaceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "CreatorRequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Vpc", required: true, type: .string)
-        ]
-        /// The name that you want to assign to this namespace. When you create a private DNS namespace, AWS Cloud Map automatically creates an Amazon Route 53 private hosted zone that has the same name as the namespace.
-        public let name: String
-        /// A unique string that identifies the request and that allows failed CreatePrivateDnsNamespace requests to be retried without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
-        public let creatorRequestId: String?
-        /// A description for the namespace.
-        public let description: String?
-        /// The ID of the Amazon VPC that you want to associate the namespace with.
-        public let vpc: String
-
-        public init(name: String, creatorRequestId: String? = nil, description: String? = nil, vpc: String) {
-            self.name = name
-            self.creatorRequestId = creatorRequestId
-            self.description = description
-            self.vpc = vpc
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case creatorRequestId = "CreatorRequestId"
-            case description = "Description"
-            case vpc = "Vpc"
-        }
-    }
-
-    public enum OperationType: String, CustomStringConvertible, Codable {
-        case createNamespace = "CREATE_NAMESPACE"
-        case deleteNamespace = "DELETE_NAMESPACE"
-        case updateService = "UPDATE_SERVICE"
-        case registerInstance = "REGISTER_INSTANCE"
-        case deregisterInstance = "DEREGISTER_INSTANCE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct HealthCheckConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourcePath", required: false, type: .string), 
-            AWSShapeMember(label: "FailureThreshold", required: false, type: .integer), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
-        ]
-        /// The path that you want Route 53 to request when performing health checks. The path can be any value for which your endpoint will return an HTTP status code of 2xx or 3xx when the endpoint is healthy, such as the file /docs/route53-health-check.html. Route 53 automatically adds the DNS name for the service. If you don't specify a value for ResourcePath, the default value is /. If you specify TCP for Type, you must not specify a value for ResourcePath.
-        public let resourcePath: String?
-        /// The number of consecutive health checks that an endpoint must pass or fail for Route 53 to change the current status of the endpoint from unhealthy to healthy or vice versa. For more information, see How Route 53 Determines Whether an Endpoint Is Healthy in the Route 53 Developer Guide.
-        public let failureThreshold: Int32?
-        /// The type of health check that you want to create, which indicates how Route 53 determines whether an endpoint is healthy.  You can't change the value of Type after you create a health check.  You can create the following types of health checks:    HTTP: Route 53 tries to establish a TCP connection. If successful, Route 53 submits an HTTP request and waits for an HTTP status code of 200 or greater and less than 400.    HTTPS: Route 53 tries to establish a TCP connection. If successful, Route 53 submits an HTTPS request and waits for an HTTP status code of 200 or greater and less than 400.  If you specify HTTPS for the value of Type, the endpoint must support TLS v1.0 or later.     TCP: Route 53 tries to establish a TCP connection. If you specify TCP for Type, don't specify a value for ResourcePath.   For more information, see How Route 53 Determines Whether an Endpoint Is Healthy in the Route 53 Developer Guide.
-        public let `type`: HealthCheckType
-
-        public init(resourcePath: String? = nil, failureThreshold: Int32? = nil, type: HealthCheckType) {
-            self.resourcePath = resourcePath
-            self.failureThreshold = failureThreshold
-            self.`type` = `type`
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourcePath = "ResourcePath"
-            case failureThreshold = "FailureThreshold"
-            case `type` = "Type"
-        }
-    }
-
-    public struct UpdateInstanceCustomHealthStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: true, type: .enum), 
-            AWSShapeMember(label: "ServiceId", required: true, type: .string), 
-            AWSShapeMember(label: "InstanceId", required: true, type: .string)
-        ]
-        /// The new status of the instance, HEALTHY or UNHEALTHY.
-        public let status: CustomHealthStatus
-        /// The ID of the service that includes the configuration for the custom health check that you want to change the status for.
-        public let serviceId: String
-        /// The ID of the instance that you want to change the health status for.
-        public let instanceId: String
-
-        public init(status: CustomHealthStatus, serviceId: String, instanceId: String) {
-            self.status = status
-            self.serviceId = serviceId
-            self.instanceId = instanceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "Status"
-            case serviceId = "ServiceId"
-            case instanceId = "InstanceId"
-        }
-    }
-
-    public struct GetInstancesHealthStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ServiceId", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "Instances", required: false, type: .list)
-        ]
-        /// For the first GetInstancesHealthStatus request, omit this value. If more than MaxResults instances match the specified criteria, you can submit another GetInstancesHealthStatus request to get the next group of results. Specify the value of NextToken from the previous response in the next request.
-        public let nextToken: String?
-        /// The ID of the service that the instance is associated with.
-        public let serviceId: String
-        /// The maximum number of instances that you want AWS Cloud Map to return in the response to a GetInstancesHealthStatus request. If you don't specify a value for MaxResults, AWS Cloud Map returns up to 100 instances.
-        public let maxResults: Int32?
-        /// An array that contains the IDs of all the instances that you want to get the health status for. If you omit Instances, AWS Cloud Map returns the health status for all the instances that are associated with the specified service.  To get the IDs for the instances that you've registered by using a specified service, submit a ListInstances request. 
-        public let instances: [String]?
-
-        public init(nextToken: String? = nil, serviceId: String, maxResults: Int32? = nil, instances: [String]? = nil) {
-            self.nextToken = nextToken
-            self.serviceId = serviceId
-            self.maxResults = maxResults
-            self.instances = instances
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case serviceId = "ServiceId"
-            case maxResults = "MaxResults"
-            case instances = "Instances"
-        }
-    }
-
-    public struct UpdateServiceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OperationId", required: false, type: .string)
-        ]
-        /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see GetOperation.
-        public let operationId: String?
-
-        public init(operationId: String? = nil) {
-            self.operationId = operationId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operationId = "OperationId"
         }
     }
 
@@ -1261,270 +721,268 @@ extension ServiceDiscovery {
         }
     }
 
-    public struct ListInstancesRequest: AWSShape {
+    public struct GetServiceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ServiceId", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+            AWSShapeMember(label: "Id", required: true, type: .string)
         ]
-        /// For the first ListInstances request, omit this value. If more than MaxResults instances match the specified criteria, you can submit another ListInstances request to get the next group of results. Specify the value of NextToken from the previous response in the next request.
-        public let nextToken: String?
-        /// The ID of the service that you want to list instances for.
-        public let serviceId: String
-        /// The maximum number of instances that you want AWS Cloud Map to return in the response to a ListInstances request. If you don't specify a value for MaxResults, AWS Cloud Map returns up to 100 instances.
-        public let maxResults: Int32?
+        /// The ID of the service that you want to get settings for.
+        public let id: String
 
-        public init(nextToken: String? = nil, serviceId: String, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.serviceId = serviceId
-            self.maxResults = maxResults
+        public init(id: String) {
+            self.id = id
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case serviceId = "ServiceId"
-            case maxResults = "MaxResults"
+            case id = "Id"
         }
     }
 
     public struct Service: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceCount", required: false, type: .integer), 
-            AWSShapeMember(label: "CreateDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "DnsConfig", required: false, type: .structure), 
             AWSShapeMember(label: "HealthCheckConfig", required: false, type: .structure), 
             AWSShapeMember(label: "NamespaceId", required: false, type: .string), 
-            AWSShapeMember(label: "HealthCheckCustomConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "InstanceCount", required: false, type: .integer), 
             AWSShapeMember(label: "CreatorRequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "DnsConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "CreateDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "HealthCheckCustomConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
-        /// The Amazon Resource Name (ARN) that AWS Cloud Map assigns to the service when you create it.
-        public let arn: String?
-        /// The ID that AWS Cloud Map assigned to the service when you created it.
-        public let id: String?
-        /// The number of instances that are currently associated with the service. Instances that were previously associated with the service but that have been deleted are not included in the count.
-        public let instanceCount: Int32?
-        /// The date and time that the service was created, in Unix format and Coordinated Universal Time (UTC). The value of CreateDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public let createDate: TimeStamp?
         /// The description of the service.
         public let description: String?
-        /// A complex type that contains information about the Route 53 DNS records that you want AWS Cloud Map to create when you register an instance.
-        public let dnsConfig: DnsConfig?
         ///  Public DNS namespaces only. A complex type that contains settings for an optional health check. If you specify settings for a health check, AWS Cloud Map associates the health check with the records that you specify in DnsConfig. For information about the charges for health checks, see Amazon Route 53 Pricing.
         public let healthCheckConfig: HealthCheckConfig?
         /// The ID of the namespace that was used to create the service.
         public let namespaceId: String?
-        /// A complex type that contains information about an optional custom health check.  If you specify a health check configuration, you can specify either HealthCheckCustomConfig or HealthCheckConfig but not both. 
-        public let healthCheckCustomConfig: HealthCheckCustomConfig?
+        /// The number of instances that are currently associated with the service. Instances that were previously associated with the service but that have been deleted are not included in the count.
+        public let instanceCount: Int32?
         /// A unique string that identifies the request and that allows failed requests to be retried without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
         public let creatorRequestId: String?
         /// The name of the service.
         public let name: String?
+        /// The Amazon Resource Name (ARN) that AWS Cloud Map assigns to the service when you create it.
+        public let arn: String?
+        /// A complex type that contains information about the Route 53 DNS records that you want AWS Cloud Map to create when you register an instance.
+        public let dnsConfig: DnsConfig?
+        /// The date and time that the service was created, in Unix format and Coordinated Universal Time (UTC). The value of CreateDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public let createDate: TimeStamp?
+        /// A complex type that contains information about an optional custom health check.  If you specify a health check configuration, you can specify either HealthCheckCustomConfig or HealthCheckConfig but not both. 
+        public let healthCheckCustomConfig: HealthCheckCustomConfig?
+        /// The ID that AWS Cloud Map assigned to the service when you created it.
+        public let id: String?
 
-        public init(arn: String? = nil, id: String? = nil, instanceCount: Int32? = nil, createDate: TimeStamp? = nil, description: String? = nil, dnsConfig: DnsConfig? = nil, healthCheckConfig: HealthCheckConfig? = nil, namespaceId: String? = nil, healthCheckCustomConfig: HealthCheckCustomConfig? = nil, creatorRequestId: String? = nil, name: String? = nil) {
-            self.arn = arn
-            self.id = id
-            self.instanceCount = instanceCount
-            self.createDate = createDate
+        public init(description: String? = nil, healthCheckConfig: HealthCheckConfig? = nil, namespaceId: String? = nil, instanceCount: Int32? = nil, creatorRequestId: String? = nil, name: String? = nil, arn: String? = nil, dnsConfig: DnsConfig? = nil, createDate: TimeStamp? = nil, healthCheckCustomConfig: HealthCheckCustomConfig? = nil, id: String? = nil) {
             self.description = description
-            self.dnsConfig = dnsConfig
             self.healthCheckConfig = healthCheckConfig
             self.namespaceId = namespaceId
-            self.healthCheckCustomConfig = healthCheckCustomConfig
+            self.instanceCount = instanceCount
             self.creatorRequestId = creatorRequestId
             self.name = name
+            self.arn = arn
+            self.dnsConfig = dnsConfig
+            self.createDate = createDate
+            self.healthCheckCustomConfig = healthCheckCustomConfig
+            self.id = id
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
-            case id = "Id"
-            case instanceCount = "InstanceCount"
-            case createDate = "CreateDate"
             case description = "Description"
-            case dnsConfig = "DnsConfig"
             case healthCheckConfig = "HealthCheckConfig"
             case namespaceId = "NamespaceId"
-            case healthCheckCustomConfig = "HealthCheckCustomConfig"
+            case instanceCount = "InstanceCount"
             case creatorRequestId = "CreatorRequestId"
             case name = "Name"
+            case arn = "Arn"
+            case dnsConfig = "DnsConfig"
+            case createDate = "CreateDate"
+            case healthCheckCustomConfig = "HealthCheckCustomConfig"
+            case id = "Id"
         }
     }
 
-    public struct ListServicesResponse: AWSShape {
+    public enum RoutingPolicy: String, CustomStringConvertible, Codable {
+        case multivalue = "MULTIVALUE"
+        case weighted = "WEIGHTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListInstancesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Services", required: false, type: .list), 
+            AWSShapeMember(label: "Instances", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// An array that contains one ServiceSummary object for each service that matches the specified filter criteria.
-        public let services: [ServiceSummary]?
-        /// If the response contains NextToken, submit another ListServices request to get the next group of results. Specify the value of NextToken from the previous response in the next request.  AWS Cloud Map gets MaxResults services and then filters them based on the specified criteria. It's possible that no services in the first MaxResults services matched the specified criteria but that subsequent groups of MaxResults services do contain services that match the criteria. 
+        /// Summary information about the instances that are associated with the specified service.
+        public let instances: [InstanceSummary]?
+        /// If more than MaxResults instances match the specified criteria, you can submit another ListInstances request to get the next group of results. Specify the value of NextToken from the previous response in the next request.
         public let nextToken: String?
 
-        public init(services: [ServiceSummary]? = nil, nextToken: String? = nil) {
-            self.services = services
+        public init(instances: [InstanceSummary]? = nil, nextToken: String? = nil) {
+            self.instances = instances
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case services = "Services"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct ListOperationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Operations", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Summary information about the operations that match the specified criteria.
-        public let operations: [OperationSummary]?
-        /// If the response contains NextToken, submit another ListOperations request to get the next group of results. Specify the value of NextToken from the previous response in the next request.  AWS Cloud Map gets MaxResults operations and then filters them based on the specified criteria. It's possible that no operations in the first MaxResults operations matched the specified criteria but that subsequent groups of MaxResults operations do contain operations that match the criteria. 
-        public let nextToken: String?
-
-        public init(operations: [OperationSummary]? = nil, nextToken: String? = nil) {
-            self.operations = operations
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case operations = "Operations"
+            case instances = "Instances"
             case nextToken = "NextToken"
         }
     }
 
     public struct DnsConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NamespaceId", required: false, type: .string), 
             AWSShapeMember(label: "DnsRecords", required: true, type: .list), 
-            AWSShapeMember(label: "RoutingPolicy", required: false, type: .enum)
+            AWSShapeMember(label: "RoutingPolicy", required: false, type: .enum), 
+            AWSShapeMember(label: "NamespaceId", required: false, type: .string)
         ]
-        /// The ID of the namespace to use for DNS configuration.
-        public let namespaceId: String?
         /// An array that contains one DnsRecord object for each Route 53 DNS record that you want AWS Cloud Map to create when you register an instance.
         public let dnsRecords: [DnsRecord]
         /// The routing policy that you want to apply to all Route 53 DNS records that AWS Cloud Map creates when you register an instance and specify this service.  If you want to use this service to register instances that create alias records, specify WEIGHTED for the routing policy.  You can specify the following values:  MULTIVALUE  If you define a health check for the service and the health check is healthy, Route 53 returns the applicable value for up to eight instances. For example, suppose the service includes configurations for one A record and a health check, and you use the service to register 10 instances. Route 53 responds to DNS queries with IP addresses for up to eight healthy instances. If fewer than eight instances are healthy, Route 53 responds to every DNS query with the IP addresses for all of the healthy instances. If you don't define a health check for the service, Route 53 assumes that all instances are healthy and returns the values for up to eight instances. For more information about the multivalue routing policy, see Multivalue Answer Routing in the Route 53 Developer Guide.  WEIGHTED  Route 53 returns the applicable value from one randomly selected instance from among the instances that you registered using the same service. Currently, all records have the same weight, so you can't route more or less traffic to any instances. For example, suppose the service includes configurations for one A record and a health check, and you use the service to register 10 instances. Route 53 responds to DNS queries with the IP address for one randomly selected instance from among the healthy instances. If no instances are healthy, Route 53 responds to DNS queries as if all of the instances were healthy. If you don't define a health check for the service, Route 53 assumes that all instances are healthy and returns the applicable value for one randomly selected instance. For more information about the weighted routing policy, see Weighted Routing in the Route 53 Developer Guide.
         public let routingPolicy: RoutingPolicy?
+        /// The ID of the namespace to use for DNS configuration.
+        public let namespaceId: String?
 
-        public init(namespaceId: String? = nil, dnsRecords: [DnsRecord], routingPolicy: RoutingPolicy? = nil) {
-            self.namespaceId = namespaceId
+        public init(dnsRecords: [DnsRecord], routingPolicy: RoutingPolicy? = nil, namespaceId: String? = nil) {
             self.dnsRecords = dnsRecords
             self.routingPolicy = routingPolicy
+            self.namespaceId = namespaceId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case namespaceId = "NamespaceId"
             case dnsRecords = "DnsRecords"
             case routingPolicy = "RoutingPolicy"
+            case namespaceId = "NamespaceId"
         }
     }
 
-    public struct ServiceSummary: AWSShape {
+    public struct GetInstanceResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceCount", required: false, type: .integer), 
-            AWSShapeMember(label: "CreateDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "DnsConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "HealthCheckConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "HealthCheckCustomConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
+            AWSShapeMember(label: "Instance", required: false, type: .structure)
         ]
-        /// The Amazon Resource Name (ARN) that AWS Cloud Map assigns to the service when you create it.
-        public let arn: String?
-        /// The ID that AWS Cloud Map assigned to the service when you created it.
-        public let id: String?
-        /// The number of instances that are currently associated with the service. Instances that were previously associated with the service but that have been deleted are not included in the count.
-        public let instanceCount: Int32?
-        /// The date and time that the service was created.
-        public let createDate: TimeStamp?
-        /// The description that you specify when you create the service.
-        public let description: String?
-        public let dnsConfig: DnsConfig?
-        public let healthCheckConfig: HealthCheckConfig?
-        public let healthCheckCustomConfig: HealthCheckCustomConfig?
-        /// The name of the service.
-        public let name: String?
+        /// A complex type that contains information about a specified instance.
+        public let instance: Instance?
 
-        public init(arn: String? = nil, id: String? = nil, instanceCount: Int32? = nil, createDate: TimeStamp? = nil, description: String? = nil, dnsConfig: DnsConfig? = nil, healthCheckConfig: HealthCheckConfig? = nil, healthCheckCustomConfig: HealthCheckCustomConfig? = nil, name: String? = nil) {
-            self.arn = arn
-            self.id = id
-            self.instanceCount = instanceCount
-            self.createDate = createDate
-            self.description = description
-            self.dnsConfig = dnsConfig
-            self.healthCheckConfig = healthCheckConfig
-            self.healthCheckCustomConfig = healthCheckCustomConfig
+        public init(instance: Instance? = nil) {
+            self.instance = instance
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instance = "Instance"
+        }
+    }
+
+    public struct NamespaceFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Values", required: true, type: .list), 
+            AWSShapeMember(label: "Condition", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: true, type: .enum)
+        ]
+        /// If you specify EQ for Condition, specify either DNS_PUBLIC or DNS_PRIVATE. If you specify IN for Condition, you can specify DNS_PUBLIC, DNS_PRIVATE, or both.
+        public let values: [String]
+        /// The operator that you want to use to determine whether ListNamespaces returns a namespace. Valid values for condition include:    EQ: When you specify EQ for the condition, you can choose to list only public namespaces or private namespaces, but not both. EQ is the default condition and can be omitted.    IN: When you specify IN for the condition, you can choose to list public namespaces, private namespaces, or both.     BETWEEN: Not applicable  
+        public let condition: FilterCondition?
+        /// Specify TYPE.
+        public let name: NamespaceFilterName
+
+        public init(values: [String], condition: FilterCondition? = nil, name: NamespaceFilterName) {
+            self.values = values
+            self.condition = condition
             self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
-            case id = "Id"
-            case instanceCount = "InstanceCount"
-            case createDate = "CreateDate"
-            case description = "Description"
-            case dnsConfig = "DnsConfig"
-            case healthCheckConfig = "HealthCheckConfig"
-            case healthCheckCustomConfig = "HealthCheckCustomConfig"
+            case values = "Values"
+            case condition = "Condition"
             case name = "Name"
         }
     }
 
-    public struct UpdateServiceRequest: AWSShape {
+    public struct InstanceSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Service", required: true, type: .structure), 
-            AWSShapeMember(label: "Id", required: true, type: .string)
+            AWSShapeMember(label: "Attributes", required: false, type: .map), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
-        /// A complex type that contains the new settings for the service.
-        public let service: ServiceChange
-        /// The ID of the service that you want to update.
-        public let id: String
+        /// A string map that contains the following information:   The attributes that are associate with the instance.    For each attribute, the applicable value.   Supported attribute keys include the following:    AWS_ALIAS_DNS_NAME: For an alias record that routes traffic to an Elastic Load Balancing load balancer, the DNS name that is associated with the load balancer.     AWS_INSTANCE_CNAME: For a CNAME record, the domain name that Route 53 returns in response to DNS queries, for example, example.com.    AWS_INSTANCE_IPV4: For an A record, the IPv4 address that Route 53 returns in response to DNS queries, for example, 192.0.2.44.    AWS_INSTANCE_IPV6: For an AAAA record, the IPv6 address that Route 53 returns in response to DNS queries, for example, 2001:0db8:85a3:0000:0000:abcd:0001:2345.    AWS_INSTANCE_PORT: For an SRV record, the value that Route 53 returns for the port. In addition, if the service includes HealthCheckConfig, the port on the endpoint that Route 53 sends requests to.  
+        public let attributes: [String: String]?
+        /// The ID for an instance that you created by using a specified service.
+        public let id: String?
 
-        public init(service: ServiceChange, id: String) {
-            self.service = service
+        public init(attributes: [String: String]? = nil, id: String? = nil) {
+            self.attributes = attributes
             self.id = id
         }
 
         private enum CodingKeys: String, CodingKey {
-            case service = "Service"
+            case attributes = "Attributes"
             case id = "Id"
         }
     }
 
-    public enum FilterCondition: String, CustomStringConvertible, Codable {
-        case eq = "EQ"
-        case `in` = "IN"
-        case between = "BETWEEN"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListServicesRequest: AWSShape {
+    public struct GetOperationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "Filters", required: false, type: .list)
+            AWSShapeMember(label: "OperationId", required: true, type: .string)
         ]
-        /// For the first ListServices request, omit this value. If the response contains NextToken, submit another ListServices request to get the next group of results. Specify the value of NextToken from the previous response in the next request.  AWS Cloud Map gets MaxResults services and then filters them based on the specified criteria. It's possible that no services in the first MaxResults services matched the specified criteria but that subsequent groups of MaxResults services do contain services that match the criteria. 
-        public let nextToken: String?
-        /// The maximum number of services that you want AWS Cloud Map to return in the response to a ListServices request. If you don't specify a value for MaxResults, AWS Cloud Map returns up to 100 services.
-        public let maxResults: Int32?
-        /// A complex type that contains specifications for the namespaces that you want to list services for.  If you specify more than one filter, an operation must match all filters to be returned by ListServices.
-        public let filters: [ServiceFilter]?
+        /// The ID of the operation that you want to get more information about.
+        public let operationId: String
 
-        public init(nextToken: String? = nil, maxResults: Int32? = nil, filters: [ServiceFilter]? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.filters = filters
+        public init(operationId: String) {
+            self.operationId = operationId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case maxResults = "MaxResults"
-            case filters = "Filters"
+            case operationId = "OperationId"
+        }
+    }
+
+    public struct Operation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Targets", required: false, type: .map), 
+            AWSShapeMember(label: "UpdateDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "CreateDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
+        ]
+        /// The name of the target entity that is associated with the operation:    NAMESPACE: The namespace ID is returned in the ResourceId property.    SERVICE: The service ID is returned in the ResourceId property.    INSTANCE: The instance ID is returned in the ResourceId property.  
+        public let targets: [OperationTargetType: String]?
+        /// The date and time that the value of Status changed to the current value, in Unix date/time format and Coordinated Universal Time (UTC). The value of UpdateDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public let updateDate: TimeStamp?
+        /// The status of the operation. Values include the following:    SUBMITTED: This is the initial state immediately after you submit a request.    PENDING: AWS Cloud Map is performing the operation.    SUCCESS: The operation succeeded.    FAIL: The operation failed. For the failure reason, see ErrorMessage.  
+        public let status: OperationStatus?
+        /// If the value of Status is FAIL, the reason that the operation failed.
+        public let errorMessage: String?
+        /// The date and time that the request was submitted, in Unix date/time format and Coordinated Universal Time (UTC). The value of CreateDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public let createDate: TimeStamp?
+        /// The name of the operation that is associated with the specified ID.
+        public let `type`: OperationType?
+        /// The code associated with ErrorMessage. Values for ErrorCode include the following:    ACCESS_DENIED     CANNOT_CREATE_HOSTED_ZONE     EXPIRED_TOKEN     HOSTED_ZONE_NOT_FOUND     INTERNAL_FAILURE     INVALID_CHANGE_BATCH     THROTTLED_REQUEST   
+        public let errorCode: String?
+        /// The ID of the operation that you want to get information about.
+        public let id: String?
+
+        public init(targets: [OperationTargetType: String]? = nil, updateDate: TimeStamp? = nil, status: OperationStatus? = nil, errorMessage: String? = nil, createDate: TimeStamp? = nil, type: OperationType? = nil, errorCode: String? = nil, id: String? = nil) {
+            self.targets = targets
+            self.updateDate = updateDate
+            self.status = status
+            self.errorMessage = errorMessage
+            self.createDate = createDate
+            self.`type` = `type`
+            self.errorCode = errorCode
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targets = "Targets"
+            case updateDate = "UpdateDate"
+            case status = "Status"
+            case errorMessage = "ErrorMessage"
+            case createDate = "CreateDate"
+            case `type` = "Type"
+            case errorCode = "ErrorCode"
+            case id = "Id"
         }
     }
 
@@ -1535,30 +993,572 @@ extension ServiceDiscovery {
         public var description: String { return self.rawValue }
     }
 
-    public struct NamespaceFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Condition", required: false, type: .enum), 
-            AWSShapeMember(label: "Name", required: true, type: .enum), 
-            AWSShapeMember(label: "Values", required: true, type: .list)
-        ]
-        /// The operator that you want to use to determine whether ListNamespaces returns a namespace. Valid values for condition include:    EQ: When you specify EQ for the condition, you can choose to list only public namespaces or private namespaces, but not both. EQ is the default condition and can be omitted.    IN: When you specify IN for the condition, you can choose to list public namespaces, private namespaces, or both.     BETWEEN: Not applicable  
-        public let condition: FilterCondition?
-        /// Specify TYPE.
-        public let name: NamespaceFilterName
-        /// If you specify EQ for Condition, specify either DNS_PUBLIC or DNS_PRIVATE. If you specify IN for Condition, you can specify DNS_PUBLIC, DNS_PRIVATE, or both.
-        public let values: [String]
+    public enum HealthStatus: String, CustomStringConvertible, Codable {
+        case healthy = "HEALTHY"
+        case unhealthy = "UNHEALTHY"
+        case unknown = "UNKNOWN"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(condition: FilterCondition? = nil, name: NamespaceFilterName, values: [String]) {
-            self.condition = condition
-            self.name = name
-            self.values = values
+    public struct RegisterInstanceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceId", required: true, type: .string), 
+            AWSShapeMember(label: "Attributes", required: true, type: .map), 
+            AWSShapeMember(label: "CreatorRequestId", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceId", required: true, type: .string)
+        ]
+        /// An identifier that you want to associate with the instance. Note the following:   If the service that is specified by ServiceId includes settings for an SRV record, the value of InstanceId is automatically included as part of the value for the SRV record. For more information, see DnsRecord$Type.   You can use this value to update an existing instance.   To register a new instance, you must specify a value that is unique among instances that you register by using the same service.    If you specify an existing InstanceId and ServiceId, AWS Cloud Map updates the existing DNS records, if any. If there's also an existing health check, AWS Cloud Map deletes the old health check and creates a new one.   The health check isn't deleted immediately, so it will still appear for a while if you submit a ListHealthChecks request, for example.   
+        public let instanceId: String
+        /// A string map that contains the following information for the service that you specify in ServiceId:   The attributes that apply to the records that are defined in the service.    For each attribute, the applicable value.   Supported attribute keys include the following:  AWS_ALIAS_DNS_NAME     If you want AWS Cloud Map to create an Amazon Route 53 alias record that routes traffic to an Elastic Load Balancing load balancer, specify the DNS name that is associated with the load balancer. For information about how to get the DNS name, see "DNSName" in the topic AliasTarget in the Route 53 API Reference. Note the following:   The configuration for the service that is specified by ServiceId must include settings for an A record, an AAAA record, or both.   In the service that is specified by ServiceId, the value of RoutingPolicy must be WEIGHTED.   If the service that is specified by ServiceId includes HealthCheckConfig settings, AWS Cloud Map will create the Route 53 health check, but it won't associate the health check with the alias record.   Auto naming currently doesn't support creating alias records that route traffic to AWS resources other than ELB load balancers.   If you specify a value for AWS_ALIAS_DNS_NAME, don't specify values for any of the AWS_INSTANCE attributes.    AWS_INIT_HEALTH_STATUS  If the service configuration includes HealthCheckCustomConfig, you can optionally use AWS_INIT_HEALTH_STATUS to specify the initial status of the custom health check, HEALTHY or UNHEALTHY. If you don't specify a value for AWS_INIT_HEALTH_STATUS, the initial status is HEALTHY.  AWS_INSTANCE_CNAME  If the service configuration includes a CNAME record, the domain name that you want Route 53 to return in response to DNS queries, for example, example.com. This value is required if the service specified by ServiceId includes settings for an CNAME record.  AWS_INSTANCE_IPV4  If the service configuration includes an A record, the IPv4 address that you want Route 53 to return in response to DNS queries, for example, 192.0.2.44. This value is required if the service specified by ServiceId includes settings for an A record. If the service includes settings for an SRV record, you must specify a value for AWS_INSTANCE_IPV4, AWS_INSTANCE_IPV6, or both.  AWS_INSTANCE_IPV6  If the service configuration includes an AAAA record, the IPv6 address that you want Route 53 to return in response to DNS queries, for example, 2001:0db8:85a3:0000:0000:abcd:0001:2345. This value is required if the service specified by ServiceId includes settings for an AAAA record. If the service includes settings for an SRV record, you must specify a value for AWS_INSTANCE_IPV4, AWS_INSTANCE_IPV6, or both.  AWS_INSTANCE_PORT  If the service includes an SRV record, the value that you want Route 53 to return for the port. If the service includes HealthCheckConfig, the port on the endpoint that you want Route 53 to send requests to.  This value is required if you specified settings for an SRV record when you created the service.  Custom attributes  You can add up to 30 custom attributes. For each key-value pair, the maximum length of the attribute name is 255 characters, and the maximum length of the attribute value is 1,024 characters. 
+        public let attributes: [String: String]
+        /// A unique string that identifies the request and that allows failed RegisterInstance requests to be retried without the risk of executing the operation twice. You must use a unique CreatorRequestId string every time you submit a RegisterInstance request if you're registering additional instances for the same namespace and service. CreatorRequestId can be any unique string, for example, a date/time stamp.
+        public let creatorRequestId: String?
+        /// The ID of the service that you want to use for settings for the instance.
+        public let serviceId: String
+
+        public init(instanceId: String, attributes: [String: String], creatorRequestId: String? = nil, serviceId: String) {
+            self.instanceId = instanceId
+            self.attributes = attributes
+            self.creatorRequestId = creatorRequestId
+            self.serviceId = serviceId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case condition = "Condition"
-            case name = "Name"
-            case values = "Values"
+            case instanceId = "InstanceId"
+            case attributes = "Attributes"
+            case creatorRequestId = "CreatorRequestId"
+            case serviceId = "ServiceId"
         }
+    }
+
+    public struct CreateServiceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Service", required: false, type: .structure)
+        ]
+        /// A complex type that contains information about the new service.
+        public let service: Service?
+
+        public init(service: Service? = nil) {
+            self.service = service
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case service = "Service"
+        }
+    }
+
+    public struct DeregisterInstanceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OperationId", required: false, type: .string)
+        ]
+        /// A value that you can use to determine whether the request completed successfully. For more information, see GetOperation.
+        public let operationId: String?
+
+        public init(operationId: String? = nil) {
+            self.operationId = operationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operationId = "OperationId"
+        }
+    }
+
+    public enum OperationType: String, CustomStringConvertible, Codable {
+        case createNamespace = "CREATE_NAMESPACE"
+        case deleteNamespace = "DELETE_NAMESPACE"
+        case updateService = "UPDATE_SERVICE"
+        case registerInstance = "REGISTER_INSTANCE"
+        case deregisterInstance = "DEREGISTER_INSTANCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct HttpInstanceSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServiceName", required: false, type: .string), 
+            AWSShapeMember(label: "HealthStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "NamespaceName", required: false, type: .string), 
+            AWSShapeMember(label: "Attributes", required: false, type: .map), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string)
+        ]
+        /// The name of the service that you specified when you registered the instance.
+        public let serviceName: String?
+        /// If you configured health checking in the service, the current health status of the service instance.
+        public let healthStatus: HealthStatus?
+        /// The name of the namespace that you specified when you registered the instance.
+        public let namespaceName: String?
+        /// If you included any attributes when you registered the instance, the values of those attributes.
+        public let attributes: [String: String]?
+        /// The ID of an instance that matches the values that you specified in the request.
+        public let instanceId: String?
+
+        public init(serviceName: String? = nil, healthStatus: HealthStatus? = nil, namespaceName: String? = nil, attributes: [String: String]? = nil, instanceId: String? = nil) {
+            self.serviceName = serviceName
+            self.healthStatus = healthStatus
+            self.namespaceName = namespaceName
+            self.attributes = attributes
+            self.instanceId = instanceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceName = "ServiceName"
+            case healthStatus = "HealthStatus"
+            case namespaceName = "NamespaceName"
+            case attributes = "Attributes"
+            case instanceId = "InstanceId"
+        }
+    }
+
+    public struct RegisterInstanceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OperationId", required: false, type: .string)
+        ]
+        /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see GetOperation.
+        public let operationId: String?
+
+        public init(operationId: String? = nil) {
+            self.operationId = operationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operationId = "OperationId"
+        }
+    }
+
+    public struct GetInstancesHealthStatusRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "ServiceId", required: true, type: .string), 
+            AWSShapeMember(label: "Instances", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The maximum number of instances that you want AWS Cloud Map to return in the response to a GetInstancesHealthStatus request. If you don't specify a value for MaxResults, AWS Cloud Map returns up to 100 instances.
+        public let maxResults: Int32?
+        /// The ID of the service that the instance is associated with.
+        public let serviceId: String
+        /// An array that contains the IDs of all the instances that you want to get the health status for. If you omit Instances, AWS Cloud Map returns the health status for all the instances that are associated with the specified service.  To get the IDs for the instances that you've registered by using a specified service, submit a ListInstances request. 
+        public let instances: [String]?
+        /// For the first GetInstancesHealthStatus request, omit this value. If more than MaxResults instances match the specified criteria, you can submit another GetInstancesHealthStatus request to get the next group of results. Specify the value of NextToken from the previous response in the next request.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, serviceId: String, instances: [String]? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.serviceId = serviceId
+            self.instances = instances
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case serviceId = "ServiceId"
+            case instances = "Instances"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListServicesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .list)
+        ]
+        /// The maximum number of services that you want AWS Cloud Map to return in the response to a ListServices request. If you don't specify a value for MaxResults, AWS Cloud Map returns up to 100 services.
+        public let maxResults: Int32?
+        /// For the first ListServices request, omit this value. If the response contains NextToken, submit another ListServices request to get the next group of results. Specify the value of NextToken from the previous response in the next request.  AWS Cloud Map gets MaxResults services and then filters them based on the specified criteria. It's possible that no services in the first MaxResults services matched the specified criteria but that subsequent groups of MaxResults services do contain services that match the criteria. 
+        public let nextToken: String?
+        /// A complex type that contains specifications for the namespaces that you want to list services for.  If you specify more than one filter, an operation must match all filters to be returned by ListServices.
+        public let filters: [ServiceFilter]?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, filters: [ServiceFilter]? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.filters = filters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case filters = "Filters"
+        }
+    }
+
+    public enum CustomHealthStatus: String, CustomStringConvertible, Codable {
+        case healthy = "HEALTHY"
+        case unhealthy = "UNHEALTHY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OperationStatus: String, CustomStringConvertible, Codable {
+        case submitted = "SUBMITTED"
+        case pending = "PENDING"
+        case success = "SUCCESS"
+        case fail = "FAIL"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CreateHttpNamespaceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OperationId", required: false, type: .string)
+        ]
+        /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see GetOperation.
+        public let operationId: String?
+
+        public init(operationId: String? = nil) {
+            self.operationId = operationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operationId = "OperationId"
+        }
+    }
+
+    public struct ListNamespacesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Namespaces", required: false, type: .list)
+        ]
+        /// If the response contains NextToken, submit another ListNamespaces request to get the next group of results. Specify the value of NextToken from the previous response in the next request.  AWS Cloud Map gets MaxResults namespaces and then filters them based on the specified criteria. It's possible that no namespaces in the first MaxResults namespaces matched the specified criteria but that subsequent groups of MaxResults namespaces do contain namespaces that match the criteria. 
+        public let nextToken: String?
+        /// An array that contains one NamespaceSummary object for each namespace that matches the specified filter criteria.
+        public let namespaces: [NamespaceSummary]?
+
+        public init(nextToken: String? = nil, namespaces: [NamespaceSummary]? = nil) {
+            self.nextToken = nextToken
+            self.namespaces = namespaces
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case namespaces = "Namespaces"
+        }
+    }
+
+    public struct CreatePrivateDnsNamespaceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Vpc", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "CreatorRequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
+        ]
+        /// The ID of the Amazon VPC that you want to associate the namespace with.
+        public let vpc: String
+        /// The name that you want to assign to this namespace. When you create a private DNS namespace, AWS Cloud Map automatically creates an Amazon Route 53 private hosted zone that has the same name as the namespace.
+        public let name: String
+        /// A unique string that identifies the request and that allows failed CreatePrivateDnsNamespace requests to be retried without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
+        public let creatorRequestId: String?
+        /// A description for the namespace.
+        public let description: String?
+
+        public init(vpc: String, name: String, creatorRequestId: String? = nil, description: String? = nil) {
+            self.vpc = vpc
+            self.name = name
+            self.creatorRequestId = creatorRequestId
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpc = "Vpc"
+            case name = "Name"
+            case creatorRequestId = "CreatorRequestId"
+            case description = "Description"
+        }
+    }
+
+    public struct ServiceChange: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DnsConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "HealthCheckConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
+        ]
+        /// A complex type that contains information about the Route 53 DNS records that you want AWS Cloud Map to create when you register an instance.
+        public let dnsConfig: DnsConfigChange
+        public let healthCheckConfig: HealthCheckConfig?
+        /// A description for the service.
+        public let description: String?
+
+        public init(dnsConfig: DnsConfigChange, healthCheckConfig: HealthCheckConfig? = nil, description: String? = nil) {
+            self.dnsConfig = dnsConfig
+            self.healthCheckConfig = healthCheckConfig
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dnsConfig = "DnsConfig"
+            case healthCheckConfig = "HealthCheckConfig"
+            case description = "Description"
+        }
+    }
+
+    public struct DiscoverInstancesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "QueryParameters", required: false, type: .map), 
+            AWSShapeMember(label: "ServiceName", required: true, type: .string), 
+            AWSShapeMember(label: "HealthStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "NamespaceName", required: true, type: .string)
+        ]
+        /// The maximum number of instances that you want Cloud Map to return in the response to a DiscoverInstances request. If you don't specify a value for MaxResults, Cloud Map returns up to 100 instances.
+        public let maxResults: Int32?
+        /// A string map that contains attributes with values that you can use to filter instances by any custom attribute that you specified when you registered the instance. Only instances that match all the specified key/value pairs will be returned.
+        public let queryParameters: [String: String]?
+        /// The name of the service that you specified when you registered the instance.
+        public let serviceName: String
+        /// The health status of the instances that you want to discover.
+        public let healthStatus: HealthStatusFilter?
+        /// The name of the namespace that you specified when you registered the instance.
+        public let namespaceName: String
+
+        public init(maxResults: Int32? = nil, queryParameters: [String: String]? = nil, serviceName: String, healthStatus: HealthStatusFilter? = nil, namespaceName: String) {
+            self.maxResults = maxResults
+            self.queryParameters = queryParameters
+            self.serviceName = serviceName
+            self.healthStatus = healthStatus
+            self.namespaceName = namespaceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case queryParameters = "QueryParameters"
+            case serviceName = "ServiceName"
+            case healthStatus = "HealthStatus"
+            case namespaceName = "NamespaceName"
+        }
+    }
+
+    public struct HttpProperties: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HttpName", required: false, type: .string)
+        ]
+        /// The name of an HTTP namespace.
+        public let httpName: String?
+
+        public init(httpName: String? = nil) {
+            self.httpName = httpName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case httpName = "HttpName"
+        }
+    }
+
+    public enum ServiceFilterName: String, CustomStringConvertible, Codable {
+        case namespaceId = "NAMESPACE_ID"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListInstancesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "ServiceId", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The maximum number of instances that you want AWS Cloud Map to return in the response to a ListInstances request. If you don't specify a value for MaxResults, AWS Cloud Map returns up to 100 instances.
+        public let maxResults: Int32?
+        /// The ID of the service that you want to list instances for.
+        public let serviceId: String
+        /// For the first ListInstances request, omit this value. If more than MaxResults instances match the specified criteria, you can submit another ListInstances request to get the next group of results. Specify the value of NextToken from the previous response in the next request.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, serviceId: String, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.serviceId = serviceId
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case serviceId = "ServiceId"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetNamespaceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: true, type: .string)
+        ]
+        /// The ID of the namespace that you want to get information about.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
+    }
+
+    public struct Namespace: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Properties", required: false, type: .structure), 
+            AWSShapeMember(label: "CreatorRequestId", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceCount", required: false, type: .integer), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreateDate", required: false, type: .timestamp)
+        ]
+        /// The ID of a namespace.
+        public let id: String?
+        /// The type of the namespace. Valid values are DNS_PUBLIC and DNS_PRIVATE.
+        public let `type`: NamespaceType?
+        /// A complex type that contains information that's specific to the type of the namespace.
+        public let properties: NamespaceProperties?
+        /// A unique string that identifies the request and that allows failed requests to be retried without the risk of executing an operation twice. 
+        public let creatorRequestId: String?
+        /// The number of services that are associated with the namespace.
+        public let serviceCount: Int32?
+        /// The name of the namespace, such as example.com.
+        public let name: String?
+        /// The description that you specify for the namespace when you create it.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) that AWS Cloud Map assigns to the namespace when you create it.
+        public let arn: String?
+        /// The date that the namespace was created, in Unix date/time format and Coordinated Universal Time (UTC). The value of CreateDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public let createDate: TimeStamp?
+
+        public init(id: String? = nil, type: NamespaceType? = nil, properties: NamespaceProperties? = nil, creatorRequestId: String? = nil, serviceCount: Int32? = nil, name: String? = nil, description: String? = nil, arn: String? = nil, createDate: TimeStamp? = nil) {
+            self.id = id
+            self.`type` = `type`
+            self.properties = properties
+            self.creatorRequestId = creatorRequestId
+            self.serviceCount = serviceCount
+            self.name = name
+            self.description = description
+            self.arn = arn
+            self.createDate = createDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case `type` = "Type"
+            case properties = "Properties"
+            case creatorRequestId = "CreatorRequestId"
+            case serviceCount = "ServiceCount"
+            case name = "Name"
+            case description = "Description"
+            case arn = "Arn"
+            case createDate = "CreateDate"
+        }
+    }
+
+    public struct ListNamespacesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+        ]
+        /// A complex type that contains specifications for the namespaces that you want to list. If you specify more than one filter, a namespace must match all filters to be returned by ListNamespaces.
+        public let filters: [NamespaceFilter]?
+        /// For the first ListNamespaces request, omit this value. If the response contains NextToken, submit another ListNamespaces request to get the next group of results. Specify the value of NextToken from the previous response in the next request.  AWS Cloud Map gets MaxResults namespaces and then filters them based on the specified criteria. It's possible that no namespaces in the first MaxResults namespaces matched the specified criteria but that subsequent groups of MaxResults namespaces do contain namespaces that match the criteria. 
+        public let nextToken: String?
+        /// The maximum number of namespaces that you want AWS Cloud Map to return in the response to a ListNamespaces request. If you don't specify a value for MaxResults, AWS Cloud Map returns up to 100 namespaces.
+        public let maxResults: Int32?
+
+        public init(filters: [NamespaceFilter]? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.filters = filters
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
+        }
+    }
+
+    public struct GetInstanceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServiceId", required: true, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: true, type: .string)
+        ]
+        /// The ID of the service that the instance is associated with.
+        public let serviceId: String
+        /// The ID of the instance that you want to get information about.
+        public let instanceId: String
+
+        public init(serviceId: String, instanceId: String) {
+            self.serviceId = serviceId
+            self.instanceId = instanceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceId = "ServiceId"
+            case instanceId = "InstanceId"
+        }
+    }
+
+    public struct DiscoverInstancesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Instances", required: false, type: .list)
+        ]
+        /// A complex type that contains one HttpInstanceSummary for each registered instance.
+        public let instances: [HttpInstanceSummary]?
+
+        public init(instances: [HttpInstanceSummary]? = nil) {
+            self.instances = instances
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instances = "Instances"
+        }
+    }
+
+    public enum RecordType: String, CustomStringConvertible, Codable {
+        case srv = "SRV"
+        case a = "A"
+        case aaaa = "AAAA"
+        case cname = "CNAME"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Instance: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "Attributes", required: false, type: .map), 
+            AWSShapeMember(label: "CreatorRequestId", required: false, type: .string)
+        ]
+        /// An identifier that you want to associate with the instance. Note the following:   If the service that is specified by ServiceId includes settings for an SRV record, the value of InstanceId is automatically included as part of the value for the SRV record. For more information, see DnsRecord$Type.   You can use this value to update an existing instance.   To register a new instance, you must specify a value that is unique among instances that you register by using the same service.    If you specify an existing InstanceId and ServiceId, AWS Cloud Map updates the existing DNS records. If there's also an existing health check, AWS Cloud Map deletes the old health check and creates a new one.   The health check isn't deleted immediately, so it will still appear for a while if you submit a ListHealthChecks request, for example.   
+        public let id: String
+        /// A string map that contains the following information for the service that you specify in ServiceId:   The attributes that apply to the records that are defined in the service.    For each attribute, the applicable value.   Supported attribute keys include the following:  AWS_ALIAS_DNS_NAME     If you want AWS Cloud Map to create a Route 53 alias record that routes traffic to an Elastic Load Balancing load balancer, specify the DNS name that is associated with the load balancer. For information about how to get the DNS name, see "DNSName" in the topic AliasTarget. Note the following:   The configuration for the service that is specified by ServiceId must include settings for an A record, an AAAA record, or both.   In the service that is specified by ServiceId, the value of RoutingPolicy must be WEIGHTED.   If the service that is specified by ServiceId includes HealthCheckConfig settings, AWS Cloud Map will create the health check, but it won't associate the health check with the alias record.   Auto naming currently doesn't support creating alias records that route traffic to AWS resources other than ELB load balancers.   If you specify a value for AWS_ALIAS_DNS_NAME, don't specify values for any of the AWS_INSTANCE attributes.    AWS_INSTANCE_CNAME  If the service configuration includes a CNAME record, the domain name that you want Route 53 to return in response to DNS queries, for example, example.com. This value is required if the service specified by ServiceId includes settings for an CNAME record.  AWS_INSTANCE_IPV4  If the service configuration includes an A record, the IPv4 address that you want Route 53 to return in response to DNS queries, for example, 192.0.2.44. This value is required if the service specified by ServiceId includes settings for an A record. If the service includes settings for an SRV record, you must specify a value for AWS_INSTANCE_IPV4, AWS_INSTANCE_IPV6, or both.  AWS_INSTANCE_IPV6  If the service configuration includes an AAAA record, the IPv6 address that you want Route 53 to return in response to DNS queries, for example, 2001:0db8:85a3:0000:0000:abcd:0001:2345. This value is required if the service specified by ServiceId includes settings for an AAAA record. If the service includes settings for an SRV record, you must specify a value for AWS_INSTANCE_IPV4, AWS_INSTANCE_IPV6, or both.  AWS_INSTANCE_PORT  If the service includes an SRV record, the value that you want Route 53 to return for the port. If the service includes HealthCheckConfig, the port on the endpoint that you want Route 53 to send requests to.  This value is required if you specified settings for an SRV record when you created the service.
+        public let attributes: [String: String]?
+        /// A unique string that identifies the request and that allows failed RegisterInstance requests to be retried without the risk of executing the operation twice. You must use a unique CreatorRequestId string every time you submit a RegisterInstance request if you're registering additional instances for the same namespace and service. CreatorRequestId can be any unique string, for example, a date/time stamp.
+        public let creatorRequestId: String?
+
+        public init(id: String, attributes: [String: String]? = nil, creatorRequestId: String? = nil) {
+            self.id = id
+            self.attributes = attributes
+            self.creatorRequestId = creatorRequestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case attributes = "Attributes"
+            case creatorRequestId = "CreatorRequestId"
+        }
+    }
+
+    public enum OperationTargetType: String, CustomStringConvertible, Codable {
+        case namespace = "NAMESPACE"
+        case service = "SERVICE"
+        case instance = "INSTANCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NamespaceFilterName: String, CustomStringConvertible, Codable {
+        case `type` = "TYPE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OperationFilterName: String, CustomStringConvertible, Codable {
+        case namespaceId = "NAMESPACE_ID"
+        case serviceId = "SERVICE_ID"
+        case status = "STATUS"
+        case `type` = "TYPE"
+        case updateDate = "UPDATE_DATE"
+        public var description: String { return self.rawValue }
     }
 
 }

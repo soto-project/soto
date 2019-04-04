@@ -5,11 +5,11 @@ import AWSSDKSwiftCore
 /// Error enum for AutoScalingPlans
 public enum AutoScalingPlansErrorType: AWSErrorType {
     case validationException(message: String?)
-    case objectNotFoundException(message: String?)
     case concurrentUpdateException(message: String?)
     case internalServiceException(message: String?)
-    case limitExceededException(message: String?)
+    case objectNotFoundException(message: String?)
     case invalidNextTokenException(message: String?)
+    case limitExceededException(message: String?)
 }
 
 extension AutoScalingPlansErrorType {
@@ -21,16 +21,16 @@ extension AutoScalingPlansErrorType {
         switch errorCode {
         case "ValidationException":
             self = .validationException(message: message)
-        case "ObjectNotFoundException":
-            self = .objectNotFoundException(message: message)
         case "ConcurrentUpdateException":
             self = .concurrentUpdateException(message: message)
         case "InternalServiceException":
             self = .internalServiceException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
+        case "ObjectNotFoundException":
+            self = .objectNotFoundException(message: message)
         case "InvalidNextTokenException":
             self = .invalidNextTokenException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
         default:
             return nil
         }

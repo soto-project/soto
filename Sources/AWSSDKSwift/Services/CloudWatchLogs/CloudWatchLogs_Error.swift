@@ -7,8 +7,8 @@ public enum CloudWatchLogsErrorType: AWSErrorType {
     case invalidParameterException(message: String?)
     case resourceNotFoundException(message: String?)
     case serviceUnavailableException(message: String?)
-    case limitExceededException(message: String?)
     case operationAbortedException(message: String?)
+    case limitExceededException(message: String?)
     case resourceAlreadyExistsException(message: String?)
     case invalidOperationException(message: String?)
     case malformedQueryException(message: String?)
@@ -30,10 +30,10 @@ extension CloudWatchLogsErrorType {
             self = .resourceNotFoundException(message: message)
         case "ServiceUnavailableException":
             self = .serviceUnavailableException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
         case "OperationAbortedException":
             self = .operationAbortedException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
         case "ResourceAlreadyExistsException":
             self = .resourceAlreadyExistsException(message: message)
         case "InvalidOperationException":

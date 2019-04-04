@@ -5,214 +5,199 @@ import AWSSDKSwiftCore
 
 extension PI {
 
-    public struct MetricKeyDataPoints: AWSShape {
+    public struct DimensionKeyDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .structure), 
-            AWSShapeMember(label: "DataPoints", required: false, type: .list)
+            AWSShapeMember(label: "Total", required: false, type: .double), 
+            AWSShapeMember(label: "Dimensions", required: false, type: .map), 
+            AWSShapeMember(label: "Partitions", required: false, type: .list)
         ]
-        /// The dimension(s) to which the data points apply.
-        public let key: ResponseResourceMetricKey?
-        /// An array of timestamp-value pairs, representing measurements over a period of time.
-        public let dataPoints: [DataPoint]?
+        /// The aggregated metric value for the dimension(s), over the requested time range.
+        public let total: Double?
+        /// A map of name-value pairs for the dimensions in the group.
+        public let dimensions: [String: String]?
+        /// If PartitionBy was specified, PartitionKeys contains the dimensions that were.
+        public let partitions: [Double]?
 
-        public init(key: ResponseResourceMetricKey? = nil, dataPoints: [DataPoint]? = nil) {
-            self.key = key
-            self.dataPoints = dataPoints
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "Key"
-            case dataPoints = "DataPoints"
-        }
-    }
-
-    public struct GetResourceMetricsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PeriodInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "ServiceType", required: true, type: .enum), 
-            AWSShapeMember(label: "StartTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Identifier", required: true, type: .string), 
-            AWSShapeMember(label: "MetricQueries", required: true, type: .list), 
-            AWSShapeMember(label: "EndTime", required: true, type: .timestamp)
-        ]
-        /// The granularity, in seconds, of the data points returned from Performance Insights. A period can be as short as one second, or as long as one day (86400 seconds). Valid values are:    1 (one second)    60 (one minute)    300 (five minutes)    3600 (one hour)    86400 (twenty-four hours)   If you don't specify PeriodInSeconds, then Performance Insights will choose a value for you, with a goal of returning roughly 100-200 data points in the response.
-        public let periodInSeconds: Int32?
-        /// The AWS service for which Performance Insights will return metrics. The only valid value for ServiceType is: RDS 
-        public let serviceType: ServiceType
-        /// The date and time specifying the beginning of the requested time series data. You can't specify a StartTime that's earlier than 7 days ago. The value specified is inclusive - data points equal to or greater than StartTime will be returned. The value for StartTime must be earlier than the value for EndTime.
-        public let startTime: TimeStamp
-        /// The maximum number of items to return in the response. If more items exist than the specified MaxRecords value, a pagination token is included in the response so that the remaining results can be retrieved. 
-        public let maxResults: Int32?
-        /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the token, up to the value specified by MaxRecords.
-        public let nextToken: String?
-        /// An immutable, AWS Region-unique identifier for a data source. Performance Insights gathers metrics from this data source. To use an Amazon RDS instance as a data source, you specify its DbiResourceId value - for example: db-FAIHNTYBKTGAUSUZQYPDS2GW4A 
-        public let identifier: String
-        /// An array of one or more queries to perform. Each query must specify a Performance Insights metric, and can optionally specify aggregation and filtering criteria.
-        public let metricQueries: [MetricQuery]
-        /// The date and time specifiying the end of the requested time series data. The value specified is exclusive - data points less than (but not equal to) EndTime will be returned. The value for EndTime must be later than the value for StartTime.
-        public let endTime: TimeStamp
-
-        public init(periodInSeconds: Int32? = nil, serviceType: ServiceType, startTime: TimeStamp, maxResults: Int32? = nil, nextToken: String? = nil, identifier: String, metricQueries: [MetricQuery], endTime: TimeStamp) {
-            self.periodInSeconds = periodInSeconds
-            self.serviceType = serviceType
-            self.startTime = startTime
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-            self.identifier = identifier
-            self.metricQueries = metricQueries
-            self.endTime = endTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case periodInSeconds = "PeriodInSeconds"
-            case serviceType = "ServiceType"
-            case startTime = "StartTime"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-            case identifier = "Identifier"
-            case metricQueries = "MetricQueries"
-            case endTime = "EndTime"
-        }
-    }
-
-    public struct DimensionGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "Dimensions", required: false, type: .list), 
-            AWSShapeMember(label: "Group", required: true, type: .string)
-        ]
-        /// The maximum number of items to fetch for this dimension group.
-        public let limit: Int32?
-        /// A list of specific dimensions from a dimension group. If this parameter is not present, then it signifies that all of the dimensions in the group were requested, or are present in the response. Valid values for elements in the Dimensions array are:   db.user.id   db.user.name   db.host.id   db.host.name   db.sql.id   db.sql.db_id   db.sql.statement   db.sql.tokenized_id   db.sql_tokenized.id   db.sql_tokenized.db_id   db.sql_tokenized.statement   db.wait_event.name   db.wait_event.type   db.wait_event_type.name  
-        public let dimensions: [String]?
-        /// The name of the dimension group. Valid values are:    db.user     db.host     db.sql     db.sql_tokenized     db.wait_event     db.wait_event_type   
-        public let group: String
-
-        public init(limit: Int32? = nil, dimensions: [String]? = nil, group: String) {
-            self.limit = limit
+        public init(total: Double? = nil, dimensions: [String: String]? = nil, partitions: [Double]? = nil) {
+            self.total = total
             self.dimensions = dimensions
-            self.group = group
+            self.partitions = partitions
         }
 
         private enum CodingKeys: String, CodingKey {
-            case limit = "Limit"
+            case total = "Total"
             case dimensions = "Dimensions"
-            case group = "Group"
-        }
-    }
-
-    public struct DataPoint: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: true, type: .double), 
-            AWSShapeMember(label: "Timestamp", required: true, type: .timestamp)
-        ]
-        /// The actual value associated with a particular Timestamp.
-        public let value: Double
-        /// The time, in epoch format, associated with a particular Value.
-        public let timestamp: TimeStamp
-
-        public init(value: Double, timestamp: TimeStamp) {
-            self.value = value
-            self.timestamp = timestamp
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case timestamp = "Timestamp"
+            case partitions = "Partitions"
         }
     }
 
     public struct DescribeDimensionKeysRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndTime", required: true, type: .timestamp), 
             AWSShapeMember(label: "PeriodInSeconds", required: false, type: .integer), 
-            AWSShapeMember(label: "GroupBy", required: true, type: .structure), 
-            AWSShapeMember(label: "StartTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "Metric", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "Identifier", required: true, type: .string), 
+            AWSShapeMember(label: "Filter", required: false, type: .map), 
             AWSShapeMember(label: "ServiceType", required: true, type: .enum), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "PartitionBy", required: false, type: .structure), 
-            AWSShapeMember(label: "EndTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "Identifier", required: true, type: .string), 
-            AWSShapeMember(label: "Filter", required: false, type: .map)
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "StartTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "GroupBy", required: true, type: .structure), 
+            AWSShapeMember(label: "Metric", required: true, type: .string), 
+            AWSShapeMember(label: "PartitionBy", required: false, type: .structure)
         ]
-        /// The granularity, in seconds, of the data points returned from Performance Insights. A period can be as short as one second, or as long as one day (86400 seconds). Valid values are:    1 (one second)    60 (one minute)    300 (five minutes)    3600 (one hour)    86400 (twenty-four hours)   If you don't specify PeriodInSeconds, then Performance Insights will choose a value for you, with a goal of returning roughly 100-200 data points in the response.
-        public let periodInSeconds: Int32?
-        /// A specification for how to aggregate the data points from a query result. You must specify a valid dimension group. Performance Insights will return all of the dimensions within that group, unless you provide the names of specific dimensions within that group. You can also request that Performance Insights return a limited number of values for a dimension.
-        public let groupBy: DimensionGroup
-        /// The date and time specifying the beginning of the requested time series data. You can't specify a StartTime that's earlier than 7 days ago. The value specified is inclusive - data points equal to or greater than StartTime will be returned. The value for StartTime must be earlier than the value for EndTime.
-        public let startTime: TimeStamp
-        /// The name of a Performance Insights metric to be measured. Valid values for Metric are:    db.load.avg - a scaled representation of the number of active sessions for the database engine.    db.sampledload.avg - the raw number of active sessions for the database engine.  
-        public let metric: String
-        /// The maximum number of items to return in the response. If more items exist than the specified MaxRecords value, a pagination token is included in the response so that the remaining results can be retrieved. 
-        public let maxResults: Int32?
-        /// The AWS service for which Performance Insights will return metrics. The only valid value for ServiceType is: RDS 
-        public let serviceType: ServiceType
-        /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the token, up to the value specified by MaxRecords.
-        public let nextToken: String?
-        /// For each dimension specified in GroupBy, specify a secondary dimension to further subdivide the partition keys in the response.
-        public let partitionBy: DimensionGroup?
         /// The date and time specifying the end of the requested time series data. The value specified is exclusive - data points less than (but not equal to) EndTime will be returned. The value for EndTime must be later than the value for StartTime.
         public let endTime: TimeStamp
+        /// The granularity, in seconds, of the data points returned from Performance Insights. A period can be as short as one second, or as long as one day (86400 seconds). Valid values are:    1 (one second)    60 (one minute)    300 (five minutes)    3600 (one hour)    86400 (twenty-four hours)   If you don't specify PeriodInSeconds, then Performance Insights will choose a value for you, with a goal of returning roughly 100-200 data points in the response.
+        public let periodInSeconds: Int32?
         /// An immutable, AWS Region-unique identifier for a data source. Performance Insights gathers metrics from this data source. To use an Amazon RDS instance as a data source, you specify its DbiResourceId value - for example: db-FAIHNTYBKTGAUSUZQYPDS2GW4A 
         public let identifier: String
         /// One or more filters to apply in the request. Restrictions:   Any number of filters by the same dimension, as specified in the GroupBy or Partition parameters.   A single filter for any other dimension in this dimension group.  
         public let filter: [String: String]?
+        /// The AWS service for which Performance Insights will return metrics. The only valid value for ServiceType is: RDS 
+        public let serviceType: ServiceType
+        /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the token, up to the value specified by MaxRecords.
+        public let nextToken: String?
+        /// The maximum number of items to return in the response. If more items exist than the specified MaxRecords value, a pagination token is included in the response so that the remaining results can be retrieved. 
+        public let maxResults: Int32?
+        /// The date and time specifying the beginning of the requested time series data. You can't specify a StartTime that's earlier than 7 days ago. The value specified is inclusive - data points equal to or greater than StartTime will be returned. The value for StartTime must be earlier than the value for EndTime.
+        public let startTime: TimeStamp
+        /// A specification for how to aggregate the data points from a query result. You must specify a valid dimension group. Performance Insights will return all of the dimensions within that group, unless you provide the names of specific dimensions within that group. You can also request that Performance Insights return a limited number of values for a dimension.
+        public let groupBy: DimensionGroup
+        /// The name of a Performance Insights metric to be measured. Valid values for Metric are:    db.load.avg - a scaled representation of the number of active sessions for the database engine.    db.sampledload.avg - the raw number of active sessions for the database engine.  
+        public let metric: String
+        /// For each dimension specified in GroupBy, specify a secondary dimension to further subdivide the partition keys in the response.
+        public let partitionBy: DimensionGroup?
 
-        public init(periodInSeconds: Int32? = nil, groupBy: DimensionGroup, startTime: TimeStamp, metric: String, maxResults: Int32? = nil, serviceType: ServiceType, nextToken: String? = nil, partitionBy: DimensionGroup? = nil, endTime: TimeStamp, identifier: String, filter: [String: String]? = nil) {
-            self.periodInSeconds = periodInSeconds
-            self.groupBy = groupBy
-            self.startTime = startTime
-            self.metric = metric
-            self.maxResults = maxResults
-            self.serviceType = serviceType
-            self.nextToken = nextToken
-            self.partitionBy = partitionBy
+        public init(endTime: TimeStamp, periodInSeconds: Int32? = nil, identifier: String, filter: [String: String]? = nil, serviceType: ServiceType, nextToken: String? = nil, maxResults: Int32? = nil, startTime: TimeStamp, groupBy: DimensionGroup, metric: String, partitionBy: DimensionGroup? = nil) {
             self.endTime = endTime
+            self.periodInSeconds = periodInSeconds
             self.identifier = identifier
             self.filter = filter
+            self.serviceType = serviceType
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+            self.startTime = startTime
+            self.groupBy = groupBy
+            self.metric = metric
+            self.partitionBy = partitionBy
         }
 
         private enum CodingKeys: String, CodingKey {
-            case periodInSeconds = "PeriodInSeconds"
-            case groupBy = "GroupBy"
-            case startTime = "StartTime"
-            case metric = "Metric"
-            case maxResults = "MaxResults"
-            case serviceType = "ServiceType"
-            case nextToken = "NextToken"
-            case partitionBy = "PartitionBy"
             case endTime = "EndTime"
+            case periodInSeconds = "PeriodInSeconds"
             case identifier = "Identifier"
             case filter = "Filter"
+            case serviceType = "ServiceType"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
+            case startTime = "StartTime"
+            case groupBy = "GroupBy"
+            case metric = "Metric"
+            case partitionBy = "PartitionBy"
+        }
+    }
+
+    public struct ResponseResourceMetricKey: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Metric", required: true, type: .string), 
+            AWSShapeMember(label: "Dimensions", required: false, type: .map)
+        ]
+        /// The name of a Performance Insights metric to be measured. Valid values for Metric are:    db.load.avg - a scaled representation of the number of active sessions for the database engine.    db.sampledload.avg - the raw number of active sessions for the database engine.  
+        public let metric: String
+        /// The valid dimensions for the metric.
+        public let dimensions: [String: String]?
+
+        public init(metric: String, dimensions: [String: String]? = nil) {
+            self.metric = metric
+            self.dimensions = dimensions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metric = "Metric"
+            case dimensions = "Dimensions"
         }
     }
 
     public struct MetricQuery: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filter", required: false, type: .map), 
             AWSShapeMember(label: "GroupBy", required: false, type: .structure), 
-            AWSShapeMember(label: "Metric", required: true, type: .string), 
-            AWSShapeMember(label: "Filter", required: false, type: .map)
+            AWSShapeMember(label: "Metric", required: true, type: .string)
         ]
+        /// One or more filters to apply in the request. Restrictions:   Any number of filters by the same dimension, as specified in the GroupBy parameter.   A single filter for any other dimension in this dimension group.  
+        public let filter: [String: String]?
         /// A specification for how to aggregate the data points from a query result. You must specify a valid dimension group. Performance Insights will return all of the dimensions within that group, unless you provide the names of specific dimensions within that group. You can also request that Performance Insights return a limited number of values for a dimension.
         public let groupBy: DimensionGroup?
         /// The name of a Performance Insights metric to be measured. Valid values for Metric are:    db.load.avg - a scaled representation of the number of active sessions for the database engine.    db.sampledload.avg - the raw number of active sessions for the database engine.  
         public let metric: String
-        /// One or more filters to apply in the request. Restrictions:   Any number of filters by the same dimension, as specified in the GroupBy parameter.   A single filter for any other dimension in this dimension group.  
-        public let filter: [String: String]?
 
-        public init(groupBy: DimensionGroup? = nil, metric: String, filter: [String: String]? = nil) {
+        public init(filter: [String: String]? = nil, groupBy: DimensionGroup? = nil, metric: String) {
+            self.filter = filter
             self.groupBy = groupBy
             self.metric = metric
-            self.filter = filter
         }
 
         private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
             case groupBy = "GroupBy"
             case metric = "Metric"
-            case filter = "Filter"
+        }
+    }
+
+    public struct MetricKeyDataPoints: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataPoints", required: false, type: .list), 
+            AWSShapeMember(label: "Key", required: false, type: .structure)
+        ]
+        /// An array of timestamp-value pairs, representing measurements over a period of time.
+        public let dataPoints: [DataPoint]?
+        /// The dimension(s) to which the data points apply.
+        public let key: ResponseResourceMetricKey?
+
+        public init(dataPoints: [DataPoint]? = nil, key: ResponseResourceMetricKey? = nil) {
+            self.dataPoints = dataPoints
+            self.key = key
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataPoints = "DataPoints"
+            case key = "Key"
+        }
+    }
+
+    public struct GetResourceMetricsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Identifier", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MetricList", required: false, type: .list), 
+            AWSShapeMember(label: "AlignedEndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "AlignedStartTime", required: false, type: .timestamp)
+        ]
+        /// An immutable, AWS Region-unique identifier for a data source. Performance Insights gathers metrics from this data source. To use an Amazon RDS instance as a data source, you specify its DbiResourceId value - for example: db-FAIHNTYBKTGAUSUZQYPDS2GW4A 
+        public let identifier: String?
+        /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the token, up to the value specified by MaxRecords.
+        public let nextToken: String?
+        /// An array of metric results,, where each array element contains all of the data points for a particular dimension.
+        public let metricList: [MetricKeyDataPoints]?
+        /// The end time for the returned metrics, after alignment to a granular boundary (as specified by PeriodInSeconds). AlignedEndTime will be greater than or equal to the value of the user-specified Endtime.
+        public let alignedEndTime: TimeStamp?
+        /// The start time for the returned metrics, after alignment to a granular boundary (as specified by PeriodInSeconds). AlignedStartTime will be less than or equal to the value of the user-specified StartTime.
+        public let alignedStartTime: TimeStamp?
+
+        public init(identifier: String? = nil, nextToken: String? = nil, metricList: [MetricKeyDataPoints]? = nil, alignedEndTime: TimeStamp? = nil, alignedStartTime: TimeStamp? = nil) {
+            self.identifier = identifier
+            self.nextToken = nextToken
+            self.metricList = metricList
+            self.alignedEndTime = alignedEndTime
+            self.alignedStartTime = alignedStartTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identifier = "Identifier"
+            case nextToken = "NextToken"
+            case metricList = "MetricList"
+            case alignedEndTime = "AlignedEndTime"
+            case alignedStartTime = "AlignedStartTime"
         }
     }
 
@@ -221,39 +206,101 @@ extension PI {
         public var description: String { return self.rawValue }
     }
 
-    public struct GetResourceMetricsResponse: AWSShape {
+    public struct GetResourceMetricsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AlignedStartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MetricQueries", required: true, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Identifier", required: false, type: .string), 
-            AWSShapeMember(label: "AlignedEndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MetricList", required: false, type: .list)
+            AWSShapeMember(label: "Identifier", required: true, type: .string), 
+            AWSShapeMember(label: "StartTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "ServiceType", required: true, type: .enum), 
+            AWSShapeMember(label: "PeriodInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "EndTime", required: true, type: .timestamp)
         ]
-        /// The start time for the returned metrics, after alignment to a granular boundary (as specified by PeriodInSeconds). AlignedStartTime will be less than or equal to the value of the user-specified StartTime.
-        public let alignedStartTime: TimeStamp?
+        /// An array of one or more queries to perform. Each query must specify a Performance Insights metric, and can optionally specify aggregation and filtering criteria.
+        public let metricQueries: [MetricQuery]
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the token, up to the value specified by MaxRecords.
         public let nextToken: String?
         /// An immutable, AWS Region-unique identifier for a data source. Performance Insights gathers metrics from this data source. To use an Amazon RDS instance as a data source, you specify its DbiResourceId value - for example: db-FAIHNTYBKTGAUSUZQYPDS2GW4A 
-        public let identifier: String?
-        /// The end time for the returned metrics, after alignment to a granular boundary (as specified by PeriodInSeconds). AlignedEndTime will be greater than or equal to the value of the user-specified Endtime.
-        public let alignedEndTime: TimeStamp?
-        /// An array of metric results,, where each array element contains all of the data points for a particular dimension.
-        public let metricList: [MetricKeyDataPoints]?
+        public let identifier: String
+        /// The date and time specifying the beginning of the requested time series data. You can't specify a StartTime that's earlier than 7 days ago. The value specified is inclusive - data points equal to or greater than StartTime will be returned. The value for StartTime must be earlier than the value for EndTime.
+        public let startTime: TimeStamp
+        /// The maximum number of items to return in the response. If more items exist than the specified MaxRecords value, a pagination token is included in the response so that the remaining results can be retrieved. 
+        public let maxResults: Int32?
+        /// The AWS service for which Performance Insights will return metrics. The only valid value for ServiceType is: RDS 
+        public let serviceType: ServiceType
+        /// The granularity, in seconds, of the data points returned from Performance Insights. A period can be as short as one second, or as long as one day (86400 seconds). Valid values are:    1 (one second)    60 (one minute)    300 (five minutes)    3600 (one hour)    86400 (twenty-four hours)   If you don't specify PeriodInSeconds, then Performance Insights will choose a value for you, with a goal of returning roughly 100-200 data points in the response.
+        public let periodInSeconds: Int32?
+        /// The date and time specifiying the end of the requested time series data. The value specified is exclusive - data points less than (but not equal to) EndTime will be returned. The value for EndTime must be later than the value for StartTime.
+        public let endTime: TimeStamp
 
-        public init(alignedStartTime: TimeStamp? = nil, nextToken: String? = nil, identifier: String? = nil, alignedEndTime: TimeStamp? = nil, metricList: [MetricKeyDataPoints]? = nil) {
-            self.alignedStartTime = alignedStartTime
+        public init(metricQueries: [MetricQuery], nextToken: String? = nil, identifier: String, startTime: TimeStamp, maxResults: Int32? = nil, serviceType: ServiceType, periodInSeconds: Int32? = nil, endTime: TimeStamp) {
+            self.metricQueries = metricQueries
             self.nextToken = nextToken
             self.identifier = identifier
-            self.alignedEndTime = alignedEndTime
-            self.metricList = metricList
+            self.startTime = startTime
+            self.maxResults = maxResults
+            self.serviceType = serviceType
+            self.periodInSeconds = periodInSeconds
+            self.endTime = endTime
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alignedStartTime = "AlignedStartTime"
+            case metricQueries = "MetricQueries"
             case nextToken = "NextToken"
             case identifier = "Identifier"
-            case alignedEndTime = "AlignedEndTime"
-            case metricList = "MetricList"
+            case startTime = "StartTime"
+            case maxResults = "MaxResults"
+            case serviceType = "ServiceType"
+            case periodInSeconds = "PeriodInSeconds"
+            case endTime = "EndTime"
+        }
+    }
+
+    public struct DimensionGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Dimensions", required: false, type: .list), 
+            AWSShapeMember(label: "Group", required: true, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
+        ]
+        /// A list of specific dimensions from a dimension group. If this parameter is not present, then it signifies that all of the dimensions in the group were requested, or are present in the response. Valid values for elements in the Dimensions array are:   db.user.id   db.user.name   db.host.id   db.host.name   db.sql.id   db.sql.db_id   db.sql.statement   db.sql.tokenized_id   db.sql_tokenized.id   db.sql_tokenized.db_id   db.sql_tokenized.statement   db.wait_event.name   db.wait_event.type   db.wait_event_type.name  
+        public let dimensions: [String]?
+        /// The name of the dimension group. Valid values are:    db.user     db.host     db.sql     db.sql_tokenized     db.wait_event     db.wait_event_type   
+        public let group: String
+        /// The maximum number of items to fetch for this dimension group.
+        public let limit: Int32?
+
+        public init(dimensions: [String]? = nil, group: String, limit: Int32? = nil) {
+            self.dimensions = dimensions
+            self.group = group
+            self.limit = limit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensions = "Dimensions"
+            case group = "Group"
+            case limit = "Limit"
+        }
+    }
+
+    public struct DataPoint: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Timestamp", required: true, type: .timestamp), 
+            AWSShapeMember(label: "Value", required: true, type: .double)
+        ]
+        /// The time, in epoch format, associated with a particular Value.
+        public let timestamp: TimeStamp
+        /// The actual value associated with a particular Timestamp.
+        public let value: Double
+
+        public init(timestamp: TimeStamp, value: Double) {
+            self.timestamp = timestamp
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timestamp = "Timestamp"
+            case value = "Value"
         }
     }
 
@@ -261,34 +308,34 @@ extension PI {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "AlignedStartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Keys", required: false, type: .list), 
             AWSShapeMember(label: "AlignedEndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Keys", required: false, type: .list), 
             AWSShapeMember(label: "PartitionKeys", required: false, type: .list)
         ]
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the token, up to the value specified by MaxRecords.
         public let nextToken: String?
         /// The start time for the returned dimension keys, after alignment to a granular boundary (as specified by PeriodInSeconds). AlignedStartTime will be less than or equal to the value of the user-specified StartTime.
         public let alignedStartTime: TimeStamp?
-        /// The dimension keys that were requested.
-        public let keys: [DimensionKeyDescription]?
         /// The end time for the returned dimension keys, after alignment to a granular boundary (as specified by PeriodInSeconds). AlignedEndTime will be greater than or equal to the value of the user-specified Endtime.
         public let alignedEndTime: TimeStamp?
+        /// The dimension keys that were requested.
+        public let keys: [DimensionKeyDescription]?
         /// If PartitionBy was present in the request, PartitionKeys contains the breakdown of dimension keys by the specified partitions.
         public let partitionKeys: [ResponsePartitionKey]?
 
-        public init(nextToken: String? = nil, alignedStartTime: TimeStamp? = nil, keys: [DimensionKeyDescription]? = nil, alignedEndTime: TimeStamp? = nil, partitionKeys: [ResponsePartitionKey]? = nil) {
+        public init(nextToken: String? = nil, alignedStartTime: TimeStamp? = nil, alignedEndTime: TimeStamp? = nil, keys: [DimensionKeyDescription]? = nil, partitionKeys: [ResponsePartitionKey]? = nil) {
             self.nextToken = nextToken
             self.alignedStartTime = alignedStartTime
-            self.keys = keys
             self.alignedEndTime = alignedEndTime
+            self.keys = keys
             self.partitionKeys = partitionKeys
         }
 
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case alignedStartTime = "AlignedStartTime"
-            case keys = "Keys"
             case alignedEndTime = "AlignedEndTime"
+            case keys = "Keys"
             case partitionKeys = "PartitionKeys"
         }
     }
@@ -306,53 +353,6 @@ extension PI {
 
         private enum CodingKeys: String, CodingKey {
             case dimensions = "Dimensions"
-        }
-    }
-
-    public struct ResponseResourceMetricKey: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Dimensions", required: false, type: .map), 
-            AWSShapeMember(label: "Metric", required: true, type: .string)
-        ]
-        /// The valid dimensions for the metric.
-        public let dimensions: [String: String]?
-        /// The name of a Performance Insights metric to be measured. Valid values for Metric are:    db.load.avg - a scaled representation of the number of active sessions for the database engine.    db.sampledload.avg - the raw number of active sessions for the database engine.  
-        public let metric: String
-
-        public init(dimensions: [String: String]? = nil, metric: String) {
-            self.dimensions = dimensions
-            self.metric = metric
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dimensions = "Dimensions"
-            case metric = "Metric"
-        }
-    }
-
-    public struct DimensionKeyDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Dimensions", required: false, type: .map), 
-            AWSShapeMember(label: "Total", required: false, type: .double), 
-            AWSShapeMember(label: "Partitions", required: false, type: .list)
-        ]
-        /// A map of name-value pairs for the dimensions in the group.
-        public let dimensions: [String: String]?
-        /// The aggregated metric value for the dimension(s), over the requested time range.
-        public let total: Double?
-        /// If PartitionBy was specified, PartitionKeys contains the dimensions that were.
-        public let partitions: [Double]?
-
-        public init(dimensions: [String: String]? = nil, total: Double? = nil, partitions: [Double]? = nil) {
-            self.dimensions = dimensions
-            self.total = total
-            self.partitions = partitions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dimensions = "Dimensions"
-            case total = "Total"
-            case partitions = "Partitions"
         }
     }
 

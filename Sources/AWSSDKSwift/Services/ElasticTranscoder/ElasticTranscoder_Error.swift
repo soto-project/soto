@@ -9,8 +9,8 @@ public enum ElasticTranscoderErrorType: AWSErrorType {
     case resourceNotFoundException(message: String?)
     case accessDeniedException(message: String?)
     case internalServiceException(message: String?)
-    case resourceInUseException(message: String?)
     case limitExceededException(message: String?)
+    case resourceInUseException(message: String?)
 }
 
 extension ElasticTranscoderErrorType {
@@ -30,10 +30,10 @@ extension ElasticTranscoderErrorType {
             self = .accessDeniedException(message: message)
         case "InternalServiceException":
             self = .internalServiceException(message: message)
-        case "ResourceInUseException":
-            self = .resourceInUseException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
+        case "ResourceInUseException":
+            self = .resourceInUseException(message: message)
         default:
             return nil
         }

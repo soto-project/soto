@@ -5,17 +5,58 @@ import AWSSDKSwiftCore
 
 extension CloudFront {
 
-    public struct LambdaFunctionAssociations: AWSShape {
+    public struct UntagResourceRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "TagKeys"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Resource", location: .querystring(locationName: "Resource"), required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", location: .body(locationName: "TagKeys"), required: true, type: .structure)
+        ]
+        ///  An ARN of a CloudFront resource.
+        public let resource: String
+        ///  A complex type that contains zero or more Tag key elements.
+        public let tagKeys: TagKeys
+
+        public init(resource: String, tagKeys: TagKeys) {
+            self.resource = resource
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resource = "Resource"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct GetInvalidationResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "Invalidation"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Invalidation", required: false, type: .structure)
+        ]
+        /// The invalidation's information. For more information, see Invalidation Complex Type. 
+        public let invalidation: Invalidation?
+
+        public init(invalidation: Invalidation? = nil) {
+            self.invalidation = invalidation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invalidation = "Invalidation"
+        }
+    }
+
+    public struct EncryptionEntities: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Items", required: false, type: .structure), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
-        ///  Optional: A complex type that contains LambdaFunctionAssociation items for this cache behavior. If Quantity is 0, you can omit Items.
-        public let items: LambdaFunctionAssociationList?
-        /// The number of Lambda function associations for this cache behavior.
+        /// An array of field patterns in a field-level encryption content type-profile mapping. 
+        public let items: EncryptionEntityList?
+        /// Number of field pattern items in a field-level encryption content type-profile mapping. 
         public let quantity: Int32
 
-        public init(items: LambdaFunctionAssociationList? = nil, quantity: Int32) {
+        public init(items: EncryptionEntityList? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
         }
@@ -23,6 +64,1531 @@ extension CloudFront {
         private enum CodingKeys: String, CodingKey {
             case items = "Items"
             case quantity = "Quantity"
+        }
+    }
+
+    public struct CloudFrontOriginAccessIdentity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CloudFrontOriginAccessIdentityConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "S3CanonicalUserId", required: true, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
+        ]
+        /// The current configuration information for the identity. 
+        public let cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig?
+        /// The Amazon S3 canonical user ID for the origin access identity, used when giving the origin access identity read permission to an object in Amazon S3. 
+        public let s3CanonicalUserId: String
+        /// The ID for the origin access identity, for example, E74FTE3AJFJ256A. 
+        public let id: String
+
+        public init(cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig? = nil, s3CanonicalUserId: String, id: String) {
+            self.cloudFrontOriginAccessIdentityConfig = cloudFrontOriginAccessIdentityConfig
+            self.s3CanonicalUserId = s3CanonicalUserId
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudFrontOriginAccessIdentityConfig = "CloudFrontOriginAccessIdentityConfig"
+            case s3CanonicalUserId = "S3CanonicalUserId"
+            case id = "Id"
+        }
+    }
+
+    public struct CreateCloudFrontOriginAccessIdentityRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "CloudFrontOriginAccessIdentityConfig"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CloudFrontOriginAccessIdentityConfig", location: .body(locationName: "CloudFrontOriginAccessIdentityConfig"), required: true, type: .structure)
+        ]
+        /// The current configuration information for the identity.
+        public let cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig
+
+        public init(cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig) {
+            self.cloudFrontOriginAccessIdentityConfig = cloudFrontOriginAccessIdentityConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudFrontOriginAccessIdentityConfig = "CloudFrontOriginAccessIdentityConfig"
+        }
+    }
+
+    public struct OriginCustomHeadersList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OriginCustomHeader", required: false, type: .list)
+        ]
+        public let originCustomHeader: [OriginCustomHeader]?
+
+        public init(originCustomHeader: [OriginCustomHeader]? = nil) {
+            self.originCustomHeader = originCustomHeader
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case originCustomHeader = "OriginCustomHeader"
+        }
+    }
+
+    public struct InvalidationList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: true, type: .string), 
+            AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
+            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer), 
+            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "MaxItems", required: true, type: .integer)
+        ]
+        /// The value that you provided for the Marker request parameter.
+        public let marker: String
+        /// A flag that indicates whether more invalidation batch requests remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more invalidation batches in the list.
+        public let isTruncated: Bool
+        /// If IsTruncated is true, this element is present and contains the value that you can use for the Marker request parameter to continue listing your invalidation batches where they left off.
+        public let nextMarker: String?
+        /// The number of invalidation batches that were created by the current AWS account. 
+        public let quantity: Int32
+        /// A complex type that contains one InvalidationSummary element for each invalidation batch created by the current AWS account.
+        public let items: InvalidationSummaryList?
+        /// The value that you provided for the MaxItems request parameter.
+        public let maxItems: Int32
+
+        public init(marker: String, isTruncated: Bool, nextMarker: String? = nil, quantity: Int32, items: InvalidationSummaryList? = nil, maxItems: Int32) {
+            self.marker = marker
+            self.isTruncated = isTruncated
+            self.nextMarker = nextMarker
+            self.quantity = quantity
+            self.items = items
+            self.maxItems = maxItems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case isTruncated = "IsTruncated"
+            case nextMarker = "NextMarker"
+            case quantity = "Quantity"
+            case items = "Items"
+            case maxItems = "MaxItems"
+        }
+    }
+
+    public struct CloudFrontOriginAccessIdentityConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Comment", required: true, type: .string), 
+            AWSShapeMember(label: "CallerReference", required: true, type: .string)
+        ]
+        /// Any comments you want to include about the origin access identity. 
+        public let comment: String
+        /// A unique value (for example, a date-time stamp) that ensures that the request can't be replayed. If the value of CallerReference is new (regardless of the content of the CloudFrontOriginAccessIdentityConfig object), a new origin access identity is created. If the CallerReference is a value already sent in a previous identity request, and the content of the CloudFrontOriginAccessIdentityConfig is identical to the original request (ignoring white space), the response includes the same information returned to the original request.  If the CallerReference is a value you already sent in a previous request to create an identity, but the content of the CloudFrontOriginAccessIdentityConfig is different from the original request, CloudFront returns a CloudFrontOriginAccessIdentityAlreadyExists error. 
+        public let callerReference: String
+
+        public init(comment: String, callerReference: String) {
+            self.comment = comment
+            self.callerReference = callerReference
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comment = "Comment"
+            case callerReference = "CallerReference"
+        }
+    }
+
+    public struct TagKeys: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: false, type: .structure)
+        ]
+        ///  A complex type that contains Tag key elements.
+        public let items: TagKeyList?
+
+        public init(items: TagKeyList? = nil) {
+            self.items = items
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+        }
+    }
+
+    public struct CreatePublicKeyRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "PublicKeyConfig"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PublicKeyConfig", location: .body(locationName: "PublicKeyConfig"), required: true, type: .structure)
+        ]
+        /// The request to add a public key to CloudFront.
+        public let publicKeyConfig: PublicKeyConfig
+
+        public init(publicKeyConfig: PublicKeyConfig) {
+            self.publicKeyConfig = publicKeyConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case publicKeyConfig = "PublicKeyConfig"
+        }
+    }
+
+    public struct Aliases: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer)
+        ]
+        /// A complex type that contains the CNAME aliases, if any, that you want to associate with this distribution.
+        public let items: AliasList?
+        /// The number of CNAME aliases, if any, that you want to associate with this distribution.
+        public let quantity: Int32
+
+        public init(items: AliasList? = nil, quantity: Int32) {
+            self.items = items
+            self.quantity = quantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case quantity = "Quantity"
+        }
+    }
+
+    public struct UpdatePublicKeyResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "PublicKey"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PublicKey", required: false, type: .structure), 
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string)
+        ]
+        /// Return the results of updating the public key.
+        public let publicKey: PublicKey?
+        /// The current version of the update public key result. For example: E2QWRUHAPOMQZL.
+        public let eTag: String?
+
+        public init(publicKey: PublicKey? = nil, eTag: String? = nil) {
+            self.publicKey = publicKey
+            self.eTag = eTag
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case publicKey = "PublicKey"
+            case eTag = "ETag"
+        }
+    }
+
+    public struct LoggingConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", required: true, type: .string), 
+            AWSShapeMember(label: "IncludeCookies", required: true, type: .boolean), 
+            AWSShapeMember(label: "Prefix", required: true, type: .string), 
+            AWSShapeMember(label: "Enabled", required: true, type: .boolean)
+        ]
+        /// The Amazon S3 bucket to store the access logs in, for example, myawslogbucket.s3.amazonaws.com.
+        public let bucket: String
+        /// Specifies whether you want CloudFront to include cookies in access logs, specify true for IncludeCookies. If you choose to include cookies in logs, CloudFront logs all cookies regardless of how you configure the cache behaviors for this distribution. If you don't want to include cookies when you create a distribution or if you want to disable include cookies for an existing distribution, specify false for IncludeCookies.
+        public let includeCookies: Bool
+        /// An optional string that you want CloudFront to prefix to the access log filenames for this distribution, for example, myprefix/. If you want to enable logging, but you don't want to specify a prefix, you still must include an empty Prefix element in the Logging element.
+        public let prefix: String
+        /// Specifies whether you want CloudFront to save access logs to an Amazon S3 bucket. If you don't want to enable logging when you create a distribution or if you want to disable logging for an existing distribution, specify false for Enabled, and specify empty Bucket and Prefix elements. If you specify false for Enabled but you specify values for Bucket, prefix, and IncludeCookies, the values are automatically deleted.
+        public let enabled: Bool
+
+        public init(bucket: String, includeCookies: Bool, prefix: String, enabled: Bool) {
+            self.bucket = bucket
+            self.includeCookies = includeCookies
+            self.prefix = prefix
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case includeCookies = "IncludeCookies"
+            case prefix = "Prefix"
+            case enabled = "Enabled"
+        }
+    }
+
+    public struct GetPublicKeyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        ]
+        /// Request the ID for the public key.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
+    }
+
+    public struct ContentTypeProfileList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContentTypeProfile", required: false, type: .list)
+        ]
+        public let contentTypeProfile: [ContentTypeProfile]?
+
+        public init(contentTypeProfile: [ContentTypeProfile]? = nil) {
+            self.contentTypeProfile = contentTypeProfile
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentTypeProfile = "ContentTypeProfile"
+        }
+    }
+
+    public struct GetFieldLevelEncryptionResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "FieldLevelEncryption"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FieldLevelEncryption", required: false, type: .structure), 
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string)
+        ]
+        /// Return the field-level encryption configuration information.
+        public let fieldLevelEncryption: FieldLevelEncryption?
+        /// The current version of the field level encryption configuration. For example: E2QWRUHAPOMQZL.
+        public let eTag: String?
+
+        public init(fieldLevelEncryption: FieldLevelEncryption? = nil, eTag: String? = nil) {
+            self.fieldLevelEncryption = fieldLevelEncryption
+            self.eTag = eTag
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldLevelEncryption = "FieldLevelEncryption"
+            case eTag = "ETag"
+        }
+    }
+
+    public struct CloudFrontOriginAccessIdentityList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxItems", required: true, type: .integer), 
+            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer), 
+            AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
+            AWSShapeMember(label: "Marker", required: true, type: .string), 
+            AWSShapeMember(label: "NextMarker", required: false, type: .string)
+        ]
+        /// The maximum number of origin access identities you want in the response body. 
+        public let maxItems: Int32
+        /// A complex type that contains one CloudFrontOriginAccessIdentitySummary element for each origin access identity that was created by the current AWS account.
+        public let items: CloudFrontOriginAccessIdentitySummaryList?
+        /// The number of CloudFront origin access identities that were created by the current AWS account. 
+        public let quantity: Int32
+        /// A flag that indicates whether more origin access identities remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more items in the list.
+        public let isTruncated: Bool
+        /// Use this when paginating results to indicate where to begin in your list of origin access identities. The results include identities in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last identity on that page). 
+        public let marker: String
+        /// If IsTruncated is true, this element is present and contains the value you can use for the Marker request parameter to continue listing your origin access identities where they left off. 
+        public let nextMarker: String?
+
+        public init(maxItems: Int32, items: CloudFrontOriginAccessIdentitySummaryList? = nil, quantity: Int32, isTruncated: Bool, marker: String, nextMarker: String? = nil) {
+            self.maxItems = maxItems
+            self.items = items
+            self.quantity = quantity
+            self.isTruncated = isTruncated
+            self.marker = marker
+            self.nextMarker = nextMarker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxItems = "MaxItems"
+            case items = "Items"
+            case quantity = "Quantity"
+            case isTruncated = "IsTruncated"
+            case marker = "Marker"
+            case nextMarker = "NextMarker"
+        }
+    }
+
+    public struct GetFieldLevelEncryptionProfileConfigRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        ]
+        /// Get the ID for the field-level encryption profile configuration information.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
+    }
+
+    public struct CreateCloudFrontOriginAccessIdentityResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "CloudFrontOriginAccessIdentity"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
+            AWSShapeMember(label: "CloudFrontOriginAccessIdentity", required: false, type: .structure), 
+            AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: false, type: .string)
+        ]
+        /// The current version of the origin access identity created.
+        public let eTag: String?
+        /// The origin access identity's information.
+        public let cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity?
+        /// The fully qualified URI of the new origin access identity just created. For example: https://cloudfront.amazonaws.com/2010-11-01/origin-access-identity/cloudfront/E74FTE3AJFJ256A.
+        public let location: String?
+
+        public init(eTag: String? = nil, cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity? = nil, location: String? = nil) {
+            self.eTag = eTag
+            self.cloudFrontOriginAccessIdentity = cloudFrontOriginAccessIdentity
+            self.location = location
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case cloudFrontOriginAccessIdentity = "CloudFrontOriginAccessIdentity"
+            case location = "Location"
+        }
+    }
+
+    public struct DeletePublicKeyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        ]
+        /// The value of the ETag header that you received when retrieving the public key identity to delete. For example: E2QWRUHAPOMQZL.
+        public let ifMatch: String?
+        /// The ID of the public key you want to remove from CloudFront.
+        public let id: String
+
+        public init(ifMatch: String? = nil, id: String) {
+            self.ifMatch = ifMatch
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ifMatch = "If-Match"
+            case id = "Id"
+        }
+    }
+
+    public struct CustomErrorResponses: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer)
+        ]
+        /// A complex type that contains a CustomErrorResponse element for each HTTP status code for which you want to specify a custom error page and/or a caching duration. 
+        public let items: CustomErrorResponseList?
+        /// The number of HTTP status codes for which you want to specify a custom error page and/or a caching duration. If Quantity is 0, you can omit Items.
+        public let quantity: Int32
+
+        public init(items: CustomErrorResponseList? = nil, quantity: Int32) {
+            self.items = items
+            self.quantity = quantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case quantity = "Quantity"
+        }
+    }
+
+    public struct MethodsList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Method", required: false, type: .list)
+        ]
+        public let method: [Method]?
+
+        public init(method: [Method]? = nil) {
+            self.method = method
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case method = "Method"
+        }
+    }
+
+    public struct PublicKey: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "PublicKeyConfig", required: true, type: .structure)
+        ]
+        /// A time you added a public key to CloudFront.
+        public let createdTime: TimeStamp
+        /// A unique ID assigned to a public key you've added to CloudFront.
+        public let id: String
+        /// A complex data type for a public key you add to CloudFront to use with features like field-level encryption.
+        public let publicKeyConfig: PublicKeyConfig
+
+        public init(createdTime: TimeStamp, id: String, publicKeyConfig: PublicKeyConfig) {
+            self.createdTime = createdTime
+            self.id = id
+            self.publicKeyConfig = publicKeyConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTime = "CreatedTime"
+            case id = "Id"
+            case publicKeyConfig = "PublicKeyConfig"
+        }
+    }
+
+    public struct DistributionConfigWithTags: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DistributionConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "Tags", required: true, type: .structure)
+        ]
+        /// A distribution configuration.
+        public let distributionConfig: DistributionConfig
+        /// A complex type that contains zero or more Tag elements.
+        public let tags: Tags
+
+        public init(distributionConfig: DistributionConfig, tags: Tags) {
+            self.distributionConfig = distributionConfig
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case distributionConfig = "DistributionConfig"
+            case tags = "Tags"
+        }
+    }
+
+    public struct Origin: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CustomHeaders", required: false, type: .structure), 
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "S3OriginConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "OriginPath", required: false, type: .string), 
+            AWSShapeMember(label: "CustomOriginConfig", required: false, type: .structure)
+        ]
+        /// A complex type that contains names and values for the custom headers that you want.
+        public let customHeaders: CustomHeaders?
+        /// A unique identifier for the origin or origin group. The value of Id must be unique within the distribution. When you specify the value of TargetOriginId for the default cache behavior or for another cache behavior, you indicate the origin to which you want the cache behavior to route requests by specifying the value of the Id element for that origin. When a request matches the path pattern for that cache behavior, CloudFront routes the request to the specified origin. For more information, see Cache Behavior Settings in the Amazon CloudFront Developer Guide.
+        public let id: String
+        ///  Amazon S3 origins: The DNS name of the Amazon S3 bucket from which you want CloudFront to get objects for this origin, for example, myawsbucket.s3.amazonaws.com. If you set up your bucket to be configured as a website endpoint, enter the Amazon S3 static website hosting endpoint for the bucket. For more information about specifying this value for different types of origins, see Origin Domain Name in the Amazon CloudFront Developer Guide. Constraints for Amazon S3 origins:    If you configured Amazon S3 Transfer Acceleration for your bucket, don't specify the s3-accelerate endpoint for DomainName.   The bucket name must be between 3 and 63 characters long (inclusive).   The bucket name must contain only lowercase characters, numbers, periods, underscores, and dashes.   The bucket name must not contain adjacent periods.    Custom Origins: The DNS domain name for the HTTP server from which you want CloudFront to get objects for this origin, for example, www.example.com.  Constraints for custom origins:    DomainName must be a valid DNS name that contains only a-z, A-Z, 0-9, dot (.), hyphen (-), or underscore (_) characters.   The name cannot exceed 128 characters.  
+        public let domainName: String
+        /// A complex type that contains information about the Amazon S3 origin. If the origin is a custom origin, use the CustomOriginConfig element instead.
+        public let s3OriginConfig: S3OriginConfig?
+        /// An optional element that causes CloudFront to request your content from a directory in your Amazon S3 bucket or your custom origin. When you include the OriginPath element, specify the directory name, beginning with a /. CloudFront appends the directory name to the value of DomainName, for example, example.com/production. Do not include a / at the end of the directory name. For example, suppose you've specified the following values for your distribution:    DomainName: An Amazon S3 bucket named myawsbucket.    OriginPath: /production     CNAME: example.com    When a user enters example.com/index.html in a browser, CloudFront sends a request to Amazon S3 for myawsbucket/production/index.html. When a user enters example.com/acme/index.html in a browser, CloudFront sends a request to Amazon S3 for myawsbucket/production/acme/index.html.
+        public let originPath: String?
+        /// A complex type that contains information about a custom origin. If the origin is an Amazon S3 bucket, use the S3OriginConfig element instead.
+        public let customOriginConfig: CustomOriginConfig?
+
+        public init(customHeaders: CustomHeaders? = nil, id: String, domainName: String, s3OriginConfig: S3OriginConfig? = nil, originPath: String? = nil, customOriginConfig: CustomOriginConfig? = nil) {
+            self.customHeaders = customHeaders
+            self.id = id
+            self.domainName = domainName
+            self.s3OriginConfig = s3OriginConfig
+            self.originPath = originPath
+            self.customOriginConfig = customOriginConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customHeaders = "CustomHeaders"
+            case id = "Id"
+            case domainName = "DomainName"
+            case s3OriginConfig = "S3OriginConfig"
+            case originPath = "OriginPath"
+            case customOriginConfig = "CustomOriginConfig"
+        }
+    }
+
+    public struct OriginGroupMember: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OriginId", required: true, type: .string)
+        ]
+        /// The ID for an origin in an origin group.
+        public let originId: String
+
+        public init(originId: String) {
+            self.originId = originId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case originId = "OriginId"
+        }
+    }
+
+    public struct FieldPatternList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FieldPattern", required: false, type: .list)
+        ]
+        public let fieldPattern: [String]?
+
+        public init(fieldPattern: [String]? = nil) {
+            self.fieldPattern = fieldPattern
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldPattern = "FieldPattern"
+        }
+    }
+
+    public struct Signer: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeyPairIds", required: false, type: .structure), 
+            AWSShapeMember(label: "AwsAccountNumber", required: false, type: .string)
+        ]
+        /// A complex type that lists the active CloudFront key pairs, if any, that are associated with AwsAccountNumber.
+        public let keyPairIds: KeyPairIds?
+        /// An AWS account that is included in the TrustedSigners complex type for this RTMP distribution. Valid values include:    self, which is the AWS account used to create the distribution.   An AWS account number.  
+        public let awsAccountNumber: String?
+
+        public init(keyPairIds: KeyPairIds? = nil, awsAccountNumber: String? = nil) {
+            self.keyPairIds = keyPairIds
+            self.awsAccountNumber = awsAccountNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyPairIds = "KeyPairIds"
+            case awsAccountNumber = "AwsAccountNumber"
+        }
+    }
+
+    public struct CreateDistributionWithTagsResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "Distribution"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: false, type: .string), 
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
+            AWSShapeMember(label: "Distribution", required: false, type: .structure)
+        ]
+        /// The fully qualified URI of the new distribution resource just created. For example: https://cloudfront.amazonaws.com/2010-11-01/distribution/EDFDVBD632BHDS5. 
+        public let location: String?
+        /// The current version of the distribution created.
+        public let eTag: String?
+        /// The distribution's information. 
+        public let distribution: Distribution?
+
+        public init(location: String? = nil, eTag: String? = nil, distribution: Distribution? = nil) {
+            self.location = location
+            self.eTag = eTag
+            self.distribution = distribution
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case location = "Location"
+            case eTag = "ETag"
+            case distribution = "Distribution"
+        }
+    }
+
+    public struct FieldLevelEncryptionProfile: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "FieldLevelEncryptionProfileConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp)
+        ]
+        /// The ID for a field-level encryption profile configuration which includes a set of profiles that specify certain selected data fields to be encrypted by specific public keys.
+        public let id: String
+        /// A complex data type that includes the profile name and the encryption entities for the field-level encryption profile.
+        public let fieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig
+        /// The last time the field-level encryption profile was updated.
+        public let lastModifiedTime: TimeStamp
+
+        public init(id: String, fieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig, lastModifiedTime: TimeStamp) {
+            self.id = id
+            self.fieldLevelEncryptionProfileConfig = fieldLevelEncryptionProfileConfig
+            self.lastModifiedTime = lastModifiedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case fieldLevelEncryptionProfileConfig = "FieldLevelEncryptionProfileConfig"
+            case lastModifiedTime = "LastModifiedTime"
+        }
+    }
+
+    public struct CookiePreference: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WhitelistedNames", required: false, type: .structure), 
+            AWSShapeMember(label: "Forward", required: true, type: .enum)
+        ]
+        /// Required if you specify whitelist for the value of Forward:. A complex type that specifies how many different cookies you want CloudFront to forward to the origin for this cache behavior and, if you want to forward selected cookies, the names of those cookies. If you specify all or none for the value of Forward, omit WhitelistedNames. If you change the value of Forward from whitelist to all or none and you don't delete the WhitelistedNames element and its child elements, CloudFront deletes them automatically. For the current limit on the number of cookie names that you can whitelist for each cache behavior, see Amazon CloudFront Limits in the AWS General Reference.
+        public let whitelistedNames: CookieNames?
+        /// Specifies which cookies to forward to the origin for this cache behavior: all, none, or the list of cookies specified in the WhitelistedNames complex type. Amazon S3 doesn't process cookies. When the cache behavior is forwarding requests to an Amazon S3 origin, specify none for the Forward element. 
+        public let forward: ItemSelection
+
+        public init(whitelistedNames: CookieNames? = nil, forward: ItemSelection) {
+            self.whitelistedNames = whitelistedNames
+            self.forward = forward
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case whitelistedNames = "WhitelistedNames"
+            case forward = "Forward"
+        }
+    }
+
+    public struct CloudFrontOriginAccessIdentitySummaryList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CloudFrontOriginAccessIdentitySummary", required: false, type: .list)
+        ]
+        public let cloudFrontOriginAccessIdentitySummary: [CloudFrontOriginAccessIdentitySummary]?
+
+        public init(cloudFrontOriginAccessIdentitySummary: [CloudFrontOriginAccessIdentitySummary]? = nil) {
+            self.cloudFrontOriginAccessIdentitySummary = cloudFrontOriginAccessIdentitySummary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudFrontOriginAccessIdentitySummary = "CloudFrontOriginAccessIdentitySummary"
+        }
+    }
+
+    public struct OriginGroupList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OriginGroup", required: false, type: .list)
+        ]
+        public let originGroup: [OriginGroup]?
+
+        public init(originGroup: [OriginGroup]? = nil) {
+            self.originGroup = originGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case originGroup = "OriginGroup"
+        }
+    }
+
+    public struct ListDistributionsByWebACLIdRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WebACLId", location: .uri(locationName: "WebACLId"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .string), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string)
+        ]
+        /// The ID of the AWS WAF web ACL that you want to list the associated distributions. If you specify "null" for the ID, the request returns a list of the distributions that aren't associated with a web ACL. 
+        public let webACLId: String
+        /// The maximum number of distributions that you want CloudFront to return in the response body. The maximum and default values are both 100.
+        public let maxItems: String?
+        /// Use Marker and MaxItems to control pagination of results. If you have more than MaxItems distributions that satisfy the request, the response includes a NextMarker element. To get the next page of results, submit another request. For the value of Marker, specify the value of NextMarker from the last response. (For the first request, omit Marker.) 
+        public let marker: String?
+
+        public init(webACLId: String, maxItems: String? = nil, marker: String? = nil) {
+            self.webACLId = webACLId
+            self.maxItems = maxItems
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case webACLId = "WebACLId"
+            case maxItems = "MaxItems"
+            case marker = "Marker"
+        }
+    }
+
+    public struct CreateFieldLevelEncryptionConfigResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "FieldLevelEncryption"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
+            AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: false, type: .string), 
+            AWSShapeMember(label: "FieldLevelEncryption", required: false, type: .structure)
+        ]
+        /// The current version of the field level encryption configuration. For example: E2QWRUHAPOMQZL.
+        public let eTag: String?
+        /// The fully qualified URI of the new configuration resource just created. For example: https://cloudfront.amazonaws.com/2010-11-01/field-level-encryption-config/EDFDVBD632BHDS5.
+        public let location: String?
+        /// Returned when you create a new field-level encryption configuration.
+        public let fieldLevelEncryption: FieldLevelEncryption?
+
+        public init(eTag: String? = nil, location: String? = nil, fieldLevelEncryption: FieldLevelEncryption? = nil) {
+            self.eTag = eTag
+            self.location = location
+            self.fieldLevelEncryption = fieldLevelEncryption
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case location = "Location"
+            case fieldLevelEncryption = "FieldLevelEncryption"
+        }
+    }
+
+    public struct CreateStreamingDistributionRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "StreamingDistributionConfig"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StreamingDistributionConfig", location: .body(locationName: "StreamingDistributionConfig"), required: true, type: .structure)
+        ]
+        /// The streaming distribution's configuration information.
+        public let streamingDistributionConfig: StreamingDistributionConfig
+
+        public init(streamingDistributionConfig: StreamingDistributionConfig) {
+            self.streamingDistributionConfig = streamingDistributionConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamingDistributionConfig = "StreamingDistributionConfig"
+        }
+    }
+
+    public struct GetPublicKeyResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "PublicKey"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PublicKey", required: false, type: .structure), 
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string)
+        ]
+        /// Return the public key.
+        public let publicKey: PublicKey?
+        /// The current version of the public key. For example: E2QWRUHAPOMQZL.
+        public let eTag: String?
+
+        public init(publicKey: PublicKey? = nil, eTag: String? = nil) {
+            self.publicKey = publicKey
+            self.eTag = eTag
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case publicKey = "PublicKey"
+            case eTag = "ETag"
+        }
+    }
+
+    public enum CertificateSource: String, CustomStringConvertible, Codable {
+        case cloudfront = "cloudfront"
+        case iam = "iam"
+        case acm = "acm"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetFieldLevelEncryptionProfileResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "FieldLevelEncryptionProfile"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FieldLevelEncryptionProfile", required: false, type: .structure), 
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string)
+        ]
+        /// Return the field-level encryption profile information.
+        public let fieldLevelEncryptionProfile: FieldLevelEncryptionProfile?
+        /// The current version of the field level encryption profile. For example: E2QWRUHAPOMQZL.
+        public let eTag: String?
+
+        public init(fieldLevelEncryptionProfile: FieldLevelEncryptionProfile? = nil, eTag: String? = nil) {
+            self.fieldLevelEncryptionProfile = fieldLevelEncryptionProfile
+            self.eTag = eTag
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldLevelEncryptionProfile = "FieldLevelEncryptionProfile"
+            case eTag = "ETag"
+        }
+    }
+
+    public struct TagList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tag", required: false, type: .list)
+        ]
+        public let tag: [Tag]?
+
+        public init(tag: [Tag]? = nil) {
+            self.tag = tag
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tag = "Tag"
+        }
+    }
+
+    public struct ListFieldLevelEncryptionProfilesResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "FieldLevelEncryptionProfileList"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FieldLevelEncryptionProfileList", required: false, type: .structure)
+        ]
+        /// Returns a list of the field-level encryption profiles that have been created in CloudFront for this account.
+        public let fieldLevelEncryptionProfileList: FieldLevelEncryptionProfileList?
+
+        public init(fieldLevelEncryptionProfileList: FieldLevelEncryptionProfileList? = nil) {
+            self.fieldLevelEncryptionProfileList = fieldLevelEncryptionProfileList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldLevelEncryptionProfileList = "FieldLevelEncryptionProfileList"
+        }
+    }
+
+    public struct DefaultCacheBehavior: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LambdaFunctionAssociations", required: false, type: .structure), 
+            AWSShapeMember(label: "Compress", required: false, type: .boolean), 
+            AWSShapeMember(label: "ForwardedValues", required: true, type: .structure), 
+            AWSShapeMember(label: "TrustedSigners", required: true, type: .structure), 
+            AWSShapeMember(label: "TargetOriginId", required: true, type: .string), 
+            AWSShapeMember(label: "AllowedMethods", required: false, type: .structure), 
+            AWSShapeMember(label: "MaxTTL", required: false, type: .long), 
+            AWSShapeMember(label: "SmoothStreaming", required: false, type: .boolean), 
+            AWSShapeMember(label: "MinTTL", required: true, type: .long), 
+            AWSShapeMember(label: "ViewerProtocolPolicy", required: true, type: .enum), 
+            AWSShapeMember(label: "FieldLevelEncryptionId", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultTTL", required: false, type: .long)
+        ]
+        /// A complex type that contains zero or more Lambda function associations for a cache behavior.
+        public let lambdaFunctionAssociations: LambdaFunctionAssociations?
+        /// Whether you want CloudFront to automatically compress certain files for this cache behavior. If so, specify true; if not, specify false. For more information, see Serving Compressed Files in the Amazon CloudFront Developer Guide.
+        public let compress: Bool?
+        /// A complex type that specifies how CloudFront handles query strings and cookies.
+        public let forwardedValues: ForwardedValues
+        /// A complex type that specifies the AWS accounts, if any, that you want to allow to create signed URLs for private content. If you want to require signed URLs in requests for objects in the target origin that match the PathPattern for this cache behavior, specify true for Enabled, and specify the applicable values for Quantity and Items. For more information, see Serving Private Content through CloudFront in the Amazon Amazon CloudFront Developer Guide. If you don't want to require signed URLs in requests for objects that match PathPattern, specify false for Enabled and 0 for Quantity. Omit Items. To add, change, or remove one or more trusted signers, change Enabled to true (if it's currently false), change Quantity as applicable, and specify all of the trusted signers that you want to include in the updated distribution.
+        public let trustedSigners: TrustedSigners
+        /// The value of ID for the origin that you want CloudFront to route requests to when a request matches the path pattern either for a cache behavior or for the default cache behavior in your distribution.
+        public let targetOriginId: String
+        public let allowedMethods: AllowedMethods?
+        public let maxTTL: Int64?
+        /// Indicates whether you want to distribute media files in the Microsoft Smooth Streaming format using the origin that is associated with this cache behavior. If so, specify true; if not, specify false. If you specify true for SmoothStreaming, you can still distribute other content using this cache behavior if the content matches the value of PathPattern. 
+        public let smoothStreaming: Bool?
+        /// The minimum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon Amazon CloudFront Developer Guide. You must specify 0 for MinTTL if you configure CloudFront to forward all headers to your origin (under Headers, if you specify 1 for Quantity and * for Name).
+        public let minTTL: Int64
+        /// The protocol that viewers can use to access the files in the origin specified by TargetOriginId when a request matches the path pattern in PathPattern. You can specify the following options:    allow-all: Viewers can use HTTP or HTTPS.    redirect-to-https: If a viewer submits an HTTP request, CloudFront returns an HTTP status code of 301 (Moved Permanently) to the viewer along with the HTTPS URL. The viewer then resubmits the request using the new URL.    https-only: If a viewer sends an HTTP request, CloudFront returns an HTTP status code of 403 (Forbidden).   For more information about requiring the HTTPS protocol, see Using an HTTPS Connection to Access Your Objects in the Amazon CloudFront Developer Guide.  The only way to guarantee that viewers retrieve an object that was fetched from the origin using HTTPS is never to use any other protocol to fetch the object. If you have recently changed from HTTP to HTTPS, we recommend that you clear your objects' cache because cached objects are protocol agnostic. That means that an edge location will return an object from the cache regardless of whether the current request protocol matches the protocol used previously. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon CloudFront Developer Guide. 
+        public let viewerProtocolPolicy: ViewerProtocolPolicy
+        /// The value of ID for the field-level encryption configuration that you want CloudFront to use for encrypting specific fields of data for a cache behavior or for the default cache behavior in your distribution.
+        public let fieldLevelEncryptionId: String?
+        /// The default amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin does not add HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon CloudFront Developer Guide.
+        public let defaultTTL: Int64?
+
+        public init(lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, compress: Bool? = nil, forwardedValues: ForwardedValues, trustedSigners: TrustedSigners, targetOriginId: String, allowedMethods: AllowedMethods? = nil, maxTTL: Int64? = nil, smoothStreaming: Bool? = nil, minTTL: Int64, viewerProtocolPolicy: ViewerProtocolPolicy, fieldLevelEncryptionId: String? = nil, defaultTTL: Int64? = nil) {
+            self.lambdaFunctionAssociations = lambdaFunctionAssociations
+            self.compress = compress
+            self.forwardedValues = forwardedValues
+            self.trustedSigners = trustedSigners
+            self.targetOriginId = targetOriginId
+            self.allowedMethods = allowedMethods
+            self.maxTTL = maxTTL
+            self.smoothStreaming = smoothStreaming
+            self.minTTL = minTTL
+            self.viewerProtocolPolicy = viewerProtocolPolicy
+            self.fieldLevelEncryptionId = fieldLevelEncryptionId
+            self.defaultTTL = defaultTTL
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lambdaFunctionAssociations = "LambdaFunctionAssociations"
+            case compress = "Compress"
+            case forwardedValues = "ForwardedValues"
+            case trustedSigners = "TrustedSigners"
+            case targetOriginId = "TargetOriginId"
+            case allowedMethods = "AllowedMethods"
+            case maxTTL = "MaxTTL"
+            case smoothStreaming = "SmoothStreaming"
+            case minTTL = "MinTTL"
+            case viewerProtocolPolicy = "ViewerProtocolPolicy"
+            case fieldLevelEncryptionId = "FieldLevelEncryptionId"
+            case defaultTTL = "DefaultTTL"
+        }
+    }
+
+    public struct ForwardedValues: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QueryString", required: true, type: .boolean), 
+            AWSShapeMember(label: "Cookies", required: true, type: .structure), 
+            AWSShapeMember(label: "Headers", required: false, type: .structure), 
+            AWSShapeMember(label: "QueryStringCacheKeys", required: false, type: .structure)
+        ]
+        /// Indicates whether you want CloudFront to forward query strings to the origin that is associated with this cache behavior and cache based on the query string parameters. CloudFront behavior depends on the value of QueryString and on the values that you specify for QueryStringCacheKeys, if any: If you specify true for QueryString and you don't specify any values for QueryStringCacheKeys, CloudFront forwards all query string parameters to the origin and caches based on all query string parameters. Depending on how many query string parameters and values you have, this can adversely affect performance because CloudFront must forward more requests to the origin. If you specify true for QueryString and you specify one or more values for QueryStringCacheKeys, CloudFront forwards all query string parameters to the origin, but it only caches based on the query string parameters that you specify. If you specify false for QueryString, CloudFront doesn't forward any query string parameters to the origin, and doesn't cache based on query string parameters. For more information, see Configuring CloudFront to Cache Based on Query String Parameters in the Amazon CloudFront Developer Guide.
+        public let queryString: Bool
+        /// A complex type that specifies whether you want CloudFront to forward cookies to the origin and, if so, which ones. For more information about forwarding cookies to the origin, see How CloudFront Forwards, Caches, and Logs Cookies in the Amazon CloudFront Developer Guide.
+        public let cookies: CookiePreference
+        /// A complex type that specifies the Headers, if any, that you want CloudFront to base caching on for this cache behavior. 
+        public let headers: Headers?
+        /// A complex type that contains information about the query string parameters that you want CloudFront to use for caching for this cache behavior.
+        public let queryStringCacheKeys: QueryStringCacheKeys?
+
+        public init(queryString: Bool, cookies: CookiePreference, headers: Headers? = nil, queryStringCacheKeys: QueryStringCacheKeys? = nil) {
+            self.queryString = queryString
+            self.cookies = cookies
+            self.headers = headers
+            self.queryStringCacheKeys = queryStringCacheKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryString = "QueryString"
+            case cookies = "Cookies"
+            case headers = "Headers"
+            case queryStringCacheKeys = "QueryStringCacheKeys"
+        }
+    }
+
+    public struct TrustedSigners: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer), 
+            AWSShapeMember(label: "Enabled", required: true, type: .boolean)
+        ]
+        ///  Optional: A complex type that contains trusted signers for this cache behavior. If Quantity is 0, you can omit Items.
+        public let items: AwsAccountNumberList?
+        /// The number of trusted signers for this cache behavior.
+        public let quantity: Int32
+        /// Specifies whether you want to require viewers to use signed URLs to access the files specified by PathPattern and TargetOriginId.
+        public let enabled: Bool
+
+        public init(items: AwsAccountNumberList? = nil, quantity: Int32, enabled: Bool) {
+            self.items = items
+            self.quantity = quantity
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case quantity = "Quantity"
+            case enabled = "Enabled"
+        }
+    }
+
+    public struct CustomErrorResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResponsePagePath", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorCachingMinTTL", required: false, type: .long), 
+            AWSShapeMember(label: "ErrorCode", required: true, type: .integer), 
+            AWSShapeMember(label: "ResponseCode", required: false, type: .string)
+        ]
+        /// The path to the custom error page that you want CloudFront to return to a viewer when your origin returns the HTTP status code specified by ErrorCode, for example, /4xx-errors/403-forbidden.html. If you want to store your objects and your custom error pages in different locations, your distribution must include a cache behavior for which the following is true:   The value of PathPattern matches the path to your custom error messages. For example, suppose you saved custom error pages for 4xx errors in an Amazon S3 bucket in a directory named /4xx-errors. Your distribution must include a cache behavior for which the path pattern routes requests for your custom error pages to that location, for example, /4xx-errors/*.    The value of TargetOriginId specifies the value of the ID element for the origin that contains your custom error pages.   If you specify a value for ResponsePagePath, you must also specify a value for ResponseCode. If you don't want to specify a value, include an empty element, &lt;ResponsePagePath&gt;, in the XML document. We recommend that you store custom error pages in an Amazon S3 bucket. If you store custom error pages on an HTTP server and the server starts to return 5xx errors, CloudFront can't get the files that you want to return to viewers because the origin server is unavailable.
+        public let responsePagePath: String?
+        /// The minimum amount of time, in seconds, that you want CloudFront to cache the HTTP status code specified in ErrorCode. When this time period has elapsed, CloudFront queries your origin to see whether the problem that caused the error has been resolved and the requested object is now available. If you don't want to specify a value, include an empty element, &lt;ErrorCachingMinTTL&gt;, in the XML document. For more information, see Customizing Error Responses in the Amazon CloudFront Developer Guide.
+        public let errorCachingMinTTL: Int64?
+        /// The HTTP status code for which you want to specify a custom error page and/or a caching duration.
+        public let errorCode: Int32
+        /// The HTTP status code that you want CloudFront to return to the viewer along with the custom error page. There are a variety of reasons that you might want CloudFront to return a status code different from the status code that your origin returned to CloudFront, for example:   Some Internet devices (some firewalls and corporate proxies, for example) intercept HTTP 4xx and 5xx and prevent the response from being returned to the viewer. If you substitute 200, the response typically won't be intercepted.   If you don't care about distinguishing among different client errors or server errors, you can specify 400 or 500 as the ResponseCode for all 4xx or 5xx errors.   You might want to return a 200 status code (OK) and static website so your customers don't know that your website is down.   If you specify a value for ResponseCode, you must also specify a value for ResponsePagePath. If you don't want to specify a value, include an empty element, &lt;ResponseCode&gt;, in the XML document.
+        public let responseCode: String?
+
+        public init(responsePagePath: String? = nil, errorCachingMinTTL: Int64? = nil, errorCode: Int32, responseCode: String? = nil) {
+            self.responsePagePath = responsePagePath
+            self.errorCachingMinTTL = errorCachingMinTTL
+            self.errorCode = errorCode
+            self.responseCode = responseCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case responsePagePath = "ResponsePagePath"
+            case errorCachingMinTTL = "ErrorCachingMinTTL"
+            case errorCode = "ErrorCode"
+            case responseCode = "ResponseCode"
+        }
+    }
+
+    public struct GetFieldLevelEncryptionProfileRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        ]
+        /// Get the ID for the field-level encryption profile information.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
+    }
+
+    public struct ListDistributionsResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "DistributionList"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DistributionList", required: false, type: .structure)
+        ]
+        /// The DistributionList type. 
+        public let distributionList: DistributionList?
+
+        public init(distributionList: DistributionList? = nil) {
+            self.distributionList = distributionList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case distributionList = "DistributionList"
+        }
+    }
+
+    public struct Paths: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Quantity", required: true, type: .integer), 
+            AWSShapeMember(label: "Items", required: false, type: .structure)
+        ]
+        /// The number of objects that you want to invalidate.
+        public let quantity: Int32
+        /// A complex type that contains a list of the paths that you want to invalidate.
+        public let items: PathList?
+
+        public init(quantity: Int32, items: PathList? = nil) {
+            self.quantity = quantity
+            self.items = items
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case quantity = "Quantity"
+            case items = "Items"
+        }
+    }
+
+    public struct S3Origin: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OriginAccessIdentity", required: true, type: .string), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
+        ]
+        /// The CloudFront origin access identity to associate with the RTMP distribution. Use an origin access identity to configure the distribution so that end users can only access objects in an Amazon S3 bucket through CloudFront. If you want end users to be able to access objects using either the CloudFront URL or the Amazon S3 URL, specify an empty OriginAccessIdentity element. To delete the origin access identity from an existing distribution, update the distribution configuration and include an empty OriginAccessIdentity element. To replace the origin access identity, update the distribution configuration and specify the new origin access identity. For more information, see Using an Origin Access Identity to Restrict Access to Your Amazon S3 Content in the Amazon Amazon CloudFront Developer Guide.
+        public let originAccessIdentity: String
+        /// The DNS name of the Amazon S3 origin. 
+        public let domainName: String
+
+        public init(originAccessIdentity: String, domainName: String) {
+            self.originAccessIdentity = originAccessIdentity
+            self.domainName = domainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case originAccessIdentity = "OriginAccessIdentity"
+            case domainName = "DomainName"
+        }
+    }
+
+    public struct ListFieldLevelEncryptionConfigsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .string)
+        ]
+        /// Use this when paginating results to indicate where to begin in your list of configurations. The results include configurations in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last configuration on that page). 
+        public let marker: String?
+        /// The maximum number of field-level encryption configurations you want in the response body. 
+        public let maxItems: String?
+
+        public init(marker: String? = nil, maxItems: String? = nil) {
+            self.marker = marker
+            self.maxItems = maxItems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+        }
+    }
+
+    public struct ListTagsForResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Resource", location: .querystring(locationName: "Resource"), required: true, type: .string)
+        ]
+        ///  An ARN of a CloudFront resource.
+        public let resource: String
+
+        public init(resource: String) {
+            self.resource = resource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resource = "Resource"
+        }
+    }
+
+    public struct ViewerCertificate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IAMCertificateId", required: false, type: .string), 
+            AWSShapeMember(label: "ACMCertificateArn", required: false, type: .string), 
+            AWSShapeMember(label: "SSLSupportMethod", required: false, type: .enum), 
+            AWSShapeMember(label: "MinimumProtocolVersion", required: false, type: .enum), 
+            AWSShapeMember(label: "CloudFrontDefaultCertificate", required: false, type: .boolean), 
+            AWSShapeMember(label: "CertificateSource", required: false, type: .enum), 
+            AWSShapeMember(label: "Certificate", required: false, type: .string)
+        ]
+        /// For information about how and when to use IAMCertificateId, see ViewerCertificate.
+        public let iAMCertificateId: String?
+        /// For information about how and when to use ACMCertificateArn, see ViewerCertificate.
+        public let aCMCertificateArn: String?
+        /// If you specify a value for ViewerCertificate$ACMCertificateArn or for ViewerCertificate$IAMCertificateId, you must also specify how you want CloudFront to serve HTTPS requests: using a method that works for all clients or one that works for most clients:    vip: CloudFront uses dedicated IP addresses for your content and can respond to HTTPS requests from any viewer. However, you will incur additional monthly charges.    sni-only: CloudFront can respond to HTTPS requests from viewers that support Server Name Indication (SNI). All modern browsers support SNI, but some browsers still in use don't support SNI. If some of your users' browsers don't support SNI, we recommend that you do one of the following:   Use the vip option (dedicated IP addresses) instead of sni-only.   Use the CloudFront SSL/TLS certificate instead of a custom certificate. This requires that you use the CloudFront domain name of your distribution in the URLs for your objects, for example, https://d111111abcdef8.cloudfront.net/logo.png.   If you can control which browser your users use, upgrade the browser to one that supports SNI.   Use HTTP instead of HTTPS.     Don't specify a value for SSLSupportMethod if you specified &lt;CloudFrontDefaultCertificate&gt;true&lt;CloudFrontDefaultCertificate&gt;. For more information, see Using Alternate Domain Names and HTTPS in the Amazon CloudFront Developer Guide.
+        public let sSLSupportMethod: SSLSupportMethod?
+        /// Specify the security policy that you want CloudFront to use for HTTPS connections. A security policy determines two settings:   The minimum SSL/TLS protocol that CloudFront uses to communicate with viewers   The cipher that CloudFront uses to encrypt the content that it returns to viewers    On the CloudFront console, this setting is called Security policy.  We recommend that you specify TLSv1.1_2016 unless your users are using browsers or devices that do not support TLSv1.1 or later. When both of the following are true, you must specify TLSv1 or later for the security policy:    You're using a custom certificate: you specified a value for ACMCertificateArn or for IAMCertificateId    You're using SNI: you specified sni-only for SSLSupportMethod    If you specify true for CloudFrontDefaultCertificate, CloudFront automatically sets the security policy to TLSv1 regardless of the value that you specify for MinimumProtocolVersion. For information about the relationship between the security policy that you choose and the protocols and ciphers that CloudFront uses to communicate with viewers, see  Supported SSL/TLS Protocols and Ciphers for Communication Between Viewers and CloudFront in the Amazon CloudFront Developer Guide.
+        public let minimumProtocolVersion: MinimumProtocolVersion?
+        /// For information about how and when to use CloudFrontDefaultCertificate, see ViewerCertificate.
+        public let cloudFrontDefaultCertificate: Bool?
+        /// This field has been deprecated. Use one of the following fields instead:    ViewerCertificate$ACMCertificateArn     ViewerCertificate$IAMCertificateId     ViewerCertificate$CloudFrontDefaultCertificate   
+        public let certificateSource: CertificateSource?
+        /// This field has been deprecated. Use one of the following fields instead:    ViewerCertificate$ACMCertificateArn     ViewerCertificate$IAMCertificateId     ViewerCertificate$CloudFrontDefaultCertificate   
+        public let certificate: String?
+
+        public init(iAMCertificateId: String? = nil, aCMCertificateArn: String? = nil, sSLSupportMethod: SSLSupportMethod? = nil, minimumProtocolVersion: MinimumProtocolVersion? = nil, cloudFrontDefaultCertificate: Bool? = nil, certificateSource: CertificateSource? = nil, certificate: String? = nil) {
+            self.iAMCertificateId = iAMCertificateId
+            self.aCMCertificateArn = aCMCertificateArn
+            self.sSLSupportMethod = sSLSupportMethod
+            self.minimumProtocolVersion = minimumProtocolVersion
+            self.cloudFrontDefaultCertificate = cloudFrontDefaultCertificate
+            self.certificateSource = certificateSource
+            self.certificate = certificate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case iAMCertificateId = "IAMCertificateId"
+            case aCMCertificateArn = "ACMCertificateArn"
+            case sSLSupportMethod = "SSLSupportMethod"
+            case minimumProtocolVersion = "MinimumProtocolVersion"
+            case cloudFrontDefaultCertificate = "CloudFrontDefaultCertificate"
+            case certificateSource = "CertificateSource"
+            case certificate = "Certificate"
+        }
+    }
+
+    public struct StatusCodes: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Quantity", required: true, type: .integer), 
+            AWSShapeMember(label: "Items", required: true, type: .structure)
+        ]
+        /// The number of status codes.
+        public let quantity: Int32
+        /// The items (status codes) for an origin group.
+        public let items: StatusCodeList
+
+        public init(quantity: Int32, items: StatusCodeList) {
+            self.quantity = quantity
+            self.items = items
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case quantity = "Quantity"
+            case items = "Items"
+        }
+    }
+
+    public struct GetStreamingDistributionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        ]
+        /// The streaming distribution's ID.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
+    }
+
+    public struct CookieNameList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .list)
+        ]
+        public let name: [String]?
+
+        public init(name: [String]? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct OriginGroupFailoverCriteria: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StatusCodes", required: true, type: .structure)
+        ]
+        /// The status codes that, when returned from the primary origin, will trigger CloudFront to failover to the second origin.
+        public let statusCodes: StatusCodes
+
+        public init(statusCodes: StatusCodes) {
+            self.statusCodes = statusCodes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statusCodes = "StatusCodes"
+        }
+    }
+
+    public struct FieldLevelEncryptionList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer), 
+            AWSShapeMember(label: "MaxItems", required: true, type: .integer)
+        ]
+        /// An array of field-level encryption items.
+        public let items: FieldLevelEncryptionSummaryList?
+        /// If there are more elements to be listed, this element is present and contains the value that you can use for the Marker request parameter to continue listing your configurations where you left off.
+        public let nextMarker: String?
+        /// The number of field-level encryption items.
+        public let quantity: Int32
+        /// The maximum number of elements you want in the response body. 
+        public let maxItems: Int32
+
+        public init(items: FieldLevelEncryptionSummaryList? = nil, nextMarker: String? = nil, quantity: Int32, maxItems: Int32) {
+            self.items = items
+            self.nextMarker = nextMarker
+            self.quantity = quantity
+            self.maxItems = maxItems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextMarker = "NextMarker"
+            case quantity = "Quantity"
+            case maxItems = "MaxItems"
+        }
+    }
+
+    public struct UpdateFieldLevelEncryptionProfileResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "FieldLevelEncryptionProfile"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FieldLevelEncryptionProfile", required: false, type: .structure), 
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string)
+        ]
+        /// Return the results of updating the profile.
+        public let fieldLevelEncryptionProfile: FieldLevelEncryptionProfile?
+        /// The result of the field-level encryption profile request. 
+        public let eTag: String?
+
+        public init(fieldLevelEncryptionProfile: FieldLevelEncryptionProfile? = nil, eTag: String? = nil) {
+            self.fieldLevelEncryptionProfile = fieldLevelEncryptionProfile
+            self.eTag = eTag
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldLevelEncryptionProfile = "FieldLevelEncryptionProfile"
+            case eTag = "ETag"
+        }
+    }
+
+    public struct LocationList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Location", required: false, type: .list)
+        ]
+        public let location: [String]?
+
+        public init(location: [String]? = nil) {
+            self.location = location
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case location = "Location"
+        }
+    }
+
+    public struct ListInvalidationsResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "InvalidationList"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InvalidationList", required: false, type: .structure)
+        ]
+        /// Information about invalidation batches. 
+        public let invalidationList: InvalidationList?
+
+        public init(invalidationList: InvalidationList? = nil) {
+            self.invalidationList = invalidationList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invalidationList = "InvalidationList"
+        }
+    }
+
+    public struct GetDistributionConfigResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "DistributionConfig"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
+            AWSShapeMember(label: "DistributionConfig", required: false, type: .structure)
+        ]
+        /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
+        public let eTag: String?
+        /// The distribution's configuration information.
+        public let distributionConfig: DistributionConfig?
+
+        public init(eTag: String? = nil, distributionConfig: DistributionConfig? = nil) {
+            self.eTag = eTag
+            self.distributionConfig = distributionConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case distributionConfig = "DistributionConfig"
+        }
+    }
+
+    public struct DistributionSummaryList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DistributionSummary", required: false, type: .list)
+        ]
+        public let distributionSummary: [DistributionSummary]?
+
+        public init(distributionSummary: [DistributionSummary]? = nil) {
+            self.distributionSummary = distributionSummary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case distributionSummary = "DistributionSummary"
+        }
+    }
+
+    public struct FieldPatterns: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer)
+        ]
+        /// An array of the field-level encryption field patterns.
+        public let items: FieldPatternList?
+        /// The number of field-level encryption field patterns.
+        public let quantity: Int32
+
+        public init(items: FieldPatternList? = nil, quantity: Int32) {
+            self.items = items
+            self.quantity = quantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case quantity = "Quantity"
+        }
+    }
+
+    public struct FieldLevelEncryption: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FieldLevelEncryptionConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
+        ]
+        /// A complex data type that includes the profile configurations specified for field-level encryption. 
+        public let fieldLevelEncryptionConfig: FieldLevelEncryptionConfig
+        /// The last time the field-level encryption configuration was changed. 
+        public let lastModifiedTime: TimeStamp
+        /// The configuration ID for a field-level encryption configuration which includes a set of profiles that specify certain selected data fields to be encrypted by specific public keys.
+        public let id: String
+
+        public init(fieldLevelEncryptionConfig: FieldLevelEncryptionConfig, lastModifiedTime: TimeStamp, id: String) {
+            self.fieldLevelEncryptionConfig = fieldLevelEncryptionConfig
+            self.lastModifiedTime = lastModifiedTime
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldLevelEncryptionConfig = "FieldLevelEncryptionConfig"
+            case lastModifiedTime = "LastModifiedTime"
+            case id = "Id"
+        }
+    }
+
+    public struct SslProtocolsList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SslProtocol", required: false, type: .list)
+        ]
+        public let sslProtocol: [SslProtocol]?
+
+        public init(sslProtocol: [SslProtocol]? = nil) {
+            self.sslProtocol = sslProtocol
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sslProtocol = "SslProtocol"
+        }
+    }
+
+    public struct InvalidationBatch: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CallerReference", required: true, type: .string), 
+            AWSShapeMember(label: "Paths", required: true, type: .structure)
+        ]
+        /// A value that you specify to uniquely identify an invalidation request. CloudFront uses the value to prevent you from accidentally resubmitting an identical request. Whenever you create a new invalidation request, you must specify a new value for CallerReference and change other values in the request as applicable. One way to ensure that the value of CallerReference is unique is to use a timestamp, for example, 20120301090000. If you make a second invalidation request with the same value for CallerReference, and if the rest of the request is the same, CloudFront doesn't create a new invalidation request. Instead, CloudFront returns information about the invalidation request that you previously created with the same CallerReference. If CallerReference is a value you already sent in a previous invalidation batch request but the content of any Path is different from the original request, CloudFront returns an InvalidationBatchAlreadyExists error.
+        public let callerReference: String
+        /// A complex type that contains information about the objects that you want to invalidate. For more information, see Specifying the Objects to Invalidate in the Amazon CloudFront Developer Guide. 
+        public let paths: Paths
+
+        public init(callerReference: String, paths: Paths) {
+            self.callerReference = callerReference
+            self.paths = paths
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case callerReference = "CallerReference"
+            case paths = "Paths"
+        }
+    }
+
+    public struct ListFieldLevelEncryptionProfilesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .string)
+        ]
+        /// Use this when paginating results to indicate where to begin in your list of profiles. The results include profiles in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last profile on that page). 
+        public let marker: String?
+        /// The maximum number of field-level encryption profiles you want in the response body. 
+        public let maxItems: String?
+
+        public init(marker: String? = nil, maxItems: String? = nil) {
+            self.marker = marker
+            self.maxItems = maxItems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+        }
+    }
+
+    public struct ListInvalidationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .string), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
+            AWSShapeMember(label: "DistributionId", location: .uri(locationName: "DistributionId"), required: true, type: .string)
+        ]
+        /// The maximum number of invalidation batches that you want in the response body.
+        public let maxItems: String?
+        /// Use this parameter when paginating results to indicate where to begin in your list of invalidation batches. Because the results are returned in decreasing order from most recent to oldest, the most recent results are on the first page, the second page will contain earlier results, and so on. To get the next page of results, set Marker to the value of the NextMarker from the current page's response. This value is the same as the ID of the last invalidation batch on that page. 
+        public let marker: String?
+        /// The distribution's ID.
+        public let distributionId: String
+
+        public init(maxItems: String? = nil, marker: String? = nil, distributionId: String) {
+            self.maxItems = maxItems
+            self.marker = marker
+            self.distributionId = distributionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxItems = "MaxItems"
+            case marker = "Marker"
+            case distributionId = "DistributionId"
+        }
+    }
+
+    public struct FieldLevelEncryptionSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Comment", required: false, type: .string), 
+            AWSShapeMember(label: "ContentTypeProfileConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "QueryArgProfileConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp)
+        ]
+        /// An optional comment about the field-level encryption item.
+        public let comment: String?
+        ///  A summary of a content type-profile mapping. 
+        public let contentTypeProfileConfig: ContentTypeProfileConfig?
+        /// The unique ID of a field-level encryption item.
+        public let id: String
+        ///  A summary of a query argument-profile mapping. 
+        public let queryArgProfileConfig: QueryArgProfileConfig?
+        /// The last time that the summary of field-level encryption items was modified.
+        public let lastModifiedTime: TimeStamp
+
+        public init(comment: String? = nil, contentTypeProfileConfig: ContentTypeProfileConfig? = nil, id: String, queryArgProfileConfig: QueryArgProfileConfig? = nil, lastModifiedTime: TimeStamp) {
+            self.comment = comment
+            self.contentTypeProfileConfig = contentTypeProfileConfig
+            self.id = id
+            self.queryArgProfileConfig = queryArgProfileConfig
+            self.lastModifiedTime = lastModifiedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comment = "Comment"
+            case contentTypeProfileConfig = "ContentTypeProfileConfig"
+            case id = "Id"
+            case queryArgProfileConfig = "QueryArgProfileConfig"
+            case lastModifiedTime = "LastModifiedTime"
+        }
+    }
+
+    public struct ListCloudFrontOriginAccessIdentitiesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .string), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string)
+        ]
+        /// The maximum number of origin access identities you want in the response body. 
+        public let maxItems: String?
+        /// Use this when paginating results to indicate where to begin in your list of origin access identities. The results include identities in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last identity on that page).
+        public let marker: String?
+
+        public init(maxItems: String? = nil, marker: String? = nil) {
+            self.maxItems = maxItems
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxItems = "MaxItems"
+            case marker = "Marker"
         }
     }
 
@@ -56,373 +1622,60 @@ extension CloudFront {
 
     public struct Distribution: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: true, type: .string), 
-            AWSShapeMember(label: "DistributionConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "InProgressInvalidationBatches", required: true, type: .integer), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string), 
             AWSShapeMember(label: "ARN", required: true, type: .string), 
-            AWSShapeMember(label: "ActiveTrustedSigners", required: true, type: .structure)
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "DistributionConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "Status", required: true, type: .string), 
+            AWSShapeMember(label: "ActiveTrustedSigners", required: true, type: .structure), 
+            AWSShapeMember(label: "InProgressInvalidationBatches", required: true, type: .integer), 
+            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp)
         ]
-        /// The identifier for the distribution. For example: EDFDVBD632BHDS5. 
-        public let id: String
-        /// The date and time the distribution was last modified. 
-        public let lastModifiedTime: TimeStamp
-        /// This response element indicates the current status of the distribution. When the status is Deployed, the distribution's information is fully propagated to all CloudFront edge locations. 
-        public let status: String
-        /// The current configuration information for the distribution. Send a GET request to the /CloudFront API version/distribution ID/config resource.
-        public let distributionConfig: DistributionConfig
-        /// The number of invalidation batches currently in progress. 
-        public let inProgressInvalidationBatches: Int32
-        /// The domain name corresponding to the distribution, for example, d111111abcdef8.cloudfront.net. 
-        public let domainName: String
         /// The ARN (Amazon Resource Name) for the distribution. For example: arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5, where 123456789012 is your AWS account ID.
         public let arn: String
+        /// The identifier for the distribution. For example: EDFDVBD632BHDS5. 
+        public let id: String
+        /// The domain name corresponding to the distribution, for example, d111111abcdef8.cloudfront.net. 
+        public let domainName: String
+        /// The current configuration information for the distribution. Send a GET request to the /CloudFront API version/distribution ID/config resource.
+        public let distributionConfig: DistributionConfig
+        /// This response element indicates the current status of the distribution. When the status is Deployed, the distribution's information is fully propagated to all CloudFront edge locations. 
+        public let status: String
         /// CloudFront automatically adds this element to the response only if you've set up the distribution to serve private content with signed URLs. The element lists the key pair IDs that CloudFront is aware of for each trusted signer. The Signer child element lists the AWS account number of the trusted signer (or an empty Self element if the signer is you). The Signer element also includes the IDs of any active key pairs associated with the trusted signer's AWS account. If no KeyPairId element appears for a Signer, that signer can't create working signed URLs.
         public let activeTrustedSigners: ActiveTrustedSigners
+        /// The number of invalidation batches currently in progress. 
+        public let inProgressInvalidationBatches: Int32
+        /// The date and time the distribution was last modified. 
+        public let lastModifiedTime: TimeStamp
 
-        public init(id: String, lastModifiedTime: TimeStamp, status: String, distributionConfig: DistributionConfig, inProgressInvalidationBatches: Int32, domainName: String, arn: String, activeTrustedSigners: ActiveTrustedSigners) {
-            self.id = id
-            self.lastModifiedTime = lastModifiedTime
-            self.status = status
-            self.distributionConfig = distributionConfig
-            self.inProgressInvalidationBatches = inProgressInvalidationBatches
-            self.domainName = domainName
+        public init(arn: String, id: String, domainName: String, distributionConfig: DistributionConfig, status: String, activeTrustedSigners: ActiveTrustedSigners, inProgressInvalidationBatches: Int32, lastModifiedTime: TimeStamp) {
             self.arn = arn
-            self.activeTrustedSigners = activeTrustedSigners
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case lastModifiedTime = "LastModifiedTime"
-            case status = "Status"
-            case distributionConfig = "DistributionConfig"
-            case inProgressInvalidationBatches = "InProgressInvalidationBatches"
-            case domainName = "DomainName"
-            case arn = "ARN"
-            case activeTrustedSigners = "ActiveTrustedSigners"
-        }
-    }
-
-    public struct FieldLevelEncryptionSummaryList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FieldLevelEncryptionSummary", required: false, type: .list)
-        ]
-        public let fieldLevelEncryptionSummary: [FieldLevelEncryptionSummary]?
-
-        public init(fieldLevelEncryptionSummary: [FieldLevelEncryptionSummary]? = nil) {
-            self.fieldLevelEncryptionSummary = fieldLevelEncryptionSummary
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fieldLevelEncryptionSummary = "FieldLevelEncryptionSummary"
-        }
-    }
-
-    public struct ListCloudFrontOriginAccessIdentitiesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .string)
-        ]
-        /// Use this when paginating results to indicate where to begin in your list of origin access identities. The results include identities in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last identity on that page).
-        public let marker: String?
-        /// The maximum number of origin access identities you want in the response body. 
-        public let maxItems: String?
-
-        public init(marker: String? = nil, maxItems: String? = nil) {
-            self.marker = marker
-            self.maxItems = maxItems
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-        }
-    }
-
-    public struct GetDistributionConfigResult: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "DistributionConfig"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeMember(label: "DistributionConfig", required: false, type: .structure)
-        ]
-        /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
-        public let eTag: String?
-        /// The distribution's configuration information.
-        public let distributionConfig: DistributionConfig?
-
-        public init(eTag: String? = nil, distributionConfig: DistributionConfig? = nil) {
-            self.eTag = eTag
+            self.id = id
+            self.domainName = domainName
             self.distributionConfig = distributionConfig
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case distributionConfig = "DistributionConfig"
-        }
-    }
-
-    public struct GetPublicKeyConfigResult: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "PublicKeyConfig"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeMember(label: "PublicKeyConfig", required: false, type: .structure)
-        ]
-        /// The current version of the public key configuration. For example: E2QWRUHAPOMQZL.
-        public let eTag: String?
-        /// Return the result for the public key configuration.
-        public let publicKeyConfig: PublicKeyConfig?
-
-        public init(eTag: String? = nil, publicKeyConfig: PublicKeyConfig? = nil) {
-            self.eTag = eTag
-            self.publicKeyConfig = publicKeyConfig
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case publicKeyConfig = "PublicKeyConfig"
-        }
-    }
-
-    public struct InvalidationSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: true, type: .string), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "CreateTime", required: true, type: .timestamp)
-        ]
-        /// The status of an invalidation request.
-        public let status: String
-        /// The unique ID for an invalidation request.
-        public let id: String
-        /// The time that an invalidation request was created.
-        public let createTime: TimeStamp
-
-        public init(status: String, id: String, createTime: TimeStamp) {
             self.status = status
-            self.id = id
-            self.createTime = createTime
+            self.activeTrustedSigners = activeTrustedSigners
+            self.inProgressInvalidationBatches = inProgressInvalidationBatches
+            self.lastModifiedTime = lastModifiedTime
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "ARN"
+            case id = "Id"
+            case domainName = "DomainName"
+            case distributionConfig = "DistributionConfig"
             case status = "Status"
-            case id = "Id"
-            case createTime = "CreateTime"
+            case activeTrustedSigners = "ActiveTrustedSigners"
+            case inProgressInvalidationBatches = "InProgressInvalidationBatches"
+            case lastModifiedTime = "LastModifiedTime"
         }
     }
 
-    public struct StreamingDistributionConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Comment", required: true, type: .string), 
-            AWSShapeMember(label: "CallerReference", required: true, type: .string), 
-            AWSShapeMember(label: "S3Origin", required: true, type: .structure), 
-            AWSShapeMember(label: "Aliases", required: false, type: .structure), 
-            AWSShapeMember(label: "Logging", required: false, type: .structure), 
-            AWSShapeMember(label: "PriceClass", required: false, type: .enum), 
-            AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
-            AWSShapeMember(label: "TrustedSigners", required: true, type: .structure)
-        ]
-        /// Any comments you want to include about the streaming distribution. 
-        public let comment: String
-        /// A unique value (for example, a date-time stamp) that ensures that the request can't be replayed. If the value of CallerReference is new (regardless of the content of the StreamingDistributionConfig object), CloudFront creates a new distribution. If CallerReference is a value that you already sent in a previous request to create a distribution, CloudFront returns a DistributionAlreadyExists error.
-        public let callerReference: String
-        /// A complex type that contains information about the Amazon S3 bucket from which you want CloudFront to get your media files for distribution. 
-        public let s3Origin: S3Origin
-        /// A complex type that contains information about CNAMEs (alternate domain names), if any, for this streaming distribution. 
-        public let aliases: Aliases?
-        /// A complex type that controls whether access logs are written for the streaming distribution. 
-        public let logging: StreamingLoggingConfig?
-        /// A complex type that contains information about price class for this streaming distribution. 
-        public let priceClass: PriceClass?
-        /// Whether the streaming distribution is enabled to accept user requests for content.
-        public let enabled: Bool
-        /// A complex type that specifies any AWS accounts that you want to permit to create signed URLs for private content. If you want the distribution to use signed URLs, include this element; if you want the distribution to use public URLs, remove this element. For more information, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide. 
-        public let trustedSigners: TrustedSigners
-
-        public init(comment: String, callerReference: String, s3Origin: S3Origin, aliases: Aliases? = nil, logging: StreamingLoggingConfig? = nil, priceClass: PriceClass? = nil, enabled: Bool, trustedSigners: TrustedSigners) {
-            self.comment = comment
-            self.callerReference = callerReference
-            self.s3Origin = s3Origin
-            self.aliases = aliases
-            self.logging = logging
-            self.priceClass = priceClass
-            self.enabled = enabled
-            self.trustedSigners = trustedSigners
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case comment = "Comment"
-            case callerReference = "CallerReference"
-            case s3Origin = "S3Origin"
-            case aliases = "Aliases"
-            case logging = "Logging"
-            case priceClass = "PriceClass"
-            case enabled = "Enabled"
-            case trustedSigners = "TrustedSigners"
-        }
-    }
-
-    public struct ListFieldLevelEncryptionConfigsResult: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "FieldLevelEncryptionList"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FieldLevelEncryptionList", required: false, type: .structure)
-        ]
-        /// Returns a list of all field-level encryption configurations that have been created in CloudFront for this account.
-        public let fieldLevelEncryptionList: FieldLevelEncryptionList?
-
-        public init(fieldLevelEncryptionList: FieldLevelEncryptionList? = nil) {
-            self.fieldLevelEncryptionList = fieldLevelEncryptionList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fieldLevelEncryptionList = "FieldLevelEncryptionList"
-        }
-    }
-
-    public struct UpdateFieldLevelEncryptionProfileRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "FieldLevelEncryptionProfileConfig"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
-            AWSShapeMember(label: "FieldLevelEncryptionProfileConfig", location: .body(locationName: "FieldLevelEncryptionProfileConfig"), required: true, type: .structure), 
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
-        ]
-        /// The value of the ETag header that you received when retrieving the profile identity to update. For example: E2QWRUHAPOMQZL.
-        public let ifMatch: String?
-        /// Request to update a field-level encryption profile. 
-        public let fieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig
-        /// The ID of the field-level encryption profile request. 
-        public let id: String
-
-        public init(ifMatch: String? = nil, fieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig, id: String) {
-            self.ifMatch = ifMatch
-            self.fieldLevelEncryptionProfileConfig = fieldLevelEncryptionProfileConfig
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ifMatch = "If-Match"
-            case fieldLevelEncryptionProfileConfig = "FieldLevelEncryptionProfileConfig"
-            case id = "Id"
-        }
-    }
-
-    public struct FieldLevelEncryptionConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CallerReference", required: true, type: .string), 
-            AWSShapeMember(label: "ContentTypeProfileConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "Comment", required: false, type: .string), 
-            AWSShapeMember(label: "QueryArgProfileConfig", required: false, type: .structure)
-        ]
-        /// A unique number that ensures the request can't be replayed.
-        public let callerReference: String
-        /// A complex data type that specifies when to forward content if a content type isn't recognized and profiles to use as by default in a request if a query argument doesn't specify a profile to use.
-        public let contentTypeProfileConfig: ContentTypeProfileConfig?
-        /// An optional comment about the configuration.
-        public let comment: String?
-        /// A complex data type that specifies when to forward content if a profile isn't found and the profile that can be provided as a query argument in a request.
-        public let queryArgProfileConfig: QueryArgProfileConfig?
-
-        public init(callerReference: String, contentTypeProfileConfig: ContentTypeProfileConfig? = nil, comment: String? = nil, queryArgProfileConfig: QueryArgProfileConfig? = nil) {
-            self.callerReference = callerReference
-            self.contentTypeProfileConfig = contentTypeProfileConfig
-            self.comment = comment
-            self.queryArgProfileConfig = queryArgProfileConfig
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case callerReference = "CallerReference"
-            case contentTypeProfileConfig = "ContentTypeProfileConfig"
-            case comment = "Comment"
-            case queryArgProfileConfig = "QueryArgProfileConfig"
-        }
-    }
-
-    public struct EncryptionEntity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PublicKeyId", required: true, type: .string), 
-            AWSShapeMember(label: "ProviderId", required: true, type: .string), 
-            AWSShapeMember(label: "FieldPatterns", required: true, type: .structure)
-        ]
-        /// The public key associated with a set of field-level encryption patterns, to be used when encrypting the fields that match the patterns. 
-        public let publicKeyId: String
-        /// The provider associated with the public key being used for encryption. This value must also be provided with the private key for applications to be able to decrypt data.
-        public let providerId: String
-        /// Field patterns in a field-level encryption content type profile specify the fields that you want to be encrypted. You can provide the full field name, or any beginning characters followed by a wildcard (*). You can't overlap field patterns. For example, you can't have both ABC* and AB*. Note that field patterns are case-sensitive. 
-        public let fieldPatterns: FieldPatterns
-
-        public init(publicKeyId: String, providerId: String, fieldPatterns: FieldPatterns) {
-            self.publicKeyId = publicKeyId
-            self.providerId = providerId
-            self.fieldPatterns = fieldPatterns
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case publicKeyId = "PublicKeyId"
-            case providerId = "ProviderId"
-            case fieldPatterns = "FieldPatterns"
-        }
-    }
-
-    public struct UpdateStreamingDistributionResult: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "StreamingDistribution"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StreamingDistribution", required: false, type: .structure), 
-            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string)
-        ]
-        /// The streaming distribution's information.
-        public let streamingDistribution: StreamingDistribution?
-        /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
-        public let eTag: String?
-
-        public init(streamingDistribution: StreamingDistribution? = nil, eTag: String? = nil) {
-            self.streamingDistribution = streamingDistribution
-            self.eTag = eTag
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case streamingDistribution = "StreamingDistribution"
-            case eTag = "ETag"
-        }
-    }
-
-    public struct CreateDistributionResult: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "Distribution"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeMember(label: "Distribution", required: false, type: .structure), 
-            AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: false, type: .string)
-        ]
-        /// The current version of the distribution created.
-        public let eTag: String?
-        /// The distribution's information.
-        public let distribution: Distribution?
-        /// The fully qualified URI of the new distribution resource just created. For example: https://cloudfront.amazonaws.com/2010-11-01/distribution/EDFDVBD632BHDS5.
-        public let location: String?
-
-        public init(eTag: String? = nil, distribution: Distribution? = nil, location: String? = nil) {
-            self.eTag = eTag
-            self.distribution = distribution
-            self.location = location
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case distribution = "Distribution"
-            case location = "Location"
-        }
-    }
-
-    public struct GetStreamingDistributionRequest: AWSShape {
+    public struct GetPublicKeyConfigRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
-        /// The streaming distribution's ID.
+        /// Request the ID for the public key configuration.
         public let id: String
 
         public init(id: String) {
@@ -434,297 +1687,171 @@ extension CloudFront {
         }
     }
 
-    public struct ListPublicKeysResult: AWSShape {
+    public struct PublicKeyList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Quantity", required: true, type: .integer), 
+            AWSShapeMember(label: "MaxItems", required: true, type: .integer), 
+            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "NextMarker", required: false, type: .string)
+        ]
+        /// The number of public keys you added to CloudFront to use with features like field-level encryption.
+        public let quantity: Int32
+        /// The maximum number of public keys you want in the response body. 
+        public let maxItems: Int32
+        /// An array of information about a public key you add to CloudFront to use with features like field-level encryption.
+        public let items: PublicKeySummaryList?
+        /// If there are more elements to be listed, this element is present and contains the value that you can use for the Marker request parameter to continue listing your public keys where you left off.
+        public let nextMarker: String?
+
+        public init(quantity: Int32, maxItems: Int32, items: PublicKeySummaryList? = nil, nextMarker: String? = nil) {
+            self.quantity = quantity
+            self.maxItems = maxItems
+            self.items = items
+            self.nextMarker = nextMarker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case quantity = "Quantity"
+            case maxItems = "MaxItems"
+            case items = "Items"
+            case nextMarker = "NextMarker"
+        }
+    }
+
+    public enum Method: String, CustomStringConvertible, Codable {
+        case get = "GET"
+        case head = "HEAD"
+        case post = "POST"
+        case put = "PUT"
+        case patch = "PATCH"
+        case options = "OPTIONS"
+        case delete = "DELETE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CreateStreamingDistributionWithTagsRequest: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "PublicKeyList"
+        public static let payloadPath: String? = "StreamingDistributionConfigWithTags"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PublicKeyList", required: false, type: .structure)
+            AWSShapeMember(label: "StreamingDistributionConfigWithTags", location: .body(locationName: "StreamingDistributionConfigWithTags"), required: true, type: .structure)
         ]
-        /// Returns a list of all public keys that have been added to CloudFront for this account.
-        public let publicKeyList: PublicKeyList?
+        ///  The streaming distribution's configuration information. 
+        public let streamingDistributionConfigWithTags: StreamingDistributionConfigWithTags
 
-        public init(publicKeyList: PublicKeyList? = nil) {
-            self.publicKeyList = publicKeyList
+        public init(streamingDistributionConfigWithTags: StreamingDistributionConfigWithTags) {
+            self.streamingDistributionConfigWithTags = streamingDistributionConfigWithTags
         }
 
         private enum CodingKeys: String, CodingKey {
-            case publicKeyList = "PublicKeyList"
+            case streamingDistributionConfigWithTags = "StreamingDistributionConfigWithTags"
         }
     }
 
-    public struct TagResourceRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "Tags"
+    public struct OriginCustomHeader: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", location: .body(locationName: "Tags"), required: true, type: .structure), 
-            AWSShapeMember(label: "Resource", location: .querystring(locationName: "Resource"), required: true, type: .string)
+            AWSShapeMember(label: "HeaderName", required: true, type: .string), 
+            AWSShapeMember(label: "HeaderValue", required: true, type: .string)
         ]
-        ///  A complex type that contains zero or more Tag elements.
-        public let tags: Tags
-        ///  An ARN of a CloudFront resource.
-        public let resource: String
+        /// The name of a header that you want CloudFront to forward to your origin. For more information, see Forwarding Custom Headers to Your Origin (Web Distributions Only) in the Amazon Amazon CloudFront Developer Guide.
+        public let headerName: String
+        /// The value for the header that you specified in the HeaderName field.
+        public let headerValue: String
 
-        public init(tags: Tags, resource: String) {
-            self.tags = tags
-            self.resource = resource
+        public init(headerName: String, headerValue: String) {
+            self.headerName = headerName
+            self.headerValue = headerValue
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-            case resource = "Resource"
+            case headerName = "HeaderName"
+            case headerValue = "HeaderValue"
         }
     }
 
-    public struct PublicKeySummaryList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PublicKeySummary", required: false, type: .list)
-        ]
-        public let publicKeySummary: [PublicKeySummary]?
-
-        public init(publicKeySummary: [PublicKeySummary]? = nil) {
-            self.publicKeySummary = publicKeySummary
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case publicKeySummary = "PublicKeySummary"
-        }
-    }
-
-    public struct MethodsList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Method", required: false, type: .list)
-        ]
-        public let method: [Method]?
-
-        public init(method: [Method]? = nil) {
-            self.method = method
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case method = "Method"
-        }
-    }
-
-    public struct QueryArgProfileConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ForwardWhenQueryArgProfileIsUnknown", required: true, type: .boolean), 
-            AWSShapeMember(label: "QueryArgProfiles", required: false, type: .structure)
-        ]
-        /// Flag to set if you want a request to be forwarded to the origin even if the profile specified by the field-level encryption query argument, fle-profile, is unknown.
-        public let forwardWhenQueryArgProfileIsUnknown: Bool
-        /// Profiles specified for query argument-profile mapping for field-level encryption.
-        public let queryArgProfiles: QueryArgProfiles?
-
-        public init(forwardWhenQueryArgProfileIsUnknown: Bool, queryArgProfiles: QueryArgProfiles? = nil) {
-            self.forwardWhenQueryArgProfileIsUnknown = forwardWhenQueryArgProfileIsUnknown
-            self.queryArgProfiles = queryArgProfiles
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case forwardWhenQueryArgProfileIsUnknown = "ForwardWhenQueryArgProfileIsUnknown"
-            case queryArgProfiles = "QueryArgProfiles"
-        }
-    }
-
-    public struct DistributionSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
-            AWSShapeMember(label: "DefaultCacheBehavior", required: true, type: .structure), 
-            AWSShapeMember(label: "Restrictions", required: true, type: .structure), 
-            AWSShapeMember(label: "Aliases", required: true, type: .structure), 
-            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "IsIPV6Enabled", required: true, type: .boolean), 
-            AWSShapeMember(label: "CacheBehaviors", required: true, type: .structure), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "ViewerCertificate", required: true, type: .structure), 
-            AWSShapeMember(label: "PriceClass", required: true, type: .enum), 
-            AWSShapeMember(label: "CustomErrorResponses", required: true, type: .structure), 
-            AWSShapeMember(label: "OriginGroups", required: false, type: .structure), 
-            AWSShapeMember(label: "Status", required: true, type: .string), 
-            AWSShapeMember(label: "Origins", required: true, type: .structure), 
-            AWSShapeMember(label: "Comment", required: true, type: .string), 
-            AWSShapeMember(label: "HttpVersion", required: true, type: .enum), 
-            AWSShapeMember(label: "ARN", required: true, type: .string), 
-            AWSShapeMember(label: "WebACLId", required: true, type: .string)
-        ]
-        /// Whether the distribution is enabled to accept user requests for content.
-        public let enabled: Bool
-        /// A complex type that describes the default cache behavior if you don't specify a CacheBehavior element or if files don't match any of the values of PathPattern in CacheBehavior elements. You must create exactly one default cache behavior.
-        public let defaultCacheBehavior: DefaultCacheBehavior
-        public let restrictions: Restrictions
-        /// A complex type that contains information about CNAMEs (alternate domain names), if any, for this distribution.
-        public let aliases: Aliases
-        /// The date and time the distribution was last modified.
-        public let lastModifiedTime: TimeStamp
-        /// The identifier for the distribution. For example: EDFDVBD632BHDS5.
-        public let id: String
-        /// Whether CloudFront responds to IPv6 DNS requests with an IPv6 address for your distribution.
-        public let isIPV6Enabled: Bool
-        /// A complex type that contains zero or more CacheBehavior elements.
-        public let cacheBehaviors: CacheBehaviors
-        /// The domain name that corresponds to the distribution, for example, d111111abcdef8.cloudfront.net.
-        public let domainName: String
-        public let viewerCertificate: ViewerCertificate
-        /// A complex type that contains information about price class for this streaming distribution. 
-        public let priceClass: PriceClass
-        /// A complex type that contains zero or more CustomErrorResponses elements.
-        public let customErrorResponses: CustomErrorResponses
-        ///  A complex type that contains information about origin groups for this distribution.
-        public let originGroups: OriginGroups?
-        /// The current status of the distribution. When the status is Deployed, the distribution's information is propagated to all CloudFront edge locations.
-        public let status: String
-        /// A complex type that contains information about origins for this distribution.
-        public let origins: Origins
-        /// The comment originally specified when this distribution was created.
-        public let comment: String
-        ///  Specify the maximum HTTP version that you want viewers to use to communicate with CloudFront. The default value for new web distributions is http2. Viewers that don't support HTTP/2 will automatically use an earlier version.
-        public let httpVersion: HttpVersion
-        /// The ARN (Amazon Resource Name) for the distribution. For example: arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5, where 123456789012 is your AWS account ID.
-        public let arn: String
-        /// The Web ACL Id (if any) associated with the distribution.
-        public let webACLId: String
-
-        public init(enabled: Bool, defaultCacheBehavior: DefaultCacheBehavior, restrictions: Restrictions, aliases: Aliases, lastModifiedTime: TimeStamp, id: String, isIPV6Enabled: Bool, cacheBehaviors: CacheBehaviors, domainName: String, viewerCertificate: ViewerCertificate, priceClass: PriceClass, customErrorResponses: CustomErrorResponses, originGroups: OriginGroups? = nil, status: String, origins: Origins, comment: String, httpVersion: HttpVersion, arn: String, webACLId: String) {
-            self.enabled = enabled
-            self.defaultCacheBehavior = defaultCacheBehavior
-            self.restrictions = restrictions
-            self.aliases = aliases
-            self.lastModifiedTime = lastModifiedTime
-            self.id = id
-            self.isIPV6Enabled = isIPV6Enabled
-            self.cacheBehaviors = cacheBehaviors
-            self.domainName = domainName
-            self.viewerCertificate = viewerCertificate
-            self.priceClass = priceClass
-            self.customErrorResponses = customErrorResponses
-            self.originGroups = originGroups
-            self.status = status
-            self.origins = origins
-            self.comment = comment
-            self.httpVersion = httpVersion
-            self.arn = arn
-            self.webACLId = webACLId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case enabled = "Enabled"
-            case defaultCacheBehavior = "DefaultCacheBehavior"
-            case restrictions = "Restrictions"
-            case aliases = "Aliases"
-            case lastModifiedTime = "LastModifiedTime"
-            case id = "Id"
-            case isIPV6Enabled = "IsIPV6Enabled"
-            case cacheBehaviors = "CacheBehaviors"
-            case domainName = "DomainName"
-            case viewerCertificate = "ViewerCertificate"
-            case priceClass = "PriceClass"
-            case customErrorResponses = "CustomErrorResponses"
-            case originGroups = "OriginGroups"
-            case status = "Status"
-            case origins = "Origins"
-            case comment = "Comment"
-            case httpVersion = "HttpVersion"
-            case arn = "ARN"
-            case webACLId = "WebACLId"
-        }
-    }
-
-    public struct UpdateFieldLevelEncryptionConfigRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "FieldLevelEncryptionConfig"
+    public struct DeleteFieldLevelEncryptionConfigRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
-            AWSShapeMember(label: "FieldLevelEncryptionConfig", location: .body(locationName: "FieldLevelEncryptionConfig"), required: true, type: .structure)
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
-        /// The value of the ETag header that you received when retrieving the configuration identity to update. For example: E2QWRUHAPOMQZL.
+        /// The value of the ETag header that you received when retrieving the configuration identity to delete. For example: E2QWRUHAPOMQZL.
         public let ifMatch: String?
-        /// The ID of the configuration you want to update.
+        /// The ID of the configuration you want to delete from CloudFront.
         public let id: String
-        /// Request to update a field-level encryption configuration. 
-        public let fieldLevelEncryptionConfig: FieldLevelEncryptionConfig
 
-        public init(ifMatch: String? = nil, id: String, fieldLevelEncryptionConfig: FieldLevelEncryptionConfig) {
+        public init(ifMatch: String? = nil, id: String) {
             self.ifMatch = ifMatch
             self.id = id
-            self.fieldLevelEncryptionConfig = fieldLevelEncryptionConfig
         }
 
         private enum CodingKeys: String, CodingKey {
             case ifMatch = "If-Match"
             case id = "Id"
-            case fieldLevelEncryptionConfig = "FieldLevelEncryptionConfig"
         }
     }
 
-    public struct CustomOriginConfig: AWSShape {
+    public struct Invalidation: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OriginSslProtocols", required: false, type: .structure), 
-            AWSShapeMember(label: "HTTPSPort", required: true, type: .integer), 
-            AWSShapeMember(label: "OriginReadTimeout", required: false, type: .integer), 
-            AWSShapeMember(label: "OriginKeepaliveTimeout", required: false, type: .integer), 
-            AWSShapeMember(label: "OriginProtocolPolicy", required: true, type: .enum), 
-            AWSShapeMember(label: "HTTPPort", required: true, type: .integer)
+            AWSShapeMember(label: "InvalidationBatch", required: true, type: .structure), 
+            AWSShapeMember(label: "CreateTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "Status", required: true, type: .string)
         ]
-        /// The SSL/TLS protocols that you want CloudFront to use when communicating with your origin over HTTPS.
-        public let originSslProtocols: OriginSslProtocols?
-        /// The HTTPS port the custom origin listens on.
-        public let hTTPSPort: Int32
-        /// You can create a custom origin read timeout. All timeout units are in seconds. The default origin read timeout is 30 seconds, but you can configure custom timeout lengths using the CloudFront API. The minimum timeout length is 4 seconds; the maximum is 60 seconds. If you need to increase the maximum time limit, contact the AWS Support Center.
-        public let originReadTimeout: Int32?
-        /// You can create a custom keep-alive timeout. All timeout units are in seconds. The default keep-alive timeout is 5 seconds, but you can configure custom timeout lengths using the CloudFront API. The minimum timeout length is 1 second; the maximum is 60 seconds. If you need to increase the maximum time limit, contact the AWS Support Center.
-        public let originKeepaliveTimeout: Int32?
-        /// The origin protocol policy to apply to your origin.
-        public let originProtocolPolicy: OriginProtocolPolicy
-        /// The HTTP port the custom origin listens on.
-        public let hTTPPort: Int32
+        /// The current invalidation information for the batch request. 
+        public let invalidationBatch: InvalidationBatch
+        /// The date and time the invalidation request was first made. 
+        public let createTime: TimeStamp
+        /// The identifier for the invalidation request. For example: IDFDVBD632BHDS5.
+        public let id: String
+        /// The status of the invalidation request. When the invalidation batch is finished, the status is Completed.
+        public let status: String
 
-        public init(originSslProtocols: OriginSslProtocols? = nil, hTTPSPort: Int32, originReadTimeout: Int32? = nil, originKeepaliveTimeout: Int32? = nil, originProtocolPolicy: OriginProtocolPolicy, hTTPPort: Int32) {
-            self.originSslProtocols = originSslProtocols
-            self.hTTPSPort = hTTPSPort
-            self.originReadTimeout = originReadTimeout
-            self.originKeepaliveTimeout = originKeepaliveTimeout
-            self.originProtocolPolicy = originProtocolPolicy
-            self.hTTPPort = hTTPPort
+        public init(invalidationBatch: InvalidationBatch, createTime: TimeStamp, id: String, status: String) {
+            self.invalidationBatch = invalidationBatch
+            self.createTime = createTime
+            self.id = id
+            self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
-            case originSslProtocols = "OriginSslProtocols"
-            case hTTPSPort = "HTTPSPort"
-            case originReadTimeout = "OriginReadTimeout"
-            case originKeepaliveTimeout = "OriginKeepaliveTimeout"
-            case originProtocolPolicy = "OriginProtocolPolicy"
-            case hTTPPort = "HTTPPort"
+            case invalidationBatch = "InvalidationBatch"
+            case createTime = "CreateTime"
+            case id = "Id"
+            case status = "Status"
         }
     }
 
-    public struct AwsAccountNumberList: AWSShape {
+    public struct QueryArgProfiles: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsAccountNumber", required: false, type: .list)
+            AWSShapeMember(label: "Quantity", required: true, type: .integer), 
+            AWSShapeMember(label: "Items", required: false, type: .structure)
         ]
-        public let awsAccountNumber: [String]?
+        /// Number of profiles for query argument-profile mapping for field-level encryption.
+        public let quantity: Int32
+        /// Number of items for query argument-profile mapping for field-level encryption.
+        public let items: QueryArgProfileList?
 
-        public init(awsAccountNumber: [String]? = nil) {
-            self.awsAccountNumber = awsAccountNumber
+        public init(quantity: Int32, items: QueryArgProfileList? = nil) {
+            self.quantity = quantity
+            self.items = items
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsAccountNumber = "AwsAccountNumber"
+            case quantity = "Quantity"
+            case items = "Items"
         }
     }
 
-    public struct EncryptionEntities: AWSShape {
+    public struct OriginGroups: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Items", required: false, type: .structure), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
-        /// An array of field patterns in a field-level encryption content type-profile mapping. 
-        public let items: EncryptionEntityList?
-        /// Number of field pattern items in a field-level encryption content type-profile mapping. 
+        /// The items (origin groups) in a distribution.
+        public let items: OriginGroupList?
+        /// The number of origin groups.
         public let quantity: Int32
 
-        public init(items: EncryptionEntityList? = nil, quantity: Int32) {
+        public init(items: OriginGroupList? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
         }
@@ -758,651 +1885,29 @@ extension CloudFront {
         }
     }
 
-    public struct Paths: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .structure), 
-            AWSShapeMember(label: "Quantity", required: true, type: .integer)
-        ]
-        /// A complex type that contains a list of the paths that you want to invalidate.
-        public let items: PathList?
-        /// The number of objects that you want to invalidate.
-        public let quantity: Int32
-
-        public init(items: PathList? = nil, quantity: Int32) {
-            self.items = items
-            self.quantity = quantity
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case items = "Items"
-            case quantity = "Quantity"
-        }
-    }
-
-    public struct GetFieldLevelEncryptionProfileConfigResult: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "FieldLevelEncryptionProfileConfig"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeMember(label: "FieldLevelEncryptionProfileConfig", required: false, type: .structure)
-        ]
-        /// The current version of the field-level encryption profile configuration result. For example: E2QWRUHAPOMQZL.
-        public let eTag: String?
-        /// Return the field-level encryption profile configuration information.
-        public let fieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig?
-
-        public init(eTag: String? = nil, fieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig? = nil) {
-            self.eTag = eTag
-            self.fieldLevelEncryptionProfileConfig = fieldLevelEncryptionProfileConfig
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case fieldLevelEncryptionProfileConfig = "FieldLevelEncryptionProfileConfig"
-        }
-    }
-
-    public struct StreamingDistributionList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: true, type: .string), 
-            AWSShapeMember(label: "Quantity", required: true, type: .integer), 
-            AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
-            AWSShapeMember(label: "MaxItems", required: true, type: .integer), 
-            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
-            AWSShapeMember(label: "Items", required: false, type: .structure)
-        ]
-        /// The value you provided for the Marker request parameter. 
-        public let marker: String
-        /// The number of streaming distributions that were created by the current AWS account. 
-        public let quantity: Int32
-        /// A flag that indicates whether more streaming distributions remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more distributions in the list. 
-        public let isTruncated: Bool
-        /// The value you provided for the MaxItems request parameter. 
-        public let maxItems: Int32
-        /// If IsTruncated is true, this element is present and contains the value you can use for the Marker request parameter to continue listing your RTMP distributions where they left off. 
-        public let nextMarker: String?
-        /// A complex type that contains one StreamingDistributionSummary element for each distribution that was created by the current AWS account.
-        public let items: StreamingDistributionSummaryList?
-
-        public init(marker: String, quantity: Int32, isTruncated: Bool, maxItems: Int32, nextMarker: String? = nil, items: StreamingDistributionSummaryList? = nil) {
-            self.marker = marker
-            self.quantity = quantity
-            self.isTruncated = isTruncated
-            self.maxItems = maxItems
-            self.nextMarker = nextMarker
-            self.items = items
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case quantity = "Quantity"
-            case isTruncated = "IsTruncated"
-            case maxItems = "MaxItems"
-            case nextMarker = "NextMarker"
-            case items = "Items"
-        }
-    }
-
-    public struct CreateDistributionWithTagsRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "DistributionConfigWithTags"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DistributionConfigWithTags", location: .body(locationName: "DistributionConfigWithTags"), required: true, type: .structure)
-        ]
-        /// The distribution's configuration information. 
-        public let distributionConfigWithTags: DistributionConfigWithTags
-
-        public init(distributionConfigWithTags: DistributionConfigWithTags) {
-            self.distributionConfigWithTags = distributionConfigWithTags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case distributionConfigWithTags = "DistributionConfigWithTags"
-        }
-    }
-
-    public struct CustomErrorResponses: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .structure), 
-            AWSShapeMember(label: "Quantity", required: true, type: .integer)
-        ]
-        /// A complex type that contains a CustomErrorResponse element for each HTTP status code for which you want to specify a custom error page and/or a caching duration. 
-        public let items: CustomErrorResponseList?
-        /// The number of HTTP status codes for which you want to specify a custom error page and/or a caching duration. If Quantity is 0, you can omit Items.
-        public let quantity: Int32
-
-        public init(items: CustomErrorResponseList? = nil, quantity: Int32) {
-            self.items = items
-            self.quantity = quantity
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case items = "Items"
-            case quantity = "Quantity"
-        }
-    }
-
-    public struct CloudFrontOriginAccessIdentityConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CallerReference", required: true, type: .string), 
-            AWSShapeMember(label: "Comment", required: true, type: .string)
-        ]
-        /// A unique value (for example, a date-time stamp) that ensures that the request can't be replayed. If the value of CallerReference is new (regardless of the content of the CloudFrontOriginAccessIdentityConfig object), a new origin access identity is created. If the CallerReference is a value already sent in a previous identity request, and the content of the CloudFrontOriginAccessIdentityConfig is identical to the original request (ignoring white space), the response includes the same information returned to the original request.  If the CallerReference is a value you already sent in a previous request to create an identity, but the content of the CloudFrontOriginAccessIdentityConfig is different from the original request, CloudFront returns a CloudFrontOriginAccessIdentityAlreadyExists error. 
-        public let callerReference: String
-        /// Any comments you want to include about the origin access identity. 
-        public let comment: String
-
-        public init(callerReference: String, comment: String) {
-            self.callerReference = callerReference
-            self.comment = comment
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case callerReference = "CallerReference"
-            case comment = "Comment"
-        }
-    }
-
-    public struct CookieNameList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .list)
-        ]
-        public let name: [String]?
-
-        public init(name: [String]? = nil) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-        }
-    }
-
-    public struct DeleteDistributionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
-        ]
-        /// The value of the ETag header that you received when you disabled the distribution. For example: E2QWRUHAPOMQZL. 
-        public let ifMatch: String?
-        /// The distribution ID. 
-        public let id: String
-
-        public init(ifMatch: String? = nil, id: String) {
-            self.ifMatch = ifMatch
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ifMatch = "If-Match"
-            case id = "Id"
-        }
-    }
-
-    public struct ListPublicKeysRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .string)
-        ]
-        /// Use this when paginating results to indicate where to begin in your list of public keys. The results include public keys in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last public key on that page). 
-        public let marker: String?
-        /// The maximum number of public keys you want in the response body. 
-        public let maxItems: String?
-
-        public init(marker: String? = nil, maxItems: String? = nil) {
-            self.marker = marker
-            self.maxItems = maxItems
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-        }
-    }
-
-    public struct FieldLevelEncryptionProfileConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CallerReference", required: true, type: .string), 
-            AWSShapeMember(label: "EncryptionEntities", required: true, type: .structure), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Comment", required: false, type: .string)
-        ]
-        /// A unique number that ensures that the request can't be replayed.
-        public let callerReference: String
-        /// A complex data type of encryption entities for the field-level encryption profile that include the public key ID, provider, and field patterns for specifying which fields to encrypt with this key.
-        public let encryptionEntities: EncryptionEntities
-        /// Profile name for the field-level encryption profile.
-        public let name: String
-        /// An optional comment for the field-level encryption profile.
-        public let comment: String?
-
-        public init(callerReference: String, encryptionEntities: EncryptionEntities, name: String, comment: String? = nil) {
-            self.callerReference = callerReference
-            self.encryptionEntities = encryptionEntities
-            self.name = name
-            self.comment = comment
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case callerReference = "CallerReference"
-            case encryptionEntities = "EncryptionEntities"
-            case name = "Name"
-            case comment = "Comment"
-        }
-    }
-
-    public struct CreatePublicKeyResult: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "PublicKey"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: false, type: .string), 
-            AWSShapeMember(label: "PublicKey", required: false, type: .structure)
-        ]
-        /// The current version of the public key. For example: E2QWRUHAPOMQZL.
-        public let eTag: String?
-        /// The fully qualified URI of the new public key resource just created. For example: https://cloudfront.amazonaws.com/2010-11-01/cloudfront-public-key/EDFDVBD632BHDS5.
-        public let location: String?
-        /// Returned when you add a public key.
-        public let publicKey: PublicKey?
-
-        public init(eTag: String? = nil, location: String? = nil, publicKey: PublicKey? = nil) {
-            self.eTag = eTag
-            self.location = location
-            self.publicKey = publicKey
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case location = "Location"
-            case publicKey = "PublicKey"
-        }
-    }
-
-    public struct DistributionList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: true, type: .string), 
-            AWSShapeMember(label: "Quantity", required: true, type: .integer), 
-            AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
-            AWSShapeMember(label: "MaxItems", required: true, type: .integer), 
-            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
-            AWSShapeMember(label: "Items", required: false, type: .structure)
-        ]
-        /// The value you provided for the Marker request parameter.
-        public let marker: String
-        /// The number of distributions that were created by the current AWS account. 
-        public let quantity: Int32
-        /// A flag that indicates whether more distributions remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more distributions in the list.
-        public let isTruncated: Bool
-        /// The value you provided for the MaxItems request parameter.
-        public let maxItems: Int32
-        /// If IsTruncated is true, this element is present and contains the value you can use for the Marker request parameter to continue listing your distributions where they left off. 
-        public let nextMarker: String?
-        /// A complex type that contains one DistributionSummary element for each distribution that was created by the current AWS account.
-        public let items: DistributionSummaryList?
-
-        public init(marker: String, quantity: Int32, isTruncated: Bool, maxItems: Int32, nextMarker: String? = nil, items: DistributionSummaryList? = nil) {
-            self.marker = marker
-            self.quantity = quantity
-            self.isTruncated = isTruncated
-            self.maxItems = maxItems
-            self.nextMarker = nextMarker
-            self.items = items
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case quantity = "Quantity"
-            case isTruncated = "IsTruncated"
-            case maxItems = "MaxItems"
-            case nextMarker = "NextMarker"
-            case items = "Items"
-        }
-    }
-
     public struct GeoRestriction: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RestrictionType", required: true, type: .enum), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer), 
             AWSShapeMember(label: "Items", required: false, type: .structure), 
-            AWSShapeMember(label: "Quantity", required: true, type: .integer)
+            AWSShapeMember(label: "RestrictionType", required: true, type: .enum)
         ]
-        /// The method that you want to use to restrict distribution of your content by country:    none: No geo restriction is enabled, meaning access to content is not restricted by client geo location.    blacklist: The Location elements specify the countries in which you don't want CloudFront to distribute your content.    whitelist: The Location elements specify the countries in which you want CloudFront to distribute your content.  
-        public let restrictionType: GeoRestrictionType
-        ///  A complex type that contains a Location element for each country in which you want CloudFront either to distribute your content (whitelist) or not distribute your content (blacklist). The Location element is a two-letter, uppercase country code for a country that you want to include in your blacklist or whitelist. Include one Location element for each country. CloudFront and MaxMind both use ISO 3166 country codes. For the current list of countries and the corresponding codes, see ISO 3166-1-alpha-2 code on the International Organization for Standardization website. You can also refer to the country list on the CloudFront console, which includes both country names and codes.
-        public let items: LocationList?
         /// When geo restriction is enabled, this is the number of countries in your whitelist or blacklist. Otherwise, when it is not enabled, Quantity is 0, and you can omit Items.
         public let quantity: Int32
+        ///  A complex type that contains a Location element for each country in which you want CloudFront either to distribute your content (whitelist) or not distribute your content (blacklist). The Location element is a two-letter, uppercase country code for a country that you want to include in your blacklist or whitelist. Include one Location element for each country. CloudFront and MaxMind both use ISO 3166 country codes. For the current list of countries and the corresponding codes, see ISO 3166-1-alpha-2 code on the International Organization for Standardization website. You can also refer to the country list on the CloudFront console, which includes both country names and codes.
+        public let items: LocationList?
+        /// The method that you want to use to restrict distribution of your content by country:    none: No geo restriction is enabled, meaning access to content is not restricted by client geo location.    blacklist: The Location elements specify the countries in which you don't want CloudFront to distribute your content.    whitelist: The Location elements specify the countries in which you want CloudFront to distribute your content.  
+        public let restrictionType: GeoRestrictionType
 
-        public init(restrictionType: GeoRestrictionType, items: LocationList? = nil, quantity: Int32) {
+        public init(quantity: Int32, items: LocationList? = nil, restrictionType: GeoRestrictionType) {
+            self.quantity = quantity
+            self.items = items
             self.restrictionType = restrictionType
-            self.items = items
-            self.quantity = quantity
         }
 
         private enum CodingKeys: String, CodingKey {
+            case quantity = "Quantity"
+            case items = "Items"
             case restrictionType = "RestrictionType"
-            case items = "Items"
-            case quantity = "Quantity"
-        }
-    }
-
-    public struct OriginCustomHeadersList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OriginCustomHeader", required: false, type: .list)
-        ]
-        public let originCustomHeader: [OriginCustomHeader]?
-
-        public init(originCustomHeader: [OriginCustomHeader]? = nil) {
-            self.originCustomHeader = originCustomHeader
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case originCustomHeader = "OriginCustomHeader"
-        }
-    }
-
-    public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "Key", required: true, type: .string)
-        ]
-        ///  A string that contains an optional Tag value. The string length should be between 0 and 256 characters. Valid characters include a-z, A-Z, 0-9, space, and the special characters _ - . : / = + @.
-        public let value: String?
-        ///  A string that contains Tag key. The string length should be between 1 and 128 characters. Valid characters include a-z, A-Z, 0-9, space, and the special characters _ - . : / = + @.
-        public let key: String
-
-        public init(value: String? = nil, key: String) {
-            self.value = value
-            self.key = key
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case key = "Key"
-        }
-    }
-
-    public struct GetFieldLevelEncryptionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
-        ]
-        /// Request the ID for the field-level encryption configuration information.
-        public let id: String
-
-        public init(id: String) {
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
-    }
-
-    public struct CachedMethods: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: true, type: .structure), 
-            AWSShapeMember(label: "Quantity", required: true, type: .integer)
-        ]
-        /// A complex type that contains the HTTP methods that you want CloudFront to cache responses to.
-        public let items: MethodsList
-        /// The number of HTTP methods for which you want CloudFront to cache responses. Valid values are 2 (for caching responses to GET and HEAD requests) and 3 (for caching responses to GET, HEAD, and OPTIONS requests).
-        public let quantity: Int32
-
-        public init(items: MethodsList, quantity: Int32) {
-            self.items = items
-            self.quantity = quantity
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case items = "Items"
-            case quantity = "Quantity"
-        }
-    }
-
-    public struct DeletePublicKeyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
-        ]
-        /// The value of the ETag header that you received when retrieving the public key identity to delete. For example: E2QWRUHAPOMQZL.
-        public let ifMatch: String?
-        /// The ID of the public key you want to remove from CloudFront.
-        public let id: String
-
-        public init(ifMatch: String? = nil, id: String) {
-            self.ifMatch = ifMatch
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ifMatch = "If-Match"
-            case id = "Id"
-        }
-    }
-
-    public struct ListDistributionsByWebACLIdRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
-            AWSShapeMember(label: "WebACLId", location: .uri(locationName: "WebACLId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .string)
-        ]
-        /// Use Marker and MaxItems to control pagination of results. If you have more than MaxItems distributions that satisfy the request, the response includes a NextMarker element. To get the next page of results, submit another request. For the value of Marker, specify the value of NextMarker from the last response. (For the first request, omit Marker.) 
-        public let marker: String?
-        /// The ID of the AWS WAF web ACL that you want to list the associated distributions. If you specify "null" for the ID, the request returns a list of the distributions that aren't associated with a web ACL. 
-        public let webACLId: String
-        /// The maximum number of distributions that you want CloudFront to return in the response body. The maximum and default values are both 100.
-        public let maxItems: String?
-
-        public init(marker: String? = nil, webACLId: String, maxItems: String? = nil) {
-            self.marker = marker
-            self.webACLId = webACLId
-            self.maxItems = maxItems
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case webACLId = "WebACLId"
-            case maxItems = "MaxItems"
-        }
-    }
-
-    public struct DistributionConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
-            AWSShapeMember(label: "DefaultRootObject", required: false, type: .string), 
-            AWSShapeMember(label: "DefaultCacheBehavior", required: true, type: .structure), 
-            AWSShapeMember(label: "Logging", required: false, type: .structure), 
-            AWSShapeMember(label: "Aliases", required: false, type: .structure), 
-            AWSShapeMember(label: "Restrictions", required: false, type: .structure), 
-            AWSShapeMember(label: "CacheBehaviors", required: false, type: .structure), 
-            AWSShapeMember(label: "IsIPV6Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "ViewerCertificate", required: false, type: .structure), 
-            AWSShapeMember(label: "PriceClass", required: false, type: .enum), 
-            AWSShapeMember(label: "CustomErrorResponses", required: false, type: .structure), 
-            AWSShapeMember(label: "OriginGroups", required: false, type: .structure), 
-            AWSShapeMember(label: "HttpVersion", required: false, type: .enum), 
-            AWSShapeMember(label: "Origins", required: true, type: .structure), 
-            AWSShapeMember(label: "Comment", required: true, type: .string), 
-            AWSShapeMember(label: "CallerReference", required: true, type: .string), 
-            AWSShapeMember(label: "WebACLId", required: false, type: .string)
-        ]
-        /// From this field, you can enable or disable the selected distribution.
-        public let enabled: Bool
-        /// The object that you want CloudFront to request from your origin (for example, index.html) when a viewer requests the root URL for your distribution (http://www.example.com) instead of an object in your distribution (http://www.example.com/product-description.html). Specifying a default root object avoids exposing the contents of your distribution. Specify only the object name, for example, index.html. Don't add a / before the object name. If you don't want to specify a default root object when you create a distribution, include an empty DefaultRootObject element. To delete the default root object from an existing distribution, update the distribution configuration and include an empty DefaultRootObject element. To replace the default root object, update the distribution configuration and specify the new object. For more information about the default root object, see Creating a Default Root Object in the Amazon CloudFront Developer Guide.
-        public let defaultRootObject: String?
-        /// A complex type that describes the default cache behavior if you don't specify a CacheBehavior element or if files don't match any of the values of PathPattern in CacheBehavior elements. You must create exactly one default cache behavior.
-        public let defaultCacheBehavior: DefaultCacheBehavior
-        /// A complex type that controls whether access logs are written for the distribution. For more information about logging, see Access Logs in the Amazon CloudFront Developer Guide.
-        public let logging: LoggingConfig?
-        /// A complex type that contains information about CNAMEs (alternate domain names), if any, for this distribution.
-        public let aliases: Aliases?
-        public let restrictions: Restrictions?
-        /// A complex type that contains zero or more CacheBehavior elements. 
-        public let cacheBehaviors: CacheBehaviors?
-        /// If you want CloudFront to respond to IPv6 DNS requests with an IPv6 address for your distribution, specify true. If you specify false, CloudFront responds to IPv6 DNS requests with the DNS response code NOERROR and with no IP addresses. This allows viewers to submit a second request, for an IPv4 address for your distribution.  In general, you should enable IPv6 if you have users on IPv6 networks who want to access your content. However, if you're using signed URLs or signed cookies to restrict access to your content, and if you're using a custom policy that includes the IpAddress parameter to restrict the IP addresses that can access your content, don't enable IPv6. If you want to restrict access to some content by IP address and not restrict access to other content (or restrict access but not by IP address), you can create two distributions. For more information, see Creating a Signed URL Using a Custom Policy in the Amazon CloudFront Developer Guide. If you're using an Amazon Route 53 alias resource record set to route traffic to your CloudFront distribution, you need to create a second alias resource record set when both of the following are true:   You enable IPv6 for the distribution   You're using alternate domain names in the URLs for your objects   For more information, see Routing Traffic to an Amazon CloudFront Web Distribution by Using Your Domain Name in the Amazon Route 53 Developer Guide. If you created a CNAME resource record set, either with Amazon Route 53 or with another DNS service, you don't need to make any changes. A CNAME record will route traffic to your distribution regardless of the IP address format of the viewer request.
-        public let isIPV6Enabled: Bool?
-        public let viewerCertificate: ViewerCertificate?
-        /// The price class that corresponds with the maximum price that you want to pay for CloudFront service. If you specify PriceClass_All, CloudFront responds to requests for your objects from all CloudFront edge locations. If you specify a price class other than PriceClass_All, CloudFront serves your objects from the CloudFront edge location that has the lowest latency among the edge locations in your price class. Viewers who are in or near regions that are excluded from your specified price class may encounter slower performance. For more information about price classes, see Choosing the Price Class for a CloudFront Distribution in the Amazon CloudFront Developer Guide. For information about CloudFront pricing, including how price classes (such as Price Class 100) map to CloudFront regions, see Amazon CloudFront Pricing. For price class information, scroll down to see the table at the bottom of the page.
-        public let priceClass: PriceClass?
-        /// A complex type that controls the following:   Whether CloudFront replaces HTTP status codes in the 4xx and 5xx range with custom error messages before returning the response to the viewer.   How long CloudFront caches HTTP status codes in the 4xx and 5xx range.   For more information about custom error pages, see Customizing Error Responses in the Amazon CloudFront Developer Guide.
-        public let customErrorResponses: CustomErrorResponses?
-        ///  A complex type that contains information about origin groups for this distribution.
-        public let originGroups: OriginGroups?
-        /// (Optional) Specify the maximum HTTP version that you want viewers to use to communicate with CloudFront. The default value for new web distributions is http2. Viewers that don't support HTTP/2 automatically use an earlier HTTP version. For viewers and CloudFront to use HTTP/2, viewers must support TLS 1.2 or later, and must support Server Name Identification (SNI). In general, configuring CloudFront to communicate with viewers using HTTP/2 reduces latency. You can improve performance by optimizing for HTTP/2. For more information, do an Internet search for "http/2 optimization." 
-        public let httpVersion: HttpVersion?
-        /// A complex type that contains information about origins for this distribution. 
-        public let origins: Origins
-        /// Any comments you want to include about the distribution. If you don't want to specify a comment, include an empty Comment element. To delete an existing comment, update the distribution configuration and include an empty Comment element. To add or change a comment, update the distribution configuration and specify the new comment.
-        public let comment: String
-        /// A unique value (for example, a date-time stamp) that ensures that the request can't be replayed. If the value of CallerReference is new (regardless of the content of the DistributionConfig object), CloudFront creates a new distribution. If CallerReference is a value that you already sent in a previous request to create a distribution, CloudFront returns a DistributionAlreadyExists error.
-        public let callerReference: String
-        /// A unique identifier that specifies the AWS WAF web ACL, if any, to associate with this distribution. AWS WAF is a web application firewall that lets you monitor the HTTP and HTTPS requests that are forwarded to CloudFront, and lets you control access to your content. Based on conditions that you specify, such as the IP addresses that requests originate from or the values of query strings, CloudFront responds to requests either with the requested content or with an HTTP 403 status code (Forbidden). You can also configure CloudFront to return a custom error page when a request is blocked. For more information about AWS WAF, see the AWS WAF Developer Guide. 
-        public let webACLId: String?
-
-        public init(enabled: Bool, defaultRootObject: String? = nil, defaultCacheBehavior: DefaultCacheBehavior, logging: LoggingConfig? = nil, aliases: Aliases? = nil, restrictions: Restrictions? = nil, cacheBehaviors: CacheBehaviors? = nil, isIPV6Enabled: Bool? = nil, viewerCertificate: ViewerCertificate? = nil, priceClass: PriceClass? = nil, customErrorResponses: CustomErrorResponses? = nil, originGroups: OriginGroups? = nil, httpVersion: HttpVersion? = nil, origins: Origins, comment: String, callerReference: String, webACLId: String? = nil) {
-            self.enabled = enabled
-            self.defaultRootObject = defaultRootObject
-            self.defaultCacheBehavior = defaultCacheBehavior
-            self.logging = logging
-            self.aliases = aliases
-            self.restrictions = restrictions
-            self.cacheBehaviors = cacheBehaviors
-            self.isIPV6Enabled = isIPV6Enabled
-            self.viewerCertificate = viewerCertificate
-            self.priceClass = priceClass
-            self.customErrorResponses = customErrorResponses
-            self.originGroups = originGroups
-            self.httpVersion = httpVersion
-            self.origins = origins
-            self.comment = comment
-            self.callerReference = callerReference
-            self.webACLId = webACLId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case enabled = "Enabled"
-            case defaultRootObject = "DefaultRootObject"
-            case defaultCacheBehavior = "DefaultCacheBehavior"
-            case logging = "Logging"
-            case aliases = "Aliases"
-            case restrictions = "Restrictions"
-            case cacheBehaviors = "CacheBehaviors"
-            case isIPV6Enabled = "IsIPV6Enabled"
-            case viewerCertificate = "ViewerCertificate"
-            case priceClass = "PriceClass"
-            case customErrorResponses = "CustomErrorResponses"
-            case originGroups = "OriginGroups"
-            case httpVersion = "HttpVersion"
-            case origins = "Origins"
-            case comment = "Comment"
-            case callerReference = "CallerReference"
-            case webACLId = "WebACLId"
-        }
-    }
-
-    public struct UpdateDistributionRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "DistributionConfig"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
-            AWSShapeMember(label: "DistributionConfig", location: .body(locationName: "DistributionConfig"), required: true, type: .structure), 
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
-        ]
-        /// The value of the ETag header that you received when retrieving the distribution's configuration. For example: E2QWRUHAPOMQZL.
-        public let ifMatch: String?
-        /// The distribution's configuration information.
-        public let distributionConfig: DistributionConfig
-        /// The distribution's id.
-        public let id: String
-
-        public init(ifMatch: String? = nil, distributionConfig: DistributionConfig, id: String) {
-            self.ifMatch = ifMatch
-            self.distributionConfig = distributionConfig
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ifMatch = "If-Match"
-            case distributionConfig = "DistributionConfig"
-            case id = "Id"
-        }
-    }
-
-    public struct OriginGroupMembers: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: true, type: .structure), 
-            AWSShapeMember(label: "Quantity", required: true, type: .integer)
-        ]
-        /// Items (origins) in an origin group.
-        public let items: OriginGroupMemberList
-        /// The number of origins in an origin group.
-        public let quantity: Int32
-
-        public init(items: OriginGroupMemberList, quantity: Int32) {
-            self.items = items
-            self.quantity = quantity
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case items = "Items"
-            case quantity = "Quantity"
-        }
-    }
-
-    public struct LambdaFunctionAssociation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LambdaFunctionARN", required: true, type: .string), 
-            AWSShapeMember(label: "IncludeBody", required: false, type: .boolean), 
-            AWSShapeMember(label: "EventType", required: true, type: .enum)
-        ]
-        /// The ARN of the Lambda function. You must specify the ARN of a function version; you can't specify a Lambda alias or $LATEST.
-        public let lambdaFunctionARN: String
-        /// A flag that allows a Lambda function to have read access to the body content. For more information, see Accessing the Request Body by Choosing the Include Body Option in the Amazon CloudFront Developer Guide.
-        public let includeBody: Bool?
-        /// Specifies the event type that triggers a Lambda function invocation. You can specify the following values:    viewer-request: The function executes when CloudFront receives a request from a viewer and before it checks to see whether the requested object is in the edge cache.     origin-request: The function executes only when CloudFront forwards a request to your origin. When the requested object is in the edge cache, the function doesn't execute.    origin-response: The function executes after CloudFront receives a response from the origin and before it caches the object in the response. When the requested object is in the edge cache, the function doesn't execute.    viewer-response: The function executes before CloudFront returns the requested object to the viewer. The function executes regardless of whether the object was already in the edge cache. If the origin returns an HTTP status code other than HTTP 200 (OK), the function doesn't execute.  
-        public let eventType: EventType
-
-        public init(lambdaFunctionARN: String, includeBody: Bool? = nil, eventType: EventType) {
-            self.lambdaFunctionARN = lambdaFunctionARN
-            self.includeBody = includeBody
-            self.eventType = eventType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lambdaFunctionARN = "LambdaFunctionARN"
-            case includeBody = "IncludeBody"
-            case eventType = "EventType"
-        }
-    }
-
-    public struct FieldLevelEncryptionList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Quantity", required: true, type: .integer), 
-            AWSShapeMember(label: "MaxItems", required: true, type: .integer), 
-            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
-            AWSShapeMember(label: "Items", required: false, type: .structure)
-        ]
-        /// The number of field-level encryption items.
-        public let quantity: Int32
-        /// The maximum number of elements you want in the response body. 
-        public let maxItems: Int32
-        /// If there are more elements to be listed, this element is present and contains the value that you can use for the Marker request parameter to continue listing your configurations where you left off.
-        public let nextMarker: String?
-        /// An array of field-level encryption items.
-        public let items: FieldLevelEncryptionSummaryList?
-
-        public init(quantity: Int32, maxItems: Int32, nextMarker: String? = nil, items: FieldLevelEncryptionSummaryList? = nil) {
-            self.quantity = quantity
-            self.maxItems = maxItems
-            self.nextMarker = nextMarker
-            self.items = items
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case quantity = "Quantity"
-            case maxItems = "MaxItems"
-            case nextMarker = "NextMarker"
-            case items = "Items"
         }
     }
 
@@ -1421,1872 +1926,129 @@ extension CloudFront {
         }
     }
 
-    public struct UpdateCloudFrontOriginAccessIdentityResult: AWSShape {
+    public struct ListTagsForResourceResult: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "CloudFrontOriginAccessIdentity"
+        public static let payloadPath: String? = "Tags"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeMember(label: "CloudFrontOriginAccessIdentity", required: false, type: .structure)
+            AWSShapeMember(label: "Tags", required: true, type: .structure)
         ]
-        /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
-        public let eTag: String?
-        /// The origin access identity's information.
-        public let cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity?
+        ///  A complex type that contains zero or more Tag elements.
+        public let tags: Tags
 
-        public init(eTag: String? = nil, cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity? = nil) {
-            self.eTag = eTag
-            self.cloudFrontOriginAccessIdentity = cloudFrontOriginAccessIdentity
+        public init(tags: Tags) {
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case cloudFrontOriginAccessIdentity = "CloudFrontOriginAccessIdentity"
+            case tags = "Tags"
         }
     }
 
-    public struct FieldPatternList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FieldPattern", required: false, type: .list)
-        ]
-        public let fieldPattern: [String]?
-
-        public init(fieldPattern: [String]? = nil) {
-            self.fieldPattern = fieldPattern
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fieldPattern = "FieldPattern"
-        }
-    }
-
-    public struct PublicKeyList: AWSShape {
+    public struct CookieNames: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Quantity", required: true, type: .integer), 
-            AWSShapeMember(label: "MaxItems", required: true, type: .integer), 
-            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
             AWSShapeMember(label: "Items", required: false, type: .structure)
         ]
-        /// The number of public keys you added to CloudFront to use with features like field-level encryption.
+        /// The number of different cookies that you want CloudFront to forward to the origin for this cache behavior.
         public let quantity: Int32
-        /// The maximum number of public keys you want in the response body. 
-        public let maxItems: Int32
-        /// If there are more elements to be listed, this element is present and contains the value that you can use for the Marker request parameter to continue listing your public keys where you left off.
-        public let nextMarker: String?
-        /// An array of information about a public key you add to CloudFront to use with features like field-level encryption.
-        public let items: PublicKeySummaryList?
+        /// A complex type that contains one Name element for each cookie that you want CloudFront to forward to the origin for this cache behavior.
+        public let items: CookieNameList?
 
-        public init(quantity: Int32, maxItems: Int32, nextMarker: String? = nil, items: PublicKeySummaryList? = nil) {
+        public init(quantity: Int32, items: CookieNameList? = nil) {
             self.quantity = quantity
-            self.maxItems = maxItems
-            self.nextMarker = nextMarker
             self.items = items
         }
 
         private enum CodingKeys: String, CodingKey {
             case quantity = "Quantity"
-            case maxItems = "MaxItems"
-            case nextMarker = "NextMarker"
             case items = "Items"
-        }
-    }
-
-    public struct LoggingConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IncludeCookies", required: true, type: .boolean), 
-            AWSShapeMember(label: "Prefix", required: true, type: .string), 
-            AWSShapeMember(label: "Bucket", required: true, type: .string), 
-            AWSShapeMember(label: "Enabled", required: true, type: .boolean)
-        ]
-        /// Specifies whether you want CloudFront to include cookies in access logs, specify true for IncludeCookies. If you choose to include cookies in logs, CloudFront logs all cookies regardless of how you configure the cache behaviors for this distribution. If you don't want to include cookies when you create a distribution or if you want to disable include cookies for an existing distribution, specify false for IncludeCookies.
-        public let includeCookies: Bool
-        /// An optional string that you want CloudFront to prefix to the access log filenames for this distribution, for example, myprefix/. If you want to enable logging, but you don't want to specify a prefix, you still must include an empty Prefix element in the Logging element.
-        public let prefix: String
-        /// The Amazon S3 bucket to store the access logs in, for example, myawslogbucket.s3.amazonaws.com.
-        public let bucket: String
-        /// Specifies whether you want CloudFront to save access logs to an Amazon S3 bucket. If you don't want to enable logging when you create a distribution or if you want to disable logging for an existing distribution, specify false for Enabled, and specify empty Bucket and Prefix elements. If you specify false for Enabled but you specify values for Bucket, prefix, and IncludeCookies, the values are automatically deleted.
-        public let enabled: Bool
-
-        public init(includeCookies: Bool, prefix: String, bucket: String, enabled: Bool) {
-            self.includeCookies = includeCookies
-            self.prefix = prefix
-            self.bucket = bucket
-            self.enabled = enabled
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case includeCookies = "IncludeCookies"
-            case prefix = "Prefix"
-            case bucket = "Bucket"
-            case enabled = "Enabled"
-        }
-    }
-
-    public struct ListTagsForResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Resource", location: .querystring(locationName: "Resource"), required: true, type: .string)
-        ]
-        ///  An ARN of a CloudFront resource.
-        public let resource: String
-
-        public init(resource: String) {
-            self.resource = resource
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resource = "Resource"
-        }
-    }
-
-    public struct CreateCloudFrontOriginAccessIdentityRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "CloudFrontOriginAccessIdentityConfig"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CloudFrontOriginAccessIdentityConfig", location: .body(locationName: "CloudFrontOriginAccessIdentityConfig"), required: true, type: .structure)
-        ]
-        /// The current configuration information for the identity.
-        public let cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig
-
-        public init(cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig) {
-            self.cloudFrontOriginAccessIdentityConfig = cloudFrontOriginAccessIdentityConfig
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cloudFrontOriginAccessIdentityConfig = "CloudFrontOriginAccessIdentityConfig"
-        }
-    }
-
-    public struct PublicKeySummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EncodedKey", required: true, type: .string), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Comment", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedTime", required: true, type: .timestamp)
-        ]
-        ///  Encoded key for public key information summary. 
-        public let encodedKey: String
-        ///  ID for public key information summary. 
-        public let id: String
-        ///  Name for public key information summary. 
-        public let name: String
-        ///  Comment for public key information summary. 
-        public let comment: String?
-        ///  Creation time for public key information summary. 
-        public let createdTime: TimeStamp
-
-        public init(encodedKey: String, id: String, name: String, comment: String? = nil, createdTime: TimeStamp) {
-            self.encodedKey = encodedKey
-            self.id = id
-            self.name = name
-            self.comment = comment
-            self.createdTime = createdTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case encodedKey = "EncodedKey"
-            case id = "Id"
-            case name = "Name"
-            case comment = "Comment"
-            case createdTime = "CreatedTime"
-        }
-    }
-
-    public struct OriginGroupList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OriginGroup", required: false, type: .list)
-        ]
-        public let originGroup: [OriginGroup]?
-
-        public init(originGroup: [OriginGroup]? = nil) {
-            self.originGroup = originGroup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case originGroup = "OriginGroup"
-        }
-    }
-
-    public struct CacheBehavior: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MinTTL", required: true, type: .long), 
-            AWSShapeMember(label: "Compress", required: false, type: .boolean), 
-            AWSShapeMember(label: "DefaultTTL", required: false, type: .long), 
-            AWSShapeMember(label: "PathPattern", required: true, type: .string), 
-            AWSShapeMember(label: "ForwardedValues", required: true, type: .structure), 
-            AWSShapeMember(label: "TrustedSigners", required: true, type: .structure), 
-            AWSShapeMember(label: "ViewerProtocolPolicy", required: true, type: .enum), 
-            AWSShapeMember(label: "SmoothStreaming", required: false, type: .boolean), 
-            AWSShapeMember(label: "LambdaFunctionAssociations", required: false, type: .structure), 
-            AWSShapeMember(label: "FieldLevelEncryptionId", required: false, type: .string), 
-            AWSShapeMember(label: "AllowedMethods", required: false, type: .structure), 
-            AWSShapeMember(label: "TargetOriginId", required: true, type: .string), 
-            AWSShapeMember(label: "MaxTTL", required: false, type: .long)
-        ]
-        /// The minimum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon Amazon CloudFront Developer Guide. You must specify 0 for MinTTL if you configure CloudFront to forward all headers to your origin (under Headers, if you specify 1 for Quantity and * for Name).
-        public let minTTL: Int64
-        /// Whether you want CloudFront to automatically compress certain files for this cache behavior. If so, specify true; if not, specify false. For more information, see Serving Compressed Files in the Amazon CloudFront Developer Guide.
-        public let compress: Bool?
-        /// The default amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin does not add HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon CloudFront Developer Guide.
-        public let defaultTTL: Int64?
-        /// The pattern (for example, images/*.jpg) that specifies which requests to apply the behavior to. When CloudFront receives a viewer request, the requested path is compared with path patterns in the order in which cache behaviors are listed in the distribution.  You can optionally include a slash (/) at the beginning of the path pattern. For example, /images/*.jpg. CloudFront behavior is the same with or without the leading /.  The path pattern for the default cache behavior is * and cannot be changed. If the request for an object does not match the path pattern for any cache behaviors, CloudFront applies the behavior in the default cache behavior. For more information, see Path Pattern in the  Amazon CloudFront Developer Guide.
-        public let pathPattern: String
-        /// A complex type that specifies how CloudFront handles query strings and cookies.
-        public let forwardedValues: ForwardedValues
-        /// A complex type that specifies the AWS accounts, if any, that you want to allow to create signed URLs for private content. If you want to require signed URLs in requests for objects in the target origin that match the PathPattern for this cache behavior, specify true for Enabled, and specify the applicable values for Quantity and Items. For more information, see Serving Private Content through CloudFront in the Amazon Amazon CloudFront Developer Guide. If you don't want to require signed URLs in requests for objects that match PathPattern, specify false for Enabled and 0 for Quantity. Omit Items. To add, change, or remove one or more trusted signers, change Enabled to true (if it's currently false), change Quantity as applicable, and specify all of the trusted signers that you want to include in the updated distribution.
-        public let trustedSigners: TrustedSigners
-        /// The protocol that viewers can use to access the files in the origin specified by TargetOriginId when a request matches the path pattern in PathPattern. You can specify the following options:    allow-all: Viewers can use HTTP or HTTPS.    redirect-to-https: If a viewer submits an HTTP request, CloudFront returns an HTTP status code of 301 (Moved Permanently) to the viewer along with the HTTPS URL. The viewer then resubmits the request using the new URL.     https-only: If a viewer sends an HTTP request, CloudFront returns an HTTP status code of 403 (Forbidden).    For more information about requiring the HTTPS protocol, see Using an HTTPS Connection to Access Your Objects in the Amazon CloudFront Developer Guide.  The only way to guarantee that viewers retrieve an object that was fetched from the origin using HTTPS is never to use any other protocol to fetch the object. If you have recently changed from HTTP to HTTPS, we recommend that you clear your objects' cache because cached objects are protocol agnostic. That means that an edge location will return an object from the cache regardless of whether the current request protocol matches the protocol used previously. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon CloudFront Developer Guide. 
-        public let viewerProtocolPolicy: ViewerProtocolPolicy
-        /// Indicates whether you want to distribute media files in the Microsoft Smooth Streaming format using the origin that is associated with this cache behavior. If so, specify true; if not, specify false. If you specify true for SmoothStreaming, you can still distribute other content using this cache behavior if the content matches the value of PathPattern. 
-        public let smoothStreaming: Bool?
-        /// A complex type that contains zero or more Lambda function associations for a cache behavior.
-        public let lambdaFunctionAssociations: LambdaFunctionAssociations?
-        /// The value of ID for the field-level encryption configuration that you want CloudFront to use for encrypting specific fields of data for a cache behavior or for the default cache behavior in your distribution.
-        public let fieldLevelEncryptionId: String?
-        public let allowedMethods: AllowedMethods?
-        /// The value of ID for the origin that you want CloudFront to route requests to when a request matches the path pattern either for a cache behavior or for the default cache behavior in your distribution.
-        public let targetOriginId: String
-        /// The maximum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin adds HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon CloudFront Developer Guide.
-        public let maxTTL: Int64?
-
-        public init(minTTL: Int64, compress: Bool? = nil, defaultTTL: Int64? = nil, pathPattern: String, forwardedValues: ForwardedValues, trustedSigners: TrustedSigners, viewerProtocolPolicy: ViewerProtocolPolicy, smoothStreaming: Bool? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, fieldLevelEncryptionId: String? = nil, allowedMethods: AllowedMethods? = nil, targetOriginId: String, maxTTL: Int64? = nil) {
-            self.minTTL = minTTL
-            self.compress = compress
-            self.defaultTTL = defaultTTL
-            self.pathPattern = pathPattern
-            self.forwardedValues = forwardedValues
-            self.trustedSigners = trustedSigners
-            self.viewerProtocolPolicy = viewerProtocolPolicy
-            self.smoothStreaming = smoothStreaming
-            self.lambdaFunctionAssociations = lambdaFunctionAssociations
-            self.fieldLevelEncryptionId = fieldLevelEncryptionId
-            self.allowedMethods = allowedMethods
-            self.targetOriginId = targetOriginId
-            self.maxTTL = maxTTL
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case minTTL = "MinTTL"
-            case compress = "Compress"
-            case defaultTTL = "DefaultTTL"
-            case pathPattern = "PathPattern"
-            case forwardedValues = "ForwardedValues"
-            case trustedSigners = "TrustedSigners"
-            case viewerProtocolPolicy = "ViewerProtocolPolicy"
-            case smoothStreaming = "SmoothStreaming"
-            case lambdaFunctionAssociations = "LambdaFunctionAssociations"
-            case fieldLevelEncryptionId = "FieldLevelEncryptionId"
-            case allowedMethods = "AllowedMethods"
-            case targetOriginId = "TargetOriginId"
-            case maxTTL = "MaxTTL"
-        }
-    }
-
-    public struct StreamingDistributionSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Comment", required: true, type: .string), 
-            AWSShapeMember(label: "Aliases", required: true, type: .structure), 
-            AWSShapeMember(label: "S3Origin", required: true, type: .structure), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "Status", required: true, type: .string), 
-            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "TrustedSigners", required: true, type: .structure), 
-            AWSShapeMember(label: "PriceClass", required: true, type: .enum), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "ARN", required: true, type: .string), 
-            AWSShapeMember(label: "Enabled", required: true, type: .boolean)
-        ]
-        /// The comment originally specified when this distribution was created.
-        public let comment: String
-        /// A complex type that contains information about CNAMEs (alternate domain names), if any, for this streaming distribution.
-        public let aliases: Aliases
-        /// A complex type that contains information about the Amazon S3 bucket from which you want CloudFront to get your media files for distribution.
-        public let s3Origin: S3Origin
-        /// The identifier for the distribution, for example, EDFDVBD632BHDS5.
-        public let id: String
-        ///  Indicates the current status of the distribution. When the status is Deployed, the distribution's information is fully propagated throughout the Amazon CloudFront system.
-        public let status: String
-        /// The date and time the distribution was last modified.
-        public let lastModifiedTime: TimeStamp
-        /// A complex type that specifies the AWS accounts, if any, that you want to allow to create signed URLs for private content. If you want to require signed URLs in requests for objects in the target origin that match the PathPattern for this cache behavior, specify true for Enabled, and specify the applicable values for Quantity and Items.If you don't want to require signed URLs in requests for objects that match PathPattern, specify false for Enabled and 0 for Quantity. Omit Items. To add, change, or remove one or more trusted signers, change Enabled to true (if it's currently false), change Quantity as applicable, and specify all of the trusted signers that you want to include in the updated distribution.
-        public let trustedSigners: TrustedSigners
-        public let priceClass: PriceClass
-        /// The domain name corresponding to the distribution, for example, d111111abcdef8.cloudfront.net.
-        public let domainName: String
-        ///  The ARN (Amazon Resource Name) for the streaming distribution. For example: arn:aws:cloudfront::123456789012:streaming-distribution/EDFDVBD632BHDS5, where 123456789012 is your AWS account ID.
-        public let arn: String
-        /// Whether the distribution is enabled to accept end user requests for content.
-        public let enabled: Bool
-
-        public init(comment: String, aliases: Aliases, s3Origin: S3Origin, id: String, status: String, lastModifiedTime: TimeStamp, trustedSigners: TrustedSigners, priceClass: PriceClass, domainName: String, arn: String, enabled: Bool) {
-            self.comment = comment
-            self.aliases = aliases
-            self.s3Origin = s3Origin
-            self.id = id
-            self.status = status
-            self.lastModifiedTime = lastModifiedTime
-            self.trustedSigners = trustedSigners
-            self.priceClass = priceClass
-            self.domainName = domainName
-            self.arn = arn
-            self.enabled = enabled
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case comment = "Comment"
-            case aliases = "Aliases"
-            case s3Origin = "S3Origin"
-            case id = "Id"
-            case status = "Status"
-            case lastModifiedTime = "LastModifiedTime"
-            case trustedSigners = "TrustedSigners"
-            case priceClass = "PriceClass"
-            case domainName = "DomainName"
-            case arn = "ARN"
-            case enabled = "Enabled"
-        }
-    }
-
-    public struct TagKeyList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .list)
-        ]
-        public let key: [String]?
-
-        public init(key: [String]? = nil) {
-            self.key = key
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "Key"
-        }
-    }
-
-    public struct PublicKeyConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EncodedKey", required: true, type: .string), 
-            AWSShapeMember(label: "CallerReference", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Comment", required: false, type: .string)
-        ]
-        /// The encoded public key that you want to add to CloudFront to use with features like field-level encryption.
-        public let encodedKey: String
-        /// A unique number that ensures that the request can't be replayed.
-        public let callerReference: String
-        /// The name for a public key you add to CloudFront to use with features like field-level encryption.
-        public let name: String
-        /// An optional comment about a public key.
-        public let comment: String?
-
-        public init(encodedKey: String, callerReference: String, name: String, comment: String? = nil) {
-            self.encodedKey = encodedKey
-            self.callerReference = callerReference
-            self.name = name
-            self.comment = comment
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case encodedKey = "EncodedKey"
-            case callerReference = "CallerReference"
-            case name = "Name"
-            case comment = "Comment"
-        }
-    }
-
-    public struct DefaultCacheBehavior: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DefaultTTL", required: false, type: .long), 
-            AWSShapeMember(label: "FieldLevelEncryptionId", required: false, type: .string), 
-            AWSShapeMember(label: "MinTTL", required: true, type: .long), 
-            AWSShapeMember(label: "TargetOriginId", required: true, type: .string), 
-            AWSShapeMember(label: "Compress", required: false, type: .boolean), 
-            AWSShapeMember(label: "SmoothStreaming", required: false, type: .boolean), 
-            AWSShapeMember(label: "LambdaFunctionAssociations", required: false, type: .structure), 
-            AWSShapeMember(label: "MaxTTL", required: false, type: .long), 
-            AWSShapeMember(label: "TrustedSigners", required: true, type: .structure), 
-            AWSShapeMember(label: "ViewerProtocolPolicy", required: true, type: .enum), 
-            AWSShapeMember(label: "ForwardedValues", required: true, type: .structure), 
-            AWSShapeMember(label: "AllowedMethods", required: false, type: .structure)
-        ]
-        /// The default amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin does not add HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon CloudFront Developer Guide.
-        public let defaultTTL: Int64?
-        /// The value of ID for the field-level encryption configuration that you want CloudFront to use for encrypting specific fields of data for a cache behavior or for the default cache behavior in your distribution.
-        public let fieldLevelEncryptionId: String?
-        /// The minimum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon Amazon CloudFront Developer Guide. You must specify 0 for MinTTL if you configure CloudFront to forward all headers to your origin (under Headers, if you specify 1 for Quantity and * for Name).
-        public let minTTL: Int64
-        /// The value of ID for the origin that you want CloudFront to route requests to when a request matches the path pattern either for a cache behavior or for the default cache behavior in your distribution.
-        public let targetOriginId: String
-        /// Whether you want CloudFront to automatically compress certain files for this cache behavior. If so, specify true; if not, specify false. For more information, see Serving Compressed Files in the Amazon CloudFront Developer Guide.
-        public let compress: Bool?
-        /// Indicates whether you want to distribute media files in the Microsoft Smooth Streaming format using the origin that is associated with this cache behavior. If so, specify true; if not, specify false. If you specify true for SmoothStreaming, you can still distribute other content using this cache behavior if the content matches the value of PathPattern. 
-        public let smoothStreaming: Bool?
-        /// A complex type that contains zero or more Lambda function associations for a cache behavior.
-        public let lambdaFunctionAssociations: LambdaFunctionAssociations?
-        public let maxTTL: Int64?
-        /// A complex type that specifies the AWS accounts, if any, that you want to allow to create signed URLs for private content. If you want to require signed URLs in requests for objects in the target origin that match the PathPattern for this cache behavior, specify true for Enabled, and specify the applicable values for Quantity and Items. For more information, see Serving Private Content through CloudFront in the Amazon Amazon CloudFront Developer Guide. If you don't want to require signed URLs in requests for objects that match PathPattern, specify false for Enabled and 0 for Quantity. Omit Items. To add, change, or remove one or more trusted signers, change Enabled to true (if it's currently false), change Quantity as applicable, and specify all of the trusted signers that you want to include in the updated distribution.
-        public let trustedSigners: TrustedSigners
-        /// The protocol that viewers can use to access the files in the origin specified by TargetOriginId when a request matches the path pattern in PathPattern. You can specify the following options:    allow-all: Viewers can use HTTP or HTTPS.    redirect-to-https: If a viewer submits an HTTP request, CloudFront returns an HTTP status code of 301 (Moved Permanently) to the viewer along with the HTTPS URL. The viewer then resubmits the request using the new URL.    https-only: If a viewer sends an HTTP request, CloudFront returns an HTTP status code of 403 (Forbidden).   For more information about requiring the HTTPS protocol, see Using an HTTPS Connection to Access Your Objects in the Amazon CloudFront Developer Guide.  The only way to guarantee that viewers retrieve an object that was fetched from the origin using HTTPS is never to use any other protocol to fetch the object. If you have recently changed from HTTP to HTTPS, we recommend that you clear your objects' cache because cached objects are protocol agnostic. That means that an edge location will return an object from the cache regardless of whether the current request protocol matches the protocol used previously. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon CloudFront Developer Guide. 
-        public let viewerProtocolPolicy: ViewerProtocolPolicy
-        /// A complex type that specifies how CloudFront handles query strings and cookies.
-        public let forwardedValues: ForwardedValues
-        public let allowedMethods: AllowedMethods?
-
-        public init(defaultTTL: Int64? = nil, fieldLevelEncryptionId: String? = nil, minTTL: Int64, targetOriginId: String, compress: Bool? = nil, smoothStreaming: Bool? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, maxTTL: Int64? = nil, trustedSigners: TrustedSigners, viewerProtocolPolicy: ViewerProtocolPolicy, forwardedValues: ForwardedValues, allowedMethods: AllowedMethods? = nil) {
-            self.defaultTTL = defaultTTL
-            self.fieldLevelEncryptionId = fieldLevelEncryptionId
-            self.minTTL = minTTL
-            self.targetOriginId = targetOriginId
-            self.compress = compress
-            self.smoothStreaming = smoothStreaming
-            self.lambdaFunctionAssociations = lambdaFunctionAssociations
-            self.maxTTL = maxTTL
-            self.trustedSigners = trustedSigners
-            self.viewerProtocolPolicy = viewerProtocolPolicy
-            self.forwardedValues = forwardedValues
-            self.allowedMethods = allowedMethods
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case defaultTTL = "DefaultTTL"
-            case fieldLevelEncryptionId = "FieldLevelEncryptionId"
-            case minTTL = "MinTTL"
-            case targetOriginId = "TargetOriginId"
-            case compress = "Compress"
-            case smoothStreaming = "SmoothStreaming"
-            case lambdaFunctionAssociations = "LambdaFunctionAssociations"
-            case maxTTL = "MaxTTL"
-            case trustedSigners = "TrustedSigners"
-            case viewerProtocolPolicy = "ViewerProtocolPolicy"
-            case forwardedValues = "ForwardedValues"
-            case allowedMethods = "AllowedMethods"
-        }
-    }
-
-    public struct CreateStreamingDistributionWithTagsResult: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "StreamingDistribution"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StreamingDistribution", required: false, type: .structure), 
-            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: false, type: .string)
-        ]
-        /// The streaming distribution's information. 
-        public let streamingDistribution: StreamingDistribution?
-        /// The current version of the distribution created.
-        public let eTag: String?
-        /// The fully qualified URI of the new streaming distribution resource just created. For example: https://cloudfront.amazonaws.com/2010-11-01/streaming-distribution/EGTXBD79H29TRA8.
-        public let location: String?
-
-        public init(streamingDistribution: StreamingDistribution? = nil, eTag: String? = nil, location: String? = nil) {
-            self.streamingDistribution = streamingDistribution
-            self.eTag = eTag
-            self.location = location
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case streamingDistribution = "StreamingDistribution"
-            case eTag = "ETag"
-            case location = "Location"
-        }
-    }
-
-    public struct ListFieldLevelEncryptionConfigsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .string)
-        ]
-        /// Use this when paginating results to indicate where to begin in your list of configurations. The results include configurations in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last configuration on that page). 
-        public let marker: String?
-        /// The maximum number of field-level encryption configurations you want in the response body. 
-        public let maxItems: String?
-
-        public init(marker: String? = nil, maxItems: String? = nil) {
-            self.marker = marker
-            self.maxItems = maxItems
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-        }
-    }
-
-    public struct Origin: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomHeaders", required: false, type: .structure), 
-            AWSShapeMember(label: "S3OriginConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "OriginPath", required: false, type: .string), 
-            AWSShapeMember(label: "CustomOriginConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "Id", required: true, type: .string)
-        ]
-        /// A complex type that contains names and values for the custom headers that you want.
-        public let customHeaders: CustomHeaders?
-        /// A complex type that contains information about the Amazon S3 origin. If the origin is a custom origin, use the CustomOriginConfig element instead.
-        public let s3OriginConfig: S3OriginConfig?
-        ///  Amazon S3 origins: The DNS name of the Amazon S3 bucket from which you want CloudFront to get objects for this origin, for example, myawsbucket.s3.amazonaws.com. If you set up your bucket to be configured as a website endpoint, enter the Amazon S3 static website hosting endpoint for the bucket. For more information about specifying this value for different types of origins, see Origin Domain Name in the Amazon CloudFront Developer Guide. Constraints for Amazon S3 origins:    If you configured Amazon S3 Transfer Acceleration for your bucket, don't specify the s3-accelerate endpoint for DomainName.   The bucket name must be between 3 and 63 characters long (inclusive).   The bucket name must contain only lowercase characters, numbers, periods, underscores, and dashes.   The bucket name must not contain adjacent periods.    Custom Origins: The DNS domain name for the HTTP server from which you want CloudFront to get objects for this origin, for example, www.example.com.  Constraints for custom origins:    DomainName must be a valid DNS name that contains only a-z, A-Z, 0-9, dot (.), hyphen (-), or underscore (_) characters.   The name cannot exceed 128 characters.  
-        public let domainName: String
-        /// An optional element that causes CloudFront to request your content from a directory in your Amazon S3 bucket or your custom origin. When you include the OriginPath element, specify the directory name, beginning with a /. CloudFront appends the directory name to the value of DomainName, for example, example.com/production. Do not include a / at the end of the directory name. For example, suppose you've specified the following values for your distribution:    DomainName: An Amazon S3 bucket named myawsbucket.    OriginPath: /production     CNAME: example.com    When a user enters example.com/index.html in a browser, CloudFront sends a request to Amazon S3 for myawsbucket/production/index.html. When a user enters example.com/acme/index.html in a browser, CloudFront sends a request to Amazon S3 for myawsbucket/production/acme/index.html.
-        public let originPath: String?
-        /// A complex type that contains information about a custom origin. If the origin is an Amazon S3 bucket, use the S3OriginConfig element instead.
-        public let customOriginConfig: CustomOriginConfig?
-        /// A unique identifier for the origin or origin group. The value of Id must be unique within the distribution. When you specify the value of TargetOriginId for the default cache behavior or for another cache behavior, you indicate the origin to which you want the cache behavior to route requests by specifying the value of the Id element for that origin. When a request matches the path pattern for that cache behavior, CloudFront routes the request to the specified origin. For more information, see Cache Behavior Settings in the Amazon CloudFront Developer Guide.
-        public let id: String
-
-        public init(customHeaders: CustomHeaders? = nil, s3OriginConfig: S3OriginConfig? = nil, domainName: String, originPath: String? = nil, customOriginConfig: CustomOriginConfig? = nil, id: String) {
-            self.customHeaders = customHeaders
-            self.s3OriginConfig = s3OriginConfig
-            self.domainName = domainName
-            self.originPath = originPath
-            self.customOriginConfig = customOriginConfig
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case customHeaders = "CustomHeaders"
-            case s3OriginConfig = "S3OriginConfig"
-            case domainName = "DomainName"
-            case originPath = "OriginPath"
-            case customOriginConfig = "CustomOriginConfig"
-            case id = "Id"
-        }
-    }
-
-    public struct StreamingDistribution: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Status", required: true, type: .string), 
-            AWSShapeMember(label: "StreamingDistributionConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string), 
-            AWSShapeMember(label: "ARN", required: true, type: .string), 
-            AWSShapeMember(label: "ActiveTrustedSigners", required: true, type: .structure)
-        ]
-        /// The identifier for the RTMP distribution. For example: EGTXBD79EXAMPLE.
-        public let id: String
-        /// The date and time that the distribution was last modified. 
-        public let lastModifiedTime: TimeStamp?
-        /// The current status of the RTMP distribution. When the status is Deployed, the distribution's information is propagated to all CloudFront edge locations.
-        public let status: String
-        /// The current configuration information for the RTMP distribution.
-        public let streamingDistributionConfig: StreamingDistributionConfig
-        /// The domain name that corresponds to the streaming distribution, for example, s5c39gqb8ow64r.cloudfront.net. 
-        public let domainName: String
-        /// The ARN (Amazon Resource Name) for the distribution. For example: arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5, where 123456789012 is your AWS account ID.
-        public let arn: String
-        /// A complex type that lists the AWS accounts, if any, that you included in the TrustedSigners complex type for this distribution. These are the accounts that you want to allow to create signed URLs for private content. The Signer complex type lists the AWS account number of the trusted signer or self if the signer is the AWS account that created the distribution. The Signer element also includes the IDs of any active CloudFront key pairs that are associated with the trusted signer's AWS account. If no KeyPairId element appears for a Signer, that signer can't create signed URLs. For more information, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide. 
-        public let activeTrustedSigners: ActiveTrustedSigners
-
-        public init(id: String, lastModifiedTime: TimeStamp? = nil, status: String, streamingDistributionConfig: StreamingDistributionConfig, domainName: String, arn: String, activeTrustedSigners: ActiveTrustedSigners) {
-            self.id = id
-            self.lastModifiedTime = lastModifiedTime
-            self.status = status
-            self.streamingDistributionConfig = streamingDistributionConfig
-            self.domainName = domainName
-            self.arn = arn
-            self.activeTrustedSigners = activeTrustedSigners
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case lastModifiedTime = "LastModifiedTime"
-            case status = "Status"
-            case streamingDistributionConfig = "StreamingDistributionConfig"
-            case domainName = "DomainName"
-            case arn = "ARN"
-            case activeTrustedSigners = "ActiveTrustedSigners"
-        }
-    }
-
-    public struct CloudFrontOriginAccessIdentitySummaryList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CloudFrontOriginAccessIdentitySummary", required: false, type: .list)
-        ]
-        public let cloudFrontOriginAccessIdentitySummary: [CloudFrontOriginAccessIdentitySummary]?
-
-        public init(cloudFrontOriginAccessIdentitySummary: [CloudFrontOriginAccessIdentitySummary]? = nil) {
-            self.cloudFrontOriginAccessIdentitySummary = cloudFrontOriginAccessIdentitySummary
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cloudFrontOriginAccessIdentitySummary = "CloudFrontOriginAccessIdentitySummary"
-        }
-    }
-
-    public struct ContentTypeProfiles: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .structure), 
-            AWSShapeMember(label: "Quantity", required: true, type: .integer)
-        ]
-        /// Items in a field-level encryption content type-profile mapping. 
-        public let items: ContentTypeProfileList?
-        /// The number of field-level encryption content type-profile mappings. 
-        public let quantity: Int32
-
-        public init(items: ContentTypeProfileList? = nil, quantity: Int32) {
-            self.items = items
-            self.quantity = quantity
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case items = "Items"
-            case quantity = "Quantity"
-        }
-    }
-
-    public struct CreateInvalidationRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "InvalidationBatch"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InvalidationBatch", location: .body(locationName: "InvalidationBatch"), required: true, type: .structure), 
-            AWSShapeMember(label: "DistributionId", location: .uri(locationName: "DistributionId"), required: true, type: .string)
-        ]
-        /// The batch information for the invalidation.
-        public let invalidationBatch: InvalidationBatch
-        /// The distribution's id.
-        public let distributionId: String
-
-        public init(invalidationBatch: InvalidationBatch, distributionId: String) {
-            self.invalidationBatch = invalidationBatch
-            self.distributionId = distributionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case invalidationBatch = "InvalidationBatch"
-            case distributionId = "DistributionId"
-        }
-    }
-
-    public struct SslProtocolsList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SslProtocol", required: false, type: .list)
-        ]
-        public let sslProtocol: [SslProtocol]?
-
-        public init(sslProtocol: [SslProtocol]? = nil) {
-            self.sslProtocol = sslProtocol
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sslProtocol = "SslProtocol"
-        }
-    }
-
-    public struct CreatePublicKeyRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "PublicKeyConfig"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PublicKeyConfig", location: .body(locationName: "PublicKeyConfig"), required: true, type: .structure)
-        ]
-        /// The request to add a public key to CloudFront.
-        public let publicKeyConfig: PublicKeyConfig
-
-        public init(publicKeyConfig: PublicKeyConfig) {
-            self.publicKeyConfig = publicKeyConfig
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case publicKeyConfig = "PublicKeyConfig"
-        }
-    }
-
-    public struct UpdatePublicKeyResult: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "PublicKey"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeMember(label: "PublicKey", required: false, type: .structure)
-        ]
-        /// The current version of the update public key result. For example: E2QWRUHAPOMQZL.
-        public let eTag: String?
-        /// Return the results of updating the public key.
-        public let publicKey: PublicKey?
-
-        public init(eTag: String? = nil, publicKey: PublicKey? = nil) {
-            self.eTag = eTag
-            self.publicKey = publicKey
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case publicKey = "PublicKey"
-        }
-    }
-
-    public struct GetStreamingDistributionConfigRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
-        ]
-        /// The streaming distribution's ID.
-        public let id: String
-
-        public init(id: String) {
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
-    }
-
-    public struct CreateFieldLevelEncryptionConfigRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "FieldLevelEncryptionConfig"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FieldLevelEncryptionConfig", location: .body(locationName: "FieldLevelEncryptionConfig"), required: true, type: .structure)
-        ]
-        /// The request to create a new field-level encryption configuration.
-        public let fieldLevelEncryptionConfig: FieldLevelEncryptionConfig
-
-        public init(fieldLevelEncryptionConfig: FieldLevelEncryptionConfig) {
-            self.fieldLevelEncryptionConfig = fieldLevelEncryptionConfig
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fieldLevelEncryptionConfig = "FieldLevelEncryptionConfig"
-        }
-    }
-
-    public struct DeleteFieldLevelEncryptionConfigRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
-        ]
-        /// The value of the ETag header that you received when retrieving the configuration identity to delete. For example: E2QWRUHAPOMQZL.
-        public let ifMatch: String?
-        /// The ID of the configuration you want to delete from CloudFront.
-        public let id: String
-
-        public init(ifMatch: String? = nil, id: String) {
-            self.ifMatch = ifMatch
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ifMatch = "If-Match"
-            case id = "Id"
-        }
-    }
-
-    public struct CreateFieldLevelEncryptionProfileRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "FieldLevelEncryptionProfileConfig"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FieldLevelEncryptionProfileConfig", location: .body(locationName: "FieldLevelEncryptionProfileConfig"), required: true, type: .structure)
-        ]
-        /// The request to create a field-level encryption profile.
-        public let fieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig
-
-        public init(fieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig) {
-            self.fieldLevelEncryptionProfileConfig = fieldLevelEncryptionProfileConfig
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fieldLevelEncryptionProfileConfig = "FieldLevelEncryptionProfileConfig"
-        }
-    }
-
-    public struct DeleteCloudFrontOriginAccessIdentityRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
-        ]
-        /// The value of the ETag header you received from a previous GET or PUT request. For example: E2QWRUHAPOMQZL.
-        public let ifMatch: String?
-        /// The origin access identity's ID.
-        public let id: String
-
-        public init(ifMatch: String? = nil, id: String) {
-            self.ifMatch = ifMatch
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ifMatch = "If-Match"
-            case id = "Id"
-        }
-    }
-
-    public struct GetFieldLevelEncryptionProfileResult: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "FieldLevelEncryptionProfile"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeMember(label: "FieldLevelEncryptionProfile", required: false, type: .structure)
-        ]
-        /// The current version of the field level encryption profile. For example: E2QWRUHAPOMQZL.
-        public let eTag: String?
-        /// Return the field-level encryption profile information.
-        public let fieldLevelEncryptionProfile: FieldLevelEncryptionProfile?
-
-        public init(eTag: String? = nil, fieldLevelEncryptionProfile: FieldLevelEncryptionProfile? = nil) {
-            self.eTag = eTag
-            self.fieldLevelEncryptionProfile = fieldLevelEncryptionProfile
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case fieldLevelEncryptionProfile = "FieldLevelEncryptionProfile"
-        }
-    }
-
-    public struct CreateFieldLevelEncryptionConfigResult: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "FieldLevelEncryption"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: false, type: .string), 
-            AWSShapeMember(label: "FieldLevelEncryption", required: false, type: .structure)
-        ]
-        /// The current version of the field level encryption configuration. For example: E2QWRUHAPOMQZL.
-        public let eTag: String?
-        /// The fully qualified URI of the new configuration resource just created. For example: https://cloudfront.amazonaws.com/2010-11-01/field-level-encryption-config/EDFDVBD632BHDS5.
-        public let location: String?
-        /// Returned when you create a new field-level encryption configuration.
-        public let fieldLevelEncryption: FieldLevelEncryption?
-
-        public init(eTag: String? = nil, location: String? = nil, fieldLevelEncryption: FieldLevelEncryption? = nil) {
-            self.eTag = eTag
-            self.location = location
-            self.fieldLevelEncryption = fieldLevelEncryption
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case location = "Location"
-            case fieldLevelEncryption = "FieldLevelEncryption"
-        }
-    }
-
-    public struct GetPublicKeyResult: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "PublicKey"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeMember(label: "PublicKey", required: false, type: .structure)
-        ]
-        /// The current version of the public key. For example: E2QWRUHAPOMQZL.
-        public let eTag: String?
-        /// Return the public key.
-        public let publicKey: PublicKey?
-
-        public init(eTag: String? = nil, publicKey: PublicKey? = nil) {
-            self.eTag = eTag
-            self.publicKey = publicKey
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case publicKey = "PublicKey"
-        }
-    }
-
-    public struct TagList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tag", required: false, type: .list)
-        ]
-        public let tag: [Tag]?
-
-        public init(tag: [Tag]? = nil) {
-            self.tag = tag
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tag = "Tag"
-        }
-    }
-
-    public struct CacheBehaviorList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CacheBehavior", required: false, type: .list)
-        ]
-        public let cacheBehavior: [CacheBehavior]?
-
-        public init(cacheBehavior: [CacheBehavior]? = nil) {
-            self.cacheBehavior = cacheBehavior
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cacheBehavior = "CacheBehavior"
-        }
-    }
-
-    public struct StreamingLoggingConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", required: true, type: .string), 
-            AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
-            AWSShapeMember(label: "Prefix", required: true, type: .string)
-        ]
-        /// The Amazon S3 bucket to store the access logs in, for example, myawslogbucket.s3.amazonaws.com.
-        public let bucket: String
-        /// Specifies whether you want CloudFront to save access logs to an Amazon S3 bucket. If you don't want to enable logging when you create a streaming distribution or if you want to disable logging for an existing streaming distribution, specify false for Enabled, and specify empty Bucket and Prefix elements. If you specify false for Enabled but you specify values for Bucket and Prefix, the values are automatically deleted. 
-        public let enabled: Bool
-        /// An optional string that you want CloudFront to prefix to the access log filenames for this streaming distribution, for example, myprefix/. If you want to enable logging, but you don't want to specify a prefix, you still must include an empty Prefix element in the Logging element.
-        public let prefix: String
-
-        public init(bucket: String, enabled: Bool, prefix: String) {
-            self.bucket = bucket
-            self.enabled = enabled
-            self.prefix = prefix
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case enabled = "Enabled"
-            case prefix = "Prefix"
-        }
-    }
-
-    public struct OriginGroups: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .structure), 
-            AWSShapeMember(label: "Quantity", required: true, type: .integer)
-        ]
-        /// The items (origin groups) in a distribution.
-        public let items: OriginGroupList?
-        /// The number of origin groups.
-        public let quantity: Int32
-
-        public init(items: OriginGroupList? = nil, quantity: Int32) {
-            self.items = items
-            self.quantity = quantity
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case items = "Items"
-            case quantity = "Quantity"
-        }
-    }
-
-    public struct CookiePreference: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Forward", required: true, type: .enum), 
-            AWSShapeMember(label: "WhitelistedNames", required: false, type: .structure)
-        ]
-        /// Specifies which cookies to forward to the origin for this cache behavior: all, none, or the list of cookies specified in the WhitelistedNames complex type. Amazon S3 doesn't process cookies. When the cache behavior is forwarding requests to an Amazon S3 origin, specify none for the Forward element. 
-        public let forward: ItemSelection
-        /// Required if you specify whitelist for the value of Forward:. A complex type that specifies how many different cookies you want CloudFront to forward to the origin for this cache behavior and, if you want to forward selected cookies, the names of those cookies. If you specify all or none for the value of Forward, omit WhitelistedNames. If you change the value of Forward from whitelist to all or none and you don't delete the WhitelistedNames element and its child elements, CloudFront deletes them automatically. For the current limit on the number of cookie names that you can whitelist for each cache behavior, see Amazon CloudFront Limits in the AWS General Reference.
-        public let whitelistedNames: CookieNames?
-
-        public init(forward: ItemSelection, whitelistedNames: CookieNames? = nil) {
-            self.forward = forward
-            self.whitelistedNames = whitelistedNames
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case forward = "Forward"
-            case whitelistedNames = "WhitelistedNames"
-        }
-    }
-
-    public struct Restrictions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GeoRestriction", required: true, type: .structure)
-        ]
-        public let geoRestriction: GeoRestriction
-
-        public init(geoRestriction: GeoRestriction) {
-            self.geoRestriction = geoRestriction
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case geoRestriction = "GeoRestriction"
-        }
-    }
-
-    public struct GetDistributionConfigRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
-        ]
-        /// The distribution's ID.
-        public let id: String
-
-        public init(id: String) {
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
-    }
-
-    public struct HeaderList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .list)
-        ]
-        public let name: [String]?
-
-        public init(name: [String]? = nil) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-        }
-    }
-
-    public struct UpdateFieldLevelEncryptionProfileResult: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "FieldLevelEncryptionProfile"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeMember(label: "FieldLevelEncryptionProfile", required: false, type: .structure)
-        ]
-        /// The result of the field-level encryption profile request. 
-        public let eTag: String?
-        /// Return the results of updating the profile.
-        public let fieldLevelEncryptionProfile: FieldLevelEncryptionProfile?
-
-        public init(eTag: String? = nil, fieldLevelEncryptionProfile: FieldLevelEncryptionProfile? = nil) {
-            self.eTag = eTag
-            self.fieldLevelEncryptionProfile = fieldLevelEncryptionProfile
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case fieldLevelEncryptionProfile = "FieldLevelEncryptionProfile"
-        }
-    }
-
-    public struct Tags: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .structure)
-        ]
-        ///  A complex type that contains Tag elements.
-        public let items: TagList?
-
-        public init(items: TagList? = nil) {
-            self.items = items
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case items = "Items"
-        }
-    }
-
-    public struct CloudFrontOriginAccessIdentity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3CanonicalUserId", required: true, type: .string), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "CloudFrontOriginAccessIdentityConfig", required: false, type: .structure)
-        ]
-        /// The Amazon S3 canonical user ID for the origin access identity, used when giving the origin access identity read permission to an object in Amazon S3. 
-        public let s3CanonicalUserId: String
-        /// The ID for the origin access identity, for example, E74FTE3AJFJ256A. 
-        public let id: String
-        /// The current configuration information for the identity. 
-        public let cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig?
-
-        public init(s3CanonicalUserId: String, id: String, cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig? = nil) {
-            self.s3CanonicalUserId = s3CanonicalUserId
-            self.id = id
-            self.cloudFrontOriginAccessIdentityConfig = cloudFrontOriginAccessIdentityConfig
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case s3CanonicalUserId = "S3CanonicalUserId"
-            case id = "Id"
-            case cloudFrontOriginAccessIdentityConfig = "CloudFrontOriginAccessIdentityConfig"
-        }
-    }
-
-    public struct ListFieldLevelEncryptionProfilesResult: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "FieldLevelEncryptionProfileList"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FieldLevelEncryptionProfileList", required: false, type: .structure)
-        ]
-        /// Returns a list of the field-level encryption profiles that have been created in CloudFront for this account.
-        public let fieldLevelEncryptionProfileList: FieldLevelEncryptionProfileList?
-
-        public init(fieldLevelEncryptionProfileList: FieldLevelEncryptionProfileList? = nil) {
-            self.fieldLevelEncryptionProfileList = fieldLevelEncryptionProfileList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fieldLevelEncryptionProfileList = "FieldLevelEncryptionProfileList"
-        }
-    }
-
-    public enum Method: String, CustomStringConvertible, Codable {
-        case get = "GET"
-        case head = "HEAD"
-        case post = "POST"
-        case put = "PUT"
-        case patch = "PATCH"
-        case options = "OPTIONS"
-        case delete = "DELETE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct FieldLevelEncryptionProfile: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "FieldLevelEncryptionProfileConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "Id", required: true, type: .string)
-        ]
-        /// The last time the field-level encryption profile was updated.
-        public let lastModifiedTime: TimeStamp
-        /// A complex data type that includes the profile name and the encryption entities for the field-level encryption profile.
-        public let fieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig
-        /// The ID for a field-level encryption profile configuration which includes a set of profiles that specify certain selected data fields to be encrypted by specific public keys.
-        public let id: String
-
-        public init(lastModifiedTime: TimeStamp, fieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig, id: String) {
-            self.lastModifiedTime = lastModifiedTime
-            self.fieldLevelEncryptionProfileConfig = fieldLevelEncryptionProfileConfig
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lastModifiedTime = "LastModifiedTime"
-            case fieldLevelEncryptionProfileConfig = "FieldLevelEncryptionProfileConfig"
-            case id = "Id"
-        }
-    }
-
-    public struct GetFieldLevelEncryptionConfigRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
-        ]
-        /// Request the ID for the field-level encryption configuration information.
-        public let id: String
-
-        public init(id: String) {
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
         }
     }
 
     public struct FieldLevelEncryptionProfileSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "EncryptionEntities", required: true, type: .structure), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string), 
             AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "Comment", required: false, type: .string)
+            AWSShapeMember(label: "Comment", required: false, type: .string), 
+            AWSShapeMember(label: "EncryptionEntities", required: true, type: .structure)
         ]
-        /// ID for the field-level encryption profile summary.
-        public let id: String
-        /// A complex data type of encryption entities for the field-level encryption profile that include the public key ID, provider, and field patterns for specifying which fields to encrypt with this key.
-        public let encryptionEntities: EncryptionEntities
         /// Name for the field-level encryption profile summary.
         public let name: String
+        /// ID for the field-level encryption profile summary.
+        public let id: String
         /// The time when the the field-level encryption profile summary was last updated.
         public let lastModifiedTime: TimeStamp
         /// An optional comment for the field-level encryption profile summary.
         public let comment: String?
+        /// A complex data type of encryption entities for the field-level encryption profile that include the public key ID, provider, and field patterns for specifying which fields to encrypt with this key.
+        public let encryptionEntities: EncryptionEntities
 
-        public init(id: String, encryptionEntities: EncryptionEntities, name: String, lastModifiedTime: TimeStamp, comment: String? = nil) {
-            self.id = id
-            self.encryptionEntities = encryptionEntities
+        public init(name: String, id: String, lastModifiedTime: TimeStamp, comment: String? = nil, encryptionEntities: EncryptionEntities) {
             self.name = name
+            self.id = id
             self.lastModifiedTime = lastModifiedTime
             self.comment = comment
+            self.encryptionEntities = encryptionEntities
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case encryptionEntities = "EncryptionEntities"
             case name = "Name"
+            case id = "Id"
             case lastModifiedTime = "LastModifiedTime"
             case comment = "Comment"
+            case encryptionEntities = "EncryptionEntities"
         }
     }
 
-    public enum ItemSelection: String, CustomStringConvertible, Codable {
-        case none = "none"
-        case whitelist = "whitelist"
-        case all = "all"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SslProtocol: String, CustomStringConvertible, Codable {
-        case sslv3 = "SSLv3"
-        case tlsv1 = "TLSv1"
-        case tlsv11 = "TLSv1.1"
-        case tlsv12 = "TLSv1.2"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct QueryArgProfileList: AWSShape {
+    public struct StreamingDistributionConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "QueryArgProfile", required: false, type: .list)
+            AWSShapeMember(label: "CallerReference", required: true, type: .string), 
+            AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
+            AWSShapeMember(label: "Aliases", required: false, type: .structure), 
+            AWSShapeMember(label: "Logging", required: false, type: .structure), 
+            AWSShapeMember(label: "S3Origin", required: true, type: .structure), 
+            AWSShapeMember(label: "Comment", required: true, type: .string), 
+            AWSShapeMember(label: "PriceClass", required: false, type: .enum), 
+            AWSShapeMember(label: "TrustedSigners", required: true, type: .structure)
         ]
-        public let queryArgProfile: [QueryArgProfile]?
-
-        public init(queryArgProfile: [QueryArgProfile]? = nil) {
-            self.queryArgProfile = queryArgProfile
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case queryArgProfile = "QueryArgProfile"
-        }
-    }
-
-    public enum Format: String, CustomStringConvertible, Codable {
-        case urlencoded = "URLEncoded"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct StatusCodeList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StatusCode", required: false, type: .list)
-        ]
-        public let statusCode: [Int32]?
-
-        public init(statusCode: [Int32]? = nil) {
-            self.statusCode = statusCode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case statusCode = "StatusCode"
-        }
-    }
-
-    public struct CreateStreamingDistributionRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "StreamingDistributionConfig"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StreamingDistributionConfig", location: .body(locationName: "StreamingDistributionConfig"), required: true, type: .structure)
-        ]
-        /// The streaming distribution's configuration information.
-        public let streamingDistributionConfig: StreamingDistributionConfig
-
-        public init(streamingDistributionConfig: StreamingDistributionConfig) {
-            self.streamingDistributionConfig = streamingDistributionConfig
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case streamingDistributionConfig = "StreamingDistributionConfig"
-        }
-    }
-
-    public struct KeyPairIds: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .structure), 
-            AWSShapeMember(label: "Quantity", required: true, type: .integer)
-        ]
-        /// A complex type that lists the active CloudFront key pairs, if any, that are associated with AwsAccountNumber. For more information, see ActiveTrustedSigners.
-        public let items: KeyPairIdList?
-        /// The number of active CloudFront key pairs for AwsAccountNumber. For more information, see ActiveTrustedSigners.
-        public let quantity: Int32
-
-        public init(items: KeyPairIdList? = nil, quantity: Int32) {
-            self.items = items
-            self.quantity = quantity
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case items = "Items"
-            case quantity = "Quantity"
-        }
-    }
-
-    public struct InvalidationBatch: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Paths", required: true, type: .structure), 
-            AWSShapeMember(label: "CallerReference", required: true, type: .string)
-        ]
-        /// A complex type that contains information about the objects that you want to invalidate. For more information, see Specifying the Objects to Invalidate in the Amazon CloudFront Developer Guide. 
-        public let paths: Paths
-        /// A value that you specify to uniquely identify an invalidation request. CloudFront uses the value to prevent you from accidentally resubmitting an identical request. Whenever you create a new invalidation request, you must specify a new value for CallerReference and change other values in the request as applicable. One way to ensure that the value of CallerReference is unique is to use a timestamp, for example, 20120301090000. If you make a second invalidation request with the same value for CallerReference, and if the rest of the request is the same, CloudFront doesn't create a new invalidation request. Instead, CloudFront returns information about the invalidation request that you previously created with the same CallerReference. If CallerReference is a value you already sent in a previous invalidation batch request but the content of any Path is different from the original request, CloudFront returns an InvalidationBatchAlreadyExists error.
+        /// A unique value (for example, a date-time stamp) that ensures that the request can't be replayed. If the value of CallerReference is new (regardless of the content of the StreamingDistributionConfig object), CloudFront creates a new distribution. If CallerReference is a value that you already sent in a previous request to create a distribution, CloudFront returns a DistributionAlreadyExists error.
         public let callerReference: String
-
-        public init(paths: Paths, callerReference: String) {
-            self.paths = paths
-            self.callerReference = callerReference
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case paths = "Paths"
-            case callerReference = "CallerReference"
-        }
-    }
-
-    public struct OriginCustomHeader: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HeaderName", required: true, type: .string), 
-            AWSShapeMember(label: "HeaderValue", required: true, type: .string)
-        ]
-        /// The name of a header that you want CloudFront to forward to your origin. For more information, see Forwarding Custom Headers to Your Origin (Web Distributions Only) in the Amazon Amazon CloudFront Developer Guide.
-        public let headerName: String
-        /// The value for the header that you specified in the HeaderName field.
-        public let headerValue: String
-
-        public init(headerName: String, headerValue: String) {
-            self.headerName = headerName
-            self.headerValue = headerValue
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case headerName = "HeaderName"
-            case headerValue = "HeaderValue"
-        }
-    }
-
-    public struct UpdatePublicKeyRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "PublicKeyConfig"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
-            AWSShapeMember(label: "PublicKeyConfig", location: .body(locationName: "PublicKeyConfig"), required: true, type: .structure), 
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
-        ]
-        /// The value of the ETag header that you received when retrieving the public key to update. For example: E2QWRUHAPOMQZL.
-        public let ifMatch: String?
-        /// Request to update public key information.
-        public let publicKeyConfig: PublicKeyConfig
-        /// ID of the public key to be updated.
-        public let id: String
-
-        public init(ifMatch: String? = nil, publicKeyConfig: PublicKeyConfig, id: String) {
-            self.ifMatch = ifMatch
-            self.publicKeyConfig = publicKeyConfig
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ifMatch = "If-Match"
-            case publicKeyConfig = "PublicKeyConfig"
-            case id = "Id"
-        }
-    }
-
-    public struct OriginGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailoverCriteria", required: true, type: .structure), 
-            AWSShapeMember(label: "Members", required: true, type: .structure), 
-            AWSShapeMember(label: "Id", required: true, type: .string)
-        ]
-        /// A complex type that contains information about the failover criteria for an origin group.
-        public let failoverCriteria: OriginGroupFailoverCriteria
-        /// A complex type that contains information about the origins in an origin group.
-        public let members: OriginGroupMembers
-        /// The origin group's ID.
-        public let id: String
-
-        public init(failoverCriteria: OriginGroupFailoverCriteria, members: OriginGroupMembers, id: String) {
-            self.failoverCriteria = failoverCriteria
-            self.members = members
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case failoverCriteria = "FailoverCriteria"
-            case members = "Members"
-            case id = "Id"
-        }
-    }
-
-    public struct DeleteFieldLevelEncryptionProfileRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
-        ]
-        /// The value of the ETag header that you received when retrieving the profile to delete. For example: E2QWRUHAPOMQZL.
-        public let ifMatch: String?
-        /// Request the ID of the profile you want to delete from CloudFront.
-        public let id: String
-
-        public init(ifMatch: String? = nil, id: String) {
-            self.ifMatch = ifMatch
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ifMatch = "If-Match"
-            case id = "Id"
-        }
-    }
-
-    public struct CustomHeaders: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .structure), 
-            AWSShapeMember(label: "Quantity", required: true, type: .integer)
-        ]
-        ///  Optional: A list that contains one OriginCustomHeader element for each custom header that you want CloudFront to forward to the origin. If Quantity is 0, omit Items.
-        public let items: OriginCustomHeadersList?
-        /// The number of custom headers, if any, for this distribution.
-        public let quantity: Int32
-
-        public init(items: OriginCustomHeadersList? = nil, quantity: Int32) {
-            self.items = items
-            self.quantity = quantity
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case items = "Items"
-            case quantity = "Quantity"
-        }
-    }
-
-    public struct AliasList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CNAME", required: false, type: .list)
-        ]
-        public let cname: [String]?
-
-        public init(cname: [String]? = nil) {
-            self.cname = cname
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cname = "CNAME"
-        }
-    }
-
-    public struct CreateStreamingDistributionWithTagsRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "StreamingDistributionConfigWithTags"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StreamingDistributionConfigWithTags", location: .body(locationName: "StreamingDistributionConfigWithTags"), required: true, type: .structure)
-        ]
-        ///  The streaming distribution's configuration information. 
-        public let streamingDistributionConfigWithTags: StreamingDistributionConfigWithTags
-
-        public init(streamingDistributionConfigWithTags: StreamingDistributionConfigWithTags) {
-            self.streamingDistributionConfigWithTags = streamingDistributionConfigWithTags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case streamingDistributionConfigWithTags = "StreamingDistributionConfigWithTags"
-        }
-    }
-
-    public struct GetCloudFrontOriginAccessIdentityConfigRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
-        ]
-        /// The identity's ID. 
-        public let id: String
-
-        public init(id: String) {
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
-    }
-
-    public struct OriginGroupFailoverCriteria: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StatusCodes", required: true, type: .structure)
-        ]
-        /// The status codes that, when returned from the primary origin, will trigger CloudFront to failover to the second origin.
-        public let statusCodes: StatusCodes
-
-        public init(statusCodes: StatusCodes) {
-            self.statusCodes = statusCodes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case statusCodes = "StatusCodes"
-        }
-    }
-
-    public struct InvalidationSummaryList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InvalidationSummary", required: false, type: .list)
-        ]
-        public let invalidationSummary: [InvalidationSummary]?
-
-        public init(invalidationSummary: [InvalidationSummary]? = nil) {
-            self.invalidationSummary = invalidationSummary
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case invalidationSummary = "InvalidationSummary"
-        }
-    }
-
-    public struct GetFieldLevelEncryptionResult: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "FieldLevelEncryption"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeMember(label: "FieldLevelEncryption", required: false, type: .structure)
-        ]
-        /// The current version of the field level encryption configuration. For example: E2QWRUHAPOMQZL.
-        public let eTag: String?
-        /// Return the field-level encryption configuration information.
-        public let fieldLevelEncryption: FieldLevelEncryption?
-
-        public init(eTag: String? = nil, fieldLevelEncryption: FieldLevelEncryption? = nil) {
-            self.eTag = eTag
-            self.fieldLevelEncryption = fieldLevelEncryption
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case fieldLevelEncryption = "FieldLevelEncryption"
-        }
-    }
-
-    public struct KeyPairIdList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KeyPairId", required: false, type: .list)
-        ]
-        public let keyPairId: [String]?
-
-        public init(keyPairId: [String]? = nil) {
-            self.keyPairId = keyPairId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case keyPairId = "KeyPairId"
-        }
-    }
-
-    public struct ViewerCertificate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificate", required: false, type: .string), 
-            AWSShapeMember(label: "ACMCertificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "CloudFrontDefaultCertificate", required: false, type: .boolean), 
-            AWSShapeMember(label: "SSLSupportMethod", required: false, type: .enum), 
-            AWSShapeMember(label: "CertificateSource", required: false, type: .enum), 
-            AWSShapeMember(label: "IAMCertificateId", required: false, type: .string), 
-            AWSShapeMember(label: "MinimumProtocolVersion", required: false, type: .enum)
-        ]
-        /// This field has been deprecated. Use one of the following fields instead:    ViewerCertificate$ACMCertificateArn     ViewerCertificate$IAMCertificateId     ViewerCertificate$CloudFrontDefaultCertificate   
-        public let certificate: String?
-        /// For information about how and when to use ACMCertificateArn, see ViewerCertificate.
-        public let aCMCertificateArn: String?
-        /// For information about how and when to use CloudFrontDefaultCertificate, see ViewerCertificate.
-        public let cloudFrontDefaultCertificate: Bool?
-        /// If you specify a value for ViewerCertificate$ACMCertificateArn or for ViewerCertificate$IAMCertificateId, you must also specify how you want CloudFront to serve HTTPS requests: using a method that works for all clients or one that works for most clients:    vip: CloudFront uses dedicated IP addresses for your content and can respond to HTTPS requests from any viewer. However, you will incur additional monthly charges.    sni-only: CloudFront can respond to HTTPS requests from viewers that support Server Name Indication (SNI). All modern browsers support SNI, but some browsers still in use don't support SNI. If some of your users' browsers don't support SNI, we recommend that you do one of the following:   Use the vip option (dedicated IP addresses) instead of sni-only.   Use the CloudFront SSL/TLS certificate instead of a custom certificate. This requires that you use the CloudFront domain name of your distribution in the URLs for your objects, for example, https://d111111abcdef8.cloudfront.net/logo.png.   If you can control which browser your users use, upgrade the browser to one that supports SNI.   Use HTTP instead of HTTPS.     Don't specify a value for SSLSupportMethod if you specified &lt;CloudFrontDefaultCertificate&gt;true&lt;CloudFrontDefaultCertificate&gt;. For more information, see Using Alternate Domain Names and HTTPS in the Amazon CloudFront Developer Guide.
-        public let sSLSupportMethod: SSLSupportMethod?
-        /// This field has been deprecated. Use one of the following fields instead:    ViewerCertificate$ACMCertificateArn     ViewerCertificate$IAMCertificateId     ViewerCertificate$CloudFrontDefaultCertificate   
-        public let certificateSource: CertificateSource?
-        /// For information about how and when to use IAMCertificateId, see ViewerCertificate.
-        public let iAMCertificateId: String?
-        /// Specify the security policy that you want CloudFront to use for HTTPS connections. A security policy determines two settings:   The minimum SSL/TLS protocol that CloudFront uses to communicate with viewers   The cipher that CloudFront uses to encrypt the content that it returns to viewers    On the CloudFront console, this setting is called Security policy.  We recommend that you specify TLSv1.1_2016 unless your users are using browsers or devices that do not support TLSv1.1 or later. When both of the following are true, you must specify TLSv1 or later for the security policy:    You're using a custom certificate: you specified a value for ACMCertificateArn or for IAMCertificateId    You're using SNI: you specified sni-only for SSLSupportMethod    If you specify true for CloudFrontDefaultCertificate, CloudFront automatically sets the security policy to TLSv1 regardless of the value that you specify for MinimumProtocolVersion. For information about the relationship between the security policy that you choose and the protocols and ciphers that CloudFront uses to communicate with viewers, see  Supported SSL/TLS Protocols and Ciphers for Communication Between Viewers and CloudFront in the Amazon CloudFront Developer Guide.
-        public let minimumProtocolVersion: MinimumProtocolVersion?
-
-        public init(certificate: String? = nil, aCMCertificateArn: String? = nil, cloudFrontDefaultCertificate: Bool? = nil, sSLSupportMethod: SSLSupportMethod? = nil, certificateSource: CertificateSource? = nil, iAMCertificateId: String? = nil, minimumProtocolVersion: MinimumProtocolVersion? = nil) {
-            self.certificate = certificate
-            self.aCMCertificateArn = aCMCertificateArn
-            self.cloudFrontDefaultCertificate = cloudFrontDefaultCertificate
-            self.sSLSupportMethod = sSLSupportMethod
-            self.certificateSource = certificateSource
-            self.iAMCertificateId = iAMCertificateId
-            self.minimumProtocolVersion = minimumProtocolVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificate = "Certificate"
-            case aCMCertificateArn = "ACMCertificateArn"
-            case cloudFrontDefaultCertificate = "CloudFrontDefaultCertificate"
-            case sSLSupportMethod = "SSLSupportMethod"
-            case certificateSource = "CertificateSource"
-            case iAMCertificateId = "IAMCertificateId"
-            case minimumProtocolVersion = "MinimumProtocolVersion"
-        }
-    }
-
-    public struct QueryArgProfiles: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .structure), 
-            AWSShapeMember(label: "Quantity", required: true, type: .integer)
-        ]
-        /// Number of items for query argument-profile mapping for field-level encryption.
-        public let items: QueryArgProfileList?
-        /// Number of profiles for query argument-profile mapping for field-level encryption.
-        public let quantity: Int32
-
-        public init(items: QueryArgProfileList? = nil, quantity: Int32) {
-            self.items = items
-            self.quantity = quantity
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case items = "Items"
-            case quantity = "Quantity"
-        }
-    }
-
-    public struct CacheBehaviors: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .structure), 
-            AWSShapeMember(label: "Quantity", required: true, type: .integer)
-        ]
-        /// Optional: A complex type that contains cache behaviors for this distribution. If Quantity is 0, you can omit Items.
-        public let items: CacheBehaviorList?
-        /// The number of cache behaviors for this distribution. 
-        public let quantity: Int32
-
-        public init(items: CacheBehaviorList? = nil, quantity: Int32) {
-            self.items = items
-            self.quantity = quantity
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case items = "Items"
-            case quantity = "Quantity"
-        }
-    }
-
-    public struct Aliases: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .structure), 
-            AWSShapeMember(label: "Quantity", required: true, type: .integer)
-        ]
-        /// A complex type that contains the CNAME aliases, if any, that you want to associate with this distribution.
-        public let items: AliasList?
-        /// The number of CNAME aliases, if any, that you want to associate with this distribution.
-        public let quantity: Int32
-
-        public init(items: AliasList? = nil, quantity: Int32) {
-            self.items = items
-            self.quantity = quantity
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case items = "Items"
-            case quantity = "Quantity"
-        }
-    }
-
-    public struct ListDistributionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .string)
-        ]
-        /// Use this when paginating results to indicate where to begin in your list of distributions. The results include distributions in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last distribution on that page).
-        public let marker: String?
-        /// The maximum number of distributions you want in the response body.
-        public let maxItems: String?
-
-        public init(marker: String? = nil, maxItems: String? = nil) {
-            self.marker = marker
-            self.maxItems = maxItems
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-        }
-    }
-
-    public struct ListCloudFrontOriginAccessIdentitiesResult: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "CloudFrontOriginAccessIdentityList"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CloudFrontOriginAccessIdentityList", required: false, type: .structure)
-        ]
-        /// The CloudFrontOriginAccessIdentityList type. 
-        public let cloudFrontOriginAccessIdentityList: CloudFrontOriginAccessIdentityList?
-
-        public init(cloudFrontOriginAccessIdentityList: CloudFrontOriginAccessIdentityList? = nil) {
-            self.cloudFrontOriginAccessIdentityList = cloudFrontOriginAccessIdentityList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cloudFrontOriginAccessIdentityList = "CloudFrontOriginAccessIdentityList"
-        }
-    }
-
-    public enum SSLSupportMethod: String, CustomStringConvertible, Codable {
-        case sniOnly = "sni-only"
-        case vip = "vip"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct TrustedSigners: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .structure), 
-            AWSShapeMember(label: "Quantity", required: true, type: .integer), 
-            AWSShapeMember(label: "Enabled", required: true, type: .boolean)
-        ]
-        ///  Optional: A complex type that contains trusted signers for this cache behavior. If Quantity is 0, you can omit Items.
-        public let items: AwsAccountNumberList?
-        /// The number of trusted signers for this cache behavior.
-        public let quantity: Int32
-        /// Specifies whether you want to require viewers to use signed URLs to access the files specified by PathPattern and TargetOriginId.
+        /// Whether the streaming distribution is enabled to accept user requests for content.
         public let enabled: Bool
+        /// A complex type that contains information about CNAMEs (alternate domain names), if any, for this streaming distribution. 
+        public let aliases: Aliases?
+        /// A complex type that controls whether access logs are written for the streaming distribution. 
+        public let logging: StreamingLoggingConfig?
+        /// A complex type that contains information about the Amazon S3 bucket from which you want CloudFront to get your media files for distribution. 
+        public let s3Origin: S3Origin
+        /// Any comments you want to include about the streaming distribution. 
+        public let comment: String
+        /// A complex type that contains information about price class for this streaming distribution. 
+        public let priceClass: PriceClass?
+        /// A complex type that specifies any AWS accounts that you want to permit to create signed URLs for private content. If you want the distribution to use signed URLs, include this element; if you want the distribution to use public URLs, remove this element. For more information, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide. 
+        public let trustedSigners: TrustedSigners
 
-        public init(items: AwsAccountNumberList? = nil, quantity: Int32, enabled: Bool) {
-            self.items = items
-            self.quantity = quantity
+        public init(callerReference: String, enabled: Bool, aliases: Aliases? = nil, logging: StreamingLoggingConfig? = nil, s3Origin: S3Origin, comment: String, priceClass: PriceClass? = nil, trustedSigners: TrustedSigners) {
+            self.callerReference = callerReference
             self.enabled = enabled
+            self.aliases = aliases
+            self.logging = logging
+            self.s3Origin = s3Origin
+            self.comment = comment
+            self.priceClass = priceClass
+            self.trustedSigners = trustedSigners
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items = "Items"
-            case quantity = "Quantity"
+            case callerReference = "CallerReference"
             case enabled = "Enabled"
-        }
-    }
-
-    public struct OriginGroupMemberList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OriginGroupMember", required: false, type: .list)
-        ]
-        public let originGroupMember: [OriginGroupMember]?
-
-        public init(originGroupMember: [OriginGroupMember]? = nil) {
-            self.originGroupMember = originGroupMember
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case originGroupMember = "OriginGroupMember"
-        }
-    }
-
-    public struct LambdaFunctionAssociationList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LambdaFunctionAssociation", required: false, type: .list)
-        ]
-        public let lambdaFunctionAssociation: [LambdaFunctionAssociation]?
-
-        public init(lambdaFunctionAssociation: [LambdaFunctionAssociation]? = nil) {
-            self.lambdaFunctionAssociation = lambdaFunctionAssociation
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lambdaFunctionAssociation = "LambdaFunctionAssociation"
-        }
-    }
-
-    public struct GetPublicKeyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
-        ]
-        /// Request the ID for the public key.
-        public let id: String
-
-        public init(id: String) {
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
-    }
-
-    public enum ViewerProtocolPolicy: String, CustomStringConvertible, Codable {
-        case allowAll = "allow-all"
-        case httpsOnly = "https-only"
-        case redirectToHttps = "redirect-to-https"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CookieNames: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .structure), 
-            AWSShapeMember(label: "Quantity", required: true, type: .integer)
-        ]
-        /// A complex type that contains one Name element for each cookie that you want CloudFront to forward to the origin for this cache behavior.
-        public let items: CookieNameList?
-        /// The number of different cookies that you want CloudFront to forward to the origin for this cache behavior.
-        public let quantity: Int32
-
-        public init(items: CookieNameList? = nil, quantity: Int32) {
-            self.items = items
-            self.quantity = quantity
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case items = "Items"
-            case quantity = "Quantity"
-        }
-    }
-
-    public struct StreamingDistributionSummaryList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StreamingDistributionSummary", required: false, type: .list)
-        ]
-        public let streamingDistributionSummary: [StreamingDistributionSummary]?
-
-        public init(streamingDistributionSummary: [StreamingDistributionSummary]? = nil) {
-            self.streamingDistributionSummary = streamingDistributionSummary
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case streamingDistributionSummary = "StreamingDistributionSummary"
-        }
-    }
-
-    public struct ListInvalidationsResult: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "InvalidationList"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InvalidationList", required: false, type: .structure)
-        ]
-        /// Information about invalidation batches. 
-        public let invalidationList: InvalidationList?
-
-        public init(invalidationList: InvalidationList? = nil) {
-            self.invalidationList = invalidationList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case invalidationList = "InvalidationList"
-        }
-    }
-
-    public struct FieldLevelEncryption: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "FieldLevelEncryptionConfig", required: true, type: .structure)
-        ]
-        /// The last time the field-level encryption configuration was changed. 
-        public let lastModifiedTime: TimeStamp
-        /// The configuration ID for a field-level encryption configuration which includes a set of profiles that specify certain selected data fields to be encrypted by specific public keys.
-        public let id: String
-        /// A complex data type that includes the profile configurations specified for field-level encryption. 
-        public let fieldLevelEncryptionConfig: FieldLevelEncryptionConfig
-
-        public init(lastModifiedTime: TimeStamp, id: String, fieldLevelEncryptionConfig: FieldLevelEncryptionConfig) {
-            self.lastModifiedTime = lastModifiedTime
-            self.id = id
-            self.fieldLevelEncryptionConfig = fieldLevelEncryptionConfig
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lastModifiedTime = "LastModifiedTime"
-            case id = "Id"
-            case fieldLevelEncryptionConfig = "FieldLevelEncryptionConfig"
-        }
-    }
-
-    public struct PathList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Path", required: false, type: .list)
-        ]
-        public let path: [String]?
-
-        public init(path: [String]? = nil) {
-            self.path = path
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case path = "Path"
-        }
-    }
-
-    public struct ContentTypeProfileConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContentTypeProfiles", required: false, type: .structure), 
-            AWSShapeMember(label: "ForwardWhenContentTypeIsUnknown", required: true, type: .boolean)
-        ]
-        /// The configuration for a field-level encryption content type-profile. 
-        public let contentTypeProfiles: ContentTypeProfiles?
-        /// The setting in a field-level encryption content type-profile mapping that specifies what to do when an unknown content type is provided for the profile. If true, content is forwarded without being encrypted when the content type is unknown. If false (the default), an error is returned when the content type is unknown. 
-        public let forwardWhenContentTypeIsUnknown: Bool
-
-        public init(contentTypeProfiles: ContentTypeProfiles? = nil, forwardWhenContentTypeIsUnknown: Bool) {
-            self.contentTypeProfiles = contentTypeProfiles
-            self.forwardWhenContentTypeIsUnknown = forwardWhenContentTypeIsUnknown
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case contentTypeProfiles = "ContentTypeProfiles"
-            case forwardWhenContentTypeIsUnknown = "ForwardWhenContentTypeIsUnknown"
+            case aliases = "Aliases"
+            case logging = "Logging"
+            case s3Origin = "S3Origin"
+            case comment = "Comment"
+            case priceClass = "PriceClass"
+            case trustedSigners = "TrustedSigners"
         }
     }
 
@@ -3313,68 +2075,11 @@ extension CloudFront {
         }
     }
 
-    public struct TagKeys: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .structure)
-        ]
-        ///  A complex type that contains Tag key elements.
-        public let items: TagKeyList?
-
-        public init(items: TagKeyList? = nil) {
-            self.items = items
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case items = "Items"
-        }
-    }
-
-    public struct CreateDistributionRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "DistributionConfig"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DistributionConfig", location: .body(locationName: "DistributionConfig"), required: true, type: .structure)
-        ]
-        /// The distribution's configuration information.
-        public let distributionConfig: DistributionConfig
-
-        public init(distributionConfig: DistributionConfig) {
-            self.distributionConfig = distributionConfig
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case distributionConfig = "DistributionConfig"
-        }
-    }
-
-    public struct GetCloudFrontOriginAccessIdentityResult: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "CloudFrontOriginAccessIdentity"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeMember(label: "CloudFrontOriginAccessIdentity", required: false, type: .structure)
-        ]
-        /// The current version of the origin access identity's information. For example: E2QWRUHAPOMQZL.
-        public let eTag: String?
-        /// The origin access identity's information.
-        public let cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity?
-
-        public init(eTag: String? = nil, cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity? = nil) {
-            self.eTag = eTag
-            self.cloudFrontOriginAccessIdentity = cloudFrontOriginAccessIdentity
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case cloudFrontOriginAccessIdentity = "CloudFrontOriginAccessIdentity"
-        }
-    }
-
-    public struct GetDistributionRequest: AWSShape {
+    public struct GetCloudFrontOriginAccessIdentityConfigRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
-        /// The distribution's ID.
+        /// The identity's ID. 
         public let id: String
 
         public init(id: String) {
@@ -3386,103 +2091,21 @@ extension CloudFront {
         }
     }
 
-    public enum GeoRestrictionType: String, CustomStringConvertible, Codable {
-        case blacklist = "blacklist"
-        case whitelist = "whitelist"
-        case none = "none"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListDistributionsResult: AWSShape {
+    public struct ListPublicKeysResult: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "DistributionList"
+        public static let payloadPath: String? = "PublicKeyList"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DistributionList", required: false, type: .structure)
+            AWSShapeMember(label: "PublicKeyList", required: false, type: .structure)
         ]
-        /// The DistributionList type. 
-        public let distributionList: DistributionList?
+        /// Returns a list of all public keys that have been added to CloudFront for this account.
+        public let publicKeyList: PublicKeyList?
 
-        public init(distributionList: DistributionList? = nil) {
-            self.distributionList = distributionList
+        public init(publicKeyList: PublicKeyList? = nil) {
+            self.publicKeyList = publicKeyList
         }
 
         private enum CodingKeys: String, CodingKey {
-            case distributionList = "DistributionList"
-        }
-    }
-
-    public struct OriginGroupMember: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OriginId", required: true, type: .string)
-        ]
-        /// The ID for an origin in an origin group.
-        public let originId: String
-
-        public init(originId: String) {
-            self.originId = originId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case originId = "OriginId"
-        }
-    }
-
-    public struct LocationList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Location", required: false, type: .list)
-        ]
-        public let location: [String]?
-
-        public init(location: [String]? = nil) {
-            self.location = location
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case location = "Location"
-        }
-    }
-
-    public struct DistributionConfigWithTags: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: true, type: .structure), 
-            AWSShapeMember(label: "DistributionConfig", required: true, type: .structure)
-        ]
-        /// A complex type that contains zero or more Tag elements.
-        public let tags: Tags
-        /// A distribution configuration.
-        public let distributionConfig: DistributionConfig
-
-        public init(tags: Tags, distributionConfig: DistributionConfig) {
-            self.tags = tags
-            self.distributionConfig = distributionConfig
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-            case distributionConfig = "DistributionConfig"
-        }
-    }
-
-    public struct GetStreamingDistributionResult: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "StreamingDistribution"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StreamingDistribution", required: false, type: .structure), 
-            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string)
-        ]
-        /// The streaming distribution's information.
-        public let streamingDistribution: StreamingDistribution?
-        /// The current version of the streaming distribution's information. For example: E2QWRUHAPOMQZL.
-        public let eTag: String?
-
-        public init(streamingDistribution: StreamingDistribution? = nil, eTag: String? = nil) {
-            self.streamingDistribution = streamingDistribution
-            self.eTag = eTag
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case streamingDistribution = "StreamingDistribution"
-            case eTag = "ETag"
+            case publicKeyList = "PublicKeyList"
         }
     }
 
@@ -3494,45 +2117,17 @@ extension CloudFront {
         public var description: String { return self.rawValue }
     }
 
-    public struct CreateStreamingDistributionResult: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "StreamingDistribution"
+    public struct ContentTypeProfiles: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StreamingDistribution", required: false, type: .structure), 
-            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: false, type: .string)
-        ]
-        /// The streaming distribution's information.
-        public let streamingDistribution: StreamingDistribution?
-        /// The current version of the streaming distribution created.
-        public let eTag: String?
-        /// The fully qualified URI of the new streaming distribution resource just created. For example: https://cloudfront.amazonaws.com/2010-11-01/streaming-distribution/EGTXBD79H29TRA8.
-        public let location: String?
-
-        public init(streamingDistribution: StreamingDistribution? = nil, eTag: String? = nil, location: String? = nil) {
-            self.streamingDistribution = streamingDistribution
-            self.eTag = eTag
-            self.location = location
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case streamingDistribution = "StreamingDistribution"
-            case eTag = "ETag"
-            case location = "Location"
-        }
-    }
-
-    public struct StatusCodes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: true, type: .structure), 
+            AWSShapeMember(label: "Items", required: false, type: .structure), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
-        /// The items (status codes) for an origin group.
-        public let items: StatusCodeList
-        /// The number of status codes.
+        /// Items in a field-level encryption content type-profile mapping. 
+        public let items: ContentTypeProfileList?
+        /// The number of field-level encryption content type-profile mappings. 
         public let quantity: Int32
 
-        public init(items: StatusCodeList, quantity: Int32) {
+        public init(items: ContentTypeProfileList? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
         }
@@ -3540,6 +2135,78 @@ extension CloudFront {
         private enum CodingKeys: String, CodingKey {
             case items = "Items"
             case quantity = "Quantity"
+        }
+    }
+
+    public struct OriginGroupMemberList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OriginGroupMember", required: false, type: .list)
+        ]
+        public let originGroupMember: [OriginGroupMember]?
+
+        public init(originGroupMember: [OriginGroupMember]? = nil) {
+            self.originGroupMember = originGroupMember
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case originGroupMember = "OriginGroupMember"
+        }
+    }
+
+    public struct ListPublicKeysRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .string)
+        ]
+        /// Use this when paginating results to indicate where to begin in your list of public keys. The results include public keys in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last public key on that page). 
+        public let marker: String?
+        /// The maximum number of public keys you want in the response body. 
+        public let maxItems: String?
+
+        public init(marker: String? = nil, maxItems: String? = nil) {
+            self.marker = marker
+            self.maxItems = maxItems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+        }
+    }
+
+    public struct GetInvalidationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DistributionId", location: .uri(locationName: "DistributionId"), required: true, type: .string), 
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        ]
+        /// The distribution's ID.
+        public let distributionId: String
+        /// The identifier for the invalidation request, for example, IDFDVBD632BHDS5.
+        public let id: String
+
+        public init(distributionId: String, id: String) {
+            self.distributionId = distributionId
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case distributionId = "DistributionId"
+            case id = "Id"
+        }
+    }
+
+    public struct FieldLevelEncryptionSummaryList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FieldLevelEncryptionSummary", required: false, type: .list)
+        ]
+        public let fieldLevelEncryptionSummary: [FieldLevelEncryptionSummary]?
+
+        public init(fieldLevelEncryptionSummary: [FieldLevelEncryptionSummary]? = nil) {
+            self.fieldLevelEncryptionSummary = fieldLevelEncryptionSummary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldLevelEncryptionSummary = "FieldLevelEncryptionSummary"
         }
     }
 
@@ -3564,657 +2231,18 @@ extension CloudFront {
         }
     }
 
-    public struct CloudFrontOriginAccessIdentitySummary: AWSShape {
+    public struct StatusCodeList: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3CanonicalUserId", required: true, type: .string), 
-            AWSShapeMember(label: "Comment", required: true, type: .string), 
-            AWSShapeMember(label: "Id", required: true, type: .string)
+            AWSShapeMember(label: "StatusCode", required: false, type: .list)
         ]
-        /// The Amazon S3 canonical user ID for the origin access identity, which you use when giving the origin access identity read permission to an object in Amazon S3.
-        public let s3CanonicalUserId: String
-        /// The comment for this origin access identity, as originally specified when created.
-        public let comment: String
-        /// The ID for the origin access identity. For example: E74FTE3AJFJ256A.
-        public let id: String
+        public let statusCode: [Int32]?
 
-        public init(s3CanonicalUserId: String, comment: String, id: String) {
-            self.s3CanonicalUserId = s3CanonicalUserId
-            self.comment = comment
-            self.id = id
+        public init(statusCode: [Int32]? = nil) {
+            self.statusCode = statusCode
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3CanonicalUserId = "S3CanonicalUserId"
-            case comment = "Comment"
-            case id = "Id"
-        }
-    }
-
-    public struct ListTagsForResourceResult: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "Tags"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: true, type: .structure)
-        ]
-        ///  A complex type that contains zero or more Tag elements.
-        public let tags: Tags
-
-        public init(tags: Tags) {
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-        }
-    }
-
-    public struct ListInvalidationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .string), 
-            AWSShapeMember(label: "DistributionId", location: .uri(locationName: "DistributionId"), required: true, type: .string)
-        ]
-        /// Use this parameter when paginating results to indicate where to begin in your list of invalidation batches. Because the results are returned in decreasing order from most recent to oldest, the most recent results are on the first page, the second page will contain earlier results, and so on. To get the next page of results, set Marker to the value of the NextMarker from the current page's response. This value is the same as the ID of the last invalidation batch on that page. 
-        public let marker: String?
-        /// The maximum number of invalidation batches that you want in the response body.
-        public let maxItems: String?
-        /// The distribution's ID.
-        public let distributionId: String
-
-        public init(marker: String? = nil, maxItems: String? = nil, distributionId: String) {
-            self.marker = marker
-            self.maxItems = maxItems
-            self.distributionId = distributionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-            case distributionId = "DistributionId"
-        }
-    }
-
-    public struct UpdateStreamingDistributionRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "StreamingDistributionConfig"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
-            AWSShapeMember(label: "StreamingDistributionConfig", location: .body(locationName: "StreamingDistributionConfig"), required: true, type: .structure), 
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
-        ]
-        /// The value of the ETag header that you received when retrieving the streaming distribution's configuration. For example: E2QWRUHAPOMQZL.
-        public let ifMatch: String?
-        /// The streaming distribution's configuration information.
-        public let streamingDistributionConfig: StreamingDistributionConfig
-        /// The streaming distribution's id.
-        public let id: String
-
-        public init(ifMatch: String? = nil, streamingDistributionConfig: StreamingDistributionConfig, id: String) {
-            self.ifMatch = ifMatch
-            self.streamingDistributionConfig = streamingDistributionConfig
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ifMatch = "If-Match"
-            case streamingDistributionConfig = "StreamingDistributionConfig"
-            case id = "Id"
-        }
-    }
-
-    public struct CustomErrorResponseList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomErrorResponse", required: false, type: .list)
-        ]
-        public let customErrorResponse: [CustomErrorResponse]?
-
-        public init(customErrorResponse: [CustomErrorResponse]? = nil) {
-            self.customErrorResponse = customErrorResponse
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case customErrorResponse = "CustomErrorResponse"
-        }
-    }
-
-    public struct FieldPatterns: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .structure), 
-            AWSShapeMember(label: "Quantity", required: true, type: .integer)
-        ]
-        /// An array of the field-level encryption field patterns.
-        public let items: FieldPatternList?
-        /// The number of field-level encryption field patterns.
-        public let quantity: Int32
-
-        public init(items: FieldPatternList? = nil, quantity: Int32) {
-            self.items = items
-            self.quantity = quantity
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case items = "Items"
-            case quantity = "Quantity"
-        }
-    }
-
-    public struct QueryStringCacheKeys: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .structure), 
-            AWSShapeMember(label: "Quantity", required: true, type: .integer)
-        ]
-        /// (Optional) A list that contains the query string parameters that you want CloudFront to use as a basis for caching for this cache behavior. If Quantity is 0, you can omit Items. 
-        public let items: QueryStringCacheKeysList?
-        /// The number of whitelisted query string parameters for this cache behavior.
-        public let quantity: Int32
-
-        public init(items: QueryStringCacheKeysList? = nil, quantity: Int32) {
-            self.items = items
-            self.quantity = quantity
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case items = "Items"
-            case quantity = "Quantity"
-        }
-    }
-
-    public struct Invalidation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InvalidationBatch", required: true, type: .structure), 
-            AWSShapeMember(label: "Status", required: true, type: .string), 
-            AWSShapeMember(label: "CreateTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "Id", required: true, type: .string)
-        ]
-        /// The current invalidation information for the batch request. 
-        public let invalidationBatch: InvalidationBatch
-        /// The status of the invalidation request. When the invalidation batch is finished, the status is Completed.
-        public let status: String
-        /// The date and time the invalidation request was first made. 
-        public let createTime: TimeStamp
-        /// The identifier for the invalidation request. For example: IDFDVBD632BHDS5.
-        public let id: String
-
-        public init(invalidationBatch: InvalidationBatch, status: String, createTime: TimeStamp, id: String) {
-            self.invalidationBatch = invalidationBatch
-            self.status = status
-            self.createTime = createTime
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case invalidationBatch = "InvalidationBatch"
-            case status = "Status"
-            case createTime = "CreateTime"
-            case id = "Id"
-        }
-    }
-
-    public struct Origins: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: true, type: .structure), 
-            AWSShapeMember(label: "Quantity", required: true, type: .integer)
-        ]
-        /// A complex type that contains origins or origin groups for this distribution.
-        public let items: OriginList
-        /// The number of origins or origin groups for this distribution.
-        public let quantity: Int32
-
-        public init(items: OriginList, quantity: Int32) {
-            self.items = items
-            self.quantity = quantity
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case items = "Items"
-            case quantity = "Quantity"
-        }
-    }
-
-    public struct S3Origin: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OriginAccessIdentity", required: true, type: .string), 
-            AWSShapeMember(label: "DomainName", required: true, type: .string)
-        ]
-        /// The CloudFront origin access identity to associate with the RTMP distribution. Use an origin access identity to configure the distribution so that end users can only access objects in an Amazon S3 bucket through CloudFront. If you want end users to be able to access objects using either the CloudFront URL or the Amazon S3 URL, specify an empty OriginAccessIdentity element. To delete the origin access identity from an existing distribution, update the distribution configuration and include an empty OriginAccessIdentity element. To replace the origin access identity, update the distribution configuration and specify the new origin access identity. For more information, see Using an Origin Access Identity to Restrict Access to Your Amazon S3 Content in the Amazon Amazon CloudFront Developer Guide.
-        public let originAccessIdentity: String
-        /// The DNS name of the Amazon S3 origin. 
-        public let domainName: String
-
-        public init(originAccessIdentity: String, domainName: String) {
-            self.originAccessIdentity = originAccessIdentity
-            self.domainName = domainName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case originAccessIdentity = "OriginAccessIdentity"
-            case domainName = "DomainName"
-        }
-    }
-
-    public struct ContentTypeProfileList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContentTypeProfile", required: false, type: .list)
-        ]
-        public let contentTypeProfile: [ContentTypeProfile]?
-
-        public init(contentTypeProfile: [ContentTypeProfile]? = nil) {
-            self.contentTypeProfile = contentTypeProfile
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case contentTypeProfile = "ContentTypeProfile"
-        }
-    }
-
-    public struct FieldLevelEncryptionProfileSummaryList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FieldLevelEncryptionProfileSummary", required: false, type: .list)
-        ]
-        public let fieldLevelEncryptionProfileSummary: [FieldLevelEncryptionProfileSummary]?
-
-        public init(fieldLevelEncryptionProfileSummary: [FieldLevelEncryptionProfileSummary]? = nil) {
-            self.fieldLevelEncryptionProfileSummary = fieldLevelEncryptionProfileSummary
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fieldLevelEncryptionProfileSummary = "FieldLevelEncryptionProfileSummary"
-        }
-    }
-
-    public struct OriginList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Origin", required: false, type: .list)
-        ]
-        public let origin: [Origin]?
-
-        public init(origin: [Origin]? = nil) {
-            self.origin = origin
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case origin = "Origin"
-        }
-    }
-
-    public struct ActiveTrustedSigners: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: false, type: .structure), 
-            AWSShapeMember(label: "Quantity", required: true, type: .integer), 
-            AWSShapeMember(label: "Enabled", required: true, type: .boolean)
-        ]
-        /// A complex type that contains one Signer complex type for each trusted signer that is specified in the TrustedSigners complex type. For more information, see ActiveTrustedSigners. 
-        public let items: SignerList?
-        /// A complex type that contains one Signer complex type for each trusted signer specified in the TrustedSigners complex type. For more information, see ActiveTrustedSigners.
-        public let quantity: Int32
-        /// Enabled is true if any of the AWS accounts listed in the TrustedSigners complex type for this RTMP distribution have active CloudFront key pairs. If not, Enabled is false. For more information, see ActiveTrustedSigners.
-        public let enabled: Bool
-
-        public init(items: SignerList? = nil, quantity: Int32, enabled: Bool) {
-            self.items = items
-            self.quantity = quantity
-            self.enabled = enabled
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case items = "Items"
-            case quantity = "Quantity"
-            case enabled = "Enabled"
-        }
-    }
-
-    public struct GetPublicKeyConfigRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
-        ]
-        /// Request the ID for the public key configuration.
-        public let id: String
-
-        public init(id: String) {
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
-    }
-
-    public struct QueryStringCacheKeysList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .list)
-        ]
-        public let name: [String]?
-
-        public init(name: [String]? = nil) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-        }
-    }
-
-    public struct SignerList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Signer", required: false, type: .list)
-        ]
-        public let signer: [Signer]?
-
-        public init(signer: [Signer]? = nil) {
-            self.signer = signer
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case signer = "Signer"
-        }
-    }
-
-    public struct CreateInvalidationResult: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "Invalidation"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Invalidation", required: false, type: .structure), 
-            AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: false, type: .string)
-        ]
-        /// The invalidation's information.
-        public let invalidation: Invalidation?
-        /// The fully qualified URI of the distribution and invalidation batch request, including the Invalidation ID.
-        public let location: String?
-
-        public init(invalidation: Invalidation? = nil, location: String? = nil) {
-            self.invalidation = invalidation
-            self.location = location
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case invalidation = "Invalidation"
-            case location = "Location"
-        }
-    }
-
-    public struct GetCloudFrontOriginAccessIdentityRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
-        ]
-        /// The identity's ID.
-        public let id: String
-
-        public init(id: String) {
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
-    }
-
-    public struct GetInvalidationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
-            AWSShapeMember(label: "DistributionId", location: .uri(locationName: "DistributionId"), required: true, type: .string)
-        ]
-        /// The identifier for the invalidation request, for example, IDFDVBD632BHDS5.
-        public let id: String
-        /// The distribution's ID.
-        public let distributionId: String
-
-        public init(id: String, distributionId: String) {
-            self.id = id
-            self.distributionId = distributionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case distributionId = "DistributionId"
-        }
-    }
-
-    public struct AllowedMethods: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: true, type: .structure), 
-            AWSShapeMember(label: "Quantity", required: true, type: .integer), 
-            AWSShapeMember(label: "CachedMethods", required: false, type: .structure)
-        ]
-        /// A complex type that contains the HTTP methods that you want CloudFront to process and forward to your origin.
-        public let items: MethodsList
-        /// The number of HTTP methods that you want CloudFront to forward to your origin. Valid values are 2 (for GET and HEAD requests), 3 (for GET, HEAD, and OPTIONS requests) and 7 (for GET, HEAD, OPTIONS, PUT, PATCH, POST, and DELETE requests).
-        public let quantity: Int32
-        public let cachedMethods: CachedMethods?
-
-        public init(items: MethodsList, quantity: Int32, cachedMethods: CachedMethods? = nil) {
-            self.items = items
-            self.quantity = quantity
-            self.cachedMethods = cachedMethods
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case items = "Items"
-            case quantity = "Quantity"
-            case cachedMethods = "CachedMethods"
-        }
-    }
-
-    public struct PublicKey: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PublicKeyConfig", required: true, type: .structure), 
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "CreatedTime", required: true, type: .timestamp)
-        ]
-        /// A complex data type for a public key you add to CloudFront to use with features like field-level encryption.
-        public let publicKeyConfig: PublicKeyConfig
-        /// A unique ID assigned to a public key you've added to CloudFront.
-        public let id: String
-        /// A time you added a public key to CloudFront.
-        public let createdTime: TimeStamp
-
-        public init(publicKeyConfig: PublicKeyConfig, id: String, createdTime: TimeStamp) {
-            self.publicKeyConfig = publicKeyConfig
-            self.id = id
-            self.createdTime = createdTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case publicKeyConfig = "PublicKeyConfig"
-            case id = "Id"
-            case createdTime = "CreatedTime"
-        }
-    }
-
-    public struct InvalidationList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: true, type: .string), 
-            AWSShapeMember(label: "Quantity", required: true, type: .integer), 
-            AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
-            AWSShapeMember(label: "MaxItems", required: true, type: .integer), 
-            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
-            AWSShapeMember(label: "Items", required: false, type: .structure)
-        ]
-        /// The value that you provided for the Marker request parameter.
-        public let marker: String
-        /// The number of invalidation batches that were created by the current AWS account. 
-        public let quantity: Int32
-        /// A flag that indicates whether more invalidation batch requests remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more invalidation batches in the list.
-        public let isTruncated: Bool
-        /// The value that you provided for the MaxItems request parameter.
-        public let maxItems: Int32
-        /// If IsTruncated is true, this element is present and contains the value that you can use for the Marker request parameter to continue listing your invalidation batches where they left off.
-        public let nextMarker: String?
-        /// A complex type that contains one InvalidationSummary element for each invalidation batch created by the current AWS account.
-        public let items: InvalidationSummaryList?
-
-        public init(marker: String, quantity: Int32, isTruncated: Bool, maxItems: Int32, nextMarker: String? = nil, items: InvalidationSummaryList? = nil) {
-            self.marker = marker
-            self.quantity = quantity
-            self.isTruncated = isTruncated
-            self.maxItems = maxItems
-            self.nextMarker = nextMarker
-            self.items = items
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case quantity = "Quantity"
-            case isTruncated = "IsTruncated"
-            case maxItems = "MaxItems"
-            case nextMarker = "NextMarker"
-            case items = "Items"
-        }
-    }
-
-    public struct CreateDistributionWithTagsResult: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "Distribution"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeMember(label: "Distribution", required: false, type: .structure), 
-            AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: false, type: .string)
-        ]
-        /// The current version of the distribution created.
-        public let eTag: String?
-        /// The distribution's information. 
-        public let distribution: Distribution?
-        /// The fully qualified URI of the new distribution resource just created. For example: https://cloudfront.amazonaws.com/2010-11-01/distribution/EDFDVBD632BHDS5. 
-        public let location: String?
-
-        public init(eTag: String? = nil, distribution: Distribution? = nil, location: String? = nil) {
-            self.eTag = eTag
-            self.distribution = distribution
-            self.location = location
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case distribution = "Distribution"
-            case location = "Location"
-        }
-    }
-
-    public struct ListStreamingDistributionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .string)
-        ]
-        /// The value that you provided for the Marker request parameter.
-        public let marker: String?
-        /// The value that you provided for the MaxItems request parameter.
-        public let maxItems: String?
-
-        public init(marker: String? = nil, maxItems: String? = nil) {
-            self.marker = marker
-            self.maxItems = maxItems
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-        }
-    }
-
-    public struct GetFieldLevelEncryptionProfileConfigRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
-        ]
-        /// Get the ID for the field-level encryption profile configuration information.
-        public let id: String
-
-        public init(id: String) {
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-        }
-    }
-
-    public struct ListFieldLevelEncryptionProfilesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .string)
-        ]
-        /// Use this when paginating results to indicate where to begin in your list of profiles. The results include profiles in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last profile on that page). 
-        public let marker: String?
-        /// The maximum number of field-level encryption profiles you want in the response body. 
-        public let maxItems: String?
-
-        public init(marker: String? = nil, maxItems: String? = nil) {
-            self.marker = marker
-            self.maxItems = maxItems
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-        }
-    }
-
-    public enum PriceClass: String, CustomStringConvertible, Codable {
-        case priceclass100 = "PriceClass_100"
-        case priceclass200 = "PriceClass_200"
-        case priceclassAll = "PriceClass_All"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CloudFrontOriginAccessIdentityList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: true, type: .string), 
-            AWSShapeMember(label: "Quantity", required: true, type: .integer), 
-            AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
-            AWSShapeMember(label: "MaxItems", required: true, type: .integer), 
-            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
-            AWSShapeMember(label: "Items", required: false, type: .structure)
-        ]
-        /// Use this when paginating results to indicate where to begin in your list of origin access identities. The results include identities in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last identity on that page). 
-        public let marker: String
-        /// The number of CloudFront origin access identities that were created by the current AWS account. 
-        public let quantity: Int32
-        /// A flag that indicates whether more origin access identities remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more items in the list.
-        public let isTruncated: Bool
-        /// The maximum number of origin access identities you want in the response body. 
-        public let maxItems: Int32
-        /// If IsTruncated is true, this element is present and contains the value you can use for the Marker request parameter to continue listing your origin access identities where they left off. 
-        public let nextMarker: String?
-        /// A complex type that contains one CloudFrontOriginAccessIdentitySummary element for each origin access identity that was created by the current AWS account.
-        public let items: CloudFrontOriginAccessIdentitySummaryList?
-
-        public init(marker: String, quantity: Int32, isTruncated: Bool, maxItems: Int32, nextMarker: String? = nil, items: CloudFrontOriginAccessIdentitySummaryList? = nil) {
-            self.marker = marker
-            self.quantity = quantity
-            self.isTruncated = isTruncated
-            self.maxItems = maxItems
-            self.nextMarker = nextMarker
-            self.items = items
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case quantity = "Quantity"
-            case isTruncated = "IsTruncated"
-            case maxItems = "MaxItems"
-            case nextMarker = "NextMarker"
-            case items = "Items"
-        }
-    }
-
-    public struct GetStreamingDistributionConfigResult: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "StreamingDistributionConfig"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeMember(label: "StreamingDistributionConfig", required: false, type: .structure)
-        ]
-        /// The current version of the configuration. For example: E2QWRUHAPOMQZL. 
-        public let eTag: String?
-        /// The streaming distribution's configuration information.
-        public let streamingDistributionConfig: StreamingDistributionConfig?
-
-        public init(eTag: String? = nil, streamingDistributionConfig: StreamingDistributionConfig? = nil) {
-            self.eTag = eTag
-            self.streamingDistributionConfig = streamingDistributionConfig
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case streamingDistributionConfig = "StreamingDistributionConfig"
+            case statusCode = "StatusCode"
         }
     }
 
@@ -4239,170 +2267,232 @@ extension CloudFront {
         }
     }
 
-    public enum HttpVersion: String, CustomStringConvertible, Codable {
-        case http11 = "http1.1"
-        case http2 = "http2"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct FieldLevelEncryptionSummary: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "ContentTypeProfileConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "Comment", required: false, type: .string), 
-            AWSShapeMember(label: "QueryArgProfileConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp)
-        ]
-        /// The unique ID of a field-level encryption item.
-        public let id: String
-        ///  A summary of a content type-profile mapping. 
-        public let contentTypeProfileConfig: ContentTypeProfileConfig?
-        /// An optional comment about the field-level encryption item.
-        public let comment: String?
-        ///  A summary of a query argument-profile mapping. 
-        public let queryArgProfileConfig: QueryArgProfileConfig?
-        /// The last time that the summary of field-level encryption items was modified.
-        public let lastModifiedTime: TimeStamp
-
-        public init(id: String, contentTypeProfileConfig: ContentTypeProfileConfig? = nil, comment: String? = nil, queryArgProfileConfig: QueryArgProfileConfig? = nil, lastModifiedTime: TimeStamp) {
-            self.id = id
-            self.contentTypeProfileConfig = contentTypeProfileConfig
-            self.comment = comment
-            self.queryArgProfileConfig = queryArgProfileConfig
-            self.lastModifiedTime = lastModifiedTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case contentTypeProfileConfig = "ContentTypeProfileConfig"
-            case comment = "Comment"
-            case queryArgProfileConfig = "QueryArgProfileConfig"
-            case lastModifiedTime = "LastModifiedTime"
-        }
-    }
-
-    public struct UpdateCloudFrontOriginAccessIdentityRequest: AWSShape {
+    public struct ListCloudFrontOriginAccessIdentitiesResult: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "CloudFrontOriginAccessIdentityConfig"
+        public static let payloadPath: String? = "CloudFrontOriginAccessIdentityList"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
-            AWSShapeMember(label: "CloudFrontOriginAccessIdentityConfig", location: .body(locationName: "CloudFrontOriginAccessIdentityConfig"), required: true, type: .structure), 
-            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+            AWSShapeMember(label: "CloudFrontOriginAccessIdentityList", required: false, type: .structure)
         ]
-        /// The value of the ETag header that you received when retrieving the identity's configuration. For example: E2QWRUHAPOMQZL.
-        public let ifMatch: String?
-        /// The identity's configuration information.
-        public let cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig
-        /// The identity's id.
-        public let id: String
+        /// The CloudFrontOriginAccessIdentityList type. 
+        public let cloudFrontOriginAccessIdentityList: CloudFrontOriginAccessIdentityList?
 
-        public init(ifMatch: String? = nil, cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig, id: String) {
-            self.ifMatch = ifMatch
-            self.cloudFrontOriginAccessIdentityConfig = cloudFrontOriginAccessIdentityConfig
-            self.id = id
+        public init(cloudFrontOriginAccessIdentityList: CloudFrontOriginAccessIdentityList? = nil) {
+            self.cloudFrontOriginAccessIdentityList = cloudFrontOriginAccessIdentityList
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ifMatch = "If-Match"
-            case cloudFrontOriginAccessIdentityConfig = "CloudFrontOriginAccessIdentityConfig"
-            case id = "Id"
-        }
-    }
-
-    public enum MinimumProtocolVersion: String, CustomStringConvertible, Codable {
-        case sslv3 = "SSLv3"
-        case tlsv1 = "TLSv1"
-        case tlsv12016 = "TLSv1_2016"
-        case tlsv112016 = "TLSv1.1_2016"
-        case tlsv122018 = "TLSv1.2_2018"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct UntagResourceRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "TagKeys"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagKeys", location: .body(locationName: "TagKeys"), required: true, type: .structure), 
-            AWSShapeMember(label: "Resource", location: .querystring(locationName: "Resource"), required: true, type: .string)
-        ]
-        ///  A complex type that contains zero or more Tag key elements.
-        public let tagKeys: TagKeys
-        ///  An ARN of a CloudFront resource.
-        public let resource: String
-
-        public init(tagKeys: TagKeys, resource: String) {
-            self.tagKeys = tagKeys
-            self.resource = resource
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tagKeys = "TagKeys"
-            case resource = "Resource"
-        }
-    }
-
-    public struct S3OriginConfig: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OriginAccessIdentity", required: true, type: .string)
-        ]
-        /// The CloudFront origin access identity to associate with the origin. Use an origin access identity to configure the origin so that viewers can only access objects in an Amazon S3 bucket through CloudFront. The format of the value is: origin-access-identity/cloudfront/ID-of-origin-access-identity  where  ID-of-origin-access-identity  is the value that CloudFront returned in the ID element when you created the origin access identity. If you want viewers to be able to access objects using either the CloudFront URL or the Amazon S3 URL, specify an empty OriginAccessIdentity element. To delete the origin access identity from an existing distribution, update the distribution configuration and include an empty OriginAccessIdentity element. To replace the origin access identity, update the distribution configuration and specify the new origin access identity. For more information about the origin access identity, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide.
-        public let originAccessIdentity: String
-
-        public init(originAccessIdentity: String) {
-            self.originAccessIdentity = originAccessIdentity
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case originAccessIdentity = "OriginAccessIdentity"
-        }
-    }
-
-    public struct ListStreamingDistributionsResult: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "StreamingDistributionList"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StreamingDistributionList", required: false, type: .structure)
-        ]
-        /// The StreamingDistributionList type. 
-        public let streamingDistributionList: StreamingDistributionList?
-
-        public init(streamingDistributionList: StreamingDistributionList? = nil) {
-            self.streamingDistributionList = streamingDistributionList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case streamingDistributionList = "StreamingDistributionList"
+            case cloudFrontOriginAccessIdentityList = "CloudFrontOriginAccessIdentityList"
         }
     }
 
     public struct FieldLevelEncryptionProfileList: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Quantity", required: true, type: .integer), 
             AWSShapeMember(label: "MaxItems", required: true, type: .integer), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer), 
             AWSShapeMember(label: "Items", required: false, type: .structure)
         ]
-        /// The number of field-level encryption profiles.
-        public let quantity: Int32
         /// The maximum number of field-level encryption profiles you want in the response body. 
         public let maxItems: Int32
         /// If there are more elements to be listed, this element is present and contains the value that you can use for the Marker request parameter to continue listing your profiles where you left off.
         public let nextMarker: String?
+        /// The number of field-level encryption profiles.
+        public let quantity: Int32
         /// The field-level encryption profile items.
         public let items: FieldLevelEncryptionProfileSummaryList?
 
-        public init(quantity: Int32, maxItems: Int32, nextMarker: String? = nil, items: FieldLevelEncryptionProfileSummaryList? = nil) {
-            self.quantity = quantity
+        public init(maxItems: Int32, nextMarker: String? = nil, quantity: Int32, items: FieldLevelEncryptionProfileSummaryList? = nil) {
             self.maxItems = maxItems
             self.nextMarker = nextMarker
+            self.quantity = quantity
             self.items = items
         }
 
         private enum CodingKeys: String, CodingKey {
-            case quantity = "Quantity"
             case maxItems = "MaxItems"
             case nextMarker = "NextMarker"
+            case quantity = "Quantity"
             case items = "Items"
+        }
+    }
+
+    public struct ContentTypeProfileConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContentTypeProfiles", required: false, type: .structure), 
+            AWSShapeMember(label: "ForwardWhenContentTypeIsUnknown", required: true, type: .boolean)
+        ]
+        /// The configuration for a field-level encryption content type-profile. 
+        public let contentTypeProfiles: ContentTypeProfiles?
+        /// The setting in a field-level encryption content type-profile mapping that specifies what to do when an unknown content type is provided for the profile. If true, content is forwarded without being encrypted when the content type is unknown. If false (the default), an error is returned when the content type is unknown. 
+        public let forwardWhenContentTypeIsUnknown: Bool
+
+        public init(contentTypeProfiles: ContentTypeProfiles? = nil, forwardWhenContentTypeIsUnknown: Bool) {
+            self.contentTypeProfiles = contentTypeProfiles
+            self.forwardWhenContentTypeIsUnknown = forwardWhenContentTypeIsUnknown
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentTypeProfiles = "ContentTypeProfiles"
+            case forwardWhenContentTypeIsUnknown = "ForwardWhenContentTypeIsUnknown"
+        }
+    }
+
+    public struct Tags: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: false, type: .structure)
+        ]
+        ///  A complex type that contains Tag elements.
+        public let items: TagList?
+
+        public init(items: TagList? = nil) {
+            self.items = items
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+        }
+    }
+
+    public struct ListFieldLevelEncryptionConfigsResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "FieldLevelEncryptionList"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FieldLevelEncryptionList", required: false, type: .structure)
+        ]
+        /// Returns a list of all field-level encryption configurations that have been created in CloudFront for this account.
+        public let fieldLevelEncryptionList: FieldLevelEncryptionList?
+
+        public init(fieldLevelEncryptionList: FieldLevelEncryptionList? = nil) {
+            self.fieldLevelEncryptionList = fieldLevelEncryptionList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldLevelEncryptionList = "FieldLevelEncryptionList"
+        }
+    }
+
+    public struct DeleteCloudFrontOriginAccessIdentityRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
+            AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string)
+        ]
+        /// The origin access identity's ID.
+        public let id: String
+        /// The value of the ETag header you received from a previous GET or PUT request. For example: E2QWRUHAPOMQZL.
+        public let ifMatch: String?
+
+        public init(id: String, ifMatch: String? = nil) {
+            self.id = id
+            self.ifMatch = ifMatch
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case ifMatch = "If-Match"
+        }
+    }
+
+    public struct CachedMethods: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: true, type: .structure), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer)
+        ]
+        /// A complex type that contains the HTTP methods that you want CloudFront to cache responses to.
+        public let items: MethodsList
+        /// The number of HTTP methods for which you want CloudFront to cache responses. Valid values are 2 (for caching responses to GET and HEAD requests) and 3 (for caching responses to GET, HEAD, and OPTIONS requests).
+        public let quantity: Int32
+
+        public init(items: MethodsList, quantity: Int32) {
+            self.items = items
+            self.quantity = quantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case quantity = "Quantity"
+        }
+    }
+
+    public struct UpdateFieldLevelEncryptionConfigRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "FieldLevelEncryptionConfig"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
+            AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
+            AWSShapeMember(label: "FieldLevelEncryptionConfig", location: .body(locationName: "FieldLevelEncryptionConfig"), required: true, type: .structure)
+        ]
+        /// The ID of the configuration you want to update.
+        public let id: String
+        /// The value of the ETag header that you received when retrieving the configuration identity to update. For example: E2QWRUHAPOMQZL.
+        public let ifMatch: String?
+        /// Request to update a field-level encryption configuration. 
+        public let fieldLevelEncryptionConfig: FieldLevelEncryptionConfig
+
+        public init(id: String, ifMatch: String? = nil, fieldLevelEncryptionConfig: FieldLevelEncryptionConfig) {
+            self.id = id
+            self.ifMatch = ifMatch
+            self.fieldLevelEncryptionConfig = fieldLevelEncryptionConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case ifMatch = "If-Match"
+            case fieldLevelEncryptionConfig = "FieldLevelEncryptionConfig"
+        }
+    }
+
+    public struct CreateFieldLevelEncryptionConfigRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "FieldLevelEncryptionConfig"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FieldLevelEncryptionConfig", location: .body(locationName: "FieldLevelEncryptionConfig"), required: true, type: .structure)
+        ]
+        /// The request to create a new field-level encryption configuration.
+        public let fieldLevelEncryptionConfig: FieldLevelEncryptionConfig
+
+        public init(fieldLevelEncryptionConfig: FieldLevelEncryptionConfig) {
+            self.fieldLevelEncryptionConfig = fieldLevelEncryptionConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldLevelEncryptionConfig = "FieldLevelEncryptionConfig"
+        }
+    }
+
+    public struct GetFieldLevelEncryptionConfigRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        ]
+        /// Request the ID for the field-level encryption configuration information.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
+    }
+
+    public struct OriginGroupMembers: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: true, type: .structure), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer)
+        ]
+        /// Items (origins) in an origin group.
+        public let items: OriginGroupMemberList
+        /// The number of origins in an origin group.
+        public let quantity: Int32
+
+        public init(items: OriginGroupMemberList, quantity: Int32) {
+            self.items = items
+            self.quantity = quantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case quantity = "Quantity"
         }
     }
 
@@ -4427,11 +2517,11 @@ extension CloudFront {
         }
     }
 
-    public struct GetFieldLevelEncryptionProfileRequest: AWSShape {
+    public struct GetStreamingDistributionConfigRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
-        /// Get the ID for the field-level encryption profile information.
+        /// The streaming distribution's ID.
         public let id: String
 
         public init(id: String) {
@@ -4440,6 +2530,557 @@ extension CloudFront {
 
         private enum CodingKeys: String, CodingKey {
             case id = "Id"
+        }
+    }
+
+    public struct LambdaFunctionAssociation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IncludeBody", required: false, type: .boolean), 
+            AWSShapeMember(label: "EventType", required: true, type: .enum), 
+            AWSShapeMember(label: "LambdaFunctionARN", required: true, type: .string)
+        ]
+        /// A flag that allows a Lambda function to have read access to the body content. For more information, see Accessing the Request Body by Choosing the Include Body Option in the Amazon CloudFront Developer Guide.
+        public let includeBody: Bool?
+        /// Specifies the event type that triggers a Lambda function invocation. You can specify the following values:    viewer-request: The function executes when CloudFront receives a request from a viewer and before it checks to see whether the requested object is in the edge cache.     origin-request: The function executes only when CloudFront forwards a request to your origin. When the requested object is in the edge cache, the function doesn't execute.    origin-response: The function executes after CloudFront receives a response from the origin and before it caches the object in the response. When the requested object is in the edge cache, the function doesn't execute.    viewer-response: The function executes before CloudFront returns the requested object to the viewer. The function executes regardless of whether the object was already in the edge cache. If the origin returns an HTTP status code other than HTTP 200 (OK), the function doesn't execute.  
+        public let eventType: EventType
+        /// The ARN of the Lambda function. You must specify the ARN of a function version; you can't specify a Lambda alias or $LATEST.
+        public let lambdaFunctionARN: String
+
+        public init(includeBody: Bool? = nil, eventType: EventType, lambdaFunctionARN: String) {
+            self.includeBody = includeBody
+            self.eventType = eventType
+            self.lambdaFunctionARN = lambdaFunctionARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case includeBody = "IncludeBody"
+            case eventType = "EventType"
+            case lambdaFunctionARN = "LambdaFunctionARN"
+        }
+    }
+
+    public struct CreateFieldLevelEncryptionProfileRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "FieldLevelEncryptionProfileConfig"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FieldLevelEncryptionProfileConfig", location: .body(locationName: "FieldLevelEncryptionProfileConfig"), required: true, type: .structure)
+        ]
+        /// The request to create a field-level encryption profile.
+        public let fieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig
+
+        public init(fieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig) {
+            self.fieldLevelEncryptionProfileConfig = fieldLevelEncryptionProfileConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldLevelEncryptionProfileConfig = "FieldLevelEncryptionProfileConfig"
+        }
+    }
+
+    public struct QueryArgProfileConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ForwardWhenQueryArgProfileIsUnknown", required: true, type: .boolean), 
+            AWSShapeMember(label: "QueryArgProfiles", required: false, type: .structure)
+        ]
+        /// Flag to set if you want a request to be forwarded to the origin even if the profile specified by the field-level encryption query argument, fle-profile, is unknown.
+        public let forwardWhenQueryArgProfileIsUnknown: Bool
+        /// Profiles specified for query argument-profile mapping for field-level encryption.
+        public let queryArgProfiles: QueryArgProfiles?
+
+        public init(forwardWhenQueryArgProfileIsUnknown: Bool, queryArgProfiles: QueryArgProfiles? = nil) {
+            self.forwardWhenQueryArgProfileIsUnknown = forwardWhenQueryArgProfileIsUnknown
+            self.queryArgProfiles = queryArgProfiles
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case forwardWhenQueryArgProfileIsUnknown = "ForwardWhenQueryArgProfileIsUnknown"
+            case queryArgProfiles = "QueryArgProfiles"
+        }
+    }
+
+    public enum OriginProtocolPolicy: String, CustomStringConvertible, Codable {
+        case httpOnly = "http-only"
+        case matchViewer = "match-viewer"
+        case httpsOnly = "https-only"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CacheBehaviors: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Quantity", required: true, type: .integer), 
+            AWSShapeMember(label: "Items", required: false, type: .structure)
+        ]
+        /// The number of cache behaviors for this distribution. 
+        public let quantity: Int32
+        /// Optional: A complex type that contains cache behaviors for this distribution. If Quantity is 0, you can omit Items.
+        public let items: CacheBehaviorList?
+
+        public init(quantity: Int32, items: CacheBehaviorList? = nil) {
+            self.quantity = quantity
+            self.items = items
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case quantity = "Quantity"
+            case items = "Items"
+        }
+    }
+
+    public struct FieldLevelEncryptionProfileSummaryList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FieldLevelEncryptionProfileSummary", required: false, type: .list)
+        ]
+        public let fieldLevelEncryptionProfileSummary: [FieldLevelEncryptionProfileSummary]?
+
+        public init(fieldLevelEncryptionProfileSummary: [FieldLevelEncryptionProfileSummary]? = nil) {
+            self.fieldLevelEncryptionProfileSummary = fieldLevelEncryptionProfileSummary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldLevelEncryptionProfileSummary = "FieldLevelEncryptionProfileSummary"
+        }
+    }
+
+    public struct DistributionSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DefaultCacheBehavior", required: true, type: .structure), 
+            AWSShapeMember(label: "Restrictions", required: true, type: .structure), 
+            AWSShapeMember(label: "WebACLId", required: true, type: .string), 
+            AWSShapeMember(label: "Comment", required: true, type: .string), 
+            AWSShapeMember(label: "CustomErrorResponses", required: true, type: .structure), 
+            AWSShapeMember(label: "ARN", required: true, type: .string), 
+            AWSShapeMember(label: "Aliases", required: true, type: .structure), 
+            AWSShapeMember(label: "Status", required: true, type: .string), 
+            AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
+            AWSShapeMember(label: "Origins", required: true, type: .structure), 
+            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "PriceClass", required: true, type: .enum), 
+            AWSShapeMember(label: "ViewerCertificate", required: true, type: .structure), 
+            AWSShapeMember(label: "HttpVersion", required: true, type: .enum), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "OriginGroups", required: false, type: .structure), 
+            AWSShapeMember(label: "IsIPV6Enabled", required: true, type: .boolean), 
+            AWSShapeMember(label: "CacheBehaviors", required: true, type: .structure)
+        ]
+        /// A complex type that describes the default cache behavior if you don't specify a CacheBehavior element or if files don't match any of the values of PathPattern in CacheBehavior elements. You must create exactly one default cache behavior.
+        public let defaultCacheBehavior: DefaultCacheBehavior
+        public let restrictions: Restrictions
+        /// The Web ACL Id (if any) associated with the distribution.
+        public let webACLId: String
+        /// The comment originally specified when this distribution was created.
+        public let comment: String
+        /// A complex type that contains zero or more CustomErrorResponses elements.
+        public let customErrorResponses: CustomErrorResponses
+        /// The ARN (Amazon Resource Name) for the distribution. For example: arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5, where 123456789012 is your AWS account ID.
+        public let arn: String
+        /// A complex type that contains information about CNAMEs (alternate domain names), if any, for this distribution.
+        public let aliases: Aliases
+        /// The current status of the distribution. When the status is Deployed, the distribution's information is propagated to all CloudFront edge locations.
+        public let status: String
+        /// Whether the distribution is enabled to accept user requests for content.
+        public let enabled: Bool
+        /// A complex type that contains information about origins for this distribution.
+        public let origins: Origins
+        /// The date and time the distribution was last modified.
+        public let lastModifiedTime: TimeStamp
+        /// A complex type that contains information about price class for this streaming distribution. 
+        public let priceClass: PriceClass
+        public let viewerCertificate: ViewerCertificate
+        ///  Specify the maximum HTTP version that you want viewers to use to communicate with CloudFront. The default value for new web distributions is http2. Viewers that don't support HTTP/2 will automatically use an earlier version.
+        public let httpVersion: HttpVersion
+        /// The domain name that corresponds to the distribution, for example, d111111abcdef8.cloudfront.net.
+        public let domainName: String
+        /// The identifier for the distribution. For example: EDFDVBD632BHDS5.
+        public let id: String
+        ///  A complex type that contains information about origin groups for this distribution.
+        public let originGroups: OriginGroups?
+        /// Whether CloudFront responds to IPv6 DNS requests with an IPv6 address for your distribution.
+        public let isIPV6Enabled: Bool
+        /// A complex type that contains zero or more CacheBehavior elements.
+        public let cacheBehaviors: CacheBehaviors
+
+        public init(defaultCacheBehavior: DefaultCacheBehavior, restrictions: Restrictions, webACLId: String, comment: String, customErrorResponses: CustomErrorResponses, arn: String, aliases: Aliases, status: String, enabled: Bool, origins: Origins, lastModifiedTime: TimeStamp, priceClass: PriceClass, viewerCertificate: ViewerCertificate, httpVersion: HttpVersion, domainName: String, id: String, originGroups: OriginGroups? = nil, isIPV6Enabled: Bool, cacheBehaviors: CacheBehaviors) {
+            self.defaultCacheBehavior = defaultCacheBehavior
+            self.restrictions = restrictions
+            self.webACLId = webACLId
+            self.comment = comment
+            self.customErrorResponses = customErrorResponses
+            self.arn = arn
+            self.aliases = aliases
+            self.status = status
+            self.enabled = enabled
+            self.origins = origins
+            self.lastModifiedTime = lastModifiedTime
+            self.priceClass = priceClass
+            self.viewerCertificate = viewerCertificate
+            self.httpVersion = httpVersion
+            self.domainName = domainName
+            self.id = id
+            self.originGroups = originGroups
+            self.isIPV6Enabled = isIPV6Enabled
+            self.cacheBehaviors = cacheBehaviors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultCacheBehavior = "DefaultCacheBehavior"
+            case restrictions = "Restrictions"
+            case webACLId = "WebACLId"
+            case comment = "Comment"
+            case customErrorResponses = "CustomErrorResponses"
+            case arn = "ARN"
+            case aliases = "Aliases"
+            case status = "Status"
+            case enabled = "Enabled"
+            case origins = "Origins"
+            case lastModifiedTime = "LastModifiedTime"
+            case priceClass = "PriceClass"
+            case viewerCertificate = "ViewerCertificate"
+            case httpVersion = "HttpVersion"
+            case domainName = "DomainName"
+            case id = "Id"
+            case originGroups = "OriginGroups"
+            case isIPV6Enabled = "IsIPV6Enabled"
+            case cacheBehaviors = "CacheBehaviors"
+        }
+    }
+
+    public struct Restrictions: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GeoRestriction", required: true, type: .structure)
+        ]
+        public let geoRestriction: GeoRestriction
+
+        public init(geoRestriction: GeoRestriction) {
+            self.geoRestriction = geoRestriction
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case geoRestriction = "GeoRestriction"
+        }
+    }
+
+    public enum SSLSupportMethod: String, CustomStringConvertible, Codable {
+        case sniOnly = "sni-only"
+        case vip = "vip"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct OriginGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FailoverCriteria", required: true, type: .structure), 
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "Members", required: true, type: .structure)
+        ]
+        /// A complex type that contains information about the failover criteria for an origin group.
+        public let failoverCriteria: OriginGroupFailoverCriteria
+        /// The origin group's ID.
+        public let id: String
+        /// A complex type that contains information about the origins in an origin group.
+        public let members: OriginGroupMembers
+
+        public init(failoverCriteria: OriginGroupFailoverCriteria, id: String, members: OriginGroupMembers) {
+            self.failoverCriteria = failoverCriteria
+            self.id = id
+            self.members = members
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failoverCriteria = "FailoverCriteria"
+            case id = "Id"
+            case members = "Members"
+        }
+    }
+
+    public struct CustomErrorResponseList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CustomErrorResponse", required: false, type: .list)
+        ]
+        public let customErrorResponse: [CustomErrorResponse]?
+
+        public init(customErrorResponse: [CustomErrorResponse]? = nil) {
+            self.customErrorResponse = customErrorResponse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customErrorResponse = "CustomErrorResponse"
+        }
+    }
+
+    public enum GeoRestrictionType: String, CustomStringConvertible, Codable {
+        case blacklist = "blacklist"
+        case whitelist = "whitelist"
+        case none = "none"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CreateInvalidationResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "Invalidation"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: false, type: .string), 
+            AWSShapeMember(label: "Invalidation", required: false, type: .structure)
+        ]
+        /// The fully qualified URI of the distribution and invalidation batch request, including the Invalidation ID.
+        public let location: String?
+        /// The invalidation's information.
+        public let invalidation: Invalidation?
+
+        public init(location: String? = nil, invalidation: Invalidation? = nil) {
+            self.location = location
+            self.invalidation = invalidation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case location = "Location"
+            case invalidation = "Invalidation"
+        }
+    }
+
+    public struct PathList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Path", required: false, type: .list)
+        ]
+        public let path: [String]?
+
+        public init(path: [String]? = nil) {
+            self.path = path
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case path = "Path"
+        }
+    }
+
+    public struct PublicKeySummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Comment", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "EncodedKey", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
+        ]
+        ///  Comment for public key information summary. 
+        public let comment: String?
+        ///  Creation time for public key information summary. 
+        public let createdTime: TimeStamp
+        ///  Encoded key for public key information summary. 
+        public let encodedKey: String
+        ///  Name for public key information summary. 
+        public let name: String
+        ///  ID for public key information summary. 
+        public let id: String
+
+        public init(comment: String? = nil, createdTime: TimeStamp, encodedKey: String, name: String, id: String) {
+            self.comment = comment
+            self.createdTime = createdTime
+            self.encodedKey = encodedKey
+            self.name = name
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comment = "Comment"
+            case createdTime = "CreatedTime"
+            case encodedKey = "EncodedKey"
+            case name = "Name"
+            case id = "Id"
+        }
+    }
+
+    public struct ListDistributionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .string)
+        ]
+        /// Use this when paginating results to indicate where to begin in your list of distributions. The results include distributions in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last distribution on that page).
+        public let marker: String?
+        /// The maximum number of distributions you want in the response body.
+        public let maxItems: String?
+
+        public init(marker: String? = nil, maxItems: String? = nil) {
+            self.marker = marker
+            self.maxItems = maxItems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+        }
+    }
+
+    public enum ItemSelection: String, CustomStringConvertible, Codable {
+        case none = "none"
+        case whitelist = "whitelist"
+        case all = "all"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct StreamingDistributionSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ARN", required: true, type: .string), 
+            AWSShapeMember(label: "PriceClass", required: true, type: .enum), 
+            AWSShapeMember(label: "Comment", required: true, type: .string), 
+            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "S3Origin", required: true, type: .structure), 
+            AWSShapeMember(label: "Aliases", required: true, type: .structure), 
+            AWSShapeMember(label: "TrustedSigners", required: true, type: .structure), 
+            AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "Status", required: true, type: .string)
+        ]
+        ///  The ARN (Amazon Resource Name) for the streaming distribution. For example: arn:aws:cloudfront::123456789012:streaming-distribution/EDFDVBD632BHDS5, where 123456789012 is your AWS account ID.
+        public let arn: String
+        public let priceClass: PriceClass
+        /// The comment originally specified when this distribution was created.
+        public let comment: String
+        /// The date and time the distribution was last modified.
+        public let lastModifiedTime: TimeStamp
+        /// A complex type that contains information about the Amazon S3 bucket from which you want CloudFront to get your media files for distribution.
+        public let s3Origin: S3Origin
+        /// A complex type that contains information about CNAMEs (alternate domain names), if any, for this streaming distribution.
+        public let aliases: Aliases
+        /// A complex type that specifies the AWS accounts, if any, that you want to allow to create signed URLs for private content. If you want to require signed URLs in requests for objects in the target origin that match the PathPattern for this cache behavior, specify true for Enabled, and specify the applicable values for Quantity and Items.If you don't want to require signed URLs in requests for objects that match PathPattern, specify false for Enabled and 0 for Quantity. Omit Items. To add, change, or remove one or more trusted signers, change Enabled to true (if it's currently false), change Quantity as applicable, and specify all of the trusted signers that you want to include in the updated distribution.
+        public let trustedSigners: TrustedSigners
+        /// Whether the distribution is enabled to accept end user requests for content.
+        public let enabled: Bool
+        /// The identifier for the distribution, for example, EDFDVBD632BHDS5.
+        public let id: String
+        /// The domain name corresponding to the distribution, for example, d111111abcdef8.cloudfront.net.
+        public let domainName: String
+        ///  Indicates the current status of the distribution. When the status is Deployed, the distribution's information is fully propagated throughout the Amazon CloudFront system.
+        public let status: String
+
+        public init(arn: String, priceClass: PriceClass, comment: String, lastModifiedTime: TimeStamp, s3Origin: S3Origin, aliases: Aliases, trustedSigners: TrustedSigners, enabled: Bool, id: String, domainName: String, status: String) {
+            self.arn = arn
+            self.priceClass = priceClass
+            self.comment = comment
+            self.lastModifiedTime = lastModifiedTime
+            self.s3Origin = s3Origin
+            self.aliases = aliases
+            self.trustedSigners = trustedSigners
+            self.enabled = enabled
+            self.id = id
+            self.domainName = domainName
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "ARN"
+            case priceClass = "PriceClass"
+            case comment = "Comment"
+            case lastModifiedTime = "LastModifiedTime"
+            case s3Origin = "S3Origin"
+            case aliases = "Aliases"
+            case trustedSigners = "TrustedSigners"
+            case enabled = "Enabled"
+            case id = "Id"
+            case domainName = "DomainName"
+            case status = "Status"
+        }
+    }
+
+    public struct GetCloudFrontOriginAccessIdentityResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "CloudFrontOriginAccessIdentity"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CloudFrontOriginAccessIdentity", required: false, type: .structure), 
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string)
+        ]
+        /// The origin access identity's information.
+        public let cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity?
+        /// The current version of the origin access identity's information. For example: E2QWRUHAPOMQZL.
+        public let eTag: String?
+
+        public init(cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity? = nil, eTag: String? = nil) {
+            self.cloudFrontOriginAccessIdentity = cloudFrontOriginAccessIdentity
+            self.eTag = eTag
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudFrontOriginAccessIdentity = "CloudFrontOriginAccessIdentity"
+            case eTag = "ETag"
+        }
+    }
+
+    public enum MinimumProtocolVersion: String, CustomStringConvertible, Codable {
+        case sslv3 = "SSLv3"
+        case tlsv1 = "TLSv1"
+        case tlsv12016 = "TLSv1_2016"
+        case tlsv112016 = "TLSv1.1_2016"
+        case tlsv122018 = "TLSv1.2_2018"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CacheBehaviorList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheBehavior", required: false, type: .list)
+        ]
+        public let cacheBehavior: [CacheBehavior]?
+
+        public init(cacheBehavior: [CacheBehavior]? = nil) {
+            self.cacheBehavior = cacheBehavior
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheBehavior = "CacheBehavior"
+        }
+    }
+
+    public struct UpdateStreamingDistributionRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "StreamingDistributionConfig"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StreamingDistributionConfig", location: .body(locationName: "StreamingDistributionConfig"), required: true, type: .structure), 
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
+            AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string)
+        ]
+        /// The streaming distribution's configuration information.
+        public let streamingDistributionConfig: StreamingDistributionConfig
+        /// The streaming distribution's id.
+        public let id: String
+        /// The value of the ETag header that you received when retrieving the streaming distribution's configuration. For example: E2QWRUHAPOMQZL.
+        public let ifMatch: String?
+
+        public init(streamingDistributionConfig: StreamingDistributionConfig, id: String, ifMatch: String? = nil) {
+            self.streamingDistributionConfig = streamingDistributionConfig
+            self.id = id
+            self.ifMatch = ifMatch
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamingDistributionConfig = "StreamingDistributionConfig"
+            case id = "Id"
+            case ifMatch = "If-Match"
+        }
+    }
+
+    public struct CreateDistributionResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "Distribution"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
+            AWSShapeMember(label: "Distribution", required: false, type: .structure), 
+            AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: false, type: .string)
+        ]
+        /// The current version of the distribution created.
+        public let eTag: String?
+        /// The distribution's information.
+        public let distribution: Distribution?
+        /// The fully qualified URI of the new distribution resource just created. For example: https://cloudfront.amazonaws.com/2010-11-01/distribution/EDFDVBD632BHDS5.
+        public let location: String?
+
+        public init(eTag: String? = nil, distribution: Distribution? = nil, location: String? = nil) {
+            self.eTag = eTag
+            self.distribution = distribution
+            self.location = location
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case distribution = "Distribution"
+            case location = "Location"
         }
     }
 
@@ -4466,42 +3107,694 @@ extension CloudFront {
         }
     }
 
-    public struct CustomErrorResponse: AWSShape {
+    public struct LambdaFunctionAssociations: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResponseCode", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorCode", required: true, type: .integer), 
-            AWSShapeMember(label: "ErrorCachingMinTTL", required: false, type: .long), 
-            AWSShapeMember(label: "ResponsePagePath", required: false, type: .string)
+            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
-        /// The HTTP status code that you want CloudFront to return to the viewer along with the custom error page. There are a variety of reasons that you might want CloudFront to return a status code different from the status code that your origin returned to CloudFront, for example:   Some Internet devices (some firewalls and corporate proxies, for example) intercept HTTP 4xx and 5xx and prevent the response from being returned to the viewer. If you substitute 200, the response typically won't be intercepted.   If you don't care about distinguishing among different client errors or server errors, you can specify 400 or 500 as the ResponseCode for all 4xx or 5xx errors.   You might want to return a 200 status code (OK) and static website so your customers don't know that your website is down.   If you specify a value for ResponseCode, you must also specify a value for ResponsePagePath. If you don't want to specify a value, include an empty element, &lt;ResponseCode&gt;, in the XML document.
-        public let responseCode: String?
-        /// The HTTP status code for which you want to specify a custom error page and/or a caching duration.
-        public let errorCode: Int32
-        /// The minimum amount of time, in seconds, that you want CloudFront to cache the HTTP status code specified in ErrorCode. When this time period has elapsed, CloudFront queries your origin to see whether the problem that caused the error has been resolved and the requested object is now available. If you don't want to specify a value, include an empty element, &lt;ErrorCachingMinTTL&gt;, in the XML document. For more information, see Customizing Error Responses in the Amazon CloudFront Developer Guide.
-        public let errorCachingMinTTL: Int64?
-        /// The path to the custom error page that you want CloudFront to return to a viewer when your origin returns the HTTP status code specified by ErrorCode, for example, /4xx-errors/403-forbidden.html. If you want to store your objects and your custom error pages in different locations, your distribution must include a cache behavior for which the following is true:   The value of PathPattern matches the path to your custom error messages. For example, suppose you saved custom error pages for 4xx errors in an Amazon S3 bucket in a directory named /4xx-errors. Your distribution must include a cache behavior for which the path pattern routes requests for your custom error pages to that location, for example, /4xx-errors/*.    The value of TargetOriginId specifies the value of the ID element for the origin that contains your custom error pages.   If you specify a value for ResponsePagePath, you must also specify a value for ResponseCode. If you don't want to specify a value, include an empty element, &lt;ResponsePagePath&gt;, in the XML document. We recommend that you store custom error pages in an Amazon S3 bucket. If you store custom error pages on an HTTP server and the server starts to return 5xx errors, CloudFront can't get the files that you want to return to viewers because the origin server is unavailable.
-        public let responsePagePath: String?
+        ///  Optional: A complex type that contains LambdaFunctionAssociation items for this cache behavior. If Quantity is 0, you can omit Items.
+        public let items: LambdaFunctionAssociationList?
+        /// The number of Lambda function associations for this cache behavior.
+        public let quantity: Int32
 
-        public init(responseCode: String? = nil, errorCode: Int32, errorCachingMinTTL: Int64? = nil, responsePagePath: String? = nil) {
-            self.responseCode = responseCode
-            self.errorCode = errorCode
-            self.errorCachingMinTTL = errorCachingMinTTL
-            self.responsePagePath = responsePagePath
+        public init(items: LambdaFunctionAssociationList? = nil, quantity: Int32) {
+            self.items = items
+            self.quantity = quantity
         }
 
         private enum CodingKeys: String, CodingKey {
-            case responseCode = "ResponseCode"
-            case errorCode = "ErrorCode"
-            case errorCachingMinTTL = "ErrorCachingMinTTL"
-            case responsePagePath = "ResponsePagePath"
+            case items = "Items"
+            case quantity = "Quantity"
         }
     }
 
-    public enum CertificateSource: String, CustomStringConvertible, Codable {
-        case cloudfront = "cloudfront"
-        case iam = "iam"
-        case acm = "acm"
+    public struct UpdateDistributionRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "DistributionConfig"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
+            AWSShapeMember(label: "DistributionConfig", location: .body(locationName: "DistributionConfig"), required: true, type: .structure), 
+            AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string)
+        ]
+        /// The distribution's id.
+        public let id: String
+        /// The distribution's configuration information.
+        public let distributionConfig: DistributionConfig
+        /// The value of the ETag header that you received when retrieving the distribution's configuration. For example: E2QWRUHAPOMQZL.
+        public let ifMatch: String?
+
+        public init(id: String, distributionConfig: DistributionConfig, ifMatch: String? = nil) {
+            self.id = id
+            self.distributionConfig = distributionConfig
+            self.ifMatch = ifMatch
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case distributionConfig = "DistributionConfig"
+            case ifMatch = "If-Match"
+        }
+    }
+
+    public struct QueryArgProfileList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QueryArgProfile", required: false, type: .list)
+        ]
+        public let queryArgProfile: [QueryArgProfile]?
+
+        public init(queryArgProfile: [QueryArgProfile]? = nil) {
+            self.queryArgProfile = queryArgProfile
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryArgProfile = "QueryArgProfile"
+        }
+    }
+
+    public struct StreamingLoggingConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Prefix", required: true, type: .string), 
+            AWSShapeMember(label: "Bucket", required: true, type: .string), 
+            AWSShapeMember(label: "Enabled", required: true, type: .boolean)
+        ]
+        /// An optional string that you want CloudFront to prefix to the access log filenames for this streaming distribution, for example, myprefix/. If you want to enable logging, but you don't want to specify a prefix, you still must include an empty Prefix element in the Logging element.
+        public let prefix: String
+        /// The Amazon S3 bucket to store the access logs in, for example, myawslogbucket.s3.amazonaws.com.
+        public let bucket: String
+        /// Specifies whether you want CloudFront to save access logs to an Amazon S3 bucket. If you don't want to enable logging when you create a streaming distribution or if you want to disable logging for an existing streaming distribution, specify false for Enabled, and specify empty Bucket and Prefix elements. If you specify false for Enabled but you specify values for Bucket and Prefix, the values are automatically deleted. 
+        public let enabled: Bool
+
+        public init(prefix: String, bucket: String, enabled: Bool) {
+            self.prefix = prefix
+            self.bucket = bucket
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case prefix = "Prefix"
+            case bucket = "Bucket"
+            case enabled = "Enabled"
+        }
+    }
+
+    public struct CustomHeaders: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer)
+        ]
+        ///  Optional: A list that contains one OriginCustomHeader element for each custom header that you want CloudFront to forward to the origin. If Quantity is 0, omit Items.
+        public let items: OriginCustomHeadersList?
+        /// The number of custom headers, if any, for this distribution.
+        public let quantity: Int32
+
+        public init(items: OriginCustomHeadersList? = nil, quantity: Int32) {
+            self.items = items
+            self.quantity = quantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case quantity = "Quantity"
+        }
+    }
+
+    public struct QueryStringCacheKeysList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .list)
+        ]
+        public let name: [String]?
+
+        public init(name: [String]? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct ListDistributionsByWebACLIdResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "DistributionList"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DistributionList", required: false, type: .structure)
+        ]
+        /// The DistributionList type. 
+        public let distributionList: DistributionList?
+
+        public init(distributionList: DistributionList? = nil) {
+            self.distributionList = distributionList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case distributionList = "DistributionList"
+        }
+    }
+
+    public enum SslProtocol: String, CustomStringConvertible, Codable {
+        case sslv3 = "SSLv3"
+        case tlsv1 = "TLSv1"
+        case tlsv11 = "TLSv1.1"
+        case tlsv12 = "TLSv1.2"
         public var description: String { return self.rawValue }
+    }
+
+    public struct InvalidationSummaryList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InvalidationSummary", required: false, type: .list)
+        ]
+        public let invalidationSummary: [InvalidationSummary]?
+
+        public init(invalidationSummary: [InvalidationSummary]? = nil) {
+            self.invalidationSummary = invalidationSummary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invalidationSummary = "InvalidationSummary"
+        }
+    }
+
+    public struct ListStreamingDistributionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .string), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string)
+        ]
+        /// The value that you provided for the MaxItems request parameter.
+        public let maxItems: String?
+        /// The value that you provided for the Marker request parameter.
+        public let marker: String?
+
+        public init(maxItems: String? = nil, marker: String? = nil) {
+            self.maxItems = maxItems
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxItems = "MaxItems"
+            case marker = "Marker"
+        }
+    }
+
+    public struct StreamingDistributionSummaryList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StreamingDistributionSummary", required: false, type: .list)
+        ]
+        public let streamingDistributionSummary: [StreamingDistributionSummary]?
+
+        public init(streamingDistributionSummary: [StreamingDistributionSummary]? = nil) {
+            self.streamingDistributionSummary = streamingDistributionSummary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamingDistributionSummary = "StreamingDistributionSummary"
+        }
+    }
+
+    public struct GetFieldLevelEncryptionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        ]
+        /// Request the ID for the field-level encryption configuration information.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
+    }
+
+    public struct UpdateCloudFrontOriginAccessIdentityRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "CloudFrontOriginAccessIdentityConfig"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
+            AWSShapeMember(label: "CloudFrontOriginAccessIdentityConfig", location: .body(locationName: "CloudFrontOriginAccessIdentityConfig"), required: true, type: .structure)
+        ]
+        /// The value of the ETag header that you received when retrieving the identity's configuration. For example: E2QWRUHAPOMQZL.
+        public let ifMatch: String?
+        /// The identity's id.
+        public let id: String
+        /// The identity's configuration information.
+        public let cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig
+
+        public init(ifMatch: String? = nil, id: String, cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig) {
+            self.ifMatch = ifMatch
+            self.id = id
+            self.cloudFrontOriginAccessIdentityConfig = cloudFrontOriginAccessIdentityConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ifMatch = "If-Match"
+            case id = "Id"
+            case cloudFrontOriginAccessIdentityConfig = "CloudFrontOriginAccessIdentityConfig"
+        }
+    }
+
+    public struct GetCloudFrontOriginAccessIdentityConfigResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "CloudFrontOriginAccessIdentityConfig"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CloudFrontOriginAccessIdentityConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string)
+        ]
+        /// The origin access identity's configuration information. 
+        public let cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig?
+        /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
+        public let eTag: String?
+
+        public init(cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig? = nil, eTag: String? = nil) {
+            self.cloudFrontOriginAccessIdentityConfig = cloudFrontOriginAccessIdentityConfig
+            self.eTag = eTag
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudFrontOriginAccessIdentityConfig = "CloudFrontOriginAccessIdentityConfig"
+            case eTag = "ETag"
+        }
+    }
+
+    public struct DeleteStreamingDistributionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        ]
+        /// The value of the ETag header that you received when you disabled the streaming distribution. For example: E2QWRUHAPOMQZL.
+        public let ifMatch: String?
+        /// The distribution ID. 
+        public let id: String
+
+        public init(ifMatch: String? = nil, id: String) {
+            self.ifMatch = ifMatch
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ifMatch = "If-Match"
+            case id = "Id"
+        }
+    }
+
+    public struct AwsAccountNumberList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountNumber", required: false, type: .list)
+        ]
+        public let awsAccountNumber: [String]?
+
+        public init(awsAccountNumber: [String]? = nil) {
+            self.awsAccountNumber = awsAccountNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountNumber = "AwsAccountNumber"
+        }
+    }
+
+    public enum PriceClass: String, CustomStringConvertible, Codable {
+        case priceclass100 = "PriceClass_100"
+        case priceclass200 = "PriceClass_200"
+        case priceclassAll = "PriceClass_All"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Format: String, CustomStringConvertible, Codable {
+        case urlencoded = "URLEncoded"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListStreamingDistributionsResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "StreamingDistributionList"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StreamingDistributionList", required: false, type: .structure)
+        ]
+        /// The StreamingDistributionList type. 
+        public let streamingDistributionList: StreamingDistributionList?
+
+        public init(streamingDistributionList: StreamingDistributionList? = nil) {
+            self.streamingDistributionList = streamingDistributionList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamingDistributionList = "StreamingDistributionList"
+        }
+    }
+
+    public struct CustomOriginConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OriginReadTimeout", required: false, type: .integer), 
+            AWSShapeMember(label: "HTTPSPort", required: true, type: .integer), 
+            AWSShapeMember(label: "OriginProtocolPolicy", required: true, type: .enum), 
+            AWSShapeMember(label: "OriginKeepaliveTimeout", required: false, type: .integer), 
+            AWSShapeMember(label: "OriginSslProtocols", required: false, type: .structure), 
+            AWSShapeMember(label: "HTTPPort", required: true, type: .integer)
+        ]
+        /// You can create a custom origin read timeout. All timeout units are in seconds. The default origin read timeout is 30 seconds, but you can configure custom timeout lengths using the CloudFront API. The minimum timeout length is 4 seconds; the maximum is 60 seconds. If you need to increase the maximum time limit, contact the AWS Support Center.
+        public let originReadTimeout: Int32?
+        /// The HTTPS port the custom origin listens on.
+        public let hTTPSPort: Int32
+        /// The origin protocol policy to apply to your origin.
+        public let originProtocolPolicy: OriginProtocolPolicy
+        /// You can create a custom keep-alive timeout. All timeout units are in seconds. The default keep-alive timeout is 5 seconds, but you can configure custom timeout lengths using the CloudFront API. The minimum timeout length is 1 second; the maximum is 60 seconds. If you need to increase the maximum time limit, contact the AWS Support Center.
+        public let originKeepaliveTimeout: Int32?
+        /// The SSL/TLS protocols that you want CloudFront to use when communicating with your origin over HTTPS.
+        public let originSslProtocols: OriginSslProtocols?
+        /// The HTTP port the custom origin listens on.
+        public let hTTPPort: Int32
+
+        public init(originReadTimeout: Int32? = nil, hTTPSPort: Int32, originProtocolPolicy: OriginProtocolPolicy, originKeepaliveTimeout: Int32? = nil, originSslProtocols: OriginSslProtocols? = nil, hTTPPort: Int32) {
+            self.originReadTimeout = originReadTimeout
+            self.hTTPSPort = hTTPSPort
+            self.originProtocolPolicy = originProtocolPolicy
+            self.originKeepaliveTimeout = originKeepaliveTimeout
+            self.originSslProtocols = originSslProtocols
+            self.hTTPPort = hTTPPort
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case originReadTimeout = "OriginReadTimeout"
+            case hTTPSPort = "HTTPSPort"
+            case originProtocolPolicy = "OriginProtocolPolicy"
+            case originKeepaliveTimeout = "OriginKeepaliveTimeout"
+            case originSslProtocols = "OriginSslProtocols"
+            case hTTPPort = "HTTPPort"
+        }
+    }
+
+    public struct PublicKeyConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EncodedKey", required: true, type: .string), 
+            AWSShapeMember(label: "CallerReference", required: true, type: .string), 
+            AWSShapeMember(label: "Comment", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// The encoded public key that you want to add to CloudFront to use with features like field-level encryption.
+        public let encodedKey: String
+        /// A unique number that ensures that the request can't be replayed.
+        public let callerReference: String
+        /// An optional comment about a public key.
+        public let comment: String?
+        /// The name for a public key you add to CloudFront to use with features like field-level encryption.
+        public let name: String
+
+        public init(encodedKey: String, callerReference: String, comment: String? = nil, name: String) {
+            self.encodedKey = encodedKey
+            self.callerReference = callerReference
+            self.comment = comment
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encodedKey = "EncodedKey"
+            case callerReference = "CallerReference"
+            case comment = "Comment"
+            case name = "Name"
+        }
+    }
+
+    public struct TagKeyList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: false, type: .list)
+        ]
+        public let key: [String]?
+
+        public init(key: [String]? = nil) {
+            self.key = key
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+        }
+    }
+
+    public struct GetPublicKeyConfigResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "PublicKeyConfig"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
+            AWSShapeMember(label: "PublicKeyConfig", required: false, type: .structure)
+        ]
+        /// The current version of the public key configuration. For example: E2QWRUHAPOMQZL.
+        public let eTag: String?
+        /// Return the result for the public key configuration.
+        public let publicKeyConfig: PublicKeyConfig?
+
+        public init(eTag: String? = nil, publicKeyConfig: PublicKeyConfig? = nil) {
+            self.eTag = eTag
+            self.publicKeyConfig = publicKeyConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case publicKeyConfig = "PublicKeyConfig"
+        }
+    }
+
+    public struct GetFieldLevelEncryptionProfileConfigResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "FieldLevelEncryptionProfileConfig"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
+            AWSShapeMember(label: "FieldLevelEncryptionProfileConfig", required: false, type: .structure)
+        ]
+        /// The current version of the field-level encryption profile configuration result. For example: E2QWRUHAPOMQZL.
+        public let eTag: String?
+        /// Return the field-level encryption profile configuration information.
+        public let fieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig?
+
+        public init(eTag: String? = nil, fieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig? = nil) {
+            self.eTag = eTag
+            self.fieldLevelEncryptionProfileConfig = fieldLevelEncryptionProfileConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case fieldLevelEncryptionProfileConfig = "FieldLevelEncryptionProfileConfig"
+        }
+    }
+
+    public struct SignerList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Signer", required: false, type: .list)
+        ]
+        public let signer: [Signer]?
+
+        public init(signer: [Signer]? = nil) {
+            self.signer = signer
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case signer = "Signer"
+        }
+    }
+
+    public enum HttpVersion: String, CustomStringConvertible, Codable {
+        case http11 = "http1.1"
+        case http2 = "http2"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetStreamingDistributionConfigResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "StreamingDistributionConfig"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
+            AWSShapeMember(label: "StreamingDistributionConfig", required: false, type: .structure)
+        ]
+        /// The current version of the configuration. For example: E2QWRUHAPOMQZL. 
+        public let eTag: String?
+        /// The streaming distribution's configuration information.
+        public let streamingDistributionConfig: StreamingDistributionConfig?
+
+        public init(eTag: String? = nil, streamingDistributionConfig: StreamingDistributionConfig? = nil) {
+            self.eTag = eTag
+            self.streamingDistributionConfig = streamingDistributionConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case streamingDistributionConfig = "StreamingDistributionConfig"
+        }
+    }
+
+    public struct OriginSslProtocols: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: true, type: .structure), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer)
+        ]
+        /// A list that contains allowed SSL/TLS protocols for this distribution.
+        public let items: SslProtocolsList
+        /// The number of SSL/TLS protocols that you want to allow CloudFront to use when establishing an HTTPS connection with this origin. 
+        public let quantity: Int32
+
+        public init(items: SslProtocolsList, quantity: Int32) {
+            self.items = items
+            self.quantity = quantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case quantity = "Quantity"
+        }
+    }
+
+    public struct InvalidationSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "CreateTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: true, type: .string)
+        ]
+        /// The unique ID for an invalidation request.
+        public let id: String
+        /// The time that an invalidation request was created.
+        public let createTime: TimeStamp
+        /// The status of an invalidation request.
+        public let status: String
+
+        public init(id: String, createTime: TimeStamp, status: String) {
+            self.id = id
+            self.createTime = createTime
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case createTime = "CreateTime"
+            case status = "Status"
+        }
+    }
+
+    public struct PublicKeySummaryList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PublicKeySummary", required: false, type: .list)
+        ]
+        public let publicKeySummary: [PublicKeySummary]?
+
+        public init(publicKeySummary: [PublicKeySummary]? = nil) {
+            self.publicKeySummary = publicKeySummary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case publicKeySummary = "PublicKeySummary"
+        }
+    }
+
+    public struct CreatePublicKeyResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "PublicKey"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
+            AWSShapeMember(label: "PublicKey", required: false, type: .structure), 
+            AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: false, type: .string)
+        ]
+        /// The current version of the public key. For example: E2QWRUHAPOMQZL.
+        public let eTag: String?
+        /// Returned when you add a public key.
+        public let publicKey: PublicKey?
+        /// The fully qualified URI of the new public key resource just created. For example: https://cloudfront.amazonaws.com/2010-11-01/cloudfront-public-key/EDFDVBD632BHDS5.
+        public let location: String?
+
+        public init(eTag: String? = nil, publicKey: PublicKey? = nil, location: String? = nil) {
+            self.eTag = eTag
+            self.publicKey = publicKey
+            self.location = location
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case publicKey = "PublicKey"
+            case location = "Location"
+        }
+    }
+
+    public enum ViewerProtocolPolicy: String, CustomStringConvertible, Codable {
+        case allowAll = "allow-all"
+        case httpsOnly = "https-only"
+        case redirectToHttps = "redirect-to-https"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UpdateStreamingDistributionResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "StreamingDistribution"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
+            AWSShapeMember(label: "StreamingDistribution", required: false, type: .structure)
+        ]
+        /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
+        public let eTag: String?
+        /// The streaming distribution's information.
+        public let streamingDistribution: StreamingDistribution?
+
+        public init(eTag: String? = nil, streamingDistribution: StreamingDistribution? = nil) {
+            self.eTag = eTag
+            self.streamingDistribution = streamingDistribution
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case streamingDistribution = "StreamingDistribution"
+        }
+    }
+
+    public struct CloudFrontOriginAccessIdentitySummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Comment", required: true, type: .string), 
+            AWSShapeMember(label: "S3CanonicalUserId", required: true, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
+        ]
+        /// The comment for this origin access identity, as originally specified when created.
+        public let comment: String
+        /// The Amazon S3 canonical user ID for the origin access identity, which you use when giving the origin access identity read permission to an object in Amazon S3.
+        public let s3CanonicalUserId: String
+        /// The ID for the origin access identity. For example: E74FTE3AJFJ256A.
+        public let id: String
+
+        public init(comment: String, s3CanonicalUserId: String, id: String) {
+            self.comment = comment
+            self.s3CanonicalUserId = s3CanonicalUserId
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comment = "Comment"
+            case s3CanonicalUserId = "S3CanonicalUserId"
+            case id = "Id"
+        }
+    }
+
+    public struct FieldLevelEncryptionProfileConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EncryptionEntities", required: true, type: .structure), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Comment", required: false, type: .string), 
+            AWSShapeMember(label: "CallerReference", required: true, type: .string)
+        ]
+        /// A complex data type of encryption entities for the field-level encryption profile that include the public key ID, provider, and field patterns for specifying which fields to encrypt with this key.
+        public let encryptionEntities: EncryptionEntities
+        /// Profile name for the field-level encryption profile.
+        public let name: String
+        /// An optional comment for the field-level encryption profile.
+        public let comment: String?
+        /// A unique number that ensures that the request can't be replayed.
+        public let callerReference: String
+
+        public init(encryptionEntities: EncryptionEntities, name: String, comment: String? = nil, callerReference: String) {
+            self.encryptionEntities = encryptionEntities
+            self.name = name
+            self.comment = comment
+            self.callerReference = callerReference
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionEntities = "EncryptionEntities"
+            case name = "Name"
+            case comment = "Comment"
+            case callerReference = "CallerReference"
+        }
     }
 
     public struct GetDistributionResult: AWSShape {
@@ -4527,232 +3820,939 @@ extension CloudFront {
         }
     }
 
-    public struct CreateCloudFrontOriginAccessIdentityResult: AWSShape {
+    public struct DeleteFieldLevelEncryptionProfileRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
+            AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string)
+        ]
+        /// Request the ID of the profile you want to delete from CloudFront.
+        public let id: String
+        /// The value of the ETag header that you received when retrieving the profile to delete. For example: E2QWRUHAPOMQZL.
+        public let ifMatch: String?
+
+        public init(id: String, ifMatch: String? = nil) {
+            self.id = id
+            self.ifMatch = ifMatch
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case ifMatch = "If-Match"
+        }
+    }
+
+    public struct GetStreamingDistributionResult: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "CloudFrontOriginAccessIdentity"
+        public static let payloadPath: String? = "StreamingDistribution"
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: false, type: .string), 
-            AWSShapeMember(label: "CloudFrontOriginAccessIdentity", required: false, type: .structure)
+            AWSShapeMember(label: "StreamingDistribution", required: false, type: .structure)
         ]
-        /// The current version of the origin access identity created.
+        /// The current version of the streaming distribution's information. For example: E2QWRUHAPOMQZL.
         public let eTag: String?
-        /// The fully qualified URI of the new origin access identity just created. For example: https://cloudfront.amazonaws.com/2010-11-01/origin-access-identity/cloudfront/E74FTE3AJFJ256A.
-        public let location: String?
-        /// The origin access identity's information.
-        public let cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity?
+        /// The streaming distribution's information.
+        public let streamingDistribution: StreamingDistribution?
 
-        public init(eTag: String? = nil, location: String? = nil, cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity? = nil) {
+        public init(eTag: String? = nil, streamingDistribution: StreamingDistribution? = nil) {
             self.eTag = eTag
-            self.location = location
-            self.cloudFrontOriginAccessIdentity = cloudFrontOriginAccessIdentity
+            self.streamingDistribution = streamingDistribution
         }
 
         private enum CodingKeys: String, CodingKey {
             case eTag = "ETag"
-            case location = "Location"
-            case cloudFrontOriginAccessIdentity = "CloudFrontOriginAccessIdentity"
+            case streamingDistribution = "StreamingDistribution"
         }
     }
 
-    public enum OriginProtocolPolicy: String, CustomStringConvertible, Codable {
-        case httpOnly = "http-only"
-        case matchViewer = "match-viewer"
-        case httpsOnly = "https-only"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetInvalidationResult: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "Invalidation"
+    public struct DeleteDistributionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Invalidation", required: false, type: .structure)
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
+            AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string)
         ]
-        /// The invalidation's information. For more information, see Invalidation Complex Type. 
-        public let invalidation: Invalidation?
+        /// The distribution ID. 
+        public let id: String
+        /// The value of the ETag header that you received when you disabled the distribution. For example: E2QWRUHAPOMQZL. 
+        public let ifMatch: String?
 
-        public init(invalidation: Invalidation? = nil) {
-            self.invalidation = invalidation
+        public init(id: String, ifMatch: String? = nil) {
+            self.id = id
+            self.ifMatch = ifMatch
         }
 
         private enum CodingKeys: String, CodingKey {
-            case invalidation = "Invalidation"
+            case id = "Id"
+            case ifMatch = "If-Match"
+        }
+    }
+
+    public struct AliasList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CNAME", required: false, type: .list)
+        ]
+        public let cname: [String]?
+
+        public init(cname: [String]? = nil) {
+            self.cname = cname
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cname = "CNAME"
+        }
+    }
+
+    public struct CreateDistributionRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "DistributionConfig"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DistributionConfig", location: .body(locationName: "DistributionConfig"), required: true, type: .structure)
+        ]
+        /// The distribution's configuration information.
+        public let distributionConfig: DistributionConfig
+
+        public init(distributionConfig: DistributionConfig) {
+            self.distributionConfig = distributionConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case distributionConfig = "DistributionConfig"
+        }
+    }
+
+    public struct DistributionList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer), 
+            AWSShapeMember(label: "MaxItems", required: true, type: .integer), 
+            AWSShapeMember(label: "Marker", required: true, type: .string), 
+            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
+            AWSShapeMember(label: "IsTruncated", required: true, type: .boolean)
+        ]
+        /// A complex type that contains one DistributionSummary element for each distribution that was created by the current AWS account.
+        public let items: DistributionSummaryList?
+        /// The number of distributions that were created by the current AWS account. 
+        public let quantity: Int32
+        /// The value you provided for the MaxItems request parameter.
+        public let maxItems: Int32
+        /// The value you provided for the Marker request parameter.
+        public let marker: String
+        /// If IsTruncated is true, this element is present and contains the value you can use for the Marker request parameter to continue listing your distributions where they left off. 
+        public let nextMarker: String?
+        /// A flag that indicates whether more distributions remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more distributions in the list.
+        public let isTruncated: Bool
+
+        public init(items: DistributionSummaryList? = nil, quantity: Int32, maxItems: Int32, marker: String, nextMarker: String? = nil, isTruncated: Bool) {
+            self.items = items
+            self.quantity = quantity
+            self.maxItems = maxItems
+            self.marker = marker
+            self.nextMarker = nextMarker
+            self.isTruncated = isTruncated
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case quantity = "Quantity"
+            case maxItems = "MaxItems"
+            case marker = "Marker"
+            case nextMarker = "NextMarker"
+            case isTruncated = "IsTruncated"
+        }
+    }
+
+    public struct EncryptionEntity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProviderId", required: true, type: .string), 
+            AWSShapeMember(label: "PublicKeyId", required: true, type: .string), 
+            AWSShapeMember(label: "FieldPatterns", required: true, type: .structure)
+        ]
+        /// The provider associated with the public key being used for encryption. This value must also be provided with the private key for applications to be able to decrypt data.
+        public let providerId: String
+        /// The public key associated with a set of field-level encryption patterns, to be used when encrypting the fields that match the patterns. 
+        public let publicKeyId: String
+        /// Field patterns in a field-level encryption content type profile specify the fields that you want to be encrypted. You can provide the full field name, or any beginning characters followed by a wildcard (*). You can't overlap field patterns. For example, you can't have both ABC* and AB*. Note that field patterns are case-sensitive. 
+        public let fieldPatterns: FieldPatterns
+
+        public init(providerId: String, publicKeyId: String, fieldPatterns: FieldPatterns) {
+            self.providerId = providerId
+            self.publicKeyId = publicKeyId
+            self.fieldPatterns = fieldPatterns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case providerId = "ProviderId"
+            case publicKeyId = "PublicKeyId"
+            case fieldPatterns = "FieldPatterns"
+        }
+    }
+
+    public struct StreamingDistributionList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Quantity", required: true, type: .integer), 
+            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
+            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "MaxItems", required: true, type: .integer), 
+            AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
+            AWSShapeMember(label: "Marker", required: true, type: .string)
+        ]
+        /// The number of streaming distributions that were created by the current AWS account. 
+        public let quantity: Int32
+        /// If IsTruncated is true, this element is present and contains the value you can use for the Marker request parameter to continue listing your RTMP distributions where they left off. 
+        public let nextMarker: String?
+        /// A complex type that contains one StreamingDistributionSummary element for each distribution that was created by the current AWS account.
+        public let items: StreamingDistributionSummaryList?
+        /// The value you provided for the MaxItems request parameter. 
+        public let maxItems: Int32
+        /// A flag that indicates whether more streaming distributions remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more distributions in the list. 
+        public let isTruncated: Bool
+        /// The value you provided for the Marker request parameter. 
+        public let marker: String
+
+        public init(quantity: Int32, nextMarker: String? = nil, items: StreamingDistributionSummaryList? = nil, maxItems: Int32, isTruncated: Bool, marker: String) {
+            self.quantity = quantity
+            self.nextMarker = nextMarker
+            self.items = items
+            self.maxItems = maxItems
+            self.isTruncated = isTruncated
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case quantity = "Quantity"
+            case nextMarker = "NextMarker"
+            case items = "Items"
+            case maxItems = "MaxItems"
+            case isTruncated = "IsTruncated"
+            case marker = "Marker"
+        }
+    }
+
+    public struct ActiveTrustedSigners: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
+            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer)
+        ]
+        /// Enabled is true if any of the AWS accounts listed in the TrustedSigners complex type for this RTMP distribution have active CloudFront key pairs. If not, Enabled is false. For more information, see ActiveTrustedSigners.
+        public let enabled: Bool
+        /// A complex type that contains one Signer complex type for each trusted signer that is specified in the TrustedSigners complex type. For more information, see ActiveTrustedSigners. 
+        public let items: SignerList?
+        /// A complex type that contains one Signer complex type for each trusted signer specified in the TrustedSigners complex type. For more information, see ActiveTrustedSigners.
+        public let quantity: Int32
+
+        public init(enabled: Bool, items: SignerList? = nil, quantity: Int32) {
+            self.enabled = enabled
+            self.items = items
+            self.quantity = quantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case items = "Items"
+            case quantity = "Quantity"
+        }
+    }
+
+    public struct GetCloudFrontOriginAccessIdentityRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        ]
+        /// The identity's ID.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
+    }
+
+    public struct KeyPairIds: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Quantity", required: true, type: .integer), 
+            AWSShapeMember(label: "Items", required: false, type: .structure)
+        ]
+        /// The number of active CloudFront key pairs for AwsAccountNumber. For more information, see ActiveTrustedSigners.
+        public let quantity: Int32
+        /// A complex type that lists the active CloudFront key pairs, if any, that are associated with AwsAccountNumber. For more information, see ActiveTrustedSigners.
+        public let items: KeyPairIdList?
+
+        public init(quantity: Int32, items: KeyPairIdList? = nil) {
+            self.quantity = quantity
+            self.items = items
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case quantity = "Quantity"
+            case items = "Items"
+        }
+    }
+
+    public struct OriginList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Origin", required: false, type: .list)
+        ]
+        public let origin: [Origin]?
+
+        public init(origin: [Origin]? = nil) {
+            self.origin = origin
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case origin = "Origin"
         }
     }
 
     public struct ContentTypeProfile: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ProfileId", required: false, type: .string), 
-            AWSShapeMember(label: "Format", required: true, type: .enum), 
-            AWSShapeMember(label: "ContentType", required: true, type: .string)
+            AWSShapeMember(label: "ContentType", required: true, type: .string), 
+            AWSShapeMember(label: "Format", required: true, type: .enum)
         ]
         /// The profile ID for a field-level encryption content type-profile mapping. 
         public let profileId: String?
-        /// The format for a field-level encryption content type-profile mapping. 
-        public let format: Format
         /// The content type for a field-level encryption content type-profile mapping. 
         public let contentType: String
+        /// The format for a field-level encryption content type-profile mapping. 
+        public let format: Format
 
-        public init(profileId: String? = nil, format: Format, contentType: String) {
+        public init(profileId: String? = nil, contentType: String, format: Format) {
             self.profileId = profileId
-            self.format = format
             self.contentType = contentType
+            self.format = format
         }
 
         private enum CodingKeys: String, CodingKey {
             case profileId = "ProfileId"
-            case format = "Format"
             case contentType = "ContentType"
+            case format = "Format"
         }
     }
 
-    public struct ForwardedValues: AWSShape {
+    public struct DistributionConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "QueryString", required: true, type: .boolean), 
-            AWSShapeMember(label: "Headers", required: false, type: .structure), 
-            AWSShapeMember(label: "QueryStringCacheKeys", required: false, type: .structure), 
-            AWSShapeMember(label: "Cookies", required: true, type: .structure)
+            AWSShapeMember(label: "WebACLId", required: false, type: .string), 
+            AWSShapeMember(label: "OriginGroups", required: false, type: .structure), 
+            AWSShapeMember(label: "CacheBehaviors", required: false, type: .structure), 
+            AWSShapeMember(label: "CustomErrorResponses", required: false, type: .structure), 
+            AWSShapeMember(label: "IsIPV6Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "CallerReference", required: true, type: .string), 
+            AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
+            AWSShapeMember(label: "Aliases", required: false, type: .structure), 
+            AWSShapeMember(label: "DefaultCacheBehavior", required: true, type: .structure), 
+            AWSShapeMember(label: "Logging", required: false, type: .structure), 
+            AWSShapeMember(label: "Comment", required: true, type: .string), 
+            AWSShapeMember(label: "Origins", required: true, type: .structure), 
+            AWSShapeMember(label: "HttpVersion", required: false, type: .enum), 
+            AWSShapeMember(label: "DefaultRootObject", required: false, type: .string), 
+            AWSShapeMember(label: "ViewerCertificate", required: false, type: .structure), 
+            AWSShapeMember(label: "PriceClass", required: false, type: .enum), 
+            AWSShapeMember(label: "Restrictions", required: false, type: .structure)
         ]
-        /// Indicates whether you want CloudFront to forward query strings to the origin that is associated with this cache behavior and cache based on the query string parameters. CloudFront behavior depends on the value of QueryString and on the values that you specify for QueryStringCacheKeys, if any: If you specify true for QueryString and you don't specify any values for QueryStringCacheKeys, CloudFront forwards all query string parameters to the origin and caches based on all query string parameters. Depending on how many query string parameters and values you have, this can adversely affect performance because CloudFront must forward more requests to the origin. If you specify true for QueryString and you specify one or more values for QueryStringCacheKeys, CloudFront forwards all query string parameters to the origin, but it only caches based on the query string parameters that you specify. If you specify false for QueryString, CloudFront doesn't forward any query string parameters to the origin, and doesn't cache based on query string parameters. For more information, see Configuring CloudFront to Cache Based on Query String Parameters in the Amazon CloudFront Developer Guide.
-        public let queryString: Bool
-        /// A complex type that specifies the Headers, if any, that you want CloudFront to base caching on for this cache behavior. 
-        public let headers: Headers?
-        /// A complex type that contains information about the query string parameters that you want CloudFront to use for caching for this cache behavior.
-        public let queryStringCacheKeys: QueryStringCacheKeys?
-        /// A complex type that specifies whether you want CloudFront to forward cookies to the origin and, if so, which ones. For more information about forwarding cookies to the origin, see How CloudFront Forwards, Caches, and Logs Cookies in the Amazon CloudFront Developer Guide.
-        public let cookies: CookiePreference
+        /// A unique identifier that specifies the AWS WAF web ACL, if any, to associate with this distribution. AWS WAF is a web application firewall that lets you monitor the HTTP and HTTPS requests that are forwarded to CloudFront, and lets you control access to your content. Based on conditions that you specify, such as the IP addresses that requests originate from or the values of query strings, CloudFront responds to requests either with the requested content or with an HTTP 403 status code (Forbidden). You can also configure CloudFront to return a custom error page when a request is blocked. For more information about AWS WAF, see the AWS WAF Developer Guide. 
+        public let webACLId: String?
+        ///  A complex type that contains information about origin groups for this distribution.
+        public let originGroups: OriginGroups?
+        /// A complex type that contains zero or more CacheBehavior elements. 
+        public let cacheBehaviors: CacheBehaviors?
+        /// A complex type that controls the following:   Whether CloudFront replaces HTTP status codes in the 4xx and 5xx range with custom error messages before returning the response to the viewer.   How long CloudFront caches HTTP status codes in the 4xx and 5xx range.   For more information about custom error pages, see Customizing Error Responses in the Amazon CloudFront Developer Guide.
+        public let customErrorResponses: CustomErrorResponses?
+        /// If you want CloudFront to respond to IPv6 DNS requests with an IPv6 address for your distribution, specify true. If you specify false, CloudFront responds to IPv6 DNS requests with the DNS response code NOERROR and with no IP addresses. This allows viewers to submit a second request, for an IPv4 address for your distribution.  In general, you should enable IPv6 if you have users on IPv6 networks who want to access your content. However, if you're using signed URLs or signed cookies to restrict access to your content, and if you're using a custom policy that includes the IpAddress parameter to restrict the IP addresses that can access your content, don't enable IPv6. If you want to restrict access to some content by IP address and not restrict access to other content (or restrict access but not by IP address), you can create two distributions. For more information, see Creating a Signed URL Using a Custom Policy in the Amazon CloudFront Developer Guide. If you're using an Amazon Route 53 alias resource record set to route traffic to your CloudFront distribution, you need to create a second alias resource record set when both of the following are true:   You enable IPv6 for the distribution   You're using alternate domain names in the URLs for your objects   For more information, see Routing Traffic to an Amazon CloudFront Web Distribution by Using Your Domain Name in the Amazon Route 53 Developer Guide. If you created a CNAME resource record set, either with Amazon Route 53 or with another DNS service, you don't need to make any changes. A CNAME record will route traffic to your distribution regardless of the IP address format of the viewer request.
+        public let isIPV6Enabled: Bool?
+        /// A unique value (for example, a date-time stamp) that ensures that the request can't be replayed. If the value of CallerReference is new (regardless of the content of the DistributionConfig object), CloudFront creates a new distribution. If CallerReference is a value that you already sent in a previous request to create a distribution, CloudFront returns a DistributionAlreadyExists error.
+        public let callerReference: String
+        /// From this field, you can enable or disable the selected distribution.
+        public let enabled: Bool
+        /// A complex type that contains information about CNAMEs (alternate domain names), if any, for this distribution.
+        public let aliases: Aliases?
+        /// A complex type that describes the default cache behavior if you don't specify a CacheBehavior element or if files don't match any of the values of PathPattern in CacheBehavior elements. You must create exactly one default cache behavior.
+        public let defaultCacheBehavior: DefaultCacheBehavior
+        /// A complex type that controls whether access logs are written for the distribution. For more information about logging, see Access Logs in the Amazon CloudFront Developer Guide.
+        public let logging: LoggingConfig?
+        /// Any comments you want to include about the distribution. If you don't want to specify a comment, include an empty Comment element. To delete an existing comment, update the distribution configuration and include an empty Comment element. To add or change a comment, update the distribution configuration and specify the new comment.
+        public let comment: String
+        /// A complex type that contains information about origins for this distribution. 
+        public let origins: Origins
+        /// (Optional) Specify the maximum HTTP version that you want viewers to use to communicate with CloudFront. The default value for new web distributions is http2. Viewers that don't support HTTP/2 automatically use an earlier HTTP version. For viewers and CloudFront to use HTTP/2, viewers must support TLS 1.2 or later, and must support Server Name Identification (SNI). In general, configuring CloudFront to communicate with viewers using HTTP/2 reduces latency. You can improve performance by optimizing for HTTP/2. For more information, do an Internet search for "http/2 optimization." 
+        public let httpVersion: HttpVersion?
+        /// The object that you want CloudFront to request from your origin (for example, index.html) when a viewer requests the root URL for your distribution (http://www.example.com) instead of an object in your distribution (http://www.example.com/product-description.html). Specifying a default root object avoids exposing the contents of your distribution. Specify only the object name, for example, index.html. Don't add a / before the object name. If you don't want to specify a default root object when you create a distribution, include an empty DefaultRootObject element. To delete the default root object from an existing distribution, update the distribution configuration and include an empty DefaultRootObject element. To replace the default root object, update the distribution configuration and specify the new object. For more information about the default root object, see Creating a Default Root Object in the Amazon CloudFront Developer Guide.
+        public let defaultRootObject: String?
+        public let viewerCertificate: ViewerCertificate?
+        /// The price class that corresponds with the maximum price that you want to pay for CloudFront service. If you specify PriceClass_All, CloudFront responds to requests for your objects from all CloudFront edge locations. If you specify a price class other than PriceClass_All, CloudFront serves your objects from the CloudFront edge location that has the lowest latency among the edge locations in your price class. Viewers who are in or near regions that are excluded from your specified price class may encounter slower performance. For more information about price classes, see Choosing the Price Class for a CloudFront Distribution in the Amazon CloudFront Developer Guide. For information about CloudFront pricing, including how price classes (such as Price Class 100) map to CloudFront regions, see Amazon CloudFront Pricing. For price class information, scroll down to see the table at the bottom of the page.
+        public let priceClass: PriceClass?
+        public let restrictions: Restrictions?
 
-        public init(queryString: Bool, headers: Headers? = nil, queryStringCacheKeys: QueryStringCacheKeys? = nil, cookies: CookiePreference) {
-            self.queryString = queryString
-            self.headers = headers
-            self.queryStringCacheKeys = queryStringCacheKeys
-            self.cookies = cookies
+        public init(webACLId: String? = nil, originGroups: OriginGroups? = nil, cacheBehaviors: CacheBehaviors? = nil, customErrorResponses: CustomErrorResponses? = nil, isIPV6Enabled: Bool? = nil, callerReference: String, enabled: Bool, aliases: Aliases? = nil, defaultCacheBehavior: DefaultCacheBehavior, logging: LoggingConfig? = nil, comment: String, origins: Origins, httpVersion: HttpVersion? = nil, defaultRootObject: String? = nil, viewerCertificate: ViewerCertificate? = nil, priceClass: PriceClass? = nil, restrictions: Restrictions? = nil) {
+            self.webACLId = webACLId
+            self.originGroups = originGroups
+            self.cacheBehaviors = cacheBehaviors
+            self.customErrorResponses = customErrorResponses
+            self.isIPV6Enabled = isIPV6Enabled
+            self.callerReference = callerReference
+            self.enabled = enabled
+            self.aliases = aliases
+            self.defaultCacheBehavior = defaultCacheBehavior
+            self.logging = logging
+            self.comment = comment
+            self.origins = origins
+            self.httpVersion = httpVersion
+            self.defaultRootObject = defaultRootObject
+            self.viewerCertificate = viewerCertificate
+            self.priceClass = priceClass
+            self.restrictions = restrictions
         }
 
         private enum CodingKeys: String, CodingKey {
-            case queryString = "QueryString"
-            case headers = "Headers"
-            case queryStringCacheKeys = "QueryStringCacheKeys"
-            case cookies = "Cookies"
+            case webACLId = "WebACLId"
+            case originGroups = "OriginGroups"
+            case cacheBehaviors = "CacheBehaviors"
+            case customErrorResponses = "CustomErrorResponses"
+            case isIPV6Enabled = "IsIPV6Enabled"
+            case callerReference = "CallerReference"
+            case enabled = "Enabled"
+            case aliases = "Aliases"
+            case defaultCacheBehavior = "DefaultCacheBehavior"
+            case logging = "Logging"
+            case comment = "Comment"
+            case origins = "Origins"
+            case httpVersion = "HttpVersion"
+            case defaultRootObject = "DefaultRootObject"
+            case viewerCertificate = "ViewerCertificate"
+            case priceClass = "PriceClass"
+            case restrictions = "Restrictions"
         }
     }
 
-    public struct Signer: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KeyPairIds", required: false, type: .structure), 
-            AWSShapeMember(label: "AwsAccountNumber", required: false, type: .string)
-        ]
-        /// A complex type that lists the active CloudFront key pairs, if any, that are associated with AwsAccountNumber.
-        public let keyPairIds: KeyPairIds?
-        /// An AWS account that is included in the TrustedSigners complex type for this RTMP distribution. Valid values include:    self, which is the AWS account used to create the distribution.   An AWS account number.  
-        public let awsAccountNumber: String?
-
-        public init(keyPairIds: KeyPairIds? = nil, awsAccountNumber: String? = nil) {
-            self.keyPairIds = keyPairIds
-            self.awsAccountNumber = awsAccountNumber
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case keyPairIds = "KeyPairIds"
-            case awsAccountNumber = "AwsAccountNumber"
-        }
-    }
-
-    public struct GetCloudFrontOriginAccessIdentityConfigResult: AWSShape {
+    public struct UpdateFieldLevelEncryptionProfileRequest: AWSShape {
         /// The key for the payload
-        public static let payloadPath: String? = "CloudFrontOriginAccessIdentityConfig"
+        public static let payloadPath: String? = "FieldLevelEncryptionProfileConfig"
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeMember(label: "CloudFrontOriginAccessIdentityConfig", required: false, type: .structure)
-        ]
-        /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
-        public let eTag: String?
-        /// The origin access identity's configuration information. 
-        public let cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig?
-
-        public init(eTag: String? = nil, cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig? = nil) {
-            self.eTag = eTag
-            self.cloudFrontOriginAccessIdentityConfig = cloudFrontOriginAccessIdentityConfig
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case cloudFrontOriginAccessIdentityConfig = "CloudFrontOriginAccessIdentityConfig"
-        }
-    }
-
-    public struct DistributionSummaryList: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DistributionSummary", required: false, type: .list)
-        ]
-        public let distributionSummary: [DistributionSummary]?
-
-        public init(distributionSummary: [DistributionSummary]? = nil) {
-            self.distributionSummary = distributionSummary
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case distributionSummary = "DistributionSummary"
-        }
-    }
-
-    public struct OriginSslProtocols: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Items", required: true, type: .structure), 
-            AWSShapeMember(label: "Quantity", required: true, type: .integer)
-        ]
-        /// A list that contains allowed SSL/TLS protocols for this distribution.
-        public let items: SslProtocolsList
-        /// The number of SSL/TLS protocols that you want to allow CloudFront to use when establishing an HTTPS connection with this origin. 
-        public let quantity: Int32
-
-        public init(items: SslProtocolsList, quantity: Int32) {
-            self.items = items
-            self.quantity = quantity
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case items = "Items"
-            case quantity = "Quantity"
-        }
-    }
-
-    public struct ListDistributionsByWebACLIdResult: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "DistributionList"
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DistributionList", required: false, type: .structure)
-        ]
-        /// The DistributionList type. 
-        public let distributionList: DistributionList?
-
-        public init(distributionList: DistributionList? = nil) {
-            self.distributionList = distributionList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case distributionList = "DistributionList"
-        }
-    }
-
-    public struct DeleteStreamingDistributionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FieldLevelEncryptionProfileConfig", location: .body(locationName: "FieldLevelEncryptionProfileConfig"), required: true, type: .structure), 
             AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
-        /// The value of the ETag header that you received when you disabled the streaming distribution. For example: E2QWRUHAPOMQZL.
+        /// Request to update a field-level encryption profile. 
+        public let fieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig
+        /// The value of the ETag header that you received when retrieving the profile identity to update. For example: E2QWRUHAPOMQZL.
         public let ifMatch: String?
-        /// The distribution ID. 
+        /// The ID of the field-level encryption profile request. 
         public let id: String
 
-        public init(ifMatch: String? = nil, id: String) {
+        public init(fieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig, ifMatch: String? = nil, id: String) {
+            self.fieldLevelEncryptionProfileConfig = fieldLevelEncryptionProfileConfig
             self.ifMatch = ifMatch
             self.id = id
         }
 
         private enum CodingKeys: String, CodingKey {
+            case fieldLevelEncryptionProfileConfig = "FieldLevelEncryptionProfileConfig"
             case ifMatch = "If-Match"
             case id = "Id"
+        }
+    }
+
+    public struct CreateInvalidationRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "InvalidationBatch"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InvalidationBatch", location: .body(locationName: "InvalidationBatch"), required: true, type: .structure), 
+            AWSShapeMember(label: "DistributionId", location: .uri(locationName: "DistributionId"), required: true, type: .string)
+        ]
+        /// The batch information for the invalidation.
+        public let invalidationBatch: InvalidationBatch
+        /// The distribution's id.
+        public let distributionId: String
+
+        public init(invalidationBatch: InvalidationBatch, distributionId: String) {
+            self.invalidationBatch = invalidationBatch
+            self.distributionId = distributionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invalidationBatch = "InvalidationBatch"
+            case distributionId = "DistributionId"
+        }
+    }
+
+    public struct KeyPairIdList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeyPairId", required: false, type: .list)
+        ]
+        public let keyPairId: [String]?
+
+        public init(keyPairId: [String]? = nil) {
+            self.keyPairId = keyPairId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyPairId = "KeyPairId"
+        }
+    }
+
+    public struct GetDistributionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        ]
+        /// The distribution's ID.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
+    }
+
+    public struct CreateStreamingDistributionWithTagsResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "StreamingDistribution"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: false, type: .string), 
+            AWSShapeMember(label: "StreamingDistribution", required: false, type: .structure), 
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string)
+        ]
+        /// The fully qualified URI of the new streaming distribution resource just created. For example: https://cloudfront.amazonaws.com/2010-11-01/streaming-distribution/EGTXBD79H29TRA8.
+        public let location: String?
+        /// The streaming distribution's information. 
+        public let streamingDistribution: StreamingDistribution?
+        /// The current version of the distribution created.
+        public let eTag: String?
+
+        public init(location: String? = nil, streamingDistribution: StreamingDistribution? = nil, eTag: String? = nil) {
+            self.location = location
+            self.streamingDistribution = streamingDistribution
+            self.eTag = eTag
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case location = "Location"
+            case streamingDistribution = "StreamingDistribution"
+            case eTag = "ETag"
+        }
+    }
+
+    public struct HeaderList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .list)
+        ]
+        public let name: [String]?
+
+        public init(name: [String]? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct UpdatePublicKeyRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "PublicKeyConfig"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
+            AWSShapeMember(label: "PublicKeyConfig", location: .body(locationName: "PublicKeyConfig"), required: true, type: .structure), 
+            AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string)
+        ]
+        /// ID of the public key to be updated.
+        public let id: String
+        /// Request to update public key information.
+        public let publicKeyConfig: PublicKeyConfig
+        /// The value of the ETag header that you received when retrieving the public key to update. For example: E2QWRUHAPOMQZL.
+        public let ifMatch: String?
+
+        public init(id: String, publicKeyConfig: PublicKeyConfig, ifMatch: String? = nil) {
+            self.id = id
+            self.publicKeyConfig = publicKeyConfig
+            self.ifMatch = ifMatch
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case publicKeyConfig = "PublicKeyConfig"
+            case ifMatch = "If-Match"
+        }
+    }
+
+    public struct QueryStringCacheKeys: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Quantity", required: true, type: .integer), 
+            AWSShapeMember(label: "Items", required: false, type: .structure)
+        ]
+        /// The number of whitelisted query string parameters for this cache behavior.
+        public let quantity: Int32
+        /// (Optional) A list that contains the query string parameters that you want CloudFront to use as a basis for caching for this cache behavior. If Quantity is 0, you can omit Items. 
+        public let items: QueryStringCacheKeysList?
+
+        public init(quantity: Int32, items: QueryStringCacheKeysList? = nil) {
+            self.quantity = quantity
+            self.items = items
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case quantity = "Quantity"
+            case items = "Items"
+        }
+    }
+
+    public struct AllowedMethods: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: true, type: .structure), 
+            AWSShapeMember(label: "CachedMethods", required: false, type: .structure), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer)
+        ]
+        /// A complex type that contains the HTTP methods that you want CloudFront to process and forward to your origin.
+        public let items: MethodsList
+        public let cachedMethods: CachedMethods?
+        /// The number of HTTP methods that you want CloudFront to forward to your origin. Valid values are 2 (for GET and HEAD requests), 3 (for GET, HEAD, and OPTIONS requests) and 7 (for GET, HEAD, OPTIONS, PUT, PATCH, POST, and DELETE requests).
+        public let quantity: Int32
+
+        public init(items: MethodsList, cachedMethods: CachedMethods? = nil, quantity: Int32) {
+            self.items = items
+            self.cachedMethods = cachedMethods
+            self.quantity = quantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case cachedMethods = "CachedMethods"
+            case quantity = "Quantity"
+        }
+    }
+
+    public struct CacheBehavior: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DefaultTTL", required: false, type: .long), 
+            AWSShapeMember(label: "TargetOriginId", required: true, type: .string), 
+            AWSShapeMember(label: "LambdaFunctionAssociations", required: false, type: .structure), 
+            AWSShapeMember(label: "MinTTL", required: true, type: .long), 
+            AWSShapeMember(label: "TrustedSigners", required: true, type: .structure), 
+            AWSShapeMember(label: "AllowedMethods", required: false, type: .structure), 
+            AWSShapeMember(label: "ForwardedValues", required: true, type: .structure), 
+            AWSShapeMember(label: "MaxTTL", required: false, type: .long), 
+            AWSShapeMember(label: "SmoothStreaming", required: false, type: .boolean), 
+            AWSShapeMember(label: "PathPattern", required: true, type: .string), 
+            AWSShapeMember(label: "FieldLevelEncryptionId", required: false, type: .string), 
+            AWSShapeMember(label: "ViewerProtocolPolicy", required: true, type: .enum), 
+            AWSShapeMember(label: "Compress", required: false, type: .boolean)
+        ]
+        /// The default amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin does not add HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon CloudFront Developer Guide.
+        public let defaultTTL: Int64?
+        /// The value of ID for the origin that you want CloudFront to route requests to when a request matches the path pattern either for a cache behavior or for the default cache behavior in your distribution.
+        public let targetOriginId: String
+        /// A complex type that contains zero or more Lambda function associations for a cache behavior.
+        public let lambdaFunctionAssociations: LambdaFunctionAssociations?
+        /// The minimum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon Amazon CloudFront Developer Guide. You must specify 0 for MinTTL if you configure CloudFront to forward all headers to your origin (under Headers, if you specify 1 for Quantity and * for Name).
+        public let minTTL: Int64
+        /// A complex type that specifies the AWS accounts, if any, that you want to allow to create signed URLs for private content. If you want to require signed URLs in requests for objects in the target origin that match the PathPattern for this cache behavior, specify true for Enabled, and specify the applicable values for Quantity and Items. For more information, see Serving Private Content through CloudFront in the Amazon Amazon CloudFront Developer Guide. If you don't want to require signed URLs in requests for objects that match PathPattern, specify false for Enabled and 0 for Quantity. Omit Items. To add, change, or remove one or more trusted signers, change Enabled to true (if it's currently false), change Quantity as applicable, and specify all of the trusted signers that you want to include in the updated distribution.
+        public let trustedSigners: TrustedSigners
+        public let allowedMethods: AllowedMethods?
+        /// A complex type that specifies how CloudFront handles query strings and cookies.
+        public let forwardedValues: ForwardedValues
+        /// The maximum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin adds HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon CloudFront Developer Guide.
+        public let maxTTL: Int64?
+        /// Indicates whether you want to distribute media files in the Microsoft Smooth Streaming format using the origin that is associated with this cache behavior. If so, specify true; if not, specify false. If you specify true for SmoothStreaming, you can still distribute other content using this cache behavior if the content matches the value of PathPattern. 
+        public let smoothStreaming: Bool?
+        /// The pattern (for example, images/*.jpg) that specifies which requests to apply the behavior to. When CloudFront receives a viewer request, the requested path is compared with path patterns in the order in which cache behaviors are listed in the distribution.  You can optionally include a slash (/) at the beginning of the path pattern. For example, /images/*.jpg. CloudFront behavior is the same with or without the leading /.  The path pattern for the default cache behavior is * and cannot be changed. If the request for an object does not match the path pattern for any cache behaviors, CloudFront applies the behavior in the default cache behavior. For more information, see Path Pattern in the  Amazon CloudFront Developer Guide.
+        public let pathPattern: String
+        /// The value of ID for the field-level encryption configuration that you want CloudFront to use for encrypting specific fields of data for a cache behavior or for the default cache behavior in your distribution.
+        public let fieldLevelEncryptionId: String?
+        /// The protocol that viewers can use to access the files in the origin specified by TargetOriginId when a request matches the path pattern in PathPattern. You can specify the following options:    allow-all: Viewers can use HTTP or HTTPS.    redirect-to-https: If a viewer submits an HTTP request, CloudFront returns an HTTP status code of 301 (Moved Permanently) to the viewer along with the HTTPS URL. The viewer then resubmits the request using the new URL.     https-only: If a viewer sends an HTTP request, CloudFront returns an HTTP status code of 403 (Forbidden).    For more information about requiring the HTTPS protocol, see Using an HTTPS Connection to Access Your Objects in the Amazon CloudFront Developer Guide.  The only way to guarantee that viewers retrieve an object that was fetched from the origin using HTTPS is never to use any other protocol to fetch the object. If you have recently changed from HTTP to HTTPS, we recommend that you clear your objects' cache because cached objects are protocol agnostic. That means that an edge location will return an object from the cache regardless of whether the current request protocol matches the protocol used previously. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon CloudFront Developer Guide. 
+        public let viewerProtocolPolicy: ViewerProtocolPolicy
+        /// Whether you want CloudFront to automatically compress certain files for this cache behavior. If so, specify true; if not, specify false. For more information, see Serving Compressed Files in the Amazon CloudFront Developer Guide.
+        public let compress: Bool?
+
+        public init(defaultTTL: Int64? = nil, targetOriginId: String, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, minTTL: Int64, trustedSigners: TrustedSigners, allowedMethods: AllowedMethods? = nil, forwardedValues: ForwardedValues, maxTTL: Int64? = nil, smoothStreaming: Bool? = nil, pathPattern: String, fieldLevelEncryptionId: String? = nil, viewerProtocolPolicy: ViewerProtocolPolicy, compress: Bool? = nil) {
+            self.defaultTTL = defaultTTL
+            self.targetOriginId = targetOriginId
+            self.lambdaFunctionAssociations = lambdaFunctionAssociations
+            self.minTTL = minTTL
+            self.trustedSigners = trustedSigners
+            self.allowedMethods = allowedMethods
+            self.forwardedValues = forwardedValues
+            self.maxTTL = maxTTL
+            self.smoothStreaming = smoothStreaming
+            self.pathPattern = pathPattern
+            self.fieldLevelEncryptionId = fieldLevelEncryptionId
+            self.viewerProtocolPolicy = viewerProtocolPolicy
+            self.compress = compress
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultTTL = "DefaultTTL"
+            case targetOriginId = "TargetOriginId"
+            case lambdaFunctionAssociations = "LambdaFunctionAssociations"
+            case minTTL = "MinTTL"
+            case trustedSigners = "TrustedSigners"
+            case allowedMethods = "AllowedMethods"
+            case forwardedValues = "ForwardedValues"
+            case maxTTL = "MaxTTL"
+            case smoothStreaming = "SmoothStreaming"
+            case pathPattern = "PathPattern"
+            case fieldLevelEncryptionId = "FieldLevelEncryptionId"
+            case viewerProtocolPolicy = "ViewerProtocolPolicy"
+            case compress = "Compress"
+        }
+    }
+
+    public struct StreamingDistribution: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "ActiveTrustedSigners", required: true, type: .structure), 
+            AWSShapeMember(label: "Status", required: true, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "ARN", required: true, type: .string), 
+            AWSShapeMember(label: "StreamingDistributionConfig", required: true, type: .structure)
+        ]
+        /// The date and time that the distribution was last modified. 
+        public let lastModifiedTime: TimeStamp?
+        /// The domain name that corresponds to the streaming distribution, for example, s5c39gqb8ow64r.cloudfront.net. 
+        public let domainName: String
+        /// A complex type that lists the AWS accounts, if any, that you included in the TrustedSigners complex type for this distribution. These are the accounts that you want to allow to create signed URLs for private content. The Signer complex type lists the AWS account number of the trusted signer or self if the signer is the AWS account that created the distribution. The Signer element also includes the IDs of any active CloudFront key pairs that are associated with the trusted signer's AWS account. If no KeyPairId element appears for a Signer, that signer can't create signed URLs. For more information, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide. 
+        public let activeTrustedSigners: ActiveTrustedSigners
+        /// The current status of the RTMP distribution. When the status is Deployed, the distribution's information is propagated to all CloudFront edge locations.
+        public let status: String
+        /// The identifier for the RTMP distribution. For example: EGTXBD79EXAMPLE.
+        public let id: String
+        /// The ARN (Amazon Resource Name) for the distribution. For example: arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5, where 123456789012 is your AWS account ID.
+        public let arn: String
+        /// The current configuration information for the RTMP distribution.
+        public let streamingDistributionConfig: StreamingDistributionConfig
+
+        public init(lastModifiedTime: TimeStamp? = nil, domainName: String, activeTrustedSigners: ActiveTrustedSigners, status: String, id: String, arn: String, streamingDistributionConfig: StreamingDistributionConfig) {
+            self.lastModifiedTime = lastModifiedTime
+            self.domainName = domainName
+            self.activeTrustedSigners = activeTrustedSigners
+            self.status = status
+            self.id = id
+            self.arn = arn
+            self.streamingDistributionConfig = streamingDistributionConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastModifiedTime = "LastModifiedTime"
+            case domainName = "DomainName"
+            case activeTrustedSigners = "ActiveTrustedSigners"
+            case status = "Status"
+            case id = "Id"
+            case arn = "ARN"
+            case streamingDistributionConfig = "StreamingDistributionConfig"
+        }
+    }
+
+    public struct CreateDistributionWithTagsRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "DistributionConfigWithTags"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DistributionConfigWithTags", location: .body(locationName: "DistributionConfigWithTags"), required: true, type: .structure)
+        ]
+        /// The distribution's configuration information. 
+        public let distributionConfigWithTags: DistributionConfigWithTags
+
+        public init(distributionConfigWithTags: DistributionConfigWithTags) {
+            self.distributionConfigWithTags = distributionConfigWithTags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case distributionConfigWithTags = "DistributionConfigWithTags"
+        }
+    }
+
+    public struct FieldLevelEncryptionConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContentTypeProfileConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "QueryArgProfileConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "CallerReference", required: true, type: .string), 
+            AWSShapeMember(label: "Comment", required: false, type: .string)
+        ]
+        /// A complex data type that specifies when to forward content if a content type isn't recognized and profiles to use as by default in a request if a query argument doesn't specify a profile to use.
+        public let contentTypeProfileConfig: ContentTypeProfileConfig?
+        /// A complex data type that specifies when to forward content if a profile isn't found and the profile that can be provided as a query argument in a request.
+        public let queryArgProfileConfig: QueryArgProfileConfig?
+        /// A unique number that ensures the request can't be replayed.
+        public let callerReference: String
+        /// An optional comment about the configuration.
+        public let comment: String?
+
+        public init(contentTypeProfileConfig: ContentTypeProfileConfig? = nil, queryArgProfileConfig: QueryArgProfileConfig? = nil, callerReference: String, comment: String? = nil) {
+            self.contentTypeProfileConfig = contentTypeProfileConfig
+            self.queryArgProfileConfig = queryArgProfileConfig
+            self.callerReference = callerReference
+            self.comment = comment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentTypeProfileConfig = "ContentTypeProfileConfig"
+            case queryArgProfileConfig = "QueryArgProfileConfig"
+            case callerReference = "CallerReference"
+            case comment = "Comment"
+        }
+    }
+
+    public struct S3OriginConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OriginAccessIdentity", required: true, type: .string)
+        ]
+        /// The CloudFront origin access identity to associate with the origin. Use an origin access identity to configure the origin so that viewers can only access objects in an Amazon S3 bucket through CloudFront. The format of the value is: origin-access-identity/cloudfront/ID-of-origin-access-identity  where  ID-of-origin-access-identity  is the value that CloudFront returned in the ID element when you created the origin access identity. If you want viewers to be able to access objects using either the CloudFront URL or the Amazon S3 URL, specify an empty OriginAccessIdentity element. To delete the origin access identity from an existing distribution, update the distribution configuration and include an empty OriginAccessIdentity element. To replace the origin access identity, update the distribution configuration and specify the new origin access identity. For more information about the origin access identity, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide.
+        public let originAccessIdentity: String
+
+        public init(originAccessIdentity: String) {
+            self.originAccessIdentity = originAccessIdentity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case originAccessIdentity = "OriginAccessIdentity"
+        }
+    }
+
+    public struct CreateStreamingDistributionResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "StreamingDistribution"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: false, type: .string), 
+            AWSShapeMember(label: "StreamingDistribution", required: false, type: .structure), 
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string)
+        ]
+        /// The fully qualified URI of the new streaming distribution resource just created. For example: https://cloudfront.amazonaws.com/2010-11-01/streaming-distribution/EGTXBD79H29TRA8.
+        public let location: String?
+        /// The streaming distribution's information.
+        public let streamingDistribution: StreamingDistribution?
+        /// The current version of the streaming distribution created.
+        public let eTag: String?
+
+        public init(location: String? = nil, streamingDistribution: StreamingDistribution? = nil, eTag: String? = nil) {
+            self.location = location
+            self.streamingDistribution = streamingDistribution
+            self.eTag = eTag
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case location = "Location"
+            case streamingDistribution = "StreamingDistribution"
+            case eTag = "ETag"
+        }
+    }
+
+    public struct GetDistributionConfigRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        ]
+        /// The distribution's ID.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
+    }
+
+    public struct Origins: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Quantity", required: true, type: .integer), 
+            AWSShapeMember(label: "Items", required: true, type: .structure)
+        ]
+        /// The number of origins or origin groups for this distribution.
+        public let quantity: Int32
+        /// A complex type that contains origins or origin groups for this distribution.
+        public let items: OriginList
+
+        public init(quantity: Int32, items: OriginList) {
+            self.quantity = quantity
+            self.items = items
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case quantity = "Quantity"
+            case items = "Items"
+        }
+    }
+
+    public struct LambdaFunctionAssociationList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LambdaFunctionAssociation", required: false, type: .list)
+        ]
+        public let lambdaFunctionAssociation: [LambdaFunctionAssociation]?
+
+        public init(lambdaFunctionAssociation: [LambdaFunctionAssociation]? = nil) {
+            self.lambdaFunctionAssociation = lambdaFunctionAssociation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lambdaFunctionAssociation = "LambdaFunctionAssociation"
+        }
+    }
+
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+        ///  A string that contains Tag key. The string length should be between 1 and 128 characters. Valid characters include a-z, A-Z, 0-9, space, and the special characters _ - . : / = + @.
+        public let key: String
+        ///  A string that contains an optional Tag value. The string length should be between 0 and 256 characters. Valid characters include a-z, A-Z, 0-9, space, and the special characters _ - . : / = + @.
+        public let value: String?
+
+        public init(key: String, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct TagResourceRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "Tags"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", location: .body(locationName: "Tags"), required: true, type: .structure), 
+            AWSShapeMember(label: "Resource", location: .querystring(locationName: "Resource"), required: true, type: .string)
+        ]
+        ///  A complex type that contains zero or more Tag elements.
+        public let tags: Tags
+        ///  An ARN of a CloudFront resource.
+        public let resource: String
+
+        public init(tags: Tags, resource: String) {
+            self.tags = tags
+            self.resource = resource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+            case resource = "Resource"
+        }
+    }
+
+    public struct UpdateCloudFrontOriginAccessIdentityResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "CloudFrontOriginAccessIdentity"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CloudFrontOriginAccessIdentity", required: false, type: .structure), 
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string)
+        ]
+        /// The origin access identity's information.
+        public let cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity?
+        /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
+        public let eTag: String?
+
+        public init(cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity? = nil, eTag: String? = nil) {
+            self.cloudFrontOriginAccessIdentity = cloudFrontOriginAccessIdentity
+            self.eTag = eTag
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudFrontOriginAccessIdentity = "CloudFrontOriginAccessIdentity"
+            case eTag = "ETag"
         }
     }
 

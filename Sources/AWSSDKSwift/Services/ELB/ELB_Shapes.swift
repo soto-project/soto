@@ -5,143 +5,299 @@ import AWSSDKSwiftCore
 
 extension ELB {
 
-    public struct CreateLoadBalancerListenerInput: AWSShape {
+    public struct SourceSecurityGroup: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Listeners", required: true, type: .list), 
+            AWSShapeMember(label: "GroupName", required: false, type: .string), 
+            AWSShapeMember(label: "OwnerAlias", required: false, type: .integer)
+        ]
+        /// The name of the security group.
+        public let groupName: String?
+        /// The owner of the security group.
+        public let ownerAlias: Int32?
+
+        public init(groupName: String? = nil, ownerAlias: Int32? = nil) {
+            self.groupName = groupName
+            self.ownerAlias = ownerAlias
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupName = "GroupName"
+            case ownerAlias = "OwnerAlias"
+        }
+    }
+
+    public struct CrossZoneLoadBalancing: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Enabled", required: true, type: .boolean)
+        ]
+        /// Specifies whether cross-zone load balancing is enabled for the load balancer.
+        public let enabled: Bool
+
+        public init(enabled: Bool) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+        }
+    }
+
+    public struct SetLoadBalancerPoliciesForBackendServerInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyNames", required: true, type: .list), 
+            AWSShapeMember(label: "InstancePort", required: true, type: .integer), 
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
         ]
-        /// The listeners.
-        public let listeners: [Listener]
+        /// The names of the policies. If the list is empty, then all current polices are removed from the EC2 instance.
+        public let policyNames: [String]
+        /// The port number associated with the EC2 instance.
+        public let instancePort: Int32
         /// The name of the load balancer.
         public let loadBalancerName: String
 
-        public init(listeners: [Listener], loadBalancerName: String) {
-            self.listeners = listeners
+        public init(policyNames: [String], instancePort: Int32, loadBalancerName: String) {
+            self.policyNames = policyNames
+            self.instancePort = instancePort
             self.loadBalancerName = loadBalancerName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case listeners = "Listeners"
+            case policyNames = "PolicyNames"
+            case instancePort = "InstancePort"
             case loadBalancerName = "LoadBalancerName"
         }
     }
 
-    public struct CreateLoadBalancerPolicyOutput: AWSShape {
+    public struct ConnectionSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdleTimeout", required: true, type: .integer)
+        ]
+        /// The time, in seconds, that the connection is allowed to be idle (no data has been sent over the connection) before it is closed by the load balancer.
+        public let idleTimeout: Int32
+
+        public init(idleTimeout: Int32) {
+            self.idleTimeout = idleTimeout
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idleTimeout = "IdleTimeout"
+        }
+    }
+
+    public struct AddTagsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: true, type: .list), 
+            AWSShapeMember(label: "LoadBalancerNames", required: true, type: .list)
+        ]
+        /// The tags.
+        public let tags: [Tag]
+        /// The name of the load balancer. You can specify one load balancer only.
+        public let loadBalancerNames: [String]
+
+        public init(tags: [Tag], loadBalancerNames: [String]) {
+            self.tags = tags
+            self.loadBalancerNames = loadBalancerNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+            case loadBalancerNames = "LoadBalancerNames"
+        }
+    }
+
+    public struct DescribeLoadBalancerPolicyTypesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyTypeNames", required: false, type: .list)
+        ]
+        /// The names of the policy types. If no names are specified, describes all policy types defined by Elastic Load Balancing.
+        public let policyTypeNames: [String]?
+
+        public init(policyTypeNames: [String]? = nil) {
+            self.policyTypeNames = policyTypeNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyTypeNames = "PolicyTypeNames"
+        }
+    }
+
+    public struct CreateLBCookieStickinessPolicyOutput: AWSShape {
 
     }
 
-    public struct LoadBalancerDescription: AWSShape {
+    public struct DeregisterEndPointsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Subnets", required: false, type: .list), 
-            AWSShapeMember(label: "Scheme", required: false, type: .string), 
-            AWSShapeMember(label: "HealthCheck", required: false, type: .structure), 
-            AWSShapeMember(label: "LoadBalancerName", required: false, type: .string), 
-            AWSShapeMember(label: "Instances", required: false, type: .list), 
-            AWSShapeMember(label: "ListenerDescriptions", required: false, type: .list), 
-            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CanonicalHostedZoneNameID", required: false, type: .string), 
-            AWSShapeMember(label: "SourceSecurityGroup", required: false, type: .structure), 
-            AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
-            AWSShapeMember(label: "Policies", required: false, type: .structure), 
-            AWSShapeMember(label: "CanonicalHostedZoneName", required: false, type: .string), 
-            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
-            AWSShapeMember(label: "BackendServerDescriptions", required: false, type: .list), 
-            AWSShapeMember(label: "DNSName", required: false, type: .string), 
-            AWSShapeMember(label: "VPCId", required: false, type: .string)
+            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
+            AWSShapeMember(label: "Instances", required: true, type: .list)
         ]
-        /// The IDs of the subnets for the load balancer.
-        public let subnets: [String]?
-        /// The type of load balancer. Valid only for load balancers in a VPC. If Scheme is internet-facing, the load balancer has a public DNS name that resolves to a public IP address. If Scheme is internal, the load balancer has a public DNS name that resolves to a private IP address.
-        public let scheme: String?
-        /// Information about the health checks conducted on the load balancer.
-        public let healthCheck: HealthCheck?
         /// The name of the load balancer.
-        public let loadBalancerName: String?
-        /// The IDs of the instances for the load balancer.
-        public let instances: [Instance]?
-        /// The listeners for the load balancer.
-        public let listenerDescriptions: [ListenerDescription]?
-        /// The date and time the load balancer was created.
-        public let createdTime: TimeStamp?
-        /// The ID of the Amazon Route 53 hosted zone for the load balancer.
-        public let canonicalHostedZoneNameID: String?
-        /// The security group for the load balancer, which you can use as part of your inbound rules for your registered instances. To only allow traffic from load balancers, add a security group rule that specifies this source security group as the inbound source.
-        public let sourceSecurityGroup: SourceSecurityGroup?
-        /// The security groups for the load balancer. Valid only for load balancers in a VPC.
-        public let securityGroups: [String]?
-        /// The policies defined for the load balancer.
-        public let policies: Policies?
-        /// The DNS name of the load balancer. For more information, see Configure a Custom Domain Name in the Classic Load Balancers Guide.
-        public let canonicalHostedZoneName: String?
-        /// The Availability Zones for the load balancer.
-        public let availabilityZones: [String]?
-        /// Information about your EC2 instances.
-        public let backendServerDescriptions: [BackendServerDescription]?
-        /// The DNS name of the load balancer.
-        public let dNSName: String?
-        /// The ID of the VPC for the load balancer.
-        public let vPCId: String?
+        public let loadBalancerName: String
+        /// The IDs of the instances.
+        public let instances: [Instance]
 
-        public init(subnets: [String]? = nil, scheme: String? = nil, healthCheck: HealthCheck? = nil, loadBalancerName: String? = nil, instances: [Instance]? = nil, listenerDescriptions: [ListenerDescription]? = nil, createdTime: TimeStamp? = nil, canonicalHostedZoneNameID: String? = nil, sourceSecurityGroup: SourceSecurityGroup? = nil, securityGroups: [String]? = nil, policies: Policies? = nil, canonicalHostedZoneName: String? = nil, availabilityZones: [String]? = nil, backendServerDescriptions: [BackendServerDescription]? = nil, dNSName: String? = nil, vPCId: String? = nil) {
-            self.subnets = subnets
-            self.scheme = scheme
-            self.healthCheck = healthCheck
+        public init(loadBalancerName: String, instances: [Instance]) {
             self.loadBalancerName = loadBalancerName
             self.instances = instances
-            self.listenerDescriptions = listenerDescriptions
-            self.createdTime = createdTime
-            self.canonicalHostedZoneNameID = canonicalHostedZoneNameID
-            self.sourceSecurityGroup = sourceSecurityGroup
-            self.securityGroups = securityGroups
-            self.policies = policies
-            self.canonicalHostedZoneName = canonicalHostedZoneName
-            self.availabilityZones = availabilityZones
-            self.backendServerDescriptions = backendServerDescriptions
-            self.dNSName = dNSName
-            self.vPCId = vPCId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case subnets = "Subnets"
-            case scheme = "Scheme"
-            case healthCheck = "HealthCheck"
             case loadBalancerName = "LoadBalancerName"
             case instances = "Instances"
-            case listenerDescriptions = "ListenerDescriptions"
-            case createdTime = "CreatedTime"
-            case canonicalHostedZoneNameID = "CanonicalHostedZoneNameID"
-            case sourceSecurityGroup = "SourceSecurityGroup"
-            case securityGroups = "SecurityGroups"
-            case policies = "Policies"
-            case canonicalHostedZoneName = "CanonicalHostedZoneName"
-            case availabilityZones = "AvailabilityZones"
-            case backendServerDescriptions = "BackendServerDescriptions"
-            case dNSName = "DNSName"
-            case vPCId = "VPCId"
         }
     }
 
-    public struct DeleteLoadBalancerPolicyOutput: AWSShape {
-
-    }
-
-    public struct ModifyLoadBalancerAttributesInput: AWSShape {
+    public struct CreateLoadBalancerPolicyInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoadBalancerAttributes", required: true, type: .structure), 
+            AWSShapeMember(label: "PolicyName", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyAttributes", required: false, type: .list), 
+            AWSShapeMember(label: "PolicyTypeName", required: true, type: .string), 
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
         ]
-        /// The attributes for the load balancer.
-        public let loadBalancerAttributes: LoadBalancerAttributes
+        /// The name of the load balancer policy to be created. This name must be unique within the set of policies for this load balancer.
+        public let policyName: String
+        /// The policy attributes.
+        public let policyAttributes: [PolicyAttribute]?
+        /// The name of the base policy type. To get the list of policy types, use DescribeLoadBalancerPolicyTypes.
+        public let policyTypeName: String
         /// The name of the load balancer.
         public let loadBalancerName: String
 
-        public init(loadBalancerAttributes: LoadBalancerAttributes, loadBalancerName: String) {
-            self.loadBalancerAttributes = loadBalancerAttributes
+        public init(policyName: String, policyAttributes: [PolicyAttribute]? = nil, policyTypeName: String, loadBalancerName: String) {
+            self.policyName = policyName
+            self.policyAttributes = policyAttributes
+            self.policyTypeName = policyTypeName
             self.loadBalancerName = loadBalancerName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case loadBalancerAttributes = "LoadBalancerAttributes"
+            case policyName = "PolicyName"
+            case policyAttributes = "PolicyAttributes"
+            case policyTypeName = "PolicyTypeName"
+            case loadBalancerName = "LoadBalancerName"
+        }
+    }
+
+    public struct SetLoadBalancerListenerSSLCertificateInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SSLCertificateId", required: true, type: .string), 
+            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
+            AWSShapeMember(label: "LoadBalancerPort", required: true, type: .integer)
+        ]
+        /// The Amazon Resource Name (ARN) of the SSL certificate.
+        public let sSLCertificateId: String
+        /// The name of the load balancer.
+        public let loadBalancerName: String
+        /// The port that uses the specified SSL certificate.
+        public let loadBalancerPort: Int32
+
+        public init(sSLCertificateId: String, loadBalancerName: String, loadBalancerPort: Int32) {
+            self.sSLCertificateId = sSLCertificateId
+            self.loadBalancerName = loadBalancerName
+            self.loadBalancerPort = loadBalancerPort
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sSLCertificateId = "SSLCertificateId"
+            case loadBalancerName = "LoadBalancerName"
+            case loadBalancerPort = "LoadBalancerPort"
+        }
+    }
+
+    public struct DescribeEndPointStateInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
+            AWSShapeMember(label: "Instances", required: false, type: .list)
+        ]
+        /// The name of the load balancer.
+        public let loadBalancerName: String
+        /// The IDs of the instances.
+        public let instances: [Instance]?
+
+        public init(loadBalancerName: String, instances: [Instance]? = nil) {
+            self.loadBalancerName = loadBalancerName
+            self.instances = instances
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerName = "LoadBalancerName"
+            case instances = "Instances"
+        }
+    }
+
+    public struct DeregisterEndPointsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Instances", required: false, type: .list)
+        ]
+        /// The remaining instances registered with the load balancer.
+        public let instances: [Instance]?
+
+        public init(instances: [Instance]? = nil) {
+            self.instances = instances
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instances = "Instances"
+        }
+    }
+
+    public struct Listener: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Protocol", required: true, type: .string), 
+            AWSShapeMember(label: "LoadBalancerPort", required: true, type: .integer), 
+            AWSShapeMember(label: "SSLCertificateId", required: false, type: .string), 
+            AWSShapeMember(label: "InstancePort", required: true, type: .integer), 
+            AWSShapeMember(label: "InstanceProtocol", required: false, type: .string)
+        ]
+        /// The load balancer transport protocol to use for routing: HTTP, HTTPS, TCP, or SSL.
+        public let `protocol`: String
+        /// The port on which the load balancer is listening. On EC2-VPC, you can specify any port from the range 1-65535. On EC2-Classic, you can specify any port from the following list: 25, 80, 443, 465, 587, 1024-65535.
+        public let loadBalancerPort: Int32
+        /// The Amazon Resource Name (ARN) of the server certificate.
+        public let sSLCertificateId: String?
+        /// The port on which the instance is listening.
+        public let instancePort: Int32
+        /// The protocol to use for routing traffic to instances: HTTP, HTTPS, TCP, or SSL. If the front-end protocol is HTTP, HTTPS, TCP, or SSL, InstanceProtocol must be at the same protocol. If there is another listener with the same InstancePort whose InstanceProtocol is secure, (HTTPS or SSL), the listener's InstanceProtocol must also be secure. If there is another listener with the same InstancePort whose InstanceProtocol is HTTP or TCP, the listener's InstanceProtocol must be HTTP or TCP.
+        public let instanceProtocol: String?
+
+        public init(protocol: String, loadBalancerPort: Int32, sSLCertificateId: String? = nil, instancePort: Int32, instanceProtocol: String? = nil) {
+            self.`protocol` = `protocol`
+            self.loadBalancerPort = loadBalancerPort
+            self.sSLCertificateId = sSLCertificateId
+            self.instancePort = instancePort
+            self.instanceProtocol = instanceProtocol
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `protocol` = "Protocol"
+            case loadBalancerPort = "LoadBalancerPort"
+            case sSLCertificateId = "SSLCertificateId"
+            case instancePort = "InstancePort"
+            case instanceProtocol = "InstanceProtocol"
+        }
+    }
+
+    public struct CreateAppCookieStickinessPolicyInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyName", required: true, type: .string), 
+            AWSShapeMember(label: "CookieName", required: true, type: .string), 
+            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
+        ]
+        /// The name of the policy being created. Policy names must consist of alphanumeric characters and dashes (-). This name must be unique within the set of policies for this load balancer.
+        public let policyName: String
+        /// The name of the application cookie used for stickiness.
+        public let cookieName: String
+        /// The name of the load balancer.
+        public let loadBalancerName: String
+
+        public init(policyName: String, cookieName: String, loadBalancerName: String) {
+            self.policyName = policyName
+            self.cookieName = cookieName
+            self.loadBalancerName = loadBalancerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyName = "PolicyName"
+            case cookieName = "CookieName"
             case loadBalancerName = "LoadBalancerName"
         }
     }
@@ -167,87 +323,118 @@ extension ELB {
         }
     }
 
-    public struct CreateAppCookieStickinessPolicyInput: AWSShape {
+    public struct RegisterEndPointsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
-            AWSShapeMember(label: "CookieName", required: true, type: .string), 
-            AWSShapeMember(label: "PolicyName", required: true, type: .string)
+            AWSShapeMember(label: "Instances", required: true, type: .list), 
+            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
         ]
+        /// The IDs of the instances.
+        public let instances: [Instance]
         /// The name of the load balancer.
         public let loadBalancerName: String
-        /// The name of the application cookie used for stickiness.
-        public let cookieName: String
-        /// The name of the policy being created. Policy names must consist of alphanumeric characters and dashes (-). This name must be unique within the set of policies for this load balancer.
-        public let policyName: String
 
-        public init(loadBalancerName: String, cookieName: String, policyName: String) {
-            self.loadBalancerName = loadBalancerName
-            self.cookieName = cookieName
-            self.policyName = policyName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case loadBalancerName = "LoadBalancerName"
-            case cookieName = "CookieName"
-            case policyName = "PolicyName"
-        }
-    }
-
-    public struct DescribeLoadBalancerPoliciesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyNames", required: false, type: .list), 
-            AWSShapeMember(label: "LoadBalancerName", required: false, type: .string)
-        ]
-        /// The names of the policies.
-        public let policyNames: [String]?
-        /// The name of the load balancer.
-        public let loadBalancerName: String?
-
-        public init(policyNames: [String]? = nil, loadBalancerName: String? = nil) {
-            self.policyNames = policyNames
-            self.loadBalancerName = loadBalancerName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyNames = "PolicyNames"
-            case loadBalancerName = "LoadBalancerName"
-        }
-    }
-
-    public struct DescribeTagsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagDescriptions", required: false, type: .list)
-        ]
-        /// Information about the tags.
-        public let tagDescriptions: [TagDescription]?
-
-        public init(tagDescriptions: [TagDescription]? = nil) {
-            self.tagDescriptions = tagDescriptions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tagDescriptions = "TagDescriptions"
-        }
-    }
-
-    public struct RegisterEndPointsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Instances", required: false, type: .list)
-        ]
-        /// The updated list of instances for the load balancer.
-        public let instances: [Instance]?
-
-        public init(instances: [Instance]? = nil) {
+        public init(instances: [Instance], loadBalancerName: String) {
             self.instances = instances
+            self.loadBalancerName = loadBalancerName
         }
 
         private enum CodingKeys: String, CodingKey {
             case instances = "Instances"
+            case loadBalancerName = "LoadBalancerName"
         }
     }
 
-    public struct CreateLBCookieStickinessPolicyOutput: AWSShape {
+    public struct DescribeLoadBalancerPolicyTypesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyTypeDescriptions", required: false, type: .list)
+        ]
+        /// Information about the policy types.
+        public let policyTypeDescriptions: [PolicyTypeDescription]?
 
+        public init(policyTypeDescriptions: [PolicyTypeDescription]? = nil) {
+            self.policyTypeDescriptions = policyTypeDescriptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyTypeDescriptions = "PolicyTypeDescriptions"
+        }
+    }
+
+    public struct AddAvailabilityZonesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZones", required: true, type: .list), 
+            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
+        ]
+        /// The Availability Zones. These must be in the same region as the load balancer.
+        public let availabilityZones: [String]
+        /// The name of the load balancer.
+        public let loadBalancerName: String
+
+        public init(availabilityZones: [String], loadBalancerName: String) {
+            self.availabilityZones = availabilityZones
+            self.loadBalancerName = loadBalancerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZones = "AvailabilityZones"
+            case loadBalancerName = "LoadBalancerName"
+        }
+    }
+
+    public struct RemoveTagsOutput: AWSShape {
+
+    }
+
+    public struct PolicyAttributeTypeDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DefaultValue", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Cardinality", required: false, type: .string), 
+            AWSShapeMember(label: "AttributeType", required: false, type: .string), 
+            AWSShapeMember(label: "AttributeName", required: false, type: .string)
+        ]
+        /// The default value of the attribute, if applicable.
+        public let defaultValue: String?
+        /// A description of the attribute.
+        public let description: String?
+        /// The cardinality of the attribute. Valid values:   ONE(1) : Single value required   ZERO_OR_ONE(0..1) : Up to one value is allowed   ZERO_OR_MORE(0..*) : Optional. Multiple values are allowed   ONE_OR_MORE(1..*0) : Required. Multiple values are allowed  
+        public let cardinality: String?
+        /// The type of the attribute. For example, Boolean or Integer.
+        public let attributeType: String?
+        /// The name of the attribute.
+        public let attributeName: String?
+
+        public init(defaultValue: String? = nil, description: String? = nil, cardinality: String? = nil, attributeType: String? = nil, attributeName: String? = nil) {
+            self.defaultValue = defaultValue
+            self.description = description
+            self.cardinality = cardinality
+            self.attributeType = attributeType
+            self.attributeName = attributeName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultValue = "DefaultValue"
+            case description = "Description"
+            case cardinality = "Cardinality"
+            case attributeType = "AttributeType"
+            case attributeName = "AttributeName"
+        }
+    }
+
+    public struct TagKeyOnly: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: false, type: .string)
+        ]
+        /// The name of the key.
+        public let key: String?
+
+        public init(key: String? = nil) {
+            self.key = key
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+        }
     }
 
     public struct ApplySecurityGroupsToLoadBalancerOutput: AWSShape {
@@ -266,19 +453,123 @@ extension ELB {
         }
     }
 
-    public struct DescribeLoadBalancerAttributesOutput: AWSShape {
+    public struct RemoveTagsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoadBalancerAttributes", required: false, type: .structure)
+            AWSShapeMember(label: "Tags", required: true, type: .list), 
+            AWSShapeMember(label: "LoadBalancerNames", required: true, type: .list)
         ]
-        /// Information about the load balancer attributes.
-        public let loadBalancerAttributes: LoadBalancerAttributes?
+        /// The list of tag keys to remove.
+        public let tags: [TagKeyOnly]
+        /// The name of the load balancer. You can specify a maximum of one load balancer name.
+        public let loadBalancerNames: [String]
 
-        public init(loadBalancerAttributes: LoadBalancerAttributes? = nil) {
+        public init(tags: [TagKeyOnly], loadBalancerNames: [String]) {
+            self.tags = tags
+            self.loadBalancerNames = loadBalancerNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+            case loadBalancerNames = "LoadBalancerNames"
+        }
+    }
+
+    public struct DescribeEndPointStateOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceStates", required: false, type: .list)
+        ]
+        /// Information about the health of the instances.
+        public let instanceStates: [InstanceState]?
+
+        public init(instanceStates: [InstanceState]? = nil) {
+            self.instanceStates = instanceStates
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceStates = "InstanceStates"
+        }
+    }
+
+    public struct DeleteLoadBalancerPolicyOutput: AWSShape {
+
+    }
+
+    public struct SetLoadBalancerPoliciesOfListenerInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyNames", required: true, type: .list), 
+            AWSShapeMember(label: "LoadBalancerPort", required: true, type: .integer)
+        ]
+        /// The name of the load balancer.
+        public let loadBalancerName: String
+        /// The names of the policies. This list must include all policies to be enabled. If you omit a policy that is currently enabled, it is disabled. If the list is empty, all current policies are disabled.
+        public let policyNames: [String]
+        /// The external port of the load balancer.
+        public let loadBalancerPort: Int32
+
+        public init(loadBalancerName: String, policyNames: [String], loadBalancerPort: Int32) {
+            self.loadBalancerName = loadBalancerName
+            self.policyNames = policyNames
+            self.loadBalancerPort = loadBalancerPort
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerName = "LoadBalancerName"
+            case policyNames = "PolicyNames"
+            case loadBalancerPort = "LoadBalancerPort"
+        }
+    }
+
+    public struct ModifyLoadBalancerAttributesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
+            AWSShapeMember(label: "LoadBalancerAttributes", required: true, type: .structure)
+        ]
+        /// The name of the load balancer.
+        public let loadBalancerName: String
+        /// The attributes for the load balancer.
+        public let loadBalancerAttributes: LoadBalancerAttributes
+
+        public init(loadBalancerName: String, loadBalancerAttributes: LoadBalancerAttributes) {
+            self.loadBalancerName = loadBalancerName
             self.loadBalancerAttributes = loadBalancerAttributes
         }
 
         private enum CodingKeys: String, CodingKey {
+            case loadBalancerName = "LoadBalancerName"
             case loadBalancerAttributes = "LoadBalancerAttributes"
+        }
+    }
+
+    public struct Instance: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceId", required: false, type: .string)
+        ]
+        /// The instance ID.
+        public let instanceId: String?
+
+        public init(instanceId: String? = nil) {
+            self.instanceId = instanceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
+        }
+    }
+
+    public struct DetachLoadBalancerFromSubnetsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Subnets", required: false, type: .list)
+        ]
+        /// The IDs of the remaining subnets for the load balancer.
+        public let subnets: [String]?
+
+        public init(subnets: [String]? = nil) {
+            self.subnets = subnets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subnets = "Subnets"
         }
     }
 
@@ -303,367 +594,227 @@ extension ELB {
         }
     }
 
-    public struct Policies: AWSShape {
+    public struct HealthCheck: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OtherPolicies", required: false, type: .list), 
-            AWSShapeMember(label: "AppCookieStickinessPolicies", required: false, type: .list), 
-            AWSShapeMember(label: "LBCookieStickinessPolicies", required: false, type: .list)
+            AWSShapeMember(label: "Timeout", required: true, type: .integer), 
+            AWSShapeMember(label: "HealthyThreshold", required: true, type: .integer), 
+            AWSShapeMember(label: "Target", required: true, type: .string), 
+            AWSShapeMember(label: "Interval", required: true, type: .integer), 
+            AWSShapeMember(label: "UnhealthyThreshold", required: true, type: .integer)
         ]
-        /// The policies other than the stickiness policies.
-        public let otherPolicies: [String]?
-        /// The stickiness policies created using CreateAppCookieStickinessPolicy.
-        public let appCookieStickinessPolicies: [AppCookieStickinessPolicy]?
-        /// The stickiness policies created using CreateLBCookieStickinessPolicy.
-        public let lBCookieStickinessPolicies: [LBCookieStickinessPolicy]?
+        /// The amount of time, in seconds, during which no response means a failed health check. This value must be less than the Interval value.
+        public let timeout: Int32
+        /// The number of consecutive health checks successes required before moving the instance to the Healthy state.
+        public let healthyThreshold: Int32
+        /// The instance being checked. The protocol is either TCP, HTTP, HTTPS, or SSL. The range of valid ports is one (1) through 65535. TCP is the default, specified as a TCP: port pair, for example "TCP:5000". In this case, a health check simply attempts to open a TCP connection to the instance on the specified port. Failure to connect within the configured timeout is considered unhealthy. SSL is also specified as SSL: port pair, for example, SSL:5000. For HTTP/HTTPS, you must include a ping path in the string. HTTP is specified as a HTTP:port;/;PathToPing; grouping, for example "HTTP:80/weather/us/wa/seattle". In this case, a HTTP GET request is issued to the instance on the given port and path. Any answer other than "200 OK" within the timeout period is considered unhealthy. The total length of the HTTP ping target must be 1024 16-bit Unicode characters or less.
+        public let target: String
+        /// The approximate interval, in seconds, between health checks of an individual instance.
+        public let interval: Int32
+        /// The number of consecutive health check failures required before moving the instance to the Unhealthy state.
+        public let unhealthyThreshold: Int32
 
-        public init(otherPolicies: [String]? = nil, appCookieStickinessPolicies: [AppCookieStickinessPolicy]? = nil, lBCookieStickinessPolicies: [LBCookieStickinessPolicy]? = nil) {
-            self.otherPolicies = otherPolicies
-            self.appCookieStickinessPolicies = appCookieStickinessPolicies
-            self.lBCookieStickinessPolicies = lBCookieStickinessPolicies
+        public init(timeout: Int32, healthyThreshold: Int32, target: String, interval: Int32, unhealthyThreshold: Int32) {
+            self.timeout = timeout
+            self.healthyThreshold = healthyThreshold
+            self.target = target
+            self.interval = interval
+            self.unhealthyThreshold = unhealthyThreshold
         }
 
         private enum CodingKeys: String, CodingKey {
-            case otherPolicies = "OtherPolicies"
-            case appCookieStickinessPolicies = "AppCookieStickinessPolicies"
-            case lBCookieStickinessPolicies = "LBCookieStickinessPolicies"
+            case timeout = "Timeout"
+            case healthyThreshold = "HealthyThreshold"
+            case target = "Target"
+            case interval = "Interval"
+            case unhealthyThreshold = "UnhealthyThreshold"
         }
     }
 
-    public struct LBCookieStickinessPolicy: AWSShape {
+    public struct PolicyAttributeDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CookieExpirationPeriod", required: false, type: .long), 
-            AWSShapeMember(label: "PolicyName", required: false, type: .string)
+            AWSShapeMember(label: "AttributeName", required: false, type: .string), 
+            AWSShapeMember(label: "AttributeValue", required: false, type: .string)
         ]
-        /// The time period, in seconds, after which the cookie should be considered stale. If this parameter is not specified, the stickiness session lasts for the duration of the browser session.
-        public let cookieExpirationPeriod: Int64?
-        /// The name of the policy. This name must be unique within the set of policies for this load balancer.
-        public let policyName: String?
+        /// The name of the attribute.
+        public let attributeName: String?
+        /// The value of the attribute.
+        public let attributeValue: String?
 
-        public init(cookieExpirationPeriod: Int64? = nil, policyName: String? = nil) {
-            self.cookieExpirationPeriod = cookieExpirationPeriod
-            self.policyName = policyName
+        public init(attributeName: String? = nil, attributeValue: String? = nil) {
+            self.attributeName = attributeName
+            self.attributeValue = attributeValue
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cookieExpirationPeriod = "CookieExpirationPeriod"
-            case policyName = "PolicyName"
+            case attributeName = "AttributeName"
+            case attributeValue = "AttributeValue"
         }
     }
 
-    public struct DescribeEndPointStateOutput: AWSShape {
+    public struct CreateLBCookieStickinessPolicyInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceStates", required: false, type: .list)
-        ]
-        /// Information about the health of the instances.
-        public let instanceStates: [InstanceState]?
-
-        public init(instanceStates: [InstanceState]? = nil) {
-            self.instanceStates = instanceStates
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceStates = "InstanceStates"
-        }
-    }
-
-    public struct CreateAccessPointOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DNSName", required: false, type: .string)
-        ]
-        /// The DNS name of the load balancer.
-        public let dNSName: String?
-
-        public init(dNSName: String? = nil) {
-            self.dNSName = dNSName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dNSName = "DNSName"
-        }
-    }
-
-    public struct DescribeLoadBalancerPolicyTypesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyTypeNames", required: false, type: .list)
-        ]
-        /// The names of the policy types. If no names are specified, describes all policy types defined by Elastic Load Balancing.
-        public let policyTypeNames: [String]?
-
-        public init(policyTypeNames: [String]? = nil) {
-            self.policyTypeNames = policyTypeNames
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyTypeNames = "PolicyTypeNames"
-        }
-    }
-
-    public struct Instance: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceId", required: false, type: .string)
-        ]
-        /// The instance ID.
-        public let instanceId: String?
-
-        public init(instanceId: String? = nil) {
-            self.instanceId = instanceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceId = "InstanceId"
-        }
-    }
-
-    public struct TagKeyOnly: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string)
-        ]
-        /// The name of the key.
-        public let key: String?
-
-        public init(key: String? = nil) {
-            self.key = key
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "Key"
-        }
-    }
-
-    public struct CreateAccessPointInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Scheme", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyName", required: true, type: .string), 
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
-            AWSShapeMember(label: "Subnets", required: false, type: .list), 
-            AWSShapeMember(label: "Listeners", required: true, type: .list), 
-            AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list)
+            AWSShapeMember(label: "CookieExpirationPeriod", required: false, type: .long)
         ]
-        /// The type of a load balancer. Valid only for load balancers in a VPC. By default, Elastic Load Balancing creates an Internet-facing load balancer with a DNS name that resolves to public IP addresses. For more information about Internet-facing and Internal load balancers, see Load Balancer Scheme in the Elastic Load Balancing User Guide. Specify internal to create a load balancer with a DNS name that resolves to private IP addresses.
-        public let scheme: String?
-        /// The name of the load balancer. This name must be unique within your set of load balancers for the region, must have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, and cannot begin or end with a hyphen.
-        public let loadBalancerName: String
-        /// The IDs of the subnets in your VPC to attach to the load balancer. Specify one subnet per Availability Zone specified in AvailabilityZones.
-        public let subnets: [String]?
-        /// The listeners. For more information, see Listeners for Your Classic Load Balancer in the Classic Load Balancers Guide.
-        public let listeners: [Listener]
-        /// The IDs of the security groups to assign to the load balancer.
-        public let securityGroups: [String]?
-        /// A list of tags to assign to the load balancer. For more information about tagging your load balancer, see Tag Your Classic Load Balancer in the Classic Load Balancers Guide.
-        public let tags: [Tag]?
-        /// One or more Availability Zones from the same region as the load balancer. You must specify at least one Availability Zone. You can add more Availability Zones after you create the load balancer using EnableAvailabilityZonesForLoadBalancer.
-        public let availabilityZones: [String]?
-
-        public init(scheme: String? = nil, loadBalancerName: String, subnets: [String]? = nil, listeners: [Listener], securityGroups: [String]? = nil, tags: [Tag]? = nil, availabilityZones: [String]? = nil) {
-            self.scheme = scheme
-            self.loadBalancerName = loadBalancerName
-            self.subnets = subnets
-            self.listeners = listeners
-            self.securityGroups = securityGroups
-            self.tags = tags
-            self.availabilityZones = availabilityZones
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case scheme = "Scheme"
-            case loadBalancerName = "LoadBalancerName"
-            case subnets = "Subnets"
-            case listeners = "Listeners"
-            case securityGroups = "SecurityGroups"
-            case tags = "Tags"
-            case availabilityZones = "AvailabilityZones"
-        }
-    }
-
-    public struct DeregisterEndPointsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Instances", required: true, type: .list), 
-            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
-        ]
-        /// The IDs of the instances.
-        public let instances: [Instance]
+        /// The name of the policy being created. Policy names must consist of alphanumeric characters and dashes (-). This name must be unique within the set of policies for this load balancer.
+        public let policyName: String
         /// The name of the load balancer.
         public let loadBalancerName: String
+        /// The time period, in seconds, after which the cookie should be considered stale. If you do not specify this parameter, the default value is 0, which indicates that the sticky session should last for the duration of the browser session.
+        public let cookieExpirationPeriod: Int64?
 
-        public init(instances: [Instance], loadBalancerName: String) {
-            self.instances = instances
+        public init(policyName: String, loadBalancerName: String, cookieExpirationPeriod: Int64? = nil) {
+            self.policyName = policyName
             self.loadBalancerName = loadBalancerName
+            self.cookieExpirationPeriod = cookieExpirationPeriod
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instances = "Instances"
+            case policyName = "PolicyName"
             case loadBalancerName = "LoadBalancerName"
+            case cookieExpirationPeriod = "CookieExpirationPeriod"
+        }
+    }
+
+    public struct DeleteLoadBalancerListenerInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
+            AWSShapeMember(label: "LoadBalancerPorts", required: true, type: .list)
+        ]
+        /// The name of the load balancer.
+        public let loadBalancerName: String
+        /// The client port numbers of the listeners.
+        public let loadBalancerPorts: [Int32]
+
+        public init(loadBalancerName: String, loadBalancerPorts: [Int32]) {
+            self.loadBalancerName = loadBalancerName
+            self.loadBalancerPorts = loadBalancerPorts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerName = "LoadBalancerName"
+            case loadBalancerPorts = "LoadBalancerPorts"
         }
     }
 
     public struct Tag: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "Key", required: true, type: .string)
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
         ]
-        /// The value of the tag.
-        public let value: String?
         /// The key of the tag.
         public let key: String
+        /// The value of the tag.
+        public let value: String?
 
-        public init(value: String? = nil, key: String) {
-            self.value = value
+        public init(key: String, value: String? = nil) {
             self.key = key
+            self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
-            case value = "Value"
             case key = "Key"
+            case value = "Value"
         }
     }
 
-    public struct CreateLoadBalancerListenerOutput: AWSShape {
+    public struct DeleteLoadBalancerListenerOutput: AWSShape {
 
     }
 
-    public struct DescribeAccountLimitsOutput: AWSShape {
+    public struct AdditionalAttribute: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limits", required: false, type: .list), 
-            AWSShapeMember(label: "NextMarker", required: false, type: .string)
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
         ]
-        /// Information about the limits.
-        public let limits: [Limit]?
-        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
-        public let nextMarker: String?
+        /// This parameter is reserved.
+        public let key: String?
+        /// This parameter is reserved.
+        public let value: String?
 
-        public init(limits: [Limit]? = nil, nextMarker: String? = nil) {
-            self.limits = limits
-            self.nextMarker = nextMarker
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
-            case limits = "Limits"
-            case nextMarker = "NextMarker"
+            case key = "Key"
+            case value = "Value"
         }
     }
 
-    public struct RemoveAvailabilityZonesInput: AWSShape {
+    public struct DeleteAccessPointInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZones", required: true, type: .list), 
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
         ]
-        /// The Availability Zones.
-        public let availabilityZones: [String]
         /// The name of the load balancer.
         public let loadBalancerName: String
 
-        public init(availabilityZones: [String], loadBalancerName: String) {
-            self.availabilityZones = availabilityZones
+        public init(loadBalancerName: String) {
             self.loadBalancerName = loadBalancerName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case availabilityZones = "AvailabilityZones"
             case loadBalancerName = "LoadBalancerName"
         }
     }
 
-    public struct DescribeEndPointStateInput: AWSShape {
+    public struct PolicyAttribute: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Instances", required: false, type: .list), 
-            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
+            AWSShapeMember(label: "AttributeValue", required: false, type: .string), 
+            AWSShapeMember(label: "AttributeName", required: false, type: .string)
         ]
-        /// The IDs of the instances.
-        public let instances: [Instance]?
-        /// The name of the load balancer.
-        public let loadBalancerName: String
+        /// The value of the attribute.
+        public let attributeValue: String?
+        /// The name of the attribute.
+        public let attributeName: String?
 
-        public init(instances: [Instance]? = nil, loadBalancerName: String) {
-            self.instances = instances
-            self.loadBalancerName = loadBalancerName
+        public init(attributeValue: String? = nil, attributeName: String? = nil) {
+            self.attributeValue = attributeValue
+            self.attributeName = attributeName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instances = "Instances"
-            case loadBalancerName = "LoadBalancerName"
+            case attributeValue = "AttributeValue"
+            case attributeName = "AttributeName"
         }
     }
 
-    public struct SetLoadBalancerPoliciesOfListenerInput: AWSShape {
+    public struct DescribeLoadBalancerPoliciesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoadBalancerPort", required: true, type: .integer), 
-            AWSShapeMember(label: "PolicyNames", required: true, type: .list), 
-            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
+            AWSShapeMember(label: "PolicyNames", required: false, type: .list), 
+            AWSShapeMember(label: "LoadBalancerName", required: false, type: .string)
         ]
-        /// The external port of the load balancer.
-        public let loadBalancerPort: Int32
-        /// The names of the policies. This list must include all policies to be enabled. If you omit a policy that is currently enabled, it is disabled. If the list is empty, all current policies are disabled.
-        public let policyNames: [String]
+        /// The names of the policies.
+        public let policyNames: [String]?
         /// The name of the load balancer.
-        public let loadBalancerName: String
+        public let loadBalancerName: String?
 
-        public init(loadBalancerPort: Int32, policyNames: [String], loadBalancerName: String) {
-            self.loadBalancerPort = loadBalancerPort
+        public init(policyNames: [String]? = nil, loadBalancerName: String? = nil) {
             self.policyNames = policyNames
             self.loadBalancerName = loadBalancerName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case loadBalancerPort = "LoadBalancerPort"
             case policyNames = "PolicyNames"
             case loadBalancerName = "LoadBalancerName"
         }
     }
 
-    public struct HealthCheck: AWSShape {
+    public struct ConfigureHealthCheckOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HealthyThreshold", required: true, type: .integer), 
-            AWSShapeMember(label: "Timeout", required: true, type: .integer), 
-            AWSShapeMember(label: "Interval", required: true, type: .integer), 
-            AWSShapeMember(label: "Target", required: true, type: .string), 
-            AWSShapeMember(label: "UnhealthyThreshold", required: true, type: .integer)
+            AWSShapeMember(label: "HealthCheck", required: false, type: .structure)
         ]
-        /// The number of consecutive health checks successes required before moving the instance to the Healthy state.
-        public let healthyThreshold: Int32
-        /// The amount of time, in seconds, during which no response means a failed health check. This value must be less than the Interval value.
-        public let timeout: Int32
-        /// The approximate interval, in seconds, between health checks of an individual instance.
-        public let interval: Int32
-        /// The instance being checked. The protocol is either TCP, HTTP, HTTPS, or SSL. The range of valid ports is one (1) through 65535. TCP is the default, specified as a TCP: port pair, for example "TCP:5000". In this case, a health check simply attempts to open a TCP connection to the instance on the specified port. Failure to connect within the configured timeout is considered unhealthy. SSL is also specified as SSL: port pair, for example, SSL:5000. For HTTP/HTTPS, you must include a ping path in the string. HTTP is specified as a HTTP:port;/;PathToPing; grouping, for example "HTTP:80/weather/us/wa/seattle". In this case, a HTTP GET request is issued to the instance on the given port and path. Any answer other than "200 OK" within the timeout period is considered unhealthy. The total length of the HTTP ping target must be 1024 16-bit Unicode characters or less.
-        public let target: String
-        /// The number of consecutive health check failures required before moving the instance to the Unhealthy state.
-        public let unhealthyThreshold: Int32
+        /// The updated health check.
+        public let healthCheck: HealthCheck?
 
-        public init(healthyThreshold: Int32, timeout: Int32, interval: Int32, target: String, unhealthyThreshold: Int32) {
-            self.healthyThreshold = healthyThreshold
-            self.timeout = timeout
-            self.interval = interval
-            self.target = target
-            self.unhealthyThreshold = unhealthyThreshold
+        public init(healthCheck: HealthCheck? = nil) {
+            self.healthCheck = healthCheck
         }
 
         private enum CodingKeys: String, CodingKey {
-            case healthyThreshold = "HealthyThreshold"
-            case timeout = "Timeout"
-            case interval = "Interval"
-            case target = "Target"
-            case unhealthyThreshold = "UnhealthyThreshold"
-        }
-    }
-
-    public struct SetLoadBalancerListenerSSLCertificateOutput: AWSShape {
-
-    }
-
-    public struct DetachLoadBalancerFromSubnetsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Subnets", required: false, type: .list)
-        ]
-        /// The IDs of the remaining subnets for the load balancer.
-        public let subnets: [String]?
-
-        public init(subnets: [String]? = nil) {
-            self.subnets = subnets
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case subnets = "Subnets"
+            case healthCheck = "HealthCheck"
         }
     }
 
@@ -693,180 +844,52 @@ extension ELB {
         }
     }
 
-    public struct CreateLoadBalancerPolicyInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
-            AWSShapeMember(label: "PolicyName", required: true, type: .string), 
-            AWSShapeMember(label: "PolicyTypeName", required: true, type: .string)
-        ]
-        /// The policy attributes.
-        public let policyAttributes: [PolicyAttribute]?
-        /// The name of the load balancer.
-        public let loadBalancerName: String
-        /// The name of the load balancer policy to be created. This name must be unique within the set of policies for this load balancer.
-        public let policyName: String
-        /// The name of the base policy type. To get the list of policy types, use DescribeLoadBalancerPolicyTypes.
-        public let policyTypeName: String
+    public struct SetLoadBalancerPoliciesOfListenerOutput: AWSShape {
 
-        public init(policyAttributes: [PolicyAttribute]? = nil, loadBalancerName: String, policyName: String, policyTypeName: String) {
-            self.policyAttributes = policyAttributes
-            self.loadBalancerName = loadBalancerName
-            self.policyName = policyName
-            self.policyTypeName = policyTypeName
+    }
+
+    public struct AttachLoadBalancerToSubnetsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Subnets", required: false, type: .list)
+        ]
+        /// The IDs of the subnets attached to the load balancer.
+        public let subnets: [String]?
+
+        public init(subnets: [String]? = nil) {
+            self.subnets = subnets
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policyAttributes = "PolicyAttributes"
-            case loadBalancerName = "LoadBalancerName"
-            case policyName = "PolicyName"
-            case policyTypeName = "PolicyTypeName"
+            case subnets = "Subnets"
         }
     }
 
-    public struct SourceSecurityGroup: AWSShape {
+    public struct DetachLoadBalancerFromSubnetsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupName", required: false, type: .string), 
-            AWSShapeMember(label: "OwnerAlias", required: false, type: .integer)
-        ]
-        /// The name of the security group.
-        public let groupName: String?
-        /// The owner of the security group.
-        public let ownerAlias: Int32?
-
-        public init(groupName: String? = nil, ownerAlias: Int32? = nil) {
-            self.groupName = groupName
-            self.ownerAlias = ownerAlias
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groupName = "GroupName"
-            case ownerAlias = "OwnerAlias"
-        }
-    }
-
-    public struct ConnectionDraining: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
-            AWSShapeMember(label: "Timeout", required: false, type: .integer)
-        ]
-        /// Specifies whether connection draining is enabled for the load balancer.
-        public let enabled: Bool
-        /// The maximum time, in seconds, to keep the existing connections open before deregistering the instances.
-        public let timeout: Int32?
-
-        public init(enabled: Bool, timeout: Int32? = nil) {
-            self.enabled = enabled
-            self.timeout = timeout
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case enabled = "Enabled"
-            case timeout = "Timeout"
-        }
-    }
-
-    public struct RegisterEndPointsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Instances", required: true, type: .list), 
+            AWSShapeMember(label: "Subnets", required: true, type: .list), 
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
         ]
-        /// The IDs of the instances.
-        public let instances: [Instance]
+        /// The IDs of the subnets.
+        public let subnets: [String]
         /// The name of the load balancer.
         public let loadBalancerName: String
 
-        public init(instances: [Instance], loadBalancerName: String) {
-            self.instances = instances
+        public init(subnets: [String], loadBalancerName: String) {
+            self.subnets = subnets
             self.loadBalancerName = loadBalancerName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instances = "Instances"
+            case subnets = "Subnets"
             case loadBalancerName = "LoadBalancerName"
         }
     }
 
-    public struct AddTagsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: true, type: .list), 
-            AWSShapeMember(label: "LoadBalancerNames", required: true, type: .list)
-        ]
-        /// The tags.
-        public let tags: [Tag]
-        /// The name of the load balancer. You can specify one load balancer only.
-        public let loadBalancerNames: [String]
-
-        public init(tags: [Tag], loadBalancerNames: [String]) {
-            self.tags = tags
-            self.loadBalancerNames = loadBalancerNames
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-            case loadBalancerNames = "LoadBalancerNames"
-        }
-    }
-
-    public struct RemoveTagsOutput: AWSShape {
-
-    }
-
-    public struct PolicyAttribute: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeName", required: false, type: .string), 
-            AWSShapeMember(label: "AttributeValue", required: false, type: .string)
-        ]
-        /// The name of the attribute.
-        public let attributeName: String?
-        /// The value of the attribute.
-        public let attributeValue: String?
-
-        public init(attributeName: String? = nil, attributeValue: String? = nil) {
-            self.attributeName = attributeName
-            self.attributeValue = attributeValue
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attributeName = "AttributeName"
-            case attributeValue = "AttributeValue"
-        }
-    }
-
-    public struct DescribeAccountLimitsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "PageSize", required: false, type: .integer)
-        ]
-        /// The marker for the next set of results. (You received this marker from a previous call.)
-        public let marker: String?
-        /// The maximum number of results to return with this call.
-        public let pageSize: Int32?
-
-        public init(marker: String? = nil, pageSize: Int32? = nil) {
-            self.marker = marker
-            self.pageSize = pageSize
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case pageSize = "PageSize"
-        }
-    }
-
-    public struct SetLoadBalancerPoliciesForBackendServerOutput: AWSShape {
-
-    }
-
-    public struct AddTagsOutput: AWSShape {
-
-    }
-
-    public struct RemoveAvailabilityZonesOutput: AWSShape {
+    public struct AddAvailabilityZonesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AvailabilityZones", required: false, type: .list)
         ]
-        /// The remaining Availability Zones for the load balancer.
+        /// The updated list of Availability Zones for the load balancer.
         public let availabilityZones: [String]?
 
         public init(availabilityZones: [String]? = nil) {
@@ -875,90 +898,6 @@ extension ELB {
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZones = "AvailabilityZones"
-        }
-    }
-
-    public struct DescribeLoadBalancerPoliciesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyDescriptions", required: false, type: .list)
-        ]
-        /// Information about the policies.
-        public let policyDescriptions: [PolicyDescription]?
-
-        public init(policyDescriptions: [PolicyDescription]? = nil) {
-            self.policyDescriptions = policyDescriptions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyDescriptions = "PolicyDescriptions"
-        }
-    }
-
-    public struct ConfigureHealthCheckOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HealthCheck", required: false, type: .structure)
-        ]
-        /// The updated health check.
-        public let healthCheck: HealthCheck?
-
-        public init(healthCheck: HealthCheck? = nil) {
-            self.healthCheck = healthCheck
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case healthCheck = "HealthCheck"
-        }
-    }
-
-    public struct Listener: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoadBalancerPort", required: true, type: .integer), 
-            AWSShapeMember(label: "InstancePort", required: true, type: .integer), 
-            AWSShapeMember(label: "SSLCertificateId", required: false, type: .string), 
-            AWSShapeMember(label: "Protocol", required: true, type: .string), 
-            AWSShapeMember(label: "InstanceProtocol", required: false, type: .string)
-        ]
-        /// The port on which the load balancer is listening. On EC2-VPC, you can specify any port from the range 1-65535. On EC2-Classic, you can specify any port from the following list: 25, 80, 443, 465, 587, 1024-65535.
-        public let loadBalancerPort: Int32
-        /// The port on which the instance is listening.
-        public let instancePort: Int32
-        /// The Amazon Resource Name (ARN) of the server certificate.
-        public let sSLCertificateId: String?
-        /// The load balancer transport protocol to use for routing: HTTP, HTTPS, TCP, or SSL.
-        public let `protocol`: String
-        /// The protocol to use for routing traffic to instances: HTTP, HTTPS, TCP, or SSL. If the front-end protocol is HTTP, HTTPS, TCP, or SSL, InstanceProtocol must be at the same protocol. If there is another listener with the same InstancePort whose InstanceProtocol is secure, (HTTPS or SSL), the listener's InstanceProtocol must also be secure. If there is another listener with the same InstancePort whose InstanceProtocol is HTTP or TCP, the listener's InstanceProtocol must be HTTP or TCP.
-        public let instanceProtocol: String?
-
-        public init(loadBalancerPort: Int32, instancePort: Int32, sSLCertificateId: String? = nil, protocol: String, instanceProtocol: String? = nil) {
-            self.loadBalancerPort = loadBalancerPort
-            self.instancePort = instancePort
-            self.sSLCertificateId = sSLCertificateId
-            self.`protocol` = `protocol`
-            self.instanceProtocol = instanceProtocol
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case loadBalancerPort = "LoadBalancerPort"
-            case instancePort = "InstancePort"
-            case sSLCertificateId = "SSLCertificateId"
-            case `protocol` = "Protocol"
-            case instanceProtocol = "InstanceProtocol"
-        }
-    }
-
-    public struct CrossZoneLoadBalancing: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: true, type: .boolean)
-        ]
-        /// Specifies whether cross-zone load balancing is enabled for the load balancer.
-        public let enabled: Bool
-
-        public init(enabled: Bool) {
-            self.enabled = enabled
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case enabled = "Enabled"
         }
     }
 
@@ -983,105 +922,626 @@ extension ELB {
         }
     }
 
-    public struct DescribeAccessPointsOutput: AWSShape {
+    public struct ModifyLoadBalancerAttributesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoadBalancerDescriptions", required: false, type: .list), 
-            AWSShapeMember(label: "NextMarker", required: false, type: .string)
+            AWSShapeMember(label: "LoadBalancerAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "LoadBalancerName", required: false, type: .string)
         ]
-        /// Information about the load balancers.
-        public let loadBalancerDescriptions: [LoadBalancerDescription]?
-        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
-        public let nextMarker: String?
-
-        public init(loadBalancerDescriptions: [LoadBalancerDescription]? = nil, nextMarker: String? = nil) {
-            self.loadBalancerDescriptions = loadBalancerDescriptions
-            self.nextMarker = nextMarker
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case loadBalancerDescriptions = "LoadBalancerDescriptions"
-            case nextMarker = "NextMarker"
-        }
-    }
-
-    public struct DeleteLoadBalancerListenerInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoadBalancerPorts", required: true, type: .list), 
-            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
-        ]
-        /// The client port numbers of the listeners.
-        public let loadBalancerPorts: [Int32]
+        /// Information about the load balancer attributes.
+        public let loadBalancerAttributes: LoadBalancerAttributes?
         /// The name of the load balancer.
-        public let loadBalancerName: String
+        public let loadBalancerName: String?
 
-        public init(loadBalancerPorts: [Int32], loadBalancerName: String) {
-            self.loadBalancerPorts = loadBalancerPorts
+        public init(loadBalancerAttributes: LoadBalancerAttributes? = nil, loadBalancerName: String? = nil) {
+            self.loadBalancerAttributes = loadBalancerAttributes
             self.loadBalancerName = loadBalancerName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case loadBalancerPorts = "LoadBalancerPorts"
+            case loadBalancerAttributes = "LoadBalancerAttributes"
             case loadBalancerName = "LoadBalancerName"
         }
     }
 
-    public struct ConnectionSettings: AWSShape {
+    public struct Limit: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdleTimeout", required: true, type: .integer)
+            AWSShapeMember(label: "Max", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
-        /// The time, in seconds, that the connection is allowed to be idle (no data has been sent over the connection) before it is closed by the load balancer.
-        public let idleTimeout: Int32
+        /// The maximum value of the limit.
+        public let max: String?
+        /// The name of the limit. The possible values are:   classic-listeners   classic-load-balancers   classic-registered-instances  
+        public let name: String?
 
-        public init(idleTimeout: Int32) {
-            self.idleTimeout = idleTimeout
+        public init(max: String? = nil, name: String? = nil) {
+            self.max = max
+            self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case idleTimeout = "IdleTimeout"
+            case max = "Max"
+            case name = "Name"
         }
     }
 
-    public struct CreateAppCookieStickinessPolicyOutput: AWSShape {
+    public struct PolicyDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyTypeName", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyName", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyAttributeDescriptions", required: false, type: .list)
+        ]
+        /// The name of the policy type.
+        public let policyTypeName: String?
+        /// The name of the policy.
+        public let policyName: String?
+        /// The policy attributes.
+        public let policyAttributeDescriptions: [PolicyAttributeDescription]?
+
+        public init(policyTypeName: String? = nil, policyName: String? = nil, policyAttributeDescriptions: [PolicyAttributeDescription]? = nil) {
+            self.policyTypeName = policyTypeName
+            self.policyName = policyName
+            self.policyAttributeDescriptions = policyAttributeDescriptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyTypeName = "PolicyTypeName"
+            case policyName = "PolicyName"
+            case policyAttributeDescriptions = "PolicyAttributeDescriptions"
+        }
+    }
+
+    public struct DescribeLoadBalancerAttributesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerAttributes", required: false, type: .structure)
+        ]
+        /// Information about the load balancer attributes.
+        public let loadBalancerAttributes: LoadBalancerAttributes?
+
+        public init(loadBalancerAttributes: LoadBalancerAttributes? = nil) {
+            self.loadBalancerAttributes = loadBalancerAttributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerAttributes = "LoadBalancerAttributes"
+        }
+    }
+
+    public struct DeleteAccessPointOutput: AWSShape {
 
     }
 
-    public struct SetLoadBalancerPoliciesOfListenerOutput: AWSShape {
+    public struct DescribeLoadBalancerPoliciesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyDescriptions", required: false, type: .list)
+        ]
+        /// Information about the policies.
+        public let policyDescriptions: [PolicyDescription]?
 
+        public init(policyDescriptions: [PolicyDescription]? = nil) {
+            self.policyDescriptions = policyDescriptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyDescriptions = "PolicyDescriptions"
+        }
+    }
+
+    public struct ListenerDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Listener", required: false, type: .structure), 
+            AWSShapeMember(label: "PolicyNames", required: false, type: .list)
+        ]
+        /// The listener.
+        public let listener: Listener?
+        /// The policies. If there are no policies enabled, the list is empty.
+        public let policyNames: [String]?
+
+        public init(listener: Listener? = nil, policyNames: [String]? = nil) {
+            self.listener = listener
+            self.policyNames = policyNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case listener = "Listener"
+            case policyNames = "PolicyNames"
+        }
+    }
+
+    public struct SetLoadBalancerListenerSSLCertificateOutput: AWSShape {
+
+    }
+
+    public struct RegisterEndPointsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Instances", required: false, type: .list)
+        ]
+        /// The updated list of instances for the load balancer.
+        public let instances: [Instance]?
+
+        public init(instances: [Instance]? = nil) {
+            self.instances = instances
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instances = "Instances"
+        }
+    }
+
+    public struct DescribeLoadBalancerAttributesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
+        ]
+        /// The name of the load balancer.
+        public let loadBalancerName: String
+
+        public init(loadBalancerName: String) {
+            self.loadBalancerName = loadBalancerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerName = "LoadBalancerName"
+        }
+    }
+
+    public struct AccessLog: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EmitInterval", required: false, type: .integer), 
+            AWSShapeMember(label: "S3BucketPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
+            AWSShapeMember(label: "S3BucketName", required: false, type: .string)
+        ]
+        /// The interval for publishing the access logs. You can specify an interval of either 5 minutes or 60 minutes. Default: 60 minutes
+        public let emitInterval: Int32?
+        /// The logical hierarchy you created for your Amazon S3 bucket, for example my-bucket-prefix/prod. If the prefix is not provided, the log is placed at the root level of the bucket.
+        public let s3BucketPrefix: String?
+        /// Specifies whether access logs are enabled for the load balancer.
+        public let enabled: Bool
+        /// The name of the Amazon S3 bucket where the access logs are stored.
+        public let s3BucketName: String?
+
+        public init(emitInterval: Int32? = nil, s3BucketPrefix: String? = nil, enabled: Bool, s3BucketName: String? = nil) {
+            self.emitInterval = emitInterval
+            self.s3BucketPrefix = s3BucketPrefix
+            self.enabled = enabled
+            self.s3BucketName = s3BucketName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case emitInterval = "EmitInterval"
+            case s3BucketPrefix = "S3BucketPrefix"
+            case enabled = "Enabled"
+            case s3BucketName = "S3BucketName"
+        }
+    }
+
+    public struct SetLoadBalancerPoliciesForBackendServerOutput: AWSShape {
+
+    }
+
+    public struct ConnectionDraining: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
+            AWSShapeMember(label: "Timeout", required: false, type: .integer)
+        ]
+        /// Specifies whether connection draining is enabled for the load balancer.
+        public let enabled: Bool
+        /// The maximum time, in seconds, to keep the existing connections open before deregistering the instances.
+        public let timeout: Int32?
+
+        public init(enabled: Bool, timeout: Int32? = nil) {
+            self.enabled = enabled
+            self.timeout = timeout
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case timeout = "Timeout"
+        }
+    }
+
+    public struct DescribeAccessPointsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
+            AWSShapeMember(label: "LoadBalancerDescriptions", required: false, type: .list)
+        ]
+        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
+        public let nextMarker: String?
+        /// Information about the load balancers.
+        public let loadBalancerDescriptions: [LoadBalancerDescription]?
+
+        public init(nextMarker: String? = nil, loadBalancerDescriptions: [LoadBalancerDescription]? = nil) {
+            self.nextMarker = nextMarker
+            self.loadBalancerDescriptions = loadBalancerDescriptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextMarker = "NextMarker"
+            case loadBalancerDescriptions = "LoadBalancerDescriptions"
+        }
     }
 
     public struct LoadBalancerAttributes: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CrossZoneLoadBalancing", required: false, type: .structure), 
+            AWSShapeMember(label: "AccessLog", required: false, type: .structure), 
             AWSShapeMember(label: "AdditionalAttributes", required: false, type: .list), 
             AWSShapeMember(label: "ConnectionSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "ConnectionDraining", required: false, type: .structure), 
-            AWSShapeMember(label: "AccessLog", required: false, type: .structure)
+            AWSShapeMember(label: "CrossZoneLoadBalancing", required: false, type: .structure), 
+            AWSShapeMember(label: "ConnectionDraining", required: false, type: .structure)
         ]
-        /// If enabled, the load balancer routes the request traffic evenly across all instances regardless of the Availability Zones. For more information, see Configure Cross-Zone Load Balancing in the Classic Load Balancers Guide.
-        public let crossZoneLoadBalancing: CrossZoneLoadBalancing?
+        /// If enabled, the load balancer captures detailed information of all requests and delivers the information to the Amazon S3 bucket that you specify. For more information, see Enable Access Logs in the Classic Load Balancers Guide.
+        public let accessLog: AccessLog?
         /// This parameter is reserved.
         public let additionalAttributes: [AdditionalAttribute]?
         /// If enabled, the load balancer allows the connections to remain idle (no data is sent over the connection) for the specified duration. By default, Elastic Load Balancing maintains a 60-second idle connection timeout for both front-end and back-end connections of your load balancer. For more information, see Configure Idle Connection Timeout in the Classic Load Balancers Guide.
         public let connectionSettings: ConnectionSettings?
+        /// If enabled, the load balancer routes the request traffic evenly across all instances regardless of the Availability Zones. For more information, see Configure Cross-Zone Load Balancing in the Classic Load Balancers Guide.
+        public let crossZoneLoadBalancing: CrossZoneLoadBalancing?
         /// If enabled, the load balancer allows existing requests to complete before the load balancer shifts traffic away from a deregistered or unhealthy instance. For more information, see Configure Connection Draining in the Classic Load Balancers Guide.
         public let connectionDraining: ConnectionDraining?
-        /// If enabled, the load balancer captures detailed information of all requests and delivers the information to the Amazon S3 bucket that you specify. For more information, see Enable Access Logs in the Classic Load Balancers Guide.
-        public let accessLog: AccessLog?
 
-        public init(crossZoneLoadBalancing: CrossZoneLoadBalancing? = nil, additionalAttributes: [AdditionalAttribute]? = nil, connectionSettings: ConnectionSettings? = nil, connectionDraining: ConnectionDraining? = nil, accessLog: AccessLog? = nil) {
-            self.crossZoneLoadBalancing = crossZoneLoadBalancing
+        public init(accessLog: AccessLog? = nil, additionalAttributes: [AdditionalAttribute]? = nil, connectionSettings: ConnectionSettings? = nil, crossZoneLoadBalancing: CrossZoneLoadBalancing? = nil, connectionDraining: ConnectionDraining? = nil) {
+            self.accessLog = accessLog
             self.additionalAttributes = additionalAttributes
             self.connectionSettings = connectionSettings
+            self.crossZoneLoadBalancing = crossZoneLoadBalancing
             self.connectionDraining = connectionDraining
-            self.accessLog = accessLog
         }
 
         private enum CodingKeys: String, CodingKey {
-            case crossZoneLoadBalancing = "CrossZoneLoadBalancing"
+            case accessLog = "AccessLog"
             case additionalAttributes = "AdditionalAttributes"
             case connectionSettings = "ConnectionSettings"
+            case crossZoneLoadBalancing = "CrossZoneLoadBalancing"
             case connectionDraining = "ConnectionDraining"
-            case accessLog = "AccessLog"
+        }
+    }
+
+    public struct CreateLoadBalancerListenerInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
+            AWSShapeMember(label: "Listeners", required: true, type: .list)
+        ]
+        /// The name of the load balancer.
+        public let loadBalancerName: String
+        /// The listeners.
+        public let listeners: [Listener]
+
+        public init(loadBalancerName: String, listeners: [Listener]) {
+            self.loadBalancerName = loadBalancerName
+            self.listeners = listeners
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerName = "LoadBalancerName"
+            case listeners = "Listeners"
+        }
+    }
+
+    public struct LoadBalancerDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Scheme", required: false, type: .string), 
+            AWSShapeMember(label: "LoadBalancerName", required: false, type: .string), 
+            AWSShapeMember(label: "VPCId", required: false, type: .string), 
+            AWSShapeMember(label: "DNSName", required: false, type: .string), 
+            AWSShapeMember(label: "HealthCheck", required: false, type: .structure), 
+            AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "Instances", required: false, type: .list), 
+            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
+            AWSShapeMember(label: "SourceSecurityGroup", required: false, type: .structure), 
+            AWSShapeMember(label: "Subnets", required: false, type: .list), 
+            AWSShapeMember(label: "CanonicalHostedZoneNameID", required: false, type: .string), 
+            AWSShapeMember(label: "BackendServerDescriptions", required: false, type: .list), 
+            AWSShapeMember(label: "CanonicalHostedZoneName", required: false, type: .string), 
+            AWSShapeMember(label: "Policies", required: false, type: .structure), 
+            AWSShapeMember(label: "ListenerDescriptions", required: false, type: .list), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp)
+        ]
+        /// The type of load balancer. Valid only for load balancers in a VPC. If Scheme is internet-facing, the load balancer has a public DNS name that resolves to a public IP address. If Scheme is internal, the load balancer has a public DNS name that resolves to a private IP address.
+        public let scheme: String?
+        /// The name of the load balancer.
+        public let loadBalancerName: String?
+        /// The ID of the VPC for the load balancer.
+        public let vPCId: String?
+        /// The DNS name of the load balancer.
+        public let dNSName: String?
+        /// Information about the health checks conducted on the load balancer.
+        public let healthCheck: HealthCheck?
+        /// The security groups for the load balancer. Valid only for load balancers in a VPC.
+        public let securityGroups: [String]?
+        /// The IDs of the instances for the load balancer.
+        public let instances: [Instance]?
+        /// The Availability Zones for the load balancer.
+        public let availabilityZones: [String]?
+        /// The security group for the load balancer, which you can use as part of your inbound rules for your registered instances. To only allow traffic from load balancers, add a security group rule that specifies this source security group as the inbound source.
+        public let sourceSecurityGroup: SourceSecurityGroup?
+        /// The IDs of the subnets for the load balancer.
+        public let subnets: [String]?
+        /// The ID of the Amazon Route 53 hosted zone for the load balancer.
+        public let canonicalHostedZoneNameID: String?
+        /// Information about your EC2 instances.
+        public let backendServerDescriptions: [BackendServerDescription]?
+        /// The DNS name of the load balancer. For more information, see Configure a Custom Domain Name in the Classic Load Balancers Guide.
+        public let canonicalHostedZoneName: String?
+        /// The policies defined for the load balancer.
+        public let policies: Policies?
+        /// The listeners for the load balancer.
+        public let listenerDescriptions: [ListenerDescription]?
+        /// The date and time the load balancer was created.
+        public let createdTime: TimeStamp?
+
+        public init(scheme: String? = nil, loadBalancerName: String? = nil, vPCId: String? = nil, dNSName: String? = nil, healthCheck: HealthCheck? = nil, securityGroups: [String]? = nil, instances: [Instance]? = nil, availabilityZones: [String]? = nil, sourceSecurityGroup: SourceSecurityGroup? = nil, subnets: [String]? = nil, canonicalHostedZoneNameID: String? = nil, backendServerDescriptions: [BackendServerDescription]? = nil, canonicalHostedZoneName: String? = nil, policies: Policies? = nil, listenerDescriptions: [ListenerDescription]? = nil, createdTime: TimeStamp? = nil) {
+            self.scheme = scheme
+            self.loadBalancerName = loadBalancerName
+            self.vPCId = vPCId
+            self.dNSName = dNSName
+            self.healthCheck = healthCheck
+            self.securityGroups = securityGroups
+            self.instances = instances
+            self.availabilityZones = availabilityZones
+            self.sourceSecurityGroup = sourceSecurityGroup
+            self.subnets = subnets
+            self.canonicalHostedZoneNameID = canonicalHostedZoneNameID
+            self.backendServerDescriptions = backendServerDescriptions
+            self.canonicalHostedZoneName = canonicalHostedZoneName
+            self.policies = policies
+            self.listenerDescriptions = listenerDescriptions
+            self.createdTime = createdTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scheme = "Scheme"
+            case loadBalancerName = "LoadBalancerName"
+            case vPCId = "VPCId"
+            case dNSName = "DNSName"
+            case healthCheck = "HealthCheck"
+            case securityGroups = "SecurityGroups"
+            case instances = "Instances"
+            case availabilityZones = "AvailabilityZones"
+            case sourceSecurityGroup = "SourceSecurityGroup"
+            case subnets = "Subnets"
+            case canonicalHostedZoneNameID = "CanonicalHostedZoneNameID"
+            case backendServerDescriptions = "BackendServerDescriptions"
+            case canonicalHostedZoneName = "CanonicalHostedZoneName"
+            case policies = "Policies"
+            case listenerDescriptions = "ListenerDescriptions"
+            case createdTime = "CreatedTime"
+        }
+    }
+
+    public struct RemoveAvailabilityZonesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZones", required: true, type: .list), 
+            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
+        ]
+        /// The Availability Zones.
+        public let availabilityZones: [String]
+        /// The name of the load balancer.
+        public let loadBalancerName: String
+
+        public init(availabilityZones: [String], loadBalancerName: String) {
+            self.availabilityZones = availabilityZones
+            self.loadBalancerName = loadBalancerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZones = "AvailabilityZones"
+            case loadBalancerName = "LoadBalancerName"
+        }
+    }
+
+    public struct DescribeAccountLimitsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// The maximum number of results to return with this call.
+        public let pageSize: Int32?
+        /// The marker for the next set of results. (You received this marker from a previous call.)
+        public let marker: String?
+
+        public init(pageSize: Int32? = nil, marker: String? = nil) {
+            self.pageSize = pageSize
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pageSize = "PageSize"
+            case marker = "Marker"
+        }
+    }
+
+    public struct BackendServerDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstancePort", required: false, type: .integer), 
+            AWSShapeMember(label: "PolicyNames", required: false, type: .list)
+        ]
+        /// The port on which the EC2 instance is listening.
+        public let instancePort: Int32?
+        /// The names of the policies enabled for the EC2 instance.
+        public let policyNames: [String]?
+
+        public init(instancePort: Int32? = nil, policyNames: [String]? = nil) {
+            self.instancePort = instancePort
+            self.policyNames = policyNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instancePort = "InstancePort"
+            case policyNames = "PolicyNames"
+        }
+    }
+
+    public struct Policies: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OtherPolicies", required: false, type: .list), 
+            AWSShapeMember(label: "LBCookieStickinessPolicies", required: false, type: .list), 
+            AWSShapeMember(label: "AppCookieStickinessPolicies", required: false, type: .list)
+        ]
+        /// The policies other than the stickiness policies.
+        public let otherPolicies: [String]?
+        /// The stickiness policies created using CreateLBCookieStickinessPolicy.
+        public let lBCookieStickinessPolicies: [LBCookieStickinessPolicy]?
+        /// The stickiness policies created using CreateAppCookieStickinessPolicy.
+        public let appCookieStickinessPolicies: [AppCookieStickinessPolicy]?
+
+        public init(otherPolicies: [String]? = nil, lBCookieStickinessPolicies: [LBCookieStickinessPolicy]? = nil, appCookieStickinessPolicies: [AppCookieStickinessPolicy]? = nil) {
+            self.otherPolicies = otherPolicies
+            self.lBCookieStickinessPolicies = lBCookieStickinessPolicies
+            self.appCookieStickinessPolicies = appCookieStickinessPolicies
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case otherPolicies = "OtherPolicies"
+            case lBCookieStickinessPolicies = "LBCookieStickinessPolicies"
+            case appCookieStickinessPolicies = "AppCookieStickinessPolicies"
+        }
+    }
+
+    public struct CreateLoadBalancerPolicyOutput: AWSShape {
+
+    }
+
+    public struct TagDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "LoadBalancerName", required: false, type: .string)
+        ]
+        /// The tags.
+        public let tags: [Tag]?
+        /// The name of the load balancer.
+        public let loadBalancerName: String?
+
+        public init(tags: [Tag]? = nil, loadBalancerName: String? = nil) {
+            self.tags = tags
+            self.loadBalancerName = loadBalancerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+            case loadBalancerName = "LoadBalancerName"
+        }
+    }
+
+    public struct AddTagsOutput: AWSShape {
+
+    }
+
+    public struct InstanceState: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .string), 
+            AWSShapeMember(label: "ReasonCode", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
+        ]
+        /// The ID of the instance.
+        public let instanceId: String?
+        /// The current state of the instance. Valid values: InService | OutOfService | Unknown 
+        public let state: String?
+        /// Information about the cause of OutOfService instances. Specifically, whether the cause is Elastic Load Balancing or the instance. Valid values: ELB | Instance | N/A 
+        public let reasonCode: String?
+        /// A description of the instance state. This string can contain one or more of the following messages.    N/A     A transient error occurred. Please try again later.     Instance has failed at least the UnhealthyThreshold number of health checks consecutively.     Instance has not passed the configured HealthyThreshold number of health checks consecutively.     Instance registration is still in progress.     Instance is in the EC2 Availability Zone for which LoadBalancer is not configured to route traffic to.     Instance is not currently registered with the LoadBalancer.     Instance deregistration currently in progress.     Disable Availability Zone is currently in progress.     Instance is in pending state.     Instance is in stopped state.     Instance is in terminated state.   
+        public let description: String?
+
+        public init(instanceId: String? = nil, state: String? = nil, reasonCode: String? = nil, description: String? = nil) {
+            self.instanceId = instanceId
+            self.state = state
+            self.reasonCode = reasonCode
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
+            case state = "State"
+            case reasonCode = "ReasonCode"
+            case description = "Description"
+        }
+    }
+
+    public struct LBCookieStickinessPolicy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyName", required: false, type: .string), 
+            AWSShapeMember(label: "CookieExpirationPeriod", required: false, type: .long)
+        ]
+        /// The name of the policy. This name must be unique within the set of policies for this load balancer.
+        public let policyName: String?
+        /// The time period, in seconds, after which the cookie should be considered stale. If this parameter is not specified, the stickiness session lasts for the duration of the browser session.
+        public let cookieExpirationPeriod: Int64?
+
+        public init(policyName: String? = nil, cookieExpirationPeriod: Int64? = nil) {
+            self.policyName = policyName
+            self.cookieExpirationPeriod = cookieExpirationPeriod
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyName = "PolicyName"
+            case cookieExpirationPeriod = "CookieExpirationPeriod"
+        }
+    }
+
+    public struct ConfigureHealthCheckInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
+            AWSShapeMember(label: "HealthCheck", required: true, type: .structure)
+        ]
+        /// The name of the load balancer.
+        public let loadBalancerName: String
+        /// The configuration information.
+        public let healthCheck: HealthCheck
+
+        public init(loadBalancerName: String, healthCheck: HealthCheck) {
+            self.loadBalancerName = loadBalancerName
+            self.healthCheck = healthCheck
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerName = "LoadBalancerName"
+            case healthCheck = "HealthCheck"
+        }
+    }
+
+    public struct CreateAccessPointInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Subnets", required: false, type: .list), 
+            AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "Listeners", required: true, type: .list), 
+            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
+            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
+            AWSShapeMember(label: "Scheme", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+        /// The IDs of the subnets in your VPC to attach to the load balancer. Specify one subnet per Availability Zone specified in AvailabilityZones.
+        public let subnets: [String]?
+        /// The IDs of the security groups to assign to the load balancer.
+        public let securityGroups: [String]?
+        /// The listeners. For more information, see Listeners for Your Classic Load Balancer in the Classic Load Balancers Guide.
+        public let listeners: [Listener]
+        /// The name of the load balancer. This name must be unique within your set of load balancers for the region, must have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, and cannot begin or end with a hyphen.
+        public let loadBalancerName: String
+        /// One or more Availability Zones from the same region as the load balancer. You must specify at least one Availability Zone. You can add more Availability Zones after you create the load balancer using EnableAvailabilityZonesForLoadBalancer.
+        public let availabilityZones: [String]?
+        /// The type of a load balancer. Valid only for load balancers in a VPC. By default, Elastic Load Balancing creates an Internet-facing load balancer with a DNS name that resolves to public IP addresses. For more information about Internet-facing and Internal load balancers, see Load Balancer Scheme in the Elastic Load Balancing User Guide. Specify internal to create a load balancer with a DNS name that resolves to private IP addresses.
+        public let scheme: String?
+        /// A list of tags to assign to the load balancer. For more information about tagging your load balancer, see Tag Your Classic Load Balancer in the Classic Load Balancers Guide.
+        public let tags: [Tag]?
+
+        public init(subnets: [String]? = nil, securityGroups: [String]? = nil, listeners: [Listener], loadBalancerName: String, availabilityZones: [String]? = nil, scheme: String? = nil, tags: [Tag]? = nil) {
+            self.subnets = subnets
+            self.securityGroups = securityGroups
+            self.listeners = listeners
+            self.loadBalancerName = loadBalancerName
+            self.availabilityZones = availabilityZones
+            self.scheme = scheme
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subnets = "Subnets"
+            case securityGroups = "SecurityGroups"
+            case listeners = "Listeners"
+            case loadBalancerName = "LoadBalancerName"
+            case availabilityZones = "AvailabilityZones"
+            case scheme = "Scheme"
+            case tags = "Tags"
         }
     }
 
@@ -1111,83 +1571,31 @@ extension ELB {
         }
     }
 
-    public struct AdditionalAttribute: AWSShape {
+    public struct CreateAccessPointOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "Key", required: false, type: .string)
+            AWSShapeMember(label: "DNSName", required: false, type: .string)
         ]
-        /// This parameter is reserved.
-        public let value: String?
-        /// This parameter is reserved.
-        public let key: String?
+        /// The DNS name of the load balancer.
+        public let dNSName: String?
 
-        public init(value: String? = nil, key: String? = nil) {
-            self.value = value
-            self.key = key
+        public init(dNSName: String? = nil) {
+            self.dNSName = dNSName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case key = "Key"
+            case dNSName = "DNSName"
         }
     }
 
-    public struct DeleteLoadBalancerListenerOutput: AWSShape {
+    public struct CreateLoadBalancerListenerOutput: AWSShape {
 
     }
 
-    public struct SetLoadBalancerPoliciesForBackendServerInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyNames", required: true, type: .list), 
-            AWSShapeMember(label: "InstancePort", required: true, type: .integer), 
-            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
-        ]
-        /// The names of the policies. If the list is empty, then all current polices are removed from the EC2 instance.
-        public let policyNames: [String]
-        /// The port number associated with the EC2 instance.
-        public let instancePort: Int32
-        /// The name of the load balancer.
-        public let loadBalancerName: String
-
-        public init(policyNames: [String], instancePort: Int32, loadBalancerName: String) {
-            self.policyNames = policyNames
-            self.instancePort = instancePort
-            self.loadBalancerName = loadBalancerName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyNames = "PolicyNames"
-            case instancePort = "InstancePort"
-            case loadBalancerName = "LoadBalancerName"
-        }
-    }
-
-    public struct AddAvailabilityZonesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZones", required: true, type: .list), 
-            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
-        ]
-        /// The Availability Zones. These must be in the same region as the load balancer.
-        public let availabilityZones: [String]
-        /// The name of the load balancer.
-        public let loadBalancerName: String
-
-        public init(availabilityZones: [String], loadBalancerName: String) {
-            self.availabilityZones = availabilityZones
-            self.loadBalancerName = loadBalancerName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case availabilityZones = "AvailabilityZones"
-            case loadBalancerName = "LoadBalancerName"
-        }
-    }
-
-    public struct AddAvailabilityZonesOutput: AWSShape {
+    public struct RemoveAvailabilityZonesOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AvailabilityZones", required: false, type: .list)
         ]
-        /// The updated list of Availability Zones for the load balancer.
+        /// The remaining Availability Zones for the load balancer.
         public let availabilityZones: [String]?
 
         public init(availabilityZones: [String]? = nil) {
@@ -1196,105 +1604,6 @@ extension ELB {
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZones = "AvailabilityZones"
-        }
-    }
-
-    public struct BackendServerDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyNames", required: false, type: .list), 
-            AWSShapeMember(label: "InstancePort", required: false, type: .integer)
-        ]
-        /// The names of the policies enabled for the EC2 instance.
-        public let policyNames: [String]?
-        /// The port on which the EC2 instance is listening.
-        public let instancePort: Int32?
-
-        public init(policyNames: [String]? = nil, instancePort: Int32? = nil) {
-            self.policyNames = policyNames
-            self.instancePort = instancePort
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyNames = "PolicyNames"
-            case instancePort = "InstancePort"
-        }
-    }
-
-    public struct RemoveTagsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: true, type: .list), 
-            AWSShapeMember(label: "LoadBalancerNames", required: true, type: .list)
-        ]
-        /// The list of tag keys to remove.
-        public let tags: [TagKeyOnly]
-        /// The name of the load balancer. You can specify a maximum of one load balancer name.
-        public let loadBalancerNames: [String]
-
-        public init(tags: [TagKeyOnly], loadBalancerNames: [String]) {
-            self.tags = tags
-            self.loadBalancerNames = loadBalancerNames
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-            case loadBalancerNames = "LoadBalancerNames"
-        }
-    }
-
-    public struct PolicyDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyTypeName", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyAttributeDescriptions", required: false, type: .list), 
-            AWSShapeMember(label: "PolicyName", required: false, type: .string)
-        ]
-        /// The name of the policy type.
-        public let policyTypeName: String?
-        /// The policy attributes.
-        public let policyAttributeDescriptions: [PolicyAttributeDescription]?
-        /// The name of the policy.
-        public let policyName: String?
-
-        public init(policyTypeName: String? = nil, policyAttributeDescriptions: [PolicyAttributeDescription]? = nil, policyName: String? = nil) {
-            self.policyTypeName = policyTypeName
-            self.policyAttributeDescriptions = policyAttributeDescriptions
-            self.policyName = policyName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyTypeName = "PolicyTypeName"
-            case policyAttributeDescriptions = "PolicyAttributeDescriptions"
-            case policyName = "PolicyName"
-        }
-    }
-
-    public struct AccessLog: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3BucketName", required: false, type: .string), 
-            AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
-            AWSShapeMember(label: "S3BucketPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "EmitInterval", required: false, type: .integer)
-        ]
-        /// The name of the Amazon S3 bucket where the access logs are stored.
-        public let s3BucketName: String?
-        /// Specifies whether access logs are enabled for the load balancer.
-        public let enabled: Bool
-        /// The logical hierarchy you created for your Amazon S3 bucket, for example my-bucket-prefix/prod. If the prefix is not provided, the log is placed at the root level of the bucket.
-        public let s3BucketPrefix: String?
-        /// The interval for publishing the access logs. You can specify an interval of either 5 minutes or 60 minutes. Default: 60 minutes
-        public let emitInterval: Int32?
-
-        public init(s3BucketName: String? = nil, enabled: Bool, s3BucketPrefix: String? = nil, emitInterval: Int32? = nil) {
-            self.s3BucketName = s3BucketName
-            self.enabled = enabled
-            self.s3BucketPrefix = s3BucketPrefix
-            self.emitInterval = emitInterval
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case s3BucketName = "S3BucketName"
-            case enabled = "Enabled"
-            case s3BucketPrefix = "S3BucketPrefix"
-            case emitInterval = "EmitInterval"
         }
     }
 
@@ -1314,24 +1623,23 @@ extension ELB {
         }
     }
 
-    public struct PolicyAttributeDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeName", required: false, type: .string), 
-            AWSShapeMember(label: "AttributeValue", required: false, type: .string)
-        ]
-        /// The name of the attribute.
-        public let attributeName: String?
-        /// The value of the attribute.
-        public let attributeValue: String?
+    public struct CreateAppCookieStickinessPolicyOutput: AWSShape {
 
-        public init(attributeName: String? = nil, attributeValue: String? = nil) {
-            self.attributeName = attributeName
-            self.attributeValue = attributeValue
+    }
+
+    public struct DescribeTagsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagDescriptions", required: false, type: .list)
+        ]
+        /// Information about the tags.
+        public let tagDescriptions: [TagDescription]?
+
+        public init(tagDescriptions: [TagDescription]? = nil) {
+            self.tagDescriptions = tagDescriptions
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributeName = "AttributeName"
-            case attributeValue = "AttributeValue"
+            case tagDescriptions = "TagDescriptions"
         }
     }
 
@@ -1356,332 +1664,24 @@ extension ELB {
         }
     }
 
-    public struct DeleteAccessPointInput: AWSShape {
+    public struct DescribeAccountLimitsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
+            AWSShapeMember(label: "Limits", required: false, type: .list), 
+            AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
-        /// The name of the load balancer.
-        public let loadBalancerName: String
+        /// Information about the limits.
+        public let limits: [Limit]?
+        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
+        public let nextMarker: String?
 
-        public init(loadBalancerName: String) {
-            self.loadBalancerName = loadBalancerName
+        public init(limits: [Limit]? = nil, nextMarker: String? = nil) {
+            self.limits = limits
+            self.nextMarker = nextMarker
         }
 
         private enum CodingKeys: String, CodingKey {
-            case loadBalancerName = "LoadBalancerName"
-        }
-    }
-
-    public struct DetachLoadBalancerFromSubnetsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Subnets", required: true, type: .list), 
-            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
-        ]
-        /// The IDs of the subnets.
-        public let subnets: [String]
-        /// The name of the load balancer.
-        public let loadBalancerName: String
-
-        public init(subnets: [String], loadBalancerName: String) {
-            self.subnets = subnets
-            self.loadBalancerName = loadBalancerName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case subnets = "Subnets"
-            case loadBalancerName = "LoadBalancerName"
-        }
-    }
-
-    public struct SetLoadBalancerListenerSSLCertificateInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoadBalancerPort", required: true, type: .integer), 
-            AWSShapeMember(label: "SSLCertificateId", required: true, type: .string), 
-            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
-        ]
-        /// The port that uses the specified SSL certificate.
-        public let loadBalancerPort: Int32
-        /// The Amazon Resource Name (ARN) of the SSL certificate.
-        public let sSLCertificateId: String
-        /// The name of the load balancer.
-        public let loadBalancerName: String
-
-        public init(loadBalancerPort: Int32, sSLCertificateId: String, loadBalancerName: String) {
-            self.loadBalancerPort = loadBalancerPort
-            self.sSLCertificateId = sSLCertificateId
-            self.loadBalancerName = loadBalancerName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case loadBalancerPort = "LoadBalancerPort"
-            case sSLCertificateId = "SSLCertificateId"
-            case loadBalancerName = "LoadBalancerName"
-        }
-    }
-
-    public struct CreateLBCookieStickinessPolicyInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CookieExpirationPeriod", required: false, type: .long), 
-            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
-            AWSShapeMember(label: "PolicyName", required: true, type: .string)
-        ]
-        /// The time period, in seconds, after which the cookie should be considered stale. If you do not specify this parameter, the default value is 0, which indicates that the sticky session should last for the duration of the browser session.
-        public let cookieExpirationPeriod: Int64?
-        /// The name of the load balancer.
-        public let loadBalancerName: String
-        /// The name of the policy being created. Policy names must consist of alphanumeric characters and dashes (-). This name must be unique within the set of policies for this load balancer.
-        public let policyName: String
-
-        public init(cookieExpirationPeriod: Int64? = nil, loadBalancerName: String, policyName: String) {
-            self.cookieExpirationPeriod = cookieExpirationPeriod
-            self.loadBalancerName = loadBalancerName
-            self.policyName = policyName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cookieExpirationPeriod = "CookieExpirationPeriod"
-            case loadBalancerName = "LoadBalancerName"
-            case policyName = "PolicyName"
-        }
-    }
-
-    public struct DescribeLoadBalancerPolicyTypesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyTypeDescriptions", required: false, type: .list)
-        ]
-        /// Information about the policy types.
-        public let policyTypeDescriptions: [PolicyTypeDescription]?
-
-        public init(policyTypeDescriptions: [PolicyTypeDescription]? = nil) {
-            self.policyTypeDescriptions = policyTypeDescriptions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyTypeDescriptions = "PolicyTypeDescriptions"
-        }
-    }
-
-    public struct DeregisterEndPointsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Instances", required: false, type: .list)
-        ]
-        /// The remaining instances registered with the load balancer.
-        public let instances: [Instance]?
-
-        public init(instances: [Instance]? = nil) {
-            self.instances = instances
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instances = "Instances"
-        }
-    }
-
-    public struct AttachLoadBalancerToSubnetsOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Subnets", required: false, type: .list)
-        ]
-        /// The IDs of the subnets attached to the load balancer.
-        public let subnets: [String]?
-
-        public init(subnets: [String]? = nil) {
-            self.subnets = subnets
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case subnets = "Subnets"
-        }
-    }
-
-    public struct DeleteAccessPointOutput: AWSShape {
-
-    }
-
-    public struct DescribeLoadBalancerAttributesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
-        ]
-        /// The name of the load balancer.
-        public let loadBalancerName: String
-
-        public init(loadBalancerName: String) {
-            self.loadBalancerName = loadBalancerName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case loadBalancerName = "LoadBalancerName"
-        }
-    }
-
-    public struct Limit: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Max", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// The maximum value of the limit.
-        public let max: String?
-        /// The name of the limit. The possible values are:   classic-listeners   classic-load-balancers   classic-registered-instances  
-        public let name: String?
-
-        public init(max: String? = nil, name: String? = nil) {
-            self.max = max
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case max = "Max"
-            case name = "Name"
-        }
-    }
-
-    public struct ConfigureHealthCheckInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HealthCheck", required: true, type: .structure), 
-            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
-        ]
-        /// The configuration information.
-        public let healthCheck: HealthCheck
-        /// The name of the load balancer.
-        public let loadBalancerName: String
-
-        public init(healthCheck: HealthCheck, loadBalancerName: String) {
-            self.healthCheck = healthCheck
-            self.loadBalancerName = loadBalancerName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case healthCheck = "HealthCheck"
-            case loadBalancerName = "LoadBalancerName"
-        }
-    }
-
-    public struct ModifyLoadBalancerAttributesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoadBalancerAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "LoadBalancerName", required: false, type: .string)
-        ]
-        /// Information about the load balancer attributes.
-        public let loadBalancerAttributes: LoadBalancerAttributes?
-        /// The name of the load balancer.
-        public let loadBalancerName: String?
-
-        public init(loadBalancerAttributes: LoadBalancerAttributes? = nil, loadBalancerName: String? = nil) {
-            self.loadBalancerAttributes = loadBalancerAttributes
-            self.loadBalancerName = loadBalancerName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case loadBalancerAttributes = "LoadBalancerAttributes"
-            case loadBalancerName = "LoadBalancerName"
-        }
-    }
-
-    public struct InstanceState: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "State", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "ReasonCode", required: false, type: .string)
-        ]
-        /// The current state of the instance. Valid values: InService | OutOfService | Unknown 
-        public let state: String?
-        /// The ID of the instance.
-        public let instanceId: String?
-        /// A description of the instance state. This string can contain one or more of the following messages.    N/A     A transient error occurred. Please try again later.     Instance has failed at least the UnhealthyThreshold number of health checks consecutively.     Instance has not passed the configured HealthyThreshold number of health checks consecutively.     Instance registration is still in progress.     Instance is in the EC2 Availability Zone for which LoadBalancer is not configured to route traffic to.     Instance is not currently registered with the LoadBalancer.     Instance deregistration currently in progress.     Disable Availability Zone is currently in progress.     Instance is in pending state.     Instance is in stopped state.     Instance is in terminated state.   
-        public let description: String?
-        /// Information about the cause of OutOfService instances. Specifically, whether the cause is Elastic Load Balancing or the instance. Valid values: ELB | Instance | N/A 
-        public let reasonCode: String?
-
-        public init(state: String? = nil, instanceId: String? = nil, description: String? = nil, reasonCode: String? = nil) {
-            self.state = state
-            self.instanceId = instanceId
-            self.description = description
-            self.reasonCode = reasonCode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case state = "State"
-            case instanceId = "InstanceId"
-            case description = "Description"
-            case reasonCode = "ReasonCode"
-        }
-    }
-
-    public struct ListenerDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyNames", required: false, type: .list), 
-            AWSShapeMember(label: "Listener", required: false, type: .structure)
-        ]
-        /// The policies. If there are no policies enabled, the list is empty.
-        public let policyNames: [String]?
-        /// The listener.
-        public let listener: Listener?
-
-        public init(policyNames: [String]? = nil, listener: Listener? = nil) {
-            self.policyNames = policyNames
-            self.listener = listener
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyNames = "PolicyNames"
-            case listener = "Listener"
-        }
-    }
-
-    public struct TagDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "LoadBalancerName", required: false, type: .string)
-        ]
-        /// The tags.
-        public let tags: [Tag]?
-        /// The name of the load balancer.
-        public let loadBalancerName: String?
-
-        public init(tags: [Tag]? = nil, loadBalancerName: String? = nil) {
-            self.tags = tags
-            self.loadBalancerName = loadBalancerName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-            case loadBalancerName = "LoadBalancerName"
-        }
-    }
-
-    public struct PolicyAttributeTypeDescription: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DefaultValue", required: false, type: .string), 
-            AWSShapeMember(label: "AttributeType", required: false, type: .string), 
-            AWSShapeMember(label: "Cardinality", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "AttributeName", required: false, type: .string)
-        ]
-        /// The default value of the attribute, if applicable.
-        public let defaultValue: String?
-        /// The type of the attribute. For example, Boolean or Integer.
-        public let attributeType: String?
-        /// The cardinality of the attribute. Valid values:   ONE(1) : Single value required   ZERO_OR_ONE(0..1) : Up to one value is allowed   ZERO_OR_MORE(0..*) : Optional. Multiple values are allowed   ONE_OR_MORE(1..*0) : Required. Multiple values are allowed  
-        public let cardinality: String?
-        /// A description of the attribute.
-        public let description: String?
-        /// The name of the attribute.
-        public let attributeName: String?
-
-        public init(defaultValue: String? = nil, attributeType: String? = nil, cardinality: String? = nil, description: String? = nil, attributeName: String? = nil) {
-            self.defaultValue = defaultValue
-            self.attributeType = attributeType
-            self.cardinality = cardinality
-            self.description = description
-            self.attributeName = attributeName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case defaultValue = "DefaultValue"
-            case attributeType = "AttributeType"
-            case cardinality = "Cardinality"
-            case description = "Description"
-            case attributeName = "AttributeName"
+            case limits = "Limits"
+            case nextMarker = "NextMarker"
         }
     }
 

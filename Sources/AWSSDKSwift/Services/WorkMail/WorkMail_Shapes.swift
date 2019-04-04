@@ -5,14 +5,96 @@ import AWSSDKSwiftCore
 
 extension WorkMail {
 
-    public struct DeleteUserRequest: AWSShape {
+    public struct ListAliasesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "EntityId", required: true, type: .string), 
+            AWSShapeMember(label: "OrganizationId", required: true, type: .string)
+        ]
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int32?
+        /// The token to use to retrieve the next page of results. The first call does not contain any tokens.
+        public let nextToken: String?
+        /// The identifier for the entity for which to list the aliases.
+        public let entityId: String
+        /// The identifier for the organization under which the entity exists.
+        public let organizationId: String
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, entityId: String, organizationId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.entityId = entityId
+            self.organizationId = organizationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case entityId = "EntityId"
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct DescribeOrganizationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Alias", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .string), 
+            AWSShapeMember(label: "DirectoryType", required: false, type: .string), 
+            AWSShapeMember(label: "OrganizationId", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultMailDomain", required: false, type: .string), 
+            AWSShapeMember(label: "CompletedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DirectoryId", required: false, type: .string)
+        ]
+        /// The alias for an organization.
+        public let alias: String?
+        /// The state of an organization.
+        public let state: String?
+        /// The type of directory associated with the Amazon WorkMail organization.
+        public let directoryType: String?
+        /// The identifier of an organization.
+        public let organizationId: String?
+        /// The (optional) error message indicating if unexpected behavior was encountered with regards to the organization.
+        public let errorMessage: String?
+        /// The default mail domain associated with the organization.
+        public let defaultMailDomain: String?
+        /// The date at which the organization became usable in the Amazon WorkMail context, in UNIX epoch time format.
+        public let completedDate: TimeStamp?
+        /// The identifier for the directory associated with an Amazon WorkMail organization.
+        public let directoryId: String?
+
+        public init(alias: String? = nil, state: String? = nil, directoryType: String? = nil, organizationId: String? = nil, errorMessage: String? = nil, defaultMailDomain: String? = nil, completedDate: TimeStamp? = nil, directoryId: String? = nil) {
+            self.alias = alias
+            self.state = state
+            self.directoryType = directoryType
+            self.organizationId = organizationId
+            self.errorMessage = errorMessage
+            self.defaultMailDomain = defaultMailDomain
+            self.completedDate = completedDate
+            self.directoryId = directoryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alias = "Alias"
+            case state = "State"
+            case directoryType = "DirectoryType"
+            case organizationId = "OrganizationId"
+            case errorMessage = "ErrorMessage"
+            case defaultMailDomain = "DefaultMailDomain"
+            case completedDate = "CompletedDate"
+            case directoryId = "DirectoryId"
+        }
+    }
+
+    public struct DescribeUserRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
             AWSShapeMember(label: "UserId", required: true, type: .string)
         ]
-        /// The organization that contains the user.
+        /// The identifier for the organization under which the user exists.
         public let organizationId: String
-        /// The identifier of the user to be deleted.
+        /// The identifier for the user to be described.
         public let userId: String
 
         public init(organizationId: String, userId: String) {
@@ -26,47 +108,243 @@ extension WorkMail {
         }
     }
 
-    public enum PermissionType: String, CustomStringConvertible, Codable {
-        case fullAccess = "FULL_ACCESS"
-        case sendAs = "SEND_AS"
-        case sendOnBehalf = "SEND_ON_BEHALF"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListUsersRequest: AWSShape {
+    public struct DeleteResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "ResourceId", required: true, type: .string)
         ]
-        /// The identifier for the organization under which the users exist.
+        /// The identifier associated with the organization for which the resource is deleted.
         public let organizationId: String
-        /// The maximum number of results to return in a single call.
-        public let maxResults: Int32?
-        /// TBD
-        public let nextToken: String?
+        /// The identifier of the resource to be deleted.
+        public let resourceId: String
 
-        public init(organizationId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(organizationId: String, resourceId: String) {
             self.organizationId = organizationId
-            self.maxResults = maxResults
-            self.nextToken = nextToken
+            self.resourceId = resourceId
         }
 
         private enum CodingKeys: String, CodingKey {
             case organizationId = "OrganizationId"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
+            case resourceId = "ResourceId"
         }
     }
 
-    public struct DescribeGroupRequest: AWSShape {
+    public struct DisassociateMemberFromGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
+            AWSShapeMember(label: "MemberId", required: true, type: .string), 
             AWSShapeMember(label: "GroupId", required: true, type: .string)
         ]
         /// The identifier for the organization under which the group exists.
         public let organizationId: String
-        /// The identifier for the group to be described.
+        /// The identifier for the member to be removed to the group.
+        public let memberId: String
+        /// The identifier for the group from which members are removed.
+        public let groupId: String
+
+        public init(organizationId: String, memberId: String, groupId: String) {
+            self.organizationId = organizationId
+            self.memberId = memberId
+            self.groupId = groupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case organizationId = "OrganizationId"
+            case memberId = "MemberId"
+            case groupId = "GroupId"
+        }
+    }
+
+    public struct ListAliasesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Aliases", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The entity's paginated aliases.
+        public let aliases: [String]?
+        /// The token to use to retrieve the next page of results. The value is "null" when there are no more results to return.
+        public let nextToken: String?
+
+        public init(aliases: [String]? = nil, nextToken: String? = nil) {
+            self.aliases = aliases
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliases = "Aliases"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct CreateAliasRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
+            AWSShapeMember(label: "EntityId", required: true, type: .string), 
+            AWSShapeMember(label: "Alias", required: true, type: .string)
+        ]
+        /// The organization under which the member exists.
+        public let organizationId: String
+        /// The alias is added to this Amazon WorkMail entity.
+        public let entityId: String
+        /// The alias to add to the user.
+        public let alias: String
+
+        public init(organizationId: String, entityId: String, alias: String) {
+            self.organizationId = organizationId
+            self.entityId = entityId
+            self.alias = alias
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case organizationId = "OrganizationId"
+            case entityId = "EntityId"
+            case alias = "Alias"
+        }
+    }
+
+    public enum EntityState: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        case deleted = "DELETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeleteUserResponse: AWSShape {
+
+    }
+
+    public struct ListGroupMembersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Members", required: false, type: .list)
+        ]
+        /// The token to use to retrieve the next page of results. The first call does not contain any tokens.
+        public let nextToken: String?
+        /// The members associated to the group.
+        public let members: [Member]?
+
+        public init(nextToken: String? = nil, members: [Member]? = nil) {
+            self.nextToken = nextToken
+            self.members = members
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case members = "Members"
+        }
+    }
+
+    public struct CreateUserRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Password", required: true, type: .string), 
+            AWSShapeMember(label: "DisplayName", required: true, type: .string), 
+            AWSShapeMember(label: "OrganizationId", required: true, type: .string)
+        ]
+        /// The name for the user to be created.
+        public let name: String
+        /// The password for the user to be created.
+        public let password: String
+        /// The display name for the user to be created.
+        public let displayName: String
+        /// The identifier of the organization for which the user is created.
+        public let organizationId: String
+
+        public init(name: String, password: String, displayName: String, organizationId: String) {
+            self.name = name
+            self.password = password
+            self.displayName = displayName
+            self.organizationId = organizationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case password = "Password"
+            case displayName = "DisplayName"
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct OrganizationSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrganizationId", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .string), 
+            AWSShapeMember(label: "Alias", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string)
+        ]
+        /// The identifier associated with the organization.
+        public let organizationId: String?
+        /// The state associated with the organization.
+        public let state: String?
+        /// The alias associated with the organization.
+        public let alias: String?
+        /// The error message associated with the organization. It is only present if unexpected behavior has occurred with regards to the organization. It provides insight or solutions regarding unexpected behavior.
+        public let errorMessage: String?
+
+        public init(organizationId: String? = nil, state: String? = nil, alias: String? = nil, errorMessage: String? = nil) {
+            self.organizationId = organizationId
+            self.state = state
+            self.alias = alias
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case organizationId = "OrganizationId"
+            case state = "State"
+            case alias = "Alias"
+            case errorMessage = "ErrorMessage"
+        }
+    }
+
+    public struct Member: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "DisabledDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EnabledDate", required: false, type: .timestamp)
+        ]
+        /// The name of the member.
+        public let name: String?
+        /// The state of the member, which can be ENABLED, DISABLED, or DELETED.
+        public let state: EntityState?
+        /// The identifier of the member.
+        public let id: String?
+        /// A member can be a user or group.
+        public let `type`: MemberType?
+        /// The date indicating when the member was disabled from Amazon WorkMail use.
+        public let disabledDate: TimeStamp?
+        /// The date indicating when the member was enabled for Amazon WorkMail use.
+        public let enabledDate: TimeStamp?
+
+        public init(name: String? = nil, state: EntityState? = nil, id: String? = nil, type: MemberType? = nil, disabledDate: TimeStamp? = nil, enabledDate: TimeStamp? = nil) {
+            self.name = name
+            self.state = state
+            self.id = id
+            self.`type` = `type`
+            self.disabledDate = disabledDate
+            self.enabledDate = enabledDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case state = "State"
+            case id = "Id"
+            case `type` = "Type"
+            case disabledDate = "DisabledDate"
+            case enabledDate = "EnabledDate"
+        }
+    }
+
+    public struct DeleteGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
+            AWSShapeMember(label: "GroupId", required: true, type: .string)
+        ]
+        /// The organization that contains the group.
+        public let organizationId: String
+        /// The identifier of the group to be deleted.
         public let groupId: String
 
         public init(organizationId: String, groupId: String) {
@@ -80,54 +358,480 @@ extension WorkMail {
         }
     }
 
+    public struct ListGroupMembersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "GroupId", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "OrganizationId", required: true, type: .string)
+        ]
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int32?
+        /// The identifier for the group to which the members are associated.
+        public let groupId: String
+        ///  The token to use to retrieve the next page of results. The first call does not contain any tokens.
+        public let nextToken: String?
+        /// The identifier for the organization under which the group exists.
+        public let organizationId: String
+
+        public init(maxResults: Int32? = nil, groupId: String, nextToken: String? = nil, organizationId: String) {
+            self.maxResults = maxResults
+            self.groupId = groupId
+            self.nextToken = nextToken
+            self.organizationId = organizationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case groupId = "GroupId"
+            case nextToken = "NextToken"
+            case organizationId = "OrganizationId"
+        }
+    }
+
     public struct User: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UserRole", required: false, type: .enum), 
-            AWSShapeMember(label: "Email", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "EnabledDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "DisabledDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "Email", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "EnabledDate", required: false, type: .timestamp)
         ]
         /// The role of the user.
         public let userRole: UserRole?
-        /// The email of the user.
-        public let email: String?
-        /// The identifier of the user.
-        public let id: String?
-        /// The display name of the user.
-        public let displayName: String?
-        /// The date indicating when the user was enabled for Amazon WorkMail use.
-        public let enabledDate: TimeStamp?
         /// The date indicating when the user was disabled from Amazon WorkMail use.
         public let disabledDate: TimeStamp?
         /// The state of the user, which can be ENABLED, DISABLED, or DELETED.
         public let state: EntityState?
+        /// The display name of the user.
+        public let displayName: String?
+        /// The email of the user.
+        public let email: String?
+        /// The identifier of the user.
+        public let id: String?
         /// The name of the user.
         public let name: String?
+        /// The date indicating when the user was enabled for Amazon WorkMail use.
+        public let enabledDate: TimeStamp?
 
-        public init(userRole: UserRole? = nil, email: String? = nil, id: String? = nil, displayName: String? = nil, enabledDate: TimeStamp? = nil, disabledDate: TimeStamp? = nil, state: EntityState? = nil, name: String? = nil) {
+        public init(userRole: UserRole? = nil, disabledDate: TimeStamp? = nil, state: EntityState? = nil, displayName: String? = nil, email: String? = nil, id: String? = nil, name: String? = nil, enabledDate: TimeStamp? = nil) {
             self.userRole = userRole
-            self.email = email
-            self.id = id
-            self.displayName = displayName
-            self.enabledDate = enabledDate
             self.disabledDate = disabledDate
             self.state = state
+            self.displayName = displayName
+            self.email = email
+            self.id = id
             self.name = name
+            self.enabledDate = enabledDate
         }
 
         private enum CodingKeys: String, CodingKey {
             case userRole = "UserRole"
+            case disabledDate = "DisabledDate"
+            case state = "State"
+            case displayName = "DisplayName"
             case email = "Email"
             case id = "Id"
-            case displayName = "DisplayName"
+            case name = "Name"
             case enabledDate = "EnabledDate"
+        }
+    }
+
+    public struct ListMailboxPermissionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "EntityId", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "OrganizationId", required: true, type: .string)
+        ]
+        /// The token to use to retrieve the next page of results. The first call does not contain any tokens.
+        public let nextToken: String?
+        /// The identifier of the entity (user or group) for which to list mailbox permissions.
+        public let entityId: String
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int32?
+        /// The identifier of the organization under which the entity (user or group) exists.
+        public let organizationId: String
+
+        public init(nextToken: String? = nil, entityId: String, maxResults: Int32? = nil, organizationId: String) {
+            self.nextToken = nextToken
+            self.entityId = entityId
+            self.maxResults = maxResults
+            self.organizationId = organizationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case entityId = "EntityId"
+            case maxResults = "MaxResults"
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct Delegate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "Type", required: true, type: .enum)
+        ]
+        /// The identifier for the user or group is associated as the resource's delegate.
+        public let id: String
+        /// The type of the delegate: user or group.
+        public let `type`: MemberType
+
+        public init(id: String, type: MemberType) {
+            self.id = id
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case `type` = "Type"
+        }
+    }
+
+    public enum PermissionType: String, CustomStringConvertible, Codable {
+        case fullAccess = "FULL_ACCESS"
+        case sendAs = "SEND_AS"
+        case sendOnBehalf = "SEND_ON_BEHALF"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CreateGroupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupId", required: false, type: .string)
+        ]
+        /// The ID of the group.
+        public let groupId: String?
+
+        public init(groupId: String? = nil) {
+            self.groupId = groupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupId = "GroupId"
+        }
+    }
+
+    public struct Resource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "DisabledDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Email", required: false, type: .string), 
+            AWSShapeMember(label: "EnabledDate", required: false, type: .timestamp)
+        ]
+        /// The type of the resource: equipment or room.
+        public let `type`: ResourceType?
+        /// The date indicating when the resource was disabled from Amazon WorkMail use.
+        public let disabledDate: TimeStamp?
+        /// The state of the resource, which can be ENABLED, DISABLED, or DELETED.
+        public let state: EntityState?
+        /// The name of the resource.
+        public let name: String?
+        /// The identifier of the resource.
+        public let id: String?
+        /// The email of the resource.
+        public let email: String?
+        /// The date indicating when the resource was enabled for Amazon WorkMail use.
+        public let enabledDate: TimeStamp?
+
+        public init(type: ResourceType? = nil, disabledDate: TimeStamp? = nil, state: EntityState? = nil, name: String? = nil, id: String? = nil, email: String? = nil, enabledDate: TimeStamp? = nil) {
+            self.`type` = `type`
+            self.disabledDate = disabledDate
+            self.state = state
+            self.name = name
+            self.id = id
+            self.email = email
+            self.enabledDate = enabledDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
             case disabledDate = "DisabledDate"
             case state = "State"
             case name = "Name"
+            case id = "Id"
+            case email = "Email"
+            case enabledDate = "EnabledDate"
+        }
+    }
+
+    public enum MemberType: String, CustomStringConvertible, Codable {
+        case group = "GROUP"
+        case user = "USER"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListResourcesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+        ]
+        /// The identifier for the organization under which the resources exist.
+        public let organizationId: String
+        /// The token to use to retrieve the next page of results. The first call does not contain any tokens.
+        public let nextToken: String?
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int32?
+
+        public init(organizationId: String, nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.organizationId = organizationId
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case organizationId = "OrganizationId"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
+        }
+    }
+
+    public struct DescribeResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceId", required: true, type: .string)
+        ]
+        /// The identifier associated with the organization for which the resource is described.
+        public let organizationId: String
+        /// The identifier of the resource to be described.
+        public let resourceId: String
+
+        public init(organizationId: String, resourceId: String) {
+            self.organizationId = organizationId
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case organizationId = "OrganizationId"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct ListGroupsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Groups", required: false, type: .list)
+        ]
+        /// The token to use to retrieve the next page of results. The value is "null" when there are no more results to return.
+        public let nextToken: String?
+        /// The overview of groups for an organization.
+        public let groups: [Group]?
+
+        public init(nextToken: String? = nil, groups: [Group]? = nil) {
+            self.nextToken = nextToken
+            self.groups = groups
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case groups = "Groups"
+        }
+    }
+
+    public struct ListResourceDelegatesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "ResourceId", required: true, type: .string)
+        ]
+        /// The token used to paginate through the delegates associated with a resource.
+        public let nextToken: String?
+        /// The identifier for the organization that contains the resource for which delegates are listed.
+        public let organizationId: String
+        /// The number of maximum results in a page.
+        public let maxResults: Int32?
+        /// The identifier for the resource whose delegates are listed.
+        public let resourceId: String
+
+        public init(nextToken: String? = nil, organizationId: String, maxResults: Int32? = nil, resourceId: String) {
+            self.nextToken = nextToken
+            self.organizationId = organizationId
+            self.maxResults = maxResults
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case organizationId = "OrganizationId"
+            case maxResults = "MaxResults"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct DeleteMailboxPermissionsResponse: AWSShape {
+
+    }
+
+    public struct PutMailboxPermissionsResponse: AWSShape {
+
+    }
+
+    public struct ListOrganizationsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "OrganizationSummaries", required: false, type: .list)
+        ]
+        /// The token to use to retrieve the next page of results. The value is "null" when there are no more results to return.
+        public let nextToken: String?
+        /// The overview of owned organizations presented as a list of organization summaries.
+        public let organizationSummaries: [OrganizationSummary]?
+
+        public init(nextToken: String? = nil, organizationSummaries: [OrganizationSummary]? = nil) {
+            self.nextToken = nextToken
+            self.organizationSummaries = organizationSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case organizationSummaries = "OrganizationSummaries"
+        }
+    }
+
+    public struct DeleteAliasResponse: AWSShape {
+
+    }
+
+    public struct ListMailboxPermissionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Permissions", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// One page of the entity's mailbox permissions.
+        public let permissions: [Permission]?
+        /// The token to use to retrieve the next page of results. The value is "null" when there are no more results to return.
+        public let nextToken: String?
+
+        public init(permissions: [Permission]? = nil, nextToken: String? = nil) {
+            self.permissions = permissions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case permissions = "Permissions"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListUsersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Users", required: false, type: .list)
+        ]
+        ///  The token to use to retrieve the next page of results. This value is `null` when there are no more results to return.
+        public let nextToken: String?
+        /// The overview of users for an organization.
+        public let users: [User]?
+
+        public init(nextToken: String? = nil, users: [User]? = nil) {
+            self.nextToken = nextToken
+            self.users = users
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case users = "Users"
+        }
+    }
+
+    public struct ListOrganizationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int32?
+        /// The token to use to retrieve the next page of results. The first call does not contain any tokens.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public enum ResourceType: String, CustomStringConvertible, Codable {
+        case room = "ROOM"
+        case equipment = "EQUIPMENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DescribeGroupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "EnabledDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "GroupId", required: false, type: .string), 
+            AWSShapeMember(label: "Email", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "DisabledDate", required: false, type: .timestamp)
+        ]
+        /// The state of the user: enabled (registered to Amazon WorkMail) or disabled (deregistered or never registered to Amazon WorkMail).
+        public let state: EntityState?
+        /// The date and time when a user was registered to Amazon WorkMail, in UNIX epoch time format.
+        public let enabledDate: TimeStamp?
+        /// The identifier of the described group.
+        public let groupId: String?
+        /// The email of the described group.
+        public let email: String?
+        /// The name of the described group.
+        public let name: String?
+        /// The date and time when a user was deregistered from Amazon WorkMail, in UNIX epoch time format.
+        public let disabledDate: TimeStamp?
+
+        public init(state: EntityState? = nil, enabledDate: TimeStamp? = nil, groupId: String? = nil, email: String? = nil, name: String? = nil, disabledDate: TimeStamp? = nil) {
+            self.state = state
+            self.enabledDate = enabledDate
+            self.groupId = groupId
+            self.email = email
+            self.name = name
+            self.disabledDate = disabledDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "State"
+            case enabledDate = "EnabledDate"
+            case groupId = "GroupId"
+            case email = "Email"
+            case name = "Name"
+            case disabledDate = "DisabledDate"
+        }
+    }
+
+    public struct ResetPasswordRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Password", required: true, type: .string), 
+            AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
+            AWSShapeMember(label: "UserId", required: true, type: .string)
+        ]
+        /// The new password for the user.
+        public let password: String
+        /// The identifier of the organization that contains the user for which the password is reset.
+        public let organizationId: String
+        /// The identifier of the user for whom the password is reset.
+        public let userId: String
+
+        public init(password: String, organizationId: String, userId: String) {
+            self.password = password
+            self.organizationId = organizationId
+            self.userId = userId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case password = "Password"
+            case organizationId = "OrganizationId"
+            case userId = "UserId"
         }
     }
 
@@ -157,320 +861,243 @@ extension WorkMail {
         }
     }
 
-    public struct ListUsersResponse: AWSShape {
+    public struct ListGroupsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Users", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "OrganizationId", required: true, type: .string)
         ]
-        /// The overview of users for an organization.
-        public let users: [User]?
-        ///  The token to use to retrieve the next page of results. This value is `null` when there are no more results to return.
+        /// The token to use to retrieve the next page of results. The first call does not contain any tokens.
         public let nextToken: String?
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int32?
+        /// The identifier for the organization under which the groups exist.
+        public let organizationId: String
 
-        public init(users: [User]? = nil, nextToken: String? = nil) {
-            self.users = users
+        public init(nextToken: String? = nil, maxResults: Int32? = nil, organizationId: String) {
             self.nextToken = nextToken
+            self.maxResults = maxResults
+            self.organizationId = organizationId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case users = "Users"
             case nextToken = "NextToken"
+            case maxResults = "MaxResults"
+            case organizationId = "OrganizationId"
         }
     }
 
-    public struct AssociateDelegateToResourceRequest: AWSShape {
+    public struct ResetPasswordResponse: AWSShape {
+
+    }
+
+    public struct RegisterToWorkMailRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EntityId", required: true, type: .string), 
+            AWSShapeMember(label: "Email", required: true, type: .string), 
+            AWSShapeMember(label: "OrganizationId", required: true, type: .string)
+        ]
+        /// The identifier for the entity to be updated.
+        public let entityId: String
+        /// The email for the entity to be updated.
+        public let email: String
+        /// The identifier for the organization under which the Amazon WorkMail entity exists.
+        public let organizationId: String
+
+        public init(entityId: String, email: String, organizationId: String) {
+            self.entityId = entityId
+            self.email = email
+            self.organizationId = organizationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityId = "EntityId"
+            case email = "Email"
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct CreateAliasResponse: AWSShape {
+
+    }
+
+    public struct PutMailboxPermissionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GranteeId", required: true, type: .string), 
+            AWSShapeMember(label: "EntityId", required: true, type: .string), 
+            AWSShapeMember(label: "PermissionValues", required: true, type: .list), 
+            AWSShapeMember(label: "OrganizationId", required: true, type: .string)
+        ]
+        /// The identifier of the entity (user or group) to which to grant the permissions.
+        public let granteeId: String
+        /// The identifier of the entity (user or group) for which to update mailbox permissions.
+        public let entityId: String
+        /// The permissions granted to the grantee. SEND_AS allows the grantee to send email as the owner of the mailbox (the grantee is not mentioned on these emails). SEND_ON_BEHALF allows the grantee to send email on behalf of the owner of the mailbox (the grantee is not mentioned as the physical sender of these emails). FULL_ACCESS allows the grantee full access to the mailbox, irrespective of other folder-level permissions set on the mailbox.
+        public let permissionValues: [PermissionType]
+        /// The identifier of the organization under which the entity (user or group) exists.
+        public let organizationId: String
+
+        public init(granteeId: String, entityId: String, permissionValues: [PermissionType], organizationId: String) {
+            self.granteeId = granteeId
+            self.entityId = entityId
+            self.permissionValues = permissionValues
+            self.organizationId = organizationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case granteeId = "GranteeId"
+            case entityId = "EntityId"
+            case permissionValues = "PermissionValues"
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct UpdateResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
             AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "EntityId", required: true, type: .string)
+            AWSShapeMember(label: "BookingOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
-        /// The organization under which the resource exists.
+        /// The identifier associated with the organization for which the resource is updated.
         public let organizationId: String
-        /// The resource for which members are associated.
+        /// The identifier of the resource to be updated.
         public let resourceId: String
-        /// The member (user or group) to associate to the resource.
-        public let entityId: String
+        /// The resource's booking options to be updated.
+        public let bookingOptions: BookingOptions?
+        /// The name of the resource to be updated.
+        public let name: String?
 
-        public init(organizationId: String, resourceId: String, entityId: String) {
+        public init(organizationId: String, resourceId: String, bookingOptions: BookingOptions? = nil, name: String? = nil) {
             self.organizationId = organizationId
             self.resourceId = resourceId
-            self.entityId = entityId
+            self.bookingOptions = bookingOptions
+            self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
             case organizationId = "OrganizationId"
             case resourceId = "ResourceId"
-            case entityId = "EntityId"
-        }
-    }
-
-    public struct Member: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "EnabledDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "DisabledDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string)
-        ]
-        /// A member can be a user or group.
-        public let `type`: MemberType?
-        /// The date indicating when the member was enabled for Amazon WorkMail use.
-        public let enabledDate: TimeStamp?
-        /// The state of the member, which can be ENABLED, DISABLED, or DELETED.
-        public let state: EntityState?
-        /// The date indicating when the member was disabled from Amazon WorkMail use.
-        public let disabledDate: TimeStamp?
-        /// The name of the member.
-        public let name: String?
-        /// The identifier of the member.
-        public let id: String?
-
-        public init(type: MemberType? = nil, enabledDate: TimeStamp? = nil, state: EntityState? = nil, disabledDate: TimeStamp? = nil, name: String? = nil, id: String? = nil) {
-            self.`type` = `type`
-            self.enabledDate = enabledDate
-            self.state = state
-            self.disabledDate = disabledDate
-            self.name = name
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
-            case enabledDate = "EnabledDate"
-            case state = "State"
-            case disabledDate = "DisabledDate"
+            case bookingOptions = "BookingOptions"
             case name = "Name"
-            case id = "Id"
         }
     }
 
     public struct Permission: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PermissionValues", required: true, type: .list), 
             AWSShapeMember(label: "GranteeType", required: true, type: .enum), 
-            AWSShapeMember(label: "GranteeId", required: true, type: .string), 
-            AWSShapeMember(label: "PermissionValues", required: true, type: .list)
+            AWSShapeMember(label: "GranteeId", required: true, type: .string)
         ]
+        /// The permissions granted to the grantee. SEND_AS allows the grantee to send email as the owner of the mailbox (the grantee is not mentioned on these emails). SEND_ON_BEHALF allows the grantee to send email on behalf of the owner of the mailbox (the grantee is not mentioned as the physical sender of these emails). FULL_ACCESS allows the grantee full access to the mailbox, irrespective of other folder-level permissions set on the mailbox.
+        public let permissionValues: [PermissionType]
         /// The type of entity (user, group) of the entity referred to in GranteeId.
         public let granteeType: MemberType
         /// The identifier of the entity (user or group) to which the permissions are granted.
         public let granteeId: String
-        /// The permissions granted to the grantee. SEND_AS allows the grantee to send email as the owner of the mailbox (the grantee is not mentioned on these emails). SEND_ON_BEHALF allows the grantee to send email on behalf of the owner of the mailbox (the grantee is not mentioned as the physical sender of these emails). FULL_ACCESS allows the grantee full access to the mailbox, irrespective of other folder-level permissions set on the mailbox.
-        public let permissionValues: [PermissionType]
 
-        public init(granteeType: MemberType, granteeId: String, permissionValues: [PermissionType]) {
+        public init(permissionValues: [PermissionType], granteeType: MemberType, granteeId: String) {
+            self.permissionValues = permissionValues
             self.granteeType = granteeType
             self.granteeId = granteeId
-            self.permissionValues = permissionValues
         }
 
         private enum CodingKeys: String, CodingKey {
+            case permissionValues = "PermissionValues"
             case granteeType = "GranteeType"
             case granteeId = "GranteeId"
-            case permissionValues = "PermissionValues"
         }
     }
 
-    public struct OrganizationSummary: AWSShape {
+    public struct CreateResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Alias", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .string), 
-            AWSShapeMember(label: "OrganizationId", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string)
-        ]
-        /// The alias associated with the organization.
-        public let alias: String?
-        /// The state associated with the organization.
-        public let state: String?
-        /// The identifier associated with the organization.
-        public let organizationId: String?
-        /// The error message associated with the organization. It is only present if unexpected behavior has occurred with regards to the organization. It provides insight or solutions regarding unexpected behavior.
-        public let errorMessage: String?
-
-        public init(alias: String? = nil, state: String? = nil, organizationId: String? = nil, errorMessage: String? = nil) {
-            self.alias = alias
-            self.state = state
-            self.organizationId = organizationId
-            self.errorMessage = errorMessage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case alias = "Alias"
-            case state = "State"
-            case organizationId = "OrganizationId"
-            case errorMessage = "ErrorMessage"
-        }
-    }
-
-    public struct DeleteMailboxPermissionsResponse: AWSShape {
-
-    }
-
-    public enum EntityState: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
-        case deleted = "DELETED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct PutMailboxPermissionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EntityId", required: true, type: .string), 
             AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
-            AWSShapeMember(label: "GranteeId", required: true, type: .string), 
-            AWSShapeMember(label: "PermissionValues", required: true, type: .list)
+            AWSShapeMember(label: "Type", required: true, type: .enum), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
-        /// The identifier of the entity (user or group) for which to update mailbox permissions.
-        public let entityId: String
-        /// The identifier of the organization under which the entity (user or group) exists.
+        /// The identifier associated with the organization for which the resource is created.
         public let organizationId: String
-        /// The identifier of the entity (user or group) to which to grant the permissions.
-        public let granteeId: String
-        /// The permissions granted to the grantee. SEND_AS allows the grantee to send email as the owner of the mailbox (the grantee is not mentioned on these emails). SEND_ON_BEHALF allows the grantee to send email on behalf of the owner of the mailbox (the grantee is not mentioned as the physical sender of these emails). FULL_ACCESS allows the grantee full access to the mailbox, irrespective of other folder-level permissions set on the mailbox.
-        public let permissionValues: [PermissionType]
+        /// The type of the created resource.
+        public let `type`: ResourceType
+        /// The name of the created resource.
+        public let name: String
 
-        public init(entityId: String, organizationId: String, granteeId: String, permissionValues: [PermissionType]) {
-            self.entityId = entityId
+        public init(organizationId: String, type: ResourceType, name: String) {
             self.organizationId = organizationId
-            self.granteeId = granteeId
-            self.permissionValues = permissionValues
+            self.`type` = `type`
+            self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entityId = "EntityId"
             case organizationId = "OrganizationId"
-            case granteeId = "GranteeId"
-            case permissionValues = "PermissionValues"
+            case `type` = "Type"
+            case name = "Name"
         }
     }
 
-    public struct ListAliasesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "EntityId", required: true, type: .string), 
-            AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
-        ]
-        /// The token to use to retrieve the next page of results. The first call does not contain any tokens.
-        public let nextToken: String?
-        /// The identifier for the entity for which to list the aliases.
-        public let entityId: String
-        /// The identifier for the organization under which the entity exists.
-        public let organizationId: String
-        /// The maximum number of results to return in a single call.
-        public let maxResults: Int32?
+    public struct AssociateMemberToGroupResponse: AWSShape {
 
-        public init(nextToken: String? = nil, entityId: String, organizationId: String, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.entityId = entityId
-            self.organizationId = organizationId
-            self.maxResults = maxResults
+    }
+
+    public struct CreateResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: false, type: .string)
+        ]
+        /// The identifier of the created resource.
+        public let resourceId: String?
+
+        public init(resourceId: String? = nil) {
+            self.resourceId = resourceId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case entityId = "EntityId"
-            case organizationId = "OrganizationId"
-            case maxResults = "MaxResults"
+            case resourceId = "ResourceId"
         }
     }
 
-    public struct ListOrganizationsResponse: AWSShape {
+    public struct ListResourcesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OrganizationSummaries", required: false, type: .list), 
+            AWSShapeMember(label: "Resources", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The overview of owned organizations presented as a list of organization summaries.
-        public let organizationSummaries: [OrganizationSummary]?
-        /// The token to use to retrieve the next page of results. The value is "null" when there are no more results to return.
+        /// One page of the organization's resource representation.
+        public let resources: [Resource]?
+        ///  The token used to paginate through all the organization's resources. While results are still available, it has an associated value. When the last page is reached, the token is empty.
         public let nextToken: String?
 
-        public init(organizationSummaries: [OrganizationSummary]? = nil, nextToken: String? = nil) {
-            self.organizationSummaries = organizationSummaries
+        public init(resources: [Resource]? = nil, nextToken: String? = nil) {
+            self.resources = resources
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case organizationSummaries = "OrganizationSummaries"
+            case resources = "Resources"
             case nextToken = "NextToken"
         }
     }
 
-    public struct RegisterToWorkMailRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
-            AWSShapeMember(label: "EntityId", required: true, type: .string), 
-            AWSShapeMember(label: "Email", required: true, type: .string)
-        ]
-        /// The identifier for the organization under which the Amazon WorkMail entity exists.
-        public let organizationId: String
-        /// The identifier for the entity to be updated.
-        public let entityId: String
-        /// The email for the entity to be updated.
-        public let email: String
-
-        public init(organizationId: String, entityId: String, email: String) {
-            self.organizationId = organizationId
-            self.entityId = entityId
-            self.email = email
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case organizationId = "OrganizationId"
-            case entityId = "EntityId"
-            case email = "Email"
-        }
-    }
-
-    public struct AssociateDelegateToResourceResponse: AWSShape {
+    public struct DeregisterFromWorkMailResponse: AWSShape {
 
     }
 
-    public struct UpdatePrimaryEmailAddressRequest: AWSShape {
+    public struct CreateUserResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
-            AWSShapeMember(label: "EntityId", required: true, type: .string), 
-            AWSShapeMember(label: "Email", required: true, type: .string)
+            AWSShapeMember(label: "UserId", required: false, type: .string)
         ]
-        /// The organization that contains the entity to update.
-        public let organizationId: String
-        /// The entity to update (user, group, or resource).
-        public let entityId: String
-        /// The value of the email to be updated as primary.
-        public let email: String
+        /// The information regarding the newly created user.
+        public let userId: String?
 
-        public init(organizationId: String, entityId: String, email: String) {
-            self.organizationId = organizationId
-            self.entityId = entityId
-            self.email = email
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case organizationId = "OrganizationId"
-            case entityId = "EntityId"
-            case email = "Email"
-        }
-    }
-
-    public struct DescribeUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
-            AWSShapeMember(label: "UserId", required: true, type: .string)
-        ]
-        /// The identifier for the organization under which the user exists.
-        public let organizationId: String
-        /// The identifier for the user to be described.
-        public let userId: String
-
-        public init(organizationId: String, userId: String) {
-            self.organizationId = organizationId
+        public init(userId: String? = nil) {
             self.userId = userId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case organizationId = "OrganizationId"
             case userId = "UserId"
         }
+    }
+
+    public struct RegisterToWorkMailResponse: AWSShape {
+
     }
 
     public struct DeleteMailboxPermissionsRequest: AWSShape {
@@ -499,998 +1126,84 @@ extension WorkMail {
         }
     }
 
-    public struct DescribeResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Email", required: false, type: .string), 
-            AWSShapeMember(label: "EnabledDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DisabledDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "BookingOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "ResourceId", required: false, type: .string)
-        ]
-        /// The name of the described resource.
-        public let name: String?
-        /// The email of the described resource.
-        public let email: String?
-        /// The date and time when a resource was registered to Amazon WorkMail, in UNIX epoch time format.
-        public let enabledDate: TimeStamp?
-        /// The date and time when a resource was registered from Amazon WorkMail, in UNIX epoch time format.
-        public let disabledDate: TimeStamp?
-        /// The state of the resource: enabled (registered to Amazon WorkMail) or disabled (deregistered or never registered to Amazon WorkMail).
-        public let state: EntityState?
-        /// The type of the described resource.
-        public let `type`: ResourceType?
-        /// The booking options for the described resource.
-        public let bookingOptions: BookingOptions?
-        /// The identifier of the described resource.
-        public let resourceId: String?
+    public struct UpdatePrimaryEmailAddressResponse: AWSShape {
 
-        public init(name: String? = nil, email: String? = nil, enabledDate: TimeStamp? = nil, disabledDate: TimeStamp? = nil, state: EntityState? = nil, type: ResourceType? = nil, bookingOptions: BookingOptions? = nil, resourceId: String? = nil) {
-            self.name = name
-            self.email = email
-            self.enabledDate = enabledDate
-            self.disabledDate = disabledDate
-            self.state = state
-            self.`type` = `type`
-            self.bookingOptions = bookingOptions
-            self.resourceId = resourceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case email = "Email"
-            case enabledDate = "EnabledDate"
-            case disabledDate = "DisabledDate"
-            case state = "State"
-            case `type` = "Type"
-            case bookingOptions = "BookingOptions"
-            case resourceId = "ResourceId"
-        }
-    }
-
-    public struct ListMailboxPermissionsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Permissions", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// One page of the entity's mailbox permissions.
-        public let permissions: [Permission]?
-        /// The token to use to retrieve the next page of results. The value is "null" when there are no more results to return.
-        public let nextToken: String?
-
-        public init(permissions: [Permission]? = nil, nextToken: String? = nil) {
-            self.permissions = permissions
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case permissions = "Permissions"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct CreateUserResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserId", required: false, type: .string)
-        ]
-        /// The information regarding the newly created user.
-        public let userId: String?
-
-        public init(userId: String? = nil) {
-            self.userId = userId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userId = "UserId"
-        }
-    }
-
-    public struct DescribeResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceId", required: true, type: .string)
-        ]
-        /// The identifier associated with the organization for which the resource is described.
-        public let organizationId: String
-        /// The identifier of the resource to be described.
-        public let resourceId: String
-
-        public init(organizationId: String, resourceId: String) {
-            self.organizationId = organizationId
-            self.resourceId = resourceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case organizationId = "OrganizationId"
-            case resourceId = "ResourceId"
-        }
-    }
-
-    public struct Delegate: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: true, type: .string), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
-        ]
-        /// The identifier for the user or group is associated as the resource's delegate.
-        public let id: String
-        /// The type of the delegate: user or group.
-        public let `type`: MemberType
-
-        public init(id: String, type: MemberType) {
-            self.id = id
-            self.`type` = `type`
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case `type` = "Type"
-        }
     }
 
     public struct DeleteResourceResponse: AWSShape {
 
     }
 
-    public enum UserRole: String, CustomStringConvertible, Codable {
-        case user = "USER"
-        case resource = "RESOURCE"
-        case systemUser = "SYSTEM_USER"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateUserRequest: AWSShape {
+    public struct DescribeGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DisplayName", required: true, type: .string), 
-            AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Password", required: true, type: .string)
-        ]
-        /// The display name for the user to be created.
-        public let displayName: String
-        /// The identifier of the organization for which the user is created.
-        public let organizationId: String
-        /// The name for the user to be created.
-        public let name: String
-        /// The password for the user to be created.
-        public let password: String
-
-        public init(displayName: String, organizationId: String, name: String, password: String) {
-            self.displayName = displayName
-            self.organizationId = organizationId
-            self.name = name
-            self.password = password
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case displayName = "DisplayName"
-            case organizationId = "OrganizationId"
-            case name = "Name"
-            case password = "Password"
-        }
-    }
-
-    public struct DisassociateMemberFromGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
             AWSShapeMember(label: "GroupId", required: true, type: .string), 
-            AWSShapeMember(label: "MemberId", required: true, type: .string)
+            AWSShapeMember(label: "OrganizationId", required: true, type: .string)
         ]
+        /// The identifier for the group to be described.
+        public let groupId: String
         /// The identifier for the organization under which the group exists.
         public let organizationId: String
-        /// The identifier for the group from which members are removed.
-        public let groupId: String
-        /// The identifier for the member to be removed to the group.
-        public let memberId: String
 
-        public init(organizationId: String, groupId: String, memberId: String) {
-            self.organizationId = organizationId
+        public init(groupId: String, organizationId: String) {
             self.groupId = groupId
-            self.memberId = memberId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case organizationId = "OrganizationId"
-            case groupId = "GroupId"
-            case memberId = "MemberId"
-        }
-    }
-
-    public struct UpdatePrimaryEmailAddressResponse: AWSShape {
-
-    }
-
-    public struct DeleteGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
-            AWSShapeMember(label: "GroupId", required: true, type: .string)
-        ]
-        /// The organization that contains the group.
-        public let organizationId: String
-        /// The identifier of the group to be deleted.
-        public let groupId: String
-
-        public init(organizationId: String, groupId: String) {
             self.organizationId = organizationId
-            self.groupId = groupId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case organizationId = "OrganizationId"
-            case groupId = "GroupId"
-        }
-    }
-
-    public struct ListGroupMembersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Members", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The members associated to the group.
-        public let members: [Member]?
-        /// The token to use to retrieve the next page of results. The first call does not contain any tokens.
-        public let nextToken: String?
-
-        public init(members: [Member]? = nil, nextToken: String? = nil) {
-            self.members = members
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case members = "Members"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct Resource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Email", required: false, type: .string), 
-            AWSShapeMember(label: "EnabledDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DisabledDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "Type", required: false, type: .enum), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// The identifier of the resource.
-        public let id: String?
-        /// The email of the resource.
-        public let email: String?
-        /// The date indicating when the resource was enabled for Amazon WorkMail use.
-        public let enabledDate: TimeStamp?
-        /// The date indicating when the resource was disabled from Amazon WorkMail use.
-        public let disabledDate: TimeStamp?
-        /// The state of the resource, which can be ENABLED, DISABLED, or DELETED.
-        public let state: EntityState?
-        /// The type of the resource: equipment or room.
-        public let `type`: ResourceType?
-        /// The name of the resource.
-        public let name: String?
-
-        public init(id: String? = nil, email: String? = nil, enabledDate: TimeStamp? = nil, disabledDate: TimeStamp? = nil, state: EntityState? = nil, type: ResourceType? = nil, name: String? = nil) {
-            self.id = id
-            self.email = email
-            self.enabledDate = enabledDate
-            self.disabledDate = disabledDate
-            self.state = state
-            self.`type` = `type`
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "Id"
-            case email = "Email"
-            case enabledDate = "EnabledDate"
-            case disabledDate = "DisabledDate"
-            case state = "State"
-            case `type` = "Type"
-            case name = "Name"
-        }
-    }
-
-    public struct CreateAliasResponse: AWSShape {
-
-    }
-
-    public struct CreateResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", required: false, type: .string)
-        ]
-        /// The identifier of the created resource.
-        public let resourceId: String?
-
-        public init(resourceId: String? = nil) {
-            self.resourceId = resourceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceId = "ResourceId"
-        }
-    }
-
-    public struct BookingOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoAcceptRequests", required: false, type: .boolean), 
-            AWSShapeMember(label: "AutoDeclineConflictingRequests", required: false, type: .boolean), 
-            AWSShapeMember(label: "AutoDeclineRecurringRequests", required: false, type: .boolean)
-        ]
-        /// The resource's ability to automatically reply to requests. If disabled, delegates must be associated to the resource.
-        public let autoAcceptRequests: Bool?
-        /// The resource's ability to automatically decline any conflicting requests.
-        public let autoDeclineConflictingRequests: Bool?
-        /// The resource's ability to automatically decline any recurring requests.
-        public let autoDeclineRecurringRequests: Bool?
-
-        public init(autoAcceptRequests: Bool? = nil, autoDeclineConflictingRequests: Bool? = nil, autoDeclineRecurringRequests: Bool? = nil) {
-            self.autoAcceptRequests = autoAcceptRequests
-            self.autoDeclineConflictingRequests = autoDeclineConflictingRequests
-            self.autoDeclineRecurringRequests = autoDeclineRecurringRequests
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case autoAcceptRequests = "AutoAcceptRequests"
-            case autoDeclineConflictingRequests = "AutoDeclineConflictingRequests"
-            case autoDeclineRecurringRequests = "AutoDeclineRecurringRequests"
-        }
-    }
-
-    public struct DeleteUserResponse: AWSShape {
-
-    }
-
-    public struct ListMailboxPermissionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "EntityId", required: true, type: .string), 
-            AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
-        ]
-        /// The token to use to retrieve the next page of results. The first call does not contain any tokens.
-        public let nextToken: String?
-        /// The identifier of the entity (user or group) for which to list mailbox permissions.
-        public let entityId: String
-        /// The identifier of the organization under which the entity (user or group) exists.
-        public let organizationId: String
-        /// The maximum number of results to return in a single call.
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, entityId: String, organizationId: String, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.entityId = entityId
-            self.organizationId = organizationId
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case entityId = "EntityId"
-            case organizationId = "OrganizationId"
-            case maxResults = "MaxResults"
-        }
-    }
-
-    public struct ListGroupMembersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
-            AWSShapeMember(label: "GroupId", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
-        ]
-        ///  The token to use to retrieve the next page of results. The first call does not contain any tokens.
-        public let nextToken: String?
-        /// The identifier for the organization under which the group exists.
-        public let organizationId: String
-        /// The identifier for the group to which the members are associated.
-        public let groupId: String
-        /// The maximum number of results to return in a single call.
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, organizationId: String, groupId: String, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.organizationId = organizationId
-            self.groupId = groupId
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case organizationId = "OrganizationId"
-            case groupId = "GroupId"
-            case maxResults = "MaxResults"
-        }
-    }
-
-    public struct AssociateMemberToGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
-            AWSShapeMember(label: "GroupId", required: true, type: .string), 
-            AWSShapeMember(label: "MemberId", required: true, type: .string)
-        ]
-        /// The organization under which the group exists.
-        public let organizationId: String
-        /// The group for which the member is associated.
-        public let groupId: String
-        /// The member to associate to the group.
-        public let memberId: String
-
-        public init(organizationId: String, groupId: String, memberId: String) {
-            self.organizationId = organizationId
-            self.groupId = groupId
-            self.memberId = memberId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case organizationId = "OrganizationId"
-            case groupId = "GroupId"
-            case memberId = "MemberId"
-        }
-    }
-
-    public struct UpdateResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "BookingOptions", required: false, type: .structure)
-        ]
-        /// The identifier of the resource to be updated.
-        public let resourceId: String
-        /// The identifier associated with the organization for which the resource is updated.
-        public let organizationId: String
-        /// The name of the resource to be updated.
-        public let name: String?
-        /// The resource's booking options to be updated.
-        public let bookingOptions: BookingOptions?
-
-        public init(resourceId: String, organizationId: String, name: String? = nil, bookingOptions: BookingOptions? = nil) {
-            self.resourceId = resourceId
-            self.organizationId = organizationId
-            self.name = name
-            self.bookingOptions = bookingOptions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceId = "ResourceId"
-            case organizationId = "OrganizationId"
-            case name = "Name"
-            case bookingOptions = "BookingOptions"
-        }
-    }
-
-    public struct DescribeGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EnabledDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "DisabledDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "GroupId", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Email", required: false, type: .string)
-        ]
-        /// The date and time when a user was registered to Amazon WorkMail, in UNIX epoch time format.
-        public let enabledDate: TimeStamp?
-        /// The state of the user: enabled (registered to Amazon WorkMail) or disabled (deregistered or never registered to Amazon WorkMail).
-        public let state: EntityState?
-        /// The date and time when a user was deregistered from Amazon WorkMail, in UNIX epoch time format.
-        public let disabledDate: TimeStamp?
-        /// The identifier of the described group.
-        public let groupId: String?
-        /// The name of the described group.
-        public let name: String?
-        /// The email of the described group.
-        public let email: String?
-
-        public init(enabledDate: TimeStamp? = nil, state: EntityState? = nil, disabledDate: TimeStamp? = nil, groupId: String? = nil, name: String? = nil, email: String? = nil) {
-            self.enabledDate = enabledDate
-            self.state = state
-            self.disabledDate = disabledDate
-            self.groupId = groupId
-            self.name = name
-            self.email = email
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case enabledDate = "EnabledDate"
-            case state = "State"
-            case disabledDate = "DisabledDate"
-            case groupId = "GroupId"
-            case name = "Name"
-            case email = "Email"
-        }
-    }
-
-    public struct DisassociateMemberFromGroupResponse: AWSShape {
-
-    }
-
-    public struct DeleteGroupResponse: AWSShape {
-
-    }
-
-    public struct DeleteAliasResponse: AWSShape {
-
-    }
-
-    public struct DeleteResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceId", required: true, type: .string)
-        ]
-        /// The identifier associated with the organization for which the resource is deleted.
-        public let organizationId: String
-        /// The identifier of the resource to be deleted.
-        public let resourceId: String
-
-        public init(organizationId: String, resourceId: String) {
-            self.organizationId = organizationId
-            self.resourceId = resourceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case organizationId = "OrganizationId"
-            case resourceId = "ResourceId"
-        }
-    }
-
-    public struct CreateResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Type", required: true, type: .enum)
-        ]
-        /// The identifier associated with the organization for which the resource is created.
-        public let organizationId: String
-        /// The name of the created resource.
-        public let name: String
-        /// The type of the created resource.
-        public let `type`: ResourceType
-
-        public init(organizationId: String, name: String, type: ResourceType) {
-            self.organizationId = organizationId
-            self.name = name
-            self.`type` = `type`
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case organizationId = "OrganizationId"
-            case name = "Name"
-            case `type` = "Type"
-        }
-    }
-
-    public struct DescribeOrganizationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CompletedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DefaultMailDomain", required: false, type: .string), 
-            AWSShapeMember(label: "OrganizationId", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "Alias", required: false, type: .string), 
-            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
-            AWSShapeMember(label: "DirectoryType", required: false, type: .string), 
-            AWSShapeMember(label: "State", required: false, type: .string)
-        ]
-        /// The date at which the organization became usable in the Amazon WorkMail context, in UNIX epoch time format.
-        public let completedDate: TimeStamp?
-        /// The default mail domain associated with the organization.
-        public let defaultMailDomain: String?
-        /// The identifier of an organization.
-        public let organizationId: String?
-        /// The (optional) error message indicating if unexpected behavior was encountered with regards to the organization.
-        public let errorMessage: String?
-        /// The alias for an organization.
-        public let alias: String?
-        /// The identifier for the directory associated with an Amazon WorkMail organization.
-        public let directoryId: String?
-        /// The type of directory associated with the Amazon WorkMail organization.
-        public let directoryType: String?
-        /// The state of an organization.
-        public let state: String?
-
-        public init(completedDate: TimeStamp? = nil, defaultMailDomain: String? = nil, organizationId: String? = nil, errorMessage: String? = nil, alias: String? = nil, directoryId: String? = nil, directoryType: String? = nil, state: String? = nil) {
-            self.completedDate = completedDate
-            self.defaultMailDomain = defaultMailDomain
-            self.organizationId = organizationId
-            self.errorMessage = errorMessage
-            self.alias = alias
-            self.directoryId = directoryId
-            self.directoryType = directoryType
-            self.state = state
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case completedDate = "CompletedDate"
-            case defaultMailDomain = "DefaultMailDomain"
-            case organizationId = "OrganizationId"
-            case errorMessage = "ErrorMessage"
-            case alias = "Alias"
-            case directoryId = "DirectoryId"
-            case directoryType = "DirectoryType"
-            case state = "State"
-        }
-    }
-
-    public struct ListResourcesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The identifier for the organization under which the resources exist.
-        public let organizationId: String
-        /// The maximum number of results to return in a single call.
-        public let maxResults: Int32?
-        /// The token to use to retrieve the next page of results. The first call does not contain any tokens.
-        public let nextToken: String?
-
-        public init(organizationId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.organizationId = organizationId
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case organizationId = "OrganizationId"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct ListResourcesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Resources", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// One page of the organization's resource representation.
-        public let resources: [Resource]?
-        ///  The token used to paginate through all the organization's resources. While results are still available, it has an associated value. When the last page is reached, the token is empty.
-        public let nextToken: String?
-
-        public init(resources: [Resource]? = nil, nextToken: String? = nil) {
-            self.resources = resources
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resources = "Resources"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct CreateAliasRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
-            AWSShapeMember(label: "Alias", required: true, type: .string), 
-            AWSShapeMember(label: "EntityId", required: true, type: .string)
-        ]
-        /// The organization under which the member exists.
-        public let organizationId: String
-        /// The alias to add to the user.
-        public let alias: String
-        /// The alias is added to this Amazon WorkMail entity.
-        public let entityId: String
-
-        public init(organizationId: String, alias: String, entityId: String) {
-            self.organizationId = organizationId
-            self.alias = alias
-            self.entityId = entityId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case organizationId = "OrganizationId"
-            case alias = "Alias"
-            case entityId = "EntityId"
-        }
-    }
-
-    public struct RegisterToWorkMailResponse: AWSShape {
-
-    }
-
-    public struct DeregisterFromWorkMailRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
-            AWSShapeMember(label: "EntityId", required: true, type: .string)
-        ]
-        /// The identifier for the organization under which the Amazon WorkMail entity exists.
-        public let organizationId: String
-        /// The identifier for the entity to be updated.
-        public let entityId: String
-
-        public init(organizationId: String, entityId: String) {
-            self.organizationId = organizationId
-            self.entityId = entityId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case organizationId = "OrganizationId"
-            case entityId = "EntityId"
-        }
-    }
-
-    public struct ListResourceDelegatesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
-        ]
-        /// The token used to paginate through the delegates associated with a resource.
-        public let nextToken: String?
-        /// The identifier for the resource whose delegates are listed.
-        public let resourceId: String
-        /// The identifier for the organization that contains the resource for which delegates are listed.
-        public let organizationId: String
-        /// The number of maximum results in a page.
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, resourceId: String, organizationId: String, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.resourceId = resourceId
-            self.organizationId = organizationId
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case resourceId = "ResourceId"
-            case organizationId = "OrganizationId"
-            case maxResults = "MaxResults"
-        }
-    }
-
-    public struct ListOrganizationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The maximum number of results to return in a single call.
-        public let maxResults: Int32?
-        /// The token to use to retrieve the next page of results. The first call does not contain any tokens.
-        public let nextToken: String?
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct ListAliasesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Aliases", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The entity's paginated aliases.
-        public let aliases: [String]?
-        /// The token to use to retrieve the next page of results. The value is "null" when there are no more results to return.
-        public let nextToken: String?
-
-        public init(aliases: [String]? = nil, nextToken: String? = nil) {
-            self.aliases = aliases
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case aliases = "Aliases"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DisassociateDelegateFromResourceResponse: AWSShape {
-
-    }
-
-    public struct ListResourceDelegatesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Delegates", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// One page of the resource's delegates.
-        public let delegates: [Delegate]?
-        /// The token used to paginate through the delegates associated with a resource. While results are still available, it has an associated value. When the last page is reached, the token is empty. 
-        public let nextToken: String?
-
-        public init(delegates: [Delegate]? = nil, nextToken: String? = nil) {
-            self.delegates = delegates
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case delegates = "Delegates"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DeregisterFromWorkMailResponse: AWSShape {
-
-    }
-
-    public struct PutMailboxPermissionsResponse: AWSShape {
-
-    }
-
-    public struct ResetPasswordResponse: AWSShape {
-
-    }
-
-    public enum ResourceType: String, CustomStringConvertible, Codable {
-        case room = "ROOM"
-        case equipment = "EQUIPMENT"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListGroupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The identifier for the organization under which the groups exist.
-        public let organizationId: String
-        /// The maximum number of results to return in a single call.
-        public let maxResults: Int32?
-        /// The token to use to retrieve the next page of results. The first call does not contain any tokens.
-        public let nextToken: String?
-
-        public init(organizationId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.organizationId = organizationId
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case organizationId = "OrganizationId"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct ResetPasswordRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
-            AWSShapeMember(label: "UserId", required: true, type: .string), 
-            AWSShapeMember(label: "Password", required: true, type: .string)
-        ]
-        /// The identifier of the organization that contains the user for which the password is reset.
-        public let organizationId: String
-        /// The identifier of the user for whom the password is reset.
-        public let userId: String
-        /// The new password for the user.
-        public let password: String
-
-        public init(organizationId: String, userId: String, password: String) {
-            self.organizationId = organizationId
-            self.userId = userId
-            self.password = password
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case organizationId = "OrganizationId"
-            case userId = "UserId"
-            case password = "Password"
-        }
-    }
-
-    public struct AssociateMemberToGroupResponse: AWSShape {
-
-    }
-
-    public struct CreateGroupResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupId", required: false, type: .string)
-        ]
-        /// The ID of the group.
-        public let groupId: String?
-
-        public init(groupId: String? = nil) {
-            self.groupId = groupId
         }
 
         private enum CodingKeys: String, CodingKey {
             case groupId = "GroupId"
-        }
-    }
-
-    public struct CreateGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// The organization under which the group is to be created.
-        public let organizationId: String
-        /// The name of the group.
-        public let name: String
-
-        public init(organizationId: String, name: String) {
-            self.organizationId = organizationId
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
             case organizationId = "OrganizationId"
-            case name = "Name"
         }
-    }
-
-    public enum MemberType: String, CustomStringConvertible, Codable {
-        case group = "GROUP"
-        case user = "USER"
-        public var description: String { return self.rawValue }
     }
 
     public struct DescribeUserResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserId", required: false, type: .string), 
-            AWSShapeMember(label: "UserRole", required: false, type: .enum), 
             AWSShapeMember(label: "Email", required: false, type: .string), 
             AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "EnabledDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "DisabledDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "EnabledDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "UserRole", required: false, type: .enum), 
             AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
+            AWSShapeMember(label: "UserId", required: false, type: .string)
         ]
-        /// The identifier for the described user.
-        public let userId: String?
-        /// In certain cases other entities are modeled as users. If interoperability is enabled, resources are imported into Amazon WorkMail as users. Because different Amazon WorkMail organizations rely on different directory types, administrators can distinguish between a user that is not registered to Amazon WorkMail (is disabled and has a user role) and the administrative users of the directory. The values are USER, RESOURCE, and SYSTEM_USER.
-        public let userRole: UserRole?
         /// The email of the user.
         public let email: String?
         /// The display name of the user.
         public let displayName: String?
-        /// The date and time at which the user was enabled for Amazon WorkMail usage, in UNIX epoch time format.
-        public let enabledDate: TimeStamp?
         /// The date and time at which the user was disabled for Amazon WorkMail usage, in UNIX epoch time format.
         public let disabledDate: TimeStamp?
-        /// The state of a user: enabled (registered to Amazon WorkMail) or disabled (deregistered or never registered to Amazon WorkMail).
-        public let state: EntityState?
         /// The name for the user.
         public let name: String?
+        /// The date and time at which the user was enabled for Amazon WorkMail usage, in UNIX epoch time format.
+        public let enabledDate: TimeStamp?
+        /// In certain cases other entities are modeled as users. If interoperability is enabled, resources are imported into Amazon WorkMail as users. Because different Amazon WorkMail organizations rely on different directory types, administrators can distinguish between a user that is not registered to Amazon WorkMail (is disabled and has a user role) and the administrative users of the directory. The values are USER, RESOURCE, and SYSTEM_USER.
+        public let userRole: UserRole?
+        /// The state of a user: enabled (registered to Amazon WorkMail) or disabled (deregistered or never registered to Amazon WorkMail).
+        public let state: EntityState?
+        /// The identifier for the described user.
+        public let userId: String?
 
-        public init(userId: String? = nil, userRole: UserRole? = nil, email: String? = nil, displayName: String? = nil, enabledDate: TimeStamp? = nil, disabledDate: TimeStamp? = nil, state: EntityState? = nil, name: String? = nil) {
-            self.userId = userId
-            self.userRole = userRole
+        public init(email: String? = nil, displayName: String? = nil, disabledDate: TimeStamp? = nil, name: String? = nil, enabledDate: TimeStamp? = nil, userRole: UserRole? = nil, state: EntityState? = nil, userId: String? = nil) {
             self.email = email
             self.displayName = displayName
-            self.enabledDate = enabledDate
             self.disabledDate = disabledDate
-            self.state = state
             self.name = name
+            self.enabledDate = enabledDate
+            self.userRole = userRole
+            self.state = state
+            self.userId = userId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case userId = "UserId"
-            case userRole = "UserRole"
             case email = "Email"
             case displayName = "DisplayName"
-            case enabledDate = "EnabledDate"
             case disabledDate = "DisabledDate"
-            case state = "State"
             case name = "Name"
+            case enabledDate = "EnabledDate"
+            case userRole = "UserRole"
+            case state = "State"
+            case userId = "UserId"
         }
-    }
-
-    public struct DescribeOrganizationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OrganizationId", required: true, type: .string)
-        ]
-        /// The identifier for the organization to be described.
-        public let organizationId: String
-
-        public init(organizationId: String) {
-            self.organizationId = organizationId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case organizationId = "OrganizationId"
-        }
-    }
-
-    public struct UpdateResourceResponse: AWSShape {
-
     }
 
     public struct DeleteAliasRequest: AWSShape {
@@ -1519,66 +1232,353 @@ extension WorkMail {
         }
     }
 
-    public struct ListGroupsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Groups", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The overview of groups for an organization.
-        public let groups: [Group]?
-        /// The token to use to retrieve the next page of results. The value is "null" when there are no more results to return.
-        public let nextToken: String?
+    public struct DeleteGroupResponse: AWSShape {
 
-        public init(groups: [Group]? = nil, nextToken: String? = nil) {
-            self.groups = groups
-            self.nextToken = nextToken
+    }
+
+    public struct AssociateDelegateToResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "EntityId", required: true, type: .string)
+        ]
+        /// The organization under which the resource exists.
+        public let organizationId: String
+        /// The resource for which members are associated.
+        public let resourceId: String
+        /// The member (user or group) to associate to the resource.
+        public let entityId: String
+
+        public init(organizationId: String, resourceId: String, entityId: String) {
+            self.organizationId = organizationId
+            self.resourceId = resourceId
+            self.entityId = entityId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groups = "Groups"
-            case nextToken = "NextToken"
+            case organizationId = "OrganizationId"
+            case resourceId = "ResourceId"
+            case entityId = "EntityId"
+        }
+    }
+
+    public struct CreateGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// The organization under which the group is to be created.
+        public let organizationId: String
+        /// The name of the group.
+        public let name: String
+
+        public init(organizationId: String, name: String) {
+            self.organizationId = organizationId
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case organizationId = "OrganizationId"
+            case name = "Name"
         }
     }
 
     public struct Group: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EnabledDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "State", required: false, type: .enum), 
-            AWSShapeMember(label: "DisabledDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "Email", required: false, type: .string)
+            AWSShapeMember(label: "Email", required: false, type: .string), 
+            AWSShapeMember(label: "DisabledDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "State", required: false, type: .enum)
         ]
         /// The date indicating when the group was enabled for Amazon WorkMail use.
         public let enabledDate: TimeStamp?
-        /// The state of the group, which can be ENABLED, DISABLED, or DELETED.
-        public let state: EntityState?
-        /// The date indicating when the group was disabled from Amazon WorkMail use.
-        public let disabledDate: TimeStamp?
         /// The name of the group.
         public let name: String?
         /// The identifier of the group.
         public let id: String?
         /// The email of the group.
         public let email: String?
+        /// The date indicating when the group was disabled from Amazon WorkMail use.
+        public let disabledDate: TimeStamp?
+        /// The state of the group, which can be ENABLED, DISABLED, or DELETED.
+        public let state: EntityState?
 
-        public init(enabledDate: TimeStamp? = nil, state: EntityState? = nil, disabledDate: TimeStamp? = nil, name: String? = nil, id: String? = nil, email: String? = nil) {
+        public init(enabledDate: TimeStamp? = nil, name: String? = nil, id: String? = nil, email: String? = nil, disabledDate: TimeStamp? = nil, state: EntityState? = nil) {
             self.enabledDate = enabledDate
-            self.state = state
-            self.disabledDate = disabledDate
             self.name = name
             self.id = id
             self.email = email
+            self.disabledDate = disabledDate
+            self.state = state
         }
 
         private enum CodingKeys: String, CodingKey {
             case enabledDate = "EnabledDate"
-            case state = "State"
-            case disabledDate = "DisabledDate"
             case name = "Name"
             case id = "Id"
             case email = "Email"
+            case disabledDate = "DisabledDate"
+            case state = "State"
         }
+    }
+
+    public struct AssociateMemberToGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MemberId", required: true, type: .string), 
+            AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
+            AWSShapeMember(label: "GroupId", required: true, type: .string)
+        ]
+        /// The member to associate to the group.
+        public let memberId: String
+        /// The organization under which the group exists.
+        public let organizationId: String
+        /// The group for which the member is associated.
+        public let groupId: String
+
+        public init(memberId: String, organizationId: String, groupId: String) {
+            self.memberId = memberId
+            self.organizationId = organizationId
+            self.groupId = groupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case memberId = "MemberId"
+            case organizationId = "OrganizationId"
+            case groupId = "GroupId"
+        }
+    }
+
+    public struct DescribeResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Email", required: false, type: .string), 
+            AWSShapeMember(label: "EnabledDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "BookingOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "DisabledDate", required: false, type: .timestamp)
+        ]
+        /// The type of the described resource.
+        public let `type`: ResourceType?
+        /// The email of the described resource.
+        public let email: String?
+        /// The date and time when a resource was registered to Amazon WorkMail, in UNIX epoch time format.
+        public let enabledDate: TimeStamp?
+        /// The booking options for the described resource.
+        public let bookingOptions: BookingOptions?
+        /// The identifier of the described resource.
+        public let resourceId: String?
+        /// The name of the described resource.
+        public let name: String?
+        /// The state of the resource: enabled (registered to Amazon WorkMail) or disabled (deregistered or never registered to Amazon WorkMail).
+        public let state: EntityState?
+        /// The date and time when a resource was registered from Amazon WorkMail, in UNIX epoch time format.
+        public let disabledDate: TimeStamp?
+
+        public init(type: ResourceType? = nil, email: String? = nil, enabledDate: TimeStamp? = nil, bookingOptions: BookingOptions? = nil, resourceId: String? = nil, name: String? = nil, state: EntityState? = nil, disabledDate: TimeStamp? = nil) {
+            self.`type` = `type`
+            self.email = email
+            self.enabledDate = enabledDate
+            self.bookingOptions = bookingOptions
+            self.resourceId = resourceId
+            self.name = name
+            self.state = state
+            self.disabledDate = disabledDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case email = "Email"
+            case enabledDate = "EnabledDate"
+            case bookingOptions = "BookingOptions"
+            case resourceId = "ResourceId"
+            case name = "Name"
+            case state = "State"
+            case disabledDate = "DisabledDate"
+        }
+    }
+
+    public struct ListUsersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "OrganizationId", required: true, type: .string)
+        ]
+        /// TBD
+        public let nextToken: String?
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int32?
+        /// The identifier for the organization under which the users exist.
+        public let organizationId: String
+
+        public init(nextToken: String? = nil, maxResults: Int32? = nil, organizationId: String) {
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+            self.organizationId = organizationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct BookingOptions: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoAcceptRequests", required: false, type: .boolean), 
+            AWSShapeMember(label: "AutoDeclineRecurringRequests", required: false, type: .boolean), 
+            AWSShapeMember(label: "AutoDeclineConflictingRequests", required: false, type: .boolean)
+        ]
+        /// The resource's ability to automatically reply to requests. If disabled, delegates must be associated to the resource.
+        public let autoAcceptRequests: Bool?
+        /// The resource's ability to automatically decline any recurring requests.
+        public let autoDeclineRecurringRequests: Bool?
+        /// The resource's ability to automatically decline any conflicting requests.
+        public let autoDeclineConflictingRequests: Bool?
+
+        public init(autoAcceptRequests: Bool? = nil, autoDeclineRecurringRequests: Bool? = nil, autoDeclineConflictingRequests: Bool? = nil) {
+            self.autoAcceptRequests = autoAcceptRequests
+            self.autoDeclineRecurringRequests = autoDeclineRecurringRequests
+            self.autoDeclineConflictingRequests = autoDeclineConflictingRequests
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoAcceptRequests = "AutoAcceptRequests"
+            case autoDeclineRecurringRequests = "AutoDeclineRecurringRequests"
+            case autoDeclineConflictingRequests = "AutoDeclineConflictingRequests"
+        }
+    }
+
+    public enum UserRole: String, CustomStringConvertible, Codable {
+        case user = "USER"
+        case resource = "RESOURCE"
+        case systemUser = "SYSTEM_USER"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UpdateResourceResponse: AWSShape {
+
+    }
+
+    public struct UpdatePrimaryEmailAddressRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Email", required: true, type: .string), 
+            AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
+            AWSShapeMember(label: "EntityId", required: true, type: .string)
+        ]
+        /// The value of the email to be updated as primary.
+        public let email: String
+        /// The organization that contains the entity to update.
+        public let organizationId: String
+        /// The entity to update (user, group, or resource).
+        public let entityId: String
+
+        public init(email: String, organizationId: String, entityId: String) {
+            self.email = email
+            self.organizationId = organizationId
+            self.entityId = entityId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case email = "Email"
+            case organizationId = "OrganizationId"
+            case entityId = "EntityId"
+        }
+    }
+
+    public struct ListResourceDelegatesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Delegates", required: false, type: .list)
+        ]
+        /// The token used to paginate through the delegates associated with a resource. While results are still available, it has an associated value. When the last page is reached, the token is empty. 
+        public let nextToken: String?
+        /// One page of the resource's delegates.
+        public let delegates: [Delegate]?
+
+        public init(nextToken: String? = nil, delegates: [Delegate]? = nil) {
+            self.nextToken = nextToken
+            self.delegates = delegates
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case delegates = "Delegates"
+        }
+    }
+
+    public struct DescribeOrganizationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrganizationId", required: true, type: .string)
+        ]
+        /// The identifier for the organization to be described.
+        public let organizationId: String
+
+        public init(organizationId: String) {
+            self.organizationId = organizationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct DeleteUserRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
+            AWSShapeMember(label: "UserId", required: true, type: .string)
+        ]
+        /// The organization that contains the user.
+        public let organizationId: String
+        /// The identifier of the user to be deleted.
+        public let userId: String
+
+        public init(organizationId: String, userId: String) {
+            self.organizationId = organizationId
+            self.userId = userId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case organizationId = "OrganizationId"
+            case userId = "UserId"
+        }
+    }
+
+    public struct DeregisterFromWorkMailRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
+            AWSShapeMember(label: "EntityId", required: true, type: .string)
+        ]
+        /// The identifier for the organization under which the Amazon WorkMail entity exists.
+        public let organizationId: String
+        /// The identifier for the entity to be updated.
+        public let entityId: String
+
+        public init(organizationId: String, entityId: String) {
+            self.organizationId = organizationId
+            self.entityId = entityId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case organizationId = "OrganizationId"
+            case entityId = "EntityId"
+        }
+    }
+
+    public struct DisassociateDelegateFromResourceResponse: AWSShape {
+
+    }
+
+    public struct DisassociateMemberFromGroupResponse: AWSShape {
+
+    }
+
+    public struct AssociateDelegateToResourceResponse: AWSShape {
+
     }
 
 }

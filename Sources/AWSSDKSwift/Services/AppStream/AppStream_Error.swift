@@ -6,15 +6,15 @@ import AWSSDKSwiftCore
 public enum AppStreamErrorType: AWSErrorType {
     case resourceNotFoundException(message: String?)
     case resourceNotAvailableException(message: String?)
-    case operationNotPermittedException(message: String?)
-    case invalidParameterCombinationException(message: String?)
-    case concurrentModificationException(message: String?)
-    case resourceInUseException(message: String?)
     case limitExceededException(message: String?)
-    case invalidAccountStatusException(message: String?)
-    case incompatibleImageException(message: String?)
     case resourceAlreadyExistsException(message: String?)
+    case invalidAccountStatusException(message: String?)
     case invalidRoleException(message: String?)
+    case concurrentModificationException(message: String?)
+    case invalidParameterCombinationException(message: String?)
+    case incompatibleImageException(message: String?)
+    case operationNotPermittedException(message: String?)
+    case resourceInUseException(message: String?)
 }
 
 extension AppStreamErrorType {
@@ -28,24 +28,24 @@ extension AppStreamErrorType {
             self = .resourceNotFoundException(message: message)
         case "ResourceNotAvailableException":
             self = .resourceNotAvailableException(message: message)
-        case "OperationNotPermittedException":
-            self = .operationNotPermittedException(message: message)
-        case "InvalidParameterCombinationException":
-            self = .invalidParameterCombinationException(message: message)
-        case "ConcurrentModificationException":
-            self = .concurrentModificationException(message: message)
-        case "ResourceInUseException":
-            self = .resourceInUseException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
-        case "InvalidAccountStatusException":
-            self = .invalidAccountStatusException(message: message)
-        case "IncompatibleImageException":
-            self = .incompatibleImageException(message: message)
         case "ResourceAlreadyExistsException":
             self = .resourceAlreadyExistsException(message: message)
+        case "InvalidAccountStatusException":
+            self = .invalidAccountStatusException(message: message)
         case "InvalidRoleException":
             self = .invalidRoleException(message: message)
+        case "ConcurrentModificationException":
+            self = .concurrentModificationException(message: message)
+        case "InvalidParameterCombinationException":
+            self = .invalidParameterCombinationException(message: message)
+        case "IncompatibleImageException":
+            self = .incompatibleImageException(message: message)
+        case "OperationNotPermittedException":
+            self = .operationNotPermittedException(message: message)
+        case "ResourceInUseException":
+            self = .resourceInUseException(message: message)
         default:
             return nil
         }

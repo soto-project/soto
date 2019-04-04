@@ -5,14 +5,14 @@ import AWSSDKSwiftCore
 /// Error enum for Support
 public enum SupportErrorType: AWSErrorType {
     case internalServerError(message: String?)
+    case caseCreationLimitExceeded(message: String?)
     case attachmentSetIdNotFound(message: String?)
     case attachmentSetExpired(message: String?)
-    case attachmentSetSizeLimitExceeded(message: String?)
-    case attachmentLimitExceeded(message: String?)
-    case caseIdNotFound(message: String?)
     case describeAttachmentLimitExceeded(message: String?)
     case attachmentIdNotFound(message: String?)
-    case caseCreationLimitExceeded(message: String?)
+    case caseIdNotFound(message: String?)
+    case attachmentSetSizeLimitExceeded(message: String?)
+    case attachmentLimitExceeded(message: String?)
 }
 
 extension SupportErrorType {
@@ -24,22 +24,22 @@ extension SupportErrorType {
         switch errorCode {
         case "InternalServerError":
             self = .internalServerError(message: message)
+        case "CaseCreationLimitExceeded":
+            self = .caseCreationLimitExceeded(message: message)
         case "AttachmentSetIdNotFound":
             self = .attachmentSetIdNotFound(message: message)
         case "AttachmentSetExpired":
             self = .attachmentSetExpired(message: message)
-        case "AttachmentSetSizeLimitExceeded":
-            self = .attachmentSetSizeLimitExceeded(message: message)
-        case "AttachmentLimitExceeded":
-            self = .attachmentLimitExceeded(message: message)
-        case "CaseIdNotFound":
-            self = .caseIdNotFound(message: message)
         case "DescribeAttachmentLimitExceeded":
             self = .describeAttachmentLimitExceeded(message: message)
         case "AttachmentIdNotFound":
             self = .attachmentIdNotFound(message: message)
-        case "CaseCreationLimitExceeded":
-            self = .caseCreationLimitExceeded(message: message)
+        case "CaseIdNotFound":
+            self = .caseIdNotFound(message: message)
+        case "AttachmentSetSizeLimitExceeded":
+            self = .attachmentSetSizeLimitExceeded(message: message)
+        case "AttachmentLimitExceeded":
+            self = .attachmentLimitExceeded(message: message)
         default:
             return nil
         }

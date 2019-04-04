@@ -5,27 +5,27 @@ import AWSSDKSwiftCore
 /// Error enum for ELB
 public enum ELBErrorType: AWSErrorType {
     case accessPointNotFoundException(message: String?)
+    case duplicateListenerException(message: String?)
+    case certificateNotFoundException(message: String?)
     case invalidConfigurationRequestException(message: String?)
+    case unsupportedProtocolException(message: String?)
+    case policyNotFoundException(message: String?)
     case subnetNotFoundException(message: String?)
     case invalidSubnetException(message: String?)
+    case loadBalancerAttributeNotFoundException(message: String?)
     case policyTypeNotFoundException(message: String?)
+    case listenerNotFoundException(message: String?)
     case duplicatePolicyNameException(message: String?)
     case tooManyPoliciesException(message: String?)
-    case policyNotFoundException(message: String?)
-    case listenerNotFoundException(message: String?)
-    case duplicateAccessPointNameException(message: String?)
-    case tooManyAccessPointsException(message: String?)
-    case certificateNotFoundException(message: String?)
     case invalidSecurityGroupException(message: String?)
-    case invalidSchemeException(message: String?)
+    case invalidEndPointException(message: String?)
+    case dependencyThrottleException(message: String?)
     case tooManyTagsException(message: String?)
     case duplicateTagKeysException(message: String?)
-    case unsupportedProtocolException(message: String?)
+    case duplicateAccessPointNameException(message: String?)
+    case tooManyAccessPointsException(message: String?)
+    case invalidSchemeException(message: String?)
     case operationNotPermittedException(message: String?)
-    case dependencyThrottleException(message: String?)
-    case duplicateListenerException(message: String?)
-    case invalidEndPointException(message: String?)
-    case loadBalancerAttributeNotFoundException(message: String?)
 }
 
 extension ELBErrorType {
@@ -37,48 +37,48 @@ extension ELBErrorType {
         switch errorCode {
         case "AccessPointNotFoundException":
             self = .accessPointNotFoundException(message: message)
+        case "DuplicateListenerException":
+            self = .duplicateListenerException(message: message)
+        case "CertificateNotFoundException":
+            self = .certificateNotFoundException(message: message)
         case "InvalidConfigurationRequestException":
             self = .invalidConfigurationRequestException(message: message)
+        case "UnsupportedProtocolException":
+            self = .unsupportedProtocolException(message: message)
+        case "PolicyNotFoundException":
+            self = .policyNotFoundException(message: message)
         case "SubnetNotFoundException":
             self = .subnetNotFoundException(message: message)
         case "InvalidSubnetException":
             self = .invalidSubnetException(message: message)
+        case "LoadBalancerAttributeNotFoundException":
+            self = .loadBalancerAttributeNotFoundException(message: message)
         case "PolicyTypeNotFoundException":
             self = .policyTypeNotFoundException(message: message)
+        case "ListenerNotFoundException":
+            self = .listenerNotFoundException(message: message)
         case "DuplicatePolicyNameException":
             self = .duplicatePolicyNameException(message: message)
         case "TooManyPoliciesException":
             self = .tooManyPoliciesException(message: message)
-        case "PolicyNotFoundException":
-            self = .policyNotFoundException(message: message)
-        case "ListenerNotFoundException":
-            self = .listenerNotFoundException(message: message)
-        case "DuplicateAccessPointNameException":
-            self = .duplicateAccessPointNameException(message: message)
-        case "TooManyAccessPointsException":
-            self = .tooManyAccessPointsException(message: message)
-        case "CertificateNotFoundException":
-            self = .certificateNotFoundException(message: message)
         case "InvalidSecurityGroupException":
             self = .invalidSecurityGroupException(message: message)
-        case "InvalidSchemeException":
-            self = .invalidSchemeException(message: message)
+        case "InvalidEndPointException":
+            self = .invalidEndPointException(message: message)
+        case "DependencyThrottleException":
+            self = .dependencyThrottleException(message: message)
         case "TooManyTagsException":
             self = .tooManyTagsException(message: message)
         case "DuplicateTagKeysException":
             self = .duplicateTagKeysException(message: message)
-        case "UnsupportedProtocolException":
-            self = .unsupportedProtocolException(message: message)
+        case "DuplicateAccessPointNameException":
+            self = .duplicateAccessPointNameException(message: message)
+        case "TooManyAccessPointsException":
+            self = .tooManyAccessPointsException(message: message)
+        case "InvalidSchemeException":
+            self = .invalidSchemeException(message: message)
         case "OperationNotPermittedException":
             self = .operationNotPermittedException(message: message)
-        case "DependencyThrottleException":
-            self = .dependencyThrottleException(message: message)
-        case "DuplicateListenerException":
-            self = .duplicateListenerException(message: message)
-        case "InvalidEndPointException":
-            self = .invalidEndPointException(message: message)
-        case "LoadBalancerAttributeNotFoundException":
-            self = .loadBalancerAttributeNotFoundException(message: message)
         default:
             return nil
         }
