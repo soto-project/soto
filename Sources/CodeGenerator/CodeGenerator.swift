@@ -200,6 +200,8 @@ extension AWSService {
         switch endpointPrefix {
         case "s3":
             code += "import S3Middleware\n\n"
+        case "glacier":
+            code += "import GlacierMiddleware\n\n"
         default:
             break
         }
@@ -215,6 +217,8 @@ extension AWSService {
         switch endpointPrefix {
         case "s3":
             middlewares = "[S3RequestMiddleware()]"
+        case "glacier":
+            middlewares = "[GlacierRequestMiddleware(apiVersion: \"\(version)\")]"
         default:
             break
         }
