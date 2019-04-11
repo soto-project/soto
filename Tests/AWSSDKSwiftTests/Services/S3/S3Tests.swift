@@ -13,14 +13,14 @@ import XCTest
 @testable import AWSSDKSwiftCore
 
 class S3Tests: XCTestCase {
-    
+
     struct TestData {
         static let shared = TestData()
         let bucket = "aws-sdk-swift-test-bucket"
         let bodyData = "hello world".data(using: .utf8)!
         let key = "hello.txt"
     }
-    
+
     var client: S3 {
         return S3(
             accessKeyId: "key",
@@ -34,59 +34,59 @@ class S3Tests: XCTestCase {
         let bucketRequest = S3.CreateBucketRequest(bucket: TestData.shared.bucket)
         _ = try? client.createBucket(bucketRequest)
     }
-    
+
     override func tearDown() {
         let deleteRequest = S3.DeleteObjectRequest(key: TestData.shared.key, bucket: TestData.shared.bucket)
         _ = try? client.deleteObject(deleteRequest)
     }
-    
+
     func testPutObject() throws {
         let putRequest = S3.PutObjectRequest(
             acl: .publicRead,
-            bucket: TestData.shared.bucket,
-            contentLength: Int64(TestData.shared.bodyData.count),
             key: TestData.shared.key,
-            body: TestData.shared.bodyData
+            body: TestData.shared.bodyData,
+            contentLength: Int64(TestData.shared.bodyData.count),
+            bucket: TestData.shared.bucket
         )
-        
-        let output = try client.putObject(putRequest)
+
+        let output = try client.putObject(putRequest).wait()
         XCTAssertNotNil(output.eTag)
     }
-    
-    
+
+
     func testGetObject() throws {
         let putRequest = S3.PutObjectRequest(
             acl: .publicRead,
-            bucket: TestData.shared.bucket,
-            contentLength: Int64(TestData.shared.bodyData.count),
             key: TestData.shared.key,
-            body: TestData.shared.bodyData
+            body: TestData.shared.bodyData,
+            contentLength: Int64(TestData.shared.bodyData.count),
+            bucket: TestData.shared.bucket
         )
-        
-        _ = try client.putObject(putRequest)
-        let object = try client.getObject(S3.GetObjectRequest(key: "hello.txt", bucket: TestData.shared.bucket))
+
+        _ = try client.putObject(putRequest).wait()
+        let object = try client.getObject(S3.GetObjectRequest(bucket: TestData.shared.bucket, key: "hello.txt")).wait()
         XCTAssertEqual(object.body, TestData.shared.bodyData)
     }
-    
+
     func testListObjects() throws {
         let putRequest = S3.PutObjectRequest(
             acl: .publicRead,
-            bucket: TestData.shared.bucket,
-            contentLength: Int64(TestData.shared.bodyData.count),
             key: TestData.shared.key,
-            body: TestData.shared.bodyData
+            body: TestData.shared.bodyData,
+            contentLength: Int64(TestData.shared.bodyData.count),
+            bucket: TestData.shared.bucket
         )
-        
-        let putResult = try client.putObject(putRequest)
-        
-        let output = try client.listObjects(S3.ListObjectsRequest(bucket: TestData.shared.bucket))
+
+        let putResult = try client.putObject(putRequest).wait()
+
+        let output = try client.listObjects(S3.ListObjectsRequest(bucket: TestData.shared.bucket)).wait()
         XCTAssertEqual(output.maxKeys, 1000)
         XCTAssertEqual(output.contents?.first?.key, TestData.shared.key)
         XCTAssertEqual(output.contents?.first?.size, Int32(TestData.shared.bodyData.count))
         XCTAssertEqual(output.contents?.first?.eTag, putResult.eTag?.replacingOccurrences(of: "\"", with: ""))
     }
-    
-    
+
+
     static var allTests : [(String, (S3Tests) -> () throws -> Void)] {
         return [
             ("testPutObject", testPutObject),
