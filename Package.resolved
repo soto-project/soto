@@ -6,7 +6,7 @@
         "repositoryURL": "https://github.com/swift-aws/aws-sdk-swift-core.git",
         "state": {
           "branch": "invokeAsync",
-          "revision": "81dd4db2466a78254ed69068377aa51f6776204d",
+          "revision": "8d11622773653cd82603a6f19c95b79b9a4a02e5",
           "version": null
         }
       },
@@ -33,8 +33,8 @@
         "repositoryURL": "https://github.com/apple/swift-nio.git",
         "state": {
           "branch": null,
-          "revision": "02c11d900794b52b9320916579a074eeb1376f39",
-          "version": "1.14.0"
+          "revision": "ba7970fe396e8198b84c6c1b44b38a1d4e2eb6bd",
+          "version": "1.14.1"
         }
       },
       {
