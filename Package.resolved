@@ -6,7 +6,7 @@
         "repositoryURL": "https://github.com/swift-aws/aws-sdk-swift-core.git",
         "state": {
           "branch": "invokeAsync",
-          "revision": "5e9a4ec77a2a3af82a6dc2d64c81410751edc069",
+          "revision": "967328b0773acdc40fc231e8dcb441aa7ca51bd5",
           "version": null
         }
       },
