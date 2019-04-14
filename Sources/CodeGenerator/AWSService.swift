@@ -261,14 +261,14 @@ struct AWSService {
 
             var inputShape: Shape?
             if let inputShapeName = json["input"]["shape"].string {
-                if let index = shapes.index(where: { inputShapeName == $0.name }) {
+                if let index = shapes.firstIndex(where: { inputShapeName == $0.name }) {
                     inputShape = shapes[index]
                 }
             }
 
             var outputShape: Shape?
             if let outputShapeName = json["output"]["shape"].string {
-                if let index = shapes.index(where: { outputShapeName == $0.name }) {
+                if let index = shapes.firstIndex(where: { outputShapeName == $0.name }) {
                     outputShape = shapes[index]
                 }
             }

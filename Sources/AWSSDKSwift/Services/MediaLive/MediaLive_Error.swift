@@ -18,7 +18,7 @@ public enum MediaLiveErrorType: AWSErrorType {
 extension MediaLiveErrorType {
     public init?(errorCode: String, message: String?){
         var errorCode = errorCode
-        if let index = errorCode.index(of: "#") {
+        if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
