@@ -440,7 +440,7 @@ extension AWSService {
 
 extension Collection where Iterator.Element == Member {
     public func toSwiftArgumentSyntax() -> String {
-        return self.map({ $0.toSwiftArgumentSyntax() }).joined(separator: ", ")
+        return self.map({ $0.toSwiftArgumentSyntax() }).sorted { $0 < $1 }.joined(separator: ", ")
     }
 }
 
