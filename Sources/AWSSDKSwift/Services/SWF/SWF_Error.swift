@@ -5,12 +5,12 @@ import AWSSDKSwiftCore
 /// Error enum for SWF
 public enum SWFErrorType: AWSErrorType {
     case unknownResourceFault(message: String?)
-    case typeDeprecatedFault(message: String?)
     case operationNotPermittedFault(message: String?)
-    case limitExceededFault(message: String?)
     case domainDeprecatedFault(message: String?)
+    case limitExceededFault(message: String?)
     case domainAlreadyExistsFault(message: String?)
     case typeAlreadyExistsFault(message: String?)
+    case typeDeprecatedFault(message: String?)
     case workflowExecutionAlreadyStartedFault(message: String?)
     case defaultUndefinedFault(message: String?)
 }
@@ -24,18 +24,18 @@ extension SWFErrorType {
         switch errorCode {
         case "UnknownResourceFault":
             self = .unknownResourceFault(message: message)
-        case "TypeDeprecatedFault":
-            self = .typeDeprecatedFault(message: message)
         case "OperationNotPermittedFault":
             self = .operationNotPermittedFault(message: message)
-        case "LimitExceededFault":
-            self = .limitExceededFault(message: message)
         case "DomainDeprecatedFault":
             self = .domainDeprecatedFault(message: message)
+        case "LimitExceededFault":
+            self = .limitExceededFault(message: message)
         case "DomainAlreadyExistsFault":
             self = .domainAlreadyExistsFault(message: message)
         case "TypeAlreadyExistsFault":
             self = .typeAlreadyExistsFault(message: message)
+        case "TypeDeprecatedFault":
+            self = .typeDeprecatedFault(message: message)
         case "WorkflowExecutionAlreadyStartedFault":
             self = .workflowExecutionAlreadyStartedFault(message: message)
         case "DefaultUndefinedFault":

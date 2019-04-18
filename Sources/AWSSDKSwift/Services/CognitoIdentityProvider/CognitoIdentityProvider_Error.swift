@@ -4,43 +4,43 @@ import AWSSDKSwiftCore
 
 /// Error enum for CognitoIdentityProvider
 public enum CognitoIdentityProviderErrorType: AWSErrorType {
-    case resourceNotFoundException(message: String?)
     case invalidParameterException(message: String?)
-    case tooManyRequestsException(message: String?)
+    case resourceNotFoundException(message: String?)
     case notAuthorizedException(message: String?)
+    case tooManyRequestsException(message: String?)
     case internalErrorException(message: String?)
-    case userNotFoundException(message: String?)
-    case passwordResetRequiredException(message: String?)
-    case userNotConfirmedException(message: String?)
-    case invalidUserPoolConfigurationException(message: String?)
-    case usernameExistsException(message: String?)
-    case invalidPasswordException(message: String?)
-    case codeDeliveryFailureException(message: String?)
-    case unexpectedLambdaException(message: String?)
-    case userLambdaValidationException(message: String?)
-    case invalidLambdaResponseException(message: String?)
-    case preconditionNotMetException(message: String?)
-    case invalidSmsRoleAccessPolicyException(message: String?)
-    case invalidSmsRoleTrustRelationshipException(message: String?)
-    case unsupportedUserStateException(message: String?)
-    case unsupportedIdentityProviderException(message: String?)
-    case userPoolAddOnNotEnabledException(message: String?)
-    case invalidEmailRoleAccessPolicyException(message: String?)
-    case aliasExistsException(message: String?)
     case limitExceededException(message: String?)
     case userImportInProgressException(message: String?)
     case softwareTokenMFANotFoundException(message: String?)
-    case groupExistsException(message: String?)
+    case invalidUserPoolConfigurationException(message: String?)
     case codeMismatchException(message: String?)
     case expiredCodeException(message: String?)
-    case tooManyFailedAttemptsException(message: String?)
+    case unexpectedLambdaException(message: String?)
+    case userLambdaValidationException(message: String?)
+    case invalidPasswordException(message: String?)
+    case invalidLambdaResponseException(message: String?)
     case mFAMethodNotFoundException(message: String?)
+    case passwordResetRequiredException(message: String?)
+    case userNotFoundException(message: String?)
+    case userNotConfirmedException(message: String?)
+    case invalidSmsRoleAccessPolicyException(message: String?)
+    case invalidSmsRoleTrustRelationshipException(message: String?)
+    case aliasExistsException(message: String?)
+    case groupExistsException(message: String?)
+    case tooManyFailedAttemptsException(message: String?)
+    case invalidEmailRoleAccessPolicyException(message: String?)
+    case codeDeliveryFailureException(message: String?)
+    case userPoolTaggingException(message: String?)
     case concurrentModificationException(message: String?)
     case scopeDoesNotExistException(message: String?)
     case invalidOAuthFlowException(message: String?)
-    case enableSoftwareTokenMFAException(message: String?)
-    case userPoolTaggingException(message: String?)
+    case unsupportedIdentityProviderException(message: String?)
+    case preconditionNotMetException(message: String?)
+    case userPoolAddOnNotEnabledException(message: String?)
     case duplicateProviderException(message: String?)
+    case enableSoftwareTokenMFAException(message: String?)
+    case usernameExistsException(message: String?)
+    case unsupportedUserStateException(message: String?)
 }
 
 extension CognitoIdentityProviderErrorType {
@@ -50,80 +50,80 @@ extension CognitoIdentityProviderErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
         case "InvalidParameterException":
             self = .invalidParameterException(message: message)
-        case "TooManyRequestsException":
-            self = .tooManyRequestsException(message: message)
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
         case "NotAuthorizedException":
             self = .notAuthorizedException(message: message)
+        case "TooManyRequestsException":
+            self = .tooManyRequestsException(message: message)
         case "InternalErrorException":
             self = .internalErrorException(message: message)
-        case "UserNotFoundException":
-            self = .userNotFoundException(message: message)
-        case "PasswordResetRequiredException":
-            self = .passwordResetRequiredException(message: message)
-        case "UserNotConfirmedException":
-            self = .userNotConfirmedException(message: message)
-        case "InvalidUserPoolConfigurationException":
-            self = .invalidUserPoolConfigurationException(message: message)
-        case "UsernameExistsException":
-            self = .usernameExistsException(message: message)
-        case "InvalidPasswordException":
-            self = .invalidPasswordException(message: message)
-        case "CodeDeliveryFailureException":
-            self = .codeDeliveryFailureException(message: message)
-        case "UnexpectedLambdaException":
-            self = .unexpectedLambdaException(message: message)
-        case "UserLambdaValidationException":
-            self = .userLambdaValidationException(message: message)
-        case "InvalidLambdaResponseException":
-            self = .invalidLambdaResponseException(message: message)
-        case "PreconditionNotMetException":
-            self = .preconditionNotMetException(message: message)
-        case "InvalidSmsRoleAccessPolicyException":
-            self = .invalidSmsRoleAccessPolicyException(message: message)
-        case "InvalidSmsRoleTrustRelationshipException":
-            self = .invalidSmsRoleTrustRelationshipException(message: message)
-        case "UnsupportedUserStateException":
-            self = .unsupportedUserStateException(message: message)
-        case "UnsupportedIdentityProviderException":
-            self = .unsupportedIdentityProviderException(message: message)
-        case "UserPoolAddOnNotEnabledException":
-            self = .userPoolAddOnNotEnabledException(message: message)
-        case "InvalidEmailRoleAccessPolicyException":
-            self = .invalidEmailRoleAccessPolicyException(message: message)
-        case "AliasExistsException":
-            self = .aliasExistsException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
         case "UserImportInProgressException":
             self = .userImportInProgressException(message: message)
         case "SoftwareTokenMFANotFoundException":
             self = .softwareTokenMFANotFoundException(message: message)
-        case "GroupExistsException":
-            self = .groupExistsException(message: message)
+        case "InvalidUserPoolConfigurationException":
+            self = .invalidUserPoolConfigurationException(message: message)
         case "CodeMismatchException":
             self = .codeMismatchException(message: message)
         case "ExpiredCodeException":
             self = .expiredCodeException(message: message)
-        case "TooManyFailedAttemptsException":
-            self = .tooManyFailedAttemptsException(message: message)
+        case "UnexpectedLambdaException":
+            self = .unexpectedLambdaException(message: message)
+        case "UserLambdaValidationException":
+            self = .userLambdaValidationException(message: message)
+        case "InvalidPasswordException":
+            self = .invalidPasswordException(message: message)
+        case "InvalidLambdaResponseException":
+            self = .invalidLambdaResponseException(message: message)
         case "MFAMethodNotFoundException":
             self = .mFAMethodNotFoundException(message: message)
+        case "PasswordResetRequiredException":
+            self = .passwordResetRequiredException(message: message)
+        case "UserNotFoundException":
+            self = .userNotFoundException(message: message)
+        case "UserNotConfirmedException":
+            self = .userNotConfirmedException(message: message)
+        case "InvalidSmsRoleAccessPolicyException":
+            self = .invalidSmsRoleAccessPolicyException(message: message)
+        case "InvalidSmsRoleTrustRelationshipException":
+            self = .invalidSmsRoleTrustRelationshipException(message: message)
+        case "AliasExistsException":
+            self = .aliasExistsException(message: message)
+        case "GroupExistsException":
+            self = .groupExistsException(message: message)
+        case "TooManyFailedAttemptsException":
+            self = .tooManyFailedAttemptsException(message: message)
+        case "InvalidEmailRoleAccessPolicyException":
+            self = .invalidEmailRoleAccessPolicyException(message: message)
+        case "CodeDeliveryFailureException":
+            self = .codeDeliveryFailureException(message: message)
+        case "UserPoolTaggingException":
+            self = .userPoolTaggingException(message: message)
         case "ConcurrentModificationException":
             self = .concurrentModificationException(message: message)
         case "ScopeDoesNotExistException":
             self = .scopeDoesNotExistException(message: message)
         case "InvalidOAuthFlowException":
             self = .invalidOAuthFlowException(message: message)
-        case "EnableSoftwareTokenMFAException":
-            self = .enableSoftwareTokenMFAException(message: message)
-        case "UserPoolTaggingException":
-            self = .userPoolTaggingException(message: message)
+        case "UnsupportedIdentityProviderException":
+            self = .unsupportedIdentityProviderException(message: message)
+        case "PreconditionNotMetException":
+            self = .preconditionNotMetException(message: message)
+        case "UserPoolAddOnNotEnabledException":
+            self = .userPoolAddOnNotEnabledException(message: message)
         case "DuplicateProviderException":
             self = .duplicateProviderException(message: message)
+        case "EnableSoftwareTokenMFAException":
+            self = .enableSoftwareTokenMFAException(message: message)
+        case "UsernameExistsException":
+            self = .usernameExistsException(message: message)
+        case "UnsupportedUserStateException":
+            self = .unsupportedUserStateException(message: message)
         default:
             return nil
         }

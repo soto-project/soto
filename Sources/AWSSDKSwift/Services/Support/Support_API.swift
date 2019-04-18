@@ -25,9 +25,19 @@ public struct Support {
         )
     }
 
-    ///  Adds one or more attachments to an attachment set. If an attachmentSetId is not specified, a new attachment set is created, and the ID of the set is returned in the response. If an attachmentSetId is specified, the attachments are added to the specified set, if it exists. An attachment set is a temporary container for attachments that are to be added to a case or case communication. The set is available for one hour after it is created; the expiryTime returned in the response indicates when the set expires. The maximum number of attachments in a set is 3, and the maximum size of any attachment in the set is 5 MB.
-    public func addAttachmentsToSet(_ input: AddAttachmentsToSetRequest) throws -> AddAttachmentsToSetResponse {
-        return try client.send(operation: "AddAttachmentsToSet", path: "/", httpMethod: "POST", input: input)
+    ///  Returns a list of cases that you specify by passing one or more case IDs. In addition, you can filter the cases by date by setting values for the afterTime and beforeTime request parameters. You can set values for the includeResolvedCases and includeCommunications request parameters to control how much information is returned.  Case data is available for 12 months after creation. If a case was created more than 12 months ago, a request for data might cause an error. The response returns the following in JSON format:   One or more CaseDetails data types.    One or more nextToken values, which specify where to paginate the returned records represented by the CaseDetails objects.  
+    public func describeCases(_ input: DescribeCasesRequest) throws -> DescribeCasesResponse {
+        return try client.send(operation: "DescribeCases", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Adds additional customer communication to an AWS Support case. You use the caseId value to identify the case to add communication to. You can list a set of email addresses to copy on the communication using the ccEmailAddresses value. The communicationBody value contains the text of the communication. The response indicates the success or failure of the request. This operation implements a subset of the features of the AWS Support Center.
+    public func addCommunicationToCase(_ input: AddCommunicationToCaseRequest) throws -> AddCommunicationToCaseResponse {
+        return try client.send(operation: "AddCommunicationToCase", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns the summaries of the results of the Trusted Advisor checks that have the specified check IDs. Check IDs can be obtained by calling DescribeTrustedAdvisorChecks. The response contains an array of TrustedAdvisorCheckSummary objects.
+    public func describeTrustedAdvisorCheckSummaries(_ input: DescribeTrustedAdvisorCheckSummariesRequest) throws -> DescribeTrustedAdvisorCheckSummariesResponse {
+        return try client.send(operation: "DescribeTrustedAdvisorCheckSummaries", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about all available Trusted Advisor checks, including name, ID, category, description, and metadata. You must specify a language code; English ("en") and Japanese ("ja") are currently supported. The response contains a TrustedAdvisorCheckDescription for each check.
@@ -35,29 +45,24 @@ public struct Support {
         return try client.send(operation: "DescribeTrustedAdvisorChecks", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Returns the results of the Trusted Advisor check that has the specified check ID. Check IDs can be obtained by calling DescribeTrustedAdvisorChecks. The response contains a TrustedAdvisorCheckResult object, which contains these three objects:    TrustedAdvisorCategorySpecificSummary     TrustedAdvisorResourceDetail     TrustedAdvisorResourcesSummary    In addition, the response contains these fields:    status. The alert status of the check: "ok" (green), "warning" (yellow), "error" (red), or "not_available".    timestamp. The time of the last refresh of the check.    checkId. The unique identifier for the check.  
+    public func describeTrustedAdvisorCheckResult(_ input: DescribeTrustedAdvisorCheckResultRequest) throws -> DescribeTrustedAdvisorCheckResultResponse {
+        return try client.send(operation: "DescribeTrustedAdvisorCheckResult", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Requests a refresh of the Trusted Advisor check that has the specified check ID. Check IDs can be obtained by calling DescribeTrustedAdvisorChecks.  Some checks are refreshed automatically, and they cannot be refreshed by using this operation. Use of the RefreshTrustedAdvisorCheck operation for these checks causes an InvalidParameterValue error.  The response contains a TrustedAdvisorCheckRefreshStatus object, which contains these fields:    status. The refresh status of the check: "none", "enqueued", "processing", "success", or "abandoned".    millisUntilNextRefreshable. The amount of time, in milliseconds, until the check is eligible for refresh.    checkId. The unique identifier for the check.  
     public func refreshTrustedAdvisorCheck(_ input: RefreshTrustedAdvisorCheckRequest) throws -> RefreshTrustedAdvisorCheckResponse {
         return try client.send(operation: "RefreshTrustedAdvisorCheck", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a list of cases that you specify by passing one or more case IDs. In addition, you can filter the cases by date by setting values for the afterTime and beforeTime request parameters. You can set values for the includeResolvedCases and includeCommunications request parameters to control how much information is returned.  Case data is available for 12 months after creation. If a case was created more than 12 months ago, a request for data might cause an error. The response returns the following in JSON format:   One or more CaseDetails data types.    One or more nextToken values, which specify where to paginate the returned records represented by the CaseDetails objects.  
-    public func describeCases(_ input: DescribeCasesRequest) throws -> DescribeCasesResponse {
-        return try client.send(operation: "DescribeCases", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Takes a caseId and returns the initial state of the case along with the state of the case after the call to ResolveCase completed.
-    public func resolveCase(_ input: ResolveCaseRequest) throws -> ResolveCaseResponse {
-        return try client.send(operation: "ResolveCase", path: "/", httpMethod: "POST", input: input)
+    ///  Adds one or more attachments to an attachment set. If an attachmentSetId is not specified, a new attachment set is created, and the ID of the set is returned in the response. If an attachmentSetId is specified, the attachments are added to the specified set, if it exists. An attachment set is a temporary container for attachments that are to be added to a case or case communication. The set is available for one hour after it is created; the expiryTime returned in the response indicates when the set expires. The maximum number of attachments in a set is 3, and the maximum size of any attachment in the set is 5 MB.
+    public func addAttachmentsToSet(_ input: AddAttachmentsToSetRequest) throws -> AddAttachmentsToSetResponse {
+        return try client.send(operation: "AddAttachmentsToSet", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the list of severity levels that you can assign to an AWS Support case. The severity level for a case is also a field in the CaseDetails data type included in any CreateCase request. 
     public func describeSeverityLevels(_ input: DescribeSeverityLevelsRequest) throws -> DescribeSeverityLevelsResponse {
         return try client.send(operation: "DescribeSeverityLevels", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns the results of the Trusted Advisor check that has the specified check ID. Check IDs can be obtained by calling DescribeTrustedAdvisorChecks. The response contains a TrustedAdvisorCheckResult object, which contains these three objects:    TrustedAdvisorCategorySpecificSummary     TrustedAdvisorResourceDetail     TrustedAdvisorResourcesSummary    In addition, the response contains these fields:    status. The alert status of the check: "ok" (green), "warning" (yellow), "error" (red), or "not_available".    timestamp. The time of the last refresh of the check.    checkId. The unique identifier for the check.  
-    public func describeTrustedAdvisorCheckResult(_ input: DescribeTrustedAdvisorCheckResultRequest) throws -> DescribeTrustedAdvisorCheckResultResponse {
-        return try client.send(operation: "DescribeTrustedAdvisorCheckResult", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the attachment that has the specified ID. Attachment IDs are generated by the case management system when you add an attachment to a case or case communication. Attachment IDs are returned in the AttachmentDetails objects that are returned by the DescribeCommunications operation.
@@ -70,14 +75,9 @@ public struct Support {
         return try client.send(operation: "CreateCase", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns the current list of AWS services and a list of service categories that applies to each one. You then use service names and categories in your CreateCase requests. Each AWS service has its own set of categories. The service codes and category codes correspond to the values that are displayed in the Service and Category drop-down lists on the AWS Support Center Create Case page. The values in those fields, however, do not necessarily match the service codes and categories returned by the DescribeServices request. Always use the service codes and categories obtained programmatically. This practice ensures that you always have the most recent set of service and category codes.
-    public func describeServices(_ input: DescribeServicesRequest) throws -> DescribeServicesResponse {
-        return try client.send(operation: "DescribeServices", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns communications (and attachments) for one or more support cases. You can use the afterTime and beforeTime parameters to filter by date. You can use the caseId parameter to restrict the results to a particular case. Case data is available for 12 months after creation. If a case was created more than 12 months ago, a request for data might cause an error. You can use the maxResults and nextToken parameters to control the pagination of the result set. Set maxResults to the number of cases you want displayed on each page, and use nextToken to specify the resumption of pagination.
-    public func describeCommunications(_ input: DescribeCommunicationsRequest) throws -> DescribeCommunicationsResponse {
-        return try client.send(operation: "DescribeCommunications", path: "/", httpMethod: "POST", input: input)
+    ///  Takes a caseId and returns the initial state of the case along with the state of the case after the call to ResolveCase completed.
+    public func resolveCase(_ input: ResolveCaseRequest) throws -> ResolveCaseResponse {
+        return try client.send(operation: "ResolveCase", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the refresh status of the Trusted Advisor checks that have the specified check IDs. Check IDs can be obtained by calling DescribeTrustedAdvisorChecks.  Some checks are refreshed automatically, and their refresh statuses cannot be retrieved by using this operation. Use of the DescribeTrustedAdvisorCheckRefreshStatuses operation for these checks causes an InvalidParameterValue error. 
@@ -85,14 +85,14 @@ public struct Support {
         return try client.send(operation: "DescribeTrustedAdvisorCheckRefreshStatuses", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns the summaries of the results of the Trusted Advisor checks that have the specified check IDs. Check IDs can be obtained by calling DescribeTrustedAdvisorChecks. The response contains an array of TrustedAdvisorCheckSummary objects.
-    public func describeTrustedAdvisorCheckSummaries(_ input: DescribeTrustedAdvisorCheckSummariesRequest) throws -> DescribeTrustedAdvisorCheckSummariesResponse {
-        return try client.send(operation: "DescribeTrustedAdvisorCheckSummaries", path: "/", httpMethod: "POST", input: input)
+    ///  Returns communications (and attachments) for one or more support cases. You can use the afterTime and beforeTime parameters to filter by date. You can use the caseId parameter to restrict the results to a particular case. Case data is available for 12 months after creation. If a case was created more than 12 months ago, a request for data might cause an error. You can use the maxResults and nextToken parameters to control the pagination of the result set. Set maxResults to the number of cases you want displayed on each page, and use nextToken to specify the resumption of pagination.
+    public func describeCommunications(_ input: DescribeCommunicationsRequest) throws -> DescribeCommunicationsResponse {
+        return try client.send(operation: "DescribeCommunications", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Adds additional customer communication to an AWS Support case. You use the caseId value to identify the case to add communication to. You can list a set of email addresses to copy on the communication using the ccEmailAddresses value. The communicationBody value contains the text of the communication. The response indicates the success or failure of the request. This operation implements a subset of the features of the AWS Support Center.
-    public func addCommunicationToCase(_ input: AddCommunicationToCaseRequest) throws -> AddCommunicationToCaseResponse {
-        return try client.send(operation: "AddCommunicationToCase", path: "/", httpMethod: "POST", input: input)
+    ///  Returns the current list of AWS services and a list of service categories that applies to each one. You then use service names and categories in your CreateCase requests. Each AWS service has its own set of categories. The service codes and category codes correspond to the values that are displayed in the Service and Category drop-down lists on the AWS Support Center Create Case page. The values in those fields, however, do not necessarily match the service codes and categories returned by the DescribeServices request. Always use the service codes and categories obtained programmatically. This practice ensures that you always have the most recent set of service and category codes.
+    public func describeServices(_ input: DescribeServicesRequest) throws -> DescribeServicesResponse {
+        return try client.send(operation: "DescribeServices", path: "/", httpMethod: "POST", input: input)
     }
 
 

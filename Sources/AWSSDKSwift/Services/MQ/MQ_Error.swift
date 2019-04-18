@@ -7,8 +7,8 @@ public enum MQErrorType: AWSErrorType {
     case notFoundException(message: String?)
     case badRequestException(message: String?)
     case internalServerErrorException(message: String?)
-    case conflictException(message: String?)
     case forbiddenException(message: String?)
+    case conflictException(message: String?)
     case unauthorizedException(message: String?)
 }
 
@@ -25,10 +25,10 @@ extension MQErrorType {
             self = .badRequestException(message: message)
         case "InternalServerErrorException":
             self = .internalServerErrorException(message: message)
-        case "ConflictException":
-            self = .conflictException(message: message)
         case "ForbiddenException":
             self = .forbiddenException(message: message)
+        case "ConflictException":
+            self = .conflictException(message: message)
         case "UnauthorizedException":
             self = .unauthorizedException(message: message)
         default:

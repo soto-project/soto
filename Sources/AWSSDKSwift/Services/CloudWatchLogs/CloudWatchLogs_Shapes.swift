@@ -5,592 +5,6 @@ import AWSSDKSwiftCore
 
 extension CloudWatchLogs {
 
-    public struct DescribeDestinationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "destinations", required: false, type: .list)
-        ]
-        public let nextToken: String?
-        /// The destinations.
-        public let destinations: [Destination]?
-
-        public init(nextToken: String? = nil, destinations: [Destination]? = nil) {
-            self.nextToken = nextToken
-            self.destinations = destinations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case destinations = "destinations"
-        }
-    }
-
-    public struct DeleteSubscriptionFilterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filterName", required: true, type: .string), 
-            AWSShapeMember(label: "logGroupName", required: true, type: .string)
-        ]
-        /// The name of the subscription filter.
-        public let filterName: String
-        /// The name of the log group.
-        public let logGroupName: String
-
-        public init(filterName: String, logGroupName: String) {
-            self.filterName = filterName
-            self.logGroupName = logGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case filterName = "filterName"
-            case logGroupName = "logGroupName"
-        }
-    }
-
-    public struct PutDestinationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "destination", required: false, type: .structure)
-        ]
-        /// The destination.
-        public let destination: Destination?
-
-        public init(destination: Destination? = nil) {
-            self.destination = destination
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case destination = "destination"
-        }
-    }
-
-    public enum QueryStatus: String, CustomStringConvertible, Codable {
-        case scheduled = "Scheduled"
-        case running = "Running"
-        case complete = "Complete"
-        case failed = "Failed"
-        case cancelled = "Cancelled"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct SubscriptionFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationTime", required: false, type: .long), 
-            AWSShapeMember(label: "distribution", required: false, type: .enum), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string), 
-            AWSShapeMember(label: "filterName", required: false, type: .string), 
-            AWSShapeMember(label: "logGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "filterPattern", required: false, type: .string), 
-            AWSShapeMember(label: "destinationArn", required: false, type: .string)
-        ]
-        /// The creation time of the subscription filter, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
-        public let creationTime: Int64?
-        public let distribution: Distribution?
-        public let roleArn: String?
-        /// The name of the subscription filter.
-        public let filterName: String?
-        /// The name of the log group.
-        public let logGroupName: String?
-        public let filterPattern: String?
-        /// The Amazon Resource Name (ARN) of the destination.
-        public let destinationArn: String?
-
-        public init(creationTime: Int64? = nil, distribution: Distribution? = nil, roleArn: String? = nil, filterName: String? = nil, logGroupName: String? = nil, filterPattern: String? = nil, destinationArn: String? = nil) {
-            self.creationTime = creationTime
-            self.distribution = distribution
-            self.roleArn = roleArn
-            self.filterName = filterName
-            self.logGroupName = logGroupName
-            self.filterPattern = filterPattern
-            self.destinationArn = destinationArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case creationTime = "creationTime"
-            case distribution = "distribution"
-            case roleArn = "roleArn"
-            case filterName = "filterName"
-            case logGroupName = "logGroupName"
-            case filterPattern = "filterPattern"
-            case destinationArn = "destinationArn"
-        }
-    }
-
-    public struct QueryInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "queryString", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "createTime", required: false, type: .long), 
-            AWSShapeMember(label: "queryId", required: false, type: .string)
-        ]
-        /// The name of the log group scanned by this query.
-        public let logGroupName: String?
-        /// The query string used in this query.
-        public let queryString: String?
-        /// The status of this query. Possible values are Cancelled, Complete, Failed, Running, Scheduled, and Unknown.
-        public let status: QueryStatus?
-        /// The date and time that this query was created.
-        public let createTime: Int64?
-        /// The unique ID number of this query.
-        public let queryId: String?
-
-        public init(logGroupName: String? = nil, queryString: String? = nil, status: QueryStatus? = nil, createTime: Int64? = nil, queryId: String? = nil) {
-            self.logGroupName = logGroupName
-            self.queryString = queryString
-            self.status = status
-            self.createTime = createTime
-            self.queryId = queryId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case logGroupName = "logGroupName"
-            case queryString = "queryString"
-            case status = "status"
-            case createTime = "createTime"
-            case queryId = "queryId"
-        }
-    }
-
-    public struct GetLogGroupFieldsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logGroupFields", required: false, type: .list)
-        ]
-        /// The array of fields found in the query. Each object in the array contains the name of the field, along with the percentage of time it appeared in the log events that were queried.
-        public let logGroupFields: [LogGroupField]?
-
-        public init(logGroupFields: [LogGroupField]? = nil) {
-            self.logGroupFields = logGroupFields
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case logGroupFields = "logGroupFields"
-        }
-    }
-
-    public struct SearchedLogStream: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "searchedCompletely", required: false, type: .boolean), 
-            AWSShapeMember(label: "logStreamName", required: false, type: .string)
-        ]
-        /// Indicates whether all the events in this log stream were searched.
-        public let searchedCompletely: Bool?
-        /// The name of the log stream.
-        public let logStreamName: String?
-
-        public init(searchedCompletely: Bool? = nil, logStreamName: String? = nil) {
-            self.searchedCompletely = searchedCompletely
-            self.logStreamName = logStreamName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case searchedCompletely = "searchedCompletely"
-            case logStreamName = "logStreamName"
-        }
-    }
-
-    public struct PutMetricFilterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "filterName", required: true, type: .string), 
-            AWSShapeMember(label: "filterPattern", required: true, type: .string), 
-            AWSShapeMember(label: "metricTransformations", required: true, type: .list)
-        ]
-        /// The name of the log group.
-        public let logGroupName: String
-        /// A name for the metric filter.
-        public let filterName: String
-        /// A filter pattern for extracting metric data out of ingested log events.
-        public let filterPattern: String
-        /// A collection of information that defines how metric data gets emitted.
-        public let metricTransformations: [MetricTransformation]
-
-        public init(logGroupName: String, filterName: String, filterPattern: String, metricTransformations: [MetricTransformation]) {
-            self.logGroupName = logGroupName
-            self.filterName = filterName
-            self.filterPattern = filterPattern
-            self.metricTransformations = metricTransformations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case logGroupName = "logGroupName"
-            case filterName = "filterName"
-            case filterPattern = "filterPattern"
-            case metricTransformations = "metricTransformations"
-        }
-    }
-
-    public struct LogGroupField: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "percent", required: false, type: .integer)
-        ]
-        /// The name of a log field.
-        public let name: String?
-        /// The percentage of log events queried that contained the field.
-        public let percent: Int32?
-
-        public init(name: String? = nil, percent: Int32? = nil) {
-            self.name = name
-            self.percent = percent
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case percent = "percent"
-        }
-    }
-
-    public struct TestMetricFilterResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "matches", required: false, type: .list)
-        ]
-        /// The matched events.
-        public let matches: [MetricFilterMatchRecord]?
-
-        public init(matches: [MetricFilterMatchRecord]? = nil) {
-            self.matches = matches
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case matches = "matches"
-        }
-    }
-
-    public struct DescribeLogStreamsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "limit", required: false, type: .integer), 
-            AWSShapeMember(label: "descending", required: false, type: .boolean), 
-            AWSShapeMember(label: "logStreamNamePrefix", required: false, type: .string), 
-            AWSShapeMember(label: "orderBy", required: false, type: .enum)
-        ]
-        /// The name of the log group.
-        public let logGroupName: String
-        /// The token for the next set of items to return. (You received this token from a previous call.)
-        public let nextToken: String?
-        /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
-        public let limit: Int32?
-        /// If the value is true, results are returned in descending order. If the value is to false, results are returned in ascending order. The default value is false.
-        public let descending: Bool?
-        /// The prefix to match. If orderBy is LastEventTime,you cannot specify this parameter.
-        public let logStreamNamePrefix: String?
-        /// If the value is LogStreamName, the results are ordered by log stream name. If the value is LastEventTime, the results are ordered by the event time. The default value is LogStreamName. If you order the results by event time, you cannot specify the logStreamNamePrefix parameter. lastEventTimestamp represents the time of the most recent log event in the log stream in CloudWatch Logs. This number is expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. lastEventTimeStamp updates on an eventual consistency basis. It typically updates in less than an hour from ingestion, but may take longer in some rare situations.
-        public let orderBy: OrderBy?
-
-        public init(logGroupName: String, nextToken: String? = nil, limit: Int32? = nil, descending: Bool? = nil, logStreamNamePrefix: String? = nil, orderBy: OrderBy? = nil) {
-            self.logGroupName = logGroupName
-            self.nextToken = nextToken
-            self.limit = limit
-            self.descending = descending
-            self.logStreamNamePrefix = logStreamNamePrefix
-            self.orderBy = orderBy
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case logGroupName = "logGroupName"
-            case nextToken = "nextToken"
-            case limit = "limit"
-            case descending = "descending"
-            case logStreamNamePrefix = "logStreamNamePrefix"
-            case orderBy = "orderBy"
-        }
-    }
-
-    public struct CreateExportTaskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "from", required: true, type: .long), 
-            AWSShapeMember(label: "to", required: true, type: .long), 
-            AWSShapeMember(label: "destinationPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "taskName", required: false, type: .string), 
-            AWSShapeMember(label: "destination", required: true, type: .string), 
-            AWSShapeMember(label: "logStreamNamePrefix", required: false, type: .string)
-        ]
-        /// The start time of the range for the request, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp earlier than this time are not exported.
-        public let from: Int64
-        /// The end time of the range for the request, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp later than this time are not exported.
-        public let to: Int64
-        /// The prefix used as the start of the key for every object exported. If you don't specify a value, the default is exportedlogs.
-        public let destinationPrefix: String?
-        /// The name of the log group.
-        public let logGroupName: String
-        /// The name of the export task.
-        public let taskName: String?
-        /// The name of S3 bucket for the exported log data. The bucket must be in the same AWS region.
-        public let destination: String
-        /// Export only log streams that match the provided prefix. If you don't specify a value, no prefix filter is applied.
-        public let logStreamNamePrefix: String?
-
-        public init(from: Int64, to: Int64, destinationPrefix: String? = nil, logGroupName: String, taskName: String? = nil, destination: String, logStreamNamePrefix: String? = nil) {
-            self.from = from
-            self.to = to
-            self.destinationPrefix = destinationPrefix
-            self.logGroupName = logGroupName
-            self.taskName = taskName
-            self.destination = destination
-            self.logStreamNamePrefix = logStreamNamePrefix
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case from = "from"
-            case to = "to"
-            case destinationPrefix = "destinationPrefix"
-            case logGroupName = "logGroupName"
-            case taskName = "taskName"
-            case destination = "destination"
-            case logStreamNamePrefix = "logStreamNamePrefix"
-        }
-    }
-
-    public struct TagLogGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: true, type: .map), 
-            AWSShapeMember(label: "logGroupName", required: true, type: .string)
-        ]
-        /// The key-value pairs to use for the tags.
-        public let tags: [String: String]
-        /// The name of the log group.
-        public let logGroupName: String
-
-        public init(tags: [String: String], logGroupName: String) {
-            self.tags = tags
-            self.logGroupName = logGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "tags"
-            case logGroupName = "logGroupName"
-        }
-    }
-
-    public struct QueryStatistics: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "bytesScanned", required: false, type: .double), 
-            AWSShapeMember(label: "recordsScanned", required: false, type: .double), 
-            AWSShapeMember(label: "recordsMatched", required: false, type: .double)
-        ]
-        /// The total number of bytes in the log events scanned during the query.
-        public let bytesScanned: Double?
-        /// The total number of log events scanned during the query.
-        public let recordsScanned: Double?
-        /// The number of log events that matched the query string.
-        public let recordsMatched: Double?
-
-        public init(bytesScanned: Double? = nil, recordsScanned: Double? = nil, recordsMatched: Double? = nil) {
-            self.bytesScanned = bytesScanned
-            self.recordsScanned = recordsScanned
-            self.recordsMatched = recordsMatched
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bytesScanned = "bytesScanned"
-            case recordsScanned = "recordsScanned"
-            case recordsMatched = "recordsMatched"
-        }
-    }
-
-    public struct PutResourcePolicyResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourcePolicy", required: false, type: .structure)
-        ]
-        /// The new policy.
-        public let resourcePolicy: ResourcePolicy?
-
-        public init(resourcePolicy: ResourcePolicy? = nil) {
-            self.resourcePolicy = resourcePolicy
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourcePolicy = "resourcePolicy"
-        }
-    }
-
-    public struct GetLogEventsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "startTime", required: false, type: .long), 
-            AWSShapeMember(label: "endTime", required: false, type: .long), 
-            AWSShapeMember(label: "limit", required: false, type: .integer), 
-            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "startFromHead", required: false, type: .boolean), 
-            AWSShapeMember(label: "logStreamName", required: true, type: .string)
-        ]
-        /// The token for the next set of items to return. (You received this token from a previous call.)
-        public let nextToken: String?
-        /// The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp equal to this time or later than this time are included. Events with a timestamp earlier than this time are not included.
-        public let startTime: Int64?
-        /// The end of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp equal to or later than this time are not included.
-        public let endTime: Int64?
-        /// The maximum number of log events returned. If you don't specify a value, the maximum is as many log events as can fit in a response size of 1 MB, up to 10,000 log events.
-        public let limit: Int32?
-        /// The name of the log group.
-        public let logGroupName: String
-        /// If the value is true, the earliest log events are returned first. If the value is false, the latest log events are returned first. The default value is false.
-        public let startFromHead: Bool?
-        /// The name of the log stream.
-        public let logStreamName: String
-
-        public init(nextToken: String? = nil, startTime: Int64? = nil, endTime: Int64? = nil, limit: Int32? = nil, logGroupName: String, startFromHead: Bool? = nil, logStreamName: String) {
-            self.nextToken = nextToken
-            self.startTime = startTime
-            self.endTime = endTime
-            self.limit = limit
-            self.logGroupName = logGroupName
-            self.startFromHead = startFromHead
-            self.logStreamName = logStreamName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case startTime = "startTime"
-            case endTime = "endTime"
-            case limit = "limit"
-            case logGroupName = "logGroupName"
-            case startFromHead = "startFromHead"
-            case logStreamName = "logStreamName"
-        }
-    }
-
-    public struct DescribeMetricFiltersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "metricFilters", required: false, type: .list)
-        ]
-        public let nextToken: String?
-        /// The metric filters.
-        public let metricFilters: [MetricFilter]?
-
-        public init(nextToken: String? = nil, metricFilters: [MetricFilter]? = nil) {
-            self.nextToken = nextToken
-            self.metricFilters = metricFilters
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case metricFilters = "metricFilters"
-        }
-    }
-
-    public struct MetricFilterMatchRecord: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "eventMessage", required: false, type: .string), 
-            AWSShapeMember(label: "extractedValues", required: false, type: .map), 
-            AWSShapeMember(label: "eventNumber", required: false, type: .long)
-        ]
-        /// The raw event data.
-        public let eventMessage: String?
-        /// The values extracted from the event data by the filter.
-        public let extractedValues: [String: String]?
-        /// The event number.
-        public let eventNumber: Int64?
-
-        public init(eventMessage: String? = nil, extractedValues: [String: String]? = nil, eventNumber: Int64? = nil) {
-            self.eventMessage = eventMessage
-            self.extractedValues = extractedValues
-            self.eventNumber = eventNumber
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eventMessage = "eventMessage"
-            case extractedValues = "extractedValues"
-            case eventNumber = "eventNumber"
-        }
-    }
-
-    public struct CancelExportTaskRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "taskId", required: true, type: .string)
-        ]
-        /// The ID of the export task.
-        public let taskId: String
-
-        public init(taskId: String) {
-            self.taskId = taskId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case taskId = "taskId"
-        }
-    }
-
-    public struct StartQueryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "startTime", required: true, type: .long), 
-            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "queryString", required: true, type: .string), 
-            AWSShapeMember(label: "endTime", required: true, type: .long), 
-            AWSShapeMember(label: "limit", required: false, type: .integer)
-        ]
-        /// The time to start the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
-        public let startTime: Int64
-        /// The log group on which to perform the query.
-        public let logGroupName: String
-        /// The query string to use. For more information, see CloudWatch Logs Insights Query Syntax.
-        public let queryString: String
-        /// The time to end this query, if it is still running. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
-        public let endTime: Int64
-        /// The maximum number of log events to return in the query. If the query string uses the fields command, only the specified fields and their values are returned.
-        public let limit: Int32?
-
-        public init(startTime: Int64, logGroupName: String, queryString: String, endTime: Int64, limit: Int32? = nil) {
-            self.startTime = startTime
-            self.logGroupName = logGroupName
-            self.queryString = queryString
-            self.endTime = endTime
-            self.limit = limit
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case startTime = "startTime"
-            case logGroupName = "logGroupName"
-            case queryString = "queryString"
-            case endTime = "endTime"
-            case limit = "limit"
-        }
-    }
-
-    public struct CreateLogGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "kmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "tags", required: false, type: .map), 
-            AWSShapeMember(label: "logGroupName", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the CMK to use when encrypting log data. For more information, see Amazon Resource Names - AWS Key Management Service (AWS KMS).
-        public let kmsKeyId: String?
-        /// The key-value pairs to use for the tags.
-        public let tags: [String: String]?
-        /// The name of the log group.
-        public let logGroupName: String
-
-        public init(kmsKeyId: String? = nil, tags: [String: String]? = nil, logGroupName: String) {
-            self.kmsKeyId = kmsKeyId
-            self.tags = tags
-            self.logGroupName = logGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case kmsKeyId = "kmsKeyId"
-            case tags = "tags"
-            case logGroupName = "logGroupName"
-        }
-    }
-
-    public struct DeleteRetentionPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logGroupName", required: true, type: .string)
-        ]
-        /// The name of the log group.
-        public let logGroupName: String
-
-        public init(logGroupName: String) {
-            self.logGroupName = logGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case logGroupName = "logGroupName"
-        }
-    }
-
     public struct DescribeQueriesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
@@ -611,105 +25,157 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct DescribeQueriesRequest: AWSShape {
+    public struct DescribeMetricFiltersResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "metricFilters", required: false, type: .list)
+        ]
+        public let nextToken: String?
+        /// The metric filters.
+        public let metricFilters: [MetricFilter]?
+
+        public init(metricFilters: [MetricFilter]? = nil, nextToken: String? = nil) {
+            self.nextToken = nextToken
+            self.metricFilters = metricFilters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case metricFilters = "metricFilters"
+        }
+    }
+
+    public struct PutDestinationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "destination", required: false, type: .structure)
+        ]
+        /// The destination.
+        public let destination: Destination?
+
+        public init(destination: Destination? = nil) {
+            self.destination = destination
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "destination"
+        }
+    }
+
+    public struct DescribeLogGroupsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "limit", required: false, type: .integer), 
+            AWSShapeMember(label: "logGroupNamePrefix", required: false, type: .string), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
-        /// Limits the returned queries to only those for the specified log group.
-        public let logGroupName: String?
-        /// Limits the number of returned queries to the specified number.
-        public let maxResults: Int32?
-        /// Limits the returned queries to only those that have the specified status. Valid values are Cancelled, Complete, Failed, Running, and Scheduled.
+        /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
+        public let limit: Int32?
+        /// The prefix to match.
+        public let logGroupNamePrefix: String?
+        /// The token for the next set of items to return. (You received this token from a previous call.)
+        public let nextToken: String?
+
+        public init(limit: Int32? = nil, logGroupNamePrefix: String? = nil, nextToken: String? = nil) {
+            self.limit = limit
+            self.logGroupNamePrefix = logGroupNamePrefix
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "limit"
+            case logGroupNamePrefix = "logGroupNamePrefix"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct QueryInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "queryString", required: false, type: .string), 
+            AWSShapeMember(label: "queryId", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "createTime", required: false, type: .long), 
+            AWSShapeMember(label: "logGroupName", required: false, type: .string)
+        ]
+        /// The query string used in this query.
+        public let queryString: String?
+        /// The unique ID number of this query.
+        public let queryId: String?
+        /// The status of this query. Possible values are Cancelled, Complete, Failed, Running, Scheduled, and Unknown.
         public let status: QueryStatus?
-        public let nextToken: String?
+        /// The date and time that this query was created.
+        public let createTime: Int64?
+        /// The name of the log group scanned by this query.
+        public let logGroupName: String?
 
-        public init(logGroupName: String? = nil, maxResults: Int32? = nil, status: QueryStatus? = nil, nextToken: String? = nil) {
-            self.logGroupName = logGroupName
-            self.maxResults = maxResults
+        public init(createTime: Int64? = nil, logGroupName: String? = nil, queryId: String? = nil, queryString: String? = nil, status: QueryStatus? = nil) {
+            self.queryString = queryString
+            self.queryId = queryId
             self.status = status
-            self.nextToken = nextToken
+            self.createTime = createTime
+            self.logGroupName = logGroupName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupName = "logGroupName"
-            case maxResults = "maxResults"
+            case queryString = "queryString"
+            case queryId = "queryId"
             case status = "status"
-            case nextToken = "nextToken"
+            case createTime = "createTime"
+            case logGroupName = "logGroupName"
         }
     }
 
-    public struct DescribeLogGroupsResponse: AWSShape {
+    public struct ExportTask: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "logGroups", required: false, type: .list)
+            AWSShapeMember(label: "to", required: false, type: .long), 
+            AWSShapeMember(label: "destinationPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "destination", required: false, type: .string), 
+            AWSShapeMember(label: "logGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "from", required: false, type: .long), 
+            AWSShapeMember(label: "taskId", required: false, type: .string), 
+            AWSShapeMember(label: "taskName", required: false, type: .string), 
+            AWSShapeMember(label: "executionInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "status", required: false, type: .structure)
         ]
-        public let nextToken: String?
-        /// The log groups.
-        public let logGroups: [LogGroup]?
+        /// The end time, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp later than this time are not exported.
+        public let to: Int64?
+        /// The prefix that was used as the start of Amazon S3 key for every object exported.
+        public let destinationPrefix: String?
+        /// The name of Amazon S3 bucket to which the log data was exported.
+        public let destination: String?
+        /// The name of the log group from which logs data was exported.
+        public let logGroupName: String?
+        /// The start time, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp before this time are not exported.
+        public let from: Int64?
+        /// The ID of the export task.
+        public let taskId: String?
+        /// The name of the export task.
+        public let taskName: String?
+        /// Execution info about the export task.
+        public let executionInfo: ExportTaskExecutionInfo?
+        /// The status of the export task.
+        public let status: ExportTaskStatus?
 
-        public init(nextToken: String? = nil, logGroups: [LogGroup]? = nil) {
-            self.nextToken = nextToken
-            self.logGroups = logGroups
+        public init(destination: String? = nil, destinationPrefix: String? = nil, executionInfo: ExportTaskExecutionInfo? = nil, from: Int64? = nil, logGroupName: String? = nil, status: ExportTaskStatus? = nil, taskId: String? = nil, taskName: String? = nil, to: Int64? = nil) {
+            self.to = to
+            self.destinationPrefix = destinationPrefix
+            self.destination = destination
+            self.logGroupName = logGroupName
+            self.from = from
+            self.taskId = taskId
+            self.taskName = taskName
+            self.executionInfo = executionInfo
+            self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case logGroups = "logGroups"
-        }
-    }
-
-    public struct OutputLogEvent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ingestionTime", required: false, type: .long), 
-            AWSShapeMember(label: "timestamp", required: false, type: .long), 
-            AWSShapeMember(label: "message", required: false, type: .string)
-        ]
-        /// The time the event was ingested, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
-        public let ingestionTime: Int64?
-        /// The time the event occurred, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
-        public let timestamp: Int64?
-        /// The data contained in the log event.
-        public let message: String?
-
-        public init(ingestionTime: Int64? = nil, timestamp: Int64? = nil, message: String? = nil) {
-            self.ingestionTime = ingestionTime
-            self.timestamp = timestamp
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ingestionTime = "ingestionTime"
-            case timestamp = "timestamp"
-            case message = "message"
-        }
-    }
-
-    public struct FilterLogEventsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "searchedLogStreams", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "events", required: false, type: .list)
-        ]
-        /// Indicates which log streams have been searched and whether each has been searched completely.
-        public let searchedLogStreams: [SearchedLogStream]?
-        /// The token to use when requesting the next set of items. The token expires after 24 hours.
-        public let nextToken: String?
-        /// The matched events.
-        public let events: [FilteredLogEvent]?
-
-        public init(searchedLogStreams: [SearchedLogStream]? = nil, nextToken: String? = nil, events: [FilteredLogEvent]? = nil) {
-            self.searchedLogStreams = searchedLogStreams
-            self.nextToken = nextToken
-            self.events = events
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case searchedLogStreams = "searchedLogStreams"
-            case nextToken = "nextToken"
-            case events = "events"
+            case to = "to"
+            case destinationPrefix = "destinationPrefix"
+            case destination = "destination"
+            case logGroupName = "logGroupName"
+            case from = "from"
+            case taskId = "taskId"
+            case taskName = "taskName"
+            case executionInfo = "executionInfo"
+            case status = "status"
         }
     }
 
@@ -729,155 +195,121 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct RejectedLogEventsInfo: AWSShape {
+    public struct FilterLogEventsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tooNewLogEventStartIndex", required: false, type: .integer), 
-            AWSShapeMember(label: "tooOldLogEventEndIndex", required: false, type: .integer), 
-            AWSShapeMember(label: "expiredLogEventEndIndex", required: false, type: .integer)
+            AWSShapeMember(label: "searchedLogStreams", required: false, type: .list), 
+            AWSShapeMember(label: "events", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
-        /// The log events that are too new.
-        public let tooNewLogEventStartIndex: Int32?
-        /// The log events that are too old.
-        public let tooOldLogEventEndIndex: Int32?
-        /// The expired log events.
-        public let expiredLogEventEndIndex: Int32?
+        /// Indicates which log streams have been searched and whether each has been searched completely.
+        public let searchedLogStreams: [SearchedLogStream]?
+        /// The matched events.
+        public let events: [FilteredLogEvent]?
+        /// The token to use when requesting the next set of items. The token expires after 24 hours.
+        public let nextToken: String?
 
-        public init(tooNewLogEventStartIndex: Int32? = nil, tooOldLogEventEndIndex: Int32? = nil, expiredLogEventEndIndex: Int32? = nil) {
-            self.tooNewLogEventStartIndex = tooNewLogEventStartIndex
-            self.tooOldLogEventEndIndex = tooOldLogEventEndIndex
-            self.expiredLogEventEndIndex = expiredLogEventEndIndex
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tooNewLogEventStartIndex = "tooNewLogEventStartIndex"
-            case tooOldLogEventEndIndex = "tooOldLogEventEndIndex"
-            case expiredLogEventEndIndex = "expiredLogEventEndIndex"
-        }
-    }
-
-    public struct CreateExportTaskResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "taskId", required: false, type: .string)
-        ]
-        /// The ID of the export task.
-        public let taskId: String?
-
-        public init(taskId: String? = nil) {
-            self.taskId = taskId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case taskId = "taskId"
-        }
-    }
-
-    public struct StopQueryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "queryId", required: true, type: .string)
-        ]
-        /// The ID number of the query to stop. If necessary, you can use DescribeQueries to find this ID number.
-        public let queryId: String
-
-        public init(queryId: String) {
-            self.queryId = queryId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case queryId = "queryId"
-        }
-    }
-
-    public struct FilteredLogEvent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ingestionTime", required: false, type: .long), 
-            AWSShapeMember(label: "logStreamName", required: false, type: .string), 
-            AWSShapeMember(label: "message", required: false, type: .string), 
-            AWSShapeMember(label: "timestamp", required: false, type: .long), 
-            AWSShapeMember(label: "eventId", required: false, type: .string)
-        ]
-        /// The time the event was ingested, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
-        public let ingestionTime: Int64?
-        /// The name of the log stream to which this event belongs.
-        public let logStreamName: String?
-        /// The data contained in the log event.
-        public let message: String?
-        /// The time the event occurred, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
-        public let timestamp: Int64?
-        /// The ID of the event.
-        public let eventId: String?
-
-        public init(ingestionTime: Int64? = nil, logStreamName: String? = nil, message: String? = nil, timestamp: Int64? = nil, eventId: String? = nil) {
-            self.ingestionTime = ingestionTime
-            self.logStreamName = logStreamName
-            self.message = message
-            self.timestamp = timestamp
-            self.eventId = eventId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ingestionTime = "ingestionTime"
-            case logStreamName = "logStreamName"
-            case message = "message"
-            case timestamp = "timestamp"
-            case eventId = "eventId"
-        }
-    }
-
-    public enum OrderBy: String, CustomStringConvertible, Codable {
-        case logstreamname = "LogStreamName"
-        case lasteventtime = "LastEventTime"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetLogEventsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextForwardToken", required: false, type: .string), 
-            AWSShapeMember(label: "nextBackwardToken", required: false, type: .string), 
-            AWSShapeMember(label: "events", required: false, type: .list)
-        ]
-        /// The token for the next set of items in the forward direction. The token expires after 24 hours. If you have reached the end of the stream, it will return the same token you passed in.
-        public let nextForwardToken: String?
-        /// The token for the next set of items in the backward direction. The token expires after 24 hours. This token will never be null. If you have reached the end of the stream, it will return the same token you passed in.
-        public let nextBackwardToken: String?
-        /// The events.
-        public let events: [OutputLogEvent]?
-
-        public init(nextForwardToken: String? = nil, nextBackwardToken: String? = nil, events: [OutputLogEvent]? = nil) {
-            self.nextForwardToken = nextForwardToken
-            self.nextBackwardToken = nextBackwardToken
+        public init(events: [FilteredLogEvent]? = nil, nextToken: String? = nil, searchedLogStreams: [SearchedLogStream]? = nil) {
+            self.searchedLogStreams = searchedLogStreams
             self.events = events
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextForwardToken = "nextForwardToken"
-            case nextBackwardToken = "nextBackwardToken"
+            case searchedLogStreams = "searchedLogStreams"
             case events = "events"
+            case nextToken = "nextToken"
         }
     }
 
-    public struct GetQueryResultsResponse: AWSShape {
+    public struct DeleteLogStreamRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "results", required: false, type: .list), 
-            AWSShapeMember(label: "statistics", required: false, type: .structure)
+            AWSShapeMember(label: "logStreamName", required: true, type: .string), 
+            AWSShapeMember(label: "logGroupName", required: true, type: .string)
         ]
-        /// The status of the most recent running of the query. Possible values are Cancelled, Complete, Failed, Running, Scheduled, and Unknown.
-        public let status: QueryStatus?
-        /// The log events that matched the query criteria during the most recent time it ran. The results value is an array of arrays. Each log event is one object in the top-level array. Each of these log event objects is an array of field/value pairs.
-        public let results: [[ResultField]]?
-        /// Includes the number of log events scanned by the query, the number of log events that matched the query criteria, and the total number of bytes in the log events that were scanned.
-        public let statistics: QueryStatistics?
+        /// The name of the log stream.
+        public let logStreamName: String
+        /// The name of the log group.
+        public let logGroupName: String
 
-        public init(status: QueryStatus? = nil, results: [[ResultField]]? = nil, statistics: QueryStatistics? = nil) {
-            self.status = status
-            self.results = results
-            self.statistics = statistics
+        public init(logGroupName: String, logStreamName: String) {
+            self.logStreamName = logStreamName
+            self.logGroupName = logGroupName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status = "status"
-            case results = "results"
-            case statistics = "statistics"
+            case logStreamName = "logStreamName"
+            case logGroupName = "logGroupName"
+        }
+    }
+
+    public struct LogStream: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "lastIngestionTime", required: false, type: .long), 
+            AWSShapeMember(label: "logStreamName", required: false, type: .string), 
+            AWSShapeMember(label: "firstEventTimestamp", required: false, type: .long), 
+            AWSShapeMember(label: "creationTime", required: false, type: .long), 
+            AWSShapeMember(label: "uploadSequenceToken", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "lastEventTimestamp", required: false, type: .long), 
+            AWSShapeMember(label: "storedBytes", required: false, type: .long)
+        ]
+        /// The ingestion time, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+        public let lastIngestionTime: Int64?
+        /// The name of the log stream.
+        public let logStreamName: String?
+        /// The time of the first event, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+        public let firstEventTimestamp: Int64?
+        /// The creation time of the stream, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+        public let creationTime: Int64?
+        /// The sequence token.
+        public let uploadSequenceToken: String?
+        /// The Amazon Resource Name (ARN) of the log stream.
+        public let arn: String?
+        /// The time of the most recent log event in the log stream in CloudWatch Logs. This number is expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. The lastEventTime value updates on an eventual consistency basis. It typically updates in less than an hour from ingestion, but may take longer in some rare situations.
+        public let lastEventTimestamp: Int64?
+        /// The number of bytes stored.
+        public let storedBytes: Int64?
+
+        public init(arn: String? = nil, creationTime: Int64? = nil, firstEventTimestamp: Int64? = nil, lastEventTimestamp: Int64? = nil, lastIngestionTime: Int64? = nil, logStreamName: String? = nil, storedBytes: Int64? = nil, uploadSequenceToken: String? = nil) {
+            self.lastIngestionTime = lastIngestionTime
+            self.logStreamName = logStreamName
+            self.firstEventTimestamp = firstEventTimestamp
+            self.creationTime = creationTime
+            self.uploadSequenceToken = uploadSequenceToken
+            self.arn = arn
+            self.lastEventTimestamp = lastEventTimestamp
+            self.storedBytes = storedBytes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastIngestionTime = "lastIngestionTime"
+            case logStreamName = "logStreamName"
+            case firstEventTimestamp = "firstEventTimestamp"
+            case creationTime = "creationTime"
+            case uploadSequenceToken = "uploadSequenceToken"
+            case arn = "arn"
+            case lastEventTimestamp = "lastEventTimestamp"
+            case storedBytes = "storedBytes"
+        }
+    }
+
+    public struct DescribeResourcePoliciesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourcePolicies", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// The resource policies that exist in this account.
+        public let resourcePolicies: [ResourcePolicy]?
+        public let nextToken: String?
+
+        public init(nextToken: String? = nil, resourcePolicies: [ResourcePolicy]? = nil) {
+            self.resourcePolicies = resourcePolicies
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourcePolicies = "resourcePolicies"
+            case nextToken = "nextToken"
         }
     }
 
@@ -891,7 +323,7 @@ extension CloudWatchLogs {
         /// The next sequence token.
         public let nextSequenceToken: String?
 
-        public init(rejectedLogEventsInfo: RejectedLogEventsInfo? = nil, nextSequenceToken: String? = nil) {
+        public init(nextSequenceToken: String? = nil, rejectedLogEventsInfo: RejectedLogEventsInfo? = nil) {
             self.rejectedLogEventsInfo = rejectedLogEventsInfo
             self.nextSequenceToken = nextSequenceToken
         }
@@ -902,24 +334,139 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct QueryCompileErrorLocation: AWSShape {
+    public struct GetLogGroupFieldsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "startCharOffset", required: false, type: .integer), 
-            AWSShapeMember(label: "endCharOffset", required: false, type: .integer)
+            AWSShapeMember(label: "time", required: false, type: .long), 
+            AWSShapeMember(label: "logGroupName", required: true, type: .string)
         ]
-        /// Reserved.
-        public let startCharOffset: Int32?
-        /// Reserved.
-        public let endCharOffset: Int32?
+        /// The time to set as the center of the query. If you specify time, the 8 minutes before and 8 minutes after this time are searched. If you omit time, the past 15 minutes are queried. The time value is specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
+        public let time: Int64?
+        /// The name of the log group to search.
+        public let logGroupName: String
 
-        public init(startCharOffset: Int32? = nil, endCharOffset: Int32? = nil) {
-            self.startCharOffset = startCharOffset
-            self.endCharOffset = endCharOffset
+        public init(logGroupName: String, time: Int64? = nil) {
+            self.time = time
+            self.logGroupName = logGroupName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case startCharOffset = "startCharOffset"
-            case endCharOffset = "endCharOffset"
+            case time = "time"
+            case logGroupName = "logGroupName"
+        }
+    }
+
+    public struct ExportTaskExecutionInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "creationTime", required: false, type: .long), 
+            AWSShapeMember(label: "completionTime", required: false, type: .long)
+        ]
+        /// The creation time of the export task, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+        public let creationTime: Int64?
+        /// The completion time of the export task, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+        public let completionTime: Int64?
+
+        public init(completionTime: Int64? = nil, creationTime: Int64? = nil) {
+            self.creationTime = creationTime
+            self.completionTime = completionTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "creationTime"
+            case completionTime = "completionTime"
+        }
+    }
+
+    public struct DescribeSubscriptionFiltersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "subscriptionFilters", required: false, type: .list)
+        ]
+        public let nextToken: String?
+        /// The subscription filters.
+        public let subscriptionFilters: [SubscriptionFilter]?
+
+        public init(nextToken: String? = nil, subscriptionFilters: [SubscriptionFilter]? = nil) {
+            self.nextToken = nextToken
+            self.subscriptionFilters = subscriptionFilters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case subscriptionFilters = "subscriptionFilters"
+        }
+    }
+
+    public struct GetLogGroupFieldsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "logGroupFields", required: false, type: .list)
+        ]
+        /// The array of fields found in the query. Each object in the array contains the name of the field, along with the percentage of time it appeared in the log events that were queried.
+        public let logGroupFields: [LogGroupField]?
+
+        public init(logGroupFields: [LogGroupField]? = nil) {
+            self.logGroupFields = logGroupFields
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupFields = "logGroupFields"
+        }
+    }
+
+    public struct GetLogRecordRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "logRecordPointer", required: true, type: .string)
+        ]
+        /// The pointer corresponding to the log event record you want to retrieve. You get this from the response of a GetQueryResults operation. In that response, the value of the @ptr field for a log event is the value to use as logRecordPointer to retrieve that complete log event record.
+        public let logRecordPointer: String
+
+        public init(logRecordPointer: String) {
+            self.logRecordPointer = logRecordPointer
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logRecordPointer = "logRecordPointer"
+        }
+    }
+
+    public struct CreateLogGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "kmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
+        ]
+        /// The name of the log group.
+        public let logGroupName: String
+        /// The Amazon Resource Name (ARN) of the CMK to use when encrypting log data. For more information, see Amazon Resource Names - AWS Key Management Service (AWS KMS).
+        public let kmsKeyId: String?
+        /// The key-value pairs to use for the tags.
+        public let tags: [String: String]?
+
+        public init(kmsKeyId: String? = nil, logGroupName: String, tags: [String: String]? = nil) {
+            self.logGroupName = logGroupName
+            self.kmsKeyId = kmsKeyId
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupName = "logGroupName"
+            case kmsKeyId = "kmsKeyId"
+            case tags = "tags"
+        }
+    }
+
+    public struct TestMetricFilterResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "matches", required: false, type: .list)
+        ]
+        /// The matched events.
+        public let matches: [MetricFilterMatchRecord]?
+
+        public init(matches: [MetricFilterMatchRecord]? = nil) {
+            self.matches = matches
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case matches = "matches"
         }
     }
 
@@ -939,95 +486,91 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct DescribeResourcePoliciesRequest: AWSShape {
+    public struct CreateExportTaskRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "limit", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
+            AWSShapeMember(label: "logStreamNamePrefix", required: false, type: .string), 
+            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "destination", required: true, type: .string), 
+            AWSShapeMember(label: "from", required: true, type: .long), 
+            AWSShapeMember(label: "to", required: true, type: .long), 
+            AWSShapeMember(label: "destinationPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "taskName", required: false, type: .string)
         ]
-        /// The maximum number of resource policies to be displayed with one call of this API.
-        public let limit: Int32?
-        public let nextToken: String?
+        /// Export only log streams that match the provided prefix. If you don't specify a value, no prefix filter is applied.
+        public let logStreamNamePrefix: String?
+        /// The name of the log group.
+        public let logGroupName: String
+        /// The name of S3 bucket for the exported log data. The bucket must be in the same AWS region.
+        public let destination: String
+        /// The start time of the range for the request, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp earlier than this time are not exported.
+        public let from: Int64
+        /// The end time of the range for the request, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp later than this time are not exported.
+        public let to: Int64
+        /// The prefix used as the start of the key for every object exported. If you don't specify a value, the default is exportedlogs.
+        public let destinationPrefix: String?
+        /// The name of the export task.
+        public let taskName: String?
 
-        public init(limit: Int32? = nil, nextToken: String? = nil) {
-            self.limit = limit
-            self.nextToken = nextToken
+        public init(destination: String, destinationPrefix: String? = nil, from: Int64, logGroupName: String, logStreamNamePrefix: String? = nil, taskName: String? = nil, to: Int64) {
+            self.logStreamNamePrefix = logStreamNamePrefix
+            self.logGroupName = logGroupName
+            self.destination = destination
+            self.from = from
+            self.to = to
+            self.destinationPrefix = destinationPrefix
+            self.taskName = taskName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case limit = "limit"
-            case nextToken = "nextToken"
+            case logStreamNamePrefix = "logStreamNamePrefix"
+            case logGroupName = "logGroupName"
+            case destination = "destination"
+            case from = "from"
+            case to = "to"
+            case destinationPrefix = "destinationPrefix"
+            case taskName = "taskName"
         }
     }
 
-    public struct ResultField: AWSShape {
+    public struct QueryCompileErrorLocation: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "value", required: false, type: .string), 
-            AWSShapeMember(label: "field", required: false, type: .string)
+            AWSShapeMember(label: "endCharOffset", required: false, type: .integer), 
+            AWSShapeMember(label: "startCharOffset", required: false, type: .integer)
         ]
-        /// The value of this field.
-        public let value: String?
-        /// The log event field.
-        public let field: String?
+        /// Reserved.
+        public let endCharOffset: Int32?
+        /// Reserved.
+        public let startCharOffset: Int32?
 
-        public init(value: String? = nil, field: String? = nil) {
-            self.value = value
-            self.field = field
+        public init(endCharOffset: Int32? = nil, startCharOffset: Int32? = nil) {
+            self.endCharOffset = endCharOffset
+            self.startCharOffset = startCharOffset
         }
 
         private enum CodingKeys: String, CodingKey {
-            case value = "value"
-            case field = "field"
+            case endCharOffset = "endCharOffset"
+            case startCharOffset = "startCharOffset"
         }
     }
 
-    public struct LogStream: AWSShape {
+    public struct ExportTaskStatus: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationTime", required: false, type: .long), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "storedBytes", required: false, type: .long), 
-            AWSShapeMember(label: "uploadSequenceToken", required: false, type: .string), 
-            AWSShapeMember(label: "logStreamName", required: false, type: .string), 
-            AWSShapeMember(label: "lastIngestionTime", required: false, type: .long), 
-            AWSShapeMember(label: "lastEventTimestamp", required: false, type: .long), 
-            AWSShapeMember(label: "firstEventTimestamp", required: false, type: .long)
+            AWSShapeMember(label: "message", required: false, type: .string), 
+            AWSShapeMember(label: "code", required: false, type: .enum)
         ]
-        /// The creation time of the stream, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
-        public let creationTime: Int64?
-        /// The Amazon Resource Name (ARN) of the log stream.
-        public let arn: String?
-        /// The number of bytes stored.
-        public let storedBytes: Int64?
-        /// The sequence token.
-        public let uploadSequenceToken: String?
-        /// The name of the log stream.
-        public let logStreamName: String?
-        /// The ingestion time, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
-        public let lastIngestionTime: Int64?
-        /// The time of the most recent log event in the log stream in CloudWatch Logs. This number is expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. The lastEventTime value updates on an eventual consistency basis. It typically updates in less than an hour from ingestion, but may take longer in some rare situations.
-        public let lastEventTimestamp: Int64?
-        /// The time of the first event, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
-        public let firstEventTimestamp: Int64?
+        /// The status message related to the status code.
+        public let message: String?
+        /// The status code of the export task.
+        public let code: ExportTaskStatusCode?
 
-        public init(creationTime: Int64? = nil, arn: String? = nil, storedBytes: Int64? = nil, uploadSequenceToken: String? = nil, logStreamName: String? = nil, lastIngestionTime: Int64? = nil, lastEventTimestamp: Int64? = nil, firstEventTimestamp: Int64? = nil) {
-            self.creationTime = creationTime
-            self.arn = arn
-            self.storedBytes = storedBytes
-            self.uploadSequenceToken = uploadSequenceToken
-            self.logStreamName = logStreamName
-            self.lastIngestionTime = lastIngestionTime
-            self.lastEventTimestamp = lastEventTimestamp
-            self.firstEventTimestamp = firstEventTimestamp
+        public init(code: ExportTaskStatusCode? = nil, message: String? = nil) {
+            self.message = message
+            self.code = code
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime = "creationTime"
-            case arn = "arn"
-            case storedBytes = "storedBytes"
-            case uploadSequenceToken = "uploadSequenceToken"
-            case logStreamName = "logStreamName"
-            case lastIngestionTime = "lastIngestionTime"
-            case lastEventTimestamp = "lastEventTimestamp"
-            case firstEventTimestamp = "firstEventTimestamp"
+            case message = "message"
+            case code = "code"
         }
     }
 
@@ -1052,105 +595,291 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct LogGroup: AWSShape {
+    public struct DescribeLogGroupsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "creationTime", required: false, type: .long), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "retentionInDays", required: false, type: .integer), 
-            AWSShapeMember(label: "storedBytes", required: false, type: .long), 
-            AWSShapeMember(label: "kmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "logGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "metricFilterCount", required: false, type: .integer)
+            AWSShapeMember(label: "logGroups", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
-        /// The creation time of the log group, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
-        public let creationTime: Int64?
-        /// The Amazon Resource Name (ARN) of the log group.
-        public let arn: String?
-        public let retentionInDays: Int32?
-        /// The number of bytes stored.
-        public let storedBytes: Int64?
-        /// The Amazon Resource Name (ARN) of the CMK to use when encrypting log data.
-        public let kmsKeyId: String?
-        /// The name of the log group.
-        public let logGroupName: String?
-        /// The number of metric filters.
-        public let metricFilterCount: Int32?
+        /// The log groups.
+        public let logGroups: [LogGroup]?
+        public let nextToken: String?
 
-        public init(creationTime: Int64? = nil, arn: String? = nil, retentionInDays: Int32? = nil, storedBytes: Int64? = nil, kmsKeyId: String? = nil, logGroupName: String? = nil, metricFilterCount: Int32? = nil) {
-            self.creationTime = creationTime
-            self.arn = arn
-            self.retentionInDays = retentionInDays
-            self.storedBytes = storedBytes
-            self.kmsKeyId = kmsKeyId
-            self.logGroupName = logGroupName
-            self.metricFilterCount = metricFilterCount
+        public init(logGroups: [LogGroup]? = nil, nextToken: String? = nil) {
+            self.logGroups = logGroups
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime = "creationTime"
-            case arn = "arn"
-            case retentionInDays = "retentionInDays"
-            case storedBytes = "storedBytes"
-            case kmsKeyId = "kmsKeyId"
+            case logGroups = "logGroups"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public enum QueryStatus: String, CustomStringConvertible, Codable {
+        case scheduled = "Scheduled"
+        case running = "Running"
+        case complete = "Complete"
+        case failed = "Failed"
+        case cancelled = "Cancelled"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UntagLogGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: true, type: .list)
+        ]
+        /// The name of the log group.
+        public let logGroupName: String
+        /// The tag keys. The corresponding tags are removed from the log group.
+        public let tags: [String]
+
+        public init(logGroupName: String, tags: [String]) {
+            self.logGroupName = logGroupName
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
             case logGroupName = "logGroupName"
-            case metricFilterCount = "metricFilterCount"
+            case tags = "tags"
+        }
+    }
+
+    public struct DescribeLogStreamsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "descending", required: false, type: .boolean), 
+            AWSShapeMember(label: "limit", required: false, type: .integer), 
+            AWSShapeMember(label: "orderBy", required: false, type: .enum), 
+            AWSShapeMember(label: "logStreamNamePrefix", required: false, type: .string), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// The name of the log group.
+        public let logGroupName: String
+        /// If the value is true, results are returned in descending order. If the value is to false, results are returned in ascending order. The default value is false.
+        public let descending: Bool?
+        /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
+        public let limit: Int32?
+        /// If the value is LogStreamName, the results are ordered by log stream name. If the value is LastEventTime, the results are ordered by the event time. The default value is LogStreamName. If you order the results by event time, you cannot specify the logStreamNamePrefix parameter. lastEventTimestamp represents the time of the most recent log event in the log stream in CloudWatch Logs. This number is expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. lastEventTimeStamp updates on an eventual consistency basis. It typically updates in less than an hour from ingestion, but may take longer in some rare situations.
+        public let orderBy: OrderBy?
+        /// The prefix to match. If orderBy is LastEventTime,you cannot specify this parameter.
+        public let logStreamNamePrefix: String?
+        /// The token for the next set of items to return. (You received this token from a previous call.)
+        public let nextToken: String?
+
+        public init(descending: Bool? = nil, limit: Int32? = nil, logGroupName: String, logStreamNamePrefix: String? = nil, nextToken: String? = nil, orderBy: OrderBy? = nil) {
+            self.logGroupName = logGroupName
+            self.descending = descending
+            self.limit = limit
+            self.orderBy = orderBy
+            self.logStreamNamePrefix = logStreamNamePrefix
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupName = "logGroupName"
+            case descending = "descending"
+            case limit = "limit"
+            case orderBy = "orderBy"
+            case logStreamNamePrefix = "logStreamNamePrefix"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct StartQueryRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "endTime", required: true, type: .long), 
+            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "queryString", required: true, type: .string), 
+            AWSShapeMember(label: "limit", required: false, type: .integer), 
+            AWSShapeMember(label: "startTime", required: true, type: .long)
+        ]
+        /// The time to end this query, if it is still running. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
+        public let endTime: Int64
+        /// The log group on which to perform the query.
+        public let logGroupName: String
+        /// The query string to use. For more information, see CloudWatch Logs Insights Query Syntax.
+        public let queryString: String
+        /// The maximum number of log events to return in the query. If the query string uses the fields command, only the specified fields and their values are returned.
+        public let limit: Int32?
+        /// The time to start the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
+        public let startTime: Int64
+
+        public init(endTime: Int64, limit: Int32? = nil, logGroupName: String, queryString: String, startTime: Int64) {
+            self.endTime = endTime
+            self.logGroupName = logGroupName
+            self.queryString = queryString
+            self.limit = limit
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "endTime"
+            case logGroupName = "logGroupName"
+            case queryString = "queryString"
+            case limit = "limit"
+            case startTime = "startTime"
+        }
+    }
+
+    public struct DescribeSubscriptionFiltersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "filterNamePrefix", required: false, type: .string), 
+            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "limit", required: false, type: .integer)
+        ]
+        /// The token for the next set of items to return. (You received this token from a previous call.)
+        public let nextToken: String?
+        /// The prefix to match. If you don't specify a value, no prefix filter is applied.
+        public let filterNamePrefix: String?
+        /// The name of the log group.
+        public let logGroupName: String
+        /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
+        public let limit: Int32?
+
+        public init(filterNamePrefix: String? = nil, limit: Int32? = nil, logGroupName: String, nextToken: String? = nil) {
+            self.nextToken = nextToken
+            self.filterNamePrefix = filterNamePrefix
+            self.logGroupName = logGroupName
+            self.limit = limit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case filterNamePrefix = "filterNamePrefix"
+            case logGroupName = "logGroupName"
+            case limit = "limit"
+        }
+    }
+
+    public struct DeleteRetentionPolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "logGroupName", required: true, type: .string)
+        ]
+        /// The name of the log group.
+        public let logGroupName: String
+
+        public init(logGroupName: String) {
+            self.logGroupName = logGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupName = "logGroupName"
+        }
+    }
+
+    public struct DeleteMetricFilterRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "filterName", required: true, type: .string)
+        ]
+        /// The name of the log group.
+        public let logGroupName: String
+        /// The name of the metric filter.
+        public let filterName: String
+
+        public init(filterName: String, logGroupName: String) {
+            self.logGroupName = logGroupName
+            self.filterName = filterName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupName = "logGroupName"
+            case filterName = "filterName"
         }
     }
 
     public struct PutLogEventsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logEvents", required: true, type: .list), 
             AWSShapeMember(label: "logGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "logStreamName", required: true, type: .string), 
-            AWSShapeMember(label: "sequenceToken", required: false, type: .string)
+            AWSShapeMember(label: "logEvents", required: true, type: .list), 
+            AWSShapeMember(label: "sequenceToken", required: false, type: .string), 
+            AWSShapeMember(label: "logStreamName", required: true, type: .string)
         ]
-        /// The log events.
-        public let logEvents: [InputLogEvent]
         /// The name of the log group.
         public let logGroupName: String
-        /// The name of the log stream.
-        public let logStreamName: String
+        /// The log events.
+        public let logEvents: [InputLogEvent]
         /// The sequence token obtained from the response of the previous PutLogEvents call. An upload in a newly created log stream does not require a sequence token. You can also get the sequence token using DescribeLogStreams. If you call PutLogEvents twice within a narrow time period using the same value for sequenceToken, both calls may be successful, or one may be rejected.
         public let sequenceToken: String?
+        /// The name of the log stream.
+        public let logStreamName: String
 
         public init(logEvents: [InputLogEvent], logGroupName: String, logStreamName: String, sequenceToken: String? = nil) {
-            self.logEvents = logEvents
             self.logGroupName = logGroupName
-            self.logStreamName = logStreamName
+            self.logEvents = logEvents
             self.sequenceToken = sequenceToken
+            self.logStreamName = logStreamName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logEvents = "logEvents"
             case logGroupName = "logGroupName"
-            case logStreamName = "logStreamName"
+            case logEvents = "logEvents"
             case sequenceToken = "sequenceToken"
+            case logStreamName = "logStreamName"
         }
     }
 
-    public struct ResourcePolicy: AWSShape {
+    public struct DescribeDestinationsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyName", required: false, type: .string), 
-            AWSShapeMember(label: "policyDocument", required: false, type: .string), 
-            AWSShapeMember(label: "lastUpdatedTime", required: false, type: .long)
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "destinations", required: false, type: .list)
         ]
-        /// The name of the resource policy.
-        public let policyName: String?
-        /// The details of the policy.
-        public let policyDocument: String?
-        /// Timestamp showing when this policy was last updated, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
-        public let lastUpdatedTime: Int64?
+        public let nextToken: String?
+        /// The destinations.
+        public let destinations: [Destination]?
 
-        public init(policyName: String? = nil, policyDocument: String? = nil, lastUpdatedTime: Int64? = nil) {
+        public init(destinations: [Destination]? = nil, nextToken: String? = nil) {
+            self.nextToken = nextToken
+            self.destinations = destinations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case destinations = "destinations"
+        }
+    }
+
+    public struct PutDestinationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "destinationName", required: true, type: .string), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string), 
+            AWSShapeMember(label: "targetArn", required: true, type: .string)
+        ]
+        /// A name for the destination.
+        public let destinationName: String
+        /// The ARN of an IAM role that grants CloudWatch Logs permissions to call the Amazon Kinesis PutRecord operation on the destination stream.
+        public let roleArn: String
+        /// The ARN of an Amazon Kinesis stream to which to deliver matching log events.
+        public let targetArn: String
+
+        public init(destinationName: String, roleArn: String, targetArn: String) {
+            self.destinationName = destinationName
+            self.roleArn = roleArn
+            self.targetArn = targetArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationName = "destinationName"
+            case roleArn = "roleArn"
+            case targetArn = "targetArn"
+        }
+    }
+
+    public struct DeleteResourcePolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policyName", required: false, type: .string)
+        ]
+        /// The name of the policy to be revoked. This parameter is required.
+        public let policyName: String?
+
+        public init(policyName: String? = nil) {
             self.policyName = policyName
-            self.policyDocument = policyDocument
-            self.lastUpdatedTime = lastUpdatedTime
         }
 
         private enum CodingKeys: String, CodingKey {
             case policyName = "policyName"
-            case policyDocument = "policyDocument"
-            case lastUpdatedTime = "lastUpdatedTime"
         }
     }
 
@@ -1167,253 +896,6 @@ extension CloudWatchLogs {
 
         private enum CodingKeys: String, CodingKey {
             case queryId = "queryId"
-        }
-    }
-
-    public struct DescribeDestinationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "limit", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "DestinationNamePrefix", required: false, type: .string)
-        ]
-        /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
-        public let limit: Int32?
-        /// The token for the next set of items to return. (You received this token from a previous call.)
-        public let nextToken: String?
-        /// The prefix to match. If you don't specify a value, no prefix filter is applied.
-        public let destinationNamePrefix: String?
-
-        public init(limit: Int32? = nil, nextToken: String? = nil, destinationNamePrefix: String? = nil) {
-            self.limit = limit
-            self.nextToken = nextToken
-            self.destinationNamePrefix = destinationNamePrefix
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case limit = "limit"
-            case nextToken = "nextToken"
-            case destinationNamePrefix = "DestinationNamePrefix"
-        }
-    }
-
-    public struct PutResourcePolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyName", required: false, type: .string), 
-            AWSShapeMember(label: "policyDocument", required: false, type: .string)
-        ]
-        /// Name of the new policy. This parameter is required.
-        public let policyName: String?
-        /// Details of the new policy, including the identity of the principal that is enabled to put logs to this account. This is formatted as a JSON string. The following example creates a resource policy enabling the Route 53 service to put DNS query logs in to the specified log group. Replace "logArn" with the ARN of your CloudWatch Logs resource, such as a log group or log stream.  { "Version": "2012-10-17", "Statement": [ { "Sid": "Route53LogsToCloudWatchLogs", "Effect": "Allow", "Principal": { "Service": [ "route53.amazonaws.com" ] }, "Action":"logs:PutLogEvents", "Resource": "logArn" } ] }  
-        public let policyDocument: String?
-
-        public init(policyName: String? = nil, policyDocument: String? = nil) {
-            self.policyName = policyName
-            self.policyDocument = policyDocument
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyName = "policyName"
-            case policyDocument = "policyDocument"
-        }
-    }
-
-    public struct FilterLogEventsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "startTime", required: false, type: .long), 
-            AWSShapeMember(label: "interleaved", required: false, type: .boolean), 
-            AWSShapeMember(label: "endTime", required: false, type: .long), 
-            AWSShapeMember(label: "limit", required: false, type: .integer), 
-            AWSShapeMember(label: "filterPattern", required: false, type: .string), 
-            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "logStreamNames", required: false, type: .list), 
-            AWSShapeMember(label: "logStreamNamePrefix", required: false, type: .string)
-        ]
-        /// The token for the next set of events to return. (You received this token from a previous call.)
-        public let nextToken: String?
-        /// The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp before this time are not returned.
-        public let startTime: Int64?
-        /// If the value is true, the operation makes a best effort to provide responses that contain events from multiple log streams within the log group, interleaved in a single response. If the value is false, all the matched log events in the first log stream are searched first, then those in the next log stream, and so on. The default is false.
-        public let interleaved: Bool?
-        /// The end of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp later than this time are not returned.
-        public let endTime: Int64?
-        /// The maximum number of events to return. The default is 10,000 events.
-        public let limit: Int32?
-        /// The filter pattern to use. For more information, see Filter and Pattern Syntax. If not provided, all the events are matched.
-        public let filterPattern: String?
-        /// The name of the log group to search.
-        public let logGroupName: String
-        /// Filters the results to only logs from the log streams in this list. If you specify a value for both logStreamNamePrefix and logStreamNames, the action returns an InvalidParameterException error.
-        public let logStreamNames: [String]?
-        /// Filters the results to include only events from log streams that have names starting with this prefix. If you specify a value for both logStreamNamePrefix and logStreamNames, but the value for logStreamNamePrefix does not match any log stream names specified in logStreamNames, the action returns an InvalidParameterException error.
-        public let logStreamNamePrefix: String?
-
-        public init(nextToken: String? = nil, startTime: Int64? = nil, interleaved: Bool? = nil, endTime: Int64? = nil, limit: Int32? = nil, filterPattern: String? = nil, logGroupName: String, logStreamNames: [String]? = nil, logStreamNamePrefix: String? = nil) {
-            self.nextToken = nextToken
-            self.startTime = startTime
-            self.interleaved = interleaved
-            self.endTime = endTime
-            self.limit = limit
-            self.filterPattern = filterPattern
-            self.logGroupName = logGroupName
-            self.logStreamNames = logStreamNames
-            self.logStreamNamePrefix = logStreamNamePrefix
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case startTime = "startTime"
-            case interleaved = "interleaved"
-            case endTime = "endTime"
-            case limit = "limit"
-            case filterPattern = "filterPattern"
-            case logGroupName = "logGroupName"
-            case logStreamNames = "logStreamNames"
-            case logStreamNamePrefix = "logStreamNamePrefix"
-        }
-    }
-
-    public struct DescribeLogStreamsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logStreams", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// The log streams.
-        public let logStreams: [LogStream]?
-        public let nextToken: String?
-
-        public init(logStreams: [LogStream]? = nil, nextToken: String? = nil) {
-            self.logStreams = logStreams
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case logStreams = "logStreams"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct StopQueryResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "success", required: false, type: .boolean)
-        ]
-        /// This is true if the query was stopped by the StopQuery operation.
-        public let success: Bool?
-
-        public init(success: Bool? = nil) {
-            self.success = success
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case success = "success"
-        }
-    }
-
-    public struct DescribeExportTasksRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "taskId", required: false, type: .string), 
-            AWSShapeMember(label: "statusCode", required: false, type: .enum), 
-            AWSShapeMember(label: "limit", required: false, type: .integer)
-        ]
-        /// The token for the next set of items to return. (You received this token from a previous call.)
-        public let nextToken: String?
-        /// The ID of the export task. Specifying a task ID filters the results to zero or one export tasks.
-        public let taskId: String?
-        /// The status code of the export task. Specifying a status code filters the results to zero or more export tasks.
-        public let statusCode: ExportTaskStatusCode?
-        /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
-        public let limit: Int32?
-
-        public init(nextToken: String? = nil, taskId: String? = nil, statusCode: ExportTaskStatusCode? = nil, limit: Int32? = nil) {
-            self.nextToken = nextToken
-            self.taskId = taskId
-            self.statusCode = statusCode
-            self.limit = limit
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case taskId = "taskId"
-            case statusCode = "statusCode"
-            case limit = "limit"
-        }
-    }
-
-    public struct MetricFilter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "creationTime", required: false, type: .long), 
-            AWSShapeMember(label: "filterName", required: false, type: .string), 
-            AWSShapeMember(label: "filterPattern", required: false, type: .string), 
-            AWSShapeMember(label: "metricTransformations", required: false, type: .list)
-        ]
-        /// The name of the log group.
-        public let logGroupName: String?
-        /// The creation time of the metric filter, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
-        public let creationTime: Int64?
-        /// The name of the metric filter.
-        public let filterName: String?
-        public let filterPattern: String?
-        /// The metric transformations.
-        public let metricTransformations: [MetricTransformation]?
-
-        public init(logGroupName: String? = nil, creationTime: Int64? = nil, filterName: String? = nil, filterPattern: String? = nil, metricTransformations: [MetricTransformation]? = nil) {
-            self.logGroupName = logGroupName
-            self.creationTime = creationTime
-            self.filterName = filterName
-            self.filterPattern = filterPattern
-            self.metricTransformations = metricTransformations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case logGroupName = "logGroupName"
-            case creationTime = "creationTime"
-            case filterName = "filterName"
-            case filterPattern = "filterPattern"
-            case metricTransformations = "metricTransformations"
-        }
-    }
-
-    public struct GetLogRecordResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logRecord", required: false, type: .map)
-        ]
-        /// The requested log event, as a JSON string.
-        public let logRecord: [String: String]?
-
-        public init(logRecord: [String: String]? = nil) {
-            self.logRecord = logRecord
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case logRecord = "logRecord"
-        }
-    }
-
-    public enum ExportTaskStatusCode: String, CustomStringConvertible, Codable {
-        case cancelled = "CANCELLED"
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        case pending = "PENDING"
-        case pendingCancel = "PENDING_CANCEL"
-        case running = "RUNNING"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetLogRecordRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logRecordPointer", required: true, type: .string)
-        ]
-        /// The pointer corresponding to the log event record you want to retrieve. You get this from the response of a GetQueryResults operation. In that response, the value of the @ptr field for a log event is the value to use as logRecordPointer to retrieve that complete log event record.
-        public let logRecordPointer: String
-
-        public init(logRecordPointer: String) {
-            self.logRecordPointer = logRecordPointer
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case logRecordPointer = "logRecordPointer"
         }
     }
 
@@ -1437,131 +919,60 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct DescribeSubscriptionFiltersResponse: AWSShape {
+    public struct CreateExportTaskResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "taskId", required: false, type: .string)
+        ]
+        /// The ID of the export task.
+        public let taskId: String?
+
+        public init(taskId: String? = nil) {
+            self.taskId = taskId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taskId = "taskId"
+        }
+    }
+
+    public struct InputLogEvent: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "timestamp", required: true, type: .long), 
+            AWSShapeMember(label: "message", required: true, type: .string)
+        ]
+        /// The time the event occurred, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+        public let timestamp: Int64
+        /// The raw event message.
+        public let message: String
+
+        public init(message: String, timestamp: Int64) {
+            self.timestamp = timestamp
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timestamp = "timestamp"
+            case message = "message"
+        }
+    }
+
+    public struct DescribeLogStreamsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "subscriptionFilters", required: false, type: .list)
+            AWSShapeMember(label: "logStreams", required: false, type: .list)
         ]
         public let nextToken: String?
-        /// The subscription filters.
-        public let subscriptionFilters: [SubscriptionFilter]?
+        /// The log streams.
+        public let logStreams: [LogStream]?
 
-        public init(nextToken: String? = nil, subscriptionFilters: [SubscriptionFilter]? = nil) {
+        public init(logStreams: [LogStream]? = nil, nextToken: String? = nil) {
             self.nextToken = nextToken
-            self.subscriptionFilters = subscriptionFilters
+            self.logStreams = logStreams
         }
 
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
-            case subscriptionFilters = "subscriptionFilters"
-        }
-    }
-
-    public struct DeleteLogStreamRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logStreamName", required: true, type: .string), 
-            AWSShapeMember(label: "logGroupName", required: true, type: .string)
-        ]
-        /// The name of the log stream.
-        public let logStreamName: String
-        /// The name of the log group.
-        public let logGroupName: String
-
-        public init(logStreamName: String, logGroupName: String) {
-            self.logStreamName = logStreamName
-            self.logGroupName = logGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case logStreamName = "logStreamName"
-            case logGroupName = "logGroupName"
-        }
-    }
-
-    public struct DescribeResourcePoliciesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourcePolicies", required: false, type: .list)
-        ]
-        public let nextToken: String?
-        /// The resource policies that exist in this account.
-        public let resourcePolicies: [ResourcePolicy]?
-
-        public init(nextToken: String? = nil, resourcePolicies: [ResourcePolicy]? = nil) {
-            self.nextToken = nextToken
-            self.resourcePolicies = resourcePolicies
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case resourcePolicies = "resourcePolicies"
-        }
-    }
-
-    public struct DescribeExportTasksResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "exportTasks", required: false, type: .list)
-        ]
-        public let nextToken: String?
-        /// The export tasks.
-        public let exportTasks: [ExportTask]?
-
-        public init(nextToken: String? = nil, exportTasks: [ExportTask]? = nil) {
-            self.nextToken = nextToken
-            self.exportTasks = exportTasks
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case exportTasks = "exportTasks"
-        }
-    }
-
-    public struct DescribeLogGroupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "limit", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "logGroupNamePrefix", required: false, type: .string)
-        ]
-        /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
-        public let limit: Int32?
-        /// The token for the next set of items to return. (You received this token from a previous call.)
-        public let nextToken: String?
-        /// The prefix to match.
-        public let logGroupNamePrefix: String?
-
-        public init(limit: Int32? = nil, nextToken: String? = nil, logGroupNamePrefix: String? = nil) {
-            self.limit = limit
-            self.nextToken = nextToken
-            self.logGroupNamePrefix = logGroupNamePrefix
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case limit = "limit"
-            case nextToken = "nextToken"
-            case logGroupNamePrefix = "logGroupNamePrefix"
-        }
-    }
-
-    public struct DeleteMetricFilterRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "filterName", required: true, type: .string), 
-            AWSShapeMember(label: "logGroupName", required: true, type: .string)
-        ]
-        /// The name of the metric filter.
-        public let filterName: String
-        /// The name of the log group.
-        public let logGroupName: String
-
-        public init(filterName: String, logGroupName: String) {
-            self.filterName = filterName
-            self.logGroupName = logGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case filterName = "filterName"
-            case logGroupName = "logGroupName"
+            case logStreams = "logStreams"
         }
     }
 
@@ -1578,6 +989,84 @@ extension CloudWatchLogs {
 
         private enum CodingKeys: String, CodingKey {
             case destinationName = "destinationName"
+        }
+    }
+
+    public struct DescribeDestinationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "limit", required: false, type: .integer), 
+            AWSShapeMember(label: "DestinationNamePrefix", required: false, type: .string), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
+        public let limit: Int32?
+        /// The prefix to match. If you don't specify a value, no prefix filter is applied.
+        public let destinationNamePrefix: String?
+        /// The token for the next set of items to return. (You received this token from a previous call.)
+        public let nextToken: String?
+
+        public init(destinationNamePrefix: String? = nil, limit: Int32? = nil, nextToken: String? = nil) {
+            self.limit = limit
+            self.destinationNamePrefix = destinationNamePrefix
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "limit"
+            case destinationNamePrefix = "DestinationNamePrefix"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ResultField: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "value", required: false, type: .string), 
+            AWSShapeMember(label: "field", required: false, type: .string)
+        ]
+        /// The value of this field.
+        public let value: String?
+        /// The log event field.
+        public let field: String?
+
+        public init(field: String? = nil, value: String? = nil) {
+            self.value = value
+            self.field = field
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case value = "value"
+            case field = "field"
+        }
+    }
+
+    public struct MetricTransformation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "metricNamespace", required: true, type: .string), 
+            AWSShapeMember(label: "defaultValue", required: false, type: .double), 
+            AWSShapeMember(label: "metricValue", required: true, type: .string), 
+            AWSShapeMember(label: "metricName", required: true, type: .string)
+        ]
+        /// The namespace of the CloudWatch metric.
+        public let metricNamespace: String
+        /// (Optional) The value to emit when a filter pattern does not match a log event. This value can be null.
+        public let defaultValue: Double?
+        /// The value to publish to the CloudWatch metric when a filter pattern matches a log event.
+        public let metricValue: String
+        /// The name of the CloudWatch metric.
+        public let metricName: String
+
+        public init(defaultValue: Double? = nil, metricName: String, metricNamespace: String, metricValue: String) {
+            self.metricNamespace = metricNamespace
+            self.defaultValue = defaultValue
+            self.metricValue = metricValue
+            self.metricName = metricName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricNamespace = "metricNamespace"
+            case defaultValue = "defaultValue"
+            case metricValue = "metricValue"
+            case metricName = "metricName"
         }
     }
 
@@ -1601,117 +1090,417 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct GetQueryResultsRequest: AWSShape {
+    public struct GetLogEventsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "queryId", required: true, type: .string)
+            AWSShapeMember(label: "startFromHead", required: false, type: .boolean), 
+            AWSShapeMember(label: "startTime", required: false, type: .long), 
+            AWSShapeMember(label: "logStreamName", required: true, type: .string), 
+            AWSShapeMember(label: "endTime", required: false, type: .long), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "limit", required: false, type: .integer)
         ]
-        /// The ID number of the query.
-        public let queryId: String
+        /// If the value is true, the earliest log events are returned first. If the value is false, the latest log events are returned first. The default value is false.
+        public let startFromHead: Bool?
+        /// The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp equal to this time or later than this time are included. Events with a timestamp earlier than this time are not included.
+        public let startTime: Int64?
+        /// The name of the log stream.
+        public let logStreamName: String
+        /// The end of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp equal to or later than this time are not included.
+        public let endTime: Int64?
+        /// The token for the next set of items to return. (You received this token from a previous call.)
+        public let nextToken: String?
+        /// The name of the log group.
+        public let logGroupName: String
+        /// The maximum number of log events returned. If you don't specify a value, the maximum is as many log events as can fit in a response size of 1 MB, up to 10,000 log events.
+        public let limit: Int32?
 
-        public init(queryId: String) {
-            self.queryId = queryId
+        public init(endTime: Int64? = nil, limit: Int32? = nil, logGroupName: String, logStreamName: String, nextToken: String? = nil, startFromHead: Bool? = nil, startTime: Int64? = nil) {
+            self.startFromHead = startFromHead
+            self.startTime = startTime
+            self.logStreamName = logStreamName
+            self.endTime = endTime
+            self.nextToken = nextToken
+            self.logGroupName = logGroupName
+            self.limit = limit
         }
 
         private enum CodingKeys: String, CodingKey {
-            case queryId = "queryId"
+            case startFromHead = "startFromHead"
+            case startTime = "startTime"
+            case logStreamName = "logStreamName"
+            case endTime = "endTime"
+            case nextToken = "nextToken"
+            case logGroupName = "logGroupName"
+            case limit = "limit"
         }
     }
 
-    public struct GetLogGroupFieldsRequest: AWSShape {
+    public struct Destination: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "time", required: false, type: .long), 
-            AWSShapeMember(label: "logGroupName", required: true, type: .string)
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "accessPolicy", required: false, type: .string), 
+            AWSShapeMember(label: "roleArn", required: false, type: .string), 
+            AWSShapeMember(label: "creationTime", required: false, type: .long), 
+            AWSShapeMember(label: "targetArn", required: false, type: .string), 
+            AWSShapeMember(label: "destinationName", required: false, type: .string)
         ]
-        /// The time to set as the center of the query. If you specify time, the 8 minutes before and 8 minutes after this time are searched. If you omit time, the past 15 minutes are queried. The time value is specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
-        public let time: Int64?
+        /// The ARN of this destination.
+        public let arn: String?
+        /// An IAM policy document that governs which AWS accounts can create subscription filters against this destination.
+        public let accessPolicy: String?
+        /// A role for impersonation, used when delivering log events to the target.
+        public let roleArn: String?
+        /// The creation time of the destination, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+        public let creationTime: Int64?
+        /// The Amazon Resource Name (ARN) of the physical target to where the log events are delivered (for example, a Kinesis stream).
+        public let targetArn: String?
+        /// The name of the destination.
+        public let destinationName: String?
+
+        public init(accessPolicy: String? = nil, arn: String? = nil, creationTime: Int64? = nil, destinationName: String? = nil, roleArn: String? = nil, targetArn: String? = nil) {
+            self.arn = arn
+            self.accessPolicy = accessPolicy
+            self.roleArn = roleArn
+            self.creationTime = creationTime
+            self.targetArn = targetArn
+            self.destinationName = destinationName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case accessPolicy = "accessPolicy"
+            case roleArn = "roleArn"
+            case creationTime = "creationTime"
+            case targetArn = "targetArn"
+            case destinationName = "destinationName"
+        }
+    }
+
+    public struct LogGroupField: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "percent", required: false, type: .integer)
+        ]
+        /// The name of a log field.
+        public let name: String?
+        /// The percentage of log events queried that contained the field.
+        public let percent: Int32?
+
+        public init(name: String? = nil, percent: Int32? = nil) {
+            self.name = name
+            self.percent = percent
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case percent = "percent"
+        }
+    }
+
+    public struct StopQueryResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "success", required: false, type: .boolean)
+        ]
+        /// This is true if the query was stopped by the StopQuery operation.
+        public let success: Bool?
+
+        public init(success: Bool? = nil) {
+            self.success = success
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case success = "success"
+        }
+    }
+
+    public struct RejectedLogEventsInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tooOldLogEventEndIndex", required: false, type: .integer), 
+            AWSShapeMember(label: "tooNewLogEventStartIndex", required: false, type: .integer), 
+            AWSShapeMember(label: "expiredLogEventEndIndex", required: false, type: .integer)
+        ]
+        /// The log events that are too old.
+        public let tooOldLogEventEndIndex: Int32?
+        /// The log events that are too new.
+        public let tooNewLogEventStartIndex: Int32?
+        /// The expired log events.
+        public let expiredLogEventEndIndex: Int32?
+
+        public init(expiredLogEventEndIndex: Int32? = nil, tooNewLogEventStartIndex: Int32? = nil, tooOldLogEventEndIndex: Int32? = nil) {
+            self.tooOldLogEventEndIndex = tooOldLogEventEndIndex
+            self.tooNewLogEventStartIndex = tooNewLogEventStartIndex
+            self.expiredLogEventEndIndex = expiredLogEventEndIndex
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tooOldLogEventEndIndex = "tooOldLogEventEndIndex"
+            case tooNewLogEventStartIndex = "tooNewLogEventStartIndex"
+            case expiredLogEventEndIndex = "expiredLogEventEndIndex"
+        }
+    }
+
+    public struct GetLogEventsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextBackwardToken", required: false, type: .string), 
+            AWSShapeMember(label: "nextForwardToken", required: false, type: .string), 
+            AWSShapeMember(label: "events", required: false, type: .list)
+        ]
+        /// The token for the next set of items in the backward direction. The token expires after 24 hours. This token will never be null. If you have reached the end of the stream, it will return the same token you passed in.
+        public let nextBackwardToken: String?
+        /// The token for the next set of items in the forward direction. The token expires after 24 hours. If you have reached the end of the stream, it will return the same token you passed in.
+        public let nextForwardToken: String?
+        /// The events.
+        public let events: [OutputLogEvent]?
+
+        public init(events: [OutputLogEvent]? = nil, nextBackwardToken: String? = nil, nextForwardToken: String? = nil) {
+            self.nextBackwardToken = nextBackwardToken
+            self.nextForwardToken = nextForwardToken
+            self.events = events
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextBackwardToken = "nextBackwardToken"
+            case nextForwardToken = "nextForwardToken"
+            case events = "events"
+        }
+    }
+
+    public struct FilterLogEventsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "logStreamNames", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "limit", required: false, type: .integer), 
+            AWSShapeMember(label: "logStreamNamePrefix", required: false, type: .string), 
+            AWSShapeMember(label: "startTime", required: false, type: .long), 
+            AWSShapeMember(label: "interleaved", required: false, type: .boolean), 
+            AWSShapeMember(label: "endTime", required: false, type: .long), 
+            AWSShapeMember(label: "filterPattern", required: false, type: .string)
+        ]
         /// The name of the log group to search.
         public let logGroupName: String
+        /// Filters the results to only logs from the log streams in this list. If you specify a value for both logStreamNamePrefix and logStreamNames, the action returns an InvalidParameterException error.
+        public let logStreamNames: [String]?
+        /// The token for the next set of events to return. (You received this token from a previous call.)
+        public let nextToken: String?
+        /// The maximum number of events to return. The default is 10,000 events.
+        public let limit: Int32?
+        /// Filters the results to include only events from log streams that have names starting with this prefix. If you specify a value for both logStreamNamePrefix and logStreamNames, but the value for logStreamNamePrefix does not match any log stream names specified in logStreamNames, the action returns an InvalidParameterException error.
+        public let logStreamNamePrefix: String?
+        /// The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp before this time are not returned.
+        public let startTime: Int64?
+        /// If the value is true, the operation makes a best effort to provide responses that contain events from multiple log streams within the log group, interleaved in a single response. If the value is false, all the matched log events in the first log stream are searched first, then those in the next log stream, and so on. The default is false.
+        public let interleaved: Bool?
+        /// The end of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp later than this time are not returned.
+        public let endTime: Int64?
+        /// The filter pattern to use. For more information, see Filter and Pattern Syntax. If not provided, all the events are matched.
+        public let filterPattern: String?
 
-        public init(time: Int64? = nil, logGroupName: String) {
-            self.time = time
+        public init(endTime: Int64? = nil, filterPattern: String? = nil, interleaved: Bool? = nil, limit: Int32? = nil, logGroupName: String, logStreamNamePrefix: String? = nil, logStreamNames: [String]? = nil, nextToken: String? = nil, startTime: Int64? = nil) {
             self.logGroupName = logGroupName
+            self.logStreamNames = logStreamNames
+            self.nextToken = nextToken
+            self.limit = limit
+            self.logStreamNamePrefix = logStreamNamePrefix
+            self.startTime = startTime
+            self.interleaved = interleaved
+            self.endTime = endTime
+            self.filterPattern = filterPattern
         }
 
         private enum CodingKeys: String, CodingKey {
-            case time = "time"
             case logGroupName = "logGroupName"
+            case logStreamNames = "logStreamNames"
+            case nextToken = "nextToken"
+            case limit = "limit"
+            case logStreamNamePrefix = "logStreamNamePrefix"
+            case startTime = "startTime"
+            case interleaved = "interleaved"
+            case endTime = "endTime"
+            case filterPattern = "filterPattern"
         }
     }
 
-    public struct ExportTask: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "from", required: false, type: .long), 
-            AWSShapeMember(label: "to", required: false, type: .long), 
-            AWSShapeMember(label: "destinationPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .structure), 
-            AWSShapeMember(label: "logGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "taskName", required: false, type: .string), 
-            AWSShapeMember(label: "destination", required: false, type: .string), 
-            AWSShapeMember(label: "executionInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "taskId", required: false, type: .string)
-        ]
-        /// The start time, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp before this time are not exported.
-        public let from: Int64?
-        /// The end time, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp later than this time are not exported.
-        public let to: Int64?
-        /// The prefix that was used as the start of Amazon S3 key for every object exported.
-        public let destinationPrefix: String?
-        /// The status of the export task.
-        public let status: ExportTaskStatus?
-        /// The name of the log group from which logs data was exported.
-        public let logGroupName: String?
-        /// The name of the export task.
-        public let taskName: String?
-        /// The name of Amazon S3 bucket to which the log data was exported.
-        public let destination: String?
-        /// Execution info about the export task.
-        public let executionInfo: ExportTaskExecutionInfo?
-        /// The ID of the export task.
-        public let taskId: String?
-
-        public init(from: Int64? = nil, to: Int64? = nil, destinationPrefix: String? = nil, status: ExportTaskStatus? = nil, logGroupName: String? = nil, taskName: String? = nil, destination: String? = nil, executionInfo: ExportTaskExecutionInfo? = nil, taskId: String? = nil) {
-            self.from = from
-            self.to = to
-            self.destinationPrefix = destinationPrefix
-            self.status = status
-            self.logGroupName = logGroupName
-            self.taskName = taskName
-            self.destination = destination
-            self.executionInfo = executionInfo
-            self.taskId = taskId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case from = "from"
-            case to = "to"
-            case destinationPrefix = "destinationPrefix"
-            case status = "status"
-            case logGroupName = "logGroupName"
-            case taskName = "taskName"
-            case destination = "destination"
-            case executionInfo = "executionInfo"
-            case taskId = "taskId"
-        }
+    public enum Distribution: String, CustomStringConvertible, Codable {
+        case random = "Random"
+        case bylogstream = "ByLogStream"
+        public var description: String { return self.rawValue }
     }
 
-    public struct InputLogEvent: AWSShape {
+    public struct FilteredLogEvent: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "timestamp", required: true, type: .long), 
-            AWSShapeMember(label: "message", required: true, type: .string)
+            AWSShapeMember(label: "eventId", required: false, type: .string), 
+            AWSShapeMember(label: "logStreamName", required: false, type: .string), 
+            AWSShapeMember(label: "message", required: false, type: .string), 
+            AWSShapeMember(label: "ingestionTime", required: false, type: .long), 
+            AWSShapeMember(label: "timestamp", required: false, type: .long)
         ]
+        /// The ID of the event.
+        public let eventId: String?
+        /// The name of the log stream to which this event belongs.
+        public let logStreamName: String?
+        /// The data contained in the log event.
+        public let message: String?
+        /// The time the event was ingested, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+        public let ingestionTime: Int64?
         /// The time the event occurred, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
-        public let timestamp: Int64
-        /// The raw event message.
-        public let message: String
+        public let timestamp: Int64?
 
-        public init(timestamp: Int64, message: String) {
-            self.timestamp = timestamp
+        public init(eventId: String? = nil, ingestionTime: Int64? = nil, logStreamName: String? = nil, message: String? = nil, timestamp: Int64? = nil) {
+            self.eventId = eventId
+            self.logStreamName = logStreamName
             self.message = message
+            self.ingestionTime = ingestionTime
+            self.timestamp = timestamp
         }
 
         private enum CodingKeys: String, CodingKey {
-            case timestamp = "timestamp"
+            case eventId = "eventId"
+            case logStreamName = "logStreamName"
             case message = "message"
+            case ingestionTime = "ingestionTime"
+            case timestamp = "timestamp"
+        }
+    }
+
+    public struct PutResourcePolicyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourcePolicy", required: false, type: .structure)
+        ]
+        /// The new policy.
+        public let resourcePolicy: ResourcePolicy?
+
+        public init(resourcePolicy: ResourcePolicy? = nil) {
+            self.resourcePolicy = resourcePolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourcePolicy = "resourcePolicy"
+        }
+    }
+
+    public struct PutDestinationPolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "destinationName", required: true, type: .string), 
+            AWSShapeMember(label: "accessPolicy", required: true, type: .string)
+        ]
+        /// A name for an existing destination.
+        public let destinationName: String
+        /// An IAM policy document that authorizes cross-account users to deliver their log events to the associated destination.
+        public let accessPolicy: String
+
+        public init(accessPolicy: String, destinationName: String) {
+            self.destinationName = destinationName
+            self.accessPolicy = accessPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationName = "destinationName"
+            case accessPolicy = "accessPolicy"
+        }
+    }
+
+    public enum OrderBy: String, CustomStringConvertible, Codable {
+        case logstreamname = "LogStreamName"
+        case lasteventtime = "LastEventTime"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DescribeMetricFiltersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "filterNamePrefix", required: false, type: .string), 
+            AWSShapeMember(label: "metricName", required: false, type: .string), 
+            AWSShapeMember(label: "limit", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "metricNamespace", required: false, type: .string), 
+            AWSShapeMember(label: "logGroupName", required: false, type: .string)
+        ]
+        /// The prefix to match.
+        public let filterNamePrefix: String?
+        /// Filters results to include only those with the specified metric name. If you include this parameter in your request, you must also include the metricNamespace parameter.
+        public let metricName: String?
+        /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
+        public let limit: Int32?
+        /// The token for the next set of items to return. (You received this token from a previous call.)
+        public let nextToken: String?
+        /// Filters results to include only those in the specified namespace. If you include this parameter in your request, you must also include the metricName parameter.
+        public let metricNamespace: String?
+        /// The name of the log group.
+        public let logGroupName: String?
+
+        public init(filterNamePrefix: String? = nil, limit: Int32? = nil, logGroupName: String? = nil, metricName: String? = nil, metricNamespace: String? = nil, nextToken: String? = nil) {
+            self.filterNamePrefix = filterNamePrefix
+            self.metricName = metricName
+            self.limit = limit
+            self.nextToken = nextToken
+            self.metricNamespace = metricNamespace
+            self.logGroupName = logGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filterNamePrefix = "filterNamePrefix"
+            case metricName = "metricName"
+            case limit = "limit"
+            case nextToken = "nextToken"
+            case metricNamespace = "metricNamespace"
+            case logGroupName = "logGroupName"
+        }
+    }
+
+    public struct DescribeExportTasksResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "exportTasks", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// The export tasks.
+        public let exportTasks: [ExportTask]?
+        public let nextToken: String?
+
+        public init(exportTasks: [ExportTask]? = nil, nextToken: String? = nil) {
+            self.exportTasks = exportTasks
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportTasks = "exportTasks"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public enum ExportTaskStatusCode: String, CustomStringConvertible, Codable {
+        case cancelled = "CANCELLED"
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case pending = "PENDING"
+        case pendingCancel = "PENDING_CANCEL"
+        case running = "RUNNING"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ResourcePolicy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policyName", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedTime", required: false, type: .long), 
+            AWSShapeMember(label: "policyDocument", required: false, type: .string)
+        ]
+        /// The name of the resource policy.
+        public let policyName: String?
+        /// Timestamp showing when this policy was last updated, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+        public let lastUpdatedTime: Int64?
+        /// The details of the policy.
+        public let policyDocument: String?
+
+        public init(lastUpdatedTime: Int64? = nil, policyDocument: String? = nil, policyName: String? = nil) {
+            self.policyName = policyName
+            self.lastUpdatedTime = lastUpdatedTime
+            self.policyDocument = policyDocument
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyName = "policyName"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case policyDocument = "policyDocument"
         }
     }
 
@@ -1731,279 +1520,123 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct DescribeSubscriptionFiltersRequest: AWSShape {
+    public struct MetricFilterMatchRecord: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "filterNamePrefix", required: false, type: .string), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "limit", required: false, type: .integer)
+            AWSShapeMember(label: "eventNumber", required: false, type: .long), 
+            AWSShapeMember(label: "eventMessage", required: false, type: .string), 
+            AWSShapeMember(label: "extractedValues", required: false, type: .map)
         ]
-        /// The name of the log group.
-        public let logGroupName: String
-        /// The prefix to match. If you don't specify a value, no prefix filter is applied.
-        public let filterNamePrefix: String?
-        /// The token for the next set of items to return. (You received this token from a previous call.)
-        public let nextToken: String?
-        /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
-        public let limit: Int32?
+        /// The event number.
+        public let eventNumber: Int64?
+        /// The raw event data.
+        public let eventMessage: String?
+        /// The values extracted from the event data by the filter.
+        public let extractedValues: [String: String]?
 
-        public init(logGroupName: String, filterNamePrefix: String? = nil, nextToken: String? = nil, limit: Int32? = nil) {
-            self.logGroupName = logGroupName
-            self.filterNamePrefix = filterNamePrefix
-            self.nextToken = nextToken
-            self.limit = limit
+        public init(eventMessage: String? = nil, eventNumber: Int64? = nil, extractedValues: [String: String]? = nil) {
+            self.eventNumber = eventNumber
+            self.eventMessage = eventMessage
+            self.extractedValues = extractedValues
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupName = "logGroupName"
-            case filterNamePrefix = "filterNamePrefix"
-            case nextToken = "nextToken"
-            case limit = "limit"
+            case eventNumber = "eventNumber"
+            case eventMessage = "eventMessage"
+            case extractedValues = "extractedValues"
         }
     }
 
-    public struct QueryCompileError: AWSShape {
+    public struct QueryStatistics: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "location", required: false, type: .structure), 
-            AWSShapeMember(label: "message", required: false, type: .string)
+            AWSShapeMember(label: "recordsScanned", required: false, type: .double), 
+            AWSShapeMember(label: "bytesScanned", required: false, type: .double), 
+            AWSShapeMember(label: "recordsMatched", required: false, type: .double)
         ]
-        /// Reserved.
-        public let location: QueryCompileErrorLocation?
-        /// Reserved.
+        /// The total number of log events scanned during the query.
+        public let recordsScanned: Double?
+        /// The total number of bytes in the log events scanned during the query.
+        public let bytesScanned: Double?
+        /// The number of log events that matched the query string.
+        public let recordsMatched: Double?
+
+        public init(bytesScanned: Double? = nil, recordsMatched: Double? = nil, recordsScanned: Double? = nil) {
+            self.recordsScanned = recordsScanned
+            self.bytesScanned = bytesScanned
+            self.recordsMatched = recordsMatched
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recordsScanned = "recordsScanned"
+            case bytesScanned = "bytesScanned"
+            case recordsMatched = "recordsMatched"
+        }
+    }
+
+    public struct GetQueryResultsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "statistics", required: false, type: .structure), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "results", required: false, type: .list)
+        ]
+        /// Includes the number of log events scanned by the query, the number of log events that matched the query criteria, and the total number of bytes in the log events that were scanned.
+        public let statistics: QueryStatistics?
+        /// The status of the most recent running of the query. Possible values are Cancelled, Complete, Failed, Running, Scheduled, and Unknown.
+        public let status: QueryStatus?
+        /// The log events that matched the query criteria during the most recent time it ran. The results value is an array of arrays. Each log event is one object in the top-level array. Each of these log event objects is an array of field/value pairs.
+        public let results: [[ResultField]]?
+
+        public init(results: [[ResultField]]? = nil, statistics: QueryStatistics? = nil, status: QueryStatus? = nil) {
+            self.statistics = statistics
+            self.status = status
+            self.results = results
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statistics = "statistics"
+            case status = "status"
+            case results = "results"
+        }
+    }
+
+    public struct GetQueryResultsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "queryId", required: true, type: .string)
+        ]
+        /// The ID number of the query.
+        public let queryId: String
+
+        public init(queryId: String) {
+            self.queryId = queryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryId = "queryId"
+        }
+    }
+
+    public struct OutputLogEvent: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "message", required: false, type: .string), 
+            AWSShapeMember(label: "timestamp", required: false, type: .long), 
+            AWSShapeMember(label: "ingestionTime", required: false, type: .long)
+        ]
+        /// The data contained in the log event.
         public let message: String?
+        /// The time the event occurred, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+        public let timestamp: Int64?
+        /// The time the event was ingested, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+        public let ingestionTime: Int64?
 
-        public init(location: QueryCompileErrorLocation? = nil, message: String? = nil) {
-            self.location = location
+        public init(ingestionTime: Int64? = nil, message: String? = nil, timestamp: Int64? = nil) {
             self.message = message
+            self.timestamp = timestamp
+            self.ingestionTime = ingestionTime
         }
 
         private enum CodingKeys: String, CodingKey {
-            case location = "location"
             case message = "message"
-        }
-    }
-
-    public struct DescribeMetricFiltersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "filterNamePrefix", required: false, type: .string), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "limit", required: false, type: .integer), 
-            AWSShapeMember(label: "metricNamespace", required: false, type: .string), 
-            AWSShapeMember(label: "metricName", required: false, type: .string)
-        ]
-        /// The name of the log group.
-        public let logGroupName: String?
-        /// The prefix to match.
-        public let filterNamePrefix: String?
-        /// The token for the next set of items to return. (You received this token from a previous call.)
-        public let nextToken: String?
-        /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
-        public let limit: Int32?
-        /// Filters results to include only those in the specified namespace. If you include this parameter in your request, you must also include the metricName parameter.
-        public let metricNamespace: String?
-        /// Filters results to include only those with the specified metric name. If you include this parameter in your request, you must also include the metricNamespace parameter.
-        public let metricName: String?
-
-        public init(logGroupName: String? = nil, filterNamePrefix: String? = nil, nextToken: String? = nil, limit: Int32? = nil, metricNamespace: String? = nil, metricName: String? = nil) {
-            self.logGroupName = logGroupName
-            self.filterNamePrefix = filterNamePrefix
-            self.nextToken = nextToken
-            self.limit = limit
-            self.metricNamespace = metricNamespace
-            self.metricName = metricName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case logGroupName = "logGroupName"
-            case filterNamePrefix = "filterNamePrefix"
-            case nextToken = "nextToken"
-            case limit = "limit"
-            case metricNamespace = "metricNamespace"
-            case metricName = "metricName"
-        }
-    }
-
-    public struct MetricTransformation: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "metricName", required: true, type: .string), 
-            AWSShapeMember(label: "defaultValue", required: false, type: .double), 
-            AWSShapeMember(label: "metricNamespace", required: true, type: .string), 
-            AWSShapeMember(label: "metricValue", required: true, type: .string)
-        ]
-        /// The name of the CloudWatch metric.
-        public let metricName: String
-        /// (Optional) The value to emit when a filter pattern does not match a log event. This value can be null.
-        public let defaultValue: Double?
-        /// The namespace of the CloudWatch metric.
-        public let metricNamespace: String
-        /// The value to publish to the CloudWatch metric when a filter pattern matches a log event.
-        public let metricValue: String
-
-        public init(metricName: String, defaultValue: Double? = nil, metricNamespace: String, metricValue: String) {
-            self.metricName = metricName
-            self.defaultValue = defaultValue
-            self.metricNamespace = metricNamespace
-            self.metricValue = metricValue
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case metricName = "metricName"
-            case defaultValue = "defaultValue"
-            case metricNamespace = "metricNamespace"
-            case metricValue = "metricValue"
-        }
-    }
-
-    public struct PutDestinationPolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "accessPolicy", required: true, type: .string), 
-            AWSShapeMember(label: "destinationName", required: true, type: .string)
-        ]
-        /// An IAM policy document that authorizes cross-account users to deliver their log events to the associated destination.
-        public let accessPolicy: String
-        /// A name for an existing destination.
-        public let destinationName: String
-
-        public init(accessPolicy: String, destinationName: String) {
-            self.accessPolicy = accessPolicy
-            self.destinationName = destinationName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accessPolicy = "accessPolicy"
-            case destinationName = "destinationName"
-        }
-    }
-
-    public struct UntagLogGroupRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: true, type: .list), 
-            AWSShapeMember(label: "logGroupName", required: true, type: .string)
-        ]
-        /// The tag keys. The corresponding tags are removed from the log group.
-        public let tags: [String]
-        /// The name of the log group.
-        public let logGroupName: String
-
-        public init(tags: [String], logGroupName: String) {
-            self.tags = tags
-            self.logGroupName = logGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "tags"
-            case logGroupName = "logGroupName"
-        }
-    }
-
-    public struct CreateLogStreamRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logStreamName", required: true, type: .string), 
-            AWSShapeMember(label: "logGroupName", required: true, type: .string)
-        ]
-        /// The name of the log stream.
-        public let logStreamName: String
-        /// The name of the log group.
-        public let logGroupName: String
-
-        public init(logStreamName: String, logGroupName: String) {
-            self.logStreamName = logStreamName
-            self.logGroupName = logGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case logStreamName = "logStreamName"
-            case logGroupName = "logGroupName"
-        }
-    }
-
-    public enum Distribution: String, CustomStringConvertible, Codable {
-        case random = "Random"
-        case bylogstream = "ByLogStream"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct PutDestinationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "destinationName", required: true, type: .string), 
-            AWSShapeMember(label: "targetArn", required: true, type: .string), 
-            AWSShapeMember(label: "roleArn", required: true, type: .string)
-        ]
-        /// A name for the destination.
-        public let destinationName: String
-        /// The ARN of an Amazon Kinesis stream to which to deliver matching log events.
-        public let targetArn: String
-        /// The ARN of an IAM role that grants CloudWatch Logs permissions to call the Amazon Kinesis PutRecord operation on the destination stream.
-        public let roleArn: String
-
-        public init(destinationName: String, targetArn: String, roleArn: String) {
-            self.destinationName = destinationName
-            self.targetArn = targetArn
-            self.roleArn = roleArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case destinationName = "destinationName"
-            case targetArn = "targetArn"
-            case roleArn = "roleArn"
-        }
-    }
-
-    public struct DeleteResourcePolicyRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "policyName", required: false, type: .string)
-        ]
-        /// The name of the policy to be revoked. This parameter is required.
-        public let policyName: String?
-
-        public init(policyName: String? = nil) {
-            self.policyName = policyName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyName = "policyName"
-        }
-    }
-
-    public struct Destination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "destinationName", required: false, type: .string), 
-            AWSShapeMember(label: "creationTime", required: false, type: .long), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "accessPolicy", required: false, type: .string), 
-            AWSShapeMember(label: "targetArn", required: false, type: .string), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string)
-        ]
-        /// The name of the destination.
-        public let destinationName: String?
-        /// The creation time of the destination, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
-        public let creationTime: Int64?
-        /// The ARN of this destination.
-        public let arn: String?
-        /// An IAM policy document that governs which AWS accounts can create subscription filters against this destination.
-        public let accessPolicy: String?
-        /// The Amazon Resource Name (ARN) of the physical target to where the log events are delivered (for example, a Kinesis stream).
-        public let targetArn: String?
-        /// A role for impersonation, used when delivering log events to the target.
-        public let roleArn: String?
-
-        public init(destinationName: String? = nil, creationTime: Int64? = nil, arn: String? = nil, accessPolicy: String? = nil, targetArn: String? = nil, roleArn: String? = nil) {
-            self.destinationName = destinationName
-            self.creationTime = creationTime
-            self.arn = arn
-            self.accessPolicy = accessPolicy
-            self.targetArn = targetArn
-            self.roleArn = roleArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case destinationName = "destinationName"
-            case creationTime = "creationTime"
-            case arn = "arn"
-            case accessPolicy = "accessPolicy"
-            case targetArn = "targetArn"
-            case roleArn = "roleArn"
+            case timestamp = "timestamp"
+            case ingestionTime = "ingestionTime"
         }
     }
 
@@ -2023,86 +1656,453 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct ExportTaskExecutionInfo: AWSShape {
+    public struct DescribeQueriesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "completionTime", required: false, type: .long), 
-            AWSShapeMember(label: "creationTime", required: false, type: .long)
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "logGroupName", required: false, type: .string)
         ]
-        /// The completion time of the export task, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
-        public let completionTime: Int64?
-        /// The creation time of the export task, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
-        public let creationTime: Int64?
+        /// Limits the number of returned queries to the specified number.
+        public let maxResults: Int32?
+        /// Limits the returned queries to only those that have the specified status. Valid values are Cancelled, Complete, Failed, Running, and Scheduled.
+        public let status: QueryStatus?
+        public let nextToken: String?
+        /// Limits the returned queries to only those for the specified log group.
+        public let logGroupName: String?
 
-        public init(completionTime: Int64? = nil, creationTime: Int64? = nil) {
-            self.completionTime = completionTime
-            self.creationTime = creationTime
+        public init(logGroupName: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, status: QueryStatus? = nil) {
+            self.maxResults = maxResults
+            self.status = status
+            self.nextToken = nextToken
+            self.logGroupName = logGroupName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case completionTime = "completionTime"
+            case maxResults = "maxResults"
+            case status = "status"
+            case nextToken = "nextToken"
+            case logGroupName = "logGroupName"
+        }
+    }
+
+    public struct StopQueryRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "queryId", required: true, type: .string)
+        ]
+        /// The ID number of the query to stop. If necessary, you can use DescribeQueries to find this ID number.
+        public let queryId: String
+
+        public init(queryId: String) {
+            self.queryId = queryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryId = "queryId"
+        }
+    }
+
+    public struct PutResourcePolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policyDocument", required: false, type: .string), 
+            AWSShapeMember(label: "policyName", required: false, type: .string)
+        ]
+        /// Details of the new policy, including the identity of the principal that is enabled to put logs to this account. This is formatted as a JSON string. The following example creates a resource policy enabling the Route 53 service to put DNS query logs in to the specified log group. Replace "logArn" with the ARN of your CloudWatch Logs resource, such as a log group or log stream.  { "Version": "2012-10-17", "Statement": [ { "Sid": "Route53LogsToCloudWatchLogs", "Effect": "Allow", "Principal": { "Service": [ "route53.amazonaws.com" ] }, "Action":"logs:PutLogEvents", "Resource": "logArn" } ] }  
+        public let policyDocument: String?
+        /// Name of the new policy. This parameter is required.
+        public let policyName: String?
+
+        public init(policyDocument: String? = nil, policyName: String? = nil) {
+            self.policyDocument = policyDocument
+            self.policyName = policyName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyDocument = "policyDocument"
+            case policyName = "policyName"
+        }
+    }
+
+    public struct SearchedLogStream: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "logStreamName", required: false, type: .string), 
+            AWSShapeMember(label: "searchedCompletely", required: false, type: .boolean)
+        ]
+        /// The name of the log stream.
+        public let logStreamName: String?
+        /// Indicates whether all the events in this log stream were searched.
+        public let searchedCompletely: Bool?
+
+        public init(logStreamName: String? = nil, searchedCompletely: Bool? = nil) {
+            self.logStreamName = logStreamName
+            self.searchedCompletely = searchedCompletely
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logStreamName = "logStreamName"
+            case searchedCompletely = "searchedCompletely"
+        }
+    }
+
+    public struct MetricFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "creationTime", required: false, type: .long), 
+            AWSShapeMember(label: "metricTransformations", required: false, type: .list), 
+            AWSShapeMember(label: "filterPattern", required: false, type: .string), 
+            AWSShapeMember(label: "filterName", required: false, type: .string), 
+            AWSShapeMember(label: "logGroupName", required: false, type: .string)
+        ]
+        /// The creation time of the metric filter, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+        public let creationTime: Int64?
+        /// The metric transformations.
+        public let metricTransformations: [MetricTransformation]?
+        public let filterPattern: String?
+        /// The name of the metric filter.
+        public let filterName: String?
+        /// The name of the log group.
+        public let logGroupName: String?
+
+        public init(creationTime: Int64? = nil, filterName: String? = nil, filterPattern: String? = nil, logGroupName: String? = nil, metricTransformations: [MetricTransformation]? = nil) {
+            self.creationTime = creationTime
+            self.metricTransformations = metricTransformations
+            self.filterPattern = filterPattern
+            self.filterName = filterName
+            self.logGroupName = logGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
             case creationTime = "creationTime"
+            case metricTransformations = "metricTransformations"
+            case filterPattern = "filterPattern"
+            case filterName = "filterName"
+            case logGroupName = "logGroupName"
+        }
+    }
+
+    public struct CreateLogStreamRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "logStreamName", required: true, type: .string)
+        ]
+        /// The name of the log group.
+        public let logGroupName: String
+        /// The name of the log stream.
+        public let logStreamName: String
+
+        public init(logGroupName: String, logStreamName: String) {
+            self.logGroupName = logGroupName
+            self.logStreamName = logStreamName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupName = "logGroupName"
+            case logStreamName = "logStreamName"
+        }
+    }
+
+    public struct GetLogRecordResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "logRecord", required: false, type: .map)
+        ]
+        /// The requested log event, as a JSON string.
+        public let logRecord: [String: String]?
+
+        public init(logRecord: [String: String]? = nil) {
+            self.logRecord = logRecord
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logRecord = "logRecord"
+        }
+    }
+
+    public struct QueryCompileError: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "message", required: false, type: .string), 
+            AWSShapeMember(label: "location", required: false, type: .structure)
+        ]
+        /// Reserved.
+        public let message: String?
+        /// Reserved.
+        public let location: QueryCompileErrorLocation?
+
+        public init(location: QueryCompileErrorLocation? = nil, message: String? = nil) {
+            self.message = message
+            self.location = location
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case location = "location"
+        }
+    }
+
+    public struct DescribeResourcePoliciesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "limit", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// The maximum number of resource policies to be displayed with one call of this API.
+        public let limit: Int32?
+        public let nextToken: String?
+
+        public init(limit: Int32? = nil, nextToken: String? = nil) {
+            self.limit = limit
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "limit"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeExportTasksRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "limit", required: false, type: .integer), 
+            AWSShapeMember(label: "taskId", required: false, type: .string), 
+            AWSShapeMember(label: "statusCode", required: false, type: .enum), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
+        public let limit: Int32?
+        /// The ID of the export task. Specifying a task ID filters the results to zero or one export tasks.
+        public let taskId: String?
+        /// The status code of the export task. Specifying a status code filters the results to zero or more export tasks.
+        public let statusCode: ExportTaskStatusCode?
+        /// The token for the next set of items to return. (You received this token from a previous call.)
+        public let nextToken: String?
+
+        public init(limit: Int32? = nil, nextToken: String? = nil, statusCode: ExportTaskStatusCode? = nil, taskId: String? = nil) {
+            self.limit = limit
+            self.taskId = taskId
+            self.statusCode = statusCode
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "limit"
+            case taskId = "taskId"
+            case statusCode = "statusCode"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct PutMetricFilterRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "filterPattern", required: true, type: .string), 
+            AWSShapeMember(label: "metricTransformations", required: true, type: .list), 
+            AWSShapeMember(label: "filterName", required: true, type: .string)
+        ]
+        /// The name of the log group.
+        public let logGroupName: String
+        /// A filter pattern for extracting metric data out of ingested log events.
+        public let filterPattern: String
+        /// A collection of information that defines how metric data gets emitted.
+        public let metricTransformations: [MetricTransformation]
+        /// A name for the metric filter.
+        public let filterName: String
+
+        public init(filterName: String, filterPattern: String, logGroupName: String, metricTransformations: [MetricTransformation]) {
+            self.logGroupName = logGroupName
+            self.filterPattern = filterPattern
+            self.metricTransformations = metricTransformations
+            self.filterName = filterName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupName = "logGroupName"
+            case filterPattern = "filterPattern"
+            case metricTransformations = "metricTransformations"
+            case filterName = "filterName"
+        }
+    }
+
+    public struct SubscriptionFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "distribution", required: false, type: .enum), 
+            AWSShapeMember(label: "creationTime", required: false, type: .long), 
+            AWSShapeMember(label: "filterName", required: false, type: .string), 
+            AWSShapeMember(label: "filterPattern", required: false, type: .string), 
+            AWSShapeMember(label: "roleArn", required: false, type: .string), 
+            AWSShapeMember(label: "logGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "destinationArn", required: false, type: .string)
+        ]
+        public let distribution: Distribution?
+        /// The creation time of the subscription filter, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+        public let creationTime: Int64?
+        /// The name of the subscription filter.
+        public let filterName: String?
+        public let filterPattern: String?
+        public let roleArn: String?
+        /// The name of the log group.
+        public let logGroupName: String?
+        /// The Amazon Resource Name (ARN) of the destination.
+        public let destinationArn: String?
+
+        public init(creationTime: Int64? = nil, destinationArn: String? = nil, distribution: Distribution? = nil, filterName: String? = nil, filterPattern: String? = nil, logGroupName: String? = nil, roleArn: String? = nil) {
+            self.distribution = distribution
+            self.creationTime = creationTime
+            self.filterName = filterName
+            self.filterPattern = filterPattern
+            self.roleArn = roleArn
+            self.logGroupName = logGroupName
+            self.destinationArn = destinationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case distribution = "distribution"
+            case creationTime = "creationTime"
+            case filterName = "filterName"
+            case filterPattern = "filterPattern"
+            case roleArn = "roleArn"
+            case logGroupName = "logGroupName"
+            case destinationArn = "destinationArn"
+        }
+    }
+
+    public struct TagLogGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: true, type: .map)
+        ]
+        /// The name of the log group.
+        public let logGroupName: String
+        /// The key-value pairs to use for the tags.
+        public let tags: [String: String]
+
+        public init(logGroupName: String, tags: [String: String]) {
+            self.logGroupName = logGroupName
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupName = "logGroupName"
+            case tags = "tags"
+        }
+    }
+
+    public struct CancelExportTaskRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "taskId", required: true, type: .string)
+        ]
+        /// The ID of the export task.
+        public let taskId: String
+
+        public init(taskId: String) {
+            self.taskId = taskId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taskId = "taskId"
         }
     }
 
     public struct PutSubscriptionFilterRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "distribution", required: false, type: .enum), 
             AWSShapeMember(label: "destinationArn", required: true, type: .string), 
             AWSShapeMember(label: "filterName", required: true, type: .string), 
+            AWSShapeMember(label: "roleArn", required: false, type: .string), 
             AWSShapeMember(label: "filterPattern", required: true, type: .string), 
-            AWSShapeMember(label: "roleArn", required: false, type: .string)
+            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "distribution", required: false, type: .enum)
         ]
-        /// The name of the log group.
-        public let logGroupName: String
-        /// The method used to distribute log data to the destination. By default log data is grouped by log stream, but the grouping can be set to random for a more even distribution. This property is only applicable when the destination is an Amazon Kinesis stream. 
-        public let distribution: Distribution?
         /// The ARN of the destination to deliver matching log events to. Currently, the supported destinations are:   An Amazon Kinesis stream belonging to the same account as the subscription filter, for same-account delivery.   A logical destination (specified using an ARN) belonging to a different account, for cross-account delivery.   An Amazon Kinesis Firehose delivery stream belonging to the same account as the subscription filter, for same-account delivery.   An AWS Lambda function belonging to the same account as the subscription filter, for same-account delivery.  
         public let destinationArn: String
         /// A name for the subscription filter. If you are updating an existing filter, you must specify the correct name in filterName. Otherwise, the call fails because you cannot associate a second filter with a log group. To find the name of the filter currently associated with a log group, use DescribeSubscriptionFilters.
         public let filterName: String
-        /// A filter pattern for subscribing to a filtered stream of log events.
-        public let filterPattern: String
         /// The ARN of an IAM role that grants CloudWatch Logs permissions to deliver ingested log events to the destination stream. You don't need to provide the ARN when you are working with a logical destination for cross-account delivery.
         public let roleArn: String?
+        /// A filter pattern for subscribing to a filtered stream of log events.
+        public let filterPattern: String
+        /// The name of the log group.
+        public let logGroupName: String
+        /// The method used to distribute log data to the destination. By default log data is grouped by log stream, but the grouping can be set to random for a more even distribution. This property is only applicable when the destination is an Amazon Kinesis stream. 
+        public let distribution: Distribution?
 
-        public init(logGroupName: String, distribution: Distribution? = nil, destinationArn: String, filterName: String, filterPattern: String, roleArn: String? = nil) {
-            self.logGroupName = logGroupName
-            self.distribution = distribution
+        public init(destinationArn: String, distribution: Distribution? = nil, filterName: String, filterPattern: String, logGroupName: String, roleArn: String? = nil) {
             self.destinationArn = destinationArn
             self.filterName = filterName
-            self.filterPattern = filterPattern
             self.roleArn = roleArn
+            self.filterPattern = filterPattern
+            self.logGroupName = logGroupName
+            self.distribution = distribution
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupName = "logGroupName"
-            case distribution = "distribution"
             case destinationArn = "destinationArn"
             case filterName = "filterName"
-            case filterPattern = "filterPattern"
             case roleArn = "roleArn"
+            case filterPattern = "filterPattern"
+            case logGroupName = "logGroupName"
+            case distribution = "distribution"
         }
     }
 
-    public struct ExportTaskStatus: AWSShape {
+    public struct LogGroup: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "code", required: false, type: .enum), 
-            AWSShapeMember(label: "message", required: false, type: .string)
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "retentionInDays", required: false, type: .integer), 
+            AWSShapeMember(label: "creationTime", required: false, type: .long), 
+            AWSShapeMember(label: "logGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "kmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "metricFilterCount", required: false, type: .integer), 
+            AWSShapeMember(label: "storedBytes", required: false, type: .long)
         ]
-        /// The status code of the export task.
-        public let code: ExportTaskStatusCode?
-        /// The status message related to the status code.
-        public let message: String?
+        /// The Amazon Resource Name (ARN) of the log group.
+        public let arn: String?
+        public let retentionInDays: Int32?
+        /// The creation time of the log group, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+        public let creationTime: Int64?
+        /// The name of the log group.
+        public let logGroupName: String?
+        /// The Amazon Resource Name (ARN) of the CMK to use when encrypting log data.
+        public let kmsKeyId: String?
+        /// The number of metric filters.
+        public let metricFilterCount: Int32?
+        /// The number of bytes stored.
+        public let storedBytes: Int64?
 
-        public init(code: ExportTaskStatusCode? = nil, message: String? = nil) {
-            self.code = code
-            self.message = message
+        public init(arn: String? = nil, creationTime: Int64? = nil, kmsKeyId: String? = nil, logGroupName: String? = nil, metricFilterCount: Int32? = nil, retentionInDays: Int32? = nil, storedBytes: Int64? = nil) {
+            self.arn = arn
+            self.retentionInDays = retentionInDays
+            self.creationTime = creationTime
+            self.logGroupName = logGroupName
+            self.kmsKeyId = kmsKeyId
+            self.metricFilterCount = metricFilterCount
+            self.storedBytes = storedBytes
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code = "code"
-            case message = "message"
+            case arn = "arn"
+            case retentionInDays = "retentionInDays"
+            case creationTime = "creationTime"
+            case logGroupName = "logGroupName"
+            case kmsKeyId = "kmsKeyId"
+            case metricFilterCount = "metricFilterCount"
+            case storedBytes = "storedBytes"
+        }
+    }
+
+    public struct DeleteSubscriptionFilterRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "filterName", required: true, type: .string), 
+            AWSShapeMember(label: "logGroupName", required: true, type: .string)
+        ]
+        /// The name of the subscription filter.
+        public let filterName: String
+        /// The name of the log group.
+        public let logGroupName: String
+
+        public init(filterName: String, logGroupName: String) {
+            self.filterName = filterName
+            self.logGroupName = logGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filterName = "filterName"
+            case logGroupName = "logGroupName"
         }
     }
 

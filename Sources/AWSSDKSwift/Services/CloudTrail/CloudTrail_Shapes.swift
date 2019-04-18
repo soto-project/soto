@@ -5,519 +5,6 @@ import AWSSDKSwiftCore
 
 extension CloudTrail {
 
-    public struct LookupEventsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "LookupAttributes", required: false, type: .list), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
-        ]
-        /// The token to use to get the next page of results after a previous API call. This token must be passed in with the same parameters that were specified in the the original call. For example, if the original call specified an AttributeKey of 'Username' with a value of 'root', the call with NextToken should include those same parameters.
-        public let nextToken: String?
-        /// Contains a list of lookup attributes. Currently the list can contain only one item.
-        public let lookupAttributes: [LookupAttribute]?
-        /// Specifies that only events that occur after or at the specified time are returned. If the specified start time is after the specified end time, an error is returned.
-        public let startTime: TimeStamp?
-        /// Specifies that only events that occur before or at the specified time are returned. If the specified end time is before the specified start time, an error is returned.
-        public let endTime: TimeStamp?
-        /// The number of events to return. Possible values are 1 through 50. The default is 50.
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, lookupAttributes: [LookupAttribute]? = nil, startTime: TimeStamp? = nil, endTime: TimeStamp? = nil, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.lookupAttributes = lookupAttributes
-            self.startTime = startTime
-            self.endTime = endTime
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case lookupAttributes = "LookupAttributes"
-            case startTime = "StartTime"
-            case endTime = "EndTime"
-            case maxResults = "MaxResults"
-        }
-    }
-
-    public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "Key", required: true, type: .string)
-        ]
-        /// The value in a key-value pair of a tag. The value must be no longer than 256 Unicode characters.
-        public let value: String?
-        /// The key in a key-value pair. The key must be must be no longer than 128 Unicode characters. The key must be unique for the resource to which it applies.
-        public let key: String
-
-        public init(value: String? = nil, key: String) {
-            self.value = value
-            self.key = key
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case key = "Key"
-        }
-    }
-
-    public struct EventSelector: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DataResources", required: false, type: .list), 
-            AWSShapeMember(label: "ReadWriteType", required: false, type: .enum), 
-            AWSShapeMember(label: "IncludeManagementEvents", required: false, type: .boolean)
-        ]
-        /// CloudTrail supports data event logging for Amazon S3 objects and AWS Lambda functions. You can specify up to 250 resources for an individual event selector, but the total number of data resources cannot exceed 250 across all event selectors in a trail. This limit does not apply if you configure resource logging for all data events.  For more information, see Data Events and Limits in AWS CloudTrail in the AWS CloudTrail User Guide.
-        public let dataResources: [DataResource]?
-        /// Specify if you want your trail to log read-only events, write-only events, or all. For example, the EC2 GetConsoleOutput is a read-only API operation and RunInstances is a write-only API operation.  By default, the value is All.
-        public let readWriteType: ReadWriteType?
-        /// Specify if you want your event selector to include management events for your trail.  For more information, see Management Events in the AWS CloudTrail User Guide. By default, the value is true.
-        public let includeManagementEvents: Bool?
-
-        public init(dataResources: [DataResource]? = nil, readWriteType: ReadWriteType? = nil, includeManagementEvents: Bool? = nil) {
-            self.dataResources = dataResources
-            self.readWriteType = readWriteType
-            self.includeManagementEvents = includeManagementEvents
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dataResources = "DataResources"
-            case readWriteType = "ReadWriteType"
-            case includeManagementEvents = "IncludeManagementEvents"
-        }
-    }
-
-    public struct UpdateTrailResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SnsTopicARN", required: false, type: .string), 
-            AWSShapeMember(label: "IsOrganizationTrail", required: false, type: .boolean), 
-            AWSShapeMember(label: "IncludeGlobalServiceEvents", required: false, type: .boolean), 
-            AWSShapeMember(label: "TrailARN", required: false, type: .string), 
-            AWSShapeMember(label: "SnsTopicName", required: false, type: .string), 
-            AWSShapeMember(label: "IsMultiRegionTrail", required: false, type: .boolean), 
-            AWSShapeMember(label: "LogFileValidationEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "CloudWatchLogsRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "S3BucketName", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "S3KeyPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "CloudWatchLogsLogGroupArn", required: false, type: .string)
-        ]
-        /// Specifies the ARN of the Amazon SNS topic that CloudTrail uses to send notifications when log files are delivered. The format of a topic ARN is:  arn:aws:sns:us-east-2:123456789012:MyTopic 
-        public let snsTopicARN: String?
-        /// Specifies whether the trail is an organization trail.
-        public let isOrganizationTrail: Bool?
-        /// Specifies whether the trail is publishing events from global services such as IAM to the log files.
-        public let includeGlobalServiceEvents: Bool?
-        /// Specifies the ARN of the trail that was updated. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
-        public let trailARN: String?
-        /// This field is deprecated. Use SnsTopicARN.
-        public let snsTopicName: String?
-        /// Specifies whether the trail exists in one region or in all regions.
-        public let isMultiRegionTrail: Bool?
-        /// Specifies whether log file integrity validation is enabled.
-        public let logFileValidationEnabled: Bool?
-        /// Specifies the KMS key ID that encrypts the logs delivered by CloudTrail. The value is a fully specified ARN to a KMS key in the format:  arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012 
-        public let kmsKeyId: String?
-        /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group.
-        public let cloudWatchLogsRoleArn: String?
-        /// Specifies the name of the Amazon S3 bucket designated for publishing log files.
-        public let s3BucketName: String?
-        /// Specifies the name of the trail.
-        public let name: String?
-        /// Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more information, see Finding Your CloudTrail Log Files.
-        public let s3KeyPrefix: String?
-        /// Specifies the Amazon Resource Name (ARN) of the log group to which CloudTrail logs will be delivered.
-        public let cloudWatchLogsLogGroupArn: String?
-
-        public init(snsTopicARN: String? = nil, isOrganizationTrail: Bool? = nil, includeGlobalServiceEvents: Bool? = nil, trailARN: String? = nil, snsTopicName: String? = nil, isMultiRegionTrail: Bool? = nil, logFileValidationEnabled: Bool? = nil, kmsKeyId: String? = nil, cloudWatchLogsRoleArn: String? = nil, s3BucketName: String? = nil, name: String? = nil, s3KeyPrefix: String? = nil, cloudWatchLogsLogGroupArn: String? = nil) {
-            self.snsTopicARN = snsTopicARN
-            self.isOrganizationTrail = isOrganizationTrail
-            self.includeGlobalServiceEvents = includeGlobalServiceEvents
-            self.trailARN = trailARN
-            self.snsTopicName = snsTopicName
-            self.isMultiRegionTrail = isMultiRegionTrail
-            self.logFileValidationEnabled = logFileValidationEnabled
-            self.kmsKeyId = kmsKeyId
-            self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
-            self.s3BucketName = s3BucketName
-            self.name = name
-            self.s3KeyPrefix = s3KeyPrefix
-            self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case snsTopicARN = "SnsTopicARN"
-            case isOrganizationTrail = "IsOrganizationTrail"
-            case includeGlobalServiceEvents = "IncludeGlobalServiceEvents"
-            case trailARN = "TrailARN"
-            case snsTopicName = "SnsTopicName"
-            case isMultiRegionTrail = "IsMultiRegionTrail"
-            case logFileValidationEnabled = "LogFileValidationEnabled"
-            case kmsKeyId = "KmsKeyId"
-            case cloudWatchLogsRoleArn = "CloudWatchLogsRoleArn"
-            case s3BucketName = "S3BucketName"
-            case name = "Name"
-            case s3KeyPrefix = "S3KeyPrefix"
-            case cloudWatchLogsLogGroupArn = "CloudWatchLogsLogGroupArn"
-        }
-    }
-
-    public struct PutEventSelectorsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrailARN", required: false, type: .string), 
-            AWSShapeMember(label: "EventSelectors", required: false, type: .list)
-        ]
-        /// Specifies the ARN of the trail that was updated with event selectors. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
-        public let trailARN: String?
-        /// Specifies the event selectors configured for your trail.
-        public let eventSelectors: [EventSelector]?
-
-        public init(trailARN: String? = nil, eventSelectors: [EventSelector]? = nil) {
-            self.trailARN = trailARN
-            self.eventSelectors = eventSelectors
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case trailARN = "TrailARN"
-            case eventSelectors = "EventSelectors"
-        }
-    }
-
-    public struct PublicKey: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ValidityEndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Value", required: false, type: .blob), 
-            AWSShapeMember(label: "Fingerprint", required: false, type: .string), 
-            AWSShapeMember(label: "ValidityStartTime", required: false, type: .timestamp)
-        ]
-        /// The ending time of validity of the public key.
-        public let validityEndTime: TimeStamp?
-        /// The DER encoded public key value in PKCS#1 format.
-        public let value: Data?
-        /// The fingerprint of the public key.
-        public let fingerprint: String?
-        /// The starting time of validity of the public key.
-        public let validityStartTime: TimeStamp?
-
-        public init(validityEndTime: TimeStamp? = nil, value: Data? = nil, fingerprint: String? = nil, validityStartTime: TimeStamp? = nil) {
-            self.validityEndTime = validityEndTime
-            self.value = value
-            self.fingerprint = fingerprint
-            self.validityStartTime = validityStartTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case validityEndTime = "ValidityEndTime"
-            case value = "Value"
-            case fingerprint = "Fingerprint"
-            case validityStartTime = "ValidityStartTime"
-        }
-    }
-
-    public struct UpdateTrailRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3BucketName", required: false, type: .string), 
-            AWSShapeMember(label: "IsOrganizationTrail", required: false, type: .boolean), 
-            AWSShapeMember(label: "IncludeGlobalServiceEvents", required: false, type: .boolean), 
-            AWSShapeMember(label: "SnsTopicName", required: false, type: .string), 
-            AWSShapeMember(label: "CloudWatchLogsRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "S3KeyPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "IsMultiRegionTrail", required: false, type: .boolean), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "EnableLogFileValidation", required: false, type: .boolean), 
-            AWSShapeMember(label: "CloudWatchLogsLogGroupArn", required: false, type: .string)
-        ]
-        /// Specifies the name of the Amazon S3 bucket designated for publishing log files. See Amazon S3 Bucket Naming Requirements.
-        public let s3BucketName: String?
-        /// Specifies whether the trail is applied to all accounts in an organization in AWS Organizations, or only for the current AWS account. The default is false, and cannot be true unless the call is made on behalf of an AWS account that is the master account for an organization in AWS Organizations. If the trail is not an organization trail and this is set to true, the trail will be created in all AWS accounts that belong to the organization. If the trail is an organization trail and this is set to false, the trail will remain in the current AWS account but be deleted from all member accounts in the organization.
-        public let isOrganizationTrail: Bool?
-        /// Specifies whether the trail is publishing events from global services such as IAM to the log files.
-        public let includeGlobalServiceEvents: Bool?
-        /// Specifies the name of the Amazon SNS topic defined for notification of log file delivery. The maximum length is 256 characters.
-        public let snsTopicName: String?
-        /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group.
-        public let cloudWatchLogsRoleArn: String?
-        /// Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more information, see Finding Your CloudTrail Log Files. The maximum length is 200 characters.
-        public let s3KeyPrefix: String?
-        /// Specifies whether the trail applies only to the current region or to all regions. The default is false. If the trail exists only in the current region and this value is set to true, shadow trails (replications of the trail) will be created in the other regions. If the trail exists in all regions and this value is set to false, the trail will remain in the region where it was created, and its shadow trails in other regions will be deleted.
-        public let isMultiRegionTrail: Bool?
-        /// Specifies the KMS key ID to use to encrypt the logs delivered by CloudTrail. The value can be an alias name prefixed by "alias/", a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier. Examples:   alias/MyAliasName   arn:aws:kms:us-east-2:123456789012:alias/MyAliasName   arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012   12345678-1234-1234-1234-123456789012  
-        public let kmsKeyId: String?
-        /// Specifies the name of the trail or trail ARN. If Name is a trail name, the string must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are invalid.   Not be in IP address format (for example, 192.168.5.4)   If Name is a trail ARN, it must be in the format:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
-        public let name: String
-        /// Specifies whether log file validation is enabled. The default is false.  When you disable log file integrity validation, the chain of digest files is broken after one hour. CloudTrail will not create digest files for log files that were delivered during a period in which log file integrity validation was disabled. For example, if you enable log file integrity validation at noon on January 1, disable it at noon on January 2, and re-enable it at noon on January 10, digest files will not be created for the log files delivered from noon on January 2 to noon on January 10. The same applies whenever you stop CloudTrail logging or delete a trail. 
-        public let enableLogFileValidation: Bool?
-        /// Specifies a log group name using an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs will be delivered. Not required unless you specify CloudWatchLogsRoleArn.
-        public let cloudWatchLogsLogGroupArn: String?
-
-        public init(s3BucketName: String? = nil, isOrganizationTrail: Bool? = nil, includeGlobalServiceEvents: Bool? = nil, snsTopicName: String? = nil, cloudWatchLogsRoleArn: String? = nil, s3KeyPrefix: String? = nil, isMultiRegionTrail: Bool? = nil, kmsKeyId: String? = nil, name: String, enableLogFileValidation: Bool? = nil, cloudWatchLogsLogGroupArn: String? = nil) {
-            self.s3BucketName = s3BucketName
-            self.isOrganizationTrail = isOrganizationTrail
-            self.includeGlobalServiceEvents = includeGlobalServiceEvents
-            self.snsTopicName = snsTopicName
-            self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
-            self.s3KeyPrefix = s3KeyPrefix
-            self.isMultiRegionTrail = isMultiRegionTrail
-            self.kmsKeyId = kmsKeyId
-            self.name = name
-            self.enableLogFileValidation = enableLogFileValidation
-            self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case s3BucketName = "S3BucketName"
-            case isOrganizationTrail = "IsOrganizationTrail"
-            case includeGlobalServiceEvents = "IncludeGlobalServiceEvents"
-            case snsTopicName = "SnsTopicName"
-            case cloudWatchLogsRoleArn = "CloudWatchLogsRoleArn"
-            case s3KeyPrefix = "S3KeyPrefix"
-            case isMultiRegionTrail = "IsMultiRegionTrail"
-            case kmsKeyId = "KmsKeyId"
-            case name = "Name"
-            case enableLogFileValidation = "EnableLogFileValidation"
-            case cloudWatchLogsLogGroupArn = "CloudWatchLogsLogGroupArn"
-        }
-    }
-
-    public struct CreateTrailResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SnsTopicARN", required: false, type: .string), 
-            AWSShapeMember(label: "IsOrganizationTrail", required: false, type: .boolean), 
-            AWSShapeMember(label: "IncludeGlobalServiceEvents", required: false, type: .boolean), 
-            AWSShapeMember(label: "TrailARN", required: false, type: .string), 
-            AWSShapeMember(label: "SnsTopicName", required: false, type: .string), 
-            AWSShapeMember(label: "IsMultiRegionTrail", required: false, type: .boolean), 
-            AWSShapeMember(label: "LogFileValidationEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "CloudWatchLogsRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "S3BucketName", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "S3KeyPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "CloudWatchLogsLogGroupArn", required: false, type: .string)
-        ]
-        /// Specifies the ARN of the Amazon SNS topic that CloudTrail uses to send notifications when log files are delivered. The format of a topic ARN is:  arn:aws:sns:us-east-2:123456789012:MyTopic 
-        public let snsTopicARN: String?
-        /// Specifies whether the trail is an organization trail.
-        public let isOrganizationTrail: Bool?
-        /// Specifies whether the trail is publishing events from global services such as IAM to the log files.
-        public let includeGlobalServiceEvents: Bool?
-        /// Specifies the ARN of the trail that was created. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
-        public let trailARN: String?
-        /// This field is deprecated. Use SnsTopicARN.
-        public let snsTopicName: String?
-        /// Specifies whether the trail exists in one region or in all regions.
-        public let isMultiRegionTrail: Bool?
-        /// Specifies whether log file integrity validation is enabled.
-        public let logFileValidationEnabled: Bool?
-        /// Specifies the KMS key ID that encrypts the logs delivered by CloudTrail. The value is a fully specified ARN to a KMS key in the format:  arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012 
-        public let kmsKeyId: String?
-        /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group.
-        public let cloudWatchLogsRoleArn: String?
-        /// Specifies the name of the Amazon S3 bucket designated for publishing log files.
-        public let s3BucketName: String?
-        /// Specifies the name of the trail.
-        public let name: String?
-        /// Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more information, see Finding Your CloudTrail Log Files.
-        public let s3KeyPrefix: String?
-        /// Specifies the Amazon Resource Name (ARN) of the log group to which CloudTrail logs will be delivered.
-        public let cloudWatchLogsLogGroupArn: String?
-
-        public init(snsTopicARN: String? = nil, isOrganizationTrail: Bool? = nil, includeGlobalServiceEvents: Bool? = nil, trailARN: String? = nil, snsTopicName: String? = nil, isMultiRegionTrail: Bool? = nil, logFileValidationEnabled: Bool? = nil, kmsKeyId: String? = nil, cloudWatchLogsRoleArn: String? = nil, s3BucketName: String? = nil, name: String? = nil, s3KeyPrefix: String? = nil, cloudWatchLogsLogGroupArn: String? = nil) {
-            self.snsTopicARN = snsTopicARN
-            self.isOrganizationTrail = isOrganizationTrail
-            self.includeGlobalServiceEvents = includeGlobalServiceEvents
-            self.trailARN = trailARN
-            self.snsTopicName = snsTopicName
-            self.isMultiRegionTrail = isMultiRegionTrail
-            self.logFileValidationEnabled = logFileValidationEnabled
-            self.kmsKeyId = kmsKeyId
-            self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
-            self.s3BucketName = s3BucketName
-            self.name = name
-            self.s3KeyPrefix = s3KeyPrefix
-            self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case snsTopicARN = "SnsTopicARN"
-            case isOrganizationTrail = "IsOrganizationTrail"
-            case includeGlobalServiceEvents = "IncludeGlobalServiceEvents"
-            case trailARN = "TrailARN"
-            case snsTopicName = "SnsTopicName"
-            case isMultiRegionTrail = "IsMultiRegionTrail"
-            case logFileValidationEnabled = "LogFileValidationEnabled"
-            case kmsKeyId = "KmsKeyId"
-            case cloudWatchLogsRoleArn = "CloudWatchLogsRoleArn"
-            case s3BucketName = "S3BucketName"
-            case name = "Name"
-            case s3KeyPrefix = "S3KeyPrefix"
-            case cloudWatchLogsLogGroupArn = "CloudWatchLogsLogGroupArn"
-        }
-    }
-
-    public struct Trail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SnsTopicARN", required: false, type: .string), 
-            AWSShapeMember(label: "IsOrganizationTrail", required: false, type: .boolean), 
-            AWSShapeMember(label: "IncludeGlobalServiceEvents", required: false, type: .boolean), 
-            AWSShapeMember(label: "TrailARN", required: false, type: .string), 
-            AWSShapeMember(label: "SnsTopicName", required: false, type: .string), 
-            AWSShapeMember(label: "IsMultiRegionTrail", required: false, type: .boolean), 
-            AWSShapeMember(label: "LogFileValidationEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "CloudWatchLogsRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "HasCustomEventSelectors", required: false, type: .boolean), 
-            AWSShapeMember(label: "HomeRegion", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "S3KeyPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "CloudWatchLogsLogGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "S3BucketName", required: false, type: .string)
-        ]
-        /// Specifies the ARN of the Amazon SNS topic that CloudTrail uses to send notifications when log files are delivered. The format of a topic ARN is:  arn:aws:sns:us-east-2:123456789012:MyTopic 
-        public let snsTopicARN: String?
-        /// Specifies whether the trail is an organization trail.
-        public let isOrganizationTrail: Bool?
-        /// Set to True to include AWS API calls from AWS global services such as IAM. Otherwise, False.
-        public let includeGlobalServiceEvents: Bool?
-        /// Specifies the ARN of the trail. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
-        public let trailARN: String?
-        /// This field is deprecated. Use SnsTopicARN.
-        public let snsTopicName: String?
-        /// Specifies whether the trail belongs only to one region or exists in all regions.
-        public let isMultiRegionTrail: Bool?
-        /// Specifies whether log file validation is enabled.
-        public let logFileValidationEnabled: Bool?
-        /// Specifies the KMS key ID that encrypts the logs delivered by CloudTrail. The value is a fully specified ARN to a KMS key in the format:  arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012 
-        public let kmsKeyId: String?
-        /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group.
-        public let cloudWatchLogsRoleArn: String?
-        /// Specifies if the trail has custom event selectors.
-        public let hasCustomEventSelectors: Bool?
-        /// The region in which the trail was created.
-        public let homeRegion: String?
-        /// Name of the trail set by calling CreateTrail. The maximum length is 128 characters.
-        public let name: String?
-        /// Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more information, see Finding Your CloudTrail Log Files.The maximum length is 200 characters.
-        public let s3KeyPrefix: String?
-        /// Specifies an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs will be delivered.
-        public let cloudWatchLogsLogGroupArn: String?
-        /// Name of the Amazon S3 bucket into which CloudTrail delivers your trail files. See Amazon S3 Bucket Naming Requirements.
-        public let s3BucketName: String?
-
-        public init(snsTopicARN: String? = nil, isOrganizationTrail: Bool? = nil, includeGlobalServiceEvents: Bool? = nil, trailARN: String? = nil, snsTopicName: String? = nil, isMultiRegionTrail: Bool? = nil, logFileValidationEnabled: Bool? = nil, kmsKeyId: String? = nil, cloudWatchLogsRoleArn: String? = nil, hasCustomEventSelectors: Bool? = nil, homeRegion: String? = nil, name: String? = nil, s3KeyPrefix: String? = nil, cloudWatchLogsLogGroupArn: String? = nil, s3BucketName: String? = nil) {
-            self.snsTopicARN = snsTopicARN
-            self.isOrganizationTrail = isOrganizationTrail
-            self.includeGlobalServiceEvents = includeGlobalServiceEvents
-            self.trailARN = trailARN
-            self.snsTopicName = snsTopicName
-            self.isMultiRegionTrail = isMultiRegionTrail
-            self.logFileValidationEnabled = logFileValidationEnabled
-            self.kmsKeyId = kmsKeyId
-            self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
-            self.hasCustomEventSelectors = hasCustomEventSelectors
-            self.homeRegion = homeRegion
-            self.name = name
-            self.s3KeyPrefix = s3KeyPrefix
-            self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
-            self.s3BucketName = s3BucketName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case snsTopicARN = "SnsTopicARN"
-            case isOrganizationTrail = "IsOrganizationTrail"
-            case includeGlobalServiceEvents = "IncludeGlobalServiceEvents"
-            case trailARN = "TrailARN"
-            case snsTopicName = "SnsTopicName"
-            case isMultiRegionTrail = "IsMultiRegionTrail"
-            case logFileValidationEnabled = "LogFileValidationEnabled"
-            case kmsKeyId = "KmsKeyId"
-            case cloudWatchLogsRoleArn = "CloudWatchLogsRoleArn"
-            case hasCustomEventSelectors = "HasCustomEventSelectors"
-            case homeRegion = "HomeRegion"
-            case name = "Name"
-            case s3KeyPrefix = "S3KeyPrefix"
-            case cloudWatchLogsLogGroupArn = "CloudWatchLogsLogGroupArn"
-            case s3BucketName = "S3BucketName"
-        }
-    }
-
-    public struct DataResource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Type", required: false, type: .string), 
-            AWSShapeMember(label: "Values", required: false, type: .list)
-        ]
-        /// The resource type in which you want to log data events. You can specify AWS::S3::Object or AWS::Lambda::Function resources.
-        public let `type`: String?
-        /// An array of Amazon Resource Name (ARN) strings or partial ARN strings for the specified objects.   To log data events for all objects in all S3 buckets in your AWS account, specify the prefix as arn:aws:s3:::.   This will also enable logging of data event activity performed by any user or role in your AWS account, even if that activity is performed on a bucket that belongs to another AWS account.     To log data events for all objects in all S3 buckets that include my-bucket in their names, specify the prefix as aws:s3:::my-bucket. The trail logs data events for all objects in all buckets whose name contains a match for my-bucket.    To log data events for all objects in an S3 bucket, specify the bucket and an empty object prefix such as arn:aws:s3:::bucket-1/. The trail logs data events for all objects in this S3 bucket.   To log data events for specific objects, specify the S3 bucket and object prefix such as arn:aws:s3:::bucket-1/example-images. The trail logs data events for objects in this S3 bucket that match the prefix.   To log data events for all functions in your AWS account, specify the prefix as arn:aws:lambda.  This will also enable logging of Invoke activity performed by any user or role in your AWS account, even if that activity is performed on a function that belongs to another AWS account.     To log data eents for a specific Lambda function, specify the function ARN.  Lambda function ARNs are exact. Unlike S3, you cannot use matching. For example, if you specify a function ARN arn:aws:lambda:us-west-2:111111111111:function:helloworld, data events will only be logged for arn:aws:lambda:us-west-2:111111111111:function:helloworld. They will not be logged for arn:aws:lambda:us-west-2:111111111111:function:helloworld2.   
-        public let values: [String]?
-
-        public init(type: String? = nil, values: [String]? = nil) {
-            self.`type` = `type`
-            self.values = values
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
-            case values = "Values"
-        }
-    }
-
-    public struct GetEventSelectorsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrailARN", required: false, type: .string), 
-            AWSShapeMember(label: "EventSelectors", required: false, type: .list)
-        ]
-        /// The specified trail ARN that has the event selectors.
-        public let trailARN: String?
-        /// The event selectors that are configured for the trail.
-        public let eventSelectors: [EventSelector]?
-
-        public init(trailARN: String? = nil, eventSelectors: [EventSelector]? = nil) {
-            self.trailARN = trailARN
-            self.eventSelectors = eventSelectors
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case trailARN = "TrailARN"
-            case eventSelectors = "EventSelectors"
-        }
-    }
-
-    public struct DeleteTrailRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// Specifies the name or the CloudTrail ARN of the trail to be deleted. The format of a trail ARN is: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
-        public let name: String
-
-        public init(name: String) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-        }
-    }
-
-    public struct GetEventSelectorsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrailName", required: true, type: .string)
-        ]
-        /// Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid.   Not be in IP address format (for example, 192.168.5.4)   If you specify a trail ARN, it must be in the format:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
-        public let trailName: String
-
-        public init(trailName: String) {
-            self.trailName = trailName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case trailName = "TrailName"
-        }
-    }
-
     public struct StartLoggingRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)
@@ -534,370 +21,120 @@ extension CloudTrail {
         }
     }
 
-    public struct GetTrailStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// Specifies the name or the CloudTrail ARN of the trail for which you are requesting status. To get the status of a shadow trail (a replication of the trail in another region), you must specify its ARN. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
-        public let name: String
-
-        public init(name: String) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-        }
-    }
-
-    public enum LookupAttributeKey: String, CustomStringConvertible, Codable {
-        case eventid = "EventId"
-        case eventname = "EventName"
-        case readonly = "ReadOnly"
-        case username = "Username"
-        case resourcetype = "ResourceType"
-        case resourcename = "ResourceName"
-        case eventsource = "EventSource"
-        case accesskeyid = "AccessKeyId"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListTagsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceTagList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// A list of resource tags.
-        public let resourceTagList: [ResourceTag]?
-        /// Reserved for future use.
-        public let nextToken: String?
-
-        public init(resourceTagList: [ResourceTag]? = nil, nextToken: String? = nil) {
-            self.resourceTagList = resourceTagList
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceTagList = "ResourceTagList"
-            case nextToken = "NextToken"
-        }
-    }
-
     public struct RemoveTagsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagsList", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceId", required: true, type: .string)
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "TagsList", required: false, type: .list)
         ]
-        /// Specifies a list of tags to be removed.
-        public let tagsList: [Tag]?
         /// Specifies the ARN of the trail from which tags should be removed. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
         public let resourceId: String
-
-        public init(tagsList: [Tag]? = nil, resourceId: String) {
-            self.tagsList = tagsList
-            self.resourceId = resourceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tagsList = "TagsList"
-            case resourceId = "ResourceId"
-        }
-    }
-
-    public struct ListPublicKeysRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Optionally specifies, in UTC, the end of the time range to look up public keys for CloudTrail digest files. If not specified, the current time is used.
-        public let endTime: TimeStamp?
-        /// Optionally specifies, in UTC, the start of the time range to look up public keys for CloudTrail digest files. If not specified, the current time is used, and the current public key is returned.
-        public let startTime: TimeStamp?
-        /// Reserved for future use.
-        public let nextToken: String?
-
-        public init(endTime: TimeStamp? = nil, startTime: TimeStamp? = nil, nextToken: String? = nil) {
-            self.endTime = endTime
-            self.startTime = startTime
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case endTime = "EndTime"
-            case startTime = "StartTime"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct StopLoggingResponse: AWSShape {
-
-    }
-
-    public struct DeleteTrailResponse: AWSShape {
-
-    }
-
-    public struct GetTrailStatusResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StopLoggingTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "TimeLoggingStarted", required: false, type: .string), 
-            AWSShapeMember(label: "LatestNotificationError", required: false, type: .string), 
-            AWSShapeMember(label: "StartLoggingTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LatestCloudWatchLogsDeliveryError", required: false, type: .string), 
-            AWSShapeMember(label: "LatestDigestDeliveryError", required: false, type: .string), 
-            AWSShapeMember(label: "LatestNotificationAttemptSucceeded", required: false, type: .string), 
-            AWSShapeMember(label: "LatestDeliveryAttemptSucceeded", required: false, type: .string), 
-            AWSShapeMember(label: "LatestNotificationAttemptTime", required: false, type: .string), 
-            AWSShapeMember(label: "LatestDeliveryTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "IsLogging", required: false, type: .boolean), 
-            AWSShapeMember(label: "LatestDeliveryError", required: false, type: .string), 
-            AWSShapeMember(label: "TimeLoggingStopped", required: false, type: .string), 
-            AWSShapeMember(label: "LatestDigestDeliveryTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LatestNotificationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LatestDeliveryAttemptTime", required: false, type: .string), 
-            AWSShapeMember(label: "LatestCloudWatchLogsDeliveryTime", required: false, type: .timestamp)
-        ]
-        /// Specifies the most recent date and time when CloudTrail stopped recording API calls for an AWS account.
-        public let stopLoggingTime: TimeStamp?
-        /// This field is deprecated.
-        public let timeLoggingStarted: String?
-        /// Displays any Amazon SNS error that CloudTrail encountered when attempting to send a notification. For more information about Amazon SNS errors, see the Amazon SNS Developer Guide. 
-        public let latestNotificationError: String?
-        /// Specifies the most recent date and time when CloudTrail started recording API calls for an AWS account.
-        public let startLoggingTime: TimeStamp?
-        /// Displays any CloudWatch Logs error that CloudTrail encountered when attempting to deliver logs to CloudWatch Logs.
-        public let latestCloudWatchLogsDeliveryError: String?
-        /// Displays any Amazon S3 error that CloudTrail encountered when attempting to deliver a digest file to the designated bucket. For more information see the topic Error Responses in the Amazon S3 API Reference.   This error occurs only when there is a problem with the destination S3 bucket and will not occur for timeouts. To resolve the issue, create a new bucket and call UpdateTrail to specify the new bucket, or fix the existing objects so that CloudTrail can again write to the bucket. 
-        public let latestDigestDeliveryError: String?
-        /// This field is deprecated.
-        public let latestNotificationAttemptSucceeded: String?
-        /// This field is deprecated.
-        public let latestDeliveryAttemptSucceeded: String?
-        /// This field is deprecated.
-        public let latestNotificationAttemptTime: String?
-        /// Specifies the date and time that CloudTrail last delivered log files to an account's Amazon S3 bucket.
-        public let latestDeliveryTime: TimeStamp?
-        /// Whether the CloudTrail is currently logging AWS API calls.
-        public let isLogging: Bool?
-        /// Displays any Amazon S3 error that CloudTrail encountered when attempting to deliver log files to the designated bucket. For more information see the topic Error Responses in the Amazon S3 API Reference.   This error occurs only when there is a problem with the destination S3 bucket and will not occur for timeouts. To resolve the issue, create a new bucket and call UpdateTrail to specify the new bucket, or fix the existing objects so that CloudTrail can again write to the bucket. 
-        public let latestDeliveryError: String?
-        /// This field is deprecated.
-        public let timeLoggingStopped: String?
-        /// Specifies the date and time that CloudTrail last delivered a digest file to an account's Amazon S3 bucket.
-        public let latestDigestDeliveryTime: TimeStamp?
-        /// Specifies the date and time of the most recent Amazon SNS notification that CloudTrail has written a new log file to an account's Amazon S3 bucket.
-        public let latestNotificationTime: TimeStamp?
-        /// This field is deprecated.
-        public let latestDeliveryAttemptTime: String?
-        /// Displays the most recent date and time when CloudTrail delivered logs to CloudWatch Logs.
-        public let latestCloudWatchLogsDeliveryTime: TimeStamp?
-
-        public init(stopLoggingTime: TimeStamp? = nil, timeLoggingStarted: String? = nil, latestNotificationError: String? = nil, startLoggingTime: TimeStamp? = nil, latestCloudWatchLogsDeliveryError: String? = nil, latestDigestDeliveryError: String? = nil, latestNotificationAttemptSucceeded: String? = nil, latestDeliveryAttemptSucceeded: String? = nil, latestNotificationAttemptTime: String? = nil, latestDeliveryTime: TimeStamp? = nil, isLogging: Bool? = nil, latestDeliveryError: String? = nil, timeLoggingStopped: String? = nil, latestDigestDeliveryTime: TimeStamp? = nil, latestNotificationTime: TimeStamp? = nil, latestDeliveryAttemptTime: String? = nil, latestCloudWatchLogsDeliveryTime: TimeStamp? = nil) {
-            self.stopLoggingTime = stopLoggingTime
-            self.timeLoggingStarted = timeLoggingStarted
-            self.latestNotificationError = latestNotificationError
-            self.startLoggingTime = startLoggingTime
-            self.latestCloudWatchLogsDeliveryError = latestCloudWatchLogsDeliveryError
-            self.latestDigestDeliveryError = latestDigestDeliveryError
-            self.latestNotificationAttemptSucceeded = latestNotificationAttemptSucceeded
-            self.latestDeliveryAttemptSucceeded = latestDeliveryAttemptSucceeded
-            self.latestNotificationAttemptTime = latestNotificationAttemptTime
-            self.latestDeliveryTime = latestDeliveryTime
-            self.isLogging = isLogging
-            self.latestDeliveryError = latestDeliveryError
-            self.timeLoggingStopped = timeLoggingStopped
-            self.latestDigestDeliveryTime = latestDigestDeliveryTime
-            self.latestNotificationTime = latestNotificationTime
-            self.latestDeliveryAttemptTime = latestDeliveryAttemptTime
-            self.latestCloudWatchLogsDeliveryTime = latestCloudWatchLogsDeliveryTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case stopLoggingTime = "StopLoggingTime"
-            case timeLoggingStarted = "TimeLoggingStarted"
-            case latestNotificationError = "LatestNotificationError"
-            case startLoggingTime = "StartLoggingTime"
-            case latestCloudWatchLogsDeliveryError = "LatestCloudWatchLogsDeliveryError"
-            case latestDigestDeliveryError = "LatestDigestDeliveryError"
-            case latestNotificationAttemptSucceeded = "LatestNotificationAttemptSucceeded"
-            case latestDeliveryAttemptSucceeded = "LatestDeliveryAttemptSucceeded"
-            case latestNotificationAttemptTime = "LatestNotificationAttemptTime"
-            case latestDeliveryTime = "LatestDeliveryTime"
-            case isLogging = "IsLogging"
-            case latestDeliveryError = "LatestDeliveryError"
-            case timeLoggingStopped = "TimeLoggingStopped"
-            case latestDigestDeliveryTime = "LatestDigestDeliveryTime"
-            case latestNotificationTime = "LatestNotificationTime"
-            case latestDeliveryAttemptTime = "LatestDeliveryAttemptTime"
-            case latestCloudWatchLogsDeliveryTime = "LatestCloudWatchLogsDeliveryTime"
-        }
-    }
-
-    public struct Event: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Username", required: false, type: .string), 
-            AWSShapeMember(label: "EventTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Resources", required: false, type: .list), 
-            AWSShapeMember(label: "AccessKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "EventName", required: false, type: .string), 
-            AWSShapeMember(label: "EventId", required: false, type: .string), 
-            AWSShapeMember(label: "EventSource", required: false, type: .string), 
-            AWSShapeMember(label: "CloudTrailEvent", required: false, type: .string), 
-            AWSShapeMember(label: "ReadOnly", required: false, type: .string)
-        ]
-        /// A user name or role name of the requester that called the API in the event returned.
-        public let username: String?
-        /// The date and time of the event returned.
-        public let eventTime: TimeStamp?
-        /// A list of resources referenced by the event returned.
-        public let resources: [Resource]?
-        /// The AWS access key ID that was used to sign the request. If the request was made with temporary security credentials, this is the access key ID of the temporary credentials.
-        public let accessKeyId: String?
-        /// The name of the event returned.
-        public let eventName: String?
-        /// The CloudTrail ID of the event returned.
-        public let eventId: String?
-        /// The AWS service that the request was made to.
-        public let eventSource: String?
-        /// A JSON string that contains a representation of the event returned.
-        public let cloudTrailEvent: String?
-        /// Information about whether the event is a write event or a read event. 
-        public let readOnly: String?
-
-        public init(username: String? = nil, eventTime: TimeStamp? = nil, resources: [Resource]? = nil, accessKeyId: String? = nil, eventName: String? = nil, eventId: String? = nil, eventSource: String? = nil, cloudTrailEvent: String? = nil, readOnly: String? = nil) {
-            self.username = username
-            self.eventTime = eventTime
-            self.resources = resources
-            self.accessKeyId = accessKeyId
-            self.eventName = eventName
-            self.eventId = eventId
-            self.eventSource = eventSource
-            self.cloudTrailEvent = cloudTrailEvent
-            self.readOnly = readOnly
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case username = "Username"
-            case eventTime = "EventTime"
-            case resources = "Resources"
-            case accessKeyId = "AccessKeyId"
-            case eventName = "EventName"
-            case eventId = "EventId"
-            case eventSource = "EventSource"
-            case cloudTrailEvent = "CloudTrailEvent"
-            case readOnly = "ReadOnly"
-        }
-    }
-
-    public struct RemoveTagsResponse: AWSShape {
-
-    }
-
-    public struct AddTagsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagsList", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceId", required: true, type: .string)
-        ]
-        /// Contains a list of CloudTrail tags, up to a limit of 50
+        /// Specifies a list of tags to be removed.
         public let tagsList: [Tag]?
-        /// Specifies the ARN of the trail to which one or more tags will be added. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
-        public let resourceId: String
 
-        public init(tagsList: [Tag]? = nil, resourceId: String) {
-            self.tagsList = tagsList
+        public init(resourceId: String, tagsList: [Tag]? = nil) {
             self.resourceId = resourceId
+            self.tagsList = tagsList
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tagsList = "TagsList"
             case resourceId = "ResourceId"
+            case tagsList = "TagsList"
         }
     }
 
-    public struct CreateTrailRequest: AWSShape {
+    public struct UpdateTrailResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3BucketName", required: true, type: .string), 
+            AWSShapeMember(label: "TrailARN", required: false, type: .string), 
             AWSShapeMember(label: "IsOrganizationTrail", required: false, type: .boolean), 
-            AWSShapeMember(label: "IncludeGlobalServiceEvents", required: false, type: .boolean), 
-            AWSShapeMember(label: "SnsTopicName", required: false, type: .string), 
             AWSShapeMember(label: "CloudWatchLogsRoleArn", required: false, type: .string), 
             AWSShapeMember(label: "S3KeyPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "CloudWatchLogsLogGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "SnsTopicName", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "IsMultiRegionTrail", required: false, type: .boolean), 
+            AWSShapeMember(label: "IncludeGlobalServiceEvents", required: false, type: .boolean), 
             AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "EnableLogFileValidation", required: false, type: .boolean), 
-            AWSShapeMember(label: "CloudWatchLogsLogGroupArn", required: false, type: .string)
+            AWSShapeMember(label: "S3BucketName", required: false, type: .string), 
+            AWSShapeMember(label: "LogFileValidationEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SnsTopicARN", required: false, type: .string)
         ]
-        /// Specifies the name of the Amazon S3 bucket designated for publishing log files. See Amazon S3 Bucket Naming Requirements.
-        public let s3BucketName: String
-        /// Specifies whether the trail is created for all accounts in an organization in AWS Organizations, or only for the current AWS account. The default is false, and cannot be true unless the call is made on behalf of an AWS account that is the master account for an organization in AWS Organizations.
+        /// Specifies the ARN of the trail that was updated. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
+        public let trailARN: String?
+        /// Specifies whether the trail is an organization trail.
         public let isOrganizationTrail: Bool?
-        /// Specifies whether the trail is publishing events from global services such as IAM to the log files.
-        public let includeGlobalServiceEvents: Bool?
-        /// Specifies the name of the Amazon SNS topic defined for notification of log file delivery. The maximum length is 256 characters.
-        public let snsTopicName: String?
         /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group.
         public let cloudWatchLogsRoleArn: String?
-        /// Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more information, see Finding Your CloudTrail Log Files. The maximum length is 200 characters.
+        /// Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more information, see Finding Your CloudTrail Log Files.
         public let s3KeyPrefix: String?
-        /// Specifies whether the trail is created in the current region or in all regions. The default is false.
-        public let isMultiRegionTrail: Bool?
-        /// Specifies the KMS key ID to use to encrypt the logs delivered by CloudTrail. The value can be an alias name prefixed by "alias/", a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier. Examples:   alias/MyAliasName   arn:aws:kms:us-east-2:123456789012:alias/MyAliasName   arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012   12345678-1234-1234-1234-123456789012  
-        public let kmsKeyId: String?
-        /// Specifies the name of the trail. The name must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are invalid.   Not be in IP address format (for example, 192.168.5.4)  
-        public let name: String
-        /// Specifies whether log file integrity validation is enabled. The default is false.  When you disable log file integrity validation, the chain of digest files is broken after one hour. CloudTrail will not create digest files for log files that were delivered during a period in which log file integrity validation was disabled. For example, if you enable log file integrity validation at noon on January 1, disable it at noon on January 2, and re-enable it at noon on January 10, digest files will not be created for the log files delivered from noon on January 2 to noon on January 10. The same applies whenever you stop CloudTrail logging or delete a trail. 
-        public let enableLogFileValidation: Bool?
-        /// Specifies a log group name using an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs will be delivered. Not required unless you specify CloudWatchLogsRoleArn.
+        /// Specifies the Amazon Resource Name (ARN) of the log group to which CloudTrail logs will be delivered.
         public let cloudWatchLogsLogGroupArn: String?
+        /// This field is deprecated. Use SnsTopicARN.
+        public let snsTopicName: String?
+        /// Specifies the name of the trail.
+        public let name: String?
+        /// Specifies whether the trail exists in one region or in all regions.
+        public let isMultiRegionTrail: Bool?
+        /// Specifies whether the trail is publishing events from global services such as IAM to the log files.
+        public let includeGlobalServiceEvents: Bool?
+        /// Specifies the KMS key ID that encrypts the logs delivered by CloudTrail. The value is a fully specified ARN to a KMS key in the format:  arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012 
+        public let kmsKeyId: String?
+        /// Specifies the name of the Amazon S3 bucket designated for publishing log files.
+        public let s3BucketName: String?
+        /// Specifies whether log file integrity validation is enabled.
+        public let logFileValidationEnabled: Bool?
+        /// Specifies the ARN of the Amazon SNS topic that CloudTrail uses to send notifications when log files are delivered. The format of a topic ARN is:  arn:aws:sns:us-east-2:123456789012:MyTopic 
+        public let snsTopicARN: String?
 
-        public init(s3BucketName: String, isOrganizationTrail: Bool? = nil, includeGlobalServiceEvents: Bool? = nil, snsTopicName: String? = nil, cloudWatchLogsRoleArn: String? = nil, s3KeyPrefix: String? = nil, isMultiRegionTrail: Bool? = nil, kmsKeyId: String? = nil, name: String, enableLogFileValidation: Bool? = nil, cloudWatchLogsLogGroupArn: String? = nil) {
-            self.s3BucketName = s3BucketName
+        public init(cloudWatchLogsLogGroupArn: String? = nil, cloudWatchLogsRoleArn: String? = nil, includeGlobalServiceEvents: Bool? = nil, isMultiRegionTrail: Bool? = nil, isOrganizationTrail: Bool? = nil, kmsKeyId: String? = nil, logFileValidationEnabled: Bool? = nil, name: String? = nil, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, snsTopicARN: String? = nil, snsTopicName: String? = nil, trailARN: String? = nil) {
+            self.trailARN = trailARN
             self.isOrganizationTrail = isOrganizationTrail
-            self.includeGlobalServiceEvents = includeGlobalServiceEvents
-            self.snsTopicName = snsTopicName
             self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
             self.s3KeyPrefix = s3KeyPrefix
-            self.isMultiRegionTrail = isMultiRegionTrail
-            self.kmsKeyId = kmsKeyId
-            self.name = name
-            self.enableLogFileValidation = enableLogFileValidation
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
+            self.snsTopicName = snsTopicName
+            self.name = name
+            self.isMultiRegionTrail = isMultiRegionTrail
+            self.includeGlobalServiceEvents = includeGlobalServiceEvents
+            self.kmsKeyId = kmsKeyId
+            self.s3BucketName = s3BucketName
+            self.logFileValidationEnabled = logFileValidationEnabled
+            self.snsTopicARN = snsTopicARN
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3BucketName = "S3BucketName"
+            case trailARN = "TrailARN"
             case isOrganizationTrail = "IsOrganizationTrail"
-            case includeGlobalServiceEvents = "IncludeGlobalServiceEvents"
-            case snsTopicName = "SnsTopicName"
             case cloudWatchLogsRoleArn = "CloudWatchLogsRoleArn"
             case s3KeyPrefix = "S3KeyPrefix"
-            case isMultiRegionTrail = "IsMultiRegionTrail"
-            case kmsKeyId = "KmsKeyId"
-            case name = "Name"
-            case enableLogFileValidation = "EnableLogFileValidation"
             case cloudWatchLogsLogGroupArn = "CloudWatchLogsLogGroupArn"
+            case snsTopicName = "SnsTopicName"
+            case name = "Name"
+            case isMultiRegionTrail = "IsMultiRegionTrail"
+            case includeGlobalServiceEvents = "IncludeGlobalServiceEvents"
+            case kmsKeyId = "KmsKeyId"
+            case s3BucketName = "S3BucketName"
+            case logFileValidationEnabled = "LogFileValidationEnabled"
+            case snsTopicARN = "SnsTopicARN"
         }
     }
 
-    public struct ListTagsRequest: AWSShape {
+    public struct ListPublicKeysResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceIdList", required: true, type: .list), 
+            AWSShapeMember(label: "PublicKeyList", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// Specifies a list of trail ARNs whose tags will be listed. The list has a limit of 20 ARNs. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
-        public let resourceIdList: [String]
+        /// Contains an array of PublicKey objects.  The returned public keys may have validity time ranges that overlap. 
+        public let publicKeyList: [PublicKey]?
         /// Reserved for future use.
         public let nextToken: String?
 
-        public init(resourceIdList: [String], nextToken: String? = nil) {
-            self.resourceIdList = resourceIdList
+        public init(nextToken: String? = nil, publicKeyList: [PublicKey]? = nil) {
+            self.publicKeyList = publicKeyList
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceIdList = "ResourceIdList"
+            case publicKeyList = "PublicKeyList"
             case nextToken = "NextToken"
         }
     }
@@ -923,6 +160,454 @@ extension CloudTrail {
         }
     }
 
+    public enum ReadWriteType: String, CustomStringConvertible, Codable {
+        case readonly = "ReadOnly"
+        case writeonly = "WriteOnly"
+        case all = "All"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetTrailStatusResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TimeLoggingStopped", required: false, type: .string), 
+            AWSShapeMember(label: "LatestNotificationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LatestDeliveryTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LatestDeliveryAttemptTime", required: false, type: .string), 
+            AWSShapeMember(label: "StopLoggingTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LatestCloudWatchLogsDeliveryError", required: false, type: .string), 
+            AWSShapeMember(label: "LatestCloudWatchLogsDeliveryTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LatestDeliveryAttemptSucceeded", required: false, type: .string), 
+            AWSShapeMember(label: "LatestDeliveryError", required: false, type: .string), 
+            AWSShapeMember(label: "LatestNotificationAttemptTime", required: false, type: .string), 
+            AWSShapeMember(label: "LatestNotificationAttemptSucceeded", required: false, type: .string), 
+            AWSShapeMember(label: "StartLoggingTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "IsLogging", required: false, type: .boolean), 
+            AWSShapeMember(label: "LatestNotificationError", required: false, type: .string), 
+            AWSShapeMember(label: "LatestDigestDeliveryError", required: false, type: .string), 
+            AWSShapeMember(label: "TimeLoggingStarted", required: false, type: .string), 
+            AWSShapeMember(label: "LatestDigestDeliveryTime", required: false, type: .timestamp)
+        ]
+        /// This field is deprecated.
+        public let timeLoggingStopped: String?
+        /// Specifies the date and time of the most recent Amazon SNS notification that CloudTrail has written a new log file to an account's Amazon S3 bucket.
+        public let latestNotificationTime: TimeStamp?
+        /// Specifies the date and time that CloudTrail last delivered log files to an account's Amazon S3 bucket.
+        public let latestDeliveryTime: TimeStamp?
+        /// This field is deprecated.
+        public let latestDeliveryAttemptTime: String?
+        /// Specifies the most recent date and time when CloudTrail stopped recording API calls for an AWS account.
+        public let stopLoggingTime: TimeStamp?
+        /// Displays any CloudWatch Logs error that CloudTrail encountered when attempting to deliver logs to CloudWatch Logs.
+        public let latestCloudWatchLogsDeliveryError: String?
+        /// Displays the most recent date and time when CloudTrail delivered logs to CloudWatch Logs.
+        public let latestCloudWatchLogsDeliveryTime: TimeStamp?
+        /// This field is deprecated.
+        public let latestDeliveryAttemptSucceeded: String?
+        /// Displays any Amazon S3 error that CloudTrail encountered when attempting to deliver log files to the designated bucket. For more information see the topic Error Responses in the Amazon S3 API Reference.   This error occurs only when there is a problem with the destination S3 bucket and will not occur for timeouts. To resolve the issue, create a new bucket and call UpdateTrail to specify the new bucket, or fix the existing objects so that CloudTrail can again write to the bucket. 
+        public let latestDeliveryError: String?
+        /// This field is deprecated.
+        public let latestNotificationAttemptTime: String?
+        /// This field is deprecated.
+        public let latestNotificationAttemptSucceeded: String?
+        /// Specifies the most recent date and time when CloudTrail started recording API calls for an AWS account.
+        public let startLoggingTime: TimeStamp?
+        /// Whether the CloudTrail is currently logging AWS API calls.
+        public let isLogging: Bool?
+        /// Displays any Amazon SNS error that CloudTrail encountered when attempting to send a notification. For more information about Amazon SNS errors, see the Amazon SNS Developer Guide. 
+        public let latestNotificationError: String?
+        /// Displays any Amazon S3 error that CloudTrail encountered when attempting to deliver a digest file to the designated bucket. For more information see the topic Error Responses in the Amazon S3 API Reference.   This error occurs only when there is a problem with the destination S3 bucket and will not occur for timeouts. To resolve the issue, create a new bucket and call UpdateTrail to specify the new bucket, or fix the existing objects so that CloudTrail can again write to the bucket. 
+        public let latestDigestDeliveryError: String?
+        /// This field is deprecated.
+        public let timeLoggingStarted: String?
+        /// Specifies the date and time that CloudTrail last delivered a digest file to an account's Amazon S3 bucket.
+        public let latestDigestDeliveryTime: TimeStamp?
+
+        public init(isLogging: Bool? = nil, latestCloudWatchLogsDeliveryError: String? = nil, latestCloudWatchLogsDeliveryTime: TimeStamp? = nil, latestDeliveryAttemptSucceeded: String? = nil, latestDeliveryAttemptTime: String? = nil, latestDeliveryError: String? = nil, latestDeliveryTime: TimeStamp? = nil, latestDigestDeliveryError: String? = nil, latestDigestDeliveryTime: TimeStamp? = nil, latestNotificationAttemptSucceeded: String? = nil, latestNotificationAttemptTime: String? = nil, latestNotificationError: String? = nil, latestNotificationTime: TimeStamp? = nil, startLoggingTime: TimeStamp? = nil, stopLoggingTime: TimeStamp? = nil, timeLoggingStarted: String? = nil, timeLoggingStopped: String? = nil) {
+            self.timeLoggingStopped = timeLoggingStopped
+            self.latestNotificationTime = latestNotificationTime
+            self.latestDeliveryTime = latestDeliveryTime
+            self.latestDeliveryAttemptTime = latestDeliveryAttemptTime
+            self.stopLoggingTime = stopLoggingTime
+            self.latestCloudWatchLogsDeliveryError = latestCloudWatchLogsDeliveryError
+            self.latestCloudWatchLogsDeliveryTime = latestCloudWatchLogsDeliveryTime
+            self.latestDeliveryAttemptSucceeded = latestDeliveryAttemptSucceeded
+            self.latestDeliveryError = latestDeliveryError
+            self.latestNotificationAttemptTime = latestNotificationAttemptTime
+            self.latestNotificationAttemptSucceeded = latestNotificationAttemptSucceeded
+            self.startLoggingTime = startLoggingTime
+            self.isLogging = isLogging
+            self.latestNotificationError = latestNotificationError
+            self.latestDigestDeliveryError = latestDigestDeliveryError
+            self.timeLoggingStarted = timeLoggingStarted
+            self.latestDigestDeliveryTime = latestDigestDeliveryTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timeLoggingStopped = "TimeLoggingStopped"
+            case latestNotificationTime = "LatestNotificationTime"
+            case latestDeliveryTime = "LatestDeliveryTime"
+            case latestDeliveryAttemptTime = "LatestDeliveryAttemptTime"
+            case stopLoggingTime = "StopLoggingTime"
+            case latestCloudWatchLogsDeliveryError = "LatestCloudWatchLogsDeliveryError"
+            case latestCloudWatchLogsDeliveryTime = "LatestCloudWatchLogsDeliveryTime"
+            case latestDeliveryAttemptSucceeded = "LatestDeliveryAttemptSucceeded"
+            case latestDeliveryError = "LatestDeliveryError"
+            case latestNotificationAttemptTime = "LatestNotificationAttemptTime"
+            case latestNotificationAttemptSucceeded = "LatestNotificationAttemptSucceeded"
+            case startLoggingTime = "StartLoggingTime"
+            case isLogging = "IsLogging"
+            case latestNotificationError = "LatestNotificationError"
+            case latestDigestDeliveryError = "LatestDigestDeliveryError"
+            case timeLoggingStarted = "TimeLoggingStarted"
+            case latestDigestDeliveryTime = "LatestDigestDeliveryTime"
+        }
+    }
+
+    public struct DeleteTrailResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct StopLoggingResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct AddTagsResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DataResource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .string), 
+            AWSShapeMember(label: "Values", required: false, type: .list)
+        ]
+        /// The resource type in which you want to log data events. You can specify AWS::S3::Object or AWS::Lambda::Function resources.
+        public let `type`: String?
+        /// An array of Amazon Resource Name (ARN) strings or partial ARN strings for the specified objects.   To log data events for all objects in all S3 buckets in your AWS account, specify the prefix as arn:aws:s3:::.   This will also enable logging of data event activity performed by any user or role in your AWS account, even if that activity is performed on a bucket that belongs to another AWS account.     To log data events for all objects in all S3 buckets that include my-bucket in their names, specify the prefix as aws:s3:::my-bucket. The trail logs data events for all objects in all buckets whose name contains a match for my-bucket.    To log data events for all objects in an S3 bucket, specify the bucket and an empty object prefix such as arn:aws:s3:::bucket-1/. The trail logs data events for all objects in this S3 bucket.   To log data events for specific objects, specify the S3 bucket and object prefix such as arn:aws:s3:::bucket-1/example-images. The trail logs data events for objects in this S3 bucket that match the prefix.   To log data events for all functions in your AWS account, specify the prefix as arn:aws:lambda.  This will also enable logging of Invoke activity performed by any user or role in your AWS account, even if that activity is performed on a function that belongs to another AWS account.     To log data eents for a specific Lambda function, specify the function ARN.  Lambda function ARNs are exact. Unlike S3, you cannot use matching. For example, if you specify a function ARN arn:aws:lambda:us-west-2:111111111111:function:helloworld, data events will only be logged for arn:aws:lambda:us-west-2:111111111111:function:helloworld. They will not be logged for arn:aws:lambda:us-west-2:111111111111:function:helloworld2.   
+        public let values: [String]?
+
+        public init(type: String? = nil, values: [String]? = nil) {
+            self.`type` = `type`
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case values = "Values"
+        }
+    }
+
+    public struct ListTagsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceTagList", required: false, type: .list)
+        ]
+        /// Reserved for future use.
+        public let nextToken: String?
+        /// A list of resource tags.
+        public let resourceTagList: [ResourceTag]?
+
+        public init(nextToken: String? = nil, resourceTagList: [ResourceTag]? = nil) {
+            self.nextToken = nextToken
+            self.resourceTagList = resourceTagList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case resourceTagList = "ResourceTagList"
+        }
+    }
+
+    public struct GetEventSelectorsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrailARN", required: false, type: .string), 
+            AWSShapeMember(label: "EventSelectors", required: false, type: .list)
+        ]
+        /// The specified trail ARN that has the event selectors.
+        public let trailARN: String?
+        /// The event selectors that are configured for the trail.
+        public let eventSelectors: [EventSelector]?
+
+        public init(eventSelectors: [EventSelector]? = nil, trailARN: String? = nil) {
+            self.trailARN = trailARN
+            self.eventSelectors = eventSelectors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trailARN = "TrailARN"
+            case eventSelectors = "EventSelectors"
+        }
+    }
+
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+        /// The key in a key-value pair. The key must be must be no longer than 128 Unicode characters. The key must be unique for the resource to which it applies.
+        public let key: String
+        /// The value in a key-value pair of a tag. The value must be no longer than 256 Unicode characters.
+        public let value: String?
+
+        public init(key: String, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct LookupAttribute: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeKey", required: true, type: .enum), 
+            AWSShapeMember(label: "AttributeValue", required: true, type: .string)
+        ]
+        /// Specifies an attribute on which to filter the events returned.
+        public let attributeKey: LookupAttributeKey
+        /// Specifies a value for the specified AttributeKey.
+        public let attributeValue: String
+
+        public init(attributeKey: LookupAttributeKey, attributeValue: String) {
+            self.attributeKey = attributeKey
+            self.attributeValue = attributeValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeKey = "AttributeKey"
+            case attributeValue = "AttributeValue"
+        }
+    }
+
+    public struct GetEventSelectorsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrailName", required: true, type: .string)
+        ]
+        /// Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid.   Not be in IP address format (for example, 192.168.5.4)   If you specify a trail ARN, it must be in the format:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
+        public let trailName: String
+
+        public init(trailName: String) {
+            self.trailName = trailName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trailName = "TrailName"
+        }
+    }
+
+    public struct DescribeTrailsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "includeShadowTrails", required: false, type: .boolean), 
+            AWSShapeMember(label: "trailNameList", required: false, type: .list)
+        ]
+        /// Specifies whether to include shadow trails in the response. A shadow trail is the replication in a region of a trail that was created in a different region, or in the case of an organization trail, the replication of an organization trail in member accounts. If you do not include shadow trails, organization trails in a member account and region replication trails will not be returned. The default is true.
+        public let includeShadowTrails: Bool?
+        /// Specifies a list of trail names, trail ARNs, or both, of the trails to describe. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail  If an empty list is specified, information for the trail in the current region is returned.   If an empty list is specified and IncludeShadowTrails is false, then information for all trails in the current region is returned.   If an empty list is specified and IncludeShadowTrails is null or true, then information for all trails in the current region and any associated shadow trails in other regions is returned.    If one or more trail names are specified, information is returned only if the names match the names of trails belonging only to the current region. To return information about a trail in another region, you must specify its trail ARN. 
+        public let trailNameList: [String]?
+
+        public init(includeShadowTrails: Bool? = nil, trailNameList: [String]? = nil) {
+            self.includeShadowTrails = includeShadowTrails
+            self.trailNameList = trailNameList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case includeShadowTrails = "includeShadowTrails"
+            case trailNameList = "trailNameList"
+        }
+    }
+
+    public struct ListPublicKeysRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp)
+        ]
+        /// Optionally specifies, in UTC, the end of the time range to look up public keys for CloudTrail digest files. If not specified, the current time is used.
+        public let endTime: TimeStamp?
+        /// Reserved for future use.
+        public let nextToken: String?
+        /// Optionally specifies, in UTC, the start of the time range to look up public keys for CloudTrail digest files. If not specified, the current time is used, and the current public key is returned.
+        public let startTime: TimeStamp?
+
+        public init(endTime: TimeStamp? = nil, nextToken: String? = nil, startTime: TimeStamp? = nil) {
+            self.endTime = endTime
+            self.nextToken = nextToken
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case nextToken = "NextToken"
+            case startTime = "StartTime"
+        }
+    }
+
+    public struct EventSelector: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IncludeManagementEvents", required: false, type: .boolean), 
+            AWSShapeMember(label: "ReadWriteType", required: false, type: .enum), 
+            AWSShapeMember(label: "DataResources", required: false, type: .list)
+        ]
+        /// Specify if you want your event selector to include management events for your trail.  For more information, see Management Events in the AWS CloudTrail User Guide. By default, the value is true.
+        public let includeManagementEvents: Bool?
+        /// Specify if you want your trail to log read-only events, write-only events, or all. For example, the EC2 GetConsoleOutput is a read-only API operation and RunInstances is a write-only API operation.  By default, the value is All.
+        public let readWriteType: ReadWriteType?
+        /// CloudTrail supports data event logging for Amazon S3 objects and AWS Lambda functions. You can specify up to 250 resources for an individual event selector, but the total number of data resources cannot exceed 250 across all event selectors in a trail. This limit does not apply if you configure resource logging for all data events.  For more information, see Data Events and Limits in AWS CloudTrail in the AWS CloudTrail User Guide.
+        public let dataResources: [DataResource]?
+
+        public init(dataResources: [DataResource]? = nil, includeManagementEvents: Bool? = nil, readWriteType: ReadWriteType? = nil) {
+            self.includeManagementEvents = includeManagementEvents
+            self.readWriteType = readWriteType
+            self.dataResources = dataResources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case includeManagementEvents = "IncludeManagementEvents"
+            case readWriteType = "ReadWriteType"
+            case dataResources = "DataResources"
+        }
+    }
+
+    public enum LookupAttributeKey: String, CustomStringConvertible, Codable {
+        case eventid = "EventId"
+        case eventname = "EventName"
+        case readonly = "ReadOnly"
+        case username = "Username"
+        case resourcetype = "ResourceType"
+        case resourcename = "ResourceName"
+        case eventsource = "EventSource"
+        case accesskeyid = "AccessKeyId"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CreateTrailResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LogFileValidationEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "IsOrganizationTrail", required: false, type: .boolean), 
+            AWSShapeMember(label: "IncludeGlobalServiceEvents", required: false, type: .boolean), 
+            AWSShapeMember(label: "TrailARN", required: false, type: .string), 
+            AWSShapeMember(label: "IsMultiRegionTrail", required: false, type: .boolean), 
+            AWSShapeMember(label: "SnsTopicName", required: false, type: .string), 
+            AWSShapeMember(label: "CloudWatchLogsRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "CloudWatchLogsLogGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "S3BucketName", required: false, type: .string), 
+            AWSShapeMember(label: "SnsTopicARN", required: false, type: .string), 
+            AWSShapeMember(label: "S3KeyPrefix", required: false, type: .string)
+        ]
+        /// Specifies whether log file integrity validation is enabled.
+        public let logFileValidationEnabled: Bool?
+        /// Specifies the KMS key ID that encrypts the logs delivered by CloudTrail. The value is a fully specified ARN to a KMS key in the format:  arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012 
+        public let kmsKeyId: String?
+        /// Specifies whether the trail is an organization trail.
+        public let isOrganizationTrail: Bool?
+        /// Specifies whether the trail is publishing events from global services such as IAM to the log files.
+        public let includeGlobalServiceEvents: Bool?
+        /// Specifies the ARN of the trail that was created. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
+        public let trailARN: String?
+        /// Specifies whether the trail exists in one region or in all regions.
+        public let isMultiRegionTrail: Bool?
+        /// This field is deprecated. Use SnsTopicARN.
+        public let snsTopicName: String?
+        /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group.
+        public let cloudWatchLogsRoleArn: String?
+        /// Specifies the Amazon Resource Name (ARN) of the log group to which CloudTrail logs will be delivered.
+        public let cloudWatchLogsLogGroupArn: String?
+        /// Specifies the name of the trail.
+        public let name: String?
+        /// Specifies the name of the Amazon S3 bucket designated for publishing log files.
+        public let s3BucketName: String?
+        /// Specifies the ARN of the Amazon SNS topic that CloudTrail uses to send notifications when log files are delivered. The format of a topic ARN is:  arn:aws:sns:us-east-2:123456789012:MyTopic 
+        public let snsTopicARN: String?
+        /// Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more information, see Finding Your CloudTrail Log Files.
+        public let s3KeyPrefix: String?
+
+        public init(cloudWatchLogsLogGroupArn: String? = nil, cloudWatchLogsRoleArn: String? = nil, includeGlobalServiceEvents: Bool? = nil, isMultiRegionTrail: Bool? = nil, isOrganizationTrail: Bool? = nil, kmsKeyId: String? = nil, logFileValidationEnabled: Bool? = nil, name: String? = nil, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, snsTopicARN: String? = nil, snsTopicName: String? = nil, trailARN: String? = nil) {
+            self.logFileValidationEnabled = logFileValidationEnabled
+            self.kmsKeyId = kmsKeyId
+            self.isOrganizationTrail = isOrganizationTrail
+            self.includeGlobalServiceEvents = includeGlobalServiceEvents
+            self.trailARN = trailARN
+            self.isMultiRegionTrail = isMultiRegionTrail
+            self.snsTopicName = snsTopicName
+            self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
+            self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
+            self.name = name
+            self.s3BucketName = s3BucketName
+            self.snsTopicARN = snsTopicARN
+            self.s3KeyPrefix = s3KeyPrefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logFileValidationEnabled = "LogFileValidationEnabled"
+            case kmsKeyId = "KmsKeyId"
+            case isOrganizationTrail = "IsOrganizationTrail"
+            case includeGlobalServiceEvents = "IncludeGlobalServiceEvents"
+            case trailARN = "TrailARN"
+            case isMultiRegionTrail = "IsMultiRegionTrail"
+            case snsTopicName = "SnsTopicName"
+            case cloudWatchLogsRoleArn = "CloudWatchLogsRoleArn"
+            case cloudWatchLogsLogGroupArn = "CloudWatchLogsLogGroupArn"
+            case name = "Name"
+            case s3BucketName = "S3BucketName"
+            case snsTopicARN = "SnsTopicARN"
+            case s3KeyPrefix = "S3KeyPrefix"
+        }
+    }
+
+    public struct ResourceTag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "TagsList", required: false, type: .list)
+        ]
+        /// Specifies the ARN of the resource.
+        public let resourceId: String?
+        /// A list of tags.
+        public let tagsList: [Tag]?
+
+        public init(resourceId: String? = nil, tagsList: [Tag]? = nil) {
+            self.resourceId = resourceId
+            self.tagsList = tagsList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case tagsList = "TagsList"
+        }
+    }
+
+    public struct ListTagsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceIdList", required: true, type: .list)
+        ]
+        /// Reserved for future use.
+        public let nextToken: String?
+        /// Specifies a list of trail ARNs whose tags will be listed. The list has a limit of 20 ARNs. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
+        public let resourceIdList: [String]
+
+        public init(nextToken: String? = nil, resourceIdList: [String]) {
+            self.nextToken = nextToken
+            self.resourceIdList = resourceIdList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case resourceIdList = "ResourceIdList"
+        }
+    }
+
     public struct Resource: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceType", required: false, type: .string), 
@@ -933,7 +618,7 @@ extension CloudTrail {
         /// The name of the resource referenced by the event returned. These are user-created names whose values will depend on the environment. For example, the resource name might be "auto-scaling-test-group" for an Auto Scaling Group or "i-1234567" for an EC2 Instance.
         public let resourceName: String?
 
-        public init(resourceType: String? = nil, resourceName: String? = nil) {
+        public init(resourceName: String? = nil, resourceType: String? = nil) {
             self.resourceType = resourceType
             self.resourceName = resourceName
         }
@@ -944,11 +629,11 @@ extension CloudTrail {
         }
     }
 
-    public struct StopLoggingRequest: AWSShape {
+    public struct DeleteTrailRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
-        /// Specifies the name or the CloudTrail ARN of the trail for which CloudTrail will stop logging AWS API calls. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
+        /// Specifies the name or the CloudTrail ARN of the trail to be deleted. The format of a trail ARN is: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
         public let name: String
 
         public init(name: String) {
@@ -960,24 +645,97 @@ extension CloudTrail {
         }
     }
 
-    public struct ListPublicKeysResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PublicKeyList", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Contains an array of PublicKey objects.  The returned public keys may have validity time ranges that overlap. 
-        public let publicKeyList: [PublicKey]?
-        /// Reserved for future use.
-        public let nextToken: String?
+    public struct StartLoggingResponse: AWSShape {
 
-        public init(publicKeyList: [PublicKey]? = nil, nextToken: String? = nil) {
-            self.publicKeyList = publicKeyList
-            self.nextToken = nextToken
+        public init() {
+        }
+
+    }
+
+    public struct PutEventSelectorsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrailName", required: true, type: .string), 
+            AWSShapeMember(label: "EventSelectors", required: true, type: .list)
+        ]
+        /// Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are invalid.   Not be in IP address format (for example, 192.168.5.4)   If you specify a trail ARN, it must be in the format:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
+        public let trailName: String
+        /// Specifies the settings for your event selectors. You can configure up to five event selectors for a trail.
+        public let eventSelectors: [EventSelector]
+
+        public init(eventSelectors: [EventSelector], trailName: String) {
+            self.trailName = trailName
+            self.eventSelectors = eventSelectors
         }
 
         private enum CodingKeys: String, CodingKey {
-            case publicKeyList = "PublicKeyList"
-            case nextToken = "NextToken"
+            case trailName = "TrailName"
+            case eventSelectors = "EventSelectors"
+        }
+    }
+
+    public struct UpdateTrailRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3KeyPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "S3BucketName", required: false, type: .string), 
+            AWSShapeMember(label: "EnableLogFileValidation", required: false, type: .boolean), 
+            AWSShapeMember(label: "IsMultiRegionTrail", required: false, type: .boolean), 
+            AWSShapeMember(label: "IsOrganizationTrail", required: false, type: .boolean), 
+            AWSShapeMember(label: "CloudWatchLogsRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "IncludeGlobalServiceEvents", required: false, type: .boolean), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "SnsTopicName", required: false, type: .string), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "CloudWatchLogsLogGroupArn", required: false, type: .string)
+        ]
+        /// Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more information, see Finding Your CloudTrail Log Files. The maximum length is 200 characters.
+        public let s3KeyPrefix: String?
+        /// Specifies the name of the Amazon S3 bucket designated for publishing log files. See Amazon S3 Bucket Naming Requirements.
+        public let s3BucketName: String?
+        /// Specifies whether log file validation is enabled. The default is false.  When you disable log file integrity validation, the chain of digest files is broken after one hour. CloudTrail will not create digest files for log files that were delivered during a period in which log file integrity validation was disabled. For example, if you enable log file integrity validation at noon on January 1, disable it at noon on January 2, and re-enable it at noon on January 10, digest files will not be created for the log files delivered from noon on January 2 to noon on January 10. The same applies whenever you stop CloudTrail logging or delete a trail. 
+        public let enableLogFileValidation: Bool?
+        /// Specifies whether the trail applies only to the current region or to all regions. The default is false. If the trail exists only in the current region and this value is set to true, shadow trails (replications of the trail) will be created in the other regions. If the trail exists in all regions and this value is set to false, the trail will remain in the region where it was created, and its shadow trails in other regions will be deleted.
+        public let isMultiRegionTrail: Bool?
+        /// Specifies whether the trail is applied to all accounts in an organization in AWS Organizations, or only for the current AWS account. The default is false, and cannot be true unless the call is made on behalf of an AWS account that is the master account for an organization in AWS Organizations. If the trail is not an organization trail and this is set to true, the trail will be created in all AWS accounts that belong to the organization. If the trail is an organization trail and this is set to false, the trail will remain in the current AWS account but be deleted from all member accounts in the organization.
+        public let isOrganizationTrail: Bool?
+        /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group.
+        public let cloudWatchLogsRoleArn: String?
+        /// Specifies whether the trail is publishing events from global services such as IAM to the log files.
+        public let includeGlobalServiceEvents: Bool?
+        /// Specifies the name of the trail or trail ARN. If Name is a trail name, the string must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are invalid.   Not be in IP address format (for example, 192.168.5.4)   If Name is a trail ARN, it must be in the format:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
+        public let name: String
+        /// Specifies the name of the Amazon SNS topic defined for notification of log file delivery. The maximum length is 256 characters.
+        public let snsTopicName: String?
+        /// Specifies the KMS key ID to use to encrypt the logs delivered by CloudTrail. The value can be an alias name prefixed by "alias/", a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier. Examples:   alias/MyAliasName   arn:aws:kms:us-east-2:123456789012:alias/MyAliasName   arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012   12345678-1234-1234-1234-123456789012  
+        public let kmsKeyId: String?
+        /// Specifies a log group name using an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs will be delivered. Not required unless you specify CloudWatchLogsRoleArn.
+        public let cloudWatchLogsLogGroupArn: String?
+
+        public init(cloudWatchLogsLogGroupArn: String? = nil, cloudWatchLogsRoleArn: String? = nil, enableLogFileValidation: Bool? = nil, includeGlobalServiceEvents: Bool? = nil, isMultiRegionTrail: Bool? = nil, isOrganizationTrail: Bool? = nil, kmsKeyId: String? = nil, name: String, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, snsTopicName: String? = nil) {
+            self.s3KeyPrefix = s3KeyPrefix
+            self.s3BucketName = s3BucketName
+            self.enableLogFileValidation = enableLogFileValidation
+            self.isMultiRegionTrail = isMultiRegionTrail
+            self.isOrganizationTrail = isOrganizationTrail
+            self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
+            self.includeGlobalServiceEvents = includeGlobalServiceEvents
+            self.name = name
+            self.snsTopicName = snsTopicName
+            self.kmsKeyId = kmsKeyId
+            self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3KeyPrefix = "S3KeyPrefix"
+            case s3BucketName = "S3BucketName"
+            case enableLogFileValidation = "EnableLogFileValidation"
+            case isMultiRegionTrail = "IsMultiRegionTrail"
+            case isOrganizationTrail = "IsOrganizationTrail"
+            case cloudWatchLogsRoleArn = "CloudWatchLogsRoleArn"
+            case includeGlobalServiceEvents = "IncludeGlobalServiceEvents"
+            case name = "Name"
+            case snsTopicName = "SnsTopicName"
+            case kmsKeyId = "KmsKeyId"
+            case cloudWatchLogsLogGroupArn = "CloudWatchLogsLogGroupArn"
         }
     }
 
@@ -997,103 +755,360 @@ extension CloudTrail {
         }
     }
 
-    public struct StartLoggingResponse: AWSShape {
-
-    }
-
-    public struct LookupAttribute: AWSShape {
+    public struct PublicKey: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeValue", required: true, type: .string), 
-            AWSShapeMember(label: "AttributeKey", required: true, type: .enum)
+            AWSShapeMember(label: "Value", required: false, type: .blob), 
+            AWSShapeMember(label: "Fingerprint", required: false, type: .string), 
+            AWSShapeMember(label: "ValidityEndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ValidityStartTime", required: false, type: .timestamp)
         ]
-        /// Specifies a value for the specified AttributeKey.
-        public let attributeValue: String
-        /// Specifies an attribute on which to filter the events returned.
-        public let attributeKey: LookupAttributeKey
+        /// The DER encoded public key value in PKCS#1 format.
+        public let value: Data?
+        /// The fingerprint of the public key.
+        public let fingerprint: String?
+        /// The ending time of validity of the public key.
+        public let validityEndTime: TimeStamp?
+        /// The starting time of validity of the public key.
+        public let validityStartTime: TimeStamp?
 
-        public init(attributeValue: String, attributeKey: LookupAttributeKey) {
-            self.attributeValue = attributeValue
-            self.attributeKey = attributeKey
+        public init(fingerprint: String? = nil, validityEndTime: TimeStamp? = nil, validityStartTime: TimeStamp? = nil, value: Data? = nil) {
+            self.value = value
+            self.fingerprint = fingerprint
+            self.validityEndTime = validityEndTime
+            self.validityStartTime = validityStartTime
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributeValue = "AttributeValue"
-            case attributeKey = "AttributeKey"
+            case value = "Value"
+            case fingerprint = "Fingerprint"
+            case validityEndTime = "ValidityEndTime"
+            case validityStartTime = "ValidityStartTime"
         }
     }
 
-    public struct DescribeTrailsRequest: AWSShape {
+    public struct StopLoggingRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "trailNameList", required: false, type: .list), 
-            AWSShapeMember(label: "includeShadowTrails", required: false, type: .boolean)
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
-        /// Specifies a list of trail names, trail ARNs, or both, of the trails to describe. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail  If an empty list is specified, information for the trail in the current region is returned.   If an empty list is specified and IncludeShadowTrails is false, then information for all trails in the current region is returned.   If an empty list is specified and IncludeShadowTrails is null or true, then information for all trails in the current region and any associated shadow trails in other regions is returned.    If one or more trail names are specified, information is returned only if the names match the names of trails belonging only to the current region. To return information about a trail in another region, you must specify its trail ARN. 
-        public let trailNameList: [String]?
-        /// Specifies whether to include shadow trails in the response. A shadow trail is the replication in a region of a trail that was created in a different region, or in the case of an organization trail, the replication of an organization trail in member accounts. If you do not include shadow trails, organization trails in a member account and region replication trails will not be returned. The default is true.
-        public let includeShadowTrails: Bool?
+        /// Specifies the name or the CloudTrail ARN of the trail for which CloudTrail will stop logging AWS API calls. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
+        public let name: String
 
-        public init(trailNameList: [String]? = nil, includeShadowTrails: Bool? = nil) {
-            self.trailNameList = trailNameList
-            self.includeShadowTrails = includeShadowTrails
+        public init(name: String) {
+            self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case trailNameList = "trailNameList"
-            case includeShadowTrails = "includeShadowTrails"
+            case name = "Name"
         }
     }
 
-    public struct ResourceTag: AWSShape {
+    public struct CreateTrailRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagsList", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceId", required: false, type: .string)
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "S3BucketName", required: true, type: .string), 
+            AWSShapeMember(label: "IncludeGlobalServiceEvents", required: false, type: .boolean), 
+            AWSShapeMember(label: "IsMultiRegionTrail", required: false, type: .boolean), 
+            AWSShapeMember(label: "EnableLogFileValidation", required: false, type: .boolean), 
+            AWSShapeMember(label: "S3KeyPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "SnsTopicName", required: false, type: .string), 
+            AWSShapeMember(label: "CloudWatchLogsLogGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "CloudWatchLogsRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "IsOrganizationTrail", required: false, type: .boolean)
         ]
-        /// A list of tags.
-        public let tagsList: [Tag]?
-        /// Specifies the ARN of the resource.
-        public let resourceId: String?
+        /// Specifies the name of the trail. The name must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are invalid.   Not be in IP address format (for example, 192.168.5.4)  
+        public let name: String
+        /// Specifies the name of the Amazon S3 bucket designated for publishing log files. See Amazon S3 Bucket Naming Requirements.
+        public let s3BucketName: String
+        /// Specifies whether the trail is publishing events from global services such as IAM to the log files.
+        public let includeGlobalServiceEvents: Bool?
+        /// Specifies whether the trail is created in the current region or in all regions. The default is false.
+        public let isMultiRegionTrail: Bool?
+        /// Specifies whether log file integrity validation is enabled. The default is false.  When you disable log file integrity validation, the chain of digest files is broken after one hour. CloudTrail will not create digest files for log files that were delivered during a period in which log file integrity validation was disabled. For example, if you enable log file integrity validation at noon on January 1, disable it at noon on January 2, and re-enable it at noon on January 10, digest files will not be created for the log files delivered from noon on January 2 to noon on January 10. The same applies whenever you stop CloudTrail logging or delete a trail. 
+        public let enableLogFileValidation: Bool?
+        /// Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more information, see Finding Your CloudTrail Log Files. The maximum length is 200 characters.
+        public let s3KeyPrefix: String?
+        /// Specifies the KMS key ID to use to encrypt the logs delivered by CloudTrail. The value can be an alias name prefixed by "alias/", a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier. Examples:   alias/MyAliasName   arn:aws:kms:us-east-2:123456789012:alias/MyAliasName   arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012   12345678-1234-1234-1234-123456789012  
+        public let kmsKeyId: String?
+        /// Specifies the name of the Amazon SNS topic defined for notification of log file delivery. The maximum length is 256 characters.
+        public let snsTopicName: String?
+        /// Specifies a log group name using an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs will be delivered. Not required unless you specify CloudWatchLogsRoleArn.
+        public let cloudWatchLogsLogGroupArn: String?
+        /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group.
+        public let cloudWatchLogsRoleArn: String?
+        /// Specifies whether the trail is created for all accounts in an organization in AWS Organizations, or only for the current AWS account. The default is false, and cannot be true unless the call is made on behalf of an AWS account that is the master account for an organization in AWS Organizations.
+        public let isOrganizationTrail: Bool?
 
-        public init(tagsList: [Tag]? = nil, resourceId: String? = nil) {
-            self.tagsList = tagsList
-            self.resourceId = resourceId
+        public init(cloudWatchLogsLogGroupArn: String? = nil, cloudWatchLogsRoleArn: String? = nil, enableLogFileValidation: Bool? = nil, includeGlobalServiceEvents: Bool? = nil, isMultiRegionTrail: Bool? = nil, isOrganizationTrail: Bool? = nil, kmsKeyId: String? = nil, name: String, s3BucketName: String, s3KeyPrefix: String? = nil, snsTopicName: String? = nil) {
+            self.name = name
+            self.s3BucketName = s3BucketName
+            self.includeGlobalServiceEvents = includeGlobalServiceEvents
+            self.isMultiRegionTrail = isMultiRegionTrail
+            self.enableLogFileValidation = enableLogFileValidation
+            self.s3KeyPrefix = s3KeyPrefix
+            self.kmsKeyId = kmsKeyId
+            self.snsTopicName = snsTopicName
+            self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
+            self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
+            self.isOrganizationTrail = isOrganizationTrail
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tagsList = "TagsList"
-            case resourceId = "ResourceId"
+            case name = "Name"
+            case s3BucketName = "S3BucketName"
+            case includeGlobalServiceEvents = "IncludeGlobalServiceEvents"
+            case isMultiRegionTrail = "IsMultiRegionTrail"
+            case enableLogFileValidation = "EnableLogFileValidation"
+            case s3KeyPrefix = "S3KeyPrefix"
+            case kmsKeyId = "KmsKeyId"
+            case snsTopicName = "SnsTopicName"
+            case cloudWatchLogsLogGroupArn = "CloudWatchLogsLogGroupArn"
+            case cloudWatchLogsRoleArn = "CloudWatchLogsRoleArn"
+            case isOrganizationTrail = "IsOrganizationTrail"
         }
     }
 
-    public struct PutEventSelectorsRequest: AWSShape {
+    public struct Event: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrailName", required: true, type: .string), 
-            AWSShapeMember(label: "EventSelectors", required: true, type: .list)
+            AWSShapeMember(label: "CloudTrailEvent", required: false, type: .string), 
+            AWSShapeMember(label: "Username", required: false, type: .string), 
+            AWSShapeMember(label: "EventId", required: false, type: .string), 
+            AWSShapeMember(label: "EventTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Resources", required: false, type: .list), 
+            AWSShapeMember(label: "ReadOnly", required: false, type: .string), 
+            AWSShapeMember(label: "AccessKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "EventName", required: false, type: .string), 
+            AWSShapeMember(label: "EventSource", required: false, type: .string)
         ]
-        /// Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are invalid.   Not be in IP address format (for example, 192.168.5.4)   If you specify a trail ARN, it must be in the format:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
-        public let trailName: String
-        /// Specifies the settings for your event selectors. You can configure up to five event selectors for a trail.
-        public let eventSelectors: [EventSelector]
+        /// A JSON string that contains a representation of the event returned.
+        public let cloudTrailEvent: String?
+        /// A user name or role name of the requester that called the API in the event returned.
+        public let username: String?
+        /// The CloudTrail ID of the event returned.
+        public let eventId: String?
+        /// The date and time of the event returned.
+        public let eventTime: TimeStamp?
+        /// A list of resources referenced by the event returned.
+        public let resources: [Resource]?
+        /// Information about whether the event is a write event or a read event. 
+        public let readOnly: String?
+        /// The AWS access key ID that was used to sign the request. If the request was made with temporary security credentials, this is the access key ID of the temporary credentials.
+        public let accessKeyId: String?
+        /// The name of the event returned.
+        public let eventName: String?
+        /// The AWS service that the request was made to.
+        public let eventSource: String?
 
-        public init(trailName: String, eventSelectors: [EventSelector]) {
-            self.trailName = trailName
+        public init(accessKeyId: String? = nil, cloudTrailEvent: String? = nil, eventId: String? = nil, eventName: String? = nil, eventSource: String? = nil, eventTime: TimeStamp? = nil, readOnly: String? = nil, resources: [Resource]? = nil, username: String? = nil) {
+            self.cloudTrailEvent = cloudTrailEvent
+            self.username = username
+            self.eventId = eventId
+            self.eventTime = eventTime
+            self.resources = resources
+            self.readOnly = readOnly
+            self.accessKeyId = accessKeyId
+            self.eventName = eventName
+            self.eventSource = eventSource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudTrailEvent = "CloudTrailEvent"
+            case username = "Username"
+            case eventId = "EventId"
+            case eventTime = "EventTime"
+            case resources = "Resources"
+            case readOnly = "ReadOnly"
+            case accessKeyId = "AccessKeyId"
+            case eventName = "EventName"
+            case eventSource = "EventSource"
+        }
+    }
+
+    public struct RemoveTagsResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct LookupEventsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LookupAttributes", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+        ]
+        /// Specifies that only events that occur after or at the specified time are returned. If the specified start time is after the specified end time, an error is returned.
+        public let startTime: TimeStamp?
+        /// Specifies that only events that occur before or at the specified time are returned. If the specified end time is before the specified start time, an error is returned.
+        public let endTime: TimeStamp?
+        /// Contains a list of lookup attributes. Currently the list can contain only one item.
+        public let lookupAttributes: [LookupAttribute]?
+        /// The token to use to get the next page of results after a previous API call. This token must be passed in with the same parameters that were specified in the the original call. For example, if the original call specified an AttributeKey of 'Username' with a value of 'root', the call with NextToken should include those same parameters.
+        public let nextToken: String?
+        /// The number of events to return. Possible values are 1 through 50. The default is 50.
+        public let maxResults: Int32?
+
+        public init(endTime: TimeStamp? = nil, lookupAttributes: [LookupAttribute]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, startTime: TimeStamp? = nil) {
+            self.startTime = startTime
+            self.endTime = endTime
+            self.lookupAttributes = lookupAttributes
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case startTime = "StartTime"
+            case endTime = "EndTime"
+            case lookupAttributes = "LookupAttributes"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
+        }
+    }
+
+    public struct GetTrailStatusRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// Specifies the name or the CloudTrail ARN of the trail for which you are requesting status. To get the status of a shadow trail (a replication of the trail in another region), you must specify its ARN. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct Trail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnsTopicARN", required: false, type: .string), 
+            AWSShapeMember(label: "IsOrganizationTrail", required: false, type: .boolean), 
+            AWSShapeMember(label: "CloudWatchLogsRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "S3KeyPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "HasCustomEventSelectors", required: false, type: .boolean), 
+            AWSShapeMember(label: "CloudWatchLogsLogGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "SnsTopicName", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "IsMultiRegionTrail", required: false, type: .boolean), 
+            AWSShapeMember(label: "S3BucketName", required: false, type: .string), 
+            AWSShapeMember(label: "HomeRegion", required: false, type: .string), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "IncludeGlobalServiceEvents", required: false, type: .boolean), 
+            AWSShapeMember(label: "LogFileValidationEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "TrailARN", required: false, type: .string)
+        ]
+        /// Specifies the ARN of the Amazon SNS topic that CloudTrail uses to send notifications when log files are delivered. The format of a topic ARN is:  arn:aws:sns:us-east-2:123456789012:MyTopic 
+        public let snsTopicARN: String?
+        /// Specifies whether the trail is an organization trail.
+        public let isOrganizationTrail: Bool?
+        /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group.
+        public let cloudWatchLogsRoleArn: String?
+        /// Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more information, see Finding Your CloudTrail Log Files.The maximum length is 200 characters.
+        public let s3KeyPrefix: String?
+        /// Specifies if the trail has custom event selectors.
+        public let hasCustomEventSelectors: Bool?
+        /// Specifies an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs will be delivered.
+        public let cloudWatchLogsLogGroupArn: String?
+        /// This field is deprecated. Use SnsTopicARN.
+        public let snsTopicName: String?
+        /// Name of the trail set by calling CreateTrail. The maximum length is 128 characters.
+        public let name: String?
+        /// Specifies whether the trail belongs only to one region or exists in all regions.
+        public let isMultiRegionTrail: Bool?
+        /// Name of the Amazon S3 bucket into which CloudTrail delivers your trail files. See Amazon S3 Bucket Naming Requirements.
+        public let s3BucketName: String?
+        /// The region in which the trail was created.
+        public let homeRegion: String?
+        /// Specifies the KMS key ID that encrypts the logs delivered by CloudTrail. The value is a fully specified ARN to a KMS key in the format:  arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012 
+        public let kmsKeyId: String?
+        /// Set to True to include AWS API calls from AWS global services such as IAM. Otherwise, False.
+        public let includeGlobalServiceEvents: Bool?
+        /// Specifies whether log file validation is enabled.
+        public let logFileValidationEnabled: Bool?
+        /// Specifies the ARN of the trail. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
+        public let trailARN: String?
+
+        public init(cloudWatchLogsLogGroupArn: String? = nil, cloudWatchLogsRoleArn: String? = nil, hasCustomEventSelectors: Bool? = nil, homeRegion: String? = nil, includeGlobalServiceEvents: Bool? = nil, isMultiRegionTrail: Bool? = nil, isOrganizationTrail: Bool? = nil, kmsKeyId: String? = nil, logFileValidationEnabled: Bool? = nil, name: String? = nil, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, snsTopicARN: String? = nil, snsTopicName: String? = nil, trailARN: String? = nil) {
+            self.snsTopicARN = snsTopicARN
+            self.isOrganizationTrail = isOrganizationTrail
+            self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
+            self.s3KeyPrefix = s3KeyPrefix
+            self.hasCustomEventSelectors = hasCustomEventSelectors
+            self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
+            self.snsTopicName = snsTopicName
+            self.name = name
+            self.isMultiRegionTrail = isMultiRegionTrail
+            self.s3BucketName = s3BucketName
+            self.homeRegion = homeRegion
+            self.kmsKeyId = kmsKeyId
+            self.includeGlobalServiceEvents = includeGlobalServiceEvents
+            self.logFileValidationEnabled = logFileValidationEnabled
+            self.trailARN = trailARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snsTopicARN = "SnsTopicARN"
+            case isOrganizationTrail = "IsOrganizationTrail"
+            case cloudWatchLogsRoleArn = "CloudWatchLogsRoleArn"
+            case s3KeyPrefix = "S3KeyPrefix"
+            case hasCustomEventSelectors = "HasCustomEventSelectors"
+            case cloudWatchLogsLogGroupArn = "CloudWatchLogsLogGroupArn"
+            case snsTopicName = "SnsTopicName"
+            case name = "Name"
+            case isMultiRegionTrail = "IsMultiRegionTrail"
+            case s3BucketName = "S3BucketName"
+            case homeRegion = "HomeRegion"
+            case kmsKeyId = "KmsKeyId"
+            case includeGlobalServiceEvents = "IncludeGlobalServiceEvents"
+            case logFileValidationEnabled = "LogFileValidationEnabled"
+            case trailARN = "TrailARN"
+        }
+    }
+
+    public struct PutEventSelectorsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventSelectors", required: false, type: .list), 
+            AWSShapeMember(label: "TrailARN", required: false, type: .string)
+        ]
+        /// Specifies the event selectors configured for your trail.
+        public let eventSelectors: [EventSelector]?
+        /// Specifies the ARN of the trail that was updated with event selectors. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
+        public let trailARN: String?
+
+        public init(eventSelectors: [EventSelector]? = nil, trailARN: String? = nil) {
             self.eventSelectors = eventSelectors
+            self.trailARN = trailARN
         }
 
         private enum CodingKeys: String, CodingKey {
-            case trailName = "TrailName"
             case eventSelectors = "EventSelectors"
+            case trailARN = "TrailARN"
         }
     }
 
-    public enum ReadWriteType: String, CustomStringConvertible, Codable {
-        case readonly = "ReadOnly"
-        case writeonly = "WriteOnly"
-        case all = "All"
-        public var description: String { return self.rawValue }
-    }
+    public struct AddTagsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "TagsList", required: false, type: .list)
+        ]
+        /// Specifies the ARN of the trail to which one or more tags will be added. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
+        public let resourceId: String
+        /// Contains a list of CloudTrail tags, up to a limit of 50
+        public let tagsList: [Tag]?
 
-    public struct AddTagsResponse: AWSShape {
+        public init(resourceId: String, tagsList: [Tag]? = nil) {
+            self.resourceId = resourceId
+            self.tagsList = tagsList
+        }
 
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case tagsList = "TagsList"
+        }
     }
 
 }

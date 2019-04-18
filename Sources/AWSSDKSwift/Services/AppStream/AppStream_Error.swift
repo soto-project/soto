@@ -8,8 +8,8 @@ public enum AppStreamErrorType: AWSErrorType {
     case resourceNotAvailableException(message: String?)
     case operationNotPermittedException(message: String?)
     case invalidParameterCombinationException(message: String?)
-    case concurrentModificationException(message: String?)
     case resourceInUseException(message: String?)
+    case concurrentModificationException(message: String?)
     case limitExceededException(message: String?)
     case invalidAccountStatusException(message: String?)
     case incompatibleImageException(message: String?)
@@ -32,10 +32,10 @@ extension AppStreamErrorType {
             self = .operationNotPermittedException(message: message)
         case "InvalidParameterCombinationException":
             self = .invalidParameterCombinationException(message: message)
-        case "ConcurrentModificationException":
-            self = .concurrentModificationException(message: message)
         case "ResourceInUseException":
             self = .resourceInUseException(message: message)
+        case "ConcurrentModificationException":
+            self = .concurrentModificationException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
         case "InvalidAccountStatusException":

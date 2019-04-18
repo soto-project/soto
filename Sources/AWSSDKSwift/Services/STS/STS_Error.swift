@@ -10,8 +10,8 @@ public enum STSErrorType: AWSErrorType {
     case invalidIdentityTokenException(message: String?)
     case expiredTokenException(message: String?)
     case regionDisabledException(message: String?)
-    case iDPCommunicationErrorException(message: String?)
     case invalidAuthorizationMessageException(message: String?)
+    case iDPCommunicationErrorException(message: String?)
 }
 
 extension STSErrorType {
@@ -33,10 +33,10 @@ extension STSErrorType {
             self = .expiredTokenException(message: message)
         case "RegionDisabledException":
             self = .regionDisabledException(message: message)
-        case "IDPCommunicationErrorException":
-            self = .iDPCommunicationErrorException(message: message)
         case "InvalidAuthorizationMessageException":
             self = .invalidAuthorizationMessageException(message: message)
+        case "IDPCommunicationErrorException":
+            self = .iDPCommunicationErrorException(message: message)
         default:
             return nil
         }

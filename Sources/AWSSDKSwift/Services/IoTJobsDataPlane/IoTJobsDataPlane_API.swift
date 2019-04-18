@@ -24,14 +24,14 @@ public struct IoTJobsDataPlane {
         )
     }
 
-    ///  Updates the status of a job execution.
-    public func updateJobExecution(_ input: UpdateJobExecutionRequest) throws -> UpdateJobExecutionResponse {
-        return try client.send(operation: "UpdateJobExecution", path: "/things/{thingName}/jobs/{jobId}", httpMethod: "POST", input: input)
-    }
-
     ///  Gets and starts the next pending (status IN_PROGRESS or QUEUED) job execution for a thing.
     public func startNextPendingJobExecution(_ input: StartNextPendingJobExecutionRequest) throws -> StartNextPendingJobExecutionResponse {
         return try client.send(operation: "StartNextPendingJobExecution", path: "/things/{thingName}/jobs/$next", httpMethod: "PUT", input: input)
+    }
+
+    ///  Gets details of a job execution.
+    public func describeJobExecution(_ input: DescribeJobExecutionRequest) throws -> DescribeJobExecutionResponse {
+        return try client.send(operation: "DescribeJobExecution", path: "/things/{thingName}/jobs/{jobId}", httpMethod: "GET", input: input)
     }
 
     ///  Gets the list of all jobs for a thing that are not in a terminal status.
@@ -39,9 +39,9 @@ public struct IoTJobsDataPlane {
         return try client.send(operation: "GetPendingJobExecutions", path: "/things/{thingName}/jobs", httpMethod: "GET", input: input)
     }
 
-    ///  Gets details of a job execution.
-    public func describeJobExecution(_ input: DescribeJobExecutionRequest) throws -> DescribeJobExecutionResponse {
-        return try client.send(operation: "DescribeJobExecution", path: "/things/{thingName}/jobs/{jobId}", httpMethod: "GET", input: input)
+    ///  Updates the status of a job execution.
+    public func updateJobExecution(_ input: UpdateJobExecutionRequest) throws -> UpdateJobExecutionResponse {
+        return try client.send(operation: "UpdateJobExecution", path: "/things/{thingName}/jobs/{jobId}", httpMethod: "POST", input: input)
     }
 
 

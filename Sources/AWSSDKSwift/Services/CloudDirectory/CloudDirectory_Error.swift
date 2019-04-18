@@ -10,35 +10,35 @@ public enum CloudDirectoryErrorType: AWSErrorType {
     case validationException(message: String?)
     case limitExceededException(message: String?)
     case accessDeniedException(message: String?)
-    case directoryNotEnabledException(message: String?)
     case resourceNotFoundException(message: String?)
-    case invalidNextTokenException(message: String?)
-    case facetValidationException(message: String?)
-    case directoryNotDisabledException(message: String?)
-    case directoryDeletedException(message: String?)
-    case objectNotDetachedException(message: String?)
-    case schemaAlreadyExistsException(message: String?)
-    case invalidAttachmentException(message: String?)
-    case facetNotFoundException(message: String?)
-    case invalidFacetUpdateException(message: String?)
-    case invalidRuleException(message: String?)
-    case notPolicyException(message: String?)
-    case batchWriteException(message: String?)
-    case linkNameAlreadyInUseException(message: String?)
-    case facetAlreadyExistsException(message: String?)
-    case cannotListParentOfRootException(message: String?)
-    case notNodeException(message: String?)
-    case notIndexException(message: String?)
-    case invalidTaggingRequestException(message: String?)
-    case invalidSchemaDocException(message: String?)
-    case facetInUseException(message: String?)
-    case indexedAttributeMissingException(message: String?)
-    case unsupportedIndexTypeException(message: String?)
-    case incompatibleSchemaException(message: String?)
     case schemaAlreadyPublishedException(message: String?)
-    case directoryAlreadyExistsException(message: String?)
+    case directoryNotEnabledException(message: String?)
+    case invalidAttachmentException(message: String?)
+    case facetValidationException(message: String?)
+    case facetNotFoundException(message: String?)
+    case facetInUseException(message: String?)
+    case invalidNextTokenException(message: String?)
+    case directoryDeletedException(message: String?)
+    case directoryNotDisabledException(message: String?)
+    case incompatibleSchemaException(message: String?)
+    case schemaAlreadyExistsException(message: String?)
+    case facetAlreadyExistsException(message: String?)
+    case invalidRuleException(message: String?)
+    case linkNameAlreadyInUseException(message: String?)
+    case notNodeException(message: String?)
+    case notPolicyException(message: String?)
     case objectAlreadyDetachedException(message: String?)
+    case notIndexException(message: String?)
+    case indexedAttributeMissingException(message: String?)
+    case objectNotDetachedException(message: String?)
+    case invalidTaggingRequestException(message: String?)
+    case invalidFacetUpdateException(message: String?)
+    case invalidSchemaDocException(message: String?)
+    case batchWriteException(message: String?)
+    case directoryAlreadyExistsException(message: String?)
+    case cannotListParentOfRootException(message: String?)
     case stillContainsLinksException(message: String?)
+    case unsupportedIndexTypeException(message: String?)
 }
 
 extension CloudDirectoryErrorType {
@@ -60,64 +60,64 @@ extension CloudDirectoryErrorType {
             self = .limitExceededException(message: message)
         case "AccessDeniedException":
             self = .accessDeniedException(message: message)
-        case "DirectoryNotEnabledException":
-            self = .directoryNotEnabledException(message: message)
         case "ResourceNotFoundException":
             self = .resourceNotFoundException(message: message)
-        case "InvalidNextTokenException":
-            self = .invalidNextTokenException(message: message)
-        case "FacetValidationException":
-            self = .facetValidationException(message: message)
-        case "DirectoryNotDisabledException":
-            self = .directoryNotDisabledException(message: message)
-        case "DirectoryDeletedException":
-            self = .directoryDeletedException(message: message)
-        case "ObjectNotDetachedException":
-            self = .objectNotDetachedException(message: message)
-        case "SchemaAlreadyExistsException":
-            self = .schemaAlreadyExistsException(message: message)
-        case "InvalidAttachmentException":
-            self = .invalidAttachmentException(message: message)
-        case "FacetNotFoundException":
-            self = .facetNotFoundException(message: message)
-        case "InvalidFacetUpdateException":
-            self = .invalidFacetUpdateException(message: message)
-        case "InvalidRuleException":
-            self = .invalidRuleException(message: message)
-        case "NotPolicyException":
-            self = .notPolicyException(message: message)
-        case "BatchWriteException":
-            self = .batchWriteException(message: message)
-        case "LinkNameAlreadyInUseException":
-            self = .linkNameAlreadyInUseException(message: message)
-        case "FacetAlreadyExistsException":
-            self = .facetAlreadyExistsException(message: message)
-        case "CannotListParentOfRootException":
-            self = .cannotListParentOfRootException(message: message)
-        case "NotNodeException":
-            self = .notNodeException(message: message)
-        case "NotIndexException":
-            self = .notIndexException(message: message)
-        case "InvalidTaggingRequestException":
-            self = .invalidTaggingRequestException(message: message)
-        case "InvalidSchemaDocException":
-            self = .invalidSchemaDocException(message: message)
-        case "FacetInUseException":
-            self = .facetInUseException(message: message)
-        case "IndexedAttributeMissingException":
-            self = .indexedAttributeMissingException(message: message)
-        case "UnsupportedIndexTypeException":
-            self = .unsupportedIndexTypeException(message: message)
-        case "IncompatibleSchemaException":
-            self = .incompatibleSchemaException(message: message)
         case "SchemaAlreadyPublishedException":
             self = .schemaAlreadyPublishedException(message: message)
-        case "DirectoryAlreadyExistsException":
-            self = .directoryAlreadyExistsException(message: message)
+        case "DirectoryNotEnabledException":
+            self = .directoryNotEnabledException(message: message)
+        case "InvalidAttachmentException":
+            self = .invalidAttachmentException(message: message)
+        case "FacetValidationException":
+            self = .facetValidationException(message: message)
+        case "FacetNotFoundException":
+            self = .facetNotFoundException(message: message)
+        case "FacetInUseException":
+            self = .facetInUseException(message: message)
+        case "InvalidNextTokenException":
+            self = .invalidNextTokenException(message: message)
+        case "DirectoryDeletedException":
+            self = .directoryDeletedException(message: message)
+        case "DirectoryNotDisabledException":
+            self = .directoryNotDisabledException(message: message)
+        case "IncompatibleSchemaException":
+            self = .incompatibleSchemaException(message: message)
+        case "SchemaAlreadyExistsException":
+            self = .schemaAlreadyExistsException(message: message)
+        case "FacetAlreadyExistsException":
+            self = .facetAlreadyExistsException(message: message)
+        case "InvalidRuleException":
+            self = .invalidRuleException(message: message)
+        case "LinkNameAlreadyInUseException":
+            self = .linkNameAlreadyInUseException(message: message)
+        case "NotNodeException":
+            self = .notNodeException(message: message)
+        case "NotPolicyException":
+            self = .notPolicyException(message: message)
         case "ObjectAlreadyDetachedException":
             self = .objectAlreadyDetachedException(message: message)
+        case "NotIndexException":
+            self = .notIndexException(message: message)
+        case "IndexedAttributeMissingException":
+            self = .indexedAttributeMissingException(message: message)
+        case "ObjectNotDetachedException":
+            self = .objectNotDetachedException(message: message)
+        case "InvalidTaggingRequestException":
+            self = .invalidTaggingRequestException(message: message)
+        case "InvalidFacetUpdateException":
+            self = .invalidFacetUpdateException(message: message)
+        case "InvalidSchemaDocException":
+            self = .invalidSchemaDocException(message: message)
+        case "BatchWriteException":
+            self = .batchWriteException(message: message)
+        case "DirectoryAlreadyExistsException":
+            self = .directoryAlreadyExistsException(message: message)
+        case "CannotListParentOfRootException":
+            self = .cannotListParentOfRootException(message: message)
         case "StillContainsLinksException":
             self = .stillContainsLinksException(message: message)
+        case "UnsupportedIndexTypeException":
+            self = .unsupportedIndexTypeException(message: message)
         default:
             return nil
         }

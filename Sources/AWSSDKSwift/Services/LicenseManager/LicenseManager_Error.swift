@@ -11,9 +11,9 @@ public enum LicenseManagerErrorType: AWSErrorType {
     case accessDeniedException(message: String?)
     case rateLimitExceededException(message: String?)
     case resourceLimitExceededException(message: String?)
+    case failedDependencyException(message: String?)
     case invalidResourceStateException(message: String?)
     case licenseUsageException(message: String?)
-    case failedDependencyException(message: String?)
 }
 
 extension LicenseManagerErrorType {
@@ -37,12 +37,12 @@ extension LicenseManagerErrorType {
             self = .rateLimitExceededException(message: message)
         case "ResourceLimitExceededException":
             self = .resourceLimitExceededException(message: message)
+        case "FailedDependencyException":
+            self = .failedDependencyException(message: message)
         case "InvalidResourceStateException":
             self = .invalidResourceStateException(message: message)
         case "LicenseUsageException":
             self = .licenseUsageException(message: message)
-        case "FailedDependencyException":
-            self = .failedDependencyException(message: message)
         default:
             return nil
         }

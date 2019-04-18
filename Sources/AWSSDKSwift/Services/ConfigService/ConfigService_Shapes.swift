@@ -5,179 +5,196 @@ import AWSSDKSwiftCore
 
 extension ConfigService {
 
-    public struct DescribeConfigurationRecorderStatusRequest: AWSShape {
+    public struct Relationship: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationRecorderNames", required: false, type: .list)
+            AWSShapeMember(label: "resourceId", required: false, type: .string), 
+            AWSShapeMember(label: "relationshipName", required: false, type: .string), 
+            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "resourceName", required: false, type: .string)
         ]
-        /// The name(s) of the configuration recorder. If the name is not specified, the action returns the current status of all the configuration recorders associated with the account.
-        public let configurationRecorderNames: [String]?
+        /// The ID of the related resource (for example, sg-xxxxxx).
+        public let resourceId: String?
+        /// The type of relationship with the related resource.
+        public let relationshipName: String?
+        /// The resource type of the related resource.
+        public let resourceType: ResourceType?
+        /// The custom name of the related resource, if available.
+        public let resourceName: String?
 
-        public init(configurationRecorderNames: [String]? = nil) {
-            self.configurationRecorderNames = configurationRecorderNames
+        public init(relationshipName: String? = nil, resourceId: String? = nil, resourceName: String? = nil, resourceType: ResourceType? = nil) {
+            self.resourceId = resourceId
+            self.relationshipName = relationshipName
+            self.resourceType = resourceType
+            self.resourceName = resourceName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationRecorderNames = "ConfigurationRecorderNames"
+            case resourceId = "resourceId"
+            case relationshipName = "relationshipName"
+            case resourceType = "resourceType"
+            case resourceName = "resourceName"
         }
     }
 
-    public struct PutConfigurationAggregatorResponse: AWSShape {
+    public struct StartConfigurationRecorderRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationAggregator", required: false, type: .structure)
+            AWSShapeMember(label: "ConfigurationRecorderName", required: true, type: .string)
         ]
-        /// Returns a ConfigurationAggregator object.
-        public let configurationAggregator: ConfigurationAggregator?
+        /// The name of the recorder object that records each configuration change made to the resources.
+        public let configurationRecorderName: String
 
-        public init(configurationAggregator: ConfigurationAggregator? = nil) {
-            self.configurationAggregator = configurationAggregator
+        public init(configurationRecorderName: String) {
+            self.configurationRecorderName = configurationRecorderName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationAggregator = "ConfigurationAggregator"
+            case configurationRecorderName = "ConfigurationRecorderName"
         }
     }
 
-    public struct DescribeAggregationAuthorizationsRequest: AWSShape {
+    public struct EvaluationResultQualifier: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "ResourceType", required: false, type: .string), 
+            AWSShapeMember(label: "ConfigRuleName", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceId", required: false, type: .string)
         ]
-        /// The maximum number of AggregationAuthorizations returned on each page. The default is maximum. If you specify 0, AWS Config uses the default.
-        public let limit: Int32?
+        /// The type of AWS resource that was evaluated.
+        public let resourceType: String?
+        /// The name of the AWS Config rule that was used in the evaluation.
+        public let configRuleName: String?
+        /// The ID of the evaluated AWS resource.
+        public let resourceId: String?
+
+        public init(configRuleName: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
+            self.resourceType = resourceType
+            self.configRuleName = configRuleName
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceType = "ResourceType"
+            case configRuleName = "ConfigRuleName"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct DescribePendingAggregationRequestsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
+        ]
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
+        /// The maximum number of evaluation results returned on each page. The default is maximum. If you specify 0, AWS Config uses the default.
+        public let limit: Int32?
 
         public init(limit: Int32? = nil, nextToken: String? = nil) {
-            self.limit = limit
             self.nextToken = nextToken
+            self.limit = limit
         }
 
         private enum CodingKeys: String, CodingKey {
-            case limit = "Limit"
             case nextToken = "NextToken"
+            case limit = "Limit"
         }
     }
 
-    public struct DescribeAggregationAuthorizationsResponse: AWSShape {
+    public struct GetComplianceSummaryByConfigRuleResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AggregationAuthorizations", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "ComplianceSummary", required: false, type: .structure)
         ]
-        /// Returns a list of authorizations granted to various aggregator accounts and regions.
-        public let aggregationAuthorizations: [AggregationAuthorization]?
+        /// The number of AWS Config rules that are compliant and the number that are noncompliant, up to a maximum of 25 for each.
+        public let complianceSummary: ComplianceSummary?
+
+        public init(complianceSummary: ComplianceSummary? = nil) {
+            self.complianceSummary = complianceSummary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case complianceSummary = "ComplianceSummary"
+        }
+    }
+
+    public struct DescribeComplianceByResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ComplianceTypes", required: false, type: .list), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceId", required: false, type: .string)
+        ]
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
-
-        public init(aggregationAuthorizations: [AggregationAuthorization]? = nil, nextToken: String? = nil) {
-            self.aggregationAuthorizations = aggregationAuthorizations
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case aggregationAuthorizations = "AggregationAuthorizations"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct BaseConfigurationItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceName", required: false, type: .string), 
-            AWSShapeMember(label: "resourceId", required: false, type: .string), 
-            AWSShapeMember(label: "availabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "configuration", required: false, type: .string), 
-            AWSShapeMember(label: "resourceCreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "configurationItemCaptureTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "configurationItemStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "awsRegion", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "accountId", required: false, type: .string), 
-            AWSShapeMember(label: "configurationStateId", required: false, type: .string), 
-            AWSShapeMember(label: "version", required: false, type: .string), 
-            AWSShapeMember(label: "supplementaryConfiguration", required: false, type: .map)
-        ]
-        /// The custom name of the resource, if available.
-        public let resourceName: String?
-        /// The ID of the resource (for example., sg-xxxxxx).
+        /// Filters the results by compliance. The allowed values are COMPLIANT and NON_COMPLIANT.
+        public let complianceTypes: [ComplianceType]?
+        /// The maximum number of evaluation results returned on each page. The default is 10. You cannot specify a number greater than 100. If you specify 0, AWS Config uses the default.
+        public let limit: Int32?
+        /// The types of AWS resources for which you want compliance information (for example, AWS::EC2::Instance). For this action, you can specify that the resource type is an AWS account by specifying AWS::::Account.
+        public let resourceType: String?
+        /// The ID of the AWS resource for which you want compliance information. You can specify only one resource ID. If you specify a resource ID, you must also specify a type for ResourceType.
         public let resourceId: String?
-        /// The Availability Zone associated with the resource.
-        public let availabilityZone: String?
-        /// The Amazon Resource Name (ARN) of the resource.
-        public let arn: String?
-        /// The description of the resource configuration.
-        public let configuration: String?
-        /// The time stamp when the resource was created.
-        public let resourceCreationTime: TimeStamp?
-        /// The time when the configuration recording was initiated.
-        public let configurationItemCaptureTime: TimeStamp?
-        /// The configuration item status.
-        public let configurationItemStatus: ConfigurationItemStatus?
-        /// The region where the resource resides.
-        public let awsRegion: String?
-        /// The type of AWS resource.
-        public let resourceType: ResourceType?
-        /// The 12-digit AWS account ID associated with the resource.
-        public let accountId: String?
-        /// An identifier that indicates the ordering of the configuration items of a resource.
-        public let configurationStateId: String?
-        /// The version number of the resource configuration.
-        public let version: String?
-        /// Configuration attributes that AWS Config returns for certain resource types to supplement the information returned for the configuration parameter.
-        public let supplementaryConfiguration: [String: String]?
 
-        public init(resourceName: String? = nil, resourceId: String? = nil, availabilityZone: String? = nil, arn: String? = nil, configuration: String? = nil, resourceCreationTime: TimeStamp? = nil, configurationItemCaptureTime: TimeStamp? = nil, configurationItemStatus: ConfigurationItemStatus? = nil, awsRegion: String? = nil, resourceType: ResourceType? = nil, accountId: String? = nil, configurationStateId: String? = nil, version: String? = nil, supplementaryConfiguration: [String: String]? = nil) {
-            self.resourceName = resourceName
-            self.resourceId = resourceId
-            self.availabilityZone = availabilityZone
-            self.arn = arn
-            self.configuration = configuration
-            self.resourceCreationTime = resourceCreationTime
-            self.configurationItemCaptureTime = configurationItemCaptureTime
-            self.configurationItemStatus = configurationItemStatus
-            self.awsRegion = awsRegion
+        public init(complianceTypes: [ComplianceType]? = nil, limit: Int32? = nil, nextToken: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
+            self.nextToken = nextToken
+            self.complianceTypes = complianceTypes
+            self.limit = limit
             self.resourceType = resourceType
-            self.accountId = accountId
-            self.configurationStateId = configurationStateId
-            self.version = version
-            self.supplementaryConfiguration = supplementaryConfiguration
+            self.resourceId = resourceId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceName = "resourceName"
-            case resourceId = "resourceId"
-            case availabilityZone = "availabilityZone"
-            case arn = "arn"
-            case configuration = "configuration"
-            case resourceCreationTime = "resourceCreationTime"
-            case configurationItemCaptureTime = "configurationItemCaptureTime"
-            case configurationItemStatus = "configurationItemStatus"
-            case awsRegion = "awsRegion"
-            case resourceType = "resourceType"
-            case accountId = "accountId"
-            case configurationStateId = "configurationStateId"
-            case version = "version"
-            case supplementaryConfiguration = "supplementaryConfiguration"
+            case nextToken = "NextToken"
+            case complianceTypes = "ComplianceTypes"
+            case limit = "Limit"
+            case resourceType = "ResourceType"
+            case resourceId = "ResourceId"
         }
     }
 
-    public struct BatchGetAggregateResourceConfigResponse: AWSShape {
+    public struct Source: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BaseConfigurationItems", required: false, type: .list), 
-            AWSShapeMember(label: "UnprocessedResourceIdentifiers", required: false, type: .list)
+            AWSShapeMember(label: "Owner", required: true, type: .enum), 
+            AWSShapeMember(label: "SourceIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "SourceDetails", required: false, type: .list)
         ]
-        /// A list that contains the current configuration of one or more resources.
-        public let baseConfigurationItems: [BaseConfigurationItem]?
-        /// A list of resource identifiers that were not processed with current scope. The list is empty if all the resources are processed.
-        public let unprocessedResourceIdentifiers: [AggregateResourceIdentifier]?
+        /// Indicates whether AWS or the customer owns and manages the AWS Config rule.
+        public let owner: Owner
+        /// For AWS Config managed rules, a predefined identifier from a list. For example, IAM_PASSWORD_POLICY is a managed rule. To reference a managed rule, see Using AWS Managed Config Rules. For custom rules, the identifier is the Amazon Resource Name (ARN) of the rule's AWS Lambda function, such as arn:aws:lambda:us-east-2:123456789012:function:custom_rule_name.
+        public let sourceIdentifier: String
+        /// Provides the source and type of the event that causes AWS Config to evaluate your AWS resources.
+        public let sourceDetails: [SourceDetail]?
 
-        public init(baseConfigurationItems: [BaseConfigurationItem]? = nil, unprocessedResourceIdentifiers: [AggregateResourceIdentifier]? = nil) {
-            self.baseConfigurationItems = baseConfigurationItems
-            self.unprocessedResourceIdentifiers = unprocessedResourceIdentifiers
+        public init(owner: Owner, sourceDetails: [SourceDetail]? = nil, sourceIdentifier: String) {
+            self.owner = owner
+            self.sourceIdentifier = sourceIdentifier
+            self.sourceDetails = sourceDetails
         }
 
         private enum CodingKeys: String, CodingKey {
-            case baseConfigurationItems = "BaseConfigurationItems"
-            case unprocessedResourceIdentifiers = "UnprocessedResourceIdentifiers"
+            case owner = "Owner"
+            case sourceIdentifier = "SourceIdentifier"
+            case sourceDetails = "SourceDetails"
+        }
+    }
+
+    public struct PendingAggregationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RequesterAwsRegion", required: false, type: .string), 
+            AWSShapeMember(label: "RequesterAccountId", required: false, type: .string)
+        ]
+        /// The region requesting to aggregate data. 
+        public let requesterAwsRegion: String?
+        /// The 12-digit account ID of the account requesting to aggregate data.
+        public let requesterAccountId: String?
+
+        public init(requesterAccountId: String? = nil, requesterAwsRegion: String? = nil) {
+            self.requesterAwsRegion = requesterAwsRegion
+            self.requesterAccountId = requesterAccountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requesterAwsRegion = "RequesterAwsRegion"
+            case requesterAccountId = "RequesterAccountId"
         }
     }
 
@@ -202,173 +219,647 @@ extension ConfigService {
         }
     }
 
-    public struct ResourceKey: AWSShape {
+    public struct ConfigurationItem: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceId", required: true, type: .string), 
-            AWSShapeMember(label: "resourceType", required: true, type: .enum)
+            AWSShapeMember(label: "tags", required: false, type: .map), 
+            AWSShapeMember(label: "availabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "configurationItemMD5Hash", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "configurationItemCaptureTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "configuration", required: false, type: .string), 
+            AWSShapeMember(label: "supplementaryConfiguration", required: false, type: .map), 
+            AWSShapeMember(label: "relationships", required: false, type: .list), 
+            AWSShapeMember(label: "configurationItemStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "awsRegion", required: false, type: .string), 
+            AWSShapeMember(label: "resourceCreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "configurationStateId", required: false, type: .string), 
+            AWSShapeMember(label: "relatedEvents", required: false, type: .list), 
+            AWSShapeMember(label: "resourceId", required: false, type: .string), 
+            AWSShapeMember(label: "resourceName", required: false, type: .string), 
+            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "accountId", required: false, type: .string)
         ]
-        /// The ID of the resource (for example., sg-xxxxxx). 
-        public let resourceId: String
-        /// The resource type.
-        public let resourceType: ResourceType
+        /// A mapping of key value tags associated with the resource.
+        public let tags: [String: String]?
+        /// The Availability Zone associated with the resource.
+        public let availabilityZone: String?
+        /// Unique MD5 hash that represents the configuration item's state. You can use MD5 hash to compare the states of two or more configuration items that are associated with the same resource.
+        public let configurationItemMD5Hash: String?
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let arn: String?
+        /// The time when the configuration recording was initiated.
+        public let configurationItemCaptureTime: TimeStamp?
+        /// The description of the resource configuration.
+        public let configuration: String?
+        /// Configuration attributes that AWS Config returns for certain resource types to supplement the information returned for the configuration parameter.
+        public let supplementaryConfiguration: [String: String]?
+        /// A list of related AWS resources.
+        public let relationships: [Relationship]?
+        /// The configuration item status.
+        public let configurationItemStatus: ConfigurationItemStatus?
+        /// The region where the resource resides.
+        public let awsRegion: String?
+        /// The time stamp when the resource was created.
+        public let resourceCreationTime: TimeStamp?
+        /// The version number of the resource configuration.
+        public let version: String?
+        /// An identifier that indicates the ordering of the configuration items of a resource.
+        public let configurationStateId: String?
+        /// A list of CloudTrail event IDs. A populated field indicates that the current configuration was initiated by the events recorded in the CloudTrail log. For more information about CloudTrail, see What Is AWS CloudTrail. An empty field indicates that the current configuration was not initiated by any event.
+        public let relatedEvents: [String]?
+        /// The ID of the resource (for example, sg-xxxxxx).
+        public let resourceId: String?
+        /// The custom name of the resource, if available.
+        public let resourceName: String?
+        /// The type of AWS resource.
+        public let resourceType: ResourceType?
+        /// The 12-digit AWS account ID associated with the resource.
+        public let accountId: String?
 
-        public init(resourceId: String, resourceType: ResourceType) {
+        public init(accountId: String? = nil, arn: String? = nil, availabilityZone: String? = nil, awsRegion: String? = nil, configuration: String? = nil, configurationItemCaptureTime: TimeStamp? = nil, configurationItemMD5Hash: String? = nil, configurationItemStatus: ConfigurationItemStatus? = nil, configurationStateId: String? = nil, relatedEvents: [String]? = nil, relationships: [Relationship]? = nil, resourceCreationTime: TimeStamp? = nil, resourceId: String? = nil, resourceName: String? = nil, resourceType: ResourceType? = nil, supplementaryConfiguration: [String: String]? = nil, tags: [String: String]? = nil, version: String? = nil) {
+            self.tags = tags
+            self.availabilityZone = availabilityZone
+            self.configurationItemMD5Hash = configurationItemMD5Hash
+            self.arn = arn
+            self.configurationItemCaptureTime = configurationItemCaptureTime
+            self.configuration = configuration
+            self.supplementaryConfiguration = supplementaryConfiguration
+            self.relationships = relationships
+            self.configurationItemStatus = configurationItemStatus
+            self.awsRegion = awsRegion
+            self.resourceCreationTime = resourceCreationTime
+            self.version = version
+            self.configurationStateId = configurationStateId
+            self.relatedEvents = relatedEvents
             self.resourceId = resourceId
+            self.resourceName = resourceName
             self.resourceType = resourceType
+            self.accountId = accountId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+            case availabilityZone = "availabilityZone"
+            case configurationItemMD5Hash = "configurationItemMD5Hash"
+            case arn = "arn"
+            case configurationItemCaptureTime = "configurationItemCaptureTime"
+            case configuration = "configuration"
+            case supplementaryConfiguration = "supplementaryConfiguration"
+            case relationships = "relationships"
+            case configurationItemStatus = "configurationItemStatus"
+            case awsRegion = "awsRegion"
+            case resourceCreationTime = "resourceCreationTime"
+            case version = "version"
+            case configurationStateId = "configurationStateId"
+            case relatedEvents = "relatedEvents"
             case resourceId = "resourceId"
+            case resourceName = "resourceName"
             case resourceType = "resourceType"
+            case accountId = "accountId"
         }
     }
 
-    public struct GetComplianceDetailsByResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EvaluationResults", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Indicates whether the specified AWS resource complies each AWS Config rule.
-        public let evaluationResults: [EvaluationResult]?
-        /// The string that you use in a subsequent request to get the next page of results in a paginated response.
-        public let nextToken: String?
+    public enum DeliveryStatus: String, CustomStringConvertible, Codable {
+        case success = "Success"
+        case failure = "Failure"
+        case notApplicable = "Not_Applicable"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(evaluationResults: [EvaluationResult]? = nil, nextToken: String? = nil) {
-            self.evaluationResults = evaluationResults
-            self.nextToken = nextToken
+    public enum AggregatedSourceType: String, CustomStringConvertible, Codable {
+        case account = "ACCOUNT"
+        case organization = "ORGANIZATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeleteConfigRuleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigRuleName", required: true, type: .string)
+        ]
+        /// The name of the AWS Config rule that you want to delete.
+        public let configRuleName: String
+
+        public init(configRuleName: String) {
+            self.configRuleName = configRuleName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case evaluationResults = "EvaluationResults"
-            case nextToken = "NextToken"
+            case configRuleName = "ConfigRuleName"
         }
     }
 
-    public struct Relationship: AWSShape {
+    public struct PutEvaluationsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FailedEvaluations", required: false, type: .list)
+        ]
+        /// Requests that failed because of a client or server error.
+        public let failedEvaluations: [Evaluation]?
+
+        public init(failedEvaluations: [Evaluation]? = nil) {
+            self.failedEvaluations = failedEvaluations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedEvaluations = "FailedEvaluations"
+        }
+    }
+
+    public struct AggregatedSourceStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdateStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "SourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "LastErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SourceId", required: false, type: .string), 
+            AWSShapeMember(label: "AwsRegion", required: false, type: .string)
+        ]
+        /// The message indicating that the source account aggregation failed due to an error.
+        public let lastErrorMessage: String?
+        /// Filters the last updated status type.   Valid value FAILED indicates errors while moving data.   Valid value SUCCEEDED indicates the data was successfully moved.   Valid value OUTDATED indicates the data is not the most recent.  
+        public let lastUpdateStatus: AggregatedSourceStatusType?
+        /// The source account or an organization.
+        public let sourceType: AggregatedSourceType?
+        /// The error code that AWS Config returned when the source account aggregation last failed.
+        public let lastErrorCode: String?
+        /// The time of the last update.
+        public let lastUpdateTime: TimeStamp?
+        /// The source account ID or an organization.
+        public let sourceId: String?
+        /// The region authorized to collect aggregated data.
+        public let awsRegion: String?
+
+        public init(awsRegion: String? = nil, lastErrorCode: String? = nil, lastErrorMessage: String? = nil, lastUpdateStatus: AggregatedSourceStatusType? = nil, lastUpdateTime: TimeStamp? = nil, sourceId: String? = nil, sourceType: AggregatedSourceType? = nil) {
+            self.lastErrorMessage = lastErrorMessage
+            self.lastUpdateStatus = lastUpdateStatus
+            self.sourceType = sourceType
+            self.lastErrorCode = lastErrorCode
+            self.lastUpdateTime = lastUpdateTime
+            self.sourceId = sourceId
+            self.awsRegion = awsRegion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastErrorMessage = "LastErrorMessage"
+            case lastUpdateStatus = "LastUpdateStatus"
+            case sourceType = "SourceType"
+            case lastErrorCode = "LastErrorCode"
+            case lastUpdateTime = "LastUpdateTime"
+            case sourceId = "SourceId"
+            case awsRegion = "AwsRegion"
+        }
+    }
+
+    public struct DescribeAggregationAuthorizationsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "AggregationAuthorizations", required: false, type: .list)
+        ]
+        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+        public let nextToken: String?
+        /// Returns a list of authorizations granted to various aggregator accounts and regions.
+        public let aggregationAuthorizations: [AggregationAuthorization]?
+
+        public init(aggregationAuthorizations: [AggregationAuthorization]? = nil, nextToken: String? = nil) {
+            self.nextToken = nextToken
+            self.aggregationAuthorizations = aggregationAuthorizations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case aggregationAuthorizations = "AggregationAuthorizations"
+        }
+    }
+
+    public struct Evaluation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComplianceResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "ComplianceResourceType", required: true, type: .string), 
+            AWSShapeMember(label: "Annotation", required: false, type: .string), 
+            AWSShapeMember(label: "OrderingTimestamp", required: true, type: .timestamp), 
+            AWSShapeMember(label: "ComplianceType", required: true, type: .enum)
+        ]
+        /// The ID of the AWS resource that was evaluated.
+        public let complianceResourceId: String
+        /// The type of AWS resource that was evaluated.
+        public let complianceResourceType: String
+        /// Supplementary information about how the evaluation determined the compliance.
+        public let annotation: String?
+        /// The time of the event in AWS Config that triggered the evaluation. For event-based evaluations, the time indicates when AWS Config created the configuration item that triggered the evaluation. For periodic evaluations, the time indicates when AWS Config triggered the evaluation at the frequency that you specified (for example, every 24 hours).
+        public let orderingTimestamp: TimeStamp
+        /// Indicates whether the AWS resource complies with the AWS Config rule that it was evaluated against. For the Evaluation data type, AWS Config supports only the COMPLIANT, NON_COMPLIANT, and NOT_APPLICABLE values. AWS Config does not support the INSUFFICIENT_DATA value for this data type. Similarly, AWS Config does not accept INSUFFICIENT_DATA as the value for ComplianceType from a PutEvaluations request. For example, an AWS Lambda function for a custom AWS Config rule cannot pass an INSUFFICIENT_DATA value to AWS Config.
+        public let complianceType: ComplianceType
+
+        public init(annotation: String? = nil, complianceResourceId: String, complianceResourceType: String, complianceType: ComplianceType, orderingTimestamp: TimeStamp) {
+            self.complianceResourceId = complianceResourceId
+            self.complianceResourceType = complianceResourceType
+            self.annotation = annotation
+            self.orderingTimestamp = orderingTimestamp
+            self.complianceType = complianceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case complianceResourceId = "ComplianceResourceId"
+            case complianceResourceType = "ComplianceResourceType"
+            case annotation = "Annotation"
+            case orderingTimestamp = "OrderingTimestamp"
+            case complianceType = "ComplianceType"
+        }
+    }
+
+    public struct ConfigRuleEvaluationStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FirstActivatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastFailedInvocationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "FirstEvaluationStarted", required: false, type: .boolean), 
+            AWSShapeMember(label: "LastSuccessfulEvaluationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "LastFailedEvaluationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ConfigRuleArn", required: false, type: .string), 
+            AWSShapeMember(label: "LastSuccessfulInvocationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ConfigRuleId", required: false, type: .string), 
+            AWSShapeMember(label: "LastErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "ConfigRuleName", required: false, type: .string)
+        ]
+        /// The time that you first activated the AWS Config rule.
+        public let firstActivatedTime: TimeStamp?
+        /// The time that AWS Config last failed to invoke the AWS Config rule to evaluate your AWS resources.
+        public let lastFailedInvocationTime: TimeStamp?
+        /// Indicates whether AWS Config has evaluated your resources against the rule at least once.    true - AWS Config has evaluated your AWS resources against the rule at least once.    false - AWS Config has not once finished evaluating your AWS resources against the rule.  
+        public let firstEvaluationStarted: Bool?
+        /// The time that AWS Config last successfully evaluated your AWS resources against the rule.
+        public let lastSuccessfulEvaluationTime: TimeStamp?
+        /// The error message that AWS Config returned when the rule last failed.
+        public let lastErrorMessage: String?
+        /// The time that AWS Config last failed to evaluate your AWS resources against the rule.
+        public let lastFailedEvaluationTime: TimeStamp?
+        /// The Amazon Resource Name (ARN) of the AWS Config rule.
+        public let configRuleArn: String?
+        /// The time that AWS Config last successfully invoked the AWS Config rule to evaluate your AWS resources.
+        public let lastSuccessfulInvocationTime: TimeStamp?
+        /// The ID of the AWS Config rule.
+        public let configRuleId: String?
+        /// The error code that AWS Config returned when the rule last failed.
+        public let lastErrorCode: String?
+        /// The name of the AWS Config rule.
+        public let configRuleName: String?
+
+        public init(configRuleArn: String? = nil, configRuleId: String? = nil, configRuleName: String? = nil, firstActivatedTime: TimeStamp? = nil, firstEvaluationStarted: Bool? = nil, lastErrorCode: String? = nil, lastErrorMessage: String? = nil, lastFailedEvaluationTime: TimeStamp? = nil, lastFailedInvocationTime: TimeStamp? = nil, lastSuccessfulEvaluationTime: TimeStamp? = nil, lastSuccessfulInvocationTime: TimeStamp? = nil) {
+            self.firstActivatedTime = firstActivatedTime
+            self.lastFailedInvocationTime = lastFailedInvocationTime
+            self.firstEvaluationStarted = firstEvaluationStarted
+            self.lastSuccessfulEvaluationTime = lastSuccessfulEvaluationTime
+            self.lastErrorMessage = lastErrorMessage
+            self.lastFailedEvaluationTime = lastFailedEvaluationTime
+            self.configRuleArn = configRuleArn
+            self.lastSuccessfulInvocationTime = lastSuccessfulInvocationTime
+            self.configRuleId = configRuleId
+            self.lastErrorCode = lastErrorCode
+            self.configRuleName = configRuleName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firstActivatedTime = "FirstActivatedTime"
+            case lastFailedInvocationTime = "LastFailedInvocationTime"
+            case firstEvaluationStarted = "FirstEvaluationStarted"
+            case lastSuccessfulEvaluationTime = "LastSuccessfulEvaluationTime"
+            case lastErrorMessage = "LastErrorMessage"
+            case lastFailedEvaluationTime = "LastFailedEvaluationTime"
+            case configRuleArn = "ConfigRuleArn"
+            case lastSuccessfulInvocationTime = "LastSuccessfulInvocationTime"
+            case configRuleId = "ConfigRuleId"
+            case lastErrorCode = "LastErrorCode"
+            case configRuleName = "ConfigRuleName"
+        }
+    }
+
+    public struct ConfigRuleComplianceFilters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComplianceType", required: false, type: .enum), 
+            AWSShapeMember(label: "AwsRegion", required: false, type: .string), 
+            AWSShapeMember(label: "AccountId", required: false, type: .string), 
+            AWSShapeMember(label: "ConfigRuleName", required: false, type: .string)
+        ]
+        /// The rule compliance status. For the ConfigRuleComplianceFilters data type, AWS Config supports only COMPLIANT and NON_COMPLIANT. AWS Config does not support the NOT_APPLICABLE and the INSUFFICIENT_DATA values.
+        public let complianceType: ComplianceType?
+        /// The source region where the data is aggregated. 
+        public let awsRegion: String?
+        /// The 12-digit account ID of the source account. 
+        public let accountId: String?
+        /// The name of the AWS Config rule.
+        public let configRuleName: String?
+
+        public init(accountId: String? = nil, awsRegion: String? = nil, complianceType: ComplianceType? = nil, configRuleName: String? = nil) {
+            self.complianceType = complianceType
+            self.awsRegion = awsRegion
+            self.accountId = accountId
+            self.configRuleName = configRuleName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case complianceType = "ComplianceType"
+            case awsRegion = "AwsRegion"
+            case accountId = "AccountId"
+            case configRuleName = "ConfigRuleName"
+        }
+    }
+
+    public enum MaximumExecutionFrequency: String, CustomStringConvertible, Codable {
+        case oneHour = "One_Hour"
+        case threeHours = "Three_Hours"
+        case sixHours = "Six_Hours"
+        case twelveHours = "Twelve_Hours"
+        case twentyfourHours = "TwentyFour_Hours"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DescribeConfigurationRecorderStatusRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationRecorderNames", required: false, type: .list)
+        ]
+        /// The name(s) of the configuration recorder. If the name is not specified, the action returns the current status of all the configuration recorders associated with the account.
+        public let configurationRecorderNames: [String]?
+
+        public init(configurationRecorderNames: [String]? = nil) {
+            self.configurationRecorderNames = configurationRecorderNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationRecorderNames = "ConfigurationRecorderNames"
+        }
+    }
+
+    public struct BatchGetAggregateResourceConfigRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationAggregatorName", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceIdentifiers", required: true, type: .list)
+        ]
+        /// The name of the configuration aggregator.
+        public let configurationAggregatorName: String
+        /// A list of aggregate ResourceIdentifiers objects. 
+        public let resourceIdentifiers: [AggregateResourceIdentifier]
+
+        public init(configurationAggregatorName: String, resourceIdentifiers: [AggregateResourceIdentifier]) {
+            self.configurationAggregatorName = configurationAggregatorName
+            self.resourceIdentifiers = resourceIdentifiers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationAggregatorName = "ConfigurationAggregatorName"
+            case resourceIdentifiers = "ResourceIdentifiers"
+        }
+    }
+
+    public struct DescribeConfigRulesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ConfigRuleNames", required: false, type: .list)
+        ]
+        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+        public let nextToken: String?
+        /// The names of the AWS Config rules for which you want details. If you do not specify any names, AWS Config returns details for all your rules.
+        public let configRuleNames: [String]?
+
+        public init(configRuleNames: [String]? = nil, nextToken: String? = nil) {
+            self.nextToken = nextToken
+            self.configRuleNames = configRuleNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case configRuleNames = "ConfigRuleNames"
+        }
+    }
+
+    public struct ConfigurationRecorderStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "recording", required: false, type: .boolean), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "lastStopTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "lastStatusChangeTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "lastStartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "lastErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "lastErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "lastStatus", required: false, type: .enum)
+        ]
+        /// Specifies whether or not the recorder is currently recording.
+        public let recording: Bool?
+        /// The name of the configuration recorder.
+        public let name: String?
+        /// The time the recorder was last stopped.
+        public let lastStopTime: TimeStamp?
+        /// The time when the status was last changed.
+        public let lastStatusChangeTime: TimeStamp?
+        /// The time the recorder was last started.
+        public let lastStartTime: TimeStamp?
+        /// The message indicating that the recording failed due to an error.
+        public let lastErrorMessage: String?
+        /// The error code indicating that the recording failed.
+        public let lastErrorCode: String?
+        /// The last (previous) status of the recorder.
+        public let lastStatus: RecorderStatus?
+
+        public init(lastErrorCode: String? = nil, lastErrorMessage: String? = nil, lastStartTime: TimeStamp? = nil, lastStatus: RecorderStatus? = nil, lastStatusChangeTime: TimeStamp? = nil, lastStopTime: TimeStamp? = nil, name: String? = nil, recording: Bool? = nil) {
+            self.recording = recording
+            self.name = name
+            self.lastStopTime = lastStopTime
+            self.lastStatusChangeTime = lastStatusChangeTime
+            self.lastStartTime = lastStartTime
+            self.lastErrorMessage = lastErrorMessage
+            self.lastErrorCode = lastErrorCode
+            self.lastStatus = lastStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recording = "recording"
+            case name = "name"
+            case lastStopTime = "lastStopTime"
+            case lastStatusChangeTime = "lastStatusChangeTime"
+            case lastStartTime = "lastStartTime"
+            case lastErrorMessage = "lastErrorMessage"
+            case lastErrorCode = "lastErrorCode"
+            case lastStatus = "lastStatus"
+        }
+    }
+
+    public struct ResourceIdentifier: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "resourceType", required: false, type: .enum), 
             AWSShapeMember(label: "resourceName", required: false, type: .string), 
             AWSShapeMember(label: "resourceId", required: false, type: .string), 
-            AWSShapeMember(label: "relationshipName", required: false, type: .string)
+            AWSShapeMember(label: "resourceDeletionTime", required: false, type: .timestamp)
         ]
-        /// The resource type of the related resource.
+        /// The type of resource.
         public let resourceType: ResourceType?
-        /// The custom name of the related resource, if available.
+        /// The custom name of the resource (if available).
         public let resourceName: String?
-        /// The ID of the related resource (for example, sg-xxxxxx).
+        /// The ID of the resource (for example, sg-xxxxxx).
         public let resourceId: String?
-        /// The type of relationship with the related resource.
-        public let relationshipName: String?
+        /// The time that the resource was deleted.
+        public let resourceDeletionTime: TimeStamp?
 
-        public init(resourceType: ResourceType? = nil, resourceName: String? = nil, resourceId: String? = nil, relationshipName: String? = nil) {
+        public init(resourceDeletionTime: TimeStamp? = nil, resourceId: String? = nil, resourceName: String? = nil, resourceType: ResourceType? = nil) {
             self.resourceType = resourceType
             self.resourceName = resourceName
             self.resourceId = resourceId
-            self.relationshipName = relationshipName
+            self.resourceDeletionTime = resourceDeletionTime
         }
 
         private enum CodingKeys: String, CodingKey {
             case resourceType = "resourceType"
             case resourceName = "resourceName"
             case resourceId = "resourceId"
-            case relationshipName = "relationshipName"
+            case resourceDeletionTime = "resourceDeletionTime"
         }
     }
 
-    public struct GetDiscoveredResourceCountsResponse: AWSShape {
+    public struct DescribeConfigurationRecordersResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceCounts", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "totalDiscoveredResources", required: false, type: .long)
+            AWSShapeMember(label: "ConfigurationRecorders", required: false, type: .list)
         ]
-        /// The list of ResourceCount objects. Each object is listed in descending order by the number of resources.
-        public let resourceCounts: [ResourceCount]?
-        /// The string that you use in a subsequent request to get the next page of results in a paginated response.
-        public let nextToken: String?
-        /// The total number of resources that AWS Config is recording in the region for your account. If you specify resource types in the request, AWS Config returns only the total number of resources for those resource types.  Example    AWS Config is recording three resource types in the US East (Ohio) Region for your account: 25 EC2 instances, 20 IAM users, and 15 S3 buckets, for a total of 60 resources.   You make a call to the GetDiscoveredResourceCounts action and specify the resource type, "AWS::EC2::Instances", in the request.   AWS Config returns 25 for totalDiscoveredResources.  
-        public let totalDiscoveredResources: Int64?
+        /// A list that contains the descriptions of the specified configuration recorders.
+        public let configurationRecorders: [ConfigurationRecorder]?
 
-        public init(resourceCounts: [ResourceCount]? = nil, nextToken: String? = nil, totalDiscoveredResources: Int64? = nil) {
-            self.resourceCounts = resourceCounts
-            self.nextToken = nextToken
-            self.totalDiscoveredResources = totalDiscoveredResources
+        public init(configurationRecorders: [ConfigurationRecorder]? = nil) {
+            self.configurationRecorders = configurationRecorders
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceCounts = "resourceCounts"
-            case nextToken = "nextToken"
-            case totalDiscoveredResources = "totalDiscoveredResources"
+            case configurationRecorders = "ConfigurationRecorders"
         }
     }
 
-    public struct AggregateComplianceByConfigRule: AWSShape {
+    public struct AggregateEvaluationResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResultRecordedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EvaluationResultIdentifier", required: false, type: .structure), 
             AWSShapeMember(label: "AwsRegion", required: false, type: .string), 
-            AWSShapeMember(label: "Compliance", required: false, type: .structure), 
-            AWSShapeMember(label: "ConfigRuleName", required: false, type: .string), 
-            AWSShapeMember(label: "AccountId", required: false, type: .string)
+            AWSShapeMember(label: "Annotation", required: false, type: .string), 
+            AWSShapeMember(label: "AccountId", required: false, type: .string), 
+            AWSShapeMember(label: "ComplianceType", required: false, type: .enum), 
+            AWSShapeMember(label: "ConfigRuleInvokedTime", required: false, type: .timestamp)
         ]
+        /// The time when AWS Config recorded the aggregate evaluation result.
+        public let resultRecordedTime: TimeStamp?
+        /// Uniquely identifies the evaluation result.
+        public let evaluationResultIdentifier: EvaluationResultIdentifier?
         /// The source region from where the data is aggregated.
         public let awsRegion: String?
-        /// Indicates whether an AWS resource or AWS Config rule is compliant and provides the number of contributors that affect the compliance.
-        public let compliance: Compliance?
-        /// The name of the AWS Config rule.
-        public let configRuleName: String?
+        /// Supplementary information about how the agrregate evaluation determined the compliance.
+        public let annotation: String?
         /// The 12-digit account ID of the source account.
         public let accountId: String?
+        /// The resource compliance status. For the AggregationEvaluationResult data type, AWS Config supports only the COMPLIANT and NON_COMPLIANT. AWS Config does not support the NOT_APPLICABLE and INSUFFICIENT_DATA value.
+        public let complianceType: ComplianceType?
+        /// The time when the AWS Config rule evaluated the AWS resource.
+        public let configRuleInvokedTime: TimeStamp?
 
-        public init(awsRegion: String? = nil, compliance: Compliance? = nil, configRuleName: String? = nil, accountId: String? = nil) {
+        public init(accountId: String? = nil, annotation: String? = nil, awsRegion: String? = nil, complianceType: ComplianceType? = nil, configRuleInvokedTime: TimeStamp? = nil, evaluationResultIdentifier: EvaluationResultIdentifier? = nil, resultRecordedTime: TimeStamp? = nil) {
+            self.resultRecordedTime = resultRecordedTime
+            self.evaluationResultIdentifier = evaluationResultIdentifier
             self.awsRegion = awsRegion
-            self.compliance = compliance
-            self.configRuleName = configRuleName
+            self.annotation = annotation
+            self.accountId = accountId
+            self.complianceType = complianceType
+            self.configRuleInvokedTime = configRuleInvokedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resultRecordedTime = "ResultRecordedTime"
+            case evaluationResultIdentifier = "EvaluationResultIdentifier"
+            case awsRegion = "AwsRegion"
+            case annotation = "Annotation"
+            case accountId = "AccountId"
+            case complianceType = "ComplianceType"
+            case configRuleInvokedTime = "ConfigRuleInvokedTime"
+        }
+    }
+
+    public enum Owner: String, CustomStringConvertible, Codable {
+        case customLambda = "CUSTOM_LAMBDA"
+        case aws = "AWS"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct BatchGetResourceConfigRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceKeys", required: true, type: .list)
+        ]
+        /// A list of resource keys to be processed with the current request. Each element in the list consists of the resource type and resource ID.
+        public let resourceKeys: [ResourceKey]
+
+        public init(resourceKeys: [ResourceKey]) {
+            self.resourceKeys = resourceKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceKeys = "resourceKeys"
+        }
+    }
+
+    public struct DescribeConfigRuleEvaluationStatusRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigRuleNames", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
+        ]
+        /// The name of the AWS managed Config rules for which you want status information. If you do not specify any names, AWS Config returns status information for all AWS managed Config rules that you use.
+        public let configRuleNames: [String]?
+        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+        public let nextToken: String?
+        /// The number of rule evaluation results that you want returned. This parameter is required if the rule limit for your account is more than the default of 50 rules. For information about requesting a rule limit increase, see AWS Config Limits in the AWS General Reference Guide.
+        public let limit: Int32?
+
+        public init(configRuleNames: [String]? = nil, limit: Int32? = nil, nextToken: String? = nil) {
+            self.configRuleNames = configRuleNames
+            self.nextToken = nextToken
+            self.limit = limit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configRuleNames = "ConfigRuleNames"
+            case nextToken = "NextToken"
+            case limit = "Limit"
+        }
+    }
+
+    public struct ResourceFilters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceName", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "Region", required: false, type: .string), 
+            AWSShapeMember(label: "AccountId", required: false, type: .string)
+        ]
+        /// The name of the resource.
+        public let resourceName: String?
+        /// The ID of the resource.
+        public let resourceId: String?
+        /// The source region.
+        public let region: String?
+        /// The 12-digit source account ID.
+        public let accountId: String?
+
+        public init(accountId: String? = nil, region: String? = nil, resourceId: String? = nil, resourceName: String? = nil) {
+            self.resourceName = resourceName
+            self.resourceId = resourceId
+            self.region = region
             self.accountId = accountId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsRegion = "AwsRegion"
-            case compliance = "Compliance"
-            case configRuleName = "ConfigRuleName"
+            case resourceName = "ResourceName"
+            case resourceId = "ResourceId"
+            case region = "Region"
             case accountId = "AccountId"
         }
     }
 
-    public struct DeleteConfigurationAggregatorRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationAggregatorName", required: true, type: .string)
-        ]
-        /// The name of the configuration aggregator.
-        public let configurationAggregatorName: String
-
-        public init(configurationAggregatorName: String) {
-            self.configurationAggregatorName = configurationAggregatorName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case configurationAggregatorName = "ConfigurationAggregatorName"
-        }
-    }
-
-    public struct DeleteRetentionConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RetentionConfigurationName", required: true, type: .string)
-        ]
-        /// The name of the retention configuration to delete.
-        public let retentionConfigurationName: String
-
-        public init(retentionConfigurationName: String) {
-            self.retentionConfigurationName = retentionConfigurationName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case retentionConfigurationName = "RetentionConfigurationName"
-        }
-    }
-
-    public struct StopConfigurationRecorderRequest: AWSShape {
+    public struct DeleteConfigurationRecorderRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConfigurationRecorderName", required: true, type: .string)
         ]
-        /// The name of the recorder object that records each configuration change made to the resources.
+        /// The name of the configuration recorder to be deleted. You can retrieve the name of your configuration recorder by using the DescribeConfigurationRecorders action.
         public let configurationRecorderName: String
 
         public init(configurationRecorderName: String) {
@@ -380,153 +871,12 @@ extension ConfigService {
         }
     }
 
-    public struct DescribeConfigRuleEvaluationStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "ConfigRuleNames", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The number of rule evaluation results that you want returned. This parameter is required if the rule limit for your account is more than the default of 50 rules. For information about requesting a rule limit increase, see AWS Config Limits in the AWS General Reference Guide.
-        public let limit: Int32?
-        /// The name of the AWS managed Config rules for which you want status information. If you do not specify any names, AWS Config returns status information for all AWS managed Config rules that you use.
-        public let configRuleNames: [String]?
-        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
-        public let nextToken: String?
-
-        public init(limit: Int32? = nil, configRuleNames: [String]? = nil, nextToken: String? = nil) {
-            self.limit = limit
-            self.configRuleNames = configRuleNames
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case limit = "Limit"
-            case configRuleNames = "ConfigRuleNames"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct RetentionConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "RetentionPeriodInDays", required: true, type: .integer)
-        ]
-        /// The name of the retention configuration object.
-        public let name: String
-        /// Number of days AWS Config stores your historical information.  Currently, only applicable to the configuration item history. 
-        public let retentionPeriodInDays: Int32
-
-        public init(name: String, retentionPeriodInDays: Int32) {
-            self.name = name
-            self.retentionPeriodInDays = retentionPeriodInDays
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case retentionPeriodInDays = "RetentionPeriodInDays"
-        }
-    }
-
-    public struct GetAggregateResourceConfigResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationItem", required: false, type: .structure)
-        ]
-        /// Returns a ConfigurationItem object.
-        public let configurationItem: ConfigurationItem?
-
-        public init(configurationItem: ConfigurationItem? = nil) {
-            self.configurationItem = configurationItem
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case configurationItem = "ConfigurationItem"
-        }
-    }
-
-    public struct DescribeAggregateComplianceByConfigRulesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AggregateComplianceByConfigRules", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Returns a list of AggregateComplianceByConfigRule object.
-        public let aggregateComplianceByConfigRules: [AggregateComplianceByConfigRule]?
-        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
-        public let nextToken: String?
-
-        public init(aggregateComplianceByConfigRules: [AggregateComplianceByConfigRule]? = nil, nextToken: String? = nil) {
-            self.aggregateComplianceByConfigRules = aggregateComplianceByConfigRules
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case aggregateComplianceByConfigRules = "AggregateComplianceByConfigRules"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public enum ConfigurationItemStatus: String, CustomStringConvertible, Codable {
-        case ok = "OK"
-        case resourcediscovered = "ResourceDiscovered"
-        case resourcenotrecorded = "ResourceNotRecorded"
-        case resourcedeleted = "ResourceDeleted"
-        case resourcedeletednotrecorded = "ResourceDeletedNotRecorded"
+    public enum ConfigRuleState: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case deleting = "DELETING"
+        case deletingResults = "DELETING_RESULTS"
+        case evaluating = "EVALUATING"
         public var description: String { return self.rawValue }
-    }
-
-    public struct GetComplianceDetailsByConfigRuleResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EvaluationResults", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Indicates whether the AWS resource complies with the specified AWS Config rule.
-        public let evaluationResults: [EvaluationResult]?
-        /// The string that you use in a subsequent request to get the next page of results in a paginated response.
-        public let nextToken: String?
-
-        public init(evaluationResults: [EvaluationResult]? = nil, nextToken: String? = nil) {
-            self.evaluationResults = evaluationResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case evaluationResults = "EvaluationResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct GetComplianceDetailsByResourceRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceType", required: true, type: .string), 
-            AWSShapeMember(label: "ComplianceTypes", required: false, type: .list)
-        ]
-        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
-        public let nextToken: String?
-        /// The ID of the AWS resource for which you want compliance information.
-        public let resourceId: String
-        /// The type of the AWS resource for which you want compliance information.
-        public let resourceType: String
-        /// Filters the results by compliance. The allowed values are COMPLIANT, NON_COMPLIANT, and NOT_APPLICABLE.
-        public let complianceTypes: [ComplianceType]?
-
-        public init(nextToken: String? = nil, resourceId: String, resourceType: String, complianceTypes: [ComplianceType]? = nil) {
-            self.nextToken = nextToken
-            self.resourceId = resourceId
-            self.resourceType = resourceType
-            self.complianceTypes = complianceTypes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case resourceId = "ResourceId"
-            case resourceType = "ResourceType"
-            case complianceTypes = "ComplianceTypes"
-        }
-    }
-
-    public struct StartConfigRulesEvaluationResponse: AWSShape {
-
     }
 
     public struct GetComplianceDetailsByConfigRuleRequest: AWSShape {
@@ -545,7 +895,7 @@ extension ConfigService {
         /// Filters the results by compliance. The allowed values are COMPLIANT, NON_COMPLIANT, and NOT_APPLICABLE.
         public let complianceTypes: [ComplianceType]?
 
-        public init(nextToken: String? = nil, limit: Int32? = nil, configRuleName: String, complianceTypes: [ComplianceType]? = nil) {
+        public init(complianceTypes: [ComplianceType]? = nil, configRuleName: String, limit: Int32? = nil, nextToken: String? = nil) {
             self.nextToken = nextToken
             self.limit = limit
             self.configRuleName = configRuleName
@@ -560,298 +910,113 @@ extension ConfigService {
         }
     }
 
-    public struct DescribeComplianceByResourceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComplianceByResources", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Indicates whether the specified AWS resource complies with all of the AWS Config rules that evaluate it.
-        public let complianceByResources: [ComplianceByResource]?
-        /// The string that you use in a subsequent request to get the next page of results in a paginated response.
-        public let nextToken: String?
-
-        public init(complianceByResources: [ComplianceByResource]? = nil, nextToken: String? = nil) {
-            self.complianceByResources = complianceByResources
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case complianceByResources = "ComplianceByResources"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DescribeConfigRuleEvaluationStatusResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigRulesEvaluationStatus", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Status information about your AWS managed Config rules.
-        public let configRulesEvaluationStatus: [ConfigRuleEvaluationStatus]?
-        /// The string that you use in a subsequent request to get the next page of results in a paginated response.
-        public let nextToken: String?
-
-        public init(configRulesEvaluationStatus: [ConfigRuleEvaluationStatus]? = nil, nextToken: String? = nil) {
-            self.configRulesEvaluationStatus = configRulesEvaluationStatus
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case configRulesEvaluationStatus = "ConfigRulesEvaluationStatus"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct GetAggregateDiscoveredResourceCountsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupedResourceCounts", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "GroupByKey", required: false, type: .string), 
-            AWSShapeMember(label: "TotalDiscoveredResources", required: true, type: .long)
-        ]
-        /// Returns a list of GroupedResourceCount objects.
-        public let groupedResourceCounts: [GroupedResourceCount]?
-        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
-        public let nextToken: String?
-        /// The key passed into the request object. If GroupByKey is not provided, the result will be empty.
-        public let groupByKey: String?
-        /// The total number of resources that are present in an aggregator with the filters that you provide.
-        public let totalDiscoveredResources: Int64
-
-        public init(groupedResourceCounts: [GroupedResourceCount]? = nil, nextToken: String? = nil, groupByKey: String? = nil, totalDiscoveredResources: Int64) {
-            self.groupedResourceCounts = groupedResourceCounts
-            self.nextToken = nextToken
-            self.groupByKey = groupByKey
-            self.totalDiscoveredResources = totalDiscoveredResources
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groupedResourceCounts = "GroupedResourceCounts"
-            case nextToken = "NextToken"
-            case groupByKey = "GroupByKey"
-            case totalDiscoveredResources = "TotalDiscoveredResources"
-        }
-    }
-
-    public struct AggregateResourceIdentifier: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceAccountId", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceType", required: true, type: .enum), 
-            AWSShapeMember(label: "SourceRegion", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceName", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceId", required: true, type: .string)
-        ]
-        /// The 12-digit account ID of the source account.
-        public let sourceAccountId: String
-        /// The type of the AWS resource.
-        public let resourceType: ResourceType
-        /// The source region where data is aggregated.
-        public let sourceRegion: String
-        /// The name of the AWS resource.
-        public let resourceName: String?
-        /// The ID of the AWS resource.
-        public let resourceId: String
-
-        public init(sourceAccountId: String, resourceType: ResourceType, sourceRegion: String, resourceName: String? = nil, resourceId: String) {
-            self.sourceAccountId = sourceAccountId
-            self.resourceType = resourceType
-            self.sourceRegion = sourceRegion
-            self.resourceName = resourceName
-            self.resourceId = resourceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sourceAccountId = "SourceAccountId"
-            case resourceType = "ResourceType"
-            case sourceRegion = "SourceRegion"
-            case resourceName = "ResourceName"
-            case resourceId = "ResourceId"
-        }
-    }
-
-    public struct AggregateComplianceCount: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupName", required: false, type: .string), 
-            AWSShapeMember(label: "ComplianceSummary", required: false, type: .structure)
-        ]
-        /// The 12-digit account ID or region based on the GroupByKey value.
-        public let groupName: String?
-        /// The number of compliant and noncompliant AWS Config rules.
-        public let complianceSummary: ComplianceSummary?
-
-        public init(groupName: String? = nil, complianceSummary: ComplianceSummary? = nil) {
-            self.groupName = groupName
-            self.complianceSummary = complianceSummary
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groupName = "GroupName"
-            case complianceSummary = "ComplianceSummary"
-        }
-    }
-
-    public struct AggregatedSourceStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LastErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "SourceId", required: false, type: .string), 
-            AWSShapeMember(label: "SourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "LastUpdateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "AwsRegion", required: false, type: .string), 
-            AWSShapeMember(label: "LastUpdateStatus", required: false, type: .enum)
-        ]
-        /// The error code that AWS Config returned when the source account aggregation last failed.
-        public let lastErrorCode: String?
-        /// The source account ID or an organization.
-        public let sourceId: String?
-        /// The source account or an organization.
-        public let sourceType: AggregatedSourceType?
-        /// The time of the last update.
-        public let lastUpdateTime: TimeStamp?
-        /// The message indicating that the source account aggregation failed due to an error.
-        public let lastErrorMessage: String?
-        /// The region authorized to collect aggregated data.
-        public let awsRegion: String?
-        /// Filters the last updated status type.   Valid value FAILED indicates errors while moving data.   Valid value SUCCEEDED indicates the data was successfully moved.   Valid value OUTDATED indicates the data is not the most recent.  
-        public let lastUpdateStatus: AggregatedSourceStatusType?
-
-        public init(lastErrorCode: String? = nil, sourceId: String? = nil, sourceType: AggregatedSourceType? = nil, lastUpdateTime: TimeStamp? = nil, lastErrorMessage: String? = nil, awsRegion: String? = nil, lastUpdateStatus: AggregatedSourceStatusType? = nil) {
-            self.lastErrorCode = lastErrorCode
-            self.sourceId = sourceId
-            self.sourceType = sourceType
-            self.lastUpdateTime = lastUpdateTime
-            self.lastErrorMessage = lastErrorMessage
-            self.awsRegion = awsRegion
-            self.lastUpdateStatus = lastUpdateStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lastErrorCode = "LastErrorCode"
-            case sourceId = "SourceId"
-            case sourceType = "SourceType"
-            case lastUpdateTime = "LastUpdateTime"
-            case lastErrorMessage = "LastErrorMessage"
-            case awsRegion = "AwsRegion"
-            case lastUpdateStatus = "LastUpdateStatus"
-        }
-    }
-
-    public struct DescribeComplianceByResourceRequest: AWSShape {
+    public struct DescribeAggregationAuthorizationsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "ResourceType", required: false, type: .string), 
-            AWSShapeMember(label: "ComplianceTypes", required: false, type: .list)
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
-        /// The ID of the AWS resource for which you want compliance information. You can specify only one resource ID. If you specify a resource ID, you must also specify a type for ResourceType.
-        public let resourceId: String?
-        /// The maximum number of evaluation results returned on each page. The default is 10. You cannot specify a number greater than 100. If you specify 0, AWS Config uses the default.
+        /// The maximum number of AggregationAuthorizations returned on each page. The default is maximum. If you specify 0, AWS Config uses the default.
         public let limit: Int32?
-        /// The types of AWS resources for which you want compliance information (for example, AWS::EC2::Instance). For this action, you can specify that the resource type is an AWS account by specifying AWS::::Account.
-        public let resourceType: String?
-        /// Filters the results by compliance. The allowed values are COMPLIANT and NON_COMPLIANT.
-        public let complianceTypes: [ComplianceType]?
 
-        public init(nextToken: String? = nil, resourceId: String? = nil, limit: Int32? = nil, resourceType: String? = nil, complianceTypes: [ComplianceType]? = nil) {
+        public init(limit: Int32? = nil, nextToken: String? = nil) {
             self.nextToken = nextToken
-            self.resourceId = resourceId
             self.limit = limit
-            self.resourceType = resourceType
-            self.complianceTypes = complianceTypes
         }
 
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
-            case resourceId = "ResourceId"
             case limit = "Limit"
+        }
+    }
+
+    public enum EventSource: String, CustomStringConvertible, Codable {
+        case awsConfig = "aws.config"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConfigRuleComplianceSummaryGroupKey: String, CustomStringConvertible, Codable {
+        case accountId = "ACCOUNT_ID"
+        case awsRegion = "AWS_REGION"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ResourceCountFilters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "Region", required: false, type: .string)
+        ]
+        /// The 12-digit ID of the account.
+        public let accountId: String?
+        /// The type of the AWS resource.
+        public let resourceType: ResourceType?
+        /// The region where the account is located.
+        public let region: String?
+
+        public init(accountId: String? = nil, region: String? = nil, resourceType: ResourceType? = nil) {
+            self.accountId = accountId
+            self.resourceType = resourceType
+            self.region = region
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
             case resourceType = "ResourceType"
-            case complianceTypes = "ComplianceTypes"
+            case region = "Region"
         }
     }
 
-    public struct Scope: AWSShape {
+    public struct DescribeConfigurationAggregatorSourcesStatusRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComplianceResourceTypes", required: false, type: .list), 
-            AWSShapeMember(label: "TagValue", required: false, type: .string), 
-            AWSShapeMember(label: "ComplianceResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "TagKey", required: false, type: .string)
+            AWSShapeMember(label: "UpdateStatus", required: false, type: .list), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "ConfigurationAggregatorName", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The resource types of only those AWS resources that you want to trigger an evaluation for the rule. You can only specify one type if you also specify a resource ID for ComplianceResourceId.
-        public let complianceResourceTypes: [String]?
-        /// The tag value applied to only those AWS resources that you want to trigger an evaluation for the rule. If you specify a value for TagValue, you must also specify a value for TagKey.
-        public let tagValue: String?
-        /// The ID of the only AWS resource that you want to trigger an evaluation for the rule. If you specify a resource ID, you must specify one resource type for ComplianceResourceTypes.
-        public let complianceResourceId: String?
-        /// The tag key that is applied to only those AWS resources that you want to trigger an evaluation for the rule.
-        public let tagKey: String?
+        /// Filters the status type.   Valid value FAILED indicates errors while moving data.   Valid value SUCCEEDED indicates the data was successfully moved.   Valid value OUTDATED indicates the data is not the most recent.  
+        public let updateStatus: [AggregatedSourceStatusType]?
+        /// The maximum number of AggregatorSourceStatus returned on each page. The default is maximum. If you specify 0, AWS Config uses the default.
+        public let limit: Int32?
+        /// The name of the configuration aggregator.
+        public let configurationAggregatorName: String
+        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+        public let nextToken: String?
 
-        public init(complianceResourceTypes: [String]? = nil, tagValue: String? = nil, complianceResourceId: String? = nil, tagKey: String? = nil) {
-            self.complianceResourceTypes = complianceResourceTypes
-            self.tagValue = tagValue
-            self.complianceResourceId = complianceResourceId
-            self.tagKey = tagKey
+        public init(configurationAggregatorName: String, limit: Int32? = nil, nextToken: String? = nil, updateStatus: [AggregatedSourceStatusType]? = nil) {
+            self.updateStatus = updateStatus
+            self.limit = limit
+            self.configurationAggregatorName = configurationAggregatorName
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case complianceResourceTypes = "ComplianceResourceTypes"
-            case tagValue = "TagValue"
-            case complianceResourceId = "ComplianceResourceId"
-            case tagKey = "TagKey"
+            case updateStatus = "UpdateStatus"
+            case limit = "Limit"
+            case configurationAggregatorName = "ConfigurationAggregatorName"
+            case nextToken = "NextToken"
         }
     }
 
-    public struct BatchGetResourceConfigResponse: AWSShape {
+    public struct ComplianceSummaryByResourceType: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "baseConfigurationItems", required: false, type: .list), 
-            AWSShapeMember(label: "unprocessedResourceKeys", required: false, type: .list)
+            AWSShapeMember(label: "ComplianceSummary", required: false, type: .structure), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .string)
         ]
-        /// A list that contains the current configuration of one or more resources.
-        public let baseConfigurationItems: [BaseConfigurationItem]?
-        /// A list of resource keys that were not processed with the current response. The unprocessesResourceKeys value is in the same form as ResourceKeys, so the value can be directly provided to a subsequent BatchGetResourceConfig operation. If there are no unprocessed resource keys, the response contains an empty unprocessedResourceKeys list. 
-        public let unprocessedResourceKeys: [ResourceKey]?
+        /// The number of AWS resources that are compliant or noncompliant, up to a maximum of 100 for each.
+        public let complianceSummary: ComplianceSummary?
+        /// The type of AWS resource.
+        public let resourceType: String?
 
-        public init(baseConfigurationItems: [BaseConfigurationItem]? = nil, unprocessedResourceKeys: [ResourceKey]? = nil) {
-            self.baseConfigurationItems = baseConfigurationItems
-            self.unprocessedResourceKeys = unprocessedResourceKeys
+        public init(complianceSummary: ComplianceSummary? = nil, resourceType: String? = nil) {
+            self.complianceSummary = complianceSummary
+            self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case baseConfigurationItems = "baseConfigurationItems"
-            case unprocessedResourceKeys = "unprocessedResourceKeys"
-        }
-    }
-
-    public struct ConfigStreamDeliveryInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lastErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "lastStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "lastStatusChangeTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastErrorCode", required: false, type: .string)
-        ]
-        /// The error message from the last attempted delivery.
-        public let lastErrorMessage: String?
-        /// Status of the last attempted delivery.  Note Providing an SNS topic on a DeliveryChannel for AWS Config is optional. If the SNS delivery is turned off, the last status will be Not_Applicable.
-        public let lastStatus: DeliveryStatus?
-        /// The time from the last status change.
-        public let lastStatusChangeTime: TimeStamp?
-        /// The error code from the last attempted delivery.
-        public let lastErrorCode: String?
-
-        public init(lastErrorMessage: String? = nil, lastStatus: DeliveryStatus? = nil, lastStatusChangeTime: TimeStamp? = nil, lastErrorCode: String? = nil) {
-            self.lastErrorMessage = lastErrorMessage
-            self.lastStatus = lastStatus
-            self.lastStatusChangeTime = lastStatusChangeTime
-            self.lastErrorCode = lastErrorCode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lastErrorMessage = "lastErrorMessage"
-            case lastStatus = "lastStatus"
-            case lastStatusChangeTime = "lastStatusChangeTime"
-            case lastErrorCode = "lastErrorCode"
+            case complianceSummary = "ComplianceSummary"
+            case resourceType = "ResourceType"
         }
     }
 
@@ -865,7 +1030,7 @@ extension ConfigService {
         /// Indicates whether the AWS Config rule is compliant.
         public let compliance: Compliance?
 
-        public init(configRuleName: String? = nil, compliance: Compliance? = nil) {
+        public init(compliance: Compliance? = nil, configRuleName: String? = nil) {
             self.configRuleName = configRuleName
             self.compliance = compliance
         }
@@ -876,49 +1041,19 @@ extension ConfigService {
         }
     }
 
-    public struct GetAggregateComplianceDetailsByConfigRuleRequest: AWSShape {
+    public struct DeliverConfigSnapshotResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationAggregatorName", required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "AwsRegion", required: true, type: .string), 
-            AWSShapeMember(label: "AccountId", required: true, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "ConfigRuleName", required: true, type: .string), 
-            AWSShapeMember(label: "ComplianceType", required: false, type: .enum)
+            AWSShapeMember(label: "configSnapshotId", required: false, type: .string)
         ]
-        /// The name of the configuration aggregator.
-        public let configurationAggregatorName: String
-        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
-        public let nextToken: String?
-        /// The source region from where the data is aggregated.
-        public let awsRegion: String
-        /// The 12-digit account ID of the source account.
-        public let accountId: String
-        /// The maximum number of evaluation results returned on each page. The default is 50. You cannot specify a number greater than 100. If you specify 0, AWS Config uses the default.
-        public let limit: Int32?
-        /// The name of the AWS Config rule for which you want compliance information.
-        public let configRuleName: String
-        /// The resource compliance status.  For the GetAggregateComplianceDetailsByConfigRuleRequest data type, AWS Config supports only the COMPLIANT and NON_COMPLIANT. AWS Config does not support the NOT_APPLICABLE and INSUFFICIENT_DATA values. 
-        public let complianceType: ComplianceType?
+        /// The ID of the snapshot that is being created.
+        public let configSnapshotId: String?
 
-        public init(configurationAggregatorName: String, nextToken: String? = nil, awsRegion: String, accountId: String, limit: Int32? = nil, configRuleName: String, complianceType: ComplianceType? = nil) {
-            self.configurationAggregatorName = configurationAggregatorName
-            self.nextToken = nextToken
-            self.awsRegion = awsRegion
-            self.accountId = accountId
-            self.limit = limit
-            self.configRuleName = configRuleName
-            self.complianceType = complianceType
+        public init(configSnapshotId: String? = nil) {
+            self.configSnapshotId = configSnapshotId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationAggregatorName = "ConfigurationAggregatorName"
-            case nextToken = "NextToken"
-            case awsRegion = "AwsRegion"
-            case accountId = "AccountId"
-            case limit = "Limit"
-            case configRuleName = "ConfigRuleName"
-            case complianceType = "ComplianceType"
+            case configSnapshotId = "configSnapshotId"
         }
     }
 
@@ -943,431 +1078,11 @@ extension ConfigService {
         }
     }
 
-    public struct ConfigurationRecorderStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "recording", required: false, type: .boolean), 
-            AWSShapeMember(label: "lastStatusChangeTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "lastStopTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "lastErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "lastStartTime", required: false, type: .timestamp)
-        ]
-        /// The name of the configuration recorder.
-        public let name: String?
-        /// Specifies whether or not the recorder is currently recording.
-        public let recording: Bool?
-        /// The time when the status was last changed.
-        public let lastStatusChangeTime: TimeStamp?
-        /// The message indicating that the recording failed due to an error.
-        public let lastErrorMessage: String?
-        /// The time the recorder was last stopped.
-        public let lastStopTime: TimeStamp?
-        /// The last (previous) status of the recorder.
-        public let lastStatus: RecorderStatus?
-        /// The error code indicating that the recording failed.
-        public let lastErrorCode: String?
-        /// The time the recorder was last started.
-        public let lastStartTime: TimeStamp?
-
-        public init(name: String? = nil, recording: Bool? = nil, lastStatusChangeTime: TimeStamp? = nil, lastErrorMessage: String? = nil, lastStopTime: TimeStamp? = nil, lastStatus: RecorderStatus? = nil, lastErrorCode: String? = nil, lastStartTime: TimeStamp? = nil) {
-            self.name = name
-            self.recording = recording
-            self.lastStatusChangeTime = lastStatusChangeTime
-            self.lastErrorMessage = lastErrorMessage
-            self.lastStopTime = lastStopTime
-            self.lastStatus = lastStatus
-            self.lastErrorCode = lastErrorCode
-            self.lastStartTime = lastStartTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case recording = "recording"
-            case lastStatusChangeTime = "lastStatusChangeTime"
-            case lastErrorMessage = "lastErrorMessage"
-            case lastStopTime = "lastStopTime"
-            case lastStatus = "lastStatus"
-            case lastErrorCode = "lastErrorCode"
-            case lastStartTime = "lastStartTime"
-        }
-    }
-
-    public struct RecordingGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "allSupported", required: false, type: .boolean), 
-            AWSShapeMember(label: "includeGlobalResourceTypes", required: false, type: .boolean), 
-            AWSShapeMember(label: "resourceTypes", required: false, type: .list)
-        ]
-        /// Specifies whether AWS Config records configuration changes for every supported type of regional resource. If you set this option to true, when AWS Config adds support for a new type of regional resource, it starts recording resources of that type automatically. If you set this option to true, you cannot enumerate a list of resourceTypes.
-        public let allSupported: Bool?
-        /// Specifies whether AWS Config includes all supported types of global resources (for example, IAM resources) with the resources that it records. Before you can set this option to true, you must set the allSupported option to true. If you set this option to true, when AWS Config adds support for a new type of global resource, it starts recording resources of that type automatically. The configuration details for any global resource are the same in all regions. To prevent duplicate configuration items, you should consider customizing AWS Config in only one region to record global resources.
-        public let includeGlobalResourceTypes: Bool?
-        /// A comma-separated list that specifies the types of AWS resources for which AWS Config records configuration changes (for example, AWS::EC2::Instance or AWS::CloudTrail::Trail). Before you can set this option to true, you must set the allSupported option to false. If you set this option to true, when AWS Config adds support for a new type of resource, it will not record resources of that type unless you manually add that type to your recording group. For a list of valid resourceTypes values, see the resourceType Value column in Supported AWS Resource Types.
-        public let resourceTypes: [ResourceType]?
-
-        public init(allSupported: Bool? = nil, includeGlobalResourceTypes: Bool? = nil, resourceTypes: [ResourceType]? = nil) {
-            self.allSupported = allSupported
-            self.includeGlobalResourceTypes = includeGlobalResourceTypes
-            self.resourceTypes = resourceTypes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case allSupported = "allSupported"
-            case includeGlobalResourceTypes = "includeGlobalResourceTypes"
-            case resourceTypes = "resourceTypes"
-        }
-    }
-
-    public struct GetComplianceSummaryByResourceTypeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceTypes", required: false, type: .list)
-        ]
-        /// Specify one or more resource types to get the number of resources that are compliant and the number that are noncompliant for each resource type. For this request, you can specify an AWS resource type such as AWS::EC2::Instance. You can specify that the resource type is an AWS account by specifying AWS::::Account.
-        public let resourceTypes: [String]?
-
-        public init(resourceTypes: [String]? = nil) {
-            self.resourceTypes = resourceTypes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceTypes = "ResourceTypes"
-        }
-    }
-
-    public struct AccountAggregationSource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsRegions", required: false, type: .list), 
-            AWSShapeMember(label: "AccountIds", required: true, type: .list), 
-            AWSShapeMember(label: "AllAwsRegions", required: false, type: .boolean)
-        ]
-        /// The source regions being aggregated.
-        public let awsRegions: [String]?
-        /// The 12-digit account ID of the account being aggregated. 
-        public let accountIds: [String]
-        /// If true, aggregate existing AWS Config regions and future regions.
-        public let allAwsRegions: Bool?
-
-        public init(awsRegions: [String]? = nil, accountIds: [String], allAwsRegions: Bool? = nil) {
-            self.awsRegions = awsRegions
-            self.accountIds = accountIds
-            self.allAwsRegions = allAwsRegions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case awsRegions = "AwsRegions"
-            case accountIds = "AccountIds"
-            case allAwsRegions = "AllAwsRegions"
-        }
-    }
-
-    public struct DescribeDeliveryChannelStatusResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeliveryChannelsStatus", required: false, type: .list)
-        ]
-        /// A list that contains the status of a specified delivery channel.
-        public let deliveryChannelsStatus: [DeliveryChannelStatus]?
-
-        public init(deliveryChannelsStatus: [DeliveryChannelStatus]? = nil) {
-            self.deliveryChannelsStatus = deliveryChannelsStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deliveryChannelsStatus = "DeliveryChannelsStatus"
-        }
-    }
-
-    public struct Compliance: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComplianceType", required: false, type: .enum), 
-            AWSShapeMember(label: "ComplianceContributorCount", required: false, type: .structure)
-        ]
-        /// Indicates whether an AWS resource or AWS Config rule is compliant. A resource is compliant if it complies with all of the AWS Config rules that evaluate it. A resource is noncompliant if it does not comply with one or more of these rules. A rule is compliant if all of the resources that the rule evaluates comply with it. A rule is noncompliant if any of these resources do not comply. AWS Config returns the INSUFFICIENT_DATA value when no evaluation results are available for the AWS resource or AWS Config rule. For the Compliance data type, AWS Config supports only COMPLIANT, NON_COMPLIANT, and INSUFFICIENT_DATA values. AWS Config does not support the NOT_APPLICABLE value for the Compliance data type.
-        public let complianceType: ComplianceType?
-        /// The number of AWS resources or AWS Config rules that cause a result of NON_COMPLIANT, up to a maximum number.
-        public let complianceContributorCount: ComplianceContributorCount?
-
-        public init(complianceType: ComplianceType? = nil, complianceContributorCount: ComplianceContributorCount? = nil) {
-            self.complianceType = complianceType
-            self.complianceContributorCount = complianceContributorCount
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case complianceType = "ComplianceType"
-            case complianceContributorCount = "ComplianceContributorCount"
-        }
-    }
-
-    public struct ConfigRuleEvaluationStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LastErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "ConfigRuleId", required: false, type: .string), 
-            AWSShapeMember(label: "LastSuccessfulInvocationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastFailedInvocationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "FirstActivatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastSuccessfulEvaluationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "LastFailedEvaluationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "FirstEvaluationStarted", required: false, type: .boolean), 
-            AWSShapeMember(label: "ConfigRuleArn", required: false, type: .string), 
-            AWSShapeMember(label: "ConfigRuleName", required: false, type: .string)
-        ]
-        /// The error code that AWS Config returned when the rule last failed.
-        public let lastErrorCode: String?
-        /// The ID of the AWS Config rule.
-        public let configRuleId: String?
-        /// The time that AWS Config last successfully invoked the AWS Config rule to evaluate your AWS resources.
-        public let lastSuccessfulInvocationTime: TimeStamp?
-        /// The time that AWS Config last failed to invoke the AWS Config rule to evaluate your AWS resources.
-        public let lastFailedInvocationTime: TimeStamp?
-        /// The time that you first activated the AWS Config rule.
-        public let firstActivatedTime: TimeStamp?
-        /// The time that AWS Config last successfully evaluated your AWS resources against the rule.
-        public let lastSuccessfulEvaluationTime: TimeStamp?
-        /// The error message that AWS Config returned when the rule last failed.
-        public let lastErrorMessage: String?
-        /// The time that AWS Config last failed to evaluate your AWS resources against the rule.
-        public let lastFailedEvaluationTime: TimeStamp?
-        /// Indicates whether AWS Config has evaluated your resources against the rule at least once.    true - AWS Config has evaluated your AWS resources against the rule at least once.    false - AWS Config has not once finished evaluating your AWS resources against the rule.  
-        public let firstEvaluationStarted: Bool?
-        /// The Amazon Resource Name (ARN) of the AWS Config rule.
-        public let configRuleArn: String?
-        /// The name of the AWS Config rule.
-        public let configRuleName: String?
-
-        public init(lastErrorCode: String? = nil, configRuleId: String? = nil, lastSuccessfulInvocationTime: TimeStamp? = nil, lastFailedInvocationTime: TimeStamp? = nil, firstActivatedTime: TimeStamp? = nil, lastSuccessfulEvaluationTime: TimeStamp? = nil, lastErrorMessage: String? = nil, lastFailedEvaluationTime: TimeStamp? = nil, firstEvaluationStarted: Bool? = nil, configRuleArn: String? = nil, configRuleName: String? = nil) {
-            self.lastErrorCode = lastErrorCode
-            self.configRuleId = configRuleId
-            self.lastSuccessfulInvocationTime = lastSuccessfulInvocationTime
-            self.lastFailedInvocationTime = lastFailedInvocationTime
-            self.firstActivatedTime = firstActivatedTime
-            self.lastSuccessfulEvaluationTime = lastSuccessfulEvaluationTime
-            self.lastErrorMessage = lastErrorMessage
-            self.lastFailedEvaluationTime = lastFailedEvaluationTime
-            self.firstEvaluationStarted = firstEvaluationStarted
-            self.configRuleArn = configRuleArn
-            self.configRuleName = configRuleName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lastErrorCode = "LastErrorCode"
-            case configRuleId = "ConfigRuleId"
-            case lastSuccessfulInvocationTime = "LastSuccessfulInvocationTime"
-            case lastFailedInvocationTime = "LastFailedInvocationTime"
-            case firstActivatedTime = "FirstActivatedTime"
-            case lastSuccessfulEvaluationTime = "LastSuccessfulEvaluationTime"
-            case lastErrorMessage = "LastErrorMessage"
-            case lastFailedEvaluationTime = "LastFailedEvaluationTime"
-            case firstEvaluationStarted = "FirstEvaluationStarted"
-            case configRuleArn = "ConfigRuleArn"
-            case configRuleName = "ConfigRuleName"
-        }
-    }
-
-    public struct BatchGetAggregateResourceConfigRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceIdentifiers", required: true, type: .list), 
-            AWSShapeMember(label: "ConfigurationAggregatorName", required: true, type: .string)
-        ]
-        /// A list of aggregate ResourceIdentifiers objects. 
-        public let resourceIdentifiers: [AggregateResourceIdentifier]
-        /// The name of the configuration aggregator.
-        public let configurationAggregatorName: String
-
-        public init(resourceIdentifiers: [AggregateResourceIdentifier], configurationAggregatorName: String) {
-            self.resourceIdentifiers = resourceIdentifiers
-            self.configurationAggregatorName = configurationAggregatorName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceIdentifiers = "ResourceIdentifiers"
-            case configurationAggregatorName = "ConfigurationAggregatorName"
-        }
-    }
-
-    public struct DescribeConfigurationRecordersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationRecorders", required: false, type: .list)
-        ]
-        /// A list that contains the descriptions of the specified configuration recorders.
-        public let configurationRecorders: [ConfigurationRecorder]?
-
-        public init(configurationRecorders: [ConfigurationRecorder]? = nil) {
-            self.configurationRecorders = configurationRecorders
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case configurationRecorders = "ConfigurationRecorders"
-        }
-    }
-
-    public struct ComplianceByResource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceType", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "Compliance", required: false, type: .structure)
-        ]
-        /// The type of the AWS resource that was evaluated.
-        public let resourceType: String?
-        /// The ID of the AWS resource that was evaluated.
-        public let resourceId: String?
-        /// Indicates whether the AWS resource complies with all of the AWS Config rules that evaluated it.
-        public let compliance: Compliance?
-
-        public init(resourceType: String? = nil, resourceId: String? = nil, compliance: Compliance? = nil) {
-            self.resourceType = resourceType
-            self.resourceId = resourceId
-            self.compliance = compliance
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceType = "ResourceType"
-            case resourceId = "ResourceId"
-            case compliance = "Compliance"
-        }
-    }
-
-    public struct PutAggregationAuthorizationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthorizedAccountId", required: true, type: .string), 
-            AWSShapeMember(label: "AuthorizedAwsRegion", required: true, type: .string)
-        ]
-        /// The 12-digit account ID of the account authorized to aggregate data.
-        public let authorizedAccountId: String
-        /// The region authorized to collect aggregated data.
-        public let authorizedAwsRegion: String
-
-        public init(authorizedAccountId: String, authorizedAwsRegion: String) {
-            self.authorizedAccountId = authorizedAccountId
-            self.authorizedAwsRegion = authorizedAwsRegion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case authorizedAccountId = "AuthorizedAccountId"
-            case authorizedAwsRegion = "AuthorizedAwsRegion"
-        }
-    }
-
-    public struct SourceDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaximumExecutionFrequency", required: false, type: .enum), 
-            AWSShapeMember(label: "EventSource", required: false, type: .enum), 
-            AWSShapeMember(label: "MessageType", required: false, type: .enum)
-        ]
-        /// The frequency at which you want AWS Config to run evaluations for a custom rule with a periodic trigger. If you specify a value for MaximumExecutionFrequency, then MessageType must use the ScheduledNotification value.  By default, rules with a periodic trigger are evaluated every 24 hours. To change the frequency, specify a valid value for the MaximumExecutionFrequency parameter. Based on the valid value you choose, AWS Config runs evaluations once for each valid value. For example, if you choose Three_Hours, AWS Config runs evaluations once every three hours. In this case, Three_Hours is the frequency of this rule.  
-        public let maximumExecutionFrequency: MaximumExecutionFrequency?
-        /// The source of the event, such as an AWS service, that triggers AWS Config to evaluate your AWS resources.
-        public let eventSource: EventSource?
-        /// The type of notification that triggers AWS Config to run an evaluation for a rule. You can specify the following notification types:    ConfigurationItemChangeNotification - Triggers an evaluation when AWS Config delivers a configuration item as a result of a resource change.    OversizedConfigurationItemChangeNotification - Triggers an evaluation when AWS Config delivers an oversized configuration item. AWS Config may generate this notification type when a resource changes and the notification exceeds the maximum size allowed by Amazon SNS.    ScheduledNotification - Triggers a periodic evaluation at the frequency specified for MaximumExecutionFrequency.    ConfigurationSnapshotDeliveryCompleted - Triggers a periodic evaluation when AWS Config delivers a configuration snapshot.   If you want your custom rule to be triggered by configuration changes, specify two SourceDetail objects, one for ConfigurationItemChangeNotification and one for OversizedConfigurationItemChangeNotification.
-        public let messageType: MessageType?
-
-        public init(maximumExecutionFrequency: MaximumExecutionFrequency? = nil, eventSource: EventSource? = nil, messageType: MessageType? = nil) {
-            self.maximumExecutionFrequency = maximumExecutionFrequency
-            self.eventSource = eventSource
-            self.messageType = messageType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maximumExecutionFrequency = "MaximumExecutionFrequency"
-            case eventSource = "EventSource"
-            case messageType = "MessageType"
-        }
-    }
-
-    public struct OrganizationAggregationSource: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "AllAwsRegions", required: false, type: .boolean), 
-            AWSShapeMember(label: "AwsRegions", required: false, type: .list)
-        ]
-        /// ARN of the IAM role used to retreive AWS Organization details associated with the aggregator account.
-        public let roleArn: String
-        /// If true, aggregate existing AWS Config regions and future regions.
-        public let allAwsRegions: Bool?
-        /// The source regions being aggregated.
-        public let awsRegions: [String]?
-
-        public init(roleArn: String, allAwsRegions: Bool? = nil, awsRegions: [String]? = nil) {
-            self.roleArn = roleArn
-            self.allAwsRegions = allAwsRegions
-            self.awsRegions = awsRegions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleArn = "RoleArn"
-            case allAwsRegions = "AllAwsRegions"
-            case awsRegions = "AwsRegions"
-        }
-    }
-
-    public struct EvaluationResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Annotation", required: false, type: .string), 
-            AWSShapeMember(label: "ResultRecordedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ConfigRuleInvokedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EvaluationResultIdentifier", required: false, type: .structure), 
-            AWSShapeMember(label: "ResultToken", required: false, type: .string), 
-            AWSShapeMember(label: "ComplianceType", required: false, type: .enum)
-        ]
-        /// Supplementary information about how the evaluation determined the compliance.
-        public let annotation: String?
-        /// The time when AWS Config recorded the evaluation result.
-        public let resultRecordedTime: TimeStamp?
-        /// The time when the AWS Config rule evaluated the AWS resource.
-        public let configRuleInvokedTime: TimeStamp?
-        /// Uniquely identifies the evaluation result.
-        public let evaluationResultIdentifier: EvaluationResultIdentifier?
-        /// An encrypted token that associates an evaluation with an AWS Config rule. The token identifies the rule, the AWS resource being evaluated, and the event that triggered the evaluation.
-        public let resultToken: String?
-        /// Indicates whether the AWS resource complies with the AWS Config rule that evaluated it. For the EvaluationResult data type, AWS Config supports only the COMPLIANT, NON_COMPLIANT, and NOT_APPLICABLE values. AWS Config does not support the INSUFFICIENT_DATA value for the EvaluationResult data type.
-        public let complianceType: ComplianceType?
-
-        public init(annotation: String? = nil, resultRecordedTime: TimeStamp? = nil, configRuleInvokedTime: TimeStamp? = nil, evaluationResultIdentifier: EvaluationResultIdentifier? = nil, resultToken: String? = nil, complianceType: ComplianceType? = nil) {
-            self.annotation = annotation
-            self.resultRecordedTime = resultRecordedTime
-            self.configRuleInvokedTime = configRuleInvokedTime
-            self.evaluationResultIdentifier = evaluationResultIdentifier
-            self.resultToken = resultToken
-            self.complianceType = complianceType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case annotation = "Annotation"
-            case resultRecordedTime = "ResultRecordedTime"
-            case configRuleInvokedTime = "ConfigRuleInvokedTime"
-            case evaluationResultIdentifier = "EvaluationResultIdentifier"
-            case resultToken = "ResultToken"
-            case complianceType = "ComplianceType"
-        }
-    }
-
-    public struct GetResourceConfigHistoryResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "configurationItems", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// A list that contains the configuration history of one or more resources.
-        public let configurationItems: [ConfigurationItem]?
-        /// The string that you use in a subsequent request to get the next page of results in a paginated response.
-        public let nextToken: String?
-
-        public init(configurationItems: [ConfigurationItem]? = nil, nextToken: String? = nil) {
-            self.configurationItems = configurationItems
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case configurationItems = "configurationItems"
-            case nextToken = "nextToken"
-        }
-    }
-
-    public struct DeleteConfigurationRecorderRequest: AWSShape {
+    public struct StopConfigurationRecorderRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConfigurationRecorderName", required: true, type: .string)
         ]
-        /// The name of the configuration recorder to be deleted. You can retrieve the name of your configuration recorder by using the DescribeConfigurationRecorders action.
+        /// The name of the recorder object that records each configuration change made to the resources.
         public let configurationRecorderName: String
 
         public init(configurationRecorderName: String) {
@@ -1379,40 +1094,247 @@ extension ConfigService {
         }
     }
 
-    public struct PutRetentionConfigurationRequest: AWSShape {
+    public struct BaseConfigurationItem: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RetentionPeriodInDays", required: true, type: .integer)
+            AWSShapeMember(label: "resourceCreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "configurationItemStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "resourceId", required: false, type: .string), 
+            AWSShapeMember(label: "accountId", required: false, type: .string), 
+            AWSShapeMember(label: "awsRegion", required: false, type: .string), 
+            AWSShapeMember(label: "configurationItemCaptureTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "resourceName", required: false, type: .string), 
+            AWSShapeMember(label: "supplementaryConfiguration", required: false, type: .map), 
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "configurationStateId", required: false, type: .string), 
+            AWSShapeMember(label: "configuration", required: false, type: .string), 
+            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "availabilityZone", required: false, type: .string)
         ]
-        /// Number of days AWS Config stores your historical information.  Currently, only applicable to the configuration item history. 
-        public let retentionPeriodInDays: Int32
+        /// The time stamp when the resource was created.
+        public let resourceCreationTime: TimeStamp?
+        /// The configuration item status.
+        public let configurationItemStatus: ConfigurationItemStatus?
+        /// The version number of the resource configuration.
+        public let version: String?
+        /// The ID of the resource (for example., sg-xxxxxx).
+        public let resourceId: String?
+        /// The 12-digit AWS account ID associated with the resource.
+        public let accountId: String?
+        /// The region where the resource resides.
+        public let awsRegion: String?
+        /// The time when the configuration recording was initiated.
+        public let configurationItemCaptureTime: TimeStamp?
+        /// The custom name of the resource, if available.
+        public let resourceName: String?
+        /// Configuration attributes that AWS Config returns for certain resource types to supplement the information returned for the configuration parameter.
+        public let supplementaryConfiguration: [String: String]?
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let arn: String?
+        /// An identifier that indicates the ordering of the configuration items of a resource.
+        public let configurationStateId: String?
+        /// The description of the resource configuration.
+        public let configuration: String?
+        /// The type of AWS resource.
+        public let resourceType: ResourceType?
+        /// The Availability Zone associated with the resource.
+        public let availabilityZone: String?
 
-        public init(retentionPeriodInDays: Int32) {
-            self.retentionPeriodInDays = retentionPeriodInDays
+        public init(accountId: String? = nil, arn: String? = nil, availabilityZone: String? = nil, awsRegion: String? = nil, configuration: String? = nil, configurationItemCaptureTime: TimeStamp? = nil, configurationItemStatus: ConfigurationItemStatus? = nil, configurationStateId: String? = nil, resourceCreationTime: TimeStamp? = nil, resourceId: String? = nil, resourceName: String? = nil, resourceType: ResourceType? = nil, supplementaryConfiguration: [String: String]? = nil, version: String? = nil) {
+            self.resourceCreationTime = resourceCreationTime
+            self.configurationItemStatus = configurationItemStatus
+            self.version = version
+            self.resourceId = resourceId
+            self.accountId = accountId
+            self.awsRegion = awsRegion
+            self.configurationItemCaptureTime = configurationItemCaptureTime
+            self.resourceName = resourceName
+            self.supplementaryConfiguration = supplementaryConfiguration
+            self.arn = arn
+            self.configurationStateId = configurationStateId
+            self.configuration = configuration
+            self.resourceType = resourceType
+            self.availabilityZone = availabilityZone
         }
 
         private enum CodingKeys: String, CodingKey {
-            case retentionPeriodInDays = "RetentionPeriodInDays"
+            case resourceCreationTime = "resourceCreationTime"
+            case configurationItemStatus = "configurationItemStatus"
+            case version = "version"
+            case resourceId = "resourceId"
+            case accountId = "accountId"
+            case awsRegion = "awsRegion"
+            case configurationItemCaptureTime = "configurationItemCaptureTime"
+            case resourceName = "resourceName"
+            case supplementaryConfiguration = "supplementaryConfiguration"
+            case arn = "arn"
+            case configurationStateId = "configurationStateId"
+            case configuration = "configuration"
+            case resourceType = "resourceType"
+            case availabilityZone = "availabilityZone"
         }
     }
 
-    public struct PendingAggregationRequest: AWSShape {
+    public struct DeleteConfigurationAggregatorRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequesterAccountId", required: false, type: .string), 
-            AWSShapeMember(label: "RequesterAwsRegion", required: false, type: .string)
+            AWSShapeMember(label: "ConfigurationAggregatorName", required: true, type: .string)
         ]
-        /// The 12-digit account ID of the account requesting to aggregate data.
-        public let requesterAccountId: String?
-        /// The region requesting to aggregate data. 
-        public let requesterAwsRegion: String?
+        /// The name of the configuration aggregator.
+        public let configurationAggregatorName: String
 
-        public init(requesterAccountId: String? = nil, requesterAwsRegion: String? = nil) {
-            self.requesterAccountId = requesterAccountId
-            self.requesterAwsRegion = requesterAwsRegion
+        public init(configurationAggregatorName: String) {
+            self.configurationAggregatorName = configurationAggregatorName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case requesterAccountId = "RequesterAccountId"
-            case requesterAwsRegion = "RequesterAwsRegion"
+            case configurationAggregatorName = "ConfigurationAggregatorName"
+        }
+    }
+
+    public struct DeleteEvaluationResultsResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct ListAggregateDiscoveredResourcesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationAggregatorName", required: true, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .structure), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "ResourceType", required: true, type: .enum), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The name of the configuration aggregator. 
+        public let configurationAggregatorName: String
+        /// Filters the results based on the ResourceFilters object.
+        public let filters: ResourceFilters?
+        /// The maximum number of resource identifiers returned on each page. The default is 100. You cannot specify a number greater than 100. If you specify 0, AWS Config uses the default.
+        public let limit: Int32?
+        /// The type of resources that you want AWS Config to list in the response.
+        public let resourceType: ResourceType
+        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+        public let nextToken: String?
+
+        public init(configurationAggregatorName: String, filters: ResourceFilters? = nil, limit: Int32? = nil, nextToken: String? = nil, resourceType: ResourceType) {
+            self.configurationAggregatorName = configurationAggregatorName
+            self.filters = filters
+            self.limit = limit
+            self.resourceType = resourceType
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationAggregatorName = "ConfigurationAggregatorName"
+            case filters = "Filters"
+            case limit = "Limit"
+            case resourceType = "ResourceType"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListDiscoveredResourcesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "resourceIdentifiers", required: false, type: .list)
+        ]
+        /// The string that you use in a subsequent request to get the next page of results in a paginated response.
+        public let nextToken: String?
+        /// The details that identify a resource that is discovered by AWS Config, including the resource type, ID, and (if available) the custom resource name.
+        public let resourceIdentifiers: [ResourceIdentifier]?
+
+        public init(nextToken: String? = nil, resourceIdentifiers: [ResourceIdentifier]? = nil) {
+            self.nextToken = nextToken
+            self.resourceIdentifiers = resourceIdentifiers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case resourceIdentifiers = "resourceIdentifiers"
+        }
+    }
+
+    public struct DeleteRetentionConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RetentionConfigurationName", required: true, type: .string)
+        ]
+        /// The name of the retention configuration to delete.
+        public let retentionConfigurationName: String
+
+        public init(retentionConfigurationName: String) {
+            self.retentionConfigurationName = retentionConfigurationName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case retentionConfigurationName = "RetentionConfigurationName"
+        }
+    }
+
+    public struct AggregateComplianceCount: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupName", required: false, type: .string), 
+            AWSShapeMember(label: "ComplianceSummary", required: false, type: .structure)
+        ]
+        /// The 12-digit account ID or region based on the GroupByKey value.
+        public let groupName: String?
+        /// The number of compliant and noncompliant AWS Config rules.
+        public let complianceSummary: ComplianceSummary?
+
+        public init(complianceSummary: ComplianceSummary? = nil, groupName: String? = nil) {
+            self.groupName = groupName
+            self.complianceSummary = complianceSummary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupName = "GroupName"
+            case complianceSummary = "ComplianceSummary"
+        }
+    }
+
+    public struct GetResourceConfigHistoryRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceId", required: true, type: .string), 
+            AWSShapeMember(label: "earlierTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "laterTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "limit", required: false, type: .integer), 
+            AWSShapeMember(label: "resourceType", required: true, type: .enum), 
+            AWSShapeMember(label: "chronologicalOrder", required: false, type: .enum)
+        ]
+        /// The ID of the resource (for example., sg-xxxxxx).
+        public let resourceId: String
+        /// The time stamp that indicates an earlier time. If not specified, the action returns paginated results that contain configuration items that start when the first configuration item was recorded.
+        public let earlierTime: TimeStamp?
+        /// The time stamp that indicates a later time. If not specified, current time is taken.
+        public let laterTime: TimeStamp?
+        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+        public let nextToken: String?
+        /// The maximum number of configuration items returned on each page. The default is 10. You cannot specify a number greater than 100. If you specify 0, AWS Config uses the default.
+        public let limit: Int32?
+        /// The resource type.
+        public let resourceType: ResourceType
+        /// The chronological order for configuration items listed. By default, the results are listed in reverse chronological order.
+        public let chronologicalOrder: ChronologicalOrder?
+
+        public init(chronologicalOrder: ChronologicalOrder? = nil, earlierTime: TimeStamp? = nil, laterTime: TimeStamp? = nil, limit: Int32? = nil, nextToken: String? = nil, resourceId: String, resourceType: ResourceType) {
+            self.resourceId = resourceId
+            self.earlierTime = earlierTime
+            self.laterTime = laterTime
+            self.nextToken = nextToken
+            self.limit = limit
+            self.resourceType = resourceType
+            self.chronologicalOrder = chronologicalOrder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "resourceId"
+            case earlierTime = "earlierTime"
+            case laterTime = "laterTime"
+            case nextToken = "nextToken"
+            case limit = "limit"
+            case resourceType = "resourceType"
+            case chronologicalOrder = "chronologicalOrder"
         }
     }
 
@@ -1437,415 +1359,71 @@ extension ConfigService {
         }
     }
 
-    public struct DescribeConfigurationRecordersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationRecorderNames", required: false, type: .list)
-        ]
-        /// A list of configuration recorder names.
-        public let configurationRecorderNames: [String]?
-
-        public init(configurationRecorderNames: [String]? = nil) {
-            self.configurationRecorderNames = configurationRecorderNames
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case configurationRecorderNames = "ConfigurationRecorderNames"
-        }
-    }
-
-    public struct ResourceCountFilters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "AccountId", required: false, type: .string), 
-            AWSShapeMember(label: "Region", required: false, type: .string)
-        ]
-        /// The type of the AWS resource.
-        public let resourceType: ResourceType?
-        /// The 12-digit ID of the account.
-        public let accountId: String?
-        /// The region where the account is located.
-        public let region: String?
-
-        public init(resourceType: ResourceType? = nil, accountId: String? = nil, region: String? = nil) {
-            self.resourceType = resourceType
-            self.accountId = accountId
-            self.region = region
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceType = "ResourceType"
-            case accountId = "AccountId"
-            case region = "Region"
-        }
-    }
-
-    public struct DescribeConfigurationAggregatorsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "ConfigurationAggregatorNames", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The maximum number of configuration aggregators returned on each page. The default is maximum. If you specify 0, AWS Config uses the default.
-        public let limit: Int32?
-        /// The name of the configuration aggregators.
-        public let configurationAggregatorNames: [String]?
-        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
-        public let nextToken: String?
-
-        public init(limit: Int32? = nil, configurationAggregatorNames: [String]? = nil, nextToken: String? = nil) {
-            self.limit = limit
-            self.configurationAggregatorNames = configurationAggregatorNames
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case limit = "Limit"
-            case configurationAggregatorNames = "ConfigurationAggregatorNames"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct AggregateEvaluationResult: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Annotation", required: false, type: .string), 
-            AWSShapeMember(label: "AwsRegion", required: false, type: .string), 
-            AWSShapeMember(label: "EvaluationResultIdentifier", required: false, type: .structure), 
-            AWSShapeMember(label: "ResultRecordedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "AccountId", required: false, type: .string), 
-            AWSShapeMember(label: "ComplianceType", required: false, type: .enum), 
-            AWSShapeMember(label: "ConfigRuleInvokedTime", required: false, type: .timestamp)
-        ]
-        /// Supplementary information about how the agrregate evaluation determined the compliance.
-        public let annotation: String?
-        /// The source region from where the data is aggregated.
-        public let awsRegion: String?
-        /// Uniquely identifies the evaluation result.
-        public let evaluationResultIdentifier: EvaluationResultIdentifier?
-        /// The time when AWS Config recorded the aggregate evaluation result.
-        public let resultRecordedTime: TimeStamp?
-        /// The 12-digit account ID of the source account.
-        public let accountId: String?
-        /// The resource compliance status. For the AggregationEvaluationResult data type, AWS Config supports only the COMPLIANT and NON_COMPLIANT. AWS Config does not support the NOT_APPLICABLE and INSUFFICIENT_DATA value.
-        public let complianceType: ComplianceType?
-        /// The time when the AWS Config rule evaluated the AWS resource.
-        public let configRuleInvokedTime: TimeStamp?
-
-        public init(annotation: String? = nil, awsRegion: String? = nil, evaluationResultIdentifier: EvaluationResultIdentifier? = nil, resultRecordedTime: TimeStamp? = nil, accountId: String? = nil, complianceType: ComplianceType? = nil, configRuleInvokedTime: TimeStamp? = nil) {
-            self.annotation = annotation
-            self.awsRegion = awsRegion
-            self.evaluationResultIdentifier = evaluationResultIdentifier
-            self.resultRecordedTime = resultRecordedTime
-            self.accountId = accountId
-            self.complianceType = complianceType
-            self.configRuleInvokedTime = configRuleInvokedTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case annotation = "Annotation"
-            case awsRegion = "AwsRegion"
-            case evaluationResultIdentifier = "EvaluationResultIdentifier"
-            case resultRecordedTime = "ResultRecordedTime"
-            case accountId = "AccountId"
-            case complianceType = "ComplianceType"
-            case configRuleInvokedTime = "ConfigRuleInvokedTime"
-        }
-    }
-
-    public struct DeleteDeliveryChannelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeliveryChannelName", required: true, type: .string)
-        ]
-        /// The name of the delivery channel to delete.
-        public let deliveryChannelName: String
-
-        public init(deliveryChannelName: String) {
-            self.deliveryChannelName = deliveryChannelName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deliveryChannelName = "DeliveryChannelName"
-        }
-    }
-
     public struct GetAggregateConfigRuleComplianceSummaryRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "GroupByKey", required: false, type: .enum), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "ConfigurationAggregatorName", required: true, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "GroupByKey", required: false, type: .enum), 
             AWSShapeMember(label: "Filters", required: false, type: .structure)
         ]
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
-        /// Groups the result based on ACCOUNT_ID or AWS_REGION.
-        public let groupByKey: ConfigRuleComplianceSummaryGroupKey?
-        /// The maximum number of evaluation results returned on each page. The default is 1000. You cannot specify a number greater than 1000. If you specify 0, AWS Config uses the default.
-        public let limit: Int32?
         /// The name of the configuration aggregator.
         public let configurationAggregatorName: String
+        /// The maximum number of evaluation results returned on each page. The default is 1000. You cannot specify a number greater than 1000. If you specify 0, AWS Config uses the default.
+        public let limit: Int32?
+        /// Groups the result based on ACCOUNT_ID or AWS_REGION.
+        public let groupByKey: ConfigRuleComplianceSummaryGroupKey?
         /// Filters the results based on the ConfigRuleComplianceSummaryFilters object.
         public let filters: ConfigRuleComplianceSummaryFilters?
 
-        public init(nextToken: String? = nil, groupByKey: ConfigRuleComplianceSummaryGroupKey? = nil, limit: Int32? = nil, configurationAggregatorName: String, filters: ConfigRuleComplianceSummaryFilters? = nil) {
+        public init(configurationAggregatorName: String, filters: ConfigRuleComplianceSummaryFilters? = nil, groupByKey: ConfigRuleComplianceSummaryGroupKey? = nil, limit: Int32? = nil, nextToken: String? = nil) {
             self.nextToken = nextToken
-            self.groupByKey = groupByKey
-            self.limit = limit
             self.configurationAggregatorName = configurationAggregatorName
+            self.limit = limit
+            self.groupByKey = groupByKey
             self.filters = filters
         }
 
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
-            case groupByKey = "GroupByKey"
-            case limit = "Limit"
             case configurationAggregatorName = "ConfigurationAggregatorName"
+            case limit = "Limit"
+            case groupByKey = "GroupByKey"
             case filters = "Filters"
         }
     }
 
-    public enum ConfigRuleState: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
-        case deleting = "DELETING"
-        case deletingResults = "DELETING_RESULTS"
-        case evaluating = "EVALUATING"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct PutRetentionConfigurationResponse: AWSShape {
+    public struct PutDeliveryChannelRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RetentionConfiguration", required: false, type: .structure)
+            AWSShapeMember(label: "DeliveryChannel", required: true, type: .structure)
         ]
-        /// Returns a retention configuration object.
-        public let retentionConfiguration: RetentionConfiguration?
+        /// The configuration delivery channel object that delivers the configuration information to an Amazon S3 bucket and to an Amazon SNS topic.
+        public let deliveryChannel: DeliveryChannel
 
-        public init(retentionConfiguration: RetentionConfiguration? = nil) {
-            self.retentionConfiguration = retentionConfiguration
+        public init(deliveryChannel: DeliveryChannel) {
+            self.deliveryChannel = deliveryChannel
         }
 
         private enum CodingKeys: String, CodingKey {
-            case retentionConfiguration = "RetentionConfiguration"
+            case deliveryChannel = "DeliveryChannel"
         }
     }
 
-    public struct GetAggregateDiscoveredResourceCountsRequest: AWSShape {
+    public struct PutAggregationAuthorizationResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "GroupByKey", required: false, type: .enum), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "ConfigurationAggregatorName", required: true, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .structure)
+            AWSShapeMember(label: "AggregationAuthorization", required: false, type: .structure)
         ]
-        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response. 
-        public let nextToken: String?
-        /// The key to group the resource counts.
-        public let groupByKey: ResourceCountGroupKey?
-        /// The maximum number of GroupedResourceCount objects returned on each page. The default is 1000. You cannot specify a number greater than 1000. If you specify 0, AWS Config uses the default.
-        public let limit: Int32?
-        /// The name of the configuration aggregator.
-        public let configurationAggregatorName: String
-        /// Filters the results based on the ResourceCountFilters object.
-        public let filters: ResourceCountFilters?
+        /// Returns an AggregationAuthorization object. 
+        public let aggregationAuthorization: AggregationAuthorization?
 
-        public init(nextToken: String? = nil, groupByKey: ResourceCountGroupKey? = nil, limit: Int32? = nil, configurationAggregatorName: String, filters: ResourceCountFilters? = nil) {
-            self.nextToken = nextToken
-            self.groupByKey = groupByKey
-            self.limit = limit
-            self.configurationAggregatorName = configurationAggregatorName
-            self.filters = filters
+        public init(aggregationAuthorization: AggregationAuthorization? = nil) {
+            self.aggregationAuthorization = aggregationAuthorization
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case groupByKey = "GroupByKey"
-            case limit = "Limit"
-            case configurationAggregatorName = "ConfigurationAggregatorName"
-            case filters = "Filters"
-        }
-    }
-
-    public struct ListAggregateDiscoveredResourcesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceIdentifiers", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Returns a list of ResourceIdentifiers objects.
-        public let resourceIdentifiers: [AggregateResourceIdentifier]?
-        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
-        public let nextToken: String?
-
-        public init(resourceIdentifiers: [AggregateResourceIdentifier]? = nil, nextToken: String? = nil) {
-            self.resourceIdentifiers = resourceIdentifiers
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceIdentifiers = "ResourceIdentifiers"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public enum AggregatedSourceStatusType: String, CustomStringConvertible, Codable {
-        case failed = "FAILED"
-        case succeeded = "SUCCEEDED"
-        case outdated = "OUTDATED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeConfigurationAggregatorSourcesStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "UpdateStatus", required: false, type: .list), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "ConfigurationAggregatorName", required: true, type: .string)
-        ]
-        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
-        public let nextToken: String?
-        /// Filters the status type.   Valid value FAILED indicates errors while moving data.   Valid value SUCCEEDED indicates the data was successfully moved.   Valid value OUTDATED indicates the data is not the most recent.  
-        public let updateStatus: [AggregatedSourceStatusType]?
-        /// The maximum number of AggregatorSourceStatus returned on each page. The default is maximum. If you specify 0, AWS Config uses the default.
-        public let limit: Int32?
-        /// The name of the configuration aggregator.
-        public let configurationAggregatorName: String
-
-        public init(nextToken: String? = nil, updateStatus: [AggregatedSourceStatusType]? = nil, limit: Int32? = nil, configurationAggregatorName: String) {
-            self.nextToken = nextToken
-            self.updateStatus = updateStatus
-            self.limit = limit
-            self.configurationAggregatorName = configurationAggregatorName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case updateStatus = "UpdateStatus"
-            case limit = "Limit"
-            case configurationAggregatorName = "ConfigurationAggregatorName"
-        }
-    }
-
-    public struct DescribeRetentionConfigurationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RetentionConfigurations", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Returns a retention configuration object.
-        public let retentionConfigurations: [RetentionConfiguration]?
-        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response. 
-        public let nextToken: String?
-
-        public init(retentionConfigurations: [RetentionConfiguration]? = nil, nextToken: String? = nil) {
-            self.retentionConfigurations = retentionConfigurations
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case retentionConfigurations = "RetentionConfigurations"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public enum Owner: String, CustomStringConvertible, Codable {
-        case customLambda = "CUSTOM_LAMBDA"
-        case aws = "AWS"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetComplianceSummaryByResourceTypeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComplianceSummariesByResourceType", required: false, type: .list)
-        ]
-        /// The number of resources that are compliant and the number that are noncompliant. If one or more resource types were provided with the request, the numbers are returned for each resource type. The maximum number returned is 100.
-        public let complianceSummariesByResourceType: [ComplianceSummaryByResourceType]?
-
-        public init(complianceSummariesByResourceType: [ComplianceSummaryByResourceType]? = nil) {
-            self.complianceSummariesByResourceType = complianceSummariesByResourceType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case complianceSummariesByResourceType = "ComplianceSummariesByResourceType"
-        }
-    }
-
-    public struct PutEvaluationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailedEvaluations", required: false, type: .list)
-        ]
-        /// Requests that failed because of a client or server error.
-        public let failedEvaluations: [Evaluation]?
-
-        public init(failedEvaluations: [Evaluation]? = nil) {
-            self.failedEvaluations = failedEvaluations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case failedEvaluations = "FailedEvaluations"
-        }
-    }
-
-    public struct EvaluationResultQualifier: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceType", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "ConfigRuleName", required: false, type: .string)
-        ]
-        /// The type of AWS resource that was evaluated.
-        public let resourceType: String?
-        /// The ID of the evaluated AWS resource.
-        public let resourceId: String?
-        /// The name of the AWS Config rule that was used in the evaluation.
-        public let configRuleName: String?
-
-        public init(resourceType: String? = nil, resourceId: String? = nil, configRuleName: String? = nil) {
-            self.resourceType = resourceType
-            self.resourceId = resourceId
-            self.configRuleName = configRuleName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceType = "ResourceType"
-            case resourceId = "ResourceId"
-            case configRuleName = "ConfigRuleName"
-        }
-    }
-
-    public struct DescribeDeliveryChannelsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeliveryChannelNames", required: false, type: .list)
-        ]
-        /// A list of delivery channel names.
-        public let deliveryChannelNames: [String]?
-
-        public init(deliveryChannelNames: [String]? = nil) {
-            self.deliveryChannelNames = deliveryChannelNames
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deliveryChannelNames = "DeliveryChannelNames"
-        }
-    }
-
-    public struct GetDiscoveredResourceCountsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "limit", required: false, type: .integer), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceTypes", required: false, type: .list)
-        ]
-        /// The maximum number of ResourceCount objects returned on each page. The default is 100. You cannot specify a number greater than 100. If you specify 0, AWS Config uses the default.
-        public let limit: Int32?
-        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
-        public let nextToken: String?
-        /// The comma-separated list that specifies the resource types that you want AWS Config to return (for example, "AWS::EC2::Instance", "AWS::IAM::User"). If a value for resourceTypes is not specified, AWS Config returns all resource types that AWS Config is recording in the region for your account.  If the configuration recorder is turned off, AWS Config returns an empty list of ResourceCount objects. If the configuration recorder is not recording a specific resource type (for example, S3 buckets), that resource type is not returned in the list of ResourceCount objects. 
-        public let resourceTypes: [String]?
-
-        public init(limit: Int32? = nil, nextToken: String? = nil, resourceTypes: [String]? = nil) {
-            self.limit = limit
-            self.nextToken = nextToken
-            self.resourceTypes = resourceTypes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case limit = "limit"
-            case nextToken = "nextToken"
-            case resourceTypes = "resourceTypes"
+            case aggregationAuthorization = "AggregationAuthorization"
         }
     }
 
@@ -1865,7 +1443,7 @@ extension ConfigService {
         /// Filters the results by ConfigRuleComplianceFilters object. 
         public let filters: ConfigRuleComplianceFilters?
 
-        public init(nextToken: String? = nil, limit: Int32? = nil, configurationAggregatorName: String, filters: ConfigRuleComplianceFilters? = nil) {
+        public init(configurationAggregatorName: String, filters: ConfigRuleComplianceFilters? = nil, limit: Int32? = nil, nextToken: String? = nil) {
             self.nextToken = nextToken
             self.limit = limit
             self.configurationAggregatorName = configurationAggregatorName
@@ -1880,66 +1458,324 @@ extension ConfigService {
         }
     }
 
-    public struct DeliverConfigSnapshotRequest: AWSShape {
+    public struct ResourceKey: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "deliveryChannelName", required: true, type: .string)
+            AWSShapeMember(label: "resourceId", required: true, type: .string), 
+            AWSShapeMember(label: "resourceType", required: true, type: .enum)
         ]
-        /// The name of the delivery channel through which the snapshot is delivered.
-        public let deliveryChannelName: String
+        /// The ID of the resource (for example., sg-xxxxxx). 
+        public let resourceId: String
+        /// The resource type.
+        public let resourceType: ResourceType
 
-        public init(deliveryChannelName: String) {
-            self.deliveryChannelName = deliveryChannelName
+        public init(resourceId: String, resourceType: ResourceType) {
+            self.resourceId = resourceId
+            self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deliveryChannelName = "deliveryChannelName"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
         }
     }
 
-    public struct DeliveryChannelStatus: AWSShape {
+    public struct ConfigurationAggregator: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "configStreamDeliveryInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "configSnapshotDeliveryInfo", required: false, type: .structure), 
-            AWSShapeMember(label: "configHistoryDeliveryInfo", required: false, type: .structure)
+            AWSShapeMember(label: "ConfigurationAggregatorArn", required: false, type: .string), 
+            AWSShapeMember(label: "ConfigurationAggregatorName", required: false, type: .string), 
+            AWSShapeMember(label: "AccountAggregationSources", required: false, type: .list), 
+            AWSShapeMember(label: "OrganizationAggregationSource", required: false, type: .structure), 
+            AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp)
         ]
-        /// The name of the delivery channel.
-        public let name: String?
-        /// A list containing the status of the delivery of the configuration stream notification to the specified Amazon SNS topic.
-        public let configStreamDeliveryInfo: ConfigStreamDeliveryInfo?
-        /// A list containing the status of the delivery of the snapshot to the specified Amazon S3 bucket.
-        public let configSnapshotDeliveryInfo: ConfigExportDeliveryInfo?
-        /// A list that contains the status of the delivery of the configuration history to the specified Amazon S3 bucket.
-        public let configHistoryDeliveryInfo: ConfigExportDeliveryInfo?
+        /// The Amazon Resource Name (ARN) of the aggregator.
+        public let configurationAggregatorArn: String?
+        /// The name of the aggregator.
+        public let configurationAggregatorName: String?
+        /// Provides a list of source accounts and regions to be aggregated.
+        public let accountAggregationSources: [AccountAggregationSource]?
+        /// Provides an organization and list of regions to be aggregated.
+        public let organizationAggregationSource: OrganizationAggregationSource?
+        /// The time of the last update.
+        public let lastUpdatedTime: TimeStamp?
+        /// The time stamp when the configuration aggregator was created.
+        public let creationTime: TimeStamp?
 
-        public init(name: String? = nil, configStreamDeliveryInfo: ConfigStreamDeliveryInfo? = nil, configSnapshotDeliveryInfo: ConfigExportDeliveryInfo? = nil, configHistoryDeliveryInfo: ConfigExportDeliveryInfo? = nil) {
-            self.name = name
-            self.configStreamDeliveryInfo = configStreamDeliveryInfo
-            self.configSnapshotDeliveryInfo = configSnapshotDeliveryInfo
-            self.configHistoryDeliveryInfo = configHistoryDeliveryInfo
+        public init(accountAggregationSources: [AccountAggregationSource]? = nil, configurationAggregatorArn: String? = nil, configurationAggregatorName: String? = nil, creationTime: TimeStamp? = nil, lastUpdatedTime: TimeStamp? = nil, organizationAggregationSource: OrganizationAggregationSource? = nil) {
+            self.configurationAggregatorArn = configurationAggregatorArn
+            self.configurationAggregatorName = configurationAggregatorName
+            self.accountAggregationSources = accountAggregationSources
+            self.organizationAggregationSource = organizationAggregationSource
+            self.lastUpdatedTime = lastUpdatedTime
+            self.creationTime = creationTime
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case configStreamDeliveryInfo = "configStreamDeliveryInfo"
-            case configSnapshotDeliveryInfo = "configSnapshotDeliveryInfo"
-            case configHistoryDeliveryInfo = "configHistoryDeliveryInfo"
+            case configurationAggregatorArn = "ConfigurationAggregatorArn"
+            case configurationAggregatorName = "ConfigurationAggregatorName"
+            case accountAggregationSources = "AccountAggregationSources"
+            case organizationAggregationSource = "OrganizationAggregationSource"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case creationTime = "CreationTime"
         }
     }
 
-    public struct DeliverConfigSnapshotResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "configSnapshotId", required: false, type: .string)
-        ]
-        /// The ID of the snapshot that is being created.
-        public let configSnapshotId: String?
+    public enum AggregatedSourceStatusType: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
+        case succeeded = "SUCCEEDED"
+        case outdated = "OUTDATED"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(configSnapshotId: String? = nil) {
-            self.configSnapshotId = configSnapshotId
+    public struct GetDiscoveredResourceCountsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "totalDiscoveredResources", required: false, type: .long), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "resourceCounts", required: false, type: .list)
+        ]
+        /// The total number of resources that AWS Config is recording in the region for your account. If you specify resource types in the request, AWS Config returns only the total number of resources for those resource types.  Example    AWS Config is recording three resource types in the US East (Ohio) Region for your account: 25 EC2 instances, 20 IAM users, and 15 S3 buckets, for a total of 60 resources.   You make a call to the GetDiscoveredResourceCounts action and specify the resource type, "AWS::EC2::Instances", in the request.   AWS Config returns 25 for totalDiscoveredResources.  
+        public let totalDiscoveredResources: Int64?
+        /// The string that you use in a subsequent request to get the next page of results in a paginated response.
+        public let nextToken: String?
+        /// The list of ResourceCount objects. Each object is listed in descending order by the number of resources.
+        public let resourceCounts: [ResourceCount]?
+
+        public init(nextToken: String? = nil, resourceCounts: [ResourceCount]? = nil, totalDiscoveredResources: Int64? = nil) {
+            self.totalDiscoveredResources = totalDiscoveredResources
+            self.nextToken = nextToken
+            self.resourceCounts = resourceCounts
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configSnapshotId = "configSnapshotId"
+            case totalDiscoveredResources = "totalDiscoveredResources"
+            case nextToken = "nextToken"
+            case resourceCounts = "resourceCounts"
+        }
+    }
+
+    public struct PutConfigurationAggregatorResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationAggregator", required: false, type: .structure)
+        ]
+        /// Returns a ConfigurationAggregator object.
+        public let configurationAggregator: ConfigurationAggregator?
+
+        public init(configurationAggregator: ConfigurationAggregator? = nil) {
+            self.configurationAggregator = configurationAggregator
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationAggregator = "ConfigurationAggregator"
+        }
+    }
+
+    public struct EvaluationResultIdentifier: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrderingTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EvaluationResultQualifier", required: false, type: .structure)
+        ]
+        /// The time of the event that triggered the evaluation of your AWS resources. The time can indicate when AWS Config delivered a configuration item change notification, or it can indicate when AWS Config delivered the configuration snapshot, depending on which event triggered the evaluation.
+        public let orderingTimestamp: TimeStamp?
+        /// Identifies an AWS Config rule used to evaluate an AWS resource, and provides the type and ID of the evaluated resource.
+        public let evaluationResultQualifier: EvaluationResultQualifier?
+
+        public init(evaluationResultQualifier: EvaluationResultQualifier? = nil, orderingTimestamp: TimeStamp? = nil) {
+            self.orderingTimestamp = orderingTimestamp
+            self.evaluationResultQualifier = evaluationResultQualifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case orderingTimestamp = "OrderingTimestamp"
+            case evaluationResultQualifier = "EvaluationResultQualifier"
+        }
+    }
+
+    public struct BatchGetAggregateResourceConfigResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UnprocessedResourceIdentifiers", required: false, type: .list), 
+            AWSShapeMember(label: "BaseConfigurationItems", required: false, type: .list)
+        ]
+        /// A list of resource identifiers that were not processed with current scope. The list is empty if all the resources are processed.
+        public let unprocessedResourceIdentifiers: [AggregateResourceIdentifier]?
+        /// A list that contains the current configuration of one or more resources.
+        public let baseConfigurationItems: [BaseConfigurationItem]?
+
+        public init(baseConfigurationItems: [BaseConfigurationItem]? = nil, unprocessedResourceIdentifiers: [AggregateResourceIdentifier]? = nil) {
+            self.unprocessedResourceIdentifiers = unprocessedResourceIdentifiers
+            self.baseConfigurationItems = baseConfigurationItems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case unprocessedResourceIdentifiers = "UnprocessedResourceIdentifiers"
+            case baseConfigurationItems = "BaseConfigurationItems"
+        }
+    }
+
+    public struct DescribeRetentionConfigurationsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "RetentionConfigurations", required: false, type: .list)
+        ]
+        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response. 
+        public let nextToken: String?
+        /// Returns a retention configuration object.
+        public let retentionConfigurations: [RetentionConfiguration]?
+
+        public init(nextToken: String? = nil, retentionConfigurations: [RetentionConfiguration]? = nil) {
+            self.nextToken = nextToken
+            self.retentionConfigurations = retentionConfigurations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case retentionConfigurations = "RetentionConfigurations"
+        }
+    }
+
+    public struct PutRetentionConfigurationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RetentionConfiguration", required: false, type: .structure)
+        ]
+        /// Returns a retention configuration object.
+        public let retentionConfiguration: RetentionConfiguration?
+
+        public init(retentionConfiguration: RetentionConfiguration? = nil) {
+            self.retentionConfiguration = retentionConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case retentionConfiguration = "RetentionConfiguration"
+        }
+    }
+
+    public struct DescribeConfigurationAggregatorsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "ConfigurationAggregatorNames", required: false, type: .list)
+        ]
+        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+        public let nextToken: String?
+        /// The maximum number of configuration aggregators returned on each page. The default is maximum. If you specify 0, AWS Config uses the default.
+        public let limit: Int32?
+        /// The name of the configuration aggregators.
+        public let configurationAggregatorNames: [String]?
+
+        public init(configurationAggregatorNames: [String]? = nil, limit: Int32? = nil, nextToken: String? = nil) {
+            self.nextToken = nextToken
+            self.limit = limit
+            self.configurationAggregatorNames = configurationAggregatorNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case limit = "Limit"
+            case configurationAggregatorNames = "ConfigurationAggregatorNames"
+        }
+    }
+
+    public struct GetAggregateDiscoveredResourceCountsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupByKey", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "GroupedResourceCounts", required: false, type: .list), 
+            AWSShapeMember(label: "TotalDiscoveredResources", required: true, type: .long)
+        ]
+        /// The key passed into the request object. If GroupByKey is not provided, the result will be empty.
+        public let groupByKey: String?
+        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+        public let nextToken: String?
+        /// Returns a list of GroupedResourceCount objects.
+        public let groupedResourceCounts: [GroupedResourceCount]?
+        /// The total number of resources that are present in an aggregator with the filters that you provide.
+        public let totalDiscoveredResources: Int64
+
+        public init(groupByKey: String? = nil, groupedResourceCounts: [GroupedResourceCount]? = nil, nextToken: String? = nil, totalDiscoveredResources: Int64) {
+            self.groupByKey = groupByKey
+            self.nextToken = nextToken
+            self.groupedResourceCounts = groupedResourceCounts
+            self.totalDiscoveredResources = totalDiscoveredResources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupByKey = "GroupByKey"
+            case nextToken = "NextToken"
+            case groupedResourceCounts = "GroupedResourceCounts"
+            case totalDiscoveredResources = "TotalDiscoveredResources"
+        }
+    }
+
+    public struct Compliance: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComplianceType", required: false, type: .enum), 
+            AWSShapeMember(label: "ComplianceContributorCount", required: false, type: .structure)
+        ]
+        /// Indicates whether an AWS resource or AWS Config rule is compliant. A resource is compliant if it complies with all of the AWS Config rules that evaluate it. A resource is noncompliant if it does not comply with one or more of these rules. A rule is compliant if all of the resources that the rule evaluates comply with it. A rule is noncompliant if any of these resources do not comply. AWS Config returns the INSUFFICIENT_DATA value when no evaluation results are available for the AWS resource or AWS Config rule. For the Compliance data type, AWS Config supports only COMPLIANT, NON_COMPLIANT, and INSUFFICIENT_DATA values. AWS Config does not support the NOT_APPLICABLE value for the Compliance data type.
+        public let complianceType: ComplianceType?
+        /// The number of AWS resources or AWS Config rules that cause a result of NON_COMPLIANT, up to a maximum number.
+        public let complianceContributorCount: ComplianceContributorCount?
+
+        public init(complianceContributorCount: ComplianceContributorCount? = nil, complianceType: ComplianceType? = nil) {
+            self.complianceType = complianceType
+            self.complianceContributorCount = complianceContributorCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case complianceType = "ComplianceType"
+            case complianceContributorCount = "ComplianceContributorCount"
+        }
+    }
+
+    public struct GetComplianceSummaryByResourceTypeResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComplianceSummariesByResourceType", required: false, type: .list)
+        ]
+        /// The number of resources that are compliant and the number that are noncompliant. If one or more resource types were provided with the request, the numbers are returned for each resource type. The maximum number returned is 100.
+        public let complianceSummariesByResourceType: [ComplianceSummaryByResourceType]?
+
+        public init(complianceSummariesByResourceType: [ComplianceSummaryByResourceType]? = nil) {
+            self.complianceSummariesByResourceType = complianceSummariesByResourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case complianceSummariesByResourceType = "ComplianceSummariesByResourceType"
+        }
+    }
+
+    public struct DescribeComplianceByResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ComplianceByResources", required: false, type: .list)
+        ]
+        /// The string that you use in a subsequent request to get the next page of results in a paginated response.
+        public let nextToken: String?
+        /// Indicates whether the specified AWS resource complies with all of the AWS Config rules that evaluate it.
+        public let complianceByResources: [ComplianceByResource]?
+
+        public init(complianceByResources: [ComplianceByResource]? = nil, nextToken: String? = nil) {
+            self.nextToken = nextToken
+            self.complianceByResources = complianceByResources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case complianceByResources = "ComplianceByResources"
+        }
+    }
+
+    public struct PutRetentionConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RetentionPeriodInDays", required: true, type: .integer)
+        ]
+        /// Number of days AWS Config stores your historical information.  Currently, only applicable to the configuration item history. 
+        public let retentionPeriodInDays: Int32
+
+        public init(retentionPeriodInDays: Int32) {
+            self.retentionPeriodInDays = retentionPeriodInDays
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case retentionPeriodInDays = "RetentionPeriodInDays"
         }
     }
 
@@ -1964,133 +1800,155 @@ extension ConfigService {
         }
     }
 
-    public struct ListDiscoveredResourcesRequest: AWSShape {
+    public struct AggregateComplianceByConfigRule: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceType", required: true, type: .enum), 
-            AWSShapeMember(label: "resourceName", required: false, type: .string), 
-            AWSShapeMember(label: "resourceIds", required: false, type: .list), 
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "includeDeletedResources", required: false, type: .boolean), 
-            AWSShapeMember(label: "limit", required: false, type: .integer)
+            AWSShapeMember(label: "AwsRegion", required: false, type: .string), 
+            AWSShapeMember(label: "Compliance", required: false, type: .structure), 
+            AWSShapeMember(label: "AccountId", required: false, type: .string), 
+            AWSShapeMember(label: "ConfigRuleName", required: false, type: .string)
         ]
-        /// The type of resources that you want AWS Config to list in the response.
-        public let resourceType: ResourceType
-        /// The custom name of only those resources that you want AWS Config to list in the response. If you do not specify this parameter, AWS Config lists all resources of the specified type that it has discovered.
-        public let resourceName: String?
-        /// The IDs of only those resources that you want AWS Config to list in the response. If you do not specify this parameter, AWS Config lists all resources of the specified type that it has discovered.
-        public let resourceIds: [String]?
-        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
-        public let nextToken: String?
-        /// Specifies whether AWS Config includes deleted resources in the results. By default, deleted resources are not included.
-        public let includeDeletedResources: Bool?
-        /// The maximum number of resource identifiers returned on each page. The default is 100. You cannot specify a number greater than 100. If you specify 0, AWS Config uses the default.
-        public let limit: Int32?
+        /// The source region from where the data is aggregated.
+        public let awsRegion: String?
+        /// Indicates whether an AWS resource or AWS Config rule is compliant and provides the number of contributors that affect the compliance.
+        public let compliance: Compliance?
+        /// The 12-digit account ID of the source account.
+        public let accountId: String?
+        /// The name of the AWS Config rule.
+        public let configRuleName: String?
 
-        public init(resourceType: ResourceType, resourceName: String? = nil, resourceIds: [String]? = nil, nextToken: String? = nil, includeDeletedResources: Bool? = nil, limit: Int32? = nil) {
-            self.resourceType = resourceType
-            self.resourceName = resourceName
-            self.resourceIds = resourceIds
-            self.nextToken = nextToken
-            self.includeDeletedResources = includeDeletedResources
-            self.limit = limit
+        public init(accountId: String? = nil, awsRegion: String? = nil, compliance: Compliance? = nil, configRuleName: String? = nil) {
+            self.awsRegion = awsRegion
+            self.compliance = compliance
+            self.accountId = accountId
+            self.configRuleName = configRuleName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceType = "resourceType"
-            case resourceName = "resourceName"
-            case resourceIds = "resourceIds"
-            case nextToken = "nextToken"
-            case includeDeletedResources = "includeDeletedResources"
-            case limit = "limit"
+            case awsRegion = "AwsRegion"
+            case compliance = "Compliance"
+            case accountId = "AccountId"
+            case configRuleName = "ConfigRuleName"
         }
     }
 
-    public struct ConfigurationAggregator: AWSShape {
+    public struct DeliverConfigSnapshotRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OrganizationAggregationSource", required: false, type: .structure), 
-            AWSShapeMember(label: "AccountAggregationSources", required: false, type: .list), 
-            AWSShapeMember(label: "ConfigurationAggregatorArn", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ConfigurationAggregatorName", required: false, type: .string)
+            AWSShapeMember(label: "deliveryChannelName", required: true, type: .string)
         ]
-        /// Provides an organization and list of regions to be aggregated.
-        public let organizationAggregationSource: OrganizationAggregationSource?
-        /// Provides a list of source accounts and regions to be aggregated.
-        public let accountAggregationSources: [AccountAggregationSource]?
-        /// The Amazon Resource Name (ARN) of the aggregator.
-        public let configurationAggregatorArn: String?
-        /// The time stamp when the configuration aggregator was created.
-        public let creationTime: TimeStamp?
-        /// The time of the last update.
-        public let lastUpdatedTime: TimeStamp?
-        /// The name of the aggregator.
-        public let configurationAggregatorName: String?
+        /// The name of the delivery channel through which the snapshot is delivered.
+        public let deliveryChannelName: String
 
-        public init(organizationAggregationSource: OrganizationAggregationSource? = nil, accountAggregationSources: [AccountAggregationSource]? = nil, configurationAggregatorArn: String? = nil, creationTime: TimeStamp? = nil, lastUpdatedTime: TimeStamp? = nil, configurationAggregatorName: String? = nil) {
-            self.organizationAggregationSource = organizationAggregationSource
-            self.accountAggregationSources = accountAggregationSources
-            self.configurationAggregatorArn = configurationAggregatorArn
-            self.creationTime = creationTime
-            self.lastUpdatedTime = lastUpdatedTime
-            self.configurationAggregatorName = configurationAggregatorName
+        public init(deliveryChannelName: String) {
+            self.deliveryChannelName = deliveryChannelName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case organizationAggregationSource = "OrganizationAggregationSource"
-            case accountAggregationSources = "AccountAggregationSources"
-            case configurationAggregatorArn = "ConfigurationAggregatorArn"
-            case creationTime = "CreationTime"
-            case lastUpdatedTime = "LastUpdatedTime"
-            case configurationAggregatorName = "ConfigurationAggregatorName"
+            case deliveryChannelName = "deliveryChannelName"
         }
     }
 
-    public struct AggregationAuthorization: AWSShape {
+    public struct PutAggregationAuthorizationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthorizedAwsRegion", required: false, type: .string), 
-            AWSShapeMember(label: "AggregationAuthorizationArn", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "AuthorizedAccountId", required: false, type: .string)
+            AWSShapeMember(label: "AuthorizedAwsRegion", required: true, type: .string), 
+            AWSShapeMember(label: "AuthorizedAccountId", required: true, type: .string)
         ]
         /// The region authorized to collect aggregated data.
-        public let authorizedAwsRegion: String?
-        /// The Amazon Resource Name (ARN) of the aggregation object.
-        public let aggregationAuthorizationArn: String?
-        /// The time stamp when the aggregation authorization was created.
-        public let creationTime: TimeStamp?
+        public let authorizedAwsRegion: String
         /// The 12-digit account ID of the account authorized to aggregate data.
-        public let authorizedAccountId: String?
+        public let authorizedAccountId: String
 
-        public init(authorizedAwsRegion: String? = nil, aggregationAuthorizationArn: String? = nil, creationTime: TimeStamp? = nil, authorizedAccountId: String? = nil) {
+        public init(authorizedAccountId: String, authorizedAwsRegion: String) {
             self.authorizedAwsRegion = authorizedAwsRegion
-            self.aggregationAuthorizationArn = aggregationAuthorizationArn
-            self.creationTime = creationTime
             self.authorizedAccountId = authorizedAccountId
         }
 
         private enum CodingKeys: String, CodingKey {
             case authorizedAwsRegion = "AuthorizedAwsRegion"
-            case aggregationAuthorizationArn = "AggregationAuthorizationArn"
-            case creationTime = "CreationTime"
             case authorizedAccountId = "AuthorizedAccountId"
         }
     }
 
-    public struct DeleteConfigRuleRequest: AWSShape {
+    public struct DescribeDeliveryChannelStatusRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigRuleName", required: true, type: .string)
+            AWSShapeMember(label: "DeliveryChannelNames", required: false, type: .list)
         ]
-        /// The name of the AWS Config rule that you want to delete.
-        public let configRuleName: String
+        /// A list of delivery channel names.
+        public let deliveryChannelNames: [String]?
 
-        public init(configRuleName: String) {
-            self.configRuleName = configRuleName
+        public init(deliveryChannelNames: [String]? = nil) {
+            self.deliveryChannelNames = deliveryChannelNames
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configRuleName = "ConfigRuleName"
+            case deliveryChannelNames = "DeliveryChannelNames"
         }
+    }
+
+    public struct GroupedResourceCount: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupName", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceCount", required: true, type: .long)
+        ]
+        /// The name of the group that can be region, account ID, or resource type. For example, region1, region2 if the region was chosen as GroupByKey.
+        public let groupName: String
+        /// The number of resources in the group.
+        public let resourceCount: Int64
+
+        public init(groupName: String, resourceCount: Int64) {
+            self.groupName = groupName
+            self.resourceCount = resourceCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupName = "GroupName"
+            case resourceCount = "ResourceCount"
+        }
+    }
+
+    public struct DescribeRetentionConfigurationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RetentionConfigurationNames", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// A list of names of retention configurations for which you want details. If you do not specify a name, AWS Config returns details for all the retention configurations for that account.  Currently, AWS Config supports only one retention configuration per region in your account. 
+        public let retentionConfigurationNames: [String]?
+        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response. 
+        public let nextToken: String?
+
+        public init(nextToken: String? = nil, retentionConfigurationNames: [String]? = nil) {
+            self.retentionConfigurationNames = retentionConfigurationNames
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case retentionConfigurationNames = "RetentionConfigurationNames"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct PutConfigRuleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigRule", required: true, type: .structure)
+        ]
+        /// The rule that you want to add to your account.
+        public let configRule: ConfigRule
+
+        public init(configRule: ConfigRule) {
+            self.configRule = configRule
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configRule = "ConfigRule"
+        }
+    }
+
+    public enum ConfigurationItemStatus: String, CustomStringConvertible, Codable {
+        case ok = "OK"
+        case resourcediscovered = "ResourceDiscovered"
+        case resourcenotrecorded = "ResourceNotRecorded"
+        case resourcedeleted = "ResourceDeleted"
+        case resourcedeletednotrecorded = "ResourceDeletedNotRecorded"
+        public var description: String { return self.rawValue }
     }
 
     public enum RecorderStatus: String, CustomStringConvertible, Codable {
@@ -2098,6 +1956,689 @@ extension ConfigService {
         case success = "Success"
         case failure = "Failure"
         public var description: String { return self.rawValue }
+    }
+
+    public struct DeletePendingAggregationRequestRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RequesterAwsRegion", required: true, type: .string), 
+            AWSShapeMember(label: "RequesterAccountId", required: true, type: .string)
+        ]
+        /// The region requesting to aggregate data.
+        public let requesterAwsRegion: String
+        /// The 12-digit account ID of the account requesting to aggregate data.
+        public let requesterAccountId: String
+
+        public init(requesterAccountId: String, requesterAwsRegion: String) {
+            self.requesterAwsRegion = requesterAwsRegion
+            self.requesterAccountId = requesterAccountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requesterAwsRegion = "RequesterAwsRegion"
+            case requesterAccountId = "RequesterAccountId"
+        }
+    }
+
+    public struct DescribeDeliveryChannelStatusResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeliveryChannelsStatus", required: false, type: .list)
+        ]
+        /// A list that contains the status of a specified delivery channel.
+        public let deliveryChannelsStatus: [DeliveryChannelStatus]?
+
+        public init(deliveryChannelsStatus: [DeliveryChannelStatus]? = nil) {
+            self.deliveryChannelsStatus = deliveryChannelsStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliveryChannelsStatus = "DeliveryChannelsStatus"
+        }
+    }
+
+    public struct GetComplianceSummaryByResourceTypeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceTypes", required: false, type: .list)
+        ]
+        /// Specify one or more resource types to get the number of resources that are compliant and the number that are noncompliant for each resource type. For this request, you can specify an AWS resource type such as AWS::EC2::Instance. You can specify that the resource type is an AWS account by specifying AWS::::Account.
+        public let resourceTypes: [String]?
+
+        public init(resourceTypes: [String]? = nil) {
+            self.resourceTypes = resourceTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceTypes = "ResourceTypes"
+        }
+    }
+
+    public struct DescribePendingAggregationRequestsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "PendingAggregationRequests", required: false, type: .list)
+        ]
+        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+        public let nextToken: String?
+        /// Returns a PendingAggregationRequests object.
+        public let pendingAggregationRequests: [PendingAggregationRequest]?
+
+        public init(nextToken: String? = nil, pendingAggregationRequests: [PendingAggregationRequest]? = nil) {
+            self.nextToken = nextToken
+            self.pendingAggregationRequests = pendingAggregationRequests
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case pendingAggregationRequests = "PendingAggregationRequests"
+        }
+    }
+
+    public struct PutConfigurationRecorderRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationRecorder", required: true, type: .structure)
+        ]
+        /// The configuration recorder object that records each configuration change made to the resources.
+        public let configurationRecorder: ConfigurationRecorder
+
+        public init(configurationRecorder: ConfigurationRecorder) {
+            self.configurationRecorder = configurationRecorder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationRecorder = "ConfigurationRecorder"
+        }
+    }
+
+    public struct EvaluationResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResultToken", required: false, type: .string), 
+            AWSShapeMember(label: "ComplianceType", required: false, type: .enum), 
+            AWSShapeMember(label: "Annotation", required: false, type: .string), 
+            AWSShapeMember(label: "ResultRecordedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EvaluationResultIdentifier", required: false, type: .structure), 
+            AWSShapeMember(label: "ConfigRuleInvokedTime", required: false, type: .timestamp)
+        ]
+        /// An encrypted token that associates an evaluation with an AWS Config rule. The token identifies the rule, the AWS resource being evaluated, and the event that triggered the evaluation.
+        public let resultToken: String?
+        /// Indicates whether the AWS resource complies with the AWS Config rule that evaluated it. For the EvaluationResult data type, AWS Config supports only the COMPLIANT, NON_COMPLIANT, and NOT_APPLICABLE values. AWS Config does not support the INSUFFICIENT_DATA value for the EvaluationResult data type.
+        public let complianceType: ComplianceType?
+        /// Supplementary information about how the evaluation determined the compliance.
+        public let annotation: String?
+        /// The time when AWS Config recorded the evaluation result.
+        public let resultRecordedTime: TimeStamp?
+        /// Uniquely identifies the evaluation result.
+        public let evaluationResultIdentifier: EvaluationResultIdentifier?
+        /// The time when the AWS Config rule evaluated the AWS resource.
+        public let configRuleInvokedTime: TimeStamp?
+
+        public init(annotation: String? = nil, complianceType: ComplianceType? = nil, configRuleInvokedTime: TimeStamp? = nil, evaluationResultIdentifier: EvaluationResultIdentifier? = nil, resultRecordedTime: TimeStamp? = nil, resultToken: String? = nil) {
+            self.resultToken = resultToken
+            self.complianceType = complianceType
+            self.annotation = annotation
+            self.resultRecordedTime = resultRecordedTime
+            self.evaluationResultIdentifier = evaluationResultIdentifier
+            self.configRuleInvokedTime = configRuleInvokedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resultToken = "ResultToken"
+            case complianceType = "ComplianceType"
+            case annotation = "Annotation"
+            case resultRecordedTime = "ResultRecordedTime"
+            case evaluationResultIdentifier = "EvaluationResultIdentifier"
+            case configRuleInvokedTime = "ConfigRuleInvokedTime"
+        }
+    }
+
+    public struct DescribeAggregateComplianceByConfigRulesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "AggregateComplianceByConfigRules", required: false, type: .list)
+        ]
+        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+        public let nextToken: String?
+        /// Returns a list of AggregateComplianceByConfigRule object.
+        public let aggregateComplianceByConfigRules: [AggregateComplianceByConfigRule]?
+
+        public init(aggregateComplianceByConfigRules: [AggregateComplianceByConfigRule]? = nil, nextToken: String? = nil) {
+            self.nextToken = nextToken
+            self.aggregateComplianceByConfigRules = aggregateComplianceByConfigRules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case aggregateComplianceByConfigRules = "AggregateComplianceByConfigRules"
+        }
+    }
+
+    public struct PutConfigurationAggregatorRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountAggregationSources", required: false, type: .list), 
+            AWSShapeMember(label: "OrganizationAggregationSource", required: false, type: .structure), 
+            AWSShapeMember(label: "ConfigurationAggregatorName", required: true, type: .string)
+        ]
+        /// A list of AccountAggregationSource object. 
+        public let accountAggregationSources: [AccountAggregationSource]?
+        /// An OrganizationAggregationSource object.
+        public let organizationAggregationSource: OrganizationAggregationSource?
+        /// The name of the configuration aggregator.
+        public let configurationAggregatorName: String
+
+        public init(accountAggregationSources: [AccountAggregationSource]? = nil, configurationAggregatorName: String, organizationAggregationSource: OrganizationAggregationSource? = nil) {
+            self.accountAggregationSources = accountAggregationSources
+            self.organizationAggregationSource = organizationAggregationSource
+            self.configurationAggregatorName = configurationAggregatorName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountAggregationSources = "AccountAggregationSources"
+            case organizationAggregationSource = "OrganizationAggregationSource"
+            case configurationAggregatorName = "ConfigurationAggregatorName"
+        }
+    }
+
+    public struct Scope: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagValue", required: false, type: .string), 
+            AWSShapeMember(label: "TagKey", required: false, type: .string), 
+            AWSShapeMember(label: "ComplianceResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "ComplianceResourceTypes", required: false, type: .list)
+        ]
+        /// The tag value applied to only those AWS resources that you want to trigger an evaluation for the rule. If you specify a value for TagValue, you must also specify a value for TagKey.
+        public let tagValue: String?
+        /// The tag key that is applied to only those AWS resources that you want to trigger an evaluation for the rule.
+        public let tagKey: String?
+        /// The ID of the only AWS resource that you want to trigger an evaluation for the rule. If you specify a resource ID, you must specify one resource type for ComplianceResourceTypes.
+        public let complianceResourceId: String?
+        /// The resource types of only those AWS resources that you want to trigger an evaluation for the rule. You can only specify one type if you also specify a resource ID for ComplianceResourceId.
+        public let complianceResourceTypes: [String]?
+
+        public init(complianceResourceId: String? = nil, complianceResourceTypes: [String]? = nil, tagKey: String? = nil, tagValue: String? = nil) {
+            self.tagValue = tagValue
+            self.tagKey = tagKey
+            self.complianceResourceId = complianceResourceId
+            self.complianceResourceTypes = complianceResourceTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagValue = "TagValue"
+            case tagKey = "TagKey"
+            case complianceResourceId = "ComplianceResourceId"
+            case complianceResourceTypes = "ComplianceResourceTypes"
+        }
+    }
+
+    public struct DescribeConfigurationRecordersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationRecorderNames", required: false, type: .list)
+        ]
+        /// A list of configuration recorder names.
+        public let configurationRecorderNames: [String]?
+
+        public init(configurationRecorderNames: [String]? = nil) {
+            self.configurationRecorderNames = configurationRecorderNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationRecorderNames = "ConfigurationRecorderNames"
+        }
+    }
+
+    public struct AggregationAuthorization: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthorizedAccountId", required: false, type: .string), 
+            AWSShapeMember(label: "AggregationAuthorizationArn", required: false, type: .string), 
+            AWSShapeMember(label: "AuthorizedAwsRegion", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp)
+        ]
+        /// The 12-digit account ID of the account authorized to aggregate data.
+        public let authorizedAccountId: String?
+        /// The Amazon Resource Name (ARN) of the aggregation object.
+        public let aggregationAuthorizationArn: String?
+        /// The region authorized to collect aggregated data.
+        public let authorizedAwsRegion: String?
+        /// The time stamp when the aggregation authorization was created.
+        public let creationTime: TimeStamp?
+
+        public init(aggregationAuthorizationArn: String? = nil, authorizedAccountId: String? = nil, authorizedAwsRegion: String? = nil, creationTime: TimeStamp? = nil) {
+            self.authorizedAccountId = authorizedAccountId
+            self.aggregationAuthorizationArn = aggregationAuthorizationArn
+            self.authorizedAwsRegion = authorizedAwsRegion
+            self.creationTime = creationTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizedAccountId = "AuthorizedAccountId"
+            case aggregationAuthorizationArn = "AggregationAuthorizationArn"
+            case authorizedAwsRegion = "AuthorizedAwsRegion"
+            case creationTime = "CreationTime"
+        }
+    }
+
+    public struct DescribeConfigRuleEvaluationStatusResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigRulesEvaluationStatus", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Status information about your AWS managed Config rules.
+        public let configRulesEvaluationStatus: [ConfigRuleEvaluationStatus]?
+        /// The string that you use in a subsequent request to get the next page of results in a paginated response.
+        public let nextToken: String?
+
+        public init(configRulesEvaluationStatus: [ConfigRuleEvaluationStatus]? = nil, nextToken: String? = nil) {
+            self.configRulesEvaluationStatus = configRulesEvaluationStatus
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configRulesEvaluationStatus = "ConfigRulesEvaluationStatus"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetAggregateResourceConfigResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationItem", required: false, type: .structure)
+        ]
+        /// Returns a ConfigurationItem object.
+        public let configurationItem: ConfigurationItem?
+
+        public init(configurationItem: ConfigurationItem? = nil) {
+            self.configurationItem = configurationItem
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationItem = "ConfigurationItem"
+        }
+    }
+
+    public enum MessageType: String, CustomStringConvertible, Codable {
+        case configurationitemchangenotification = "ConfigurationItemChangeNotification"
+        case configurationsnapshotdeliverycompleted = "ConfigurationSnapshotDeliveryCompleted"
+        case schedulednotification = "ScheduledNotification"
+        case oversizedconfigurationitemchangenotification = "OversizedConfigurationItemChangeNotification"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DescribeDeliveryChannelsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeliveryChannelNames", required: false, type: .list)
+        ]
+        /// A list of delivery channel names.
+        public let deliveryChannelNames: [String]?
+
+        public init(deliveryChannelNames: [String]? = nil) {
+            self.deliveryChannelNames = deliveryChannelNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliveryChannelNames = "DeliveryChannelNames"
+        }
+    }
+
+    public struct ConfigExportDeliveryInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "lastErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "nextDeliveryTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "lastStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "lastSuccessfulTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "lastErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "lastAttemptTime", required: false, type: .timestamp)
+        ]
+        /// The error code from the last attempted delivery.
+        public let lastErrorCode: String?
+        /// The time that the next delivery occurs.
+        public let nextDeliveryTime: TimeStamp?
+        /// Status of the last attempted delivery.
+        public let lastStatus: DeliveryStatus?
+        /// The time of the last successful delivery.
+        public let lastSuccessfulTime: TimeStamp?
+        /// The error message from the last attempted delivery.
+        public let lastErrorMessage: String?
+        /// The time of the last attempted delivery.
+        public let lastAttemptTime: TimeStamp?
+
+        public init(lastAttemptTime: TimeStamp? = nil, lastErrorCode: String? = nil, lastErrorMessage: String? = nil, lastStatus: DeliveryStatus? = nil, lastSuccessfulTime: TimeStamp? = nil, nextDeliveryTime: TimeStamp? = nil) {
+            self.lastErrorCode = lastErrorCode
+            self.nextDeliveryTime = nextDeliveryTime
+            self.lastStatus = lastStatus
+            self.lastSuccessfulTime = lastSuccessfulTime
+            self.lastErrorMessage = lastErrorMessage
+            self.lastAttemptTime = lastAttemptTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastErrorCode = "lastErrorCode"
+            case nextDeliveryTime = "nextDeliveryTime"
+            case lastStatus = "lastStatus"
+            case lastSuccessfulTime = "lastSuccessfulTime"
+            case lastErrorMessage = "lastErrorMessage"
+            case lastAttemptTime = "lastAttemptTime"
+        }
+    }
+
+    public struct ConfigRule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Scope", required: false, type: .structure), 
+            AWSShapeMember(label: "ConfigRuleArn", required: false, type: .string), 
+            AWSShapeMember(label: "ConfigRuleName", required: false, type: .string), 
+            AWSShapeMember(label: "InputParameters", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedBy", required: false, type: .string), 
+            AWSShapeMember(label: "Source", required: true, type: .structure), 
+            AWSShapeMember(label: "MaximumExecutionFrequency", required: false, type: .enum), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "ConfigRuleId", required: false, type: .string), 
+            AWSShapeMember(label: "ConfigRuleState", required: false, type: .enum)
+        ]
+        /// Defines which resources can trigger an evaluation for the rule. The scope can include one or more resource types, a combination of one resource type and one resource ID, or a combination of a tag key and value. Specify a scope to constrain the resources that can trigger an evaluation for the rule. If you do not specify a scope, evaluations are triggered when any resource in the recording group changes.
+        public let scope: Scope?
+        /// The Amazon Resource Name (ARN) of the AWS Config rule.
+        public let configRuleArn: String?
+        /// The name that you assign to the AWS Config rule. The name is required if you are adding a new rule.
+        public let configRuleName: String?
+        /// A string, in JSON format, that is passed to the AWS Config rule Lambda function.
+        public let inputParameters: String?
+        /// Service principal name of the service that created the rule.  The field is populated only if the service linked rule is created by a service. The field is empty if you create your own rule. 
+        public let createdBy: String?
+        /// Provides the rule owner (AWS or customer), the rule identifier, and the notifications that cause the function to evaluate your AWS resources.
+        public let source: Source
+        /// The maximum frequency with which AWS Config runs evaluations for a rule. You can specify a value for MaximumExecutionFrequency when:   You are using an AWS managed rule that is triggered at a periodic frequency.   Your custom rule is triggered when AWS Config delivers the configuration snapshot. For more information, see ConfigSnapshotDeliveryProperties.    By default, rules with a periodic trigger are evaluated every 24 hours. To change the frequency, specify a valid value for the MaximumExecutionFrequency parameter. 
+        public let maximumExecutionFrequency: MaximumExecutionFrequency?
+        /// The description that you provide for the AWS Config rule.
+        public let description: String?
+        /// The ID of the AWS Config rule.
+        public let configRuleId: String?
+        /// Indicates whether the AWS Config rule is active or is currently being deleted by AWS Config. It can also indicate the evaluation status for the AWS Config rule. AWS Config sets the state of the rule to EVALUATING temporarily after you use the StartConfigRulesEvaluation request to evaluate your resources against the AWS Config rule. AWS Config sets the state of the rule to DELETING_RESULTS temporarily after you use the DeleteEvaluationResults request to delete the current evaluation results for the AWS Config rule. AWS Config temporarily sets the state of a rule to DELETING after you use the DeleteConfigRule request to delete the rule. After AWS Config deletes the rule, the rule and all of its evaluations are erased and are no longer available.
+        public let configRuleState: ConfigRuleState?
+
+        public init(configRuleArn: String? = nil, configRuleId: String? = nil, configRuleName: String? = nil, configRuleState: ConfigRuleState? = nil, createdBy: String? = nil, description: String? = nil, inputParameters: String? = nil, maximumExecutionFrequency: MaximumExecutionFrequency? = nil, scope: Scope? = nil, source: Source) {
+            self.scope = scope
+            self.configRuleArn = configRuleArn
+            self.configRuleName = configRuleName
+            self.inputParameters = inputParameters
+            self.createdBy = createdBy
+            self.source = source
+            self.maximumExecutionFrequency = maximumExecutionFrequency
+            self.description = description
+            self.configRuleId = configRuleId
+            self.configRuleState = configRuleState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scope = "Scope"
+            case configRuleArn = "ConfigRuleArn"
+            case configRuleName = "ConfigRuleName"
+            case inputParameters = "InputParameters"
+            case createdBy = "CreatedBy"
+            case source = "Source"
+            case maximumExecutionFrequency = "MaximumExecutionFrequency"
+            case description = "Description"
+            case configRuleId = "ConfigRuleId"
+            case configRuleState = "ConfigRuleState"
+        }
+    }
+
+    public struct GetAggregateComplianceDetailsByConfigRuleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "AccountId", required: true, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "ComplianceType", required: false, type: .enum), 
+            AWSShapeMember(label: "ConfigurationAggregatorName", required: true, type: .string), 
+            AWSShapeMember(label: "ConfigRuleName", required: true, type: .string), 
+            AWSShapeMember(label: "AwsRegion", required: true, type: .string)
+        ]
+        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+        public let nextToken: String?
+        /// The 12-digit account ID of the source account.
+        public let accountId: String
+        /// The maximum number of evaluation results returned on each page. The default is 50. You cannot specify a number greater than 100. If you specify 0, AWS Config uses the default.
+        public let limit: Int32?
+        /// The resource compliance status.  For the GetAggregateComplianceDetailsByConfigRuleRequest data type, AWS Config supports only the COMPLIANT and NON_COMPLIANT. AWS Config does not support the NOT_APPLICABLE and INSUFFICIENT_DATA values. 
+        public let complianceType: ComplianceType?
+        /// The name of the configuration aggregator.
+        public let configurationAggregatorName: String
+        /// The name of the AWS Config rule for which you want compliance information.
+        public let configRuleName: String
+        /// The source region from where the data is aggregated.
+        public let awsRegion: String
+
+        public init(accountId: String, awsRegion: String, complianceType: ComplianceType? = nil, configRuleName: String, configurationAggregatorName: String, limit: Int32? = nil, nextToken: String? = nil) {
+            self.nextToken = nextToken
+            self.accountId = accountId
+            self.limit = limit
+            self.complianceType = complianceType
+            self.configurationAggregatorName = configurationAggregatorName
+            self.configRuleName = configRuleName
+            self.awsRegion = awsRegion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case accountId = "AccountId"
+            case limit = "Limit"
+            case complianceType = "ComplianceType"
+            case configurationAggregatorName = "ConfigurationAggregatorName"
+            case configRuleName = "ConfigRuleName"
+            case awsRegion = "AwsRegion"
+        }
+    }
+
+    public struct BatchGetResourceConfigResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "unprocessedResourceKeys", required: false, type: .list), 
+            AWSShapeMember(label: "baseConfigurationItems", required: false, type: .list)
+        ]
+        /// A list of resource keys that were not processed with the current response. The unprocessesResourceKeys value is in the same form as ResourceKeys, so the value can be directly provided to a subsequent BatchGetResourceConfig operation. If there are no unprocessed resource keys, the response contains an empty unprocessedResourceKeys list. 
+        public let unprocessedResourceKeys: [ResourceKey]?
+        /// A list that contains the current configuration of one or more resources.
+        public let baseConfigurationItems: [BaseConfigurationItem]?
+
+        public init(baseConfigurationItems: [BaseConfigurationItem]? = nil, unprocessedResourceKeys: [ResourceKey]? = nil) {
+            self.unprocessedResourceKeys = unprocessedResourceKeys
+            self.baseConfigurationItems = baseConfigurationItems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case unprocessedResourceKeys = "unprocessedResourceKeys"
+            case baseConfigurationItems = "baseConfigurationItems"
+        }
+    }
+
+    public enum ResourceCountGroupKey: String, CustomStringConvertible, Codable {
+        case resourceType = "RESOURCE_TYPE"
+        case accountId = "ACCOUNT_ID"
+        case awsRegion = "AWS_REGION"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct AccountAggregationSource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllAwsRegions", required: false, type: .boolean), 
+            AWSShapeMember(label: "AccountIds", required: true, type: .list), 
+            AWSShapeMember(label: "AwsRegions", required: false, type: .list)
+        ]
+        /// If true, aggregate existing AWS Config regions and future regions.
+        public let allAwsRegions: Bool?
+        /// The 12-digit account ID of the account being aggregated. 
+        public let accountIds: [String]
+        /// The source regions being aggregated.
+        public let awsRegions: [String]?
+
+        public init(accountIds: [String], allAwsRegions: Bool? = nil, awsRegions: [String]? = nil) {
+            self.allAwsRegions = allAwsRegions
+            self.accountIds = accountIds
+            self.awsRegions = awsRegions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allAwsRegions = "AllAwsRegions"
+            case accountIds = "AccountIds"
+            case awsRegions = "AwsRegions"
+        }
+    }
+
+    public enum ComplianceType: String, CustomStringConvertible, Codable {
+        case compliant = "COMPLIANT"
+        case nonCompliant = "NON_COMPLIANT"
+        case notApplicable = "NOT_APPLICABLE"
+        case insufficientData = "INSUFFICIENT_DATA"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetAggregateConfigRuleComplianceSummaryResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupByKey", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "AggregateComplianceCounts", required: false, type: .list)
+        ]
+        /// Groups the result based on ACCOUNT_ID or AWS_REGION.
+        public let groupByKey: String?
+        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+        public let nextToken: String?
+        /// Returns a list of AggregateComplianceCounts object.
+        public let aggregateComplianceCounts: [AggregateComplianceCount]?
+
+        public init(aggregateComplianceCounts: [AggregateComplianceCount]? = nil, groupByKey: String? = nil, nextToken: String? = nil) {
+            self.groupByKey = groupByKey
+            self.nextToken = nextToken
+            self.aggregateComplianceCounts = aggregateComplianceCounts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupByKey = "GroupByKey"
+            case nextToken = "NextToken"
+            case aggregateComplianceCounts = "AggregateComplianceCounts"
+        }
+    }
+
+    public struct GetComplianceDetailsByResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceType", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ComplianceTypes", required: false, type: .list)
+        ]
+        /// The type of the AWS resource for which you want compliance information.
+        public let resourceType: String
+        /// The ID of the AWS resource for which you want compliance information.
+        public let resourceId: String
+        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+        public let nextToken: String?
+        /// Filters the results by compliance. The allowed values are COMPLIANT, NON_COMPLIANT, and NOT_APPLICABLE.
+        public let complianceTypes: [ComplianceType]?
+
+        public init(complianceTypes: [ComplianceType]? = nil, nextToken: String? = nil, resourceId: String, resourceType: String) {
+            self.resourceType = resourceType
+            self.resourceId = resourceId
+            self.nextToken = nextToken
+            self.complianceTypes = complianceTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceType = "ResourceType"
+            case resourceId = "ResourceId"
+            case nextToken = "NextToken"
+            case complianceTypes = "ComplianceTypes"
+        }
+    }
+
+    public struct DeleteAggregationAuthorizationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthorizedAccountId", required: true, type: .string), 
+            AWSShapeMember(label: "AuthorizedAwsRegion", required: true, type: .string)
+        ]
+        /// The 12-digit account ID of the account authorized to aggregate data.
+        public let authorizedAccountId: String
+        /// The region authorized to collect aggregated data.
+        public let authorizedAwsRegion: String
+
+        public init(authorizedAccountId: String, authorizedAwsRegion: String) {
+            self.authorizedAccountId = authorizedAccountId
+            self.authorizedAwsRegion = authorizedAwsRegion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizedAccountId = "AuthorizedAccountId"
+            case authorizedAwsRegion = "AuthorizedAwsRegion"
+        }
+    }
+
+    public struct GetComplianceDetailsByResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EvaluationResults", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Indicates whether the specified AWS resource complies each AWS Config rule.
+        public let evaluationResults: [EvaluationResult]?
+        /// The string that you use in a subsequent request to get the next page of results in a paginated response.
+        public let nextToken: String?
+
+        public init(evaluationResults: [EvaluationResult]? = nil, nextToken: String? = nil) {
+            self.evaluationResults = evaluationResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case evaluationResults = "EvaluationResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetAggregateResourceConfigRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationAggregatorName", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceIdentifier", required: true, type: .structure)
+        ]
+        /// The name of the configuration aggregator.
+        public let configurationAggregatorName: String
+        /// An object that identifies aggregate resource.
+        public let resourceIdentifier: AggregateResourceIdentifier
+
+        public init(configurationAggregatorName: String, resourceIdentifier: AggregateResourceIdentifier) {
+            self.configurationAggregatorName = configurationAggregatorName
+            self.resourceIdentifier = resourceIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationAggregatorName = "ConfigurationAggregatorName"
+            case resourceIdentifier = "ResourceIdentifier"
+        }
+    }
+
+    public struct AggregateResourceIdentifier: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourceRegion", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceName", required: false, type: .string), 
+            AWSShapeMember(label: "SourceAccountId", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: true, type: .enum), 
+            AWSShapeMember(label: "ResourceId", required: true, type: .string)
+        ]
+        /// The source region where data is aggregated.
+        public let sourceRegion: String
+        /// The name of the AWS resource.
+        public let resourceName: String?
+        /// The 12-digit account ID of the source account.
+        public let sourceAccountId: String
+        /// The type of the AWS resource.
+        public let resourceType: ResourceType
+        /// The ID of the AWS resource.
+        public let resourceId: String
+
+        public init(resourceId: String, resourceName: String? = nil, resourceType: ResourceType, sourceAccountId: String, sourceRegion: String) {
+            self.sourceRegion = sourceRegion
+            self.resourceName = resourceName
+            self.sourceAccountId = sourceAccountId
+            self.resourceType = resourceType
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceRegion = "SourceRegion"
+            case resourceName = "ResourceName"
+            case sourceAccountId = "SourceAccountId"
+            case resourceType = "ResourceType"
+            case resourceId = "ResourceId"
+        }
     }
 
     public struct DescribeConfigurationRecorderStatusResponse: AWSShape {
@@ -2116,74 +2657,178 @@ extension ConfigService {
         }
     }
 
-    public struct DescribeRetentionConfigurationsRequest: AWSShape {
+    public struct GetAggregateDiscoveredResourceCountsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "RetentionConfigurationNames", required: false, type: .list)
-        ]
-        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response. 
-        public let nextToken: String?
-        /// A list of names of retention configurations for which you want details. If you do not specify a name, AWS Config returns details for all the retention configurations for that account.  Currently, AWS Config supports only one retention configuration per region in your account. 
-        public let retentionConfigurationNames: [String]?
-
-        public init(nextToken: String? = nil, retentionConfigurationNames: [String]? = nil) {
-            self.nextToken = nextToken
-            self.retentionConfigurationNames = retentionConfigurationNames
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case retentionConfigurationNames = "RetentionConfigurationNames"
-        }
-    }
-
-    public struct ComplianceContributorCount: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CapExceeded", required: false, type: .boolean), 
-            AWSShapeMember(label: "CappedCount", required: false, type: .integer)
-        ]
-        /// Indicates whether the maximum count is reached.
-        public let capExceeded: Bool?
-        /// The number of AWS resources or AWS Config rules responsible for the current compliance of the item.
-        public let cappedCount: Int32?
-
-        public init(capExceeded: Bool? = nil, cappedCount: Int32? = nil) {
-            self.capExceeded = capExceeded
-            self.cappedCount = cappedCount
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case capExceeded = "CapExceeded"
-            case cappedCount = "CappedCount"
-        }
-    }
-
-    public struct DescribeConfigurationAggregatorSourcesStatusResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AggregatedSourceStatusList", required: false, type: .list), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "ConfigurationAggregatorName", required: true, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .structure), 
+            AWSShapeMember(label: "GroupByKey", required: false, type: .enum), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// Returns an AggregatedSourceStatus object. 
-        public let aggregatedSourceStatusList: [AggregatedSourceStatus]?
+        /// The maximum number of GroupedResourceCount objects returned on each page. The default is 1000. You cannot specify a number greater than 1000. If you specify 0, AWS Config uses the default.
+        public let limit: Int32?
+        /// The name of the configuration aggregator.
+        public let configurationAggregatorName: String
+        /// Filters the results based on the ResourceCountFilters object.
+        public let filters: ResourceCountFilters?
+        /// The key to group the resource counts.
+        public let groupByKey: ResourceCountGroupKey?
+        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response. 
+        public let nextToken: String?
+
+        public init(configurationAggregatorName: String, filters: ResourceCountFilters? = nil, groupByKey: ResourceCountGroupKey? = nil, limit: Int32? = nil, nextToken: String? = nil) {
+            self.limit = limit
+            self.configurationAggregatorName = configurationAggregatorName
+            self.filters = filters
+            self.groupByKey = groupByKey
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "Limit"
+            case configurationAggregatorName = "ConfigurationAggregatorName"
+            case filters = "Filters"
+            case groupByKey = "GroupByKey"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeComplianceByConfigRuleResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComplianceByConfigRules", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Indicates whether each of the specified AWS Config rules is compliant.
+        public let complianceByConfigRules: [ComplianceByConfigRule]?
+        /// The string that you use in a subsequent request to get the next page of results in a paginated response.
+        public let nextToken: String?
+
+        public init(complianceByConfigRules: [ComplianceByConfigRule]? = nil, nextToken: String? = nil) {
+            self.complianceByConfigRules = complianceByConfigRules
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case complianceByConfigRules = "ComplianceByConfigRules"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct RecordingGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "allSupported", required: false, type: .boolean), 
+            AWSShapeMember(label: "resourceTypes", required: false, type: .list), 
+            AWSShapeMember(label: "includeGlobalResourceTypes", required: false, type: .boolean)
+        ]
+        /// Specifies whether AWS Config records configuration changes for every supported type of regional resource. If you set this option to true, when AWS Config adds support for a new type of regional resource, it starts recording resources of that type automatically. If you set this option to true, you cannot enumerate a list of resourceTypes.
+        public let allSupported: Bool?
+        /// A comma-separated list that specifies the types of AWS resources for which AWS Config records configuration changes (for example, AWS::EC2::Instance or AWS::CloudTrail::Trail). Before you can set this option to true, you must set the allSupported option to false. If you set this option to true, when AWS Config adds support for a new type of resource, it will not record resources of that type unless you manually add that type to your recording group. For a list of valid resourceTypes values, see the resourceType Value column in Supported AWS Resource Types.
+        public let resourceTypes: [ResourceType]?
+        /// Specifies whether AWS Config includes all supported types of global resources (for example, IAM resources) with the resources that it records. Before you can set this option to true, you must set the allSupported option to true. If you set this option to true, when AWS Config adds support for a new type of global resource, it starts recording resources of that type automatically. The configuration details for any global resource are the same in all regions. To prevent duplicate configuration items, you should consider customizing AWS Config in only one region to record global resources.
+        public let includeGlobalResourceTypes: Bool?
+
+        public init(allSupported: Bool? = nil, includeGlobalResourceTypes: Bool? = nil, resourceTypes: [ResourceType]? = nil) {
+            self.allSupported = allSupported
+            self.resourceTypes = resourceTypes
+            self.includeGlobalResourceTypes = includeGlobalResourceTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allSupported = "allSupported"
+            case resourceTypes = "resourceTypes"
+            case includeGlobalResourceTypes = "includeGlobalResourceTypes"
+        }
+    }
+
+    public struct DeleteDeliveryChannelRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeliveryChannelName", required: true, type: .string)
+        ]
+        /// The name of the delivery channel to delete.
+        public let deliveryChannelName: String
+
+        public init(deliveryChannelName: String) {
+            self.deliveryChannelName = deliveryChannelName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliveryChannelName = "DeliveryChannelName"
+        }
+    }
+
+    public struct ListAggregateDiscoveredResourcesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceIdentifiers", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Returns a list of ResourceIdentifiers objects.
+        public let resourceIdentifiers: [AggregateResourceIdentifier]?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
 
-        public init(aggregatedSourceStatusList: [AggregatedSourceStatus]? = nil, nextToken: String? = nil) {
-            self.aggregatedSourceStatusList = aggregatedSourceStatusList
+        public init(nextToken: String? = nil, resourceIdentifiers: [AggregateResourceIdentifier]? = nil) {
+            self.resourceIdentifiers = resourceIdentifiers
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aggregatedSourceStatusList = "AggregatedSourceStatusList"
+            case resourceIdentifiers = "ResourceIdentifiers"
             case nextToken = "NextToken"
         }
     }
 
-    public enum DeliveryStatus: String, CustomStringConvertible, Codable {
-        case success = "Success"
-        case failure = "Failure"
-        case notApplicable = "Not_Applicable"
-        public var description: String { return self.rawValue }
+    public struct DescribeComplianceByConfigRuleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigRuleNames", required: false, type: .list), 
+            AWSShapeMember(label: "ComplianceTypes", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Specify one or more AWS Config rule names to filter the results by rule.
+        public let configRuleNames: [String]?
+        /// Filters the results by compliance. The allowed values are COMPLIANT, NON_COMPLIANT, and INSUFFICIENT_DATA.
+        public let complianceTypes: [ComplianceType]?
+        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+        public let nextToken: String?
+
+        public init(complianceTypes: [ComplianceType]? = nil, configRuleNames: [String]? = nil, nextToken: String? = nil) {
+            self.configRuleNames = configRuleNames
+            self.complianceTypes = complianceTypes
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configRuleNames = "ConfigRuleNames"
+            case complianceTypes = "ComplianceTypes"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct StartConfigRulesEvaluationResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct GetResourceConfigHistoryResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "configurationItems", required: false, type: .list)
+        ]
+        /// The string that you use in a subsequent request to get the next page of results in a paginated response.
+        public let nextToken: String?
+        /// A list that contains the configuration history of one or more resources.
+        public let configurationItems: [ConfigurationItem]?
+
+        public init(configurationItems: [ConfigurationItem]? = nil, nextToken: String? = nil) {
+            self.nextToken = nextToken
+            self.configurationItems = configurationItems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case configurationItems = "configurationItems"
+        }
     }
 
     public enum ResourceType: String, CustomStringConvertible, Codable {
@@ -2254,335 +2899,35 @@ extension ConfigService {
         public var description: String { return self.rawValue }
     }
 
-    public struct PutAggregationAuthorizationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AggregationAuthorization", required: false, type: .structure)
-        ]
-        /// Returns an AggregationAuthorization object. 
-        public let aggregationAuthorization: AggregationAuthorization?
-
-        public init(aggregationAuthorization: AggregationAuthorization? = nil) {
-            self.aggregationAuthorization = aggregationAuthorization
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case aggregationAuthorization = "AggregationAuthorization"
-        }
+    public enum ChronologicalOrder: String, CustomStringConvertible, Codable {
+        case reverse = "Reverse"
+        case forward = "Forward"
+        public var description: String { return self.rawValue }
     }
 
-    public struct ComplianceSummary: AWSShape {
+    public struct ConfigurationRecorder: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NonCompliantResourceCount", required: false, type: .structure), 
-            AWSShapeMember(label: "ComplianceSummaryTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CompliantResourceCount", required: false, type: .structure)
+            AWSShapeMember(label: "recordingGroup", required: false, type: .structure), 
+            AWSShapeMember(label: "roleARN", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string)
         ]
-        /// The number of AWS Config rules or AWS resources that are noncompliant, up to a maximum of 25 for rules and 100 for resources.
-        public let nonCompliantResourceCount: ComplianceContributorCount?
-        /// The time that AWS Config created the compliance summary.
-        public let complianceSummaryTimestamp: TimeStamp?
-        /// The number of AWS Config rules or AWS resources that are compliant, up to a maximum of 25 for rules and 100 for resources.
-        public let compliantResourceCount: ComplianceContributorCount?
+        /// Specifies the types of AWS resources for which AWS Config records configuration changes.
+        public let recordingGroup: RecordingGroup?
+        /// Amazon Resource Name (ARN) of the IAM role used to describe the AWS resources associated with the account.
+        public let roleARN: String?
+        /// The name of the recorder. By default, AWS Config automatically assigns the name "default" when creating the configuration recorder. You cannot change the assigned name.
+        public let name: String?
 
-        public init(nonCompliantResourceCount: ComplianceContributorCount? = nil, complianceSummaryTimestamp: TimeStamp? = nil, compliantResourceCount: ComplianceContributorCount? = nil) {
-            self.nonCompliantResourceCount = nonCompliantResourceCount
-            self.complianceSummaryTimestamp = complianceSummaryTimestamp
-            self.compliantResourceCount = compliantResourceCount
+        public init(name: String? = nil, recordingGroup: RecordingGroup? = nil, roleARN: String? = nil) {
+            self.recordingGroup = recordingGroup
+            self.roleARN = roleARN
+            self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nonCompliantResourceCount = "NonCompliantResourceCount"
-            case complianceSummaryTimestamp = "ComplianceSummaryTimestamp"
-            case compliantResourceCount = "CompliantResourceCount"
-        }
-    }
-
-    public struct PutConfigurationRecorderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationRecorder", required: true, type: .structure)
-        ]
-        /// The configuration recorder object that records each configuration change made to the resources.
-        public let configurationRecorder: ConfigurationRecorder
-
-        public init(configurationRecorder: ConfigurationRecorder) {
-            self.configurationRecorder = configurationRecorder
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case configurationRecorder = "ConfigurationRecorder"
-        }
-    }
-
-    public struct ConfigurationItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "tags", required: false, type: .map), 
-            AWSShapeMember(label: "resourceName", required: false, type: .string), 
-            AWSShapeMember(label: "relationships", required: false, type: .list), 
-            AWSShapeMember(label: "resourceId", required: false, type: .string), 
-            AWSShapeMember(label: "availabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "arn", required: false, type: .string), 
-            AWSShapeMember(label: "configuration", required: false, type: .string), 
-            AWSShapeMember(label: "resourceCreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "configurationItemCaptureTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "configurationItemStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "awsRegion", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "relatedEvents", required: false, type: .list), 
-            AWSShapeMember(label: "accountId", required: false, type: .string), 
-            AWSShapeMember(label: "configurationStateId", required: false, type: .string), 
-            AWSShapeMember(label: "configurationItemMD5Hash", required: false, type: .string), 
-            AWSShapeMember(label: "version", required: false, type: .string), 
-            AWSShapeMember(label: "supplementaryConfiguration", required: false, type: .map)
-        ]
-        /// A mapping of key value tags associated with the resource.
-        public let tags: [String: String]?
-        /// The custom name of the resource, if available.
-        public let resourceName: String?
-        /// A list of related AWS resources.
-        public let relationships: [Relationship]?
-        /// The ID of the resource (for example, sg-xxxxxx).
-        public let resourceId: String?
-        /// The Availability Zone associated with the resource.
-        public let availabilityZone: String?
-        /// The Amazon Resource Name (ARN) of the resource.
-        public let arn: String?
-        /// The description of the resource configuration.
-        public let configuration: String?
-        /// The time stamp when the resource was created.
-        public let resourceCreationTime: TimeStamp?
-        /// The time when the configuration recording was initiated.
-        public let configurationItemCaptureTime: TimeStamp?
-        /// The configuration item status.
-        public let configurationItemStatus: ConfigurationItemStatus?
-        /// The region where the resource resides.
-        public let awsRegion: String?
-        /// The type of AWS resource.
-        public let resourceType: ResourceType?
-        /// A list of CloudTrail event IDs. A populated field indicates that the current configuration was initiated by the events recorded in the CloudTrail log. For more information about CloudTrail, see What Is AWS CloudTrail. An empty field indicates that the current configuration was not initiated by any event.
-        public let relatedEvents: [String]?
-        /// The 12-digit AWS account ID associated with the resource.
-        public let accountId: String?
-        /// An identifier that indicates the ordering of the configuration items of a resource.
-        public let configurationStateId: String?
-        /// Unique MD5 hash that represents the configuration item's state. You can use MD5 hash to compare the states of two or more configuration items that are associated with the same resource.
-        public let configurationItemMD5Hash: String?
-        /// The version number of the resource configuration.
-        public let version: String?
-        /// Configuration attributes that AWS Config returns for certain resource types to supplement the information returned for the configuration parameter.
-        public let supplementaryConfiguration: [String: String]?
-
-        public init(tags: [String: String]? = nil, resourceName: String? = nil, relationships: [Relationship]? = nil, resourceId: String? = nil, availabilityZone: String? = nil, arn: String? = nil, configuration: String? = nil, resourceCreationTime: TimeStamp? = nil, configurationItemCaptureTime: TimeStamp? = nil, configurationItemStatus: ConfigurationItemStatus? = nil, awsRegion: String? = nil, resourceType: ResourceType? = nil, relatedEvents: [String]? = nil, accountId: String? = nil, configurationStateId: String? = nil, configurationItemMD5Hash: String? = nil, version: String? = nil, supplementaryConfiguration: [String: String]? = nil) {
-            self.tags = tags
-            self.resourceName = resourceName
-            self.relationships = relationships
-            self.resourceId = resourceId
-            self.availabilityZone = availabilityZone
-            self.arn = arn
-            self.configuration = configuration
-            self.resourceCreationTime = resourceCreationTime
-            self.configurationItemCaptureTime = configurationItemCaptureTime
-            self.configurationItemStatus = configurationItemStatus
-            self.awsRegion = awsRegion
-            self.resourceType = resourceType
-            self.relatedEvents = relatedEvents
-            self.accountId = accountId
-            self.configurationStateId = configurationStateId
-            self.configurationItemMD5Hash = configurationItemMD5Hash
-            self.version = version
-            self.supplementaryConfiguration = supplementaryConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "tags"
-            case resourceName = "resourceName"
-            case relationships = "relationships"
-            case resourceId = "resourceId"
-            case availabilityZone = "availabilityZone"
-            case arn = "arn"
-            case configuration = "configuration"
-            case resourceCreationTime = "resourceCreationTime"
-            case configurationItemCaptureTime = "configurationItemCaptureTime"
-            case configurationItemStatus = "configurationItemStatus"
-            case awsRegion = "awsRegion"
-            case resourceType = "resourceType"
-            case relatedEvents = "relatedEvents"
-            case accountId = "accountId"
-            case configurationStateId = "configurationStateId"
-            case configurationItemMD5Hash = "configurationItemMD5Hash"
-            case version = "version"
-            case supplementaryConfiguration = "supplementaryConfiguration"
-        }
-    }
-
-    public struct ListDiscoveredResourcesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceIdentifiers", required: false, type: .list)
-        ]
-        /// The string that you use in a subsequent request to get the next page of results in a paginated response.
-        public let nextToken: String?
-        /// The details that identify a resource that is discovered by AWS Config, including the resource type, ID, and (if available) the custom resource name.
-        public let resourceIdentifiers: [ResourceIdentifier]?
-
-        public init(nextToken: String? = nil, resourceIdentifiers: [ResourceIdentifier]? = nil) {
-            self.nextToken = nextToken
-            self.resourceIdentifiers = resourceIdentifiers
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case resourceIdentifiers = "resourceIdentifiers"
-        }
-    }
-
-    public struct DescribeComplianceByConfigRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComplianceTypes", required: false, type: .list), 
-            AWSShapeMember(label: "ConfigRuleNames", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Filters the results by compliance. The allowed values are COMPLIANT, NON_COMPLIANT, and INSUFFICIENT_DATA.
-        public let complianceTypes: [ComplianceType]?
-        /// Specify one or more AWS Config rule names to filter the results by rule.
-        public let configRuleNames: [String]?
-        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
-        public let nextToken: String?
-
-        public init(complianceTypes: [ComplianceType]? = nil, configRuleNames: [String]? = nil, nextToken: String? = nil) {
-            self.complianceTypes = complianceTypes
-            self.configRuleNames = configRuleNames
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case complianceTypes = "ComplianceTypes"
-            case configRuleNames = "ConfigRuleNames"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DescribeConfigRulesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigRuleNames", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The names of the AWS Config rules for which you want details. If you do not specify any names, AWS Config returns details for all your rules.
-        public let configRuleNames: [String]?
-        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
-        public let nextToken: String?
-
-        public init(configRuleNames: [String]? = nil, nextToken: String? = nil) {
-            self.configRuleNames = configRuleNames
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case configRuleNames = "ConfigRuleNames"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DeleteAggregationAuthorizationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AuthorizedAccountId", required: true, type: .string), 
-            AWSShapeMember(label: "AuthorizedAwsRegion", required: true, type: .string)
-        ]
-        /// The 12-digit account ID of the account authorized to aggregate data.
-        public let authorizedAccountId: String
-        /// The region authorized to collect aggregated data.
-        public let authorizedAwsRegion: String
-
-        public init(authorizedAccountId: String, authorizedAwsRegion: String) {
-            self.authorizedAccountId = authorizedAccountId
-            self.authorizedAwsRegion = authorizedAwsRegion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case authorizedAccountId = "AuthorizedAccountId"
-            case authorizedAwsRegion = "AuthorizedAwsRegion"
-        }
-    }
-
-    public struct GetComplianceSummaryByConfigRuleResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComplianceSummary", required: false, type: .structure)
-        ]
-        /// The number of AWS Config rules that are compliant and the number that are noncompliant, up to a maximum of 25 for each.
-        public let complianceSummary: ComplianceSummary?
-
-        public init(complianceSummary: ComplianceSummary? = nil) {
-            self.complianceSummary = complianceSummary
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case complianceSummary = "ComplianceSummary"
-        }
-    }
-
-    public struct GetAggregateResourceConfigRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationAggregatorName", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceIdentifier", required: true, type: .structure)
-        ]
-        /// The name of the configuration aggregator.
-        public let configurationAggregatorName: String
-        /// An object that identifies aggregate resource.
-        public let resourceIdentifier: AggregateResourceIdentifier
-
-        public init(configurationAggregatorName: String, resourceIdentifier: AggregateResourceIdentifier) {
-            self.configurationAggregatorName = configurationAggregatorName
-            self.resourceIdentifier = resourceIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case configurationAggregatorName = "ConfigurationAggregatorName"
-            case resourceIdentifier = "ResourceIdentifier"
-        }
-    }
-
-    public struct PutConfigurationAggregatorRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountAggregationSources", required: false, type: .list), 
-            AWSShapeMember(label: "ConfigurationAggregatorName", required: true, type: .string), 
-            AWSShapeMember(label: "OrganizationAggregationSource", required: false, type: .structure)
-        ]
-        /// A list of AccountAggregationSource object. 
-        public let accountAggregationSources: [AccountAggregationSource]?
-        /// The name of the configuration aggregator.
-        public let configurationAggregatorName: String
-        /// An OrganizationAggregationSource object.
-        public let organizationAggregationSource: OrganizationAggregationSource?
-
-        public init(accountAggregationSources: [AccountAggregationSource]? = nil, configurationAggregatorName: String, organizationAggregationSource: OrganizationAggregationSource? = nil) {
-            self.accountAggregationSources = accountAggregationSources
-            self.configurationAggregatorName = configurationAggregatorName
-            self.organizationAggregationSource = organizationAggregationSource
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accountAggregationSources = "AccountAggregationSources"
-            case configurationAggregatorName = "ConfigurationAggregatorName"
-            case organizationAggregationSource = "OrganizationAggregationSource"
-        }
-    }
-
-    public struct EvaluationResultIdentifier: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OrderingTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EvaluationResultQualifier", required: false, type: .structure)
-        ]
-        /// The time of the event that triggered the evaluation of your AWS resources. The time can indicate when AWS Config delivered a configuration item change notification, or it can indicate when AWS Config delivered the configuration snapshot, depending on which event triggered the evaluation.
-        public let orderingTimestamp: TimeStamp?
-        /// Identifies an AWS Config rule used to evaluate an AWS resource, and provides the type and ID of the evaluated resource.
-        public let evaluationResultQualifier: EvaluationResultQualifier?
-
-        public init(orderingTimestamp: TimeStamp? = nil, evaluationResultQualifier: EvaluationResultQualifier? = nil) {
-            self.orderingTimestamp = orderingTimestamp
-            self.evaluationResultQualifier = evaluationResultQualifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case orderingTimestamp = "OrderingTimestamp"
-            case evaluationResultQualifier = "EvaluationResultQualifier"
+            case recordingGroup = "recordingGroup"
+            case roleARN = "roleARN"
+            case name = "name"
         }
     }
 
@@ -2607,406 +2952,6 @@ extension ConfigService {
         }
     }
 
-    public struct PutConfigRuleRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigRule", required: true, type: .structure)
-        ]
-        /// The rule that you want to add to your account.
-        public let configRule: ConfigRule
-
-        public init(configRule: ConfigRule) {
-            self.configRule = configRule
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case configRule = "ConfigRule"
-        }
-    }
-
-    public enum ComplianceType: String, CustomStringConvertible, Codable {
-        case compliant = "COMPLIANT"
-        case nonCompliant = "NON_COMPLIANT"
-        case notApplicable = "NOT_APPLICABLE"
-        case insufficientData = "INSUFFICIENT_DATA"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AggregatedSourceType: String, CustomStringConvertible, Codable {
-        case account = "ACCOUNT"
-        case organization = "ORGANIZATION"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteEvaluationResultsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigRuleName", required: true, type: .string)
-        ]
-        /// The name of the AWS Config rule for which you want to delete the evaluation results.
-        public let configRuleName: String
-
-        public init(configRuleName: String) {
-            self.configRuleName = configRuleName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case configRuleName = "ConfigRuleName"
-        }
-    }
-
-    public struct DescribePendingAggregationRequestsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The maximum number of evaluation results returned on each page. The default is maximum. If you specify 0, AWS Config uses the default.
-        public let limit: Int32?
-        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
-        public let nextToken: String?
-
-        public init(limit: Int32? = nil, nextToken: String? = nil) {
-            self.limit = limit
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case limit = "Limit"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct Source: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceDetails", required: false, type: .list), 
-            AWSShapeMember(label: "Owner", required: true, type: .enum), 
-            AWSShapeMember(label: "SourceIdentifier", required: true, type: .string)
-        ]
-        /// Provides the source and type of the event that causes AWS Config to evaluate your AWS resources.
-        public let sourceDetails: [SourceDetail]?
-        /// Indicates whether AWS or the customer owns and manages the AWS Config rule.
-        public let owner: Owner
-        /// For AWS Config managed rules, a predefined identifier from a list. For example, IAM_PASSWORD_POLICY is a managed rule. To reference a managed rule, see Using AWS Managed Config Rules. For custom rules, the identifier is the Amazon Resource Name (ARN) of the rule's AWS Lambda function, such as arn:aws:lambda:us-east-2:123456789012:function:custom_rule_name.
-        public let sourceIdentifier: String
-
-        public init(sourceDetails: [SourceDetail]? = nil, owner: Owner, sourceIdentifier: String) {
-            self.sourceDetails = sourceDetails
-            self.owner = owner
-            self.sourceIdentifier = sourceIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sourceDetails = "SourceDetails"
-            case owner = "Owner"
-            case sourceIdentifier = "SourceIdentifier"
-        }
-    }
-
-    public struct ConfigExportDeliveryInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "lastErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "lastSuccessfulTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "nextDeliveryTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "lastAttemptTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "lastErrorCode", required: false, type: .string)
-        ]
-        /// The error message from the last attempted delivery.
-        public let lastErrorMessage: String?
-        /// The time of the last successful delivery.
-        public let lastSuccessfulTime: TimeStamp?
-        /// The time that the next delivery occurs.
-        public let nextDeliveryTime: TimeStamp?
-        /// Status of the last attempted delivery.
-        public let lastStatus: DeliveryStatus?
-        /// The time of the last attempted delivery.
-        public let lastAttemptTime: TimeStamp?
-        /// The error code from the last attempted delivery.
-        public let lastErrorCode: String?
-
-        public init(lastErrorMessage: String? = nil, lastSuccessfulTime: TimeStamp? = nil, nextDeliveryTime: TimeStamp? = nil, lastStatus: DeliveryStatus? = nil, lastAttemptTime: TimeStamp? = nil, lastErrorCode: String? = nil) {
-            self.lastErrorMessage = lastErrorMessage
-            self.lastSuccessfulTime = lastSuccessfulTime
-            self.nextDeliveryTime = nextDeliveryTime
-            self.lastStatus = lastStatus
-            self.lastAttemptTime = lastAttemptTime
-            self.lastErrorCode = lastErrorCode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lastErrorMessage = "lastErrorMessage"
-            case lastSuccessfulTime = "lastSuccessfulTime"
-            case nextDeliveryTime = "nextDeliveryTime"
-            case lastStatus = "lastStatus"
-            case lastAttemptTime = "lastAttemptTime"
-            case lastErrorCode = "lastErrorCode"
-        }
-    }
-
-    public enum MaximumExecutionFrequency: String, CustomStringConvertible, Codable {
-        case oneHour = "One_Hour"
-        case threeHours = "Three_Hours"
-        case sixHours = "Six_Hours"
-        case twelveHours = "Twelve_Hours"
-        case twentyfourHours = "TwentyFour_Hours"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribePendingAggregationRequestsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PendingAggregationRequests", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Returns a PendingAggregationRequests object.
-        public let pendingAggregationRequests: [PendingAggregationRequest]?
-        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
-        public let nextToken: String?
-
-        public init(pendingAggregationRequests: [PendingAggregationRequest]? = nil, nextToken: String? = nil) {
-            self.pendingAggregationRequests = pendingAggregationRequests
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pendingAggregationRequests = "PendingAggregationRequests"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct GetAggregateConfigRuleComplianceSummaryResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupByKey", required: false, type: .string), 
-            AWSShapeMember(label: "AggregateComplianceCounts", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Groups the result based on ACCOUNT_ID or AWS_REGION.
-        public let groupByKey: String?
-        /// Returns a list of AggregateComplianceCounts object.
-        public let aggregateComplianceCounts: [AggregateComplianceCount]?
-        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
-        public let nextToken: String?
-
-        public init(groupByKey: String? = nil, aggregateComplianceCounts: [AggregateComplianceCount]? = nil, nextToken: String? = nil) {
-            self.groupByKey = groupByKey
-            self.aggregateComplianceCounts = aggregateComplianceCounts
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groupByKey = "GroupByKey"
-            case aggregateComplianceCounts = "AggregateComplianceCounts"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public enum ConfigRuleComplianceSummaryGroupKey: String, CustomStringConvertible, Codable {
-        case accountId = "ACCOUNT_ID"
-        case awsRegion = "AWS_REGION"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteEvaluationResultsResponse: AWSShape {
-
-    }
-
-    public struct ConfigRule: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputParameters", required: false, type: .string), 
-            AWSShapeMember(label: "MaximumExecutionFrequency", required: false, type: .enum), 
-            AWSShapeMember(label: "ConfigRuleId", required: false, type: .string), 
-            AWSShapeMember(label: "Source", required: true, type: .structure), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "CreatedBy", required: false, type: .string), 
-            AWSShapeMember(label: "ConfigRuleArn", required: false, type: .string), 
-            AWSShapeMember(label: "Scope", required: false, type: .structure), 
-            AWSShapeMember(label: "ConfigRuleName", required: false, type: .string), 
-            AWSShapeMember(label: "ConfigRuleState", required: false, type: .enum)
-        ]
-        /// A string, in JSON format, that is passed to the AWS Config rule Lambda function.
-        public let inputParameters: String?
-        /// The maximum frequency with which AWS Config runs evaluations for a rule. You can specify a value for MaximumExecutionFrequency when:   You are using an AWS managed rule that is triggered at a periodic frequency.   Your custom rule is triggered when AWS Config delivers the configuration snapshot. For more information, see ConfigSnapshotDeliveryProperties.    By default, rules with a periodic trigger are evaluated every 24 hours. To change the frequency, specify a valid value for the MaximumExecutionFrequency parameter. 
-        public let maximumExecutionFrequency: MaximumExecutionFrequency?
-        /// The ID of the AWS Config rule.
-        public let configRuleId: String?
-        /// Provides the rule owner (AWS or customer), the rule identifier, and the notifications that cause the function to evaluate your AWS resources.
-        public let source: Source
-        /// The description that you provide for the AWS Config rule.
-        public let description: String?
-        /// Service principal name of the service that created the rule.  The field is populated only if the service linked rule is created by a service. The field is empty if you create your own rule. 
-        public let createdBy: String?
-        /// The Amazon Resource Name (ARN) of the AWS Config rule.
-        public let configRuleArn: String?
-        /// Defines which resources can trigger an evaluation for the rule. The scope can include one or more resource types, a combination of one resource type and one resource ID, or a combination of a tag key and value. Specify a scope to constrain the resources that can trigger an evaluation for the rule. If you do not specify a scope, evaluations are triggered when any resource in the recording group changes.
-        public let scope: Scope?
-        /// The name that you assign to the AWS Config rule. The name is required if you are adding a new rule.
-        public let configRuleName: String?
-        /// Indicates whether the AWS Config rule is active or is currently being deleted by AWS Config. It can also indicate the evaluation status for the AWS Config rule. AWS Config sets the state of the rule to EVALUATING temporarily after you use the StartConfigRulesEvaluation request to evaluate your resources against the AWS Config rule. AWS Config sets the state of the rule to DELETING_RESULTS temporarily after you use the DeleteEvaluationResults request to delete the current evaluation results for the AWS Config rule. AWS Config temporarily sets the state of a rule to DELETING after you use the DeleteConfigRule request to delete the rule. After AWS Config deletes the rule, the rule and all of its evaluations are erased and are no longer available.
-        public let configRuleState: ConfigRuleState?
-
-        public init(inputParameters: String? = nil, maximumExecutionFrequency: MaximumExecutionFrequency? = nil, configRuleId: String? = nil, source: Source, description: String? = nil, createdBy: String? = nil, configRuleArn: String? = nil, scope: Scope? = nil, configRuleName: String? = nil, configRuleState: ConfigRuleState? = nil) {
-            self.inputParameters = inputParameters
-            self.maximumExecutionFrequency = maximumExecutionFrequency
-            self.configRuleId = configRuleId
-            self.source = source
-            self.description = description
-            self.createdBy = createdBy
-            self.configRuleArn = configRuleArn
-            self.scope = scope
-            self.configRuleName = configRuleName
-            self.configRuleState = configRuleState
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case inputParameters = "InputParameters"
-            case maximumExecutionFrequency = "MaximumExecutionFrequency"
-            case configRuleId = "ConfigRuleId"
-            case source = "Source"
-            case description = "Description"
-            case createdBy = "CreatedBy"
-            case configRuleArn = "ConfigRuleArn"
-            case scope = "Scope"
-            case configRuleName = "ConfigRuleName"
-            case configRuleState = "ConfigRuleState"
-        }
-    }
-
-    public struct GetResourceConfigHistoryRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "resourceType", required: true, type: .enum), 
-            AWSShapeMember(label: "earlierTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "resourceId", required: true, type: .string), 
-            AWSShapeMember(label: "limit", required: false, type: .integer), 
-            AWSShapeMember(label: "laterTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "chronologicalOrder", required: false, type: .enum)
-        ]
-        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
-        public let nextToken: String?
-        /// The resource type.
-        public let resourceType: ResourceType
-        /// The time stamp that indicates an earlier time. If not specified, the action returns paginated results that contain configuration items that start when the first configuration item was recorded.
-        public let earlierTime: TimeStamp?
-        /// The ID of the resource (for example., sg-xxxxxx).
-        public let resourceId: String
-        /// The maximum number of configuration items returned on each page. The default is 10. You cannot specify a number greater than 100. If you specify 0, AWS Config uses the default.
-        public let limit: Int32?
-        /// The time stamp that indicates a later time. If not specified, current time is taken.
-        public let laterTime: TimeStamp?
-        /// The chronological order for configuration items listed. By default, the results are listed in reverse chronological order.
-        public let chronologicalOrder: ChronologicalOrder?
-
-        public init(nextToken: String? = nil, resourceType: ResourceType, earlierTime: TimeStamp? = nil, resourceId: String, limit: Int32? = nil, laterTime: TimeStamp? = nil, chronologicalOrder: ChronologicalOrder? = nil) {
-            self.nextToken = nextToken
-            self.resourceType = resourceType
-            self.earlierTime = earlierTime
-            self.resourceId = resourceId
-            self.limit = limit
-            self.laterTime = laterTime
-            self.chronologicalOrder = chronologicalOrder
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case resourceType = "resourceType"
-            case earlierTime = "earlierTime"
-            case resourceId = "resourceId"
-            case limit = "limit"
-            case laterTime = "laterTime"
-            case chronologicalOrder = "chronologicalOrder"
-        }
-    }
-
-    public enum ChronologicalOrder: String, CustomStringConvertible, Codable {
-        case reverse = "Reverse"
-        case forward = "Forward"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum MessageType: String, CustomStringConvertible, Codable {
-        case configurationitemchangenotification = "ConfigurationItemChangeNotification"
-        case configurationsnapshotdeliverycompleted = "ConfigurationSnapshotDeliveryCompleted"
-        case schedulednotification = "ScheduledNotification"
-        case oversizedconfigurationitemchangenotification = "OversizedConfigurationItemChangeNotification"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribeDeliveryChannelStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeliveryChannelNames", required: false, type: .list)
-        ]
-        /// A list of delivery channel names.
-        public let deliveryChannelNames: [String]?
-
-        public init(deliveryChannelNames: [String]? = nil) {
-            self.deliveryChannelNames = deliveryChannelNames
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deliveryChannelNames = "DeliveryChannelNames"
-        }
-    }
-
-    public struct PutDeliveryChannelRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeliveryChannel", required: true, type: .structure)
-        ]
-        /// The configuration delivery channel object that delivers the configuration information to an Amazon S3 bucket and to an Amazon SNS topic.
-        public let deliveryChannel: DeliveryChannel
-
-        public init(deliveryChannel: DeliveryChannel) {
-            self.deliveryChannel = deliveryChannel
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deliveryChannel = "DeliveryChannel"
-        }
-    }
-
-    public struct ResourceFilters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "Region", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceName", required: false, type: .string), 
-            AWSShapeMember(label: "AccountId", required: false, type: .string)
-        ]
-        /// The ID of the resource.
-        public let resourceId: String?
-        /// The source region.
-        public let region: String?
-        /// The name of the resource.
-        public let resourceName: String?
-        /// The 12-digit source account ID.
-        public let accountId: String?
-
-        public init(resourceId: String? = nil, region: String? = nil, resourceName: String? = nil, accountId: String? = nil) {
-            self.resourceId = resourceId
-            self.region = region
-            self.resourceName = resourceName
-            self.accountId = accountId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceId = "ResourceId"
-            case region = "Region"
-            case resourceName = "ResourceName"
-            case accountId = "AccountId"
-        }
-    }
-
-    public struct StartConfigRulesEvaluationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigRuleNames", required: false, type: .list)
-        ]
-        /// The list of names of AWS Config rules that you want to run evaluations for.
-        public let configRuleNames: [String]?
-
-        public init(configRuleNames: [String]? = nil) {
-            self.configRuleNames = configRuleNames
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case configRuleNames = "ConfigRuleNames"
-        }
-    }
-
     public struct DescribeDeliveryChannelsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeliveryChannels", required: false, type: .list)
@@ -3023,296 +2968,86 @@ extension ConfigService {
         }
     }
 
-    public struct Evaluation: AWSShape {
+    public struct PutEvaluationsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Annotation", required: false, type: .string), 
-            AWSShapeMember(label: "OrderingTimestamp", required: true, type: .timestamp), 
-            AWSShapeMember(label: "ComplianceResourceId", required: true, type: .string), 
-            AWSShapeMember(label: "ComplianceResourceType", required: true, type: .string), 
-            AWSShapeMember(label: "ComplianceType", required: true, type: .enum)
+            AWSShapeMember(label: "TestMode", required: false, type: .boolean), 
+            AWSShapeMember(label: "ResultToken", required: true, type: .string), 
+            AWSShapeMember(label: "Evaluations", required: false, type: .list)
         ]
-        /// Supplementary information about how the evaluation determined the compliance.
-        public let annotation: String?
-        /// The time of the event in AWS Config that triggered the evaluation. For event-based evaluations, the time indicates when AWS Config created the configuration item that triggered the evaluation. For periodic evaluations, the time indicates when AWS Config triggered the evaluation at the frequency that you specified (for example, every 24 hours).
-        public let orderingTimestamp: TimeStamp
-        /// The ID of the AWS resource that was evaluated.
-        public let complianceResourceId: String
-        /// The type of AWS resource that was evaluated.
-        public let complianceResourceType: String
-        /// Indicates whether the AWS resource complies with the AWS Config rule that it was evaluated against. For the Evaluation data type, AWS Config supports only the COMPLIANT, NON_COMPLIANT, and NOT_APPLICABLE values. AWS Config does not support the INSUFFICIENT_DATA value for this data type. Similarly, AWS Config does not accept INSUFFICIENT_DATA as the value for ComplianceType from a PutEvaluations request. For example, an AWS Lambda function for a custom AWS Config rule cannot pass an INSUFFICIENT_DATA value to AWS Config.
-        public let complianceType: ComplianceType
+        /// Use this parameter to specify a test run for PutEvaluations. You can verify whether your AWS Lambda function will deliver evaluation results to AWS Config. No updates occur to your existing evaluations, and evaluation results are not sent to AWS Config.  When TestMode is true, PutEvaluations doesn't require a valid value for the ResultToken parameter, but the value cannot be null. 
+        public let testMode: Bool?
+        /// An encrypted token that associates an evaluation with an AWS Config rule. Identifies the rule and the event that triggered the evaluation.
+        public let resultToken: String
+        /// The assessments that the AWS Lambda function performs. Each evaluation identifies an AWS resource and indicates whether it complies with the AWS Config rule that invokes the AWS Lambda function.
+        public let evaluations: [Evaluation]?
 
-        public init(annotation: String? = nil, orderingTimestamp: TimeStamp, complianceResourceId: String, complianceResourceType: String, complianceType: ComplianceType) {
-            self.annotation = annotation
-            self.orderingTimestamp = orderingTimestamp
-            self.complianceResourceId = complianceResourceId
-            self.complianceResourceType = complianceResourceType
-            self.complianceType = complianceType
+        public init(evaluations: [Evaluation]? = nil, resultToken: String, testMode: Bool? = nil) {
+            self.testMode = testMode
+            self.resultToken = resultToken
+            self.evaluations = evaluations
         }
 
         private enum CodingKeys: String, CodingKey {
-            case annotation = "Annotation"
-            case orderingTimestamp = "OrderingTimestamp"
-            case complianceResourceId = "ComplianceResourceId"
-            case complianceResourceType = "ComplianceResourceType"
-            case complianceType = "ComplianceType"
+            case testMode = "TestMode"
+            case resultToken = "ResultToken"
+            case evaluations = "Evaluations"
         }
     }
 
-    public struct DeletePendingAggregationRequestRequest: AWSShape {
+    public struct DeliveryChannelStatus: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequesterAccountId", required: true, type: .string), 
-            AWSShapeMember(label: "RequesterAwsRegion", required: true, type: .string)
+            AWSShapeMember(label: "configHistoryDeliveryInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "configStreamDeliveryInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "configSnapshotDeliveryInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "name", required: false, type: .string)
         ]
-        /// The 12-digit account ID of the account requesting to aggregate data.
-        public let requesterAccountId: String
-        /// The region requesting to aggregate data.
-        public let requesterAwsRegion: String
-
-        public init(requesterAccountId: String, requesterAwsRegion: String) {
-            self.requesterAccountId = requesterAccountId
-            self.requesterAwsRegion = requesterAwsRegion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case requesterAccountId = "RequesterAccountId"
-            case requesterAwsRegion = "RequesterAwsRegion"
-        }
-    }
-
-    public struct DescribeComplianceByConfigRuleResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComplianceByConfigRules", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Indicates whether each of the specified AWS Config rules is compliant.
-        public let complianceByConfigRules: [ComplianceByConfigRule]?
-        /// The string that you use in a subsequent request to get the next page of results in a paginated response.
-        public let nextToken: String?
-
-        public init(complianceByConfigRules: [ComplianceByConfigRule]? = nil, nextToken: String? = nil) {
-            self.complianceByConfigRules = complianceByConfigRules
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case complianceByConfigRules = "ComplianceByConfigRules"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DeliveryChannel: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "s3KeyPrefix", required: false, type: .string), 
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "configSnapshotDeliveryProperties", required: false, type: .structure), 
-            AWSShapeMember(label: "s3BucketName", required: false, type: .string), 
-            AWSShapeMember(label: "snsTopicARN", required: false, type: .string)
-        ]
-        /// The prefix for the specified Amazon S3 bucket.
-        public let s3KeyPrefix: String?
-        /// The name of the delivery channel. By default, AWS Config assigns the name "default" when creating the delivery channel. To change the delivery channel name, you must use the DeleteDeliveryChannel action to delete your current delivery channel, and then you must use the PutDeliveryChannel command to create a delivery channel that has the desired name.
+        /// A list that contains the status of the delivery of the configuration history to the specified Amazon S3 bucket.
+        public let configHistoryDeliveryInfo: ConfigExportDeliveryInfo?
+        /// A list containing the status of the delivery of the configuration stream notification to the specified Amazon SNS topic.
+        public let configStreamDeliveryInfo: ConfigStreamDeliveryInfo?
+        /// A list containing the status of the delivery of the snapshot to the specified Amazon S3 bucket.
+        public let configSnapshotDeliveryInfo: ConfigExportDeliveryInfo?
+        /// The name of the delivery channel.
         public let name: String?
-        /// The options for how often AWS Config delivers configuration snapshots to the Amazon S3 bucket.
-        public let configSnapshotDeliveryProperties: ConfigSnapshotDeliveryProperties?
-        /// The name of the Amazon S3 bucket to which AWS Config delivers configuration snapshots and configuration history files. If you specify a bucket that belongs to another AWS account, that bucket must have policies that grant access permissions to AWS Config. For more information, see Permissions for the Amazon S3 Bucket in the AWS Config Developer Guide.
-        public let s3BucketName: String?
-        /// The Amazon Resource Name (ARN) of the Amazon SNS topic to which AWS Config sends notifications about configuration changes. If you choose a topic from another account, the topic must have policies that grant access permissions to AWS Config. For more information, see Permissions for the Amazon SNS Topic in the AWS Config Developer Guide.
-        public let snsTopicARN: String?
 
-        public init(s3KeyPrefix: String? = nil, name: String? = nil, configSnapshotDeliveryProperties: ConfigSnapshotDeliveryProperties? = nil, s3BucketName: String? = nil, snsTopicARN: String? = nil) {
-            self.s3KeyPrefix = s3KeyPrefix
+        public init(configHistoryDeliveryInfo: ConfigExportDeliveryInfo? = nil, configSnapshotDeliveryInfo: ConfigExportDeliveryInfo? = nil, configStreamDeliveryInfo: ConfigStreamDeliveryInfo? = nil, name: String? = nil) {
+            self.configHistoryDeliveryInfo = configHistoryDeliveryInfo
+            self.configStreamDeliveryInfo = configStreamDeliveryInfo
+            self.configSnapshotDeliveryInfo = configSnapshotDeliveryInfo
             self.name = name
-            self.configSnapshotDeliveryProperties = configSnapshotDeliveryProperties
-            self.s3BucketName = s3BucketName
-            self.snsTopicARN = snsTopicARN
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3KeyPrefix = "s3KeyPrefix"
+            case configHistoryDeliveryInfo = "configHistoryDeliveryInfo"
+            case configStreamDeliveryInfo = "configStreamDeliveryInfo"
+            case configSnapshotDeliveryInfo = "configSnapshotDeliveryInfo"
             case name = "name"
-            case configSnapshotDeliveryProperties = "configSnapshotDeliveryProperties"
-            case s3BucketName = "s3BucketName"
-            case snsTopicARN = "snsTopicARN"
         }
     }
 
-    public struct BatchGetResourceConfigRequest: AWSShape {
+    public struct ComplianceByResource: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceKeys", required: true, type: .list)
+            AWSShapeMember(label: "Compliance", required: false, type: .structure), 
+            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .string)
         ]
-        /// A list of resource keys to be processed with the current request. Each element in the list consists of the resource type and resource ID.
-        public let resourceKeys: [ResourceKey]
-
-        public init(resourceKeys: [ResourceKey]) {
-            self.resourceKeys = resourceKeys
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceKeys = "resourceKeys"
-        }
-    }
-
-    public enum ResourceCountGroupKey: String, CustomStringConvertible, Codable {
-        case resourceType = "RESOURCE_TYPE"
-        case accountId = "ACCOUNT_ID"
-        case awsRegion = "AWS_REGION"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ConfigRuleComplianceFilters: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AwsRegion", required: false, type: .string), 
-            AWSShapeMember(label: "ComplianceType", required: false, type: .enum), 
-            AWSShapeMember(label: "ConfigRuleName", required: false, type: .string), 
-            AWSShapeMember(label: "AccountId", required: false, type: .string)
-        ]
-        /// The source region where the data is aggregated. 
-        public let awsRegion: String?
-        /// The rule compliance status. For the ConfigRuleComplianceFilters data type, AWS Config supports only COMPLIANT and NON_COMPLIANT. AWS Config does not support the NOT_APPLICABLE and the INSUFFICIENT_DATA values.
-        public let complianceType: ComplianceType?
-        /// The name of the AWS Config rule.
-        public let configRuleName: String?
-        /// The 12-digit account ID of the source account. 
-        public let accountId: String?
-
-        public init(awsRegion: String? = nil, complianceType: ComplianceType? = nil, configRuleName: String? = nil, accountId: String? = nil) {
-            self.awsRegion = awsRegion
-            self.complianceType = complianceType
-            self.configRuleName = configRuleName
-            self.accountId = accountId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case awsRegion = "AwsRegion"
-            case complianceType = "ComplianceType"
-            case configRuleName = "ConfigRuleName"
-            case accountId = "AccountId"
-        }
-    }
-
-    public struct ListAggregateDiscoveredResourcesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "ResourceType", required: true, type: .enum), 
-            AWSShapeMember(label: "ConfigurationAggregatorName", required: true, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .structure)
-        ]
-        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
-        public let nextToken: String?
-        /// The maximum number of resource identifiers returned on each page. The default is 100. You cannot specify a number greater than 100. If you specify 0, AWS Config uses the default.
-        public let limit: Int32?
-        /// The type of resources that you want AWS Config to list in the response.
-        public let resourceType: ResourceType
-        /// The name of the configuration aggregator. 
-        public let configurationAggregatorName: String
-        /// Filters the results based on the ResourceFilters object.
-        public let filters: ResourceFilters?
-
-        public init(nextToken: String? = nil, limit: Int32? = nil, resourceType: ResourceType, configurationAggregatorName: String, filters: ResourceFilters? = nil) {
-            self.nextToken = nextToken
-            self.limit = limit
-            self.resourceType = resourceType
-            self.configurationAggregatorName = configurationAggregatorName
-            self.filters = filters
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case limit = "Limit"
-            case resourceType = "ResourceType"
-            case configurationAggregatorName = "ConfigurationAggregatorName"
-            case filters = "Filters"
-        }
-    }
-
-    public struct GroupedResourceCount: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupName", required: true, type: .string), 
-            AWSShapeMember(label: "ResourceCount", required: true, type: .long)
-        ]
-        /// The name of the group that can be region, account ID, or resource type. For example, region1, region2 if the region was chosen as GroupByKey.
-        public let groupName: String
-        /// The number of resources in the group.
-        public let resourceCount: Int64
-
-        public init(groupName: String, resourceCount: Int64) {
-            self.groupName = groupName
-            self.resourceCount = resourceCount
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groupName = "GroupName"
-            case resourceCount = "ResourceCount"
-        }
-    }
-
-    public struct ComplianceSummaryByResourceType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceType", required: false, type: .string), 
-            AWSShapeMember(label: "ComplianceSummary", required: false, type: .structure)
-        ]
-        /// The type of AWS resource.
-        public let resourceType: String?
-        /// The number of AWS resources that are compliant or noncompliant, up to a maximum of 100 for each.
-        public let complianceSummary: ComplianceSummary?
-
-        public init(resourceType: String? = nil, complianceSummary: ComplianceSummary? = nil) {
-            self.resourceType = resourceType
-            self.complianceSummary = complianceSummary
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceType = "ResourceType"
-            case complianceSummary = "ComplianceSummary"
-        }
-    }
-
-    public struct ResourceIdentifier: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "resourceName", required: false, type: .string), 
-            AWSShapeMember(label: "resourceId", required: false, type: .string), 
-            AWSShapeMember(label: "resourceDeletionTime", required: false, type: .timestamp)
-        ]
-        /// The type of resource.
-        public let resourceType: ResourceType?
-        /// The custom name of the resource (if available).
-        public let resourceName: String?
-        /// The ID of the resource (for example, sg-xxxxxx).
+        /// Indicates whether the AWS resource complies with all of the AWS Config rules that evaluated it.
+        public let compliance: Compliance?
+        /// The ID of the AWS resource that was evaluated.
         public let resourceId: String?
-        /// The time that the resource was deleted.
-        public let resourceDeletionTime: TimeStamp?
+        /// The type of the AWS resource that was evaluated.
+        public let resourceType: String?
 
-        public init(resourceType: ResourceType? = nil, resourceName: String? = nil, resourceId: String? = nil, resourceDeletionTime: TimeStamp? = nil) {
-            self.resourceType = resourceType
-            self.resourceName = resourceName
+        public init(compliance: Compliance? = nil, resourceId: String? = nil, resourceType: String? = nil) {
+            self.compliance = compliance
             self.resourceId = resourceId
-            self.resourceDeletionTime = resourceDeletionTime
+            self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceType = "resourceType"
-            case resourceName = "resourceName"
-            case resourceId = "resourceId"
-            case resourceDeletionTime = "resourceDeletionTime"
-        }
-    }
-
-    public struct StartConfigurationRecorderRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationRecorderName", required: true, type: .string)
-        ]
-        /// The name of the recorder object that records each configuration change made to the resources.
-        public let configurationRecorderName: String
-
-        public init(configurationRecorderName: String) {
-            self.configurationRecorderName = configurationRecorderName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case configurationRecorderName = "ConfigurationRecorderName"
+            case compliance = "Compliance"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
         }
     }
 
@@ -3332,61 +3067,332 @@ extension ConfigService {
         }
     }
 
-    public struct ConfigurationRecorder: AWSShape {
+    public struct SourceDetail: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "roleARN", required: false, type: .string), 
-            AWSShapeMember(label: "recordingGroup", required: false, type: .structure)
+            AWSShapeMember(label: "EventSource", required: false, type: .enum), 
+            AWSShapeMember(label: "MessageType", required: false, type: .enum), 
+            AWSShapeMember(label: "MaximumExecutionFrequency", required: false, type: .enum)
         ]
-        /// The name of the recorder. By default, AWS Config automatically assigns the name "default" when creating the configuration recorder. You cannot change the assigned name.
+        /// The source of the event, such as an AWS service, that triggers AWS Config to evaluate your AWS resources.
+        public let eventSource: EventSource?
+        /// The type of notification that triggers AWS Config to run an evaluation for a rule. You can specify the following notification types:    ConfigurationItemChangeNotification - Triggers an evaluation when AWS Config delivers a configuration item as a result of a resource change.    OversizedConfigurationItemChangeNotification - Triggers an evaluation when AWS Config delivers an oversized configuration item. AWS Config may generate this notification type when a resource changes and the notification exceeds the maximum size allowed by Amazon SNS.    ScheduledNotification - Triggers a periodic evaluation at the frequency specified for MaximumExecutionFrequency.    ConfigurationSnapshotDeliveryCompleted - Triggers a periodic evaluation when AWS Config delivers a configuration snapshot.   If you want your custom rule to be triggered by configuration changes, specify two SourceDetail objects, one for ConfigurationItemChangeNotification and one for OversizedConfigurationItemChangeNotification.
+        public let messageType: MessageType?
+        /// The frequency at which you want AWS Config to run evaluations for a custom rule with a periodic trigger. If you specify a value for MaximumExecutionFrequency, then MessageType must use the ScheduledNotification value.  By default, rules with a periodic trigger are evaluated every 24 hours. To change the frequency, specify a valid value for the MaximumExecutionFrequency parameter. Based on the valid value you choose, AWS Config runs evaluations once for each valid value. For example, if you choose Three_Hours, AWS Config runs evaluations once every three hours. In this case, Three_Hours is the frequency of this rule.  
+        public let maximumExecutionFrequency: MaximumExecutionFrequency?
+
+        public init(eventSource: EventSource? = nil, maximumExecutionFrequency: MaximumExecutionFrequency? = nil, messageType: MessageType? = nil) {
+            self.eventSource = eventSource
+            self.messageType = messageType
+            self.maximumExecutionFrequency = maximumExecutionFrequency
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventSource = "EventSource"
+            case messageType = "MessageType"
+            case maximumExecutionFrequency = "MaximumExecutionFrequency"
+        }
+    }
+
+    public struct OrganizationAggregationSource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllAwsRegions", required: false, type: .boolean), 
+            AWSShapeMember(label: "AwsRegions", required: false, type: .list), 
+            AWSShapeMember(label: "RoleArn", required: true, type: .string)
+        ]
+        /// If true, aggregate existing AWS Config regions and future regions.
+        public let allAwsRegions: Bool?
+        /// The source regions being aggregated.
+        public let awsRegions: [String]?
+        /// ARN of the IAM role used to retreive AWS Organization details associated with the aggregator account.
+        public let roleArn: String
+
+        public init(allAwsRegions: Bool? = nil, awsRegions: [String]? = nil, roleArn: String) {
+            self.allAwsRegions = allAwsRegions
+            self.awsRegions = awsRegions
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allAwsRegions = "AllAwsRegions"
+            case awsRegions = "AwsRegions"
+            case roleArn = "RoleArn"
+        }
+    }
+
+    public struct DeliveryChannel: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "configSnapshotDeliveryProperties", required: false, type: .structure), 
+            AWSShapeMember(label: "s3KeyPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "snsTopicARN", required: false, type: .string), 
+            AWSShapeMember(label: "s3BucketName", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string)
+        ]
+        /// The options for how often AWS Config delivers configuration snapshots to the Amazon S3 bucket.
+        public let configSnapshotDeliveryProperties: ConfigSnapshotDeliveryProperties?
+        /// The prefix for the specified Amazon S3 bucket.
+        public let s3KeyPrefix: String?
+        /// The Amazon Resource Name (ARN) of the Amazon SNS topic to which AWS Config sends notifications about configuration changes. If you choose a topic from another account, the topic must have policies that grant access permissions to AWS Config. For more information, see Permissions for the Amazon SNS Topic in the AWS Config Developer Guide.
+        public let snsTopicARN: String?
+        /// The name of the Amazon S3 bucket to which AWS Config delivers configuration snapshots and configuration history files. If you specify a bucket that belongs to another AWS account, that bucket must have policies that grant access permissions to AWS Config. For more information, see Permissions for the Amazon S3 Bucket in the AWS Config Developer Guide.
+        public let s3BucketName: String?
+        /// The name of the delivery channel. By default, AWS Config assigns the name "default" when creating the delivery channel. To change the delivery channel name, you must use the DeleteDeliveryChannel action to delete your current delivery channel, and then you must use the PutDeliveryChannel command to create a delivery channel that has the desired name.
         public let name: String?
-        /// Amazon Resource Name (ARN) of the IAM role used to describe the AWS resources associated with the account.
-        public let roleARN: String?
-        /// Specifies the types of AWS resources for which AWS Config records configuration changes.
-        public let recordingGroup: RecordingGroup?
 
-        public init(name: String? = nil, roleARN: String? = nil, recordingGroup: RecordingGroup? = nil) {
+        public init(configSnapshotDeliveryProperties: ConfigSnapshotDeliveryProperties? = nil, name: String? = nil, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, snsTopicARN: String? = nil) {
+            self.configSnapshotDeliveryProperties = configSnapshotDeliveryProperties
+            self.s3KeyPrefix = s3KeyPrefix
+            self.snsTopicARN = snsTopicARN
+            self.s3BucketName = s3BucketName
             self.name = name
-            self.roleARN = roleARN
-            self.recordingGroup = recordingGroup
         }
 
         private enum CodingKeys: String, CodingKey {
+            case configSnapshotDeliveryProperties = "configSnapshotDeliveryProperties"
+            case s3KeyPrefix = "s3KeyPrefix"
+            case snsTopicARN = "snsTopicARN"
+            case s3BucketName = "s3BucketName"
             case name = "name"
-            case roleARN = "roleARN"
-            case recordingGroup = "recordingGroup"
         }
     }
 
-    public struct PutEvaluationsRequest: AWSShape {
+    public struct DescribeConfigurationAggregatorSourcesStatusResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Evaluations", required: false, type: .list), 
-            AWSShapeMember(label: "ResultToken", required: true, type: .string), 
-            AWSShapeMember(label: "TestMode", required: false, type: .boolean)
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "AggregatedSourceStatusList", required: false, type: .list)
         ]
-        /// The assessments that the AWS Lambda function performs. Each evaluation identifies an AWS resource and indicates whether it complies with the AWS Config rule that invokes the AWS Lambda function.
-        public let evaluations: [Evaluation]?
-        /// An encrypted token that associates an evaluation with an AWS Config rule. Identifies the rule and the event that triggered the evaluation.
-        public let resultToken: String
-        /// Use this parameter to specify a test run for PutEvaluations. You can verify whether your AWS Lambda function will deliver evaluation results to AWS Config. No updates occur to your existing evaluations, and evaluation results are not sent to AWS Config.  When TestMode is true, PutEvaluations doesn't require a valid value for the ResultToken parameter, but the value cannot be null. 
-        public let testMode: Bool?
+        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+        public let nextToken: String?
+        /// Returns an AggregatedSourceStatus object. 
+        public let aggregatedSourceStatusList: [AggregatedSourceStatus]?
 
-        public init(evaluations: [Evaluation]? = nil, resultToken: String, testMode: Bool? = nil) {
-            self.evaluations = evaluations
-            self.resultToken = resultToken
-            self.testMode = testMode
+        public init(aggregatedSourceStatusList: [AggregatedSourceStatus]? = nil, nextToken: String? = nil) {
+            self.nextToken = nextToken
+            self.aggregatedSourceStatusList = aggregatedSourceStatusList
         }
 
         private enum CodingKeys: String, CodingKey {
-            case evaluations = "Evaluations"
-            case resultToken = "ResultToken"
-            case testMode = "TestMode"
+            case nextToken = "NextToken"
+            case aggregatedSourceStatusList = "AggregatedSourceStatusList"
         }
     }
 
-    public enum EventSource: String, CustomStringConvertible, Codable {
-        case awsConfig = "aws.config"
-        public var description: String { return self.rawValue }
+    public struct ListDiscoveredResourcesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceType", required: true, type: .enum), 
+            AWSShapeMember(label: "resourceIds", required: false, type: .list), 
+            AWSShapeMember(label: "includeDeletedResources", required: false, type: .boolean), 
+            AWSShapeMember(label: "limit", required: false, type: .integer), 
+            AWSShapeMember(label: "resourceName", required: false, type: .string), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// The type of resources that you want AWS Config to list in the response.
+        public let resourceType: ResourceType
+        /// The IDs of only those resources that you want AWS Config to list in the response. If you do not specify this parameter, AWS Config lists all resources of the specified type that it has discovered.
+        public let resourceIds: [String]?
+        /// Specifies whether AWS Config includes deleted resources in the results. By default, deleted resources are not included.
+        public let includeDeletedResources: Bool?
+        /// The maximum number of resource identifiers returned on each page. The default is 100. You cannot specify a number greater than 100. If you specify 0, AWS Config uses the default.
+        public let limit: Int32?
+        /// The custom name of only those resources that you want AWS Config to list in the response. If you do not specify this parameter, AWS Config lists all resources of the specified type that it has discovered.
+        public let resourceName: String?
+        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+        public let nextToken: String?
+
+        public init(includeDeletedResources: Bool? = nil, limit: Int32? = nil, nextToken: String? = nil, resourceIds: [String]? = nil, resourceName: String? = nil, resourceType: ResourceType) {
+            self.resourceType = resourceType
+            self.resourceIds = resourceIds
+            self.includeDeletedResources = includeDeletedResources
+            self.limit = limit
+            self.resourceName = resourceName
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceType = "resourceType"
+            case resourceIds = "resourceIds"
+            case includeDeletedResources = "includeDeletedResources"
+            case limit = "limit"
+            case resourceName = "resourceName"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ConfigStreamDeliveryInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "lastErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "lastStatusChangeTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "lastStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "lastErrorMessage", required: false, type: .string)
+        ]
+        /// The error code from the last attempted delivery.
+        public let lastErrorCode: String?
+        /// The time from the last status change.
+        public let lastStatusChangeTime: TimeStamp?
+        /// Status of the last attempted delivery.  Note Providing an SNS topic on a DeliveryChannel for AWS Config is optional. If the SNS delivery is turned off, the last status will be Not_Applicable.
+        public let lastStatus: DeliveryStatus?
+        /// The error message from the last attempted delivery.
+        public let lastErrorMessage: String?
+
+        public init(lastErrorCode: String? = nil, lastErrorMessage: String? = nil, lastStatus: DeliveryStatus? = nil, lastStatusChangeTime: TimeStamp? = nil) {
+            self.lastErrorCode = lastErrorCode
+            self.lastStatusChangeTime = lastStatusChangeTime
+            self.lastStatus = lastStatus
+            self.lastErrorMessage = lastErrorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastErrorCode = "lastErrorCode"
+            case lastStatusChangeTime = "lastStatusChangeTime"
+            case lastStatus = "lastStatus"
+            case lastErrorMessage = "lastErrorMessage"
+        }
+    }
+
+    public struct StartConfigRulesEvaluationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigRuleNames", required: false, type: .list)
+        ]
+        /// The list of names of AWS Config rules that you want to run evaluations for.
+        public let configRuleNames: [String]?
+
+        public init(configRuleNames: [String]? = nil) {
+            self.configRuleNames = configRuleNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configRuleNames = "ConfigRuleNames"
+        }
+    }
+
+    public struct ComplianceSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NonCompliantResourceCount", required: false, type: .structure), 
+            AWSShapeMember(label: "CompliantResourceCount", required: false, type: .structure), 
+            AWSShapeMember(label: "ComplianceSummaryTimestamp", required: false, type: .timestamp)
+        ]
+        /// The number of AWS Config rules or AWS resources that are noncompliant, up to a maximum of 25 for rules and 100 for resources.
+        public let nonCompliantResourceCount: ComplianceContributorCount?
+        /// The number of AWS Config rules or AWS resources that are compliant, up to a maximum of 25 for rules and 100 for resources.
+        public let compliantResourceCount: ComplianceContributorCount?
+        /// The time that AWS Config created the compliance summary.
+        public let complianceSummaryTimestamp: TimeStamp?
+
+        public init(complianceSummaryTimestamp: TimeStamp? = nil, compliantResourceCount: ComplianceContributorCount? = nil, nonCompliantResourceCount: ComplianceContributorCount? = nil) {
+            self.nonCompliantResourceCount = nonCompliantResourceCount
+            self.compliantResourceCount = compliantResourceCount
+            self.complianceSummaryTimestamp = complianceSummaryTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nonCompliantResourceCount = "NonCompliantResourceCount"
+            case compliantResourceCount = "CompliantResourceCount"
+            case complianceSummaryTimestamp = "ComplianceSummaryTimestamp"
+        }
+    }
+
+    public struct DeleteEvaluationResultsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigRuleName", required: true, type: .string)
+        ]
+        /// The name of the AWS Config rule for which you want to delete the evaluation results.
+        public let configRuleName: String
+
+        public init(configRuleName: String) {
+            self.configRuleName = configRuleName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configRuleName = "ConfigRuleName"
+        }
+    }
+
+    public struct GetDiscoveredResourceCountsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "limit", required: false, type: .integer), 
+            AWSShapeMember(label: "resourceTypes", required: false, type: .list)
+        ]
+        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+        public let nextToken: String?
+        /// The maximum number of ResourceCount objects returned on each page. The default is 100. You cannot specify a number greater than 100. If you specify 0, AWS Config uses the default.
+        public let limit: Int32?
+        /// The comma-separated list that specifies the resource types that you want AWS Config to return (for example, "AWS::EC2::Instance", "AWS::IAM::User"). If a value for resourceTypes is not specified, AWS Config returns all resource types that AWS Config is recording in the region for your account.  If the configuration recorder is turned off, AWS Config returns an empty list of ResourceCount objects. If the configuration recorder is not recording a specific resource type (for example, S3 buckets), that resource type is not returned in the list of ResourceCount objects. 
+        public let resourceTypes: [String]?
+
+        public init(limit: Int32? = nil, nextToken: String? = nil, resourceTypes: [String]? = nil) {
+            self.nextToken = nextToken
+            self.limit = limit
+            self.resourceTypes = resourceTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case limit = "limit"
+            case resourceTypes = "resourceTypes"
+        }
+    }
+
+    public struct GetComplianceDetailsByConfigRuleResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "EvaluationResults", required: false, type: .list)
+        ]
+        /// The string that you use in a subsequent request to get the next page of results in a paginated response.
+        public let nextToken: String?
+        /// Indicates whether the AWS resource complies with the specified AWS Config rule.
+        public let evaluationResults: [EvaluationResult]?
+
+        public init(evaluationResults: [EvaluationResult]? = nil, nextToken: String? = nil) {
+            self.nextToken = nextToken
+            self.evaluationResults = evaluationResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case evaluationResults = "EvaluationResults"
+        }
+    }
+
+    public struct RetentionConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RetentionPeriodInDays", required: true, type: .integer), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// Number of days AWS Config stores your historical information.  Currently, only applicable to the configuration item history. 
+        public let retentionPeriodInDays: Int32
+        /// The name of the retention configuration object.
+        public let name: String
+
+        public init(name: String, retentionPeriodInDays: Int32) {
+            self.retentionPeriodInDays = retentionPeriodInDays
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case retentionPeriodInDays = "RetentionPeriodInDays"
+            case name = "Name"
+        }
+    }
+
+    public struct ComplianceContributorCount: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CappedCount", required: false, type: .integer), 
+            AWSShapeMember(label: "CapExceeded", required: false, type: .boolean)
+        ]
+        /// The number of AWS resources or AWS Config rules responsible for the current compliance of the item.
+        public let cappedCount: Int32?
+        /// Indicates whether the maximum count is reached.
+        public let capExceeded: Bool?
+
+        public init(capExceeded: Bool? = nil, cappedCount: Int32? = nil) {
+            self.cappedCount = cappedCount
+            self.capExceeded = capExceeded
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cappedCount = "CappedCount"
+            case capExceeded = "CapExceeded"
+        }
     }
 
 }

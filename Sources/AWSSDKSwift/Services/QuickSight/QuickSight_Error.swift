@@ -9,10 +9,10 @@ public enum QuickSightErrorType: AWSErrorType {
     case resourceNotFoundException(message: String?)
     case throttlingException(message: String?)
     case invalidNextTokenException(message: String?)
-    case preconditionNotMetException(message: String?)
     case internalFailureException(message: String?)
     case resourceUnavailableException(message: String?)
     case resourceExistsException(message: String?)
+    case preconditionNotMetException(message: String?)
     case limitExceededException(message: String?)
     case domainNotWhitelistedException(message: String?)
     case quickSightUserNotFoundException(message: String?)
@@ -38,14 +38,14 @@ extension QuickSightErrorType {
             self = .throttlingException(message: message)
         case "InvalidNextTokenException":
             self = .invalidNextTokenException(message: message)
-        case "PreconditionNotMetException":
-            self = .preconditionNotMetException(message: message)
         case "InternalFailureException":
             self = .internalFailureException(message: message)
         case "ResourceUnavailableException":
             self = .resourceUnavailableException(message: message)
         case "ResourceExistsException":
             self = .resourceExistsException(message: message)
+        case "PreconditionNotMetException":
+            self = .preconditionNotMetException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
         case "DomainNotWhitelistedException":

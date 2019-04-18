@@ -7,8 +7,8 @@ public enum TranscribeServiceErrorType: AWSErrorType {
     case badRequestException(message: String?)
     case limitExceededException(message: String?)
     case internalFailureException(message: String?)
-    case notFoundException(message: String?)
     case conflictException(message: String?)
+    case notFoundException(message: String?)
 }
 
 extension TranscribeServiceErrorType {
@@ -24,10 +24,10 @@ extension TranscribeServiceErrorType {
             self = .limitExceededException(message: message)
         case "InternalFailureException":
             self = .internalFailureException(message: message)
-        case "NotFoundException":
-            self = .notFoundException(message: message)
         case "ConflictException":
             self = .conflictException(message: message)
+        case "NotFoundException":
+            self = .notFoundException(message: message)
         default:
             return nil
         }

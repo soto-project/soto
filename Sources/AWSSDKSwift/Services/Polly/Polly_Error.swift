@@ -4,18 +4,18 @@ import AWSSDKSwiftCore
 
 /// Error enum for Polly
 public enum PollyErrorType: AWSErrorType {
+    case invalidNextTokenException(message: String?)
+    case serviceFailureException(message: String?)
+    case lexiconNotFoundException(message: String?)
     case invalidLexiconException(message: String?)
     case unsupportedPlsAlphabetException(message: String?)
     case unsupportedPlsLanguageException(message: String?)
     case lexiconSizeExceededException(message: String?)
     case maxLexemeLengthExceededException(message: String?)
     case maxLexiconsNumberExceededException(message: String?)
-    case serviceFailureException(message: String?)
-    case invalidNextTokenException(message: String?)
     case textLengthExceededException(message: String?)
     case invalidSampleRateException(message: String?)
     case invalidSsmlException(message: String?)
-    case lexiconNotFoundException(message: String?)
     case marksNotSupportedForFormatException(message: String?)
     case ssmlMarksNotSupportedForTextTypeException(message: String?)
     case languageNotSupportedException(message: String?)
@@ -33,6 +33,12 @@ extension PollyErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "InvalidNextTokenException":
+            self = .invalidNextTokenException(message: message)
+        case "ServiceFailureException":
+            self = .serviceFailureException(message: message)
+        case "LexiconNotFoundException":
+            self = .lexiconNotFoundException(message: message)
         case "InvalidLexiconException":
             self = .invalidLexiconException(message: message)
         case "UnsupportedPlsAlphabetException":
@@ -45,18 +51,12 @@ extension PollyErrorType {
             self = .maxLexemeLengthExceededException(message: message)
         case "MaxLexiconsNumberExceededException":
             self = .maxLexiconsNumberExceededException(message: message)
-        case "ServiceFailureException":
-            self = .serviceFailureException(message: message)
-        case "InvalidNextTokenException":
-            self = .invalidNextTokenException(message: message)
         case "TextLengthExceededException":
             self = .textLengthExceededException(message: message)
         case "InvalidSampleRateException":
             self = .invalidSampleRateException(message: message)
         case "InvalidSsmlException":
             self = .invalidSsmlException(message: message)
-        case "LexiconNotFoundException":
-            self = .lexiconNotFoundException(message: message)
         case "MarksNotSupportedForFormatException":
             self = .marksNotSupportedForFormatException(message: message)
         case "SsmlMarksNotSupportedForTextTypeException":

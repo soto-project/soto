@@ -6,9 +6,9 @@ import AWSSDKSwiftCore
 public enum APIGatewayErrorType: AWSErrorType {
     case unauthorizedException(message: String?)
     case notFoundException(message: String?)
+    case badRequestException(message: String?)
     case tooManyRequestsException(message: String?)
     case conflictException(message: String?)
-    case badRequestException(message: String?)
     case limitExceededException(message: String?)
     case serviceUnavailableException(message: String?)
 }
@@ -24,12 +24,12 @@ extension APIGatewayErrorType {
             self = .unauthorizedException(message: message)
         case "NotFoundException":
             self = .notFoundException(message: message)
+        case "BadRequestException":
+            self = .badRequestException(message: message)
         case "TooManyRequestsException":
             self = .tooManyRequestsException(message: message)
         case "ConflictException":
             self = .conflictException(message: message)
-        case "BadRequestException":
-            self = .badRequestException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
         case "ServiceUnavailableException":

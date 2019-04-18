@@ -5,6 +5,110 @@ import AWSSDKSwiftCore
 
 extension Athena {
 
+    public struct StartQueryExecutionOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QueryExecutionId", required: false, type: .string)
+        ]
+        /// The unique ID of the query that ran as a result of this request.
+        public let queryExecutionId: String?
+
+        public init(queryExecutionId: String? = nil) {
+            self.queryExecutionId = queryExecutionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryExecutionId = "QueryExecutionId"
+        }
+    }
+
+    public struct GetQueryResultsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "UpdateCount", required: false, type: .long), 
+            AWSShapeMember(label: "ResultSet", required: false, type: .structure)
+        ]
+        /// A token to be used by the next request if this request is truncated.
+        public let nextToken: String?
+        /// The number of rows inserted with a CREATE TABLE AS SELECT statement. 
+        public let updateCount: Int64?
+        /// The results of the query execution.
+        public let resultSet: ResultSet?
+
+        public init(nextToken: String? = nil, resultSet: ResultSet? = nil, updateCount: Int64? = nil) {
+            self.nextToken = nextToken
+            self.updateCount = updateCount
+            self.resultSet = resultSet
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case updateCount = "UpdateCount"
+            case resultSet = "ResultSet"
+        }
+    }
+
+    public struct CreateNamedQueryInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "QueryString", required: true, type: .string), 
+            AWSShapeMember(label: "Database", required: true, type: .string), 
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
+        ]
+        /// The plain language name for the query.
+        public let name: String
+        /// The text of the query itself. In other words, all query statements.
+        public let queryString: String
+        /// The database to which the query belongs.
+        public let database: String
+        /// A unique case-sensitive string used to ensure the request to create the query is idempotent (executes only once). If another CreateNamedQuery request is received, the same response is returned and another query is not created. If a parameter has changed, for example, the QueryString, an error is returned.  This token is listed as not required because AWS SDKs (for example the AWS SDK for Java) auto-generate the token for users. If you are not using the AWS SDK or the AWS CLI, you must provide this token or the action will fail. 
+        public let clientRequestToken: String?
+        /// A brief explanation of the query.
+        public let description: String?
+
+        public init(clientRequestToken: String? = nil, database: String, description: String? = nil, name: String, queryString: String) {
+            self.name = name
+            self.queryString = queryString
+            self.database = database
+            self.clientRequestToken = clientRequestToken
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case queryString = "QueryString"
+            case database = "Database"
+            case clientRequestToken = "ClientRequestToken"
+            case description = "Description"
+        }
+    }
+
+    public struct UnprocessedNamedQueryId: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "NamedQueryId", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorCode", required: false, type: .string)
+        ]
+        /// The error message returned when the processing request for the named query failed, if applicable.
+        public let errorMessage: String?
+        /// The unique identifier of the named query.
+        public let namedQueryId: String?
+        /// The error code returned when the processing request for the named query failed, if applicable.
+        public let errorCode: String?
+
+        public init(errorCode: String? = nil, errorMessage: String? = nil, namedQueryId: String? = nil) {
+            self.errorMessage = errorMessage
+            self.namedQueryId = namedQueryId
+            self.errorCode = errorCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "ErrorMessage"
+            case namedQueryId = "NamedQueryId"
+            case errorCode = "ErrorCode"
+        }
+    }
+
     public enum QueryExecutionState: String, CustomStringConvertible, Codable {
         case queued = "QUEUED"
         case running = "RUNNING"
@@ -14,72 +118,63 @@ extension Athena {
         public var description: String { return self.rawValue }
     }
 
-    public struct DeleteNamedQueryInput: AWSShape {
+    public struct GetQueryExecutionOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NamedQueryId", required: true, type: .string)
+            AWSShapeMember(label: "QueryExecution", required: false, type: .structure)
         ]
-        /// The unique ID of the query to delete.
-        public let namedQueryId: String
+        /// Information about the query execution.
+        public let queryExecution: QueryExecution?
 
-        public init(namedQueryId: String) {
-            self.namedQueryId = namedQueryId
+        public init(queryExecution: QueryExecution? = nil) {
+            self.queryExecution = queryExecution
         }
 
         private enum CodingKeys: String, CodingKey {
-            case namedQueryId = "NamedQueryId"
+            case queryExecution = "QueryExecution"
         }
     }
 
-    public struct Datum: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VarCharValue", required: false, type: .string)
-        ]
-        /// The value of the datum.
-        public let varCharValue: String?
+    public enum EncryptionOption: String, CustomStringConvertible, Codable {
+        case sseS3 = "SSE_S3"
+        case sseKms = "SSE_KMS"
+        case cseKms = "CSE_KMS"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(varCharValue: String? = nil) {
-            self.varCharValue = varCharValue
+    public struct ResultSetMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ColumnInfo", required: false, type: .list)
+        ]
+        /// Information about the columns returned in a query result metadata.
+        public let columnInfo: [ColumnInfo]?
+
+        public init(columnInfo: [ColumnInfo]? = nil) {
+            self.columnInfo = columnInfo
         }
 
         private enum CodingKeys: String, CodingKey {
-            case varCharValue = "VarCharValue"
+            case columnInfo = "ColumnInfo"
         }
     }
 
-    public struct ListQueryExecutionsOutput: AWSShape {
+    public struct ResultConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "QueryExecutionIds", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "OutputLocation", required: true, type: .string), 
+            AWSShapeMember(label: "EncryptionConfiguration", required: false, type: .structure)
         ]
-        /// The unique IDs of each query execution as an array of strings.
-        public let queryExecutionIds: [String]?
-        /// A token to be used by the next request if this request is truncated.
-        public let nextToken: String?
+        /// The location in Amazon S3 where your query results are stored, such as s3://path/to/query/bucket/. For more information, see Queries and Query Result Files.  
+        public let outputLocation: String
+        /// If query results are encrypted in Amazon S3, indicates the encryption option used (for example, SSE-KMS or CSE-KMS) and key information.
+        public let encryptionConfiguration: EncryptionConfiguration?
 
-        public init(queryExecutionIds: [String]? = nil, nextToken: String? = nil) {
-            self.queryExecutionIds = queryExecutionIds
-            self.nextToken = nextToken
+        public init(encryptionConfiguration: EncryptionConfiguration? = nil, outputLocation: String) {
+            self.outputLocation = outputLocation
+            self.encryptionConfiguration = encryptionConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
-            case queryExecutionIds = "QueryExecutionIds"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct CreateNamedQueryOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NamedQueryId", required: false, type: .string)
-        ]
-        /// The unique ID of the query.
-        public let namedQueryId: String?
-
-        public init(namedQueryId: String? = nil) {
-            self.namedQueryId = namedQueryId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case namedQueryId = "NamedQueryId"
+            case outputLocation = "OutputLocation"
+            case encryptionConfiguration = "EncryptionConfiguration"
         }
     }
 
@@ -104,49 +199,63 @@ extension Athena {
         }
     }
 
-    public struct QueryExecution: AWSShape {
+    public struct BatchGetNamedQueryInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Statistics", required: false, type: .structure), 
-            AWSShapeMember(label: "Status", required: false, type: .structure), 
-            AWSShapeMember(label: "QueryExecutionContext", required: false, type: .structure), 
-            AWSShapeMember(label: "Query", required: false, type: .string), 
-            AWSShapeMember(label: "ResultConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "QueryExecutionId", required: false, type: .string), 
-            AWSShapeMember(label: "StatementType", required: false, type: .enum)
+            AWSShapeMember(label: "NamedQueryIds", required: true, type: .list)
         ]
-        /// The amount of data scanned during the query execution and the amount of time that it took to execute, and the type of statement that was run.
-        public let statistics: QueryExecutionStatistics?
-        /// The completion date, current state, submission time, and state change reason (if applicable) for the query execution.
-        public let status: QueryExecutionStatus?
-        /// The database in which the query execution occurred.
-        public let queryExecutionContext: QueryExecutionContext?
-        /// The SQL query statements which the query execution ran.
-        public let query: String?
-        /// The location in Amazon S3 where query results were stored and the encryption option, if any, used for query results.
-        public let resultConfiguration: ResultConfiguration?
-        /// The unique identifier for each query execution.
-        public let queryExecutionId: String?
-        /// The type of query statement that was run. DDL indicates DDL query statements. DML indicates DML (Data Manipulation Language) query statements, such as CREATE TABLE AS SELECT. UTILITY indicates query statements other than DDL and DML, such as SHOW CREATE TABLE, or DESCRIBE &lt;table&gt;.
-        public let statementType: StatementType?
+        /// An array of query IDs.
+        public let namedQueryIds: [String]
 
-        public init(statistics: QueryExecutionStatistics? = nil, status: QueryExecutionStatus? = nil, queryExecutionContext: QueryExecutionContext? = nil, query: String? = nil, resultConfiguration: ResultConfiguration? = nil, queryExecutionId: String? = nil, statementType: StatementType? = nil) {
-            self.statistics = statistics
-            self.status = status
-            self.queryExecutionContext = queryExecutionContext
-            self.query = query
-            self.resultConfiguration = resultConfiguration
-            self.queryExecutionId = queryExecutionId
-            self.statementType = statementType
+        public init(namedQueryIds: [String]) {
+            self.namedQueryIds = namedQueryIds
         }
 
         private enum CodingKeys: String, CodingKey {
-            case statistics = "Statistics"
-            case status = "Status"
-            case queryExecutionContext = "QueryExecutionContext"
-            case query = "Query"
-            case resultConfiguration = "ResultConfiguration"
-            case queryExecutionId = "QueryExecutionId"
-            case statementType = "StatementType"
+            case namedQueryIds = "NamedQueryIds"
+        }
+    }
+
+    public struct Row: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Data", required: false, type: .list)
+        ]
+        /// The data that populates a row in a query result table.
+        public let data: [Datum]?
+
+        public init(data: [Datum]? = nil) {
+            self.data = data
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case data = "Data"
+        }
+    }
+
+    public enum ColumnNullable: String, CustomStringConvertible, Codable {
+        case notNull = "NOT_NULL"
+        case nullable = "NULLABLE"
+        case unknown = "UNKNOWN"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListQueryExecutionsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "QueryExecutionIds", required: false, type: .list)
+        ]
+        /// A token to be used by the next request if this request is truncated.
+        public let nextToken: String?
+        /// The unique IDs of each query execution as an array of strings.
+        public let queryExecutionIds: [String]?
+
+        public init(nextToken: String? = nil, queryExecutionIds: [String]? = nil) {
+            self.nextToken = nextToken
+            self.queryExecutionIds = queryExecutionIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case queryExecutionIds = "QueryExecutionIds"
         }
     }
 
@@ -187,55 +296,76 @@ extension Athena {
         }
     }
 
-    public struct GetQueryResultsInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "QueryExecutionId", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The unique ID of the query execution.
-        public let queryExecutionId: String
-        /// The maximum number of results (rows) to return in this request.
-        public let maxResults: Int32?
-        /// The token that specifies where to start pagination if a previous request was truncated.
-        public let nextToken: String?
+    public enum ThrottleReason: String, CustomStringConvertible, Codable {
+        case concurrentQueryLimitExceeded = "CONCURRENT_QUERY_LIMIT_EXCEEDED"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(queryExecutionId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.queryExecutionId = queryExecutionId
-            self.maxResults = maxResults
-            self.nextToken = nextToken
+    public struct BatchGetNamedQueryOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UnprocessedNamedQueryIds", required: false, type: .list), 
+            AWSShapeMember(label: "NamedQueries", required: false, type: .list)
+        ]
+        /// Information about provided query IDs.
+        public let unprocessedNamedQueryIds: [UnprocessedNamedQueryId]?
+        /// Information about the named query IDs submitted.
+        public let namedQueries: [NamedQuery]?
+
+        public init(namedQueries: [NamedQuery]? = nil, unprocessedNamedQueryIds: [UnprocessedNamedQueryId]? = nil) {
+            self.unprocessedNamedQueryIds = unprocessedNamedQueryIds
+            self.namedQueries = namedQueries
         }
 
         private enum CodingKeys: String, CodingKey {
-            case queryExecutionId = "QueryExecutionId"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
+            case unprocessedNamedQueryIds = "UnprocessedNamedQueryIds"
+            case namedQueries = "NamedQueries"
         }
     }
 
-    public struct GetQueryResultsOutput: AWSShape {
+    public struct StartQueryExecutionInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UpdateCount", required: false, type: .long), 
-            AWSShapeMember(label: "ResultSet", required: false, type: .structure), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "QueryString", required: true, type: .string), 
+            AWSShapeMember(label: "QueryExecutionContext", required: false, type: .structure), 
+            AWSShapeMember(label: "ResultConfiguration", required: true, type: .structure)
         ]
-        /// The number of rows inserted with a CREATE TABLE AS SELECT statement. 
-        public let updateCount: Int64?
-        /// The results of the query execution.
-        public let resultSet: ResultSet?
-        /// A token to be used by the next request if this request is truncated.
-        public let nextToken: String?
+        /// A unique case-sensitive string used to ensure the request to create the query is idempotent (executes only once). If another StartQueryExecution request is received, the same response is returned and another query is not created. If a parameter has changed, for example, the QueryString, an error is returned.  This token is listed as not required because AWS SDKs (for example the AWS SDK for Java) auto-generate the token for users. If you are not using the AWS SDK or the AWS CLI, you must provide this token or the action will fail. 
+        public let clientRequestToken: String?
+        /// The SQL query statements to be executed.
+        public let queryString: String
+        /// The database within which the query executes.
+        public let queryExecutionContext: QueryExecutionContext?
+        /// Specifies information about where and how to save the results of the query execution.
+        public let resultConfiguration: ResultConfiguration
 
-        public init(updateCount: Int64? = nil, resultSet: ResultSet? = nil, nextToken: String? = nil) {
-            self.updateCount = updateCount
-            self.resultSet = resultSet
-            self.nextToken = nextToken
+        public init(clientRequestToken: String? = nil, queryExecutionContext: QueryExecutionContext? = nil, queryString: String, resultConfiguration: ResultConfiguration) {
+            self.clientRequestToken = clientRequestToken
+            self.queryString = queryString
+            self.queryExecutionContext = queryExecutionContext
+            self.resultConfiguration = resultConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
-            case updateCount = "UpdateCount"
-            case resultSet = "ResultSet"
-            case nextToken = "NextToken"
+            case clientRequestToken = "ClientRequestToken"
+            case queryString = "QueryString"
+            case queryExecutionContext = "QueryExecutionContext"
+            case resultConfiguration = "ResultConfiguration"
+        }
+    }
+
+    public struct Datum: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VarCharValue", required: false, type: .string)
+        ]
+        /// The value of the datum.
+        public let varCharValue: String?
+
+        public init(varCharValue: String? = nil) {
+            self.varCharValue = varCharValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case varCharValue = "VarCharValue"
         }
     }
 
@@ -255,278 +385,64 @@ extension Athena {
         }
     }
 
-    public struct StartQueryExecutionOutput: AWSShape {
+    public struct ColumnInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "QueryExecutionId", required: false, type: .string)
-        ]
-        /// The unique ID of the query that ran as a result of this request.
-        public let queryExecutionId: String?
-
-        public init(queryExecutionId: String? = nil) {
-            self.queryExecutionId = queryExecutionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case queryExecutionId = "QueryExecutionId"
-        }
-    }
-
-    public struct BatchGetNamedQueryOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NamedQueries", required: false, type: .list), 
-            AWSShapeMember(label: "UnprocessedNamedQueryIds", required: false, type: .list)
-        ]
-        /// Information about the named query IDs submitted.
-        public let namedQueries: [NamedQuery]?
-        /// Information about provided query IDs.
-        public let unprocessedNamedQueryIds: [UnprocessedNamedQueryId]?
-
-        public init(namedQueries: [NamedQuery]? = nil, unprocessedNamedQueryIds: [UnprocessedNamedQueryId]? = nil) {
-            self.namedQueries = namedQueries
-            self.unprocessedNamedQueryIds = unprocessedNamedQueryIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case namedQueries = "NamedQueries"
-            case unprocessedNamedQueryIds = "UnprocessedNamedQueryIds"
-        }
-    }
-
-    public struct ListNamedQueriesOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NamedQueryIds", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The list of unique query IDs.
-        public let namedQueryIds: [String]?
-        /// A token to be used by the next request if this request is truncated.
-        public let nextToken: String?
-
-        public init(namedQueryIds: [String]? = nil, nextToken: String? = nil) {
-            self.namedQueryIds = namedQueryIds
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case namedQueryIds = "NamedQueryIds"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct GetQueryExecutionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "QueryExecutionId", required: true, type: .string)
-        ]
-        /// The unique ID of the query execution.
-        public let queryExecutionId: String
-
-        public init(queryExecutionId: String) {
-            self.queryExecutionId = queryExecutionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case queryExecutionId = "QueryExecutionId"
-        }
-    }
-
-    public struct Row: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Data", required: false, type: .list)
-        ]
-        /// The data that populates a row in a query result table.
-        public let data: [Datum]?
-
-        public init(data: [Datum]? = nil) {
-            self.data = data
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case data = "Data"
-        }
-    }
-
-    public struct ListNamedQueriesInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The maximum number of queries to return in this request.
-        public let maxResults: Int32?
-        /// The token that specifies where to start pagination if a previous request was truncated.
-        public let nextToken: String?
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public enum EncryptionOption: String, CustomStringConvertible, Codable {
-        case sseS3 = "SSE_S3"
-        case sseKms = "SSE_KMS"
-        case cseKms = "CSE_KMS"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct BatchGetQueryExecutionOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "QueryExecutions", required: false, type: .list), 
-            AWSShapeMember(label: "UnprocessedQueryExecutionIds", required: false, type: .list)
-        ]
-        /// Information about a query execution.
-        public let queryExecutions: [QueryExecution]?
-        /// Information about the query executions that failed to run.
-        public let unprocessedQueryExecutionIds: [UnprocessedQueryExecutionId]?
-
-        public init(queryExecutions: [QueryExecution]? = nil, unprocessedQueryExecutionIds: [UnprocessedQueryExecutionId]? = nil) {
-            self.queryExecutions = queryExecutions
-            self.unprocessedQueryExecutionIds = unprocessedQueryExecutionIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case queryExecutions = "QueryExecutions"
-            case unprocessedQueryExecutionIds = "UnprocessedQueryExecutionIds"
-        }
-    }
-
-    public enum ThrottleReason: String, CustomStringConvertible, Codable {
-        case concurrentQueryLimitExceeded = "CONCURRENT_QUERY_LIMIT_EXCEEDED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct BatchGetNamedQueryInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NamedQueryIds", required: true, type: .list)
-        ]
-        /// An array of query IDs.
-        public let namedQueryIds: [String]
-
-        public init(namedQueryIds: [String]) {
-            self.namedQueryIds = namedQueryIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case namedQueryIds = "NamedQueryIds"
-        }
-    }
-
-    public struct GetQueryExecutionOutput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "QueryExecution", required: false, type: .structure)
-        ]
-        /// Information about the query execution.
-        public let queryExecution: QueryExecution?
-
-        public init(queryExecution: QueryExecution? = nil) {
-            self.queryExecution = queryExecution
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case queryExecution = "QueryExecution"
-        }
-    }
-
-    public struct NamedQuery: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "QueryString", required: true, type: .string), 
-            AWSShapeMember(label: "Database", required: true, type: .string), 
+            AWSShapeMember(label: "Type", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "NamedQueryId", required: false, type: .string)
+            AWSShapeMember(label: "Precision", required: false, type: .integer), 
+            AWSShapeMember(label: "SchemaName", required: false, type: .string), 
+            AWSShapeMember(label: "CaseSensitive", required: false, type: .boolean), 
+            AWSShapeMember(label: "Scale", required: false, type: .integer), 
+            AWSShapeMember(label: "CatalogName", required: false, type: .string), 
+            AWSShapeMember(label: "Label", required: false, type: .string), 
+            AWSShapeMember(label: "Nullable", required: false, type: .enum), 
+            AWSShapeMember(label: "TableName", required: false, type: .string)
         ]
-        /// The SQL query statements that comprise the query.
-        public let queryString: String
-        /// The database to which the query belongs.
-        public let database: String
-        /// The plain-language name of the query.
+        /// The data type of the column.
+        public let `type`: String
+        /// The name of the column.
         public let name: String
-        /// A brief description of the query.
-        public let description: String?
-        /// The unique identifier of the query.
-        public let namedQueryId: String?
+        /// For DECIMAL data types, specifies the total number of digits, up to 38. For performance reasons, we recommend up to 18 digits.
+        public let precision: Int32?
+        /// The schema name (database name) to which the query results belong.
+        public let schemaName: String?
+        /// Indicates whether values in the column are case-sensitive.
+        public let caseSensitive: Bool?
+        /// For DECIMAL data types, specifies the total number of digits in the fractional part of the value. Defaults to 0.
+        public let scale: Int32?
+        /// The catalog to which the query results belong.
+        public let catalogName: String?
+        /// A column label.
+        public let label: String?
+        /// Indicates the column's nullable status.
+        public let nullable: ColumnNullable?
+        /// The table name for the query results.
+        public let tableName: String?
 
-        public init(queryString: String, database: String, name: String, description: String? = nil, namedQueryId: String? = nil) {
-            self.queryString = queryString
-            self.database = database
+        public init(caseSensitive: Bool? = nil, catalogName: String? = nil, label: String? = nil, name: String, nullable: ColumnNullable? = nil, precision: Int32? = nil, scale: Int32? = nil, schemaName: String? = nil, tableName: String? = nil, type: String) {
+            self.`type` = `type`
             self.name = name
-            self.description = description
-            self.namedQueryId = namedQueryId
+            self.precision = precision
+            self.schemaName = schemaName
+            self.caseSensitive = caseSensitive
+            self.scale = scale
+            self.catalogName = catalogName
+            self.label = label
+            self.nullable = nullable
+            self.tableName = tableName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case queryString = "QueryString"
-            case database = "Database"
+            case `type` = "Type"
             case name = "Name"
-            case description = "Description"
-            case namedQueryId = "NamedQueryId"
-        }
-    }
-
-    public struct ResultSetMetadata: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ColumnInfo", required: false, type: .list)
-        ]
-        /// Information about the columns returned in a query result metadata.
-        public let columnInfo: [ColumnInfo]?
-
-        public init(columnInfo: [ColumnInfo]? = nil) {
-            self.columnInfo = columnInfo
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case columnInfo = "ColumnInfo"
-        }
-    }
-
-    public struct UnprocessedQueryExecutionId: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "QueryExecutionId", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string)
-        ]
-        /// The unique identifier of the query execution.
-        public let queryExecutionId: String?
-        /// The error code returned when the query execution failed to process, if applicable.
-        public let errorCode: String?
-        /// The error message returned when the query execution failed to process, if applicable.
-        public let errorMessage: String?
-
-        public init(queryExecutionId: String? = nil, errorCode: String? = nil, errorMessage: String? = nil) {
-            self.queryExecutionId = queryExecutionId
-            self.errorCode = errorCode
-            self.errorMessage = errorMessage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case queryExecutionId = "QueryExecutionId"
-            case errorCode = "ErrorCode"
-            case errorMessage = "ErrorMessage"
-        }
-    }
-
-    public struct ResultConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OutputLocation", required: true, type: .string), 
-            AWSShapeMember(label: "EncryptionConfiguration", required: false, type: .structure)
-        ]
-        /// The location in Amazon S3 where your query results are stored, such as s3://path/to/query/bucket/. For more information, see Queries and Query Result Files.  
-        public let outputLocation: String
-        /// If query results are encrypted in Amazon S3, indicates the encryption option used (for example, SSE-KMS or CSE-KMS) and key information.
-        public let encryptionConfiguration: EncryptionConfiguration?
-
-        public init(outputLocation: String, encryptionConfiguration: EncryptionConfiguration? = nil) {
-            self.outputLocation = outputLocation
-            self.encryptionConfiguration = encryptionConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case outputLocation = "OutputLocation"
-            case encryptionConfiguration = "EncryptionConfiguration"
+            case precision = "Precision"
+            case schemaName = "SchemaName"
+            case caseSensitive = "CaseSensitive"
+            case scale = "Scale"
+            case catalogName = "CatalogName"
+            case label = "Label"
+            case nullable = "Nullable"
+            case tableName = "TableName"
         }
     }
 
@@ -546,233 +462,67 @@ extension Athena {
         }
     }
 
-    public struct ResultSet: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResultSetMetadata", required: false, type: .structure), 
-            AWSShapeMember(label: "Rows", required: false, type: .list)
-        ]
-        /// The metadata that describes the column structure and data types of a table of query results.
-        public let resultSetMetadata: ResultSetMetadata?
-        /// The rows in the table.
-        public let rows: [Row]?
+    public struct StopQueryExecutionOutput: AWSShape {
 
-        public init(resultSetMetadata: ResultSetMetadata? = nil, rows: [Row]? = nil) {
-            self.resultSetMetadata = resultSetMetadata
-            self.rows = rows
+        public init() {
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resultSetMetadata = "ResultSetMetadata"
-            case rows = "Rows"
-        }
     }
 
-    public enum StatementType: String, CustomStringConvertible, Codable {
-        case ddl = "DDL"
-        case dml = "DML"
-        case utility = "UTILITY"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct StartQueryExecutionInput: AWSShape {
+    public struct NamedQuery: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "QueryExecutionContext", required: false, type: .structure), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Database", required: true, type: .string), 
             AWSShapeMember(label: "QueryString", required: true, type: .string), 
-            AWSShapeMember(label: "ResultConfiguration", required: true, type: .structure), 
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string)
-        ]
-        /// The database within which the query executes.
-        public let queryExecutionContext: QueryExecutionContext?
-        /// The SQL query statements to be executed.
-        public let queryString: String
-        /// Specifies information about where and how to save the results of the query execution.
-        public let resultConfiguration: ResultConfiguration
-        /// A unique case-sensitive string used to ensure the request to create the query is idempotent (executes only once). If another StartQueryExecution request is received, the same response is returned and another query is not created. If a parameter has changed, for example, the QueryString, an error is returned.  This token is listed as not required because AWS SDKs (for example the AWS SDK for Java) auto-generate the token for users. If you are not using the AWS SDK or the AWS CLI, you must provide this token or the action will fail. 
-        public let clientRequestToken: String?
-
-        public init(queryExecutionContext: QueryExecutionContext? = nil, queryString: String, resultConfiguration: ResultConfiguration, clientRequestToken: String? = nil) {
-            self.queryExecutionContext = queryExecutionContext
-            self.queryString = queryString
-            self.resultConfiguration = resultConfiguration
-            self.clientRequestToken = clientRequestToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case queryExecutionContext = "QueryExecutionContext"
-            case queryString = "QueryString"
-            case resultConfiguration = "ResultConfiguration"
-            case clientRequestToken = "ClientRequestToken"
-        }
-    }
-
-    public struct DeleteNamedQueryOutput: AWSShape {
-
-    }
-
-    public struct EncryptionConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EncryptionOption", required: true, type: .enum), 
-            AWSShapeMember(label: "KmsKey", required: false, type: .string)
-        ]
-        /// Indicates whether Amazon S3 server-side encryption with Amazon S3-managed keys (SSE-S3), server-side encryption with KMS-managed keys (SSE-KMS), or client-side encryption with KMS-managed keys (CSE-KMS) is used.
-        public let encryptionOption: EncryptionOption
-        /// For SSE-KMS and CSE-KMS, this is the KMS key ARN or ID.
-        public let kmsKey: String?
-
-        public init(encryptionOption: EncryptionOption, kmsKey: String? = nil) {
-            self.encryptionOption = encryptionOption
-            self.kmsKey = kmsKey
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case encryptionOption = "EncryptionOption"
-            case kmsKey = "KmsKey"
-        }
-    }
-
-    public struct ColumnInfo: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Nullable", required: false, type: .enum), 
-            AWSShapeMember(label: "CaseSensitive", required: false, type: .boolean), 
-            AWSShapeMember(label: "TableName", required: false, type: .string), 
-            AWSShapeMember(label: "CatalogName", required: false, type: .string), 
-            AWSShapeMember(label: "Scale", required: false, type: .integer), 
-            AWSShapeMember(label: "SchemaName", required: false, type: .string), 
-            AWSShapeMember(label: "Label", required: false, type: .string), 
-            AWSShapeMember(label: "Precision", required: false, type: .integer), 
-            AWSShapeMember(label: "Type", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// Indicates the column's nullable status.
-        public let nullable: ColumnNullable?
-        /// Indicates whether values in the column are case-sensitive.
-        public let caseSensitive: Bool?
-        /// The table name for the query results.
-        public let tableName: String?
-        /// The catalog to which the query results belong.
-        public let catalogName: String?
-        /// For DECIMAL data types, specifies the total number of digits in the fractional part of the value. Defaults to 0.
-        public let scale: Int32?
-        /// The schema name (database name) to which the query results belong.
-        public let schemaName: String?
-        /// A column label.
-        public let label: String?
-        /// For DECIMAL data types, specifies the total number of digits, up to 38. For performance reasons, we recommend up to 18 digits.
-        public let precision: Int32?
-        /// The data type of the column.
-        public let `type`: String
-        /// The name of the column.
-        public let name: String
-
-        public init(nullable: ColumnNullable? = nil, caseSensitive: Bool? = nil, tableName: String? = nil, catalogName: String? = nil, scale: Int32? = nil, schemaName: String? = nil, label: String? = nil, precision: Int32? = nil, type: String, name: String) {
-            self.nullable = nullable
-            self.caseSensitive = caseSensitive
-            self.tableName = tableName
-            self.catalogName = catalogName
-            self.scale = scale
-            self.schemaName = schemaName
-            self.label = label
-            self.precision = precision
-            self.`type` = `type`
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nullable = "Nullable"
-            case caseSensitive = "CaseSensitive"
-            case tableName = "TableName"
-            case catalogName = "CatalogName"
-            case scale = "Scale"
-            case schemaName = "SchemaName"
-            case label = "Label"
-            case precision = "Precision"
-            case `type` = "Type"
-            case name = "Name"
-        }
-    }
-
-    public struct BatchGetQueryExecutionInput: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "QueryExecutionIds", required: true, type: .list)
-        ]
-        /// An array of query execution IDs.
-        public let queryExecutionIds: [String]
-
-        public init(queryExecutionIds: [String]) {
-            self.queryExecutionIds = queryExecutionIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case queryExecutionIds = "QueryExecutionIds"
-        }
-    }
-
-    public struct UnprocessedNamedQueryId: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
             AWSShapeMember(label: "NamedQueryId", required: false, type: .string)
         ]
-        /// The error code returned when the processing request for the named query failed, if applicable.
-        public let errorCode: String?
-        /// The error message returned when the processing request for the named query failed, if applicable.
-        public let errorMessage: String?
-        /// The unique identifier of the named query.
+        /// A brief description of the query.
+        public let description: String?
+        /// The plain-language name of the query.
+        public let name: String
+        /// The database to which the query belongs.
+        public let database: String
+        /// The SQL query statements that comprise the query.
+        public let queryString: String
+        /// The unique identifier of the query.
         public let namedQueryId: String?
 
-        public init(errorCode: String? = nil, errorMessage: String? = nil, namedQueryId: String? = nil) {
-            self.errorCode = errorCode
-            self.errorMessage = errorMessage
+        public init(database: String, description: String? = nil, name: String, namedQueryId: String? = nil, queryString: String) {
+            self.description = description
+            self.name = name
+            self.database = database
+            self.queryString = queryString
             self.namedQueryId = namedQueryId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case errorMessage = "ErrorMessage"
+            case description = "Description"
+            case name = "Name"
+            case database = "Database"
+            case queryString = "QueryString"
             case namedQueryId = "NamedQueryId"
         }
     }
 
-    public enum ColumnNullable: String, CustomStringConvertible, Codable {
-        case notNull = "NOT_NULL"
-        case nullable = "NULLABLE"
-        case unknown = "UNKNOWN"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateNamedQueryInput: AWSShape {
+    public struct EncryptionConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "QueryString", required: true, type: .string), 
-            AWSShapeMember(label: "Database", required: true, type: .string), 
-            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
+            AWSShapeMember(label: "KmsKey", required: false, type: .string), 
+            AWSShapeMember(label: "EncryptionOption", required: true, type: .enum)
         ]
-        /// The text of the query itself. In other words, all query statements.
-        public let queryString: String
-        /// The database to which the query belongs.
-        public let database: String
-        /// A unique case-sensitive string used to ensure the request to create the query is idempotent (executes only once). If another CreateNamedQuery request is received, the same response is returned and another query is not created. If a parameter has changed, for example, the QueryString, an error is returned.  This token is listed as not required because AWS SDKs (for example the AWS SDK for Java) auto-generate the token for users. If you are not using the AWS SDK or the AWS CLI, you must provide this token or the action will fail. 
-        public let clientRequestToken: String?
-        /// A brief explanation of the query.
-        public let description: String?
-        /// The plain language name for the query.
-        public let name: String
+        /// For SSE-KMS and CSE-KMS, this is the KMS key ARN or ID.
+        public let kmsKey: String?
+        /// Indicates whether Amazon S3 server-side encryption with Amazon S3-managed keys (SSE-S3), server-side encryption with KMS-managed keys (SSE-KMS), or client-side encryption with KMS-managed keys (CSE-KMS) is used.
+        public let encryptionOption: EncryptionOption
 
-        public init(queryString: String, database: String, clientRequestToken: String? = nil, description: String? = nil, name: String) {
-            self.queryString = queryString
-            self.database = database
-            self.clientRequestToken = clientRequestToken
-            self.description = description
-            self.name = name
+        public init(encryptionOption: EncryptionOption, kmsKey: String? = nil) {
+            self.kmsKey = kmsKey
+            self.encryptionOption = encryptionOption
         }
 
         private enum CodingKeys: String, CodingKey {
-            case queryString = "QueryString"
-            case database = "Database"
-            case clientRequestToken = "ClientRequestToken"
-            case description = "Description"
-            case name = "Name"
+            case kmsKey = "KmsKey"
+            case encryptionOption = "EncryptionOption"
         }
     }
 
@@ -807,8 +557,250 @@ extension Athena {
         }
     }
 
-    public struct StopQueryExecutionOutput: AWSShape {
+    public struct BatchGetQueryExecutionOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UnprocessedQueryExecutionIds", required: false, type: .list), 
+            AWSShapeMember(label: "QueryExecutions", required: false, type: .list)
+        ]
+        /// Information about the query executions that failed to run.
+        public let unprocessedQueryExecutionIds: [UnprocessedQueryExecutionId]?
+        /// Information about a query execution.
+        public let queryExecutions: [QueryExecution]?
 
+        public init(queryExecutions: [QueryExecution]? = nil, unprocessedQueryExecutionIds: [UnprocessedQueryExecutionId]? = nil) {
+            self.unprocessedQueryExecutionIds = unprocessedQueryExecutionIds
+            self.queryExecutions = queryExecutions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case unprocessedQueryExecutionIds = "UnprocessedQueryExecutionIds"
+            case queryExecutions = "QueryExecutions"
+        }
+    }
+
+    public struct QueryExecution: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QueryExecutionContext", required: false, type: .structure), 
+            AWSShapeMember(label: "Status", required: false, type: .structure), 
+            AWSShapeMember(label: "ResultConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "Query", required: false, type: .string), 
+            AWSShapeMember(label: "Statistics", required: false, type: .structure), 
+            AWSShapeMember(label: "StatementType", required: false, type: .enum), 
+            AWSShapeMember(label: "QueryExecutionId", required: false, type: .string)
+        ]
+        /// The database in which the query execution occurred.
+        public let queryExecutionContext: QueryExecutionContext?
+        /// The completion date, current state, submission time, and state change reason (if applicable) for the query execution.
+        public let status: QueryExecutionStatus?
+        /// The location in Amazon S3 where query results were stored and the encryption option, if any, used for query results.
+        public let resultConfiguration: ResultConfiguration?
+        /// The SQL query statements which the query execution ran.
+        public let query: String?
+        /// The amount of data scanned during the query execution and the amount of time that it took to execute, and the type of statement that was run.
+        public let statistics: QueryExecutionStatistics?
+        /// The type of query statement that was run. DDL indicates DDL query statements. DML indicates DML (Data Manipulation Language) query statements, such as CREATE TABLE AS SELECT. UTILITY indicates query statements other than DDL and DML, such as SHOW CREATE TABLE, or DESCRIBE &lt;table&gt;.
+        public let statementType: StatementType?
+        /// The unique identifier for each query execution.
+        public let queryExecutionId: String?
+
+        public init(query: String? = nil, queryExecutionContext: QueryExecutionContext? = nil, queryExecutionId: String? = nil, resultConfiguration: ResultConfiguration? = nil, statementType: StatementType? = nil, statistics: QueryExecutionStatistics? = nil, status: QueryExecutionStatus? = nil) {
+            self.queryExecutionContext = queryExecutionContext
+            self.status = status
+            self.resultConfiguration = resultConfiguration
+            self.query = query
+            self.statistics = statistics
+            self.statementType = statementType
+            self.queryExecutionId = queryExecutionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryExecutionContext = "QueryExecutionContext"
+            case status = "Status"
+            case resultConfiguration = "ResultConfiguration"
+            case query = "Query"
+            case statistics = "Statistics"
+            case statementType = "StatementType"
+            case queryExecutionId = "QueryExecutionId"
+        }
+    }
+
+    public struct UnprocessedQueryExecutionId: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QueryExecutionId", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string)
+        ]
+        /// The unique identifier of the query execution.
+        public let queryExecutionId: String?
+        /// The error code returned when the query execution failed to process, if applicable.
+        public let errorCode: String?
+        /// The error message returned when the query execution failed to process, if applicable.
+        public let errorMessage: String?
+
+        public init(errorCode: String? = nil, errorMessage: String? = nil, queryExecutionId: String? = nil) {
+            self.queryExecutionId = queryExecutionId
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryExecutionId = "QueryExecutionId"
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+        }
+    }
+
+    public struct CreateNamedQueryOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NamedQueryId", required: false, type: .string)
+        ]
+        /// The unique ID of the query.
+        public let namedQueryId: String?
+
+        public init(namedQueryId: String? = nil) {
+            self.namedQueryId = namedQueryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case namedQueryId = "NamedQueryId"
+        }
+    }
+
+    public struct ListNamedQueriesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NamedQueryIds", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The list of unique query IDs.
+        public let namedQueryIds: [String]?
+        /// A token to be used by the next request if this request is truncated.
+        public let nextToken: String?
+
+        public init(namedQueryIds: [String]? = nil, nextToken: String? = nil) {
+            self.namedQueryIds = namedQueryIds
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case namedQueryIds = "NamedQueryIds"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListNamedQueriesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+        ]
+        /// The token that specifies where to start pagination if a previous request was truncated.
+        public let nextToken: String?
+        /// The maximum number of queries to return in this request.
+        public let maxResults: Int32?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
+        }
+    }
+
+    public struct GetQueryResultsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QueryExecutionId", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+        ]
+        /// The unique ID of the query execution.
+        public let queryExecutionId: String
+        /// The token that specifies where to start pagination if a previous request was truncated.
+        public let nextToken: String?
+        /// The maximum number of results (rows) to return in this request.
+        public let maxResults: Int32?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, queryExecutionId: String) {
+            self.queryExecutionId = queryExecutionId
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryExecutionId = "QueryExecutionId"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
+        }
+    }
+
+    public struct BatchGetQueryExecutionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QueryExecutionIds", required: true, type: .list)
+        ]
+        /// An array of query execution IDs.
+        public let queryExecutionIds: [String]
+
+        public init(queryExecutionIds: [String]) {
+            self.queryExecutionIds = queryExecutionIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryExecutionIds = "QueryExecutionIds"
+        }
+    }
+
+    public struct GetQueryExecutionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QueryExecutionId", required: true, type: .string)
+        ]
+        /// The unique ID of the query execution.
+        public let queryExecutionId: String
+
+        public init(queryExecutionId: String) {
+            self.queryExecutionId = queryExecutionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryExecutionId = "QueryExecutionId"
+        }
+    }
+
+    public struct DeleteNamedQueryInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NamedQueryId", required: true, type: .string)
+        ]
+        /// The unique ID of the query to delete.
+        public let namedQueryId: String
+
+        public init(namedQueryId: String) {
+            self.namedQueryId = namedQueryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case namedQueryId = "NamedQueryId"
+        }
+    }
+
+    public struct ResultSet: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Rows", required: false, type: .list), 
+            AWSShapeMember(label: "ResultSetMetadata", required: false, type: .structure)
+        ]
+        /// The rows in the table.
+        public let rows: [Row]?
+        /// The metadata that describes the column structure and data types of a table of query results.
+        public let resultSetMetadata: ResultSetMetadata?
+
+        public init(resultSetMetadata: ResultSetMetadata? = nil, rows: [Row]? = nil) {
+            self.rows = rows
+            self.resultSetMetadata = resultSetMetadata
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rows = "Rows"
+            case resultSetMetadata = "ResultSetMetadata"
+        }
     }
 
     public struct GetNamedQueryOutput: AWSShape {
@@ -825,6 +817,20 @@ extension Athena {
         private enum CodingKeys: String, CodingKey {
             case namedQuery = "NamedQuery"
         }
+    }
+
+    public enum StatementType: String, CustomStringConvertible, Codable {
+        case ddl = "DDL"
+        case dml = "DML"
+        case utility = "UTILITY"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeleteNamedQueryOutput: AWSShape {
+
+        public init() {
+        }
+
     }
 
 }

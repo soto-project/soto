@@ -4,12 +4,12 @@ import AWSSDKSwiftCore
 
 /// Error enum for CloudWatchEvents
 public enum CloudWatchEventsErrorType: AWSErrorType {
-    case internalException(message: String?)
     case resourceNotFoundException(message: String?)
+    case internalException(message: String?)
     case concurrentModificationException(message: String?)
     case managedRuleException(message: String?)
-    case invalidEventPatternException(message: String?)
     case limitExceededException(message: String?)
+    case invalidEventPatternException(message: String?)
     case policyLengthExceededException(message: String?)
 }
 
@@ -20,18 +20,18 @@ extension CloudWatchEventsErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "InternalException":
-            self = .internalException(message: message)
         case "ResourceNotFoundException":
             self = .resourceNotFoundException(message: message)
+        case "InternalException":
+            self = .internalException(message: message)
         case "ConcurrentModificationException":
             self = .concurrentModificationException(message: message)
         case "ManagedRuleException":
             self = .managedRuleException(message: message)
-        case "InvalidEventPatternException":
-            self = .invalidEventPatternException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
+        case "InvalidEventPatternException":
+            self = .invalidEventPatternException(message: message)
         case "PolicyLengthExceededException":
             self = .policyLengthExceededException(message: message)
         default:

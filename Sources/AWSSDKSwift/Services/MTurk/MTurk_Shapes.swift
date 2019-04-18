@@ -5,171 +5,475 @@ import AWSSDKSwiftCore
 
 extension MTurk {
 
-    public struct ParameterMapEntry: AWSShape {
+    public struct ListWorkersWithQualificationTypeResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Values", required: false, type: .list)
+            AWSShapeMember(label: "NumResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Qualifications", required: false, type: .list)
         ]
-        ///  The QuestionID from the HIT that is used to identify which question requires Mechanical Turk to score as part of the ScoreMyKnownAnswers/2011-09-01 Review Policy. 
-        public let key: String?
-        ///  The list of answers to the question specified in the MapEntry Key element. The Worker must match all values in order for the answer to be scored correctly. 
-        public let values: [String]?
+        ///  The number of Qualifications on this page in the filtered results list, equivalent to the number of Qualifications being returned by this call.
+        public let numResults: Int32?
+        public let nextToken: String?
+        ///  The list of Qualification elements returned by this call. 
+        public let qualifications: [Qualification]?
 
-        public init(key: String? = nil, values: [String]? = nil) {
-            self.key = key
-            self.values = values
+        public init(nextToken: String? = nil, numResults: Int32? = nil, qualifications: [Qualification]? = nil) {
+            self.numResults = numResults
+            self.nextToken = nextToken
+            self.qualifications = qualifications
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key = "Key"
-            case values = "Values"
+            case numResults = "NumResults"
+            case nextToken = "NextToken"
+            case qualifications = "Qualifications"
         }
     }
 
-    public struct ApproveAssignmentResponse: AWSShape {
+    public struct ListReviewableHITsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "HITTypeId", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+        ///  Limit the number of results returned. 
+        public let maxResults: Int32?
+        ///  The ID of the HIT type of the HITs to consider for the query. If not specified, all HITs for the Reviewer are considered 
+        public let hITTypeId: String?
+        /// Pagination Token
+        public let nextToken: String?
+        ///  Can be either Reviewable or Reviewing. Reviewable is the default value. 
+        public let status: ReviewableHITStatus?
 
+        public init(hITTypeId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, status: ReviewableHITStatus? = nil) {
+            self.maxResults = maxResults
+            self.hITTypeId = hITTypeId
+            self.nextToken = nextToken
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case hITTypeId = "HITTypeId"
+            case nextToken = "NextToken"
+            case status = "Status"
+        }
     }
 
-    public struct DeleteWorkerBlockRequest: AWSShape {
+    public struct ListReviewableHITsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WorkerId", required: true, type: .string), 
-            AWSShapeMember(label: "Reason", required: false, type: .string)
+            AWSShapeMember(label: "NumResults", required: false, type: .integer), 
+            AWSShapeMember(label: "HITs", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The ID of the Worker to unblock.
-        public let workerId: String
-        /// A message that explains the reason for unblocking the Worker. The Worker does not see this message.
-        public let reason: String?
+        ///  The number of HITs on this page in the filtered results list, equivalent to the number of HITs being returned by this call. 
+        public let numResults: Int32?
+        ///  The list of HIT elements returned by the query.
+        public let hITs: [HIT]?
+        public let nextToken: String?
 
-        public init(workerId: String, reason: String? = nil) {
+        public init(hITs: [HIT]? = nil, nextToken: String? = nil, numResults: Int32? = nil) {
+            self.numResults = numResults
+            self.hITs = hITs
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case numResults = "NumResults"
+            case hITs = "HITs"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct SendBonusRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BonusAmount", required: true, type: .string), 
+            AWSShapeMember(label: "UniqueRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "AssignmentId", required: true, type: .string), 
+            AWSShapeMember(label: "WorkerId", required: true, type: .string), 
+            AWSShapeMember(label: "Reason", required: true, type: .string)
+        ]
+        ///  The Bonus amount is a US Dollar amount specified using a string (for example, "5" represents $5.00 USD and "101.42" represents $101.42 USD). Do not include currency symbols or currency codes. 
+        public let bonusAmount: String
+        /// A unique identifier for this request, which allows you to retry the call on error without granting multiple bonuses. This is useful in cases such as network timeouts where it is unclear whether or not the call succeeded on the server. If the bonus already exists in the system from a previous call using the same UniqueRequestToken, subsequent calls will return an error with a message containing the request ID.
+        public let uniqueRequestToken: String?
+        /// The ID of the assignment for which this bonus is paid.
+        public let assignmentId: String
+        /// The ID of the Worker being paid the bonus.
+        public let workerId: String
+        /// A message that explains the reason for the bonus payment. The Worker receiving the bonus can see this message.
+        public let reason: String
+
+        public init(assignmentId: String, bonusAmount: String, reason: String, uniqueRequestToken: String? = nil, workerId: String) {
+            self.bonusAmount = bonusAmount
+            self.uniqueRequestToken = uniqueRequestToken
+            self.assignmentId = assignmentId
             self.workerId = workerId
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bonusAmount = "BonusAmount"
+            case uniqueRequestToken = "UniqueRequestToken"
+            case assignmentId = "AssignmentId"
             case workerId = "WorkerId"
             case reason = "Reason"
         }
     }
 
-    public struct QualificationType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "QualificationTypeStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "RetryDelayInSeconds", required: false, type: .long), 
-            AWSShapeMember(label: "AutoGrantedValue", required: false, type: .integer), 
-            AWSShapeMember(label: "QualificationTypeId", required: false, type: .string), 
-            AWSShapeMember(label: "TestDurationInSeconds", required: false, type: .long), 
-            AWSShapeMember(label: "AutoGranted", required: false, type: .boolean), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "Keywords", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "IsRequestable", required: false, type: .boolean), 
-            AWSShapeMember(label: "AnswerKey", required: false, type: .string), 
-            AWSShapeMember(label: "Test", required: false, type: .string)
-        ]
-        ///  The status of the Qualification type. A Qualification type's status determines if users can apply to receive a Qualification of this type, and if HITs can be created with requirements based on this type. Valid values are Active | Inactive. 
-        public let qualificationTypeStatus: QualificationTypeStatus?
-        ///  The date and time the Qualification type was created. 
-        public let creationTime: TimeStamp?
-        ///  The amount of time, in seconds, Workers must wait after taking the Qualification test before they can take it again. Workers can take a Qualification test multiple times if they were not granted the Qualification from a previous attempt, or if the test offers a gradient score and they want a better score. If not specified, retries are disabled and Workers can request a Qualification only once. 
-        public let retryDelayInSeconds: Int64?
-        ///  The Qualification integer value to use for automatically granted Qualifications, if AutoGranted is true. This is 1 by default. 
-        public let autoGrantedValue: Int32?
-        ///  A unique identifier for the Qualification type. A Qualification type is given a Qualification type ID when you call the CreateQualificationType operation. 
-        public let qualificationTypeId: String?
-        ///  The amount of time, in seconds, given to a Worker to complete the Qualification test, beginning from the time the Worker requests the Qualification. 
-        public let testDurationInSeconds: Int64?
-        /// Specifies that requests for the Qualification type are granted immediately, without prompting the Worker with a Qualification test. Valid values are True | False.
-        public let autoGranted: Bool?
-        ///  A long description for the Qualification type. 
-        public let description: String?
-        ///  One or more words or phrases that describe theQualification type, separated by commas. The Keywords make the type easier to find using a search. 
-        public let keywords: String?
-        ///  The name of the Qualification type. The type name is used to identify the type, and to find the type using a Qualification type search. 
-        public let name: String?
-        ///  Specifies whether the Qualification type is one that a user can request through the Amazon Mechanical Turk web site, such as by taking a Qualification test. This value is False for Qualifications assigned automatically by the system. Valid values are True | False. 
-        public let isRequestable: Bool?
-        /// The answers to the Qualification test specified in the Test parameter.
-        public let answerKey: String?
-        ///  The questions for a Qualification test associated with this Qualification type that a user can take to obtain a Qualification of this type. This parameter must be specified if AnswerKey is present. A Qualification type cannot have both a specified Test parameter and an AutoGranted value of true. 
-        public let test: String?
+    public struct DeleteHITResponse: AWSShape {
 
-        public init(qualificationTypeStatus: QualificationTypeStatus? = nil, creationTime: TimeStamp? = nil, retryDelayInSeconds: Int64? = nil, autoGrantedValue: Int32? = nil, qualificationTypeId: String? = nil, testDurationInSeconds: Int64? = nil, autoGranted: Bool? = nil, description: String? = nil, keywords: String? = nil, name: String? = nil, isRequestable: Bool? = nil, answerKey: String? = nil, test: String? = nil) {
-            self.qualificationTypeStatus = qualificationTypeStatus
-            self.creationTime = creationTime
-            self.retryDelayInSeconds = retryDelayInSeconds
-            self.autoGrantedValue = autoGrantedValue
-            self.qualificationTypeId = qualificationTypeId
+        public init() {
+        }
+
+    }
+
+    public struct ListHITsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+        ]
+        /// Pagination token
+        public let nextToken: String?
+        public let maxResults: Int32?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
+        }
+    }
+
+    public struct SendTestEventNotificationResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct BonusPayment: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Reason", required: false, type: .string), 
+            AWSShapeMember(label: "WorkerId", required: false, type: .string), 
+            AWSShapeMember(label: "BonusAmount", required: false, type: .string), 
+            AWSShapeMember(label: "GrantTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "AssignmentId", required: false, type: .string)
+        ]
+        /// The Reason text given when the bonus was granted, if any.
+        public let reason: String?
+        /// The ID of the Worker to whom the bonus was paid.
+        public let workerId: String?
+        public let bonusAmount: String?
+        /// The date and time of when the bonus was granted.
+        public let grantTime: TimeStamp?
+        /// The ID of the assignment associated with this bonus payment.
+        public let assignmentId: String?
+
+        public init(assignmentId: String? = nil, bonusAmount: String? = nil, grantTime: TimeStamp? = nil, reason: String? = nil, workerId: String? = nil) {
+            self.reason = reason
+            self.workerId = workerId
+            self.bonusAmount = bonusAmount
+            self.grantTime = grantTime
+            self.assignmentId = assignmentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reason = "Reason"
+            case workerId = "WorkerId"
+            case bonusAmount = "BonusAmount"
+            case grantTime = "GrantTime"
+            case assignmentId = "AssignmentId"
+        }
+    }
+
+    public struct CreateQualificationTypeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TestDurationInSeconds", required: false, type: .long), 
+            AWSShapeMember(label: "Description", required: true, type: .string), 
+            AWSShapeMember(label: "RetryDelayInSeconds", required: false, type: .long), 
+            AWSShapeMember(label: "AnswerKey", required: false, type: .string), 
+            AWSShapeMember(label: "Test", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "QualificationTypeStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "AutoGrantedValue", required: false, type: .integer), 
+            AWSShapeMember(label: "AutoGranted", required: false, type: .boolean), 
+            AWSShapeMember(label: "Keywords", required: false, type: .string)
+        ]
+        /// The number of seconds the Worker has to complete the Qualification test, starting from the time the Worker requests the Qualification.
+        public let testDurationInSeconds: Int64?
+        /// A long description for the Qualification type. On the Amazon Mechanical Turk website, the long description is displayed when a Worker examines a Qualification type.
+        public let description: String
+        /// The number of seconds that a Worker must wait after requesting a Qualification of the Qualification type before the worker can retry the Qualification request. Constraints: None. If not specified, retries are disabled and Workers can request a Qualification of this type only once, even if the Worker has not been granted the Qualification. It is not possible to disable retries for a Qualification type after it has been created with retries enabled. If you want to disable retries, you must delete existing retry-enabled Qualification type and then create a new Qualification type with retries disabled.
+        public let retryDelayInSeconds: Int64?
+        /// The answers to the Qualification test specified in the Test parameter, in the form of an AnswerKey data structure. Constraints: Must not be longer than 65535 bytes. Constraints: None. If not specified, you must process Qualification requests manually.
+        public let answerKey: String?
+        ///  The questions for the Qualification test a Worker must answer correctly to obtain a Qualification of this type. If this parameter is specified, TestDurationInSeconds must also be specified.  Constraints: Must not be longer than 65535 bytes. Must be a QuestionForm data structure. This parameter cannot be specified if AutoGranted is true. Constraints: None. If not specified, the Worker may request the Qualification without answering any questions.
+        public let test: String?
+        ///  The name you give to the Qualification type. The type name is used to represent the Qualification to Workers, and to find the type using a Qualification type search. It must be unique across all of your Qualification types.
+        public let name: String
+        /// The initial status of the Qualification type. Constraints: Valid values are: Active | Inactive
+        public let qualificationTypeStatus: QualificationTypeStatus
+        /// The Qualification value to use for automatically granted Qualifications. This parameter is used only if the AutoGranted parameter is true.
+        public let autoGrantedValue: Int32?
+        /// Specifies whether requests for the Qualification type are granted immediately, without prompting the Worker with a Qualification test. Constraints: If the Test parameter is specified, this parameter cannot be true.
+        public let autoGranted: Bool?
+        /// One or more words or phrases that describe the Qualification type, separated by commas. The keywords of a type make the type easier to find during a search.
+        public let keywords: String?
+
+        public init(answerKey: String? = nil, autoGranted: Bool? = nil, autoGrantedValue: Int32? = nil, description: String, keywords: String? = nil, name: String, qualificationTypeStatus: QualificationTypeStatus, retryDelayInSeconds: Int64? = nil, test: String? = nil, testDurationInSeconds: Int64? = nil) {
             self.testDurationInSeconds = testDurationInSeconds
-            self.autoGranted = autoGranted
             self.description = description
-            self.keywords = keywords
-            self.name = name
-            self.isRequestable = isRequestable
+            self.retryDelayInSeconds = retryDelayInSeconds
             self.answerKey = answerKey
             self.test = test
+            self.name = name
+            self.qualificationTypeStatus = qualificationTypeStatus
+            self.autoGrantedValue = autoGrantedValue
+            self.autoGranted = autoGranted
+            self.keywords = keywords
         }
 
         private enum CodingKeys: String, CodingKey {
-            case qualificationTypeStatus = "QualificationTypeStatus"
-            case creationTime = "CreationTime"
-            case retryDelayInSeconds = "RetryDelayInSeconds"
-            case autoGrantedValue = "AutoGrantedValue"
-            case qualificationTypeId = "QualificationTypeId"
             case testDurationInSeconds = "TestDurationInSeconds"
-            case autoGranted = "AutoGranted"
             case description = "Description"
-            case keywords = "Keywords"
-            case name = "Name"
-            case isRequestable = "IsRequestable"
+            case retryDelayInSeconds = "RetryDelayInSeconds"
             case answerKey = "AnswerKey"
             case test = "Test"
+            case name = "Name"
+            case qualificationTypeStatus = "QualificationTypeStatus"
+            case autoGrantedValue = "AutoGrantedValue"
+            case autoGranted = "AutoGranted"
+            case keywords = "Keywords"
         }
     }
 
-    public struct UpdateNotificationSettingsResponse: AWSShape {
-
-    }
-
-    public struct SendTestEventNotificationRequest: AWSShape {
+    public struct CreateHITWithHITTypeResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Notification", required: true, type: .structure), 
-            AWSShapeMember(label: "TestEventType", required: true, type: .enum)
+            AWSShapeMember(label: "HIT", required: false, type: .structure)
         ]
-        ///  The notification specification to test. This value is identical to the value you would provide to the UpdateNotificationSettings operation when you establish the notification specification for a HIT type. 
-        public let notification: NotificationSpecification
-        ///  The event to simulate to test the notification specification. This event is included in the test message even if the notification specification does not include the event type. The notification specification does not filter out the test event. 
-        public let testEventType: EventType
-
-        public init(notification: NotificationSpecification, testEventType: EventType) {
-            self.notification = notification
-            self.testEventType = testEventType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case notification = "Notification"
-            case testEventType = "TestEventType"
-        }
-    }
-
-    public struct GetAssignmentResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HIT", required: false, type: .structure), 
-            AWSShapeMember(label: "Assignment", required: false, type: .structure)
-        ]
-        ///  The HIT associated with this assignment. The response includes one HIT element.
+        ///  Contains the newly created HIT data. For a description of the HIT data structure as it appears in responses, see the HIT Data Structure documentation. 
         public let hit: HIT?
-        ///  The assignment. The response includes one Assignment element. 
-        public let assignment: Assignment?
 
-        public init(hit: HIT? = nil, assignment: Assignment? = nil) {
+        public init(hit: HIT? = nil) {
             self.hit = hit
-            self.assignment = assignment
         }
 
         private enum CodingKeys: String, CodingKey {
             case hit = "HIT"
-            case assignment = "Assignment"
+        }
+    }
+
+    public struct SendBonusResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteWorkerBlockResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct GetQualificationScoreRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QualificationTypeId", required: true, type: .string), 
+            AWSShapeMember(label: "WorkerId", required: true, type: .string)
+        ]
+        /// The ID of the QualificationType.
+        public let qualificationTypeId: String
+        /// The ID of the Worker whose Qualification is being updated.
+        public let workerId: String
+
+        public init(qualificationTypeId: String, workerId: String) {
+            self.qualificationTypeId = qualificationTypeId
+            self.workerId = workerId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case qualificationTypeId = "QualificationTypeId"
+            case workerId = "WorkerId"
+        }
+    }
+
+    public struct HITLayoutParameter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// The value substituted for the parameter referenced in the HITLayout. 
+        public let value: String
+        ///  The name of the parameter in the HITLayout. 
+        public let name: String
+
+        public init(name: String, value: String) {
+            self.value = value
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case name = "Name"
+        }
+    }
+
+    public enum HITAccessActions: String, CustomStringConvertible, Codable {
+        case accept = "Accept"
+        case previewandaccept = "PreviewAndAccept"
+        case discoverpreviewandaccept = "DiscoverPreviewAndAccept"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ApproveAssignmentResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct QualificationType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AnswerKey", required: false, type: .string), 
+            AWSShapeMember(label: "QualificationTypeStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "IsRequestable", required: false, type: .boolean), 
+            AWSShapeMember(label: "Keywords", required: false, type: .string), 
+            AWSShapeMember(label: "Test", required: false, type: .string), 
+            AWSShapeMember(label: "AutoGranted", required: false, type: .boolean), 
+            AWSShapeMember(label: "RetryDelayInSeconds", required: false, type: .long), 
+            AWSShapeMember(label: "AutoGrantedValue", required: false, type: .integer), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "QualificationTypeId", required: false, type: .string), 
+            AWSShapeMember(label: "TestDurationInSeconds", required: false, type: .long)
+        ]
+        /// The answers to the Qualification test specified in the Test parameter.
+        public let answerKey: String?
+        ///  The status of the Qualification type. A Qualification type's status determines if users can apply to receive a Qualification of this type, and if HITs can be created with requirements based on this type. Valid values are Active | Inactive. 
+        public let qualificationTypeStatus: QualificationTypeStatus?
+        ///  The date and time the Qualification type was created. 
+        public let creationTime: TimeStamp?
+        ///  The name of the Qualification type. The type name is used to identify the type, and to find the type using a Qualification type search. 
+        public let name: String?
+        ///  Specifies whether the Qualification type is one that a user can request through the Amazon Mechanical Turk web site, such as by taking a Qualification test. This value is False for Qualifications assigned automatically by the system. Valid values are True | False. 
+        public let isRequestable: Bool?
+        ///  One or more words or phrases that describe theQualification type, separated by commas. The Keywords make the type easier to find using a search. 
+        public let keywords: String?
+        ///  The questions for a Qualification test associated with this Qualification type that a user can take to obtain a Qualification of this type. This parameter must be specified if AnswerKey is present. A Qualification type cannot have both a specified Test parameter and an AutoGranted value of true. 
+        public let test: String?
+        /// Specifies that requests for the Qualification type are granted immediately, without prompting the Worker with a Qualification test. Valid values are True | False.
+        public let autoGranted: Bool?
+        ///  The amount of time, in seconds, Workers must wait after taking the Qualification test before they can take it again. Workers can take a Qualification test multiple times if they were not granted the Qualification from a previous attempt, or if the test offers a gradient score and they want a better score. If not specified, retries are disabled and Workers can request a Qualification only once. 
+        public let retryDelayInSeconds: Int64?
+        ///  The Qualification integer value to use for automatically granted Qualifications, if AutoGranted is true. This is 1 by default. 
+        public let autoGrantedValue: Int32?
+        ///  A long description for the Qualification type. 
+        public let description: String?
+        ///  A unique identifier for the Qualification type. A Qualification type is given a Qualification type ID when you call the CreateQualificationType operation. 
+        public let qualificationTypeId: String?
+        ///  The amount of time, in seconds, given to a Worker to complete the Qualification test, beginning from the time the Worker requests the Qualification. 
+        public let testDurationInSeconds: Int64?
+
+        public init(answerKey: String? = nil, autoGranted: Bool? = nil, autoGrantedValue: Int32? = nil, creationTime: TimeStamp? = nil, description: String? = nil, isRequestable: Bool? = nil, keywords: String? = nil, name: String? = nil, qualificationTypeId: String? = nil, qualificationTypeStatus: QualificationTypeStatus? = nil, retryDelayInSeconds: Int64? = nil, test: String? = nil, testDurationInSeconds: Int64? = nil) {
+            self.answerKey = answerKey
+            self.qualificationTypeStatus = qualificationTypeStatus
+            self.creationTime = creationTime
+            self.name = name
+            self.isRequestable = isRequestable
+            self.keywords = keywords
+            self.test = test
+            self.autoGranted = autoGranted
+            self.retryDelayInSeconds = retryDelayInSeconds
+            self.autoGrantedValue = autoGrantedValue
+            self.description = description
+            self.qualificationTypeId = qualificationTypeId
+            self.testDurationInSeconds = testDurationInSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case answerKey = "AnswerKey"
+            case qualificationTypeStatus = "QualificationTypeStatus"
+            case creationTime = "CreationTime"
+            case name = "Name"
+            case isRequestable = "IsRequestable"
+            case keywords = "Keywords"
+            case test = "Test"
+            case autoGranted = "AutoGranted"
+            case retryDelayInSeconds = "RetryDelayInSeconds"
+            case autoGrantedValue = "AutoGrantedValue"
+            case description = "Description"
+            case qualificationTypeId = "QualificationTypeId"
+            case testDurationInSeconds = "TestDurationInSeconds"
+        }
+    }
+
+    public struct GetHITRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HITId", required: true, type: .string)
+        ]
+        /// The ID of the HIT to be retrieved.
+        public let hITId: String
+
+        public init(hITId: String) {
+            self.hITId = hITId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hITId = "HITId"
+        }
+    }
+
+    public struct AcceptQualificationRequestRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QualificationRequestId", required: true, type: .string), 
+            AWSShapeMember(label: "IntegerValue", required: false, type: .integer)
+        ]
+        /// The ID of the Qualification request, as returned by the GetQualificationRequests operation.
+        public let qualificationRequestId: String
+        ///  The value of the Qualification. You can omit this value if you are using the presence or absence of the Qualification as the basis for a HIT requirement. 
+        public let integerValue: Int32?
+
+        public init(integerValue: Int32? = nil, qualificationRequestId: String) {
+            self.qualificationRequestId = qualificationRequestId
+            self.integerValue = integerValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case qualificationRequestId = "QualificationRequestId"
+            case integerValue = "IntegerValue"
+        }
+    }
+
+    public struct DisassociateQualificationFromWorkerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QualificationTypeId", required: true, type: .string), 
+            AWSShapeMember(label: "WorkerId", required: true, type: .string), 
+            AWSShapeMember(label: "Reason", required: false, type: .string)
+        ]
+        /// The ID of the Qualification type of the Qualification to be revoked.
+        public let qualificationTypeId: String
+        /// The ID of the Worker who possesses the Qualification to be revoked.
+        public let workerId: String
+        /// A text message that explains why the Qualification was revoked. The user who had the Qualification sees this message.
+        public let reason: String?
+
+        public init(qualificationTypeId: String, reason: String? = nil, workerId: String) {
+            self.qualificationTypeId = qualificationTypeId
+            self.workerId = workerId
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case qualificationTypeId = "QualificationTypeId"
+            case workerId = "WorkerId"
+            case reason = "Reason"
         }
     }
 
@@ -185,7 +489,7 @@ extension MTurk {
         public let numResults: Int32?
         public let nextToken: String?
 
-        public init(workerBlocks: [WorkerBlock]? = nil, numResults: Int32? = nil, nextToken: String? = nil) {
+        public init(nextToken: String? = nil, numResults: Int32? = nil, workerBlocks: [WorkerBlock]? = nil) {
             self.workerBlocks = workerBlocks
             self.numResults = numResults
             self.nextToken = nextToken
@@ -198,77 +502,242 @@ extension MTurk {
         }
     }
 
-    public enum ReviewableHITStatus: String, CustomStringConvertible, Codable {
-        case reviewable = "Reviewable"
-        case reviewing = "Reviewing"
-        public var description: String { return self.rawValue }
+    public struct CreateQualificationTypeResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QualificationType", required: false, type: .structure)
+        ]
+        /// The created Qualification type, returned as a QualificationType data structure.
+        public let qualificationType: QualificationType?
+
+        public init(qualificationType: QualificationType? = nil) {
+            self.qualificationType = qualificationType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case qualificationType = "QualificationType"
+        }
     }
 
-    public struct AssociateQualificationWithWorkerRequest: AWSShape {
+    public struct Qualification: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "QualificationTypeId", required: true, type: .string), 
-            AWSShapeMember(label: "IntegerValue", required: false, type: .integer), 
-            AWSShapeMember(label: "SendNotification", required: false, type: .boolean), 
-            AWSShapeMember(label: "WorkerId", required: true, type: .string)
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "WorkerId", required: false, type: .string), 
+            AWSShapeMember(label: "LocaleValue", required: false, type: .structure), 
+            AWSShapeMember(label: "GrantTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "QualificationTypeId", required: false, type: .string), 
+            AWSShapeMember(label: "IntegerValue", required: false, type: .integer)
         ]
-        /// The ID of the Qualification type to use for the assigned Qualification.
-        public let qualificationTypeId: String
-        /// The value of the Qualification to assign.
+        ///  The status of the Qualification. Valid values are Granted | Revoked.
+        public let status: QualificationStatus?
+        ///  The ID of the Worker who possesses the Qualification. 
+        public let workerId: String?
+        public let localeValue: Locale?
+        ///  The date and time the Qualification was granted to the Worker. If the Worker's Qualification was revoked, and then re-granted based on a new Qualification request, GrantTime is the date and time of the last call to the AcceptQualificationRequest operation.
+        public let grantTime: TimeStamp?
+        ///  The ID of the Qualification type for the Qualification.
+        public let qualificationTypeId: String?
+        ///  The value (score) of the Qualification, if the Qualification has an integer value.
         public let integerValue: Int32?
-        ///  Specifies whether to send a notification email message to the Worker saying that the qualification was assigned to the Worker. Note: this is true by default. 
-        public let sendNotification: Bool?
-        ///  The ID of the Worker to whom the Qualification is being assigned. Worker IDs are included with submitted HIT assignments and Qualification requests. 
-        public let workerId: String
 
-        public init(qualificationTypeId: String, integerValue: Int32? = nil, sendNotification: Bool? = nil, workerId: String) {
+        public init(grantTime: TimeStamp? = nil, integerValue: Int32? = nil, localeValue: Locale? = nil, qualificationTypeId: String? = nil, status: QualificationStatus? = nil, workerId: String? = nil) {
+            self.status = status
+            self.workerId = workerId
+            self.localeValue = localeValue
+            self.grantTime = grantTime
             self.qualificationTypeId = qualificationTypeId
             self.integerValue = integerValue
-            self.sendNotification = sendNotification
-            self.workerId = workerId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case workerId = "WorkerId"
+            case localeValue = "LocaleValue"
+            case grantTime = "GrantTime"
             case qualificationTypeId = "QualificationTypeId"
             case integerValue = "IntegerValue"
-            case sendNotification = "SendNotification"
-            case workerId = "WorkerId"
         }
     }
 
-    public struct CreateHITTypeResponse: AWSShape {
+    public struct DisassociateQualificationFromWorkerResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct HIT: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HITTypeId", required: false, type: .string)
+            AWSShapeMember(label: "MaxAssignments", required: false, type: .integer), 
+            AWSShapeMember(label: "HITLayoutId", required: false, type: .string), 
+            AWSShapeMember(label: "AssignmentDurationInSeconds", required: false, type: .long), 
+            AWSShapeMember(label: "Question", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Reward", required: false, type: .string), 
+            AWSShapeMember(label: "QualificationRequirements", required: false, type: .list), 
+            AWSShapeMember(label: "HITReviewStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "Keywords", required: false, type: .string), 
+            AWSShapeMember(label: "NumberOfAssignmentsCompleted", required: false, type: .integer), 
+            AWSShapeMember(label: "AutoApprovalDelayInSeconds", required: false, type: .long), 
+            AWSShapeMember(label: "Title", required: false, type: .string), 
+            AWSShapeMember(label: "RequesterAnnotation", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "HITGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "NumberOfAssignmentsAvailable", required: false, type: .integer), 
+            AWSShapeMember(label: "NumberOfAssignmentsPending", required: false, type: .integer), 
+            AWSShapeMember(label: "HITId", required: false, type: .string), 
+            AWSShapeMember(label: "HITTypeId", required: false, type: .string), 
+            AWSShapeMember(label: "HITStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "Expiration", required: false, type: .timestamp)
         ]
-        ///  The ID of the newly registered HIT type.
+        /// The number of times the HIT can be accepted and completed before the HIT becomes unavailable. 
+        public let maxAssignments: Int32?
+        ///  The ID of the HIT Layout of this HIT.
+        public let hITLayoutId: String?
+        ///  The length of time, in seconds, that a Worker has to complete the HIT after accepting it.
+        public let assignmentDurationInSeconds: Int64?
+        ///  The data the Worker completing the HIT uses produce the results. This is either either a QuestionForm, HTMLQuestion or an ExternalQuestion data structure.
+        public let question: String?
+        ///  The date and time the HIT was created.
+        public let creationTime: TimeStamp?
+        public let reward: String?
+        ///  Conditions that a Worker's Qualifications must meet in order to accept the HIT. A HIT can have between zero and ten Qualification requirements. All requirements must be met in order for a Worker to accept the HIT. Additionally, other actions can be restricted using the ActionsGuarded field on each QualificationRequirement structure. 
+        public let qualificationRequirements: [QualificationRequirement]?
+        ///  Indicates the review status of the HIT. Valid Values are NotReviewed | MarkedForReview | ReviewedAppropriate | ReviewedInappropriate.
+        public let hITReviewStatus: HITReviewStatus?
+        ///  One or more words or phrases that describe the HIT, separated by commas. Search terms similar to the keywords of a HIT are more likely to have the HIT in the search results.
+        public let keywords: String?
+        ///  The number of assignments for this HIT that have been approved or rejected.
+        public let numberOfAssignmentsCompleted: Int32?
+        /// The amount of time, in seconds, after the Worker submits an assignment for the HIT that the results are automatically approved by Amazon Mechanical Turk. This is the amount of time the Requester has to reject an assignment submitted by a Worker before the assignment is auto-approved and the Worker is paid. 
+        public let autoApprovalDelayInSeconds: Int64?
+        ///  The title of the HIT.
+        public let title: String?
+        ///  An arbitrary data field the Requester who created the HIT can use. This field is visible only to the creator of the HIT.
+        public let requesterAnnotation: String?
+        ///  A general description of the HIT.
+        public let description: String?
+        ///  The ID of the HIT Group of this HIT.
+        public let hITGroupId: String?
+        ///  The number of assignments for this HIT that are available for Workers to accept.
+        public let numberOfAssignmentsAvailable: Int32?
+        ///  The number of assignments for this HIT that are being previewed or have been accepted by Workers, but have not yet been submitted, returned, or abandoned.
+        public let numberOfAssignmentsPending: Int32?
+        ///  A unique identifier for the HIT.
+        public let hITId: String?
+        /// The ID of the HIT type of this HIT
         public let hITTypeId: String?
+        /// The status of the HIT and its assignments. Valid Values are Assignable | Unassignable | Reviewable | Reviewing | Disposed. 
+        public let hITStatus: HITStatus?
+        /// The date and time the HIT expires.
+        public let expiration: TimeStamp?
 
-        public init(hITTypeId: String? = nil) {
+        public init(assignmentDurationInSeconds: Int64? = nil, autoApprovalDelayInSeconds: Int64? = nil, creationTime: TimeStamp? = nil, description: String? = nil, expiration: TimeStamp? = nil, hITGroupId: String? = nil, hITId: String? = nil, hITLayoutId: String? = nil, hITReviewStatus: HITReviewStatus? = nil, hITStatus: HITStatus? = nil, hITTypeId: String? = nil, keywords: String? = nil, maxAssignments: Int32? = nil, numberOfAssignmentsAvailable: Int32? = nil, numberOfAssignmentsCompleted: Int32? = nil, numberOfAssignmentsPending: Int32? = nil, qualificationRequirements: [QualificationRequirement]? = nil, question: String? = nil, requesterAnnotation: String? = nil, reward: String? = nil, title: String? = nil) {
+            self.maxAssignments = maxAssignments
+            self.hITLayoutId = hITLayoutId
+            self.assignmentDurationInSeconds = assignmentDurationInSeconds
+            self.question = question
+            self.creationTime = creationTime
+            self.reward = reward
+            self.qualificationRequirements = qualificationRequirements
+            self.hITReviewStatus = hITReviewStatus
+            self.keywords = keywords
+            self.numberOfAssignmentsCompleted = numberOfAssignmentsCompleted
+            self.autoApprovalDelayInSeconds = autoApprovalDelayInSeconds
+            self.title = title
+            self.requesterAnnotation = requesterAnnotation
+            self.description = description
+            self.hITGroupId = hITGroupId
+            self.numberOfAssignmentsAvailable = numberOfAssignmentsAvailable
+            self.numberOfAssignmentsPending = numberOfAssignmentsPending
+            self.hITId = hITId
             self.hITTypeId = hITTypeId
+            self.hITStatus = hITStatus
+            self.expiration = expiration
         }
 
         private enum CodingKeys: String, CodingKey {
+            case maxAssignments = "MaxAssignments"
+            case hITLayoutId = "HITLayoutId"
+            case assignmentDurationInSeconds = "AssignmentDurationInSeconds"
+            case question = "Question"
+            case creationTime = "CreationTime"
+            case reward = "Reward"
+            case qualificationRequirements = "QualificationRequirements"
+            case hITReviewStatus = "HITReviewStatus"
+            case keywords = "Keywords"
+            case numberOfAssignmentsCompleted = "NumberOfAssignmentsCompleted"
+            case autoApprovalDelayInSeconds = "AutoApprovalDelayInSeconds"
+            case title = "Title"
+            case requesterAnnotation = "RequesterAnnotation"
+            case description = "Description"
+            case hITGroupId = "HITGroupId"
+            case numberOfAssignmentsAvailable = "NumberOfAssignmentsAvailable"
+            case numberOfAssignmentsPending = "NumberOfAssignmentsPending"
+            case hITId = "HITId"
             case hITTypeId = "HITTypeId"
+            case hITStatus = "HITStatus"
+            case expiration = "Expiration"
         }
     }
 
-    public struct UpdateExpirationForHITRequest: AWSShape {
+    public struct ListQualificationTypesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HITId", required: true, type: .string), 
-            AWSShapeMember(label: "ExpireAt", required: true, type: .timestamp)
+            AWSShapeMember(label: "MustBeRequestable", required: true, type: .boolean), 
+            AWSShapeMember(label: "Query", required: false, type: .string), 
+            AWSShapeMember(label: "MustBeOwnedByCaller", required: false, type: .boolean), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
-        ///  The HIT to update. 
-        public let hITId: String
-        ///  The date and time at which you want the HIT to expire 
-        public let expireAt: TimeStamp
+        /// Specifies that only Qualification types that a user can request through the Amazon Mechanical Turk web site, such as by taking a Qualification test, are returned as results of the search. Some Qualification types, such as those assigned automatically by the system, cannot be requested directly by users. If false, all Qualification types, including those managed by the system, are considered. Valid values are True | False. 
+        public let mustBeRequestable: Bool
+        ///  A text query against all of the searchable attributes of Qualification types. 
+        public let query: String?
+        ///  Specifies that only Qualification types that the Requester created are returned. If false, the operation returns all Qualification types. 
+        public let mustBeOwnedByCaller: Bool?
+        public let nextToken: String?
+        ///  The maximum number of results to return in a single call. 
+        public let maxResults: Int32?
 
-        public init(hITId: String, expireAt: TimeStamp) {
-            self.hITId = hITId
-            self.expireAt = expireAt
+        public init(maxResults: Int32? = nil, mustBeOwnedByCaller: Bool? = nil, mustBeRequestable: Bool, nextToken: String? = nil, query: String? = nil) {
+            self.mustBeRequestable = mustBeRequestable
+            self.query = query
+            self.mustBeOwnedByCaller = mustBeOwnedByCaller
+            self.nextToken = nextToken
+            self.maxResults = maxResults
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hITId = "HITId"
-            case expireAt = "ExpireAt"
+            case mustBeRequestable = "MustBeRequestable"
+            case query = "Query"
+            case mustBeOwnedByCaller = "MustBeOwnedByCaller"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
+        }
+    }
+
+    public struct ApproveAssignmentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RequesterFeedback", required: false, type: .string), 
+            AWSShapeMember(label: "OverrideRejection", required: false, type: .boolean), 
+            AWSShapeMember(label: "AssignmentId", required: true, type: .string)
+        ]
+        ///  A message for the Worker, which the Worker can see in the Status section of the web site. 
+        public let requesterFeedback: String?
+        ///  A flag indicating that an assignment should be approved even if it was previously rejected. Defaults to False. 
+        public let overrideRejection: Bool?
+        ///  The ID of the assignment. The assignment must correspond to a HIT created by the Requester. 
+        public let assignmentId: String
+
+        public init(assignmentId: String, overrideRejection: Bool? = nil, requesterFeedback: String? = nil) {
+            self.requesterFeedback = requesterFeedback
+            self.overrideRejection = overrideRejection
+            self.assignmentId = assignmentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requesterFeedback = "RequesterFeedback"
+            case overrideRejection = "OverrideRejection"
+            case assignmentId = "AssignmentId"
         }
     }
 
@@ -293,44 +762,52 @@ extension MTurk {
         }
     }
 
-    public struct QualificationRequest: AWSShape {
+    public struct ListHITsForQualificationTypeRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "QualificationTypeId", required: false, type: .string), 
-            AWSShapeMember(label: "QualificationRequestId", required: false, type: .string), 
-            AWSShapeMember(label: "Answer", required: false, type: .string), 
-            AWSShapeMember(label: "Test", required: false, type: .string), 
-            AWSShapeMember(label: "WorkerId", required: false, type: .string), 
-            AWSShapeMember(label: "SubmitTime", required: false, type: .timestamp)
+            AWSShapeMember(label: "QualificationTypeId", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        ///  The ID of the Qualification type the Worker is requesting, as returned by the CreateQualificationType operation. 
-        public let qualificationTypeId: String?
-        /// The ID of the Qualification request, a unique identifier generated when the request was submitted. 
-        public let qualificationRequestId: String?
-        ///  The Worker's answers for the Qualification type's test contained in a QuestionFormAnswers document, if the type has a test and the Worker has submitted answers. If the Worker does not provide any answers, Answer may be empty. 
-        public let answer: String?
-        ///  The contents of the Qualification test that was presented to the Worker, if the type has a test and the Worker has submitted answers. This value is identical to the QuestionForm associated with the Qualification type at the time the Worker requests the Qualification.
-        public let test: String?
-        ///  The ID of the Worker requesting the Qualification.
-        public let workerId: String?
-        /// The date and time the Qualification request had a status of Submitted. This is either the time the Worker submitted answers for a Qualification test, or the time the Worker requested the Qualification if the Qualification type does not have a test. 
-        public let submitTime: TimeStamp?
+        ///  The ID of the Qualification type to use when querying HITs. 
+        public let qualificationTypeId: String
+        ///  Limit the number of results returned. 
+        public let maxResults: Int32?
+        /// Pagination Token
+        public let nextToken: String?
 
-        public init(qualificationTypeId: String? = nil, qualificationRequestId: String? = nil, answer: String? = nil, test: String? = nil, workerId: String? = nil, submitTime: TimeStamp? = nil) {
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, qualificationTypeId: String) {
             self.qualificationTypeId = qualificationTypeId
-            self.qualificationRequestId = qualificationRequestId
-            self.answer = answer
-            self.test = test
-            self.workerId = workerId
-            self.submitTime = submitTime
+            self.maxResults = maxResults
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case qualificationTypeId = "QualificationTypeId"
-            case qualificationRequestId = "QualificationRequestId"
-            case answer = "Answer"
-            case test = "Test"
-            case workerId = "WorkerId"
-            case submitTime = "SubmitTime"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public enum NotificationTransport: String, CustomStringConvertible, Codable {
+        case email = "Email"
+        case sqs = "SQS"
+        case sns = "SNS"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetAssignmentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssignmentId", required: true, type: .string)
+        ]
+        /// The ID of the Assignment to be retrieved.
+        public let assignmentId: String
+
+        public init(assignmentId: String) {
+            self.assignmentId = assignmentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assignmentId = "AssignmentId"
         }
     }
 
@@ -350,391 +827,11 @@ extension MTurk {
         }
     }
 
-    public struct CreateHITWithHITTypeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxAssignments", required: false, type: .integer), 
-            AWSShapeMember(label: "HITReviewPolicy", required: false, type: .structure), 
-            AWSShapeMember(label: "HITTypeId", required: true, type: .string), 
-            AWSShapeMember(label: "UniqueRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "HITLayoutParameters", required: false, type: .list), 
-            AWSShapeMember(label: "AssignmentReviewPolicy", required: false, type: .structure), 
-            AWSShapeMember(label: "HITLayoutId", required: false, type: .string), 
-            AWSShapeMember(label: "Question", required: false, type: .string), 
-            AWSShapeMember(label: "LifetimeInSeconds", required: true, type: .long), 
-            AWSShapeMember(label: "RequesterAnnotation", required: false, type: .string)
-        ]
-        ///  The number of times the HIT can be accepted and completed before the HIT becomes unavailable. 
-        public let maxAssignments: Int32?
-        ///  The HIT-level Review Policy applies to the HIT. You can specify for Mechanical Turk to take various actions based on the policy. 
-        public let hITReviewPolicy: ReviewPolicy?
-        /// The HIT type ID you want to create this HIT with.
-        public let hITTypeId: String
-        ///  A unique identifier for this request which allows you to retry the call on error without creating duplicate HITs. This is useful in cases such as network timeouts where it is unclear whether or not the call succeeded on the server. If the HIT already exists in the system from a previous call using the same UniqueRequestToken, subsequent calls will return a AWS.MechanicalTurk.HitAlreadyExists error with a message containing the HITId.    Note: It is your responsibility to ensure uniqueness of the token. The unique token expires after 24 hours. Subsequent calls using the same UniqueRequestToken made after the 24 hour limit could create duplicate HITs.  
-        public let uniqueRequestToken: String?
-        ///  If the HITLayoutId is provided, any placeholder values must be filled in with values using the HITLayoutParameter structure. For more information, see HITLayout. 
-        public let hITLayoutParameters: [HITLayoutParameter]?
-        ///  The Assignment-level Review Policy applies to the assignments under the HIT. You can specify for Mechanical Turk to take various actions based on the policy. 
-        public let assignmentReviewPolicy: ReviewPolicy?
-        ///  The HITLayoutId allows you to use a pre-existing HIT design with placeholder values and create an additional HIT by providing those values as HITLayoutParameters.   Constraints: Either a Question parameter or a HITLayoutId parameter must be provided. 
-        public let hITLayoutId: String?
-        ///  The data the person completing the HIT uses to produce the results.   Constraints: Must be a QuestionForm data structure, an ExternalQuestion data structure, or an HTMLQuestion data structure. The XML question data must not be larger than 64 kilobytes (65,535 bytes) in size, including whitespace.  Either a Question parameter or a HITLayoutId parameter must be provided.
-        public let question: String?
-        ///  An amount of time, in seconds, after which the HIT is no longer available for users to accept. After the lifetime of the HIT elapses, the HIT no longer appears in HIT searches, even if not all of the assignments for the HIT have been accepted. 
-        public let lifetimeInSeconds: Int64
-        ///  An arbitrary data field. The RequesterAnnotation parameter lets your application attach arbitrary data to the HIT for tracking purposes. For example, this parameter could be an identifier internal to the Requester's application that corresponds with the HIT.   The RequesterAnnotation parameter for a HIT is only visible to the Requester who created the HIT. It is not shown to the Worker, or any other Requester.   The RequesterAnnotation parameter may be different for each HIT you submit. It does not affect how your HITs are grouped. 
-        public let requesterAnnotation: String?
-
-        public init(maxAssignments: Int32? = nil, hITReviewPolicy: ReviewPolicy? = nil, hITTypeId: String, uniqueRequestToken: String? = nil, hITLayoutParameters: [HITLayoutParameter]? = nil, assignmentReviewPolicy: ReviewPolicy? = nil, hITLayoutId: String? = nil, question: String? = nil, lifetimeInSeconds: Int64, requesterAnnotation: String? = nil) {
-            self.maxAssignments = maxAssignments
-            self.hITReviewPolicy = hITReviewPolicy
-            self.hITTypeId = hITTypeId
-            self.uniqueRequestToken = uniqueRequestToken
-            self.hITLayoutParameters = hITLayoutParameters
-            self.assignmentReviewPolicy = assignmentReviewPolicy
-            self.hITLayoutId = hITLayoutId
-            self.question = question
-            self.lifetimeInSeconds = lifetimeInSeconds
-            self.requesterAnnotation = requesterAnnotation
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxAssignments = "MaxAssignments"
-            case hITReviewPolicy = "HITReviewPolicy"
-            case hITTypeId = "HITTypeId"
-            case uniqueRequestToken = "UniqueRequestToken"
-            case hITLayoutParameters = "HITLayoutParameters"
-            case assignmentReviewPolicy = "AssignmentReviewPolicy"
-            case hITLayoutId = "HITLayoutId"
-            case question = "Question"
-            case lifetimeInSeconds = "LifetimeInSeconds"
-            case requesterAnnotation = "RequesterAnnotation"
-        }
-    }
-
-    public struct RejectQualificationRequestResponse: AWSShape {
-
-    }
-
-    public struct UpdateHITReviewStatusResponse: AWSShape {
-
-    }
-
-    public struct ListWorkerBlocksRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        public let maxResults: Int32?
-        /// Pagination token
-        public let nextToken: String?
-
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct Assignment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Answer", required: false, type: .string), 
-            AWSShapeMember(label: "AutoApprovalTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ApprovalTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "RejectionTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "WorkerId", required: false, type: .string), 
-            AWSShapeMember(label: "AssignmentId", required: false, type: .string), 
-            AWSShapeMember(label: "SubmitTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "AcceptTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Deadline", required: false, type: .timestamp), 
-            AWSShapeMember(label: "AssignmentStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "HITId", required: false, type: .string), 
-            AWSShapeMember(label: "RequesterFeedback", required: false, type: .string)
-        ]
-        ///  The Worker's answers submitted for the HIT contained in a QuestionFormAnswers document, if the Worker provides an answer. If the Worker does not provide any answers, Answer may contain a QuestionFormAnswers document, or Answer may be empty.
-        public let answer: String?
-        ///  If results have been submitted, AutoApprovalTime is the date and time the results of the assignment results are considered Approved automatically if they have not already been explicitly approved or rejected by the Requester. This value is derived from the auto-approval delay specified by the Requester in the HIT. This value is omitted from the assignment if the Worker has not yet submitted results.
-        public let autoApprovalTime: TimeStamp?
-        ///  If the Worker has submitted results and the Requester has approved the results, ApprovalTime is the date and time the Requester approved the results. This value is omitted from the assignment if the Requester has not yet approved the results.
-        public let approvalTime: TimeStamp?
-        ///  If the Worker has submitted results and the Requester has rejected the results, RejectionTime is the date and time the Requester rejected the results.
-        public let rejectionTime: TimeStamp?
-        ///  The ID of the Worker who accepted the HIT.
-        public let workerId: String?
-        ///  A unique identifier for the assignment.
-        public let assignmentId: String?
-        ///  If the Worker has submitted results, SubmitTime is the date and time the assignment was submitted. This value is omitted from the assignment if the Worker has not yet submitted results.
-        public let submitTime: TimeStamp?
-        ///  The date and time the Worker accepted the assignment.
-        public let acceptTime: TimeStamp?
-        ///  The date and time of the deadline for the assignment. This value is derived from the deadline specification for the HIT and the date and time the Worker accepted the HIT.
-        public let deadline: TimeStamp?
-        ///  The status of the assignment.
-        public let assignmentStatus: AssignmentStatus?
-        ///  The ID of the HIT.
-        public let hITId: String?
-        ///  The feedback string included with the call to the ApproveAssignment operation or the RejectAssignment operation, if the Requester approved or rejected the assignment and specified feedback.
-        public let requesterFeedback: String?
-
-        public init(answer: String? = nil, autoApprovalTime: TimeStamp? = nil, approvalTime: TimeStamp? = nil, rejectionTime: TimeStamp? = nil, workerId: String? = nil, assignmentId: String? = nil, submitTime: TimeStamp? = nil, acceptTime: TimeStamp? = nil, deadline: TimeStamp? = nil, assignmentStatus: AssignmentStatus? = nil, hITId: String? = nil, requesterFeedback: String? = nil) {
-            self.answer = answer
-            self.autoApprovalTime = autoApprovalTime
-            self.approvalTime = approvalTime
-            self.rejectionTime = rejectionTime
-            self.workerId = workerId
-            self.assignmentId = assignmentId
-            self.submitTime = submitTime
-            self.acceptTime = acceptTime
-            self.deadline = deadline
-            self.assignmentStatus = assignmentStatus
-            self.hITId = hITId
-            self.requesterFeedback = requesterFeedback
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case answer = "Answer"
-            case autoApprovalTime = "AutoApprovalTime"
-            case approvalTime = "ApprovalTime"
-            case rejectionTime = "RejectionTime"
-            case workerId = "WorkerId"
-            case assignmentId = "AssignmentId"
-            case submitTime = "SubmitTime"
-            case acceptTime = "AcceptTime"
-            case deadline = "Deadline"
-            case assignmentStatus = "AssignmentStatus"
-            case hITId = "HITId"
-            case requesterFeedback = "RequesterFeedback"
-        }
-    }
-
-    public struct DisassociateQualificationFromWorkerResponse: AWSShape {
-
-    }
-
-    public struct ListReviewPolicyResultsForHITRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HITId", required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyLevels", required: false, type: .list), 
-            AWSShapeMember(label: "RetrieveResults", required: false, type: .boolean), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "RetrieveActions", required: false, type: .boolean)
-        ]
-        /// The unique identifier of the HIT to retrieve review results for.
-        public let hITId: String
-        /// Pagination token
-        public let nextToken: String?
-        ///  The Policy Level(s) to retrieve review results for - HIT or Assignment. If omitted, the default behavior is to retrieve all data for both policy levels. For a list of all the described policies, see Review Policies. 
-        public let policyLevels: [ReviewPolicyLevel]?
-        ///  Specify if the operation should retrieve a list of the results computed by the Review Policies. 
-        public let retrieveResults: Bool?
-        /// Limit the number of results returned.
-        public let maxResults: Int32?
-        ///  Specify if the operation should retrieve a list of the actions taken executing the Review Policies and their outcomes. 
-        public let retrieveActions: Bool?
-
-        public init(hITId: String, nextToken: String? = nil, policyLevels: [ReviewPolicyLevel]? = nil, retrieveResults: Bool? = nil, maxResults: Int32? = nil, retrieveActions: Bool? = nil) {
-            self.hITId = hITId
-            self.nextToken = nextToken
-            self.policyLevels = policyLevels
-            self.retrieveResults = retrieveResults
-            self.maxResults = maxResults
-            self.retrieveActions = retrieveActions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case hITId = "HITId"
-            case nextToken = "NextToken"
-            case policyLevels = "PolicyLevels"
-            case retrieveResults = "RetrieveResults"
-            case maxResults = "MaxResults"
-            case retrieveActions = "RetrieveActions"
-        }
-    }
-
-    public struct HIT: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxAssignments", required: false, type: .integer), 
-            AWSShapeMember(label: "AssignmentDurationInSeconds", required: false, type: .long), 
-            AWSShapeMember(label: "Title", required: false, type: .string), 
-            AWSShapeMember(label: "HITReviewStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "HITTypeId", required: false, type: .string), 
-            AWSShapeMember(label: "Question", required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "AutoApprovalDelayInSeconds", required: false, type: .long), 
-            AWSShapeMember(label: "RequesterAnnotation", required: false, type: .string), 
-            AWSShapeMember(label: "HITStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "Expiration", required: false, type: .timestamp), 
-            AWSShapeMember(label: "NumberOfAssignmentsCompleted", required: false, type: .integer), 
-            AWSShapeMember(label: "NumberOfAssignmentsPending", required: false, type: .integer), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "QualificationRequirements", required: false, type: .list), 
-            AWSShapeMember(label: "HITGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "HITLayoutId", required: false, type: .string), 
-            AWSShapeMember(label: "Keywords", required: false, type: .string), 
-            AWSShapeMember(label: "HITId", required: false, type: .string), 
-            AWSShapeMember(label: "NumberOfAssignmentsAvailable", required: false, type: .integer), 
-            AWSShapeMember(label: "Reward", required: false, type: .string)
-        ]
-        /// The number of times the HIT can be accepted and completed before the HIT becomes unavailable. 
-        public let maxAssignments: Int32?
-        ///  The length of time, in seconds, that a Worker has to complete the HIT after accepting it.
-        public let assignmentDurationInSeconds: Int64?
-        ///  The title of the HIT.
-        public let title: String?
-        ///  Indicates the review status of the HIT. Valid Values are NotReviewed | MarkedForReview | ReviewedAppropriate | ReviewedInappropriate.
-        public let hITReviewStatus: HITReviewStatus?
-        /// The ID of the HIT type of this HIT
-        public let hITTypeId: String?
-        ///  The data the Worker completing the HIT uses produce the results. This is either either a QuestionForm, HTMLQuestion or an ExternalQuestion data structure.
-        public let question: String?
-        ///  The date and time the HIT was created.
-        public let creationTime: TimeStamp?
-        /// The amount of time, in seconds, after the Worker submits an assignment for the HIT that the results are automatically approved by Amazon Mechanical Turk. This is the amount of time the Requester has to reject an assignment submitted by a Worker before the assignment is auto-approved and the Worker is paid. 
-        public let autoApprovalDelayInSeconds: Int64?
-        ///  An arbitrary data field the Requester who created the HIT can use. This field is visible only to the creator of the HIT.
-        public let requesterAnnotation: String?
-        /// The status of the HIT and its assignments. Valid Values are Assignable | Unassignable | Reviewable | Reviewing | Disposed. 
-        public let hITStatus: HITStatus?
-        /// The date and time the HIT expires.
-        public let expiration: TimeStamp?
-        ///  The number of assignments for this HIT that have been approved or rejected.
-        public let numberOfAssignmentsCompleted: Int32?
-        ///  The number of assignments for this HIT that are being previewed or have been accepted by Workers, but have not yet been submitted, returned, or abandoned.
-        public let numberOfAssignmentsPending: Int32?
-        ///  A general description of the HIT.
-        public let description: String?
-        ///  Conditions that a Worker's Qualifications must meet in order to accept the HIT. A HIT can have between zero and ten Qualification requirements. All requirements must be met in order for a Worker to accept the HIT. Additionally, other actions can be restricted using the ActionsGuarded field on each QualificationRequirement structure. 
-        public let qualificationRequirements: [QualificationRequirement]?
-        ///  The ID of the HIT Group of this HIT.
-        public let hITGroupId: String?
-        ///  The ID of the HIT Layout of this HIT.
-        public let hITLayoutId: String?
-        ///  One or more words or phrases that describe the HIT, separated by commas. Search terms similar to the keywords of a HIT are more likely to have the HIT in the search results.
-        public let keywords: String?
-        ///  A unique identifier for the HIT.
-        public let hITId: String?
-        ///  The number of assignments for this HIT that are available for Workers to accept.
-        public let numberOfAssignmentsAvailable: Int32?
-        public let reward: String?
-
-        public init(maxAssignments: Int32? = nil, assignmentDurationInSeconds: Int64? = nil, title: String? = nil, hITReviewStatus: HITReviewStatus? = nil, hITTypeId: String? = nil, question: String? = nil, creationTime: TimeStamp? = nil, autoApprovalDelayInSeconds: Int64? = nil, requesterAnnotation: String? = nil, hITStatus: HITStatus? = nil, expiration: TimeStamp? = nil, numberOfAssignmentsCompleted: Int32? = nil, numberOfAssignmentsPending: Int32? = nil, description: String? = nil, qualificationRequirements: [QualificationRequirement]? = nil, hITGroupId: String? = nil, hITLayoutId: String? = nil, keywords: String? = nil, hITId: String? = nil, numberOfAssignmentsAvailable: Int32? = nil, reward: String? = nil) {
-            self.maxAssignments = maxAssignments
-            self.assignmentDurationInSeconds = assignmentDurationInSeconds
-            self.title = title
-            self.hITReviewStatus = hITReviewStatus
-            self.hITTypeId = hITTypeId
-            self.question = question
-            self.creationTime = creationTime
-            self.autoApprovalDelayInSeconds = autoApprovalDelayInSeconds
-            self.requesterAnnotation = requesterAnnotation
-            self.hITStatus = hITStatus
-            self.expiration = expiration
-            self.numberOfAssignmentsCompleted = numberOfAssignmentsCompleted
-            self.numberOfAssignmentsPending = numberOfAssignmentsPending
-            self.description = description
-            self.qualificationRequirements = qualificationRequirements
-            self.hITGroupId = hITGroupId
-            self.hITLayoutId = hITLayoutId
-            self.keywords = keywords
-            self.hITId = hITId
-            self.numberOfAssignmentsAvailable = numberOfAssignmentsAvailable
-            self.reward = reward
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxAssignments = "MaxAssignments"
-            case assignmentDurationInSeconds = "AssignmentDurationInSeconds"
-            case title = "Title"
-            case hITReviewStatus = "HITReviewStatus"
-            case hITTypeId = "HITTypeId"
-            case question = "Question"
-            case creationTime = "CreationTime"
-            case autoApprovalDelayInSeconds = "AutoApprovalDelayInSeconds"
-            case requesterAnnotation = "RequesterAnnotation"
-            case hITStatus = "HITStatus"
-            case expiration = "Expiration"
-            case numberOfAssignmentsCompleted = "NumberOfAssignmentsCompleted"
-            case numberOfAssignmentsPending = "NumberOfAssignmentsPending"
-            case description = "Description"
-            case qualificationRequirements = "QualificationRequirements"
-            case hITGroupId = "HITGroupId"
-            case hITLayoutId = "HITLayoutId"
-            case keywords = "Keywords"
-            case hITId = "HITId"
-            case numberOfAssignmentsAvailable = "NumberOfAssignmentsAvailable"
-            case reward = "Reward"
-        }
-    }
-
-    public struct ListQualificationTypesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Query", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "MustBeOwnedByCaller", required: false, type: .boolean), 
-            AWSShapeMember(label: "MustBeRequestable", required: true, type: .boolean)
-        ]
-        public let nextToken: String?
-        ///  A text query against all of the searchable attributes of Qualification types. 
-        public let query: String?
-        ///  The maximum number of results to return in a single call. 
-        public let maxResults: Int32?
-        ///  Specifies that only Qualification types that the Requester created are returned. If false, the operation returns all Qualification types. 
-        public let mustBeOwnedByCaller: Bool?
-        /// Specifies that only Qualification types that a user can request through the Amazon Mechanical Turk web site, such as by taking a Qualification test, are returned as results of the search. Some Qualification types, such as those assigned automatically by the system, cannot be requested directly by users. If false, all Qualification types, including those managed by the system, are considered. Valid values are True | False. 
-        public let mustBeRequestable: Bool
-
-        public init(nextToken: String? = nil, query: String? = nil, maxResults: Int32? = nil, mustBeOwnedByCaller: Bool? = nil, mustBeRequestable: Bool) {
-            self.nextToken = nextToken
-            self.query = query
-            self.maxResults = maxResults
-            self.mustBeOwnedByCaller = mustBeOwnedByCaller
-            self.mustBeRequestable = mustBeRequestable
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case query = "Query"
-            case maxResults = "MaxResults"
-            case mustBeOwnedByCaller = "MustBeOwnedByCaller"
-            case mustBeRequestable = "MustBeRequestable"
-        }
-    }
-
-    public struct NotifyWorkersFailureStatus: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NotifyWorkersFailureMessage", required: false, type: .string), 
-            AWSShapeMember(label: "WorkerId", required: false, type: .string), 
-            AWSShapeMember(label: "NotifyWorkersFailureCode", required: false, type: .enum)
-        ]
-        ///  A message detailing the reason the Worker could not be notified. 
-        public let notifyWorkersFailureMessage: String?
-        ///  The ID of the Worker.
-        public let workerId: String?
-        ///  Encoded value for the failure type. 
-        public let notifyWorkersFailureCode: NotifyWorkersFailureCode?
-
-        public init(notifyWorkersFailureMessage: String? = nil, workerId: String? = nil, notifyWorkersFailureCode: NotifyWorkersFailureCode? = nil) {
-            self.notifyWorkersFailureMessage = notifyWorkersFailureMessage
-            self.workerId = workerId
-            self.notifyWorkersFailureCode = notifyWorkersFailureCode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case notifyWorkersFailureMessage = "NotifyWorkersFailureMessage"
-            case workerId = "WorkerId"
-            case notifyWorkersFailureCode = "NotifyWorkersFailureCode"
-        }
-    }
-
-    public enum NotificationTransport: String, CustomStringConvertible, Codable {
-        case email = "Email"
-        case sqs = "SQS"
-        case sns = "SNS"
+    public enum ReviewActionStatus: String, CustomStringConvertible, Codable {
+        case intended = "Intended"
+        case succeeded = "Succeeded"
+        case failed = "Failed"
+        case cancelled = "Cancelled"
         public var description: String { return self.rawValue }
     }
 
@@ -744,362 +841,264 @@ extension MTurk {
         public var description: String { return self.rawValue }
     }
 
-    public struct GetQualificationTypeRequest: AWSShape {
+    public struct ListQualificationTypesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "QualificationTypeId", required: true, type: .string)
+            AWSShapeMember(label: "NumResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "QualificationTypes", required: false, type: .list)
         ]
-        /// The ID of the QualificationType.
-        public let qualificationTypeId: String
+        ///  The number of Qualification types on this page in the filtered results list, equivalent to the number of types this operation returns. 
+        public let numResults: Int32?
+        public let nextToken: String?
+        ///  The list of QualificationType elements returned by the query. 
+        public let qualificationTypes: [QualificationType]?
 
-        public init(qualificationTypeId: String) {
-            self.qualificationTypeId = qualificationTypeId
+        public init(nextToken: String? = nil, numResults: Int32? = nil, qualificationTypes: [QualificationType]? = nil) {
+            self.numResults = numResults
+            self.nextToken = nextToken
+            self.qualificationTypes = qualificationTypes
         }
 
         private enum CodingKeys: String, CodingKey {
-            case qualificationTypeId = "QualificationTypeId"
+            case numResults = "NumResults"
+            case nextToken = "NextToken"
+            case qualificationTypes = "QualificationTypes"
         }
     }
 
-    public struct ReviewPolicy: AWSShape {
+    public struct Assignment: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Parameters", required: false, type: .list), 
-            AWSShapeMember(label: "PolicyName", required: true, type: .string)
+            AWSShapeMember(label: "RequesterFeedback", required: false, type: .string), 
+            AWSShapeMember(label: "AssignmentStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "AutoApprovalTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "RejectionTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SubmitTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "AcceptTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ApprovalTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "WorkerId", required: false, type: .string), 
+            AWSShapeMember(label: "AssignmentId", required: false, type: .string), 
+            AWSShapeMember(label: "Answer", required: false, type: .string), 
+            AWSShapeMember(label: "Deadline", required: false, type: .timestamp), 
+            AWSShapeMember(label: "HITId", required: false, type: .string)
         ]
-        /// Name of the parameter from the Review policy.
-        public let parameters: [PolicyParameter]?
-        ///  Name of a Review Policy: SimplePlurality/2011-09-01 or ScoreMyKnownAnswers/2011-09-01 
-        public let policyName: String
+        ///  The feedback string included with the call to the ApproveAssignment operation or the RejectAssignment operation, if the Requester approved or rejected the assignment and specified feedback.
+        public let requesterFeedback: String?
+        ///  The status of the assignment.
+        public let assignmentStatus: AssignmentStatus?
+        ///  If results have been submitted, AutoApprovalTime is the date and time the results of the assignment results are considered Approved automatically if they have not already been explicitly approved or rejected by the Requester. This value is derived from the auto-approval delay specified by the Requester in the HIT. This value is omitted from the assignment if the Worker has not yet submitted results.
+        public let autoApprovalTime: TimeStamp?
+        ///  If the Worker has submitted results and the Requester has rejected the results, RejectionTime is the date and time the Requester rejected the results.
+        public let rejectionTime: TimeStamp?
+        ///  If the Worker has submitted results, SubmitTime is the date and time the assignment was submitted. This value is omitted from the assignment if the Worker has not yet submitted results.
+        public let submitTime: TimeStamp?
+        ///  The date and time the Worker accepted the assignment.
+        public let acceptTime: TimeStamp?
+        ///  If the Worker has submitted results and the Requester has approved the results, ApprovalTime is the date and time the Requester approved the results. This value is omitted from the assignment if the Requester has not yet approved the results.
+        public let approvalTime: TimeStamp?
+        ///  The ID of the Worker who accepted the HIT.
+        public let workerId: String?
+        ///  A unique identifier for the assignment.
+        public let assignmentId: String?
+        ///  The Worker's answers submitted for the HIT contained in a QuestionFormAnswers document, if the Worker provides an answer. If the Worker does not provide any answers, Answer may contain a QuestionFormAnswers document, or Answer may be empty.
+        public let answer: String?
+        ///  The date and time of the deadline for the assignment. This value is derived from the deadline specification for the HIT and the date and time the Worker accepted the HIT.
+        public let deadline: TimeStamp?
+        ///  The ID of the HIT.
+        public let hITId: String?
 
-        public init(parameters: [PolicyParameter]? = nil, policyName: String) {
-            self.parameters = parameters
-            self.policyName = policyName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case parameters = "Parameters"
-            case policyName = "PolicyName"
-        }
-    }
-
-    public struct UpdateHITReviewStatusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HITId", required: true, type: .string), 
-            AWSShapeMember(label: "Revert", required: false, type: .boolean)
-        ]
-        ///  The ID of the HIT to update. 
-        public let hITId: String
-        ///  Specifies how to update the HIT status. Default is False.     Setting this to false will only transition a HIT from Reviewable to Reviewing     Setting this to true will only transition a HIT from Reviewing to Reviewable   
-        public let revert: Bool?
-
-        public init(hITId: String, revert: Bool? = nil) {
+        public init(acceptTime: TimeStamp? = nil, answer: String? = nil, approvalTime: TimeStamp? = nil, assignmentId: String? = nil, assignmentStatus: AssignmentStatus? = nil, autoApprovalTime: TimeStamp? = nil, deadline: TimeStamp? = nil, hITId: String? = nil, rejectionTime: TimeStamp? = nil, requesterFeedback: String? = nil, submitTime: TimeStamp? = nil, workerId: String? = nil) {
+            self.requesterFeedback = requesterFeedback
+            self.assignmentStatus = assignmentStatus
+            self.autoApprovalTime = autoApprovalTime
+            self.rejectionTime = rejectionTime
+            self.submitTime = submitTime
+            self.acceptTime = acceptTime
+            self.approvalTime = approvalTime
+            self.workerId = workerId
+            self.assignmentId = assignmentId
+            self.answer = answer
+            self.deadline = deadline
             self.hITId = hITId
-            self.revert = revert
         }
 
         private enum CodingKeys: String, CodingKey {
+            case requesterFeedback = "RequesterFeedback"
+            case assignmentStatus = "AssignmentStatus"
+            case autoApprovalTime = "AutoApprovalTime"
+            case rejectionTime = "RejectionTime"
+            case submitTime = "SubmitTime"
+            case acceptTime = "AcceptTime"
+            case approvalTime = "ApprovalTime"
+            case workerId = "WorkerId"
+            case assignmentId = "AssignmentId"
+            case answer = "Answer"
+            case deadline = "Deadline"
             case hITId = "HITId"
-            case revert = "Revert"
         }
     }
 
     public struct AssociateQualificationWithWorkerResponse: AWSShape {
 
+        public init() {
+        }
+
     }
 
-    public struct ListHITsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        public let maxResults: Int32?
-        /// Pagination token
-        public let nextToken: String?
+    public struct DeleteQualificationTypeResponse: AWSShape {
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
+        public init() {
+        }
+
+    }
+
+    public struct GetAssignmentResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HIT", required: false, type: .structure), 
+            AWSShapeMember(label: "Assignment", required: false, type: .structure)
+        ]
+        ///  The HIT associated with this assignment. The response includes one HIT element.
+        public let hit: HIT?
+        ///  The assignment. The response includes one Assignment element. 
+        public let assignment: Assignment?
+
+        public init(assignment: Assignment? = nil, hit: HIT? = nil) {
+            self.hit = hit
+            self.assignment = assignment
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
+            case hit = "HIT"
+            case assignment = "Assignment"
         }
     }
 
-    public struct CreateWorkerBlockRequest: AWSShape {
+    public struct ListHITsForQualificationTypeResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WorkerId", required: true, type: .string), 
-            AWSShapeMember(label: "Reason", required: true, type: .string)
-        ]
-        /// The ID of the Worker to block.
-        public let workerId: String
-        /// A message explaining the reason for blocking the Worker. This parameter enables you to keep track of your Workers. The Worker does not see this message.
-        public let reason: String
-
-        public init(workerId: String, reason: String) {
-            self.workerId = workerId
-            self.reason = reason
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case workerId = "WorkerId"
-            case reason = "Reason"
-        }
-    }
-
-    public struct ListReviewPolicyResultsForHITResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HITId", required: false, type: .string), 
-            AWSShapeMember(label: "HITReviewReport", required: false, type: .structure), 
-            AWSShapeMember(label: "AssignmentReviewReport", required: false, type: .structure), 
+            AWSShapeMember(label: "HITs", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "AssignmentReviewPolicy", required: false, type: .structure), 
-            AWSShapeMember(label: "HITReviewPolicy", required: false, type: .structure)
+            AWSShapeMember(label: "NumResults", required: false, type: .integer)
         ]
-        /// The HITId of the HIT for which results have been returned.
-        public let hITId: String?
-        /// Contains both ReviewResult and ReviewAction elements for a particular HIT. 
-        public let hITReviewReport: ReviewReport?
-        ///  Contains both ReviewResult and ReviewAction elements for an Assignment. 
-        public let assignmentReviewReport: ReviewReport?
+        ///  The list of HIT elements returned by the query.
+        public let hITs: [HIT]?
         public let nextToken: String?
-        ///  The name of the Assignment-level Review Policy. This contains only the PolicyName element. 
-        public let assignmentReviewPolicy: ReviewPolicy?
-        /// The name of the HIT-level Review Policy. This contains only the PolicyName element.
-        public let hITReviewPolicy: ReviewPolicy?
-
-        public init(hITId: String? = nil, hITReviewReport: ReviewReport? = nil, assignmentReviewReport: ReviewReport? = nil, nextToken: String? = nil, assignmentReviewPolicy: ReviewPolicy? = nil, hITReviewPolicy: ReviewPolicy? = nil) {
-            self.hITId = hITId
-            self.hITReviewReport = hITReviewReport
-            self.assignmentReviewReport = assignmentReviewReport
-            self.nextToken = nextToken
-            self.assignmentReviewPolicy = assignmentReviewPolicy
-            self.hITReviewPolicy = hITReviewPolicy
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case hITId = "HITId"
-            case hITReviewReport = "HITReviewReport"
-            case assignmentReviewReport = "AssignmentReviewReport"
-            case nextToken = "NextToken"
-            case assignmentReviewPolicy = "AssignmentReviewPolicy"
-            case hITReviewPolicy = "HITReviewPolicy"
-        }
-    }
-
-    public struct GetQualificationScoreRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WorkerId", required: true, type: .string), 
-            AWSShapeMember(label: "QualificationTypeId", required: true, type: .string)
-        ]
-        /// The ID of the Worker whose Qualification is being updated.
-        public let workerId: String
-        /// The ID of the QualificationType.
-        public let qualificationTypeId: String
-
-        public init(workerId: String, qualificationTypeId: String) {
-            self.workerId = workerId
-            self.qualificationTypeId = qualificationTypeId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case workerId = "WorkerId"
-            case qualificationTypeId = "QualificationTypeId"
-        }
-    }
-
-    public struct ListHITsForQualificationTypeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "QualificationTypeId", required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        ///  The ID of the Qualification type to use when querying HITs. 
-        public let qualificationTypeId: String
-        ///  Limit the number of results returned. 
-        public let maxResults: Int32?
-        /// Pagination Token
-        public let nextToken: String?
-
-        public init(qualificationTypeId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.qualificationTypeId = qualificationTypeId
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case qualificationTypeId = "QualificationTypeId"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct GetQualificationTypeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "QualificationType", required: false, type: .structure)
-        ]
-        ///  The returned Qualification Type
-        public let qualificationType: QualificationType?
-
-        public init(qualificationType: QualificationType? = nil) {
-            self.qualificationType = qualificationType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case qualificationType = "QualificationType"
-        }
-    }
-
-    public struct ListBonusPaymentsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HITId", required: false, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "AssignmentId", required: false, type: .string)
-        ]
-        /// The ID of the HIT associated with the bonus payments to retrieve. If not specified, all bonus payments for all assignments for the given HIT are returned. Either the HITId parameter or the AssignmentId parameter must be specified
-        public let hITId: String?
-        /// Pagination token
-        public let nextToken: String?
-        public let maxResults: Int32?
-        /// The ID of the assignment associated with the bonus payments to retrieve. If specified, only bonus payments for the given assignment are returned. Either the HITId parameter or the AssignmentId parameter must be specified
-        public let assignmentId: String?
-
-        public init(hITId: String? = nil, nextToken: String? = nil, maxResults: Int32? = nil, assignmentId: String? = nil) {
-            self.hITId = hITId
-            self.nextToken = nextToken
-            self.maxResults = maxResults
-            self.assignmentId = assignmentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case hITId = "HITId"
-            case nextToken = "NextToken"
-            case maxResults = "MaxResults"
-            case assignmentId = "AssignmentId"
-        }
-    }
-
-    public struct AcceptQualificationRequestRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "QualificationRequestId", required: true, type: .string), 
-            AWSShapeMember(label: "IntegerValue", required: false, type: .integer)
-        ]
-        /// The ID of the Qualification request, as returned by the GetQualificationRequests operation.
-        public let qualificationRequestId: String
-        ///  The value of the Qualification. You can omit this value if you are using the presence or absence of the Qualification as the basis for a HIT requirement. 
-        public let integerValue: Int32?
-
-        public init(qualificationRequestId: String, integerValue: Int32? = nil) {
-            self.qualificationRequestId = qualificationRequestId
-            self.integerValue = integerValue
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case qualificationRequestId = "QualificationRequestId"
-            case integerValue = "IntegerValue"
-        }
-    }
-
-    public struct ListWorkersWithQualificationTypeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Qualifications", required: false, type: .list), 
-            AWSShapeMember(label: "NumResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        ///  The list of Qualification elements returned by this call. 
-        public let qualifications: [Qualification]?
-        ///  The number of Qualifications on this page in the filtered results list, equivalent to the number of Qualifications being returned by this call.
+        ///  The number of HITs on this page in the filtered results list, equivalent to the number of HITs being returned by this call. 
         public let numResults: Int32?
-        public let nextToken: String?
 
-        public init(qualifications: [Qualification]? = nil, numResults: Int32? = nil, nextToken: String? = nil) {
-            self.qualifications = qualifications
-            self.numResults = numResults
+        public init(hITs: [HIT]? = nil, nextToken: String? = nil, numResults: Int32? = nil) {
+            self.hITs = hITs
             self.nextToken = nextToken
+            self.numResults = numResults
         }
 
         private enum CodingKeys: String, CodingKey {
-            case qualifications = "Qualifications"
-            case numResults = "NumResults"
+            case hITs = "HITs"
             case nextToken = "NextToken"
+            case numResults = "NumResults"
         }
     }
 
-    public struct NotifyWorkersResponse: AWSShape {
+    public struct ReviewResultDetail: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NotifyWorkersFailureStatuses", required: false, type: .list)
+            AWSShapeMember(label: "QuestionId", required: false, type: .string), 
+            AWSShapeMember(label: "SubjectType", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "SubjectId", required: false, type: .string), 
+            AWSShapeMember(label: "ActionId", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string)
         ]
-        ///  When MTurk sends notifications to the list of Workers, it returns back any failures it encounters in this list of NotifyWorkersFailureStatus objects. 
-        public let notifyWorkersFailureStatuses: [NotifyWorkersFailureStatus]?
+        ///  Specifies the QuestionId the result is describing. Depending on whether the TargetType is a HIT or Assignment this results could specify multiple values. If TargetType is HIT and QuestionId is absent, then the result describes results of the HIT, including the HIT agreement score. If ObjectType is Assignment and QuestionId is absent, then the result describes the Worker's performance on the HIT. 
+        public let questionId: String?
+        ///  The type of the object from the SubjectId field.
+        public let subjectType: String?
+        ///  The values of Key provided by the review policies you have selected. 
+        public let value: String?
+        /// The HITID or AssignmentId about which this result was taken. Note that HIT-level Review Policies will often emit results about both the HIT itself and its Assignments, while Assignment-level review policies generally only emit results about the Assignment itself. 
+        public let subjectId: String?
+        ///  A unique identifier of the Review action result. 
+        public let actionId: String?
+        ///  Key identifies the particular piece of reviewed information. 
+        public let key: String?
 
-        public init(notifyWorkersFailureStatuses: [NotifyWorkersFailureStatus]? = nil) {
-            self.notifyWorkersFailureStatuses = notifyWorkersFailureStatuses
+        public init(actionId: String? = nil, key: String? = nil, questionId: String? = nil, subjectId: String? = nil, subjectType: String? = nil, value: String? = nil) {
+            self.questionId = questionId
+            self.subjectType = subjectType
+            self.value = value
+            self.subjectId = subjectId
+            self.actionId = actionId
+            self.key = key
         }
 
         private enum CodingKeys: String, CodingKey {
-            case notifyWorkersFailureStatuses = "NotifyWorkersFailureStatuses"
+            case questionId = "QuestionId"
+            case subjectType = "SubjectType"
+            case value = "Value"
+            case subjectId = "SubjectId"
+            case actionId = "ActionId"
+            case key = "Key"
         }
     }
 
-    public struct CreateHITTypeRequest: AWSShape {
+    public struct NotificationSpecification: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: true, type: .string), 
-            AWSShapeMember(label: "Keywords", required: false, type: .string), 
-            AWSShapeMember(label: "AssignmentDurationInSeconds", required: true, type: .long), 
-            AWSShapeMember(label: "Title", required: true, type: .string), 
-            AWSShapeMember(label: "Reward", required: true, type: .string), 
-            AWSShapeMember(label: "QualificationRequirements", required: false, type: .list), 
-            AWSShapeMember(label: "AutoApprovalDelayInSeconds", required: false, type: .long)
+            AWSShapeMember(label: "EventTypes", required: true, type: .list), 
+            AWSShapeMember(label: "Transport", required: true, type: .enum), 
+            AWSShapeMember(label: "Destination", required: true, type: .string), 
+            AWSShapeMember(label: "Version", required: true, type: .string)
         ]
-        ///  A general description of the HIT. A description includes detailed information about the kind of task the HIT contains. On the Amazon Mechanical Turk web site, the HIT description appears in the expanded view of search results, and in the HIT and assignment screens. A good description gives the user enough information to evaluate the HIT before accepting it. 
-        public let description: String
-        ///  One or more words or phrases that describe the HIT, separated by commas. These words are used in searches to find HITs. 
-        public let keywords: String?
-        ///  The amount of time, in seconds, that a Worker has to complete the HIT after accepting it. If a Worker does not complete the assignment within the specified duration, the assignment is considered abandoned. If the HIT is still active (that is, its lifetime has not elapsed), the assignment becomes available for other users to find and accept. 
-        public let assignmentDurationInSeconds: Int64
-        ///  The title of the HIT. A title should be short and descriptive about the kind of task the HIT contains. On the Amazon Mechanical Turk web site, the HIT title appears in search results, and everywhere the HIT is mentioned. 
-        public let title: String
-        ///  The amount of money the Requester will pay a Worker for successfully completing the HIT. 
-        public let reward: String
-        ///  Conditions that a Worker's Qualifications must meet in order to accept the HIT. A HIT can have between zero and ten Qualification requirements. All requirements must be met in order for a Worker to accept the HIT. Additionally, other actions can be restricted using the ActionsGuarded field on each QualificationRequirement structure. 
-        public let qualificationRequirements: [QualificationRequirement]?
-        ///  The number of seconds after an assignment for the HIT has been submitted, after which the assignment is considered Approved automatically unless the Requester explicitly rejects it. 
-        public let autoApprovalDelayInSeconds: Int64?
+        ///  The list of events that should cause notifications to be sent. Valid Values: AssignmentAccepted | AssignmentAbandoned | AssignmentReturned | AssignmentSubmitted | AssignmentRejected | AssignmentApproved | HITCreated | HITExtended | HITDisposed | HITReviewable | HITExpired | Ping. The Ping event is only valid for the SendTestEventNotification operation. 
+        public let eventTypes: [EventType]
+        ///  The method Amazon Mechanical Turk uses to send the notification. Valid Values: Email | SQS | SNS. 
+        public let transport: NotificationTransport
+        ///  The target for notification messages. The Destination’s format is determined by the specified Transport:    When Transport is Email, the Destination is your email address.   When Transport is SQS, the Destination is your queue URL.   When Transport is SNS, the Destination is the ARN of your topic.  
+        public let destination: String
+        /// The version of the Notification API to use. Valid value is 2006-05-05.
+        public let version: String
 
-        public init(description: String, keywords: String? = nil, assignmentDurationInSeconds: Int64, title: String, reward: String, qualificationRequirements: [QualificationRequirement]? = nil, autoApprovalDelayInSeconds: Int64? = nil) {
-            self.description = description
-            self.keywords = keywords
-            self.assignmentDurationInSeconds = assignmentDurationInSeconds
-            self.title = title
-            self.reward = reward
-            self.qualificationRequirements = qualificationRequirements
-            self.autoApprovalDelayInSeconds = autoApprovalDelayInSeconds
+        public init(destination: String, eventTypes: [EventType], transport: NotificationTransport, version: String) {
+            self.eventTypes = eventTypes
+            self.transport = transport
+            self.destination = destination
+            self.version = version
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description = "Description"
-            case keywords = "Keywords"
-            case assignmentDurationInSeconds = "AssignmentDurationInSeconds"
-            case title = "Title"
-            case reward = "Reward"
-            case qualificationRequirements = "QualificationRequirements"
-            case autoApprovalDelayInSeconds = "AutoApprovalDelayInSeconds"
+            case eventTypes = "EventTypes"
+            case transport = "Transport"
+            case destination = "Destination"
+            case version = "Version"
         }
     }
 
-    public enum Comparator: String, CustomStringConvertible, Codable {
-        case lessthan = "LessThan"
-        case lessthanorequalto = "LessThanOrEqualTo"
-        case greaterthan = "GreaterThan"
-        case greaterthanorequalto = "GreaterThanOrEqualTo"
-        case equalto = "EqualTo"
-        case notequalto = "NotEqualTo"
-        case exists = "Exists"
-        case doesnotexist = "DoesNotExist"
-        case `in` = "In"
-        case notin = "NotIn"
+    public enum EventType: String, CustomStringConvertible, Codable {
+        case assignmentaccepted = "AssignmentAccepted"
+        case assignmentabandoned = "AssignmentAbandoned"
+        case assignmentreturned = "AssignmentReturned"
+        case assignmentsubmitted = "AssignmentSubmitted"
+        case assignmentrejected = "AssignmentRejected"
+        case assignmentapproved = "AssignmentApproved"
+        case hitcreated = "HITCreated"
+        case hitexpired = "HITExpired"
+        case hitreviewable = "HITReviewable"
+        case hitextended = "HITExtended"
+        case hitdisposed = "HITDisposed"
+        case ping = "Ping"
         public var description: String { return self.rawValue }
+    }
+
+    public struct CreateHITTypeResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HITTypeId", required: false, type: .string)
+        ]
+        ///  The ID of the newly registered HIT type.
+        public let hITTypeId: String?
+
+        public init(hITTypeId: String? = nil) {
+            self.hITTypeId = hITTypeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hITTypeId = "HITTypeId"
+        }
     }
 
     public struct CreateHITResponse: AWSShape {
@@ -1118,62 +1117,84 @@ extension MTurk {
         }
     }
 
-    public struct ListHITsResponse: AWSShape {
+    public struct ListQualificationRequestsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HITs", required: false, type: .list), 
             AWSShapeMember(label: "NumResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "QualificationRequests", required: false, type: .list)
         ]
-        ///  The list of HIT elements returned by the query.
-        public let hITs: [HIT]?
-        /// The number of HITs on this page in the filtered results list, equivalent to the number of HITs being returned by this call.
+        /// The number of Qualification requests on this page in the filtered results list, equivalent to the number of Qualification requests being returned by this call.
         public let numResults: Int32?
         public let nextToken: String?
+        /// The Qualification request. The response includes one QualificationRequest element for each Qualification request returned by the query.
+        public let qualificationRequests: [QualificationRequest]?
 
-        public init(hITs: [HIT]? = nil, numResults: Int32? = nil, nextToken: String? = nil) {
-            self.hITs = hITs
+        public init(nextToken: String? = nil, numResults: Int32? = nil, qualificationRequests: [QualificationRequest]? = nil) {
             self.numResults = numResults
+            self.nextToken = nextToken
+            self.qualificationRequests = qualificationRequests
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case numResults = "NumResults"
+            case nextToken = "NextToken"
+            case qualificationRequests = "QualificationRequests"
+        }
+    }
+
+    public struct AssociateQualificationWithWorkerRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IntegerValue", required: false, type: .integer), 
+            AWSShapeMember(label: "QualificationTypeId", required: true, type: .string), 
+            AWSShapeMember(label: "SendNotification", required: false, type: .boolean), 
+            AWSShapeMember(label: "WorkerId", required: true, type: .string)
+        ]
+        /// The value of the Qualification to assign.
+        public let integerValue: Int32?
+        /// The ID of the Qualification type to use for the assigned Qualification.
+        public let qualificationTypeId: String
+        ///  Specifies whether to send a notification email message to the Worker saying that the qualification was assigned to the Worker. Note: this is true by default. 
+        public let sendNotification: Bool?
+        ///  The ID of the Worker to whom the Qualification is being assigned. Worker IDs are included with submitted HIT assignments and Qualification requests. 
+        public let workerId: String
+
+        public init(integerValue: Int32? = nil, qualificationTypeId: String, sendNotification: Bool? = nil, workerId: String) {
+            self.integerValue = integerValue
+            self.qualificationTypeId = qualificationTypeId
+            self.sendNotification = sendNotification
+            self.workerId = workerId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case integerValue = "IntegerValue"
+            case qualificationTypeId = "QualificationTypeId"
+            case sendNotification = "SendNotification"
+            case workerId = "WorkerId"
+        }
+    }
+
+    public struct ListAssignmentsForHITResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NumResults", required: false, type: .integer), 
+            AWSShapeMember(label: "Assignments", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        ///  The number of assignments on the page in the filtered results list, equivalent to the number of assignments returned by this call.
+        public let numResults: Int32?
+        ///  The collection of Assignment data structures returned by this call.
+        public let assignments: [Assignment]?
+        public let nextToken: String?
+
+        public init(assignments: [Assignment]? = nil, nextToken: String? = nil, numResults: Int32? = nil) {
+            self.numResults = numResults
+            self.assignments = assignments
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hITs = "HITs"
             case numResults = "NumResults"
+            case assignments = "Assignments"
             case nextToken = "NextToken"
-        }
-    }
-
-    public struct UpdateExpirationForHITResponse: AWSShape {
-
-    }
-
-    public struct GetAccountBalanceRequest: AWSShape {
-
-    }
-
-    public struct PolicyParameter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MapEntries", required: false, type: .list), 
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Values", required: false, type: .list)
-        ]
-        ///  List of ParameterMapEntry objects. 
-        public let mapEntries: [ParameterMapEntry]?
-        ///  Name of the parameter from the list of Review Polices. 
-        public let key: String?
-        ///  The list of values of the Parameter
-        public let values: [String]?
-
-        public init(mapEntries: [ParameterMapEntry]? = nil, key: String? = nil, values: [String]? = nil) {
-            self.mapEntries = mapEntries
-            self.key = key
-            self.values = values
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case mapEntries = "MapEntries"
-            case key = "Key"
-            case values = "Values"
         }
     }
 
@@ -1185,7 +1206,7 @@ extension MTurk {
         public let onHoldBalance: String?
         public let availableBalance: String?
 
-        public init(onHoldBalance: String? = nil, availableBalance: String? = nil) {
+        public init(availableBalance: String? = nil, onHoldBalance: String? = nil) {
             self.onHoldBalance = onHoldBalance
             self.availableBalance = availableBalance
         }
@@ -1196,224 +1217,253 @@ extension MTurk {
         }
     }
 
-    public struct ReviewResultDetail: AWSShape {
+    public struct QualificationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "SubjectType", required: false, type: .string), 
-            AWSShapeMember(label: "SubjectId", required: false, type: .string), 
-            AWSShapeMember(label: "ActionId", required: false, type: .string), 
-            AWSShapeMember(label: "QuestionId", required: false, type: .string)
+            AWSShapeMember(label: "Answer", required: false, type: .string), 
+            AWSShapeMember(label: "Test", required: false, type: .string), 
+            AWSShapeMember(label: "SubmitTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "WorkerId", required: false, type: .string), 
+            AWSShapeMember(label: "QualificationTypeId", required: false, type: .string), 
+            AWSShapeMember(label: "QualificationRequestId", required: false, type: .string)
         ]
-        ///  Key identifies the particular piece of reviewed information. 
-        public let key: String?
-        ///  The values of Key provided by the review policies you have selected. 
-        public let value: String?
-        ///  The type of the object from the SubjectId field.
-        public let subjectType: String?
-        /// The HITID or AssignmentId about which this result was taken. Note that HIT-level Review Policies will often emit results about both the HIT itself and its Assignments, while Assignment-level review policies generally only emit results about the Assignment itself. 
-        public let subjectId: String?
-        ///  A unique identifier of the Review action result. 
-        public let actionId: String?
-        ///  Specifies the QuestionId the result is describing. Depending on whether the TargetType is a HIT or Assignment this results could specify multiple values. If TargetType is HIT and QuestionId is absent, then the result describes results of the HIT, including the HIT agreement score. If ObjectType is Assignment and QuestionId is absent, then the result describes the Worker's performance on the HIT. 
-        public let questionId: String?
+        ///  The Worker's answers for the Qualification type's test contained in a QuestionFormAnswers document, if the type has a test and the Worker has submitted answers. If the Worker does not provide any answers, Answer may be empty. 
+        public let answer: String?
+        ///  The contents of the Qualification test that was presented to the Worker, if the type has a test and the Worker has submitted answers. This value is identical to the QuestionForm associated with the Qualification type at the time the Worker requests the Qualification.
+        public let test: String?
+        /// The date and time the Qualification request had a status of Submitted. This is either the time the Worker submitted answers for a Qualification test, or the time the Worker requested the Qualification if the Qualification type does not have a test. 
+        public let submitTime: TimeStamp?
+        ///  The ID of the Worker requesting the Qualification.
+        public let workerId: String?
+        ///  The ID of the Qualification type the Worker is requesting, as returned by the CreateQualificationType operation. 
+        public let qualificationTypeId: String?
+        /// The ID of the Qualification request, a unique identifier generated when the request was submitted. 
+        public let qualificationRequestId: String?
 
-        public init(key: String? = nil, value: String? = nil, subjectType: String? = nil, subjectId: String? = nil, actionId: String? = nil, questionId: String? = nil) {
-            self.key = key
-            self.value = value
-            self.subjectType = subjectType
-            self.subjectId = subjectId
-            self.actionId = actionId
-            self.questionId = questionId
+        public init(answer: String? = nil, qualificationRequestId: String? = nil, qualificationTypeId: String? = nil, submitTime: TimeStamp? = nil, test: String? = nil, workerId: String? = nil) {
+            self.answer = answer
+            self.test = test
+            self.submitTime = submitTime
+            self.workerId = workerId
+            self.qualificationTypeId = qualificationTypeId
+            self.qualificationRequestId = qualificationRequestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key = "Key"
-            case value = "Value"
-            case subjectType = "SubjectType"
-            case subjectId = "SubjectId"
-            case actionId = "ActionId"
-            case questionId = "QuestionId"
+            case answer = "Answer"
+            case test = "Test"
+            case submitTime = "SubmitTime"
+            case workerId = "WorkerId"
+            case qualificationTypeId = "QualificationTypeId"
+            case qualificationRequestId = "QualificationRequestId"
         }
     }
 
-    public struct DeleteHITResponse: AWSShape {
+    public struct NotifyWorkersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Subject", required: true, type: .string), 
+            AWSShapeMember(label: "WorkerIds", required: true, type: .list), 
+            AWSShapeMember(label: "MessageText", required: true, type: .string)
+        ]
+        /// The subject line of the email message to send. Can include up to 200 characters.
+        public let subject: String
+        /// A list of Worker IDs you wish to notify. You can notify upto 100 Workers at a time.
+        public let workerIds: [String]
+        /// The text of the email message to send. Can include up to 4,096 characters
+        public let messageText: String
 
+        public init(messageText: String, subject: String, workerIds: [String]) {
+            self.subject = subject
+            self.workerIds = workerIds
+            self.messageText = messageText
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subject = "Subject"
+            case workerIds = "WorkerIds"
+            case messageText = "MessageText"
+        }
     }
 
-    public struct ListBonusPaymentsResponse: AWSShape {
+    public struct NotifyWorkersFailureStatus: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BonusPayments", required: false, type: .list), 
-            AWSShapeMember(label: "NumResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "NotifyWorkersFailureCode", required: false, type: .enum), 
+            AWSShapeMember(label: "WorkerId", required: false, type: .string), 
+            AWSShapeMember(label: "NotifyWorkersFailureMessage", required: false, type: .string)
         ]
-        /// A successful request to the ListBonusPayments operation returns a list of BonusPayment objects. 
-        public let bonusPayments: [BonusPayment]?
-        /// The number of bonus payments on this page in the filtered results list, equivalent to the number of bonus payments being returned by this call. 
-        public let numResults: Int32?
+        ///  Encoded value for the failure type. 
+        public let notifyWorkersFailureCode: NotifyWorkersFailureCode?
+        ///  The ID of the Worker.
+        public let workerId: String?
+        ///  A message detailing the reason the Worker could not be notified. 
+        public let notifyWorkersFailureMessage: String?
+
+        public init(notifyWorkersFailureCode: NotifyWorkersFailureCode? = nil, notifyWorkersFailureMessage: String? = nil, workerId: String? = nil) {
+            self.notifyWorkersFailureCode = notifyWorkersFailureCode
+            self.workerId = workerId
+            self.notifyWorkersFailureMessage = notifyWorkersFailureMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notifyWorkersFailureCode = "NotifyWorkersFailureCode"
+            case workerId = "WorkerId"
+            case notifyWorkersFailureMessage = "NotifyWorkersFailureMessage"
+        }
+    }
+
+    public struct ListWorkersWithQualificationTypeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "QualificationTypeId", required: true, type: .string)
+        ]
+        ///  The status of the Qualifications to return. Can be Granted | Revoked. 
+        public let status: QualificationStatus?
+        ///  Limit the number of results returned. 
+        public let maxResults: Int32?
+        /// Pagination Token
         public let nextToken: String?
+        /// The ID of the Qualification type of the Qualifications to return.
+        public let qualificationTypeId: String
 
-        public init(bonusPayments: [BonusPayment]? = nil, numResults: Int32? = nil, nextToken: String? = nil) {
-            self.bonusPayments = bonusPayments
-            self.numResults = numResults
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, qualificationTypeId: String, status: QualificationStatus? = nil) {
+            self.status = status
+            self.maxResults = maxResults
             self.nextToken = nextToken
+            self.qualificationTypeId = qualificationTypeId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bonusPayments = "BonusPayments"
-            case numResults = "NumResults"
+            case status = "Status"
+            case maxResults = "MaxResults"
             case nextToken = "NextToken"
+            case qualificationTypeId = "QualificationTypeId"
         }
     }
 
-    public enum HITStatus: String, CustomStringConvertible, Codable {
-        case assignable = "Assignable"
-        case unassignable = "Unassignable"
-        case reviewable = "Reviewable"
-        case reviewing = "Reviewing"
-        case disposed = "Disposed"
+    public struct UpdateHITReviewStatusResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct ListWorkerBlocksRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+        ]
+        /// Pagination token
+        public let nextToken: String?
+        public let maxResults: Int32?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
+        }
+    }
+
+    public struct UpdateHITReviewStatusRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Revert", required: false, type: .boolean), 
+            AWSShapeMember(label: "HITId", required: true, type: .string)
+        ]
+        ///  Specifies how to update the HIT status. Default is False.     Setting this to false will only transition a HIT from Reviewable to Reviewing     Setting this to true will only transition a HIT from Reviewing to Reviewable   
+        public let revert: Bool?
+        ///  The ID of the HIT to update. 
+        public let hITId: String
+
+        public init(hITId: String, revert: Bool? = nil) {
+            self.revert = revert
+            self.hITId = hITId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case revert = "Revert"
+            case hITId = "HITId"
+        }
+    }
+
+    public enum Comparator: String, CustomStringConvertible, Codable {
+        case lessthan = "LessThan"
+        case lessthanorequalto = "LessThanOrEqualTo"
+        case greaterthan = "GreaterThan"
+        case greaterthanorequalto = "GreaterThanOrEqualTo"
+        case equalto = "EqualTo"
+        case notequalto = "NotEqualTo"
+        case exists = "Exists"
+        case doesnotexist = "DoesNotExist"
+        case `in` = "In"
+        case notin = "NotIn"
         public var description: String { return self.rawValue }
     }
 
-    public struct ListAssignmentsForHITResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Assignments", required: false, type: .list), 
-            AWSShapeMember(label: "NumResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        ///  The collection of Assignment data structures returned by this call.
-        public let assignments: [Assignment]?
-        ///  The number of assignments on the page in the filtered results list, equivalent to the number of assignments returned by this call.
-        public let numResults: Int32?
-        public let nextToken: String?
+    public enum NotifyWorkersFailureCode: String, CustomStringConvertible, Codable {
+        case softfailure = "SoftFailure"
+        case hardfailure = "HardFailure"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(assignments: [Assignment]? = nil, numResults: Int32? = nil, nextToken: String? = nil) {
-            self.assignments = assignments
-            self.numResults = numResults
-            self.nextToken = nextToken
+    public struct WorkerBlock: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Reason", required: false, type: .string), 
+            AWSShapeMember(label: "WorkerId", required: false, type: .string)
+        ]
+        ///  A message explaining the reason the Worker was blocked. 
+        public let reason: String?
+        ///  The ID of the Worker who accepted the HIT.
+        public let workerId: String?
+
+        public init(reason: String? = nil, workerId: String? = nil) {
+            self.reason = reason
+            self.workerId = workerId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assignments = "Assignments"
-            case numResults = "NumResults"
-            case nextToken = "NextToken"
+            case reason = "Reason"
+            case workerId = "WorkerId"
         }
     }
 
-    public struct ListReviewableHITsResponse: AWSShape {
+    public struct GetFileUploadURLResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HITs", required: false, type: .list), 
-            AWSShapeMember(label: "NumResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "FileUploadURL", required: false, type: .string)
         ]
-        ///  The list of HIT elements returned by the query.
-        public let hITs: [HIT]?
-        ///  The number of HITs on this page in the filtered results list, equivalent to the number of HITs being returned by this call. 
-        public let numResults: Int32?
-        public let nextToken: String?
+        ///  A temporary URL for the file that the Worker uploaded for the answer. 
+        public let fileUploadURL: String?
 
-        public init(hITs: [HIT]? = nil, numResults: Int32? = nil, nextToken: String? = nil) {
-            self.hITs = hITs
-            self.numResults = numResults
-            self.nextToken = nextToken
+        public init(fileUploadURL: String? = nil) {
+            self.fileUploadURL = fileUploadURL
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hITs = "HITs"
-            case numResults = "NumResults"
-            case nextToken = "NextToken"
+            case fileUploadURL = "FileUploadURL"
         }
     }
 
-    public struct QualificationRequirement: AWSShape {
+    public struct ParameterMapEntry: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "QualificationTypeId", required: true, type: .string), 
-            AWSShapeMember(label: "Comparator", required: true, type: .enum), 
-            AWSShapeMember(label: "LocaleValues", required: false, type: .list), 
-            AWSShapeMember(label: "IntegerValues", required: false, type: .list), 
-            AWSShapeMember(label: "ActionsGuarded", required: false, type: .enum), 
-            AWSShapeMember(label: "RequiredToPreview", required: false, type: .boolean)
+            AWSShapeMember(label: "Values", required: false, type: .list), 
+            AWSShapeMember(label: "Key", required: false, type: .string)
         ]
-        ///  The ID of the Qualification type for the requirement.
-        public let qualificationTypeId: String
-        /// The kind of comparison to make against a Qualification's value. You can compare a Qualification's value to an IntegerValue to see if it is LessThan, LessThanOrEqualTo, GreaterThan, GreaterThanOrEqualTo, EqualTo, or NotEqualTo the IntegerValue. You can compare it to a LocaleValue to see if it is EqualTo, or NotEqualTo the LocaleValue. You can check to see if the value is In or NotIn a set of IntegerValue or LocaleValue values. Lastly, a Qualification requirement can also test if a Qualification Exists or DoesNotExist in the user's profile, regardless of its value. 
-        public let comparator: Comparator
-        ///  The locale value to compare against the Qualification's value. The local value must be a valid ISO 3166 country code or supports ISO 3166-2 subdivisions. LocaleValue can only be used with a Worker_Locale QualificationType ID. LocaleValue can only be used with the EqualTo, NotEqualTo, In, and NotIn comparators. You must only use a single LocaleValue element when using the EqualTo or NotEqualTo comparators. When performing a set comparison by using the In or the NotIn comparator, you can use up to 30 LocaleValue elements in a QualificationRequirement data structure. 
-        public let localeValues: [Locale]?
-        ///  The integer value to compare against the Qualification's value. IntegerValue must not be present if Comparator is Exists or DoesNotExist. IntegerValue can only be used if the Qualification type has an integer value; it cannot be used with the Worker_Locale QualificationType ID. When performing a set comparison by using the In or the NotIn comparator, you can use up to 15 IntegerValue elements in a QualificationRequirement data structure. 
-        public let integerValues: [Int32]?
-        ///  Setting this attribute prevents Workers whose Qualifications do not meet this QualificationRequirement from taking the specified action. Valid arguments include "Accept" (Worker cannot accept the HIT, but can preview the HIT and see it in their search results), "PreviewAndAccept" (Worker cannot accept or preview the HIT, but can see the HIT in their search results), and "DiscoverPreviewAndAccept" (Worker cannot accept, preview, or see the HIT in their search results). It's possible for you to create a HIT with multiple QualificationRequirements (which can have different values for the ActionGuarded attribute). In this case, the Worker is only permitted to perform an action when they have met all QualificationRequirements guarding the action. The actions in the order of least restrictive to most restrictive are Discover, Preview and Accept. For example, if a Worker meets all QualificationRequirements that are set to DiscoverPreviewAndAccept, but do not meet all requirements that are set with PreviewAndAccept, then the Worker will be able to Discover, i.e. see the HIT in their search result, but will not be able to Preview or Accept the HIT. ActionsGuarded should not be used in combination with the RequiredToPreview field. 
-        public let actionsGuarded: HITAccessActions?
-        ///  DEPRECATED: Use the ActionsGuarded field instead. If RequiredToPreview is true, the question data for the HIT will not be shown when a Worker whose Qualifications do not meet this requirement tries to preview the HIT. That is, a Worker's Qualifications must meet all of the requirements for which RequiredToPreview is true in order to preview the HIT. If a Worker meets all of the requirements where RequiredToPreview is true (or if there are no such requirements), but does not meet all of the requirements for the HIT, the Worker will be allowed to preview the HIT's question data, but will not be allowed to accept and complete the HIT. The default is false. This should not be used in combination with the ActionsGuarded field. 
-        public let requiredToPreview: Bool?
+        ///  The list of answers to the question specified in the MapEntry Key element. The Worker must match all values in order for the answer to be scored correctly. 
+        public let values: [String]?
+        ///  The QuestionID from the HIT that is used to identify which question requires Mechanical Turk to score as part of the ScoreMyKnownAnswers/2011-09-01 Review Policy. 
+        public let key: String?
 
-        public init(qualificationTypeId: String, comparator: Comparator, localeValues: [Locale]? = nil, integerValues: [Int32]? = nil, actionsGuarded: HITAccessActions? = nil, requiredToPreview: Bool? = nil) {
-            self.qualificationTypeId = qualificationTypeId
-            self.comparator = comparator
-            self.localeValues = localeValues
-            self.integerValues = integerValues
-            self.actionsGuarded = actionsGuarded
-            self.requiredToPreview = requiredToPreview
+        public init(key: String? = nil, values: [String]? = nil) {
+            self.values = values
+            self.key = key
         }
 
         private enum CodingKeys: String, CodingKey {
-            case qualificationTypeId = "QualificationTypeId"
-            case comparator = "Comparator"
-            case localeValues = "LocaleValues"
-            case integerValues = "IntegerValues"
-            case actionsGuarded = "ActionsGuarded"
-            case requiredToPreview = "RequiredToPreview"
-        }
-    }
-
-    public struct ReviewActionDetail: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetId", required: false, type: .string), 
-            AWSShapeMember(label: "CompleteTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ActionName", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "TargetType", required: false, type: .string), 
-            AWSShapeMember(label: "ActionId", required: false, type: .string), 
-            AWSShapeMember(label: "Result", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorCode", required: false, type: .string)
-        ]
-        ///  The specific HITId or AssignmentID targeted by the action.
-        public let targetId: String?
-        ///  The date when the action was completed.
-        public let completeTime: TimeStamp?
-        ///  The nature of the action itself. The Review Policy is responsible for examining the HIT and Assignments, emitting results, and deciding which other actions will be necessary. 
-        public let actionName: String?
-        ///  The current disposition of the action: INTENDED, SUCCEEDED, FAILED, or CANCELLED. 
-        public let status: ReviewActionStatus?
-        ///  The type of object in TargetId.
-        public let targetType: String?
-        /// The unique identifier for the action.
-        public let actionId: String?
-        ///  A description of the outcome of the review.
-        public let result: String?
-        ///  Present only when the Results have a FAILED Status.
-        public let errorCode: String?
-
-        public init(targetId: String? = nil, completeTime: TimeStamp? = nil, actionName: String? = nil, status: ReviewActionStatus? = nil, targetType: String? = nil, actionId: String? = nil, result: String? = nil, errorCode: String? = nil) {
-            self.targetId = targetId
-            self.completeTime = completeTime
-            self.actionName = actionName
-            self.status = status
-            self.targetType = targetType
-            self.actionId = actionId
-            self.result = result
-            self.errorCode = errorCode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case targetId = "TargetId"
-            case completeTime = "CompleteTime"
-            case actionName = "ActionName"
-            case status = "Status"
-            case targetType = "TargetType"
-            case actionId = "ActionId"
-            case result = "Result"
-            case errorCode = "ErrorCode"
+            case values = "Values"
+            case key = "Key"
         }
     }
 
@@ -1438,19 +1488,137 @@ extension MTurk {
         }
     }
 
-    public struct DeleteHITRequest: AWSShape {
+    public struct UpdateHITTypeOfHITRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HITId", required: true, type: .string)
+            AWSShapeMember(label: "HITId", required: true, type: .string), 
+            AWSShapeMember(label: "HITTypeId", required: true, type: .string)
         ]
-        /// The ID of the HIT to be deleted.
+        /// The HIT to update.
         public let hITId: String
+        /// The ID of the new HIT type.
+        public let hITTypeId: String
 
-        public init(hITId: String) {
+        public init(hITId: String, hITTypeId: String) {
             self.hITId = hITId
+            self.hITTypeId = hITTypeId
         }
 
         private enum CodingKeys: String, CodingKey {
             case hITId = "HITId"
+            case hITTypeId = "HITTypeId"
+        }
+    }
+
+    public struct Locale: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Subdivision", required: false, type: .string), 
+            AWSShapeMember(label: "Country", required: true, type: .string)
+        ]
+        /// The state or subdivision of the locale. A valid ISO 3166-2 subdivision code. For example, the code WA refers to the state of Washington.
+        public let subdivision: String?
+        ///  The country of the locale. Must be a valid ISO 3166 country code. For example, the code US refers to the United States of America. 
+        public let country: String
+
+        public init(country: String, subdivision: String? = nil) {
+            self.subdivision = subdivision
+            self.country = country
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subdivision = "Subdivision"
+            case country = "Country"
+        }
+    }
+
+    public struct GetQualificationTypeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QualificationTypeId", required: true, type: .string)
+        ]
+        /// The ID of the QualificationType.
+        public let qualificationTypeId: String
+
+        public init(qualificationTypeId: String) {
+            self.qualificationTypeId = qualificationTypeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case qualificationTypeId = "QualificationTypeId"
+        }
+    }
+
+    public struct CreateAdditionalAssignmentsForHITRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HITId", required: true, type: .string), 
+            AWSShapeMember(label: "NumberOfAdditionalAssignments", required: true, type: .integer), 
+            AWSShapeMember(label: "UniqueRequestToken", required: false, type: .string)
+        ]
+        /// The ID of the HIT to extend.
+        public let hITId: String
+        /// The number of additional assignments to request for this HIT.
+        public let numberOfAdditionalAssignments: Int32
+        ///  A unique identifier for this request, which allows you to retry the call on error without extending the HIT multiple times. This is useful in cases such as network timeouts where it is unclear whether or not the call succeeded on the server. If the extend HIT already exists in the system from a previous call using the same UniqueRequestToken, subsequent calls will return an error with a message containing the request ID. 
+        public let uniqueRequestToken: String?
+
+        public init(hITId: String, numberOfAdditionalAssignments: Int32, uniqueRequestToken: String? = nil) {
+            self.hITId = hITId
+            self.numberOfAdditionalAssignments = numberOfAdditionalAssignments
+            self.uniqueRequestToken = uniqueRequestToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hITId = "HITId"
+            case numberOfAdditionalAssignments = "NumberOfAdditionalAssignments"
+            case uniqueRequestToken = "UniqueRequestToken"
+        }
+    }
+
+    public struct ListHITsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "NumResults", required: false, type: .integer), 
+            AWSShapeMember(label: "HITs", required: false, type: .list)
+        ]
+        public let nextToken: String?
+        /// The number of HITs on this page in the filtered results list, equivalent to the number of HITs being returned by this call.
+        public let numResults: Int32?
+        ///  The list of HIT elements returned by the query.
+        public let hITs: [HIT]?
+
+        public init(hITs: [HIT]? = nil, nextToken: String? = nil, numResults: Int32? = nil) {
+            self.nextToken = nextToken
+            self.numResults = numResults
+            self.hITs = hITs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case numResults = "NumResults"
+            case hITs = "HITs"
+        }
+    }
+
+    public struct ListQualificationRequestsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "QualificationTypeId", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+        ]
+        public let nextToken: String?
+        /// The ID of the QualificationType.
+        public let qualificationTypeId: String?
+        ///  The maximum number of results to return in a single call. 
+        public let maxResults: Int32?
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, qualificationTypeId: String? = nil) {
+            self.nextToken = nextToken
+            self.qualificationTypeId = qualificationTypeId
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case qualificationTypeId = "QualificationTypeId"
+            case maxResults = "MaxResults"
         }
     }
 
@@ -1470,106 +1638,734 @@ extension MTurk {
         }
     }
 
-    public struct HITLayoutParameter: AWSShape {
+    public struct CreateHITRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
+            AWSShapeMember(label: "AutoApprovalDelayInSeconds", required: false, type: .long), 
+            AWSShapeMember(label: "LifetimeInSeconds", required: true, type: .long), 
+            AWSShapeMember(label: "QualificationRequirements", required: false, type: .list), 
+            AWSShapeMember(label: "Question", required: false, type: .string), 
+            AWSShapeMember(label: "RequesterAnnotation", required: false, type: .string), 
+            AWSShapeMember(label: "Reward", required: true, type: .string), 
+            AWSShapeMember(label: "UniqueRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "HITLayoutId", required: false, type: .string), 
+            AWSShapeMember(label: "Keywords", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: true, type: .string), 
+            AWSShapeMember(label: "HITReviewPolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "AssignmentDurationInSeconds", required: true, type: .long), 
+            AWSShapeMember(label: "MaxAssignments", required: false, type: .integer), 
+            AWSShapeMember(label: "HITLayoutParameters", required: false, type: .list), 
+            AWSShapeMember(label: "AssignmentReviewPolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "Title", required: true, type: .string)
         ]
-        /// The value substituted for the parameter referenced in the HITLayout. 
-        public let value: String
-        ///  The name of the parameter in the HITLayout. 
-        public let name: String
-
-        public init(value: String, name: String) {
-            self.value = value
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case name = "Name"
-        }
-    }
-
-    public struct CreateAdditionalAssignmentsForHITRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NumberOfAdditionalAssignments", required: true, type: .integer), 
-            AWSShapeMember(label: "HITId", required: true, type: .string), 
-            AWSShapeMember(label: "UniqueRequestToken", required: false, type: .string)
-        ]
-        /// The number of additional assignments to request for this HIT.
-        public let numberOfAdditionalAssignments: Int32
-        /// The ID of the HIT to extend.
-        public let hITId: String
-        ///  A unique identifier for this request, which allows you to retry the call on error without extending the HIT multiple times. This is useful in cases such as network timeouts where it is unclear whether or not the call succeeded on the server. If the extend HIT already exists in the system from a previous call using the same UniqueRequestToken, subsequent calls will return an error with a message containing the request ID. 
+        ///  The number of seconds after an assignment for the HIT has been submitted, after which the assignment is considered Approved automatically unless the Requester explicitly rejects it. 
+        public let autoApprovalDelayInSeconds: Int64?
+        ///  An amount of time, in seconds, after which the HIT is no longer available for users to accept. After the lifetime of the HIT elapses, the HIT no longer appears in HIT searches, even if not all of the assignments for the HIT have been accepted. 
+        public let lifetimeInSeconds: Int64
+        ///  Conditions that a Worker's Qualifications must meet in order to accept the HIT. A HIT can have between zero and ten Qualification requirements. All requirements must be met in order for a Worker to accept the HIT. Additionally, other actions can be restricted using the ActionsGuarded field on each QualificationRequirement structure. 
+        public let qualificationRequirements: [QualificationRequirement]?
+        ///  The data the person completing the HIT uses to produce the results.   Constraints: Must be a QuestionForm data structure, an ExternalQuestion data structure, or an HTMLQuestion data structure. The XML question data must not be larger than 64 kilobytes (65,535 bytes) in size, including whitespace.  Either a Question parameter or a HITLayoutId parameter must be provided.
+        public let question: String?
+        ///  An arbitrary data field. The RequesterAnnotation parameter lets your application attach arbitrary data to the HIT for tracking purposes. For example, this parameter could be an identifier internal to the Requester's application that corresponds with the HIT.   The RequesterAnnotation parameter for a HIT is only visible to the Requester who created the HIT. It is not shown to the Worker, or any other Requester.   The RequesterAnnotation parameter may be different for each HIT you submit. It does not affect how your HITs are grouped. 
+        public let requesterAnnotation: String?
+        ///  The amount of money the Requester will pay a Worker for successfully completing the HIT. 
+        public let reward: String
+        ///  A unique identifier for this request which allows you to retry the call on error without creating duplicate HITs. This is useful in cases such as network timeouts where it is unclear whether or not the call succeeded on the server. If the HIT already exists in the system from a previous call using the same UniqueRequestToken, subsequent calls will return a AWS.MechanicalTurk.HitAlreadyExists error with a message containing the HITId.    Note: It is your responsibility to ensure uniqueness of the token. The unique token expires after 24 hours. Subsequent calls using the same UniqueRequestToken made after the 24 hour limit could create duplicate HITs.  
         public let uniqueRequestToken: String?
+        ///  The HITLayoutId allows you to use a pre-existing HIT design with placeholder values and create an additional HIT by providing those values as HITLayoutParameters.   Constraints: Either a Question parameter or a HITLayoutId parameter must be provided. 
+        public let hITLayoutId: String?
+        ///  One or more words or phrases that describe the HIT, separated by commas. These words are used in searches to find HITs. 
+        public let keywords: String?
+        ///  A general description of the HIT. A description includes detailed information about the kind of task the HIT contains. On the Amazon Mechanical Turk web site, the HIT description appears in the expanded view of search results, and in the HIT and assignment screens. A good description gives the user enough information to evaluate the HIT before accepting it. 
+        public let description: String
+        ///  The HIT-level Review Policy applies to the HIT. You can specify for Mechanical Turk to take various actions based on the policy. 
+        public let hITReviewPolicy: ReviewPolicy?
+        ///  The amount of time, in seconds, that a Worker has to complete the HIT after accepting it. If a Worker does not complete the assignment within the specified duration, the assignment is considered abandoned. If the HIT is still active (that is, its lifetime has not elapsed), the assignment becomes available for other users to find and accept. 
+        public let assignmentDurationInSeconds: Int64
+        ///  The number of times the HIT can be accepted and completed before the HIT becomes unavailable. 
+        public let maxAssignments: Int32?
+        ///  If the HITLayoutId is provided, any placeholder values must be filled in with values using the HITLayoutParameter structure. For more information, see HITLayout. 
+        public let hITLayoutParameters: [HITLayoutParameter]?
+        ///  The Assignment-level Review Policy applies to the assignments under the HIT. You can specify for Mechanical Turk to take various actions based on the policy. 
+        public let assignmentReviewPolicy: ReviewPolicy?
+        ///  The title of the HIT. A title should be short and descriptive about the kind of task the HIT contains. On the Amazon Mechanical Turk web site, the HIT title appears in search results, and everywhere the HIT is mentioned. 
+        public let title: String
 
-        public init(numberOfAdditionalAssignments: Int32, hITId: String, uniqueRequestToken: String? = nil) {
-            self.numberOfAdditionalAssignments = numberOfAdditionalAssignments
-            self.hITId = hITId
+        public init(assignmentDurationInSeconds: Int64, assignmentReviewPolicy: ReviewPolicy? = nil, autoApprovalDelayInSeconds: Int64? = nil, description: String, hITLayoutId: String? = nil, hITLayoutParameters: [HITLayoutParameter]? = nil, hITReviewPolicy: ReviewPolicy? = nil, keywords: String? = nil, lifetimeInSeconds: Int64, maxAssignments: Int32? = nil, qualificationRequirements: [QualificationRequirement]? = nil, question: String? = nil, requesterAnnotation: String? = nil, reward: String, title: String, uniqueRequestToken: String? = nil) {
+            self.autoApprovalDelayInSeconds = autoApprovalDelayInSeconds
+            self.lifetimeInSeconds = lifetimeInSeconds
+            self.qualificationRequirements = qualificationRequirements
+            self.question = question
+            self.requesterAnnotation = requesterAnnotation
+            self.reward = reward
             self.uniqueRequestToken = uniqueRequestToken
+            self.hITLayoutId = hITLayoutId
+            self.keywords = keywords
+            self.description = description
+            self.hITReviewPolicy = hITReviewPolicy
+            self.assignmentDurationInSeconds = assignmentDurationInSeconds
+            self.maxAssignments = maxAssignments
+            self.hITLayoutParameters = hITLayoutParameters
+            self.assignmentReviewPolicy = assignmentReviewPolicy
+            self.title = title
         }
 
         private enum CodingKeys: String, CodingKey {
-            case numberOfAdditionalAssignments = "NumberOfAdditionalAssignments"
-            case hITId = "HITId"
+            case autoApprovalDelayInSeconds = "AutoApprovalDelayInSeconds"
+            case lifetimeInSeconds = "LifetimeInSeconds"
+            case qualificationRequirements = "QualificationRequirements"
+            case question = "Question"
+            case requesterAnnotation = "RequesterAnnotation"
+            case reward = "Reward"
             case uniqueRequestToken = "UniqueRequestToken"
+            case hITLayoutId = "HITLayoutId"
+            case keywords = "Keywords"
+            case description = "Description"
+            case hITReviewPolicy = "HITReviewPolicy"
+            case assignmentDurationInSeconds = "AssignmentDurationInSeconds"
+            case maxAssignments = "MaxAssignments"
+            case hITLayoutParameters = "HITLayoutParameters"
+            case assignmentReviewPolicy = "AssignmentReviewPolicy"
+            case title = "Title"
         }
     }
 
-    public struct Locale: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Subdivision", required: false, type: .string), 
-            AWSShapeMember(label: "Country", required: true, type: .string)
-        ]
-        /// The state or subdivision of the locale. A valid ISO 3166-2 subdivision code. For example, the code WA refers to the state of Washington.
-        public let subdivision: String?
-        ///  The country of the locale. Must be a valid ISO 3166 country code. For example, the code US refers to the United States of America. 
-        public let country: String
+    public struct AcceptQualificationRequestResponse: AWSShape {
 
-        public init(subdivision: String? = nil, country: String) {
-            self.subdivision = subdivision
-            self.country = country
+        public init() {
+        }
+
+    }
+
+    public struct UpdateExpirationForHITResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteQualificationTypeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QualificationTypeId", required: true, type: .string)
+        ]
+        /// The ID of the QualificationType to dispose.
+        public let qualificationTypeId: String
+
+        public init(qualificationTypeId: String) {
+            self.qualificationTypeId = qualificationTypeId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case subdivision = "Subdivision"
-            case country = "Country"
+            case qualificationTypeId = "QualificationTypeId"
         }
     }
 
-    public struct BonusPayment: AWSShape {
+    public struct UpdateNotificationSettingsResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct RejectQualificationRequestRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Reason", required: false, type: .string), 
-            AWSShapeMember(label: "BonusAmount", required: false, type: .string), 
-            AWSShapeMember(label: "GrantTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "WorkerId", required: false, type: .string), 
-            AWSShapeMember(label: "AssignmentId", required: false, type: .string)
+            AWSShapeMember(label: "QualificationRequestId", required: true, type: .string)
         ]
-        /// The Reason text given when the bonus was granted, if any.
+        /// A text message explaining why the request was rejected, to be shown to the Worker who made the request.
         public let reason: String?
-        public let bonusAmount: String?
-        /// The date and time of when the bonus was granted.
-        public let grantTime: TimeStamp?
-        /// The ID of the Worker to whom the bonus was paid.
-        public let workerId: String?
-        /// The ID of the assignment associated with this bonus payment.
-        public let assignmentId: String?
+        ///  The ID of the Qualification request, as returned by the ListQualificationRequests operation. 
+        public let qualificationRequestId: String
 
-        public init(reason: String? = nil, bonusAmount: String? = nil, grantTime: TimeStamp? = nil, workerId: String? = nil, assignmentId: String? = nil) {
+        public init(qualificationRequestId: String, reason: String? = nil) {
             self.reason = reason
-            self.bonusAmount = bonusAmount
-            self.grantTime = grantTime
-            self.workerId = workerId
-            self.assignmentId = assignmentId
+            self.qualificationRequestId = qualificationRequestId
         }
 
         private enum CodingKeys: String, CodingKey {
             case reason = "Reason"
-            case bonusAmount = "BonusAmount"
-            case grantTime = "GrantTime"
-            case workerId = "WorkerId"
+            case qualificationRequestId = "QualificationRequestId"
+        }
+    }
+
+    public struct PolicyParameter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Values", required: false, type: .list), 
+            AWSShapeMember(label: "MapEntries", required: false, type: .list)
+        ]
+        ///  Name of the parameter from the list of Review Polices. 
+        public let key: String?
+        ///  The list of values of the Parameter
+        public let values: [String]?
+        ///  List of ParameterMapEntry objects. 
+        public let mapEntries: [ParameterMapEntry]?
+
+        public init(key: String? = nil, mapEntries: [ParameterMapEntry]? = nil, values: [String]? = nil) {
+            self.key = key
+            self.values = values
+            self.mapEntries = mapEntries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case values = "Values"
+            case mapEntries = "MapEntries"
+        }
+    }
+
+    public struct DeleteHITRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HITId", required: true, type: .string)
+        ]
+        /// The ID of the HIT to be deleted.
+        public let hITId: String
+
+        public init(hITId: String) {
+            self.hITId = hITId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hITId = "HITId"
+        }
+    }
+
+    public enum AssignmentStatus: String, CustomStringConvertible, Codable {
+        case submitted = "Submitted"
+        case approved = "Approved"
+        case rejected = "Rejected"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HITStatus: String, CustomStringConvertible, Codable {
+        case assignable = "Assignable"
+        case unassignable = "Unassignable"
+        case reviewable = "Reviewable"
+        case reviewing = "Reviewing"
+        case disposed = "Disposed"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CreateAdditionalAssignmentsForHITResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public enum ReviewableHITStatus: String, CustomStringConvertible, Codable {
+        case reviewable = "Reviewable"
+        case reviewing = "Reviewing"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct RejectQualificationRequestResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct ListReviewPolicyResultsForHITResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssignmentReviewPolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "HITReviewReport", required: false, type: .structure), 
+            AWSShapeMember(label: "HITId", required: false, type: .string), 
+            AWSShapeMember(label: "AssignmentReviewReport", required: false, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "HITReviewPolicy", required: false, type: .structure)
+        ]
+        ///  The name of the Assignment-level Review Policy. This contains only the PolicyName element. 
+        public let assignmentReviewPolicy: ReviewPolicy?
+        /// Contains both ReviewResult and ReviewAction elements for a particular HIT. 
+        public let hITReviewReport: ReviewReport?
+        /// The HITId of the HIT for which results have been returned.
+        public let hITId: String?
+        ///  Contains both ReviewResult and ReviewAction elements for an Assignment. 
+        public let assignmentReviewReport: ReviewReport?
+        public let nextToken: String?
+        /// The name of the HIT-level Review Policy. This contains only the PolicyName element.
+        public let hITReviewPolicy: ReviewPolicy?
+
+        public init(assignmentReviewPolicy: ReviewPolicy? = nil, assignmentReviewReport: ReviewReport? = nil, hITId: String? = nil, hITReviewPolicy: ReviewPolicy? = nil, hITReviewReport: ReviewReport? = nil, nextToken: String? = nil) {
+            self.assignmentReviewPolicy = assignmentReviewPolicy
+            self.hITReviewReport = hITReviewReport
+            self.hITId = hITId
+            self.assignmentReviewReport = assignmentReviewReport
+            self.nextToken = nextToken
+            self.hITReviewPolicy = hITReviewPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assignmentReviewPolicy = "AssignmentReviewPolicy"
+            case hITReviewReport = "HITReviewReport"
+            case hITId = "HITId"
+            case assignmentReviewReport = "AssignmentReviewReport"
+            case nextToken = "NextToken"
+            case hITReviewPolicy = "HITReviewPolicy"
+        }
+    }
+
+    public struct ListBonusPaymentsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NumResults", required: false, type: .integer), 
+            AWSShapeMember(label: "BonusPayments", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The number of bonus payments on this page in the filtered results list, equivalent to the number of bonus payments being returned by this call. 
+        public let numResults: Int32?
+        /// A successful request to the ListBonusPayments operation returns a list of BonusPayment objects. 
+        public let bonusPayments: [BonusPayment]?
+        public let nextToken: String?
+
+        public init(bonusPayments: [BonusPayment]? = nil, nextToken: String? = nil, numResults: Int32? = nil) {
+            self.numResults = numResults
+            self.bonusPayments = bonusPayments
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case numResults = "NumResults"
+            case bonusPayments = "BonusPayments"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct SendTestEventNotificationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Notification", required: true, type: .structure), 
+            AWSShapeMember(label: "TestEventType", required: true, type: .enum)
+        ]
+        ///  The notification specification to test. This value is identical to the value you would provide to the UpdateNotificationSettings operation when you establish the notification specification for a HIT type. 
+        public let notification: NotificationSpecification
+        ///  The event to simulate to test the notification specification. This event is included in the test message even if the notification specification does not include the event type. The notification specification does not filter out the test event. 
+        public let testEventType: EventType
+
+        public init(notification: NotificationSpecification, testEventType: EventType) {
+            self.notification = notification
+            self.testEventType = testEventType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notification = "Notification"
+            case testEventType = "TestEventType"
+        }
+    }
+
+    public struct GetAccountBalanceRequest: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct CreateHITTypeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Keywords", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: true, type: .string), 
+            AWSShapeMember(label: "AutoApprovalDelayInSeconds", required: false, type: .long), 
+            AWSShapeMember(label: "QualificationRequirements", required: false, type: .list), 
+            AWSShapeMember(label: "Title", required: true, type: .string), 
+            AWSShapeMember(label: "Reward", required: true, type: .string), 
+            AWSShapeMember(label: "AssignmentDurationInSeconds", required: true, type: .long)
+        ]
+        ///  One or more words or phrases that describe the HIT, separated by commas. These words are used in searches to find HITs. 
+        public let keywords: String?
+        ///  A general description of the HIT. A description includes detailed information about the kind of task the HIT contains. On the Amazon Mechanical Turk web site, the HIT description appears in the expanded view of search results, and in the HIT and assignment screens. A good description gives the user enough information to evaluate the HIT before accepting it. 
+        public let description: String
+        ///  The number of seconds after an assignment for the HIT has been submitted, after which the assignment is considered Approved automatically unless the Requester explicitly rejects it. 
+        public let autoApprovalDelayInSeconds: Int64?
+        ///  Conditions that a Worker's Qualifications must meet in order to accept the HIT. A HIT can have between zero and ten Qualification requirements. All requirements must be met in order for a Worker to accept the HIT. Additionally, other actions can be restricted using the ActionsGuarded field on each QualificationRequirement structure. 
+        public let qualificationRequirements: [QualificationRequirement]?
+        ///  The title of the HIT. A title should be short and descriptive about the kind of task the HIT contains. On the Amazon Mechanical Turk web site, the HIT title appears in search results, and everywhere the HIT is mentioned. 
+        public let title: String
+        ///  The amount of money the Requester will pay a Worker for successfully completing the HIT. 
+        public let reward: String
+        ///  The amount of time, in seconds, that a Worker has to complete the HIT after accepting it. If a Worker does not complete the assignment within the specified duration, the assignment is considered abandoned. If the HIT is still active (that is, its lifetime has not elapsed), the assignment becomes available for other users to find and accept. 
+        public let assignmentDurationInSeconds: Int64
+
+        public init(assignmentDurationInSeconds: Int64, autoApprovalDelayInSeconds: Int64? = nil, description: String, keywords: String? = nil, qualificationRequirements: [QualificationRequirement]? = nil, reward: String, title: String) {
+            self.keywords = keywords
+            self.description = description
+            self.autoApprovalDelayInSeconds = autoApprovalDelayInSeconds
+            self.qualificationRequirements = qualificationRequirements
+            self.title = title
+            self.reward = reward
+            self.assignmentDurationInSeconds = assignmentDurationInSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keywords = "Keywords"
+            case description = "Description"
+            case autoApprovalDelayInSeconds = "AutoApprovalDelayInSeconds"
+            case qualificationRequirements = "QualificationRequirements"
+            case title = "Title"
+            case reward = "Reward"
+            case assignmentDurationInSeconds = "AssignmentDurationInSeconds"
+        }
+    }
+
+    public struct GetQualificationTypeResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QualificationType", required: false, type: .structure)
+        ]
+        ///  The returned Qualification Type
+        public let qualificationType: QualificationType?
+
+        public init(qualificationType: QualificationType? = nil) {
+            self.qualificationType = qualificationType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case qualificationType = "QualificationType"
+        }
+    }
+
+    public struct UpdateExpirationForHITRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExpireAt", required: true, type: .timestamp), 
+            AWSShapeMember(label: "HITId", required: true, type: .string)
+        ]
+        ///  The date and time at which you want the HIT to expire 
+        public let expireAt: TimeStamp
+        ///  The HIT to update. 
+        public let hITId: String
+
+        public init(expireAt: TimeStamp, hITId: String) {
+            self.expireAt = expireAt
+            self.hITId = hITId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expireAt = "ExpireAt"
+            case hITId = "HITId"
+        }
+    }
+
+    public struct ListBonusPaymentsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HITId", required: false, type: .string), 
+            AWSShapeMember(label: "AssignmentId", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+        ]
+        /// The ID of the HIT associated with the bonus payments to retrieve. If not specified, all bonus payments for all assignments for the given HIT are returned. Either the HITId parameter or the AssignmentId parameter must be specified
+        public let hITId: String?
+        /// The ID of the assignment associated with the bonus payments to retrieve. If specified, only bonus payments for the given assignment are returned. Either the HITId parameter or the AssignmentId parameter must be specified
+        public let assignmentId: String?
+        /// Pagination token
+        public let nextToken: String?
+        public let maxResults: Int32?
+
+        public init(assignmentId: String? = nil, hITId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.hITId = hITId
+            self.assignmentId = assignmentId
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hITId = "HITId"
             case assignmentId = "AssignmentId"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
+        }
+    }
+
+    public struct ReviewReport: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReviewResults", required: false, type: .list), 
+            AWSShapeMember(label: "ReviewActions", required: false, type: .list)
+        ]
+        ///  A list of ReviewResults objects for each action specified in the Review Policy. 
+        public let reviewResults: [ReviewResultDetail]?
+        ///  A list of ReviewAction objects for each action specified in the Review Policy. 
+        public let reviewActions: [ReviewActionDetail]?
+
+        public init(reviewActions: [ReviewActionDetail]? = nil, reviewResults: [ReviewResultDetail]? = nil) {
+            self.reviewResults = reviewResults
+            self.reviewActions = reviewActions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reviewResults = "ReviewResults"
+            case reviewActions = "ReviewActions"
+        }
+    }
+
+    public struct UpdateQualificationTypeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AnswerKey", required: false, type: .string), 
+            AWSShapeMember(label: "Test", required: false, type: .string), 
+            AWSShapeMember(label: "AutoGranted", required: false, type: .boolean), 
+            AWSShapeMember(label: "RetryDelayInSeconds", required: false, type: .long), 
+            AWSShapeMember(label: "QualificationTypeStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "QualificationTypeId", required: true, type: .string), 
+            AWSShapeMember(label: "AutoGrantedValue", required: false, type: .integer), 
+            AWSShapeMember(label: "TestDurationInSeconds", required: false, type: .long)
+        ]
+        /// The answers to the Qualification test specified in the Test parameter, in the form of an AnswerKey data structure.
+        public let answerKey: String?
+        /// The questions for the Qualification test a Worker must answer correctly to obtain a Qualification of this type. If this parameter is specified, TestDurationInSeconds must also be specified. Constraints: Must not be longer than 65535 bytes. Must be a QuestionForm data structure. This parameter cannot be specified if AutoGranted is true. Constraints: None. If not specified, the Worker may request the Qualification without answering any questions.
+        public let test: String?
+        /// Specifies whether requests for the Qualification type are granted immediately, without prompting the Worker with a Qualification test. Constraints: If the Test parameter is specified, this parameter cannot be true.
+        public let autoGranted: Bool?
+        /// The amount of time, in seconds, that Workers must wait after requesting a Qualification of the specified Qualification type before they can retry the Qualification request. It is not possible to disable retries for a Qualification type after it has been created with retries enabled. If you want to disable retries, you must dispose of the existing retry-enabled Qualification type using DisposeQualificationType and then create a new Qualification type with retries disabled using CreateQualificationType.
+        public let retryDelayInSeconds: Int64?
+        /// The new status of the Qualification type - Active | Inactive
+        public let qualificationTypeStatus: QualificationTypeStatus?
+        /// The new description of the Qualification type.
+        public let description: String?
+        /// The ID of the Qualification type to update.
+        public let qualificationTypeId: String
+        /// The Qualification value to use for automatically granted Qualifications. This parameter is used only if the AutoGranted parameter is true.
+        public let autoGrantedValue: Int32?
+        /// The number of seconds the Worker has to complete the Qualification test, starting from the time the Worker requests the Qualification.
+        public let testDurationInSeconds: Int64?
+
+        public init(answerKey: String? = nil, autoGranted: Bool? = nil, autoGrantedValue: Int32? = nil, description: String? = nil, qualificationTypeId: String, qualificationTypeStatus: QualificationTypeStatus? = nil, retryDelayInSeconds: Int64? = nil, test: String? = nil, testDurationInSeconds: Int64? = nil) {
+            self.answerKey = answerKey
+            self.test = test
+            self.autoGranted = autoGranted
+            self.retryDelayInSeconds = retryDelayInSeconds
+            self.qualificationTypeStatus = qualificationTypeStatus
+            self.description = description
+            self.qualificationTypeId = qualificationTypeId
+            self.autoGrantedValue = autoGrantedValue
+            self.testDurationInSeconds = testDurationInSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case answerKey = "AnswerKey"
+            case test = "Test"
+            case autoGranted = "AutoGranted"
+            case retryDelayInSeconds = "RetryDelayInSeconds"
+            case qualificationTypeStatus = "QualificationTypeStatus"
+            case description = "Description"
+            case qualificationTypeId = "QualificationTypeId"
+            case autoGrantedValue = "AutoGrantedValue"
+            case testDurationInSeconds = "TestDurationInSeconds"
+        }
+    }
+
+    public struct UpdateNotificationSettingsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Active", required: false, type: .boolean), 
+            AWSShapeMember(label: "HITTypeId", required: true, type: .string), 
+            AWSShapeMember(label: "Notification", required: false, type: .structure)
+        ]
+        ///  Specifies whether notifications are sent for HITs of this HIT type, according to the notification specification. You must specify either the Notification parameter or the Active parameter for the call to UpdateNotificationSettings to succeed. 
+        public let active: Bool?
+        ///  The ID of the HIT type whose notification specification is being updated. 
+        public let hITTypeId: String
+        ///  The notification specification for the HIT type. 
+        public let notification: NotificationSpecification?
+
+        public init(active: Bool? = nil, hITTypeId: String, notification: NotificationSpecification? = nil) {
+            self.active = active
+            self.hITTypeId = hITTypeId
+            self.notification = notification
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case active = "Active"
+            case hITTypeId = "HITTypeId"
+            case notification = "Notification"
+        }
+    }
+
+    public struct DeleteWorkerBlockRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WorkerId", required: true, type: .string), 
+            AWSShapeMember(label: "Reason", required: false, type: .string)
+        ]
+        /// The ID of the Worker to unblock.
+        public let workerId: String
+        /// A message that explains the reason for unblocking the Worker. The Worker does not see this message.
+        public let reason: String?
+
+        public init(reason: String? = nil, workerId: String) {
+            self.workerId = workerId
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case workerId = "WorkerId"
+            case reason = "Reason"
+        }
+    }
+
+    public struct ReviewPolicy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyName", required: true, type: .string), 
+            AWSShapeMember(label: "Parameters", required: false, type: .list)
+        ]
+        ///  Name of a Review Policy: SimplePlurality/2011-09-01 or ScoreMyKnownAnswers/2011-09-01 
+        public let policyName: String
+        /// Name of the parameter from the Review policy.
+        public let parameters: [PolicyParameter]?
+
+        public init(parameters: [PolicyParameter]? = nil, policyName: String) {
+            self.policyName = policyName
+            self.parameters = parameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyName = "PolicyName"
+            case parameters = "Parameters"
+        }
+    }
+
+    public struct NotifyWorkersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NotifyWorkersFailureStatuses", required: false, type: .list)
+        ]
+        ///  When MTurk sends notifications to the list of Workers, it returns back any failures it encounters in this list of NotifyWorkersFailureStatus objects. 
+        public let notifyWorkersFailureStatuses: [NotifyWorkersFailureStatus]?
+
+        public init(notifyWorkersFailureStatuses: [NotifyWorkersFailureStatus]? = nil) {
+            self.notifyWorkersFailureStatuses = notifyWorkersFailureStatuses
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notifyWorkersFailureStatuses = "NotifyWorkersFailureStatuses"
+        }
+    }
+
+    public struct CreateWorkerBlockResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateHITTypeOfHITResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public enum QualificationTypeStatus: String, CustomStringConvertible, Codable {
+        case active = "Active"
+        case inactive = "Inactive"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListAssignmentsForHITRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "HITId", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "AssignmentStatuses", required: false, type: .list)
+        ]
+        public let maxResults: Int32?
+        /// The ID of the HIT.
+        public let hITId: String
+        /// Pagination token
+        public let nextToken: String?
+        /// The status of the assignments to return: Submitted | Approved | Rejected
+        public let assignmentStatuses: [AssignmentStatus]?
+
+        public init(assignmentStatuses: [AssignmentStatus]? = nil, hITId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.hITId = hITId
+            self.nextToken = nextToken
+            self.assignmentStatuses = assignmentStatuses
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case hITId = "HITId"
+            case nextToken = "NextToken"
+            case assignmentStatuses = "AssignmentStatuses"
+        }
+    }
+
+    public enum HITReviewStatus: String, CustomStringConvertible, Codable {
+        case notreviewed = "NotReviewed"
+        case markedforreview = "MarkedForReview"
+        case reviewedappropriate = "ReviewedAppropriate"
+        case reviewedinappropriate = "ReviewedInappropriate"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct RejectAssignmentResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct CreateWorkerBlockRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Reason", required: true, type: .string), 
+            AWSShapeMember(label: "WorkerId", required: true, type: .string)
+        ]
+        /// A message explaining the reason for blocking the Worker. This parameter enables you to keep track of your Workers. The Worker does not see this message.
+        public let reason: String
+        /// The ID of the Worker to block.
+        public let workerId: String
+
+        public init(reason: String, workerId: String) {
+            self.reason = reason
+            self.workerId = workerId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reason = "Reason"
+            case workerId = "WorkerId"
+        }
+    }
+
+    public struct ReviewActionDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "CompleteTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ActionId", required: false, type: .string), 
+            AWSShapeMember(label: "TargetType", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "Result", required: false, type: .string), 
+            AWSShapeMember(label: "TargetId", required: false, type: .string), 
+            AWSShapeMember(label: "ActionName", required: false, type: .string)
+        ]
+        ///  Present only when the Results have a FAILED Status.
+        public let errorCode: String?
+        ///  The date when the action was completed.
+        public let completeTime: TimeStamp?
+        /// The unique identifier for the action.
+        public let actionId: String?
+        ///  The type of object in TargetId.
+        public let targetType: String?
+        ///  The current disposition of the action: INTENDED, SUCCEEDED, FAILED, or CANCELLED. 
+        public let status: ReviewActionStatus?
+        ///  A description of the outcome of the review.
+        public let result: String?
+        ///  The specific HITId or AssignmentID targeted by the action.
+        public let targetId: String?
+        ///  The nature of the action itself. The Review Policy is responsible for examining the HIT and Assignments, emitting results, and deciding which other actions will be necessary. 
+        public let actionName: String?
+
+        public init(actionId: String? = nil, actionName: String? = nil, completeTime: TimeStamp? = nil, errorCode: String? = nil, result: String? = nil, status: ReviewActionStatus? = nil, targetId: String? = nil, targetType: String? = nil) {
+            self.errorCode = errorCode
+            self.completeTime = completeTime
+            self.actionId = actionId
+            self.targetType = targetType
+            self.status = status
+            self.result = result
+            self.targetId = targetId
+            self.actionName = actionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case completeTime = "CompleteTime"
+            case actionId = "ActionId"
+            case targetType = "TargetType"
+            case status = "Status"
+            case result = "Result"
+            case targetId = "TargetId"
+            case actionName = "ActionName"
         }
     }
 
@@ -1589,174 +2385,45 @@ extension MTurk {
         }
     }
 
-    public struct AcceptQualificationRequestResponse: AWSShape {
-
-    }
-
-    public struct GetFileUploadURLResponse: AWSShape {
+    public struct QualificationRequirement: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FileUploadURL", required: false, type: .string)
-        ]
-        ///  A temporary URL for the file that the Worker uploaded for the answer. 
-        public let fileUploadURL: String?
-
-        public init(fileUploadURL: String? = nil) {
-            self.fileUploadURL = fileUploadURL
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fileUploadURL = "FileUploadURL"
-        }
-    }
-
-    public struct DeleteQualificationTypeResponse: AWSShape {
-
-    }
-
-    public struct GetHITRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HITId", required: true, type: .string)
-        ]
-        /// The ID of the HIT to be retrieved.
-        public let hITId: String
-
-        public init(hITId: String) {
-            self.hITId = hITId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case hITId = "HITId"
-        }
-    }
-
-    public struct ListHITsForQualificationTypeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HITs", required: false, type: .list), 
-            AWSShapeMember(label: "NumResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        ///  The list of HIT elements returned by the query.
-        public let hITs: [HIT]?
-        ///  The number of HITs on this page in the filtered results list, equivalent to the number of HITs being returned by this call. 
-        public let numResults: Int32?
-        public let nextToken: String?
-
-        public init(hITs: [HIT]? = nil, numResults: Int32? = nil, nextToken: String? = nil) {
-            self.hITs = hITs
-            self.numResults = numResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case hITs = "HITs"
-            case numResults = "NumResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct RejectQualificationRequestRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Reason", required: false, type: .string), 
-            AWSShapeMember(label: "QualificationRequestId", required: true, type: .string)
-        ]
-        /// A text message explaining why the request was rejected, to be shown to the Worker who made the request.
-        public let reason: String?
-        ///  The ID of the Qualification request, as returned by the ListQualificationRequests operation. 
-        public let qualificationRequestId: String
-
-        public init(reason: String? = nil, qualificationRequestId: String) {
-            self.reason = reason
-            self.qualificationRequestId = qualificationRequestId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case reason = "Reason"
-            case qualificationRequestId = "QualificationRequestId"
-        }
-    }
-
-    public struct UpdateQualificationTypeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoGranted", required: false, type: .boolean), 
-            AWSShapeMember(label: "TestDurationInSeconds", required: false, type: .long), 
-            AWSShapeMember(label: "QualificationTypeStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "AnswerKey", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "LocaleValues", required: false, type: .list), 
+            AWSShapeMember(label: "ActionsGuarded", required: false, type: .enum), 
             AWSShapeMember(label: "QualificationTypeId", required: true, type: .string), 
-            AWSShapeMember(label: "Test", required: false, type: .string), 
-            AWSShapeMember(label: "RetryDelayInSeconds", required: false, type: .long), 
-            AWSShapeMember(label: "AutoGrantedValue", required: false, type: .integer)
+            AWSShapeMember(label: "RequiredToPreview", required: false, type: .boolean), 
+            AWSShapeMember(label: "IntegerValues", required: false, type: .list), 
+            AWSShapeMember(label: "Comparator", required: true, type: .enum)
         ]
-        /// Specifies whether requests for the Qualification type are granted immediately, without prompting the Worker with a Qualification test. Constraints: If the Test parameter is specified, this parameter cannot be true.
-        public let autoGranted: Bool?
-        /// The number of seconds the Worker has to complete the Qualification test, starting from the time the Worker requests the Qualification.
-        public let testDurationInSeconds: Int64?
-        /// The new status of the Qualification type - Active | Inactive
-        public let qualificationTypeStatus: QualificationTypeStatus?
-        /// The answers to the Qualification test specified in the Test parameter, in the form of an AnswerKey data structure.
-        public let answerKey: String?
-        /// The new description of the Qualification type.
-        public let description: String?
-        /// The ID of the Qualification type to update.
+        ///  The locale value to compare against the Qualification's value. The local value must be a valid ISO 3166 country code or supports ISO 3166-2 subdivisions. LocaleValue can only be used with a Worker_Locale QualificationType ID. LocaleValue can only be used with the EqualTo, NotEqualTo, In, and NotIn comparators. You must only use a single LocaleValue element when using the EqualTo or NotEqualTo comparators. When performing a set comparison by using the In or the NotIn comparator, you can use up to 30 LocaleValue elements in a QualificationRequirement data structure. 
+        public let localeValues: [Locale]?
+        ///  Setting this attribute prevents Workers whose Qualifications do not meet this QualificationRequirement from taking the specified action. Valid arguments include "Accept" (Worker cannot accept the HIT, but can preview the HIT and see it in their search results), "PreviewAndAccept" (Worker cannot accept or preview the HIT, but can see the HIT in their search results), and "DiscoverPreviewAndAccept" (Worker cannot accept, preview, or see the HIT in their search results). It's possible for you to create a HIT with multiple QualificationRequirements (which can have different values for the ActionGuarded attribute). In this case, the Worker is only permitted to perform an action when they have met all QualificationRequirements guarding the action. The actions in the order of least restrictive to most restrictive are Discover, Preview and Accept. For example, if a Worker meets all QualificationRequirements that are set to DiscoverPreviewAndAccept, but do not meet all requirements that are set with PreviewAndAccept, then the Worker will be able to Discover, i.e. see the HIT in their search result, but will not be able to Preview or Accept the HIT. ActionsGuarded should not be used in combination with the RequiredToPreview field. 
+        public let actionsGuarded: HITAccessActions?
+        ///  The ID of the Qualification type for the requirement.
         public let qualificationTypeId: String
-        /// The questions for the Qualification test a Worker must answer correctly to obtain a Qualification of this type. If this parameter is specified, TestDurationInSeconds must also be specified. Constraints: Must not be longer than 65535 bytes. Must be a QuestionForm data structure. This parameter cannot be specified if AutoGranted is true. Constraints: None. If not specified, the Worker may request the Qualification without answering any questions.
-        public let test: String?
-        /// The amount of time, in seconds, that Workers must wait after requesting a Qualification of the specified Qualification type before they can retry the Qualification request. It is not possible to disable retries for a Qualification type after it has been created with retries enabled. If you want to disable retries, you must dispose of the existing retry-enabled Qualification type using DisposeQualificationType and then create a new Qualification type with retries disabled using CreateQualificationType.
-        public let retryDelayInSeconds: Int64?
-        /// The Qualification value to use for automatically granted Qualifications. This parameter is used only if the AutoGranted parameter is true.
-        public let autoGrantedValue: Int32?
+        ///  DEPRECATED: Use the ActionsGuarded field instead. If RequiredToPreview is true, the question data for the HIT will not be shown when a Worker whose Qualifications do not meet this requirement tries to preview the HIT. That is, a Worker's Qualifications must meet all of the requirements for which RequiredToPreview is true in order to preview the HIT. If a Worker meets all of the requirements where RequiredToPreview is true (or if there are no such requirements), but does not meet all of the requirements for the HIT, the Worker will be allowed to preview the HIT's question data, but will not be allowed to accept and complete the HIT. The default is false. This should not be used in combination with the ActionsGuarded field. 
+        public let requiredToPreview: Bool?
+        ///  The integer value to compare against the Qualification's value. IntegerValue must not be present if Comparator is Exists or DoesNotExist. IntegerValue can only be used if the Qualification type has an integer value; it cannot be used with the Worker_Locale QualificationType ID. When performing a set comparison by using the In or the NotIn comparator, you can use up to 15 IntegerValue elements in a QualificationRequirement data structure. 
+        public let integerValues: [Int32]?
+        /// The kind of comparison to make against a Qualification's value. You can compare a Qualification's value to an IntegerValue to see if it is LessThan, LessThanOrEqualTo, GreaterThan, GreaterThanOrEqualTo, EqualTo, or NotEqualTo the IntegerValue. You can compare it to a LocaleValue to see if it is EqualTo, or NotEqualTo the LocaleValue. You can check to see if the value is In or NotIn a set of IntegerValue or LocaleValue values. Lastly, a Qualification requirement can also test if a Qualification Exists or DoesNotExist in the user's profile, regardless of its value. 
+        public let comparator: Comparator
 
-        public init(autoGranted: Bool? = nil, testDurationInSeconds: Int64? = nil, qualificationTypeStatus: QualificationTypeStatus? = nil, answerKey: String? = nil, description: String? = nil, qualificationTypeId: String, test: String? = nil, retryDelayInSeconds: Int64? = nil, autoGrantedValue: Int32? = nil) {
-            self.autoGranted = autoGranted
-            self.testDurationInSeconds = testDurationInSeconds
-            self.qualificationTypeStatus = qualificationTypeStatus
-            self.answerKey = answerKey
-            self.description = description
+        public init(actionsGuarded: HITAccessActions? = nil, comparator: Comparator, integerValues: [Int32]? = nil, localeValues: [Locale]? = nil, qualificationTypeId: String, requiredToPreview: Bool? = nil) {
+            self.localeValues = localeValues
+            self.actionsGuarded = actionsGuarded
             self.qualificationTypeId = qualificationTypeId
-            self.test = test
-            self.retryDelayInSeconds = retryDelayInSeconds
-            self.autoGrantedValue = autoGrantedValue
+            self.requiredToPreview = requiredToPreview
+            self.integerValues = integerValues
+            self.comparator = comparator
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoGranted = "AutoGranted"
-            case testDurationInSeconds = "TestDurationInSeconds"
-            case qualificationTypeStatus = "QualificationTypeStatus"
-            case answerKey = "AnswerKey"
-            case description = "Description"
+            case localeValues = "LocaleValues"
+            case actionsGuarded = "ActionsGuarded"
             case qualificationTypeId = "QualificationTypeId"
-            case test = "Test"
-            case retryDelayInSeconds = "RetryDelayInSeconds"
-            case autoGrantedValue = "AutoGrantedValue"
+            case requiredToPreview = "RequiredToPreview"
+            case integerValues = "IntegerValues"
+            case comparator = "Comparator"
         }
-    }
-
-    public struct SendTestEventNotificationResponse: AWSShape {
-
-    }
-
-    public struct CreateQualificationTypeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "QualificationType", required: false, type: .structure)
-        ]
-        /// The created Qualification type, returned as a QualificationType data structure.
-        public let qualificationType: QualificationType?
-
-        public init(qualificationType: QualificationType? = nil) {
-            self.qualificationType = qualificationType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case qualificationType = "QualificationType"
-        }
-    }
-
-    public enum ReviewActionStatus: String, CustomStringConvertible, Codable {
-        case intended = "Intended"
-        case succeeded = "Succeeded"
-        case failed = "Failed"
-        case cancelled = "Cancelled"
-        public var description: String { return self.rawValue }
     }
 
     public enum QualificationStatus: String, CustomStringConvertible, Codable {
@@ -1765,718 +2432,105 @@ extension MTurk {
         public var description: String { return self.rawValue }
     }
 
-    public struct ListQualificationRequestsResponse: AWSShape {
+    public struct CreateHITWithHITTypeRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "QualificationRequests", required: false, type: .list), 
-            AWSShapeMember(label: "NumResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The Qualification request. The response includes one QualificationRequest element for each Qualification request returned by the query.
-        public let qualificationRequests: [QualificationRequest]?
-        /// The number of Qualification requests on this page in the filtered results list, equivalent to the number of Qualification requests being returned by this call.
-        public let numResults: Int32?
-        public let nextToken: String?
-
-        public init(qualificationRequests: [QualificationRequest]? = nil, numResults: Int32? = nil, nextToken: String? = nil) {
-            self.qualificationRequests = qualificationRequests
-            self.numResults = numResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case qualificationRequests = "QualificationRequests"
-            case numResults = "NumResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct ListQualificationRequestsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "QualificationTypeId", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The ID of the QualificationType.
-        public let qualificationTypeId: String?
-        ///  The maximum number of results to return in a single call. 
-        public let maxResults: Int32?
-        public let nextToken: String?
-
-        public init(qualificationTypeId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
-            self.qualificationTypeId = qualificationTypeId
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case qualificationTypeId = "QualificationTypeId"
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct ListQualificationTypesResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "QualificationTypes", required: false, type: .list), 
-            AWSShapeMember(label: "NumResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        ///  The list of QualificationType elements returned by the query. 
-        public let qualificationTypes: [QualificationType]?
-        ///  The number of Qualification types on this page in the filtered results list, equivalent to the number of types this operation returns. 
-        public let numResults: Int32?
-        public let nextToken: String?
-
-        public init(qualificationTypes: [QualificationType]? = nil, numResults: Int32? = nil, nextToken: String? = nil) {
-            self.qualificationTypes = qualificationTypes
-            self.numResults = numResults
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case qualificationTypes = "QualificationTypes"
-            case numResults = "NumResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct WorkerBlock: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WorkerId", required: false, type: .string), 
-            AWSShapeMember(label: "Reason", required: false, type: .string)
-        ]
-        ///  The ID of the Worker who accepted the HIT.
-        public let workerId: String?
-        ///  A message explaining the reason the Worker was blocked. 
-        public let reason: String?
-
-        public init(workerId: String? = nil, reason: String? = nil) {
-            self.workerId = workerId
-            self.reason = reason
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case workerId = "WorkerId"
-            case reason = "Reason"
-        }
-    }
-
-    public struct UpdateNotificationSettingsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Notification", required: false, type: .structure), 
-            AWSShapeMember(label: "HITTypeId", required: true, type: .string), 
-            AWSShapeMember(label: "Active", required: false, type: .boolean)
-        ]
-        ///  The notification specification for the HIT type. 
-        public let notification: NotificationSpecification?
-        ///  The ID of the HIT type whose notification specification is being updated. 
-        public let hITTypeId: String
-        ///  Specifies whether notifications are sent for HITs of this HIT type, according to the notification specification. You must specify either the Notification parameter or the Active parameter for the call to UpdateNotificationSettings to succeed. 
-        public let active: Bool?
-
-        public init(notification: NotificationSpecification? = nil, hITTypeId: String, active: Bool? = nil) {
-            self.notification = notification
-            self.hITTypeId = hITTypeId
-            self.active = active
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case notification = "Notification"
-            case hITTypeId = "HITTypeId"
-            case active = "Active"
-        }
-    }
-
-    public struct CreateQualificationTypeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoGranted", required: false, type: .boolean), 
-            AWSShapeMember(label: "TestDurationInSeconds", required: false, type: .long), 
-            AWSShapeMember(label: "QualificationTypeStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "AnswerKey", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: true, type: .string), 
-            AWSShapeMember(label: "Keywords", required: false, type: .string), 
-            AWSShapeMember(label: "Test", required: false, type: .string), 
-            AWSShapeMember(label: "RetryDelayInSeconds", required: false, type: .long), 
-            AWSShapeMember(label: "AutoGrantedValue", required: false, type: .integer), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// Specifies whether requests for the Qualification type are granted immediately, without prompting the Worker with a Qualification test. Constraints: If the Test parameter is specified, this parameter cannot be true.
-        public let autoGranted: Bool?
-        /// The number of seconds the Worker has to complete the Qualification test, starting from the time the Worker requests the Qualification.
-        public let testDurationInSeconds: Int64?
-        /// The initial status of the Qualification type. Constraints: Valid values are: Active | Inactive
-        public let qualificationTypeStatus: QualificationTypeStatus
-        /// The answers to the Qualification test specified in the Test parameter, in the form of an AnswerKey data structure. Constraints: Must not be longer than 65535 bytes. Constraints: None. If not specified, you must process Qualification requests manually.
-        public let answerKey: String?
-        /// A long description for the Qualification type. On the Amazon Mechanical Turk website, the long description is displayed when a Worker examines a Qualification type.
-        public let description: String
-        /// One or more words or phrases that describe the Qualification type, separated by commas. The keywords of a type make the type easier to find during a search.
-        public let keywords: String?
-        ///  The questions for the Qualification test a Worker must answer correctly to obtain a Qualification of this type. If this parameter is specified, TestDurationInSeconds must also be specified.  Constraints: Must not be longer than 65535 bytes. Must be a QuestionForm data structure. This parameter cannot be specified if AutoGranted is true. Constraints: None. If not specified, the Worker may request the Qualification without answering any questions.
-        public let test: String?
-        /// The number of seconds that a Worker must wait after requesting a Qualification of the Qualification type before the worker can retry the Qualification request. Constraints: None. If not specified, retries are disabled and Workers can request a Qualification of this type only once, even if the Worker has not been granted the Qualification. It is not possible to disable retries for a Qualification type after it has been created with retries enabled. If you want to disable retries, you must delete existing retry-enabled Qualification type and then create a new Qualification type with retries disabled.
-        public let retryDelayInSeconds: Int64?
-        /// The Qualification value to use for automatically granted Qualifications. This parameter is used only if the AutoGranted parameter is true.
-        public let autoGrantedValue: Int32?
-        ///  The name you give to the Qualification type. The type name is used to represent the Qualification to Workers, and to find the type using a Qualification type search. It must be unique across all of your Qualification types.
-        public let name: String
-
-        public init(autoGranted: Bool? = nil, testDurationInSeconds: Int64? = nil, qualificationTypeStatus: QualificationTypeStatus, answerKey: String? = nil, description: String, keywords: String? = nil, test: String? = nil, retryDelayInSeconds: Int64? = nil, autoGrantedValue: Int32? = nil, name: String) {
-            self.autoGranted = autoGranted
-            self.testDurationInSeconds = testDurationInSeconds
-            self.qualificationTypeStatus = qualificationTypeStatus
-            self.answerKey = answerKey
-            self.description = description
-            self.keywords = keywords
-            self.test = test
-            self.retryDelayInSeconds = retryDelayInSeconds
-            self.autoGrantedValue = autoGrantedValue
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case autoGranted = "AutoGranted"
-            case testDurationInSeconds = "TestDurationInSeconds"
-            case qualificationTypeStatus = "QualificationTypeStatus"
-            case answerKey = "AnswerKey"
-            case description = "Description"
-            case keywords = "Keywords"
-            case test = "Test"
-            case retryDelayInSeconds = "RetryDelayInSeconds"
-            case autoGrantedValue = "AutoGrantedValue"
-            case name = "Name"
-        }
-    }
-
-    public struct UpdateHITTypeOfHITResponse: AWSShape {
-
-    }
-
-    public enum HITReviewStatus: String, CustomStringConvertible, Codable {
-        case notreviewed = "NotReviewed"
-        case markedforreview = "MarkedForReview"
-        case reviewedappropriate = "ReviewedAppropriate"
-        case reviewedinappropriate = "ReviewedInappropriate"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum HITAccessActions: String, CustomStringConvertible, Codable {
-        case accept = "Accept"
-        case previewandaccept = "PreviewAndAccept"
-        case discoverpreviewandaccept = "DiscoverPreviewAndAccept"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct CreateHITRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxAssignments", required: false, type: .integer), 
-            AWSShapeMember(label: "AssignmentDurationInSeconds", required: true, type: .long), 
-            AWSShapeMember(label: "Title", required: true, type: .string), 
-            AWSShapeMember(label: "AssignmentReviewPolicy", required: false, type: .structure), 
-            AWSShapeMember(label: "AutoApprovalDelayInSeconds", required: false, type: .long), 
-            AWSShapeMember(label: "Question", required: false, type: .string), 
-            AWSShapeMember(label: "UniqueRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "LifetimeInSeconds", required: true, type: .long), 
-            AWSShapeMember(label: "RequesterAnnotation", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: true, type: .string), 
-            AWSShapeMember(label: "QualificationRequirements", required: false, type: .list), 
-            AWSShapeMember(label: "HITLayoutParameters", required: false, type: .list), 
-            AWSShapeMember(label: "HITLayoutId", required: false, type: .string), 
-            AWSShapeMember(label: "Keywords", required: false, type: .string), 
             AWSShapeMember(label: "HITReviewPolicy", required: false, type: .structure), 
-            AWSShapeMember(label: "Reward", required: true, type: .string)
+            AWSShapeMember(label: "AssignmentReviewPolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "UniqueRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "HITLayoutParameters", required: false, type: .list), 
+            AWSShapeMember(label: "Question", required: false, type: .string), 
+            AWSShapeMember(label: "HITTypeId", required: true, type: .string), 
+            AWSShapeMember(label: "RequesterAnnotation", required: false, type: .string), 
+            AWSShapeMember(label: "LifetimeInSeconds", required: true, type: .long), 
+            AWSShapeMember(label: "HITLayoutId", required: false, type: .string), 
+            AWSShapeMember(label: "MaxAssignments", required: false, type: .integer)
         ]
-        ///  The number of times the HIT can be accepted and completed before the HIT becomes unavailable. 
-        public let maxAssignments: Int32?
-        ///  The amount of time, in seconds, that a Worker has to complete the HIT after accepting it. If a Worker does not complete the assignment within the specified duration, the assignment is considered abandoned. If the HIT is still active (that is, its lifetime has not elapsed), the assignment becomes available for other users to find and accept. 
-        public let assignmentDurationInSeconds: Int64
-        ///  The title of the HIT. A title should be short and descriptive about the kind of task the HIT contains. On the Amazon Mechanical Turk web site, the HIT title appears in search results, and everywhere the HIT is mentioned. 
-        public let title: String
-        ///  The Assignment-level Review Policy applies to the assignments under the HIT. You can specify for Mechanical Turk to take various actions based on the policy. 
-        public let assignmentReviewPolicy: ReviewPolicy?
-        ///  The number of seconds after an assignment for the HIT has been submitted, after which the assignment is considered Approved automatically unless the Requester explicitly rejects it. 
-        public let autoApprovalDelayInSeconds: Int64?
-        ///  The data the person completing the HIT uses to produce the results.   Constraints: Must be a QuestionForm data structure, an ExternalQuestion data structure, or an HTMLQuestion data structure. The XML question data must not be larger than 64 kilobytes (65,535 bytes) in size, including whitespace.  Either a Question parameter or a HITLayoutId parameter must be provided.
-        public let question: String?
-        ///  A unique identifier for this request which allows you to retry the call on error without creating duplicate HITs. This is useful in cases such as network timeouts where it is unclear whether or not the call succeeded on the server. If the HIT already exists in the system from a previous call using the same UniqueRequestToken, subsequent calls will return a AWS.MechanicalTurk.HitAlreadyExists error with a message containing the HITId.    Note: It is your responsibility to ensure uniqueness of the token. The unique token expires after 24 hours. Subsequent calls using the same UniqueRequestToken made after the 24 hour limit could create duplicate HITs.  
-        public let uniqueRequestToken: String?
-        ///  An amount of time, in seconds, after which the HIT is no longer available for users to accept. After the lifetime of the HIT elapses, the HIT no longer appears in HIT searches, even if not all of the assignments for the HIT have been accepted. 
-        public let lifetimeInSeconds: Int64
-        ///  An arbitrary data field. The RequesterAnnotation parameter lets your application attach arbitrary data to the HIT for tracking purposes. For example, this parameter could be an identifier internal to the Requester's application that corresponds with the HIT.   The RequesterAnnotation parameter for a HIT is only visible to the Requester who created the HIT. It is not shown to the Worker, or any other Requester.   The RequesterAnnotation parameter may be different for each HIT you submit. It does not affect how your HITs are grouped. 
-        public let requesterAnnotation: String?
-        ///  A general description of the HIT. A description includes detailed information about the kind of task the HIT contains. On the Amazon Mechanical Turk web site, the HIT description appears in the expanded view of search results, and in the HIT and assignment screens. A good description gives the user enough information to evaluate the HIT before accepting it. 
-        public let description: String
-        ///  Conditions that a Worker's Qualifications must meet in order to accept the HIT. A HIT can have between zero and ten Qualification requirements. All requirements must be met in order for a Worker to accept the HIT. Additionally, other actions can be restricted using the ActionsGuarded field on each QualificationRequirement structure. 
-        public let qualificationRequirements: [QualificationRequirement]?
-        ///  If the HITLayoutId is provided, any placeholder values must be filled in with values using the HITLayoutParameter structure. For more information, see HITLayout. 
-        public let hITLayoutParameters: [HITLayoutParameter]?
-        ///  The HITLayoutId allows you to use a pre-existing HIT design with placeholder values and create an additional HIT by providing those values as HITLayoutParameters.   Constraints: Either a Question parameter or a HITLayoutId parameter must be provided. 
-        public let hITLayoutId: String?
-        ///  One or more words or phrases that describe the HIT, separated by commas. These words are used in searches to find HITs. 
-        public let keywords: String?
         ///  The HIT-level Review Policy applies to the HIT. You can specify for Mechanical Turk to take various actions based on the policy. 
         public let hITReviewPolicy: ReviewPolicy?
-        ///  The amount of money the Requester will pay a Worker for successfully completing the HIT. 
-        public let reward: String
-
-        public init(maxAssignments: Int32? = nil, assignmentDurationInSeconds: Int64, title: String, assignmentReviewPolicy: ReviewPolicy? = nil, autoApprovalDelayInSeconds: Int64? = nil, question: String? = nil, uniqueRequestToken: String? = nil, lifetimeInSeconds: Int64, requesterAnnotation: String? = nil, description: String, qualificationRequirements: [QualificationRequirement]? = nil, hITLayoutParameters: [HITLayoutParameter]? = nil, hITLayoutId: String? = nil, keywords: String? = nil, hITReviewPolicy: ReviewPolicy? = nil, reward: String) {
-            self.maxAssignments = maxAssignments
-            self.assignmentDurationInSeconds = assignmentDurationInSeconds
-            self.title = title
-            self.assignmentReviewPolicy = assignmentReviewPolicy
-            self.autoApprovalDelayInSeconds = autoApprovalDelayInSeconds
-            self.question = question
-            self.uniqueRequestToken = uniqueRequestToken
-            self.lifetimeInSeconds = lifetimeInSeconds
-            self.requesterAnnotation = requesterAnnotation
-            self.description = description
-            self.qualificationRequirements = qualificationRequirements
-            self.hITLayoutParameters = hITLayoutParameters
-            self.hITLayoutId = hITLayoutId
-            self.keywords = keywords
-            self.hITReviewPolicy = hITReviewPolicy
-            self.reward = reward
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxAssignments = "MaxAssignments"
-            case assignmentDurationInSeconds = "AssignmentDurationInSeconds"
-            case title = "Title"
-            case assignmentReviewPolicy = "AssignmentReviewPolicy"
-            case autoApprovalDelayInSeconds = "AutoApprovalDelayInSeconds"
-            case question = "Question"
-            case uniqueRequestToken = "UniqueRequestToken"
-            case lifetimeInSeconds = "LifetimeInSeconds"
-            case requesterAnnotation = "RequesterAnnotation"
-            case description = "Description"
-            case qualificationRequirements = "QualificationRequirements"
-            case hITLayoutParameters = "HITLayoutParameters"
-            case hITLayoutId = "HITLayoutId"
-            case keywords = "Keywords"
-            case hITReviewPolicy = "HITReviewPolicy"
-            case reward = "Reward"
-        }
-    }
-
-    public enum NotifyWorkersFailureCode: String, CustomStringConvertible, Codable {
-        case softfailure = "SoftFailure"
-        case hardfailure = "HardFailure"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ReviewReport: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReviewResults", required: false, type: .list), 
-            AWSShapeMember(label: "ReviewActions", required: false, type: .list)
-        ]
-        ///  A list of ReviewResults objects for each action specified in the Review Policy. 
-        public let reviewResults: [ReviewResultDetail]?
-        ///  A list of ReviewAction objects for each action specified in the Review Policy. 
-        public let reviewActions: [ReviewActionDetail]?
-
-        public init(reviewResults: [ReviewResultDetail]? = nil, reviewActions: [ReviewActionDetail]? = nil) {
-            self.reviewResults = reviewResults
-            self.reviewActions = reviewActions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case reviewResults = "ReviewResults"
-            case reviewActions = "ReviewActions"
-        }
-    }
-
-    public struct CreateWorkerBlockResponse: AWSShape {
-
-    }
-
-    public struct DisassociateQualificationFromWorkerRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WorkerId", required: true, type: .string), 
-            AWSShapeMember(label: "Reason", required: false, type: .string), 
-            AWSShapeMember(label: "QualificationTypeId", required: true, type: .string)
-        ]
-        /// The ID of the Worker who possesses the Qualification to be revoked.
-        public let workerId: String
-        /// A text message that explains why the Qualification was revoked. The user who had the Qualification sees this message.
-        public let reason: String?
-        /// The ID of the Qualification type of the Qualification to be revoked.
-        public let qualificationTypeId: String
-
-        public init(workerId: String, reason: String? = nil, qualificationTypeId: String) {
-            self.workerId = workerId
-            self.reason = reason
-            self.qualificationTypeId = qualificationTypeId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case workerId = "WorkerId"
-            case reason = "Reason"
-            case qualificationTypeId = "QualificationTypeId"
-        }
-    }
-
-    public struct GetAssignmentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssignmentId", required: true, type: .string)
-        ]
-        /// The ID of the Assignment to be retrieved.
-        public let assignmentId: String
-
-        public init(assignmentId: String) {
-            self.assignmentId = assignmentId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case assignmentId = "AssignmentId"
-        }
-    }
-
-    public enum QualificationTypeStatus: String, CustomStringConvertible, Codable {
-        case active = "Active"
-        case inactive = "Inactive"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum EventType: String, CustomStringConvertible, Codable {
-        case assignmentaccepted = "AssignmentAccepted"
-        case assignmentabandoned = "AssignmentAbandoned"
-        case assignmentreturned = "AssignmentReturned"
-        case assignmentsubmitted = "AssignmentSubmitted"
-        case assignmentrejected = "AssignmentRejected"
-        case assignmentapproved = "AssignmentApproved"
-        case hitcreated = "HITCreated"
-        case hitexpired = "HITExpired"
-        case hitreviewable = "HITReviewable"
-        case hitextended = "HITExtended"
-        case hitdisposed = "HITDisposed"
-        case ping = "Ping"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct RejectAssignmentResponse: AWSShape {
-
-    }
-
-    public struct ListWorkersWithQualificationTypeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "QualificationTypeId", required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
-        ]
-        /// The ID of the Qualification type of the Qualifications to return.
-        public let qualificationTypeId: String
-        /// Pagination Token
-        public let nextToken: String?
-        ///  The status of the Qualifications to return. Can be Granted | Revoked. 
-        public let status: QualificationStatus?
-        ///  Limit the number of results returned. 
-        public let maxResults: Int32?
-
-        public init(qualificationTypeId: String, nextToken: String? = nil, status: QualificationStatus? = nil, maxResults: Int32? = nil) {
-            self.qualificationTypeId = qualificationTypeId
-            self.nextToken = nextToken
-            self.status = status
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case qualificationTypeId = "QualificationTypeId"
-            case nextToken = "NextToken"
-            case status = "Status"
-            case maxResults = "MaxResults"
-        }
-    }
-
-    public struct NotificationSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Transport", required: true, type: .enum), 
-            AWSShapeMember(label: "EventTypes", required: true, type: .list), 
-            AWSShapeMember(label: "Destination", required: true, type: .string), 
-            AWSShapeMember(label: "Version", required: true, type: .string)
-        ]
-        ///  The method Amazon Mechanical Turk uses to send the notification. Valid Values: Email | SQS | SNS. 
-        public let transport: NotificationTransport
-        ///  The list of events that should cause notifications to be sent. Valid Values: AssignmentAccepted | AssignmentAbandoned | AssignmentReturned | AssignmentSubmitted | AssignmentRejected | AssignmentApproved | HITCreated | HITExtended | HITDisposed | HITReviewable | HITExpired | Ping. The Ping event is only valid for the SendTestEventNotification operation. 
-        public let eventTypes: [EventType]
-        ///  The target for notification messages. The Destination’s format is determined by the specified Transport:    When Transport is Email, the Destination is your email address.   When Transport is SQS, the Destination is your queue URL.   When Transport is SNS, the Destination is the ARN of your topic.  
-        public let destination: String
-        /// The version of the Notification API to use. Valid value is 2006-05-05.
-        public let version: String
-
-        public init(transport: NotificationTransport, eventTypes: [EventType], destination: String, version: String) {
-            self.transport = transport
-            self.eventTypes = eventTypes
-            self.destination = destination
-            self.version = version
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case transport = "Transport"
-            case eventTypes = "EventTypes"
-            case destination = "Destination"
-            case version = "Version"
-        }
-    }
-
-    public struct CreateHITWithHITTypeResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HIT", required: false, type: .structure)
-        ]
-        ///  Contains the newly created HIT data. For a description of the HIT data structure as it appears in responses, see the HIT Data Structure documentation. 
-        public let hit: HIT?
-
-        public init(hit: HIT? = nil) {
-            self.hit = hit
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case hit = "HIT"
-        }
-    }
-
-    public struct DeleteQualificationTypeRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "QualificationTypeId", required: true, type: .string)
-        ]
-        /// The ID of the QualificationType to dispose.
-        public let qualificationTypeId: String
-
-        public init(qualificationTypeId: String) {
-            self.qualificationTypeId = qualificationTypeId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case qualificationTypeId = "QualificationTypeId"
-        }
-    }
-
-    public struct ListReviewableHITsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "HITTypeId", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
-        ]
-        /// Pagination Token
-        public let nextToken: String?
-        ///  Can be either Reviewable or Reviewing. Reviewable is the default value. 
-        public let status: ReviewableHITStatus?
-        ///  The ID of the HIT type of the HITs to consider for the query. If not specified, all HITs for the Reviewer are considered 
-        public let hITTypeId: String?
-        ///  Limit the number of results returned. 
-        public let maxResults: Int32?
-
-        public init(nextToken: String? = nil, status: ReviewableHITStatus? = nil, hITTypeId: String? = nil, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.status = status
-            self.hITTypeId = hITTypeId
-            self.maxResults = maxResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case status = "Status"
-            case hITTypeId = "HITTypeId"
-            case maxResults = "MaxResults"
-        }
-    }
-
-    public struct ApproveAssignmentRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssignmentId", required: true, type: .string), 
-            AWSShapeMember(label: "OverrideRejection", required: false, type: .boolean), 
-            AWSShapeMember(label: "RequesterFeedback", required: false, type: .string)
-        ]
-        ///  The ID of the assignment. The assignment must correspond to a HIT created by the Requester. 
-        public let assignmentId: String
-        ///  A flag indicating that an assignment should be approved even if it was previously rejected. Defaults to False. 
-        public let overrideRejection: Bool?
-        ///  A message for the Worker, which the Worker can see in the Status section of the web site. 
-        public let requesterFeedback: String?
-
-        public init(assignmentId: String, overrideRejection: Bool? = nil, requesterFeedback: String? = nil) {
-            self.assignmentId = assignmentId
-            self.overrideRejection = overrideRejection
-            self.requesterFeedback = requesterFeedback
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case assignmentId = "AssignmentId"
-            case overrideRejection = "OverrideRejection"
-            case requesterFeedback = "RequesterFeedback"
-        }
-    }
-
-    public struct UpdateHITTypeOfHITRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HITTypeId", required: true, type: .string), 
-            AWSShapeMember(label: "HITId", required: true, type: .string)
-        ]
-        /// The ID of the new HIT type.
-        public let hITTypeId: String
-        /// The HIT to update.
-        public let hITId: String
-
-        public init(hITTypeId: String, hITId: String) {
-            self.hITTypeId = hITTypeId
-            self.hITId = hITId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case hITTypeId = "HITTypeId"
-            case hITId = "HITId"
-        }
-    }
-
-    public struct DeleteWorkerBlockResponse: AWSShape {
-
-    }
-
-    public enum AssignmentStatus: String, CustomStringConvertible, Codable {
-        case submitted = "Submitted"
-        case approved = "Approved"
-        case rejected = "Rejected"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct NotifyWorkersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "WorkerIds", required: true, type: .list), 
-            AWSShapeMember(label: "Subject", required: true, type: .string), 
-            AWSShapeMember(label: "MessageText", required: true, type: .string)
-        ]
-        /// A list of Worker IDs you wish to notify. You can notify upto 100 Workers at a time.
-        public let workerIds: [String]
-        /// The subject line of the email message to send. Can include up to 200 characters.
-        public let subject: String
-        /// The text of the email message to send. Can include up to 4,096 characters
-        public let messageText: String
-
-        public init(workerIds: [String], subject: String, messageText: String) {
-            self.workerIds = workerIds
-            self.subject = subject
-            self.messageText = messageText
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case workerIds = "WorkerIds"
-            case subject = "Subject"
-            case messageText = "MessageText"
-        }
-    }
-
-    public struct SendBonusResponse: AWSShape {
-
-    }
-
-    public struct Qualification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "QualificationTypeId", required: false, type: .string), 
-            AWSShapeMember(label: "IntegerValue", required: false, type: .integer), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "GrantTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "WorkerId", required: false, type: .string), 
-            AWSShapeMember(label: "LocaleValue", required: false, type: .structure)
-        ]
-        ///  The ID of the Qualification type for the Qualification.
-        public let qualificationTypeId: String?
-        ///  The value (score) of the Qualification, if the Qualification has an integer value.
-        public let integerValue: Int32?
-        ///  The status of the Qualification. Valid values are Granted | Revoked.
-        public let status: QualificationStatus?
-        ///  The date and time the Qualification was granted to the Worker. If the Worker's Qualification was revoked, and then re-granted based on a new Qualification request, GrantTime is the date and time of the last call to the AcceptQualificationRequest operation.
-        public let grantTime: TimeStamp?
-        ///  The ID of the Worker who possesses the Qualification. 
-        public let workerId: String?
-        public let localeValue: Locale?
-
-        public init(qualificationTypeId: String? = nil, integerValue: Int32? = nil, status: QualificationStatus? = nil, grantTime: TimeStamp? = nil, workerId: String? = nil, localeValue: Locale? = nil) {
-            self.qualificationTypeId = qualificationTypeId
-            self.integerValue = integerValue
-            self.status = status
-            self.grantTime = grantTime
-            self.workerId = workerId
-            self.localeValue = localeValue
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case qualificationTypeId = "QualificationTypeId"
-            case integerValue = "IntegerValue"
-            case status = "Status"
-            case grantTime = "GrantTime"
-            case workerId = "WorkerId"
-            case localeValue = "LocaleValue"
-        }
-    }
-
-    public struct CreateAdditionalAssignmentsForHITResponse: AWSShape {
-
-    }
-
-    public struct SendBonusRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UniqueRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "Reason", required: true, type: .string), 
-            AWSShapeMember(label: "BonusAmount", required: true, type: .string), 
-            AWSShapeMember(label: "WorkerId", required: true, type: .string), 
-            AWSShapeMember(label: "AssignmentId", required: true, type: .string)
-        ]
-        /// A unique identifier for this request, which allows you to retry the call on error without granting multiple bonuses. This is useful in cases such as network timeouts where it is unclear whether or not the call succeeded on the server. If the bonus already exists in the system from a previous call using the same UniqueRequestToken, subsequent calls will return an error with a message containing the request ID.
+        ///  The Assignment-level Review Policy applies to the assignments under the HIT. You can specify for Mechanical Turk to take various actions based on the policy. 
+        public let assignmentReviewPolicy: ReviewPolicy?
+        ///  A unique identifier for this request which allows you to retry the call on error without creating duplicate HITs. This is useful in cases such as network timeouts where it is unclear whether or not the call succeeded on the server. If the HIT already exists in the system from a previous call using the same UniqueRequestToken, subsequent calls will return a AWS.MechanicalTurk.HitAlreadyExists error with a message containing the HITId.    Note: It is your responsibility to ensure uniqueness of the token. The unique token expires after 24 hours. Subsequent calls using the same UniqueRequestToken made after the 24 hour limit could create duplicate HITs.  
         public let uniqueRequestToken: String?
-        /// A message that explains the reason for the bonus payment. The Worker receiving the bonus can see this message.
-        public let reason: String
-        ///  The Bonus amount is a US Dollar amount specified using a string (for example, "5" represents $5.00 USD and "101.42" represents $101.42 USD). Do not include currency symbols or currency codes. 
-        public let bonusAmount: String
-        /// The ID of the Worker being paid the bonus.
-        public let workerId: String
-        /// The ID of the assignment for which this bonus is paid.
-        public let assignmentId: String
+        ///  If the HITLayoutId is provided, any placeholder values must be filled in with values using the HITLayoutParameter structure. For more information, see HITLayout. 
+        public let hITLayoutParameters: [HITLayoutParameter]?
+        ///  The data the person completing the HIT uses to produce the results.   Constraints: Must be a QuestionForm data structure, an ExternalQuestion data structure, or an HTMLQuestion data structure. The XML question data must not be larger than 64 kilobytes (65,535 bytes) in size, including whitespace.  Either a Question parameter or a HITLayoutId parameter must be provided.
+        public let question: String?
+        /// The HIT type ID you want to create this HIT with.
+        public let hITTypeId: String
+        ///  An arbitrary data field. The RequesterAnnotation parameter lets your application attach arbitrary data to the HIT for tracking purposes. For example, this parameter could be an identifier internal to the Requester's application that corresponds with the HIT.   The RequesterAnnotation parameter for a HIT is only visible to the Requester who created the HIT. It is not shown to the Worker, or any other Requester.   The RequesterAnnotation parameter may be different for each HIT you submit. It does not affect how your HITs are grouped. 
+        public let requesterAnnotation: String?
+        ///  An amount of time, in seconds, after which the HIT is no longer available for users to accept. After the lifetime of the HIT elapses, the HIT no longer appears in HIT searches, even if not all of the assignments for the HIT have been accepted. 
+        public let lifetimeInSeconds: Int64
+        ///  The HITLayoutId allows you to use a pre-existing HIT design with placeholder values and create an additional HIT by providing those values as HITLayoutParameters.   Constraints: Either a Question parameter or a HITLayoutId parameter must be provided. 
+        public let hITLayoutId: String?
+        ///  The number of times the HIT can be accepted and completed before the HIT becomes unavailable. 
+        public let maxAssignments: Int32?
 
-        public init(uniqueRequestToken: String? = nil, reason: String, bonusAmount: String, workerId: String, assignmentId: String) {
+        public init(assignmentReviewPolicy: ReviewPolicy? = nil, hITLayoutId: String? = nil, hITLayoutParameters: [HITLayoutParameter]? = nil, hITReviewPolicy: ReviewPolicy? = nil, hITTypeId: String, lifetimeInSeconds: Int64, maxAssignments: Int32? = nil, question: String? = nil, requesterAnnotation: String? = nil, uniqueRequestToken: String? = nil) {
+            self.hITReviewPolicy = hITReviewPolicy
+            self.assignmentReviewPolicy = assignmentReviewPolicy
             self.uniqueRequestToken = uniqueRequestToken
-            self.reason = reason
-            self.bonusAmount = bonusAmount
-            self.workerId = workerId
-            self.assignmentId = assignmentId
+            self.hITLayoutParameters = hITLayoutParameters
+            self.question = question
+            self.hITTypeId = hITTypeId
+            self.requesterAnnotation = requesterAnnotation
+            self.lifetimeInSeconds = lifetimeInSeconds
+            self.hITLayoutId = hITLayoutId
+            self.maxAssignments = maxAssignments
         }
 
         private enum CodingKeys: String, CodingKey {
+            case hITReviewPolicy = "HITReviewPolicy"
+            case assignmentReviewPolicy = "AssignmentReviewPolicy"
             case uniqueRequestToken = "UniqueRequestToken"
-            case reason = "Reason"
-            case bonusAmount = "BonusAmount"
-            case workerId = "WorkerId"
-            case assignmentId = "AssignmentId"
+            case hITLayoutParameters = "HITLayoutParameters"
+            case question = "Question"
+            case hITTypeId = "HITTypeId"
+            case requesterAnnotation = "RequesterAnnotation"
+            case lifetimeInSeconds = "LifetimeInSeconds"
+            case hITLayoutId = "HITLayoutId"
+            case maxAssignments = "MaxAssignments"
         }
     }
 
-    public struct ListAssignmentsForHITRequest: AWSShape {
+    public struct ListReviewPolicyResultsForHITRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HITId", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyLevels", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "AssignmentStatuses", required: false, type: .list)
+            AWSShapeMember(label: "RetrieveActions", required: false, type: .boolean), 
+            AWSShapeMember(label: "HITId", required: true, type: .string), 
+            AWSShapeMember(label: "RetrieveResults", required: false, type: .boolean), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
-        /// The ID of the HIT.
-        public let hITId: String
+        ///  The Policy Level(s) to retrieve review results for - HIT or Assignment. If omitted, the default behavior is to retrieve all data for both policy levels. For a list of all the described policies, see Review Policies. 
+        public let policyLevels: [ReviewPolicyLevel]?
         /// Pagination token
         public let nextToken: String?
+        ///  Specify if the operation should retrieve a list of the actions taken executing the Review Policies and their outcomes. 
+        public let retrieveActions: Bool?
+        /// The unique identifier of the HIT to retrieve review results for.
+        public let hITId: String
+        ///  Specify if the operation should retrieve a list of the results computed by the Review Policies. 
+        public let retrieveResults: Bool?
+        /// Limit the number of results returned.
         public let maxResults: Int32?
-        /// The status of the assignments to return: Submitted | Approved | Rejected
-        public let assignmentStatuses: [AssignmentStatus]?
 
-        public init(hITId: String, nextToken: String? = nil, maxResults: Int32? = nil, assignmentStatuses: [AssignmentStatus]? = nil) {
-            self.hITId = hITId
+        public init(hITId: String, maxResults: Int32? = nil, nextToken: String? = nil, policyLevels: [ReviewPolicyLevel]? = nil, retrieveActions: Bool? = nil, retrieveResults: Bool? = nil) {
+            self.policyLevels = policyLevels
             self.nextToken = nextToken
+            self.retrieveActions = retrieveActions
+            self.hITId = hITId
+            self.retrieveResults = retrieveResults
             self.maxResults = maxResults
-            self.assignmentStatuses = assignmentStatuses
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hITId = "HITId"
+            case policyLevels = "PolicyLevels"
             case nextToken = "NextToken"
+            case retrieveActions = "RetrieveActions"
+            case hITId = "HITId"
+            case retrieveResults = "RetrieveResults"
             case maxResults = "MaxResults"
-            case assignmentStatuses = "AssignmentStatuses"
         }
     }
 

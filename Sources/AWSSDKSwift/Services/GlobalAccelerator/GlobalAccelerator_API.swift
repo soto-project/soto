@@ -25,9 +25,34 @@ public struct GlobalAccelerator {
         )
     }
 
+    ///  Create an accelerator. An accelerator includes one or more listeners that process inbound connections and direct traffic to one or more endpoint groups, each of which includes endpoints, such as Network Load Balancers. To see an AWS CLI example of creating an accelerator, scroll down to Example.
+    public func createAccelerator(_ input: CreateAcceleratorRequest) throws -> CreateAcceleratorResponse {
+        return try client.send(operation: "CreateAccelerator", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  List the listeners for an accelerator.
+    public func listListeners(_ input: ListListenersRequest) throws -> ListListenersResponse {
+        return try client.send(operation: "ListListeners", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Delete an endpoint group from a listener.
+    public func deleteEndpointGroup(_ input: DeleteEndpointGroupRequest) throws {
+        _ = try client.send(operation: "DeleteEndpointGroup", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Create an endpoint group for the specified accelerator. An endpoint group is a collection of endpoints in one AWS Region. To see an AWS CLI example of creating an endpoint group, scroll down to Example.
+    public func createEndpointGroup(_ input: CreateEndpointGroupRequest) throws -> CreateEndpointGroupResponse {
+        return try client.send(operation: "CreateEndpointGroup", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Describe an accelerator. To see an AWS CLI example of describing an accelerator, scroll down to Example.
     public func describeAccelerator(_ input: DescribeAcceleratorRequest) throws -> DescribeAcceleratorResponse {
         return try client.send(operation: "DescribeAccelerator", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describe a listener.
+    public func describeListener(_ input: DescribeListenerRequest) throws -> DescribeListenerResponse {
+        return try client.send(operation: "DescribeListener", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Delete an accelerator. Note: before you can delete an accelerator, you must disable it.
@@ -35,24 +60,14 @@ public struct GlobalAccelerator {
         _ = try client.send(operation: "DeleteAccelerator", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Create an accelerator. An accelerator includes one or more listeners that process inbound connections and direct traffic to one or more endpoint groups, each of which includes endpoints, such as Network Load Balancers. To see an AWS CLI example of creating an accelerator, scroll down to Example.
-    public func createAccelerator(_ input: CreateAcceleratorRequest) throws -> CreateAcceleratorResponse {
-        return try client.send(operation: "CreateAccelerator", path: "/", httpMethod: "POST", input: input)
+    ///  List the accelerators for an AWS account.
+    public func listAccelerators(_ input: ListAcceleratorsRequest) throws -> ListAcceleratorsResponse {
+        return try client.send(operation: "ListAccelerators", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describe an endpoint group.
-    public func describeEndpointGroup(_ input: DescribeEndpointGroupRequest) throws -> DescribeEndpointGroupResponse {
-        return try client.send(operation: "DescribeEndpointGroup", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  List the endpoint groups that are associated with a listener.
-    public func listEndpointGroups(_ input: ListEndpointGroupsRequest) throws -> ListEndpointGroupsResponse {
-        return try client.send(operation: "ListEndpointGroups", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Create a listener to process inbound connections from clients to an accelerator. Connections arrive to assigned static IP addresses on a port, port range, or list of port ranges that you specify. To see an AWS CLI example of creating a listener, scroll down to Example.
-    public func createListener(_ input: CreateListenerRequest) throws -> CreateListenerResponse {
-        return try client.send(operation: "CreateListener", path: "/", httpMethod: "POST", input: input)
+    ///  Update a listener.
+    public func updateListener(_ input: UpdateListenerRequest) throws -> UpdateListenerResponse {
+        return try client.send(operation: "UpdateListener", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Update an accelerator.
@@ -65,39 +80,14 @@ public struct GlobalAccelerator {
         return try client.send(operation: "UpdateAcceleratorAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Update a listener.
-    public func updateListener(_ input: UpdateListenerRequest) throws -> UpdateListenerResponse {
-        return try client.send(operation: "UpdateListener", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Update an endpoint group. To see an AWS CLI example of updating an endpoint group, scroll down to Example.
     public func updateEndpointGroup(_ input: UpdateEndpointGroupRequest) throws -> UpdateEndpointGroupResponse {
         return try client.send(operation: "UpdateEndpointGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Create an endpoint group for the specified accelerator. An endpoint group is a collection of endpoints in one AWS Region. To see an AWS CLI example of creating an endpoint group, scroll down to Example.
-    public func createEndpointGroup(_ input: CreateEndpointGroupRequest) throws -> CreateEndpointGroupResponse {
-        return try client.send(operation: "CreateEndpointGroup", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Describe a listener.
-    public func describeListener(_ input: DescribeListenerRequest) throws -> DescribeListenerResponse {
-        return try client.send(operation: "DescribeListener", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  List the accelerators for an AWS account.
-    public func listAccelerators(_ input: ListAcceleratorsRequest) throws -> ListAcceleratorsResponse {
-        return try client.send(operation: "ListAccelerators", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Describe the attributes of an accelerator.
-    public func describeAcceleratorAttributes(_ input: DescribeAcceleratorAttributesRequest) throws -> DescribeAcceleratorAttributesResponse {
-        return try client.send(operation: "DescribeAcceleratorAttributes", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Delete an endpoint group from a listener.
-    public func deleteEndpointGroup(_ input: DeleteEndpointGroupRequest) throws {
-        _ = try client.send(operation: "DeleteEndpointGroup", path: "/", httpMethod: "POST", input: input)
+    ///  List the endpoint groups that are associated with a listener.
+    public func listEndpointGroups(_ input: ListEndpointGroupsRequest) throws -> ListEndpointGroupsResponse {
+        return try client.send(operation: "ListEndpointGroups", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Delete a listener from an accelerator.
@@ -105,9 +95,19 @@ public struct GlobalAccelerator {
         _ = try client.send(operation: "DeleteListener", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  List the listeners for an accelerator.
-    public func listListeners(_ input: ListListenersRequest) throws -> ListListenersResponse {
-        return try client.send(operation: "ListListeners", path: "/", httpMethod: "POST", input: input)
+    ///  Describe the attributes of an accelerator.
+    public func describeAcceleratorAttributes(_ input: DescribeAcceleratorAttributesRequest) throws -> DescribeAcceleratorAttributesResponse {
+        return try client.send(operation: "DescribeAcceleratorAttributes", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describe an endpoint group.
+    public func describeEndpointGroup(_ input: DescribeEndpointGroupRequest) throws -> DescribeEndpointGroupResponse {
+        return try client.send(operation: "DescribeEndpointGroup", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Create a listener to process inbound connections from clients to an accelerator. Connections arrive to assigned static IP addresses on a port, port range, or list of port ranges that you specify. To see an AWS CLI example of creating a listener, scroll down to Example.
+    public func createListener(_ input: CreateListenerRequest) throws -> CreateListenerResponse {
+        return try client.send(operation: "CreateListener", path: "/", httpMethod: "POST", input: input)
     }
 
 

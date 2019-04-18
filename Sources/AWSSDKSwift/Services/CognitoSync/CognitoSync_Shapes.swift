@@ -5,80 +5,256 @@ import AWSSDKSwiftCore
 
 extension CognitoSync {
 
-    public struct RegisterDeviceRequest: AWSShape {
+    public struct UnsubscribeFromDatasetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IdentityPoolId", location: .uri(locationName: "IdentityPoolId"), required: true, type: .string), 
             AWSShapeMember(label: "IdentityId", location: .uri(locationName: "IdentityId"), required: true, type: .string), 
-            AWSShapeMember(label: "Platform", required: true, type: .enum), 
-            AWSShapeMember(label: "Token", required: true, type: .string)
+            AWSShapeMember(label: "DatasetName", location: .uri(locationName: "DatasetName"), required: true, type: .string), 
+            AWSShapeMember(label: "DeviceId", location: .uri(locationName: "DeviceId"), required: true, type: .string)
         ]
-        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. Here, the ID of the pool that the identity belongs to.
+        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. The ID of the pool to which this identity belongs.
         public let identityPoolId: String
-        /// The unique ID for this identity.
+        /// Unique ID for this identity.
         public let identityId: String
-        /// The SNS platform type (e.g. GCM, SDM, APNS, APNS_SANDBOX).
-        public let platform: Platform
-        /// The push token.
-        public let token: String
+        /// The name of the dataset from which to unsubcribe.
+        public let datasetName: String
+        /// The unique ID generated for this device by Cognito.
+        public let deviceId: String
 
-        public init(identityPoolId: String, identityId: String, platform: Platform, token: String) {
+        public init(datasetName: String, deviceId: String, identityId: String, identityPoolId: String) {
             self.identityPoolId = identityPoolId
             self.identityId = identityId
-            self.platform = platform
-            self.token = token
+            self.datasetName = datasetName
+            self.deviceId = deviceId
         }
 
         private enum CodingKeys: String, CodingKey {
             case identityPoolId = "IdentityPoolId"
             case identityId = "IdentityId"
-            case platform = "Platform"
-            case token = "Token"
+            case datasetName = "DatasetName"
+            case deviceId = "DeviceId"
         }
     }
 
-    public struct Dataset: AWSShape {
+    public struct RegisterDeviceResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "NumRecords", required: false, type: .long), 
-            AWSShapeMember(label: "DatasetName", required: false, type: .string), 
-            AWSShapeMember(label: "DataStorage", required: false, type: .long), 
-            AWSShapeMember(label: "LastModifiedBy", required: false, type: .string), 
-            AWSShapeMember(label: "IdentityId", required: false, type: .string), 
-            AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp)
+            AWSShapeMember(label: "DeviceId", required: false, type: .string)
         ]
-        /// Date on which the dataset was created.
-        public let creationDate: TimeStamp?
-        /// Number of records in this dataset.
-        public let numRecords: Int64?
-        /// A string of up to 128 characters. Allowed characters are a-z, A-Z, 0-9, '_' (underscore), '-' (dash), and '.' (dot).
-        public let datasetName: String?
-        /// Total size in bytes of the records in this dataset.
-        public let dataStorage: Int64?
-        /// The device that made the last change to this dataset.
-        public let lastModifiedBy: String?
-        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-        public let identityId: String?
-        /// Date when the dataset was last modified.
-        public let lastModifiedDate: TimeStamp?
+        /// The unique ID generated for this device by Cognito.
+        public let deviceId: String?
 
-        public init(creationDate: TimeStamp? = nil, numRecords: Int64? = nil, datasetName: String? = nil, dataStorage: Int64? = nil, lastModifiedBy: String? = nil, identityId: String? = nil, lastModifiedDate: TimeStamp? = nil) {
-            self.creationDate = creationDate
-            self.numRecords = numRecords
-            self.datasetName = datasetName
-            self.dataStorage = dataStorage
-            self.lastModifiedBy = lastModifiedBy
-            self.identityId = identityId
-            self.lastModifiedDate = lastModifiedDate
+        public init(deviceId: String? = nil) {
+            self.deviceId = deviceId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDate = "CreationDate"
-            case numRecords = "NumRecords"
+            case deviceId = "DeviceId"
+        }
+    }
+
+    public struct ListRecordsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DatasetName", location: .uri(locationName: "DatasetName"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "SyncSessionToken", location: .querystring(locationName: "syncSessionToken"), required: false, type: .string), 
+            AWSShapeMember(label: "IdentityPoolId", location: .uri(locationName: "IdentityPoolId"), required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "IdentityId", location: .uri(locationName: "IdentityId"), required: true, type: .string), 
+            AWSShapeMember(label: "LastSyncCount", location: .querystring(locationName: "lastSyncCount"), required: false, type: .long)
+        ]
+        /// A string of up to 128 characters. Allowed characters are a-z, A-Z, 0-9, '_' (underscore), '-' (dash), and '.' (dot).
+        public let datasetName: String
+        /// The maximum number of results to be returned.
+        public let maxResults: Int32?
+        /// A token containing a session ID, identity ID, and expiration.
+        public let syncSessionToken: String?
+        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
+        public let identityPoolId: String
+        /// A pagination token for obtaining the next page of results.
+        public let nextToken: String?
+        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
+        public let identityId: String
+        /// The last server sync count for this record.
+        public let lastSyncCount: Int64?
+
+        public init(datasetName: String, identityId: String, identityPoolId: String, lastSyncCount: Int64? = nil, maxResults: Int32? = nil, nextToken: String? = nil, syncSessionToken: String? = nil) {
+            self.datasetName = datasetName
+            self.maxResults = maxResults
+            self.syncSessionToken = syncSessionToken
+            self.identityPoolId = identityPoolId
+            self.nextToken = nextToken
+            self.identityId = identityId
+            self.lastSyncCount = lastSyncCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
             case datasetName = "DatasetName"
-            case dataStorage = "DataStorage"
-            case lastModifiedBy = "LastModifiedBy"
+            case maxResults = "maxResults"
+            case syncSessionToken = "syncSessionToken"
+            case identityPoolId = "IdentityPoolId"
+            case nextToken = "nextToken"
             case identityId = "IdentityId"
+            case lastSyncCount = "lastSyncCount"
+        }
+    }
+
+    public struct ListDatasetsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "IdentityPoolId", location: .uri(locationName: "IdentityPoolId"), required: true, type: .string), 
+            AWSShapeMember(label: "IdentityId", location: .uri(locationName: "IdentityId"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
+        ]
+        /// A pagination token for obtaining the next page of results.
+        public let nextToken: String?
+        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
+        public let identityPoolId: String
+        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
+        public let identityId: String
+        /// The maximum number of results to be returned.
+        public let maxResults: Int32?
+
+        public init(identityId: String, identityPoolId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.nextToken = nextToken
+            self.identityPoolId = identityPoolId
+            self.identityId = identityId
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case identityPoolId = "IdentityPoolId"
+            case identityId = "IdentityId"
+            case maxResults = "maxResults"
+        }
+    }
+
+    public struct SetIdentityPoolConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PushSync", required: false, type: .structure), 
+            AWSShapeMember(label: "CognitoStreams", required: false, type: .structure), 
+            AWSShapeMember(label: "IdentityPoolId", location: .uri(locationName: "IdentityPoolId"), required: true, type: .string)
+        ]
+        /// Options to apply to this identity pool for push synchronization.
+        public let pushSync: PushSync?
+        /// Options to apply to this identity pool for Amazon Cognito streams.
+        public let cognitoStreams: CognitoStreams?
+        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. This is the ID of the pool to modify.
+        public let identityPoolId: String
+
+        public init(cognitoStreams: CognitoStreams? = nil, identityPoolId: String, pushSync: PushSync? = nil) {
+            self.pushSync = pushSync
+            self.cognitoStreams = cognitoStreams
+            self.identityPoolId = identityPoolId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pushSync = "PushSync"
+            case cognitoStreams = "CognitoStreams"
+            case identityPoolId = "IdentityPoolId"
+        }
+    }
+
+    public struct RegisterDeviceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Token", required: true, type: .string), 
+            AWSShapeMember(label: "IdentityPoolId", location: .uri(locationName: "IdentityPoolId"), required: true, type: .string), 
+            AWSShapeMember(label: "Platform", required: true, type: .enum), 
+            AWSShapeMember(label: "IdentityId", location: .uri(locationName: "IdentityId"), required: true, type: .string)
+        ]
+        /// The push token.
+        public let token: String
+        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. Here, the ID of the pool that the identity belongs to.
+        public let identityPoolId: String
+        /// The SNS platform type (e.g. GCM, SDM, APNS, APNS_SANDBOX).
+        public let platform: Platform
+        /// The unique ID for this identity.
+        public let identityId: String
+
+        public init(identityId: String, identityPoolId: String, platform: Platform, token: String) {
+            self.token = token
+            self.identityPoolId = identityPoolId
+            self.platform = platform
+            self.identityId = identityId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case token = "Token"
+            case identityPoolId = "IdentityPoolId"
+            case platform = "Platform"
+            case identityId = "IdentityId"
+        }
+    }
+
+    public enum BulkPublishStatus: String, CustomStringConvertible, Codable {
+        case notStarted = "NOT_STARTED"
+        case inProgress = "IN_PROGRESS"
+        case failed = "FAILED"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct IdentityUsage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdentityPoolId", required: false, type: .string), 
+            AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "IdentityId", required: false, type: .string), 
+            AWSShapeMember(label: "DatasetCount", required: false, type: .integer), 
+            AWSShapeMember(label: "DataStorage", required: false, type: .long)
+        ]
+        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
+        public let identityPoolId: String?
+        /// Date on which the identity was last modified.
+        public let lastModifiedDate: TimeStamp?
+        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
+        public let identityId: String?
+        /// Number of datasets for the identity.
+        public let datasetCount: Int32?
+        /// Total data storage for this identity.
+        public let dataStorage: Int64?
+
+        public init(dataStorage: Int64? = nil, datasetCount: Int32? = nil, identityId: String? = nil, identityPoolId: String? = nil, lastModifiedDate: TimeStamp? = nil) {
+            self.identityPoolId = identityPoolId
+            self.lastModifiedDate = lastModifiedDate
+            self.identityId = identityId
+            self.datasetCount = datasetCount
+            self.dataStorage = dataStorage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityPoolId = "IdentityPoolId"
             case lastModifiedDate = "LastModifiedDate"
+            case identityId = "IdentityId"
+            case datasetCount = "DatasetCount"
+            case dataStorage = "DataStorage"
+        }
+    }
+
+    public struct SubscribeToDatasetResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct SetCognitoEventsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Events", required: true, type: .map), 
+            AWSShapeMember(label: "IdentityPoolId", location: .uri(locationName: "IdentityPoolId"), required: true, type: .string)
+        ]
+        /// The events to configure
+        public let events: [String: String]
+        /// The Cognito Identity Pool to use when configuring Cognito Events
+        public let identityPoolId: String
+
+        public init(events: [String: String], identityPoolId: String) {
+            self.events = events
+            self.identityPoolId = identityPoolId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case events = "Events"
+            case identityPoolId = "IdentityPoolId"
         }
     }
 
@@ -90,37 +266,11 @@ extension CognitoSync {
         public var description: String { return self.rawValue }
     }
 
-    public struct SetIdentityPoolConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdentityPoolId", location: .uri(locationName: "IdentityPoolId"), required: true, type: .string), 
-            AWSShapeMember(label: "CognitoStreams", required: false, type: .structure), 
-            AWSShapeMember(label: "PushSync", required: false, type: .structure)
-        ]
-        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. This is the ID of the pool to modify.
-        public let identityPoolId: String
-        /// Options to apply to this identity pool for Amazon Cognito streams.
-        public let cognitoStreams: CognitoStreams?
-        /// Options to apply to this identity pool for push synchronization.
-        public let pushSync: PushSync?
-
-        public init(identityPoolId: String, cognitoStreams: CognitoStreams? = nil, pushSync: PushSync? = nil) {
-            self.identityPoolId = identityPoolId
-            self.cognitoStreams = cognitoStreams
-            self.pushSync = pushSync
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case identityPoolId = "IdentityPoolId"
-            case cognitoStreams = "CognitoStreams"
-            case pushSync = "PushSync"
-        }
-    }
-
-    public struct GetCognitoEventsRequest: AWSShape {
+    public struct BulkPublishRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IdentityPoolId", location: .uri(locationName: "IdentityPoolId"), required: true, type: .string)
         ]
-        /// The Cognito Identity Pool ID for the request
+        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
         public let identityPoolId: String
 
         public init(identityPoolId: String) {
@@ -132,61 +282,245 @@ extension CognitoSync {
         }
     }
 
+    public struct ListIdentityPoolUsageResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "IdentityPoolUsages", required: false, type: .list), 
+            AWSShapeMember(label: "Count", required: false, type: .integer)
+        ]
+        /// The maximum number of results to be returned.
+        public let maxResults: Int32?
+        /// A pagination token for obtaining the next page of results.
+        public let nextToken: String?
+        /// Usage information for the identity pools.
+        public let identityPoolUsages: [IdentityPoolUsage]?
+        /// Total number of identities for the identity pool.
+        public let count: Int32?
+
+        public init(count: Int32? = nil, identityPoolUsages: [IdentityPoolUsage]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.identityPoolUsages = identityPoolUsages
+            self.count = count
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case identityPoolUsages = "IdentityPoolUsages"
+            case count = "Count"
+        }
+    }
+
+    public struct SubscribeToDatasetRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeviceId", location: .uri(locationName: "DeviceId"), required: true, type: .string), 
+            AWSShapeMember(label: "DatasetName", location: .uri(locationName: "DatasetName"), required: true, type: .string), 
+            AWSShapeMember(label: "IdentityId", location: .uri(locationName: "IdentityId"), required: true, type: .string), 
+            AWSShapeMember(label: "IdentityPoolId", location: .uri(locationName: "IdentityPoolId"), required: true, type: .string)
+        ]
+        /// The unique ID generated for this device by Cognito.
+        public let deviceId: String
+        /// The name of the dataset to subcribe to.
+        public let datasetName: String
+        /// Unique ID for this identity.
+        public let identityId: String
+        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. The ID of the pool to which the identity belongs.
+        public let identityPoolId: String
+
+        public init(datasetName: String, deviceId: String, identityId: String, identityPoolId: String) {
+            self.deviceId = deviceId
+            self.datasetName = datasetName
+            self.identityId = identityId
+            self.identityPoolId = identityPoolId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceId = "DeviceId"
+            case datasetName = "DatasetName"
+            case identityId = "IdentityId"
+            case identityPoolId = "IdentityPoolId"
+        }
+    }
+
+    public struct UpdateRecordsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecordPatches", required: false, type: .list), 
+            AWSShapeMember(label: "SyncSessionToken", required: true, type: .string), 
+            AWSShapeMember(label: "IdentityPoolId", location: .uri(locationName: "IdentityPoolId"), required: true, type: .string), 
+            AWSShapeMember(label: "IdentityId", location: .uri(locationName: "IdentityId"), required: true, type: .string), 
+            AWSShapeMember(label: "DatasetName", location: .uri(locationName: "DatasetName"), required: true, type: .string), 
+            AWSShapeMember(label: "ClientContext", location: .header(locationName: "x-amz-Client-Context"), required: false, type: .string), 
+            AWSShapeMember(label: "DeviceId", required: false, type: .string)
+        ]
+        /// A list of patch operations.
+        public let recordPatches: [RecordPatch]?
+        /// The SyncSessionToken returned by a previous call to ListRecords for this dataset and identity.
+        public let syncSessionToken: String
+        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
+        public let identityPoolId: String
+        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
+        public let identityId: String
+        /// A string of up to 128 characters. Allowed characters are a-z, A-Z, 0-9, '_' (underscore), '-' (dash), and '.' (dot).
+        public let datasetName: String
+        /// Intended to supply a device ID that will populate the lastModifiedBy field referenced in other methods. The ClientContext field is not yet implemented.
+        public let clientContext: String?
+        /// The unique ID generated for this device by Cognito.
+        public let deviceId: String?
+
+        public init(clientContext: String? = nil, datasetName: String, deviceId: String? = nil, identityId: String, identityPoolId: String, recordPatches: [RecordPatch]? = nil, syncSessionToken: String) {
+            self.recordPatches = recordPatches
+            self.syncSessionToken = syncSessionToken
+            self.identityPoolId = identityPoolId
+            self.identityId = identityId
+            self.datasetName = datasetName
+            self.clientContext = clientContext
+            self.deviceId = deviceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recordPatches = "RecordPatches"
+            case syncSessionToken = "SyncSessionToken"
+            case identityPoolId = "IdentityPoolId"
+            case identityId = "IdentityId"
+            case datasetName = "DatasetName"
+            case clientContext = "x-amz-Client-Context"
+            case deviceId = "DeviceId"
+        }
+    }
+
     public struct IdentityPoolUsage: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataStorage", required: false, type: .long), 
             AWSShapeMember(label: "IdentityPoolId", required: false, type: .string), 
             AWSShapeMember(label: "SyncSessionsCount", required: false, type: .long), 
-            AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DataStorage", required: false, type: .long)
+            AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp)
         ]
+        /// Data storage information for the identity pool.
+        public let dataStorage: Int64?
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
         public let identityPoolId: String?
         /// Number of sync sessions for the identity pool.
         public let syncSessionsCount: Int64?
         /// Date on which the identity pool was last modified.
         public let lastModifiedDate: TimeStamp?
-        /// Data storage information for the identity pool.
-        public let dataStorage: Int64?
 
-        public init(identityPoolId: String? = nil, syncSessionsCount: Int64? = nil, lastModifiedDate: TimeStamp? = nil, dataStorage: Int64? = nil) {
+        public init(dataStorage: Int64? = nil, identityPoolId: String? = nil, lastModifiedDate: TimeStamp? = nil, syncSessionsCount: Int64? = nil) {
+            self.dataStorage = dataStorage
             self.identityPoolId = identityPoolId
             self.syncSessionsCount = syncSessionsCount
+            self.lastModifiedDate = lastModifiedDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataStorage = "DataStorage"
+            case identityPoolId = "IdentityPoolId"
+            case syncSessionsCount = "SyncSessionsCount"
+            case lastModifiedDate = "LastModifiedDate"
+        }
+    }
+
+    public struct Dataset: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdentityId", required: false, type: .string), 
+            AWSShapeMember(label: "DatasetName", required: false, type: .string), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastModifiedBy", required: false, type: .string), 
+            AWSShapeMember(label: "NumRecords", required: false, type: .long), 
+            AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DataStorage", required: false, type: .long)
+        ]
+        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
+        public let identityId: String?
+        /// A string of up to 128 characters. Allowed characters are a-z, A-Z, 0-9, '_' (underscore), '-' (dash), and '.' (dot).
+        public let datasetName: String?
+        /// Date on which the dataset was created.
+        public let creationDate: TimeStamp?
+        /// The device that made the last change to this dataset.
+        public let lastModifiedBy: String?
+        /// Number of records in this dataset.
+        public let numRecords: Int64?
+        /// Date when the dataset was last modified.
+        public let lastModifiedDate: TimeStamp?
+        /// Total size in bytes of the records in this dataset.
+        public let dataStorage: Int64?
+
+        public init(creationDate: TimeStamp? = nil, dataStorage: Int64? = nil, datasetName: String? = nil, identityId: String? = nil, lastModifiedBy: String? = nil, lastModifiedDate: TimeStamp? = nil, numRecords: Int64? = nil) {
+            self.identityId = identityId
+            self.datasetName = datasetName
+            self.creationDate = creationDate
+            self.lastModifiedBy = lastModifiedBy
+            self.numRecords = numRecords
             self.lastModifiedDate = lastModifiedDate
             self.dataStorage = dataStorage
         }
 
         private enum CodingKeys: String, CodingKey {
-            case identityPoolId = "IdentityPoolId"
-            case syncSessionsCount = "SyncSessionsCount"
+            case identityId = "IdentityId"
+            case datasetName = "DatasetName"
+            case creationDate = "CreationDate"
+            case lastModifiedBy = "LastModifiedBy"
+            case numRecords = "NumRecords"
             case lastModifiedDate = "LastModifiedDate"
             case dataStorage = "DataStorage"
         }
     }
 
-    public enum Operation: String, CustomStringConvertible, Codable {
-        case replace = "replace"
-        case remove = "remove"
-        public var description: String { return self.rawValue }
-    }
-
     public struct PushSync: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "ApplicationArns", required: false, type: .list)
+            AWSShapeMember(label: "ApplicationArns", required: false, type: .list), 
+            AWSShapeMember(label: "RoleArn", required: false, type: .string)
         ]
-        /// A role configured to allow Cognito to call SNS on behalf of the developer.
-        public let roleArn: String?
         /// List of SNS platform application ARNs that could be used by clients.
         public let applicationArns: [String]?
+        /// A role configured to allow Cognito to call SNS on behalf of the developer.
+        public let roleArn: String?
 
-        public init(roleArn: String? = nil, applicationArns: [String]? = nil) {
-            self.roleArn = roleArn
+        public init(applicationArns: [String]? = nil, roleArn: String? = nil) {
             self.applicationArns = applicationArns
+            self.roleArn = roleArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case roleArn = "RoleArn"
             case applicationArns = "ApplicationArns"
+            case roleArn = "RoleArn"
+        }
+    }
+
+    public struct GetBulkPublishDetailsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BulkPublishStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "FailureMessage", required: false, type: .string), 
+            AWSShapeMember(label: "BulkPublishStartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "BulkPublishCompleteTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "IdentityPoolId", required: false, type: .string)
+        ]
+        /// Status of the last bulk publish operation, valid values are: NOT_STARTED - No bulk publish has been requested for this identity pool IN_PROGRESS - Data is being published to the configured stream SUCCEEDED - All data for the identity pool has been published to the configured stream FAILED - Some portion of the data has failed to publish, check FailureMessage for the cause.
+        public let bulkPublishStatus: BulkPublishStatus?
+        /// If BulkPublishStatus is FAILED this field will contain the error message that caused the bulk publish to fail.
+        public let failureMessage: String?
+        /// The date/time at which the last bulk publish was initiated.
+        public let bulkPublishStartTime: TimeStamp?
+        /// If BulkPublishStatus is SUCCEEDED, the time the last bulk publish operation completed.
+        public let bulkPublishCompleteTime: TimeStamp?
+        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
+        public let identityPoolId: String?
+
+        public init(bulkPublishCompleteTime: TimeStamp? = nil, bulkPublishStartTime: TimeStamp? = nil, bulkPublishStatus: BulkPublishStatus? = nil, failureMessage: String? = nil, identityPoolId: String? = nil) {
+            self.bulkPublishStatus = bulkPublishStatus
+            self.failureMessage = failureMessage
+            self.bulkPublishStartTime = bulkPublishStartTime
+            self.bulkPublishCompleteTime = bulkPublishCompleteTime
+            self.identityPoolId = identityPoolId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bulkPublishStatus = "BulkPublishStatus"
+            case failureMessage = "FailureMessage"
+            case bulkPublishStartTime = "BulkPublishStartTime"
+            case bulkPublishCompleteTime = "BulkPublishCompleteTime"
+            case identityPoolId = "IdentityPoolId"
         }
     }
 
@@ -206,297 +540,29 @@ extension CognitoSync {
         }
     }
 
-    public struct UpdateRecordsRequest: AWSShape {
+    public struct GetIdentityPoolConfigurationResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientContext", location: .header(locationName: "x-amz-Client-Context"), required: false, type: .string), 
-            AWSShapeMember(label: "DatasetName", location: .uri(locationName: "DatasetName"), required: true, type: .string), 
-            AWSShapeMember(label: "RecordPatches", required: false, type: .list), 
-            AWSShapeMember(label: "DeviceId", required: false, type: .string), 
-            AWSShapeMember(label: "IdentityPoolId", location: .uri(locationName: "IdentityPoolId"), required: true, type: .string), 
-            AWSShapeMember(label: "IdentityId", location: .uri(locationName: "IdentityId"), required: true, type: .string), 
-            AWSShapeMember(label: "SyncSessionToken", required: true, type: .string)
+            AWSShapeMember(label: "CognitoStreams", required: false, type: .structure), 
+            AWSShapeMember(label: "IdentityPoolId", required: false, type: .string), 
+            AWSShapeMember(label: "PushSync", required: false, type: .structure)
         ]
-        /// Intended to supply a device ID that will populate the lastModifiedBy field referenced in other methods. The ClientContext field is not yet implemented.
-        public let clientContext: String?
-        /// A string of up to 128 characters. Allowed characters are a-z, A-Z, 0-9, '_' (underscore), '-' (dash), and '.' (dot).
-        public let datasetName: String
-        /// A list of patch operations.
-        public let recordPatches: [RecordPatch]?
-        /// The unique ID generated for this device by Cognito.
-        public let deviceId: String?
-        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-        public let identityPoolId: String
-        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-        public let identityId: String
-        /// The SyncSessionToken returned by a previous call to ListRecords for this dataset and identity.
-        public let syncSessionToken: String
+        /// Options to apply to this identity pool for Amazon Cognito streams.
+        public let cognitoStreams: CognitoStreams?
+        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito.
+        public let identityPoolId: String?
+        /// Options to apply to this identity pool for push synchronization.
+        public let pushSync: PushSync?
 
-        public init(clientContext: String? = nil, datasetName: String, recordPatches: [RecordPatch]? = nil, deviceId: String? = nil, identityPoolId: String, identityId: String, syncSessionToken: String) {
-            self.clientContext = clientContext
-            self.datasetName = datasetName
-            self.recordPatches = recordPatches
-            self.deviceId = deviceId
+        public init(cognitoStreams: CognitoStreams? = nil, identityPoolId: String? = nil, pushSync: PushSync? = nil) {
+            self.cognitoStreams = cognitoStreams
             self.identityPoolId = identityPoolId
-            self.identityId = identityId
-            self.syncSessionToken = syncSessionToken
+            self.pushSync = pushSync
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientContext = "x-amz-Client-Context"
-            case datasetName = "DatasetName"
-            case recordPatches = "RecordPatches"
-            case deviceId = "DeviceId"
+            case cognitoStreams = "CognitoStreams"
             case identityPoolId = "IdentityPoolId"
-            case identityId = "IdentityId"
-            case syncSessionToken = "SyncSessionToken"
-        }
-    }
-
-    public struct ListRecordsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "DatasetName", location: .uri(locationName: "DatasetName"), required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "LastSyncCount", location: .querystring(locationName: "lastSyncCount"), required: false, type: .long), 
-            AWSShapeMember(label: "IdentityPoolId", location: .uri(locationName: "IdentityPoolId"), required: true, type: .string), 
-            AWSShapeMember(label: "IdentityId", location: .uri(locationName: "IdentityId"), required: true, type: .string), 
-            AWSShapeMember(label: "SyncSessionToken", location: .querystring(locationName: "syncSessionToken"), required: false, type: .string)
-        ]
-        /// The maximum number of results to be returned.
-        public let maxResults: Int32?
-        /// A string of up to 128 characters. Allowed characters are a-z, A-Z, 0-9, '_' (underscore), '-' (dash), and '.' (dot).
-        public let datasetName: String
-        /// A pagination token for obtaining the next page of results.
-        public let nextToken: String?
-        /// The last server sync count for this record.
-        public let lastSyncCount: Int64?
-        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-        public let identityPoolId: String
-        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-        public let identityId: String
-        /// A token containing a session ID, identity ID, and expiration.
-        public let syncSessionToken: String?
-
-        public init(maxResults: Int32? = nil, datasetName: String, nextToken: String? = nil, lastSyncCount: Int64? = nil, identityPoolId: String, identityId: String, syncSessionToken: String? = nil) {
-            self.maxResults = maxResults
-            self.datasetName = datasetName
-            self.nextToken = nextToken
-            self.lastSyncCount = lastSyncCount
-            self.identityPoolId = identityPoolId
-            self.identityId = identityId
-            self.syncSessionToken = syncSessionToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case datasetName = "DatasetName"
-            case nextToken = "nextToken"
-            case lastSyncCount = "lastSyncCount"
-            case identityPoolId = "IdentityPoolId"
-            case identityId = "IdentityId"
-            case syncSessionToken = "syncSessionToken"
-        }
-    }
-
-    public struct UnsubscribeFromDatasetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdentityPoolId", location: .uri(locationName: "IdentityPoolId"), required: true, type: .string), 
-            AWSShapeMember(label: "DatasetName", location: .uri(locationName: "DatasetName"), required: true, type: .string), 
-            AWSShapeMember(label: "IdentityId", location: .uri(locationName: "IdentityId"), required: true, type: .string), 
-            AWSShapeMember(label: "DeviceId", location: .uri(locationName: "DeviceId"), required: true, type: .string)
-        ]
-        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. The ID of the pool to which this identity belongs.
-        public let identityPoolId: String
-        /// The name of the dataset from which to unsubcribe.
-        public let datasetName: String
-        /// Unique ID for this identity.
-        public let identityId: String
-        /// The unique ID generated for this device by Cognito.
-        public let deviceId: String
-
-        public init(identityPoolId: String, datasetName: String, identityId: String, deviceId: String) {
-            self.identityPoolId = identityPoolId
-            self.datasetName = datasetName
-            self.identityId = identityId
-            self.deviceId = deviceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case identityPoolId = "IdentityPoolId"
-            case datasetName = "DatasetName"
-            case identityId = "IdentityId"
-            case deviceId = "DeviceId"
-        }
-    }
-
-    public struct ListIdentityPoolUsageResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "IdentityPoolUsages", required: false, type: .list), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "Count", required: false, type: .integer)
-        ]
-        /// A pagination token for obtaining the next page of results.
-        public let nextToken: String?
-        /// Usage information for the identity pools.
-        public let identityPoolUsages: [IdentityPoolUsage]?
-        /// The maximum number of results to be returned.
-        public let maxResults: Int32?
-        /// Total number of identities for the identity pool.
-        public let count: Int32?
-
-        public init(nextToken: String? = nil, identityPoolUsages: [IdentityPoolUsage]? = nil, maxResults: Int32? = nil, count: Int32? = nil) {
-            self.nextToken = nextToken
-            self.identityPoolUsages = identityPoolUsages
-            self.maxResults = maxResults
-            self.count = count
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case identityPoolUsages = "IdentityPoolUsages"
-            case maxResults = "MaxResults"
-            case count = "Count"
-        }
-    }
-
-    public struct GetCognitoEventsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Events", required: false, type: .map)
-        ]
-        /// The Cognito Events returned from the GetCognitoEvents request
-        public let events: [String: String]?
-
-        public init(events: [String: String]? = nil) {
-            self.events = events
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case events = "Events"
-        }
-    }
-
-    public struct DeleteDatasetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdentityPoolId", location: .uri(locationName: "IdentityPoolId"), required: true, type: .string), 
-            AWSShapeMember(label: "DatasetName", location: .uri(locationName: "DatasetName"), required: true, type: .string), 
-            AWSShapeMember(label: "IdentityId", location: .uri(locationName: "IdentityId"), required: true, type: .string)
-        ]
-        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-        public let identityPoolId: String
-        /// A string of up to 128 characters. Allowed characters are a-z, A-Z, 0-9, '_' (underscore), '-' (dash), and '.' (dot).
-        public let datasetName: String
-        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-        public let identityId: String
-
-        public init(identityPoolId: String, datasetName: String, identityId: String) {
-            self.identityPoolId = identityPoolId
-            self.datasetName = datasetName
-            self.identityId = identityId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case identityPoolId = "IdentityPoolId"
-            case datasetName = "DatasetName"
-            case identityId = "IdentityId"
-        }
-    }
-
-    public struct ListDatasetsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Datasets", required: false, type: .list), 
-            AWSShapeMember(label: "Count", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// A set of datasets.
-        public let datasets: [Dataset]?
-        /// Number of datasets returned.
-        public let count: Int32?
-        /// A pagination token for obtaining the next page of results.
-        public let nextToken: String?
-
-        public init(datasets: [Dataset]? = nil, count: Int32? = nil, nextToken: String? = nil) {
-            self.datasets = datasets
-            self.count = count
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case datasets = "Datasets"
-            case count = "Count"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DescribeIdentityPoolUsageResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdentityPoolUsage", required: false, type: .structure)
-        ]
-        /// Information about the usage of the identity pool.
-        public let identityPoolUsage: IdentityPoolUsage?
-
-        public init(identityPoolUsage: IdentityPoolUsage? = nil) {
-            self.identityPoolUsage = identityPoolUsage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case identityPoolUsage = "IdentityPoolUsage"
-        }
-    }
-
-    public struct ListRecordsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DatasetDeletedAfterRequestedSyncCount", required: false, type: .boolean), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "DatasetSyncCount", required: false, type: .long), 
-            AWSShapeMember(label: "LastModifiedBy", required: false, type: .string), 
-            AWSShapeMember(label: "Records", required: false, type: .list), 
-            AWSShapeMember(label: "Count", required: false, type: .integer), 
-            AWSShapeMember(label: "MergedDatasetNames", required: false, type: .list), 
-            AWSShapeMember(label: "SyncSessionToken", required: false, type: .string), 
-            AWSShapeMember(label: "DatasetExists", required: false, type: .boolean)
-        ]
-        /// A boolean value specifying whether to delete the dataset locally.
-        public let datasetDeletedAfterRequestedSyncCount: Bool?
-        /// A pagination token for obtaining the next page of results.
-        public let nextToken: String?
-        /// Server sync count for this dataset.
-        public let datasetSyncCount: Int64?
-        /// The user/device that made the last change to this record.
-        public let lastModifiedBy: String?
-        /// A list of all records.
-        public let records: [Record]?
-        /// Total number of records.
-        public let count: Int32?
-        /// Names of merged datasets.
-        public let mergedDatasetNames: [String]?
-        /// A token containing a session ID, identity ID, and expiration.
-        public let syncSessionToken: String?
-        /// Indicates whether the dataset exists.
-        public let datasetExists: Bool?
-
-        public init(datasetDeletedAfterRequestedSyncCount: Bool? = nil, nextToken: String? = nil, datasetSyncCount: Int64? = nil, lastModifiedBy: String? = nil, records: [Record]? = nil, count: Int32? = nil, mergedDatasetNames: [String]? = nil, syncSessionToken: String? = nil, datasetExists: Bool? = nil) {
-            self.datasetDeletedAfterRequestedSyncCount = datasetDeletedAfterRequestedSyncCount
-            self.nextToken = nextToken
-            self.datasetSyncCount = datasetSyncCount
-            self.lastModifiedBy = lastModifiedBy
-            self.records = records
-            self.count = count
-            self.mergedDatasetNames = mergedDatasetNames
-            self.syncSessionToken = syncSessionToken
-            self.datasetExists = datasetExists
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case datasetDeletedAfterRequestedSyncCount = "DatasetDeletedAfterRequestedSyncCount"
-            case nextToken = "NextToken"
-            case datasetSyncCount = "DatasetSyncCount"
-            case lastModifiedBy = "LastModifiedBy"
-            case records = "Records"
-            case count = "Count"
-            case mergedDatasetNames = "MergedDatasetNames"
-            case syncSessionToken = "SyncSessionToken"
-            case datasetExists = "DatasetExists"
+            case pushSync = "PushSync"
         }
     }
 
@@ -516,49 +582,29 @@ extension CognitoSync {
         }
     }
 
-    public struct UnsubscribeFromDatasetResponse: AWSShape {
-
-    }
-
-    public struct GetIdentityPoolConfigurationResponse: AWSShape {
+    public struct ListDatasetsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdentityPoolId", required: false, type: .string), 
-            AWSShapeMember(label: "CognitoStreams", required: false, type: .structure), 
-            AWSShapeMember(label: "PushSync", required: false, type: .structure)
+            AWSShapeMember(label: "Count", required: false, type: .integer), 
+            AWSShapeMember(label: "Datasets", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito.
-        public let identityPoolId: String?
-        /// Options to apply to this identity pool for Amazon Cognito streams.
-        public let cognitoStreams: CognitoStreams?
-        /// Options to apply to this identity pool for push synchronization.
-        public let pushSync: PushSync?
+        /// Number of datasets returned.
+        public let count: Int32?
+        /// A set of datasets.
+        public let datasets: [Dataset]?
+        /// A pagination token for obtaining the next page of results.
+        public let nextToken: String?
 
-        public init(identityPoolId: String? = nil, cognitoStreams: CognitoStreams? = nil, pushSync: PushSync? = nil) {
-            self.identityPoolId = identityPoolId
-            self.cognitoStreams = cognitoStreams
-            self.pushSync = pushSync
+        public init(count: Int32? = nil, datasets: [Dataset]? = nil, nextToken: String? = nil) {
+            self.count = count
+            self.datasets = datasets
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case identityPoolId = "IdentityPoolId"
-            case cognitoStreams = "CognitoStreams"
-            case pushSync = "PushSync"
-        }
-    }
-
-    public struct DeleteDatasetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Dataset", required: false, type: .structure)
-        ]
-        /// A collection of data for an identity pool. An identity pool can have multiple datasets. A dataset is per identity and can be general or associated with a particular entity in an application (like a saved game). Datasets are automatically created if they don't exist. Data is synced by dataset, and a dataset can hold up to 1MB of key-value pairs.
-        public let dataset: Dataset?
-
-        public init(dataset: Dataset? = nil) {
-            self.dataset = dataset
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dataset = "Dataset"
+            case count = "Count"
+            case datasets = "Datasets"
+            case nextToken = "NextToken"
         }
     }
 
@@ -572,7 +618,7 @@ extension CognitoSync {
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
         public let identityId: String
 
-        public init(identityPoolId: String, identityId: String) {
+        public init(identityId: String, identityPoolId: String) {
             self.identityPoolId = identityPoolId
             self.identityId = identityId
         }
@@ -580,6 +626,291 @@ extension CognitoSync {
         private enum CodingKeys: String, CodingKey {
             case identityPoolId = "IdentityPoolId"
             case identityId = "IdentityId"
+        }
+    }
+
+    public struct SetIdentityPoolConfigurationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdentityPoolId", required: false, type: .string), 
+            AWSShapeMember(label: "PushSync", required: false, type: .structure), 
+            AWSShapeMember(label: "CognitoStreams", required: false, type: .structure)
+        ]
+        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito.
+        public let identityPoolId: String?
+        /// Options to apply to this identity pool for push synchronization.
+        public let pushSync: PushSync?
+        /// Options to apply to this identity pool for Amazon Cognito streams.
+        public let cognitoStreams: CognitoStreams?
+
+        public init(cognitoStreams: CognitoStreams? = nil, identityPoolId: String? = nil, pushSync: PushSync? = nil) {
+            self.identityPoolId = identityPoolId
+            self.pushSync = pushSync
+            self.cognitoStreams = cognitoStreams
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityPoolId = "IdentityPoolId"
+            case pushSync = "PushSync"
+            case cognitoStreams = "CognitoStreams"
+        }
+    }
+
+    public struct CognitoStreams: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StreamName", required: false, type: .string), 
+            AWSShapeMember(label: "StreamingStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "RoleArn", required: false, type: .string)
+        ]
+        /// The name of the Cognito stream to receive updates. This stream must be in the developers account and in the same region as the identity pool.
+        public let streamName: String?
+        /// Status of the Cognito streams. Valid values are: ENABLED - Streaming of updates to identity pool is enabled. DISABLED - Streaming of updates to identity pool is disabled. Bulk publish will also fail if StreamingStatus is DISABLED.
+        public let streamingStatus: StreamingStatus?
+        /// The ARN of the role Amazon Cognito can assume in order to publish to the stream. This role must grant access to Amazon Cognito (cognito-sync) to invoke PutRecord on your Cognito stream.
+        public let roleArn: String?
+
+        public init(roleArn: String? = nil, streamName: String? = nil, streamingStatus: StreamingStatus? = nil) {
+            self.streamName = streamName
+            self.streamingStatus = streamingStatus
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamName = "StreamName"
+            case streamingStatus = "StreamingStatus"
+            case roleArn = "RoleArn"
+        }
+    }
+
+    public struct DeleteDatasetRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdentityId", location: .uri(locationName: "IdentityId"), required: true, type: .string), 
+            AWSShapeMember(label: "DatasetName", location: .uri(locationName: "DatasetName"), required: true, type: .string), 
+            AWSShapeMember(label: "IdentityPoolId", location: .uri(locationName: "IdentityPoolId"), required: true, type: .string)
+        ]
+        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
+        public let identityId: String
+        /// A string of up to 128 characters. Allowed characters are a-z, A-Z, 0-9, '_' (underscore), '-' (dash), and '.' (dot).
+        public let datasetName: String
+        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
+        public let identityPoolId: String
+
+        public init(datasetName: String, identityId: String, identityPoolId: String) {
+            self.identityId = identityId
+            self.datasetName = datasetName
+            self.identityPoolId = identityPoolId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityId = "IdentityId"
+            case datasetName = "DatasetName"
+            case identityPoolId = "IdentityPoolId"
+        }
+    }
+
+    public struct RecordPatch: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Op", required: true, type: .enum), 
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "DeviceLastModifiedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SyncCount", required: true, type: .long)
+        ]
+        /// The value associated with the record patch.
+        public let value: String?
+        /// An operation, either replace or remove.
+        public let op: Operation
+        /// The key associated with the record patch.
+        public let key: String
+        /// The last modified date of the client device.
+        public let deviceLastModifiedDate: TimeStamp?
+        /// Last known server sync count for this record. Set to 0 if unknown.
+        public let syncCount: Int64
+
+        public init(deviceLastModifiedDate: TimeStamp? = nil, key: String, op: Operation, syncCount: Int64, value: String? = nil) {
+            self.value = value
+            self.op = op
+            self.key = key
+            self.deviceLastModifiedDate = deviceLastModifiedDate
+            self.syncCount = syncCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case op = "Op"
+            case key = "Key"
+            case deviceLastModifiedDate = "DeviceLastModifiedDate"
+            case syncCount = "SyncCount"
+        }
+    }
+
+    public struct DescribeDatasetResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Dataset", required: false, type: .structure)
+        ]
+        /// Meta data for a collection of data for an identity. An identity can have multiple datasets. A dataset can be general or associated with a particular entity in an application (like a saved game). Datasets are automatically created if they don't exist. Data is synced by dataset, and a dataset can hold up to 1MB of key-value pairs.
+        public let dataset: Dataset?
+
+        public init(dataset: Dataset? = nil) {
+            self.dataset = dataset
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataset = "Dataset"
+        }
+    }
+
+    public struct Record: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "SyncCount", required: false, type: .long), 
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "DeviceLastModifiedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastModifiedBy", required: false, type: .string), 
+            AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp)
+        ]
+        /// The key for the record.
+        public let key: String?
+        /// The server sync count for this record.
+        public let syncCount: Int64?
+        /// The value for the record.
+        public let value: String?
+        /// The last modified date of the client device.
+        public let deviceLastModifiedDate: TimeStamp?
+        /// The user/device that made the last change to this record.
+        public let lastModifiedBy: String?
+        /// The date on which the record was last modified.
+        public let lastModifiedDate: TimeStamp?
+
+        public init(deviceLastModifiedDate: TimeStamp? = nil, key: String? = nil, lastModifiedBy: String? = nil, lastModifiedDate: TimeStamp? = nil, syncCount: Int64? = nil, value: String? = nil) {
+            self.key = key
+            self.syncCount = syncCount
+            self.value = value
+            self.deviceLastModifiedDate = deviceLastModifiedDate
+            self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedDate = lastModifiedDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case syncCount = "SyncCount"
+            case value = "Value"
+            case deviceLastModifiedDate = "DeviceLastModifiedDate"
+            case lastModifiedBy = "LastModifiedBy"
+            case lastModifiedDate = "LastModifiedDate"
+        }
+    }
+
+    public struct ListRecordsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DatasetExists", required: false, type: .boolean), 
+            AWSShapeMember(label: "DatasetSyncCount", required: false, type: .long), 
+            AWSShapeMember(label: "SyncSessionToken", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "DatasetDeletedAfterRequestedSyncCount", required: false, type: .boolean), 
+            AWSShapeMember(label: "LastModifiedBy", required: false, type: .string), 
+            AWSShapeMember(label: "Records", required: false, type: .list), 
+            AWSShapeMember(label: "MergedDatasetNames", required: false, type: .list), 
+            AWSShapeMember(label: "Count", required: false, type: .integer)
+        ]
+        /// Indicates whether the dataset exists.
+        public let datasetExists: Bool?
+        /// Server sync count for this dataset.
+        public let datasetSyncCount: Int64?
+        /// A token containing a session ID, identity ID, and expiration.
+        public let syncSessionToken: String?
+        /// A pagination token for obtaining the next page of results.
+        public let nextToken: String?
+        /// A boolean value specifying whether to delete the dataset locally.
+        public let datasetDeletedAfterRequestedSyncCount: Bool?
+        /// The user/device that made the last change to this record.
+        public let lastModifiedBy: String?
+        /// A list of all records.
+        public let records: [Record]?
+        /// Names of merged datasets.
+        public let mergedDatasetNames: [String]?
+        /// Total number of records.
+        public let count: Int32?
+
+        public init(count: Int32? = nil, datasetDeletedAfterRequestedSyncCount: Bool? = nil, datasetExists: Bool? = nil, datasetSyncCount: Int64? = nil, lastModifiedBy: String? = nil, mergedDatasetNames: [String]? = nil, nextToken: String? = nil, records: [Record]? = nil, syncSessionToken: String? = nil) {
+            self.datasetExists = datasetExists
+            self.datasetSyncCount = datasetSyncCount
+            self.syncSessionToken = syncSessionToken
+            self.nextToken = nextToken
+            self.datasetDeletedAfterRequestedSyncCount = datasetDeletedAfterRequestedSyncCount
+            self.lastModifiedBy = lastModifiedBy
+            self.records = records
+            self.mergedDatasetNames = mergedDatasetNames
+            self.count = count
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetExists = "DatasetExists"
+            case datasetSyncCount = "DatasetSyncCount"
+            case syncSessionToken = "SyncSessionToken"
+            case nextToken = "NextToken"
+            case datasetDeletedAfterRequestedSyncCount = "DatasetDeletedAfterRequestedSyncCount"
+            case lastModifiedBy = "LastModifiedBy"
+            case records = "Records"
+            case mergedDatasetNames = "MergedDatasetNames"
+            case count = "Count"
+        }
+    }
+
+    public struct GetCognitoEventsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdentityPoolId", location: .uri(locationName: "IdentityPoolId"), required: true, type: .string)
+        ]
+        /// The Cognito Identity Pool ID for the request
+        public let identityPoolId: String
+
+        public init(identityPoolId: String) {
+            self.identityPoolId = identityPoolId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityPoolId = "IdentityPoolId"
+        }
+    }
+
+    public struct DescribeDatasetRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdentityId", location: .uri(locationName: "IdentityId"), required: true, type: .string), 
+            AWSShapeMember(label: "IdentityPoolId", location: .uri(locationName: "IdentityPoolId"), required: true, type: .string), 
+            AWSShapeMember(label: "DatasetName", location: .uri(locationName: "DatasetName"), required: true, type: .string)
+        ]
+        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
+        public let identityId: String
+        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
+        public let identityPoolId: String
+        /// A string of up to 128 characters. Allowed characters are a-z, A-Z, 0-9, '_' (underscore), '-' (dash), and '.' (dot).
+        public let datasetName: String
+
+        public init(datasetName: String, identityId: String, identityPoolId: String) {
+            self.identityId = identityId
+            self.identityPoolId = identityPoolId
+            self.datasetName = datasetName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityId = "IdentityId"
+            case identityPoolId = "IdentityPoolId"
+            case datasetName = "DatasetName"
+        }
+    }
+
+    public struct BulkPublishResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdentityPoolId", required: false, type: .string)
+        ]
+        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
+        public let identityPoolId: String?
+
+        public init(identityPoolId: String? = nil) {
+            self.identityPoolId = identityPoolId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityPoolId = "IdentityPoolId"
         }
     }
 
@@ -599,11 +930,27 @@ extension CognitoSync {
         }
     }
 
-    public struct BulkPublishRequest: AWSShape {
+    public struct DescribeIdentityPoolUsageResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdentityPoolUsage", required: false, type: .structure)
+        ]
+        /// Information about the usage of the identity pool.
+        public let identityPoolUsage: IdentityPoolUsage?
+
+        public init(identityPoolUsage: IdentityPoolUsage? = nil) {
+            self.identityPoolUsage = identityPoolUsage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityPoolUsage = "IdentityPoolUsage"
+        }
+    }
+
+    public struct GetIdentityPoolConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IdentityPoolId", location: .uri(locationName: "IdentityPoolId"), required: true, type: .string)
         ]
-        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
+        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. This is the ID of the pool for which to return a configuration.
         public let identityPoolId: String
 
         public init(identityPoolId: String) {
@@ -615,34 +962,35 @@ extension CognitoSync {
         }
     }
 
-    public struct ListDatasetsRequest: AWSShape {
+    public struct GetCognitoEventsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdentityPoolId", location: .uri(locationName: "IdentityPoolId"), required: true, type: .string), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeMember(label: "IdentityId", location: .uri(locationName: "IdentityId"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
+            AWSShapeMember(label: "Events", required: false, type: .map)
         ]
-        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-        public let identityPoolId: String
-        /// A pagination token for obtaining the next page of results.
-        public let nextToken: String?
-        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-        public let identityId: String
-        /// The maximum number of results to be returned.
-        public let maxResults: Int32?
+        /// The Cognito Events returned from the GetCognitoEvents request
+        public let events: [String: String]?
 
-        public init(identityPoolId: String, nextToken: String? = nil, identityId: String, maxResults: Int32? = nil) {
-            self.identityPoolId = identityPoolId
-            self.nextToken = nextToken
-            self.identityId = identityId
-            self.maxResults = maxResults
+        public init(events: [String: String]? = nil) {
+            self.events = events
         }
 
         private enum CodingKeys: String, CodingKey {
-            case identityPoolId = "IdentityPoolId"
-            case nextToken = "nextToken"
-            case identityId = "IdentityId"
-            case maxResults = "maxResults"
+            case events = "Events"
+        }
+    }
+
+    public struct DeleteDatasetResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Dataset", required: false, type: .structure)
+        ]
+        /// A collection of data for an identity pool. An identity pool can have multiple datasets. A dataset is per identity and can be general or associated with a particular entity in an application (like a saved game). Datasets are automatically created if they don't exist. Data is synced by dataset, and a dataset can hold up to 1MB of key-value pairs.
+        public let dataset: Dataset?
+
+        public init(dataset: Dataset? = nil) {
+            self.dataset = dataset
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataset = "Dataset"
         }
     }
 
@@ -662,236 +1010,16 @@ extension CognitoSync {
         }
     }
 
-    public struct CognitoStreams: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "StreamName", required: false, type: .string), 
-            AWSShapeMember(label: "StreamingStatus", required: false, type: .enum)
-        ]
-        /// The ARN of the role Amazon Cognito can assume in order to publish to the stream. This role must grant access to Amazon Cognito (cognito-sync) to invoke PutRecord on your Cognito stream.
-        public let roleArn: String?
-        /// The name of the Cognito stream to receive updates. This stream must be in the developers account and in the same region as the identity pool.
-        public let streamName: String?
-        /// Status of the Cognito streams. Valid values are: ENABLED - Streaming of updates to identity pool is enabled. DISABLED - Streaming of updates to identity pool is disabled. Bulk publish will also fail if StreamingStatus is DISABLED.
-        public let streamingStatus: StreamingStatus?
-
-        public init(roleArn: String? = nil, streamName: String? = nil, streamingStatus: StreamingStatus? = nil) {
-            self.roleArn = roleArn
-            self.streamName = streamName
-            self.streamingStatus = streamingStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleArn = "RoleArn"
-            case streamName = "StreamName"
-            case streamingStatus = "StreamingStatus"
-        }
-    }
-
-    public struct Record: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: false, type: .string), 
-            AWSShapeMember(label: "DeviceLastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "SyncCount", required: false, type: .long), 
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LastModifiedBy", required: false, type: .string)
-        ]
-        /// The key for the record.
-        public let key: String?
-        /// The last modified date of the client device.
-        public let deviceLastModifiedDate: TimeStamp?
-        /// The server sync count for this record.
-        public let syncCount: Int64?
-        /// The value for the record.
-        public let value: String?
-        /// The date on which the record was last modified.
-        public let lastModifiedDate: TimeStamp?
-        /// The user/device that made the last change to this record.
-        public let lastModifiedBy: String?
-
-        public init(key: String? = nil, deviceLastModifiedDate: TimeStamp? = nil, syncCount: Int64? = nil, value: String? = nil, lastModifiedDate: TimeStamp? = nil, lastModifiedBy: String? = nil) {
-            self.key = key
-            self.deviceLastModifiedDate = deviceLastModifiedDate
-            self.syncCount = syncCount
-            self.value = value
-            self.lastModifiedDate = lastModifiedDate
-            self.lastModifiedBy = lastModifiedBy
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "Key"
-            case deviceLastModifiedDate = "DeviceLastModifiedDate"
-            case syncCount = "SyncCount"
-            case value = "Value"
-            case lastModifiedDate = "LastModifiedDate"
-            case lastModifiedBy = "LastModifiedBy"
-        }
-    }
-
-    public struct DescribeDatasetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdentityPoolId", location: .uri(locationName: "IdentityPoolId"), required: true, type: .string), 
-            AWSShapeMember(label: "DatasetName", location: .uri(locationName: "DatasetName"), required: true, type: .string), 
-            AWSShapeMember(label: "IdentityId", location: .uri(locationName: "IdentityId"), required: true, type: .string)
-        ]
-        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-        public let identityPoolId: String
-        /// A string of up to 128 characters. Allowed characters are a-z, A-Z, 0-9, '_' (underscore), '-' (dash), and '.' (dot).
-        public let datasetName: String
-        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-        public let identityId: String
-
-        public init(identityPoolId: String, datasetName: String, identityId: String) {
-            self.identityPoolId = identityPoolId
-            self.datasetName = datasetName
-            self.identityId = identityId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case identityPoolId = "IdentityPoolId"
-            case datasetName = "DatasetName"
-            case identityId = "IdentityId"
-        }
-    }
-
-    public struct SetIdentityPoolConfigurationResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdentityPoolId", required: false, type: .string), 
-            AWSShapeMember(label: "CognitoStreams", required: false, type: .structure), 
-            AWSShapeMember(label: "PushSync", required: false, type: .structure)
-        ]
-        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito.
-        public let identityPoolId: String?
-        /// Options to apply to this identity pool for Amazon Cognito streams.
-        public let cognitoStreams: CognitoStreams?
-        /// Options to apply to this identity pool for push synchronization.
-        public let pushSync: PushSync?
-
-        public init(identityPoolId: String? = nil, cognitoStreams: CognitoStreams? = nil, pushSync: PushSync? = nil) {
-            self.identityPoolId = identityPoolId
-            self.cognitoStreams = cognitoStreams
-            self.pushSync = pushSync
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case identityPoolId = "IdentityPoolId"
-            case cognitoStreams = "CognitoStreams"
-            case pushSync = "PushSync"
-        }
-    }
-
-    public enum BulkPublishStatus: String, CustomStringConvertible, Codable {
-        case notStarted = "NOT_STARTED"
-        case inProgress = "IN_PROGRESS"
-        case failed = "FAILED"
-        case succeeded = "SUCCEEDED"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct SubscribeToDatasetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdentityPoolId", location: .uri(locationName: "IdentityPoolId"), required: true, type: .string), 
-            AWSShapeMember(label: "DatasetName", location: .uri(locationName: "DatasetName"), required: true, type: .string), 
-            AWSShapeMember(label: "IdentityId", location: .uri(locationName: "IdentityId"), required: true, type: .string), 
-            AWSShapeMember(label: "DeviceId", location: .uri(locationName: "DeviceId"), required: true, type: .string)
-        ]
-        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. The ID of the pool to which the identity belongs.
-        public let identityPoolId: String
-        /// The name of the dataset to subcribe to.
-        public let datasetName: String
-        /// Unique ID for this identity.
-        public let identityId: String
-        /// The unique ID generated for this device by Cognito.
-        public let deviceId: String
-
-        public init(identityPoolId: String, datasetName: String, identityId: String, deviceId: String) {
-            self.identityPoolId = identityPoolId
-            self.datasetName = datasetName
-            self.identityId = identityId
-            self.deviceId = deviceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case identityPoolId = "IdentityPoolId"
-            case datasetName = "DatasetName"
-            case identityId = "IdentityId"
-            case deviceId = "DeviceId"
-        }
-    }
-
-    public struct GetBulkPublishDetailsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailureMessage", required: false, type: .string), 
-            AWSShapeMember(label: "IdentityPoolId", required: false, type: .string), 
-            AWSShapeMember(label: "BulkPublishStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "BulkPublishStartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "BulkPublishCompleteTime", required: false, type: .timestamp)
-        ]
-        /// If BulkPublishStatus is FAILED this field will contain the error message that caused the bulk publish to fail.
-        public let failureMessage: String?
-        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-        public let identityPoolId: String?
-        /// Status of the last bulk publish operation, valid values are: NOT_STARTED - No bulk publish has been requested for this identity pool IN_PROGRESS - Data is being published to the configured stream SUCCEEDED - All data for the identity pool has been published to the configured stream FAILED - Some portion of the data has failed to publish, check FailureMessage for the cause.
-        public let bulkPublishStatus: BulkPublishStatus?
-        /// The date/time at which the last bulk publish was initiated.
-        public let bulkPublishStartTime: TimeStamp?
-        /// If BulkPublishStatus is SUCCEEDED, the time the last bulk publish operation completed.
-        public let bulkPublishCompleteTime: TimeStamp?
-
-        public init(failureMessage: String? = nil, identityPoolId: String? = nil, bulkPublishStatus: BulkPublishStatus? = nil, bulkPublishStartTime: TimeStamp? = nil, bulkPublishCompleteTime: TimeStamp? = nil) {
-            self.failureMessage = failureMessage
-            self.identityPoolId = identityPoolId
-            self.bulkPublishStatus = bulkPublishStatus
-            self.bulkPublishStartTime = bulkPublishStartTime
-            self.bulkPublishCompleteTime = bulkPublishCompleteTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case failureMessage = "FailureMessage"
-            case identityPoolId = "IdentityPoolId"
-            case bulkPublishStatus = "BulkPublishStatus"
-            case bulkPublishStartTime = "BulkPublishStartTime"
-            case bulkPublishCompleteTime = "BulkPublishCompleteTime"
-        }
-    }
-
     public enum StreamingStatus: String, CustomStringConvertible, Codable {
         case enabled = "ENABLED"
         case disabled = "DISABLED"
         public var description: String { return self.rawValue }
     }
 
-    public struct BulkPublishResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdentityPoolId", required: false, type: .string)
-        ]
-        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-        public let identityPoolId: String?
-
-        public init(identityPoolId: String? = nil) {
-            self.identityPoolId = identityPoolId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case identityPoolId = "IdentityPoolId"
-        }
-    }
-
-    public struct DescribeDatasetResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Dataset", required: false, type: .structure)
-        ]
-        /// Meta data for a collection of data for an identity. An identity can have multiple datasets. A dataset can be general or associated with a particular entity in an application (like a saved game). Datasets are automatically created if they don't exist. Data is synced by dataset, and a dataset can hold up to 1MB of key-value pairs.
-        public let dataset: Dataset?
-
-        public init(dataset: Dataset? = nil) {
-            self.dataset = dataset
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dataset = "Dataset"
-        }
+    public enum Operation: String, CustomStringConvertible, Codable {
+        case replace = "replace"
+        case remove = "remove"
+        public var description: String { return self.rawValue }
     }
 
     public struct ListIdentityPoolUsageRequest: AWSShape {
@@ -915,132 +1043,10 @@ extension CognitoSync {
         }
     }
 
-    public struct RegisterDeviceResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeviceId", required: false, type: .string)
-        ]
-        /// The unique ID generated for this device by Cognito.
-        public let deviceId: String?
+    public struct UnsubscribeFromDatasetResponse: AWSShape {
 
-        public init(deviceId: String? = nil) {
-            self.deviceId = deviceId
+        public init() {
         }
-
-        private enum CodingKeys: String, CodingKey {
-            case deviceId = "DeviceId"
-        }
-    }
-
-    public struct SetCognitoEventsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdentityPoolId", location: .uri(locationName: "IdentityPoolId"), required: true, type: .string), 
-            AWSShapeMember(label: "Events", required: true, type: .map)
-        ]
-        /// The Cognito Identity Pool to use when configuring Cognito Events
-        public let identityPoolId: String
-        /// The events to configure
-        public let events: [String: String]
-
-        public init(identityPoolId: String, events: [String: String]) {
-            self.identityPoolId = identityPoolId
-            self.events = events
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case identityPoolId = "IdentityPoolId"
-            case events = "Events"
-        }
-    }
-
-    public struct RecordPatch: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Key", required: true, type: .string), 
-            AWSShapeMember(label: "SyncCount", required: true, type: .long), 
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "DeviceLastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Op", required: true, type: .enum)
-        ]
-        /// The key associated with the record patch.
-        public let key: String
-        /// Last known server sync count for this record. Set to 0 if unknown.
-        public let syncCount: Int64
-        /// The value associated with the record patch.
-        public let value: String?
-        /// The last modified date of the client device.
-        public let deviceLastModifiedDate: TimeStamp?
-        /// An operation, either replace or remove.
-        public let op: Operation
-
-        public init(key: String, syncCount: Int64, value: String? = nil, deviceLastModifiedDate: TimeStamp? = nil, op: Operation) {
-            self.key = key
-            self.syncCount = syncCount
-            self.value = value
-            self.deviceLastModifiedDate = deviceLastModifiedDate
-            self.op = op
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case key = "Key"
-            case syncCount = "SyncCount"
-            case value = "Value"
-            case deviceLastModifiedDate = "DeviceLastModifiedDate"
-            case op = "Op"
-        }
-    }
-
-    public struct IdentityUsage: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdentityPoolId", required: false, type: .string), 
-            AWSShapeMember(label: "DatasetCount", required: false, type: .integer), 
-            AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "IdentityId", required: false, type: .string), 
-            AWSShapeMember(label: "DataStorage", required: false, type: .long)
-        ]
-        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-        public let identityPoolId: String?
-        /// Number of datasets for the identity.
-        public let datasetCount: Int32?
-        /// Date on which the identity was last modified.
-        public let lastModifiedDate: TimeStamp?
-        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-        public let identityId: String?
-        /// Total data storage for this identity.
-        public let dataStorage: Int64?
-
-        public init(identityPoolId: String? = nil, datasetCount: Int32? = nil, lastModifiedDate: TimeStamp? = nil, identityId: String? = nil, dataStorage: Int64? = nil) {
-            self.identityPoolId = identityPoolId
-            self.datasetCount = datasetCount
-            self.lastModifiedDate = lastModifiedDate
-            self.identityId = identityId
-            self.dataStorage = dataStorage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case identityPoolId = "IdentityPoolId"
-            case datasetCount = "DatasetCount"
-            case lastModifiedDate = "LastModifiedDate"
-            case identityId = "IdentityId"
-            case dataStorage = "DataStorage"
-        }
-    }
-
-    public struct GetIdentityPoolConfigurationRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdentityPoolId", location: .uri(locationName: "IdentityPoolId"), required: true, type: .string)
-        ]
-        /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. This is the ID of the pool for which to return a configuration.
-        public let identityPoolId: String
-
-        public init(identityPoolId: String) {
-            self.identityPoolId = identityPoolId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case identityPoolId = "IdentityPoolId"
-        }
-    }
-
-    public struct SubscribeToDatasetResponse: AWSShape {
 
     }
 

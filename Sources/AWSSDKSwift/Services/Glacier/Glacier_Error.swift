@@ -4,14 +4,14 @@ import AWSSDKSwiftCore
 
 /// Error enum for Glacier
 public enum GlacierErrorType: AWSErrorType {
+    case resourceNotFoundException(message: String?)
     case invalidParameterValueException(message: String?)
     case missingParameterValueException(message: String?)
     case serviceUnavailableException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case requestTimeoutException(message: String?)
-    case limitExceededException(message: String?)
     case policyEnforcedException(message: String?)
     case insufficientCapacityException(message: String?)
+    case limitExceededException(message: String?)
+    case requestTimeoutException(message: String?)
 }
 
 extension GlacierErrorType {
@@ -21,22 +21,22 @@ extension GlacierErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
         case "InvalidParameterValueException":
             self = .invalidParameterValueException(message: message)
         case "MissingParameterValueException":
             self = .missingParameterValueException(message: message)
         case "ServiceUnavailableException":
             self = .serviceUnavailableException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "RequestTimeoutException":
-            self = .requestTimeoutException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
         case "PolicyEnforcedException":
             self = .policyEnforcedException(message: message)
         case "InsufficientCapacityException":
             self = .insufficientCapacityException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
+        case "RequestTimeoutException":
+            self = .requestTimeoutException(message: message)
         default:
             return nil
         }

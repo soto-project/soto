@@ -5,18 +5,18 @@ import AWSSDKSwiftCore
 /// Error enum for ACMPCA
 public enum ACMPCAErrorType: AWSErrorType {
     case resourceNotFoundException(message: String?)
+    case invalidStateException(message: String?)
     case invalidArnException(message: String?)
     case concurrentModificationException(message: String?)
-    case invalidStateException(message: String?)
-    case requestAlreadyProcessedException(message: String?)
     case requestInProgressException(message: String?)
     case requestFailedException(message: String?)
-    case invalidArgsException(message: String?)
     case invalidTagException(message: String?)
     case tooManyTagsException(message: String?)
-    case limitExceededException(message: String?)
-    case malformedCSRException(message: String?)
     case invalidNextTokenException(message: String?)
+    case limitExceededException(message: String?)
+    case invalidArgsException(message: String?)
+    case malformedCSRException(message: String?)
+    case requestAlreadyProcessedException(message: String?)
     case invalidPolicyException(message: String?)
     case malformedCertificateException(message: String?)
     case certificateMismatchException(message: String?)
@@ -31,30 +31,30 @@ extension ACMPCAErrorType {
         switch errorCode {
         case "ResourceNotFoundException":
             self = .resourceNotFoundException(message: message)
+        case "InvalidStateException":
+            self = .invalidStateException(message: message)
         case "InvalidArnException":
             self = .invalidArnException(message: message)
         case "ConcurrentModificationException":
             self = .concurrentModificationException(message: message)
-        case "InvalidStateException":
-            self = .invalidStateException(message: message)
-        case "RequestAlreadyProcessedException":
-            self = .requestAlreadyProcessedException(message: message)
         case "RequestInProgressException":
             self = .requestInProgressException(message: message)
         case "RequestFailedException":
             self = .requestFailedException(message: message)
-        case "InvalidArgsException":
-            self = .invalidArgsException(message: message)
         case "InvalidTagException":
             self = .invalidTagException(message: message)
         case "TooManyTagsException":
             self = .tooManyTagsException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "MalformedCSRException":
-            self = .malformedCSRException(message: message)
         case "InvalidNextTokenException":
             self = .invalidNextTokenException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
+        case "InvalidArgsException":
+            self = .invalidArgsException(message: message)
+        case "MalformedCSRException":
+            self = .malformedCSRException(message: message)
+        case "RequestAlreadyProcessedException":
+            self = .requestAlreadyProcessedException(message: message)
         case "InvalidPolicyException":
             self = .invalidPolicyException(message: message)
         case "MalformedCertificateException":

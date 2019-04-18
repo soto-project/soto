@@ -5,6 +5,85 @@ import AWSSDKSwiftCore
 
 extension Chime {
 
+    public struct InviteUsersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
+            AWSShapeMember(label: "UserEmailList", required: true, type: .list)
+        ]
+        /// The Amazon Chime account ID.
+        public let accountId: String
+        /// The user email addresses to which to send the invite.
+        public let userEmailList: [String]
+
+        public init(accountId: String, userEmailList: [String]) {
+            self.accountId = accountId
+            self.userEmailList = userEmailList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case userEmailList = "UserEmailList"
+        }
+    }
+
+    public struct CreateAccountRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// The name of the Amazon Chime account.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateUserResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "User", required: false, type: .structure)
+        ]
+        /// The updated user details.
+        public let user: User?
+
+        public init(user: User? = nil) {
+            self.user = user
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case user = "User"
+        }
+    }
+
+    public struct UserError: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "UserId", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorCode", required: false, type: .enum)
+        ]
+        /// The error message.
+        public let errorMessage: String?
+        /// The user ID for which the action failed.
+        public let userId: String?
+        /// The error code.
+        public let errorCode: ErrorCode?
+
+        public init(errorCode: ErrorCode? = nil, errorMessage: String? = nil, userId: String? = nil) {
+            self.errorMessage = errorMessage
+            self.userId = userId
+            self.errorCode = errorCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "ErrorMessage"
+            case userId = "UserId"
+            case errorCode = "ErrorCode"
+        }
+    }
+
     public enum RegistrationStatus: String, CustomStringConvertible, Codable {
         case unregistered = "Unregistered"
         case registered = "Registered"
@@ -28,126 +107,40 @@ extension Chime {
         }
     }
 
-    public struct CreateAccountRequest: AWSShape {
+    public struct BatchSuspendUserRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// The name of the Amazon Chime account.
-        public let name: String
-
-        public init(name: String) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-        }
-    }
-
-    public struct ListUsersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string), 
-            AWSShapeMember(label: "UserEmail", location: .querystring(locationName: "user-email"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max-results"), required: false, type: .integer), 
+            AWSShapeMember(label: "UserIdList", required: true, type: .list), 
             AWSShapeMember(label: "AccountId", location: .uri(locationName: "accountId"), required: true, type: .string)
         ]
-        /// The token to use to retrieve the next page of results.
-        public let nextToken: String?
-        /// Optional. The user email address used to filter results. Maximum 1.
-        public let userEmail: String?
-        /// The maximum number of results to return in a single call. Defaults to 100.
-        public let maxResults: Int32?
+        /// The request containing the user IDs to suspend.
+        public let userIdList: [String]
         /// The Amazon Chime account ID.
         public let accountId: String
 
-        public init(nextToken: String? = nil, userEmail: String? = nil, maxResults: Int32? = nil, accountId: String) {
-            self.nextToken = nextToken
-            self.userEmail = userEmail
-            self.maxResults = maxResults
+        public init(accountId: String, userIdList: [String]) {
+            self.userIdList = userIdList
             self.accountId = accountId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "next-token"
-            case userEmail = "user-email"
-            case maxResults = "max-results"
+            case userIdList = "UserIdList"
             case accountId = "accountId"
         }
     }
 
-    public struct BatchUpdateUserResponse: AWSShape {
+    public struct DeleteAccountRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserErrors", required: false, type: .list)
-        ]
-        /// If the BatchUpdateUser action fails for one or more of the user IDs in the request, a list of the user IDs is returned, along with error codes and error messages.
-        public let userErrors: [UserError]?
-
-        public init(userErrors: [UserError]? = nil) {
-            self.userErrors = userErrors
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userErrors = "UserErrors"
-        }
-    }
-
-    public struct BatchUpdateUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
-            AWSShapeMember(label: "UpdateUserRequestItems", required: true, type: .list)
+            AWSShapeMember(label: "AccountId", location: .uri(locationName: "accountId"), required: true, type: .string)
         ]
         /// The Amazon Chime account ID.
         public let accountId: String
-        /// The request containing the user IDs and details to update.
-        public let updateUserRequestItems: [UpdateUserRequestItem]
 
-        public init(accountId: String, updateUserRequestItems: [UpdateUserRequestItem]) {
+        public init(accountId: String) {
             self.accountId = accountId
-            self.updateUserRequestItems = updateUserRequestItems
         }
 
         private enum CodingKeys: String, CodingKey {
             case accountId = "accountId"
-            case updateUserRequestItems = "UpdateUserRequestItems"
-        }
-    }
-
-    public struct GetAccountSettingsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountSettings", required: false, type: .structure)
-        ]
-        /// The Amazon Chime account settings.
-        public let accountSettings: AccountSettings?
-
-        public init(accountSettings: AccountSettings? = nil) {
-            self.accountSettings = accountSettings
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accountSettings = "AccountSettings"
-        }
-    }
-
-    public enum InviteStatus: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case accepted = "Accepted"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct BatchSuspendUserResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserErrors", required: false, type: .list)
-        ]
-        /// If the BatchSuspendUser action fails for one or more of the user IDs in the request, a list of the user IDs is returned, along with error codes and error messages.
-        public let userErrors: [UserError]?
-
-        public init(userErrors: [UserError]? = nil) {
-            self.userErrors = userErrors
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userErrors = "UserErrors"
         }
     }
 
@@ -161,13 +154,123 @@ extension Chime {
         /// The Amazon Chime account ID.
         public let accountId: String
 
-        public init(accountSettings: AccountSettings, accountId: String) {
+        public init(accountId: String, accountSettings: AccountSettings) {
             self.accountSettings = accountSettings
             self.accountId = accountId
         }
 
         private enum CodingKeys: String, CodingKey {
             case accountSettings = "AccountSettings"
+            case accountId = "accountId"
+        }
+    }
+
+    public struct LogoutUserRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserId", location: .uri(locationName: "userId"), required: true, type: .string), 
+            AWSShapeMember(label: "AccountId", location: .uri(locationName: "accountId"), required: true, type: .string)
+        ]
+        /// The user ID.
+        public let userId: String
+        /// The Amazon Chime account ID.
+        public let accountId: String
+
+        public init(accountId: String, userId: String) {
+            self.userId = userId
+            self.accountId = accountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userId = "userId"
+            case accountId = "accountId"
+        }
+    }
+
+    public struct BatchUnsuspendUserRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
+            AWSShapeMember(label: "UserIdList", required: true, type: .list)
+        ]
+        /// The Amazon Chime account ID.
+        public let accountId: String
+        /// The request containing the user IDs to unsuspend.
+        public let userIdList: [String]
+
+        public init(accountId: String, userIdList: [String]) {
+            self.accountId = accountId
+            self.userIdList = userIdList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case userIdList = "UserIdList"
+        }
+    }
+
+    public struct InviteUsersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Invites", required: false, type: .list)
+        ]
+        /// The invite details.
+        public let invites: [Invite]?
+
+        public init(invites: [Invite]? = nil) {
+            self.invites = invites
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invites = "Invites"
+        }
+    }
+
+    public struct ListAccountsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserEmail", location: .querystring(locationName: "user-email"), required: false, type: .string), 
+            AWSShapeMember(label: "Name", location: .querystring(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max-results"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string)
+        ]
+        /// User email address with which to filter results.
+        public let userEmail: String?
+        /// Amazon Chime account name prefix with which to filter results.
+        public let name: String?
+        /// The maximum number of results to return in a single call. Defaults to 100.
+        public let maxResults: Int32?
+        /// The token to use to retrieve the next page of results.
+        public let nextToken: String?
+
+        public init(maxResults: Int32? = nil, name: String? = nil, nextToken: String? = nil, userEmail: String? = nil) {
+            self.userEmail = userEmail
+            self.name = name
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userEmail = "user-email"
+            case name = "name"
+            case maxResults = "max-results"
+            case nextToken = "next-token"
+        }
+    }
+
+    public struct UpdateAccountRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "AccountId", location: .uri(locationName: "accountId"), required: true, type: .string)
+        ]
+        /// The new name for the specified Amazon Chime account.
+        public let name: String?
+        /// The Amazon Chime account ID.
+        public let accountId: String
+
+        public init(accountId: String, name: String? = nil) {
+            self.name = name
+            self.accountId = accountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
             case accountId = "accountId"
         }
     }
@@ -193,295 +296,42 @@ extension Chime {
         }
     }
 
-    public struct LogoutUserResponse: AWSShape {
+    public struct UpdateAccountSettingsResponse: AWSShape {
+
+        public init() {
+        }
 
     }
 
-    public struct ListAccountsRequest: AWSShape {
+    public struct CreateAccountResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string), 
-            AWSShapeMember(label: "UserEmail", location: .querystring(locationName: "user-email"), required: false, type: .string), 
-            AWSShapeMember(label: "Name", location: .querystring(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max-results"), required: false, type: .integer)
+            AWSShapeMember(label: "Account", required: false, type: .structure)
         ]
-        /// The token to use to retrieve the next page of results.
-        public let nextToken: String?
-        /// User email address with which to filter results.
-        public let userEmail: String?
-        /// Amazon Chime account name prefix with which to filter results.
-        public let name: String?
-        /// The maximum number of results to return in a single call. Defaults to 100.
-        public let maxResults: Int32?
+        /// The Amazon Chime account details.
+        public let account: Account?
 
-        public init(nextToken: String? = nil, userEmail: String? = nil, name: String? = nil, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.userEmail = userEmail
-            self.name = name
-            self.maxResults = maxResults
+        public init(account: Account? = nil) {
+            self.account = account
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "next-token"
-            case userEmail = "user-email"
-            case name = "name"
-            case maxResults = "max-results"
+            case account = "Account"
         }
     }
 
-    public struct UpdateUserRequestItem: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserId", required: true, type: .string), 
-            AWSShapeMember(label: "LicenseType", required: false, type: .enum)
-        ]
-        /// The user ID.
-        public let userId: String
-        /// The user license type.
-        public let licenseType: License?
-
-        public init(userId: String, licenseType: License? = nil) {
-            self.userId = userId
-            self.licenseType = licenseType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userId = "UserId"
-            case licenseType = "LicenseType"
-        }
+    public enum License: String, CustomStringConvertible, Codable {
+        case basic = "Basic"
+        case plus = "Plus"
+        case pro = "Pro"
+        case protrial = "ProTrial"
+        public var description: String { return self.rawValue }
     }
 
-    public struct BatchSuspendUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
-            AWSShapeMember(label: "UserIdList", required: true, type: .list)
-        ]
-        /// The Amazon Chime account ID.
-        public let accountId: String
-        /// The request containing the user IDs to suspend.
-        public let userIdList: [String]
-
-        public init(accountId: String, userIdList: [String]) {
-            self.accountId = accountId
-            self.userIdList = userIdList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case userIdList = "UserIdList"
-        }
-    }
-
-    public struct GetAccountRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", location: .uri(locationName: "accountId"), required: true, type: .string)
-        ]
-        /// The Amazon Chime account ID.
-        public let accountId: String
-
-        public init(accountId: String) {
-            self.accountId = accountId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-        }
-    }
-
-    public struct User: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserId", required: true, type: .string), 
-            AWSShapeMember(label: "PrimaryEmail", required: false, type: .string), 
-            AWSShapeMember(label: "RegisteredOn", required: false, type: .timestamp), 
-            AWSShapeMember(label: "PersonalPIN", required: false, type: .string), 
-            AWSShapeMember(label: "InvitedOn", required: false, type: .timestamp), 
-            AWSShapeMember(label: "LicenseType", required: false, type: .enum), 
-            AWSShapeMember(label: "UserRegistrationStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "UserInvitationStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
-            AWSShapeMember(label: "AccountId", required: false, type: .string)
-        ]
-        /// The user ID.
-        public let userId: String
-        /// The primary email address of the user.
-        public let primaryEmail: String?
-        /// Date and time when the user is registered, in ISO 8601 format.
-        public let registeredOn: TimeStamp?
-        /// The user's personal meeting PIN.
-        public let personalPIN: String?
-        /// Date and time when the user is invited to the Amazon Chime account, in ISO 8601 format.
-        public let invitedOn: TimeStamp?
-        /// The license type for the user.
-        public let licenseType: License?
-        /// The user registration status.
-        public let userRegistrationStatus: RegistrationStatus?
-        /// The user invite status.
-        public let userInvitationStatus: InviteStatus?
-        /// The display name of the user.
-        public let displayName: String?
-        /// The Amazon Chime account ID.
-        public let accountId: String?
-
-        public init(userId: String, primaryEmail: String? = nil, registeredOn: TimeStamp? = nil, personalPIN: String? = nil, invitedOn: TimeStamp? = nil, licenseType: License? = nil, userRegistrationStatus: RegistrationStatus? = nil, userInvitationStatus: InviteStatus? = nil, displayName: String? = nil, accountId: String? = nil) {
-            self.userId = userId
-            self.primaryEmail = primaryEmail
-            self.registeredOn = registeredOn
-            self.personalPIN = personalPIN
-            self.invitedOn = invitedOn
-            self.licenseType = licenseType
-            self.userRegistrationStatus = userRegistrationStatus
-            self.userInvitationStatus = userInvitationStatus
-            self.displayName = displayName
-            self.accountId = accountId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userId = "UserId"
-            case primaryEmail = "PrimaryEmail"
-            case registeredOn = "RegisteredOn"
-            case personalPIN = "PersonalPIN"
-            case invitedOn = "InvitedOn"
-            case licenseType = "LicenseType"
-            case userRegistrationStatus = "UserRegistrationStatus"
-            case userInvitationStatus = "UserInvitationStatus"
-            case displayName = "DisplayName"
-            case accountId = "AccountId"
-        }
-    }
-
-    public struct UpdateAccountRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// The Amazon Chime account ID.
-        public let accountId: String
-        /// The new name for the specified Amazon Chime account.
-        public let name: String?
-
-        public init(accountId: String, name: String? = nil) {
-            self.accountId = accountId
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case name = "Name"
-        }
-    }
-
-    public struct LogoutUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserId", location: .uri(locationName: "userId"), required: true, type: .string), 
-            AWSShapeMember(label: "AccountId", location: .uri(locationName: "accountId"), required: true, type: .string)
-        ]
-        /// The user ID.
-        public let userId: String
-        /// The Amazon Chime account ID.
-        public let accountId: String
-
-        public init(userId: String, accountId: String) {
-            self.userId = userId
-            self.accountId = accountId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userId = "userId"
-            case accountId = "accountId"
-        }
-    }
-
-    public struct Account: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "AwsAccountId", required: true, type: .string), 
-            AWSShapeMember(label: "SupportedLicenses", required: false, type: .list), 
-            AWSShapeMember(label: "DefaultLicense", required: false, type: .enum), 
-            AWSShapeMember(label: "AccountId", required: true, type: .string), 
-            AWSShapeMember(label: "AccountType", required: false, type: .enum), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// The Amazon Chime account creation timestamp, in ISO 8601 format.
-        public let createdTimestamp: TimeStamp?
-        /// The AWS account ID.
-        public let awsAccountId: String
-        /// Supported licenses for the Amazon Chime account.
-        public let supportedLicenses: [License]?
-        /// The default license for the Amazon Chime account.
-        public let defaultLicense: License?
-        /// The Amazon Chime account ID.
-        public let accountId: String
-        /// The Amazon Chime account type. For more information about different account types, see Managing Your Amazon Chime Accounts in the Amazon Chime Administration Guide.
-        public let accountType: AccountType?
-        /// The Amazon Chime account name.
-        public let name: String
-
-        public init(createdTimestamp: TimeStamp? = nil, awsAccountId: String, supportedLicenses: [License]? = nil, defaultLicense: License? = nil, accountId: String, accountType: AccountType? = nil, name: String) {
-            self.createdTimestamp = createdTimestamp
-            self.awsAccountId = awsAccountId
-            self.supportedLicenses = supportedLicenses
-            self.defaultLicense = defaultLicense
-            self.accountId = accountId
-            self.accountType = accountType
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case createdTimestamp = "CreatedTimestamp"
-            case awsAccountId = "AwsAccountId"
-            case supportedLicenses = "SupportedLicenses"
-            case defaultLicense = "DefaultLicense"
-            case accountId = "AccountId"
-            case accountType = "AccountType"
-            case name = "Name"
-        }
-    }
-
-    public struct BatchUnsuspendUserResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserErrors", required: false, type: .list)
-        ]
-        /// If the BatchUnsuspendUser action fails for one or more of the user IDs in the request, a list of the user IDs is returned, along with error codes and error messages.
-        public let userErrors: [UserError]?
-
-        public init(userErrors: [UserError]? = nil) {
-            self.userErrors = userErrors
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userErrors = "UserErrors"
-        }
-    }
-
-    public struct UserError: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorCode", required: false, type: .enum), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "UserId", required: false, type: .string)
-        ]
-        /// The error code.
-        public let errorCode: ErrorCode?
-        /// The error message.
-        public let errorMessage: String?
-        /// The user ID for which the action failed.
-        public let userId: String?
-
-        public init(errorCode: ErrorCode? = nil, errorMessage: String? = nil, userId: String? = nil) {
-            self.errorCode = errorCode
-            self.errorMessage = errorMessage
-            self.userId = userId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case errorMessage = "ErrorMessage"
-            case userId = "UserId"
-        }
-    }
-
-    public struct ResetPersonalPINResponse: AWSShape {
+    public struct GetUserResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "User", required: false, type: .structure)
         ]
-        /// The user details and new personal meeting PIN.
+        /// The user details.
         public let user: User?
 
         public init(user: User? = nil) {
@@ -490,6 +340,53 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case user = "User"
+        }
+    }
+
+    public struct ListUsersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserEmail", location: .querystring(locationName: "user-email"), required: false, type: .string), 
+            AWSShapeMember(label: "AccountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max-results"), required: false, type: .integer)
+        ]
+        /// Optional. The user email address used to filter results. Maximum 1.
+        public let userEmail: String?
+        /// The Amazon Chime account ID.
+        public let accountId: String
+        /// The token to use to retrieve the next page of results.
+        public let nextToken: String?
+        /// The maximum number of results to return in a single call. Defaults to 100.
+        public let maxResults: Int32?
+
+        public init(accountId: String, maxResults: Int32? = nil, nextToken: String? = nil, userEmail: String? = nil) {
+            self.userEmail = userEmail
+            self.accountId = accountId
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userEmail = "user-email"
+            case accountId = "accountId"
+            case nextToken = "next-token"
+            case maxResults = "max-results"
+        }
+    }
+
+    public struct GetAccountResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Account", required: false, type: .structure)
+        ]
+        /// The Amazon Chime account details.
+        public let account: Account?
+
+        public init(account: Account? = nil) {
+            self.account = account
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case account = "Account"
         }
     }
 
@@ -514,18 +411,50 @@ extension Chime {
         }
     }
 
-    public enum ErrorCode: String, CustomStringConvertible, Codable {
-        case unauthorized = "Unauthorized"
-        case forbidden = "Forbidden"
-        case notfound = "NotFound"
-        case badrequest = "BadRequest"
-        case conflict = "Conflict"
-        case servicefailure = "ServiceFailure"
-        case serviceunavailable = "ServiceUnavailable"
-        case unprocessable = "Unprocessable"
-        case throttled = "Throttled"
-        case preconditionfailed = "PreconditionFailed"
-        public var description: String { return self.rawValue }
+    public struct Account: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SupportedLicenses", required: false, type: .list), 
+            AWSShapeMember(label: "AccountId", required: true, type: .string), 
+            AWSShapeMember(label: "AccountType", required: false, type: .enum), 
+            AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DefaultLicense", required: false, type: .enum), 
+            AWSShapeMember(label: "AwsAccountId", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// Supported licenses for the Amazon Chime account.
+        public let supportedLicenses: [License]?
+        /// The Amazon Chime account ID.
+        public let accountId: String
+        /// The Amazon Chime account type. For more information about different account types, see Managing Your Amazon Chime Accounts in the Amazon Chime Administration Guide.
+        public let accountType: AccountType?
+        /// The Amazon Chime account creation timestamp, in ISO 8601 format.
+        public let createdTimestamp: TimeStamp?
+        /// The default license for the Amazon Chime account.
+        public let defaultLicense: License?
+        /// The AWS account ID.
+        public let awsAccountId: String
+        /// The Amazon Chime account name.
+        public let name: String
+
+        public init(accountId: String, accountType: AccountType? = nil, awsAccountId: String, createdTimestamp: TimeStamp? = nil, defaultLicense: License? = nil, name: String, supportedLicenses: [License]? = nil) {
+            self.supportedLicenses = supportedLicenses
+            self.accountId = accountId
+            self.accountType = accountType
+            self.createdTimestamp = createdTimestamp
+            self.defaultLicense = defaultLicense
+            self.awsAccountId = awsAccountId
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case supportedLicenses = "SupportedLicenses"
+            case accountId = "AccountId"
+            case accountType = "AccountType"
+            case createdTimestamp = "CreatedTimestamp"
+            case defaultLicense = "DefaultLicense"
+            case awsAccountId = "AwsAccountId"
+            case name = "Name"
+        }
     }
 
     public struct UpdateUserRequest: AWSShape {
@@ -541,7 +470,7 @@ extension Chime {
         /// The user license type to update. This must be a supported license type for the Amazon Chime account that the user belongs to.
         public let licenseType: License?
 
-        public init(userId: String, accountId: String, licenseType: License? = nil) {
+        public init(accountId: String, licenseType: License? = nil, userId: String) {
             self.userId = userId
             self.accountId = accountId
             self.licenseType = licenseType
@@ -554,34 +483,11 @@ extension Chime {
         }
     }
 
-    public enum EmailStatus: String, CustomStringConvertible, Codable {
-        case notsent = "NotSent"
-        case sent = "Sent"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct InviteUsersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Invites", required: false, type: .list)
-        ]
-        /// The invite details.
-        public let invites: [Invite]?
-
-        public init(invites: [Invite]? = nil) {
-            self.invites = invites
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case invites = "Invites"
-        }
-    }
-
-    public struct UpdateUserResponse: AWSShape {
+    public struct ResetPersonalPINResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "User", required: false, type: .structure)
         ]
-        /// The updated user details.
+        /// The user details and new personal meeting PIN.
         public let user: User?
 
         public init(user: User? = nil) {
@@ -593,7 +499,136 @@ extension Chime {
         }
     }
 
-    public struct DeleteAccountRequest: AWSShape {
+    public enum AccountType: String, CustomStringConvertible, Codable {
+        case team = "Team"
+        case enterprisedirectory = "EnterpriseDirectory"
+        case enterpriselwa = "EnterpriseLWA"
+        case enterpriseoidc = "EnterpriseOIDC"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct User: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserInvitationStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "UserRegistrationStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "InvitedOn", required: false, type: .timestamp), 
+            AWSShapeMember(label: "UserId", required: true, type: .string), 
+            AWSShapeMember(label: "PersonalPIN", required: false, type: .string), 
+            AWSShapeMember(label: "AccountId", required: false, type: .string), 
+            AWSShapeMember(label: "PrimaryEmail", required: false, type: .string), 
+            AWSShapeMember(label: "RegisteredOn", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LicenseType", required: false, type: .enum)
+        ]
+        /// The user invite status.
+        public let userInvitationStatus: InviteStatus?
+        /// The display name of the user.
+        public let displayName: String?
+        /// The user registration status.
+        public let userRegistrationStatus: RegistrationStatus?
+        /// Date and time when the user is invited to the Amazon Chime account, in ISO 8601 format.
+        public let invitedOn: TimeStamp?
+        /// The user ID.
+        public let userId: String
+        /// The user's personal meeting PIN.
+        public let personalPIN: String?
+        /// The Amazon Chime account ID.
+        public let accountId: String?
+        /// The primary email address of the user.
+        public let primaryEmail: String?
+        /// Date and time when the user is registered, in ISO 8601 format.
+        public let registeredOn: TimeStamp?
+        /// The license type for the user.
+        public let licenseType: License?
+
+        public init(accountId: String? = nil, displayName: String? = nil, invitedOn: TimeStamp? = nil, licenseType: License? = nil, personalPIN: String? = nil, primaryEmail: String? = nil, registeredOn: TimeStamp? = nil, userId: String, userInvitationStatus: InviteStatus? = nil, userRegistrationStatus: RegistrationStatus? = nil) {
+            self.userInvitationStatus = userInvitationStatus
+            self.displayName = displayName
+            self.userRegistrationStatus = userRegistrationStatus
+            self.invitedOn = invitedOn
+            self.userId = userId
+            self.personalPIN = personalPIN
+            self.accountId = accountId
+            self.primaryEmail = primaryEmail
+            self.registeredOn = registeredOn
+            self.licenseType = licenseType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userInvitationStatus = "UserInvitationStatus"
+            case displayName = "DisplayName"
+            case userRegistrationStatus = "UserRegistrationStatus"
+            case invitedOn = "InvitedOn"
+            case userId = "UserId"
+            case personalPIN = "PersonalPIN"
+            case accountId = "AccountId"
+            case primaryEmail = "PrimaryEmail"
+            case registeredOn = "RegisteredOn"
+            case licenseType = "LicenseType"
+        }
+    }
+
+    public struct LogoutUserResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct GetAccountSettingsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountSettings", required: false, type: .structure)
+        ]
+        /// The Amazon Chime account settings.
+        public let accountSettings: AccountSettings?
+
+        public init(accountSettings: AccountSettings? = nil) {
+            self.accountSettings = accountSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountSettings = "AccountSettings"
+        }
+    }
+
+    public struct BatchSuspendUserResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserErrors", required: false, type: .list)
+        ]
+        /// If the BatchSuspendUser action fails for one or more of the user IDs in the request, a list of the user IDs is returned, along with error codes and error messages.
+        public let userErrors: [UserError]?
+
+        public init(userErrors: [UserError]? = nil) {
+            self.userErrors = userErrors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userErrors = "UserErrors"
+        }
+    }
+
+    public enum ErrorCode: String, CustomStringConvertible, Codable {
+        case unauthorized = "Unauthorized"
+        case forbidden = "Forbidden"
+        case notfound = "NotFound"
+        case badrequest = "BadRequest"
+        case conflict = "Conflict"
+        case servicefailure = "ServiceFailure"
+        case serviceunavailable = "ServiceUnavailable"
+        case unprocessable = "Unprocessable"
+        case throttled = "Throttled"
+        case preconditionfailed = "PreconditionFailed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InviteStatus: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case accepted = "Accepted"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetAccountRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", location: .uri(locationName: "accountId"), required: true, type: .string)
         ]
@@ -609,126 +644,179 @@ extension Chime {
         }
     }
 
+    public struct BatchUnsuspendUserResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserErrors", required: false, type: .list)
+        ]
+        /// If the BatchUnsuspendUser action fails for one or more of the user IDs in the request, a list of the user IDs is returned, along with error codes and error messages.
+        public let userErrors: [UserError]?
+
+        public init(userErrors: [UserError]? = nil) {
+            self.userErrors = userErrors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userErrors = "UserErrors"
+        }
+    }
+
     public struct Invite: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "InviteId", required: false, type: .string), 
+            AWSShapeMember(label: "EmailAddress", required: false, type: .string), 
             AWSShapeMember(label: "EmailStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "EmailAddress", required: false, type: .string)
+            AWSShapeMember(label: "InviteId", required: false, type: .string)
         ]
         /// The status of the invite.
         public let status: InviteStatus?
-        /// The invite ID.
-        public let inviteId: String?
-        /// The status of the invite email.
-        public let emailStatus: EmailStatus?
         /// The email address to which the invite is sent.
         public let emailAddress: String?
+        /// The status of the invite email.
+        public let emailStatus: EmailStatus?
+        /// The invite ID.
+        public let inviteId: String?
 
-        public init(status: InviteStatus? = nil, inviteId: String? = nil, emailStatus: EmailStatus? = nil, emailAddress: String? = nil) {
+        public init(emailAddress: String? = nil, emailStatus: EmailStatus? = nil, inviteId: String? = nil, status: InviteStatus? = nil) {
             self.status = status
-            self.inviteId = inviteId
-            self.emailStatus = emailStatus
             self.emailAddress = emailAddress
+            self.emailStatus = emailStatus
+            self.inviteId = inviteId
         }
 
         private enum CodingKeys: String, CodingKey {
             case status = "Status"
-            case inviteId = "InviteId"
-            case emailStatus = "EmailStatus"
             case emailAddress = "EmailAddress"
+            case emailStatus = "EmailStatus"
+            case inviteId = "InviteId"
         }
     }
 
-    public enum AccountType: String, CustomStringConvertible, Codable {
-        case team = "Team"
-        case enterprisedirectory = "EnterpriseDirectory"
-        case enterpriselwa = "EnterpriseLWA"
-        case enterpriseoidc = "EnterpriseOIDC"
-        public var description: String { return self.rawValue }
+    public struct BatchUpdateUserResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserErrors", required: false, type: .list)
+        ]
+        /// If the BatchUpdateUser action fails for one or more of the user IDs in the request, a list of the user IDs is returned, along with error codes and error messages.
+        public let userErrors: [UserError]?
+
+        public init(userErrors: [UserError]? = nil) {
+            self.userErrors = userErrors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userErrors = "UserErrors"
+        }
     }
 
-    public struct DeleteAccountResponse: AWSShape {
-
-    }
-
-    public struct BatchUnsuspendUserRequest: AWSShape {
+    public struct GetUserRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
-            AWSShapeMember(label: "UserIdList", required: true, type: .list)
+            AWSShapeMember(label: "UserId", location: .uri(locationName: "userId"), required: true, type: .string)
         ]
         /// The Amazon Chime account ID.
         public let accountId: String
-        /// The request containing the user IDs to unsuspend.
-        public let userIdList: [String]
+        /// The user ID.
+        public let userId: String
 
-        public init(accountId: String, userIdList: [String]) {
+        public init(accountId: String, userId: String) {
             self.accountId = accountId
-            self.userIdList = userIdList
+            self.userId = userId
         }
 
         private enum CodingKeys: String, CodingKey {
             case accountId = "accountId"
-            case userIdList = "UserIdList"
+            case userId = "userId"
+        }
+    }
+
+    public struct ListUsersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Users", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// List of users and user details.
+        public let users: [User]?
+        /// The token to use to retrieve the next page of results.
+        public let nextToken: String?
+
+        public init(nextToken: String? = nil, users: [User]? = nil) {
+            self.users = users
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case users = "Users"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct BatchUpdateUserRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
+            AWSShapeMember(label: "UpdateUserRequestItems", required: true, type: .list)
+        ]
+        /// The Amazon Chime account ID.
+        public let accountId: String
+        /// The request containing the user IDs and details to update.
+        public let updateUserRequestItems: [UpdateUserRequestItem]
+
+        public init(accountId: String, updateUserRequestItems: [UpdateUserRequestItem]) {
+            self.accountId = accountId
+            self.updateUserRequestItems = updateUserRequestItems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case updateUserRequestItems = "UpdateUserRequestItems"
         }
     }
 
     public struct ResetPersonalPINRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserId", location: .uri(locationName: "userId"), required: true, type: .string), 
-            AWSShapeMember(label: "AccountId", location: .uri(locationName: "accountId"), required: true, type: .string)
+            AWSShapeMember(label: "AccountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
+            AWSShapeMember(label: "UserId", location: .uri(locationName: "userId"), required: true, type: .string)
+        ]
+        /// The Amazon Chime account ID.
+        public let accountId: String
+        /// The user ID.
+        public let userId: String
+
+        public init(accountId: String, userId: String) {
+            self.accountId = accountId
+            self.userId = userId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case userId = "userId"
+        }
+    }
+
+    public struct UpdateUserRequestItem: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserId", required: true, type: .string), 
+            AWSShapeMember(label: "LicenseType", required: false, type: .enum)
         ]
         /// The user ID.
         public let userId: String
-        /// The Amazon Chime account ID.
-        public let accountId: String
+        /// The user license type.
+        public let licenseType: License?
 
-        public init(userId: String, accountId: String) {
+        public init(licenseType: License? = nil, userId: String) {
             self.userId = userId
-            self.accountId = accountId
+            self.licenseType = licenseType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case userId = "userId"
-            case accountId = "accountId"
+            case userId = "UserId"
+            case licenseType = "LicenseType"
         }
     }
 
-    public struct CreateAccountResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Account", required: false, type: .structure)
-        ]
-        /// The Amazon Chime account details.
-        public let account: Account?
-
-        public init(account: Account? = nil) {
-            self.account = account
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case account = "Account"
-        }
-    }
-
-    public struct InviteUsersRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
-            AWSShapeMember(label: "UserEmailList", required: true, type: .list)
-        ]
-        /// The Amazon Chime account ID.
-        public let accountId: String
-        /// The user email addresses to which to send the invite.
-        public let userEmailList: [String]
-
-        public init(accountId: String, userEmailList: [String]) {
-            self.accountId = accountId
-            self.userEmailList = userEmailList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case userEmailList = "UserEmailList"
-        }
+    public enum EmailStatus: String, CustomStringConvertible, Codable {
+        case notsent = "NotSent"
+        case sent = "Sent"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
     }
 
     public struct GetAccountSettingsRequest: AWSShape {
@@ -747,90 +835,11 @@ extension Chime {
         }
     }
 
-    public struct UpdateAccountSettingsResponse: AWSShape {
+    public struct DeleteAccountResponse: AWSShape {
 
-    }
-
-    public struct GetUserRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserId", location: .uri(locationName: "userId"), required: true, type: .string), 
-            AWSShapeMember(label: "AccountId", location: .uri(locationName: "accountId"), required: true, type: .string)
-        ]
-        /// The user ID.
-        public let userId: String
-        /// The Amazon Chime account ID.
-        public let accountId: String
-
-        public init(userId: String, accountId: String) {
-            self.userId = userId
-            self.accountId = accountId
+        public init() {
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case userId = "userId"
-            case accountId = "accountId"
-        }
-    }
-
-    public struct GetAccountResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Account", required: false, type: .structure)
-        ]
-        /// The Amazon Chime account details.
-        public let account: Account?
-
-        public init(account: Account? = nil) {
-            self.account = account
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case account = "Account"
-        }
-    }
-
-    public struct GetUserResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "User", required: false, type: .structure)
-        ]
-        /// The user details.
-        public let user: User?
-
-        public init(user: User? = nil) {
-            self.user = user
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case user = "User"
-        }
-    }
-
-    public enum License: String, CustomStringConvertible, Codable {
-        case basic = "Basic"
-        case plus = "Plus"
-        case pro = "Pro"
-        case protrial = "ProTrial"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListUsersResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Users", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// List of users and user details.
-        public let users: [User]?
-        /// The token to use to retrieve the next page of results.
-        public let nextToken: String?
-
-        public init(users: [User]? = nil, nextToken: String? = nil) {
-            self.users = users
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case users = "Users"
-            case nextToken = "NextToken"
-        }
     }
 
 }

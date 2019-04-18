@@ -4,12 +4,12 @@ import AWSSDKSwiftCore
 
 /// Error enum for AutoScaling
 public enum AutoScalingErrorType: AWSErrorType {
+    case resourceInUseFault(message: String?)
     case resourceContentionFault(message: String?)
     case serviceLinkedRoleFailure(message: String?)
-    case alreadyExistsFault(message: String?)
-    case limitExceededFault(message: String?)
-    case resourceInUseFault(message: String?)
     case invalidNextToken(message: String?)
+    case limitExceededFault(message: String?)
+    case alreadyExistsFault(message: String?)
     case scalingActivityInProgressFault(message: String?)
 }
 
@@ -20,18 +20,18 @@ extension AutoScalingErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "ResourceInUseFault":
+            self = .resourceInUseFault(message: message)
         case "ResourceContentionFault":
             self = .resourceContentionFault(message: message)
         case "ServiceLinkedRoleFailure":
             self = .serviceLinkedRoleFailure(message: message)
-        case "AlreadyExistsFault":
-            self = .alreadyExistsFault(message: message)
-        case "LimitExceededFault":
-            self = .limitExceededFault(message: message)
-        case "ResourceInUseFault":
-            self = .resourceInUseFault(message: message)
         case "InvalidNextToken":
             self = .invalidNextToken(message: message)
+        case "LimitExceededFault":
+            self = .limitExceededFault(message: message)
+        case "AlreadyExistsFault":
+            self = .alreadyExistsFault(message: message)
         case "ScalingActivityInProgressFault":
             self = .scalingActivityInProgressFault(message: message)
         default:

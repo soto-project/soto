@@ -4,15 +4,15 @@ import AWSSDKSwiftCore
 
 /// Error enum for ACM
 public enum ACMErrorType: AWSErrorType {
-    case resourceNotFoundException(message: String?)
-    case requestInProgressException(message: String?)
-    case invalidArnException(message: String?)
-    case invalidTagException(message: String?)
-    case tooManyTagsException(message: String?)
     case limitExceededException(message: String?)
     case invalidDomainValidationOptionsException(message: String?)
-    case resourceInUseException(message: String?)
+    case invalidArnException(message: String?)
+    case resourceNotFoundException(message: String?)
     case invalidStateException(message: String?)
+    case invalidTagException(message: String?)
+    case requestInProgressException(message: String?)
+    case tooManyTagsException(message: String?)
+    case resourceInUseException(message: String?)
 }
 
 extension ACMErrorType {
@@ -22,24 +22,24 @@ extension ACMErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "RequestInProgressException":
-            self = .requestInProgressException(message: message)
-        case "InvalidArnException":
-            self = .invalidArnException(message: message)
-        case "InvalidTagException":
-            self = .invalidTagException(message: message)
-        case "TooManyTagsException":
-            self = .tooManyTagsException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
         case "InvalidDomainValidationOptionsException":
             self = .invalidDomainValidationOptionsException(message: message)
-        case "ResourceInUseException":
-            self = .resourceInUseException(message: message)
+        case "InvalidArnException":
+            self = .invalidArnException(message: message)
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
         case "InvalidStateException":
             self = .invalidStateException(message: message)
+        case "InvalidTagException":
+            self = .invalidTagException(message: message)
+        case "RequestInProgressException":
+            self = .requestInProgressException(message: message)
+        case "TooManyTagsException":
+            self = .tooManyTagsException(message: message)
+        case "ResourceInUseException":
+            self = .resourceInUseException(message: message)
         default:
             return nil
         }

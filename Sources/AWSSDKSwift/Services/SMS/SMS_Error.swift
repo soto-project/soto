@@ -7,14 +7,14 @@ public enum SMSErrorType: AWSErrorType {
     case unauthorizedOperationException(message: String?)
     case invalidParameterException(message: String?)
     case missingRequiredParameterException(message: String?)
-    case internalError(message: String?)
     case operationNotPermittedException(message: String?)
-    case replicationRunLimitExceededException(message: String?)
-    case noConnectorsAvailableException(message: String?)
-    case serverCannotBeReplicatedException(message: String?)
     case replicationJobNotFoundException(message: String?)
-    case temporarilyUnavailableException(message: String?)
+    case serverCannotBeReplicatedException(message: String?)
     case replicationJobAlreadyExistsException(message: String?)
+    case noConnectorsAvailableException(message: String?)
+    case internalError(message: String?)
+    case temporarilyUnavailableException(message: String?)
+    case replicationRunLimitExceededException(message: String?)
 }
 
 extension SMSErrorType {
@@ -30,22 +30,22 @@ extension SMSErrorType {
             self = .invalidParameterException(message: message)
         case "MissingRequiredParameterException":
             self = .missingRequiredParameterException(message: message)
-        case "InternalError":
-            self = .internalError(message: message)
         case "OperationNotPermittedException":
             self = .operationNotPermittedException(message: message)
-        case "ReplicationRunLimitExceededException":
-            self = .replicationRunLimitExceededException(message: message)
-        case "NoConnectorsAvailableException":
-            self = .noConnectorsAvailableException(message: message)
-        case "ServerCannotBeReplicatedException":
-            self = .serverCannotBeReplicatedException(message: message)
         case "ReplicationJobNotFoundException":
             self = .replicationJobNotFoundException(message: message)
-        case "TemporarilyUnavailableException":
-            self = .temporarilyUnavailableException(message: message)
+        case "ServerCannotBeReplicatedException":
+            self = .serverCannotBeReplicatedException(message: message)
         case "ReplicationJobAlreadyExistsException":
             self = .replicationJobAlreadyExistsException(message: message)
+        case "NoConnectorsAvailableException":
+            self = .noConnectorsAvailableException(message: message)
+        case "InternalError":
+            self = .internalError(message: message)
+        case "TemporarilyUnavailableException":
+            self = .temporarilyUnavailableException(message: message)
+        case "ReplicationRunLimitExceededException":
+            self = .replicationRunLimitExceededException(message: message)
         default:
             return nil
         }

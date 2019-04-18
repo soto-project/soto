@@ -30,9 +30,9 @@ public struct ResourceGroupsTaggingAPI {
         return try client.send(operation: "GetResources", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns all tag keys in the specified region for the AWS account.
-    public func getTagKeys(_ input: GetTagKeysInput) throws -> GetTagKeysOutput {
-        return try client.send(operation: "GetTagKeys", path: "/", httpMethod: "POST", input: input)
+    ///  Applies one or more tags to the specified resources. Note the following:   Not all resources can have tags. For a list of resources that support tagging, see Supported Resources in the AWS Resource Groups and Tag Editor User Guide.   Each resource can have up to 50 tags. For other limits, see Tag Restrictions in the Amazon EC2 User Guide for Linux Instances.   You can only tag resources that are located in the specified region for the AWS account.   To add tags to a resource, you need the necessary permissions for the service that the resource belongs to as well as permissions for adding tags. For more information, see Obtaining Permissions for Tagging in the AWS Resource Groups and Tag Editor User Guide.  
+    public func tagResources(_ input: TagResourcesInput) throws -> TagResourcesOutput {
+        return try client.send(operation: "TagResources", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns all tag values for the specified key in the specified region for the AWS account.
@@ -45,9 +45,9 @@ public struct ResourceGroupsTaggingAPI {
         return try client.send(operation: "UntagResources", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Applies one or more tags to the specified resources. Note the following:   Not all resources can have tags. For a list of resources that support tagging, see Supported Resources in the AWS Resource Groups and Tag Editor User Guide.   Each resource can have up to 50 tags. For other limits, see Tag Restrictions in the Amazon EC2 User Guide for Linux Instances.   You can only tag resources that are located in the specified region for the AWS account.   To add tags to a resource, you need the necessary permissions for the service that the resource belongs to as well as permissions for adding tags. For more information, see Obtaining Permissions for Tagging in the AWS Resource Groups and Tag Editor User Guide.  
-    public func tagResources(_ input: TagResourcesInput) throws -> TagResourcesOutput {
-        return try client.send(operation: "TagResources", path: "/", httpMethod: "POST", input: input)
+    ///  Returns all tag keys in the specified region for the AWS account.
+    public func getTagKeys(_ input: GetTagKeysInput) throws -> GetTagKeysOutput {
+        return try client.send(operation: "GetTagKeys", path: "/", httpMethod: "POST", input: input)
     }
 
 

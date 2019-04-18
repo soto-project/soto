@@ -5,1772 +5,132 @@ import AWSSDKSwiftCore
 
 extension AutoScaling {
 
-    public struct LaunchConfigurationNamesType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LaunchConfigurationNames", required: false, type: .list), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The launch configuration names. If you omit this parameter, all launch configurations are described.
-        public let launchConfigurationNames: [String]?
-        /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
-        public let maxRecords: Int32?
-        /// The token for the next set of items to return. (You received this token from a previous call.)
-        public let nextToken: String?
-
-        public init(launchConfigurationNames: [String]? = nil, maxRecords: Int32? = nil, nextToken: String? = nil) {
-            self.launchConfigurationNames = launchConfigurationNames
-            self.maxRecords = maxRecords
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case launchConfigurationNames = "LaunchConfigurationNames"
-            case maxRecords = "MaxRecords"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct EnterStandbyQuery: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ShouldDecrementDesiredCapacity", required: true, type: .boolean), 
-            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "InstanceIds", required: false, type: .list)
-        ]
-        /// Indicates whether to decrement the desired capacity of the Auto Scaling group by the number of instances moved to Standby mode.
-        public let shouldDecrementDesiredCapacity: Bool
-        /// The name of the Auto Scaling group.
-        public let autoScalingGroupName: String
-        /// The IDs of the instances. You can specify up to 20 instances.
-        public let instanceIds: [String]?
-
-        public init(shouldDecrementDesiredCapacity: Bool, autoScalingGroupName: String, instanceIds: [String]? = nil) {
-            self.shouldDecrementDesiredCapacity = shouldDecrementDesiredCapacity
-            self.autoScalingGroupName = autoScalingGroupName
-            self.instanceIds = instanceIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case shouldDecrementDesiredCapacity = "ShouldDecrementDesiredCapacity"
-            case autoScalingGroupName = "AutoScalingGroupName"
-            case instanceIds = "InstanceIds"
-        }
-    }
-
-    public struct NotificationConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TopicARN", required: false, type: .string), 
-            AWSShapeMember(label: "NotificationType", required: false, type: .string), 
-            AWSShapeMember(label: "AutoScalingGroupName", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (Amazon SNS) topic.
-        public let topicARN: String?
-        /// One of the following event notification types:    autoscaling:EC2_INSTANCE_LAUNCH     autoscaling:EC2_INSTANCE_LAUNCH_ERROR     autoscaling:EC2_INSTANCE_TERMINATE     autoscaling:EC2_INSTANCE_TERMINATE_ERROR     autoscaling:TEST_NOTIFICATION   
-        public let notificationType: String?
-        /// The name of the Auto Scaling group.
-        public let autoScalingGroupName: String?
-
-        public init(topicARN: String? = nil, notificationType: String? = nil, autoScalingGroupName: String? = nil) {
-            self.topicARN = topicARN
-            self.notificationType = notificationType
-            self.autoScalingGroupName = autoScalingGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case topicARN = "TopicARN"
-            case notificationType = "NotificationType"
-            case autoScalingGroupName = "AutoScalingGroupName"
-        }
-    }
-
-    public struct DescribeLifecycleHooksAnswer: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LifecycleHooks", required: false, type: .list)
-        ]
-        /// The lifecycle hooks for the specified group.
-        public let lifecycleHooks: [LifecycleHook]?
-
-        public init(lifecycleHooks: [LifecycleHook]? = nil) {
-            self.lifecycleHooks = lifecycleHooks
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lifecycleHooks = "LifecycleHooks"
-        }
-    }
-
-    public struct DeleteAutoScalingGroupType: AWSShape {
+    public struct ScalingProcessQuery: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "ForceDelete", required: false, type: .boolean)
+            AWSShapeMember(label: "ScalingProcesses", required: false, type: .list)
         ]
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
-        /// Specifies that the group is to be deleted along with all instances associated with the group, without waiting for all instances to be terminated. This parameter also deletes any lifecycle actions associated with the group.
-        public let forceDelete: Bool?
+        /// One or more of the following processes. If you omit this parameter, all processes are specified.    Launch     Terminate     HealthCheck     ReplaceUnhealthy     AZRebalance     AlarmNotification     ScheduledActions     AddToLoadBalancer   
+        public let scalingProcesses: [String]?
 
-        public init(autoScalingGroupName: String, forceDelete: Bool? = nil) {
+        public init(autoScalingGroupName: String, scalingProcesses: [String]? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
-            self.forceDelete = forceDelete
+            self.scalingProcesses = scalingProcesses
         }
 
         private enum CodingKeys: String, CodingKey {
             case autoScalingGroupName = "AutoScalingGroupName"
-            case forceDelete = "ForceDelete"
-        }
-    }
-
-    public struct DeleteLifecycleHookAnswer: AWSShape {
-
-    }
-
-    public struct CreateAutoScalingGroupType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VPCZoneIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "NewInstancesProtectedFromScaleIn", required: false, type: .boolean), 
-            AWSShapeMember(label: "LaunchTemplate", required: false, type: .structure), 
-            AWSShapeMember(label: "MinSize", required: true, type: .integer), 
-            AWSShapeMember(label: "HealthCheckType", required: false, type: .string), 
-            AWSShapeMember(label: "LaunchConfigurationName", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
-            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "PlacementGroup", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "ServiceLinkedRoleARN", required: false, type: .string), 
-            AWSShapeMember(label: "HealthCheckGracePeriod", required: false, type: .integer), 
-            AWSShapeMember(label: "MaxSize", required: true, type: .integer), 
-            AWSShapeMember(label: "TargetGroupARNs", required: false, type: .list), 
-            AWSShapeMember(label: "DefaultCooldown", required: false, type: .integer), 
-            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
-            AWSShapeMember(label: "DesiredCapacity", required: false, type: .integer), 
-            AWSShapeMember(label: "TerminationPolicies", required: false, type: .list), 
-            AWSShapeMember(label: "LifecycleHookSpecificationList", required: false, type: .list), 
-            AWSShapeMember(label: "MixedInstancesPolicy", required: false, type: .structure), 
-            AWSShapeMember(label: "LoadBalancerNames", required: false, type: .list)
-        ]
-        /// A comma-separated list of subnet identifiers for your virtual private cloud (VPC). If you specify subnets and Availability Zones with this call, ensure that the subnets' Availability Zones match the Availability Zones specified. For more information, see Launching Auto Scaling Instances in a VPC in the Amazon EC2 Auto Scaling User Guide.
-        public let vPCZoneIdentifier: String?
-        /// Indicates whether newly launched instances are protected from termination by Auto Scaling when scaling in.
-        public let newInstancesProtectedFromScaleIn: Bool?
-        /// The launch template to use to launch instances. This parameter, a launch configuration, a mixed instances policy, or an EC2 instance must be specified.
-        public let launchTemplate: LaunchTemplateSpecification?
-        /// The minimum size of the group.
-        public let minSize: Int32
-        /// The service to use for the health checks. The valid values are EC2 and ELB. By default, health checks use Amazon EC2 instance status checks to determine the health of an instance. For more information, see Health Checks in the Amazon EC2 Auto Scaling User Guide.
-        public let healthCheckType: String?
-        /// The name of the launch configuration. This parameter, a launch template, a mixed instances policy, or an EC2 instance must be specified.
-        public let launchConfigurationName: String?
-        /// The ID of the instance used to create a launch configuration for the group. This parameter, a launch configuration, a launch template, or a mixed instances policy must be specified. When you specify an ID of an instance, Amazon EC2 Auto Scaling creates a new launch configuration and associates it with the group. This launch configuration derives its attributes from the specified instance, except for the block device mapping. For more information, see Create an Auto Scaling Group Using an EC2 Instance in the Amazon EC2 Auto Scaling User Guide.
-        public let instanceId: String?
-        /// The name of the Auto Scaling group. This name must be unique within the scope of your AWS account.
-        public let autoScalingGroupName: String
-        /// The name of the placement group into which to launch your instances, if any. For more information, see Placement Groups in the Amazon Elastic Compute Cloud User Guide.
-        public let placementGroup: String?
-        /// One or more tags. For more information, see Tagging Auto Scaling Groups and Instances in the Amazon EC2 Auto Scaling User Guide.
-        public let tags: [Tag]?
-        /// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other AWS services on your behalf. By default, Amazon EC2 Auto Scaling uses a service-linked role named AWSServiceRoleForAutoScaling, which it creates if it does not exist.
-        public let serviceLinkedRoleARN: String?
-        /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service. During this time, any health check failures for the instance are ignored. The default is 0. This parameter is required if you are adding an ELB health check. For more information, see Health Checks in the Amazon EC2 Auto Scaling User Guide.
-        public let healthCheckGracePeriod: Int32?
-        /// The maximum size of the group.
-        public let maxSize: Int32
-        /// The Amazon Resource Names (ARN) of the target groups.
-        public let targetGroupARNs: [String]?
-        /// The amount of time, in seconds, after a scaling activity completes before another scaling activity can start. The default is 300. For more information, see Scaling Cooldowns in the Amazon EC2 Auto Scaling User Guide.
-        public let defaultCooldown: Int32?
-        /// One or more Availability Zones for the group. This parameter is optional if you specify one or more subnets.
-        public let availabilityZones: [String]?
-        /// The number of EC2 instances that should be running in the group. This number must be greater than or equal to the minimum size of the group and less than or equal to the maximum size of the group. If you do not specify a desired capacity, the default is the minimum size of the group.
-        public let desiredCapacity: Int32?
-        /// One or more termination policies used to select the instance to terminate. These policies are executed in the order that they are listed. For more information, see Controlling Which Instances Auto Scaling Terminates During Scale In in the Auto Scaling User Guide.
-        public let terminationPolicies: [String]?
-        /// One or more lifecycle hooks.
-        public let lifecycleHookSpecificationList: [LifecycleHookSpecification]?
-        /// The mixed instances policy to use to launch instances. This parameter, a launch template, a launch configuration, or an EC2 instance must be specified.
-        public let mixedInstancesPolicy: MixedInstancesPolicy?
-        /// One or more Classic Load Balancers. To specify an Application Load Balancer, use TargetGroupARNs instead. For more information, see Using a Load Balancer With an Auto Scaling Group in the Amazon EC2 Auto Scaling User Guide.
-        public let loadBalancerNames: [String]?
-
-        public init(vPCZoneIdentifier: String? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, launchTemplate: LaunchTemplateSpecification? = nil, minSize: Int32, healthCheckType: String? = nil, launchConfigurationName: String? = nil, instanceId: String? = nil, autoScalingGroupName: String, placementGroup: String? = nil, tags: [Tag]? = nil, serviceLinkedRoleARN: String? = nil, healthCheckGracePeriod: Int32? = nil, maxSize: Int32, targetGroupARNs: [String]? = nil, defaultCooldown: Int32? = nil, availabilityZones: [String]? = nil, desiredCapacity: Int32? = nil, terminationPolicies: [String]? = nil, lifecycleHookSpecificationList: [LifecycleHookSpecification]? = nil, mixedInstancesPolicy: MixedInstancesPolicy? = nil, loadBalancerNames: [String]? = nil) {
-            self.vPCZoneIdentifier = vPCZoneIdentifier
-            self.newInstancesProtectedFromScaleIn = newInstancesProtectedFromScaleIn
-            self.launchTemplate = launchTemplate
-            self.minSize = minSize
-            self.healthCheckType = healthCheckType
-            self.launchConfigurationName = launchConfigurationName
-            self.instanceId = instanceId
-            self.autoScalingGroupName = autoScalingGroupName
-            self.placementGroup = placementGroup
-            self.tags = tags
-            self.serviceLinkedRoleARN = serviceLinkedRoleARN
-            self.healthCheckGracePeriod = healthCheckGracePeriod
-            self.maxSize = maxSize
-            self.targetGroupARNs = targetGroupARNs
-            self.defaultCooldown = defaultCooldown
-            self.availabilityZones = availabilityZones
-            self.desiredCapacity = desiredCapacity
-            self.terminationPolicies = terminationPolicies
-            self.lifecycleHookSpecificationList = lifecycleHookSpecificationList
-            self.mixedInstancesPolicy = mixedInstancesPolicy
-            self.loadBalancerNames = loadBalancerNames
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case vPCZoneIdentifier = "VPCZoneIdentifier"
-            case newInstancesProtectedFromScaleIn = "NewInstancesProtectedFromScaleIn"
-            case launchTemplate = "LaunchTemplate"
-            case minSize = "MinSize"
-            case healthCheckType = "HealthCheckType"
-            case launchConfigurationName = "LaunchConfigurationName"
-            case instanceId = "InstanceId"
-            case autoScalingGroupName = "AutoScalingGroupName"
-            case placementGroup = "PlacementGroup"
-            case tags = "Tags"
-            case serviceLinkedRoleARN = "ServiceLinkedRoleARN"
-            case healthCheckGracePeriod = "HealthCheckGracePeriod"
-            case maxSize = "MaxSize"
-            case targetGroupARNs = "TargetGroupARNs"
-            case defaultCooldown = "DefaultCooldown"
-            case availabilityZones = "AvailabilityZones"
-            case desiredCapacity = "DesiredCapacity"
-            case terminationPolicies = "TerminationPolicies"
-            case lifecycleHookSpecificationList = "LifecycleHookSpecificationList"
-            case mixedInstancesPolicy = "MixedInstancesPolicy"
-            case loadBalancerNames = "LoadBalancerNames"
-        }
-    }
-
-    public struct ScheduledUpdateGroupAction: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MinSize", required: false, type: .integer), 
-            AWSShapeMember(label: "MaxSize", required: false, type: .integer), 
-            AWSShapeMember(label: "Time", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ScheduledActionName", required: false, type: .string), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "AutoScalingGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Recurrence", required: false, type: .string), 
-            AWSShapeMember(label: "DesiredCapacity", required: false, type: .integer), 
-            AWSShapeMember(label: "ScheduledActionARN", required: false, type: .string)
-        ]
-        /// The date and time that the action is scheduled to begin. This date and time can be up to one month in the future. When StartTime and EndTime are specified with Recurrence, they form the boundaries of when the recurring action starts and stops.
-        public let startTime: TimeStamp?
-        /// The minimum size of the group.
-        public let minSize: Int32?
-        /// The maximum size of the group.
-        public let maxSize: Int32?
-        /// This parameter is deprecated.
-        public let time: TimeStamp?
-        /// The name of the scheduled action.
-        public let scheduledActionName: String?
-        /// The date and time that the action is scheduled to end. This date and time can be up to one month in the future.
-        public let endTime: TimeStamp?
-        /// The name of the Auto Scaling group.
-        public let autoScalingGroupName: String?
-        /// The recurring schedule for the action.
-        public let recurrence: String?
-        /// The number of instances you prefer to maintain in the group.
-        public let desiredCapacity: Int32?
-        /// The Amazon Resource Name (ARN) of the scheduled action.
-        public let scheduledActionARN: String?
-
-        public init(startTime: TimeStamp? = nil, minSize: Int32? = nil, maxSize: Int32? = nil, time: TimeStamp? = nil, scheduledActionName: String? = nil, endTime: TimeStamp? = nil, autoScalingGroupName: String? = nil, recurrence: String? = nil, desiredCapacity: Int32? = nil, scheduledActionARN: String? = nil) {
-            self.startTime = startTime
-            self.minSize = minSize
-            self.maxSize = maxSize
-            self.time = time
-            self.scheduledActionName = scheduledActionName
-            self.endTime = endTime
-            self.autoScalingGroupName = autoScalingGroupName
-            self.recurrence = recurrence
-            self.desiredCapacity = desiredCapacity
-            self.scheduledActionARN = scheduledActionARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case startTime = "StartTime"
-            case minSize = "MinSize"
-            case maxSize = "MaxSize"
-            case time = "Time"
-            case scheduledActionName = "ScheduledActionName"
-            case endTime = "EndTime"
-            case autoScalingGroupName = "AutoScalingGroupName"
-            case recurrence = "Recurrence"
-            case desiredCapacity = "DesiredCapacity"
-            case scheduledActionARN = "ScheduledActionARN"
-        }
-    }
-
-    public struct AttachInstancesQuery: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceIds", required: false, type: .list), 
-            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
-        ]
-        /// The IDs of the instances. You can specify up to 20 instances.
-        public let instanceIds: [String]?
-        /// The name of the Auto Scaling group.
-        public let autoScalingGroupName: String
-
-        public init(instanceIds: [String]? = nil, autoScalingGroupName: String) {
-            self.instanceIds = instanceIds
-            self.autoScalingGroupName = autoScalingGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceIds = "InstanceIds"
-            case autoScalingGroupName = "AutoScalingGroupName"
-        }
-    }
-
-    public struct StepAdjustment: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MetricIntervalLowerBound", required: false, type: .double), 
-            AWSShapeMember(label: "MetricIntervalUpperBound", required: false, type: .double), 
-            AWSShapeMember(label: "ScalingAdjustment", required: true, type: .integer)
-        ]
-        /// The lower bound for the difference between the alarm threshold and the CloudWatch metric. If the metric value is above the breach threshold, the lower bound is inclusive (the metric must be greater than or equal to the threshold plus the lower bound). Otherwise, it is exclusive (the metric must be greater than the threshold plus the lower bound). A null value indicates negative infinity.
-        public let metricIntervalLowerBound: Double?
-        /// The upper bound for the difference between the alarm threshold and the CloudWatch metric. If the metric value is above the breach threshold, the upper bound is exclusive (the metric must be less than the threshold plus the upper bound). Otherwise, it is inclusive (the metric must be less than or equal to the threshold plus the upper bound). A null value indicates positive infinity. The upper bound must be greater than the lower bound.
-        public let metricIntervalUpperBound: Double?
-        /// The amount by which to scale, based on the specified adjustment type. A positive value adds to the current capacity while a negative number removes from the current capacity.
-        public let scalingAdjustment: Int32
-
-        public init(metricIntervalLowerBound: Double? = nil, metricIntervalUpperBound: Double? = nil, scalingAdjustment: Int32) {
-            self.metricIntervalLowerBound = metricIntervalLowerBound
-            self.metricIntervalUpperBound = metricIntervalUpperBound
-            self.scalingAdjustment = scalingAdjustment
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case metricIntervalLowerBound = "MetricIntervalLowerBound"
-            case metricIntervalUpperBound = "MetricIntervalUpperBound"
-            case scalingAdjustment = "ScalingAdjustment"
-        }
-    }
-
-    public struct BatchPutScheduledUpdateGroupActionType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScheduledUpdateGroupActions", required: true, type: .list), 
-            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
-        ]
-        /// One or more scheduled actions. The maximum number allowed is 50. 
-        public let scheduledUpdateGroupActions: [ScheduledUpdateGroupActionRequest]
-        /// The name of the Auto Scaling group.
-        public let autoScalingGroupName: String
-
-        public init(scheduledUpdateGroupActions: [ScheduledUpdateGroupActionRequest], autoScalingGroupName: String) {
-            self.scheduledUpdateGroupActions = scheduledUpdateGroupActions
-            self.autoScalingGroupName = autoScalingGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case scheduledUpdateGroupActions = "ScheduledUpdateGroupActions"
-            case autoScalingGroupName = "AutoScalingGroupName"
-        }
-    }
-
-    public struct DescribeNotificationConfigurationsType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "AutoScalingGroupNames", required: false, type: .list), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
-        ]
-        /// The token for the next set of items to return. (You received this token from a previous call.)
-        public let nextToken: String?
-        /// The name of the Auto Scaling group.
-        public let autoScalingGroupNames: [String]?
-        /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
-        public let maxRecords: Int32?
-
-        public init(nextToken: String? = nil, autoScalingGroupNames: [String]? = nil, maxRecords: Int32? = nil) {
-            self.nextToken = nextToken
-            self.autoScalingGroupNames = autoScalingGroupNames
-            self.maxRecords = maxRecords
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case autoScalingGroupNames = "AutoScalingGroupNames"
-            case maxRecords = "MaxRecords"
-        }
-    }
-
-    public struct PutLifecycleHookType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NotificationMetadata", required: false, type: .string), 
-            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
-            AWSShapeMember(label: "DefaultResult", required: false, type: .string), 
-            AWSShapeMember(label: "NotificationTargetARN", required: false, type: .string), 
-            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "HeartbeatTimeout", required: false, type: .integer), 
-            AWSShapeMember(label: "LifecycleHookName", required: true, type: .string), 
-            AWSShapeMember(label: "LifecycleTransition", required: false, type: .string)
-        ]
-        /// Contains additional information that you want to include any time Amazon EC2 Auto Scaling sends a message to the notification target.
-        public let notificationMetadata: String?
-        /// The ARN of the IAM role that allows the Auto Scaling group to publish to the specified notification target. This parameter is required for new lifecycle hooks, but optional when updating existing hooks.
-        public let roleARN: String?
-        /// Defines the action the Auto Scaling group should take when the lifecycle hook timeout elapses or if an unexpected failure occurs. This parameter can be either CONTINUE or ABANDON. The default value is ABANDON.
-        public let defaultResult: String?
-        /// The ARN of the notification target that Amazon EC2 Auto Scaling uses to notify you when an instance is in the transition state for the lifecycle hook. This target can be either an SQS queue or an SNS topic. If you specify an empty string, this overrides the current ARN. This operation uses the JSON format when sending notifications to an Amazon SQS queue, and an email key-value pair format when sending notifications to an Amazon SNS topic. When you specify a notification target, Amazon EC2 Auto Scaling sends it a test message. Test messages contain the following additional key-value pair: "Event": "autoscaling:TEST_NOTIFICATION".
-        public let notificationTargetARN: String?
-        /// The name of the Auto Scaling group.
-        public let autoScalingGroupName: String
-        /// The maximum time, in seconds, that can elapse before the lifecycle hook times out. The range is from 30 to 7200 seconds. The default is 3600 seconds (1 hour). If the lifecycle hook times out, Amazon EC2 Auto Scaling performs the default action. You can prevent the lifecycle hook from timing out by calling RecordLifecycleActionHeartbeat.
-        public let heartbeatTimeout: Int32?
-        /// The name of the lifecycle hook.
-        public let lifecycleHookName: String
-        /// The instance state to which you want to attach the lifecycle hook. The possible values are:   autoscaling:EC2_INSTANCE_LAUNCHING   autoscaling:EC2_INSTANCE_TERMINATING   This parameter is required for new lifecycle hooks, but optional when updating existing hooks.
-        public let lifecycleTransition: String?
-
-        public init(notificationMetadata: String? = nil, roleARN: String? = nil, defaultResult: String? = nil, notificationTargetARN: String? = nil, autoScalingGroupName: String, heartbeatTimeout: Int32? = nil, lifecycleHookName: String, lifecycleTransition: String? = nil) {
-            self.notificationMetadata = notificationMetadata
-            self.roleARN = roleARN
-            self.defaultResult = defaultResult
-            self.notificationTargetARN = notificationTargetARN
-            self.autoScalingGroupName = autoScalingGroupName
-            self.heartbeatTimeout = heartbeatTimeout
-            self.lifecycleHookName = lifecycleHookName
-            self.lifecycleTransition = lifecycleTransition
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case notificationMetadata = "NotificationMetadata"
-            case roleARN = "RoleARN"
-            case defaultResult = "DefaultResult"
-            case notificationTargetARN = "NotificationTargetARN"
-            case autoScalingGroupName = "AutoScalingGroupName"
-            case heartbeatTimeout = "HeartbeatTimeout"
-            case lifecycleHookName = "LifecycleHookName"
-            case lifecycleTransition = "LifecycleTransition"
-        }
-    }
-
-    public struct ActivityType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Activity", required: false, type: .structure)
-        ]
-        /// A scaling activity.
-        public let activity: Activity?
-
-        public init(activity: Activity? = nil) {
-            self.activity = activity
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case activity = "Activity"
-        }
-    }
-
-    public struct ProcessesType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Processes", required: false, type: .list)
-        ]
-        /// The names of the process types.
-        public let processes: [ProcessType]?
-
-        public init(processes: [ProcessType]? = nil) {
-            self.processes = processes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case processes = "Processes"
-        }
-    }
-
-    public struct TargetTrackingConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetValue", required: true, type: .double), 
-            AWSShapeMember(label: "CustomizedMetricSpecification", required: false, type: .structure), 
-            AWSShapeMember(label: "DisableScaleIn", required: false, type: .boolean), 
-            AWSShapeMember(label: "PredefinedMetricSpecification", required: false, type: .structure)
-        ]
-        /// The target value for the metric.
-        public let targetValue: Double
-        /// A customized metric.
-        public let customizedMetricSpecification: CustomizedMetricSpecification?
-        /// Indicates whether scaling in by the target tracking policy is disabled. If scaling in is disabled, the target tracking policy doesn't remove instances from the Auto Scaling group. Otherwise, the target tracking policy can remove instances from the Auto Scaling group. The default is disabled.
-        public let disableScaleIn: Bool?
-        /// A predefined metric. You can specify either a predefined metric or a customized metric.
-        public let predefinedMetricSpecification: PredefinedMetricSpecification?
-
-        public init(targetValue: Double, customizedMetricSpecification: CustomizedMetricSpecification? = nil, disableScaleIn: Bool? = nil, predefinedMetricSpecification: PredefinedMetricSpecification? = nil) {
-            self.targetValue = targetValue
-            self.customizedMetricSpecification = customizedMetricSpecification
-            self.disableScaleIn = disableScaleIn
-            self.predefinedMetricSpecification = predefinedMetricSpecification
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case targetValue = "TargetValue"
-            case customizedMetricSpecification = "CustomizedMetricSpecification"
-            case disableScaleIn = "DisableScaleIn"
-            case predefinedMetricSpecification = "PredefinedMetricSpecification"
-        }
-    }
-
-    public struct Tag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceType", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "PropagateAtLaunch", required: false, type: .boolean), 
-            AWSShapeMember(label: "Key", required: true, type: .string)
-        ]
-        /// The name of the group.
-        public let resourceId: String?
-        /// The type of resource. The only supported value is auto-scaling-group.
-        public let resourceType: String?
-        /// The tag value.
-        public let value: String?
-        /// Determines whether the tag is added to new instances as they are launched in the group.
-        public let propagateAtLaunch: Bool?
-        /// The tag key.
-        public let key: String
-
-        public init(resourceId: String? = nil, resourceType: String? = nil, value: String? = nil, propagateAtLaunch: Bool? = nil, key: String) {
-            self.resourceId = resourceId
-            self.resourceType = resourceType
-            self.value = value
-            self.propagateAtLaunch = propagateAtLaunch
-            self.key = key
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceId = "ResourceId"
-            case resourceType = "ResourceType"
-            case value = "Value"
-            case propagateAtLaunch = "PropagateAtLaunch"
-            case key = "Key"
-        }
-    }
-
-    public struct AttachLoadBalancersType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "LoadBalancerNames", required: true, type: .list)
-        ]
-        /// The name of the Auto Scaling group.
-        public let autoScalingGroupName: String
-        /// The names of the load balancers. You can specify up to 10 load balancers.
-        public let loadBalancerNames: [String]
-
-        public init(autoScalingGroupName: String, loadBalancerNames: [String]) {
-            self.autoScalingGroupName = autoScalingGroupName
-            self.loadBalancerNames = loadBalancerNames
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case autoScalingGroupName = "AutoScalingGroupName"
-            case loadBalancerNames = "LoadBalancerNames"
-        }
-    }
-
-    public struct AutoScalingGroupNamesType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "AutoScalingGroupNames", required: false, type: .list), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
-        ]
-        /// The token for the next set of items to return. (You received this token from a previous call.)
-        public let nextToken: String?
-        /// The names of the Auto Scaling groups. You can specify up to MaxRecords names. If you omit this parameter, all Auto Scaling groups are described.
-        public let autoScalingGroupNames: [String]?
-        /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
-        public let maxRecords: Int32?
-
-        public init(nextToken: String? = nil, autoScalingGroupNames: [String]? = nil, maxRecords: Int32? = nil) {
-            self.nextToken = nextToken
-            self.autoScalingGroupNames = autoScalingGroupNames
-            self.maxRecords = maxRecords
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case autoScalingGroupNames = "AutoScalingGroupNames"
-            case maxRecords = "MaxRecords"
-        }
-    }
-
-    public struct Instance: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LaunchTemplate", required: false, type: .structure), 
-            AWSShapeMember(label: "AvailabilityZone", required: true, type: .string), 
-            AWSShapeMember(label: "LifecycleState", required: true, type: .enum), 
-            AWSShapeMember(label: "InstanceId", required: true, type: .string), 
-            AWSShapeMember(label: "LaunchConfigurationName", required: false, type: .string), 
-            AWSShapeMember(label: "ProtectedFromScaleIn", required: true, type: .boolean), 
-            AWSShapeMember(label: "HealthStatus", required: true, type: .string)
-        ]
-        /// The launch template for the instance.
-        public let launchTemplate: LaunchTemplateSpecification?
-        /// The Availability Zone in which the instance is running.
-        public let availabilityZone: String
-        /// A description of the current lifecycle state. The Quarantined state is not used.
-        public let lifecycleState: LifecycleState
-        /// The ID of the instance.
-        public let instanceId: String
-        /// The launch configuration associated with the instance.
-        public let launchConfigurationName: String?
-        /// Indicates whether the instance is protected from termination by Amazon EC2 Auto Scaling when scaling in.
-        public let protectedFromScaleIn: Bool
-        /// The last reported health status of the instance. "Healthy" means that the instance is healthy and should remain in service. "Unhealthy" means that the instance is unhealthy and that Amazon EC2 Auto Scaling should terminate and replace it.
-        public let healthStatus: String
-
-        public init(launchTemplate: LaunchTemplateSpecification? = nil, availabilityZone: String, lifecycleState: LifecycleState, instanceId: String, launchConfigurationName: String? = nil, protectedFromScaleIn: Bool, healthStatus: String) {
-            self.launchTemplate = launchTemplate
-            self.availabilityZone = availabilityZone
-            self.lifecycleState = lifecycleState
-            self.instanceId = instanceId
-            self.launchConfigurationName = launchConfigurationName
-            self.protectedFromScaleIn = protectedFromScaleIn
-            self.healthStatus = healthStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case launchTemplate = "LaunchTemplate"
-            case availabilityZone = "AvailabilityZone"
-            case lifecycleState = "LifecycleState"
-            case instanceId = "InstanceId"
-            case launchConfigurationName = "LaunchConfigurationName"
-            case protectedFromScaleIn = "ProtectedFromScaleIn"
-            case healthStatus = "HealthStatus"
-        }
-    }
-
-    public struct PutLifecycleHookAnswer: AWSShape {
-
-    }
-
-    public struct PutScheduledUpdateGroupActionType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MinSize", required: false, type: .integer), 
-            AWSShapeMember(label: "MaxSize", required: false, type: .integer), 
-            AWSShapeMember(label: "Time", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ScheduledActionName", required: true, type: .string), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Recurrence", required: false, type: .string), 
-            AWSShapeMember(label: "DesiredCapacity", required: false, type: .integer)
-        ]
-        /// The time for this action to start, in "YYYY-MM-DDThh:mm:ssZ" format in UTC/GMT only (for example, 2014-06-01T00:00:00Z). If you specify Recurrence and StartTime, Amazon EC2 Auto Scaling performs the action at this time, and then performs the action based on the specified recurrence. If you try to schedule your action in the past, Amazon EC2 Auto Scaling returns an error message.
-        public let startTime: TimeStamp?
-        /// The minimum size for the Auto Scaling group.
-        public let minSize: Int32?
-        /// The maximum size for the Auto Scaling group.
-        public let maxSize: Int32?
-        /// This parameter is deprecated.
-        public let time: TimeStamp?
-        /// The name of this scaling action.
-        public let scheduledActionName: String
-        /// The time for the recurring schedule to end. Amazon EC2 Auto Scaling does not perform the action after this time.
-        public let endTime: TimeStamp?
-        /// The name of the Auto Scaling group.
-        public let autoScalingGroupName: String
-        /// The recurring schedule for this action, in Unix cron syntax format. For more information about this format, see Crontab.
-        public let recurrence: String?
-        /// The number of EC2 instances that should be running in the group.
-        public let desiredCapacity: Int32?
-
-        public init(startTime: TimeStamp? = nil, minSize: Int32? = nil, maxSize: Int32? = nil, time: TimeStamp? = nil, scheduledActionName: String, endTime: TimeStamp? = nil, autoScalingGroupName: String, recurrence: String? = nil, desiredCapacity: Int32? = nil) {
-            self.startTime = startTime
-            self.minSize = minSize
-            self.maxSize = maxSize
-            self.time = time
-            self.scheduledActionName = scheduledActionName
-            self.endTime = endTime
-            self.autoScalingGroupName = autoScalingGroupName
-            self.recurrence = recurrence
-            self.desiredCapacity = desiredCapacity
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case startTime = "StartTime"
-            case minSize = "MinSize"
-            case maxSize = "MaxSize"
-            case time = "Time"
-            case scheduledActionName = "ScheduledActionName"
-            case endTime = "EndTime"
-            case autoScalingGroupName = "AutoScalingGroupName"
-            case recurrence = "Recurrence"
-            case desiredCapacity = "DesiredCapacity"
-        }
-    }
-
-    public struct TerminateInstanceInAutoScalingGroupType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ShouldDecrementDesiredCapacity", required: true, type: .boolean), 
-            AWSShapeMember(label: "InstanceId", required: true, type: .string)
-        ]
-        /// Indicates whether terminating the instance also decrements the size of the Auto Scaling group.
-        public let shouldDecrementDesiredCapacity: Bool
-        /// The ID of the instance.
-        public let instanceId: String
-
-        public init(shouldDecrementDesiredCapacity: Bool, instanceId: String) {
-            self.shouldDecrementDesiredCapacity = shouldDecrementDesiredCapacity
-            self.instanceId = instanceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case shouldDecrementDesiredCapacity = "ShouldDecrementDesiredCapacity"
-            case instanceId = "InstanceId"
-        }
-    }
-
-    public struct LaunchConfigurationsType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LaunchConfigurations", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The launch configurations.
-        public let launchConfigurations: [LaunchConfiguration]
-        /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
-        public let nextToken: String?
-
-        public init(launchConfigurations: [LaunchConfiguration], nextToken: String? = nil) {
-            self.launchConfigurations = launchConfigurations
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case launchConfigurations = "LaunchConfigurations"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct ExitStandbyAnswer: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Activities", required: false, type: .list)
-        ]
-        /// The activities related to moving instances out of Standby mode.
-        public let activities: [Activity]?
-
-        public init(activities: [Activity]? = nil) {
-            self.activities = activities
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case activities = "Activities"
-        }
-    }
-
-    public struct DetachInstancesAnswer: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Activities", required: false, type: .list)
-        ]
-        /// The activities related to detaching the instances from the Auto Scaling group.
-        public let activities: [Activity]?
-
-        public init(activities: [Activity]? = nil) {
-            self.activities = activities
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case activities = "Activities"
+            case scalingProcesses = "ScalingProcesses"
         }
     }
 
     public struct LifecycleHook: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NotificationMetadata", required: false, type: .string), 
-            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
-            AWSShapeMember(label: "DefaultResult", required: false, type: .string), 
             AWSShapeMember(label: "NotificationTargetARN", required: false, type: .string), 
+            AWSShapeMember(label: "LifecycleTransition", required: false, type: .string), 
             AWSShapeMember(label: "AutoScalingGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "HeartbeatTimeout", required: false, type: .integer), 
-            AWSShapeMember(label: "LifecycleHookName", required: false, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
             AWSShapeMember(label: "GlobalTimeout", required: false, type: .integer), 
-            AWSShapeMember(label: "LifecycleTransition", required: false, type: .string)
+            AWSShapeMember(label: "DefaultResult", required: false, type: .string), 
+            AWSShapeMember(label: "HeartbeatTimeout", required: false, type: .integer), 
+            AWSShapeMember(label: "LifecycleHookName", required: false, type: .string)
         ]
         /// Additional information that you want to include any time Amazon EC2 Auto Scaling sends a message to the notification target.
         public let notificationMetadata: String?
-        /// The ARN of the IAM role that allows the Auto Scaling group to publish to the specified notification target.
-        public let roleARN: String?
-        /// Defines the action the Auto Scaling group should take when the lifecycle hook timeout elapses or if an unexpected failure occurs. The valid values are CONTINUE and ABANDON. The default value is CONTINUE.
-        public let defaultResult: String?
         /// The ARN of the target that Amazon EC2 Auto Scaling sends notifications to when an instance is in the transition state for the lifecycle hook. The notification target can be either an SQS queue or an SNS topic.
         public let notificationTargetARN: String?
+        /// The state of the EC2 instance to which to attach the lifecycle hook. The following are possible values:   autoscaling:EC2_INSTANCE_LAUNCHING   autoscaling:EC2_INSTANCE_TERMINATING  
+        public let lifecycleTransition: String?
         /// The name of the Auto Scaling group for the lifecycle hook.
         public let autoScalingGroupName: String?
+        /// The ARN of the IAM role that allows the Auto Scaling group to publish to the specified notification target.
+        public let roleARN: String?
+        /// The maximum time, in seconds, that an instance can remain in a Pending:Wait or Terminating:Wait state. The maximum is 172800 seconds (48 hours) or 100 times HeartbeatTimeout, whichever is smaller.
+        public let globalTimeout: Int32?
+        /// Defines the action the Auto Scaling group should take when the lifecycle hook timeout elapses or if an unexpected failure occurs. The valid values are CONTINUE and ABANDON. The default value is CONTINUE.
+        public let defaultResult: String?
         /// The maximum time, in seconds, that can elapse before the lifecycle hook times out. If the lifecycle hook times out, Amazon EC2 Auto Scaling performs the default action. You can prevent the lifecycle hook from timing out by calling RecordLifecycleActionHeartbeat.
         public let heartbeatTimeout: Int32?
         /// The name of the lifecycle hook.
         public let lifecycleHookName: String?
-        /// The maximum time, in seconds, that an instance can remain in a Pending:Wait or Terminating:Wait state. The maximum is 172800 seconds (48 hours) or 100 times HeartbeatTimeout, whichever is smaller.
-        public let globalTimeout: Int32?
-        /// The state of the EC2 instance to which to attach the lifecycle hook. The following are possible values:   autoscaling:EC2_INSTANCE_LAUNCHING   autoscaling:EC2_INSTANCE_TERMINATING  
-        public let lifecycleTransition: String?
 
-        public init(notificationMetadata: String? = nil, roleARN: String? = nil, defaultResult: String? = nil, notificationTargetARN: String? = nil, autoScalingGroupName: String? = nil, heartbeatTimeout: Int32? = nil, lifecycleHookName: String? = nil, globalTimeout: Int32? = nil, lifecycleTransition: String? = nil) {
+        public init(autoScalingGroupName: String? = nil, defaultResult: String? = nil, globalTimeout: Int32? = nil, heartbeatTimeout: Int32? = nil, lifecycleHookName: String? = nil, lifecycleTransition: String? = nil, notificationMetadata: String? = nil, notificationTargetARN: String? = nil, roleARN: String? = nil) {
             self.notificationMetadata = notificationMetadata
-            self.roleARN = roleARN
-            self.defaultResult = defaultResult
             self.notificationTargetARN = notificationTargetARN
+            self.lifecycleTransition = lifecycleTransition
             self.autoScalingGroupName = autoScalingGroupName
+            self.roleARN = roleARN
+            self.globalTimeout = globalTimeout
+            self.defaultResult = defaultResult
             self.heartbeatTimeout = heartbeatTimeout
             self.lifecycleHookName = lifecycleHookName
-            self.globalTimeout = globalTimeout
-            self.lifecycleTransition = lifecycleTransition
         }
 
         private enum CodingKeys: String, CodingKey {
             case notificationMetadata = "NotificationMetadata"
-            case roleARN = "RoleARN"
-            case defaultResult = "DefaultResult"
             case notificationTargetARN = "NotificationTargetARN"
+            case lifecycleTransition = "LifecycleTransition"
             case autoScalingGroupName = "AutoScalingGroupName"
+            case roleARN = "RoleARN"
+            case globalTimeout = "GlobalTimeout"
+            case defaultResult = "DefaultResult"
             case heartbeatTimeout = "HeartbeatTimeout"
             case lifecycleHookName = "LifecycleHookName"
-            case globalTimeout = "GlobalTimeout"
-            case lifecycleTransition = "LifecycleTransition"
         }
     }
 
-    public struct LaunchTemplate: AWSShape {
+    public struct DescribeNotificationConfigurationsAnswer: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LaunchTemplateSpecification", required: false, type: .structure), 
-            AWSShapeMember(label: "Overrides", required: false, type: .list)
-        ]
-        /// The launch template to use. You must specify either the launch template ID or launch template name in the request. 
-        public let launchTemplateSpecification: LaunchTemplateSpecification?
-        /// Any parameters that you specify override the same parameters in the launch template. Currently, the only supported override is instance type.  You must specify between 2 and 20 overrides.
-        public let overrides: [LaunchTemplateOverrides]?
-
-        public init(launchTemplateSpecification: LaunchTemplateSpecification? = nil, overrides: [LaunchTemplateOverrides]? = nil) {
-            self.launchTemplateSpecification = launchTemplateSpecification
-            self.overrides = overrides
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case launchTemplateSpecification = "LaunchTemplateSpecification"
-            case overrides = "Overrides"
-        }
-    }
-
-    public struct DetachLoadBalancerTargetGroupsResultType: AWSShape {
-
-    }
-
-    public struct EnabledMetric: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Metric", required: false, type: .string), 
-            AWSShapeMember(label: "Granularity", required: false, type: .string)
-        ]
-        /// One of the following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances   
-        public let metric: String?
-        /// The granularity of the metric. The only valid value is 1Minute.
-        public let granularity: String?
-
-        public init(metric: String? = nil, granularity: String? = nil) {
-            self.metric = metric
-            self.granularity = granularity
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case metric = "Metric"
-            case granularity = "Granularity"
-        }
-    }
-
-    public struct DescribeScalingActivitiesType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActivityIds", required: false, type: .list), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "AutoScalingGroupName", required: false, type: .string)
+            AWSShapeMember(label: "NotificationConfigurations", required: true, type: .list)
         ]
-        /// The activity IDs of the desired scaling activities. You can specify up to 50 IDs. If you omit this parameter, all activities for the past six weeks are described. If unknown activities are requested, they are ignored with no error. If you specify an Auto Scaling group, the results are limited to that group.
-        public let activityIds: [String]?
-        /// The maximum number of items to return with this call. The default value is 100 and the maximum value is 100.
-        public let maxRecords: Int32?
-        /// The token for the next set of items to return. (You received this token from a previous call.)
-        public let nextToken: String?
-        /// The name of the Auto Scaling group.
-        public let autoScalingGroupName: String?
-
-        public init(activityIds: [String]? = nil, maxRecords: Int32? = nil, nextToken: String? = nil, autoScalingGroupName: String? = nil) {
-            self.activityIds = activityIds
-            self.maxRecords = maxRecords
-            self.nextToken = nextToken
-            self.autoScalingGroupName = autoScalingGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case activityIds = "ActivityIds"
-            case maxRecords = "MaxRecords"
-            case nextToken = "NextToken"
-            case autoScalingGroupName = "AutoScalingGroupName"
-        }
-    }
-
-    public struct LoadBalancerTargetGroupState: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "State", required: false, type: .string), 
-            AWSShapeMember(label: "LoadBalancerTargetGroupARN", required: false, type: .string)
-        ]
-        /// The state of the target group.    Adding - The Auto Scaling instances are being registered with the target group.    Added - All Auto Scaling instances are registered with the target group.    InService - At least one Auto Scaling instance passed an ELB health check.    Removing - The Auto Scaling instances are being deregistered from the target group. If connection draining is enabled, Elastic Load Balancing waits for in-flight requests to complete before deregistering the instances.    Removed - All Auto Scaling instances are deregistered from the target group.  
-        public let state: String?
-        /// The Amazon Resource Name (ARN) of the target group.
-        public let loadBalancerTargetGroupARN: String?
-
-        public init(state: String? = nil, loadBalancerTargetGroupARN: String? = nil) {
-            self.state = state
-            self.loadBalancerTargetGroupARN = loadBalancerTargetGroupARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case state = "State"
-            case loadBalancerTargetGroupARN = "LoadBalancerTargetGroupARN"
-        }
-    }
-
-    public struct DescribePoliciesType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyTypes", required: false, type: .list), 
-            AWSShapeMember(label: "PolicyNames", required: false, type: .list), 
-            AWSShapeMember(label: "AutoScalingGroupName", required: false, type: .string)
-        ]
-        /// The maximum number of items to be returned with each call. The default value is 50 and the maximum value is 100.
-        public let maxRecords: Int32?
-        /// The token for the next set of items to return. (You received this token from a previous call.)
-        public let nextToken: String?
-        /// One or more policy types. Valid values are SimpleScaling and StepScaling.
-        public let policyTypes: [String]?
-        /// The names of one or more policies. If you omit this parameter, all policies are described. If a group name is provided, the results are limited to that group. This list is limited to 50 items. If you specify an unknown policy name, it is ignored with no error.
-        public let policyNames: [String]?
-        /// The name of the Auto Scaling group.
-        public let autoScalingGroupName: String?
-
-        public init(maxRecords: Int32? = nil, nextToken: String? = nil, policyTypes: [String]? = nil, policyNames: [String]? = nil, autoScalingGroupName: String? = nil) {
-            self.maxRecords = maxRecords
-            self.nextToken = nextToken
-            self.policyTypes = policyTypes
-            self.policyNames = policyNames
-            self.autoScalingGroupName = autoScalingGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxRecords = "MaxRecords"
-            case nextToken = "NextToken"
-            case policyTypes = "PolicyTypes"
-            case policyNames = "PolicyNames"
-            case autoScalingGroupName = "AutoScalingGroupName"
-        }
-    }
-
-    public struct CustomizedMetricSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Unit", required: false, type: .string), 
-            AWSShapeMember(label: "MetricName", required: true, type: .string), 
-            AWSShapeMember(label: "Namespace", required: true, type: .string), 
-            AWSShapeMember(label: "Statistic", required: true, type: .enum), 
-            AWSShapeMember(label: "Dimensions", required: false, type: .list)
-        ]
-        /// The unit of the metric.
-        public let unit: String?
-        /// The name of the metric.
-        public let metricName: String
-        /// The namespace of the metric.
-        public let namespace: String
-        /// The statistic of the metric.
-        public let statistic: MetricStatistic
-        /// The dimensions of the metric.
-        public let dimensions: [MetricDimension]?
-
-        public init(unit: String? = nil, metricName: String, namespace: String, statistic: MetricStatistic, dimensions: [MetricDimension]? = nil) {
-            self.unit = unit
-            self.metricName = metricName
-            self.namespace = namespace
-            self.statistic = statistic
-            self.dimensions = dimensions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case unit = "Unit"
-            case metricName = "MetricName"
-            case namespace = "Namespace"
-            case statistic = "Statistic"
-            case dimensions = "Dimensions"
-        }
-    }
-
-    public struct Filter: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Values", required: false, type: .list)
-        ]
-        /// The name of the filter. The valid values are: "auto-scaling-group", "key", "value", and "propagate-at-launch".
-        public let name: String?
-        /// The value of the filter.
-        public let values: [String]?
-
-        public init(name: String? = nil, values: [String]? = nil) {
-            self.name = name
-            self.values = values
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case values = "Values"
-        }
-    }
-
-    public struct ExitStandbyQuery: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceIds", required: false, type: .list), 
-            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
-        ]
-        /// The IDs of the instances. You can specify up to 20 instances.
-        public let instanceIds: [String]?
-        /// The name of the Auto Scaling group.
-        public let autoScalingGroupName: String
-
-        public init(instanceIds: [String]? = nil, autoScalingGroupName: String) {
-            self.instanceIds = instanceIds
-            self.autoScalingGroupName = autoScalingGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceIds = "InstanceIds"
-            case autoScalingGroupName = "AutoScalingGroupName"
-        }
-    }
-
-    public struct CompleteLifecycleActionAnswer: AWSShape {
-
-    }
-
-    public struct TagsType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// One or more tags.
-        public let tags: [TagDescription]?
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
+        /// The notification configurations.
+        public let notificationConfigurations: [NotificationConfiguration]
 
-        public init(tags: [TagDescription]? = nil, nextToken: String? = nil) {
-            self.tags = tags
+        public init(nextToken: String? = nil, notificationConfigurations: [NotificationConfiguration]) {
             self.nextToken = nextToken
+            self.notificationConfigurations = notificationConfigurations
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
             case nextToken = "NextToken"
+            case notificationConfigurations = "NotificationConfigurations"
         }
     }
 
-    public struct LifecycleHookSpecification: AWSShape {
+    public struct RecordLifecycleActionHeartbeatType: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NotificationMetadata", required: false, type: .string), 
-            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
-            AWSShapeMember(label: "DefaultResult", required: false, type: .string), 
-            AWSShapeMember(label: "NotificationTargetARN", required: false, type: .string), 
-            AWSShapeMember(label: "HeartbeatTimeout", required: false, type: .integer), 
             AWSShapeMember(label: "LifecycleHookName", required: true, type: .string), 
-            AWSShapeMember(label: "LifecycleTransition", required: true, type: .string)
+            AWSShapeMember(label: "LifecycleActionToken", required: false, type: .string), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string)
         ]
-        /// Additional information that you want to include any time Amazon EC2 Auto Scaling sends a message to the notification target.
-        public let notificationMetadata: String?
-        /// The ARN of the IAM role that allows the Auto Scaling group to publish to the specified notification target.
-        public let roleARN: String?
-        /// Defines the action the Auto Scaling group should take when the lifecycle hook timeout elapses or if an unexpected failure occurs. The valid values are CONTINUE and ABANDON.
-        public let defaultResult: String?
-        /// The ARN of the target that Amazon EC2 Auto Scaling sends notifications to when an instance is in the transition state for the lifecycle hook. The notification target can be either an SQS queue or an SNS topic.
-        public let notificationTargetARN: String?
-        /// The maximum time, in seconds, that can elapse before the lifecycle hook times out. If the lifecycle hook times out, Amazon EC2 Auto Scaling performs the default action. You can prevent the lifecycle hook from timing out by calling RecordLifecycleActionHeartbeat.
-        public let heartbeatTimeout: Int32?
         /// The name of the lifecycle hook.
         public let lifecycleHookName: String
-        /// The state of the EC2 instance to which you want to attach the lifecycle hook. The possible values are:   autoscaling:EC2_INSTANCE_LAUNCHING   autoscaling:EC2_INSTANCE_TERMINATING  
-        public let lifecycleTransition: String
+        /// A token that uniquely identifies a specific lifecycle action associated with an instance. Amazon EC2 Auto Scaling sends this token to the notification target that you specified when you created the lifecycle hook.
+        public let lifecycleActionToken: String?
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String
+        /// The ID of the instance.
+        public let instanceId: String?
 
-        public init(notificationMetadata: String? = nil, roleARN: String? = nil, defaultResult: String? = nil, notificationTargetARN: String? = nil, heartbeatTimeout: Int32? = nil, lifecycleHookName: String, lifecycleTransition: String) {
-            self.notificationMetadata = notificationMetadata
-            self.roleARN = roleARN
-            self.defaultResult = defaultResult
-            self.notificationTargetARN = notificationTargetARN
-            self.heartbeatTimeout = heartbeatTimeout
+        public init(autoScalingGroupName: String, instanceId: String? = nil, lifecycleActionToken: String? = nil, lifecycleHookName: String) {
             self.lifecycleHookName = lifecycleHookName
-            self.lifecycleTransition = lifecycleTransition
+            self.lifecycleActionToken = lifecycleActionToken
+            self.autoScalingGroupName = autoScalingGroupName
+            self.instanceId = instanceId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case notificationMetadata = "NotificationMetadata"
-            case roleARN = "RoleARN"
-            case defaultResult = "DefaultResult"
-            case notificationTargetARN = "NotificationTargetARN"
-            case heartbeatTimeout = "HeartbeatTimeout"
             case lifecycleHookName = "LifecycleHookName"
-            case lifecycleTransition = "LifecycleTransition"
-        }
-    }
-
-    public struct AutoScalingGroupsType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoScalingGroups", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The groups.
-        public let autoScalingGroups: [AutoScalingGroup]
-        /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
-        public let nextToken: String?
-
-        public init(autoScalingGroups: [AutoScalingGroup], nextToken: String? = nil) {
-            self.autoScalingGroups = autoScalingGroups
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case autoScalingGroups = "AutoScalingGroups"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public enum LifecycleState: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case pendingWait = "Pending:Wait"
-        case pendingProceed = "Pending:Proceed"
-        case quarantined = "Quarantined"
-        case inservice = "InService"
-        case terminating = "Terminating"
-        case terminatingWait = "Terminating:Wait"
-        case terminatingProceed = "Terminating:Proceed"
-        case terminated = "Terminated"
-        case detaching = "Detaching"
-        case detached = "Detached"
-        case enteringstandby = "EnteringStandby"
-        case standby = "Standby"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ScalingActivityStatusCode: String, CustomStringConvertible, Codable {
-        case pendingspotbidplacement = "PendingSpotBidPlacement"
-        case waitingforspotinstancerequestid = "WaitingForSpotInstanceRequestId"
-        case waitingforspotinstanceid = "WaitingForSpotInstanceId"
-        case waitingforinstanceid = "WaitingForInstanceId"
-        case preinservice = "PreInService"
-        case inprogress = "InProgress"
-        case waitingforelbconnectiondraining = "WaitingForELBConnectionDraining"
-        case midlifecycleaction = "MidLifecycleAction"
-        case waitingforinstancewarmup = "WaitingForInstanceWarmup"
-        case successful = "Successful"
-        case failed = "Failed"
-        case cancelled = "Cancelled"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct AttachLoadBalancerTargetGroupsResultType: AWSShape {
-
-    }
-
-    public struct DescribeLoadBalancerTargetGroupsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
-        ]
-        /// The token for the next set of items to return. (You received this token from a previous call.)
-        public let nextToken: String?
-        /// The name of the Auto Scaling group.
-        public let autoScalingGroupName: String
-        /// The maximum number of items to return with this call. The default value is 100 and the maximum value is 100.
-        public let maxRecords: Int32?
-
-        public init(nextToken: String? = nil, autoScalingGroupName: String, maxRecords: Int32? = nil) {
-            self.nextToken = nextToken
-            self.autoScalingGroupName = autoScalingGroupName
-            self.maxRecords = maxRecords
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
+            case lifecycleActionToken = "LifecycleActionToken"
             case autoScalingGroupName = "AutoScalingGroupName"
-            case maxRecords = "MaxRecords"
-        }
-    }
-
-    public struct Ebs: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SnapshotId", required: false, type: .string), 
-            AWSShapeMember(label: "DeleteOnTermination", required: false, type: .boolean), 
-            AWSShapeMember(label: "VolumeType", required: false, type: .string), 
-            AWSShapeMember(label: "VolumeSize", required: false, type: .integer), 
-            AWSShapeMember(label: "Encrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "Iops", required: false, type: .integer)
-        ]
-        /// The ID of the snapshot.
-        public let snapshotId: String?
-        /// Indicates whether the volume is deleted on instance termination. The default is true.
-        public let deleteOnTermination: Bool?
-        /// The volume type. For more information, see Amazon EBS Volume Types in the Amazon Elastic Compute Cloud User Guide. Valid values: standard | io1 | gp2 
-        public let volumeType: String?
-        /// The volume size, in GiB. For standard volumes, specify a value from 1 to 1,024. For io1 volumes, specify a value from 4 to 16,384. For gp2 volumes, specify a value from 1 to 16,384. If you specify a snapshot, the volume size must be equal to or larger than the snapshot size. Default: If you create a volume from a snapshot and you don't specify a volume size, the default is the snapshot size.
-        public let volumeSize: Int32?
-        /// Indicates whether the volume should be encrypted. Encrypted EBS volumes must be attached to instances that support Amazon EBS encryption. Volumes that are created from encrypted snapshots are automatically encrypted. There is no way to create an encrypted volume from an unencrypted snapshot or an unencrypted volume from an encrypted snapshot. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide.
-        public let encrypted: Bool?
-        /// The number of I/O operations per second (IOPS) to provision for the volume. Constraint: Required when the volume type is io1.
-        public let iops: Int32?
-
-        public init(snapshotId: String? = nil, deleteOnTermination: Bool? = nil, volumeType: String? = nil, volumeSize: Int32? = nil, encrypted: Bool? = nil, iops: Int32? = nil) {
-            self.snapshotId = snapshotId
-            self.deleteOnTermination = deleteOnTermination
-            self.volumeType = volumeType
-            self.volumeSize = volumeSize
-            self.encrypted = encrypted
-            self.iops = iops
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case snapshotId = "SnapshotId"
-            case deleteOnTermination = "DeleteOnTermination"
-            case volumeType = "VolumeType"
-            case volumeSize = "VolumeSize"
-            case encrypted = "Encrypted"
-            case iops = "Iops"
-        }
-    }
-
-    public struct SuspendedProcess: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProcessName", required: false, type: .string), 
-            AWSShapeMember(label: "SuspensionReason", required: false, type: .string)
-        ]
-        /// The name of the suspended process.
-        public let processName: String?
-        /// The reason that the process was suspended.
-        public let suspensionReason: String?
-
-        public init(processName: String? = nil, suspensionReason: String? = nil) {
-            self.processName = processName
-            self.suspensionReason = suspensionReason
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case processName = "ProcessName"
-            case suspensionReason = "SuspensionReason"
-        }
-    }
-
-    public struct PredefinedMetricSpecification: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PredefinedMetricType", required: true, type: .enum), 
-            AWSShapeMember(label: "ResourceLabel", required: false, type: .string)
-        ]
-        /// The metric type.
-        public let predefinedMetricType: MetricType
-        /// Identifies the resource associated with the metric type. The following predefined metrics are available:    ASGAverageCPUUtilization - Average CPU utilization of the Auto Scaling group.    ASGAverageNetworkIn - Average number of bytes received on all network interfaces by the Auto Scaling group.    ASGAverageNetworkOut - Average number of bytes sent out on all network interfaces by the Auto Scaling group.    ALBRequestCountPerTarget - Number of requests completed per target in an Application Load Balancer target group.   For predefined metric types ASGAverageCPUUtilization, ASGAverageNetworkIn, and ASGAverageNetworkOut, the parameter must not be specified as the resource associated with the metric type is the Auto Scaling group. For predefined metric type ALBRequestCountPerTarget, the parameter must be specified in the format: app/load-balancer-name/load-balancer-id/targetgroup/target-group-name/target-group-id , where app/load-balancer-name/load-balancer-id  is the final portion of the load balancer ARN, and targetgroup/target-group-name/target-group-id  is the final portion of the target group ARN. The target group must be attached to the Auto Scaling group.
-        public let resourceLabel: String?
-
-        public init(predefinedMetricType: MetricType, resourceLabel: String? = nil) {
-            self.predefinedMetricType = predefinedMetricType
-            self.resourceLabel = resourceLabel
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case predefinedMetricType = "PredefinedMetricType"
-            case resourceLabel = "ResourceLabel"
-        }
-    }
-
-    public struct InstanceMonitoring: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean)
-        ]
-        /// If true, detailed monitoring is enabled. Otherwise, basic monitoring is enabled.
-        public let enabled: Bool?
-
-        public init(enabled: Bool? = nil) {
-            self.enabled = enabled
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case enabled = "Enabled"
-        }
-    }
-
-    public struct LaunchConfigurationNameType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LaunchConfigurationName", required: true, type: .string)
-        ]
-        /// The name of the launch configuration.
-        public let launchConfigurationName: String
-
-        public init(launchConfigurationName: String) {
-            self.launchConfigurationName = launchConfigurationName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case launchConfigurationName = "LaunchConfigurationName"
-        }
-    }
-
-    public struct DescribeLifecycleHooksType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LifecycleHookNames", required: false, type: .list), 
-            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
-        ]
-        /// The names of one or more lifecycle hooks. If you omit this parameter, all lifecycle hooks are described.
-        public let lifecycleHookNames: [String]?
-        /// The name of the Auto Scaling group.
-        public let autoScalingGroupName: String
-
-        public init(lifecycleHookNames: [String]? = nil, autoScalingGroupName: String) {
-            self.lifecycleHookNames = lifecycleHookNames
-            self.autoScalingGroupName = autoScalingGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lifecycleHookNames = "LifecycleHookNames"
-            case autoScalingGroupName = "AutoScalingGroupName"
-        }
-    }
-
-    public struct DescribeMetricCollectionTypesAnswer: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Granularities", required: false, type: .list), 
-            AWSShapeMember(label: "Metrics", required: false, type: .list)
-        ]
-        /// The granularities for the metrics.
-        public let granularities: [MetricGranularityType]?
-        /// One or more metrics.
-        public let metrics: [MetricCollectionType]?
-
-        public init(granularities: [MetricGranularityType]? = nil, metrics: [MetricCollectionType]? = nil) {
-            self.granularities = granularities
-            self.metrics = metrics
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case granularities = "Granularities"
-            case metrics = "Metrics"
-        }
-    }
-
-    public struct PutScalingPolicyType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MinAdjustmentStep", required: false, type: .integer), 
-            AWSShapeMember(label: "StepAdjustments", required: false, type: .list), 
-            AWSShapeMember(label: "AdjustmentType", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyName", required: true, type: .string), 
-            AWSShapeMember(label: "EstimatedInstanceWarmup", required: false, type: .integer), 
-            AWSShapeMember(label: "PolicyType", required: false, type: .string), 
-            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "ScalingAdjustment", required: false, type: .integer), 
-            AWSShapeMember(label: "Cooldown", required: false, type: .integer), 
-            AWSShapeMember(label: "TargetTrackingConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "MinAdjustmentMagnitude", required: false, type: .integer), 
-            AWSShapeMember(label: "MetricAggregationType", required: false, type: .string)
-        ]
-        /// Available for backward compatibility. Use MinAdjustmentMagnitude instead.
-        public let minAdjustmentStep: Int32?
-        /// A set of adjustments that enable you to scale based on the size of the alarm breach. This parameter is required if the policy type is StepScaling and not supported otherwise.
-        public let stepAdjustments: [StepAdjustment]?
-        /// The adjustment type. The valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity. This parameter is supported if the policy type is SimpleScaling or StepScaling. For more information, see Dynamic Scaling in the Amazon EC2 Auto Scaling User Guide.
-        public let adjustmentType: String?
-        /// The name of the policy.
-        public let policyName: String
-        /// The estimated time, in seconds, until a newly launched instance can contribute to the CloudWatch metrics. The default is to use the value specified for the default cooldown period for the group. This parameter is supported if the policy type is StepScaling or TargetTrackingScaling.
-        public let estimatedInstanceWarmup: Int32?
-        /// The policy type. The valid values are SimpleScaling, StepScaling, and TargetTrackingScaling. If the policy type is null, the value is treated as SimpleScaling.
-        public let policyType: String?
-        /// The name of the Auto Scaling group.
-        public let autoScalingGroupName: String
-        /// The amount by which to scale, based on the specified adjustment type. A positive value adds to the current capacity while a negative number removes from the current capacity. This parameter is required if the policy type is SimpleScaling and not supported otherwise.
-        public let scalingAdjustment: Int32?
-        /// The amount of time, in seconds, after a scaling activity completes and before the next scaling activity can start. If this parameter is not specified, the default cooldown period for the group applies. This parameter is supported if the policy type is SimpleScaling. For more information, see Scaling Cooldowns in the Amazon EC2 Auto Scaling User Guide.
-        public let cooldown: Int32?
-        /// A target tracking policy. This parameter is required if the policy type is TargetTrackingScaling and not supported otherwise.
-        public let targetTrackingConfiguration: TargetTrackingConfiguration?
-        /// The minimum number of instances to scale. If the value of AdjustmentType is PercentChangeInCapacity, the scaling policy changes the DesiredCapacity of the Auto Scaling group by at least this many instances. Otherwise, the error is ValidationError. This parameter is supported if the policy type is SimpleScaling or StepScaling.
-        public let minAdjustmentMagnitude: Int32?
-        /// The aggregation type for the CloudWatch metrics. The valid values are Minimum, Maximum, and Average. If the aggregation type is null, the value is treated as Average. This parameter is supported if the policy type is StepScaling.
-        public let metricAggregationType: String?
-
-        public init(minAdjustmentStep: Int32? = nil, stepAdjustments: [StepAdjustment]? = nil, adjustmentType: String? = nil, policyName: String, estimatedInstanceWarmup: Int32? = nil, policyType: String? = nil, autoScalingGroupName: String, scalingAdjustment: Int32? = nil, cooldown: Int32? = nil, targetTrackingConfiguration: TargetTrackingConfiguration? = nil, minAdjustmentMagnitude: Int32? = nil, metricAggregationType: String? = nil) {
-            self.minAdjustmentStep = minAdjustmentStep
-            self.stepAdjustments = stepAdjustments
-            self.adjustmentType = adjustmentType
-            self.policyName = policyName
-            self.estimatedInstanceWarmup = estimatedInstanceWarmup
-            self.policyType = policyType
-            self.autoScalingGroupName = autoScalingGroupName
-            self.scalingAdjustment = scalingAdjustment
-            self.cooldown = cooldown
-            self.targetTrackingConfiguration = targetTrackingConfiguration
-            self.minAdjustmentMagnitude = minAdjustmentMagnitude
-            self.metricAggregationType = metricAggregationType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case minAdjustmentStep = "MinAdjustmentStep"
-            case stepAdjustments = "StepAdjustments"
-            case adjustmentType = "AdjustmentType"
-            case policyName = "PolicyName"
-            case estimatedInstanceWarmup = "EstimatedInstanceWarmup"
-            case policyType = "PolicyType"
-            case autoScalingGroupName = "AutoScalingGroupName"
-            case scalingAdjustment = "ScalingAdjustment"
-            case cooldown = "Cooldown"
-            case targetTrackingConfiguration = "TargetTrackingConfiguration"
-            case minAdjustmentMagnitude = "MinAdjustmentMagnitude"
-            case metricAggregationType = "MetricAggregationType"
-        }
-    }
-
-    public struct DescribeScheduledActionsType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ScheduledActionNames", required: false, type: .list), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "AutoScalingGroupName", required: false, type: .string)
-        ]
-        /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
-        public let maxRecords: Int32?
-        /// The token for the next set of items to return. (You received this token from a previous call.)
-        public let nextToken: String?
-        /// The earliest scheduled start time to return. If scheduled action names are provided, this parameter is ignored.
-        public let startTime: TimeStamp?
-        /// The names of one or more scheduled actions. You can specify up to 50 actions. If you omit this parameter, all scheduled actions are described. If you specify an unknown scheduled action, it is ignored with no error.
-        public let scheduledActionNames: [String]?
-        /// The latest scheduled start time to return. If scheduled action names are provided, this parameter is ignored.
-        public let endTime: TimeStamp?
-        /// The name of the Auto Scaling group.
-        public let autoScalingGroupName: String?
-
-        public init(maxRecords: Int32? = nil, nextToken: String? = nil, startTime: TimeStamp? = nil, scheduledActionNames: [String]? = nil, endTime: TimeStamp? = nil, autoScalingGroupName: String? = nil) {
-            self.maxRecords = maxRecords
-            self.nextToken = nextToken
-            self.startTime = startTime
-            self.scheduledActionNames = scheduledActionNames
-            self.endTime = endTime
-            self.autoScalingGroupName = autoScalingGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxRecords = "MaxRecords"
-            case nextToken = "NextToken"
-            case startTime = "StartTime"
-            case scheduledActionNames = "ScheduledActionNames"
-            case endTime = "EndTime"
-            case autoScalingGroupName = "AutoScalingGroupName"
-        }
-    }
-
-    public enum MetricType: String, CustomStringConvertible, Codable {
-        case asgaveragecpuutilization = "ASGAverageCPUUtilization"
-        case asgaveragenetworkin = "ASGAverageNetworkIn"
-        case asgaveragenetworkout = "ASGAverageNetworkOut"
-        case albrequestcountpertarget = "ALBRequestCountPerTarget"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct Activity: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
-            AWSShapeMember(label: "StartTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "Cause", required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "ActivityId", required: true, type: .string), 
-            AWSShapeMember(label: "StatusCode", required: true, type: .enum), 
-            AWSShapeMember(label: "Details", required: false, type: .string), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Progress", required: false, type: .integer)
-        ]
-        /// A friendly, more verbose description of the activity status.
-        public let statusMessage: String?
-        /// The start time of the activity.
-        public let startTime: TimeStamp
-        /// The reason the activity began.
-        public let cause: String
-        /// A friendly, more verbose description of the activity.
-        public let description: String?
-        /// The ID of the activity.
-        public let activityId: String
-        /// The current status of the activity.
-        public let statusCode: ScalingActivityStatusCode
-        /// The details about the activity.
-        public let details: String?
-        /// The end time of the activity.
-        public let endTime: TimeStamp?
-        /// The name of the Auto Scaling group.
-        public let autoScalingGroupName: String
-        /// A value between 0 and 100 that indicates the progress of the activity.
-        public let progress: Int32?
-
-        public init(statusMessage: String? = nil, startTime: TimeStamp, cause: String, description: String? = nil, activityId: String, statusCode: ScalingActivityStatusCode, details: String? = nil, endTime: TimeStamp? = nil, autoScalingGroupName: String, progress: Int32? = nil) {
-            self.statusMessage = statusMessage
-            self.startTime = startTime
-            self.cause = cause
-            self.description = description
-            self.activityId = activityId
-            self.statusCode = statusCode
-            self.details = details
-            self.endTime = endTime
-            self.autoScalingGroupName = autoScalingGroupName
-            self.progress = progress
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case statusMessage = "StatusMessage"
-            case startTime = "StartTime"
-            case cause = "Cause"
-            case description = "Description"
-            case activityId = "ActivityId"
-            case statusCode = "StatusCode"
-            case details = "Details"
-            case endTime = "EndTime"
-            case autoScalingGroupName = "AutoScalingGroupName"
-            case progress = "Progress"
-        }
-    }
-
-    public struct DeleteScheduledActionType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScheduledActionName", required: true, type: .string), 
-            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
-        ]
-        /// The name of the action to delete.
-        public let scheduledActionName: String
-        /// The name of the Auto Scaling group.
-        public let autoScalingGroupName: String
-
-        public init(scheduledActionName: String, autoScalingGroupName: String) {
-            self.scheduledActionName = scheduledActionName
-            self.autoScalingGroupName = autoScalingGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case scheduledActionName = "ScheduledActionName"
-            case autoScalingGroupName = "AutoScalingGroupName"
-        }
-    }
-
-    public struct FailedScheduledUpdateGroupActionRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeMember(label: "ScheduledActionName", required: true, type: .string)
-        ]
-        /// The error code.
-        public let errorCode: String?
-        /// The error message accompanying the error code.
-        public let errorMessage: String?
-        /// The name of the scheduled action.
-        public let scheduledActionName: String
-
-        public init(errorCode: String? = nil, errorMessage: String? = nil, scheduledActionName: String) {
-            self.errorCode = errorCode
-            self.errorMessage = errorMessage
-            self.scheduledActionName = scheduledActionName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case errorMessage = "ErrorMessage"
-            case scheduledActionName = "ScheduledActionName"
-        }
-    }
-
-    public struct AdjustmentType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdjustmentType", required: false, type: .string)
-        ]
-        /// The policy adjustment type. The valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity.
-        public let adjustmentType: String?
-
-        public init(adjustmentType: String? = nil) {
-            self.adjustmentType = adjustmentType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case adjustmentType = "AdjustmentType"
-        }
-    }
-
-    public struct DescribeAutoScalingNotificationTypesAnswer: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoScalingNotificationTypes", required: false, type: .list)
-        ]
-        /// The notification types.
-        public let autoScalingNotificationTypes: [String]?
-
-        public init(autoScalingNotificationTypes: [String]? = nil) {
-            self.autoScalingNotificationTypes = autoScalingNotificationTypes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case autoScalingNotificationTypes = "AutoScalingNotificationTypes"
-        }
-    }
-
-    public struct DetachInstancesQuery: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ShouldDecrementDesiredCapacity", required: true, type: .boolean), 
-            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "InstanceIds", required: false, type: .list)
-        ]
-        /// Indicates whether the Auto Scaling group decrements the desired capacity value by the number of instances detached.
-        public let shouldDecrementDesiredCapacity: Bool
-        /// The name of the Auto Scaling group.
-        public let autoScalingGroupName: String
-        /// The IDs of the instances. You can specify up to 20 instances.
-        public let instanceIds: [String]?
-
-        public init(shouldDecrementDesiredCapacity: Bool, autoScalingGroupName: String, instanceIds: [String]? = nil) {
-            self.shouldDecrementDesiredCapacity = shouldDecrementDesiredCapacity
-            self.autoScalingGroupName = autoScalingGroupName
-            self.instanceIds = instanceIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case shouldDecrementDesiredCapacity = "ShouldDecrementDesiredCapacity"
-            case autoScalingGroupName = "AutoScalingGroupName"
-            case instanceIds = "InstanceIds"
-        }
-    }
-
-    public struct AutoScalingGroup: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "LaunchTemplate", required: false, type: .structure), 
-            AWSShapeMember(label: "NewInstancesProtectedFromScaleIn", required: false, type: .boolean), 
-            AWSShapeMember(label: "AutoScalingGroupARN", required: false, type: .string), 
-            AWSShapeMember(label: "HealthCheckType", required: true, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "EnabledMetrics", required: false, type: .list), 
-            AWSShapeMember(label: "CreatedTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "TargetGroupARNs", required: false, type: .list), 
-            AWSShapeMember(label: "PlacementGroup", required: false, type: .string), 
-            AWSShapeMember(label: "LoadBalancerNames", required: false, type: .list), 
-            AWSShapeMember(label: "ServiceLinkedRoleARN", required: false, type: .string), 
-            AWSShapeMember(label: "MixedInstancesPolicy", required: false, type: .structure), 
-            AWSShapeMember(label: "HealthCheckGracePeriod", required: false, type: .integer), 
-            AWSShapeMember(label: "DefaultCooldown", required: true, type: .integer), 
-            AWSShapeMember(label: "VPCZoneIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "LaunchConfigurationName", required: false, type: .string), 
-            AWSShapeMember(label: "MaxSize", required: true, type: .integer), 
-            AWSShapeMember(label: "TerminationPolicies", required: false, type: .list), 
-            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "MinSize", required: true, type: .integer), 
-            AWSShapeMember(label: "Instances", required: false, type: .list), 
-            AWSShapeMember(label: "AvailabilityZones", required: true, type: .list), 
-            AWSShapeMember(label: "DesiredCapacity", required: true, type: .integer), 
-            AWSShapeMember(label: "SuspendedProcesses", required: false, type: .list)
-        ]
-        /// The tags for the group.
-        public let tags: [TagDescription]?
-        /// The launch template for the group.
-        public let launchTemplate: LaunchTemplateSpecification?
-        /// Indicates whether newly launched instances are protected from termination by Auto Scaling when scaling in.
-        public let newInstancesProtectedFromScaleIn: Bool?
-        /// The Amazon Resource Name (ARN) of the Auto Scaling group.
-        public let autoScalingGroupARN: String?
-        /// The service to use for the health checks. The valid values are EC2 and ELB.
-        public let healthCheckType: String
-        /// The current state of the group when DeleteAutoScalingGroup is in progress.
-        public let status: String?
-        /// The metrics enabled for the group.
-        public let enabledMetrics: [EnabledMetric]?
-        /// The date and time the group was created.
-        public let createdTime: TimeStamp
-        /// The Amazon Resource Names (ARN) of the target groups for your load balancer.
-        public let targetGroupARNs: [String]?
-        /// The name of the placement group into which to launch your instances, if any. For more information, see Placement Groups in the Amazon Elastic Compute Cloud User Guide.
-        public let placementGroup: String?
-        /// One or more load balancers associated with the group.
-        public let loadBalancerNames: [String]?
-        /// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other AWS services on your behalf.
-        public let serviceLinkedRoleARN: String?
-        /// The mixed instances policy for the group. 
-        public let mixedInstancesPolicy: MixedInstancesPolicy?
-        /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service.
-        public let healthCheckGracePeriod: Int32?
-        /// The amount of time, in seconds, after a scaling activity completes before another scaling activity can start.
-        public let defaultCooldown: Int32
-        /// One or more subnet IDs, if applicable, separated by commas. If you specify VPCZoneIdentifier and AvailabilityZones, ensure that the Availability Zones of the subnets match the values for AvailabilityZones.
-        public let vPCZoneIdentifier: String?
-        /// The name of the associated launch configuration.
-        public let launchConfigurationName: String?
-        /// The maximum size of the group.
-        public let maxSize: Int32
-        /// The termination policies for the group.
-        public let terminationPolicies: [String]?
-        /// The name of the Auto Scaling group.
-        public let autoScalingGroupName: String
-        /// The minimum size of the group.
-        public let minSize: Int32
-        /// The EC2 instances associated with the group.
-        public let instances: [Instance]?
-        /// One or more Availability Zones for the group.
-        public let availabilityZones: [String]
-        /// The desired size of the group.
-        public let desiredCapacity: Int32
-        /// The suspended processes associated with the group.
-        public let suspendedProcesses: [SuspendedProcess]?
-
-        public init(tags: [TagDescription]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, autoScalingGroupARN: String? = nil, healthCheckType: String, status: String? = nil, enabledMetrics: [EnabledMetric]? = nil, createdTime: TimeStamp, targetGroupARNs: [String]? = nil, placementGroup: String? = nil, loadBalancerNames: [String]? = nil, serviceLinkedRoleARN: String? = nil, mixedInstancesPolicy: MixedInstancesPolicy? = nil, healthCheckGracePeriod: Int32? = nil, defaultCooldown: Int32, vPCZoneIdentifier: String? = nil, launchConfigurationName: String? = nil, maxSize: Int32, terminationPolicies: [String]? = nil, autoScalingGroupName: String, minSize: Int32, instances: [Instance]? = nil, availabilityZones: [String], desiredCapacity: Int32, suspendedProcesses: [SuspendedProcess]? = nil) {
-            self.tags = tags
-            self.launchTemplate = launchTemplate
-            self.newInstancesProtectedFromScaleIn = newInstancesProtectedFromScaleIn
-            self.autoScalingGroupARN = autoScalingGroupARN
-            self.healthCheckType = healthCheckType
-            self.status = status
-            self.enabledMetrics = enabledMetrics
-            self.createdTime = createdTime
-            self.targetGroupARNs = targetGroupARNs
-            self.placementGroup = placementGroup
-            self.loadBalancerNames = loadBalancerNames
-            self.serviceLinkedRoleARN = serviceLinkedRoleARN
-            self.mixedInstancesPolicy = mixedInstancesPolicy
-            self.healthCheckGracePeriod = healthCheckGracePeriod
-            self.defaultCooldown = defaultCooldown
-            self.vPCZoneIdentifier = vPCZoneIdentifier
-            self.launchConfigurationName = launchConfigurationName
-            self.maxSize = maxSize
-            self.terminationPolicies = terminationPolicies
-            self.autoScalingGroupName = autoScalingGroupName
-            self.minSize = minSize
-            self.instances = instances
-            self.availabilityZones = availabilityZones
-            self.desiredCapacity = desiredCapacity
-            self.suspendedProcesses = suspendedProcesses
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-            case launchTemplate = "LaunchTemplate"
-            case newInstancesProtectedFromScaleIn = "NewInstancesProtectedFromScaleIn"
-            case autoScalingGroupARN = "AutoScalingGroupARN"
-            case healthCheckType = "HealthCheckType"
-            case status = "Status"
-            case enabledMetrics = "EnabledMetrics"
-            case createdTime = "CreatedTime"
-            case targetGroupARNs = "TargetGroupARNs"
-            case placementGroup = "PlacementGroup"
-            case loadBalancerNames = "LoadBalancerNames"
-            case serviceLinkedRoleARN = "ServiceLinkedRoleARN"
-            case mixedInstancesPolicy = "MixedInstancesPolicy"
-            case healthCheckGracePeriod = "HealthCheckGracePeriod"
-            case defaultCooldown = "DefaultCooldown"
-            case vPCZoneIdentifier = "VPCZoneIdentifier"
-            case launchConfigurationName = "LaunchConfigurationName"
-            case maxSize = "MaxSize"
-            case terminationPolicies = "TerminationPolicies"
-            case autoScalingGroupName = "AutoScalingGroupName"
-            case minSize = "MinSize"
-            case instances = "Instances"
-            case availabilityZones = "AvailabilityZones"
-            case desiredCapacity = "DesiredCapacity"
-            case suspendedProcesses = "SuspendedProcesses"
+            case instanceId = "InstanceId"
         }
     }
 
@@ -1784,7 +144,7 @@ extension AutoScaling {
         /// The Amazon Resource Name (ARN) of the alarm.
         public let alarmARN: String?
 
-        public init(alarmName: String? = nil, alarmARN: String? = nil) {
+        public init(alarmARN: String? = nil, alarmName: String? = nil) {
             self.alarmName = alarmName
             self.alarmARN = alarmARN
         }
@@ -1795,112 +155,203 @@ extension AutoScaling {
         }
     }
 
-    public struct ScalingProcessQuery: AWSShape {
+    public struct PoliciesType: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScalingProcesses", required: false, type: .list), 
-            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
+            AWSShapeMember(label: "ScalingPolicies", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// One or more of the following processes. If you omit this parameter, all processes are specified.    Launch     Terminate     HealthCheck     ReplaceUnhealthy     AZRebalance     AlarmNotification     ScheduledActions     AddToLoadBalancer   
-        public let scalingProcesses: [String]?
-        /// The name of the Auto Scaling group.
-        public let autoScalingGroupName: String
+        /// The scaling policies.
+        public let scalingPolicies: [ScalingPolicy]?
+        /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
+        public let nextToken: String?
 
-        public init(scalingProcesses: [String]? = nil, autoScalingGroupName: String) {
-            self.scalingProcesses = scalingProcesses
-            self.autoScalingGroupName = autoScalingGroupName
+        public init(nextToken: String? = nil, scalingPolicies: [ScalingPolicy]? = nil) {
+            self.scalingPolicies = scalingPolicies
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case scalingProcesses = "ScalingProcesses"
-            case autoScalingGroupName = "AutoScalingGroupName"
+            case scalingPolicies = "ScalingPolicies"
+            case nextToken = "NextToken"
         }
     }
 
-    public struct SetInstanceProtectionAnswer: AWSShape {
-
-    }
-
-    public struct SetDesiredCapacityType: AWSShape {
+    public struct BatchPutScheduledUpdateGroupActionAnswer: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DesiredCapacity", required: true, type: .integer), 
-            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "HonorCooldown", required: false, type: .boolean)
+            AWSShapeMember(label: "FailedScheduledUpdateGroupActions", required: false, type: .list)
         ]
-        /// The number of EC2 instances that should be running in the Auto Scaling group.
-        public let desiredCapacity: Int32
-        /// The name of the Auto Scaling group.
-        public let autoScalingGroupName: String
-        /// Indicates whether Amazon EC2 Auto Scaling waits for the cooldown period to complete before initiating a scaling activity to set your Auto Scaling group to its new capacity. By default, Amazon EC2 Auto Scaling does not honor the cooldown period during manual scaling activities.
-        public let honorCooldown: Bool?
+        /// The names of the scheduled actions that could not be created or updated, including an error message.
+        public let failedScheduledUpdateGroupActions: [FailedScheduledUpdateGroupActionRequest]?
 
-        public init(desiredCapacity: Int32, autoScalingGroupName: String, honorCooldown: Bool? = nil) {
-            self.desiredCapacity = desiredCapacity
-            self.autoScalingGroupName = autoScalingGroupName
-            self.honorCooldown = honorCooldown
+        public init(failedScheduledUpdateGroupActions: [FailedScheduledUpdateGroupActionRequest]? = nil) {
+            self.failedScheduledUpdateGroupActions = failedScheduledUpdateGroupActions
         }
 
         private enum CodingKeys: String, CodingKey {
-            case desiredCapacity = "DesiredCapacity"
-            case autoScalingGroupName = "AutoScalingGroupName"
-            case honorCooldown = "HonorCooldown"
+            case failedScheduledUpdateGroupActions = "FailedScheduledUpdateGroupActions"
         }
     }
 
-    public struct ExecutePolicyType: AWSShape {
+    public struct NotificationConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HonorCooldown", required: false, type: .boolean), 
-            AWSShapeMember(label: "BreachThreshold", required: false, type: .double), 
-            AWSShapeMember(label: "PolicyName", required: true, type: .string), 
             AWSShapeMember(label: "AutoScalingGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "MetricValue", required: false, type: .double)
+            AWSShapeMember(label: "NotificationType", required: false, type: .string), 
+            AWSShapeMember(label: "TopicARN", required: false, type: .string)
         ]
-        /// Indicates whether Amazon EC2 Auto Scaling waits for the cooldown period to complete before executing the policy. This parameter is not supported if the policy type is StepScaling. For more information, see Scaling Cooldowns in the Amazon EC2 Auto Scaling User Guide.
-        public let honorCooldown: Bool?
-        /// The breach threshold for the alarm. This parameter is required if the policy type is StepScaling and not supported otherwise.
-        public let breachThreshold: Double?
-        /// The name or ARN of the policy.
-        public let policyName: String
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String?
-        /// The metric value to compare to BreachThreshold. This enables you to execute a policy of type StepScaling and determine which step adjustment to use. For example, if the breach threshold is 50 and you want to use a step adjustment with a lower bound of 0 and an upper bound of 10, you can set the metric value to 59. If you specify a metric value that doesn't correspond to a step adjustment for the policy, the call returns an error. This parameter is required if the policy type is StepScaling and not supported otherwise.
-        public let metricValue: Double?
+        /// One of the following event notification types:    autoscaling:EC2_INSTANCE_LAUNCH     autoscaling:EC2_INSTANCE_LAUNCH_ERROR     autoscaling:EC2_INSTANCE_TERMINATE     autoscaling:EC2_INSTANCE_TERMINATE_ERROR     autoscaling:TEST_NOTIFICATION   
+        public let notificationType: String?
+        /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (Amazon SNS) topic.
+        public let topicARN: String?
 
-        public init(honorCooldown: Bool? = nil, breachThreshold: Double? = nil, policyName: String, autoScalingGroupName: String? = nil, metricValue: Double? = nil) {
-            self.honorCooldown = honorCooldown
-            self.breachThreshold = breachThreshold
-            self.policyName = policyName
+        public init(autoScalingGroupName: String? = nil, notificationType: String? = nil, topicARN: String? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
-            self.metricValue = metricValue
+            self.notificationType = notificationType
+            self.topicARN = topicARN
         }
 
         private enum CodingKeys: String, CodingKey {
-            case honorCooldown = "HonorCooldown"
-            case breachThreshold = "BreachThreshold"
-            case policyName = "PolicyName"
             case autoScalingGroupName = "AutoScalingGroupName"
-            case metricValue = "MetricValue"
+            case notificationType = "NotificationType"
+            case topicARN = "TopicARN"
         }
     }
 
-    public struct MixedInstancesPolicy: AWSShape {
+    public struct DescribeLifecycleHooksType: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LaunchTemplate", required: false, type: .structure), 
-            AWSShapeMember(label: "InstancesDistribution", required: false, type: .structure)
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "LifecycleHookNames", required: false, type: .list)
         ]
-        /// The launch template and overrides. This parameter is required when creating an Auto Scaling group with a mixed instances policy, but is not required when updating the group.
-        public let launchTemplate: LaunchTemplate?
-        /// The instances distribution to use.  If you leave this parameter unspecified when creating the group, the default values are used.
-        public let instancesDistribution: InstancesDistribution?
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String
+        /// The names of one or more lifecycle hooks. If you omit this parameter, all lifecycle hooks are described.
+        public let lifecycleHookNames: [String]?
 
-        public init(launchTemplate: LaunchTemplate? = nil, instancesDistribution: InstancesDistribution? = nil) {
-            self.launchTemplate = launchTemplate
-            self.instancesDistribution = instancesDistribution
+        public init(autoScalingGroupName: String, lifecycleHookNames: [String]? = nil) {
+            self.autoScalingGroupName = autoScalingGroupName
+            self.lifecycleHookNames = lifecycleHookNames
         }
 
         private enum CodingKeys: String, CodingKey {
-            case launchTemplate = "LaunchTemplate"
-            case instancesDistribution = "InstancesDistribution"
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case lifecycleHookNames = "LifecycleHookNames"
         }
+    }
+
+    public enum MetricType: String, CustomStringConvertible, Codable {
+        case asgaveragecpuutilization = "ASGAverageCPUUtilization"
+        case asgaveragenetworkin = "ASGAverageNetworkIn"
+        case asgaveragenetworkout = "ASGAverageNetworkOut"
+        case albrequestcountpertarget = "ALBRequestCountPerTarget"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DescribeLoadBalancerTargetGroupsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "LoadBalancerTargetGroups", required: false, type: .list)
+        ]
+        /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
+        public let nextToken: String?
+        /// Information about the target groups.
+        public let loadBalancerTargetGroups: [LoadBalancerTargetGroupState]?
+
+        public init(loadBalancerTargetGroups: [LoadBalancerTargetGroupState]? = nil, nextToken: String? = nil) {
+            self.nextToken = nextToken
+            self.loadBalancerTargetGroups = loadBalancerTargetGroups
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case loadBalancerTargetGroups = "LoadBalancerTargetGroups"
+        }
+    }
+
+    public struct DeleteLifecycleHookAnswer: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct LifecycleHookSpecification: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NotificationMetadata", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultResult", required: false, type: .string), 
+            AWSShapeMember(label: "LifecycleHookName", required: true, type: .string), 
+            AWSShapeMember(label: "HeartbeatTimeout", required: false, type: .integer), 
+            AWSShapeMember(label: "NotificationTargetARN", required: false, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
+            AWSShapeMember(label: "LifecycleTransition", required: true, type: .string)
+        ]
+        /// Additional information that you want to include any time Amazon EC2 Auto Scaling sends a message to the notification target.
+        public let notificationMetadata: String?
+        /// Defines the action the Auto Scaling group should take when the lifecycle hook timeout elapses or if an unexpected failure occurs. The valid values are CONTINUE and ABANDON.
+        public let defaultResult: String?
+        /// The name of the lifecycle hook.
+        public let lifecycleHookName: String
+        /// The maximum time, in seconds, that can elapse before the lifecycle hook times out. If the lifecycle hook times out, Amazon EC2 Auto Scaling performs the default action. You can prevent the lifecycle hook from timing out by calling RecordLifecycleActionHeartbeat.
+        public let heartbeatTimeout: Int32?
+        /// The ARN of the target that Amazon EC2 Auto Scaling sends notifications to when an instance is in the transition state for the lifecycle hook. The notification target can be either an SQS queue or an SNS topic.
+        public let notificationTargetARN: String?
+        /// The ARN of the IAM role that allows the Auto Scaling group to publish to the specified notification target.
+        public let roleARN: String?
+        /// The state of the EC2 instance to which you want to attach the lifecycle hook. The possible values are:   autoscaling:EC2_INSTANCE_LAUNCHING   autoscaling:EC2_INSTANCE_TERMINATING  
+        public let lifecycleTransition: String
+
+        public init(defaultResult: String? = nil, heartbeatTimeout: Int32? = nil, lifecycleHookName: String, lifecycleTransition: String, notificationMetadata: String? = nil, notificationTargetARN: String? = nil, roleARN: String? = nil) {
+            self.notificationMetadata = notificationMetadata
+            self.defaultResult = defaultResult
+            self.lifecycleHookName = lifecycleHookName
+            self.heartbeatTimeout = heartbeatTimeout
+            self.notificationTargetARN = notificationTargetARN
+            self.roleARN = roleARN
+            self.lifecycleTransition = lifecycleTransition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notificationMetadata = "NotificationMetadata"
+            case defaultResult = "DefaultResult"
+            case lifecycleHookName = "LifecycleHookName"
+            case heartbeatTimeout = "HeartbeatTimeout"
+            case notificationTargetARN = "NotificationTargetARN"
+            case roleARN = "RoleARN"
+            case lifecycleTransition = "LifecycleTransition"
+        }
+    }
+
+    public struct EnableMetricsCollectionQuery: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Metrics", required: false, type: .list), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "Granularity", required: true, type: .string)
+        ]
+        /// One or more of the following metrics. If you omit this parameter, all metrics are enabled.    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances   
+        public let metrics: [String]?
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String
+        /// The granularity to associate with the metrics to collect. The only valid value is 1Minute.
+        public let granularity: String
+
+        public init(autoScalingGroupName: String, granularity: String, metrics: [String]? = nil) {
+            self.metrics = metrics
+            self.autoScalingGroupName = autoScalingGroupName
+            self.granularity = granularity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metrics = "Metrics"
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case granularity = "Granularity"
+        }
+    }
+
+    public struct DetachLoadBalancerTargetGroupsResultType: AWSShape {
+
+        public init() {
+        }
+
     }
 
     public struct DescribeAutoScalingInstancesType: AWSShape {
@@ -1929,6 +380,499 @@ extension AutoScaling {
         }
     }
 
+    public struct TagsType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// One or more tags.
+        public let tags: [TagDescription]?
+        /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
+        public let nextToken: String?
+
+        public init(nextToken: String? = nil, tags: [TagDescription]? = nil) {
+            self.tags = tags
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct SetDesiredCapacityType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HonorCooldown", required: false, type: .boolean), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "DesiredCapacity", required: true, type: .integer)
+        ]
+        /// Indicates whether Amazon EC2 Auto Scaling waits for the cooldown period to complete before initiating a scaling activity to set your Auto Scaling group to its new capacity. By default, Amazon EC2 Auto Scaling does not honor the cooldown period during manual scaling activities.
+        public let honorCooldown: Bool?
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String
+        /// The number of EC2 instances that should be running in the Auto Scaling group.
+        public let desiredCapacity: Int32
+
+        public init(autoScalingGroupName: String, desiredCapacity: Int32, honorCooldown: Bool? = nil) {
+            self.honorCooldown = honorCooldown
+            self.autoScalingGroupName = autoScalingGroupName
+            self.desiredCapacity = desiredCapacity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case honorCooldown = "HonorCooldown"
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case desiredCapacity = "DesiredCapacity"
+        }
+    }
+
+    public struct MetricCollectionType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Metric", required: false, type: .string)
+        ]
+        /// One of the following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances   
+        public let metric: String?
+
+        public init(metric: String? = nil) {
+            self.metric = metric
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metric = "Metric"
+        }
+    }
+
+    public struct DeleteTagsType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: true, type: .list)
+        ]
+        /// One or more tags.
+        public let tags: [Tag]
+
+        public init(tags: [Tag]) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
+    public struct DescribeAutoScalingNotificationTypesAnswer: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoScalingNotificationTypes", required: false, type: .list)
+        ]
+        /// The notification types.
+        public let autoScalingNotificationTypes: [String]?
+
+        public init(autoScalingNotificationTypes: [String]? = nil) {
+            self.autoScalingNotificationTypes = autoScalingNotificationTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingNotificationTypes = "AutoScalingNotificationTypes"
+        }
+    }
+
+    public struct LaunchConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SpotPrice", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "KeyName", required: false, type: .string), 
+            AWSShapeMember(label: "LaunchConfigurationName", required: true, type: .string), 
+            AWSShapeMember(label: "UserData", required: false, type: .string), 
+            AWSShapeMember(label: "AssociatePublicIpAddress", required: false, type: .boolean), 
+            AWSShapeMember(label: "EbsOptimized", required: false, type: .boolean), 
+            AWSShapeMember(label: "IamInstanceProfile", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceMonitoring", required: false, type: .structure), 
+            AWSShapeMember(label: "PlacementTenancy", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceType", required: true, type: .string), 
+            AWSShapeMember(label: "ClassicLinkVPCSecurityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "ClassicLinkVPCId", required: false, type: .string), 
+            AWSShapeMember(label: "BlockDeviceMappings", required: false, type: .list), 
+            AWSShapeMember(label: "KernelId", required: false, type: .string), 
+            AWSShapeMember(label: "RamdiskId", required: false, type: .string), 
+            AWSShapeMember(label: "LaunchConfigurationARN", required: false, type: .string), 
+            AWSShapeMember(label: "ImageId", required: true, type: .string), 
+            AWSShapeMember(label: "SecurityGroups", required: false, type: .list)
+        ]
+        /// The price to bid when launching Spot Instances.
+        public let spotPrice: String?
+        /// The creation date and time for the launch configuration.
+        public let createdTime: TimeStamp
+        /// The name of the key pair.
+        public let keyName: String?
+        /// The name of the launch configuration.
+        public let launchConfigurationName: String
+        /// The user data available to the instances.
+        public let userData: String?
+        /// [EC2-VPC] Indicates whether to assign a public IP address to each instance.
+        public let associatePublicIpAddress: Bool?
+        /// Controls whether the instance is optimized for EBS I/O (true) or not (false).
+        public let ebsOptimized: Bool?
+        /// The name or Amazon Resource Name (ARN) of the instance profile associated with the IAM role for the instance.
+        public let iamInstanceProfile: String?
+        /// Controls whether instances in this group are launched with detailed (true) or basic (false) monitoring.
+        public let instanceMonitoring: InstanceMonitoring?
+        /// The tenancy of the instance, either default or dedicated. An instance with dedicated tenancy runs in an isolated, single-tenant hardware and can only be launched into a VPC.
+        public let placementTenancy: String?
+        /// The instance type for the instances.
+        public let instanceType: String
+        /// The IDs of one or more security groups for the VPC specified in ClassicLinkVPCId. This parameter is required if you specify a ClassicLink-enabled VPC, and cannot be used otherwise. For more information, see ClassicLink in the Amazon Elastic Compute Cloud User Guide.
+        public let classicLinkVPCSecurityGroups: [String]?
+        /// The ID of a ClassicLink-enabled VPC to link your EC2-Classic instances to. This parameter can only be used if you are launching EC2-Classic instances. For more information, see ClassicLink in the Amazon Elastic Compute Cloud User Guide.
+        public let classicLinkVPCId: String?
+        /// A block device mapping, which specifies the block devices for the instance.
+        public let blockDeviceMappings: [BlockDeviceMapping]?
+        /// The ID of the kernel associated with the AMI.
+        public let kernelId: String?
+        /// The ID of the RAM disk associated with the AMI.
+        public let ramdiskId: String?
+        /// The Amazon Resource Name (ARN) of the launch configuration.
+        public let launchConfigurationARN: String?
+        /// The ID of the Amazon Machine Image (AMI).
+        public let imageId: String
+        /// The security groups to associate with the instances.
+        public let securityGroups: [String]?
+
+        public init(associatePublicIpAddress: Bool? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, classicLinkVPCId: String? = nil, classicLinkVPCSecurityGroups: [String]? = nil, createdTime: TimeStamp, ebsOptimized: Bool? = nil, iamInstanceProfile: String? = nil, imageId: String, instanceMonitoring: InstanceMonitoring? = nil, instanceType: String, kernelId: String? = nil, keyName: String? = nil, launchConfigurationARN: String? = nil, launchConfigurationName: String, placementTenancy: String? = nil, ramdiskId: String? = nil, securityGroups: [String]? = nil, spotPrice: String? = nil, userData: String? = nil) {
+            self.spotPrice = spotPrice
+            self.createdTime = createdTime
+            self.keyName = keyName
+            self.launchConfigurationName = launchConfigurationName
+            self.userData = userData
+            self.associatePublicIpAddress = associatePublicIpAddress
+            self.ebsOptimized = ebsOptimized
+            self.iamInstanceProfile = iamInstanceProfile
+            self.instanceMonitoring = instanceMonitoring
+            self.placementTenancy = placementTenancy
+            self.instanceType = instanceType
+            self.classicLinkVPCSecurityGroups = classicLinkVPCSecurityGroups
+            self.classicLinkVPCId = classicLinkVPCId
+            self.blockDeviceMappings = blockDeviceMappings
+            self.kernelId = kernelId
+            self.ramdiskId = ramdiskId
+            self.launchConfigurationARN = launchConfigurationARN
+            self.imageId = imageId
+            self.securityGroups = securityGroups
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case spotPrice = "SpotPrice"
+            case createdTime = "CreatedTime"
+            case keyName = "KeyName"
+            case launchConfigurationName = "LaunchConfigurationName"
+            case userData = "UserData"
+            case associatePublicIpAddress = "AssociatePublicIpAddress"
+            case ebsOptimized = "EbsOptimized"
+            case iamInstanceProfile = "IamInstanceProfile"
+            case instanceMonitoring = "InstanceMonitoring"
+            case placementTenancy = "PlacementTenancy"
+            case instanceType = "InstanceType"
+            case classicLinkVPCSecurityGroups = "ClassicLinkVPCSecurityGroups"
+            case classicLinkVPCId = "ClassicLinkVPCId"
+            case blockDeviceMappings = "BlockDeviceMappings"
+            case kernelId = "KernelId"
+            case ramdiskId = "RamdiskId"
+            case launchConfigurationARN = "LaunchConfigurationARN"
+            case imageId = "ImageId"
+            case securityGroups = "SecurityGroups"
+        }
+    }
+
+    public struct ScheduledUpdateGroupActionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Recurrence", required: false, type: .string), 
+            AWSShapeMember(label: "MaxSize", required: false, type: .integer), 
+            AWSShapeMember(label: "DesiredCapacity", required: false, type: .integer), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MinSize", required: false, type: .integer), 
+            AWSShapeMember(label: "ScheduledActionName", required: true, type: .string)
+        ]
+        /// The recurring schedule for the action, in Unix cron syntax format. For more information about this format, see Crontab.
+        public let recurrence: String?
+        /// The maximum size of the group.
+        public let maxSize: Int32?
+        /// The number of EC2 instances that should be running in the group.
+        public let desiredCapacity: Int32?
+        /// The time for the action to start, in "YYYY-MM-DDThh:mm:ssZ" format in UTC/GMT only (for example, 2014-06-01T00:00:00Z). If you specify Recurrence and StartTime, Amazon EC2 Auto Scaling performs the action at this time, and then performs the action based on the specified recurrence. If you try to schedule the action in the past, Amazon EC2 Auto Scaling returns an error message.
+        public let startTime: TimeStamp?
+        /// The time for the recurring schedule to end. Amazon EC2 Auto Scaling does not perform the action after this time.
+        public let endTime: TimeStamp?
+        /// The minimum size of the group.
+        public let minSize: Int32?
+        /// The name of the scaling action.
+        public let scheduledActionName: String
+
+        public init(desiredCapacity: Int32? = nil, endTime: TimeStamp? = nil, maxSize: Int32? = nil, minSize: Int32? = nil, recurrence: String? = nil, scheduledActionName: String, startTime: TimeStamp? = nil) {
+            self.recurrence = recurrence
+            self.maxSize = maxSize
+            self.desiredCapacity = desiredCapacity
+            self.startTime = startTime
+            self.endTime = endTime
+            self.minSize = minSize
+            self.scheduledActionName = scheduledActionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recurrence = "Recurrence"
+            case maxSize = "MaxSize"
+            case desiredCapacity = "DesiredCapacity"
+            case startTime = "StartTime"
+            case endTime = "EndTime"
+            case minSize = "MinSize"
+            case scheduledActionName = "ScheduledActionName"
+        }
+    }
+
+    public struct SuspendedProcess: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SuspensionReason", required: false, type: .string), 
+            AWSShapeMember(label: "ProcessName", required: false, type: .string)
+        ]
+        /// The reason that the process was suspended.
+        public let suspensionReason: String?
+        /// The name of the suspended process.
+        public let processName: String?
+
+        public init(processName: String? = nil, suspensionReason: String? = nil) {
+            self.suspensionReason = suspensionReason
+            self.processName = processName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case suspensionReason = "SuspensionReason"
+            case processName = "ProcessName"
+        }
+    }
+
+    public struct ExecutePolicyType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoScalingGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "BreachThreshold", required: false, type: .double), 
+            AWSShapeMember(label: "MetricValue", required: false, type: .double), 
+            AWSShapeMember(label: "PolicyName", required: true, type: .string), 
+            AWSShapeMember(label: "HonorCooldown", required: false, type: .boolean)
+        ]
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String?
+        /// The breach threshold for the alarm. This parameter is required if the policy type is StepScaling and not supported otherwise.
+        public let breachThreshold: Double?
+        /// The metric value to compare to BreachThreshold. This enables you to execute a policy of type StepScaling and determine which step adjustment to use. For example, if the breach threshold is 50 and you want to use a step adjustment with a lower bound of 0 and an upper bound of 10, you can set the metric value to 59. If you specify a metric value that doesn't correspond to a step adjustment for the policy, the call returns an error. This parameter is required if the policy type is StepScaling and not supported otherwise.
+        public let metricValue: Double?
+        /// The name or ARN of the policy.
+        public let policyName: String
+        /// Indicates whether Amazon EC2 Auto Scaling waits for the cooldown period to complete before executing the policy. This parameter is not supported if the policy type is StepScaling. For more information, see Scaling Cooldowns in the Amazon EC2 Auto Scaling User Guide.
+        public let honorCooldown: Bool?
+
+        public init(autoScalingGroupName: String? = nil, breachThreshold: Double? = nil, honorCooldown: Bool? = nil, metricValue: Double? = nil, policyName: String) {
+            self.autoScalingGroupName = autoScalingGroupName
+            self.breachThreshold = breachThreshold
+            self.metricValue = metricValue
+            self.policyName = policyName
+            self.honorCooldown = honorCooldown
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case breachThreshold = "BreachThreshold"
+            case metricValue = "MetricValue"
+            case policyName = "PolicyName"
+            case honorCooldown = "HonorCooldown"
+        }
+    }
+
+    public enum ScalingActivityStatusCode: String, CustomStringConvertible, Codable {
+        case pendingspotbidplacement = "PendingSpotBidPlacement"
+        case waitingforspotinstancerequestid = "WaitingForSpotInstanceRequestId"
+        case waitingforspotinstanceid = "WaitingForSpotInstanceId"
+        case waitingforinstanceid = "WaitingForInstanceId"
+        case preinservice = "PreInService"
+        case inprogress = "InProgress"
+        case waitingforelbconnectiondraining = "WaitingForELBConnectionDraining"
+        case midlifecycleaction = "MidLifecycleAction"
+        case waitingforinstancewarmup = "WaitingForInstanceWarmup"
+        case successful = "Successful"
+        case failed = "Failed"
+        case cancelled = "Cancelled"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct AttachLoadBalancerTargetGroupsType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetGroupARNs", required: true, type: .list), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
+        ]
+        /// The Amazon Resource Names (ARN) of the target groups. You can specify up to 10 target groups.
+        public let targetGroupARNs: [String]
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String
+
+        public init(autoScalingGroupName: String, targetGroupARNs: [String]) {
+            self.targetGroupARNs = targetGroupARNs
+            self.autoScalingGroupName = autoScalingGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetGroupARNs = "TargetGroupARNs"
+            case autoScalingGroupName = "AutoScalingGroupName"
+        }
+    }
+
+    public struct DescribeLifecycleHookTypesAnswer: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LifecycleHookTypes", required: false, type: .list)
+        ]
+        /// The lifecycle hook types.
+        public let lifecycleHookTypes: [String]?
+
+        public init(lifecycleHookTypes: [String]? = nil) {
+            self.lifecycleHookTypes = lifecycleHookTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lifecycleHookTypes = "LifecycleHookTypes"
+        }
+    }
+
+    public struct AutoScalingGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "MixedInstancesPolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "TerminationPolicies", required: false, type: .list), 
+            AWSShapeMember(label: "HealthCheckType", required: true, type: .string), 
+            AWSShapeMember(label: "TargetGroupARNs", required: false, type: .list), 
+            AWSShapeMember(label: "DefaultCooldown", required: true, type: .integer), 
+            AWSShapeMember(label: "DesiredCapacity", required: true, type: .integer), 
+            AWSShapeMember(label: "EnabledMetrics", required: false, type: .list), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "LaunchTemplate", required: false, type: .structure), 
+            AWSShapeMember(label: "Instances", required: false, type: .list), 
+            AWSShapeMember(label: "HealthCheckGracePeriod", required: false, type: .integer), 
+            AWSShapeMember(label: "LoadBalancerNames", required: false, type: .list), 
+            AWSShapeMember(label: "NewInstancesProtectedFromScaleIn", required: false, type: .boolean), 
+            AWSShapeMember(label: "VPCZoneIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "AutoScalingGroupARN", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "AvailabilityZones", required: true, type: .list), 
+            AWSShapeMember(label: "PlacementGroup", required: false, type: .string), 
+            AWSShapeMember(label: "SuspendedProcesses", required: false, type: .list), 
+            AWSShapeMember(label: "MinSize", required: true, type: .integer), 
+            AWSShapeMember(label: "LaunchConfigurationName", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "MaxSize", required: true, type: .integer), 
+            AWSShapeMember(label: "ServiceLinkedRoleARN", required: false, type: .string)
+        ]
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String
+        /// The mixed instances policy for the group. 
+        public let mixedInstancesPolicy: MixedInstancesPolicy?
+        /// The termination policies for the group.
+        public let terminationPolicies: [String]?
+        /// The service to use for the health checks. The valid values are EC2 and ELB.
+        public let healthCheckType: String
+        /// The Amazon Resource Names (ARN) of the target groups for your load balancer.
+        public let targetGroupARNs: [String]?
+        /// The amount of time, in seconds, after a scaling activity completes before another scaling activity can start.
+        public let defaultCooldown: Int32
+        /// The desired size of the group.
+        public let desiredCapacity: Int32
+        /// The metrics enabled for the group.
+        public let enabledMetrics: [EnabledMetric]?
+        /// The tags for the group.
+        public let tags: [TagDescription]?
+        /// The launch template for the group.
+        public let launchTemplate: LaunchTemplateSpecification?
+        /// The EC2 instances associated with the group.
+        public let instances: [Instance]?
+        /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service.
+        public let healthCheckGracePeriod: Int32?
+        /// One or more load balancers associated with the group.
+        public let loadBalancerNames: [String]?
+        /// Indicates whether newly launched instances are protected from termination by Auto Scaling when scaling in.
+        public let newInstancesProtectedFromScaleIn: Bool?
+        /// One or more subnet IDs, if applicable, separated by commas. If you specify VPCZoneIdentifier and AvailabilityZones, ensure that the Availability Zones of the subnets match the values for AvailabilityZones.
+        public let vPCZoneIdentifier: String?
+        /// The Amazon Resource Name (ARN) of the Auto Scaling group.
+        public let autoScalingGroupARN: String?
+        /// The current state of the group when DeleteAutoScalingGroup is in progress.
+        public let status: String?
+        /// One or more Availability Zones for the group.
+        public let availabilityZones: [String]
+        /// The name of the placement group into which to launch your instances, if any. For more information, see Placement Groups in the Amazon Elastic Compute Cloud User Guide.
+        public let placementGroup: String?
+        /// The suspended processes associated with the group.
+        public let suspendedProcesses: [SuspendedProcess]?
+        /// The minimum size of the group.
+        public let minSize: Int32
+        /// The name of the associated launch configuration.
+        public let launchConfigurationName: String?
+        /// The date and time the group was created.
+        public let createdTime: TimeStamp
+        /// The maximum size of the group.
+        public let maxSize: Int32
+        /// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other AWS services on your behalf.
+        public let serviceLinkedRoleARN: String?
+
+        public init(autoScalingGroupARN: String? = nil, autoScalingGroupName: String, availabilityZones: [String], createdTime: TimeStamp, defaultCooldown: Int32, desiredCapacity: Int32, enabledMetrics: [EnabledMetric]? = nil, healthCheckGracePeriod: Int32? = nil, healthCheckType: String, instances: [Instance]? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, loadBalancerNames: [String]? = nil, maxSize: Int32, minSize: Int32, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, serviceLinkedRoleARN: String? = nil, status: String? = nil, suspendedProcesses: [SuspendedProcess]? = nil, tags: [TagDescription]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, vPCZoneIdentifier: String? = nil) {
+            self.autoScalingGroupName = autoScalingGroupName
+            self.mixedInstancesPolicy = mixedInstancesPolicy
+            self.terminationPolicies = terminationPolicies
+            self.healthCheckType = healthCheckType
+            self.targetGroupARNs = targetGroupARNs
+            self.defaultCooldown = defaultCooldown
+            self.desiredCapacity = desiredCapacity
+            self.enabledMetrics = enabledMetrics
+            self.tags = tags
+            self.launchTemplate = launchTemplate
+            self.instances = instances
+            self.healthCheckGracePeriod = healthCheckGracePeriod
+            self.loadBalancerNames = loadBalancerNames
+            self.newInstancesProtectedFromScaleIn = newInstancesProtectedFromScaleIn
+            self.vPCZoneIdentifier = vPCZoneIdentifier
+            self.autoScalingGroupARN = autoScalingGroupARN
+            self.status = status
+            self.availabilityZones = availabilityZones
+            self.placementGroup = placementGroup
+            self.suspendedProcesses = suspendedProcesses
+            self.minSize = minSize
+            self.launchConfigurationName = launchConfigurationName
+            self.createdTime = createdTime
+            self.maxSize = maxSize
+            self.serviceLinkedRoleARN = serviceLinkedRoleARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case mixedInstancesPolicy = "MixedInstancesPolicy"
+            case terminationPolicies = "TerminationPolicies"
+            case healthCheckType = "HealthCheckType"
+            case targetGroupARNs = "TargetGroupARNs"
+            case defaultCooldown = "DefaultCooldown"
+            case desiredCapacity = "DesiredCapacity"
+            case enabledMetrics = "EnabledMetrics"
+            case tags = "Tags"
+            case launchTemplate = "LaunchTemplate"
+            case instances = "Instances"
+            case healthCheckGracePeriod = "HealthCheckGracePeriod"
+            case loadBalancerNames = "LoadBalancerNames"
+            case newInstancesProtectedFromScaleIn = "NewInstancesProtectedFromScaleIn"
+            case vPCZoneIdentifier = "VPCZoneIdentifier"
+            case autoScalingGroupARN = "AutoScalingGroupARN"
+            case status = "Status"
+            case availabilityZones = "AvailabilityZones"
+            case placementGroup = "PlacementGroup"
+            case suspendedProcesses = "SuspendedProcesses"
+            case minSize = "MinSize"
+            case launchConfigurationName = "LaunchConfigurationName"
+            case createdTime = "CreatedTime"
+            case maxSize = "MaxSize"
+            case serviceLinkedRoleARN = "ServiceLinkedRoleARN"
+        }
+    }
+
     public struct DetachLoadBalancersType: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
@@ -1950,123 +894,31 @@ extension AutoScaling {
         }
     }
 
-    public struct InstancesDistribution: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OnDemandPercentageAboveBaseCapacity", required: false, type: .integer), 
-            AWSShapeMember(label: "OnDemandBaseCapacity", required: false, type: .integer), 
-            AWSShapeMember(label: "OnDemandAllocationStrategy", required: false, type: .string), 
-            AWSShapeMember(label: "SpotAllocationStrategy", required: false, type: .string), 
-            AWSShapeMember(label: "SpotInstancePools", required: false, type: .integer), 
-            AWSShapeMember(label: "SpotMaxPrice", required: false, type: .string)
-        ]
-        /// Controls the percentages of On-Demand Instances and Spot Instances for your additional capacity beyond OnDemandBaseCapacity.  The range is 0–100. The default value is 100. If you leave this parameter set to 100, the percentages are 100% for On-Demand Instances and 0% for Spot Instances. 
-        public let onDemandPercentageAboveBaseCapacity: Int32?
-        /// The minimum amount of the Auto Scaling group's capacity that must be fulfilled by On-Demand Instances. This base portion is provisioned first as your group scales. The default value is 0. If you leave this parameter set to 0, On-Demand Instances are launched as a percentage of the Auto Scaling group's desired capacity, per the OnDemandPercentageAboveBaseCapacity setting.
-        public let onDemandBaseCapacity: Int32?
-        /// Indicates how to allocate instance types to fulfill On-Demand capacity.  The only valid value is prioritized, which is also the default value. This strategy uses the order of instance types in the Overrides array of LaunchTemplate to define the launch priority of each instance type. The first instance type in the array is prioritized higher than the last. If all your On-Demand capacity cannot be fulfilled using your highest priority instance, then the Auto Scaling groups launches the remaining capacity using the second priority instance type, and so on. 
-        public let onDemandAllocationStrategy: String?
-        /// Indicates how to allocate Spot capacity across Spot pools. The only valid value is lowest-price, which is also the default value. The Auto Scaling group selects the cheapest Spot pools and evenly allocates your Spot capacity across the number of Spot pools that you specify. 
-        public let spotAllocationStrategy: String?
-        /// The number of Spot pools to use to allocate your Spot capacity. The Spot pools are determined from the different instance types in the Overrides array of LaunchTemplate.  The range is 1–20 and the default is 2. 
-        public let spotInstancePools: Int32?
-        /// The maximum price per unit hour that you are willing to pay for a Spot Instance. If you leave this value blank (which is the default), the maximum Spot price is set at the On-Demand price. 
-        public let spotMaxPrice: String?
+    public struct CompleteLifecycleActionAnswer: AWSShape {
 
-        public init(onDemandPercentageAboveBaseCapacity: Int32? = nil, onDemandBaseCapacity: Int32? = nil, onDemandAllocationStrategy: String? = nil, spotAllocationStrategy: String? = nil, spotInstancePools: Int32? = nil, spotMaxPrice: String? = nil) {
-            self.onDemandPercentageAboveBaseCapacity = onDemandPercentageAboveBaseCapacity
-            self.onDemandBaseCapacity = onDemandBaseCapacity
-            self.onDemandAllocationStrategy = onDemandAllocationStrategy
-            self.spotAllocationStrategy = spotAllocationStrategy
-            self.spotInstancePools = spotInstancePools
-            self.spotMaxPrice = spotMaxPrice
+        public init() {
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case onDemandPercentageAboveBaseCapacity = "OnDemandPercentageAboveBaseCapacity"
-            case onDemandBaseCapacity = "OnDemandBaseCapacity"
-            case onDemandAllocationStrategy = "OnDemandAllocationStrategy"
-            case spotAllocationStrategy = "SpotAllocationStrategy"
-            case spotInstancePools = "SpotInstancePools"
-            case spotMaxPrice = "SpotMaxPrice"
-        }
     }
 
-    public struct DescribeTerminationPolicyTypesAnswer: AWSShape {
+    public struct DeleteNotificationConfigurationType: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TerminationPolicyTypes", required: false, type: .list)
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "TopicARN", required: true, type: .string)
         ]
-        /// The termination policies supported by Amazon EC2 Auto Scaling: OldestInstance, OldestLaunchConfiguration, NewestInstance, ClosestToNextInstanceHour, Default, OldestLaunchTemplate, and AllocationStrategy. Currently, the OldestLaunchTemplate and AllocationStrategy policies are only supported for Auto Scaling groups with MixedInstancesPolicy.
-        public let terminationPolicyTypes: [String]?
-
-        public init(terminationPolicyTypes: [String]? = nil) {
-            self.terminationPolicyTypes = terminationPolicyTypes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case terminationPolicyTypes = "TerminationPolicyTypes"
-        }
-    }
-
-    public struct LoadBalancerState: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "State", required: false, type: .string), 
-            AWSShapeMember(label: "LoadBalancerName", required: false, type: .string)
-        ]
-        /// One of the following load balancer states:    Adding - The instances in the group are being registered with the load balancer.    Added - All instances in the group are registered with the load balancer.    InService - At least one instance in the group passed an ELB health check.    Removing - The instances in the group are being deregistered from the load balancer. If connection draining is enabled, Elastic Load Balancing waits for in-flight requests to complete before deregistering the instances.    Removed - All instances in the group are deregistered from the load balancer.  
-        public let state: String?
-        /// The name of the load balancer.
-        public let loadBalancerName: String?
-
-        public init(state: String? = nil, loadBalancerName: String? = nil) {
-            self.state = state
-            self.loadBalancerName = loadBalancerName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case state = "State"
-            case loadBalancerName = "LoadBalancerName"
-        }
-    }
-
-    public struct LaunchTemplateOverrides: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceType", required: false, type: .string)
-        ]
-        /// The instance type.  For information about available instance types, see Available Instance Types in the Amazon Elastic Compute Cloud User Guide. 
-        public let instanceType: String?
-
-        public init(instanceType: String? = nil) {
-            self.instanceType = instanceType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceType = "InstanceType"
-        }
-    }
-
-    public struct PutNotificationConfigurationType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NotificationTypes", required: true, type: .list), 
-            AWSShapeMember(label: "TopicARN", required: true, type: .string), 
-            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
-        ]
-        /// The type of event that causes the notification to be sent. For more information about notification types supported by Amazon EC2 Auto Scaling, see DescribeAutoScalingNotificationTypes.
-        public let notificationTypes: [String]
-        /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (Amazon SNS) topic.
-        public let topicARN: String
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
+        /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (Amazon SNS) topic.
+        public let topicARN: String
 
-        public init(notificationTypes: [String], topicARN: String, autoScalingGroupName: String) {
-            self.notificationTypes = notificationTypes
-            self.topicARN = topicARN
+        public init(autoScalingGroupName: String, topicARN: String) {
             self.autoScalingGroupName = autoScalingGroupName
+            self.topicARN = topicARN
         }
 
         private enum CodingKeys: String, CodingKey {
-            case notificationTypes = "NotificationTypes"
-            case topicARN = "TopicARN"
             case autoScalingGroupName = "AutoScalingGroupName"
+            case topicARN = "TopicARN"
         }
     }
 
@@ -2091,50 +943,253 @@ extension AutoScaling {
         }
     }
 
-    public struct EnableMetricsCollectionQuery: AWSShape {
+    public struct PredefinedMetricSpecification: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Metrics", required: false, type: .list), 
-            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Granularity", required: true, type: .string)
+            AWSShapeMember(label: "PredefinedMetricType", required: true, type: .enum), 
+            AWSShapeMember(label: "ResourceLabel", required: false, type: .string)
         ]
-        /// One or more of the following metrics. If you omit this parameter, all metrics are enabled.    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances   
-        public let metrics: [String]?
+        /// The metric type.
+        public let predefinedMetricType: MetricType
+        /// Identifies the resource associated with the metric type. The following predefined metrics are available:    ASGAverageCPUUtilization - Average CPU utilization of the Auto Scaling group.    ASGAverageNetworkIn - Average number of bytes received on all network interfaces by the Auto Scaling group.    ASGAverageNetworkOut - Average number of bytes sent out on all network interfaces by the Auto Scaling group.    ALBRequestCountPerTarget - Number of requests completed per target in an Application Load Balancer target group.   For predefined metric types ASGAverageCPUUtilization, ASGAverageNetworkIn, and ASGAverageNetworkOut, the parameter must not be specified as the resource associated with the metric type is the Auto Scaling group. For predefined metric type ALBRequestCountPerTarget, the parameter must be specified in the format: app/load-balancer-name/load-balancer-id/targetgroup/target-group-name/target-group-id , where app/load-balancer-name/load-balancer-id  is the final portion of the load balancer ARN, and targetgroup/target-group-name/target-group-id  is the final portion of the target group ARN. The target group must be attached to the Auto Scaling group.
+        public let resourceLabel: String?
+
+        public init(predefinedMetricType: MetricType, resourceLabel: String? = nil) {
+            self.predefinedMetricType = predefinedMetricType
+            self.resourceLabel = resourceLabel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case predefinedMetricType = "PredefinedMetricType"
+            case resourceLabel = "ResourceLabel"
+        }
+    }
+
+    public struct PutScalingPolicyType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StepAdjustments", required: false, type: .list), 
+            AWSShapeMember(label: "Cooldown", required: false, type: .integer), 
+            AWSShapeMember(label: "AdjustmentType", required: false, type: .string), 
+            AWSShapeMember(label: "MetricAggregationType", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyName", required: true, type: .string), 
+            AWSShapeMember(label: "MinAdjustmentStep", required: false, type: .integer), 
+            AWSShapeMember(label: "PolicyType", required: false, type: .string), 
+            AWSShapeMember(label: "TargetTrackingConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "ScalingAdjustment", required: false, type: .integer), 
+            AWSShapeMember(label: "EstimatedInstanceWarmup", required: false, type: .integer), 
+            AWSShapeMember(label: "MinAdjustmentMagnitude", required: false, type: .integer)
+        ]
+        /// A set of adjustments that enable you to scale based on the size of the alarm breach. This parameter is required if the policy type is StepScaling and not supported otherwise.
+        public let stepAdjustments: [StepAdjustment]?
+        /// The amount of time, in seconds, after a scaling activity completes and before the next scaling activity can start. If this parameter is not specified, the default cooldown period for the group applies. This parameter is supported if the policy type is SimpleScaling. For more information, see Scaling Cooldowns in the Amazon EC2 Auto Scaling User Guide.
+        public let cooldown: Int32?
+        /// The adjustment type. The valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity. This parameter is supported if the policy type is SimpleScaling or StepScaling. For more information, see Dynamic Scaling in the Amazon EC2 Auto Scaling User Guide.
+        public let adjustmentType: String?
+        /// The aggregation type for the CloudWatch metrics. The valid values are Minimum, Maximum, and Average. If the aggregation type is null, the value is treated as Average. This parameter is supported if the policy type is StepScaling.
+        public let metricAggregationType: String?
+        /// The name of the policy.
+        public let policyName: String
+        /// Available for backward compatibility. Use MinAdjustmentMagnitude instead.
+        public let minAdjustmentStep: Int32?
+        /// The policy type. The valid values are SimpleScaling, StepScaling, and TargetTrackingScaling. If the policy type is null, the value is treated as SimpleScaling.
+        public let policyType: String?
+        /// A target tracking policy. This parameter is required if the policy type is TargetTrackingScaling and not supported otherwise.
+        public let targetTrackingConfiguration: TargetTrackingConfiguration?
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
-        /// The granularity to associate with the metrics to collect. The only valid value is 1Minute.
-        public let granularity: String
+        /// The amount by which to scale, based on the specified adjustment type. A positive value adds to the current capacity while a negative number removes from the current capacity. This parameter is required if the policy type is SimpleScaling and not supported otherwise.
+        public let scalingAdjustment: Int32?
+        /// The estimated time, in seconds, until a newly launched instance can contribute to the CloudWatch metrics. The default is to use the value specified for the default cooldown period for the group. This parameter is supported if the policy type is StepScaling or TargetTrackingScaling.
+        public let estimatedInstanceWarmup: Int32?
+        /// The minimum number of instances to scale. If the value of AdjustmentType is PercentChangeInCapacity, the scaling policy changes the DesiredCapacity of the Auto Scaling group by at least this many instances. Otherwise, the error is ValidationError. This parameter is supported if the policy type is SimpleScaling or StepScaling.
+        public let minAdjustmentMagnitude: Int32?
 
-        public init(metrics: [String]? = nil, autoScalingGroupName: String, granularity: String) {
-            self.metrics = metrics
+        public init(adjustmentType: String? = nil, autoScalingGroupName: String, cooldown: Int32? = nil, estimatedInstanceWarmup: Int32? = nil, metricAggregationType: String? = nil, minAdjustmentMagnitude: Int32? = nil, minAdjustmentStep: Int32? = nil, policyName: String, policyType: String? = nil, scalingAdjustment: Int32? = nil, stepAdjustments: [StepAdjustment]? = nil, targetTrackingConfiguration: TargetTrackingConfiguration? = nil) {
+            self.stepAdjustments = stepAdjustments
+            self.cooldown = cooldown
+            self.adjustmentType = adjustmentType
+            self.metricAggregationType = metricAggregationType
+            self.policyName = policyName
+            self.minAdjustmentStep = minAdjustmentStep
+            self.policyType = policyType
+            self.targetTrackingConfiguration = targetTrackingConfiguration
             self.autoScalingGroupName = autoScalingGroupName
+            self.scalingAdjustment = scalingAdjustment
+            self.estimatedInstanceWarmup = estimatedInstanceWarmup
+            self.minAdjustmentMagnitude = minAdjustmentMagnitude
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stepAdjustments = "StepAdjustments"
+            case cooldown = "Cooldown"
+            case adjustmentType = "AdjustmentType"
+            case metricAggregationType = "MetricAggregationType"
+            case policyName = "PolicyName"
+            case minAdjustmentStep = "MinAdjustmentStep"
+            case policyType = "PolicyType"
+            case targetTrackingConfiguration = "TargetTrackingConfiguration"
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case scalingAdjustment = "ScalingAdjustment"
+            case estimatedInstanceWarmup = "EstimatedInstanceWarmup"
+            case minAdjustmentMagnitude = "MinAdjustmentMagnitude"
+        }
+    }
+
+    public struct SetInstanceProtectionAnswer: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DescribePoliciesType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoScalingGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyTypes", required: false, type: .list), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyNames", required: false, type: .list)
+        ]
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String?
+        /// One or more policy types. Valid values are SimpleScaling and StepScaling.
+        public let policyTypes: [String]?
+        /// The maximum number of items to be returned with each call. The default value is 50 and the maximum value is 100.
+        public let maxRecords: Int32?
+        /// The token for the next set of items to return. (You received this token from a previous call.)
+        public let nextToken: String?
+        /// The names of one or more policies. If you omit this parameter, all policies are described. If a group name is provided, the results are limited to that group. This list is limited to 50 items. If you specify an unknown policy name, it is ignored with no error.
+        public let policyNames: [String]?
+
+        public init(autoScalingGroupName: String? = nil, maxRecords: Int32? = nil, nextToken: String? = nil, policyNames: [String]? = nil, policyTypes: [String]? = nil) {
+            self.autoScalingGroupName = autoScalingGroupName
+            self.policyTypes = policyTypes
+            self.maxRecords = maxRecords
+            self.nextToken = nextToken
+            self.policyNames = policyNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case policyTypes = "PolicyTypes"
+            case maxRecords = "MaxRecords"
+            case nextToken = "NextToken"
+            case policyNames = "PolicyNames"
+        }
+    }
+
+    public struct ScheduledActionsType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ScheduledUpdateGroupActions", required: false, type: .list)
+        ]
+        /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
+        public let nextToken: String?
+        /// The scheduled actions.
+        public let scheduledUpdateGroupActions: [ScheduledUpdateGroupAction]?
+
+        public init(nextToken: String? = nil, scheduledUpdateGroupActions: [ScheduledUpdateGroupAction]? = nil) {
+            self.nextToken = nextToken
+            self.scheduledUpdateGroupActions = scheduledUpdateGroupActions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case scheduledUpdateGroupActions = "ScheduledUpdateGroupActions"
+        }
+    }
+
+    public struct LaunchConfigurationsType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LaunchConfigurations", required: true, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The launch configurations.
+        public let launchConfigurations: [LaunchConfiguration]
+        /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
+        public let nextToken: String?
+
+        public init(launchConfigurations: [LaunchConfiguration], nextToken: String? = nil) {
+            self.launchConfigurations = launchConfigurations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case launchConfigurations = "LaunchConfigurations"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct EnabledMetric: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Metric", required: false, type: .string), 
+            AWSShapeMember(label: "Granularity", required: false, type: .string)
+        ]
+        /// One of the following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances   
+        public let metric: String?
+        /// The granularity of the metric. The only valid value is 1Minute.
+        public let granularity: String?
+
+        public init(granularity: String? = nil, metric: String? = nil) {
+            self.metric = metric
             self.granularity = granularity
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metrics = "Metrics"
-            case autoScalingGroupName = "AutoScalingGroupName"
+            case metric = "Metric"
             case granularity = "Granularity"
         }
     }
 
-    public struct BatchDeleteScheduledActionType: AWSShape {
+    public struct DescribeNotificationConfigurationsType: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScheduledActionNames", required: true, type: .list), 
-            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "AutoScalingGroupNames", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The names of the scheduled actions to delete. The maximum number allowed is 50. 
-        public let scheduledActionNames: [String]
+        /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
+        public let maxRecords: Int32?
         /// The name of the Auto Scaling group.
-        public let autoScalingGroupName: String
+        public let autoScalingGroupNames: [String]?
+        /// The token for the next set of items to return. (You received this token from a previous call.)
+        public let nextToken: String?
 
-        public init(scheduledActionNames: [String], autoScalingGroupName: String) {
-            self.scheduledActionNames = scheduledActionNames
-            self.autoScalingGroupName = autoScalingGroupName
+        public init(autoScalingGroupNames: [String]? = nil, maxRecords: Int32? = nil, nextToken: String? = nil) {
+            self.maxRecords = maxRecords
+            self.autoScalingGroupNames = autoScalingGroupNames
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case scheduledActionNames = "ScheduledActionNames"
-            case autoScalingGroupName = "AutoScalingGroupName"
+            case maxRecords = "MaxRecords"
+            case autoScalingGroupNames = "AutoScalingGroupNames"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeTagsType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// One or more filters to scope the tags to return. The maximum number of filters per filter type (for example, auto-scaling-group) is 1000.
+        public let filters: [Filter]?
+        /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
+        public let maxRecords: Int32?
+        /// The token for the next set of items to return. (You received this token from a previous call.)
+        public let nextToken: String?
+
+        public init(filters: [Filter]? = nil, maxRecords: Int32? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxRecords = maxRecords
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxRecords = "MaxRecords"
+            case nextToken = "NextToken"
         }
     }
 
@@ -2154,115 +1209,108 @@ extension AutoScaling {
         }
     }
 
-    public struct ScalingPolicy: AWSShape {
+    public struct AttachLoadBalancersType: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EstimatedInstanceWarmup", required: false, type: .integer), 
-            AWSShapeMember(label: "Alarms", required: false, type: .list), 
-            AWSShapeMember(label: "ScalingAdjustment", required: false, type: .integer), 
-            AWSShapeMember(label: "MinAdjustmentMagnitude", required: false, type: .integer), 
-            AWSShapeMember(label: "StepAdjustments", required: false, type: .list), 
-            AWSShapeMember(label: "AutoScalingGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "TargetTrackingConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "PolicyType", required: false, type: .string), 
-            AWSShapeMember(label: "MetricAggregationType", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyARN", required: false, type: .string), 
-            AWSShapeMember(label: "Cooldown", required: false, type: .integer), 
-            AWSShapeMember(label: "PolicyName", required: false, type: .string), 
-            AWSShapeMember(label: "MinAdjustmentStep", required: false, type: .integer), 
+            AWSShapeMember(label: "LoadBalancerNames", required: true, type: .list), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
+        ]
+        /// The names of the load balancers. You can specify up to 10 load balancers.
+        public let loadBalancerNames: [String]
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String
+
+        public init(autoScalingGroupName: String, loadBalancerNames: [String]) {
+            self.loadBalancerNames = loadBalancerNames
+            self.autoScalingGroupName = autoScalingGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerNames = "LoadBalancerNames"
+            case autoScalingGroupName = "AutoScalingGroupName"
+        }
+    }
+
+    public struct DetachInstancesQuery: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ShouldDecrementDesiredCapacity", required: true, type: .boolean), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "InstanceIds", required: false, type: .list)
+        ]
+        /// Indicates whether the Auto Scaling group decrements the desired capacity value by the number of instances detached.
+        public let shouldDecrementDesiredCapacity: Bool
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String
+        /// The IDs of the instances. You can specify up to 20 instances.
+        public let instanceIds: [String]?
+
+        public init(autoScalingGroupName: String, instanceIds: [String]? = nil, shouldDecrementDesiredCapacity: Bool) {
+            self.shouldDecrementDesiredCapacity = shouldDecrementDesiredCapacity
+            self.autoScalingGroupName = autoScalingGroupName
+            self.instanceIds = instanceIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case shouldDecrementDesiredCapacity = "ShouldDecrementDesiredCapacity"
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case instanceIds = "InstanceIds"
+        }
+    }
+
+    public struct CreateOrUpdateTagsType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: true, type: .list)
+        ]
+        /// One or more tags.
+        public let tags: [Tag]
+
+        public init(tags: [Tag]) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
+    public struct AdjustmentType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AdjustmentType", required: false, type: .string)
         ]
-        /// The estimated time, in seconds, until a newly launched instance can contribute to the CloudWatch metrics.
-        public let estimatedInstanceWarmup: Int32?
-        /// The CloudWatch alarms related to the policy.
-        public let alarms: [Alarm]?
-        /// The amount by which to scale, based on the specified adjustment type. A positive value adds to the current capacity while a negative number removes from the current capacity.
-        public let scalingAdjustment: Int32?
-        /// The minimum number of instances to scale. If the value of AdjustmentType is PercentChangeInCapacity, the scaling policy changes the DesiredCapacity of the Auto Scaling group by at least this many instances. Otherwise, the error is ValidationError.
-        public let minAdjustmentMagnitude: Int32?
-        /// A set of adjustments that enable you to scale based on the size of the alarm breach.
-        public let stepAdjustments: [StepAdjustment]?
-        /// The name of the Auto Scaling group.
-        public let autoScalingGroupName: String?
-        /// A target tracking policy.
-        public let targetTrackingConfiguration: TargetTrackingConfiguration?
-        /// The policy type. Valid values are SimpleScaling and StepScaling.
-        public let policyType: String?
-        /// The aggregation type for the CloudWatch metrics. Valid values are Minimum, Maximum, and Average.
-        public let metricAggregationType: String?
-        /// The Amazon Resource Name (ARN) of the policy.
-        public let policyARN: String?
-        /// The amount of time, in seconds, after a scaling activity completes before any further dynamic scaling activities can start.
-        public let cooldown: Int32?
-        /// The name of the scaling policy.
-        public let policyName: String?
-        /// Available for backward compatibility. Use MinAdjustmentMagnitude instead.
-        public let minAdjustmentStep: Int32?
-        /// The adjustment type, which specifies how ScalingAdjustment is interpreted. Valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity.
+        /// The policy adjustment type. The valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity.
         public let adjustmentType: String?
 
-        public init(estimatedInstanceWarmup: Int32? = nil, alarms: [Alarm]? = nil, scalingAdjustment: Int32? = nil, minAdjustmentMagnitude: Int32? = nil, stepAdjustments: [StepAdjustment]? = nil, autoScalingGroupName: String? = nil, targetTrackingConfiguration: TargetTrackingConfiguration? = nil, policyType: String? = nil, metricAggregationType: String? = nil, policyARN: String? = nil, cooldown: Int32? = nil, policyName: String? = nil, minAdjustmentStep: Int32? = nil, adjustmentType: String? = nil) {
-            self.estimatedInstanceWarmup = estimatedInstanceWarmup
-            self.alarms = alarms
-            self.scalingAdjustment = scalingAdjustment
-            self.minAdjustmentMagnitude = minAdjustmentMagnitude
-            self.stepAdjustments = stepAdjustments
-            self.autoScalingGroupName = autoScalingGroupName
-            self.targetTrackingConfiguration = targetTrackingConfiguration
-            self.policyType = policyType
-            self.metricAggregationType = metricAggregationType
-            self.policyARN = policyARN
-            self.cooldown = cooldown
-            self.policyName = policyName
-            self.minAdjustmentStep = minAdjustmentStep
+        public init(adjustmentType: String? = nil) {
             self.adjustmentType = adjustmentType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case estimatedInstanceWarmup = "EstimatedInstanceWarmup"
-            case alarms = "Alarms"
-            case scalingAdjustment = "ScalingAdjustment"
-            case minAdjustmentMagnitude = "MinAdjustmentMagnitude"
-            case stepAdjustments = "StepAdjustments"
-            case autoScalingGroupName = "AutoScalingGroupName"
-            case targetTrackingConfiguration = "TargetTrackingConfiguration"
-            case policyType = "PolicyType"
-            case metricAggregationType = "MetricAggregationType"
-            case policyARN = "PolicyARN"
-            case cooldown = "Cooldown"
-            case policyName = "PolicyName"
-            case minAdjustmentStep = "MinAdjustmentStep"
             case adjustmentType = "AdjustmentType"
         }
     }
 
-    public struct RecordLifecycleActionHeartbeatType: AWSShape {
+    public struct LaunchConfigurationNamesType: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LifecycleActionToken", required: false, type: .string), 
-            AWSShapeMember(label: "LifecycleHookName", required: true, type: .string), 
-            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
-            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
+            AWSShapeMember(label: "LaunchConfigurationNames", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
         ]
-        /// A token that uniquely identifies a specific lifecycle action associated with an instance. Amazon EC2 Auto Scaling sends this token to the notification target that you specified when you created the lifecycle hook.
-        public let lifecycleActionToken: String?
-        /// The name of the lifecycle hook.
-        public let lifecycleHookName: String
-        /// The ID of the instance.
-        public let instanceId: String?
-        /// The name of the Auto Scaling group.
-        public let autoScalingGroupName: String
+        /// The launch configuration names. If you omit this parameter, all launch configurations are described.
+        public let launchConfigurationNames: [String]?
+        /// The token for the next set of items to return. (You received this token from a previous call.)
+        public let nextToken: String?
+        /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
+        public let maxRecords: Int32?
 
-        public init(lifecycleActionToken: String? = nil, lifecycleHookName: String, instanceId: String? = nil, autoScalingGroupName: String) {
-            self.lifecycleActionToken = lifecycleActionToken
-            self.lifecycleHookName = lifecycleHookName
-            self.instanceId = instanceId
-            self.autoScalingGroupName = autoScalingGroupName
+        public init(launchConfigurationNames: [String]? = nil, maxRecords: Int32? = nil, nextToken: String? = nil) {
+            self.launchConfigurationNames = launchConfigurationNames
+            self.nextToken = nextToken
+            self.maxRecords = maxRecords
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lifecycleActionToken = "LifecycleActionToken"
-            case lifecycleHookName = "LifecycleHookName"
-            case instanceId = "InstanceId"
-            case autoScalingGroupName = "AutoScalingGroupName"
+            case launchConfigurationNames = "LaunchConfigurationNames"
+            case nextToken = "NextToken"
+            case maxRecords = "MaxRecords"
         }
     }
 
@@ -2276,7 +1324,7 @@ extension AutoScaling {
         /// The CloudWatch alarms created for the target tracking policy.
         public let alarms: [Alarm]?
 
-        public init(policyARN: String? = nil, alarms: [Alarm]? = nil) {
+        public init(alarms: [Alarm]? = nil, policyARN: String? = nil) {
             self.policyARN = policyARN
             self.alarms = alarms
         }
@@ -2287,189 +1335,252 @@ extension AutoScaling {
         }
     }
 
-    public struct TagDescription: AWSShape {
+    public struct LoadBalancerTargetGroupState: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceType", required: false, type: .string), 
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "PropagateAtLaunch", required: false, type: .boolean), 
-            AWSShapeMember(label: "Key", required: false, type: .string)
+            AWSShapeMember(label: "State", required: false, type: .string), 
+            AWSShapeMember(label: "LoadBalancerTargetGroupARN", required: false, type: .string)
         ]
-        /// The name of the group.
-        public let resourceId: String?
-        /// The type of resource. The only supported value is auto-scaling-group.
-        public let resourceType: String?
-        /// The tag value.
-        public let value: String?
-        /// Determines whether the tag is added to new instances as they are launched in the group.
-        public let propagateAtLaunch: Bool?
-        /// The tag key.
-        public let key: String?
+        /// The state of the target group.    Adding - The Auto Scaling instances are being registered with the target group.    Added - All Auto Scaling instances are registered with the target group.    InService - At least one Auto Scaling instance passed an ELB health check.    Removing - The Auto Scaling instances are being deregistered from the target group. If connection draining is enabled, Elastic Load Balancing waits for in-flight requests to complete before deregistering the instances.    Removed - All Auto Scaling instances are deregistered from the target group.  
+        public let state: String?
+        /// The Amazon Resource Name (ARN) of the target group.
+        public let loadBalancerTargetGroupARN: String?
 
-        public init(resourceId: String? = nil, resourceType: String? = nil, value: String? = nil, propagateAtLaunch: Bool? = nil, key: String? = nil) {
-            self.resourceId = resourceId
-            self.resourceType = resourceType
-            self.value = value
-            self.propagateAtLaunch = propagateAtLaunch
-            self.key = key
+        public init(loadBalancerTargetGroupARN: String? = nil, state: String? = nil) {
+            self.state = state
+            self.loadBalancerTargetGroupARN = loadBalancerTargetGroupARN
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceId = "ResourceId"
-            case resourceType = "ResourceType"
-            case value = "Value"
-            case propagateAtLaunch = "PropagateAtLaunch"
-            case key = "Key"
+            case state = "State"
+            case loadBalancerTargetGroupARN = "LoadBalancerTargetGroupARN"
         }
     }
 
-    public struct MetricDimension: AWSShape {
+    public struct Filter: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
+            AWSShapeMember(label: "Values", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
-        /// The value of the dimension.
-        public let value: String
-        /// The name of the dimension.
-        public let name: String
+        /// The value of the filter.
+        public let values: [String]?
+        /// The name of the filter. The valid values are: "auto-scaling-group", "key", "value", and "propagate-at-launch".
+        public let name: String?
 
-        public init(value: String, name: String) {
-            self.value = value
+        public init(name: String? = nil, values: [String]? = nil) {
+            self.values = values
             self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case value = "Value"
+            case values = "Values"
             case name = "Name"
         }
     }
 
+    public struct DescribeLoadBalancersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "LoadBalancers", required: false, type: .list)
+        ]
+        /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
+        public let nextToken: String?
+        /// The load balancers.
+        public let loadBalancers: [LoadBalancerState]?
+
+        public init(loadBalancers: [LoadBalancerState]? = nil, nextToken: String? = nil) {
+            self.nextToken = nextToken
+            self.loadBalancers = loadBalancers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case loadBalancers = "LoadBalancers"
+        }
+    }
+
+    public struct ProcessesType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Processes", required: false, type: .list)
+        ]
+        /// The names of the process types.
+        public let processes: [ProcessType]?
+
+        public init(processes: [ProcessType]? = nil) {
+            self.processes = processes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case processes = "Processes"
+        }
+    }
+
+    public struct LaunchTemplateOverrides: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceType", required: false, type: .string)
+        ]
+        /// The instance type.  For information about available instance types, see Available Instance Types in the Amazon Elastic Compute Cloud User Guide. 
+        public let instanceType: String?
+
+        public init(instanceType: String? = nil) {
+            self.instanceType = instanceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceType = "InstanceType"
+        }
+    }
+
+    public struct DetachLoadBalancerTargetGroupsType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "TargetGroupARNs", required: true, type: .list)
+        ]
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String
+        /// The Amazon Resource Names (ARN) of the target groups. You can specify up to 10 target groups.
+        public let targetGroupARNs: [String]
+
+        public init(autoScalingGroupName: String, targetGroupARNs: [String]) {
+            self.autoScalingGroupName = autoScalingGroupName
+            self.targetGroupARNs = targetGroupARNs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case targetGroupARNs = "TargetGroupARNs"
+        }
+    }
+
+    public struct ProcessType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProcessName", required: true, type: .string)
+        ]
+        /// One of the following processes:    Launch     Terminate     AddToLoadBalancer     AlarmNotification     AZRebalance     HealthCheck     ReplaceUnhealthy     ScheduledActions   
+        public let processName: String
+
+        public init(processName: String) {
+            self.processName = processName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case processName = "ProcessName"
+        }
+    }
+
+    public struct SetInstanceHealthQuery: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HealthStatus", required: true, type: .string), 
+            AWSShapeMember(label: "ShouldRespectGracePeriod", required: false, type: .boolean), 
+            AWSShapeMember(label: "InstanceId", required: true, type: .string)
+        ]
+        /// The health status of the instance. Set to Healthy to have the instance remain in service. Set to Unhealthy to have the instance be out of service. Amazon EC2 Auto Scaling terminates and replaces the unhealthy instance.
+        public let healthStatus: String
+        /// If the Auto Scaling group of the specified instance has a HealthCheckGracePeriod specified for the group, by default, this call respects the grace period. Set this to False, to have the call not respect the grace period associated with the group. For more information about the health check grace period, see CreateAutoScalingGroup.
+        public let shouldRespectGracePeriod: Bool?
+        /// The ID of the instance.
+        public let instanceId: String
+
+        public init(healthStatus: String, instanceId: String, shouldRespectGracePeriod: Bool? = nil) {
+            self.healthStatus = healthStatus
+            self.shouldRespectGracePeriod = shouldRespectGracePeriod
+            self.instanceId = instanceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case healthStatus = "HealthStatus"
+            case shouldRespectGracePeriod = "ShouldRespectGracePeriod"
+            case instanceId = "InstanceId"
+        }
+    }
+
+    public struct AttachLoadBalancersResultType: AWSShape {
+
+        public init() {
+        }
+
+    }
+
     public struct SetInstanceProtectionQuery: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceIds", required: true, type: .list), 
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "ProtectedFromScaleIn", required: true, type: .boolean)
+            AWSShapeMember(label: "ProtectedFromScaleIn", required: true, type: .boolean), 
+            AWSShapeMember(label: "InstanceIds", required: true, type: .list)
         ]
-        /// One or more instance IDs.
-        public let instanceIds: [String]
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// Indicates whether the instance is protected from termination by Amazon EC2 Auto Scaling when scaling in.
         public let protectedFromScaleIn: Bool
+        /// One or more instance IDs.
+        public let instanceIds: [String]
 
-        public init(instanceIds: [String], autoScalingGroupName: String, protectedFromScaleIn: Bool) {
-            self.instanceIds = instanceIds
+        public init(autoScalingGroupName: String, instanceIds: [String], protectedFromScaleIn: Bool) {
             self.autoScalingGroupName = autoScalingGroupName
             self.protectedFromScaleIn = protectedFromScaleIn
+            self.instanceIds = instanceIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case protectedFromScaleIn = "ProtectedFromScaleIn"
+            case instanceIds = "InstanceIds"
+        }
+    }
+
+    public struct DescribeLifecycleHooksAnswer: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LifecycleHooks", required: false, type: .list)
+        ]
+        /// The lifecycle hooks for the specified group.
+        public let lifecycleHooks: [LifecycleHook]?
+
+        public init(lifecycleHooks: [LifecycleHook]? = nil) {
+            self.lifecycleHooks = lifecycleHooks
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lifecycleHooks = "LifecycleHooks"
+        }
+    }
+
+    public struct BatchDeleteScheduledActionType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ScheduledActionNames", required: true, type: .list), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
+        ]
+        /// The names of the scheduled actions to delete. The maximum number allowed is 50. 
+        public let scheduledActionNames: [String]
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String
+
+        public init(autoScalingGroupName: String, scheduledActionNames: [String]) {
+            self.scheduledActionNames = scheduledActionNames
+            self.autoScalingGroupName = autoScalingGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scheduledActionNames = "ScheduledActionNames"
+            case autoScalingGroupName = "AutoScalingGroupName"
+        }
+    }
+
+    public struct AttachInstancesQuery: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceIds", required: false, type: .list), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
+        ]
+        /// The IDs of the instances. You can specify up to 20 instances.
+        public let instanceIds: [String]?
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String
+
+        public init(autoScalingGroupName: String, instanceIds: [String]? = nil) {
+            self.instanceIds = instanceIds
+            self.autoScalingGroupName = autoScalingGroupName
         }
 
         private enum CodingKeys: String, CodingKey {
             case instanceIds = "InstanceIds"
             case autoScalingGroupName = "AutoScalingGroupName"
-            case protectedFromScaleIn = "ProtectedFromScaleIn"
-        }
-    }
-
-    public struct DescribeLoadBalancerTargetGroupsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoadBalancerTargetGroups", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// Information about the target groups.
-        public let loadBalancerTargetGroups: [LoadBalancerTargetGroupState]?
-        /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
-        public let nextToken: String?
-
-        public init(loadBalancerTargetGroups: [LoadBalancerTargetGroupState]? = nil, nextToken: String? = nil) {
-            self.loadBalancerTargetGroups = loadBalancerTargetGroups
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case loadBalancerTargetGroups = "LoadBalancerTargetGroups"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct RecordLifecycleActionHeartbeatAnswer: AWSShape {
-
-    }
-
-    public struct ActivitiesType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Activities", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The scaling activities. Activities are sorted by start time. Activities still in progress are described first.
-        public let activities: [Activity]
-        /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
-        public let nextToken: String?
-
-        public init(activities: [Activity], nextToken: String? = nil) {
-            self.activities = activities
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case activities = "Activities"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct DescribeAccountLimitsAnswer: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NumberOfLaunchConfigurations", required: false, type: .integer), 
-            AWSShapeMember(label: "MaxNumberOfAutoScalingGroups", required: false, type: .integer), 
-            AWSShapeMember(label: "MaxNumberOfLaunchConfigurations", required: false, type: .integer), 
-            AWSShapeMember(label: "NumberOfAutoScalingGroups", required: false, type: .integer)
-        ]
-        /// The current number of launch configurations for your AWS account.
-        public let numberOfLaunchConfigurations: Int32?
-        /// The maximum number of groups allowed for your AWS account. The default limit is 20 per region.
-        public let maxNumberOfAutoScalingGroups: Int32?
-        /// The maximum number of launch configurations allowed for your AWS account. The default limit is 100 per region.
-        public let maxNumberOfLaunchConfigurations: Int32?
-        /// The current number of groups for your AWS account.
-        public let numberOfAutoScalingGroups: Int32?
-
-        public init(numberOfLaunchConfigurations: Int32? = nil, maxNumberOfAutoScalingGroups: Int32? = nil, maxNumberOfLaunchConfigurations: Int32? = nil, numberOfAutoScalingGroups: Int32? = nil) {
-            self.numberOfLaunchConfigurations = numberOfLaunchConfigurations
-            self.maxNumberOfAutoScalingGroups = maxNumberOfAutoScalingGroups
-            self.maxNumberOfLaunchConfigurations = maxNumberOfLaunchConfigurations
-            self.numberOfAutoScalingGroups = numberOfAutoScalingGroups
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case numberOfLaunchConfigurations = "NumberOfLaunchConfigurations"
-            case maxNumberOfAutoScalingGroups = "MaxNumberOfAutoScalingGroups"
-            case maxNumberOfLaunchConfigurations = "MaxNumberOfLaunchConfigurations"
-            case numberOfAutoScalingGroups = "NumberOfAutoScalingGroups"
-        }
-    }
-
-    public struct DescribeTagsType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "Filters", required: false, type: .list)
-        ]
-        /// The token for the next set of items to return. (You received this token from a previous call.)
-        public let nextToken: String?
-        /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
-        public let maxRecords: Int32?
-        /// One or more filters to scope the tags to return. The maximum number of filters per filter type (for example, auto-scaling-group) is 1000.
-        public let filters: [Filter]?
-
-        public init(nextToken: String? = nil, maxRecords: Int32? = nil, filters: [Filter]? = nil) {
-            self.nextToken = nextToken
-            self.maxRecords = maxRecords
-            self.filters = filters
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case maxRecords = "MaxRecords"
-            case filters = "Filters"
         }
     }
 
@@ -2494,344 +1605,132 @@ extension AutoScaling {
         }
     }
 
-    public struct ScheduledActionsType: AWSShape {
+    public struct StepAdjustment: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScheduledUpdateGroupActions", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "MetricIntervalLowerBound", required: false, type: .double), 
+            AWSShapeMember(label: "ScalingAdjustment", required: true, type: .integer), 
+            AWSShapeMember(label: "MetricIntervalUpperBound", required: false, type: .double)
         ]
-        /// The scheduled actions.
-        public let scheduledUpdateGroupActions: [ScheduledUpdateGroupAction]?
-        /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
-        public let nextToken: String?
+        /// The lower bound for the difference between the alarm threshold and the CloudWatch metric. If the metric value is above the breach threshold, the lower bound is inclusive (the metric must be greater than or equal to the threshold plus the lower bound). Otherwise, it is exclusive (the metric must be greater than the threshold plus the lower bound). A null value indicates negative infinity.
+        public let metricIntervalLowerBound: Double?
+        /// The amount by which to scale, based on the specified adjustment type. A positive value adds to the current capacity while a negative number removes from the current capacity.
+        public let scalingAdjustment: Int32
+        /// The upper bound for the difference between the alarm threshold and the CloudWatch metric. If the metric value is above the breach threshold, the upper bound is exclusive (the metric must be less than the threshold plus the upper bound). Otherwise, it is inclusive (the metric must be less than or equal to the threshold plus the upper bound). A null value indicates positive infinity. The upper bound must be greater than the lower bound.
+        public let metricIntervalUpperBound: Double?
 
-        public init(scheduledUpdateGroupActions: [ScheduledUpdateGroupAction]? = nil, nextToken: String? = nil) {
-            self.scheduledUpdateGroupActions = scheduledUpdateGroupActions
-            self.nextToken = nextToken
+        public init(metricIntervalLowerBound: Double? = nil, metricIntervalUpperBound: Double? = nil, scalingAdjustment: Int32) {
+            self.metricIntervalLowerBound = metricIntervalLowerBound
+            self.scalingAdjustment = scalingAdjustment
+            self.metricIntervalUpperBound = metricIntervalUpperBound
         }
 
         private enum CodingKeys: String, CodingKey {
-            case scheduledUpdateGroupActions = "ScheduledUpdateGroupActions"
-            case nextToken = "NextToken"
+            case metricIntervalLowerBound = "MetricIntervalLowerBound"
+            case scalingAdjustment = "ScalingAdjustment"
+            case metricIntervalUpperBound = "MetricIntervalUpperBound"
+        }
+    }
+
+    public struct PutScheduledUpdateGroupActionType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MinSize", required: false, type: .integer), 
+            AWSShapeMember(label: "MaxSize", required: false, type: .integer), 
+            AWSShapeMember(label: "ScheduledActionName", required: true, type: .string), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "DesiredCapacity", required: false, type: .integer), 
+            AWSShapeMember(label: "Recurrence", required: false, type: .string), 
+            AWSShapeMember(label: "Time", required: false, type: .timestamp), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp)
+        ]
+        /// The time for the recurring schedule to end. Amazon EC2 Auto Scaling does not perform the action after this time.
+        public let endTime: TimeStamp?
+        /// The minimum size for the Auto Scaling group.
+        public let minSize: Int32?
+        /// The maximum size for the Auto Scaling group.
+        public let maxSize: Int32?
+        /// The name of this scaling action.
+        public let scheduledActionName: String
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String
+        /// The number of EC2 instances that should be running in the group.
+        public let desiredCapacity: Int32?
+        /// The recurring schedule for this action, in Unix cron syntax format. For more information about this format, see Crontab.
+        public let recurrence: String?
+        /// This parameter is deprecated.
+        public let time: TimeStamp?
+        /// The time for this action to start, in "YYYY-MM-DDThh:mm:ssZ" format in UTC/GMT only (for example, 2014-06-01T00:00:00Z). If you specify Recurrence and StartTime, Amazon EC2 Auto Scaling performs the action at this time, and then performs the action based on the specified recurrence. If you try to schedule your action in the past, Amazon EC2 Auto Scaling returns an error message.
+        public let startTime: TimeStamp?
+
+        public init(autoScalingGroupName: String, desiredCapacity: Int32? = nil, endTime: TimeStamp? = nil, maxSize: Int32? = nil, minSize: Int32? = nil, recurrence: String? = nil, scheduledActionName: String, startTime: TimeStamp? = nil, time: TimeStamp? = nil) {
+            self.endTime = endTime
+            self.minSize = minSize
+            self.maxSize = maxSize
+            self.scheduledActionName = scheduledActionName
+            self.autoScalingGroupName = autoScalingGroupName
+            self.desiredCapacity = desiredCapacity
+            self.recurrence = recurrence
+            self.time = time
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case minSize = "MinSize"
+            case maxSize = "MaxSize"
+            case scheduledActionName = "ScheduledActionName"
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case desiredCapacity = "DesiredCapacity"
+            case recurrence = "Recurrence"
+            case time = "Time"
+            case startTime = "StartTime"
         }
     }
 
     public struct DescribeLoadBalancersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The token for the next set of items to return. (You received this token from a previous call.)
-        public let nextToken: String?
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The maximum number of items to return with this call. The default value is 100 and the maximum value is 100.
         public let maxRecords: Int32?
+        /// The token for the next set of items to return. (You received this token from a previous call.)
+        public let nextToken: String?
 
-        public init(nextToken: String? = nil, autoScalingGroupName: String, maxRecords: Int32? = nil) {
-            self.nextToken = nextToken
+        public init(autoScalingGroupName: String, maxRecords: Int32? = nil, nextToken: String? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.maxRecords = maxRecords
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
             case autoScalingGroupName = "AutoScalingGroupName"
             case maxRecords = "MaxRecords"
-        }
-    }
-
-    public struct DetachLoadBalancerTargetGroupsType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetGroupARNs", required: true, type: .list), 
-            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
-        ]
-        /// The Amazon Resource Names (ARN) of the target groups. You can specify up to 10 target groups.
-        public let targetGroupARNs: [String]
-        /// The name of the Auto Scaling group.
-        public let autoScalingGroupName: String
-
-        public init(targetGroupARNs: [String], autoScalingGroupName: String) {
-            self.targetGroupARNs = targetGroupARNs
-            self.autoScalingGroupName = autoScalingGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case targetGroupARNs = "TargetGroupARNs"
-            case autoScalingGroupName = "AutoScalingGroupName"
-        }
-    }
-
-    public struct LaunchConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LaunchConfigurationARN", required: false, type: .string), 
-            AWSShapeMember(label: "ImageId", required: true, type: .string), 
-            AWSShapeMember(label: "CreatedTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "LaunchConfigurationName", required: true, type: .string), 
-            AWSShapeMember(label: "UserData", required: false, type: .string), 
-            AWSShapeMember(label: "RamdiskId", required: false, type: .string), 
-            AWSShapeMember(label: "KeyName", required: false, type: .string), 
-            AWSShapeMember(label: "ClassicLinkVPCSecurityGroups", required: false, type: .list), 
-            AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
-            AWSShapeMember(label: "EbsOptimized", required: false, type: .boolean), 
-            AWSShapeMember(label: "InstanceType", required: true, type: .string), 
-            AWSShapeMember(label: "PlacementTenancy", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceMonitoring", required: false, type: .structure), 
-            AWSShapeMember(label: "ClassicLinkVPCId", required: false, type: .string), 
-            AWSShapeMember(label: "KernelId", required: false, type: .string), 
-            AWSShapeMember(label: "IamInstanceProfile", required: false, type: .string), 
-            AWSShapeMember(label: "SpotPrice", required: false, type: .string), 
-            AWSShapeMember(label: "BlockDeviceMappings", required: false, type: .list), 
-            AWSShapeMember(label: "AssociatePublicIpAddress", required: false, type: .boolean)
-        ]
-        /// The Amazon Resource Name (ARN) of the launch configuration.
-        public let launchConfigurationARN: String?
-        /// The ID of the Amazon Machine Image (AMI).
-        public let imageId: String
-        /// The creation date and time for the launch configuration.
-        public let createdTime: TimeStamp
-        /// The name of the launch configuration.
-        public let launchConfigurationName: String
-        /// The user data available to the instances.
-        public let userData: String?
-        /// The ID of the RAM disk associated with the AMI.
-        public let ramdiskId: String?
-        /// The name of the key pair.
-        public let keyName: String?
-        /// The IDs of one or more security groups for the VPC specified in ClassicLinkVPCId. This parameter is required if you specify a ClassicLink-enabled VPC, and cannot be used otherwise. For more information, see ClassicLink in the Amazon Elastic Compute Cloud User Guide.
-        public let classicLinkVPCSecurityGroups: [String]?
-        /// The security groups to associate with the instances.
-        public let securityGroups: [String]?
-        /// Controls whether the instance is optimized for EBS I/O (true) or not (false).
-        public let ebsOptimized: Bool?
-        /// The instance type for the instances.
-        public let instanceType: String
-        /// The tenancy of the instance, either default or dedicated. An instance with dedicated tenancy runs in an isolated, single-tenant hardware and can only be launched into a VPC.
-        public let placementTenancy: String?
-        /// Controls whether instances in this group are launched with detailed (true) or basic (false) monitoring.
-        public let instanceMonitoring: InstanceMonitoring?
-        /// The ID of a ClassicLink-enabled VPC to link your EC2-Classic instances to. This parameter can only be used if you are launching EC2-Classic instances. For more information, see ClassicLink in the Amazon Elastic Compute Cloud User Guide.
-        public let classicLinkVPCId: String?
-        /// The ID of the kernel associated with the AMI.
-        public let kernelId: String?
-        /// The name or Amazon Resource Name (ARN) of the instance profile associated with the IAM role for the instance.
-        public let iamInstanceProfile: String?
-        /// The price to bid when launching Spot Instances.
-        public let spotPrice: String?
-        /// A block device mapping, which specifies the block devices for the instance.
-        public let blockDeviceMappings: [BlockDeviceMapping]?
-        /// [EC2-VPC] Indicates whether to assign a public IP address to each instance.
-        public let associatePublicIpAddress: Bool?
-
-        public init(launchConfigurationARN: String? = nil, imageId: String, createdTime: TimeStamp, launchConfigurationName: String, userData: String? = nil, ramdiskId: String? = nil, keyName: String? = nil, classicLinkVPCSecurityGroups: [String]? = nil, securityGroups: [String]? = nil, ebsOptimized: Bool? = nil, instanceType: String, placementTenancy: String? = nil, instanceMonitoring: InstanceMonitoring? = nil, classicLinkVPCId: String? = nil, kernelId: String? = nil, iamInstanceProfile: String? = nil, spotPrice: String? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, associatePublicIpAddress: Bool? = nil) {
-            self.launchConfigurationARN = launchConfigurationARN
-            self.imageId = imageId
-            self.createdTime = createdTime
-            self.launchConfigurationName = launchConfigurationName
-            self.userData = userData
-            self.ramdiskId = ramdiskId
-            self.keyName = keyName
-            self.classicLinkVPCSecurityGroups = classicLinkVPCSecurityGroups
-            self.securityGroups = securityGroups
-            self.ebsOptimized = ebsOptimized
-            self.instanceType = instanceType
-            self.placementTenancy = placementTenancy
-            self.instanceMonitoring = instanceMonitoring
-            self.classicLinkVPCId = classicLinkVPCId
-            self.kernelId = kernelId
-            self.iamInstanceProfile = iamInstanceProfile
-            self.spotPrice = spotPrice
-            self.blockDeviceMappings = blockDeviceMappings
-            self.associatePublicIpAddress = associatePublicIpAddress
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case launchConfigurationARN = "LaunchConfigurationARN"
-            case imageId = "ImageId"
-            case createdTime = "CreatedTime"
-            case launchConfigurationName = "LaunchConfigurationName"
-            case userData = "UserData"
-            case ramdiskId = "RamdiskId"
-            case keyName = "KeyName"
-            case classicLinkVPCSecurityGroups = "ClassicLinkVPCSecurityGroups"
-            case securityGroups = "SecurityGroups"
-            case ebsOptimized = "EbsOptimized"
-            case instanceType = "InstanceType"
-            case placementTenancy = "PlacementTenancy"
-            case instanceMonitoring = "InstanceMonitoring"
-            case classicLinkVPCId = "ClassicLinkVPCId"
-            case kernelId = "KernelId"
-            case iamInstanceProfile = "IamInstanceProfile"
-            case spotPrice = "SpotPrice"
-            case blockDeviceMappings = "BlockDeviceMappings"
-            case associatePublicIpAddress = "AssociatePublicIpAddress"
-        }
-    }
-
-    public struct DescribeNotificationConfigurationsAnswer: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NotificationConfigurations", required: true, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The notification configurations.
-        public let notificationConfigurations: [NotificationConfiguration]
-        /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
-        public let nextToken: String?
-
-        public init(notificationConfigurations: [NotificationConfiguration], nextToken: String? = nil) {
-            self.notificationConfigurations = notificationConfigurations
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case notificationConfigurations = "NotificationConfigurations"
             case nextToken = "NextToken"
         }
     }
 
-    public struct DescribeLoadBalancersResponse: AWSShape {
+    public struct TerminateInstanceInAutoScalingGroupType: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "LoadBalancers", required: false, type: .list)
+            AWSShapeMember(label: "ShouldDecrementDesiredCapacity", required: true, type: .boolean), 
+            AWSShapeMember(label: "InstanceId", required: true, type: .string)
         ]
-        /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
-        public let nextToken: String?
-        /// The load balancers.
-        public let loadBalancers: [LoadBalancerState]?
-
-        public init(nextToken: String? = nil, loadBalancers: [LoadBalancerState]? = nil) {
-            self.nextToken = nextToken
-            self.loadBalancers = loadBalancers
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case loadBalancers = "LoadBalancers"
-        }
-    }
-
-    public struct DeleteTagsType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: true, type: .list)
-        ]
-        /// One or more tags.
-        public let tags: [Tag]
-
-        public init(tags: [Tag]) {
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-        }
-    }
-
-    public struct MetricCollectionType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Metric", required: false, type: .string)
-        ]
-        /// One of the following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances   
-        public let metric: String?
-
-        public init(metric: String? = nil) {
-            self.metric = metric
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case metric = "Metric"
-        }
-    }
-
-    public enum MetricStatistic: String, CustomStringConvertible, Codable {
-        case average = "Average"
-        case minimum = "Minimum"
-        case maximum = "Maximum"
-        case samplecount = "SampleCount"
-        case sum = "Sum"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ProcessType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProcessName", required: true, type: .string)
-        ]
-        /// One of the following processes:    Launch     Terminate     AddToLoadBalancer     AlarmNotification     AZRebalance     HealthCheck     ReplaceUnhealthy     ScheduledActions   
-        public let processName: String
-
-        public init(processName: String) {
-            self.processName = processName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case processName = "ProcessName"
-        }
-    }
-
-    public struct CompleteLifecycleActionType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LifecycleActionResult", required: true, type: .string), 
-            AWSShapeMember(label: "LifecycleActionToken", required: false, type: .string), 
-            AWSShapeMember(label: "LifecycleHookName", required: true, type: .string), 
-            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
-            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
-        ]
-        /// The action for the group to take. This parameter can be either CONTINUE or ABANDON.
-        public let lifecycleActionResult: String
-        /// A universally unique identifier (UUID) that identifies a specific lifecycle action associated with an instance. Amazon EC2 Auto Scaling sends this token to the notification target you specified when you created the lifecycle hook.
-        public let lifecycleActionToken: String?
-        /// The name of the lifecycle hook.
-        public let lifecycleHookName: String
+        /// Indicates whether terminating the instance also decrements the size of the Auto Scaling group.
+        public let shouldDecrementDesiredCapacity: Bool
         /// The ID of the instance.
-        public let instanceId: String?
-        /// The name of the Auto Scaling group.
-        public let autoScalingGroupName: String
+        public let instanceId: String
 
-        public init(lifecycleActionResult: String, lifecycleActionToken: String? = nil, lifecycleHookName: String, instanceId: String? = nil, autoScalingGroupName: String) {
-            self.lifecycleActionResult = lifecycleActionResult
-            self.lifecycleActionToken = lifecycleActionToken
-            self.lifecycleHookName = lifecycleHookName
+        public init(instanceId: String, shouldDecrementDesiredCapacity: Bool) {
+            self.shouldDecrementDesiredCapacity = shouldDecrementDesiredCapacity
             self.instanceId = instanceId
-            self.autoScalingGroupName = autoScalingGroupName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lifecycleActionResult = "LifecycleActionResult"
-            case lifecycleActionToken = "LifecycleActionToken"
-            case lifecycleHookName = "LifecycleHookName"
+            case shouldDecrementDesiredCapacity = "ShouldDecrementDesiredCapacity"
             case instanceId = "InstanceId"
-            case autoScalingGroupName = "AutoScalingGroupName"
-        }
-    }
-
-    public struct CreateOrUpdateTagsType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: true, type: .list)
-        ]
-        /// One or more tags.
-        public let tags: [Tag]
-
-        public init(tags: [Tag]) {
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-        }
-    }
-
-    public struct MetricGranularityType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Granularity", required: false, type: .string)
-        ]
-        /// The granularity. The only valid value is 1Minute.
-        public let granularity: String?
-
-        public init(granularity: String? = nil) {
-            self.granularity = granularity
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case granularity = "Granularity"
         }
     }
 
@@ -2851,517 +1750,1086 @@ extension AutoScaling {
         }
     }
 
-    public struct DeletePolicyType: AWSShape {
+    public struct LoadBalancerState: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoScalingGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyName", required: true, type: .string)
+            AWSShapeMember(label: "State", required: false, type: .string), 
+            AWSShapeMember(label: "LoadBalancerName", required: false, type: .string)
+        ]
+        /// One of the following load balancer states:    Adding - The instances in the group are being registered with the load balancer.    Added - All instances in the group are registered with the load balancer.    InService - At least one instance in the group passed an ELB health check.    Removing - The instances in the group are being deregistered from the load balancer. If connection draining is enabled, Elastic Load Balancing waits for in-flight requests to complete before deregistering the instances.    Removed - All instances in the group are deregistered from the load balancer.  
+        public let state: String?
+        /// The name of the load balancer.
+        public let loadBalancerName: String?
+
+        public init(loadBalancerName: String? = nil, state: String? = nil) {
+            self.state = state
+            self.loadBalancerName = loadBalancerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "State"
+            case loadBalancerName = "LoadBalancerName"
+        }
+    }
+
+    public struct DescribeLoadBalancerTargetGroupsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
         ]
         /// The name of the Auto Scaling group.
-        public let autoScalingGroupName: String?
-        /// The name or Amazon Resource Name (ARN) of the policy.
-        public let policyName: String
+        public let autoScalingGroupName: String
+        /// The token for the next set of items to return. (You received this token from a previous call.)
+        public let nextToken: String?
+        /// The maximum number of items to return with this call. The default value is 100 and the maximum value is 100.
+        public let maxRecords: Int32?
 
-        public init(autoScalingGroupName: String? = nil, policyName: String) {
+        public init(autoScalingGroupName: String, maxRecords: Int32? = nil, nextToken: String? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
-            self.policyName = policyName
+            self.nextToken = nextToken
+            self.maxRecords = maxRecords
         }
 
         private enum CodingKeys: String, CodingKey {
             case autoScalingGroupName = "AutoScalingGroupName"
-            case policyName = "PolicyName"
+            case nextToken = "NextToken"
+            case maxRecords = "MaxRecords"
         }
     }
 
-    public struct DeleteLifecycleHookType: AWSShape {
+    public struct LaunchConfigurationNameType: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LifecycleHookName", required: true, type: .string), 
+            AWSShapeMember(label: "LaunchConfigurationName", required: true, type: .string)
+        ]
+        /// The name of the launch configuration.
+        public let launchConfigurationName: String
+
+        public init(launchConfigurationName: String) {
+            self.launchConfigurationName = launchConfigurationName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case launchConfigurationName = "LaunchConfigurationName"
+        }
+    }
+
+    public struct DescribeTerminationPolicyTypesAnswer: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TerminationPolicyTypes", required: false, type: .list)
+        ]
+        /// The termination policies supported by Amazon EC2 Auto Scaling: OldestInstance, OldestLaunchConfiguration, NewestInstance, ClosestToNextInstanceHour, Default, OldestLaunchTemplate, and AllocationStrategy. Currently, the OldestLaunchTemplate and AllocationStrategy policies are only supported for Auto Scaling groups with MixedInstancesPolicy.
+        public let terminationPolicyTypes: [String]?
+
+        public init(terminationPolicyTypes: [String]? = nil) {
+            self.terminationPolicyTypes = terminationPolicyTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case terminationPolicyTypes = "TerminationPolicyTypes"
+        }
+    }
+
+    public struct TagDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .string), 
+            AWSShapeMember(label: "PropagateAtLaunch", required: false, type: .boolean), 
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+        /// The name of the group.
+        public let resourceId: String?
+        /// The type of resource. The only supported value is auto-scaling-group.
+        public let resourceType: String?
+        /// Determines whether the tag is added to new instances as they are launched in the group.
+        public let propagateAtLaunch: Bool?
+        /// The tag key.
+        public let key: String?
+        /// The tag value.
+        public let value: String?
+
+        public init(key: String? = nil, propagateAtLaunch: Bool? = nil, resourceId: String? = nil, resourceType: String? = nil, value: String? = nil) {
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.propagateAtLaunch = propagateAtLaunch
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+            case propagateAtLaunch = "PropagateAtLaunch"
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct ActivityType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Activity", required: false, type: .structure)
+        ]
+        /// A scaling activity.
+        public let activity: Activity?
+
+        public init(activity: Activity? = nil) {
+            self.activity = activity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activity = "Activity"
+        }
+    }
+
+    public struct ExitStandbyQuery: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceIds", required: false, type: .list), 
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
         ]
+        /// The IDs of the instances. You can specify up to 20 instances.
+        public let instanceIds: [String]?
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String
+
+        public init(autoScalingGroupName: String, instanceIds: [String]? = nil) {
+            self.instanceIds = instanceIds
+            self.autoScalingGroupName = autoScalingGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceIds = "InstanceIds"
+            case autoScalingGroupName = "AutoScalingGroupName"
+        }
+    }
+
+    public struct FailedScheduledUpdateGroupActionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "ScheduledActionName", required: true, type: .string)
+        ]
+        /// The error message accompanying the error code.
+        public let errorMessage: String?
+        /// The error code.
+        public let errorCode: String?
+        /// The name of the scheduled action.
+        public let scheduledActionName: String
+
+        public init(errorCode: String? = nil, errorMessage: String? = nil, scheduledActionName: String) {
+            self.errorMessage = errorMessage
+            self.errorCode = errorCode
+            self.scheduledActionName = scheduledActionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "ErrorMessage"
+            case errorCode = "ErrorCode"
+            case scheduledActionName = "ScheduledActionName"
+        }
+    }
+
+    public struct ExitStandbyAnswer: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Activities", required: false, type: .list)
+        ]
+        /// The activities related to moving instances out of Standby mode.
+        public let activities: [Activity]?
+
+        public init(activities: [Activity]? = nil) {
+            self.activities = activities
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activities = "Activities"
+        }
+    }
+
+    public struct Instance: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HealthStatus", required: true, type: .string), 
+            AWSShapeMember(label: "ProtectedFromScaleIn", required: true, type: .boolean), 
+            AWSShapeMember(label: "LaunchConfigurationName", required: false, type: .string), 
+            AWSShapeMember(label: "AvailabilityZone", required: true, type: .string), 
+            AWSShapeMember(label: "LaunchTemplate", required: false, type: .structure), 
+            AWSShapeMember(label: "LifecycleState", required: true, type: .enum), 
+            AWSShapeMember(label: "InstanceId", required: true, type: .string)
+        ]
+        /// The last reported health status of the instance. "Healthy" means that the instance is healthy and should remain in service. "Unhealthy" means that the instance is unhealthy and that Amazon EC2 Auto Scaling should terminate and replace it.
+        public let healthStatus: String
+        /// Indicates whether the instance is protected from termination by Amazon EC2 Auto Scaling when scaling in.
+        public let protectedFromScaleIn: Bool
+        /// The launch configuration associated with the instance.
+        public let launchConfigurationName: String?
+        /// The Availability Zone in which the instance is running.
+        public let availabilityZone: String
+        /// The launch template for the instance.
+        public let launchTemplate: LaunchTemplateSpecification?
+        /// A description of the current lifecycle state. The Quarantined state is not used.
+        public let lifecycleState: LifecycleState
+        /// The ID of the instance.
+        public let instanceId: String
+
+        public init(availabilityZone: String, healthStatus: String, instanceId: String, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, lifecycleState: LifecycleState, protectedFromScaleIn: Bool) {
+            self.healthStatus = healthStatus
+            self.protectedFromScaleIn = protectedFromScaleIn
+            self.launchConfigurationName = launchConfigurationName
+            self.availabilityZone = availabilityZone
+            self.launchTemplate = launchTemplate
+            self.lifecycleState = lifecycleState
+            self.instanceId = instanceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case healthStatus = "HealthStatus"
+            case protectedFromScaleIn = "ProtectedFromScaleIn"
+            case launchConfigurationName = "LaunchConfigurationName"
+            case availabilityZone = "AvailabilityZone"
+            case launchTemplate = "LaunchTemplate"
+            case lifecycleState = "LifecycleState"
+            case instanceId = "InstanceId"
+        }
+    }
+
+    public enum MetricStatistic: String, CustomStringConvertible, Codable {
+        case average = "Average"
+        case minimum = "Minimum"
+        case maximum = "Maximum"
+        case samplecount = "SampleCount"
+        case sum = "Sum"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeleteAutoScalingGroupType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ForceDelete", required: false, type: .boolean), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
+        ]
+        /// Specifies that the group is to be deleted along with all instances associated with the group, without waiting for all instances to be terminated. This parameter also deletes any lifecycle actions associated with the group.
+        public let forceDelete: Bool?
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String
+
+        public init(autoScalingGroupName: String, forceDelete: Bool? = nil) {
+            self.forceDelete = forceDelete
+            self.autoScalingGroupName = autoScalingGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case forceDelete = "ForceDelete"
+            case autoScalingGroupName = "AutoScalingGroupName"
+        }
+    }
+
+    public struct CompleteLifecycleActionType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LifecycleActionToken", required: false, type: .string), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "LifecycleHookName", required: true, type: .string), 
+            AWSShapeMember(label: "LifecycleActionResult", required: true, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string)
+        ]
+        /// A universally unique identifier (UUID) that identifies a specific lifecycle action associated with an instance. Amazon EC2 Auto Scaling sends this token to the notification target you specified when you created the lifecycle hook.
+        public let lifecycleActionToken: String?
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String
         /// The name of the lifecycle hook.
         public let lifecycleHookName: String
-        /// The name of the Auto Scaling group.
-        public let autoScalingGroupName: String
+        /// The action for the group to take. This parameter can be either CONTINUE or ABANDON.
+        public let lifecycleActionResult: String
+        /// The ID of the instance.
+        public let instanceId: String?
 
-        public init(lifecycleHookName: String, autoScalingGroupName: String) {
-            self.lifecycleHookName = lifecycleHookName
+        public init(autoScalingGroupName: String, instanceId: String? = nil, lifecycleActionResult: String, lifecycleActionToken: String? = nil, lifecycleHookName: String) {
+            self.lifecycleActionToken = lifecycleActionToken
             self.autoScalingGroupName = autoScalingGroupName
+            self.lifecycleHookName = lifecycleHookName
+            self.lifecycleActionResult = lifecycleActionResult
+            self.instanceId = instanceId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lifecycleHookName = "LifecycleHookName"
+            case lifecycleActionToken = "LifecycleActionToken"
             case autoScalingGroupName = "AutoScalingGroupName"
+            case lifecycleHookName = "LifecycleHookName"
+            case lifecycleActionResult = "LifecycleActionResult"
+            case instanceId = "InstanceId"
         }
     }
 
-    public struct DeleteNotificationConfigurationType: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TopicARN", required: true, type: .string), 
-            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (Amazon SNS) topic.
-        public let topicARN: String
-        /// The name of the Auto Scaling group.
-        public let autoScalingGroupName: String
+    public struct AttachLoadBalancerTargetGroupsResultType: AWSShape {
 
-        public init(topicARN: String, autoScalingGroupName: String) {
-            self.topicARN = topicARN
-            self.autoScalingGroupName = autoScalingGroupName
+        public init() {
+        }
+
+    }
+
+    public struct ActivitiesType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Activities", required: true, type: .list)
+        ]
+        /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
+        public let nextToken: String?
+        /// The scaling activities. Activities are sorted by start time. Activities still in progress are described first.
+        public let activities: [Activity]
+
+        public init(activities: [Activity], nextToken: String? = nil) {
+            self.nextToken = nextToken
+            self.activities = activities
         }
 
         private enum CodingKeys: String, CodingKey {
-            case topicARN = "TopicARN"
-            case autoScalingGroupName = "AutoScalingGroupName"
+            case nextToken = "NextToken"
+            case activities = "Activities"
         }
     }
 
     public struct LaunchTemplateSpecification: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LaunchTemplateId", required: false, type: .string), 
             AWSShapeMember(label: "LaunchTemplateName", required: false, type: .string), 
-            AWSShapeMember(label: "Version", required: false, type: .string)
+            AWSShapeMember(label: "Version", required: false, type: .string), 
+            AWSShapeMember(label: "LaunchTemplateId", required: false, type: .string)
         ]
-        /// The ID of the launch template. You must specify either a template ID or a template name.
-        public let launchTemplateId: String?
         /// The name of the launch template. You must specify either a template name or a template ID.
         public let launchTemplateName: String?
         /// The version number, $Latest, or $Default. If the value is $Latest, Amazon EC2 Auto Scaling selects the latest version of the launch template when launching instances. If the value is $Default, Amazon EC2 Auto Scaling selects the default version of the launch template when launching instances. The default value is $Default.
         public let version: String?
+        /// The ID of the launch template. You must specify either a template ID or a template name.
+        public let launchTemplateId: String?
 
         public init(launchTemplateId: String? = nil, launchTemplateName: String? = nil, version: String? = nil) {
-            self.launchTemplateId = launchTemplateId
             self.launchTemplateName = launchTemplateName
             self.version = version
+            self.launchTemplateId = launchTemplateId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case launchTemplateId = "LaunchTemplateId"
             case launchTemplateName = "LaunchTemplateName"
             case version = "Version"
+            case launchTemplateId = "LaunchTemplateId"
         }
     }
 
-    public struct AutoScalingInstanceDetails: AWSShape {
+    public struct ScheduledUpdateGroupAction: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LaunchTemplate", required: false, type: .structure), 
-            AWSShapeMember(label: "AvailabilityZone", required: true, type: .string), 
-            AWSShapeMember(label: "LifecycleState", required: true, type: .string), 
-            AWSShapeMember(label: "InstanceId", required: true, type: .string), 
-            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "LaunchConfigurationName", required: false, type: .string), 
-            AWSShapeMember(label: "ProtectedFromScaleIn", required: true, type: .boolean), 
-            AWSShapeMember(label: "HealthStatus", required: true, type: .string)
+            AWSShapeMember(label: "ScheduledActionARN", required: false, type: .string), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ScheduledActionName", required: false, type: .string), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "MaxSize", required: false, type: .integer), 
+            AWSShapeMember(label: "MinSize", required: false, type: .integer), 
+            AWSShapeMember(label: "DesiredCapacity", required: false, type: .integer), 
+            AWSShapeMember(label: "Time", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Recurrence", required: false, type: .string)
         ]
-        /// The launch template for the instance.
-        public let launchTemplate: LaunchTemplateSpecification?
-        /// The Availability Zone for the instance.
-        public let availabilityZone: String
-        /// The lifecycle state for the instance. For more information, see Auto Scaling Lifecycle in the Amazon EC2 Auto Scaling User Guide.
-        public let lifecycleState: String
-        /// The ID of the instance.
-        public let instanceId: String
-        /// The name of the Auto Scaling group for the instance.
-        public let autoScalingGroupName: String
-        /// The launch configuration used to launch the instance. This value is not available if you attached the instance to the Auto Scaling group.
-        public let launchConfigurationName: String?
-        /// Indicates whether the instance is protected from termination by Amazon EC2 Auto Scaling when scaling in.
-        public let protectedFromScaleIn: Bool
-        /// The last reported health status of this instance. "Healthy" means that the instance is healthy and should remain in service. "Unhealthy" means that the instance is unhealthy and Amazon EC2 Auto Scaling should terminate and replace it.
-        public let healthStatus: String
+        /// The Amazon Resource Name (ARN) of the scheduled action.
+        public let scheduledActionARN: String?
+        /// The date and time that the action is scheduled to begin. This date and time can be up to one month in the future. When StartTime and EndTime are specified with Recurrence, they form the boundaries of when the recurring action starts and stops.
+        public let startTime: TimeStamp?
+        /// The name of the scheduled action.
+        public let scheduledActionName: String?
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String?
+        /// The maximum size of the group.
+        public let maxSize: Int32?
+        /// The minimum size of the group.
+        public let minSize: Int32?
+        /// The number of instances you prefer to maintain in the group.
+        public let desiredCapacity: Int32?
+        /// This parameter is deprecated.
+        public let time: TimeStamp?
+        /// The date and time that the action is scheduled to end. This date and time can be up to one month in the future.
+        public let endTime: TimeStamp?
+        /// The recurring schedule for the action.
+        public let recurrence: String?
 
-        public init(launchTemplate: LaunchTemplateSpecification? = nil, availabilityZone: String, lifecycleState: String, instanceId: String, autoScalingGroupName: String, launchConfigurationName: String? = nil, protectedFromScaleIn: Bool, healthStatus: String) {
-            self.launchTemplate = launchTemplate
-            self.availabilityZone = availabilityZone
-            self.lifecycleState = lifecycleState
-            self.instanceId = instanceId
+        public init(autoScalingGroupName: String? = nil, desiredCapacity: Int32? = nil, endTime: TimeStamp? = nil, maxSize: Int32? = nil, minSize: Int32? = nil, recurrence: String? = nil, scheduledActionARN: String? = nil, scheduledActionName: String? = nil, startTime: TimeStamp? = nil, time: TimeStamp? = nil) {
+            self.scheduledActionARN = scheduledActionARN
+            self.startTime = startTime
+            self.scheduledActionName = scheduledActionName
             self.autoScalingGroupName = autoScalingGroupName
-            self.launchConfigurationName = launchConfigurationName
-            self.protectedFromScaleIn = protectedFromScaleIn
-            self.healthStatus = healthStatus
+            self.maxSize = maxSize
+            self.minSize = minSize
+            self.desiredCapacity = desiredCapacity
+            self.time = time
+            self.endTime = endTime
+            self.recurrence = recurrence
         }
 
         private enum CodingKeys: String, CodingKey {
-            case launchTemplate = "LaunchTemplate"
-            case availabilityZone = "AvailabilityZone"
-            case lifecycleState = "LifecycleState"
-            case instanceId = "InstanceId"
+            case scheduledActionARN = "ScheduledActionARN"
+            case startTime = "StartTime"
+            case scheduledActionName = "ScheduledActionName"
             case autoScalingGroupName = "AutoScalingGroupName"
-            case launchConfigurationName = "LaunchConfigurationName"
-            case protectedFromScaleIn = "ProtectedFromScaleIn"
-            case healthStatus = "HealthStatus"
+            case maxSize = "MaxSize"
+            case minSize = "MinSize"
+            case desiredCapacity = "DesiredCapacity"
+            case time = "Time"
+            case endTime = "EndTime"
+            case recurrence = "Recurrence"
         }
     }
 
-    public struct UpdateAutoScalingGroupType: AWSShape {
+    public struct PutNotificationConfigurationType: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VPCZoneIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "NewInstancesProtectedFromScaleIn", required: false, type: .boolean), 
-            AWSShapeMember(label: "LaunchTemplate", required: false, type: .structure), 
-            AWSShapeMember(label: "MinSize", required: false, type: .integer), 
-            AWSShapeMember(label: "HealthCheckType", required: false, type: .string), 
-            AWSShapeMember(label: "LaunchConfigurationName", required: false, type: .string), 
             AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "PlacementGroup", required: false, type: .string), 
-            AWSShapeMember(label: "ServiceLinkedRoleARN", required: false, type: .string), 
-            AWSShapeMember(label: "HealthCheckGracePeriod", required: false, type: .integer), 
-            AWSShapeMember(label: "MaxSize", required: false, type: .integer), 
-            AWSShapeMember(label: "DefaultCooldown", required: false, type: .integer), 
-            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
-            AWSShapeMember(label: "DesiredCapacity", required: false, type: .integer), 
-            AWSShapeMember(label: "TerminationPolicies", required: false, type: .list), 
-            AWSShapeMember(label: "MixedInstancesPolicy", required: false, type: .structure)
+            AWSShapeMember(label: "TopicARN", required: true, type: .string), 
+            AWSShapeMember(label: "NotificationTypes", required: true, type: .list)
         ]
-        /// The ID of the subnet, if you are launching into a VPC. You can specify several subnets in a comma-separated list. When you specify VPCZoneIdentifier with AvailabilityZones, ensure that the subnets' Availability Zones match the values you specify for AvailabilityZones. For more information, see Launching Auto Scaling Instances in a VPC in the Amazon EC2 Auto Scaling User Guide.
-        public let vPCZoneIdentifier: String?
-        /// Indicates whether newly launched instances are protected from termination by Auto Scaling when scaling in.
-        public let newInstancesProtectedFromScaleIn: Bool?
-        /// The launch template and version to use to specify the updates. If you specify this parameter, you can't specify a launch configuration or a mixed instances policy.
-        public let launchTemplate: LaunchTemplateSpecification?
-        /// The minimum size of the Auto Scaling group.
-        public let minSize: Int32?
-        /// The service to use for the health checks. The valid values are EC2 and ELB.
-        public let healthCheckType: String?
-        /// The name of the launch configuration. If you specify this parameter, you can't specify a launch template or a mixed instances policy.
-        public let launchConfigurationName: String?
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
-        /// The name of the placement group into which to launch your instances, if any. For more information, see Placement Groups in the Amazon Elastic Compute Cloud User Guide.
-        public let placementGroup: String?
-        /// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other AWS services on your behalf.
-        public let serviceLinkedRoleARN: String?
-        /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service. The default is 0. For more information, see Health Checks in the Amazon EC2 Auto Scaling User Guide.
-        public let healthCheckGracePeriod: Int32?
-        /// The maximum size of the Auto Scaling group.
-        public let maxSize: Int32?
-        /// The amount of time, in seconds, after a scaling activity completes before another scaling activity can start. The default is 300. For more information, see Scaling Cooldowns in the Amazon EC2 Auto Scaling User Guide.
-        public let defaultCooldown: Int32?
-        /// One or more Availability Zones for the group.
-        public let availabilityZones: [String]?
-        /// The number of EC2 instances that should be running in the Auto Scaling group. This number must be greater than or equal to the minimum size of the group and less than or equal to the maximum size of the group.
-        public let desiredCapacity: Int32?
-        /// A standalone termination policy or a list of termination policies used to select the instance to terminate. The policies are executed in the order that they are listed. For more information, see Controlling Which Instances Auto Scaling Terminates During Scale In in the Auto Scaling User Guide.
-        public let terminationPolicies: [String]?
-        /// The mixed instances policy to use to specify the updates. If you specify this parameter, you can't specify a launch configuration or a launch template. 
-        public let mixedInstancesPolicy: MixedInstancesPolicy?
+        /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (Amazon SNS) topic.
+        public let topicARN: String
+        /// The type of event that causes the notification to be sent. For more information about notification types supported by Amazon EC2 Auto Scaling, see DescribeAutoScalingNotificationTypes.
+        public let notificationTypes: [String]
 
-        public init(vPCZoneIdentifier: String? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, launchTemplate: LaunchTemplateSpecification? = nil, minSize: Int32? = nil, healthCheckType: String? = nil, launchConfigurationName: String? = nil, autoScalingGroupName: String, placementGroup: String? = nil, serviceLinkedRoleARN: String? = nil, healthCheckGracePeriod: Int32? = nil, maxSize: Int32? = nil, defaultCooldown: Int32? = nil, availabilityZones: [String]? = nil, desiredCapacity: Int32? = nil, terminationPolicies: [String]? = nil, mixedInstancesPolicy: MixedInstancesPolicy? = nil) {
-            self.vPCZoneIdentifier = vPCZoneIdentifier
-            self.newInstancesProtectedFromScaleIn = newInstancesProtectedFromScaleIn
-            self.launchTemplate = launchTemplate
-            self.minSize = minSize
-            self.healthCheckType = healthCheckType
-            self.launchConfigurationName = launchConfigurationName
+        public init(autoScalingGroupName: String, notificationTypes: [String], topicARN: String) {
             self.autoScalingGroupName = autoScalingGroupName
-            self.placementGroup = placementGroup
-            self.serviceLinkedRoleARN = serviceLinkedRoleARN
-            self.healthCheckGracePeriod = healthCheckGracePeriod
-            self.maxSize = maxSize
-            self.defaultCooldown = defaultCooldown
-            self.availabilityZones = availabilityZones
-            self.desiredCapacity = desiredCapacity
-            self.terminationPolicies = terminationPolicies
-            self.mixedInstancesPolicy = mixedInstancesPolicy
+            self.topicARN = topicARN
+            self.notificationTypes = notificationTypes
         }
 
         private enum CodingKeys: String, CodingKey {
-            case vPCZoneIdentifier = "VPCZoneIdentifier"
-            case newInstancesProtectedFromScaleIn = "NewInstancesProtectedFromScaleIn"
-            case launchTemplate = "LaunchTemplate"
-            case minSize = "MinSize"
-            case healthCheckType = "HealthCheckType"
-            case launchConfigurationName = "LaunchConfigurationName"
             case autoScalingGroupName = "AutoScalingGroupName"
-            case placementGroup = "PlacementGroup"
-            case serviceLinkedRoleARN = "ServiceLinkedRoleARN"
-            case healthCheckGracePeriod = "HealthCheckGracePeriod"
-            case maxSize = "MaxSize"
-            case defaultCooldown = "DefaultCooldown"
-            case availabilityZones = "AvailabilityZones"
-            case desiredCapacity = "DesiredCapacity"
-            case terminationPolicies = "TerminationPolicies"
-            case mixedInstancesPolicy = "MixedInstancesPolicy"
+            case topicARN = "TopicARN"
+            case notificationTypes = "NotificationTypes"
+        }
+    }
+
+    public struct DescribeScheduledActionsType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ScheduledActionNames", required: false, type: .list), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+        ]
+        /// The names of one or more scheduled actions. You can specify up to 50 actions. If you omit this parameter, all scheduled actions are described. If you specify an unknown scheduled action, it is ignored with no error.
+        public let scheduledActionNames: [String]?
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String?
+        /// The latest scheduled start time to return. If scheduled action names are provided, this parameter is ignored.
+        public let endTime: TimeStamp?
+        /// The earliest scheduled start time to return. If scheduled action names are provided, this parameter is ignored.
+        public let startTime: TimeStamp?
+        /// The token for the next set of items to return. (You received this token from a previous call.)
+        public let nextToken: String?
+        /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
+        public let maxRecords: Int32?
+
+        public init(autoScalingGroupName: String? = nil, endTime: TimeStamp? = nil, maxRecords: Int32? = nil, nextToken: String? = nil, scheduledActionNames: [String]? = nil, startTime: TimeStamp? = nil) {
+            self.scheduledActionNames = scheduledActionNames
+            self.autoScalingGroupName = autoScalingGroupName
+            self.endTime = endTime
+            self.startTime = startTime
+            self.nextToken = nextToken
+            self.maxRecords = maxRecords
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scheduledActionNames = "ScheduledActionNames"
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case endTime = "EndTime"
+            case startTime = "StartTime"
+            case nextToken = "NextToken"
+            case maxRecords = "MaxRecords"
+        }
+    }
+
+    public struct MetricGranularityType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Granularity", required: false, type: .string)
+        ]
+        /// The granularity. The only valid value is 1Minute.
+        public let granularity: String?
+
+        public init(granularity: String? = nil) {
+            self.granularity = granularity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case granularity = "Granularity"
         }
     }
 
     public struct CreateLaunchConfigurationType: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ImageId", required: false, type: .string), 
-            AWSShapeMember(label: "LaunchConfigurationName", required: true, type: .string), 
-            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
-            AWSShapeMember(label: "UserData", required: false, type: .string), 
-            AWSShapeMember(label: "RamdiskId", required: false, type: .string), 
-            AWSShapeMember(label: "KeyName", required: false, type: .string), 
-            AWSShapeMember(label: "ClassicLinkVPCSecurityGroups", required: false, type: .list), 
-            AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
-            AWSShapeMember(label: "EbsOptimized", required: false, type: .boolean), 
-            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
-            AWSShapeMember(label: "PlacementTenancy", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceMonitoring", required: false, type: .structure), 
-            AWSShapeMember(label: "ClassicLinkVPCId", required: false, type: .string), 
-            AWSShapeMember(label: "KernelId", required: false, type: .string), 
-            AWSShapeMember(label: "IamInstanceProfile", required: false, type: .string), 
-            AWSShapeMember(label: "AssociatePublicIpAddress", required: false, type: .boolean), 
             AWSShapeMember(label: "SpotPrice", required: false, type: .string), 
-            AWSShapeMember(label: "BlockDeviceMappings", required: false, type: .list)
+            AWSShapeMember(label: "ClassicLinkVPCId", required: false, type: .string), 
+            AWSShapeMember(label: "KeyName", required: false, type: .string), 
+            AWSShapeMember(label: "ImageId", required: false, type: .string), 
+            AWSShapeMember(label: "AssociatePublicIpAddress", required: false, type: .boolean), 
+            AWSShapeMember(label: "LaunchConfigurationName", required: true, type: .string), 
+            AWSShapeMember(label: "IamInstanceProfile", required: false, type: .string), 
+            AWSShapeMember(label: "ClassicLinkVPCSecurityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "UserData", required: false, type: .string), 
+            AWSShapeMember(label: "PlacementTenancy", required: false, type: .string), 
+            AWSShapeMember(label: "BlockDeviceMappings", required: false, type: .list), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "KernelId", required: false, type: .string), 
+            AWSShapeMember(label: "EbsOptimized", required: false, type: .boolean), 
+            AWSShapeMember(label: "InstanceMonitoring", required: false, type: .structure), 
+            AWSShapeMember(label: "RamdiskId", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceType", required: false, type: .string)
         ]
-        /// The ID of the Amazon Machine Image (AMI) to use to launch your EC2 instances. If you do not specify InstanceId, you must specify ImageId. For more information, see Finding an AMI in the Amazon Elastic Compute Cloud User Guide.
-        public let imageId: String?
-        /// The name of the launch configuration. This name must be unique within the scope of your AWS account.
-        public let launchConfigurationName: String
-        /// The ID of the instance to use to create the launch configuration. The new launch configuration derives attributes from the instance, except for the block device mapping. If you do not specify InstanceId, you must specify both ImageId and InstanceType. To create a launch configuration with a block device mapping or override any other instance attributes, specify them as part of the same request. For more information, see Create a Launch Configuration Using an EC2 Instance in the Amazon EC2 Auto Scaling User Guide.
-        public let instanceId: String?
-        /// The user data to make available to the launched EC2 instances. For more information, see Instance Metadata and User Data in the Amazon Elastic Compute Cloud User Guide.
-        public let userData: String?
-        /// The ID of the RAM disk associated with the AMI.
-        public let ramdiskId: String?
-        /// The name of the key pair. For more information, see Amazon EC2 Key Pairs in the Amazon Elastic Compute Cloud User Guide.
-        public let keyName: String?
-        /// The IDs of one or more security groups for the specified ClassicLink-enabled VPC. This parameter is required if you specify a ClassicLink-enabled VPC, and is not supported otherwise. For more information, see ClassicLink in the Amazon Elastic Compute Cloud User Guide.
-        public let classicLinkVPCSecurityGroups: [String]?
-        /// One or more security groups with which to associate the instances. If your instances are launched in EC2-Classic, you can either specify security group names or the security group IDs. For more information, see Amazon EC2 Security Groups in the Amazon Elastic Compute Cloud User Guide. If your instances are launched into a VPC, specify security group IDs. For more information, see Security Groups for Your VPC in the Amazon Virtual Private Cloud User Guide.
-        public let securityGroups: [String]?
-        /// Indicates whether the instance is optimized for Amazon EBS I/O. By default, the instance is not optimized for EBS I/O. The optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal I/O performance. This optimization is not available with all instance types. Additional usage charges apply. For more information, see Amazon EBS-Optimized Instances in the Amazon Elastic Compute Cloud User Guide.
-        public let ebsOptimized: Bool?
-        /// The instance type of the EC2 instance. If you do not specify InstanceId, you must specify InstanceType. For information about available instance types, see Available Instance Types in the Amazon Elastic Compute Cloud User Guide. 
-        public let instanceType: String?
-        /// The tenancy of the instance. An instance with a tenancy of dedicated runs on single-tenant hardware and can only be launched into a VPC. To launch Dedicated Instances into a shared tenancy VPC (a VPC with the instance placement tenancy attribute set to default), you must set the value of this parameter to dedicated. If you specify this parameter, be sure to specify at least one subnet when you create your group. For more information, see Launching Auto Scaling Instances in a VPC in the Amazon EC2 Auto Scaling User Guide. Valid values: default | dedicated 
-        public let placementTenancy: String?
-        /// Enables detailed monitoring (true) or basic monitoring (false) for the Auto Scaling instances. The default is true.
-        public let instanceMonitoring: InstanceMonitoring?
-        /// The ID of a ClassicLink-enabled VPC to link your EC2-Classic instances to. This parameter is supported only if you are launching EC2-Classic instances. For more information, see ClassicLink in the Amazon Elastic Compute Cloud User Guide.
-        public let classicLinkVPCId: String?
-        /// The ID of the kernel associated with the AMI.
-        public let kernelId: String?
-        /// The name or the Amazon Resource Name (ARN) of the instance profile associated with the IAM role for the instance. EC2 instances launched with an IAM role automatically have AWS security credentials available. You can use IAM roles with Amazon EC2 Auto Scaling to automatically enable applications running on your EC2 instances to securely access other AWS resources. For more information, see Launch Auto Scaling Instances with an IAM Role in the Amazon EC2 Auto Scaling User Guide.
-        public let iamInstanceProfile: String?
-        /// Used for groups that launch instances into a virtual private cloud (VPC). Specifies whether to assign a public IP address to each instance. For more information, see Launching Auto Scaling Instances in a VPC in the Amazon EC2 Auto Scaling User Guide. If you specify this parameter, be sure to specify at least one subnet when you create your group. Default: If the instance is launched into a default subnet, the default is to assign a public IP address. If the instance is launched into a nondefault subnet, the default is not to assign a public IP address.
-        public let associatePublicIpAddress: Bool?
         /// The maximum hourly price to be paid for any Spot Instance launched to fulfill the request. Spot Instances are launched when the price you specify exceeds the current Spot market price. For more information, see Launching Spot Instances in Your Auto Scaling Group in the Amazon EC2 Auto Scaling User Guide.
         public let spotPrice: String?
+        /// The ID of a ClassicLink-enabled VPC to link your EC2-Classic instances to. This parameter is supported only if you are launching EC2-Classic instances. For more information, see ClassicLink in the Amazon Elastic Compute Cloud User Guide.
+        public let classicLinkVPCId: String?
+        /// The name of the key pair. For more information, see Amazon EC2 Key Pairs in the Amazon Elastic Compute Cloud User Guide.
+        public let keyName: String?
+        /// The ID of the Amazon Machine Image (AMI) to use to launch your EC2 instances. If you do not specify InstanceId, you must specify ImageId. For more information, see Finding an AMI in the Amazon Elastic Compute Cloud User Guide.
+        public let imageId: String?
+        /// Used for groups that launch instances into a virtual private cloud (VPC). Specifies whether to assign a public IP address to each instance. For more information, see Launching Auto Scaling Instances in a VPC in the Amazon EC2 Auto Scaling User Guide. If you specify this parameter, be sure to specify at least one subnet when you create your group. Default: If the instance is launched into a default subnet, the default is to assign a public IP address. If the instance is launched into a nondefault subnet, the default is not to assign a public IP address.
+        public let associatePublicIpAddress: Bool?
+        /// The name of the launch configuration. This name must be unique within the scope of your AWS account.
+        public let launchConfigurationName: String
+        /// The name or the Amazon Resource Name (ARN) of the instance profile associated with the IAM role for the instance. EC2 instances launched with an IAM role automatically have AWS security credentials available. You can use IAM roles with Amazon EC2 Auto Scaling to automatically enable applications running on your EC2 instances to securely access other AWS resources. For more information, see Launch Auto Scaling Instances with an IAM Role in the Amazon EC2 Auto Scaling User Guide.
+        public let iamInstanceProfile: String?
+        /// The IDs of one or more security groups for the specified ClassicLink-enabled VPC. This parameter is required if you specify a ClassicLink-enabled VPC, and is not supported otherwise. For more information, see ClassicLink in the Amazon Elastic Compute Cloud User Guide.
+        public let classicLinkVPCSecurityGroups: [String]?
+        /// The user data to make available to the launched EC2 instances. For more information, see Instance Metadata and User Data in the Amazon Elastic Compute Cloud User Guide.
+        public let userData: String?
+        /// The tenancy of the instance. An instance with a tenancy of dedicated runs on single-tenant hardware and can only be launched into a VPC. To launch Dedicated Instances into a shared tenancy VPC (a VPC with the instance placement tenancy attribute set to default), you must set the value of this parameter to dedicated. If you specify this parameter, be sure to specify at least one subnet when you create your group. For more information, see Launching Auto Scaling Instances in a VPC in the Amazon EC2 Auto Scaling User Guide. Valid values: default | dedicated 
+        public let placementTenancy: String?
         /// One or more mappings that specify how block devices are exposed to the instance. For more information, see Block Device Mapping in the Amazon Elastic Compute Cloud User Guide.
         public let blockDeviceMappings: [BlockDeviceMapping]?
+        /// The ID of the instance to use to create the launch configuration. The new launch configuration derives attributes from the instance, except for the block device mapping. If you do not specify InstanceId, you must specify both ImageId and InstanceType. To create a launch configuration with a block device mapping or override any other instance attributes, specify them as part of the same request. For more information, see Create a Launch Configuration Using an EC2 Instance in the Amazon EC2 Auto Scaling User Guide.
+        public let instanceId: String?
+        /// One or more security groups with which to associate the instances. If your instances are launched in EC2-Classic, you can either specify security group names or the security group IDs. For more information, see Amazon EC2 Security Groups in the Amazon Elastic Compute Cloud User Guide. If your instances are launched into a VPC, specify security group IDs. For more information, see Security Groups for Your VPC in the Amazon Virtual Private Cloud User Guide.
+        public let securityGroups: [String]?
+        /// The ID of the kernel associated with the AMI.
+        public let kernelId: String?
+        /// Indicates whether the instance is optimized for Amazon EBS I/O. By default, the instance is not optimized for EBS I/O. The optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal I/O performance. This optimization is not available with all instance types. Additional usage charges apply. For more information, see Amazon EBS-Optimized Instances in the Amazon Elastic Compute Cloud User Guide.
+        public let ebsOptimized: Bool?
+        /// Enables detailed monitoring (true) or basic monitoring (false) for the Auto Scaling instances. The default is true.
+        public let instanceMonitoring: InstanceMonitoring?
+        /// The ID of the RAM disk associated with the AMI.
+        public let ramdiskId: String?
+        /// The instance type of the EC2 instance. If you do not specify InstanceId, you must specify InstanceType. For information about available instance types, see Available Instance Types in the Amazon Elastic Compute Cloud User Guide. 
+        public let instanceType: String?
 
-        public init(imageId: String? = nil, launchConfigurationName: String, instanceId: String? = nil, userData: String? = nil, ramdiskId: String? = nil, keyName: String? = nil, classicLinkVPCSecurityGroups: [String]? = nil, securityGroups: [String]? = nil, ebsOptimized: Bool? = nil, instanceType: String? = nil, placementTenancy: String? = nil, instanceMonitoring: InstanceMonitoring? = nil, classicLinkVPCId: String? = nil, kernelId: String? = nil, iamInstanceProfile: String? = nil, associatePublicIpAddress: Bool? = nil, spotPrice: String? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil) {
-            self.imageId = imageId
-            self.launchConfigurationName = launchConfigurationName
-            self.instanceId = instanceId
-            self.userData = userData
-            self.ramdiskId = ramdiskId
-            self.keyName = keyName
-            self.classicLinkVPCSecurityGroups = classicLinkVPCSecurityGroups
-            self.securityGroups = securityGroups
-            self.ebsOptimized = ebsOptimized
-            self.instanceType = instanceType
-            self.placementTenancy = placementTenancy
-            self.instanceMonitoring = instanceMonitoring
-            self.classicLinkVPCId = classicLinkVPCId
-            self.kernelId = kernelId
-            self.iamInstanceProfile = iamInstanceProfile
-            self.associatePublicIpAddress = associatePublicIpAddress
+        public init(associatePublicIpAddress: Bool? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, classicLinkVPCId: String? = nil, classicLinkVPCSecurityGroups: [String]? = nil, ebsOptimized: Bool? = nil, iamInstanceProfile: String? = nil, imageId: String? = nil, instanceId: String? = nil, instanceMonitoring: InstanceMonitoring? = nil, instanceType: String? = nil, kernelId: String? = nil, keyName: String? = nil, launchConfigurationName: String, placementTenancy: String? = nil, ramdiskId: String? = nil, securityGroups: [String]? = nil, spotPrice: String? = nil, userData: String? = nil) {
             self.spotPrice = spotPrice
+            self.classicLinkVPCId = classicLinkVPCId
+            self.keyName = keyName
+            self.imageId = imageId
+            self.associatePublicIpAddress = associatePublicIpAddress
+            self.launchConfigurationName = launchConfigurationName
+            self.iamInstanceProfile = iamInstanceProfile
+            self.classicLinkVPCSecurityGroups = classicLinkVPCSecurityGroups
+            self.userData = userData
+            self.placementTenancy = placementTenancy
             self.blockDeviceMappings = blockDeviceMappings
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case imageId = "ImageId"
-            case launchConfigurationName = "LaunchConfigurationName"
-            case instanceId = "InstanceId"
-            case userData = "UserData"
-            case ramdiskId = "RamdiskId"
-            case keyName = "KeyName"
-            case classicLinkVPCSecurityGroups = "ClassicLinkVPCSecurityGroups"
-            case securityGroups = "SecurityGroups"
-            case ebsOptimized = "EbsOptimized"
-            case instanceType = "InstanceType"
-            case placementTenancy = "PlacementTenancy"
-            case instanceMonitoring = "InstanceMonitoring"
-            case classicLinkVPCId = "ClassicLinkVPCId"
-            case kernelId = "KernelId"
-            case iamInstanceProfile = "IamInstanceProfile"
-            case associatePublicIpAddress = "AssociatePublicIpAddress"
-            case spotPrice = "SpotPrice"
-            case blockDeviceMappings = "BlockDeviceMappings"
-        }
-    }
-
-    public struct BatchPutScheduledUpdateGroupActionAnswer: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FailedScheduledUpdateGroupActions", required: false, type: .list)
-        ]
-        /// The names of the scheduled actions that could not be created or updated, including an error message.
-        public let failedScheduledUpdateGroupActions: [FailedScheduledUpdateGroupActionRequest]?
-
-        public init(failedScheduledUpdateGroupActions: [FailedScheduledUpdateGroupActionRequest]? = nil) {
-            self.failedScheduledUpdateGroupActions = failedScheduledUpdateGroupActions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case failedScheduledUpdateGroupActions = "FailedScheduledUpdateGroupActions"
-        }
-    }
-
-    public struct SetInstanceHealthQuery: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ShouldRespectGracePeriod", required: false, type: .boolean), 
-            AWSShapeMember(label: "HealthStatus", required: true, type: .string), 
-            AWSShapeMember(label: "InstanceId", required: true, type: .string)
-        ]
-        /// If the Auto Scaling group of the specified instance has a HealthCheckGracePeriod specified for the group, by default, this call respects the grace period. Set this to False, to have the call not respect the grace period associated with the group. For more information about the health check grace period, see CreateAutoScalingGroup.
-        public let shouldRespectGracePeriod: Bool?
-        /// The health status of the instance. Set to Healthy to have the instance remain in service. Set to Unhealthy to have the instance be out of service. Amazon EC2 Auto Scaling terminates and replaces the unhealthy instance.
-        public let healthStatus: String
-        /// The ID of the instance.
-        public let instanceId: String
-
-        public init(shouldRespectGracePeriod: Bool? = nil, healthStatus: String, instanceId: String) {
-            self.shouldRespectGracePeriod = shouldRespectGracePeriod
-            self.healthStatus = healthStatus
             self.instanceId = instanceId
+            self.securityGroups = securityGroups
+            self.kernelId = kernelId
+            self.ebsOptimized = ebsOptimized
+            self.instanceMonitoring = instanceMonitoring
+            self.ramdiskId = ramdiskId
+            self.instanceType = instanceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case shouldRespectGracePeriod = "ShouldRespectGracePeriod"
-            case healthStatus = "HealthStatus"
+            case spotPrice = "SpotPrice"
+            case classicLinkVPCId = "ClassicLinkVPCId"
+            case keyName = "KeyName"
+            case imageId = "ImageId"
+            case associatePublicIpAddress = "AssociatePublicIpAddress"
+            case launchConfigurationName = "LaunchConfigurationName"
+            case iamInstanceProfile = "IamInstanceProfile"
+            case classicLinkVPCSecurityGroups = "ClassicLinkVPCSecurityGroups"
+            case userData = "UserData"
+            case placementTenancy = "PlacementTenancy"
+            case blockDeviceMappings = "BlockDeviceMappings"
             case instanceId = "InstanceId"
+            case securityGroups = "SecurityGroups"
+            case kernelId = "KernelId"
+            case ebsOptimized = "EbsOptimized"
+            case instanceMonitoring = "InstanceMonitoring"
+            case ramdiskId = "RamdiskId"
+            case instanceType = "InstanceType"
         }
     }
 
-    public struct ScheduledUpdateGroupActionRequest: AWSShape {
+    public struct TargetTrackingConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MinSize", required: false, type: .integer), 
-            AWSShapeMember(label: "MaxSize", required: false, type: .integer), 
-            AWSShapeMember(label: "ScheduledActionName", required: true, type: .string), 
-            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Recurrence", required: false, type: .string), 
-            AWSShapeMember(label: "DesiredCapacity", required: false, type: .integer)
+            AWSShapeMember(label: "CustomizedMetricSpecification", required: false, type: .structure), 
+            AWSShapeMember(label: "PredefinedMetricSpecification", required: false, type: .structure), 
+            AWSShapeMember(label: "DisableScaleIn", required: false, type: .boolean), 
+            AWSShapeMember(label: "TargetValue", required: true, type: .double)
         ]
-        /// The time for the action to start, in "YYYY-MM-DDThh:mm:ssZ" format in UTC/GMT only (for example, 2014-06-01T00:00:00Z). If you specify Recurrence and StartTime, Amazon EC2 Auto Scaling performs the action at this time, and then performs the action based on the specified recurrence. If you try to schedule the action in the past, Amazon EC2 Auto Scaling returns an error message.
-        public let startTime: TimeStamp?
-        /// The minimum size of the group.
-        public let minSize: Int32?
-        /// The maximum size of the group.
-        public let maxSize: Int32?
-        /// The name of the scaling action.
-        public let scheduledActionName: String
-        /// The time for the recurring schedule to end. Amazon EC2 Auto Scaling does not perform the action after this time.
-        public let endTime: TimeStamp?
-        /// The recurring schedule for the action, in Unix cron syntax format. For more information about this format, see Crontab.
-        public let recurrence: String?
-        /// The number of EC2 instances that should be running in the group.
-        public let desiredCapacity: Int32?
+        /// A customized metric.
+        public let customizedMetricSpecification: CustomizedMetricSpecification?
+        /// A predefined metric. You can specify either a predefined metric or a customized metric.
+        public let predefinedMetricSpecification: PredefinedMetricSpecification?
+        /// Indicates whether scaling in by the target tracking policy is disabled. If scaling in is disabled, the target tracking policy doesn't remove instances from the Auto Scaling group. Otherwise, the target tracking policy can remove instances from the Auto Scaling group. The default is disabled.
+        public let disableScaleIn: Bool?
+        /// The target value for the metric.
+        public let targetValue: Double
 
-        public init(startTime: TimeStamp? = nil, minSize: Int32? = nil, maxSize: Int32? = nil, scheduledActionName: String, endTime: TimeStamp? = nil, recurrence: String? = nil, desiredCapacity: Int32? = nil) {
-            self.startTime = startTime
-            self.minSize = minSize
-            self.maxSize = maxSize
-            self.scheduledActionName = scheduledActionName
-            self.endTime = endTime
-            self.recurrence = recurrence
-            self.desiredCapacity = desiredCapacity
+        public init(customizedMetricSpecification: CustomizedMetricSpecification? = nil, disableScaleIn: Bool? = nil, predefinedMetricSpecification: PredefinedMetricSpecification? = nil, targetValue: Double) {
+            self.customizedMetricSpecification = customizedMetricSpecification
+            self.predefinedMetricSpecification = predefinedMetricSpecification
+            self.disableScaleIn = disableScaleIn
+            self.targetValue = targetValue
         }
 
         private enum CodingKeys: String, CodingKey {
-            case startTime = "StartTime"
-            case minSize = "MinSize"
-            case maxSize = "MaxSize"
-            case scheduledActionName = "ScheduledActionName"
-            case endTime = "EndTime"
-            case recurrence = "Recurrence"
-            case desiredCapacity = "DesiredCapacity"
+            case customizedMetricSpecification = "CustomizedMetricSpecification"
+            case predefinedMetricSpecification = "PredefinedMetricSpecification"
+            case disableScaleIn = "DisableScaleIn"
+            case targetValue = "TargetValue"
         }
     }
 
-    public struct PoliciesType: AWSShape {
+    public struct ScalingPolicy: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ScalingPolicies", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "AdjustmentType", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyARN", required: false, type: .string), 
+            AWSShapeMember(label: "ScalingAdjustment", required: false, type: .integer), 
+            AWSShapeMember(label: "PolicyType", required: false, type: .string), 
+            AWSShapeMember(label: "Alarms", required: false, type: .list), 
+            AWSShapeMember(label: "Cooldown", required: false, type: .integer), 
+            AWSShapeMember(label: "MetricAggregationType", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyName", required: false, type: .string), 
+            AWSShapeMember(label: "TargetTrackingConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "StepAdjustments", required: false, type: .list), 
+            AWSShapeMember(label: "MinAdjustmentStep", required: false, type: .integer), 
+            AWSShapeMember(label: "MinAdjustmentMagnitude", required: false, type: .integer), 
+            AWSShapeMember(label: "EstimatedInstanceWarmup", required: false, type: .integer), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: false, type: .string)
         ]
-        /// The scaling policies.
-        public let scalingPolicies: [ScalingPolicy]?
+        /// The adjustment type, which specifies how ScalingAdjustment is interpreted. Valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity.
+        public let adjustmentType: String?
+        /// The Amazon Resource Name (ARN) of the policy.
+        public let policyARN: String?
+        /// The amount by which to scale, based on the specified adjustment type. A positive value adds to the current capacity while a negative number removes from the current capacity.
+        public let scalingAdjustment: Int32?
+        /// The policy type. Valid values are SimpleScaling and StepScaling.
+        public let policyType: String?
+        /// The CloudWatch alarms related to the policy.
+        public let alarms: [Alarm]?
+        /// The amount of time, in seconds, after a scaling activity completes before any further dynamic scaling activities can start.
+        public let cooldown: Int32?
+        /// The aggregation type for the CloudWatch metrics. Valid values are Minimum, Maximum, and Average.
+        public let metricAggregationType: String?
+        /// The name of the scaling policy.
+        public let policyName: String?
+        /// A target tracking policy.
+        public let targetTrackingConfiguration: TargetTrackingConfiguration?
+        /// A set of adjustments that enable you to scale based on the size of the alarm breach.
+        public let stepAdjustments: [StepAdjustment]?
+        /// Available for backward compatibility. Use MinAdjustmentMagnitude instead.
+        public let minAdjustmentStep: Int32?
+        /// The minimum number of instances to scale. If the value of AdjustmentType is PercentChangeInCapacity, the scaling policy changes the DesiredCapacity of the Auto Scaling group by at least this many instances. Otherwise, the error is ValidationError.
+        public let minAdjustmentMagnitude: Int32?
+        /// The estimated time, in seconds, until a newly launched instance can contribute to the CloudWatch metrics.
+        public let estimatedInstanceWarmup: Int32?
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String?
+
+        public init(adjustmentType: String? = nil, alarms: [Alarm]? = nil, autoScalingGroupName: String? = nil, cooldown: Int32? = nil, estimatedInstanceWarmup: Int32? = nil, metricAggregationType: String? = nil, minAdjustmentMagnitude: Int32? = nil, minAdjustmentStep: Int32? = nil, policyARN: String? = nil, policyName: String? = nil, policyType: String? = nil, scalingAdjustment: Int32? = nil, stepAdjustments: [StepAdjustment]? = nil, targetTrackingConfiguration: TargetTrackingConfiguration? = nil) {
+            self.adjustmentType = adjustmentType
+            self.policyARN = policyARN
+            self.scalingAdjustment = scalingAdjustment
+            self.policyType = policyType
+            self.alarms = alarms
+            self.cooldown = cooldown
+            self.metricAggregationType = metricAggregationType
+            self.policyName = policyName
+            self.targetTrackingConfiguration = targetTrackingConfiguration
+            self.stepAdjustments = stepAdjustments
+            self.minAdjustmentStep = minAdjustmentStep
+            self.minAdjustmentMagnitude = minAdjustmentMagnitude
+            self.estimatedInstanceWarmup = estimatedInstanceWarmup
+            self.autoScalingGroupName = autoScalingGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adjustmentType = "AdjustmentType"
+            case policyARN = "PolicyARN"
+            case scalingAdjustment = "ScalingAdjustment"
+            case policyType = "PolicyType"
+            case alarms = "Alarms"
+            case cooldown = "Cooldown"
+            case metricAggregationType = "MetricAggregationType"
+            case policyName = "PolicyName"
+            case targetTrackingConfiguration = "TargetTrackingConfiguration"
+            case stepAdjustments = "StepAdjustments"
+            case minAdjustmentStep = "MinAdjustmentStep"
+            case minAdjustmentMagnitude = "MinAdjustmentMagnitude"
+            case estimatedInstanceWarmup = "EstimatedInstanceWarmup"
+            case autoScalingGroupName = "AutoScalingGroupName"
+        }
+    }
+
+    public struct CustomizedMetricSpecification: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Unit", required: false, type: .string), 
+            AWSShapeMember(label: "Namespace", required: true, type: .string), 
+            AWSShapeMember(label: "MetricName", required: true, type: .string), 
+            AWSShapeMember(label: "Statistic", required: true, type: .enum), 
+            AWSShapeMember(label: "Dimensions", required: false, type: .list)
+        ]
+        /// The unit of the metric.
+        public let unit: String?
+        /// The namespace of the metric.
+        public let namespace: String
+        /// The name of the metric.
+        public let metricName: String
+        /// The statistic of the metric.
+        public let statistic: MetricStatistic
+        /// The dimensions of the metric.
+        public let dimensions: [MetricDimension]?
+
+        public init(dimensions: [MetricDimension]? = nil, metricName: String, namespace: String, statistic: MetricStatistic, unit: String? = nil) {
+            self.unit = unit
+            self.namespace = namespace
+            self.metricName = metricName
+            self.statistic = statistic
+            self.dimensions = dimensions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case unit = "Unit"
+            case namespace = "Namespace"
+            case metricName = "MetricName"
+            case statistic = "Statistic"
+            case dimensions = "Dimensions"
+        }
+    }
+
+    public struct AutoScalingGroupsType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "AutoScalingGroups", required: true, type: .list)
+        ]
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
+        /// The groups.
+        public let autoScalingGroups: [AutoScalingGroup]
 
-        public init(scalingPolicies: [ScalingPolicy]? = nil, nextToken: String? = nil) {
-            self.scalingPolicies = scalingPolicies
+        public init(autoScalingGroups: [AutoScalingGroup], nextToken: String? = nil) {
             self.nextToken = nextToken
+            self.autoScalingGroups = autoScalingGroups
         }
 
         private enum CodingKeys: String, CodingKey {
-            case scalingPolicies = "ScalingPolicies"
             case nextToken = "NextToken"
+            case autoScalingGroups = "AutoScalingGroups"
         }
     }
 
-    public struct DescribeLifecycleHookTypesAnswer: AWSShape {
+    public struct DeleteScheduledActionType: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LifecycleHookTypes", required: false, type: .list)
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "ScheduledActionName", required: true, type: .string)
         ]
-        /// The lifecycle hook types.
-        public let lifecycleHookTypes: [String]?
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String
+        /// The name of the action to delete.
+        public let scheduledActionName: String
 
-        public init(lifecycleHookTypes: [String]? = nil) {
-            self.lifecycleHookTypes = lifecycleHookTypes
+        public init(autoScalingGroupName: String, scheduledActionName: String) {
+            self.autoScalingGroupName = autoScalingGroupName
+            self.scheduledActionName = scheduledActionName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lifecycleHookTypes = "LifecycleHookTypes"
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case scheduledActionName = "ScheduledActionName"
         }
     }
 
     public struct BlockDeviceMapping: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NoDevice", required: false, type: .boolean), 
-            AWSShapeMember(label: "VirtualName", required: false, type: .string), 
             AWSShapeMember(label: "Ebs", required: false, type: .structure), 
-            AWSShapeMember(label: "DeviceName", required: true, type: .string)
+            AWSShapeMember(label: "DeviceName", required: true, type: .string), 
+            AWSShapeMember(label: "NoDevice", required: false, type: .boolean), 
+            AWSShapeMember(label: "VirtualName", required: false, type: .string)
         ]
-        /// Suppresses a device mapping. If this parameter is true for the root device, the instance might fail the EC2 health check. In that case, Amazon EC2 Auto Scaling launches a replacement instance.
-        public let noDevice: Bool?
-        /// The name of the virtual device (for example, ephemeral0).
-        public let virtualName: String?
         /// The information about the Amazon EBS volume.
         public let ebs: Ebs?
         /// The device name exposed to the EC2 instance (for example, /dev/sdh or xvdh).
         public let deviceName: String
+        /// Suppresses a device mapping. If this parameter is true for the root device, the instance might fail the EC2 health check. In that case, Amazon EC2 Auto Scaling launches a replacement instance.
+        public let noDevice: Bool?
+        /// The name of the virtual device (for example, ephemeral0).
+        public let virtualName: String?
 
-        public init(noDevice: Bool? = nil, virtualName: String? = nil, ebs: Ebs? = nil, deviceName: String) {
-            self.noDevice = noDevice
-            self.virtualName = virtualName
+        public init(deviceName: String, ebs: Ebs? = nil, noDevice: Bool? = nil, virtualName: String? = nil) {
             self.ebs = ebs
             self.deviceName = deviceName
+            self.noDevice = noDevice
+            self.virtualName = virtualName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case noDevice = "NoDevice"
-            case virtualName = "VirtualName"
             case ebs = "Ebs"
             case deviceName = "DeviceName"
+            case noDevice = "NoDevice"
+            case virtualName = "VirtualName"
         }
     }
 
-    public struct AttachLoadBalancerTargetGroupsType: AWSShape {
+    public struct DescribeAccountLimitsAnswer: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetGroupARNs", required: true, type: .list), 
-            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
+            AWSShapeMember(label: "NumberOfAutoScalingGroups", required: false, type: .integer), 
+            AWSShapeMember(label: "NumberOfLaunchConfigurations", required: false, type: .integer), 
+            AWSShapeMember(label: "MaxNumberOfAutoScalingGroups", required: false, type: .integer), 
+            AWSShapeMember(label: "MaxNumberOfLaunchConfigurations", required: false, type: .integer)
         ]
-        /// The Amazon Resource Names (ARN) of the target groups. You can specify up to 10 target groups.
-        public let targetGroupARNs: [String]
-        /// The name of the Auto Scaling group.
-        public let autoScalingGroupName: String
+        /// The current number of groups for your AWS account.
+        public let numberOfAutoScalingGroups: Int32?
+        /// The current number of launch configurations for your AWS account.
+        public let numberOfLaunchConfigurations: Int32?
+        /// The maximum number of groups allowed for your AWS account. The default limit is 20 per region.
+        public let maxNumberOfAutoScalingGroups: Int32?
+        /// The maximum number of launch configurations allowed for your AWS account. The default limit is 100 per region.
+        public let maxNumberOfLaunchConfigurations: Int32?
 
-        public init(targetGroupARNs: [String], autoScalingGroupName: String) {
-            self.targetGroupARNs = targetGroupARNs
-            self.autoScalingGroupName = autoScalingGroupName
+        public init(maxNumberOfAutoScalingGroups: Int32? = nil, maxNumberOfLaunchConfigurations: Int32? = nil, numberOfAutoScalingGroups: Int32? = nil, numberOfLaunchConfigurations: Int32? = nil) {
+            self.numberOfAutoScalingGroups = numberOfAutoScalingGroups
+            self.numberOfLaunchConfigurations = numberOfLaunchConfigurations
+            self.maxNumberOfAutoScalingGroups = maxNumberOfAutoScalingGroups
+            self.maxNumberOfLaunchConfigurations = maxNumberOfLaunchConfigurations
         }
 
         private enum CodingKeys: String, CodingKey {
-            case targetGroupARNs = "TargetGroupARNs"
-            case autoScalingGroupName = "AutoScalingGroupName"
+            case numberOfAutoScalingGroups = "NumberOfAutoScalingGroups"
+            case numberOfLaunchConfigurations = "NumberOfLaunchConfigurations"
+            case maxNumberOfAutoScalingGroups = "MaxNumberOfAutoScalingGroups"
+            case maxNumberOfLaunchConfigurations = "MaxNumberOfLaunchConfigurations"
         }
     }
 
-    public struct AttachLoadBalancersResultType: AWSShape {
+    public struct CreateAutoScalingGroupType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MinSize", required: true, type: .integer), 
+            AWSShapeMember(label: "MaxSize", required: true, type: .integer), 
+            AWSShapeMember(label: "LoadBalancerNames", required: false, type: .list), 
+            AWSShapeMember(label: "DefaultCooldown", required: false, type: .integer), 
+            AWSShapeMember(label: "HealthCheckGracePeriod", required: false, type: .integer), 
+            AWSShapeMember(label: "VPCZoneIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "MixedInstancesPolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "NewInstancesProtectedFromScaleIn", required: false, type: .boolean), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "DesiredCapacity", required: false, type: .integer), 
+            AWSShapeMember(label: "LaunchTemplate", required: false, type: .structure), 
+            AWSShapeMember(label: "LifecycleHookSpecificationList", required: false, type: .list), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "PlacementGroup", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceLinkedRoleARN", required: false, type: .string), 
+            AWSShapeMember(label: "LaunchConfigurationName", required: false, type: .string), 
+            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "HealthCheckType", required: false, type: .string), 
+            AWSShapeMember(label: "TargetGroupARNs", required: false, type: .list), 
+            AWSShapeMember(label: "TerminationPolicies", required: false, type: .list)
+        ]
+        /// The minimum size of the group.
+        public let minSize: Int32
+        /// The maximum size of the group.
+        public let maxSize: Int32
+        /// One or more Classic Load Balancers. To specify an Application Load Balancer, use TargetGroupARNs instead. For more information, see Using a Load Balancer With an Auto Scaling Group in the Amazon EC2 Auto Scaling User Guide.
+        public let loadBalancerNames: [String]?
+        /// The amount of time, in seconds, after a scaling activity completes before another scaling activity can start. The default is 300. For more information, see Scaling Cooldowns in the Amazon EC2 Auto Scaling User Guide.
+        public let defaultCooldown: Int32?
+        /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service. During this time, any health check failures for the instance are ignored. The default is 0. This parameter is required if you are adding an ELB health check. For more information, see Health Checks in the Amazon EC2 Auto Scaling User Guide.
+        public let healthCheckGracePeriod: Int32?
+        /// A comma-separated list of subnet identifiers for your virtual private cloud (VPC). If you specify subnets and Availability Zones with this call, ensure that the subnets' Availability Zones match the Availability Zones specified. For more information, see Launching Auto Scaling Instances in a VPC in the Amazon EC2 Auto Scaling User Guide.
+        public let vPCZoneIdentifier: String?
+        /// The mixed instances policy to use to launch instances. This parameter, a launch template, a launch configuration, or an EC2 instance must be specified.
+        public let mixedInstancesPolicy: MixedInstancesPolicy?
+        /// Indicates whether newly launched instances are protected from termination by Auto Scaling when scaling in.
+        public let newInstancesProtectedFromScaleIn: Bool?
+        /// The ID of the instance used to create a launch configuration for the group. This parameter, a launch configuration, a launch template, or a mixed instances policy must be specified. When you specify an ID of an instance, Amazon EC2 Auto Scaling creates a new launch configuration and associates it with the group. This launch configuration derives its attributes from the specified instance, except for the block device mapping. For more information, see Create an Auto Scaling Group Using an EC2 Instance in the Amazon EC2 Auto Scaling User Guide.
+        public let instanceId: String?
+        /// The number of EC2 instances that should be running in the group. This number must be greater than or equal to the minimum size of the group and less than or equal to the maximum size of the group. If you do not specify a desired capacity, the default is the minimum size of the group.
+        public let desiredCapacity: Int32?
+        /// The launch template to use to launch instances. This parameter, a launch configuration, a mixed instances policy, or an EC2 instance must be specified.
+        public let launchTemplate: LaunchTemplateSpecification?
+        /// One or more lifecycle hooks.
+        public let lifecycleHookSpecificationList: [LifecycleHookSpecification]?
+        /// The name of the Auto Scaling group. This name must be unique within the scope of your AWS account.
+        public let autoScalingGroupName: String
+        /// The name of the placement group into which to launch your instances, if any. For more information, see Placement Groups in the Amazon Elastic Compute Cloud User Guide.
+        public let placementGroup: String?
+        /// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other AWS services on your behalf. By default, Amazon EC2 Auto Scaling uses a service-linked role named AWSServiceRoleForAutoScaling, which it creates if it does not exist.
+        public let serviceLinkedRoleARN: String?
+        /// The name of the launch configuration. This parameter, a launch template, a mixed instances policy, or an EC2 instance must be specified.
+        public let launchConfigurationName: String?
+        /// One or more Availability Zones for the group. This parameter is optional if you specify one or more subnets.
+        public let availabilityZones: [String]?
+        /// One or more tags. For more information, see Tagging Auto Scaling Groups and Instances in the Amazon EC2 Auto Scaling User Guide.
+        public let tags: [Tag]?
+        /// The service to use for the health checks. The valid values are EC2 and ELB. By default, health checks use Amazon EC2 instance status checks to determine the health of an instance. For more information, see Health Checks in the Amazon EC2 Auto Scaling User Guide.
+        public let healthCheckType: String?
+        /// The Amazon Resource Names (ARN) of the target groups.
+        public let targetGroupARNs: [String]?
+        /// One or more termination policies used to select the instance to terminate. These policies are executed in the order that they are listed. For more information, see Controlling Which Instances Auto Scaling Terminates During Scale In in the Auto Scaling User Guide.
+        public let terminationPolicies: [String]?
 
+        public init(autoScalingGroupName: String, availabilityZones: [String]? = nil, defaultCooldown: Int32? = nil, desiredCapacity: Int32? = nil, healthCheckGracePeriod: Int32? = nil, healthCheckType: String? = nil, instanceId: String? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, lifecycleHookSpecificationList: [LifecycleHookSpecification]? = nil, loadBalancerNames: [String]? = nil, maxSize: Int32, minSize: Int32, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, serviceLinkedRoleARN: String? = nil, tags: [Tag]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, vPCZoneIdentifier: String? = nil) {
+            self.minSize = minSize
+            self.maxSize = maxSize
+            self.loadBalancerNames = loadBalancerNames
+            self.defaultCooldown = defaultCooldown
+            self.healthCheckGracePeriod = healthCheckGracePeriod
+            self.vPCZoneIdentifier = vPCZoneIdentifier
+            self.mixedInstancesPolicy = mixedInstancesPolicy
+            self.newInstancesProtectedFromScaleIn = newInstancesProtectedFromScaleIn
+            self.instanceId = instanceId
+            self.desiredCapacity = desiredCapacity
+            self.launchTemplate = launchTemplate
+            self.lifecycleHookSpecificationList = lifecycleHookSpecificationList
+            self.autoScalingGroupName = autoScalingGroupName
+            self.placementGroup = placementGroup
+            self.serviceLinkedRoleARN = serviceLinkedRoleARN
+            self.launchConfigurationName = launchConfigurationName
+            self.availabilityZones = availabilityZones
+            self.tags = tags
+            self.healthCheckType = healthCheckType
+            self.targetGroupARNs = targetGroupARNs
+            self.terminationPolicies = terminationPolicies
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case minSize = "MinSize"
+            case maxSize = "MaxSize"
+            case loadBalancerNames = "LoadBalancerNames"
+            case defaultCooldown = "DefaultCooldown"
+            case healthCheckGracePeriod = "HealthCheckGracePeriod"
+            case vPCZoneIdentifier = "VPCZoneIdentifier"
+            case mixedInstancesPolicy = "MixedInstancesPolicy"
+            case newInstancesProtectedFromScaleIn = "NewInstancesProtectedFromScaleIn"
+            case instanceId = "InstanceId"
+            case desiredCapacity = "DesiredCapacity"
+            case launchTemplate = "LaunchTemplate"
+            case lifecycleHookSpecificationList = "LifecycleHookSpecificationList"
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case placementGroup = "PlacementGroup"
+            case serviceLinkedRoleARN = "ServiceLinkedRoleARN"
+            case launchConfigurationName = "LaunchConfigurationName"
+            case availabilityZones = "AvailabilityZones"
+            case tags = "Tags"
+            case healthCheckType = "HealthCheckType"
+            case targetGroupARNs = "TargetGroupARNs"
+            case terminationPolicies = "TerminationPolicies"
+        }
+    }
+
+    public struct BatchPutScheduledUpdateGroupActionType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "ScheduledUpdateGroupActions", required: true, type: .list)
+        ]
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String
+        /// One or more scheduled actions. The maximum number allowed is 50. 
+        public let scheduledUpdateGroupActions: [ScheduledUpdateGroupActionRequest]
+
+        public init(autoScalingGroupName: String, scheduledUpdateGroupActions: [ScheduledUpdateGroupActionRequest]) {
+            self.autoScalingGroupName = autoScalingGroupName
+            self.scheduledUpdateGroupActions = scheduledUpdateGroupActions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case scheduledUpdateGroupActions = "ScheduledUpdateGroupActions"
+        }
+    }
+
+    public enum LifecycleState: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case pendingWait = "Pending:Wait"
+        case pendingProceed = "Pending:Proceed"
+        case quarantined = "Quarantined"
+        case inservice = "InService"
+        case terminating = "Terminating"
+        case terminatingWait = "Terminating:Wait"
+        case terminatingProceed = "Terminating:Proceed"
+        case terminated = "Terminated"
+        case detaching = "Detaching"
+        case detached = "Detached"
+        case enteringstandby = "EnteringStandby"
+        case standby = "Standby"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DescribeScalingActivitiesType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ActivityIds", required: false, type: .list), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+        ]
+        /// The token for the next set of items to return. (You received this token from a previous call.)
+        public let nextToken: String?
+        /// The activity IDs of the desired scaling activities. You can specify up to 50 IDs. If you omit this parameter, all activities for the past six weeks are described. If unknown activities are requested, they are ignored with no error. If you specify an Auto Scaling group, the results are limited to that group.
+        public let activityIds: [String]?
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String?
+        /// The maximum number of items to return with this call. The default value is 100 and the maximum value is 100.
+        public let maxRecords: Int32?
+
+        public init(activityIds: [String]? = nil, autoScalingGroupName: String? = nil, maxRecords: Int32? = nil, nextToken: String? = nil) {
+            self.nextToken = nextToken
+            self.activityIds = activityIds
+            self.autoScalingGroupName = autoScalingGroupName
+            self.maxRecords = maxRecords
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case activityIds = "ActivityIds"
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case maxRecords = "MaxRecords"
+        }
+    }
+
+    public struct RecordLifecycleActionHeartbeatAnswer: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct DetachLoadBalancersResultType: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct AutoScalingGroupNamesType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoScalingGroupNames", required: false, type: .list), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The names of the Auto Scaling groups. You can specify up to MaxRecords names. If you omit this parameter, all Auto Scaling groups are described.
+        public let autoScalingGroupNames: [String]?
+        /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
+        public let maxRecords: Int32?
+        /// The token for the next set of items to return. (You received this token from a previous call.)
+        public let nextToken: String?
+
+        public init(autoScalingGroupNames: [String]? = nil, maxRecords: Int32? = nil, nextToken: String? = nil) {
+            self.autoScalingGroupNames = autoScalingGroupNames
+            self.maxRecords = maxRecords
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingGroupNames = "AutoScalingGroupNames"
+            case maxRecords = "MaxRecords"
+            case nextToken = "NextToken"
+        }
     }
 
     public struct DescribeAdjustmentTypesAnswer: AWSShape {
@@ -3380,7 +2848,566 @@ extension AutoScaling {
         }
     }
 
-    public struct DetachLoadBalancersResultType: AWSShape {
+    public struct DeletePolicyType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyName", required: true, type: .string), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: false, type: .string)
+        ]
+        /// The name or Amazon Resource Name (ARN) of the policy.
+        public let policyName: String
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String?
+
+        public init(autoScalingGroupName: String? = nil, policyName: String) {
+            self.policyName = policyName
+            self.autoScalingGroupName = autoScalingGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyName = "PolicyName"
+            case autoScalingGroupName = "AutoScalingGroupName"
+        }
+    }
+
+    public struct Activity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
+            AWSShapeMember(label: "StatusCode", required: true, type: .enum), 
+            AWSShapeMember(label: "Progress", required: false, type: .integer), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Cause", required: true, type: .string), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "ActivityId", required: true, type: .string), 
+            AWSShapeMember(label: "StartTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "Details", required: false, type: .string), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp)
+        ]
+        /// A friendly, more verbose description of the activity status.
+        public let statusMessage: String?
+        /// The current status of the activity.
+        public let statusCode: ScalingActivityStatusCode
+        /// A value between 0 and 100 that indicates the progress of the activity.
+        public let progress: Int32?
+        /// A friendly, more verbose description of the activity.
+        public let description: String?
+        /// The reason the activity began.
+        public let cause: String
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String
+        /// The ID of the activity.
+        public let activityId: String
+        /// The start time of the activity.
+        public let startTime: TimeStamp
+        /// The details about the activity.
+        public let details: String?
+        /// The end time of the activity.
+        public let endTime: TimeStamp?
+
+        public init(activityId: String, autoScalingGroupName: String, cause: String, description: String? = nil, details: String? = nil, endTime: TimeStamp? = nil, progress: Int32? = nil, startTime: TimeStamp, statusCode: ScalingActivityStatusCode, statusMessage: String? = nil) {
+            self.statusMessage = statusMessage
+            self.statusCode = statusCode
+            self.progress = progress
+            self.description = description
+            self.cause = cause
+            self.autoScalingGroupName = autoScalingGroupName
+            self.activityId = activityId
+            self.startTime = startTime
+            self.details = details
+            self.endTime = endTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statusMessage = "StatusMessage"
+            case statusCode = "StatusCode"
+            case progress = "Progress"
+            case description = "Description"
+            case cause = "Cause"
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case activityId = "ActivityId"
+            case startTime = "StartTime"
+            case details = "Details"
+            case endTime = "EndTime"
+        }
+    }
+
+    public struct LaunchTemplate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Overrides", required: false, type: .list), 
+            AWSShapeMember(label: "LaunchTemplateSpecification", required: false, type: .structure)
+        ]
+        /// Any parameters that you specify override the same parameters in the launch template. Currently, the only supported override is instance type.  You must specify between 2 and 20 overrides.
+        public let overrides: [LaunchTemplateOverrides]?
+        /// The launch template to use. You must specify either the launch template ID or launch template name in the request. 
+        public let launchTemplateSpecification: LaunchTemplateSpecification?
+
+        public init(launchTemplateSpecification: LaunchTemplateSpecification? = nil, overrides: [LaunchTemplateOverrides]? = nil) {
+            self.overrides = overrides
+            self.launchTemplateSpecification = launchTemplateSpecification
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case overrides = "Overrides"
+            case launchTemplateSpecification = "LaunchTemplateSpecification"
+        }
+    }
+
+    public struct DeleteLifecycleHookType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "LifecycleHookName", required: true, type: .string)
+        ]
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String
+        /// The name of the lifecycle hook.
+        public let lifecycleHookName: String
+
+        public init(autoScalingGroupName: String, lifecycleHookName: String) {
+            self.autoScalingGroupName = autoScalingGroupName
+            self.lifecycleHookName = lifecycleHookName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case lifecycleHookName = "LifecycleHookName"
+        }
+    }
+
+    public struct DetachInstancesAnswer: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Activities", required: false, type: .list)
+        ]
+        /// The activities related to detaching the instances from the Auto Scaling group.
+        public let activities: [Activity]?
+
+        public init(activities: [Activity]? = nil) {
+            self.activities = activities
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activities = "Activities"
+        }
+    }
+
+    public struct MetricDimension: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// The value of the dimension.
+        public let value: String
+        /// The name of the dimension.
+        public let name: String
+
+        public init(name: String, value: String) {
+            self.value = value
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case name = "Name"
+        }
+    }
+
+    public struct PutLifecycleHookType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LifecycleHookName", required: true, type: .string), 
+            AWSShapeMember(label: "NotificationMetadata", required: false, type: .string), 
+            AWSShapeMember(label: "LifecycleTransition", required: false, type: .string), 
+            AWSShapeMember(label: "NotificationTargetARN", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultResult", required: false, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "HeartbeatTimeout", required: false, type: .integer)
+        ]
+        /// The name of the lifecycle hook.
+        public let lifecycleHookName: String
+        /// Contains additional information that you want to include any time Amazon EC2 Auto Scaling sends a message to the notification target.
+        public let notificationMetadata: String?
+        /// The instance state to which you want to attach the lifecycle hook. The possible values are:   autoscaling:EC2_INSTANCE_LAUNCHING   autoscaling:EC2_INSTANCE_TERMINATING   This parameter is required for new lifecycle hooks, but optional when updating existing hooks.
+        public let lifecycleTransition: String?
+        /// The ARN of the notification target that Amazon EC2 Auto Scaling uses to notify you when an instance is in the transition state for the lifecycle hook. This target can be either an SQS queue or an SNS topic. If you specify an empty string, this overrides the current ARN. This operation uses the JSON format when sending notifications to an Amazon SQS queue, and an email key-value pair format when sending notifications to an Amazon SNS topic. When you specify a notification target, Amazon EC2 Auto Scaling sends it a test message. Test messages contain the following additional key-value pair: "Event": "autoscaling:TEST_NOTIFICATION".
+        public let notificationTargetARN: String?
+        /// Defines the action the Auto Scaling group should take when the lifecycle hook timeout elapses or if an unexpected failure occurs. This parameter can be either CONTINUE or ABANDON. The default value is ABANDON.
+        public let defaultResult: String?
+        /// The ARN of the IAM role that allows the Auto Scaling group to publish to the specified notification target. This parameter is required for new lifecycle hooks, but optional when updating existing hooks.
+        public let roleARN: String?
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String
+        /// The maximum time, in seconds, that can elapse before the lifecycle hook times out. The range is from 30 to 7200 seconds. The default is 3600 seconds (1 hour). If the lifecycle hook times out, Amazon EC2 Auto Scaling performs the default action. You can prevent the lifecycle hook from timing out by calling RecordLifecycleActionHeartbeat.
+        public let heartbeatTimeout: Int32?
+
+        public init(autoScalingGroupName: String, defaultResult: String? = nil, heartbeatTimeout: Int32? = nil, lifecycleHookName: String, lifecycleTransition: String? = nil, notificationMetadata: String? = nil, notificationTargetARN: String? = nil, roleARN: String? = nil) {
+            self.lifecycleHookName = lifecycleHookName
+            self.notificationMetadata = notificationMetadata
+            self.lifecycleTransition = lifecycleTransition
+            self.notificationTargetARN = notificationTargetARN
+            self.defaultResult = defaultResult
+            self.roleARN = roleARN
+            self.autoScalingGroupName = autoScalingGroupName
+            self.heartbeatTimeout = heartbeatTimeout
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lifecycleHookName = "LifecycleHookName"
+            case notificationMetadata = "NotificationMetadata"
+            case lifecycleTransition = "LifecycleTransition"
+            case notificationTargetARN = "NotificationTargetARN"
+            case defaultResult = "DefaultResult"
+            case roleARN = "RoleARN"
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case heartbeatTimeout = "HeartbeatTimeout"
+        }
+    }
+
+    public struct Ebs: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VolumeType", required: false, type: .string), 
+            AWSShapeMember(label: "Encrypted", required: false, type: .boolean), 
+            AWSShapeMember(label: "VolumeSize", required: false, type: .integer), 
+            AWSShapeMember(label: "DeleteOnTermination", required: false, type: .boolean), 
+            AWSShapeMember(label: "SnapshotId", required: false, type: .string), 
+            AWSShapeMember(label: "Iops", required: false, type: .integer)
+        ]
+        /// The volume type. For more information, see Amazon EBS Volume Types in the Amazon Elastic Compute Cloud User Guide. Valid values: standard | io1 | gp2 
+        public let volumeType: String?
+        /// Indicates whether the volume should be encrypted. Encrypted EBS volumes must be attached to instances that support Amazon EBS encryption. Volumes that are created from encrypted snapshots are automatically encrypted. There is no way to create an encrypted volume from an unencrypted snapshot or an unencrypted volume from an encrypted snapshot. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide.
+        public let encrypted: Bool?
+        /// The volume size, in GiB. For standard volumes, specify a value from 1 to 1,024. For io1 volumes, specify a value from 4 to 16,384. For gp2 volumes, specify a value from 1 to 16,384. If you specify a snapshot, the volume size must be equal to or larger than the snapshot size. Default: If you create a volume from a snapshot and you don't specify a volume size, the default is the snapshot size.
+        public let volumeSize: Int32?
+        /// Indicates whether the volume is deleted on instance termination. The default is true.
+        public let deleteOnTermination: Bool?
+        /// The ID of the snapshot.
+        public let snapshotId: String?
+        /// The number of I/O operations per second (IOPS) to provision for the volume. Constraint: Required when the volume type is io1.
+        public let iops: Int32?
+
+        public init(deleteOnTermination: Bool? = nil, encrypted: Bool? = nil, iops: Int32? = nil, snapshotId: String? = nil, volumeSize: Int32? = nil, volumeType: String? = nil) {
+            self.volumeType = volumeType
+            self.encrypted = encrypted
+            self.volumeSize = volumeSize
+            self.deleteOnTermination = deleteOnTermination
+            self.snapshotId = snapshotId
+            self.iops = iops
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case volumeType = "VolumeType"
+            case encrypted = "Encrypted"
+            case volumeSize = "VolumeSize"
+            case deleteOnTermination = "DeleteOnTermination"
+            case snapshotId = "SnapshotId"
+            case iops = "Iops"
+        }
+    }
+
+    public struct EnterStandbyQuery: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ShouldDecrementDesiredCapacity", required: true, type: .boolean), 
+            AWSShapeMember(label: "InstanceIds", required: false, type: .list), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
+        ]
+        /// Indicates whether to decrement the desired capacity of the Auto Scaling group by the number of instances moved to Standby mode.
+        public let shouldDecrementDesiredCapacity: Bool
+        /// The IDs of the instances. You can specify up to 20 instances.
+        public let instanceIds: [String]?
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String
+
+        public init(autoScalingGroupName: String, instanceIds: [String]? = nil, shouldDecrementDesiredCapacity: Bool) {
+            self.shouldDecrementDesiredCapacity = shouldDecrementDesiredCapacity
+            self.instanceIds = instanceIds
+            self.autoScalingGroupName = autoScalingGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case shouldDecrementDesiredCapacity = "ShouldDecrementDesiredCapacity"
+            case instanceIds = "InstanceIds"
+            case autoScalingGroupName = "AutoScalingGroupName"
+        }
+    }
+
+    public struct DescribeMetricCollectionTypesAnswer: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Granularities", required: false, type: .list), 
+            AWSShapeMember(label: "Metrics", required: false, type: .list)
+        ]
+        /// The granularities for the metrics.
+        public let granularities: [MetricGranularityType]?
+        /// One or more metrics.
+        public let metrics: [MetricCollectionType]?
+
+        public init(granularities: [MetricGranularityType]? = nil, metrics: [MetricCollectionType]? = nil) {
+            self.granularities = granularities
+            self.metrics = metrics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case granularities = "Granularities"
+            case metrics = "Metrics"
+        }
+    }
+
+    public struct UpdateAutoScalingGroupType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TerminationPolicies", required: false, type: .list), 
+            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
+            AWSShapeMember(label: "MinSize", required: false, type: .integer), 
+            AWSShapeMember(label: "DesiredCapacity", required: false, type: .integer), 
+            AWSShapeMember(label: "PlacementGroup", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceLinkedRoleARN", required: false, type: .string), 
+            AWSShapeMember(label: "LaunchTemplate", required: false, type: .structure), 
+            AWSShapeMember(label: "NewInstancesProtectedFromScaleIn", required: false, type: .boolean), 
+            AWSShapeMember(label: "DefaultCooldown", required: false, type: .integer), 
+            AWSShapeMember(label: "MaxSize", required: false, type: .integer), 
+            AWSShapeMember(label: "LaunchConfigurationName", required: false, type: .string), 
+            AWSShapeMember(label: "HealthCheckGracePeriod", required: false, type: .integer), 
+            AWSShapeMember(label: "MixedInstancesPolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "HealthCheckType", required: false, type: .string), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "VPCZoneIdentifier", required: false, type: .string)
+        ]
+        /// A standalone termination policy or a list of termination policies used to select the instance to terminate. The policies are executed in the order that they are listed. For more information, see Controlling Which Instances Auto Scaling Terminates During Scale In in the Auto Scaling User Guide.
+        public let terminationPolicies: [String]?
+        /// One or more Availability Zones for the group.
+        public let availabilityZones: [String]?
+        /// The minimum size of the Auto Scaling group.
+        public let minSize: Int32?
+        /// The number of EC2 instances that should be running in the Auto Scaling group. This number must be greater than or equal to the minimum size of the group and less than or equal to the maximum size of the group.
+        public let desiredCapacity: Int32?
+        /// The name of the placement group into which to launch your instances, if any. For more information, see Placement Groups in the Amazon Elastic Compute Cloud User Guide.
+        public let placementGroup: String?
+        /// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other AWS services on your behalf.
+        public let serviceLinkedRoleARN: String?
+        /// The launch template and version to use to specify the updates. If you specify this parameter, you can't specify a launch configuration or a mixed instances policy.
+        public let launchTemplate: LaunchTemplateSpecification?
+        /// Indicates whether newly launched instances are protected from termination by Auto Scaling when scaling in.
+        public let newInstancesProtectedFromScaleIn: Bool?
+        /// The amount of time, in seconds, after a scaling activity completes before another scaling activity can start. The default is 300. For more information, see Scaling Cooldowns in the Amazon EC2 Auto Scaling User Guide.
+        public let defaultCooldown: Int32?
+        /// The maximum size of the Auto Scaling group.
+        public let maxSize: Int32?
+        /// The name of the launch configuration. If you specify this parameter, you can't specify a launch template or a mixed instances policy.
+        public let launchConfigurationName: String?
+        /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service. The default is 0. For more information, see Health Checks in the Amazon EC2 Auto Scaling User Guide.
+        public let healthCheckGracePeriod: Int32?
+        /// The mixed instances policy to use to specify the updates. If you specify this parameter, you can't specify a launch configuration or a launch template. 
+        public let mixedInstancesPolicy: MixedInstancesPolicy?
+        /// The service to use for the health checks. The valid values are EC2 and ELB.
+        public let healthCheckType: String?
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String
+        /// The ID of the subnet, if you are launching into a VPC. You can specify several subnets in a comma-separated list. When you specify VPCZoneIdentifier with AvailabilityZones, ensure that the subnets' Availability Zones match the values you specify for AvailabilityZones. For more information, see Launching Auto Scaling Instances in a VPC in the Amazon EC2 Auto Scaling User Guide.
+        public let vPCZoneIdentifier: String?
+
+        public init(autoScalingGroupName: String, availabilityZones: [String]? = nil, defaultCooldown: Int32? = nil, desiredCapacity: Int32? = nil, healthCheckGracePeriod: Int32? = nil, healthCheckType: String? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, maxSize: Int32? = nil, minSize: Int32? = nil, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, serviceLinkedRoleARN: String? = nil, terminationPolicies: [String]? = nil, vPCZoneIdentifier: String? = nil) {
+            self.terminationPolicies = terminationPolicies
+            self.availabilityZones = availabilityZones
+            self.minSize = minSize
+            self.desiredCapacity = desiredCapacity
+            self.placementGroup = placementGroup
+            self.serviceLinkedRoleARN = serviceLinkedRoleARN
+            self.launchTemplate = launchTemplate
+            self.newInstancesProtectedFromScaleIn = newInstancesProtectedFromScaleIn
+            self.defaultCooldown = defaultCooldown
+            self.maxSize = maxSize
+            self.launchConfigurationName = launchConfigurationName
+            self.healthCheckGracePeriod = healthCheckGracePeriod
+            self.mixedInstancesPolicy = mixedInstancesPolicy
+            self.healthCheckType = healthCheckType
+            self.autoScalingGroupName = autoScalingGroupName
+            self.vPCZoneIdentifier = vPCZoneIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case terminationPolicies = "TerminationPolicies"
+            case availabilityZones = "AvailabilityZones"
+            case minSize = "MinSize"
+            case desiredCapacity = "DesiredCapacity"
+            case placementGroup = "PlacementGroup"
+            case serviceLinkedRoleARN = "ServiceLinkedRoleARN"
+            case launchTemplate = "LaunchTemplate"
+            case newInstancesProtectedFromScaleIn = "NewInstancesProtectedFromScaleIn"
+            case defaultCooldown = "DefaultCooldown"
+            case maxSize = "MaxSize"
+            case launchConfigurationName = "LaunchConfigurationName"
+            case healthCheckGracePeriod = "HealthCheckGracePeriod"
+            case mixedInstancesPolicy = "MixedInstancesPolicy"
+            case healthCheckType = "HealthCheckType"
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case vPCZoneIdentifier = "VPCZoneIdentifier"
+        }
+    }
+
+    public struct MixedInstancesPolicy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LaunchTemplate", required: false, type: .structure), 
+            AWSShapeMember(label: "InstancesDistribution", required: false, type: .structure)
+        ]
+        /// The launch template and overrides. This parameter is required when creating an Auto Scaling group with a mixed instances policy, but is not required when updating the group.
+        public let launchTemplate: LaunchTemplate?
+        /// The instances distribution to use.  If you leave this parameter unspecified when creating the group, the default values are used.
+        public let instancesDistribution: InstancesDistribution?
+
+        public init(instancesDistribution: InstancesDistribution? = nil, launchTemplate: LaunchTemplate? = nil) {
+            self.launchTemplate = launchTemplate
+            self.instancesDistribution = instancesDistribution
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case launchTemplate = "LaunchTemplate"
+            case instancesDistribution = "InstancesDistribution"
+        }
+    }
+
+    public struct InstancesDistribution: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SpotInstancePools", required: false, type: .integer), 
+            AWSShapeMember(label: "OnDemandBaseCapacity", required: false, type: .integer), 
+            AWSShapeMember(label: "OnDemandPercentageAboveBaseCapacity", required: false, type: .integer), 
+            AWSShapeMember(label: "SpotMaxPrice", required: false, type: .string), 
+            AWSShapeMember(label: "SpotAllocationStrategy", required: false, type: .string), 
+            AWSShapeMember(label: "OnDemandAllocationStrategy", required: false, type: .string)
+        ]
+        /// The number of Spot pools to use to allocate your Spot capacity. The Spot pools are determined from the different instance types in the Overrides array of LaunchTemplate.  The range is 1–20 and the default is 2. 
+        public let spotInstancePools: Int32?
+        /// The minimum amount of the Auto Scaling group's capacity that must be fulfilled by On-Demand Instances. This base portion is provisioned first as your group scales. The default value is 0. If you leave this parameter set to 0, On-Demand Instances are launched as a percentage of the Auto Scaling group's desired capacity, per the OnDemandPercentageAboveBaseCapacity setting.
+        public let onDemandBaseCapacity: Int32?
+        /// Controls the percentages of On-Demand Instances and Spot Instances for your additional capacity beyond OnDemandBaseCapacity.  The range is 0–100. The default value is 100. If you leave this parameter set to 100, the percentages are 100% for On-Demand Instances and 0% for Spot Instances. 
+        public let onDemandPercentageAboveBaseCapacity: Int32?
+        /// The maximum price per unit hour that you are willing to pay for a Spot Instance. If you leave this value blank (which is the default), the maximum Spot price is set at the On-Demand price. 
+        public let spotMaxPrice: String?
+        /// Indicates how to allocate Spot capacity across Spot pools. The only valid value is lowest-price, which is also the default value. The Auto Scaling group selects the cheapest Spot pools and evenly allocates your Spot capacity across the number of Spot pools that you specify. 
+        public let spotAllocationStrategy: String?
+        /// Indicates how to allocate instance types to fulfill On-Demand capacity.  The only valid value is prioritized, which is also the default value. This strategy uses the order of instance types in the Overrides array of LaunchTemplate to define the launch priority of each instance type. The first instance type in the array is prioritized higher than the last. If all your On-Demand capacity cannot be fulfilled using your highest priority instance, then the Auto Scaling groups launches the remaining capacity using the second priority instance type, and so on. 
+        public let onDemandAllocationStrategy: String?
+
+        public init(onDemandAllocationStrategy: String? = nil, onDemandBaseCapacity: Int32? = nil, onDemandPercentageAboveBaseCapacity: Int32? = nil, spotAllocationStrategy: String? = nil, spotInstancePools: Int32? = nil, spotMaxPrice: String? = nil) {
+            self.spotInstancePools = spotInstancePools
+            self.onDemandBaseCapacity = onDemandBaseCapacity
+            self.onDemandPercentageAboveBaseCapacity = onDemandPercentageAboveBaseCapacity
+            self.spotMaxPrice = spotMaxPrice
+            self.spotAllocationStrategy = spotAllocationStrategy
+            self.onDemandAllocationStrategy = onDemandAllocationStrategy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case spotInstancePools = "SpotInstancePools"
+            case onDemandBaseCapacity = "OnDemandBaseCapacity"
+            case onDemandPercentageAboveBaseCapacity = "OnDemandPercentageAboveBaseCapacity"
+            case spotMaxPrice = "SpotMaxPrice"
+            case spotAllocationStrategy = "SpotAllocationStrategy"
+            case onDemandAllocationStrategy = "OnDemandAllocationStrategy"
+        }
+    }
+
+    public struct AutoScalingInstanceDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LifecycleState", required: true, type: .string), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "ProtectedFromScaleIn", required: true, type: .boolean), 
+            AWSShapeMember(label: "InstanceId", required: true, type: .string), 
+            AWSShapeMember(label: "HealthStatus", required: true, type: .string), 
+            AWSShapeMember(label: "LaunchConfigurationName", required: false, type: .string), 
+            AWSShapeMember(label: "AvailabilityZone", required: true, type: .string), 
+            AWSShapeMember(label: "LaunchTemplate", required: false, type: .structure)
+        ]
+        /// The lifecycle state for the instance. For more information, see Auto Scaling Lifecycle in the Amazon EC2 Auto Scaling User Guide.
+        public let lifecycleState: String
+        /// The name of the Auto Scaling group for the instance.
+        public let autoScalingGroupName: String
+        /// Indicates whether the instance is protected from termination by Amazon EC2 Auto Scaling when scaling in.
+        public let protectedFromScaleIn: Bool
+        /// The ID of the instance.
+        public let instanceId: String
+        /// The last reported health status of this instance. "Healthy" means that the instance is healthy and should remain in service. "Unhealthy" means that the instance is unhealthy and Amazon EC2 Auto Scaling should terminate and replace it.
+        public let healthStatus: String
+        /// The launch configuration used to launch the instance. This value is not available if you attached the instance to the Auto Scaling group.
+        public let launchConfigurationName: String?
+        /// The Availability Zone for the instance.
+        public let availabilityZone: String
+        /// The launch template for the instance.
+        public let launchTemplate: LaunchTemplateSpecification?
+
+        public init(autoScalingGroupName: String, availabilityZone: String, healthStatus: String, instanceId: String, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, lifecycleState: String, protectedFromScaleIn: Bool) {
+            self.lifecycleState = lifecycleState
+            self.autoScalingGroupName = autoScalingGroupName
+            self.protectedFromScaleIn = protectedFromScaleIn
+            self.instanceId = instanceId
+            self.healthStatus = healthStatus
+            self.launchConfigurationName = launchConfigurationName
+            self.availabilityZone = availabilityZone
+            self.launchTemplate = launchTemplate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lifecycleState = "LifecycleState"
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case protectedFromScaleIn = "ProtectedFromScaleIn"
+            case instanceId = "InstanceId"
+            case healthStatus = "HealthStatus"
+            case launchConfigurationName = "LaunchConfigurationName"
+            case availabilityZone = "AvailabilityZone"
+            case launchTemplate = "LaunchTemplate"
+        }
+    }
+
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .string), 
+            AWSShapeMember(label: "PropagateAtLaunch", required: false, type: .boolean), 
+            AWSShapeMember(label: "ResourceId", required: false, type: .string)
+        ]
+        /// The tag key.
+        public let key: String
+        /// The tag value.
+        public let value: String?
+        /// The type of resource. The only supported value is auto-scaling-group.
+        public let resourceType: String?
+        /// Determines whether the tag is added to new instances as they are launched in the group.
+        public let propagateAtLaunch: Bool?
+        /// The name of the group.
+        public let resourceId: String?
+
+        public init(key: String, propagateAtLaunch: Bool? = nil, resourceId: String? = nil, resourceType: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+            self.resourceType = resourceType
+            self.propagateAtLaunch = propagateAtLaunch
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+            case resourceType = "ResourceType"
+            case propagateAtLaunch = "PropagateAtLaunch"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct InstanceMonitoring: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean)
+        ]
+        /// If true, detailed monitoring is enabled. Otherwise, basic monitoring is enabled.
+        public let enabled: Bool?
+
+        public init(enabled: Bool? = nil) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+        }
+    }
+
+    public struct PutLifecycleHookAnswer: AWSShape {
+
+        public init() {
+        }
 
     }
 

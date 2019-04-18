@@ -25,6 +25,21 @@ public struct TranscribeService {
         )
     }
 
+    ///  Starts an asynchronous job to transcribe speech to text. Note that en-AU, en-UK, and fr-CA languages are in preview and are only available to whitelisted customers. 
+    public func startTranscriptionJob(_ input: StartTranscriptionJobRequest) throws -> StartTranscriptionJobResponse {
+        return try client.send(operation: "StartTranscriptionJob", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about a vocabulary. Note that vocabularies for en-AU, en-UK, and fr-CA languages that are in preview are not available. In the console, the vocabulary section will be greyed-out and SDK will return error message.
+    public func getVocabulary(_ input: GetVocabularyRequest) throws -> GetVocabularyResponse {
+        return try client.send(operation: "GetVocabulary", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns a list of vocabularies that match the specified criteria. If no criteria are specified, returns the entire list of vocabularies.
+    public func listVocabularies(_ input: ListVocabulariesRequest) throws -> ListVocabulariesResponse {
+        return try client.send(operation: "ListVocabularies", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Returns information about a transcription job. To see the status of the job, check the TranscriptionJobStatus field. If the status is COMPLETED, the job is finished and you can find the results at the location specified in the TranscriptionFileUri field.
     public func getTranscriptionJob(_ input: GetTranscriptionJobRequest) throws -> GetTranscriptionJobResponse {
         return try client.send(operation: "GetTranscriptionJob", path: "/", httpMethod: "POST", input: input)
@@ -35,24 +50,9 @@ public struct TranscribeService {
         return try client.send(operation: "ListTranscriptionJobs", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Starts an asynchronous job to transcribe speech to text. Note that en-AU, en-UK, and fr-CA languages are in preview and are only available to whitelisted customers. 
-    public func startTranscriptionJob(_ input: StartTranscriptionJobRequest) throws -> StartTranscriptionJobResponse {
-        return try client.send(operation: "StartTranscriptionJob", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Deletes a previously submitted transcription job along with any other generated results such as the transcription, models, and so on.
     public func deleteTranscriptionJob(_ input: DeleteTranscriptionJobRequest) throws {
         _ = try client.send(operation: "DeleteTranscriptionJob", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns a list of vocabularies that match the specified criteria. If no criteria are specified, returns the entire list of vocabularies.
-    public func listVocabularies(_ input: ListVocabulariesRequest) throws -> ListVocabulariesResponse {
-        return try client.send(operation: "ListVocabularies", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about a vocabulary. Note that vocabularies for en-AU, en-UK, and fr-CA languages that are in preview are not available. In the console, the vocabulary section will be greyed-out and SDK will return error message.
-    public func getVocabulary(_ input: GetVocabularyRequest) throws -> GetVocabularyResponse {
-        return try client.send(operation: "GetVocabulary", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a vocabulary from Amazon Transcribe. 

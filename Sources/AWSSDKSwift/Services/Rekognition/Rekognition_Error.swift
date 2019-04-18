@@ -4,21 +4,21 @@ import AWSSDKSwiftCore
 
 /// Error enum for Rekognition
 public enum RekognitionErrorType: AWSErrorType {
+    case invalidS3ObjectException(message: String?)
     case invalidParameterException(message: String?)
+    case imageTooLargeException(message: String?)
     case accessDeniedException(message: String?)
     case internalServerError(message: String?)
     case throttlingException(message: String?)
     case provisionedThroughputExceededException(message: String?)
     case resourceNotFoundException(message: String?)
-    case idempotentParameterMismatchException(message: String?)
-    case invalidS3ObjectException(message: String?)
-    case videoTooLargeException(message: String?)
-    case limitExceededException(message: String?)
-    case invalidPaginationTokenException(message: String?)
-    case imageTooLargeException(message: String?)
     case invalidImageFormatException(message: String?)
-    case resourceAlreadyExistsException(message: String?)
+    case invalidPaginationTokenException(message: String?)
     case resourceInUseException(message: String?)
+    case limitExceededException(message: String?)
+    case idempotentParameterMismatchException(message: String?)
+    case videoTooLargeException(message: String?)
+    case resourceAlreadyExistsException(message: String?)
 }
 
 extension RekognitionErrorType {
@@ -28,8 +28,12 @@ extension RekognitionErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "InvalidS3ObjectException":
+            self = .invalidS3ObjectException(message: message)
         case "InvalidParameterException":
             self = .invalidParameterException(message: message)
+        case "ImageTooLargeException":
+            self = .imageTooLargeException(message: message)
         case "AccessDeniedException":
             self = .accessDeniedException(message: message)
         case "InternalServerError":
@@ -40,24 +44,20 @@ extension RekognitionErrorType {
             self = .provisionedThroughputExceededException(message: message)
         case "ResourceNotFoundException":
             self = .resourceNotFoundException(message: message)
-        case "IdempotentParameterMismatchException":
-            self = .idempotentParameterMismatchException(message: message)
-        case "InvalidS3ObjectException":
-            self = .invalidS3ObjectException(message: message)
-        case "VideoTooLargeException":
-            self = .videoTooLargeException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "InvalidPaginationTokenException":
-            self = .invalidPaginationTokenException(message: message)
-        case "ImageTooLargeException":
-            self = .imageTooLargeException(message: message)
         case "InvalidImageFormatException":
             self = .invalidImageFormatException(message: message)
-        case "ResourceAlreadyExistsException":
-            self = .resourceAlreadyExistsException(message: message)
+        case "InvalidPaginationTokenException":
+            self = .invalidPaginationTokenException(message: message)
         case "ResourceInUseException":
             self = .resourceInUseException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
+        case "IdempotentParameterMismatchException":
+            self = .idempotentParameterMismatchException(message: message)
+        case "VideoTooLargeException":
+            self = .videoTooLargeException(message: message)
+        case "ResourceAlreadyExistsException":
+            self = .resourceAlreadyExistsException(message: message)
         default:
             return nil
         }

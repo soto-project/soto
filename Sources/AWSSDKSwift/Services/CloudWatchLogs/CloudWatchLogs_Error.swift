@@ -5,16 +5,16 @@ import AWSSDKSwiftCore
 /// Error enum for CloudWatchLogs
 public enum CloudWatchLogsErrorType: AWSErrorType {
     case invalidParameterException(message: String?)
-    case resourceNotFoundException(message: String?)
     case serviceUnavailableException(message: String?)
-    case limitExceededException(message: String?)
+    case resourceNotFoundException(message: String?)
     case operationAbortedException(message: String?)
+    case limitExceededException(message: String?)
     case resourceAlreadyExistsException(message: String?)
-    case invalidOperationException(message: String?)
     case malformedQueryException(message: String?)
     case invalidSequenceTokenException(message: String?)
     case dataAlreadyAcceptedException(message: String?)
     case unrecognizedClientException(message: String?)
+    case invalidOperationException(message: String?)
 }
 
 extension CloudWatchLogsErrorType {
@@ -26,18 +26,16 @@ extension CloudWatchLogsErrorType {
         switch errorCode {
         case "InvalidParameterException":
             self = .invalidParameterException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
         case "ServiceUnavailableException":
             self = .serviceUnavailableException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
         case "OperationAbortedException":
             self = .operationAbortedException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
         case "ResourceAlreadyExistsException":
             self = .resourceAlreadyExistsException(message: message)
-        case "InvalidOperationException":
-            self = .invalidOperationException(message: message)
         case "MalformedQueryException":
             self = .malformedQueryException(message: message)
         case "InvalidSequenceTokenException":
@@ -46,6 +44,8 @@ extension CloudWatchLogsErrorType {
             self = .dataAlreadyAcceptedException(message: message)
         case "UnrecognizedClientException":
             self = .unrecognizedClientException(message: message)
+        case "InvalidOperationException":
+            self = .invalidOperationException(message: message)
         default:
             return nil
         }

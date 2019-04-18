@@ -29,11 +29,6 @@ public struct DLM {
         return try client.send(operation: "GetLifecyclePolicies", path: "/policies", httpMethod: "GET", input: input)
     }
 
-    ///  Deletes the specified lifecycle policy and halts the automated operations that the policy specified.
-    public func deleteLifecyclePolicy(_ input: DeleteLifecyclePolicyRequest) throws -> DeleteLifecyclePolicyResponse {
-        return try client.send(operation: "DeleteLifecyclePolicy", path: "/policies/{policyId}/", httpMethod: "DELETE", input: input)
-    }
-
     ///  Updates the specified lifecycle policy.
     public func updateLifecyclePolicy(_ input: UpdateLifecyclePolicyRequest) throws -> UpdateLifecyclePolicyResponse {
         return try client.send(operation: "UpdateLifecyclePolicy", path: "/policies/{policyId}", httpMethod: "PATCH", input: input)
@@ -42,6 +37,11 @@ public struct DLM {
     ///  Gets detailed information about the specified lifecycle policy.
     public func getLifecyclePolicy(_ input: GetLifecyclePolicyRequest) throws -> GetLifecyclePolicyResponse {
         return try client.send(operation: "GetLifecyclePolicy", path: "/policies/{policyId}/", httpMethod: "GET", input: input)
+    }
+
+    ///  Deletes the specified lifecycle policy and halts the automated operations that the policy specified.
+    public func deleteLifecyclePolicy(_ input: DeleteLifecyclePolicyRequest) throws -> DeleteLifecyclePolicyResponse {
+        return try client.send(operation: "DeleteLifecyclePolicy", path: "/policies/{policyId}/", httpMethod: "DELETE", input: input)
     }
 
     ///  Creates a policy to manage the lifecycle of the specified AWS resources. You can create up to 100 lifecycle policies.

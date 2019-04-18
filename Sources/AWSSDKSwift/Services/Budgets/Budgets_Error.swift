@@ -7,10 +7,10 @@ public enum BudgetsErrorType: AWSErrorType {
     case internalErrorException(message: String?)
     case invalidParameterException(message: String?)
     case notFoundException(message: String?)
-    case creationLimitExceededException(message: String?)
-    case duplicateRecordException(message: String?)
     case invalidNextTokenException(message: String?)
     case expiredNextTokenException(message: String?)
+    case creationLimitExceededException(message: String?)
+    case duplicateRecordException(message: String?)
 }
 
 extension BudgetsErrorType {
@@ -26,14 +26,14 @@ extension BudgetsErrorType {
             self = .invalidParameterException(message: message)
         case "NotFoundException":
             self = .notFoundException(message: message)
-        case "CreationLimitExceededException":
-            self = .creationLimitExceededException(message: message)
-        case "DuplicateRecordException":
-            self = .duplicateRecordException(message: message)
         case "InvalidNextTokenException":
             self = .invalidNextTokenException(message: message)
         case "ExpiredNextTokenException":
             self = .expiredNextTokenException(message: message)
+        case "CreationLimitExceededException":
+            self = .creationLimitExceededException(message: message)
+        case "DuplicateRecordException":
+            self = .duplicateRecordException(message: message)
         default:
             return nil
         }

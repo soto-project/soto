@@ -30,6 +30,11 @@ public struct AutoScalingPlans {
         return try client.send(operation: "DeleteScalingPlan", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Describes the scalable resources in the specified scaling plan.
+    public func describeScalingPlanResources(_ input: DescribeScalingPlanResourcesRequest) throws -> DescribeScalingPlanResourcesResponse {
+        return try client.send(operation: "DescribeScalingPlanResources", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Creates a scaling plan.
     public func createScalingPlan(_ input: CreateScalingPlanRequest) throws -> CreateScalingPlanResponse {
         return try client.send(operation: "CreateScalingPlan", path: "/", httpMethod: "POST", input: input)
@@ -48,11 +53,6 @@ public struct AutoScalingPlans {
     ///  Describes one or more of your scaling plans.
     public func describeScalingPlans(_ input: DescribeScalingPlansRequest) throws -> DescribeScalingPlansResponse {
         return try client.send(operation: "DescribeScalingPlans", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Describes the scalable resources in the specified scaling plan.
-    public func describeScalingPlanResources(_ input: DescribeScalingPlanResourcesRequest) throws -> DescribeScalingPlanResourcesResponse {
-        return try client.send(operation: "DescribeScalingPlanResources", path: "/", httpMethod: "POST", input: input)
     }
 
 

@@ -5,122 +5,270 @@ import AWSSDKSwiftCore
 
 extension PinpointEmail {
 
+    public struct Message: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Body", required: true, type: .structure), 
+            AWSShapeMember(label: "Subject", required: true, type: .structure)
+        ]
+        /// The body of the message. You can specify an HTML version of the message, a text-only version of the message, or both.
+        public let body: Body
+        /// The subject line of the email. The subject line can only contain 7-bit ASCII characters. However, you can specify non-ASCII characters in the subject line by using encoded-word syntax, as described in RFC 2047.
+        public let subject: Content
+
+        public init(body: Body, subject: Content) {
+            self.body = body
+            self.subject = subject
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case body = "Body"
+            case subject = "Subject"
+        }
+    }
+
+    public struct CreateDedicatedIpPoolRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PoolName", required: true, type: .string)
+        ]
+        /// The name of the dedicated IP pool.
+        public let poolName: String
+
+        public init(poolName: String) {
+            self.poolName = poolName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case poolName = "PoolName"
+        }
+    }
+
+    public struct DeleteDedicatedIpPoolRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PoolName", location: .uri(locationName: "PoolName"), required: true, type: .string)
+        ]
+        /// The name of the dedicated IP pool that you want to delete.
+        public let poolName: String
+
+        public init(poolName: String) {
+            self.poolName = poolName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case poolName = "PoolName"
+        }
+    }
+
+    public struct Content: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Data", required: true, type: .string), 
+            AWSShapeMember(label: "Charset", required: false, type: .string)
+        ]
+        /// The content of the message itself.
+        public let data: String
+        /// The character set for the content. Because of the constraints of the SMTP protocol, Amazon Pinpoint uses 7-bit ASCII by default. If the text includes characters outside of the ASCII range, you have to specify a character set. For example, you could specify UTF-8, ISO-8859-1, or Shift_JIS.
+        public let charset: String?
+
+        public init(charset: String? = nil, data: String) {
+            self.data = data
+            self.charset = charset
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case data = "Data"
+            case charset = "Charset"
+        }
+    }
+
+    public struct EventDestination: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnsDestination", required: false, type: .structure), 
+            AWSShapeMember(label: "MatchingEventTypes", required: true, type: .list), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "KinesisFirehoseDestination", required: false, type: .structure), 
+            AWSShapeMember(label: "PinpointDestination", required: false, type: .structure), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "CloudWatchDestination", required: false, type: .structure)
+        ]
+        /// An object that defines an Amazon SNS destination for email events. You can use Amazon SNS to send notification when certain email events occur.
+        public let snsDestination: SnsDestination?
+        /// The types of events that Amazon Pinpoint sends to the specified event destinations.
+        public let matchingEventTypes: [EventType]
+        /// A name that identifies the event destination.
+        public let name: String
+        /// An object that defines an Amazon Kinesis Data Firehose destination for email events. You can use Amazon Kinesis Data Firehose to stream data to other services, such as Amazon S3 and Amazon Redshift.
+        public let kinesisFirehoseDestination: KinesisFirehoseDestination?
+        /// An object that defines a Amazon Pinpoint destination for email events. You can use Amazon Pinpoint events to create attributes in Amazon Pinpoint projects. You can use these attributes to create segments for your campaigns.
+        public let pinpointDestination: PinpointDestination?
+        /// If true, the event destination is enabled. When the event destination is enabled, the specified event types are sent to the destinations in this EventDestinationDefinition. If false, the event destination is disabled. When the event destination is disabled, events aren't sent to the specified destinations.
+        public let enabled: Bool?
+        /// An object that defines an Amazon CloudWatch destination for email events. You can use Amazon CloudWatch to monitor and gain insights on your email sending metrics.
+        public let cloudWatchDestination: CloudWatchDestination?
+
+        public init(cloudWatchDestination: CloudWatchDestination? = nil, enabled: Bool? = nil, kinesisFirehoseDestination: KinesisFirehoseDestination? = nil, matchingEventTypes: [EventType], name: String, pinpointDestination: PinpointDestination? = nil, snsDestination: SnsDestination? = nil) {
+            self.snsDestination = snsDestination
+            self.matchingEventTypes = matchingEventTypes
+            self.name = name
+            self.kinesisFirehoseDestination = kinesisFirehoseDestination
+            self.pinpointDestination = pinpointDestination
+            self.enabled = enabled
+            self.cloudWatchDestination = cloudWatchDestination
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snsDestination = "SnsDestination"
+            case matchingEventTypes = "MatchingEventTypes"
+            case name = "Name"
+            case kinesisFirehoseDestination = "KinesisFirehoseDestination"
+            case pinpointDestination = "PinpointDestination"
+            case enabled = "Enabled"
+            case cloudWatchDestination = "CloudWatchDestination"
+        }
+    }
+
+    public struct PutAccountDedicatedIpWarmupAttributesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoWarmupEnabled", required: false, type: .boolean)
+        ]
+        /// Enables or disables the automatic warm-up feature for dedicated IP addresses that are associated with your Amazon Pinpoint account in the current AWS Region. Set to true to enable the automatic warm-up feature, or set to false to disable it.
+        public let autoWarmupEnabled: Bool?
+
+        public init(autoWarmupEnabled: Bool? = nil) {
+            self.autoWarmupEnabled = autoWarmupEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoWarmupEnabled = "AutoWarmupEnabled"
+        }
+    }
+
+    public struct GetConfigurationSetEventDestinationsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventDestinations", required: false, type: .list)
+        ]
+        /// An array that includes all of the events destinations that have been configured for the configuration set.
+        public let eventDestinations: [EventDestination]?
+
+        public init(eventDestinations: [EventDestination]? = nil) {
+            self.eventDestinations = eventDestinations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventDestinations = "EventDestinations"
+        }
+    }
+
+    public struct DkimAttributes: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tokens", required: false, type: .list), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "SigningEnabled", required: false, type: .boolean)
+        ]
+        /// A set of unique strings that you use to create a set of CNAME records that you add to the DNS configuration for your domain. When Amazon Pinpoint detects these records in the DNS configuration for your domain, the DKIM authentication process is complete. Amazon Pinpoint usually detects these records within about 72 hours of adding them to the DNS configuration for your domain.
+        public let tokens: [String]?
+        /// Describes whether or not Amazon Pinpoint has successfully located the DKIM records in the DNS records for the domain. The status can be one of the following:    PENDING – Amazon Pinpoint hasn't yet located the DKIM records in the DNS configuration for the domain, but will continue to attempt to locate them.    SUCCESS – Amazon Pinpoint located the DKIM records in the DNS configuration for the domain and determined that they're correct. Amazon Pinpoint can now send DKIM-signed email from the identity.    FAILED – Amazon Pinpoint was unable to locate the DKIM records in the DNS settings for the domain, and won't continue to search for them.    TEMPORARY_FAILURE – A temporary issue occurred, which prevented Amazon Pinpoint from determining the DKIM status for the domain.    NOT_STARTED – Amazon Pinpoint hasn't yet started searching for the DKIM records in the DKIM records for the domain.  
+        public let status: DkimStatus?
+        /// If the value is true, then the messages that Amazon Pinpoint sends from the identity are DKIM-signed. If the value is false, then the messages that Amazon Pinpoint sends from the identity aren't DKIM-signed.
+        public let signingEnabled: Bool?
+
+        public init(signingEnabled: Bool? = nil, status: DkimStatus? = nil, tokens: [String]? = nil) {
+            self.tokens = tokens
+            self.status = status
+            self.signingEnabled = signingEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tokens = "Tokens"
+            case status = "Status"
+            case signingEnabled = "SigningEnabled"
+        }
+    }
+
+    public struct PutDedicatedIpInPoolResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
     public struct DeleteConfigurationSetResponse: AWSShape {
 
+        public init() {
+        }
+
     }
 
-    public struct PutEmailIdentityMailFromAttributesResponse: AWSShape {
-
-    }
-
-    public struct GetDedicatedIpsRequest: AWSShape {
+    public struct ListEmailIdentitiesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PoolName", required: false, type: .string), 
             AWSShapeMember(label: "PageSize", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// The name of the IP pool that the dedicated IP address is associated with.
-        public let poolName: String?
-        /// The number of results to show in a single call to GetDedicatedIpsRequest. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
+        /// The number of results to show in a single call to ListEmailIdentities. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 0, and can be no more than 1000.
         public let pageSize: Int32?
-        /// A token returned from a previous call to GetDedicatedIps to indicate the position of the dedicated IP pool in the list of IP pools.
+        /// A token returned from a previous call to ListEmailIdentities to indicate the position in the list of identities.
         public let nextToken: String?
 
-        public init(poolName: String? = nil, pageSize: Int32? = nil, nextToken: String? = nil) {
-            self.poolName = poolName
+        public init(nextToken: String? = nil, pageSize: Int32? = nil) {
             self.pageSize = pageSize
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case poolName = "PoolName"
             case pageSize = "PageSize"
             case nextToken = "NextToken"
         }
     }
 
-    public struct CreateEmailIdentityRequest: AWSShape {
+    public struct GetDedicatedIpRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EmailIdentity", required: true, type: .string)
+            AWSShapeMember(label: "Ip", location: .uri(locationName: "IP"), required: true, type: .string)
         ]
-        /// The email address or domain that you want to verify.
-        public let emailIdentity: String
+        /// The IP address that you want to obtain more information about. The value you specify has to be a dedicated IP address that's assocaited with your Amazon Pinpoint account.
+        public let ip: String
 
-        public init(emailIdentity: String) {
-            self.emailIdentity = emailIdentity
+        public init(ip: String) {
+            self.ip = ip
         }
 
         private enum CodingKeys: String, CodingKey {
-            case emailIdentity = "EmailIdentity"
+            case ip = "IP"
         }
     }
 
-    public struct GetEmailIdentityRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EmailIdentity", location: .uri(locationName: "EmailIdentity"), required: true, type: .string)
-        ]
-        /// The email identity that you want to retrieve details for.
-        public let emailIdentity: String
+    public struct PutConfigurationSetReputationOptionsResponse: AWSShape {
 
-        public init(emailIdentity: String) {
-            self.emailIdentity = emailIdentity
+        public init() {
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case emailIdentity = "EmailIdentity"
-        }
     }
 
-    public struct GetAccountResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SendQuota", required: false, type: .structure), 
-            AWSShapeMember(label: "SendingEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "ProductionAccessEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "DedicatedIpAutoWarmupEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "EnforcementStatus", required: false, type: .string)
-        ]
-        /// An object that contains information about the per-day and per-second sending limits for your Amazon Pinpoint account in the current AWS Region.
-        public let sendQuota: SendQuota?
-        /// Indicates whether or not email sending is enabled for your Amazon Pinpoint account in the current AWS Region.
-        public let sendingEnabled: Bool?
-        /// Indicates whether or not your account has production access in the current AWS Region. If the value is false, then your account is in the sandbox. When your account is in the sandbox, you can only send email to verified identities. Additionally, the maximum number of emails you can send in a 24-hour period (your sending quota) is 200, and the maximum number of emails you can send per second (your maximum sending rate) is 1. If the value is true, then your account has production access. When your account has production access, you can send email to any address. The sending quota and maximum sending rate for your account vary based on your specific use case.
-        public let productionAccessEnabled: Bool?
-        /// Indicates whether or not the automatic warm-up feature is enabled for dedicated IP addresses that are associated with your account.
-        public let dedicatedIpAutoWarmupEnabled: Bool?
-        /// The reputation status of your Amazon Pinpoint account. The status can be one of the following:    HEALTHY – There are no reputation-related issues that currently impact your account.    PROBATION – We've identified some issues with your Amazon Pinpoint account. We're placing your account under review while you work on correcting these issues.    SHUTDOWN – Your account's ability to send email is currently paused because of an issue with the email sent from your account. When you correct the issue, you can contact us and request that your account's ability to send email is resumed.  
-        public let enforcementStatus: String?
+    public struct PutEmailIdentityFeedbackAttributesResponse: AWSShape {
 
-        public init(sendQuota: SendQuota? = nil, sendingEnabled: Bool? = nil, productionAccessEnabled: Bool? = nil, dedicatedIpAutoWarmupEnabled: Bool? = nil, enforcementStatus: String? = nil) {
-            self.sendQuota = sendQuota
-            self.sendingEnabled = sendingEnabled
-            self.productionAccessEnabled = productionAccessEnabled
-            self.dedicatedIpAutoWarmupEnabled = dedicatedIpAutoWarmupEnabled
-            self.enforcementStatus = enforcementStatus
+        public init() {
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case sendQuota = "SendQuota"
-            case sendingEnabled = "SendingEnabled"
-            case productionAccessEnabled = "ProductionAccessEnabled"
-            case dedicatedIpAutoWarmupEnabled = "DedicatedIpAutoWarmupEnabled"
-            case enforcementStatus = "EnforcementStatus"
-        }
     }
 
-    public struct CreateConfigurationSetEventDestinationRequest: AWSShape {
+    public struct PutAccountDedicatedIpWarmupAttributesResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateConfigurationSetEventDestinationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventDestination", required: true, type: .structure), 
-            AWSShapeMember(label: "EventDestinationName", required: true, type: .string), 
+            AWSShapeMember(label: "EventDestinationName", location: .uri(locationName: "EventDestinationName"), required: true, type: .string), 
             AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string)
         ]
         /// An object that defines the event destination.
         public let eventDestination: EventDestinationDefinition
-        /// A name that identifies the event destination within the configuration set.
+        /// The name of the event destination that you want to modify.
         public let eventDestinationName: String
-        /// The name of the configuration set that you want to add an event destination to.
+        /// The name of the configuration set that contains the event destination that you want to modify.
         public let configurationSetName: String
 
-        public init(eventDestination: EventDestinationDefinition, eventDestinationName: String, configurationSetName: String) {
+        public init(configurationSetName: String, eventDestination: EventDestinationDefinition, eventDestinationName: String) {
             self.eventDestination = eventDestination
             self.eventDestinationName = eventDestinationName
             self.configurationSetName = configurationSetName
@@ -133,32 +281,193 @@ extension PinpointEmail {
         }
     }
 
-    public struct ListDedicatedIpPoolsResponse: AWSShape {
+    public struct SnsDestination: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DedicatedIpPools", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "TopicArn", required: true, type: .string)
         ]
-        /// A list of all of the dedicated IP pools that are associated with your Amazon Pinpoint account.
-        public let dedicatedIpPools: [String]?
-        /// A token that indicates that there are additional IP pools to list. To view additional IP pools, issue another request to ListDedicatedIpPools, passing this token in the NextToken parameter.
-        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of the Amazon SNS topic that you want to publish email events to. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
+        public let topicArn: String
 
-        public init(dedicatedIpPools: [String]? = nil, nextToken: String? = nil) {
-            self.dedicatedIpPools = dedicatedIpPools
-            self.nextToken = nextToken
+        public init(topicArn: String) {
+            self.topicArn = topicArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dedicatedIpPools = "DedicatedIpPools"
-            case nextToken = "NextToken"
+            case topicArn = "TopicArn"
         }
     }
 
-    public struct DeleteConfigurationSetRequest: AWSShape {
+    public struct SendEmailResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MessageId", required: false, type: .string)
+        ]
+        /// A unique identifier for the message that is generated when Amazon Pinpoint accepts the message.  It is possible for Amazon Pinpoint to accept a message without sending it. This can happen when the message you're trying to send has an attachment doesn't pass a virus check, or when you send a templated email that contains invalid personalization content, for example. 
+        public let messageId: String?
+
+        public init(messageId: String? = nil) {
+            self.messageId = messageId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case messageId = "MessageId"
+        }
+    }
+
+    public struct DeleteConfigurationSetEventDestinationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string), 
+            AWSShapeMember(label: "EventDestinationName", location: .uri(locationName: "EventDestinationName"), required: true, type: .string)
+        ]
+        /// The name of the configuration set that contains the event destination that you want to delete.
+        public let configurationSetName: String
+        /// The name of the event destination that you want to delete.
+        public let eventDestinationName: String
+
+        public init(configurationSetName: String, eventDestinationName: String) {
+            self.configurationSetName = configurationSetName
+            self.eventDestinationName = eventDestinationName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationSetName = "ConfigurationSetName"
+            case eventDestinationName = "EventDestinationName"
+        }
+    }
+
+    public struct CreateConfigurationSetEventDestinationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventDestinationName", required: true, type: .string), 
+            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string), 
+            AWSShapeMember(label: "EventDestination", required: true, type: .structure)
+        ]
+        /// A name that identifies the event destination within the configuration set.
+        public let eventDestinationName: String
+        /// The name of the configuration set that you want to add an event destination to.
+        public let configurationSetName: String
+        /// An object that defines the event destination.
+        public let eventDestination: EventDestinationDefinition
+
+        public init(configurationSetName: String, eventDestination: EventDestinationDefinition, eventDestinationName: String) {
+            self.eventDestinationName = eventDestinationName
+            self.configurationSetName = configurationSetName
+            self.eventDestination = eventDestination
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventDestinationName = "EventDestinationName"
+            case configurationSetName = "ConfigurationSetName"
+            case eventDestination = "EventDestination"
+        }
+    }
+
+    public struct MessageTag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// The value of the message tag. The message tag value has to meet the following criteria:   It can only contain ASCII letters (a–z, A–Z), numbers (0–9), underscores (_), or dashes (-).   It can contain no more than 256 characters.  
+        public let value: String
+        /// The name of the message tag. The message tag name has to meet the following criteria:   It can only contain ASCII letters (a–z, A–Z), numbers (0–9), underscores (_), or dashes (-).   It can contain no more than 256 characters.  
+        public let name: String
+
+        public init(name: String, value: String) {
+            self.value = value
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case name = "Name"
+        }
+    }
+
+    public struct CloudWatchDimensionConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DimensionName", required: true, type: .string), 
+            AWSShapeMember(label: "DimensionValueSource", required: true, type: .enum), 
+            AWSShapeMember(label: "DefaultDimensionValue", required: true, type: .string)
+        ]
+        /// The name of an Amazon CloudWatch dimension associated with an email sending metric. The name has to meet the following criteria:   It can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   It can contain no more than 256 characters.  
+        public let dimensionName: String
+        /// The location where Amazon Pinpoint finds the value of a dimension to publish to Amazon CloudWatch. If you want Amazon Pinpoint to use the message tags that you specify using an X-SES-MESSAGE-TAGS header or a parameter to the SendEmail/SendRawEmail API, choose messageTag. If you want Amazon Pinpoint to use your own email headers, choose emailHeader. If you want Amazon Pinpoint to use link tags, choose linkTags.
+        public let dimensionValueSource: DimensionValueSource
+        /// The default value of the dimension that is published to Amazon CloudWatch if you don't provide the value of the dimension when you send an email. This value has to meet the following criteria:   It can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   It can contain no more than 256 characters.  
+        public let defaultDimensionValue: String
+
+        public init(defaultDimensionValue: String, dimensionName: String, dimensionValueSource: DimensionValueSource) {
+            self.dimensionName = dimensionName
+            self.dimensionValueSource = dimensionValueSource
+            self.defaultDimensionValue = defaultDimensionValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensionName = "DimensionName"
+            case dimensionValueSource = "DimensionValueSource"
+            case defaultDimensionValue = "DefaultDimensionValue"
+        }
+    }
+
+    public struct ReputationOptions: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReputationMetricsEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "LastFreshStart", required: false, type: .timestamp)
+        ]
+        /// If true, tracking of reputation metrics is enabled for the configuration set. If false, tracking of reputation metrics is disabled for the configuration set.
+        public let reputationMetricsEnabled: Bool?
+        /// The date and time when the reputation metrics were last given a fresh start. When your account is given a fresh start, your reputation metrics are calculated starting from the date of the fresh start.
+        public let lastFreshStart: TimeStamp?
+
+        public init(lastFreshStart: TimeStamp? = nil, reputationMetricsEnabled: Bool? = nil) {
+            self.reputationMetricsEnabled = reputationMetricsEnabled
+            self.lastFreshStart = lastFreshStart
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reputationMetricsEnabled = "ReputationMetricsEnabled"
+            case lastFreshStart = "LastFreshStart"
+        }
+    }
+
+    public struct CreateConfigurationSetEventDestinationResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct PutConfigurationSetDeliveryOptionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string), 
+            AWSShapeMember(label: "SendingPoolName", required: false, type: .string)
+        ]
+        /// The name of the configuration set that you want to associate with a dedicated IP pool.
+        public let configurationSetName: String
+        /// The name of the dedicated IP pool that you want to associate with the configuration set.
+        public let sendingPoolName: String?
+
+        public init(configurationSetName: String, sendingPoolName: String? = nil) {
+            self.configurationSetName = configurationSetName
+            self.sendingPoolName = sendingPoolName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationSetName = "ConfigurationSetName"
+            case sendingPoolName = "SendingPoolName"
+        }
+    }
+
+    public struct PutConfigurationSetSendingOptionsResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct GetConfigurationSetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string)
         ]
-        /// The name of the configuration set that you want to delete.
+        /// The name of the configuration set that you want to obtain more information about.
         public let configurationSetName: String
 
         public init(configurationSetName: String) {
@@ -170,94 +479,84 @@ extension PinpointEmail {
         }
     }
 
-    public struct SendEmailRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EmailTags", required: false, type: .list), 
-            AWSShapeMember(label: "Destination", required: true, type: .structure), 
-            AWSShapeMember(label: "ReplyToAddresses", required: false, type: .list), 
-            AWSShapeMember(label: "FeedbackForwardingEmailAddress", required: false, type: .string), 
-            AWSShapeMember(label: "Content", required: true, type: .structure), 
-            AWSShapeMember(label: "FromEmailAddress", required: false, type: .string), 
-            AWSShapeMember(label: "ConfigurationSetName", required: false, type: .string)
-        ]
-        /// A list of tags, in the form of name/value pairs, to apply to an email that you send using the SendEmail operation. Tags correspond to characteristics of the email that you define, so that you can publish email sending events. 
-        public let emailTags: [MessageTag]?
-        /// An object that contains the recipients of the email message.
-        public let destination: Destination
-        /// The "Reply-to" email addresses for the message. When the recipient replies to the message, each Reply-to address receives the reply.
-        public let replyToAddresses: [String]?
-        /// The address that Amazon Pinpoint should send bounce and complaint notifications to.
-        public let feedbackForwardingEmailAddress: String?
-        /// An object that contains the body of the message. You can send either a Simple message or a Raw message.
-        public let content: EmailContent
-        /// The email address that you want to use as the "From" address for the email. The address that you specify has to be verified. 
-        public let fromEmailAddress: String?
-        /// The name of the configuration set that you want to use when sending the email.
-        public let configurationSetName: String?
+    public struct DeleteEmailIdentityResponse: AWSShape {
 
-        public init(emailTags: [MessageTag]? = nil, destination: Destination, replyToAddresses: [String]? = nil, feedbackForwardingEmailAddress: String? = nil, content: EmailContent, fromEmailAddress: String? = nil, configurationSetName: String? = nil) {
-            self.emailTags = emailTags
-            self.destination = destination
-            self.replyToAddresses = replyToAddresses
-            self.feedbackForwardingEmailAddress = feedbackForwardingEmailAddress
-            self.content = content
-            self.fromEmailAddress = fromEmailAddress
-            self.configurationSetName = configurationSetName
+        public init() {
+        }
+
+    }
+
+    public struct MailFromAttributes: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MailFromDomain", required: true, type: .string), 
+            AWSShapeMember(label: "MailFromDomainStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "BehaviorOnMxFailure", required: true, type: .enum)
+        ]
+        /// The name of a domain that an email identity uses as a custom MAIL FROM domain.
+        public let mailFromDomain: String
+        /// The status of the MAIL FROM domain. This status can have the following values:    PENDING – Amazon Pinpoint hasn't started searching for the MX record yet.    SUCCESS – Amazon Pinpoint detected the required MX record for the MAIL FROM domain.    FAILED – Amazon Pinpoint can't find the required MX record, or the record no longer exists.    TEMPORARY_FAILURE – A temporary issue occurred, which prevented Amazon Pinpoint from determining the status of the MAIL FROM domain.  
+        public let mailFromDomainStatus: MailFromDomainStatus
+        /// The action that Amazon Pinpoint to takes if it can't read the required MX record for a custom MAIL FROM domain. When you set this value to UseDefaultValue, Amazon Pinpoint uses amazonses.com as the MAIL FROM domain. When you set this value to RejectMessage, Amazon Pinpoint returns a MailFromDomainNotVerified error, and doesn't attempt to deliver the email. These behaviors are taken when the custom MAIL FROM domain configuration is in the Pending, Failed, and TemporaryFailure states.
+        public let behaviorOnMxFailure: BehaviorOnMxFailure
+
+        public init(behaviorOnMxFailure: BehaviorOnMxFailure, mailFromDomain: String, mailFromDomainStatus: MailFromDomainStatus) {
+            self.mailFromDomain = mailFromDomain
+            self.mailFromDomainStatus = mailFromDomainStatus
+            self.behaviorOnMxFailure = behaviorOnMxFailure
         }
 
         private enum CodingKeys: String, CodingKey {
-            case emailTags = "EmailTags"
-            case destination = "Destination"
-            case replyToAddresses = "ReplyToAddresses"
-            case feedbackForwardingEmailAddress = "FeedbackForwardingEmailAddress"
-            case content = "Content"
-            case fromEmailAddress = "FromEmailAddress"
-            case configurationSetName = "ConfigurationSetName"
+            case mailFromDomain = "MailFromDomain"
+            case mailFromDomainStatus = "MailFromDomainStatus"
+            case behaviorOnMxFailure = "BehaviorOnMxFailure"
         }
     }
 
-    public struct PutDedicatedIpWarmupAttributesResponse: AWSShape {
+    public struct PutConfigurationSetDeliveryOptionsResponse: AWSShape {
+
+        public init() {
+        }
 
     }
 
-    public struct GetDedicatedIpsResponse: AWSShape {
+    public struct Destination: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DedicatedIps", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "ToAddresses", required: false, type: .list), 
+            AWSShapeMember(label: "CcAddresses", required: false, type: .list), 
+            AWSShapeMember(label: "BccAddresses", required: false, type: .list)
         ]
-        /// A list of dedicated IP addresses that are reserved for use by your Amazon Pinpoint account.
-        public let dedicatedIps: [DedicatedIp]?
-        /// A token that indicates that there are additional dedicated IP addresses to list. To view additional addresses, issue another request to GetDedicatedIps, passing this token in the NextToken parameter.
-        public let nextToken: String?
+        /// An array that contains the email addresses of the "To" recipients for the email.
+        public let toAddresses: [String]?
+        /// An array that contains the email addresses of the "CC" (carbon copy) recipients for the email.
+        public let ccAddresses: [String]?
+        /// An array that contains the email addresses of the "BCC" (blind carbon copy) recipients for the email.
+        public let bccAddresses: [String]?
 
-        public init(dedicatedIps: [DedicatedIp]? = nil, nextToken: String? = nil) {
-            self.dedicatedIps = dedicatedIps
-            self.nextToken = nextToken
+        public init(bccAddresses: [String]? = nil, ccAddresses: [String]? = nil, toAddresses: [String]? = nil) {
+            self.toAddresses = toAddresses
+            self.ccAddresses = ccAddresses
+            self.bccAddresses = bccAddresses
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dedicatedIps = "DedicatedIps"
-            case nextToken = "NextToken"
+            case toAddresses = "ToAddresses"
+            case ccAddresses = "CcAddresses"
+            case bccAddresses = "BccAddresses"
         }
     }
 
-    public struct PutConfigurationSetReputationOptionsRequest: AWSShape {
+    public struct GetConfigurationSetEventDestinationsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReputationMetricsEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string)
         ]
-        /// If true, tracking of reputation metrics is enabled for the configuration set. If false, tracking of reputation metrics is disabled for the configuration set.
-        public let reputationMetricsEnabled: Bool?
-        /// The name of the configuration set that you want to enable or disable reputation metric tracking for.
+        /// The name of the configuration set that contains the event destination.
         public let configurationSetName: String
 
-        public init(reputationMetricsEnabled: Bool? = nil, configurationSetName: String) {
-            self.reputationMetricsEnabled = reputationMetricsEnabled
+        public init(configurationSetName: String) {
             self.configurationSetName = configurationSetName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reputationMetricsEnabled = "ReputationMetricsEnabled"
             case configurationSetName = "ConfigurationSetName"
         }
     }
@@ -278,93 +577,94 @@ extension PinpointEmail {
         }
     }
 
-    public struct GetDedicatedIpRequest: AWSShape {
+    public struct EmailContent: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ip", location: .uri(locationName: "IP"), required: true, type: .string)
+            AWSShapeMember(label: "Raw", required: false, type: .structure), 
+            AWSShapeMember(label: "Simple", required: false, type: .structure)
         ]
-        /// The IP address that you want to obtain more information about. The value you specify has to be a dedicated IP address that's assocaited with your Amazon Pinpoint account.
-        public let ip: String
+        /// The raw email message. The message has to meet the following criteria:   The message has to contain a header and a body, separated by one blank line.   All of the required header fields must be present in the message.   Each part of a multipart MIME message must be formatted properly.   If you include attachments, they must be in a file format that Amazon Pinpoint supports.    The entire message must be Base64 encoded.   If any of the MIME parts in your message contain content that is outside of the 7-bit ASCII character range, you should encode that content to ensure that recipients' email clients render the message properly.   The length of any single line of text in the message can't exceed 1,000 characters. This restriction is defined in RFC 5321.  
+        public let raw: RawMessage?
+        /// The simple email message. The message consists of a subject and a message body.
+        public let simple: Message?
 
-        public init(ip: String) {
-            self.ip = ip
+        public init(raw: RawMessage? = nil, simple: Message? = nil) {
+            self.raw = raw
+            self.simple = simple
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ip = "IP"
+            case raw = "Raw"
+            case simple = "Simple"
         }
     }
 
-    public struct DeleteDedicatedIpPoolRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PoolName", location: .uri(locationName: "PoolName"), required: true, type: .string)
-        ]
-        /// The name of the dedicated IP pool that you want to delete.
-        public let poolName: String
+    public struct DeleteDedicatedIpPoolResponse: AWSShape {
 
-        public init(poolName: String) {
-            self.poolName = poolName
+        public init() {
+        }
+
+    }
+
+    public struct Body: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Text", required: false, type: .structure), 
+            AWSShapeMember(label: "Html", required: false, type: .structure)
+        ]
+        /// An object that represents the version of the message that is displayed in email clients that don't support HTML, or clients where the recipient has disabled HTML rendering.
+        public let text: Content?
+        /// An object that represents the version of the message that is displayed in email clients that support HTML. HTML messages can include formatted text, hyperlinks, images, and more. 
+        public let html: Content?
+
+        public init(html: Content? = nil, text: Content? = nil) {
+            self.text = text
+            self.html = html
         }
 
         private enum CodingKeys: String, CodingKey {
-            case poolName = "PoolName"
+            case text = "Text"
+            case html = "Html"
         }
     }
 
-    public struct DeleteConfigurationSetEventDestinationRequest: AWSShape {
+    public struct CreateEmailIdentityResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventDestinationName", location: .uri(locationName: "EventDestinationName"), required: true, type: .string), 
-            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string)
+            AWSShapeMember(label: "IdentityType", required: false, type: .enum), 
+            AWSShapeMember(label: "VerifiedForSendingStatus", required: false, type: .boolean), 
+            AWSShapeMember(label: "DkimAttributes", required: false, type: .structure)
         ]
-        /// The name of the event destination that you want to delete.
-        public let eventDestinationName: String
-        /// The name of the configuration set that contains the event destination that you want to delete.
-        public let configurationSetName: String
+        /// The email identity type.
+        public let identityType: IdentityType?
+        /// Specifies whether or not the identity is verified. In Amazon Pinpoint, you can only send email from verified email addresses or domains. For more information about verifying identities, see the Amazon Pinpoint User Guide.
+        public let verifiedForSendingStatus: Bool?
+        /// An object that contains information about the DKIM attributes for the identity. This object includes the tokens that you use to create the CNAME records that are required to complete the DKIM verification process.
+        public let dkimAttributes: DkimAttributes?
 
-        public init(eventDestinationName: String, configurationSetName: String) {
-            self.eventDestinationName = eventDestinationName
-            self.configurationSetName = configurationSetName
+        public init(dkimAttributes: DkimAttributes? = nil, identityType: IdentityType? = nil, verifiedForSendingStatus: Bool? = nil) {
+            self.identityType = identityType
+            self.verifiedForSendingStatus = verifiedForSendingStatus
+            self.dkimAttributes = dkimAttributes
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventDestinationName = "EventDestinationName"
-            case configurationSetName = "ConfigurationSetName"
+            case identityType = "IdentityType"
+            case verifiedForSendingStatus = "VerifiedForSendingStatus"
+            case dkimAttributes = "DkimAttributes"
         }
     }
 
-    public struct KinesisFirehoseDestination: AWSShape {
+    public struct SendingOptions: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IamRoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "DeliveryStreamArn", required: true, type: .string)
+            AWSShapeMember(label: "SendingEnabled", required: false, type: .boolean)
         ]
-        /// The Amazon Resource Name (ARN) of the IAM role that Amazon Pinpoint uses when sending email events to the Amazon Kinesis Data Firehose stream.
-        public let iamRoleArn: String
-        /// The Amazon Resource Name (ARN) of the Amazon Kinesis Data Firehose stream that Amazon Pinpoint sends email events to.
-        public let deliveryStreamArn: String
+        /// If true, email sending is enabled for the configuration set. If false, email sending is disabled for the configuration set.
+        public let sendingEnabled: Bool?
 
-        public init(iamRoleArn: String, deliveryStreamArn: String) {
-            self.iamRoleArn = iamRoleArn
-            self.deliveryStreamArn = deliveryStreamArn
+        public init(sendingEnabled: Bool? = nil) {
+            self.sendingEnabled = sendingEnabled
         }
 
         private enum CodingKeys: String, CodingKey {
-            case iamRoleArn = "IamRoleArn"
-            case deliveryStreamArn = "DeliveryStreamArn"
-        }
-    }
-
-    public struct GetConfigurationSetEventDestinationsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string)
-        ]
-        /// The name of the configuration set that contains the event destination.
-        public let configurationSetName: String
-
-        public init(configurationSetName: String) {
-            self.configurationSetName = configurationSetName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case configurationSetName = "ConfigurationSetName"
+            case sendingEnabled = "SendingEnabled"
         }
     }
 
@@ -389,13 +689,18 @@ extension PinpointEmail {
         }
     }
 
-    public enum DkimStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case success = "SUCCESS"
-        case failed = "FAILED"
-        case temporaryFailure = "TEMPORARY_FAILURE"
-        case notStarted = "NOT_STARTED"
-        public var description: String { return self.rawValue }
+    public struct PutEmailIdentityMailFromAttributesResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct PutAccountSendingAttributesResponse: AWSShape {
+
+        public init() {
+        }
+
     }
 
     public struct ListDedicatedIpPoolsRequest: AWSShape {
@@ -408,7 +713,7 @@ extension PinpointEmail {
         /// A token returned from a previous call to ListDedicatedIpPools to indicate the position in the list of dedicated IP pools.
         public let nextToken: String?
 
-        public init(pageSize: Int32? = nil, nextToken: String? = nil) {
+        public init(nextToken: String? = nil, pageSize: Int32? = nil) {
             self.pageSize = pageSize
             self.nextToken = nextToken
         }
@@ -419,123 +724,20 @@ extension PinpointEmail {
         }
     }
 
-    public struct RawMessage: AWSShape {
+    public struct DeleteConfigurationSetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Data", required: true, type: .blob)
+            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string)
         ]
-        /// The raw email message. The message has to meet the following criteria:   The message has to contain a header and a body, separated by one blank line.   All of the required header fields must be present in the message.   Each part of a multipart MIME message must be formatted properly.   Attachments must be in a file format that Amazon Pinpoint supports.    The entire message must be Base64 encoded.   If any of the MIME parts in your message contain content that is outside of the 7-bit ASCII character range, you should encode that content to ensure that recipients' email clients render the message properly.   The length of any single line of text in the message can't exceed 1,000 characters. This restriction is defined in RFC 5321.  
-        public let data: Data
+        /// The name of the configuration set that you want to delete.
+        public let configurationSetName: String
 
-        public init(data: Data) {
-            self.data = data
+        public init(configurationSetName: String) {
+            self.configurationSetName = configurationSetName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case data = "Data"
+            case configurationSetName = "ConfigurationSetName"
         }
-    }
-
-    public enum WarmupStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
-        case done = "DONE"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct PutConfigurationSetDeliveryOptionsResponse: AWSShape {
-
-    }
-
-    public struct PutEmailIdentityDkimAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EmailIdentity", location: .uri(locationName: "EmailIdentity"), required: true, type: .string), 
-            AWSShapeMember(label: "SigningEnabled", required: false, type: .boolean)
-        ]
-        /// The email identity that you want to change the DKIM settings for.
-        public let emailIdentity: String
-        /// Sets the DKIM signing configuration for the identity. When you set this value true, then the messages that Amazon Pinpoint sends from the identity are DKIM-signed. When you set this value to false, then the messages that Amazon Pinpoint sends from the identity aren't DKIM-signed.
-        public let signingEnabled: Bool?
-
-        public init(emailIdentity: String, signingEnabled: Bool? = nil) {
-            self.emailIdentity = emailIdentity
-            self.signingEnabled = signingEnabled
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case emailIdentity = "EmailIdentity"
-            case signingEnabled = "SigningEnabled"
-        }
-    }
-
-    public struct SendingOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SendingEnabled", required: false, type: .boolean)
-        ]
-        /// If true, email sending is enabled for the configuration set. If false, email sending is disabled for the configuration set.
-        public let sendingEnabled: Bool?
-
-        public init(sendingEnabled: Bool? = nil) {
-            self.sendingEnabled = sendingEnabled
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sendingEnabled = "SendingEnabled"
-        }
-    }
-
-    public struct SendQuota: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SentLast24Hours", required: false, type: .double), 
-            AWSShapeMember(label: "Max24HourSend", required: false, type: .double), 
-            AWSShapeMember(label: "MaxSendRate", required: false, type: .double)
-        ]
-        /// The number of emails sent from your Amazon Pinpoint account in the current AWS Region over the past 24 hours.
-        public let sentLast24Hours: Double?
-        /// The maximum number of emails that you can send in the current AWS Region over a 24-hour period. This value is also called your sending quota.
-        public let max24HourSend: Double?
-        /// The maximum number of emails that you can send per second in the current AWS Region. This value is also called your maximum sending rate or your maximum TPS (transactions per second) rate.
-        public let maxSendRate: Double?
-
-        public init(sentLast24Hours: Double? = nil, max24HourSend: Double? = nil, maxSendRate: Double? = nil) {
-            self.sentLast24Hours = sentLast24Hours
-            self.max24HourSend = max24HourSend
-            self.maxSendRate = maxSendRate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sentLast24Hours = "SentLast24Hours"
-            case max24HourSend = "Max24HourSend"
-            case maxSendRate = "MaxSendRate"
-        }
-    }
-
-    public struct DkimAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tokens", required: false, type: .list), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "SigningEnabled", required: false, type: .boolean)
-        ]
-        /// A set of unique strings that you use to create a set of CNAME records that you add to the DNS configuration for your domain. When Amazon Pinpoint detects these records in the DNS configuration for your domain, the DKIM authentication process is complete. Amazon Pinpoint usually detects these records within about 72 hours of adding them to the DNS configuration for your domain.
-        public let tokens: [String]?
-        /// Describes whether or not Amazon Pinpoint has successfully located the DKIM records in the DNS records for the domain. The status can be one of the following:    PENDING – Amazon Pinpoint hasn't yet located the DKIM records in the DNS configuration for the domain, but will continue to attempt to locate them.    SUCCESS – Amazon Pinpoint located the DKIM records in the DNS configuration for the domain and determined that they're correct. Amazon Pinpoint can now send DKIM-signed email from the identity.    FAILED – Amazon Pinpoint was unable to locate the DKIM records in the DNS settings for the domain, and won't continue to search for them.    TEMPORARY_FAILURE – A temporary issue occurred, which prevented Amazon Pinpoint from determining the DKIM status for the domain.    NOT_STARTED – Amazon Pinpoint hasn't yet started searching for the DKIM records in the DKIM records for the domain.  
-        public let status: DkimStatus?
-        /// If the value is true, then the messages that Amazon Pinpoint sends from the identity are DKIM-signed. If the value is false, then the messages that Amazon Pinpoint sends from the identity aren't DKIM-signed.
-        public let signingEnabled: Bool?
-
-        public init(tokens: [String]? = nil, status: DkimStatus? = nil, signingEnabled: Bool? = nil) {
-            self.tokens = tokens
-            self.status = status
-            self.signingEnabled = signingEnabled
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tokens = "Tokens"
-            case status = "Status"
-            case signingEnabled = "SigningEnabled"
-        }
-    }
-
-    public struct DeleteEmailIdentityResponse: AWSShape {
-
     }
 
     public struct PutEmailIdentityFeedbackAttributesRequest: AWSShape {
@@ -548,7 +750,7 @@ extension PinpointEmail {
         /// Sets the feedback forwarding configuration for the identity. If the value is true, Amazon Pinpoint sends you email notifications when bounce or complaint events occur. Amazon Pinpoint sends this notification to the address that you specified in the Return-Path header of the original email. When you set this value to false, Amazon Pinpoint sends notifications through other mechanisms, such as by notifying an Amazon SNS topic or another event destination. You're required to have a method of tracking bounces and complaints. If you haven't set up another mechanism for receiving bounce or complaint notifications, Amazon Pinpoint sends an email notification when these events occur (even if this setting is disabled).
         public let emailForwardingEnabled: Bool?
 
-        public init(emailIdentity: String, emailForwardingEnabled: Bool? = nil) {
+        public init(emailForwardingEnabled: Bool? = nil, emailIdentity: String) {
             self.emailIdentity = emailIdentity
             self.emailForwardingEnabled = emailForwardingEnabled
         }
@@ -559,293 +761,32 @@ extension PinpointEmail {
         }
     }
 
-    public struct CreateDedicatedIpPoolRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PoolName", required: true, type: .string)
-        ]
-        /// The name of the dedicated IP pool.
-        public let poolName: String
-
-        public init(poolName: String) {
-            self.poolName = poolName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case poolName = "PoolName"
-        }
-    }
-
-    public enum MailFromDomainStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case success = "SUCCESS"
-        case failed = "FAILED"
-        case temporaryFailure = "TEMPORARY_FAILURE"
+    public enum DimensionValueSource: String, CustomStringConvertible, Codable {
+        case messageTag = "MESSAGE_TAG"
+        case emailHeader = "EMAIL_HEADER"
+        case linkTag = "LINK_TAG"
         public var description: String { return self.rawValue }
     }
 
-    public struct IdentityInfo: AWSShape {
+    public struct GetDedicatedIpsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IdentityName", required: false, type: .string), 
-            AWSShapeMember(label: "IdentityType", required: false, type: .enum), 
-            AWSShapeMember(label: "SendingEnabled", required: false, type: .boolean)
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "DedicatedIps", required: false, type: .list)
         ]
-        /// The address or domain of the identity.
-        public let identityName: String?
-        /// The email identity type. The identity type can be one of the following:    EMAIL_ADDRESS – The identity is an email address.    DOMAIN – The identity is a domain.    MANAGED_DOMAIN – The identity is a domain that is managed by AWS.  
-        public let identityType: IdentityType?
-        /// Indicates whether or not you can send email from the identity. In Amazon Pinpoint, an identity is an email address or domain that you send email from. Before you can send email from an identity, you have to demostrate that you own the identity, and that you authorize Amazon Pinpoint to send email from that identity.
-        public let sendingEnabled: Bool?
+        /// A token that indicates that there are additional dedicated IP addresses to list. To view additional addresses, issue another request to GetDedicatedIps, passing this token in the NextToken parameter.
+        public let nextToken: String?
+        /// A list of dedicated IP addresses that are reserved for use by your Amazon Pinpoint account.
+        public let dedicatedIps: [DedicatedIp]?
 
-        public init(identityName: String? = nil, identityType: IdentityType? = nil, sendingEnabled: Bool? = nil) {
-            self.identityName = identityName
-            self.identityType = identityType
-            self.sendingEnabled = sendingEnabled
+        public init(dedicatedIps: [DedicatedIp]? = nil, nextToken: String? = nil) {
+            self.nextToken = nextToken
+            self.dedicatedIps = dedicatedIps
         }
 
         private enum CodingKeys: String, CodingKey {
-            case identityName = "IdentityName"
-            case identityType = "IdentityType"
-            case sendingEnabled = "SendingEnabled"
+            case nextToken = "NextToken"
+            case dedicatedIps = "DedicatedIps"
         }
-    }
-
-    public struct CreateConfigurationSetResponse: AWSShape {
-
-    }
-
-    public struct PutDedicatedIpInPoolResponse: AWSShape {
-
-    }
-
-    public struct Content: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Charset", required: false, type: .string), 
-            AWSShapeMember(label: "Data", required: true, type: .string)
-        ]
-        /// The character set for the content. Because of the constraints of the SMTP protocol, Amazon Pinpoint uses 7-bit ASCII by default. If the text includes characters outside of the ASCII range, you have to specify a character set. For example, you could specify UTF-8, ISO-8859-1, or Shift_JIS.
-        public let charset: String?
-        /// The content of the message itself.
-        public let data: String
-
-        public init(charset: String? = nil, data: String) {
-            self.charset = charset
-            self.data = data
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case charset = "Charset"
-            case data = "Data"
-        }
-    }
-
-    public struct DeleteConfigurationSetEventDestinationResponse: AWSShape {
-
-    }
-
-    public struct EventDestinationDefinition: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KinesisFirehoseDestination", required: false, type: .structure), 
-            AWSShapeMember(label: "CloudWatchDestination", required: false, type: .structure), 
-            AWSShapeMember(label: "SnsDestination", required: false, type: .structure), 
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "PinpointDestination", required: false, type: .structure), 
-            AWSShapeMember(label: "MatchingEventTypes", required: false, type: .list)
-        ]
-        /// An object that defines an Amazon Kinesis Data Firehose destination for email events. You can use Amazon Kinesis Data Firehose to stream data to other services, such as Amazon S3 and Amazon Redshift.
-        public let kinesisFirehoseDestination: KinesisFirehoseDestination?
-        /// An object that defines an Amazon CloudWatch destination for email events. You can use Amazon CloudWatch to monitor and gain insights on your email sending metrics.
-        public let cloudWatchDestination: CloudWatchDestination?
-        /// An object that defines an Amazon SNS destination for email events. You can use Amazon SNS to send notification when certain email events occur.
-        public let snsDestination: SnsDestination?
-        /// If true, the event destination is enabled. When the event destination is enabled, the specified event types are sent to the destinations in this EventDestinationDefinition. If false, the event destination is disabled. When the event destination is disabled, events aren't sent to the specified destinations.
-        public let enabled: Bool?
-        /// An object that defines a Amazon Pinpoint destination for email events. You can use Amazon Pinpoint events to create attributes in Amazon Pinpoint projects. You can use these attributes to create segments for your campaigns.
-        public let pinpointDestination: PinpointDestination?
-        /// An array that specifies which events Amazon Pinpoint should send to the destinations in this EventDestinationDefinition.
-        public let matchingEventTypes: [EventType]?
-
-        public init(kinesisFirehoseDestination: KinesisFirehoseDestination? = nil, cloudWatchDestination: CloudWatchDestination? = nil, snsDestination: SnsDestination? = nil, enabled: Bool? = nil, pinpointDestination: PinpointDestination? = nil, matchingEventTypes: [EventType]? = nil) {
-            self.kinesisFirehoseDestination = kinesisFirehoseDestination
-            self.cloudWatchDestination = cloudWatchDestination
-            self.snsDestination = snsDestination
-            self.enabled = enabled
-            self.pinpointDestination = pinpointDestination
-            self.matchingEventTypes = matchingEventTypes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case kinesisFirehoseDestination = "KinesisFirehoseDestination"
-            case cloudWatchDestination = "CloudWatchDestination"
-            case snsDestination = "SnsDestination"
-            case enabled = "Enabled"
-            case pinpointDestination = "PinpointDestination"
-            case matchingEventTypes = "MatchingEventTypes"
-        }
-    }
-
-    public struct GetConfigurationSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string)
-        ]
-        /// The name of the configuration set that you want to obtain more information about.
-        public let configurationSetName: String
-
-        public init(configurationSetName: String) {
-            self.configurationSetName = configurationSetName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case configurationSetName = "ConfigurationSetName"
-        }
-    }
-
-    public struct CreateEmailIdentityResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DkimAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "IdentityType", required: false, type: .enum), 
-            AWSShapeMember(label: "VerifiedForSendingStatus", required: false, type: .boolean)
-        ]
-        /// An object that contains information about the DKIM attributes for the identity. This object includes the tokens that you use to create the CNAME records that are required to complete the DKIM verification process.
-        public let dkimAttributes: DkimAttributes?
-        /// The email identity type.
-        public let identityType: IdentityType?
-        /// Specifies whether or not the identity is verified. In Amazon Pinpoint, you can only send email from verified email addresses or domains. For more information about verifying identities, see the Amazon Pinpoint User Guide.
-        public let verifiedForSendingStatus: Bool?
-
-        public init(dkimAttributes: DkimAttributes? = nil, identityType: IdentityType? = nil, verifiedForSendingStatus: Bool? = nil) {
-            self.dkimAttributes = dkimAttributes
-            self.identityType = identityType
-            self.verifiedForSendingStatus = verifiedForSendingStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dkimAttributes = "DkimAttributes"
-            case identityType = "IdentityType"
-            case verifiedForSendingStatus = "VerifiedForSendingStatus"
-        }
-    }
-
-    public struct ReputationOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReputationMetricsEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "LastFreshStart", required: false, type: .timestamp)
-        ]
-        /// If true, tracking of reputation metrics is enabled for the configuration set. If false, tracking of reputation metrics is disabled for the configuration set.
-        public let reputationMetricsEnabled: Bool?
-        /// The date and time when the reputation metrics were last given a fresh start. When your account is given a fresh start, your reputation metrics are calculated starting from the date of the fresh start.
-        public let lastFreshStart: TimeStamp?
-
-        public init(reputationMetricsEnabled: Bool? = nil, lastFreshStart: TimeStamp? = nil) {
-            self.reputationMetricsEnabled = reputationMetricsEnabled
-            self.lastFreshStart = lastFreshStart
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case reputationMetricsEnabled = "ReputationMetricsEnabled"
-            case lastFreshStart = "LastFreshStart"
-        }
-    }
-
-    public struct PutDedicatedIpInPoolRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Ip", location: .uri(locationName: "IP"), required: true, type: .string), 
-            AWSShapeMember(label: "DestinationPoolName", required: true, type: .string)
-        ]
-        /// The IP address that you want to move to the dedicated IP pool. The value you specify has to be a dedicated IP address that's associated with your Amazon Pinpoint account.
-        public let ip: String
-        /// The name of the IP pool that you want to add the dedicated IP address to. You have to specify an IP pool that already exists.
-        public let destinationPoolName: String
-
-        public init(ip: String, destinationPoolName: String) {
-            self.ip = ip
-            self.destinationPoolName = destinationPoolName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ip = "IP"
-            case destinationPoolName = "DestinationPoolName"
-        }
-    }
-
-    public struct Message: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Subject", required: true, type: .structure), 
-            AWSShapeMember(label: "Body", required: true, type: .structure)
-        ]
-        /// The subject line of the email. The subject line can only contain 7-bit ASCII characters. However, you can specify non-ASCII characters in the subject line by using encoded-word syntax, as described in RFC 2047.
-        public let subject: Content
-        /// The body of the message. You can specify an HTML version of the message, a text-only version of the message, or both.
-        public let body: Body
-
-        public init(subject: Content, body: Body) {
-            self.subject = subject
-            self.body = body
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case subject = "Subject"
-            case body = "Body"
-        }
-    }
-
-    public struct PutAccountDedicatedIpWarmupAttributesResponse: AWSShape {
-
-    }
-
-    public struct EmailContent: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Simple", required: false, type: .structure), 
-            AWSShapeMember(label: "Raw", required: false, type: .structure)
-        ]
-        /// The simple email message. The message consists of a subject and a message body.
-        public let simple: Message?
-        /// The raw email message. The message has to meet the following criteria:   The message has to contain a header and a body, separated by one blank line.   All of the required header fields must be present in the message.   Each part of a multipart MIME message must be formatted properly.   If you include attachments, they must be in a file format that Amazon Pinpoint supports.    The entire message must be Base64 encoded.   If any of the MIME parts in your message contain content that is outside of the 7-bit ASCII character range, you should encode that content to ensure that recipients' email clients render the message properly.   The length of any single line of text in the message can't exceed 1,000 characters. This restriction is defined in RFC 5321.  
-        public let raw: RawMessage?
-
-        public init(simple: Message? = nil, raw: RawMessage? = nil) {
-            self.simple = simple
-            self.raw = raw
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case simple = "Simple"
-            case raw = "Raw"
-        }
-    }
-
-    public struct DedicatedIp: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PoolName", required: false, type: .string), 
-            AWSShapeMember(label: "WarmupStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "WarmupPercentage", required: true, type: .integer), 
-            AWSShapeMember(label: "Ip", required: true, type: .string)
-        ]
-        /// The name of the dedicated IP pool that the IP address is associated with.
-        public let poolName: String?
-        /// The warm-up status of a dedicated IP address. The status can have one of the following values:    IN_PROGRESS – The IP address isn't ready to use because the dedicated IP warm-up process is ongoing.    DONE – The dedicated IP warm-up process is complete, and the IP address is ready to use.  
-        public let warmupStatus: WarmupStatus
-        /// Indicates how complete the dedicated IP warm-up process is. When this value equals 1, the address has completed the warm-up process and is ready for use.
-        public let warmupPercentage: Int32
-        /// An IP address that is reserved for use by your Amazon Pinpoint account.
-        public let ip: String
-
-        public init(poolName: String? = nil, warmupStatus: WarmupStatus, warmupPercentage: Int32, ip: String) {
-            self.poolName = poolName
-            self.warmupStatus = warmupStatus
-            self.warmupPercentage = warmupPercentage
-            self.ip = ip
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case poolName = "PoolName"
-            case warmupStatus = "WarmupStatus"
-            case warmupPercentage = "WarmupPercentage"
-            case ip = "Ip"
-        }
-    }
-
-    public struct GetAccountRequest: AWSShape {
-
     }
 
     public struct GetDedicatedIpResponse: AWSShape {
@@ -864,278 +805,47 @@ extension PinpointEmail {
         }
     }
 
-    public struct CreateConfigurationSetRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReputationOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "DeliveryOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "TrackingOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "SendingOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "ConfigurationSetName", required: false, type: .string)
-        ]
-        /// An object that defines whether or not Amazon Pinpoint collects reputation metrics for the emails that you send that use the configuration set.
-        public let reputationOptions: ReputationOptions?
-        /// An object that defines the dedicated IP pool that is used to send emails that you send using the configuration set.
-        public let deliveryOptions: DeliveryOptions?
-        /// An object that defines the open and click tracking options for emails that you send using the configuration set.
-        public let trackingOptions: TrackingOptions?
-        /// An object that defines whether or not Amazon Pinpoint can send email that you send using the configuration set.
-        public let sendingOptions: SendingOptions?
-        /// The name of the configuration set.
-        public let configurationSetName: String?
-
-        public init(reputationOptions: ReputationOptions? = nil, deliveryOptions: DeliveryOptions? = nil, trackingOptions: TrackingOptions? = nil, sendingOptions: SendingOptions? = nil, configurationSetName: String? = nil) {
-            self.reputationOptions = reputationOptions
-            self.deliveryOptions = deliveryOptions
-            self.trackingOptions = trackingOptions
-            self.sendingOptions = sendingOptions
-            self.configurationSetName = configurationSetName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case reputationOptions = "ReputationOptions"
-            case deliveryOptions = "DeliveryOptions"
-            case trackingOptions = "TrackingOptions"
-            case sendingOptions = "SendingOptions"
-            case configurationSetName = "ConfigurationSetName"
-        }
-    }
-
-    public struct PutConfigurationSetSendingOptionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SendingEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string)
-        ]
-        /// If true, email sending is enabled for the configuration set. If false, email sending is disabled for the configuration set.
-        public let sendingEnabled: Bool?
-        /// The name of the configuration set that you want to enable or disable email sending for.
-        public let configurationSetName: String
-
-        public init(sendingEnabled: Bool? = nil, configurationSetName: String) {
-            self.sendingEnabled = sendingEnabled
-            self.configurationSetName = configurationSetName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sendingEnabled = "SendingEnabled"
-            case configurationSetName = "ConfigurationSetName"
-        }
-    }
-
-    public struct SendEmailResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MessageId", required: false, type: .string)
-        ]
-        /// A unique identifier for the message that is generated when Amazon Pinpoint accepts the message.  It is possible for Amazon Pinpoint to accept a message without sending it. This can happen when the message you're trying to send has an attachment doesn't pass a virus check, or when you send a templated email that contains invalid personalization content, for example. 
-        public let messageId: String?
-
-        public init(messageId: String? = nil) {
-            self.messageId = messageId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case messageId = "MessageId"
-        }
-    }
-
-    public struct PutAccountDedicatedIpWarmupAttributesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AutoWarmupEnabled", required: false, type: .boolean)
-        ]
-        /// Enables or disables the automatic warm-up feature for dedicated IP addresses that are associated with your Amazon Pinpoint account in the current AWS Region. Set to true to enable the automatic warm-up feature, or set to false to disable it.
-        public let autoWarmupEnabled: Bool?
-
-        public init(autoWarmupEnabled: Bool? = nil) {
-            self.autoWarmupEnabled = autoWarmupEnabled
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case autoWarmupEnabled = "AutoWarmupEnabled"
-        }
-    }
-
-    public struct DeleteEmailIdentityRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EmailIdentity", location: .uri(locationName: "EmailIdentity"), required: true, type: .string)
-        ]
-        /// The identity (that is, the email address or domain) that you want to delete from your Amazon Pinpoint account.
-        public let emailIdentity: String
-
-        public init(emailIdentity: String) {
-            self.emailIdentity = emailIdentity
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case emailIdentity = "EmailIdentity"
-        }
-    }
-
-    public struct ListConfigurationSetsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The number of results to show in a single call to ListConfigurationSets. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
-        public let pageSize: Int32?
-        /// A token returned from a previous call to ListConfigurationSets to indicate the position in the list of configuration sets.
-        public let nextToken: String?
-
-        public init(pageSize: Int32? = nil, nextToken: String? = nil) {
-            self.pageSize = pageSize
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pageSize = "PageSize"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct PinpointDestination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationArn", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the Amazon Pinpoint project that you want to send email events to.
-        public let applicationArn: String?
-
-        public init(applicationArn: String? = nil) {
-            self.applicationArn = applicationArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case applicationArn = "ApplicationArn"
-        }
-    }
-
-    public struct CreateDedicatedIpPoolResponse: AWSShape {
-
-    }
-
-    public struct CreateConfigurationSetEventDestinationResponse: AWSShape {
-
-    }
-
-    public struct CloudWatchDestination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DimensionConfigurations", required: true, type: .list)
-        ]
-        /// An array of objects that define the dimensions to use when you send email events to Amazon CloudWatch.
-        public let dimensionConfigurations: [CloudWatchDimensionConfiguration]
-
-        public init(dimensionConfigurations: [CloudWatchDimensionConfiguration]) {
-            self.dimensionConfigurations = dimensionConfigurations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dimensionConfigurations = "DimensionConfigurations"
-        }
-    }
-
-    public struct SnsDestination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TopicArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the Amazon SNS topic that you want to publish email events to. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
-        public let topicArn: String
-
-        public init(topicArn: String) {
-            self.topicArn = topicArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case topicArn = "TopicArn"
-        }
-    }
-
-    public enum BehaviorOnMxFailure: String, CustomStringConvertible, Codable {
-        case useDefaultValue = "USE_DEFAULT_VALUE"
-        case rejectMessage = "REJECT_MESSAGE"
+    public enum MailFromDomainStatus: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case success = "SUCCESS"
+        case failed = "FAILED"
+        case temporaryFailure = "TEMPORARY_FAILURE"
         public var description: String { return self.rawValue }
     }
 
-    public struct PutEmailIdentityFeedbackAttributesResponse: AWSShape {
-
-    }
-
-    public struct PutConfigurationSetSendingOptionsResponse: AWSShape {
-
-    }
-
-    public struct ListConfigurationSetsResponse: AWSShape {
+    public struct GetEmailIdentityResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationSets", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "FeedbackForwardingStatus", required: false, type: .boolean), 
+            AWSShapeMember(label: "DkimAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "MailFromAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "IdentityType", required: false, type: .enum), 
+            AWSShapeMember(label: "VerifiedForSendingStatus", required: false, type: .boolean)
         ]
-        /// An array that contains all of the configuration sets in your Amazon Pinpoint account in the current AWS Region.
-        public let configurationSets: [String]?
-        /// A token that indicates that there are additional configuration sets to list. To view additional configuration sets, issue another request to ListConfigurationSets, and pass this token in the NextToken parameter.
-        public let nextToken: String?
+        /// The feedback forwarding configuration for the identity. If the value is true, Amazon Pinpoint sends you email notifications when bounce or complaint events occur. Amazon Pinpoint sends this notification to the address that you specified in the Return-Path header of the original email. When you set this value to false, Amazon Pinpoint sends notifications through other mechanisms, such as by notifying an Amazon SNS topic or another event destination. You're required to have a method of tracking bounces and complaints. If you haven't set up another mechanism for receiving bounce or complaint notifications, Amazon Pinpoint sends an email notification when these events occur (even if this setting is disabled).
+        public let feedbackForwardingStatus: Bool?
+        /// An object that contains information about the DKIM attributes for the identity. This object includes the tokens that you use to create the CNAME records that are required to complete the DKIM verification process.
+        public let dkimAttributes: DkimAttributes?
+        /// An object that contains information about the Mail-From attributes for the email identity.
+        public let mailFromAttributes: MailFromAttributes?
+        /// The email identity type.
+        public let identityType: IdentityType?
+        /// Specifies whether or not the identity is verified. In Amazon Pinpoint, you can only send email from verified email addresses or domains. For more information about verifying identities, see the Amazon Pinpoint User Guide.
+        public let verifiedForSendingStatus: Bool?
 
-        public init(configurationSets: [String]? = nil, nextToken: String? = nil) {
-            self.configurationSets = configurationSets
-            self.nextToken = nextToken
+        public init(dkimAttributes: DkimAttributes? = nil, feedbackForwardingStatus: Bool? = nil, identityType: IdentityType? = nil, mailFromAttributes: MailFromAttributes? = nil, verifiedForSendingStatus: Bool? = nil) {
+            self.feedbackForwardingStatus = feedbackForwardingStatus
+            self.dkimAttributes = dkimAttributes
+            self.mailFromAttributes = mailFromAttributes
+            self.identityType = identityType
+            self.verifiedForSendingStatus = verifiedForSendingStatus
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationSets = "ConfigurationSets"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct Body: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Html", required: false, type: .structure), 
-            AWSShapeMember(label: "Text", required: false, type: .structure)
-        ]
-        /// An object that represents the version of the message that is displayed in email clients that support HTML. HTML messages can include formatted text, hyperlinks, images, and more. 
-        public let html: Content?
-        /// An object that represents the version of the message that is displayed in email clients that don't support HTML, or clients where the recipient has disabled HTML rendering.
-        public let text: Content?
-
-        public init(html: Content? = nil, text: Content? = nil) {
-            self.html = html
-            self.text = text
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case html = "Html"
-            case text = "Text"
-        }
-    }
-
-    public struct GetConfigurationSetEventDestinationsResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventDestinations", required: false, type: .list)
-        ]
-        /// An array that includes all of the events destinations that have been configured for the configuration set.
-        public let eventDestinations: [EventDestination]?
-
-        public init(eventDestinations: [EventDestination]? = nil) {
-            self.eventDestinations = eventDestinations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eventDestinations = "EventDestinations"
-        }
-    }
-
-    public struct ListEmailIdentitiesRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
-        ]
-        /// The number of results to show in a single call to ListEmailIdentities. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 0, and can be no more than 1000.
-        public let pageSize: Int32?
-        /// A token returned from a previous call to ListEmailIdentities to indicate the position in the list of identities.
-        public let nextToken: String?
-
-        public init(pageSize: Int32? = nil, nextToken: String? = nil) {
-            self.pageSize = pageSize
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pageSize = "PageSize"
-            case nextToken = "NextToken"
+            case feedbackForwardingStatus = "FeedbackForwardingStatus"
+            case dkimAttributes = "DkimAttributes"
+            case mailFromAttributes = "MailFromAttributes"
+            case identityType = "IdentityType"
+            case verifiedForSendingStatus = "VerifiedForSendingStatus"
         }
     }
 
@@ -1155,194 +865,163 @@ extension PinpointEmail {
         }
     }
 
+    public struct ListConfigurationSetsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ConfigurationSets", required: false, type: .list)
+        ]
+        /// A token that indicates that there are additional configuration sets to list. To view additional configuration sets, issue another request to ListConfigurationSets, and pass this token in the NextToken parameter.
+        public let nextToken: String?
+        /// An array that contains all of the configuration sets in your Amazon Pinpoint account in the current AWS Region.
+        public let configurationSets: [String]?
+
+        public init(configurationSets: [String]? = nil, nextToken: String? = nil) {
+            self.nextToken = nextToken
+            self.configurationSets = configurationSets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case configurationSets = "ConfigurationSets"
+        }
+    }
+
+    public struct SendQuota: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SentLast24Hours", required: false, type: .double), 
+            AWSShapeMember(label: "MaxSendRate", required: false, type: .double), 
+            AWSShapeMember(label: "Max24HourSend", required: false, type: .double)
+        ]
+        /// The number of emails sent from your Amazon Pinpoint account in the current AWS Region over the past 24 hours.
+        public let sentLast24Hours: Double?
+        /// The maximum number of emails that you can send per second in the current AWS Region. This value is also called your maximum sending rate or your maximum TPS (transactions per second) rate.
+        public let maxSendRate: Double?
+        /// The maximum number of emails that you can send in the current AWS Region over a 24-hour period. This value is also called your sending quota.
+        public let max24HourSend: Double?
+
+        public init(max24HourSend: Double? = nil, maxSendRate: Double? = nil, sentLast24Hours: Double? = nil) {
+            self.sentLast24Hours = sentLast24Hours
+            self.maxSendRate = maxSendRate
+            self.max24HourSend = max24HourSend
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sentLast24Hours = "SentLast24Hours"
+            case maxSendRate = "MaxSendRate"
+            case max24HourSend = "Max24HourSend"
+        }
+    }
+
     public struct GetConfigurationSetResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReputationOptions", required: false, type: .structure), 
             AWSShapeMember(label: "DeliveryOptions", required: false, type: .structure), 
             AWSShapeMember(label: "TrackingOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "ReputationOptions", required: false, type: .structure), 
             AWSShapeMember(label: "SendingOptions", required: false, type: .structure), 
             AWSShapeMember(label: "ConfigurationSetName", required: false, type: .string)
         ]
-        /// An object that defines whether or not Amazon Pinpoint collects reputation metrics for the emails that you send that use the configuration set.
-        public let reputationOptions: ReputationOptions?
         /// An object that defines the dedicated IP pool that is used to send emails that you send using the configuration set.
         public let deliveryOptions: DeliveryOptions?
         /// An object that defines the open and click tracking options for emails that you send using the configuration set.
         public let trackingOptions: TrackingOptions?
+        /// An object that defines whether or not Amazon Pinpoint collects reputation metrics for the emails that you send that use the configuration set.
+        public let reputationOptions: ReputationOptions?
         /// An object that defines whether or not Amazon Pinpoint can send email that you send using the configuration set.
         public let sendingOptions: SendingOptions?
         /// The name of the configuration set.
         public let configurationSetName: String?
 
-        public init(reputationOptions: ReputationOptions? = nil, deliveryOptions: DeliveryOptions? = nil, trackingOptions: TrackingOptions? = nil, sendingOptions: SendingOptions? = nil, configurationSetName: String? = nil) {
-            self.reputationOptions = reputationOptions
+        public init(configurationSetName: String? = nil, deliveryOptions: DeliveryOptions? = nil, reputationOptions: ReputationOptions? = nil, sendingOptions: SendingOptions? = nil, trackingOptions: TrackingOptions? = nil) {
             self.deliveryOptions = deliveryOptions
             self.trackingOptions = trackingOptions
+            self.reputationOptions = reputationOptions
             self.sendingOptions = sendingOptions
             self.configurationSetName = configurationSetName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reputationOptions = "ReputationOptions"
             case deliveryOptions = "DeliveryOptions"
             case trackingOptions = "TrackingOptions"
+            case reputationOptions = "ReputationOptions"
             case sendingOptions = "SendingOptions"
             case configurationSetName = "ConfigurationSetName"
         }
     }
 
-    public struct GetEmailIdentityResponse: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DkimAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "FeedbackForwardingStatus", required: false, type: .boolean), 
-            AWSShapeMember(label: "MailFromAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "IdentityType", required: false, type: .enum), 
-            AWSShapeMember(label: "VerifiedForSendingStatus", required: false, type: .boolean)
-        ]
-        /// An object that contains information about the DKIM attributes for the identity. This object includes the tokens that you use to create the CNAME records that are required to complete the DKIM verification process.
-        public let dkimAttributes: DkimAttributes?
-        /// The feedback forwarding configuration for the identity. If the value is true, Amazon Pinpoint sends you email notifications when bounce or complaint events occur. Amazon Pinpoint sends this notification to the address that you specified in the Return-Path header of the original email. When you set this value to false, Amazon Pinpoint sends notifications through other mechanisms, such as by notifying an Amazon SNS topic or another event destination. You're required to have a method of tracking bounces and complaints. If you haven't set up another mechanism for receiving bounce or complaint notifications, Amazon Pinpoint sends an email notification when these events occur (even if this setting is disabled).
-        public let feedbackForwardingStatus: Bool?
-        /// An object that contains information about the Mail-From attributes for the email identity.
-        public let mailFromAttributes: MailFromAttributes?
-        /// The email identity type.
-        public let identityType: IdentityType?
-        /// Specifies whether or not the identity is verified. In Amazon Pinpoint, you can only send email from verified email addresses or domains. For more information about verifying identities, see the Amazon Pinpoint User Guide.
-        public let verifiedForSendingStatus: Bool?
-
-        public init(dkimAttributes: DkimAttributes? = nil, feedbackForwardingStatus: Bool? = nil, mailFromAttributes: MailFromAttributes? = nil, identityType: IdentityType? = nil, verifiedForSendingStatus: Bool? = nil) {
-            self.dkimAttributes = dkimAttributes
-            self.feedbackForwardingStatus = feedbackForwardingStatus
-            self.mailFromAttributes = mailFromAttributes
-            self.identityType = identityType
-            self.verifiedForSendingStatus = verifiedForSendingStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dkimAttributes = "DkimAttributes"
-            case feedbackForwardingStatus = "FeedbackForwardingStatus"
-            case mailFromAttributes = "MailFromAttributes"
-            case identityType = "IdentityType"
-            case verifiedForSendingStatus = "VerifiedForSendingStatus"
-        }
-    }
-
-    public struct PutConfigurationSetReputationOptionsResponse: AWSShape {
-
-    }
-
-    public enum EventType: String, CustomStringConvertible, Codable {
-        case send = "SEND"
-        case reject = "REJECT"
-        case bounce = "BOUNCE"
-        case complaint = "COMPLAINT"
-        case delivery = "DELIVERY"
-        case open = "OPEN"
-        case click = "CLICK"
-        case renderingFailure = "RENDERING_FAILURE"
+    public enum WarmupStatus: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case done = "DONE"
         public var description: String { return self.rawValue }
-    }
-
-    public struct EventDestination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CloudWatchDestination", required: false, type: .structure), 
-            AWSShapeMember(label: "SnsDestination", required: false, type: .structure), 
-            AWSShapeMember(label: "PinpointDestination", required: false, type: .structure), 
-            AWSShapeMember(label: "KinesisFirehoseDestination", required: false, type: .structure), 
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "MatchingEventTypes", required: true, type: .list)
-        ]
-        /// An object that defines an Amazon CloudWatch destination for email events. You can use Amazon CloudWatch to monitor and gain insights on your email sending metrics.
-        public let cloudWatchDestination: CloudWatchDestination?
-        /// An object that defines an Amazon SNS destination for email events. You can use Amazon SNS to send notification when certain email events occur.
-        public let snsDestination: SnsDestination?
-        /// An object that defines a Amazon Pinpoint destination for email events. You can use Amazon Pinpoint events to create attributes in Amazon Pinpoint projects. You can use these attributes to create segments for your campaigns.
-        public let pinpointDestination: PinpointDestination?
-        /// An object that defines an Amazon Kinesis Data Firehose destination for email events. You can use Amazon Kinesis Data Firehose to stream data to other services, such as Amazon S3 and Amazon Redshift.
-        public let kinesisFirehoseDestination: KinesisFirehoseDestination?
-        /// If true, the event destination is enabled. When the event destination is enabled, the specified event types are sent to the destinations in this EventDestinationDefinition. If false, the event destination is disabled. When the event destination is disabled, events aren't sent to the specified destinations.
-        public let enabled: Bool?
-        /// A name that identifies the event destination.
-        public let name: String
-        /// The types of events that Amazon Pinpoint sends to the specified event destinations.
-        public let matchingEventTypes: [EventType]
-
-        public init(cloudWatchDestination: CloudWatchDestination? = nil, snsDestination: SnsDestination? = nil, pinpointDestination: PinpointDestination? = nil, kinesisFirehoseDestination: KinesisFirehoseDestination? = nil, enabled: Bool? = nil, name: String, matchingEventTypes: [EventType]) {
-            self.cloudWatchDestination = cloudWatchDestination
-            self.snsDestination = snsDestination
-            self.pinpointDestination = pinpointDestination
-            self.kinesisFirehoseDestination = kinesisFirehoseDestination
-            self.enabled = enabled
-            self.name = name
-            self.matchingEventTypes = matchingEventTypes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cloudWatchDestination = "CloudWatchDestination"
-            case snsDestination = "SnsDestination"
-            case pinpointDestination = "PinpointDestination"
-            case kinesisFirehoseDestination = "KinesisFirehoseDestination"
-            case enabled = "Enabled"
-            case name = "Name"
-            case matchingEventTypes = "MatchingEventTypes"
-        }
-    }
-
-    public struct CloudWatchDimensionConfiguration: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DimensionName", required: true, type: .string), 
-            AWSShapeMember(label: "DefaultDimensionValue", required: true, type: .string), 
-            AWSShapeMember(label: "DimensionValueSource", required: true, type: .enum)
-        ]
-        /// The name of an Amazon CloudWatch dimension associated with an email sending metric. The name has to meet the following criteria:   It can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   It can contain no more than 256 characters.  
-        public let dimensionName: String
-        /// The default value of the dimension that is published to Amazon CloudWatch if you don't provide the value of the dimension when you send an email. This value has to meet the following criteria:   It can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   It can contain no more than 256 characters.  
-        public let defaultDimensionValue: String
-        /// The location where Amazon Pinpoint finds the value of a dimension to publish to Amazon CloudWatch. If you want Amazon Pinpoint to use the message tags that you specify using an X-SES-MESSAGE-TAGS header or a parameter to the SendEmail/SendRawEmail API, choose messageTag. If you want Amazon Pinpoint to use your own email headers, choose emailHeader. If you want Amazon Pinpoint to use link tags, choose linkTags.
-        public let dimensionValueSource: DimensionValueSource
-
-        public init(dimensionName: String, defaultDimensionValue: String, dimensionValueSource: DimensionValueSource) {
-            self.dimensionName = dimensionName
-            self.defaultDimensionValue = defaultDimensionValue
-            self.dimensionValueSource = dimensionValueSource
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dimensionName = "DimensionName"
-            case defaultDimensionValue = "DefaultDimensionValue"
-            case dimensionValueSource = "DimensionValueSource"
-        }
-    }
-
-    public struct MailFromAttributes: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MailFromDomainStatus", required: true, type: .enum), 
-            AWSShapeMember(label: "MailFromDomain", required: true, type: .string), 
-            AWSShapeMember(label: "BehaviorOnMxFailure", required: true, type: .enum)
-        ]
-        /// The status of the MAIL FROM domain. This status can have the following values:    PENDING – Amazon Pinpoint hasn't started searching for the MX record yet.    SUCCESS – Amazon Pinpoint detected the required MX record for the MAIL FROM domain.    FAILED – Amazon Pinpoint can't find the required MX record, or the record no longer exists.    TEMPORARY_FAILURE – A temporary issue occurred, which prevented Amazon Pinpoint from determining the status of the MAIL FROM domain.  
-        public let mailFromDomainStatus: MailFromDomainStatus
-        /// The name of a domain that an email identity uses as a custom MAIL FROM domain.
-        public let mailFromDomain: String
-        /// The action that Amazon Pinpoint to takes if it can't read the required MX record for a custom MAIL FROM domain. When you set this value to UseDefaultValue, Amazon Pinpoint uses amazonses.com as the MAIL FROM domain. When you set this value to RejectMessage, Amazon Pinpoint returns a MailFromDomainNotVerified error, and doesn't attempt to deliver the email. These behaviors are taken when the custom MAIL FROM domain configuration is in the Pending, Failed, and TemporaryFailure states.
-        public let behaviorOnMxFailure: BehaviorOnMxFailure
-
-        public init(mailFromDomainStatus: MailFromDomainStatus, mailFromDomain: String, behaviorOnMxFailure: BehaviorOnMxFailure) {
-            self.mailFromDomainStatus = mailFromDomainStatus
-            self.mailFromDomain = mailFromDomain
-            self.behaviorOnMxFailure = behaviorOnMxFailure
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case mailFromDomainStatus = "MailFromDomainStatus"
-            case mailFromDomain = "MailFromDomain"
-            case behaviorOnMxFailure = "BehaviorOnMxFailure"
-        }
     }
 
     public struct UpdateConfigurationSetEventDestinationResponse: AWSShape {
 
+        public init() {
+        }
+
+    }
+
+    public struct KinesisFirehoseDestination: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeliveryStreamArn", required: true, type: .string), 
+            AWSShapeMember(label: "IamRoleArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the Amazon Kinesis Data Firehose stream that Amazon Pinpoint sends email events to.
+        public let deliveryStreamArn: String
+        /// The Amazon Resource Name (ARN) of the IAM role that Amazon Pinpoint uses when sending email events to the Amazon Kinesis Data Firehose stream.
+        public let iamRoleArn: String
+
+        public init(deliveryStreamArn: String, iamRoleArn: String) {
+            self.deliveryStreamArn = deliveryStreamArn
+            self.iamRoleArn = iamRoleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliveryStreamArn = "DeliveryStreamArn"
+            case iamRoleArn = "IamRoleArn"
+        }
+    }
+
+    public struct GetDedicatedIpsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "PoolName", required: false, type: .string)
+        ]
+        /// A token returned from a previous call to GetDedicatedIps to indicate the position of the dedicated IP pool in the list of IP pools.
+        public let nextToken: String?
+        /// The number of results to show in a single call to GetDedicatedIpsRequest. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
+        public let pageSize: Int32?
+        /// The name of the IP pool that the dedicated IP address is associated with.
+        public let poolName: String?
+
+        public init(nextToken: String? = nil, pageSize: Int32? = nil, poolName: String? = nil) {
+            self.nextToken = nextToken
+            self.pageSize = pageSize
+            self.poolName = poolName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case pageSize = "PageSize"
+            case poolName = "PoolName"
+        }
+    }
+
+    public struct DeleteEmailIdentityRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EmailIdentity", location: .uri(locationName: "EmailIdentity"), required: true, type: .string)
+        ]
+        /// The identity (that is, the email address or domain) that you want to delete from your Amazon Pinpoint account.
+        public let emailIdentity: String
+
+        public init(emailIdentity: String) {
+            self.emailIdentity = emailIdentity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case emailIdentity = "EmailIdentity"
+        }
     }
 
     public enum IdentityType: String, CustomStringConvertible, Codable {
@@ -1352,36 +1031,130 @@ extension PinpointEmail {
         public var description: String { return self.rawValue }
     }
 
-    public enum DimensionValueSource: String, CustomStringConvertible, Codable {
-        case messageTag = "MESSAGE_TAG"
-        case emailHeader = "EMAIL_HEADER"
-        case linkTag = "LINK_TAG"
-        public var description: String { return self.rawValue }
+    public struct CreateEmailIdentityRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EmailIdentity", required: true, type: .string)
+        ]
+        /// The email address or domain that you want to verify.
+        public let emailIdentity: String
+
+        public init(emailIdentity: String) {
+            self.emailIdentity = emailIdentity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case emailIdentity = "EmailIdentity"
+        }
+    }
+
+    public struct CreateDedicatedIpPoolResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct PutConfigurationSetTrackingOptionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string), 
+            AWSShapeMember(label: "CustomRedirectDomain", required: false, type: .string)
+        ]
+        /// The name of the configuration set that you want to add a custom tracking domain to.
+        public let configurationSetName: String
+        /// The domain that you want to use to track open and click events.
+        public let customRedirectDomain: String?
+
+        public init(configurationSetName: String, customRedirectDomain: String? = nil) {
+            self.configurationSetName = configurationSetName
+            self.customRedirectDomain = customRedirectDomain
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationSetName = "ConfigurationSetName"
+            case customRedirectDomain = "CustomRedirectDomain"
+        }
+    }
+
+    public struct PutEmailIdentityDkimAttributesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SigningEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "EmailIdentity", location: .uri(locationName: "EmailIdentity"), required: true, type: .string)
+        ]
+        /// Sets the DKIM signing configuration for the identity. When you set this value true, then the messages that Amazon Pinpoint sends from the identity are DKIM-signed. When you set this value to false, then the messages that Amazon Pinpoint sends from the identity aren't DKIM-signed.
+        public let signingEnabled: Bool?
+        /// The email identity that you want to change the DKIM settings for.
+        public let emailIdentity: String
+
+        public init(emailIdentity: String, signingEnabled: Bool? = nil) {
+            self.signingEnabled = signingEnabled
+            self.emailIdentity = emailIdentity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case signingEnabled = "SigningEnabled"
+            case emailIdentity = "EmailIdentity"
+        }
+    }
+
+    public struct IdentityInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SendingEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "IdentityType", required: false, type: .enum), 
+            AWSShapeMember(label: "IdentityName", required: false, type: .string)
+        ]
+        /// Indicates whether or not you can send email from the identity. In Amazon Pinpoint, an identity is an email address or domain that you send email from. Before you can send email from an identity, you have to demostrate that you own the identity, and that you authorize Amazon Pinpoint to send email from that identity.
+        public let sendingEnabled: Bool?
+        /// The email identity type. The identity type can be one of the following:    EMAIL_ADDRESS – The identity is an email address.    DOMAIN – The identity is a domain.    MANAGED_DOMAIN – The identity is a domain that is managed by AWS.  
+        public let identityType: IdentityType?
+        /// The address or domain of the identity.
+        public let identityName: String?
+
+        public init(identityName: String? = nil, identityType: IdentityType? = nil, sendingEnabled: Bool? = nil) {
+            self.sendingEnabled = sendingEnabled
+            self.identityType = identityType
+            self.identityName = identityName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sendingEnabled = "SendingEnabled"
+            case identityType = "IdentityType"
+            case identityName = "IdentityName"
+        }
+    }
+
+    public struct ListDedicatedIpPoolsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DedicatedIpPools", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// A list of all of the dedicated IP pools that are associated with your Amazon Pinpoint account.
+        public let dedicatedIpPools: [String]?
+        /// A token that indicates that there are additional IP pools to list. To view additional IP pools, issue another request to ListDedicatedIpPools, passing this token in the NextToken parameter.
+        public let nextToken: String?
+
+        public init(dedicatedIpPools: [String]? = nil, nextToken: String? = nil) {
+            self.dedicatedIpPools = dedicatedIpPools
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dedicatedIpPools = "DedicatedIpPools"
+            case nextToken = "NextToken"
+        }
     }
 
     public struct PutConfigurationSetTrackingOptionsResponse: AWSShape {
 
+        public init() {
+        }
+
     }
 
-    public struct PutConfigurationSetDeliveryOptionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SendingPoolName", required: false, type: .string), 
-            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string)
-        ]
-        /// The name of the dedicated IP pool that you want to associate with the configuration set.
-        public let sendingPoolName: String?
-        /// The name of the configuration set that you want to associate with a dedicated IP pool.
-        public let configurationSetName: String
+    public struct PutEmailIdentityDkimAttributesResponse: AWSShape {
 
-        public init(sendingPoolName: String? = nil, configurationSetName: String) {
-            self.sendingPoolName = sendingPoolName
-            self.configurationSetName = configurationSetName
+        public init() {
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case sendingPoolName = "SendingPoolName"
-            case configurationSetName = "ConfigurationSetName"
-        }
     }
 
     public struct PutEmailIdentityMailFromAttributesRequest: AWSShape {
@@ -1397,7 +1170,7 @@ extension PinpointEmail {
         /// The action that you want Amazon Pinpoint to take if it can't read the required MX record when you send an email. When you set this value to UseDefaultValue, Amazon Pinpoint uses amazonses.com as the MAIL FROM domain. When you set this value to RejectMessage, Amazon Pinpoint returns a MailFromDomainNotVerified error, and doesn't attempt to deliver the email. These behaviors are taken when the custom MAIL FROM domain configuration is in the Pending, Failed, and TemporaryFailure states.
         public let behaviorOnMxFailure: BehaviorOnMxFailure?
 
-        public init(mailFromDomain: String? = nil, emailIdentity: String, behaviorOnMxFailure: BehaviorOnMxFailure? = nil) {
+        public init(behaviorOnMxFailure: BehaviorOnMxFailure? = nil, emailIdentity: String, mailFromDomain: String? = nil) {
             self.mailFromDomain = mailFromDomain
             self.emailIdentity = emailIdentity
             self.behaviorOnMxFailure = behaviorOnMxFailure
@@ -1410,109 +1183,94 @@ extension PinpointEmail {
         }
     }
 
-    public struct UpdateConfigurationSetEventDestinationRequest: AWSShape {
+    public struct PinpointDestination: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventDestination", required: true, type: .structure), 
-            AWSShapeMember(label: "EventDestinationName", location: .uri(locationName: "EventDestinationName"), required: true, type: .string), 
-            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string)
+            AWSShapeMember(label: "ApplicationArn", required: false, type: .string)
         ]
-        /// An object that defines the event destination.
-        public let eventDestination: EventDestinationDefinition
-        /// The name of the event destination that you want to modify.
-        public let eventDestinationName: String
-        /// The name of the configuration set that contains the event destination that you want to modify.
+        /// The Amazon Resource Name (ARN) of the Amazon Pinpoint project that you want to send email events to.
+        public let applicationArn: String?
+
+        public init(applicationArn: String? = nil) {
+            self.applicationArn = applicationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+        }
+    }
+
+    public struct PutDedicatedIpWarmupAttributesResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct EventDestinationDefinition: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SnsDestination", required: false, type: .structure), 
+            AWSShapeMember(label: "CloudWatchDestination", required: false, type: .structure), 
+            AWSShapeMember(label: "MatchingEventTypes", required: false, type: .list), 
+            AWSShapeMember(label: "PinpointDestination", required: false, type: .structure), 
+            AWSShapeMember(label: "KinesisFirehoseDestination", required: false, type: .structure)
+        ]
+        /// If true, the event destination is enabled. When the event destination is enabled, the specified event types are sent to the destinations in this EventDestinationDefinition. If false, the event destination is disabled. When the event destination is disabled, events aren't sent to the specified destinations.
+        public let enabled: Bool?
+        /// An object that defines an Amazon SNS destination for email events. You can use Amazon SNS to send notification when certain email events occur.
+        public let snsDestination: SnsDestination?
+        /// An object that defines an Amazon CloudWatch destination for email events. You can use Amazon CloudWatch to monitor and gain insights on your email sending metrics.
+        public let cloudWatchDestination: CloudWatchDestination?
+        /// An array that specifies which events Amazon Pinpoint should send to the destinations in this EventDestinationDefinition.
+        public let matchingEventTypes: [EventType]?
+        /// An object that defines a Amazon Pinpoint destination for email events. You can use Amazon Pinpoint events to create attributes in Amazon Pinpoint projects. You can use these attributes to create segments for your campaigns.
+        public let pinpointDestination: PinpointDestination?
+        /// An object that defines an Amazon Kinesis Data Firehose destination for email events. You can use Amazon Kinesis Data Firehose to stream data to other services, such as Amazon S3 and Amazon Redshift.
+        public let kinesisFirehoseDestination: KinesisFirehoseDestination?
+
+        public init(cloudWatchDestination: CloudWatchDestination? = nil, enabled: Bool? = nil, kinesisFirehoseDestination: KinesisFirehoseDestination? = nil, matchingEventTypes: [EventType]? = nil, pinpointDestination: PinpointDestination? = nil, snsDestination: SnsDestination? = nil) {
+            self.enabled = enabled
+            self.snsDestination = snsDestination
+            self.cloudWatchDestination = cloudWatchDestination
+            self.matchingEventTypes = matchingEventTypes
+            self.pinpointDestination = pinpointDestination
+            self.kinesisFirehoseDestination = kinesisFirehoseDestination
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case snsDestination = "SnsDestination"
+            case cloudWatchDestination = "CloudWatchDestination"
+            case matchingEventTypes = "MatchingEventTypes"
+            case pinpointDestination = "PinpointDestination"
+            case kinesisFirehoseDestination = "KinesisFirehoseDestination"
+        }
+    }
+
+    public enum BehaviorOnMxFailure: String, CustomStringConvertible, Codable {
+        case useDefaultValue = "USE_DEFAULT_VALUE"
+        case rejectMessage = "REJECT_MESSAGE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct PutConfigurationSetSendingOptionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string), 
+            AWSShapeMember(label: "SendingEnabled", required: false, type: .boolean)
+        ]
+        /// The name of the configuration set that you want to enable or disable email sending for.
         public let configurationSetName: String
+        /// If true, email sending is enabled for the configuration set. If false, email sending is disabled for the configuration set.
+        public let sendingEnabled: Bool?
 
-        public init(eventDestination: EventDestinationDefinition, eventDestinationName: String, configurationSetName: String) {
-            self.eventDestination = eventDestination
-            self.eventDestinationName = eventDestinationName
+        public init(configurationSetName: String, sendingEnabled: Bool? = nil) {
             self.configurationSetName = configurationSetName
+            self.sendingEnabled = sendingEnabled
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventDestination = "EventDestination"
-            case eventDestinationName = "EventDestinationName"
             case configurationSetName = "ConfigurationSetName"
-        }
-    }
-
-    public struct PutConfigurationSetTrackingOptionsRequest: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CustomRedirectDomain", required: false, type: .string), 
-            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string)
-        ]
-        /// The domain that you want to use to track open and click events.
-        public let customRedirectDomain: String?
-        /// The name of the configuration set that you want to add a custom tracking domain to.
-        public let configurationSetName: String
-
-        public init(customRedirectDomain: String? = nil, configurationSetName: String) {
-            self.customRedirectDomain = customRedirectDomain
-            self.configurationSetName = configurationSetName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case customRedirectDomain = "CustomRedirectDomain"
-            case configurationSetName = "ConfigurationSetName"
-        }
-    }
-
-    public struct PutAccountSendingAttributesResponse: AWSShape {
-
-    }
-
-    public struct Destination: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ToAddresses", required: false, type: .list), 
-            AWSShapeMember(label: "CcAddresses", required: false, type: .list), 
-            AWSShapeMember(label: "BccAddresses", required: false, type: .list)
-        ]
-        /// An array that contains the email addresses of the "To" recipients for the email.
-        public let toAddresses: [String]?
-        /// An array that contains the email addresses of the "CC" (carbon copy) recipients for the email.
-        public let ccAddresses: [String]?
-        /// An array that contains the email addresses of the "BCC" (blind carbon copy) recipients for the email.
-        public let bccAddresses: [String]?
-
-        public init(toAddresses: [String]? = nil, ccAddresses: [String]? = nil, bccAddresses: [String]? = nil) {
-            self.toAddresses = toAddresses
-            self.ccAddresses = ccAddresses
-            self.bccAddresses = bccAddresses
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case toAddresses = "ToAddresses"
-            case ccAddresses = "CcAddresses"
-            case bccAddresses = "BccAddresses"
-        }
-    }
-
-    public struct PutEmailIdentityDkimAttributesResponse: AWSShape {
-
-    }
-
-    public struct DeleteDedicatedIpPoolResponse: AWSShape {
-
-    }
-
-    public struct MessageTag: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: true, type: .string), 
-            AWSShapeMember(label: "Name", required: true, type: .string)
-        ]
-        /// The value of the message tag. The message tag value has to meet the following criteria:   It can only contain ASCII letters (a–z, A–Z), numbers (0–9), underscores (_), or dashes (-).   It can contain no more than 256 characters.  
-        public let value: String
-        /// The name of the message tag. The message tag name has to meet the following criteria:   It can only contain ASCII letters (a–z, A–Z), numbers (0–9), underscores (_), or dashes (-).   It can contain no more than 256 characters.  
-        public let name: String
-
-        public init(value: String, name: String) {
-            self.value = value
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case name = "Name"
+            case sendingEnabled = "SendingEnabled"
         }
     }
 
@@ -1529,6 +1287,97 @@ extension PinpointEmail {
 
         private enum CodingKeys: String, CodingKey {
             case sendingPoolName = "SendingPoolName"
+        }
+    }
+
+    public struct GetEmailIdentityRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EmailIdentity", location: .uri(locationName: "EmailIdentity"), required: true, type: .string)
+        ]
+        /// The email identity that you want to retrieve details for.
+        public let emailIdentity: String
+
+        public init(emailIdentity: String) {
+            self.emailIdentity = emailIdentity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case emailIdentity = "EmailIdentity"
+        }
+    }
+
+    public struct DeleteConfigurationSetEventDestinationResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct PutDedicatedIpInPoolRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Ip", location: .uri(locationName: "IP"), required: true, type: .string), 
+            AWSShapeMember(label: "DestinationPoolName", required: true, type: .string)
+        ]
+        /// The IP address that you want to move to the dedicated IP pool. The value you specify has to be a dedicated IP address that's associated with your Amazon Pinpoint account.
+        public let ip: String
+        /// The name of the IP pool that you want to add the dedicated IP address to. You have to specify an IP pool that already exists.
+        public let destinationPoolName: String
+
+        public init(destinationPoolName: String, ip: String) {
+            self.ip = ip
+            self.destinationPoolName = destinationPoolName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ip = "IP"
+            case destinationPoolName = "DestinationPoolName"
+        }
+    }
+
+    public struct CreateConfigurationSetResponse: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public enum DkimStatus: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case success = "SUCCESS"
+        case failed = "FAILED"
+        case temporaryFailure = "TEMPORARY_FAILURE"
+        case notStarted = "NOT_STARTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DedicatedIp: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WarmupPercentage", required: true, type: .integer), 
+            AWSShapeMember(label: "Ip", required: true, type: .string), 
+            AWSShapeMember(label: "PoolName", required: false, type: .string), 
+            AWSShapeMember(label: "WarmupStatus", required: true, type: .enum)
+        ]
+        /// Indicates how complete the dedicated IP warm-up process is. When this value equals 1, the address has completed the warm-up process and is ready for use.
+        public let warmupPercentage: Int32
+        /// An IP address that is reserved for use by your Amazon Pinpoint account.
+        public let ip: String
+        /// The name of the dedicated IP pool that the IP address is associated with.
+        public let poolName: String?
+        /// The warm-up status of a dedicated IP address. The status can have one of the following values:    IN_PROGRESS – The IP address isn't ready to use because the dedicated IP warm-up process is ongoing.    DONE – The dedicated IP warm-up process is complete, and the IP address is ready to use.  
+        public let warmupStatus: WarmupStatus
+
+        public init(ip: String, poolName: String? = nil, warmupPercentage: Int32, warmupStatus: WarmupStatus) {
+            self.warmupPercentage = warmupPercentage
+            self.ip = ip
+            self.poolName = poolName
+            self.warmupStatus = warmupStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case warmupPercentage = "WarmupPercentage"
+            case ip = "Ip"
+            case poolName = "PoolName"
+            case warmupStatus = "WarmupStatus"
         }
     }
 
@@ -1550,6 +1399,217 @@ extension PinpointEmail {
         private enum CodingKeys: String, CodingKey {
             case ip = "IP"
             case warmupPercentage = "WarmupPercentage"
+        }
+    }
+
+    public enum EventType: String, CustomStringConvertible, Codable {
+        case send = "SEND"
+        case reject = "REJECT"
+        case bounce = "BOUNCE"
+        case complaint = "COMPLAINT"
+        case delivery = "DELIVERY"
+        case open = "OPEN"
+        case click = "CLICK"
+        case renderingFailure = "RENDERING_FAILURE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct SendEmailRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FeedbackForwardingEmailAddress", required: false, type: .string), 
+            AWSShapeMember(label: "EmailTags", required: false, type: .list), 
+            AWSShapeMember(label: "ReplyToAddresses", required: false, type: .list), 
+            AWSShapeMember(label: "ConfigurationSetName", required: false, type: .string), 
+            AWSShapeMember(label: "Content", required: true, type: .structure), 
+            AWSShapeMember(label: "Destination", required: true, type: .structure), 
+            AWSShapeMember(label: "FromEmailAddress", required: false, type: .string)
+        ]
+        /// The address that Amazon Pinpoint should send bounce and complaint notifications to.
+        public let feedbackForwardingEmailAddress: String?
+        /// A list of tags, in the form of name/value pairs, to apply to an email that you send using the SendEmail operation. Tags correspond to characteristics of the email that you define, so that you can publish email sending events. 
+        public let emailTags: [MessageTag]?
+        /// The "Reply-to" email addresses for the message. When the recipient replies to the message, each Reply-to address receives the reply.
+        public let replyToAddresses: [String]?
+        /// The name of the configuration set that you want to use when sending the email.
+        public let configurationSetName: String?
+        /// An object that contains the body of the message. You can send either a Simple message or a Raw message.
+        public let content: EmailContent
+        /// An object that contains the recipients of the email message.
+        public let destination: Destination
+        /// The email address that you want to use as the "From" address for the email. The address that you specify has to be verified. 
+        public let fromEmailAddress: String?
+
+        public init(configurationSetName: String? = nil, content: EmailContent, destination: Destination, emailTags: [MessageTag]? = nil, feedbackForwardingEmailAddress: String? = nil, fromEmailAddress: String? = nil, replyToAddresses: [String]? = nil) {
+            self.feedbackForwardingEmailAddress = feedbackForwardingEmailAddress
+            self.emailTags = emailTags
+            self.replyToAddresses = replyToAddresses
+            self.configurationSetName = configurationSetName
+            self.content = content
+            self.destination = destination
+            self.fromEmailAddress = fromEmailAddress
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case feedbackForwardingEmailAddress = "FeedbackForwardingEmailAddress"
+            case emailTags = "EmailTags"
+            case replyToAddresses = "ReplyToAddresses"
+            case configurationSetName = "ConfigurationSetName"
+            case content = "Content"
+            case destination = "Destination"
+            case fromEmailAddress = "FromEmailAddress"
+        }
+    }
+
+    public struct CloudWatchDestination: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DimensionConfigurations", required: true, type: .list)
+        ]
+        /// An array of objects that define the dimensions to use when you send email events to Amazon CloudWatch.
+        public let dimensionConfigurations: [CloudWatchDimensionConfiguration]
+
+        public init(dimensionConfigurations: [CloudWatchDimensionConfiguration]) {
+            self.dimensionConfigurations = dimensionConfigurations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensionConfigurations = "DimensionConfigurations"
+        }
+    }
+
+    public struct CreateConfigurationSetRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrackingOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "ReputationOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "DeliveryOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "SendingOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "ConfigurationSetName", required: false, type: .string)
+        ]
+        /// An object that defines the open and click tracking options for emails that you send using the configuration set.
+        public let trackingOptions: TrackingOptions?
+        /// An object that defines whether or not Amazon Pinpoint collects reputation metrics for the emails that you send that use the configuration set.
+        public let reputationOptions: ReputationOptions?
+        /// An object that defines the dedicated IP pool that is used to send emails that you send using the configuration set.
+        public let deliveryOptions: DeliveryOptions?
+        /// An object that defines whether or not Amazon Pinpoint can send email that you send using the configuration set.
+        public let sendingOptions: SendingOptions?
+        /// The name of the configuration set.
+        public let configurationSetName: String?
+
+        public init(configurationSetName: String? = nil, deliveryOptions: DeliveryOptions? = nil, reputationOptions: ReputationOptions? = nil, sendingOptions: SendingOptions? = nil, trackingOptions: TrackingOptions? = nil) {
+            self.trackingOptions = trackingOptions
+            self.reputationOptions = reputationOptions
+            self.deliveryOptions = deliveryOptions
+            self.sendingOptions = sendingOptions
+            self.configurationSetName = configurationSetName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trackingOptions = "TrackingOptions"
+            case reputationOptions = "ReputationOptions"
+            case deliveryOptions = "DeliveryOptions"
+            case sendingOptions = "SendingOptions"
+            case configurationSetName = "ConfigurationSetName"
+        }
+    }
+
+    public struct ListConfigurationSetsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The number of results to show in a single call to ListConfigurationSets. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
+        public let pageSize: Int32?
+        /// A token returned from a previous call to ListConfigurationSets to indicate the position in the list of configuration sets.
+        public let nextToken: String?
+
+        public init(nextToken: String? = nil, pageSize: Int32? = nil) {
+            self.pageSize = pageSize
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pageSize = "PageSize"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetAccountResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SendQuota", required: false, type: .structure), 
+            AWSShapeMember(label: "SendingEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "EnforcementStatus", required: false, type: .string), 
+            AWSShapeMember(label: "ProductionAccessEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "DedicatedIpAutoWarmupEnabled", required: false, type: .boolean)
+        ]
+        /// An object that contains information about the per-day and per-second sending limits for your Amazon Pinpoint account in the current AWS Region.
+        public let sendQuota: SendQuota?
+        /// Indicates whether or not email sending is enabled for your Amazon Pinpoint account in the current AWS Region.
+        public let sendingEnabled: Bool?
+        /// The reputation status of your Amazon Pinpoint account. The status can be one of the following:    HEALTHY – There are no reputation-related issues that currently impact your account.    PROBATION – We've identified some issues with your Amazon Pinpoint account. We're placing your account under review while you work on correcting these issues.    SHUTDOWN – Your account's ability to send email is currently paused because of an issue with the email sent from your account. When you correct the issue, you can contact us and request that your account's ability to send email is resumed.  
+        public let enforcementStatus: String?
+        /// Indicates whether or not your account has production access in the current AWS Region. If the value is false, then your account is in the sandbox. When your account is in the sandbox, you can only send email to verified identities. Additionally, the maximum number of emails you can send in a 24-hour period (your sending quota) is 200, and the maximum number of emails you can send per second (your maximum sending rate) is 1. If the value is true, then your account has production access. When your account has production access, you can send email to any address. The sending quota and maximum sending rate for your account vary based on your specific use case.
+        public let productionAccessEnabled: Bool?
+        /// Indicates whether or not the automatic warm-up feature is enabled for dedicated IP addresses that are associated with your account.
+        public let dedicatedIpAutoWarmupEnabled: Bool?
+
+        public init(dedicatedIpAutoWarmupEnabled: Bool? = nil, enforcementStatus: String? = nil, productionAccessEnabled: Bool? = nil, sendQuota: SendQuota? = nil, sendingEnabled: Bool? = nil) {
+            self.sendQuota = sendQuota
+            self.sendingEnabled = sendingEnabled
+            self.enforcementStatus = enforcementStatus
+            self.productionAccessEnabled = productionAccessEnabled
+            self.dedicatedIpAutoWarmupEnabled = dedicatedIpAutoWarmupEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sendQuota = "SendQuota"
+            case sendingEnabled = "SendingEnabled"
+            case enforcementStatus = "EnforcementStatus"
+            case productionAccessEnabled = "ProductionAccessEnabled"
+            case dedicatedIpAutoWarmupEnabled = "DedicatedIpAutoWarmupEnabled"
+        }
+    }
+
+    public struct GetAccountRequest: AWSShape {
+
+        public init() {
+        }
+
+    }
+
+    public struct RawMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Data", required: true, type: .blob)
+        ]
+        /// The raw email message. The message has to meet the following criteria:   The message has to contain a header and a body, separated by one blank line.   All of the required header fields must be present in the message.   Each part of a multipart MIME message must be formatted properly.   Attachments must be in a file format that Amazon Pinpoint supports.    The entire message must be Base64 encoded.   If any of the MIME parts in your message contain content that is outside of the 7-bit ASCII character range, you should encode that content to ensure that recipients' email clients render the message properly.   The length of any single line of text in the message can't exceed 1,000 characters. This restriction is defined in RFC 5321.  
+        public let data: Data
+
+        public init(data: Data) {
+            self.data = data
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case data = "Data"
+        }
+    }
+
+    public struct PutConfigurationSetReputationOptionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationSetName", location: .uri(locationName: "ConfigurationSetName"), required: true, type: .string), 
+            AWSShapeMember(label: "ReputationMetricsEnabled", required: false, type: .boolean)
+        ]
+        /// The name of the configuration set that you want to enable or disable reputation metric tracking for.
+        public let configurationSetName: String
+        /// If true, tracking of reputation metrics is enabled for the configuration set. If false, tracking of reputation metrics is disabled for the configuration set.
+        public let reputationMetricsEnabled: Bool?
+
+        public init(configurationSetName: String, reputationMetricsEnabled: Bool? = nil) {
+            self.configurationSetName = configurationSetName
+            self.reputationMetricsEnabled = reputationMetricsEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationSetName = "ConfigurationSetName"
+            case reputationMetricsEnabled = "ReputationMetricsEnabled"
         }
     }
 

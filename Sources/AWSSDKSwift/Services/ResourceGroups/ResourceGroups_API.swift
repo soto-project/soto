@@ -24,24 +24,29 @@ public struct ResourceGroups {
         )
     }
 
+    ///  Returns a list of tags that are associated with a resource, specified by an ARN.
+    public func getTags(_ input: GetTagsInput) throws -> GetTagsOutput {
+        return try client.send(operation: "GetTags", path: "/resources/{Arn}/tags", httpMethod: "GET", input: input)
+    }
+
     ///  Creates a group with a specified name, description, and resource query.
     public func createGroup(_ input: CreateGroupInput) throws -> CreateGroupOutput {
         return try client.send(operation: "CreateGroup", path: "/groups", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a list of AWS resource identifiers that matches a specified query. The query uses the same format as a resource query in a CreateGroup or UpdateGroupQuery operation.
-    public func searchResources(_ input: SearchResourcesInput) throws -> SearchResourcesOutput {
-        return try client.send(operation: "SearchResources", path: "/resources/search", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns information about a specified resource group.
-    public func getGroup(_ input: GetGroupInput) throws -> GetGroupOutput {
-        return try client.send(operation: "GetGroup", path: "/groups/{GroupName}", httpMethod: "GET", input: input)
+    ///  Updates the resource query of a group.
+    public func updateGroupQuery(_ input: UpdateGroupQueryInput) throws -> UpdateGroupQueryOutput {
+        return try client.send(operation: "UpdateGroupQuery", path: "/groups/{GroupName}/query", httpMethod: "PUT", input: input)
     }
 
     ///  Adds specified tags to a resource with the specified ARN. Existing tags on a resource are not changed if they are not specified in the request parameters.
     public func tag(_ input: TagInput) throws -> TagOutput {
         return try client.send(operation: "Tag", path: "/resources/{Arn}/tags", httpMethod: "PUT", input: input)
+    }
+
+    ///  Returns the resource query associated with the specified resource group.
+    public func getGroupQuery(_ input: GetGroupQueryInput) throws -> GetGroupQueryOutput {
+        return try client.send(operation: "GetGroupQuery", path: "/groups/{GroupName}/query", httpMethod: "GET", input: input)
     }
 
     ///  Returns a list of ARNs of resources that are members of a specified resource group.
@@ -59,29 +64,24 @@ public struct ResourceGroups {
         return try client.send(operation: "Untag", path: "/resources/{Arn}/tags", httpMethod: "PATCH", input: input)
     }
 
-    ///  Returns the resource query associated with the specified resource group.
-    public func getGroupQuery(_ input: GetGroupQueryInput) throws -> GetGroupQueryOutput {
-        return try client.send(operation: "GetGroupQuery", path: "/groups/{GroupName}/query", httpMethod: "GET", input: input)
-    }
-
-    ///  Deletes a specified resource group. Deleting a resource group does not delete resources that are members of the group; it only deletes the group structure.
-    public func deleteGroup(_ input: DeleteGroupInput) throws -> DeleteGroupOutput {
-        return try client.send(operation: "DeleteGroup", path: "/groups/{GroupName}", httpMethod: "DELETE", input: input)
-    }
-
-    ///  Returns a list of tags that are associated with a resource, specified by an ARN.
-    public func getTags(_ input: GetTagsInput) throws -> GetTagsOutput {
-        return try client.send(operation: "GetTags", path: "/resources/{Arn}/tags", httpMethod: "GET", input: input)
-    }
-
     ///  Returns a list of existing resource groups in your account.
     public func listGroups(_ input: ListGroupsInput) throws -> ListGroupsOutput {
         return try client.send(operation: "ListGroups", path: "/groups-list", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the resource query of a group.
-    public func updateGroupQuery(_ input: UpdateGroupQueryInput) throws -> UpdateGroupQueryOutput {
-        return try client.send(operation: "UpdateGroupQuery", path: "/groups/{GroupName}/query", httpMethod: "PUT", input: input)
+    ///  Returns information about a specified resource group.
+    public func getGroup(_ input: GetGroupInput) throws -> GetGroupOutput {
+        return try client.send(operation: "GetGroup", path: "/groups/{GroupName}", httpMethod: "GET", input: input)
+    }
+
+    ///  Returns a list of AWS resource identifiers that matches a specified query. The query uses the same format as a resource query in a CreateGroup or UpdateGroupQuery operation.
+    public func searchResources(_ input: SearchResourcesInput) throws -> SearchResourcesOutput {
+        return try client.send(operation: "SearchResources", path: "/resources/search", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a specified resource group. Deleting a resource group does not delete resources that are members of the group; it only deletes the group structure.
+    public func deleteGroup(_ input: DeleteGroupInput) throws -> DeleteGroupOutput {
+        return try client.send(operation: "DeleteGroup", path: "/groups/{GroupName}", httpMethod: "DELETE", input: input)
     }
 
 
