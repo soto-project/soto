@@ -393,13 +393,13 @@ extension AWSService {
                     code += "\(indt(2))public \(member.toSwiftImmutableMemberSyntax())\n"
                 }
                 code += "\n"
-                if type.members.count > 0 {
-                    code += "\(indt(2))public init(\(type.members.toSwiftArgumentSyntax())) {\n"
-                    for member in type.members {
-                        code += "\(indt(3))self.\(member.name.toSwiftVariableCase()) = \(member.name.toSwiftVariableCase())\n"
-                    }
-                    code += "\(indt(2))}\n\n"
+                code += "\(indt(2))public init(\(type.members.toSwiftArgumentSyntax())) {\n"
+                for member in type.members {
+                    code += "\(indt(3))self.\(member.name.toSwiftVariableCase()) = \(member.name.toSwiftVariableCase())\n"
+                }
+                code += "\(indt(2))}\n\n"
 
+                if type.members.count > 0 {
                     // CoadingKyes
                     code += "\(indt(2))private enum CodingKeys: String, CodingKey {\n"
 
